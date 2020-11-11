@@ -1,0 +1,8 @@
+{
+	"COMPOSER_VENDOR_DIR": "/home/vcap/app/htdocs",
+	"COMPOSER_INSTALL_OPTIONS": [ "--no-dev --optimize-autoloader --no-progress --no-interaction" ],
+	"WEBDIR": "public",
+	"PHP_EXTENSIONS":[],
+	"ZEND_EXTENSIONS":[],
+	"PHP_MODULES":[]
+}
