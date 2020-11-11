@@ -1,31 +1,42 @@
 # ccs-scale-cat-buyer-ui
-CAT UI Component
+This holds the PHP/Symfony code for the CaT Buyer UI component.
 
-Useful Info
-https://github.com/cloudfoundry/php-buildpack
-https://docs.cloudfoundry.org/buildpacks/php/index.html
+## Initial Skeleton App
 
+The current code is a simple skeleton app that uses the [Symfony Framework](https://symfony.com/) and the [CloudFoundry PHP Buildpack](https://github.com/cloudfoundry/php-buildpack), along with a `manifest.yml` file that will allow it to be deployed to [Gov.UK PaaS](https://www.cloud.service.gov.uk/).
 
+This is designed as a starting app for the development team to build on and take foreward (and update this README appropriately).
 
+Basic steps to get this skeleton framework setup:
 
-```brew install composer```
-```curl -sS https://get.symfony.com/cli/installer | bash```
+1. Create the Symfony App
+Followed the steps here - https://symfony.com/doc/current/setup.html.
+`curl -sS https://get.symfony.com/cli/installer | bash`
+`symfony new --full ccs-scale-cat-buyer-ui`
 
-### Create the Project
-https://symfony.com/doc/current/setup.html
+2. Add a manifest.yml
+This tells it to use the [CloudFoundry PHP Buildpack](https://docs.cloudfoundry.org/buildpacks/php/index.html).
 
-```Users/adge/.symfony/bin/symfony new --full ccs-scale-cat-buyer-ui```
+3. Add PHP buildpack configuration
+Added the `.bp-config/options.json` to override some buildpack defaults. See [PHP Buildpack Configuration](https://docs.cloudfoundry.org/buildpacks/php/gsg-php-config.html) for more details.
 
-### Local Testing
-```cd ccs-scale-cat-buyer-ui/```
-```Users/adge/.symfony/bin/symfony server:start --no-tls```
+## Useful CloudFoundry commands
 
-```http://localhost:8000/```
+### Login to CloudFoundry
 
-### Push to CloudFoundry
-```cf login -a api.london.cloud.service.gov.uk -u adrian.milne@crowncommercial.gov.uk```
-```cf push```
+`cf login -a api.london.cloud.service.gov.uk -u {USERNAME}`
 
+### Push App
+`cf push`
 
-### Troubleshooting - View Logs
-```cf logs ccs-scale-cat-buyer-ui --recent```
+### Delete App
+`cf delete -r ccs-scale-cat-buyer-ui`
+
+### View Recent Logs
+`cf logs ccs-scale-cat-buyer-ui --recent`
+
+### SSH
+`cf ssh ccs-scale-cat-buyer-ui`
+
+## Running Locally
+`symfony server:start --no-tls`
