@@ -11,8 +11,8 @@ These were the tasks completed to get the app to the current state:
 
 1. Symfony app was setup
  * Followed the steps here - https://symfony.com/doc/current/setup.html.
-`curl -sS https://get.symfony.com/cli/installer | bash`
- * `symfony new --full ccs-scale-cat-buyer-ui`
+   * `curl -sS https://get.symfony.com/cli/installer | bash`
+   * `symfony new --full ccs-scale-cat-buyer-ui`
 
 2. manifest.yml was added
  * This tells it to use the [CloudFoundry PHP Buildpack](https://docs.cloudfoundry.org/buildpacks/php/index.html).
