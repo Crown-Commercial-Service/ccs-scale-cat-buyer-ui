@@ -7,18 +7,18 @@ The current code is a simple skeleton app that uses the [Symfony Framework](http
 
 This is designed as a starting app for the development team to build on and take foreward (and update this README appropriately).
 
-Basic steps to get this skeleton framework setup:
+These were the tasks completed to get the app to the current state:
 
-1. Create the Symfony App
-Followed the steps here - https://symfony.com/doc/current/setup.html.
+1. Symfony app was setup
+ * Followed the steps here - https://symfony.com/doc/current/setup.html.
 `curl -sS https://get.symfony.com/cli/installer | bash`
-`symfony new --full ccs-scale-cat-buyer-ui`
+ * `symfony new --full ccs-scale-cat-buyer-ui`
 
-2. Add a manifest.yml
-This tells it to use the [CloudFoundry PHP Buildpack](https://docs.cloudfoundry.org/buildpacks/php/index.html).
+2. manifest.yml was added
+ * This tells it to use the [CloudFoundry PHP Buildpack](https://docs.cloudfoundry.org/buildpacks/php/index.html).
 
-3. Add PHP buildpack configuration
-Added the `.bp-config/options.json` to override some buildpack defaults. See [PHP Buildpack Configuration](https://docs.cloudfoundry.org/buildpacks/php/gsg-php-config.html) for more details.
+3. PHP buildpack configuration was added
+ * Added the `.bp-config/options.json` to override some buildpack defaults. See [PHP Buildpack Configuration](https://docs.cloudfoundry.org/buildpacks/php/gsg-php-config.html) for more details.
 
 ## Useful CloudFoundry commands
 
@@ -38,5 +38,5 @@ Added the `.bp-config/options.json` to override some buildpack defaults. See [PH
 ### SSH
 `cf ssh ccs-scale-cat-buyer-ui`
 
-## Running Locally
+### Running Locally
 `symfony server:start --no-tls`
