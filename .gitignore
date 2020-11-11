@@ -1,8 +1,17 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
 
 ### STS ###
 .apt_generated
@@ -19,15 +28,18 @@ target/
 *.iml
 *.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
+### NetBeans ###	
+/nbproject/private/	
+/nbbuild/	
+/dist/	
+/nbdist/	
+/.nb-gradle/	
+build/	
+!**/src/main/**/build/	
 !**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
+
+### OSX ###
+.DS_Store
