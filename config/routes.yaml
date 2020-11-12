@@ -1,9 +1,4 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-
-# the "app_lucky_number" route name is not important yet
-app_lucky_number:
+index:
     host: ccs-scale-cat-buyer-ui.london.cloudapps.digital
-    path: /lucky/number
-    controller: App\Controller\LuckyController::number
+    path: /
+    controller: App\Controller\APIController::getData

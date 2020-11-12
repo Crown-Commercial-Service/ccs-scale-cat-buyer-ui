@@ -10,3 +10,4 @@ applications:
     APP_ENV: dev
     WEB_SERVER: httpd
     WEBDIR: public
+    PRIVATE_APP_URL: https://gpaas-spring-test.london.cloudapps.digital/search-terms
