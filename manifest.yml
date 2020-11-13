@@ -10,4 +10,4 @@ applications:
     APP_ENV: dev
     WEB_SERVER: httpd
     WEBDIR: public
-    PRIVATE_APP_URL: http://ade-api-demo-app.apps.internal:8080
+    PRIVATE_APP_URL: http://ccs-scale-cat-service.apps.internal:8080
