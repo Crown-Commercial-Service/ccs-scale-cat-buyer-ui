@@ -4,6 +4,7 @@ php:
 script: "./scripts/php_build.sh"
 before_install:
 - chmod +x ./scripts/php_build.sh
+- chmod +x ./scripts/cf-blue-green-deploy.sh
 before_deploy:
 - echo "Updating packages.."
 - wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
@@ -22,7 +23,7 @@ branches:
 deploy:
   provider: script  
   skip_cleanup: true  
-  script: ./scripts/cf-blue-green-deploy.sh blue-green-cf-travis manifest.yml prod  
+  script: ./scripts/cf-blue-green-deploy.sh ccs-scale-buyer-ui manifest.yml sandbox  
   on:    
     branch: feature/SINF-186_create_skeleton
 env:
