@@ -1,6 +1,10 @@
 # ccs-scale-cat-buyer-ui
 This holds the PHP/Symfony code for the CaT Buyer UI component.
 
+## Required 
+cf add-network-policy ccs-scale-cat-buyer-ui --destination-app ccs-scale-cat-service --protocol tcp --port 8080
+
+
 ## Initial Skeleton App
 
 The current code is a simple skeleton app that uses the [Symfony Framework](https://symfony.com/) and the [CloudFoundry PHP Buildpack](https://github.com/cloudfoundry/php-buildpack), along with a `manifest.yml` file that will allow it to be deployed to [Gov.UK PaaS](https://www.cloud.service.gov.uk/).
