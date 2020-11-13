@@ -1,9 +1,9 @@
 language: php
 php:
 - 7.4
-script: "./php_build.sh"
+script: "./scripts/php_build.sh"
 before_install:
-- chmod +x ./php_build.sh
+- chmod +x ./scripts/php_build.sh
 branches:
   only:
   - feature/SINF-186_create_skeleton
