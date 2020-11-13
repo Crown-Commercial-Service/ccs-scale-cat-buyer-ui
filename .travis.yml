@@ -12,7 +12,10 @@ before_deploy:
 - echo "Installing cf cli"
 - sudo apt-get install cf7-cli
 - cf -v
-- echo "Installing cf blue-green deploy plugin"- cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org- cf install-plugin blue-green-deploy -r CF-Community -f
+- echo "Installing cf blue-green deploy plugin"
+- cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
+- cf install-plugin blue-green-deploy -r CF-Community -f
+- echo "Plugin installed"
 branches:
   only:
   - feature/SINF-186_create_skeleton
