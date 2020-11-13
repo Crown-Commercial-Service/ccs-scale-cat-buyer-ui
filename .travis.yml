@@ -15,7 +15,7 @@ deploy:
   skip_cleanup: true  
   script: ./scripts/cf-blue-green-deploy.sh blue-green-cf-travis manifest.yml prod  
   on:    
-    branch: master
+    branch: feature/SINF-186_create_skeleton
 env:
   global:
   - secure: SRZ9/rOURqNwIE+x+r0sF2YPEvYvDXzpPbr+SCgO5nZ2WUSSTzUEh4hsrH18jWclPGkQFYcZhRjBWVWOf/SGCAZSFKz90gpwDFz4SeziAcoSbNq2XgEUGLCkPJQ0f13ihg0cSPTPmNYfiwVJ9MbNeM9r42D8Lgz/XXfZD+n/XC58qHEZIEGHvEgSDlZp3t2A8LPl4fy7aBoJqZNKikaCe87V9XqfjoyG0IqdIS3fiMT1442XEVG0fStHslQKZ/D/zs7pB6rjKkt0/pcHTra4NMwlfiTqoNxZAVF5CpbhfdM18lkY3fxpX2EO6Q/oLclXB5eU6w69C52PCKUOJyD2gVMf5qCXUCvde5gG7l/qn8HCKeMNhcDt2fSvY6cp+ZxMqs000vCS8RgOW4AGCYz3WYTtUeQvryKRXnJBAAlOLPgcbsei8eEY7zp5IEEODEE5tSJ+U3zd1be/KdVy8C+2aOjQc+vMJhPVjMRIyaTOovcLCxEWUaI+o0tZEsDWhYMlFKGmstm2YbL1b93spuwZktrrGPzh94I5PQnNhOfiiE5utIOXPyOT6w4CAb/d7Q1jCDqqdlVpIe6JokQjUdVV/iqp4gAXxAH/xBpFU6uuhZerVsT5h/HRhPBD7hrIF9/l02NktKTVrQqEIxErT/c8qIqHzYxD5FcUXuhIf/gnzKs=
