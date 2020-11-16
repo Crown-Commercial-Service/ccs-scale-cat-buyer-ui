@@ -1,0 +1,13 @@
+---
+applications:
+- name: ccs-scale-cat-buyer-ui-sb
+  memory: 256M
+  instances: 1
+  buildpacks:
+  - https://github.com/cloudfoundry/php-buildpack.git
+  env:
+    APP_DEBUG: 1
+    APP_ENV: dev
+    WEB_SERVER: httpd
+    WEBDIR: public
+    PRIVATE_APP_URL: http://ccs-scale-cat-service.apps.internal:8080

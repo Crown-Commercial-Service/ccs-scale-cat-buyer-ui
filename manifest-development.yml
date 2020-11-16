@@ -1,6 +1,6 @@
 ---
 applications:
-- name: ccs-scale-cat-buyer-ui
+- name: ccs-scale-cat-buyer-ui-dev
   memory: 256M
   instances: 1
   buildpacks:
