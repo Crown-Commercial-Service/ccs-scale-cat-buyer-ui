@@ -6,7 +6,7 @@ before_install:
 - chmod +x ./scripts/php_build.sh
 branches:
   only:
-  - /.*/
+  - feature/SINF-186_create_skeleton
 deploy:
   - provider: cloudfoundry
     edge: true
