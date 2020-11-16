@@ -4,6 +4,9 @@ php:
 script: "./scripts/php_build.sh"
 before_install:
 - chmod +x ./scripts/php_build.sh
+branches:
+  only:
+  - feature/SINF-186_create_skeleton
 deploy:
   - provider: cloudfoundry
     edge: true
@@ -12,14 +15,6 @@ deploy:
     space: sandbox
     on:
       branch: feature/SINF-186_create_skeleton
-  
-  - provider: cloudfoundry
-    edge: true
-    api: https://api.london.cloud.service.gov.uk
-    organization: ccs-scale-cat  
-    space: development
-    on:
-      branch: develop
 env:
   global:
   - secure: PR+j7KGTdE6cT/i8sBa3mz/1aXo7/dGiD8vgsziuiFqBCP5kNFS8dfETJ6SMQAqOoGQuPEffNbelRFxWJOLbuJyMus4Qca9DTK02d+2hyyzHF6QYxroXU+ADJrr0ABoOXybGO+jzXmCHIl37RYzx70YxmqZi4jQOY91/ENmT0AZhaua00G4aY0KQBeAZZhh/93EEhlZUtLITKSSC5k1y+u9xVprRcImZarwYg491NsTjFNoQK6245YeklYMQjvZ39ARuR2yb0LpORwbTJMrT+oZov+fLmJzkqljEgOxHNr+2/znv1raReikfXWf5Ckp/HpixOtoxzlKxH69h7htCitv4S1Kk2iJoHWHJWD/me08ITLbaVIn/mV00y8m1GrRZeO7h8KDYMQtB/4ELa7o1CtV54CHW32FwAQ7/ClMwjMotiD185d5/Fj1lRxRFIj/YjoaQolye6bzew6weRrPa5ncQv8fP1uLK+k6z71CnPdq69kLO4iTDQA1WyKeiaB6xEAI7k8wEjjbU7OQEHP5ed43SqrYibiBrxBJzCV77DrytIhRF5nMpFSyxU6sITP014KTm93RkWldrqXNLMNXAXGsR/3k78DYnvRGIrGmnLKKopJ3SM5KQi/zDQ7vxsQkJr/UIbpfWLue1rCRJBputqQ6EFSffyKE595pjfwFVWek=
