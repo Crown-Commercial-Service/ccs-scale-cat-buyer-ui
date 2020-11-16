@@ -1,4 +1,3 @@
 index:
-    host: ccs-scale-cat-buyer-ui.london.cloudapps.digital
     path: /
     controller: App\Controller\APIController::getData
