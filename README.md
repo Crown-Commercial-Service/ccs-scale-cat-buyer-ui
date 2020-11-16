@@ -1,12 +1,7 @@
 # ccs-scale-cat-buyer-ui
 This holds the PHP/Symfony code for the CaT Buyer UI component.
 
-## Required 
-cf add-network-policy ccs-scale-cat-buyer-ui --destination-app ccs-scale-cat-service --protocol tcp --port 8080
-
-
 ## Initial Skeleton App
-
 The current code is a simple skeleton app that uses the [Symfony Framework](https://symfony.com/) and the [CloudFoundry PHP Buildpack](https://github.com/cloudfoundry/php-buildpack), along with a `manifest.yml` file that will allow it to be deployed to [Gov.UK PaaS](https://www.cloud.service.gov.uk/).
 
 This is designed as a starting app for the development team to build on and take foreward (and update this README appropriately).
@@ -25,14 +20,19 @@ These were the tasks completed to get the app to the current state:
  * Added the `.bp-config/options.json` to override some buildpack defaults. See [PHP Buildpack Configuration](https://docs.cloudfoundry.org/buildpacks/php/gsg-php-config.html) for more details.
 
 
-## Secure Environment variables
+## Prerequisites 
+Need to ensure that the network policy has been configured to allow this UI app to connect to the service app:
+`cf add-network-policy ccs-scale-cat-buyer-ui --destination-app ccs-scale-cat-service --protocol tcp --port 8080`
 
+## Secure Environment variables
+The secure environment variables in `.travis.yml` are related to authentication with CloudFoundry. 
 `travis encrypt CLOUDFOUNDRY_USERNAME="{USERNAME}" --pro --add env.global`
 `travis encrypt CLOUDFOUNDRY_PASSWORD='{PASSWORD}' --pro --add env.global`
 
 (note: single quotes can be used if there are complaints about special characters)
 
 ## Useful CloudFoundry commands
+Just some useful CF commands.
 
 ### Login to CloudFoundry
 
