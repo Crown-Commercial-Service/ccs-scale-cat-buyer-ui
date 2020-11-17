@@ -2,10 +2,11 @@
 // src/Controller/APIController.php
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class APIController
+class APIController extends AbstractController
 {
 
     private $client;
