@@ -1,7 +1,7 @@
 ---
 applications:
-- name: ccs-scale-cat-buyer-ui-dev
-  memory: 256M
+- name: ccs-scale-cat-buyer-ui-development
+  memory: 1024M
   instances: 1
   buildpacks:
   - https://github.com/cloudfoundry/php-buildpack.git

@@ -22,7 +22,7 @@ These were the tasks completed to get the app to the current state:
 
 ## Prerequisites 
 Need to ensure that the network policy has been configured to allow this UI app to connect to the service app:
-`cf add-network-policy ccs-scale-cat-buyer-ui --destination-app ccs-scale-cat-service --protocol tcp --port 8080`
+`cf add-network-policy ccs-scale-cat-buyer-ui-{space} --destination-app ccs-scale-cat-service --protocol tcp --port 8080`
 
 ## Secure Environment variables
 The secure environment variables in `.travis.yml` are related to authentication with CloudFoundry. 
