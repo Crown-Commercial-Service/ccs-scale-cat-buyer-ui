@@ -24,7 +24,7 @@ branches:
 deploy:
   provider: script
   skip_cleanup: true
-  script: "./scripts/cf-blue-green-deploy.sh ccs-scale-buyer-ui manifest-sandbox-glue-green.yml
+  script: "./scripts/cf-blue-green-deploy.sh ccs-scale-buyer-ui manifest-sandbox-blue-green.yml
     sandbox"
   on:
     branch: feature/blue_green_deployments
