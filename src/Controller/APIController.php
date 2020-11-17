@@ -24,8 +24,12 @@ class APIController
 
         $content = $response->getContent();
 
-        return new Response(
-            '<html><body><h1>CaT Gov.UK PaaS Demo</h1><img src="lolcatz.jpg" /><h3>Request:</h3><p>'.$_ENV["PRIVATE_APP_URL"] .'/agreement-summaries</p><h3>Response:</h3><p>' . $content . '</p></body></html>'
-        );
+        return $this->render('pages/landing_page.html.twig', [
+            // this array defines the variables passed to the template,
+            // where the key is the variable name and the value is the variable value
+            // (Twig recommends using snake_case variable names: 'foo_bar' instead of 'fooBar')
+            'response' => $content,
+            'endpoint' => $_ENV["PRIVATE_APP_URL"]
+        ]);
     }
 }
