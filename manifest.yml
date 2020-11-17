@@ -1,6 +1,6 @@
 ---
 applications:
-- name: ccs-scale-cat-buyer-ui-sandbox
+- name: ((route-prefix))ccs-scale-cat-buyer-ui
   memory: ((memory))
   instances: 1
   buildpacks:
