@@ -4,29 +4,33 @@ php:
 script: "./scripts/php_build.sh"
 before_install:
 - chmod +x ./scripts/php_build.sh
+- chmod +x ./scripts/cf-blue-green-deploy.sh
+before_deploy:
+- echo "Updating packages.."
+- wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key |
+  sudo apt-key add -
+- echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+- sudo apt-get update
+- echo "Installing cf cli"
+- sudo apt-get install cf7-cli
+- cf -v
+- echo "Installing cf blue-green deploy plugin"
+- cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
+- cf install-plugin blue-green-deploy -r CF-Community -f
+- echo "Plugin installed"
 branches:
   only:
-  - feature/SINF-186_create_skeleton
-  - develop
+  - feature/blue_green_deployments
 deploy:
-  - provider: cloudfoundry
-    edge: true
-    api: https://api.london.cloud.service.gov.uk
-    organization: ccs-scale-cat
-    space: sandbox
-    manifest: manifest-sandbox.yml 
-    on:
-      branch: feature/SINF-186_create_skeleton
-  
-  - provider: cloudfoundry
-    edge: true
-    api: https://api.london.cloud.service.gov.uk
-    organization: ccs-scale-cat  
-    space: development
-    manifest: manifest-development.yml 
-    on:
-      branch: develop
+  provider: script
+  skip_cleanup: true
+  script: "./scripts/cf-blue-green-deploy.sh ccs-scale-buyer-ui manifest-sandbox-glue-green.yml
+    sandbox"
+  on:
+    branch: feature/blue_green_deployments
 env:
   global:
-  - secure: PR+j7KGTdE6cT/i8sBa3mz/1aXo7/dGiD8vgsziuiFqBCP5kNFS8dfETJ6SMQAqOoGQuPEffNbelRFxWJOLbuJyMus4Qca9DTK02d+2hyyzHF6QYxroXU+ADJrr0ABoOXybGO+jzXmCHIl37RYzx70YxmqZi4jQOY91/ENmT0AZhaua00G4aY0KQBeAZZhh/93EEhlZUtLITKSSC5k1y+u9xVprRcImZarwYg491NsTjFNoQK6245YeklYMQjvZ39ARuR2yb0LpORwbTJMrT+oZov+fLmJzkqljEgOxHNr+2/znv1raReikfXWf5Ckp/HpixOtoxzlKxH69h7htCitv4S1Kk2iJoHWHJWD/me08ITLbaVIn/mV00y8m1GrRZeO7h8KDYMQtB/4ELa7o1CtV54CHW32FwAQ7/ClMwjMotiD185d5/Fj1lRxRFIj/YjoaQolye6bzew6weRrPa5ncQv8fP1uLK+k6z71CnPdq69kLO4iTDQA1WyKeiaB6xEAI7k8wEjjbU7OQEHP5ed43SqrYibiBrxBJzCV77DrytIhRF5nMpFSyxU6sITP014KTm93RkWldrqXNLMNXAXGsR/3k78DYnvRGIrGmnLKKopJ3SM5KQi/zDQ7vxsQkJr/UIbpfWLue1rCRJBputqQ6EFSffyKE595pjfwFVWek=
-  - secure: vZel4fvZsQhb1QejK91RS7gwIV8NfQIUvbgZFiOto/fgP6akkk3VLkJtlI/FfhSYVR/8+YlvBJvJtK3pHrCza5wqbnz2ZNSFee4FYhuAAnC2sqFtFIM5GSlAUdNVxqLMGX3MZSuly6sEpZRrQW/Ou8OPlYTJKQZ6Uc8VGXwwk51non+gl37wwbIwofFcNIQAJv6LA4omwO4wNgrgAMfC6Xd66q+xXMkg+9SZ1n3yYdf+ApdHa+Unv9XUcCqFuw1iM1q6C1lEGch9xRuZvY0a+qzaKEeCGJ5CL9QliJfmwRCNfL/bKMnBdPOBXh7MCvkQuhZG4sbIeieAhOq+NYQ+82ikiqSMFEd+DW3JLqpbjYLSC23Mrqx40UTsi/iXg1etkhqa50cEPO8O/6eVTJ6AUTVPSvZVqhioxHv/gh7RpEXE68ybjhtOrIwLgm2eN7VwZR7vJZr3ew0pfQbC6sim2PoArRjs+ASJA+auUQfjV+XheiS7FFGUYbXgzG0kc0bAsDbVZaQeDEO9bm4kDKBx+kc0Po1se9p7YvBDwe7GfSJ9k7anXQepb9lRycoxrL5H5ZGq7KIoASv7V8OdzuKqN9MwOforMDqdqY4Na4vEWuqiev02KHdvOQ3Oo0Odhl8evJyNqwQYDigyhUvXjghPUrw+tePhltB29Fq/ZSzJPwo=
+  - secure: Y2kfwGuKzKrwhbdcjOFnrd+r+t+PxBhrQ7d63O7j4rDteCLtdZxWKP2PB/OOxWr3mDLEzkVEIYpQ/vB73YhIYYrCcSueefxtkF+WOLXhrrw9eXlrpawbOckBbKMj0BgV82cFjWshfItJXikYinQVXVX4tOrMcKj0jD1MG3MBF2fJ7PQ7yGz5dcQ1E9eRzh4cmaDWgPJ7i824eQ2qu5IU1wsEDc/K5VVSOQpWR2pFAgd+lywDM031xwjr62hVouXDzs0tiWmRipVoc6Hj3N/V5mfAT3l+6IZq412hK7jXFK2ygWHItk61F8XG/vHa8Hz52Qz2sJuQLXEzxvJx3U2KFmaMvXEhnk+74cjmBfTxF+QfrhhkymVeUfF1sjbHWlYGxK+h+/iGosDUcGsHDon/mODhGE+TUlDkJZosU71mIgYzcZBNfjrzJ4Fiph9CGN/XUY93OPEXj3CFJJqOvcPP46wkU4Lnx3AzRsaph2HvdLxJnDhUlwEx1Wi5OIfbYv5mHHqAC/S33gaHtmFcSfic+a6DlnGawYW40DpI6MsCnlO2H3m3QlSGJeMfDvpF73AVQtwSNBF+c2MLtV0q7j3qMJc0otdsYotxBkd+CYAa0HwKAjtyDSsUR5wqV6sS5ZzArz3qYbG+k0lLEuITq0YIZ0fUlf9nsz1XivbJEv2fn/c=
+  - secure: KSKwxyHVokh5YAmx2gJurfSL+LoMgcHiwLDLHgnwfu5I5zlht7OJCtH9CorgL3u3uQwmtBLSS0cs4obiys7aohzD79tS64kC+drVVFPf48wxEOCcTSGR4c/e5WG3Beot78O71fwNOUPIvLl8h1a5bhrbkB2Hn6jOvIoukxru8h0LmOff7WdCZsfNdj+2h5l//tXOmkqJNAWA13bST1a+1JhSza0+Dk+8drjK7LZufNGToH/ikshl2L5JST7z5vxejIU+YpNxeVjIHKtXFVSbPi66z3VDayEfUkFFffWH2/pIOHqiEUtWmkxIpXe0sPROtwTvw+Hi0vLn4s+TTgGgJR9vMd+PU/u3+dRQrs8xdgch9AJtgEYd2WuqfEx+N/j36vB+dTYvh5m7z8iCduMqVC/HKYWyMjE8j5DdnIJKaVUvi0dnyKGd5hUJE2JQMZ2Igo2yWx8kyA6TmxiRH/Vjfn1tE3PVlQmooE/+5XAPmWp2p7jDjDXI4ktAtsSLDvZ8dsQ+63YpGnhAKPyMenHxXvfutlUqdccH7PPq/9K5o4iQjyMVN3l1DXCtvNammN9ikmKc571PnhIrvmwhLlVFGdXoUSWmar0y8XBuBgBvLLZQeC9RWvIiSbBOaEEBcTdV7bQwpE/kowf2VYNSoF7YoghlTBq1vogxW/Na1hCJH1k=
+  - secure: Qf4+Eo1o/ORGHJ13RHvFWNAV8MuLMKRdfi+lbuZw/O2gOE4laHynqxx0xkulMb4PDa08WtI0QpsmjnqWUBUEKBOGQiRkjJMztrhzmHRV3N9zxtPQn0dxjbZP2jQCv0GutsDOBBlX3kSxb9V1Brm5zjB4U135kRS1+0vGXe9sCqNti9J67ThRRgmMKUTKCcV/R8DPhTR76Rlvdj+jGwMN60kjARUN6xjz3/+FC5NDWqy2/pZ/9lFx5weahDARXGDFmiYuxXKb0N4dvHlU5NIOn4kNcVanfvOIcZA/7NZ9hr7lZ1baFq/eH+U9rQ/zsD6/tO637J7MITqc1UeMB6sIqy1TQegRXrUuDFdWRVhuX6IY/q2ImY+qMUxUt+ase0e1izlsVM5q8ASDI5eOh5D39l+gYyJkT32SF2VOSRmInY2Rb2SfeWX7y/mZOB//2naW14UKZ/UvjQJIaehkRZcSWeUZymwf/Lr2O668IVIfMKdOS0B1gw7UPhlNY4kjsQKUVJikZE8OwdBCDXj1jAIcZfKGrRGxGjY0tsSLDr45w7EMEyaDxNQ7vUJkIecnxyHQCBNDnQevZ/pOGsVlULpxSI6OGwS+eIN07EgLotBKbp5mHBO60/l6c0V+WhJlcjZcgLAT0dMAjbLZoamCMP5n6q0giuqbvGc/txqfuIKAhl8=
+  - secure: pax0sfBX0REMVZcbCsm5mHdGdSl8fEtg4lp+2CRNMFp4tU4r0qSswaGNdqXOjbKAHn1acP9lz6evJUcuZUE6PItj9JJLZCwh9HSKmmiEhonStkj3g9ZCoYqA0eIEUeSwx0cbWAU3VvJjgtfI+BXByB5iWvNxzKrNEOWfSn81MVpThW+uCrydwcnbNg1eqNaYdxwMfzN5fdL1l3xyO3+NG/Rk+hoEfTA7Iz7adtUq6OquqV5M3z7LG5QoOwOAZWoZCNDIu8utr9YPJlw7aIh72CKz8F0kZ1tsoud2TLWFQUgdUgoFcwYPHjfZ0drr0+LHmale+LcntjIjQstzQyoConvKB7ABD01wGGdEywsOLiJvscF1c435FwlZfAyys3sovlqvUp2wSQ98OCmATixHOQhWwmcYBvyn81aJdF35ubij1gUiywyLI9vtVRv/DYvh2NpVb7fm47uEQhawQQoqhGuchw2geXCAbRdUNSQeNYcogg3aGbiseLtT7loueKF/wKkB0pb0QqQVdkOE3JkOnKK4JVHSEyuEWVoGEa29GDWK7GrQPuqGOcFIU1Wp3MwYF6Cjczf7S0cyBBgnRkaPTYXJxxK3mI2Tps1lhlqDhpPwBljCFRyERBb4j/sI/7zmqfDrwHQt9/uqmJiM+WEoYZqHI1q8G3iEgqn8LvdKy2A=
