@@ -19,11 +19,6 @@ These were the tasks completed to get the app to the current state:
 3. PHP buildpack configuration was added
  * Added the `.bp-config/options.json` to override some buildpack defaults. See [PHP Buildpack Configuration](https://docs.cloudfoundry.org/buildpacks/php/gsg-php-config.html) for more details.
 
-
-## Prerequisites 
-Need to ensure that the network policy has been configured to allow this UI app to connect to the service app:
-`cf add-network-policy ccs-scale-cat-buyer-ui-{space} --destination-app ccs-scale-cat-service --protocol tcp --port 8080`
-
 ## Secure Environment variables
 The secure environment variables in `.travis.yml` are related to authentication with CloudFoundry. 
 `travis encrypt CLOUDFOUNDRY_USERNAME="{USERNAME}" --pro --add env.global`
