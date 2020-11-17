@@ -30,7 +30,7 @@ USAGE
 }
 
 login_to_cf() {
-  cf login -u "$CF_USER" -p "$CF_PASS" -o "$CF_ORG" -s "$CF_SPACE" || cf create-space "$CF_SPACE"
+  cf login -a "$CF_API" -u "$CF_USER" -p "$CF_PASS" -o "$CF_ORG" -s "$CF_SPACE" || cf create-space "$CF_SPACE"
   cf target -s "$CF_SPACE"
 }
 
