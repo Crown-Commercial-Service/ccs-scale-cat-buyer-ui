@@ -23,4 +23,5 @@ monolog:
             channels: ["!event", "!doctrine", "!console"]
         rollbar:
             type: service
+            level: debug
             id: Rollbar\Monolog\Handler\RollbarHandler
