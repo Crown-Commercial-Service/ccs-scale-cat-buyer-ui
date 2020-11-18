@@ -11,3 +11,5 @@ applications:
     WEB_SERVER: httpd
     WEBDIR: public
     PRIVATE_APP_URL: http://((route-prefix))ccs-scale-cat-service.apps.internal:8080
+    ROLLBAR_ACCESS_TOKEN: ((rollbar-access-token))
+    ROLLBAR_ENVIRONMENT: ((rollbar-environment))

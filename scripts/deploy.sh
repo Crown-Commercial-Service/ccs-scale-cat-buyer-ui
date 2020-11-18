@@ -9,4 +9,4 @@ set -meo pipefail
 cf --version
 cf api https://api.london.cloud.service.gov.uk
 cf login -u $CLOUDFOUNDRY_USERNAME -p $CLOUDFOUNDRY_PASSWORD -o ccs-scale-cat -s $CF_SPACE
-cf push --var route-prefix=$CF_ROUTE_PREFIX --var memory=$CF_MEMORY 
+cf push --var route-prefix=$CF_ROUTE_PREFIX --var memory=$CF_MEMORY --var rollbar-access-token=$ROLLBAR_ACCESS_TOKEN --var rollbar-environment=$ROLLBAR_ENVIRONMENT
