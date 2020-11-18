@@ -20,7 +20,7 @@ class APIController extends AbstractController
     public function getData(LoggerInterface $logger): Response
     {
 
-        $logger->error('ROLLBAR logging test - CaT client (APIController)');
+        $logger->debug('CCS Scale CaT UI: APIController.getData()');
 
         $response = $this->client->request(
             'GET',
