@@ -4,7 +4,7 @@ php:
 script: "./scripts/php_build.sh"
 branches:
   only:
-  - feature/SINF-186_cosmetic
+  - feature/SINF-193_rollbar
   - develop
 before_install:
 - chmod +x ./scripts/php_build.sh
@@ -18,7 +18,7 @@ deploy:
   skip_cleanup: true
   script: CF_ROUTE_PREFIX=sbx- CF_SPACE=sandbox CF_MEMORY=1024M bash ./scripts/deploy.sh
   on:
-    branch: feature/SINF-186_cosmetic
+    branch: feature/SINF-193_rollbar
   env: ROLLBAR_ENVIRONMENT=sandbox
 - provider: script
   skip_cleanup: true
