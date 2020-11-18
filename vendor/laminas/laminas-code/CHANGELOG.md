@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.5.0 - 2020-11-11
+
+### Added
+
+- [#47](https://github.com/laminas/laminas-code/pull/47) adds support for PHP 8. NOTE: this simply means the code runs on PHP 8, not that it can generate code specific to PHP 8.
+
+
+-----
+
+### Release Notes for [3.5.0](https://github.com/laminas/laminas-code/milestone/3)
+
+next feature release (minor)
+
+### 3.5.0
+
+- Total issues resolved: **0**
+- Total pull requests resolved: **3**
+- Total contributors: **3**
+
+#### Enhancement,hacktoberfest-accepted
+
+ - [47: Start PHP 8.0 support](https://github.com/laminas/laminas-code/pull/47) thanks to @Slamdunk
+
+ - [43: QA fix for phpstan](https://github.com/laminas/laminas-code/pull/43) thanks to @janvernieuwe
+
+#### Documentation
+
+ - [31: Modify the examples to make them compatible with PSR-12](https://github.com/laminas/laminas-code/pull/31) thanks to @simivar
+
 ## 3.4.1 - 2019-12-10
 
 ### Added
@@ -24,7 +53,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [zendframework/zend-code#179](https://github.com/zendframework/zend-code/pull/179) fixes exception message when invalid value provided in `Laminas\Code\Generator\ValueGenerator`.
 
-- [zendframework/zend-code#180](https://github.com/zendframework/zend-code/pull/190) fixes PHP 7.4 compatibility.
+- [zendframework/zend-code#180](https://github.com/zendframework/zend-code/pull/180) fixes PHP 7.4 compatibility.
 
 ## 3.4.0 - 2019-10-06
 
