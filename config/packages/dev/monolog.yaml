@@ -1,3 +1,7 @@
+rollbar:
+    access_token: "%env(resolve:ROLLBAR_ACCESS_TOKEN)%"
+    environment:  "%env(resolve:ROLLBAR_ENVIRONMENT)%"
+  
 monolog:
     handlers:
         main:
@@ -15,5 +19,8 @@ monolog:
         #    level: info
         console:
             type: console
-            process_psr_3_messages: false
+            process_psr_3_messages: true
             channels: ["!event", "!doctrine", "!console"]
+        rollbar:
+            type: service
+            id: Rollbar\Monolog\Handler\RollbarHandler

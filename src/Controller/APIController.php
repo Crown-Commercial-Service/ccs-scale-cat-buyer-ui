@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Psr\Log\LoggerInterface;
 
 class APIController extends AbstractController
 {
@@ -16,8 +17,11 @@ class APIController extends AbstractController
         $this->client = $client;
     }
 
-    public function getData(): Response
+    public function getData(LoggerInterface $logger): Response
     {
+
+        $logger->error('ROLLBAR logging test - CaT client (APIController)');
+
         $response = $this->client->request(
             'GET',
             $_ENV["PRIVATE_APP_URL"]. "/agreement-summaries"

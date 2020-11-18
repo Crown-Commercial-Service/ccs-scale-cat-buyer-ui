@@ -102,6 +102,11 @@ class ComposerStaticInit2afe9215ab03505a8dc4dc3f289ba12d
             'Symfony\\Bridge\\Doctrine\\' => 24,
             'Sensio\\Bundle\\FrameworkExtraBundle\\' => 35,
         ),
+        'R' => 
+        array (
+            'Rollbar\\Symfony\\RollbarBundle\\' => 30,
+            'Rollbar\\' => 8,
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
@@ -433,6 +438,14 @@ class ComposerStaticInit2afe9215ab03505a8dc4dc3f289ba12d
         'Sensio\\Bundle\\FrameworkExtraBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/sensio/framework-extra-bundle/src',
+        ),
+        'Rollbar\\Symfony\\RollbarBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rollbar/rollbar-php-symfony-bundle',
+        ),
+        'Rollbar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rollbar/rollbar/src',
         ),
         'Psr\\Log\\' => 
         array (

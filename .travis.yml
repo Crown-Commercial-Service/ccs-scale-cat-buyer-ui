@@ -2,33 +2,32 @@ language: php
 php:
 - 7.4
 script: "./scripts/php_build.sh"
-
 branches:
   only:
   - feature/SINF-186_cosmetic
   - develop
-
 before_install:
-  - chmod +x ./scripts/php_build.sh
-after_success: 
-  - mkdir $HOME/cf-cli
-  - curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx -C $HOME/cf-cli
-  - export PATH=$PATH:$HOME/cf-cli
-
+- chmod +x ./scripts/php_build.sh
+after_success:
+- mkdir $HOME/cf-cli
+- curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github"
+  | tar -zx -C $HOME/cf-cli
+- export PATH=$PATH:$HOME/cf-cli
 deploy:
-  - provider: script
-    skip_cleanup: true
-    script: CF_ROUTE_PREFIX=sbx- CF_SPACE=sandbox CF_MEMORY=1024M bash ./scripts/deploy.sh
-    on:
-      branch: feature/SINF-186_cosmetic
-  
-  - provider: script
-    skip_cleanup: true
-    script: CF_ROUTE_PREFIX=dev- CF_SPACE=development CF_MEMORY=1024M bash ./scripts/deploy.sh
-    on:
-      branch: develop
-
+- provider: script
+  skip_cleanup: true
+  script: CF_ROUTE_PREFIX=sbx- CF_SPACE=sandbox CF_MEMORY=1024M bash ./scripts/deploy.sh
+  on:
+    branch: feature/SINF-186_cosmetic
+  env: ROLLBAR_ENVIRONMENT=sandbox
+- provider: script
+  skip_cleanup: true
+  script: CF_ROUTE_PREFIX=dev- CF_SPACE=development CF_MEMORY=1024M bash ./scripts/deploy.sh
+  on:
+    branch: develop
+  env: ROLLBAR_ENVIRONMENT=development
 env:
   global:
   - secure: PR+j7KGTdE6cT/i8sBa3mz/1aXo7/dGiD8vgsziuiFqBCP5kNFS8dfETJ6SMQAqOoGQuPEffNbelRFxWJOLbuJyMus4Qca9DTK02d+2hyyzHF6QYxroXU+ADJrr0ABoOXybGO+jzXmCHIl37RYzx70YxmqZi4jQOY91/ENmT0AZhaua00G4aY0KQBeAZZhh/93EEhlZUtLITKSSC5k1y+u9xVprRcImZarwYg491NsTjFNoQK6245YeklYMQjvZ39ARuR2yb0LpORwbTJMrT+oZov+fLmJzkqljEgOxHNr+2/znv1raReikfXWf5Ckp/HpixOtoxzlKxH69h7htCitv4S1Kk2iJoHWHJWD/me08ITLbaVIn/mV00y8m1GrRZeO7h8KDYMQtB/4ELa7o1CtV54CHW32FwAQ7/ClMwjMotiD185d5/Fj1lRxRFIj/YjoaQolye6bzew6weRrPa5ncQv8fP1uLK+k6z71CnPdq69kLO4iTDQA1WyKeiaB6xEAI7k8wEjjbU7OQEHP5ed43SqrYibiBrxBJzCV77DrytIhRF5nMpFSyxU6sITP014KTm93RkWldrqXNLMNXAXGsR/3k78DYnvRGIrGmnLKKopJ3SM5KQi/zDQ7vxsQkJr/UIbpfWLue1rCRJBputqQ6EFSffyKE595pjfwFVWek=
   - secure: vZel4fvZsQhb1QejK91RS7gwIV8NfQIUvbgZFiOto/fgP6akkk3VLkJtlI/FfhSYVR/8+YlvBJvJtK3pHrCza5wqbnz2ZNSFee4FYhuAAnC2sqFtFIM5GSlAUdNVxqLMGX3MZSuly6sEpZRrQW/Ou8OPlYTJKQZ6Uc8VGXwwk51non+gl37wwbIwofFcNIQAJv6LA4omwO4wNgrgAMfC6Xd66q+xXMkg+9SZ1n3yYdf+ApdHa+Unv9XUcCqFuw1iM1q6C1lEGch9xRuZvY0a+qzaKEeCGJ5CL9QliJfmwRCNfL/bKMnBdPOBXh7MCvkQuhZG4sbIeieAhOq+NYQ+82ikiqSMFEd+DW3JLqpbjYLSC23Mrqx40UTsi/iXg1etkhqa50cEPO8O/6eVTJ6AUTVPSvZVqhioxHv/gh7RpEXE68ybjhtOrIwLgm2eN7VwZR7vJZr3ew0pfQbC6sim2PoArRjs+ASJA+auUQfjV+XheiS7FFGUYbXgzG0kc0bAsDbVZaQeDEO9bm4kDKBx+kc0Po1se9p7YvBDwe7GfSJ9k7anXQepb9lRycoxrL5H5ZGq7KIoASv7V8OdzuKqN9MwOforMDqdqY4Na4vEWuqiev02KHdvOQ3Oo0Odhl8evJyNqwQYDigyhUvXjghPUrw+tePhltB29Fq/ZSzJPwo=
+  - secure: lLW3+tddoI5o4T/sgFo+2Qst+xbDdPKSrUofNANbuDe9GMIpZFcprJYvsbD3OzePJGP7EmC8LYCG9cyMnT2XE7f6hrwCrWxejAc1ZXlvO15rTfO2YW5MRc6RAM5upGS8RKBsibExJ3NXmQmF2RT4Y/K/DoZ2eSioDrGs1Dhvnq0IYLSX/gpQ5IbNCXp8r1rTWku0MEsxq1c61NLG5oWRkeOuIYcdMwB1yDNmQ/ajcJheIIMY/SelQvhlGzZ8vuDqV3X8VYEni64jC4KGOY2TJtqSe2zu7W2/0zz0bgHV3ZKld76qfNXAnGdAIcYIChv26Sl9ZchOtp6LnCHzMhNf0ry633Pne7y/Y1BX/O60+lRozW0nCch604Sq5T+nsplH0UeBHJcths9xIhy2Oug03mroDL5ihq08mribWGTA6cU7DNi1nGRaeKqCb9+axeNb/JCd2ODtk9dqA0x7e3ScGeKv5BXB8j9mXQ65r7D+dYbPoR6H+deAjxAZD0IMU3dYL6bRHd4xzlgnPhWQxmZZ1vx1duY8VdlJONSsB+VXYBICz3duwkJDjYE6LllkGQZ83IKfU3I84xIu/vaDd9Hd2aN+e5AffuzuOKiZhxspR13bL5UH2FOwlXSGwRYXHi89tOG1ipGdZlvoiEZ1c+LUssfmZ9CwLePfdJ0vjIzuEbo=
