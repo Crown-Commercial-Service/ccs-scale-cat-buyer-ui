@@ -7,6 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Psr\Log\LoggerInterface;
 
+/*
+ * Throwaway class to demonstrate connecting to the API app and using Rollbar to manually log errors. 
+ * Any non-caught errors are logged automatically.
+ */
 class APIController extends AbstractController
 {
 
@@ -20,7 +24,11 @@ class APIController extends AbstractController
     public function getData(LoggerInterface $logger): Response
     {
 
-        $logger->debug('CCS Scale CaT UI: APIController.getData()');
+        // Note - Rollbar symfony bundle will only report levels of ERROR or higher
+        // If debug logs are required, need to use the SDK directly - see:
+        // https://github.com/rollbar/rollbar-php-symfony-bundle/issues/57
+        // Will leave this decision to devs based on requirements
+        $logger->error('CCS Scale CaT UI: APIController.getData() - example of logging an error');
 
         $response = $this->client->request(
             'GET',
@@ -30,9 +38,6 @@ class APIController extends AbstractController
         $content = $response->getContent();
 
         return $this->render('pages/landing_page.html.twig', [
-            // this array defines the variables passed to the template,
-            // where the key is the variable name and the value is the variable value
-            // (Twig recommends using snake_case variable names: 'foo_bar' instead of 'fooBar')
             'response' => $content,
             'endpoint' => $_ENV["PRIVATE_APP_URL"]
         ]);
