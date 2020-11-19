@@ -10,8 +10,7 @@ before_install:
 - chmod +x ./scripts/php_build.sh
 after_success:
 - mkdir $HOME/cf-cli
-- curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github"
-  | tar -zx -C $HOME/cf-cli
+- curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx -C $HOME/cf-cli
 - export PATH=$PATH:$HOME/cf-cli
 deploy:
 - provider: script
