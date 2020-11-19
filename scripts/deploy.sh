@@ -11,6 +11,5 @@ cf api https://api.london.cloud.service.gov.uk
 cf login -u $CLOUDFOUNDRY_USERNAME -p $CLOUDFOUNDRY_PASSWORD -o ccs-scale-cat -s $CF_SPACE
 cf push --var CF_ROUTE_PREFIX=$CF_ROUTE_PREFIX \
         --var CF_MEMORY=$CF_MEMORY \
-        --var AGREEMENTS_SERVICE_URL=$AGREEMENTS_SERVICE_URL \
         --var ROLLBAR_ACCESS_TOKEN=$ROLLBAR_ACCESS_TOKEN \
 		--var ROLLBAR_ENVIRONMENT=$ROLLBAR_ENVIRONMENT
