@@ -28,7 +28,7 @@ class APIController extends AbstractController
         // If debug logs are required, need to use the SDK directly - see:
         // https://github.com/rollbar/rollbar-php-symfony-bundle/issues/57
         // Will leave this decision to devs based on requirements
-        $logger->error('CCS Scale CaT UI: APIController.getData() - example of logging an error');
+        $logger->error('CCS Scale CaT UI: APIController.getData(): example of logging an error');
 
         $response = $this->client->request(
             'GET',
