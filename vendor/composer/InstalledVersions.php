@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'fec607b0a21bc0985a5c1b7d4704028f23a0b59d',
+    'reference' => '3572560a3a7337ede83c220436e39d941f17b194',
     'name' => '__root__',
   ),
   'versions' => 
@@ -31,7 +31,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'fec607b0a21bc0985a5c1b7d4704028f23a0b59d',
+      'reference' => '3572560a3a7337ede83c220436e39d941f17b194',
     ),
     'composer/package-versions-deprecated' => 
     array (
