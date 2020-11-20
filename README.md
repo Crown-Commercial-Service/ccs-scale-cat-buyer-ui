@@ -44,4 +44,4 @@ These were the tasks completed to get the app to the current state:
 3. PHP buildpack configuration was added
  * Added the `.bp-config/options.json` to override some buildpack defaults. See [PHP Buildpack Configuration](https://docs.cloudfoundry.org/buildpacks/php/gsg-php-config.html) for more details.
 
-4. [rollbar-symfony-php-bundle] (https://docs.rollbar.com/docs/symfony) was added, with extra configuration in `config/packages/dev/monolog.yaml`
+4. [rollbar-symfony-php-bundle](https://docs.rollbar.com/docs/symfony) was added, with extra configuration in `config/packages/dev/monolog.yaml`
