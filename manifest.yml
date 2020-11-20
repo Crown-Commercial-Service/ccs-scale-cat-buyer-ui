@@ -1,7 +1,7 @@
 ---
 applications:
-- name: ((route-prefix))ccs-scale-cat-buyer-ui
-  memory: ((memory))
+- name: ((CF_ROUTE_PREFIX))ccs-scale-cat-buyer-ui
+  memory: ((CF_MEMORY))
   instances: 1
   buildpacks:
   - https://github.com/cloudfoundry/php-buildpack.git
@@ -10,4 +10,6 @@ applications:
     APP_ENV: dev
     WEB_SERVER: httpd
     WEBDIR: public
-    PRIVATE_APP_URL: http://((route-prefix))ccs-scale-cat-service.apps.internal:8080
+    PRIVATE_APP_URL: http://((CF_ROUTE_PREFIX))ccs-scale-cat-service.apps.internal:8080
+    ROLLBAR_ACCESS_TOKEN: ((ROLLBAR_ACCESS_TOKEN))
+    ROLLBAR_ENVIRONMENT: ((ROLLBAR_ENVIRONMENT))

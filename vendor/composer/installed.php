@@ -1,33 +1,33 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-develop',
+    'version' => 'dev-develop',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '3572560a3a7337ede83c220436e39d941f17b194',
     'name' => '__root__',
   ),
   'versions' => 
   array (
     '__root__' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-develop',
+      'version' => 'dev-develop',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '3572560a3a7337ede83c220436e39d941f17b194',
     ),
     'composer/package-versions-deprecated' => 
     array (
-      'pretty_version' => '1.11.99',
-      'version' => '1.11.99.0',
+      'pretty_version' => '1.11.99.1',
+      'version' => '1.11.99.1',
       'aliases' => 
       array (
       ),
-      'reference' => 'c8c9aa8a14cc3d3bec86d0a8c3fa52ea79936855',
+      'reference' => '7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
     ),
     'doctrine/annotations' => 
     array (
@@ -67,30 +67,30 @@
     ),
     'doctrine/dbal' => 
     array (
-      'pretty_version' => '2.12.0',
-      'version' => '2.12.0.0',
+      'pretty_version' => '2.12.1',
+      'version' => '2.12.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'c6d37b4c42aaa3c3ee175f05eca68056f4185646',
+      'reference' => 'adce7a954a1c2f14f85e94aed90c8489af204086',
     ),
     'doctrine/doctrine-bundle' => 
     array (
-      'pretty_version' => '2.2.0',
-      'version' => '2.2.0.0',
+      'pretty_version' => '2.2.1',
+      'version' => '2.2.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'c1b1fe95a6cce5e53a1454c46ae3500e53fadae1',
+      'reference' => '9e07bb1ff35d35d9ec4597b79e5d05502d7d4d43',
     ),
     'doctrine/doctrine-migrations-bundle' => 
     array (
-      'pretty_version' => '2.2.0',
-      'version' => '2.2.0.0',
+      'pretty_version' => '2.2.1',
+      'version' => '2.2.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '5efa29df768abaafe29b34e73dac68efbedcaa4d',
+      'reference' => '955077b68c377310cf9538fc982be11d36ab75d4',
     ),
     'doctrine/event-manager' => 
     array (
@@ -112,12 +112,12 @@
     ),
     'doctrine/instantiator' => 
     array (
-      'pretty_version' => '1.3.1',
-      'version' => '1.3.1.0',
+      'pretty_version' => '1.4.0',
+      'version' => '1.4.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f350df0268e904597e3bd9c4685c53e0e333feea',
+      'reference' => 'd56bf6102915de5702778fe20f2de3b2fe570b5b',
     ),
     'doctrine/lexer' => 
     array (
@@ -166,21 +166,21 @@
     ),
     'egulias/email-validator' => 
     array (
-      'pretty_version' => '2.1.23',
-      'version' => '2.1.23.0',
+      'pretty_version' => '2.1.24',
+      'version' => '2.1.24.0',
       'aliases' => 
       array (
       ),
-      'reference' => '5fa792ad1853ae2bc60528dd3e5cbf4542d3c1df',
+      'reference' => 'ca90a3291eee1538cd48ff25163240695bd95448',
     ),
     'laminas/laminas-code' => 
     array (
-      'pretty_version' => '3.4.1',
-      'version' => '3.4.1.0',
+      'pretty_version' => '3.5.0',
+      'version' => '3.5.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1cb8f203389ab1482bf89c0e70a04849bacd7766',
+      'reference' => 'cb90ef428da9260c2deaa827b037c20695f968ae',
     ),
     'laminas/laminas-eventmanager' => 
     array (
@@ -227,12 +227,12 @@
     ),
     'ocramius/proxy-manager' => 
     array (
-      'pretty_version' => '2.9.1',
-      'version' => '2.9.1.0',
+      'pretty_version' => '2.10.0',
+      'version' => '2.10.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '7452942d38ae36223b0f8408619181f69799eb5c',
+      'reference' => 'f65ae0f9dcbdd9d6ad3abb721a9e09c3d7d868a4',
     ),
     'paragonie/random_compat' => 
     array (
@@ -367,6 +367,24 @@
       array (
         0 => '1.0',
       ),
+    ),
+    'rollbar/rollbar' => 
+    array (
+      'pretty_version' => 'v1.8.1',
+      'version' => '1.8.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8a57ad9574d85bd818eaedfc8049fdcb16795f31',
+    ),
+    'rollbar/rollbar-php-symfony-bundle' => 
+    array (
+      'pretty_version' => 'v3.1.2',
+      'version' => '3.1.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'cfc99a176a8d566e2d4e50ccc0f8d4b4567b929a',
     ),
     'sensio/framework-extra-bundle' => 
     array (
@@ -1081,7 +1099,7 @@
     array (
       'replaced' => 
       array (
-        0 => '3.4.1',
+        0 => '^3.4.1',
       ),
     ),
     'zendframework/zend-eventmanager' => 
