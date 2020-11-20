@@ -28,7 +28,7 @@ For each environment/branch deploy configuration block, the [script](https://doc
 
 The `manifest.yml` file defines the actual Cloud Foundry build and deployment, using the PHP Buildpack and variable substitution to utilise or pass through into the runtime environment required data from the CI deployment configuration.
 
-### Background
+## Background
 The code in this demo app was created by someone who is not familiar with PHP/Symfony - it is just enough to prove that we can deploy Symfony code via Travis, have it run in CloudFroundry/UK.Gov PaaS, have it connect to an API and log errors to Rollbar. It has acheived that. Moving forwards, this code can be modified/wholesale replaced by the developers as they see fit.
 
 These were the tasks completed to get the app to the current state:
