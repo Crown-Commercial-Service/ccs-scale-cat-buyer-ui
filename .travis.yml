@@ -4,7 +4,7 @@ php:
 script: "./scripts/php_build.sh"
 branches:
   only:
-  - feature/SINF-193_rollbar
+  - "/^(feature|bugfix)\\/SINF-[0-9]+.*$/"
   - develop
 before_install:
 - chmod +x ./scripts/php_build.sh
@@ -17,7 +17,8 @@ deploy:
   skip_cleanup: true
   script: CF_ROUTE_PREFIX=sbx- CF_SPACE=sandbox CF_MEMORY=1024M ROLLBAR_ENVIRONMENT=sandbox bash ./scripts/deploy.sh
   on:
-    branch: feature/SINF-193_rollbar
+    all_branches: true
+    condition: "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^(feature|bugfix)\\/SINF-[0-9]+.*$"
 - provider: script
   skip_cleanup: true
   script: CF_ROUTE_PREFIX=dev- CF_SPACE=development CF_MEMORY=1024M ROLLBAR_ENVIRONMENT=development bash ./scripts/deploy.sh
