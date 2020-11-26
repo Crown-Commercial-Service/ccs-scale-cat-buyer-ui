@@ -6,6 +6,7 @@ branches:
   only:
   - "/^(feature|bugfix)\\/SINF-[0-9]+.*$/"
   - develop
+  - main
 before_install:
 - chmod +x ./scripts/php_build.sh
 after_success:
@@ -24,6 +25,11 @@ deploy:
   script: CF_ROUTE_PREFIX=dev- CF_SPACE=development CF_MEMORY=1024M ROLLBAR_ENVIRONMENT=development bash ./scripts/deploy.sh
   on:
     branch: develop
+- provider: script
+  skip_cleanup: true
+  script: CF_ROUTE_PREFIX=int- CF_SPACE=INT CF_MEMORY=1024M ROLLBAR_ENVIRONMENT=integration bash ./scripts/deploy.sh
+  on:
+    branch: main
 env:
   global:
    # CF creds
