@@ -1,3 +1,7 @@
 index:
     path: /
     controller: App\Controller\APIController::getData
+
+landing_page:
+  path: /landing-page
+  controller: App\Controller\LandingPageController::landingPage 
