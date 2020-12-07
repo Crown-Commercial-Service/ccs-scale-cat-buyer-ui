@@ -1,45 +1,31 @@
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
 /.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
+/.env
 /public/bundles/
 /var/
+/vendor/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
 .phpunit
-.phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
 
-### IntelliJ IDEA ###
+node_modules
+/public/assets
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+
 .idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###	
-/nbproject/private/	
-/nbbuild/	
-/dist/	
-/nbdist/	
-/.nb-gradle/	
-build/	
-!**/src/main/**/build/	
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-### OSX ###
+.phplint-cache
 .DS_Store
