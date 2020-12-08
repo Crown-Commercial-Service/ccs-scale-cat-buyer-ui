@@ -35,6 +35,7 @@
         "symfony/twig-bundle": "^4.4",
         "symfony/validator": "4.4.*",
         "symfony/web-link": "4.4.*",
+        "symfony/web-server-bundle": "4.4.*",
         "symfony/yaml": "4.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
@@ -76,7 +77,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "requirements-checker": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"
