@@ -1,0 +1,41 @@
+language: php
+
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+
+env:
+  - SYMFONY_VERSION=3.4.*
+  - SYMFONY_VERSION=4.0.*
+  - SYMFONY_VERSION=4.1.*
+
+sudo: false
+dist: trusty
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+matrix:
+  exclude:
+    - php: 5.6
+      env: SYMFONY_VERSION=4.0.*
+    - php: 5.6
+      env: SYMFONY_VERSION=4.1.*
+    - php: 7.0
+      env: SYMFONY_VERSION=4.0.*
+    - php: 7.0
+      env: SYMFONY_VERSION=4.1.*
+
+before_install:
+  - composer self-update
+  - composer require -n --prefer-dist "symfony/symfony:${SYMFONY_VERSION}"
+
+script:
+  - php -v
+  - composer test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
