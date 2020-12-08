@@ -1,8 +1,12 @@
+rollbar:
+    access_token: "%env(resolve:ROLLBAR_ACCESS_TOKEN)%"
+    environment:  "%env(resolve:ROLLBAR_ENVIRONMENT)%"
+  
 monolog:
     handlers:
         main:
             type: stream
-            path: "%kernel.logs_dir%/symfony.log"
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
             channels: ["!event"]
         # uncomment to get logging in your browser
@@ -15,5 +19,12 @@ monolog:
         #    level: info
         console:
             type: console
-            process_psr_3_messages: false
+            process_psr_3_messages: true
             channels: ["!event", "!doctrine", "!console"]
+        rollbar:
+            type: service
+            id: Rollbar\Monolog\Handler\RollbarHandler
+            # Note - Rollbar symfony bundle will only report levels of ERROR or higher
+            # If debug logs are required, need to use the SDK directly - see:
+            # https://github.com/rollbar/rollbar-php-symfony-bundle/issues/57
+            # Will leave this decision to devs based on requirements
