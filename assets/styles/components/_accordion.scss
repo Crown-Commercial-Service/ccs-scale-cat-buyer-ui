@@ -1,0 +1,109 @@
+/*------------------------------------*\
+  #Accordion
+\*------------------------------------*/
+.govuk-accordion__section-button {
+
+    @include govuk-font(22, $weight: regular);
+
+}
+
+.js-enabled .govuk-accordion__section-header {
+
+    padding-bottom: govuk-px-to-rem(20);
+    z-index: 100;
+
+}
+
+.js-enabled .govuk-accordion__section-button {
+
+    padding-top: govuk-px-to-rem(20);
+
+}
+
+.js-enabled .govuk-accordion__section-content {
+
+    padding-top: 0;
+    padding-bottom: govuk-px-to-rem(30);
+
+}
+
+.js-enabled .govuk-accordion__icon:after,
+.js-enabled .govuk-accordion__icon:before {
+
+    width: 12.5%;
+    height: 12.5%;
+    border-width: 1px;
+
+}
+.js-enabled  .govuk-accordion__icon:before {
+    width: 100%;
+}
+
+.js-enabled  .govuk-accordion__icon:after {
+    height: 100%;
+}
+
+.js-enabled .govuk-accordion__section + .govuk-accordion__section {
+
+    //border: 0;
+
+}
+
+// Apply to any section which follows an open accordion one (design choice)
+.govuk-accordion__section--expanded + .govuk-accordion__section {
+
+    //border-color: transparent;
+
+}
+
+.govuk-accordion__controls {
+
+    margin-bottom: 10px;
+
+}
+
+
+.ccs-accordion {
+    .govuk-accordion__icon {
+        //16x10
+        background-image: url('../svg/accordion-arrows.svg');
+        background-position: 0 1px;
+        background-repeat: no-repeat;
+        background-size: 16px auto;
+
+        &:before,
+        &:after {
+            display: none;
+        }
+    }
+
+    .govuk-accordion__section--expanded {
+        .govuk-accordion__icon {
+            background-position: 0 -74px;
+        }
+    }
+}
+
+
+.ccs-accordion--clean .govuk-accordion__controls {
+    display: none;
+}
+
+.js-enabled .ccs-accordion--clean {
+    border-bottom: 0 none;
+}
+
+.js-enabled .ccs-accordion__section--clean {
+    border-top: 0 none;
+    padding-bottom: govuk-px-to-rem(2);
+}
+
+
+.ccs-accordion__section-button {
+    font-size: govuk-px-to-rem(19);
+    font-weight: 600;
+}
+
+.js-enabled .ccs-accordion__section-button {
+    color: #0B0C0C;
+}

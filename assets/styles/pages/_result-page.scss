@@ -1,0 +1,35 @@
+.app-sticky-element {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+.active-id {
+	letter-spacing: 0;
+	font-weight: bold;
+}
+
+@media(max-width: 600px) {
+	.app-sticky-element {
+		position: relative;
+	}
+}
+
+.gm-lots-containers{
+
+	margin-top: 40px;
+}
+
+.framework-description{
+	font-size: 1.1875rem;
+    font-weight: 400;
+    font-family: "Source Sans Pro,Helvetica,Arial,sans-serif";
+    margin-top: 20px;
+	color: #0b0c0c;
+	-webkit-font-smoothing:antialiased
+
+}

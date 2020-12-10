@@ -1,0 +1,35 @@
+/*------------------------------------*\
+  #Links
+\*------------------------------------*/
+
+.ccs-heading-link a {
+
+    display: inline-block;
+    line-height: 1.2;
+    margin-bottom: govuk-px-to-rem(4);
+    margin-right: govuk-px-to-rem(6);
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+
+        text-decoration: underline;
+
+    }
+
+}
+
+
+.ccs-heading-link--inline {
+    a {
+        display: inline;
+    }
+}
+
+.print-link {
+    background: url(../images/icon-print.png) no-repeat 10px 50%;
+    margin-left: -10px;
+    padding: .5em .5em .5em 38px;
+    cursor: pointer;
+}
