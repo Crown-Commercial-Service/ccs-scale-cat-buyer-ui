@@ -1,12 +1,33 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>CaT - project</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    {% block head %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endblock %}  
+        <link rel="stylesheet" href="{{ asset ('assets/styles/styles.min.css') }} ">  
+</head>
+
+<body class="govuk-template__body">
+
+<a class="skip-main" href="#main-content">Skip to main content</a>
+
+{% block header %}
+    {% embed '/includes/header.html.twig' %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}{% endblock %}
+
+{{ include('/includes/footer.html.twig') }}
+
+{% block script %}
+    <script src="{{ asset('find-a-commercial-agreement/scripts/all.js') }}"></script>
+    <script src="{{ asset('find-a-commercial-agreement/scripts/app.js') }}"></script>
+    <script>window.GOVUKFrontend.initAll();</script>
+{% endblock %}
+
+</body>
 </html>

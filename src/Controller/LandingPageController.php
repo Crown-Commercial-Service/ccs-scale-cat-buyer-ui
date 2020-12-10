@@ -13,6 +13,7 @@ class LandingPageController extends AbstractController{
 
 
     public function landingPage(){
-       return new Response('Ok', Response::HTTP_OK);
+
+        return $this->render('pages/landing_page.html.twig');
     }
 }
