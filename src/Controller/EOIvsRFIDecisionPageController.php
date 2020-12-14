@@ -13,7 +13,6 @@ class EOIvsRFIDecisionPageController extends AbstractController
         if($request->getMethod() == "POST"){
 
             $postData = $request->request->all();
-//            dd($postData);
             if($postData['eoi-rfi'] == 'EOI'){
                 return $this->redirect('/eoi-overview');
             }
