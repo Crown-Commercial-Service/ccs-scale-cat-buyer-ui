@@ -4,7 +4,7 @@
 
 .footer-global {
 
-    /*
+    
     background-color: $ccs-footer-colour;
     color: govuk-colour("white");
     padding-top: govuk-px-to-rem(50);
@@ -12,14 +12,13 @@
 
     // to allow the flourish to positon itself according to the footer
     position: relative;
-*/
+/*
   background-color: $ccs-footer-colour;
-  position: absolute;
   bottom: 0;
   width: 100%;
   height: 2.5rem; 
   color: #FFF;
-
+*/
 }
 
 .govuk-footer__list-item.govuk-footer__list-item {

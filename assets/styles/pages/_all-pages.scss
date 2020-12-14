@@ -89,7 +89,7 @@ a.skip-main:focus {
 
 .restrict-width {
 
-    max-width: 700px;
+    max-width: 900px;
 }
 
 //removes links from printing page
@@ -102,4 +102,40 @@ a.skip-main:focus {
 {
     display: none !important;
 }
+}
+
+.footer-global{
+    margin-top: 0;
+}
+
+.service-msg{
+    background-color: #EAEBEB;
+    font-size: 16px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.service-msg p{
+    line-height: 50px;
+    margin-left: 29px;
+}
+
+.service-msg span{
+    font-weight: bold;
+}
+
+.page-title{
+    margin-bottom: 25px;
+}
+
+.cat-legend{
+    margin-bottom: 25px;
+}
+.cat-top-dist{
+    margin-top: 40px;
+}
+
+.govuk-main-wrapper {
+    padding-top: govuk-px-to-rem(25);
+    ;
 }
