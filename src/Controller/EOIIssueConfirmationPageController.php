@@ -8,6 +8,8 @@ class EOIIssueConfirmationPageController extends AbstractController
 {
 
     public function eoiIssueConfirmation(){
-        return $this->render('pages/eoi_issue_confirmation.html.twig');
+        return $this->render('pages/eoi_issue_confirmation.html.twig', [
+            "pageTitle" => "EOI Issue Confirmation"
+        ]);
     }
 }

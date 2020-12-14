@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
 {% block body %}
 
-    <div>
+    <div class="flow-pages">
         <h1>EOI Issue Confirmation Page</h1>
-        <a href="{{ path('landing_page') }}">Landing Page</a>
+        <a href="{{ path('landing_page') }}">
+            <button class="govuk-button" data-module="govuk-button">
+                My Account
+            </button>
+        </a>
     </div>
 
 {% endblock %}

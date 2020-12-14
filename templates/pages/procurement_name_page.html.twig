@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
 {% block body %}
 
-    <div>
-        <h1>Procurement Name Project Page</h1>
-        <a href="{{ path('supplier_shortlist_overview') }}">Supplier Shortlist Overview</a>
+    <div class="flow-pages">
+        <h1>Procurement Name Project Page {{ pageTitle }}</h1>
+        <a href="{{ path('supplier_shortlist_overview') }}">
+            <button class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        </a>
     </div>
 
 {% endblock %}

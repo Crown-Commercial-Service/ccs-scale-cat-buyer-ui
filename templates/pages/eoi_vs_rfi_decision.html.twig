@@ -1,9 +1,41 @@
 {% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
 {% block body %}
 
-    <div>
+    <div class="flow-pages">
         <h1>EOI vs RFI Decision Page</h1>
-        <a href="{{ path('eoi_overview') }}">EOI Overview</a>
+        <div class="govuk-form-group" style="margin: 0 auto; width:20%; text-align:left;">
+            <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                    <h1 class="govuk-fieldset__heading">
+                        Make a decision
+                    </h1>
+                </legend>
+
+                <div class="govuk-radios govuk-radios--inline">
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="select-preMarket" name="eoi-rfi" type="radio" value="EOI Overview">
+                        <label class="govuk-label govuk-radios__label" for="select-preMarket">
+                            EOI Overview
+                        </label>
+                    </div>
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="select-preMarket-1" name="eoi-rfi" type="radio" value="RFI Overview">
+                        <label class="govuk-label govuk-radios__label" for="select-preMarket-1">
+                            RFI Overview
+                        </label>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <a href="{{ path('eoi_overview') }}">
+            <button class="govuk-button" data-module="govuk-button">
+                Save & Continue
+            </button>
+        </a>
     </div>
 
 {% endblock %}

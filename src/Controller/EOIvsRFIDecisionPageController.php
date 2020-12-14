@@ -8,6 +8,8 @@ class EOIvsRFIDecisionPageController extends AbstractController
 {
 
     public function eoiRfiDecision(){
-        return $this->render('pages/eoi_vs_rfi_decision.html.twig');
+        return $this->render('pages/eoi_vs_rfi_decision.html.twig', [
+            "pageTitle" => "EOI vs RFI Decision"
+        ]);
     }
 }

@@ -8,6 +8,8 @@ class UploadEOIDocumentPageController extends AbstractController
 {
 
     public function uploadEoiDocument(){
-        return $this->render('pages/upload_eoi_document.html.twig');
+        return $this->render('pages/upload_eoi_document.html.twig', [
+            "pageTitle" => "Upload EOI Document"
+        ]);
     }
 }

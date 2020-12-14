@@ -8,6 +8,8 @@ class ProcurementNamePageController extends AbstractController
 {
 
     public function procurementName(){
-        return $this->render('pages/procurement_name_page.html.twig');
+        return $this->render('pages/procurement_name_page.html.twig', [
+            "pageTitle" => "Name Your Procurement Project"
+        ]);
     }
 }

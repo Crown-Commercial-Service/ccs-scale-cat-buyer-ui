@@ -8,6 +8,8 @@ class EOIOverviewPageController extends AbstractController
 {
 
     public function eoiOverview(){
-        return $this->render('pages/eoi_overview.html.twig');
+        return $this->render('pages/eoi_overview.html.twig', [
+            "pageTitle" => "EOI Overview"
+        ]);
     }
 }

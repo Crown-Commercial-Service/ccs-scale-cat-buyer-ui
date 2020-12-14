@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
 {% block body %}
 
-    <div>
+    <div class="flow-pages">
         <h1>EOI Overview Page</h1>
-        <a href="{{ path('upload_eoi_document') }}">Upload EOI Document</a>
+        <a href="{{ path('upload_eoi_document') }}">
+            <button class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        </a>
     </div>
 
 {% endblock %}
