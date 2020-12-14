@@ -1,0 +1,141 @@
+/*------------------------------------*\
+  #All pages
+\*------------------------------------*/
+.govuk-widthless-container {
+
+    //@extend .govuk-width-container;
+    //
+    //max-width: none;
+
+}
+
+
+.govuk-main-wrapper--tight {
+    padding-top: govuk-px-to-rem(10);
+
+    @include govuk-media-query($from: tablet) {
+        padding-top: govuk-px-to-rem(20);
+    }
+
+    @include govuk-media-query($from: desktop) {
+        padding-top: govuk-px-to-rem(30);
+    }
+}
+
+
+
+.page-introduction {
+    padding-bottom: govuk-px-to-rem(10);
+
+    @include govuk-media-query($from: tablet) {
+        padding-bottom: govuk-px-to-rem(20);
+    }
+}
+
+.hidden_msgs{
+    display: none;
+}
+
+// a.skip-main {
+//     color: #fff;
+//     background-color:#000;
+//     left: auto;
+//     top: auto;
+//     width: 30%;
+//     height: auto;
+//     overflow:auto;
+//     margin: 10px 35%;
+//     padding:5px;
+//     border-radius: 15px;
+//     border:4px solid yellow;
+//     text-align:center;
+//     font-size:1.2em;
+
+//     position: absolute;
+//     transform: translateY(-100%);
+//     transition: transform 0.3s;
+//     overflow: hidden;
+
+// }
+
+// a.skip-main:focus {
+//     overflow: auto;
+//     transform: translateY(0%);
+// }
+
+a.skip-main {
+    border-radius: 15px;
+    border:4px solid yellow;
+    color: #fff;
+    background-color:#000;
+    height: 30px;
+    left: 50%;
+    padding: 8px;
+    position: absolute;
+    transform: translateY(-100%);
+    transition: transform 0.3s;
+}
+
+a.skip-main:focus {
+  transform: translateY(0%);
+  z-index:999;  
+}
+
+@media(max-width: 600px) {
+    a.skip-main {
+        left: 30%;  
+    }
+}
+
+.restrict-width {
+
+    max-width: 900px;
+}
+
+//removes links from printing page
+/* Don't print link hrefs */
+@media print {
+  a[href]:after {
+    content: none
+}
+.no-print, .no-print *
+{
+    display: none !important;
+}
+}
+
+.footer-global{
+    margin-top: 0;
+}
+
+.service-msg{
+    background-color: #EAEBEB;
+    font-size: 16px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.service-msg p{
+    line-height: 50px;
+    margin-left: 29px;
+}
+
+.service-msg span{
+    font-weight: bold;
+}
+
+.page-title{
+    margin-bottom: 25px;
+}
+
+.cat-legend{
+    margin-bottom: 25px;
+}
+.cat-top-dist{
+    margin-top: 40px;
+}
+
+.govuk-main-wrapper {
+    padding-top: govuk-px-to-rem(25);
+    ;
+}

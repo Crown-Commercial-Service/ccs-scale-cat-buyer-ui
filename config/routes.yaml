@@ -1,3 +1,76 @@
 index:
     path: /
     controller: App\Controller\APIController::getData
+
+landing_page:
+  path: /landing-page
+  controller: App\Controller\LandingPageController::landingPage
+
+create_procurement:
+  path: /create-procurement
+  controller: App\Controller\CreateProcurementPageController::createProcurement
+
+procurement_name:
+  path: /procurement-name
+  controller: App\Controller\ProcurementNamePageController::procurementName
+
+supplier_shortlist_overview:
+  path: /supplier-shortlist-overview
+  controller: App\Controller\SupplierShortlistOverviewPageController::supplierShortlistOverview
+
+supplier_shortlist_filter_1:
+  path: /supplier-shortlist-filter-1
+  controller: App\Controller\SupplierShortlistFilter1PageController::supplierShortlistFilter1
+
+supplier_shortlist_filter_2:
+  path: /supplier-shortlist-filter-2
+  controller: App\Controller\SupplierShortlistFilter2PageController::supplierShortlistFilter2
+
+supplier_shortlist_deselect:
+  path: /supplier-shortlist-deselect
+  controller: App\Controller\SupplierShortlistDeselectPageController::supplierShortlistDeselect
+
+review_supplier_shortlist:
+  path: /review-supplier-shortlist
+  controller: App\Controller\ReviewSupplierShortlistPageController::reviewSupplierShortlist
+
+premarket_engagement_decision:
+  path: /premarket-engagement-decision
+  controller: App\Controller\PreMarketEnaggementDecisionPageController::preMarketEngagementDecision
+
+eoi_vs_rfi_decision:
+  path: /eoi-vs-rfi-decision
+  controller: App\Controller\EOIvsRFIDecisionPageController::eoiRfiDecision
+
+eoi_overview:
+  path: /eoi-overview
+  controller: App\Controller\EOIOverviewPageController::eoiOverview
+
+upload_eoi_document:
+  path: /upload-eoi-document
+  controller: App\Controller\UploadEOIDocumentPageController::uploadEoiDocument
+
+upload_eoi_supporting_document:
+  path: /upload-eoi-supporting-document
+  controller: App\Controller\UploadEOISupportingDocumentPageController::uploadEoiSupportingDocument
+
+set_eoi_response_deadline:
+  path: /set-eoi-response-deadline
+  controller: App\Controller\SetEOIResponseDeadlinePageController::setEoiRresponseDeadline
+
+review_issue_eoi:
+  path: /review-issue-eoi
+  controller: App\Controller\ReviewIssueEOIPageController::reviewIssueEoi
+
+eoi_issue_confirmation:
+  path: /eoi-issue-confirmation
+  controller: App\Controller\EOIIssueConfirmationPageController::eoiIssueConfirmation
+
+rfp_decision:
+  path: /rfp-decision
+  controller: App\Controller\RFPDecisionPageController::rfpDecision
+
+rfi_overview:
+  path: /rfi-overview
+  controller: App\Controller\RFIOverviewPageController::rfiOverview
+

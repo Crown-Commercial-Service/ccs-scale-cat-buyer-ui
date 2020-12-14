@@ -1,40 +1,5 @@
-{# templates/pages/landing_page.html.twig #}
-<html>
+{% extends 'base.html.twig' %}
+{% block body %}
 
-<head>
-    <title>CaT Demo</title>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        .code {
-            font-family: courier;
-            color: lime;
-            background-color: black;
-            padding: 10px;
-            margin: 10px;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>CaT Gov.UK PaaS Demo</h1>
-    <hr />
-
-    <center><img src="lolcatz2.jpeg"/></center>
-
-    <h3>The Demonstration</h3>
-    <p>This demonstrates a PHP Symfony app calling a Java/Spring API via a private endpoint. All running inside of Gov.UK PaaS and all deployed automatically via Travis.</p>
-
-    <h3>Request from UI to API</h3>
-    This is the call the PHP UI makes to the Java API
-    <div class="code">{{ endpoint }}/agreement-summaries</div>
-
-    <h3>Response from API</h3>
-    This is the response from the Java API
-    <div class="code">[{{ response }}</div>
-
-</body>
-
-</html>
+<div>Landing Page</div>
+{% endblock %}

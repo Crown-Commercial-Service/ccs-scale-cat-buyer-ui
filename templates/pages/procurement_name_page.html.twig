@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
+{% block body %}
+    <div class="govuk-width-container">
+
+        <main class="govuk-main-wrapper " id="main-content">
+        <section>
+        <div class="govuk-grid-row">
+            <div class="flow-pages">
+                <h1>Procurement Name Project Page</h1>
+                <a href="{{ path('supplier_shortlist_overview') }}">
+                    <button class="govuk-button" data-module="govuk-button">
+                        Continue
+                    </button>
+                </a>
+            </div>
+        </div>
+        </section>
+    </main>
+    </div>
+
+{% endblock %}

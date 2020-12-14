@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
+{% block body %}
+
+    <div class="flow-pages">
+        <h1>Upload EOI Supporting Document Page</h1>
+        <a href="{{ path('set_eoi_response_deadline') }}">
+            <button class="govuk-button" data-module="govuk-button">
+                Save & Continue
+            </button>
+        </a>
+    </div>
+
+{% endblock %}

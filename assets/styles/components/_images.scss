@@ -1,0 +1,71 @@
+/*------------------------------------*\
+  #Images
+\*------------------------------------*/
+
+picture {
+
+    display: block;
+    width: 100%;
+
+    // make links in picture elements render around the child image
+    a {
+        display: block;
+    }
+
+}
+
+img {
+
+    width: 100%;
+    height: auto;
+    // change so that images doesn't sit on baseline of text
+    vertical-align: middle;
+
+}
+
+.image-wrapper {
+
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+
+}
+
+.wp-caption {
+
+    margin: 0 0 20px 0;
+
+
+}
+.wp-caption-text {
+
+    @extend .govuk-body;
+
+    margin-top: 5px;
+
+}
+
+// Aligment modifiers for Wordpress
+// Requires styling to match GDS
+.alignnone {
+
+    float: none;
+
+}
+.alignleft {
+
+    float: left;
+    max-width: 38.2%;
+    margin: 0 20px 20px 0;
+}
+.aligncenter {
+
+    float: none;
+
+}
+.alignright {
+
+    float: right;
+    max-width: 38.2%;
+    margin: 0 0 20px 20px;
+}
