@@ -2,13 +2,21 @@
 
 namespace App\Controller;
 
+use App\Models\ComercialAgreement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 
 class CreateProcurementPageController extends AbstractController
 {
 
     public function createProcurement(){
-        return $this->render('pages/create_procurement_page.html.twig');
+
+        $comercialAgreement = new ComercialAgreement();
+        $comercialAgreementName = $comercialAgreement->getName();
+
+        return $this->render('pages/create_procurement_page.html.twig',[
+            'pageTitle' => 'Create your procurement project',
+            'pageSubTitle' => 'Start de process by creating a procurement project',
+            'comercialAgreementName' => $comercialAgreementName,
+        ]);
     }
 }

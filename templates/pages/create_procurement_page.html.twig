@@ -1,10 +1,41 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{pageTitle}}{% endblock %}
+
+
+
 {% block body %}
+    <!-- required wrapper 1 -->
+    <div class="govuk-width-container">
+            {% include "/includes/phase_banner.html.twig" %}
+            <a aria-describedby="back-to-search-result" class="govuk-back-link" href="#">Back</a>
+        <!-- required wrapper 2 -->
+        <main class="govuk-main-wrapper " id="main-content">
+        <section>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full restrict-width">
+                        <h1 class="govuk-heading-xl page-title">{{pageTitle}}</h1>
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend">
+                                <h1 class="govuk-fieldset__heading">{{ pageSubTitle }}</h1>
+                            </legend>
+                      
+                        <p class="govuk-body"> You have selected {{ comercialAgreementName }}</p>
+                        
 
-    <div style="text-align: center">
-        <h1>Create Procurement Page</h1>
-        <a href="{{ path('procurement_name') }}">Procurement Project Name Page</a>
+                        <a href="{{ path('create_procurement')}}" role="button" 
+                        class="govuk-button  govuk-!-margin-top-6 govuk-!-margin-bottom-6" 
+                        data-module="govuk-button">Create procurement project</a>
+                    </div>
+                </div>
+            </section>
+             <p class="govuk-body  cat-top-dist">
+                <a href="#">Return to my account</a>
+            </p>
+            <span class='hidden_msgs' id="contact-ccs-intermediar-page">Contact CCS - intermediar page</span>
+            <p class="govuk-body  cat-top-dist">Need help with this service? 
+                <a aria-describedby="contact-ccs-intermediar-page"href="#">Contact CCS</a>
+            <p>
+        </main>
     </div>
-
 {% endblock %}
