@@ -24,6 +24,7 @@ class APIController extends AbstractController
     public function getData(LoggerInterface $logger): Response
     {
 
+        return $this->redirect("/create-procurement");
         // Note - Rollbar symfony bundle will only report levels of ERROR or higher
         // If debug logs are required, need to use the SDK directly - see:
         // https://github.com/rollbar/rollbar-php-symfony-bundle/issues/57

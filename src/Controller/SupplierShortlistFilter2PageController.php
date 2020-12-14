@@ -8,6 +8,8 @@ class SupplierShortlistFilter2PageController extends AbstractController
 {
 
     public function supplierShortlistFilter2(){
-        return $this->render('pages/supplier_shortlist_filter_2.html.twig');
+        return $this->render('pages/supplier_shortlist_filter_2.html.twig', [
+            "pageTitle" => "Supplier Shortlisting Filter 2"
+        ]);
     }
 }

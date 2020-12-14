@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
+
+{% block title %} {{ pageTitle }} {% endblock %}
+
 {% block body %}
 
-    <div>
+    <div class="flow-pages">
         <h1>Supplier Shortlist Deselect</h1>
-        <a href="{{ path('review_supplier_shortlist') }}">Review Supplier Shortlist</a>
+        <a href="{{ path('review_supplier_shortlist') }}">
+            <button class="govuk-button" data-module="govuk-button">
+                Save & Continue
+            </button>
+        </a>
     </div>
 
 {% endblock %}

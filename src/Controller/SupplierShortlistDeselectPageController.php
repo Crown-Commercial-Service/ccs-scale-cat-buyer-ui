@@ -8,6 +8,8 @@ class SupplierShortlistDeselectPageController extends AbstractController
 {
 
     public function supplierShortlistDeselect(){
-        return $this->render('pages/supplier_shortlist_deselect.html.twig');
+        return $this->render('pages/supplier_shortlist_deselect.html.twig', [
+            "pageTitle" => "Supplier Shortlisting Deselect"
+        ]);
     }
 }

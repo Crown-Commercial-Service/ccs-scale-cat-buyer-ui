@@ -8,6 +8,8 @@ class SetEOIResponseDeadlinePageController extends AbstractController
 {
 
     public function setEoiRresponseDeadline(){
-        return $this->render('pages/set_eoi_response_deadline.html.twig');
+        return $this->render('pages/set_eoi_response_deadline.html.twig', [
+            "pageTitle" => "Set EOI Response Deadline"
+        ]);
     }
 }

@@ -66,6 +66,14 @@ eoi_issue_confirmation:
   path: /eoi-issue-confirmation
   controller: App\Controller\EOIIssueConfirmationPageController::eoiIssueConfirmation
 
+rfp_decision:
+  path: /rfp-decision
+  controller: App\Controller\RFPDecisionPageController::rfpDecision
+
+rfi_overview:
+  path: /rfi-overview
+  controller: App\Controller\RFIOverviewPageController::rfiOverview
+
 
 
 

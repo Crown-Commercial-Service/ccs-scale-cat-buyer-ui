@@ -8,6 +8,8 @@ class SupplierShortlistOverviewPageController extends AbstractController
 {
 
     public function supplierShortlistOverview(){
-        return $this->render('pages/supplier_shortlist_overview_page.html.twig');
+        return $this->render('pages/supplier_shortlist_overview_page.html.twig', [
+            "pageTitle" => "Supplier Shortlisting Overview"
+        ]);
     }
 }
