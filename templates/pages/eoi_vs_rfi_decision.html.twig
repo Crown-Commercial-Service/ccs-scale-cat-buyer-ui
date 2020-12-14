@@ -6,6 +6,7 @@
 
     <div class="flow-pages">
         <h1>EOI vs RFI Decision Page</h1>
+        <form action="{{ path('eoi_vs_rfi_decision') }}" method="post">
         <div class="govuk-form-group" style="margin: 0 auto; width:20%; text-align:left;">
             <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
@@ -16,13 +17,13 @@
 
                 <div class="govuk-radios govuk-radios--inline">
                     <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="select-preMarket" name="eoi-rfi" type="radio" value="EOI Overview" checked>
+                        <input class="govuk-radios__input" id="select-preMarket" name="eoi-rfi" type="radio" value="EOI">
                         <label class="govuk-label govuk-radios__label" for="select-preMarket">
                             EOI Overview
                         </label>
                     </div>
                     <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="select-preMarket-1" name="eoi-rfi" type="radio" value="RFI Overview">
+                        <input class="govuk-radios__input" id="select-preMarket-1" name="eoi-rfi" type="radio" value="RFI">
                         <label class="govuk-label govuk-radios__label" for="select-preMarket-1">
                             RFI Overview
                         </label>
@@ -31,11 +32,10 @@
 
             </fieldset>
         </div>
-        <a href="{{ path('eoi_overview') }}">
-            <button class="govuk-button" data-module="govuk-button">
-                Save & Continue
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Save and continue
             </button>
-        </a>
+        </form>
     </div>
 
 {% endblock %}

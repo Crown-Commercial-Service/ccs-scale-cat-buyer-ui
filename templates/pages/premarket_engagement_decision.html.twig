@@ -6,6 +6,7 @@
 
     <div class="flow-pages">
         <h1>Pre-market Engagement Decision Page</h1>
+        <form action="{{ path('premarket_engagement_decision') }}" method="post">
         <div class="govuk-form-group" style="margin: 0 auto; width:20%; text-align:left;">
             <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
@@ -16,7 +17,7 @@
 
                 <div class="govuk-radios govuk-radios--inline">
                     <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="select-preMarket" name="preMarket" type="radio" value="Pre-market engagement" checked>
+                        <input class="govuk-radios__input" id="select-preMarket" name="preMarket" type="radio" value="pre-market">
                         <label class="govuk-label govuk-radios__label" for="changed-name">
                             Pre-market Engagement
                         </label>
@@ -31,12 +32,10 @@
 
             </fieldset>
         </div>
-
-        <a href="{{ path('eoi_vs_rfi_decision') }}">
-            <button class="govuk-button" data-module="govuk-button">
-                Save & Continue
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Save and continue
             </button>
-        </a>
+        </form>
     </div>
 
 {% endblock %}
