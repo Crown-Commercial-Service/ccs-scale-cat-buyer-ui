@@ -51,13 +51,9 @@
                     </div>
                 </div>
             </section>
-            <p class="govuk-body  cat-top-dist">
-                <a href="#">Return to my account</a>
-            </p>
-            <span class='hidden_msgs' id="contact-ccs-intermediar-page">Contact CCS - intermediar page</span>
-            <p class="govuk-body  cat-top-dist">Need help with this service?
-                <a aria-describedby="contact-ccs-intermediar-page"href="#">Contact CCS</a>
-            <p>
+
+            {% include "/includes/items/return_to_my_account.html.twig" %}
+            {% include "/includes/items/contact_ccs.html.twig" %}
         </main>
     </div>
 
