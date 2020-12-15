@@ -5,6 +5,7 @@
         "php": ">=7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/annotations": "^1.11",
         "rollbar/rollbar-php-symfony-bundle": "^3.0",
         "sensio/framework-extra-bundle": "^5.6",
         "studio24/frontend": "0.6.*",
