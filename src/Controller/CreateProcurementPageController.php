@@ -15,7 +15,7 @@ class CreateProcurementPageController extends AbstractController
 
         return $this->render('pages/create_procurement_page.html.twig',[
             'pageTitle' => 'Create your procurement project',
-            'pageSubTitle' => 'Start de process by creating a procurement project',
+            'pageSubTitle' => 'Start the process by creating a procurement project',
             'comercialAgreementName' => $comercialAgreementName,
         ]);
     }
