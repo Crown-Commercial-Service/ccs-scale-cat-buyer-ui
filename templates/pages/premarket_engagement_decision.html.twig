@@ -5,7 +5,7 @@
 {% block body %}
 
     <div class="flow-pages">
-        <h1>Pre-market Engagement Decision Page</h1>
+        <h1>{{ pageTitle }}</h1>
         <form action="{{ path('premarket_engagement_decision') }}" method="post">
         <div class="govuk-form-group" style="margin: 0 auto; width:20%; text-align:left;">
             <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
@@ -33,7 +33,7 @@
             </fieldset>
         </div>
             <button type="submit" class="govuk-button" data-module="govuk-button">
-                Save and continue
+                Save & continue
             </button>
         </form>
     </div>
