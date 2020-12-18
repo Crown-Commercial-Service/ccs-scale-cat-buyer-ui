@@ -20,17 +20,19 @@
                                 <h1 class="govuk-fieldset__heading">{{ pageSubTitle }}</h1>
                             </legend>
                       
-                        <p class="govuk-body"> You have selected {{ comercialAgreementName }}.</p>
-                        
-
-                        <a href="{{ path('procurement_name')}}" role="button" 
-                        class="govuk-button  govuk-!-margin-top-6 govuk-!-margin-bottom-6" 
-                        data-module="govuk-button">Create procurement project</a>
+                        <p class="govuk-body"> You have selected {{ comercialAgreementName }}.</p>                       
                     </div>
                 </div>
             </section>
-
-            {% include "/includes/items/return_to_my_account.html.twig" %}
+            <div class="cat-top-dist" >
+                <a href="{{ path('procurement_name')}}" role="button" 
+                        class="govuk-button" 
+                        data-module="govuk-button">Create procurement project
+                </a>
+            </div>
+             <div class="cat-top-dist" >
+                {% include "/includes/items/return_to_my_account.html.twig" %}
+            </div>
             {% include "/includes/items/contact_ccs.html.twig" %}
         </main>
     </div>

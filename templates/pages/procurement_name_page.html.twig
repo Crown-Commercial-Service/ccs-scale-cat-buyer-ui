@@ -44,15 +44,20 @@
                                     </dd>
                                 </div>
                             </dl>
-                            <a href="{{ path('supplier_shortlist_overview')}}" role="button"
-                               class="govuk-button  govuk-!-margin-top-6 govuk-!-margin-bottom-6"
-                               data-module="govuk-button">Continue</a>
                         </fieldset>
                     </div>
                 </div>
             </section>
+            
+            <div class="cat-top-dist">
 
-            {% include "/includes/items/return_to_my_account.html.twig" %}
+                <a href="{{ path('supplier_shortlist_overview')}}" role="button"
+                               class="govuk-button"
+                               data-module="govuk-button">Continue</a>
+            </div>
+            <div class="cat-top-dist">
+                {% include "/includes/items/return_to_my_account.html.twig" %}
+            </div>
             {% include "/includes/items/contact_ccs.html.twig" %}
         </main>
     </div>
