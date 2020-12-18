@@ -7,11 +7,7 @@
     {% block head %}
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% endblock %}  
-        <link rel="stylesheet" href="{{ asset ('assets/styles/styles.min.css') }} ">  
-
-
-
-       
+    <link rel="stylesheet" href="{{ asset ('assets/styles/styles.min.css') }} ">  
 </head>
 
 <body class="govuk-width-container">
@@ -34,12 +30,11 @@
      <script src="{{ asset('assets/scripts/docs.js') }}"></script>
     <script src="{{ asset('assets/scripts/step-by-step-nav.js') }}"></script>
 
-    <script>window.GOVUKFrontend.initAll();
-    
-    var $element = $('#step-by-step-navigation')
-    var stepByStepNavigation = new GOVUK.Modules.AppStepNav()
-    stepByStepNavigation.start($element)
-  
+    <script>
+        window.GOVUKFrontend.initAll();    
+        var $element = $('#step-by-step-navigation')
+        var stepByStepNavigation = new GOVUK.Modules.AppStepNav()
+        stepByStepNavigation.start($element)
     </script>
 {% endblock %}
 
