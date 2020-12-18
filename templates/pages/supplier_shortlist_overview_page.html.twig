@@ -1,16 +1,75 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ pageTitle }} {% endblock %}
+{% block title %}{{pageTitle}}{% endblock %}
 
 {% block body %}
-
-    <div class="flow-pages">
-        <h1>{{ pageTitle }}</h1>
-        <a href="{{ path('supplier_shortlist_filter_1') }}">
-            <button class="govuk-button" data-module="govuk-button">
-                Continue
-            </button>
-        </a>
+    <div class="govuk-width-container">
+        {% include "/includes/phase_banner.html.twig" %}
+        <a aria-describedby="back-to-search-result" class="govuk-back-link" href="#">Back</a>
+        <main class="govuk-main-wrapper " id="main-content">
+            <section>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full restrict-width">
+                        <h1 class="govuk-heading-xl page-title">{{pageTitle}}</h1>
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend">
+                                <h1 class="govuk-fieldset__heading">{{ pageSubTitle }}</h1>
+                            </legend>
+                        <p class="govuk-body">{{ content|raw }}</p>
+                    </div> 
+                </div> 
+                <div class="govuk-grid-row">
+                    
+                    <div id="step-by-step-navigation" class="app-step-nav app-step-nav--large app-step-nav--active" data-show-text="Show" data-hide-text="Hide" data-show-all-text="Show all" data-hide-all-text="Hide all">
+                        <ol class="app-step-nav__steps">
+                            {% for suplier in supliers %}
+                                <li class="app-step-nav__step js-step" id="step_{{loop.index}}">     
+                                    <div class="app-step-nav__header js-toggle-panel step-header_position_{{loop.index}}" data-position="{{ loop.index }}">
+                                        <h2 class="app-step-nav__title">
+                                            <span class="app-step-nav__circle app-step-nav__circle--number">
+                                                <span class="app-step-nav__circle-inner">
+                                                    <span class="app-step-nav__circle-background">
+                                                        <span class="govuk-visually-hidden">Step</span> {{ loop.index }}
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            <span class="js-step-title">
+                                                <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-check-youre-allowed-to-drive-{{ loop.index }}">
+                                                    <span class="js-step-title-text">
+                                                        {{suplier.title}}
+                                                    </span>
+                                                    <span class="app-step-nav__toggle-link js-toggle-link" aria-hidden="true" hidden="">Show</span>
+                                                </button>
+                                            </span>
+                                        </h2>
+                                    </div>
+                                    <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-{{ loop.index }}">
+                                    <ol class="app-step-nav__list " data-length="1">
+                                        <li class="app-step-nav__list-item js-list-item ">
+                                            {{suplier.body|raw}}
+                                        </li>
+                                    </ol>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+            </section>
+            <div class="cat-top-dist" >
+                <p> <a target="_blank" class="cat-top-dist" href="https://www.crowncommercial.gov.uk/agreements/RM6154:1a/lot-suppliers">You can view a list of all suppliers associated with this lot on the CCS website.</a> </p>
+            </div>
+            <div class="cat-top-dist" >
+            <a href="{{ path('supplier_shortlist_filter_1') }}" class="cat-top-dist">
+                <button class="govuk-button" data-module="govuk-button">
+                    Continue
+                </button>
+            </a>
+            </div>
+            <div class="cat-top-dist" >
+                {% include "/includes/items/return_to_my_account.html.twig" %}
+            </div>
+            {% include "/includes/items/contact_ccs.html.twig" %}
+        </main>
     </div>
-
 {% endblock %}
