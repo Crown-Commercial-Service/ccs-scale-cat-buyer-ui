@@ -15,8 +15,8 @@ class ProcurementNamePageController extends AbstractController
         $comercialLOTNumber = $comercialAgreement->getlotNumber();
 
         return $this->render('pages/procurement_name_page.html.twig', [
-            "pageTitle" => "Name Your Procurement Project",
-            "pageSubTitle" => "You can use your organisation's internal project naming criteria to create a suitable name for your procurement project",
+            "pageTitle" => "Name your procurement project",
+            "pageSubTitle" => "You can use your organisation’s internal project naming criteria to create a suitable name for your procurement project",
             "comercialCANumber" => $comercialCANumber,
             "comercialLOTNumber" => $comercialLOTNumber
         ]);
