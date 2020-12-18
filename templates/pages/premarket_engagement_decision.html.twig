@@ -4,38 +4,76 @@
 
 {% block body %}
 
-    <div class="flow-pages">
-        <h1>{{ pageTitle }}</h1>
-        <form action="{{ path('premarket_engagement_decision') }}" method="post">
-        <div class="govuk-form-group" style="margin: 0 auto; width:20%; text-align:left;">
-            <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                    <h1 class="govuk-fieldset__heading">
-                        Make a decision
-                    </h1>
-                </legend>
+    <!-- required wrapper 1 -->
+    <div class="govuk-width-container">
+        {% include "/includes/phase_banner.html.twig" %}
+        <a aria-describedby="back-to-search-result" class="govuk-back-link" href="#">Back</a>
+        <!-- required wrapper 2 -->
+        <main class="govuk-main-wrapper " id="main-content">
+            <section>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full restrict-width">
+                        {% if errorMessage %}
+                        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+                            <h2 class="govuk-error-summary__title" id="error-summary-title">
+                                There is a problem
+                            </h2>
+                            <div class="govuk-error-summary__body">
+                                <ul class="govuk-list govuk-error-summary__list">
+                                    <li>
+                                        <a href="#passport-issued-error">Select an option before continuing</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <h1 class="govuk-heading-xl page-title">{{ pageHeader }}</h1>
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend">
+                                <h1 class="govuk-fieldset__heading">{{ pageSubTitle }}</h1>
+                            </legend>
 
-                <div class="govuk-radios govuk-radios--inline">
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="select-preMarket" name="preMarket" type="radio" value="pre-market" checked>
-                        <label class="govuk-label govuk-radios__label" for="changed-name">
-                            Pre-market Engagement
-                        </label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="changed-name-2" name="preMarket" type="radio" value="RFD">
-                        <label class="govuk-label govuk-radios__label" for="changed-name-2">
-                            RFP Decision
-                        </label>
+                            <form action="{{ path('premarket_engagement_decision') }}" method="post">
+                                <div class="govuk-form-group">
+                                    <fieldset class="govuk-fieldset" aria-describedby="sign-in-hint">
+                                        <div class="govuk-radios">
+                                            <div class="govuk-radios__item">
+                                                <input class="govuk-radios__input" id="sign-in" name="preMarket" type="radio" value="yes" aria-describedby="sign-in-item-hint">
+                                                <label class="govuk-label govuk-radios__label" for="sign-in">
+                                                    Yes
+                                                </label>
+                                                <div id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
+                                                    You can choose to run an Expression of Interest (EOI) and a Request for Information (RFI).
+                                                    <br><br>
+                                                    An EOI is used to understand more about suppliers' level of interest, in addition to their availability
+                                                    An RFI helps you to understand more about suppliers' ability and what they can provide
+                                                </div>
+                                            </div>
+                                            <div class="govuk-radios__item">
+                                                <input class="govuk-radios__input" id="sign-in-2" name="preMarket" type="radio" value="no" aria-describedby="sign-in-2-item-hint">
+                                                <label class="govuk-label govuk-radios__label" for="sign-in-2">
+                                                    No
+                                                </label>
+                                                <div id="sign-in-2-item-hint" class="govuk-hint govuk-radios__hint">
+                                                    Start to build your Request for Proposal (RFP) without any pre-market engagement.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <button class="govuk-button" type="submit" data-module="govuk-button">
+                                    Save and continue
+                                </button>
+                            </form>
+                        </fieldset>
                     </div>
                 </div>
+            </section>
 
-            </fieldset>
-        </div>
-            <button type="submit" class="govuk-button" data-module="govuk-button">
-                Save & continue
-            </button>
-        </form>
+            {% include "/includes/items/return_to_my_account.html.twig" %}
+            {% include "/includes/items/contact_ccs.html.twig" %}
+        </main>
     </div>
 
 {% endblock %}
