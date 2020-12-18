@@ -61,14 +61,19 @@
             </div>
         </section>
 
-        <p> <a target="_blank" href="https://www.crowncommercial.gov.uk/agreements/RM6154:1a/lot-suppliers">You can view a list of all suppliers associated with this lot on the CCS website.</a> </p>
-
-         <a href="{{ path('supplier_shortlist_filter_1') }}">
+        <div class="cat-top-dist" >
+            <p> <a target="_blank" class="cat-top-dist" href="https://www.crowncommercial.gov.uk/agreements/RM6154:1a/lot-suppliers">You can view a list of all suppliers associated with this lot on the CCS website.</a> </p>
+        </div>
+        <div class="cat-top-dist" >
+         <a href="{{ path('supplier_shortlist_filter_1') }}" class="cat-top-dist">
             <button class="govuk-button" data-module="govuk-button">
                 Continue
             </button>
         </a>
-        {% include "/includes/items/return_to_my_account.html.twig" %}
+        </div>
+         <div class="cat-top-dist" >
+            {% include "/includes/items/return_to_my_account.html.twig" %}
+        </div>
         {% include "/includes/items/contact_ccs.html.twig" %}
 
        

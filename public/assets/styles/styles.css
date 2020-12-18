@@ -7547,3 +7547,6 @@ a.skip-main:focus {
 
 .govuk-main-wrapper {
   padding-top: 1.5625rem; }
+
+.govuk-button {
+  margin-bottom: 0px; }
