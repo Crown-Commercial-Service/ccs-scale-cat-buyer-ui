@@ -4,38 +4,75 @@
 
 {% block body %}
 
-    <div class="flow-pages">
-        <h1>{{ pageTitle }}</h1>
-        <form action="{{ path('eoi_vs_rfi_decision') }}" method="post">
-        <div class="govuk-form-group" style="margin: 0 auto; width:20%; text-align:left;">
-            <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                    <h1 class="govuk-fieldset__heading">
-                        Make a decision
-                    </h1>
-                </legend>
-
-                <div class="govuk-radios govuk-radios--inline">
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="select-preMarket" name="eoi-rfi" type="radio" value="EOI" checked>
-                        <label class="govuk-label govuk-radios__label" for="select-preMarket">
-                            EOI Overview
-                        </label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="select-preMarket-1" name="eoi-rfi" type="radio" value="RFI">
-                        <label class="govuk-label govuk-radios__label" for="select-preMarket-1">
-                            RFI Overview
-                        </label>
+    <!-- required wrapper 1 -->
+    <div class="govuk-width-container">
+        {% include "/includes/phase_banner.html.twig" %}
+        <a aria-describedby="back-to-search-result" class="govuk-back-link" href="#">Back</a>
+        <!-- required wrapper 2 -->
+        <main class="govuk-main-wrapper " id="main-content">
+            <section>
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full restrict-width">
+                        {% if errorMessage %}
+                            <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+                                <h2 class="govuk-error-summary__title" id="error-summary-title">
+                                    There is a problem
+                                </h2>
+                                <div class="govuk-error-summary__body">
+                                    <ul class="govuk-list govuk-error-summary__list">
+                                        <li>
+                                            <a href="#eoi_rfi_decision_form">{{ errorMessage }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <form action="{{ path('eoi_vs_rfi_decision') }}" method="post" id="eoi_rfi_decision_form">
+                            {% if errorMessage %}
+                            <div class="govuk-form-group govuk-form-group--error">
+                                {% endif %}
+                                <h1 class="govuk-heading-xl page-title">{{ eOivsRFIHeader }}</h1>
+                                <fieldset class="govuk-fieldset">
+                                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend">
+                                        <h1 class="govuk-fieldset__heading">{{ eOivsRFISubTitle }}</h1>
+                                    </legend>
+                                    {{ eOivsRFIContent|raw }}
+                                    {% if errorMessage %}
+                                        <span id="national-insurance-number-error" class="govuk-error-message">
+                                                {{ errorMessage }}
+                                            </span>
+                                    {% endif %}
+                                    <div class="govuk-form-group">
+                                        <fieldset class="govuk-fieldset" aria-describedby="sign-in-hint">
+                                            <div class="govuk-radios">
+                                                {% for choice in eOivsRFIForms %}
+                                                    <div class="govuk-radios__item">
+                                                        <input class="govuk-radios__input" id="eoi-rfi_{{ loop.index }}" name="eoi-rfi" type="radio" value="{{ choice.value }}" aria-describedby="sign-in-item-hint">
+                                                        <label class="govuk-label govuk-radios__label" for="eoi-rfi_{{ loop.index }}">
+                                                            {{ choice.title }}
+                                                        </label>
+                                                        <div id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
+                                                            {{choice.body|raw}}
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </fieldset>
+                                {% if errorMessage %}
+                            </div>
+                            {% endif %}
+                            <button class="govuk-button" type="submit" data-module="govuk-button">
+                                Save and continue
+                            </button>
+                        </form>
                     </div>
                 </div>
-
-            </fieldset>
-        </div>
-            <button type="submit" class="govuk-button" data-module="govuk-button">
-                Save & continue
-            </button>
-        </form>
+            </section>
+            {% include "/includes/items/return_to_my_account.html.twig" %}
+            {% include "/includes/items/contact_ccs.html.twig" %}
+        </main>
     </div>
 
 {% endblock %}
