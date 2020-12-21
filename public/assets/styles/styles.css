@@ -7556,3 +7556,6 @@ a.skip-main:focus {
 
 .govuk-summary-list {
   margin-bottom: 0px; }
+
+.govuk-error-summary:focus {
+  outline: none; }

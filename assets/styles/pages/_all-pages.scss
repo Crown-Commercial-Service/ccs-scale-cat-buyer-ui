@@ -148,7 +148,10 @@ a.skip-main:focus {
     margin-bottom: 0px;
 }
 
-.govuk-summary-list{
+.govuk-summary-list {
     margin-bottom: 0px;
+}
 
+.govuk-error-summary:focus {
+    outline: none;
 }
