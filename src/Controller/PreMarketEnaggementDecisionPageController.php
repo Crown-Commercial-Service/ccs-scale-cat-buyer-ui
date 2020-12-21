@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Models\PreMarketEngagement;
+use App\Models\PreMarketEngagementChoice;
 use App\Models\Validators\ValidateUserInput;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,22 +18,26 @@ class PreMarketEnaggementDecisionPageController extends AbstractController
         $preMarketEngagementSubTitle = $preMarketEngagement->getPageSubTitle();
         $preMarketEngagementHeader = $preMarketEngagement->getPageHeader();
 
+        $preMarketEngagementChoice = new PreMarketEngagementChoice();
+        $preMarketChoices = $preMarketEngagementChoice->getChoices();
+
         if($request->getMethod() == "POST"){
 
             $postData = $request->request->all();
 
-            $validate = $this->validateUserAnswer($postData);
+            $validate = new ValidateUserInput($postData);
 
             if(!$validate->isValid()){
                 return $this->render('pages/premarket_engagement_decision.html.twig', [
                     "pageTitle" => $preMarketEngagementTitle,
                     "pageHeader" => $preMarketEngagementHeader,
                     "pageSubTitle" => $preMarketEngagementSubTitle,
+                    "preMarketChoices" => $preMarketChoices,
                     "errorMessage" => $validate->getErrorMessage()
                 ]);
             }
 
-            if($postData['preMarket'] == 'yes'){
+            if($postData['preMarket'] == 'Yes'){
                 return $this->redirect('/eoi-vs-rfi-decision');
             }
             return $this->redirect('/rfp-decision');
@@ -42,12 +47,8 @@ class PreMarketEnaggementDecisionPageController extends AbstractController
             "pageTitle" => $preMarketEngagementTitle,
             "pageHeader" => $preMarketEngagementHeader,
             "pageSubTitle" => $preMarketEngagementSubTitle,
+            "preMarketChoices" => $preMarketChoices,
             "errorMessage" => ''
         ]);
     }
-    private function validateUserAnswer(array $userInput)
-    {
-        return new ValidateUserInput($userInput);
-    }
-
 }

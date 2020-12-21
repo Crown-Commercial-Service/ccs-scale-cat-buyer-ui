@@ -4,5 +4,6 @@ namespace App\Models\Validators;
 
 class ErrorMessages
 {
-    const EMPTY_USER_ANSWER = 'You need to select something.';
+    const EMPTY_USER_ANSWER = 'Select an option before continuing';
 }
+
