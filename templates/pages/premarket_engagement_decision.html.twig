@@ -46,7 +46,7 @@
                                                 <div class="govuk-radios">
                                                     {% for choice in preMarketChoices %}
                                                     <div class="govuk-radios__item">
-                                                        <input class="govuk-radios__input" id="sign-in_{{ loop.index }}" name="preMarket" type="radio" value="{{ choice.title }}" aria-describedby="sign-in-item-hint">
+                                                        <input class="govuk-radios__input" id="sign-in_{{ loop.index }}" name="preMarket" type="radio" value="{{ choice.value }}" aria-describedby="sign-in-item-hint">
                                                         <label class="govuk-label govuk-radios__label" for="sign-in_{{ loop.index }}">
                                                             {{ choice.title }}
                                                         </label>

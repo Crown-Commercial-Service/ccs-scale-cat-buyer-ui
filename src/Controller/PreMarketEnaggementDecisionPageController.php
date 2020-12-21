@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Models\PreMarketEngagement;
-use App\Models\PreMarketEngagementChoice;
+use App\Models\PreMarketEngagementForm;
 use App\Models\Validators\ValidateUserInput;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ class PreMarketEnaggementDecisionPageController extends AbstractController
         $preMarketEngagementSubTitle = $preMarketEngagement->getPageSubTitle();
         $preMarketEngagementHeader = $preMarketEngagement->getPageHeader();
 
-        $preMarketEngagementChoice = new PreMarketEngagementChoice();
+        $preMarketEngagementChoice = new PreMarketEngagementForm();
         $preMarketChoices = $preMarketEngagementChoice->getChoices();
 
         if($request->getMethod() == "POST"){
@@ -37,7 +37,7 @@ class PreMarketEnaggementDecisionPageController extends AbstractController
                 ]);
             }
 
-            if($postData['preMarket'] == 'Yes'){
+            if($postData['preMarket'] == 'yes'){
                 return $this->redirect('/eoi-vs-rfi-decision');
             }
             return $this->redirect('/rfp-decision');
