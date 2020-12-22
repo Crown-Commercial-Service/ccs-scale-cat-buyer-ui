@@ -5,6 +5,7 @@
 {% block body %}
     <div class="govuk-width-container">
         {% include "/includes/phase_banner.html.twig" %}
+        <span class='hidden_msgs' id="back-to-search-result">Back to previous page </span>
         <a aria-describedby="back-to-search-result" class="govuk-back-link" href="#">Back</a>
         <main class="govuk-main-wrapper " id="main-content">
             <section>
@@ -15,6 +16,7 @@
                             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend">
                                 <h1 class="govuk-fieldset__heading">{{ pageSubTitle }}</h1>
                             </legend>
+                            </fieldset>
                         <p class="govuk-body">{{ content|raw }}</p>
                     </div> 
                 </div> 
@@ -40,7 +42,7 @@
                                                     <span class="js-step-title-text">
                                                         {{suplier.title}}
                                                     </span>
-                                                    <span class="app-step-nav__toggle-link js-toggle-link" aria-hidden="true" hidden="">Show</span>
+                                                    <span class="app-step-nav__toggle-link js-toggle-link" hidden="">Show</span>
                                                 </button>
                                             </span>
                                         </h2>
