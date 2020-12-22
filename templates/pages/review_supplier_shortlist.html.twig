@@ -1,16 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ pageTitle }} {% endblock %}
+{% block title %}{{pageTitle}}{% endblock %}
+
 
 {% block body %}
-
-    <div class="flow-pages">
-        <h1>{{ pageTitle }}</h1>
-        <a href="{{ path('premarket_engagement_decision') }}">
-            <button class="govuk-button" data-module="govuk-button">
-                Continue
-            </button>
-        </a>
+    <!-- required wrapper 1 -->
+    <div class="govuk-width-containerss">
+            {% include "/includes/phase_banner.html.twig" %}
+            <span class='hidden_msgs' id="back-to-search-result">Back to previous page </span>
+            <a aria-describedby="back-to-search-result" class="govuk-back-link" href="#">Back</a>
+        <!-- required wrapper 2 -->
+        <main class="govuk-main-wrapper" id="main-content">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full restrict-width">
+                            <h1 class="govuk-heading-xl page-title">{{pageTitle}}</h1>
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend">
+                                <h2 class="govuk-fieldset__heading">{{ pageSubTitle }}</h2>
+                            </legend>
+                        </fieldset>
+                        <p>{{ content }}</p>
+                        <p> <a href="{{ path('download_suplier_list')}}">Download the list of available suppliers and selection criteria</a></p>
+                    </div>
+                       
+                    <div class="govuk-grid-column-two-thirds">
+                        <dl class="govuk-summary-list review-supplier-list">
+                        {% for suplier in suplierLists %}
+                            <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__row-hide-parent"></dt>
+                                <dd class="govuk-summary-list__value">
+                                    {% if suplier.small_madium_ent is defined%}
+                                        <p><span class="govuk-body enterprise-suplier">Small & Medium Enterprise</span></p>
+                                    {% endif %}
+                                    {{suplier.name}}
+                                </dd>
+                            </div>
+                            {% endfor %}
+                        </dl>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <div>
+                            <a href="{{ path('premarket_engagement_decision')}}" role="button" 
+                                class="govuk-button review-supplier-btn" 
+                                data-module="govuk-button">Continue
+                            </a>
+                        </div>
+                        <div class="selected-items">
+                            <div class="govuk-body selected-items-txt">You have {{regionSelectedNr}} regions selected</div>
+                            <div class="selected-items-url"><a href="{{ path('supplier_shortlist_filter_1')}}">Change</a></div>
+                        </div>
+                        <div class="selected-items">
+                            <div class="govuk-body selected-items-txt">You have {{serviceTypeSelectedNr}} service types selected</div>
+                            <div class="selected-items-url"><a href="{{path('supplier_shortlist_filter_2')}}">Change</a></div>
+                        </div>
+                        <div class="selected-items">
+                            <div class="govuk-body selected-items-txt">You have {{suplierDeselectedNr}} suppliers deselected</div>
+                            <div class="selected-items-url"><a href="{{path('supplier_shortlist_deselect')}}">Change</a></div>
+                        </div>
+                    </div>                     
+                </div>
+                <p  class="govuk-body cat-top-dist">Now you have reviewed your identified list of suppliers, you can proceed with the rest of the procurement process.</p>
+            <div class="cat-top-dist">
+                <a href="{{ path('premarket_engagement_decision')}}" role="button" 
+                    class="govuk-button" 
+                        data-module="govuk-button">Continue
+                </a>
+            </div>
+             <div class="cat-top-dist" >
+                {% include "/includes/items/return_to_my_account.html.twig" %}
+            </div>
+            {% include "/includes/items/contact_ccs.html.twig" %}
+        </main>
     </div>
-
 {% endblock %}
+
