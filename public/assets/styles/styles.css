@@ -7580,7 +7580,7 @@ a.skip-main:focus {
   margin-top: 40px; }
 
 .govuk-main-wrapper {
-  padding-top: 1.5625rem; }
+  padding-top: 1.75rem; }
 
 .govuk-button {
   margin-bottom: 0px; }
@@ -7593,3 +7593,11 @@ a.skip-main:focus {
 
 .govuk-error-summary:focus {
   outline: none; }
+
+.govuk-width-container {
+  padding-left: 30px;
+  padding-right: 30px; }
+
+.govuk-back-link {
+  margin-top: 25px;
+  margin-bottom: 3px; }
