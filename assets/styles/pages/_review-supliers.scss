@@ -1,0 +1,41 @@
+
+.review-supplier-list .govuk-summary-list__row:first-child dd{
+    border-top: 1px solid #bfc1c3;
+}
+
+.review-supplier-list{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.review-supplier-btn{
+    width: 100%;
+}
+.selected-items{
+    background-color: #f8f8f8;
+    margin-top: 12px;
+    padding: 10px;
+}
+
+.selected-items a{
+    margin-top: 10px;
+}
+
+.enterprise-suplier{
+    font-weight: 700;
+    color: #144E81;
+    font-size: 17px;
+    background-color: #D2E2F1;
+    padding-left: 11px;
+    padding-right: 11px;
+}
+
+.selected-items-txt{
+
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.govuk-summary-list__row-hide-parent{
+    display: none;
+}
