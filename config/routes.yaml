@@ -74,3 +74,6 @@ rfi_overview:
   path: /rfi-overview
   controller: App\Controller\RFIOverviewPageController::rfiOverview
 
+download_suplier_list:
+  path: /download-suplier-list
+  controller: App\Controller\DownloadSuplierListController::downloadSuplierList
