@@ -17,13 +17,11 @@
                                 <h1 class="govuk-fieldset__heading">{{ pageSubTitle }}</h1>
                             </legend>
                             </fieldset>
-                        <p class="govuk-body">{{ content|raw }}</p>
+                        <div class="govuk-body">{{ content|raw }}</div>
                     </div> 
                 </div> 
                 <p> <a target="_blank" class="cat-top-dist" href="https://www.crowncommercial.gov.uk/agreements/RM6154:1a/lot-suppliers">You can view a list of all suppliers associated with this lot on the CCS website.</a> </p>
-
-                <div class="govuk-grid-row">
-                    
+                <div class="govuk-grid-row"> 
                     <div id="step-by-step-navigation" class="app-step-nav app-step-nav--large app-step-nav--active" data-show-text="Show" data-hide-text="Hide" data-show-all-text="Show all" data-hide-all-text="Hide all">
                         <ol class="app-step-nav__steps">
                             {% for suplier in supliers %}
@@ -38,7 +36,7 @@
                                                 </span>
                                             </span>
                                             <span class="js-step-title">
-                                                <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-check-youre-allowed-to-drive-{{ loop.index }}">
+                                                <button class="app-step-nav__button app-step-nav__button--title js-step-title-button" aria-expanded="false" aria-controls="step-panel-{{ loop.index }}">
                                                     <span class="js-step-title-text">
                                                         {{suplier.title}}
                                                     </span>
@@ -62,10 +60,9 @@
             </section>
         
             <div class="cat-top-dist">
-                <a href="{{ path('supplier_shortlist_filter_1') }}" class="cat-top-dist">
-                    <button class="govuk-button" data-module="govuk-button">
-                        Continue
-                    </button>
+                <a href="{{ path('supplier_shortlist_filter_1') }}"  role="button" 
+                    class="govuk-button cat-top-dist">                  
+                    Continue
                 </a>
             </div>
             <div class="cat-top-dist" >

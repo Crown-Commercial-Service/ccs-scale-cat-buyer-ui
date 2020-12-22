@@ -7470,8 +7470,9 @@ img {
   margin-top: 12px;
   padding: 10px; }
 
-.selected-items a {
-  margin-top: 10px; }
+.selected-items .selected-items-url {
+  margin-top: 10px;
+  font-size: 17px; }
 
 .enterprise-suplier {
   font-weight: 700;
