@@ -9,7 +9,6 @@ branches:
   - main
 before_script:
   - composer install
-  - npm run build
 before_install:
 - chmod +x ./scripts/php_build.sh
 after_success:
