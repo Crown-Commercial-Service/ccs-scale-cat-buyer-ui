@@ -136,7 +136,7 @@ a.skip-main:focus {
 }
 
 .govuk-main-wrapper {
-    padding-top: govuk-px-to-rem(25);
+    padding-top: govuk-px-to-rem(28);
     ;
 }
 
@@ -154,4 +154,14 @@ a.skip-main:focus {
 
 .govuk-error-summary:focus {
     outline: none;
+}
+
+.govuk-width-container{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.govuk-back-link{
+    margin-top: 25px;
+    margin-bottom: 3px;
 }
