@@ -132,12 +132,21 @@ a.skip-main:focus {
     margin-bottom: 25px;
 }
 .cat-top-dist{
-    margin-top: 40px;
+    margin-top: govuk-px-to-rem(40);
+}
+
+.cat-top-dist-25{
+    margin-top:govuk-px-to-rem(25);
+}
+.cat-bottom-dist-40{
+    margin-bottom: govuk-px-to-rem(40);
+
 }
 
 .govuk-main-wrapper {
     padding-top: govuk-px-to-rem(28);
-    ;
+    padding-bottom: govuk-px-to-rem(60);
+
 }
 
 .govuk-button{
@@ -161,7 +170,48 @@ a.skip-main:focus {
     padding-right: 30px;
 }
 
+.govuk-form-group{
+    margin-bottom: 0px;
+}
 .govuk-back-link{
     margin-top: 25px;
-    margin-bottom: 3px;
+    margin-bottom: 0;;
+}
+
+.govuk-inset-text{
+    margin-top:25px;
+    margin-bottom: 40px;
+}
+
+.govuk-body{
+
+    p:last-child{
+        margin-bottom: 0px;
+    }
+}
+
+ .govuk-hint p:last-child{
+    margin-bottom: 0px;
+
+ }
+
+.app-step-nav__button--controls {
+    padding-bottom: govuk-px-to-rem(25);;
+
+}
+
+.govuk-body-m, .govuk-body, .wp-caption-text, p{
+    margin-bottom: govuk-px-to-rem(25);
+
+}
+
+.cat-dist-bottom-28{
+    margin-bottom: govuk-px-to-rem(28);
+}
+.selected-items-txt{
+    margin-bottom: 0px;
+}
+
+.cat-bottom-dist-0{
+    margin-bottom: 0px;
 }

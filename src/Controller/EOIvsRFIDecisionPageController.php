@@ -7,6 +7,7 @@ use App\Models\EOIvsRFIDecisionForm;
 use App\Models\Validators\ValidateUserInput;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use App\Models\Validators\ErrorMessages;
 
 class EOIvsRFIDecisionPageController extends AbstractController
 {
@@ -35,7 +36,8 @@ class EOIvsRFIDecisionPageController extends AbstractController
                     "eOivsRFISubTitle" => $eOivsRFISubTitle,
                     "eOivsRFIForms" => $eOivsRFIForms,
                     "eOivsRFIContent" => $eOivsRFIContent,
-                    "errorMessage" => $validate->getErrorMessage()
+                    "errorMessage" => $validate->getErrorMessage(),
+                    "showError" => true
                 ]);
             }
 
@@ -51,7 +53,7 @@ class EOIvsRFIDecisionPageController extends AbstractController
             "eOivsRFISubTitle" => $eOivsRFISubTitle,
             "eOivsRFIForms" => $eOivsRFIForms,
             "eOivsRFIContent" => $eOivsRFIContent,
-            "errorMessage" => ""
+            "errorMessage" => ErrorMessages::EMPTY_USER_ANSWER,
         ]);
     }
 }
