@@ -9,16 +9,13 @@ $( document ).ready(function() {
 
         if(formType === "input-radio"){
 
-            form.find('input').each(function(i,o){
+           var checkedInputLenght =  form.find('input:checked').length;
+           console.log(checkedInputLenght);
 
-                var obj = $(o);
+           if(checkedInputLenght == 0){
+               isValid = false;
+           }
 
-                if(!obj.is(":checked")){
-                    isValid = false;
-                }
-
-                return false;
-            })
         }
         if(!isValid){
             $('.govuk-form-group').addClass('govuk-form-group--error');
