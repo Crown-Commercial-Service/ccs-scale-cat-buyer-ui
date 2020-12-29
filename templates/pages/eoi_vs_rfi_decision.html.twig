@@ -13,24 +13,9 @@
             <section>
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full restrict-width">
-                        {% if errorMessage %}
-                            <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-                                <h2 class="govuk-error-summary__title" id="error-summary-title">
-                                    There is a problem
-                                </h2>
-                                <div class="govuk-error-summary__body">
-                                    <ul class="govuk-list govuk-error-summary__list">
-                                        <li>
-                                            <a href="#eoi_rfi_decision_form">{{ errorMessage }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        {% endif %}
-                        <form action="{{ path('eoi_vs_rfi_decision') }}" method="post" id="eoi_rfi_decision_form">
-                            {% if errorMessage %}
-                            <div class="govuk-form-group govuk-form-group--error">
-                                {% endif %}
+                        {% include "/includes/validation_errors.html.twig" %}
+                        <form action="{{ path('eoi_vs_rfi_decision') }}" method="post" id="eoi_rfi_decision_form" data-type="input-radio">
+                            <div class="govuk-form-group  {{ errorMessage is defined and showError is defined ? 'govuk-form-group--error' }}">
                                 <h1 class="govuk-heading-xl page-title">{{ eOivsRFIHeader }}</h1>
                                 <fieldset class="govuk-fieldset">
                                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend">
@@ -38,20 +23,20 @@
                                     </legend>
                                     {{ eOivsRFIContent|raw }}
                                     {% if errorMessage %}
-                                        <span id="national-insurance-number-error" class="govuk-error-message">
-                                                {{ errorMessage }}
-                                            </span>
+                                        <span class="govuk-error-message"  style="display:{{ errorMessage is defined and showError is defined  ? 'block' : 'none' }}">
+                                            {{ errorMessage }}
+                                        </span>
                                     {% endif %}
                                     <div class="govuk-form-group">
-                                        <fieldset class="govuk-fieldset" aria-describedby="sign-in-hint">
+                                        <fieldset class="govuk-fieldset">
                                             <div class="govuk-radios">
                                                 {% for choice in eOivsRFIForms %}
                                                     <div class="govuk-radios__item">
-                                                        <input class="govuk-radios__input" id="eoi-rfi_{{ loop.index }}" name="eoi-rfi" type="radio" value="{{ choice.value }}" aria-describedby="sign-in-item-hint">
+                                                        <input class="govuk-radios__input" id="eoi-rfi_{{ loop.index }}" name="eoi-rfi" type="radio" value="{{ choice.value }}">
                                                         <label class="govuk-label govuk-radios__label" for="eoi-rfi_{{ loop.index }}">
                                                             {{ choice.title }}
                                                         </label>
-                                                        <div id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
+                                                        <div class="govuk-hint govuk-radios__hint">
                                                             {{choice.body|raw}}
                                                         </div>
                                                     </div>
@@ -60,10 +45,7 @@
                                         </fieldset>
                                     </div>
                                 </fieldset>
-                                {% if errorMessage %}
-                            </div>
-                            {% endif %}
-                            <button class="govuk-button" type="submit" data-module="govuk-button">
+                            <button class="govuk-button cat-top-dist" type="submit" data-module="govuk-button" id="save-answers">
                                 Save and continue
                             </button>
                         </form>
@@ -74,5 +56,6 @@
             {% include "/includes/items/contact_ccs.html.twig" %}
         </main>
     </div>
+
 
 {% endblock %}
