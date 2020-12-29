@@ -7577,10 +7577,17 @@ a.skip-main:focus {
   margin-bottom: 25px; }
 
 .cat-top-dist {
-  margin-top: 40px; }
+  margin-top: 2.5rem; }
+
+.cat-top-dist-25 {
+  margin-top: 1.5625rem; }
+
+.cat-bottom-dist-40 {
+  margin-bottom: 2.5rem; }
 
 .govuk-main-wrapper {
-  padding-top: 1.75rem; }
+  padding-top: 1.75rem;
+  padding-bottom: 3.75rem; }
 
 .govuk-button {
   margin-bottom: 0px; }
@@ -7598,6 +7605,34 @@ a.skip-main:focus {
   padding-left: 30px;
   padding-right: 30px; }
 
+.govuk-form-group {
+  margin-bottom: 0px; }
+
 .govuk-back-link {
   margin-top: 25px;
-  margin-bottom: 3px; }
+  margin-bottom: 0; }
+
+.govuk-inset-text {
+  margin-top: 25px;
+  margin-bottom: 40px; }
+
+.govuk-body p:last-child, .wp-caption-text p:last-child {
+  margin-bottom: 0px; }
+
+.govuk-hint p:last-child {
+  margin-bottom: 0px; }
+
+.app-step-nav__button--controls {
+  padding-bottom: 1.5625rem; }
+
+.govuk-body-m, .govuk-body, .wp-caption-text, .wp-caption-text, p {
+  margin-bottom: 1.5625rem; }
+
+.cat-dist-bottom-28 {
+  margin-bottom: 1.75rem; }
+
+.selected-items-txt {
+  margin-bottom: 0px; }
+
+.cat-bottom-dist-0 {
+  margin-bottom: 0px; }

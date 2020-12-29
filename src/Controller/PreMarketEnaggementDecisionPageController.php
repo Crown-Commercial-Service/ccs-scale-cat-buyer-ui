@@ -7,6 +7,8 @@ use App\Models\PreMarketEngagementForm;
 use App\Models\Validators\ValidateUserInput;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use App\Models\Validators\ErrorMessages;
+
 
 class PreMarketEnaggementDecisionPageController extends AbstractController
 {
@@ -33,7 +35,9 @@ class PreMarketEnaggementDecisionPageController extends AbstractController
                     "pageHeader" => $preMarketEngagementHeader,
                     "pageSubTitle" => $preMarketEngagementSubTitle,
                     "preMarketChoices" => $preMarketChoices,
-                    "errorMessage" => $validate->getErrorMessage()
+                    "errorMessage" => $validate->getErrorMessage(),
+                    "showError" => true
+
                 ]);
             }
 
@@ -48,7 +52,7 @@ class PreMarketEnaggementDecisionPageController extends AbstractController
             "pageHeader" => $preMarketEngagementHeader,
             "pageSubTitle" => $preMarketEngagementSubTitle,
             "preMarketChoices" => $preMarketChoices,
-            "errorMessage" => ''
+            "errorMessage" => ErrorMessages::EMPTY_USER_ANSWER
         ]);
     }
 }
