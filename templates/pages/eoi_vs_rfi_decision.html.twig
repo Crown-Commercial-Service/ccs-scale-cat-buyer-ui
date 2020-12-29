@@ -32,7 +32,7 @@
                                             <div class="govuk-radios">
                                                 {% for choice in eOivsRFIForms %}
                                                     <div class="govuk-radios__item">
-                                                        <input class="govuk-radios__input" id="eoi-rfi_{{ loop.index }}" name="eoi-rfi" type="radio" value="{{ choice.value }}" aria-describedby="sign-in-item-hint">
+                                                        <input class="govuk-radios__input" id="eoi-rfi_{{ loop.index }}" name="eoi-rfi" type="radio" value="{{ choice.value }}">
                                                         <label class="govuk-label govuk-radios__label" for="eoi-rfi_{{ loop.index }}">
                                                             {{ choice.title }}
                                                         </label>
