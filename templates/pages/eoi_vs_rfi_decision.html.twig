@@ -17,10 +17,12 @@
                         <form action="{{ path('eoi_vs_rfi_decision') }}" method="post" id="user_form" data-type="input-radio">
                                 <h1 class="govuk-heading-xl page-title">{{ eOivsRFIHeader }}</h1>
                                 <fieldset class="govuk-fieldset">
-                                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend">
+                                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend cat-bottom-dist-40">
                                         <h1 class="govuk-fieldset__heading">{{ eOivsRFISubTitle }}</h1>
                                     </legend>
-                                    {{ eOivsRFIContent|raw }}
+                                    <div class="cat-bottom-dist-40">
+                                        {{ eOivsRFIContent|raw }}
+                                    </div>
                                     <div class="govuk-form-group  {{ errorMessage is defined and showError is defined ? 'govuk-form-group--error' }}">
                                     {% if errorMessage %}
                                         <span class="govuk-error-message"  style="display:{{ errorMessage is defined and showError is defined  ? 'block' : 'none' }}">
