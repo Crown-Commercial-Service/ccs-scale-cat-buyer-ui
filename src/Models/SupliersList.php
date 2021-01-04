@@ -4,7 +4,7 @@ namespace App\Models;
 
 class SupliersList{
 
-
+    private $pageTitle = "Review your identified suppliers";
     private $regionSelectedNr = 8;
     private $serviceTypeSelectedNr = 2;
     private $suplierDeselectedNr = 2;
@@ -48,6 +48,10 @@ class SupliersList{
             'name' => 'Swiss Post Solutions Ltd'
         ]
     ];
+
+    public function getPageTitle(){
+        return $this->pageTitle;
+    }
 
     public function getList(){
             return $this->supliers;
