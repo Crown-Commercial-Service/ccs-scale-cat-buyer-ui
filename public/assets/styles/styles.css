@@ -7497,9 +7497,6 @@ img {
   line-height: 26px;
   margin-top: 5px; }
 
-.app-step-nav--large .app-step-nav__list {
-  margin-bottom: 25px; }
-
 /*------------------------------------*\
   #News
 \*------------------------------------*/
@@ -7654,8 +7651,6 @@ a.skip-main:focus {
 #step-by-step-navigation {
   margin-bottom: 0px; }
 
-/*
-.app-step-nav__step:last-child .app-step-nav__header{
-    border-bottom: 1px solid #bfc1c3;
-}
-*/
+.service-msg-content {
+  margin-top: 15px;
+  margin-bottom: 15px; }
