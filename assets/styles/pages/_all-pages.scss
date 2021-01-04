@@ -178,9 +178,14 @@ a.skip-main:focus {
     margin-bottom: 0;;
 }
 
+
 .govuk-inset-text{
-    margin-top:25px;
-    margin-bottom: 40px;
+    margin-top:0px;
+    margin-bottom:0px;
+}
+
+.govuk-summary-list{
+    margin-top: 40px;
 }
 
 .govuk-body-m,  .wp-caption-text{
@@ -221,6 +226,8 @@ a.skip-main:focus {
     margin-bottom: 0px;
 }
 
+/*
 .app-step-nav__step:last-child .app-step-nav__header{
     border-bottom: 1px solid #bfc1c3;
 }
+*/
