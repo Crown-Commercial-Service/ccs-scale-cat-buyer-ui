@@ -7568,12 +7568,13 @@ a.skip-main:focus {
 .service-msg {
   background-color: #EAEBEB;
   font-size: 16px;
-  height: 50px;
   line-height: 50px; }
 
 .service-msg p {
-  line-height: 50px;
-  margin-left: 29px; }
+  margin-left: 29px;
+  margin-bottom: 0px;
+  padding-top: 0.78125rem;
+  padding-bottom: 0.78125rem; }
 
 .service-msg span {
   font-weight: bold; }
