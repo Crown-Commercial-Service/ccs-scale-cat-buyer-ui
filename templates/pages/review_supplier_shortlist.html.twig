@@ -20,7 +20,7 @@
                             </legend>
                         </fieldset>
                         <p>{{ content }}</p>
-                        <p> <a href="{{ path('download_suplier_list')}}">Download the list of available suppliers and selection criteria</a></p>
+                        <p> <a href="{{ path('download_suplier_list')}}">Download the list of available suppliers and selection criteria (.xls)</a></p>
                     </div>
                        
                     <div class="govuk-grid-column-two-thirds">
@@ -57,7 +57,7 @@
                             <div class="selected-items-url"><a href="{{path('supplier_shortlist_filter_2')}}">Change</a></div>
                         </div>
                         <div class="selected-items">
-                            <div class="govuk-body selected-items-txt">You have {{suplierDeselectedNr}} suppliers deselected</div>
+                            <div class="govuk-body selected-items-txt">You have removed {{suplierDeselectedNr}} suppliers</div>
                             <div class="selected-items-url"><a href="{{path('supplier_shortlist_deselect')}}">Change</a></div>
                         </div>
                     </div>                     
