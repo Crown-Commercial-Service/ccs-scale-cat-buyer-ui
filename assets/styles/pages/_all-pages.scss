@@ -144,7 +144,7 @@ a.skip-main:focus {
 }
 
 .govuk-main-wrapper {
-    padding-top: govuk-px-to-rem(28);
+    padding-top: govuk-px-to-rem(25);
     padding-bottom: govuk-px-to-rem(60);
 
 }
@@ -183,6 +183,11 @@ a.skip-main:focus {
     margin-bottom: 40px;
 }
 
+.govuk-body-m,  .wp-caption-text{
+    margin-bottom: govuk-px-to-rem(25);
+}
+
+
 .govuk-body{
 
     p:last-child{
@@ -200,10 +205,6 @@ a.skip-main:focus {
 
 }
 
-.govuk-body-m, .govuk-body, .wp-caption-text, p{
-    margin-bottom: govuk-px-to-rem(25);
-
-}
 
 .cat-dist-bottom-28{
     margin-bottom: govuk-px-to-rem(28);
@@ -214,4 +215,12 @@ a.skip-main:focus {
 
 .cat-bottom-dist-0{
     margin-bottom: 0px;
+}
+
+#step-by-step-navigation{
+    margin-bottom: 0px;
+}
+
+.app-step-nav__step:last-child .app-step-nav__header{
+    border-bottom: 1px solid #bfc1c3;
 }
