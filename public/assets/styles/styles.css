@@ -7589,11 +7589,7 @@ a.skip-main:focus {
   margin-bottom: 1.5625rem; }
 
 .govuk-error-summary {
-  padding: 1.5625rem;
   margin-bottom: 1.25rem; }
-
-.govuk-error-summary__title {
-  margin-bottom: 0.9375rem; }
 
 .govuk-error-message {
   margin-bottom: 1.5625rem;
