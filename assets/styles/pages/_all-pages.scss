@@ -129,31 +129,25 @@ a.skip-main:focus {
 }
 
 .page-title{
-    margin-bottom: 25px;
+    margin-bottom: govuk-px-to-rem(25);
 }
 
 .cat-legend{
-    margin-bottom: 25px;
+    margin-bottom: govuk-px-to-rem(25);
 }
 .govuk-radios__item {
-    margin-bottom: 25px;
+    margin-bottom: govuk-px-to-rem(25);
 }
 .govuk-error-summary {
-    padding: 25px;
-    margin-bottom: 20px;
+    padding: govuk-px-to-rem(25);
+    margin-bottom: govuk-px-to-rem(20);
 }
 .govuk-error-summary__title {
-    margin-bottom: 15px;
+    margin-bottom: govuk-px-to-rem(15);
 }
 .govuk-error-message {
-    margin-bottom: 25px;
-    margin-top: -5px;
-}
-.cat-legend-premarket-error {
-    margin-bottom: 35px!important;
-}
-.cat-legend-premarket{
-    margin-bottom: 40px;
+    margin-bottom: govuk-px-to-rem(25);
+    margin-top: govuk-px-to-rem(-5);
 }
 .cat-top-dist{
     margin-top: govuk-px-to-rem(40);
@@ -190,15 +184,15 @@ a.skip-main:focus {
 }
 
 .govuk-width-container{
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: govuk-px-to-rem(30);
+    padding-right: govuk-px-to-rem(30);
 }
 
 .govuk-form-group{
     margin-bottom: 0px;
 }
 .govuk-back-link{
-    margin-top: 25px;
+    margin-top: govuk-px-to-rem(25);
     margin-bottom: 0;;
 }
 
@@ -209,7 +203,7 @@ a.skip-main:focus {
 }
 
 .govuk-summary-list{
-    margin-top: 40px;
+    margin-top: govuk-px-to-rem(40);
 }
 
 .govuk-body-m,  .wp-caption-text{

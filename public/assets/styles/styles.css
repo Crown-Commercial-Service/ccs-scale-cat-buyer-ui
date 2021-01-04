@@ -7580,30 +7580,24 @@ a.skip-main:focus {
   font-weight: bold; }
 
 .page-title {
-  margin-bottom: 25px; }
+  margin-bottom: 1.5625rem; }
 
 .cat-legend {
-  margin-bottom: 25px; }
+  margin-bottom: 1.5625rem; }
 
 .govuk-radios__item {
-  margin-bottom: 25px; }
+  margin-bottom: 1.5625rem; }
 
 .govuk-error-summary {
-  padding: 25px;
-  margin-bottom: 20px; }
+  padding: 1.5625rem;
+  margin-bottom: 1.25rem; }
 
 .govuk-error-summary__title {
-  margin-bottom: 15px; }
+  margin-bottom: 0.9375rem; }
 
 .govuk-error-message {
-  margin-bottom: 25px;
-  margin-top: -5px; }
-
-.cat-legend-premarket-error {
-  margin-bottom: 35px !important; }
-
-.cat-legend-premarket {
-  margin-bottom: 40px; }
+  margin-bottom: 1.5625rem;
+  margin-top: -0.3125rem; }
 
 .cat-top-dist {
   margin-top: 2.5rem; }
@@ -7631,14 +7625,14 @@ a.skip-main:focus {
   outline: none; }
 
 .govuk-width-container {
-  padding-left: 30px;
-  padding-right: 30px; }
+  padding-left: 1.875rem;
+  padding-right: 1.875rem; }
 
 .govuk-form-group {
   margin-bottom: 0px; }
 
 .govuk-back-link {
-  margin-top: 25px;
+  margin-top: 1.5625rem;
   margin-bottom: 0; }
 
 .govuk-inset-text {
@@ -7646,7 +7640,7 @@ a.skip-main:focus {
   margin-bottom: 0px; }
 
 .govuk-summary-list {
-  margin-top: 40px; }
+  margin-top: 2.5rem; }
 
 .govuk-body-m, .wp-caption-text {
   margin-bottom: 1.5625rem; }
