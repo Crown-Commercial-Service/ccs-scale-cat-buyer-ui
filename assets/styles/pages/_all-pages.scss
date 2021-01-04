@@ -111,13 +111,17 @@ a.skip-main:focus {
 .service-msg{
     background-color: #EAEBEB;
     font-size: 16px;
-    height: 50px;
+  
     line-height: 50px;
 }
 
 .service-msg p{
-    line-height: 50px;
     margin-left: 29px;
+    margin-bottom: 0px;
+    padding-top: govuk-px-to-rem(12.5);
+    padding-bottom: govuk-px-to-rem(12.5);
+
+
 }
 
 .service-msg span{
