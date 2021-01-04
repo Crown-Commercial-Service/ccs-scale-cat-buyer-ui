@@ -10,7 +10,6 @@ $( document ).ready(function() {
         if(formType === "input-radio"){
 
            var checkedInputLenght =  form.find('input:checked').length;
-           console.log(checkedInputLenght);
 
            if(checkedInputLenght == 0){
                isValid = false;
