@@ -135,6 +135,26 @@ a.skip-main:focus {
 .cat-legend{
     margin-bottom: 25px;
 }
+.govuk-radios__item {
+    margin-bottom: 25px;
+}
+.govuk-error-summary {
+    padding: 25px;
+    margin-bottom: 20px;
+}
+.govuk-error-summary__title {
+    margin-bottom: 15px;
+}
+.govuk-error-message {
+    margin-bottom: 25px;
+    margin-top: -5px;
+}
+.cat-legend-premarket-error {
+    margin-bottom: 35px!important;
+}
+.cat-legend-premarket{
+    margin-bottom: 40px;
+}
 .cat-top-dist{
     margin-top: govuk-px-to-rem(40);
 }

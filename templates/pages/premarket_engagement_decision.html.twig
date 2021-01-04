@@ -14,13 +14,13 @@
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-full restrict-width">
                         {% include "/includes/validation_errors.html.twig" %}
-                        <form action="{{ path('premarket_engagement_decision') }}" method="post" id="premarket_engagement_decision_form" data-type="input-radio">
-                            <div class="govuk-form-group  {{ errorMessage is defined and showError is defined ? 'govuk-form-group--error' }}">
+                        <form action="{{ path('premarket_engagement_decision') }}" method="post" id="user_form" data-type="input-radio">
                                 <h1 class="govuk-heading-xl page-title">{{ pageHeader }}</h1>
                                 <fieldset class="govuk-fieldset">
-                                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend">
+                                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l cat-legend cat-legend-premarket">
                                         <h1 class="govuk-fieldset__heading">{{ pageSubTitle }}</h1>
                                     </legend>
+                                    <div class="govuk-form-group {{ errorMessage is defined and showError is defined ? 'govuk-form-group--error' }}">
                                     {% if errorMessage %}
                                          <span class="govuk-error-message"  style="display:{{ errorMessage is defined and showError is defined  ? 'block' : 'none' }}">
                                             {{ errorMessage }}
@@ -43,8 +43,8 @@
                                             </div>
                                         </fieldset>
                                     </div>
+                                    </div>
                                 </fieldset>
-                            </div>
                             <button class="govuk-button cat-top-dist" type="submit" data-module="govuk-button" id="save-answers">
                                 Save and continue
                             </button>
