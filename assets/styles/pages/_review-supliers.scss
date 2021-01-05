@@ -7,13 +7,10 @@
     font-size: 24px;
     font-weight: 600;
 }
-.column-right-content {
-    width: 77%;
-}
+
 .review-supplier-btn{
     width: 100%;
 }
-
 .selected-items{
     background-color: #f8f8f8;
     margin-top: 12px;
@@ -88,4 +85,8 @@
     padding-bottom: 0;
     margin-bottom: 0px;
     padding-top: 0;
+}
+
+.app-step-nav__controls .js-step-controls-button{
+    font-size: 18px;
 }
