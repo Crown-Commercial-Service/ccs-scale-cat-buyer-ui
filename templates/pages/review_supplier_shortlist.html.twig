@@ -20,7 +20,7 @@
                             </legend>
                         </fieldset>
                         <p class="cat-bottom-dist-25">{{ content }}</p>
-                        <p class="cat-bottom-dist-25"> <a href="{{ path('download_suplier_list')}}">Download the list of available suppliers and selection criteria (.xls)</a></p>
+                        <p class="cat-bottom-dist-25"> <a href="{{ path('download_suplier_list')}}">Download the list of identified suppliers and selection criteria (.xls)</a></p>
                     </div>
                        
                     <div class="govuk-grid-column-two-thirds">
@@ -30,7 +30,7 @@
                             <dt class="govuk-summary-list__row-hide-parent"></dt>
                                 <dd class="govuk-summary-list__value">
                                     {% if suplier.small_madium_ent is defined%}
-                                        <p><span class="govuk-body enterprise-suplier">Small & Medium Enterprise</span></p>
+                                        <p><span class="govuk-body enterprise-suplier">Small and Medium Enterprise</span></p>
                                     {% endif %}
                                     {{suplier.name}}
                                 </dd>
