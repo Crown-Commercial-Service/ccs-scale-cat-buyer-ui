@@ -7699,7 +7699,8 @@ a.skip-main:focus {
 .selected-items {
   padding-bottom: 0.9375rem;
   padding-top: 0.9375rem;
-  padding-left: 1.25rem; }
+  padding-left: 1.25rem;
+  padding-right: 0.9375rem; }
 
 .app-step-nav__button--controls {
   padding-bottom: 1.5625rem; }
