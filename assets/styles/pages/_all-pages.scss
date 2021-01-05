@@ -218,9 +218,28 @@ a.skip-main:focus {
     margin-bottom: 0px;
 
  }
+.govuk-label:not(.govuk-label--m):not(.govuk-label--l):not(.govuk-label--xl)+.govuk-hint {
+    margin-bottom: 0px;
+}
+.cat-bottom-dist-25 {
+    margin-bottom: govuk-px-to-rem(25);
+}
+.review-supplier-list {
+    margin-top: 0px;
+}
+.govuk-summary-list__value {
+    padding-bottom: govuk-px-to-rem(15);
+    padding-top: govuk-px-to-rem(15);
+}
+.selected-items .selected-items-url {
+    margin-top: govuk-px-to-rem(15);
+}
+.cat-dist-bottom-16 {
+    margin-bottom: govuk-px-to-rem(16);
+}
 
 .app-step-nav__button--controls {
-    padding-bottom: govuk-px-to-rem(25);;
+    padding-bottom: govuk-px-to-rem(25);
 
 }
 
