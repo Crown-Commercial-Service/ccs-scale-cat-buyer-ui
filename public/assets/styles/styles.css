@@ -7497,6 +7497,22 @@ img {
   line-height: 26px;
   margin-top: 5px; }
 
+.app-step-nav--large .app-step-nav__header {
+  padding-top: 1.5625rem;
+  padding-bottom: 1.5625rem; }
+
+.app-step-nav__panel {
+  margin-top: -0.9375rem; }
+
+.app-step-nav__list-item p:last-child {
+  margin-bottom: 0px; }
+
+.app-step-nav__list-item {
+  margin-bottom: 0px; }
+
+.app-step-nav--large .app-step-nav__list {
+  padding-bottom: 1.5625rem; }
+
 /*------------------------------------*\
   #News
 \*------------------------------------*/
@@ -7602,6 +7618,9 @@ a.skip-main:focus {
   margin-top: 1.5625rem; }
 
 .cat-bottom-dist-40 {
+  margin-bottom: 2.5rem; }
+
+.cat-bottom-dist-32 {
   margin-bottom: 2.5rem; }
 
 .govuk-main-wrapper {
