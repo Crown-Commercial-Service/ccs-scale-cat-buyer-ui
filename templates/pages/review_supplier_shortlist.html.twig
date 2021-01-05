@@ -42,13 +42,13 @@
                         </div>
                     </div>
                     <div class="govuk-grid-column-one-third">
-                        <div>
+                        <div class="cat-dist-bottom-28">
                             <a href="{{ path('premarket_engagement_decision')}}" role="button" 
-                                class="govuk-button review-supplier-btn cat-dist-bottom-28"
+                                class="govuk-button review-supplier-btn" 
                                 data-module="govuk-button">Continue
                             </a>
                         </div>
-                        <div class="selected-items">
+                        <div class="selected-items" id="selected-items-first">
                             <div class="govuk-body selected-items-txt">You have {{regionSelectedNr}} regions selected</div>
                             <div class="selected-items-url"><a href="{{ path('supplier_shortlist_filter_1')}}">Change</a></div>
                         </div>
