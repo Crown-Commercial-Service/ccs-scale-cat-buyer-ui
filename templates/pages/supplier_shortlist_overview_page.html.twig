@@ -52,9 +52,16 @@
                                         </li>
                                     </ol>
                                     </div>
+                                    {% if loop.index == supliers|length %}
+                                      <div class="app-step-nav__header" id="last-step-item">
+                                    {% endif %}
                                 </li>
                             {% endfor %}
+                          
+                                        
                         </ol>
+                                                           
+
                     </div>
                 </div>
             </section>
