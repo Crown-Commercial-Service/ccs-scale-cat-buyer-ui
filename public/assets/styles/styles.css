@@ -7462,6 +7462,9 @@ img {
   font-size: 24px;
   font-weight: 600; }
 
+.column-right-content {
+  width: 77%; }
+
 .review-supplier-btn {
   width: 100%; }
 
@@ -7691,7 +7694,12 @@ a.skip-main:focus {
   padding-top: 0.9375rem; }
 
 .selected-items .selected-items-url {
-  margin-top: 0.9375rem; }
+  margin-top: 0.625rem; }
+
+.selected-items {
+  padding-bottom: 0.9375rem;
+  padding-top: 0.9375rem;
+  padding-left: 1.25rem; }
 
 .app-step-nav__button--controls {
   padding-bottom: 1.5625rem; }
