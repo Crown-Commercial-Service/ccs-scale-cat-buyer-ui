@@ -7513,6 +7513,9 @@ img {
 .app-step-nav--large .app-step-nav__list {
   padding-bottom: 1.5625rem; }
 
+.app-step-nav__controls .js-step-controls-button {
+  padding-top: 0px; }
+
 /*------------------------------------*\
   #News
 \*------------------------------------*/
