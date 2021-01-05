@@ -34,18 +34,6 @@ class SupliersList{
         ],
         5 => [
             'name' => 'Communication Services'
-        ],
-        6 => [
-            'name' => 'Contact Centre Services'
-        ],
-        7 => [
-            'name' => 'Costs Lawyer Services'
-        ],
-        8 => [
-            'name' => 'Spike95 Limited'
-        ],
-        9 => [
-            'name' => 'Swiss Post Solutions Ltd'
         ]
     ];
 

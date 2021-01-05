@@ -20,7 +20,7 @@
                             </legend>
                         </fieldset>
                         <p class="cat-bottom-dist-25">{{ content }}</p>
-                        <p class="cat-bottom-dist-25"> <a href="{{ path('download_suplier_list')}}">Download the list of available suppliers and selection criteria (.xls)</a></p>
+                        <p class="cat-bottom-dist-25"> <a href="{{ path('download_suplier_list')}}">Download the list of identified suppliers and selection criteria (.xls)</a></p>
                     </div>
                        
                     <div class="govuk-grid-column-two-thirds">
@@ -30,7 +30,7 @@
                             <dt class="govuk-summary-list__row-hide-parent"></dt>
                                 <dd class="govuk-summary-list__value">
                                     {% if suplier.small_madium_ent is defined%}
-                                        <p><span class="govuk-body enterprise-suplier">Small & Medium Enterprise</span></p>
+                                        <p><span class="govuk-body enterprise-suplier">Small and Medium Enterprise</span></p>
                                     {% endif %}
                                     {{suplier.name}}
                                 </dd>
@@ -42,13 +42,13 @@
                         </div>
                     </div>
                     <div class="govuk-grid-column-one-third">
-                        <div>
+                        <div class="cat-dist-bottom-28">
                             <a href="{{ path('premarket_engagement_decision')}}" role="button" 
-                                class="govuk-button review-supplier-btn cat-dist-bottom-28"
+                                class="govuk-button review-supplier-btn" 
                                 data-module="govuk-button">Continue
                             </a>
                         </div>
-                        <div class="selected-items">
+                        <div class="selected-items" id="selected-items-first">
                             <div class="govuk-body selected-items-txt">You have {{regionSelectedNr}} regions selected</div>
                             <div class="selected-items-url"><a href="{{ path('supplier_shortlist_filter_1')}}">Change</a></div>
                         </div>
