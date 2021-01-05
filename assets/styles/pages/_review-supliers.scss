@@ -50,3 +50,29 @@
     line-height: 26px;
     margin-top: 5px;
 }
+.app-step-nav--large .app-step-nav__header{
+    padding-top: govuk-px-to-rem(25);
+    padding-bottom: govuk-px-to-rem(25);;
+
+
+}
+
+.app-step-nav__panel{
+    margin-top: govuk-px-to-rem(-15);
+
+}
+
+.app-step-nav__list-item p:last-child{
+    margin-bottom: 0px;
+}
+.app-step-nav__list-item{
+    margin-bottom: 0px;
+}
+
+.app-step-nav--large .app-step-nav__list{
+    padding-bottom: govuk-px-to-rem(25);;
+}
+
+.app-step-nav__controls .js-step-controls-button{
+    padding-top: 0px;
+}

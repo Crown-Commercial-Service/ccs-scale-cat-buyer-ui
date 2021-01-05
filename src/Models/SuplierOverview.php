@@ -5,14 +5,9 @@ namespace App\Models;
 class SuplierOverview{
 
     private $title = "Getting started with identifying suppliers";
-    private $subtitle = "We'll help you identify suppliers who meet your needs.";
-    private $content = "<p>The Crown Commercial Service's process is a great way to save time and find suppliers efficiently.
-                        It helps you use our list of trusted and suitable suppliers of goods and services, 
-                        in a way that is compliant with Commercial Agreements' terms and conditions.</p>
-
-                        <p>As you start the process of identifying potential suppliers for your procurement project, you will be given options to choose from. 
-                        These will narrow down the list of suppliers for you. The Service intends to make it as easy as possible for you to find the suppliers
-                        you need.</p>";
+    private $subtitle = "We'll help you identify suppliers who meet your needs";
+    private $content = "<p>We can help you find suppliers who can meet your needs in a way that is compliant with the Commercial Agreement's terms and conditions.</p>
+                        <p>You will be able to narrow down the list of suitable suppliers based on criteria set out in the Commercial Agreement.</p>";
 
 
     public function getTitle(){
