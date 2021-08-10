@@ -1,16 +1,12 @@
-language: php
-php:
-- 7.4
-script: "./scripts/php_build.sh"
+language: node_js
+node_js:
+  - 7
+script: 'true'
 branches:
   only:
-  - "/^(feature|bugfix)\\/SINF-[0-9]+.*$/"
+  - "/^(feature|bugfix)\\/SCC-[0-9]+.*$/"
   - develop
   - main
-before_script:
-  - composer install
-before_install:
-- chmod +x ./scripts/php_build.sh
 after_success:
 - mkdir $HOME/cf-cli
 - curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx -C $HOME/cf-cli
@@ -18,10 +14,10 @@ after_success:
 deploy:
 - provider: script
   skip_cleanup: true
-  script: CF_ROUTE_PREFIX=sbx- CF_SPACE=sandbox CF_MEMORY=1024M ROLLBAR_ENVIRONMENT=sandbox bash ./scripts/deploy.sh
+  script: CF_ROUTE_PREFIX=sbx1- CF_SPACE=sandbox CF_MEMORY=1024M ROLLBAR_ENVIRONMENT=sandbox bash ./scripts/deploy.sh
   on:
     all_branches: true
-    condition: "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^(feature|bugfix)\\/SINF-[0-9]+.*$"
+    condition: "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^(feature|bugfix)\\/SCC-[0-9]+.*$"
 - provider: script
   skip_cleanup: true
   script: CF_ROUTE_PREFIX=dev- CF_SPACE=development CF_MEMORY=1024M ROLLBAR_ENVIRONMENT=development bash ./scripts/deploy.sh
