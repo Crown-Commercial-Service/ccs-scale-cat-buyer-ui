@@ -21,19 +21,19 @@ module.exports = {
         console.log('VCAP SERVICES +++++++++++++++++++++++++++++++++++++++');
         var app_info = JSON.parse( process.env.VCAP_SERVICES)
         console.log(app_info);
-        console.log(app_info["user-provided"][1]);
+        console.log(app_info["user-provided"][0]);
         console.log('VCAP SERVICES +++++++++++++++++++++++++++++++++++++++');
 
         // ["user-provided"][1] is hardcoded at the moment for the demo - actual code will need to check list for match - {name: '{ENV}-ccs-scale-cat-ups-service'}
         // The debug output above should illustrate this (i.e. that 'user-provided' is an array of items - need to select the correct one)
         var app_info = JSON.parse( process.env.VCAP_SERVICES)
-        var ups_service_credentials = app_info["user-provided"][1].credentials;
+        var ups_service_credentials = app_info["user-provided"][0].credentials;
         var conclave_url = ups_service_credentials["conclave-url"];
         var conclave_client_id = ups_service_credentials["conclave-client-id"];
         var conclave_client_secret = ups_service_credentials["conclave-client-secret"];
         var conclave_api_key = ups_service_credentials["conclave-api-key"];
-        var tenders_svc_url = ups_service_credentials["tenders-svc-url"];
-        var tenders_svc_port = ups_service_credentials["tenders-svc-port"];
+        var tenders_svc_url = process.env.TENDERS_API_BASE_URL
+
 
         /** 
          * GET an Access Token from Conclave
@@ -42,7 +42,7 @@ module.exports = {
 
         // Each user will require their own login details
         // This will need appropriate accounts creating in Conclave and Jaggaer
-        const username = "{TODO}}@crowncommercial.gov.uk";
+        const username = "{TODO}@crowncommercial.gov.uk";
         const password = "{TODO}";
 
         const body = {
@@ -72,7 +72,7 @@ module.exports = {
              * Use Access Token to call the CCS Tenders API
              * This example will return event types from the API
              */
-            const eventTypes = await fetch(tenders_svc_url + ':' + tenders_svc_port + '/tenders/event-types', {
+            const eventTypes = await fetch(tenders_svc_url + '/tenders/event-types', {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + data.accessToken
