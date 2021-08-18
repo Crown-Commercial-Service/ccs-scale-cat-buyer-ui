@@ -4,7 +4,7 @@ applications:
   memory: ((CF_MEMORY))
   instances: 1
   buildpacks:
-  - https://github.com/cloudfoundry/php-buildpack.git
+  - https://github.com/cloudfoundry/nodejs-buildpack
   env:
     APP_DEBUG: 1
     APP_ENV: dev
