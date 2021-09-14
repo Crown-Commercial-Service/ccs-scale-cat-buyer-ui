@@ -2,5 +2,6 @@
   "useCSRFProtection": true,
   "security": {
     "referrerPolicy": "origin"
-  }
+  },
+  "PORT": "3000"
 }

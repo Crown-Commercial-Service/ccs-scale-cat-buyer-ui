@@ -13,7 +13,7 @@
       <link rel="apple-touch-icon" sizes="167x167" href="{{ assetPath | default('/assets') }}/images/govuk-apple-touch-icon-167x167.png">
       <link rel="apple-touch-icon" sizes="152x152" href="{{ assetPath | default('/assets') }}/images/govuk-apple-touch-icon-152x152.png">
       <link rel="apple-touch-icon" href="{{ assetPath | default('/assets') }}/images/govuk-apple-touch-icon.png">
-      {% include 'scripts/cookies.njk' %} 
+     
     {% endblock %}
     {% block head %}
       {% include "webpack/css.njk" %}
@@ -22,12 +22,16 @@
   </head>
   <body class="govuk-template__body {{ bodyClasses }} show-flourishes  pillar--none" {%- for attribute, value in bodyAttributes %} {{attribute}}="{{value}}"{% endfor %}>
   <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-  <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
+  
+  {#  cookies Section #}
+  {% block cookies %}
+  {% include "cookies.njk" %}    
+  {% endblock %}
 
-  {% block header %}
+ {% block header %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
   {% include "components/Header.njk" %}
-  {% include "components/phase_banner_beta.njk" %}
+    {% include "components/phase_banner_beta.njk" %}
 {% endblock %}
 <div class="ccs-width-container">
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
@@ -47,7 +51,6 @@
   {% include "webpack/js.njk" %}
 {% endblock %}
 
-{% include 'scripts/cookies-body.njk' %} 
 
   </body>
 </html>

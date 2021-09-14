@@ -12,7 +12,7 @@ import favicon from 'serve-favicon';
 import { HTTPError } from 'HttpError';
 import { Nunjucks } from './modules/nunjucks';
 const { setupDev } = require('./development');
-
+import  i18next from 'i18next'
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
 
@@ -24,7 +24,8 @@ app.use(Express.accessLogger());
 
 const logger = Logger.getLogger('app');
 
-new Nunjucks(developmentMode).enableFor(app);
+
+new Nunjucks(developmentMode, i18next).enableFor(app);
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
 
@@ -40,7 +41,9 @@ app.use((req, res, next) => {
   );
   next();
 });
+app.enable('trust proxy')
 
+//Setting up the routes and looping through individuals Paths
 glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
