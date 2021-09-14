@@ -35,3 +35,4 @@ if (cookiePreferences !== null ) {
     }
 }
 
+console.log(cookiePreferences)
