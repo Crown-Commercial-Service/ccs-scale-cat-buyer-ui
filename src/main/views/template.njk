@@ -34,13 +34,7 @@
     {% include "components/phase_banner_beta.njk" %}
 {% endblock %}
 <div class="ccs-width-container">
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-      
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-    </div>
-    {% block content %}{% endblock %}
-  </main>
+{% block content %}{% endblock %}
 </div>
   {% block footer %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
