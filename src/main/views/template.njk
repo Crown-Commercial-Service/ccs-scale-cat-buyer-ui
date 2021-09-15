@@ -33,9 +33,13 @@
   {% include "components/Header.njk" %}
     {% include "components/phase_banner_beta.njk" %}
 {% endblock %}
+
+{# This is main content section#}
 <div class="ccs-width-container">
 {% block content %}{% endblock %}
 </div>
+
+
   {% block footer %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
   {% include "components/footer.njk" %}
