@@ -1,0 +1,9 @@
+---
+applications:
+- name: ((CF_ROUTE_PREFIX))ccs-scale-cat-buyer-ui
+  memory: ((CF_MEMORY))
+  instances: 1
+  buildpacks:
+  - https://github.com/cloudfoundry/nodejs-buildpack
+  env:
+    PRIVATE_APP_URL: http://((CF_ROUTE_PREFIX))ccs-scale-cat-service.apps.internal:8080
