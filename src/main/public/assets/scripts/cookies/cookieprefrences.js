@@ -15,7 +15,7 @@ window.readCookie = function (name) {
 
 
 var cookiePreferences = JSON.parse(readCookie('cookie_preferences'));
-if (cookiePreferences !== null ) {
+if (cookiePreferences !== null  && 'prod' == "prod" ) {
     if (cookiePreferences.usage === true) {
         (function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -34,5 +34,3 @@ if (cookiePreferences !== null ) {
 
     }
 }
-
-console.log(cookiePreferences)
