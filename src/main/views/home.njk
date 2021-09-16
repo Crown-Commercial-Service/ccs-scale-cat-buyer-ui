@@ -1,13 +1,9 @@
 {% extends "template.njk" %}
 {% from "components/breadcrumbs/macro.njk" import CCSBreadcrumbs %}
-
-
-
-
-
+  {% from "components/date-input/macro.njk" import CCSDateInput %}
+{% from "components/radios/macro.njk" import CCSRadios %}
 {% set title = 'home | Contract a Thing' %}
 {# {% set heading = t('Welcome to the Money Claim legal rep beta') %} #}
-
 
 
 {% block content %}
@@ -28,9 +24,13 @@
         ]
       }) }}
 
-    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main"> 
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">
+  
+
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+      
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+       <h1 class="govuk-heading-xl">
         Commercial agreements
       </h1>
       <ul class="govuk-list">
@@ -47,9 +47,55 @@
           <a class="govuk-link" href="#">Management Consultancy Framework Two</a>
         </li>
       </ul>
-      
+
     </div>
-    <div class="govuk-grid-column-one-third">
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ CCSRadios({
+  idPrefix: "where-do-you-live",
+  name: "where-do-you-live",
+  fieldset: {
+    legend: {
+      text: "Where do you live?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "england",
+      text: "England",
+       hint: {
+        text: "You’ll have an account if you’ve already proved your identity with either Barclays, CitizenSafe, Digidentity, Experian, Post Office, Royal Mail or SecureIdentity."
+      }
+    },
+    {
+      value: "scotland",
+      text: "Scotland",
+       hint: {
+        text: "You’ll have an account if you’ve already proved your identity with either Barclays, CitizenSafe, Digidentity, Experian, Post Office, Royal Mail or SecureIdentity."
+      }
+    },
+    {
+      value: "wales",
+      text: "Wales"
+    },
+    {
+      value: "northern-ireland",
+      text: "Northern Ireland",
+       hint: {
+        text: "You’ll have an account if you’ve already proved your identity with either Barclays, CitizenSafe, Digidentity, Experian, Post Office, Royal Mail or SecureIdentity."
+      }
+    }
+  ]
+}) }}  
+</div>
+    
+
+   <div class="govuk-grid-column-one-third">
+  
   <div class="ccs-callout-panel">
   <h2 class="govuk-heading-m">How to get support</h2>
 
@@ -63,7 +109,15 @@
 
   <p class="govuk-body">CCS customer services team is available Monday to Friday, 9am to 5pm.</p>
 </div>
-
 </div>
- </main>
+
+
+
+  </div>
+
+
+    </main>
+
+
+
 {% endblock %}
