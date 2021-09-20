@@ -1,0 +1,54 @@
+import * as path from 'path';
+import * as express from 'express';
+import * as nunjucks from 'nunjucks';
+import {dateFilter, dateInputFilter, dateWithDayAtFrontFilter, monthIncrementFilter, addDaysFilter} from './filters/dateFilter'
+import { InitOptions } from 'i18next'
+
+export class Nunjucks {
+
+
+  constructor(public developmentMode: boolean, public i18next : any) {
+    this.developmentMode = developmentMode;
+    this.i18next = i18next;
+  }
+
+  enableFor(app: express.Express): void {
+    app.set('view engine', 'njk');
+    const govUkFrontendPath = path.join(
+      __dirname,
+      'src',
+      'main',
+      'views'    
+    );
+    var NunjucksEnvironment =  nunjucks.configure(
+      [
+        govUkFrontendPath,
+        path.join(__dirname, '..', '..', 'views'),
+        path.join(__dirname, '..', '..', 'views', 'macro'),
+    
+    ],
+      {
+        autoescape: true,
+        watch: this.developmentMode,
+        express: app,
+      },
+    );
+
+
+    //List of the Nunjucks Environment filters 
+    NunjucksEnvironment.addGlobal('t', (key: string, options?: InitOptions): string => this.i18next.t(key, options))
+    NunjucksEnvironment.addFilter('date', dateFilter)
+    NunjucksEnvironment.addFilter('inputDate', dateInputFilter);
+    NunjucksEnvironment.addFilter('dateWithDayAtFront', dateWithDayAtFrontFilter)   
+    NunjucksEnvironment.addFilter('monthIncrement', monthIncrementFilter)
+    NunjucksEnvironment.addFilter('addDays', addDaysFilter)
+    app.use((req, res, next) => {
+      res.locals.pagePath = req.path;
+      next();
+    });
+  }
+  
+
+
+}
+

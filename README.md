@@ -1,21 +1,72 @@
 # CCS Scale CaT Buyer UI
 
-## Overview
-NodeJS skeleton component for the CaT UI. Uses the [CloudFoundry NodeJS Buildpack](https://docs.cloudfoundry.org/buildpacks/node/index.html), along with a `manifest.yml` file that will allow it to be deployed to [Gov.UK PaaS](https://www.cloud.service.gov.uk/).
+CCS Scale CaT Buyer UI -{{description}}
 
-It deploys the Node.js sample project from the [CloudFoundry Samples Git repository](https://github.com/cloudfoundry-samples/cf-sample-app-nodejs).
+## Getting Started
 
-This is designed as a starting app for the development team to build on and take forward (and update this README appropriately). Nothing is concrete in terms of software versions/approach. The code in this demo app was created by someone who is not familiar with NodeJS - it is just enough to prove that we can deploy code via Travis, have it run in CloudFroundry/UK.Gov PaaS, have it connect to Conclave and Tenders API and log output to logit.io. Moving forwards, this code can be thrown away entirely and replaced by the developers as they see fit following CCS and NodeJS best practice.
+### Prerequisites
 
-## Cloud Foundry
-The application is configured for deployment to the GOV.UK PaaS Cloud Foundry platform in the CCS organisation.
+Running the application requires the following tools to be installed in your environment:
 
-### Configuration
-The Github repository enabled in the CCS Travis CI organisational account on travis-ci.com: https://travis-ci.com/github/Crown-Commercial-Service/ccs-scale-cat-buyer-ui/.
+  * [Node.js](https://nodejs.org/) v12.0.0 or later
 
-Multi-environment/branch build and deployment configuration is contained within the `.travis.yml` file. This file defines required environment variables (encrypted where appropriate) and installs the Cloud Foundry CLI tools on the build VM.
+### Running the application
 
-### Deployment
-For each environment/branch deploy configuration block, the [script](https://docs.travis-ci.com/user/deployment/script/) provider is used to call `scripts/deploy.sh` which performs the tasks of logging into Cloud Foundry and pushing the app via its manifest.
+Install dependencies by executing the following command:
 
-The `manifest.yml` file defines the actual Cloud Foundry build and deployment, using the NodeJS Buildpack and variable substitution to utilise or pass through into the runtime environment required data from the CI deployment configuration.
+ ```bash
+$ npm install
+ ```
+
+```bash
+$ npm configure
+```
+
+Run:
+
+```bash
+$ npm start
+```
+Or
+```bash
+$ npm "start-windows
+```
+
+The applications's home page will be available at https://localhost:3000
+
+## Developing
+
+### Code style
+
+We use [ESLint](https://github.com/typescript-eslint/typescript-eslint)
+alongside [sass-lint](https://github.com/sasstools/sass-lint)
+
+Running the linting with auto fix:
+```bash
+$ yarn lint --fix
+```
+
+### Running the tests
+
+This template app uses [Jest](https://jestjs.io//) as the test engine. You can run unit tests by executing
+the following command:
+
+Running accessibility tests:
+
+```bash
+$ yarn test:a11y
+```
+
+Make sure all the paths in your application are covered by accessibility tests (see [a11y.ts](src/test/a11y/a11y.ts)).
+
+### Healthcheck
+
+The application exposes a health endpoint (https://localhost:3000/health), created with the use of
+[Nodejs Healthcheck](https://github.com/hmcts/nodejs-healthcheck) library. This endpoint is defined
+in [health.ts](src/main/routes/health.ts) file. Make sure you adjust it correctly in your application.
+In particular, remember to replace the sample check with checks specific to your frontend app,
+e.g. the ones verifying the state of each service it depends on.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details

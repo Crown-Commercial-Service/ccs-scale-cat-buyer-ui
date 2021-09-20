@@ -1,0 +1,138 @@
+{% extends "template.njk" %}
+{% from "components/breadcrumbs/macro.njk" import CCSBreadcrumbs %}
+  {% from "components/date-input/macro.njk" import CCSDateInput %}
+{% from "components/radios/macro.njk" import CCSRadios %}
+{% set title = 'home | Contract a Thing' %}
+{# {% set heading = t('Welcome to the Money Claim legal rep beta') %} #}
+
+
+{% block content %}
+{{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/home"
+          },
+          {
+            text: "Contract a Thing",
+            href: "/cAT"
+          },
+          {
+            text: "Commercial Agreements",
+            href: "#"
+          }
+        ]
+      }) }}
+
+  
+
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+      
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+       <h1 class="govuk-heading-xl">
+        Commercial agreements
+      </h1>
+      <ul class="govuk-list">
+        
+        <li>
+          <a class="govuk-link" href="#">Digital Outcomes and Specialists 5</a>
+        </li>
+        
+        <li>
+          <a class="govuk-link" href="#">G-Cloud 12</a>
+        </li>
+        
+        <li>
+          <a class="govuk-link" href="#">Management Consultancy Framework Two</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ CCSRadios({
+  idPrefix: "where-do-you-live",
+  name: "where-do-you-live",
+  fieldset: {
+    legend: {
+      text: "Where do you live?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "england",
+      text: "England",
+       hint: {
+        text: "You’ll have an account if you’ve already proved your identity with either Barclays, CitizenSafe, Digidentity, Experian, Post Office, Royal Mail or SecureIdentity."
+      }
+    },
+    {
+      value: "scotland",
+      text: "Scotland",
+       hint: {
+        text: "You’ll have an account if you’ve already proved your identity with either Barclays, CitizenSafe, Digidentity, Experian, Post Office, Royal Mail or SecureIdentity."
+      }
+    },
+    {
+      value: "wales",
+      text: "Wales"
+    },
+    {
+      value: "northern-ireland",
+      text: "Northern Ireland",
+       hint: {
+        text: "You’ll have an account if you’ve already proved your identity with either Barclays, CitizenSafe, Digidentity, Experian, Post Office, Royal Mail or SecureIdentity."
+      }
+    }
+  ]
+}) }}  
+
+{{ CCSDateInput({
+  id: "contract-issued",
+  namePrefix: "contract-issued",
+  fieldset: {
+    legend: {
+      text: "When was your Contract issued?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  hint: {
+    text: "For example, 12 11 2007"
+  }
+}) }}
+</div>
+    
+
+   <div class="govuk-grid-column-one-third">
+  
+  <div class="ccs-callout-panel">
+  <h2 class="govuk-heading-m">How to get support</h2>
+
+  <p class="govuk-body">You can contact us by email, phone or using the <a href="https://www.crowncommercial.gov.uk/contact">enquiry form</a>. </p>
+
+  <h3 class="govuk-heading-s govuk-!-margin-0">Email: </h3>
+  <p class="govuk-body"><a href="mailto:info@crowncommercial.gov.uk">info@crowncommercial.gov.uk</a> </p>
+
+  <h3 class="govuk-heading-s govuk-!-margin-0">Telephone: </h3>
+  <p class="govuk-body"><a href="tel:03454102222">0345 410 2222</a></p>
+
+  <p class="govuk-body">CCS customer services team is available Monday to Friday, 9am to 5pm.</p>
+</div>
+</div>
+
+
+
+  </div>
+
+
+    </main>
+
+
+
+{% endblock %}
