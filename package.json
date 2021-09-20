@@ -55,7 +55,7 @@
     "jquery": "^3.5.0",
     "moment": "^2.29.1",
     "nodejs-logging": "^1.1.1",
-    "nunjucks": "^3.2.0",
+    "nunjucks": "^3.2.3",
     "require-directory": "^2.1.1",
     "sass": "^1.39.0",
     "serve-favicon": "^2.5.0",
