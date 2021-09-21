@@ -32,7 +32,7 @@ deploy:
     skip_cleanup: true
     script: CF_ENVIRONMENT=dev bash ./deploy.sh
     on:
-      branch: bat/develop
+      branch: develop
 
   # INT (SIT)
   - provider: script
