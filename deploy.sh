@@ -1,14 +1,10 @@
 #!/bin/bash
 #
-# Login to GPaaS London Cloud Foundry ccs-scale-cat org with space determined by environment variable CF_SPACE.
-# Push local app based on manifest, setting vars `CF_ROUTE_PREFIX` from env var `CF_ROUTE_PREFIX` and `CF_MEMORY` from `CF_MEMORY` 
+# Deploys the CF CaT Buyer UI
 #
 
-set -meo pipefail
-
-cf --version
-cf api https://api.london.cloud.service.gov.uk
-cf login -u $CLOUDFOUNDRY_USERNAME -p $CLOUDFOUNDRY_PASSWORD -o ccs-scale-cat -s $CF_SPACE
-cf push --var CF_ROUTE_PREFIX=$CF_ROUTE_PREFIX \
-        --var CF_MEMORY=$CF_MEMORY
-
+echo "Executing Terraform scripts in [$CF_ENVIRONMENT]"
+cd ./iac/environments/$CF_ENVIRONMENT/
+terraform init -backend-config="bucket=$S3_STATE_BUCKET_NAME" -backend-config="dynamodb_table=$DDB_LOCK_TABLE_NAME"
+terraform validate
+terraform apply -auto-approve -input=false -var="cf_username=$CF_USERNAME" -var="cf_password=$CF_PASSWORD"

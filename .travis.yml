@@ -4,44 +4,70 @@ dist: xenial
 
 branches:
   only:
-  - "/^(feature|bugfix)\\/SCC-[0-9]+.*$/"
-  - develop
-  - release/int
-  - release/nft
-  
-after_success:
-- mkdir $HOME/cf-cli
-- curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v7&source=github" | tar -zx -C $HOME/cf-cli
-- export PATH=$PATH:$HOME/cf-cli
+    - "/^(feature|bugfix)\\/SCC-[0-9]+.*$/"
+    - "/^(release)\\/.*$/"
+    - develop
+    - main
+
+# Install dependencies
+before_install:
+  - sudo rm -Rf terraform_"$TF_VERSION"_linux_amd64.zip
+  - sudo rm -Rf terraform
+  - wget https://releases.hashicorp.com/terraform/"$TF_VERSION"/terraform_"$TF_VERSION"_linux_amd64.zip
+  - unzip terraform_"$TF_VERSION"_linux_amd64.zip
+  - sudo mv terraform /usr/local/bin/
+  - rm terraform_"$TF_VERSION"_linux_amd64.zip
 
 deploy:
-- provider: script
-  cleanup: true
-  script: CF_ROUTE_PREFIX=sbx1- CF_SPACE=sandbox CF_MEMORY=1024M bash ./deploy.sh
-  on:
-    all_branches: true
-    condition: "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^(feature|bugfix)\\/SCC-[0-9]+.*$"
+  # SBX - modify CF_ENVIRONMENT as required
+  - provider: script
+    skip_cleanup: true
+    script: CF_ENVIRONMENT=sbx2 bash ./deploy.sh
+    on:
+      all_branches: true
+      condition: "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} =~ ^(feature|bugfix)\\/SCC-[0-9]+.*$"
 
-- provider: script
-  cleanup: true
-  script: CF_ROUTE_PREFIX=dev- CF_SPACE=development CF_MEMORY=1024M bash ./deploy.sh
-  on:
-    branch: develop
+  # DEVELOP
+  - provider: script
+    skip_cleanup: true
+    script: CF_ENVIRONMENT=dev bash ./deploy.sh
+    on:
+      branch: bat/develop
 
-- provider: script
-  cleanup: true
-  script: CF_ROUTE_PREFIX=int- CF_SPACE=INT CF_MEMORY=1024M bash ./deploy.sh
-  on:
-    branch: release/int
+  # INT (SIT)
+  - provider: script
+    skip_cleanup: true
+    script: CF_ENVIRONMENT=int bash ./deploy.sh
+    on:
+      branch: release/int
 
-- provider: script
-  cleanup: true
-  script: CF_ROUTE_PREFIX=nft- CF_SPACE=nft CF_MEMORY=1024M bash ./deploy.sh
-  on:
-    branch: release/nft
+  # NFT
+  - provider: script
+    skip_cleanup: true
+    script: CF_ENVIRONMENT=nft bash ./deploy.sh
+    on:
+      branch: release/nft
 
+  # UAT
+  - provider: script
+    skip_cleanup: true
+    script: CF_ENVIRONMENT=uat bash ./deploy.sh
+    on:
+      branch: release/uat
+
+# WARNING! Do NOT use the --add flag of travis cli encrypt - it removes all formatting and comments
 env:
   global:
-   # CF creds
-  - secure: PR+j7KGTdE6cT/i8sBa3mz/1aXo7/dGiD8vgsziuiFqBCP5kNFS8dfETJ6SMQAqOoGQuPEffNbelRFxWJOLbuJyMus4Qca9DTK02d+2hyyzHF6QYxroXU+ADJrr0ABoOXybGO+jzXmCHIl37RYzx70YxmqZi4jQOY91/ENmT0AZhaua00G4aY0KQBeAZZhh/93EEhlZUtLITKSSC5k1y+u9xVprRcImZarwYg491NsTjFNoQK6245YeklYMQjvZ39ARuR2yb0LpORwbTJMrT+oZov+fLmJzkqljEgOxHNr+2/znv1raReikfXWf5Ckp/HpixOtoxzlKxH69h7htCitv4S1Kk2iJoHWHJWD/me08ITLbaVIn/mV00y8m1GrRZeO7h8KDYMQtB/4ELa7o1CtV54CHW32FwAQ7/ClMwjMotiD185d5/Fj1lRxRFIj/YjoaQolye6bzew6weRrPa5ncQv8fP1uLK+k6z71CnPdq69kLO4iTDQA1WyKeiaB6xEAI7k8wEjjbU7OQEHP5ed43SqrYibiBrxBJzCV77DrytIhRF5nMpFSyxU6sITP014KTm93RkWldrqXNLMNXAXGsR/3k78DYnvRGIrGmnLKKopJ3SM5KQi/zDQ7vxsQkJr/UIbpfWLue1rCRJBputqQ6EFSffyKE595pjfwFVWek=
-  - secure: vZel4fvZsQhb1QejK91RS7gwIV8NfQIUvbgZFiOto/fgP6akkk3VLkJtlI/FfhSYVR/8+YlvBJvJtK3pHrCza5wqbnz2ZNSFee4FYhuAAnC2sqFtFIM5GSlAUdNVxqLMGX3MZSuly6sEpZRrQW/Ou8OPlYTJKQZ6Uc8VGXwwk51non+gl37wwbIwofFcNIQAJv6LA4omwO4wNgrgAMfC6Xd66q+xXMkg+9SZ1n3yYdf+ApdHa+Unv9XUcCqFuw1iM1q6C1lEGch9xRuZvY0a+qzaKEeCGJ5CL9QliJfmwRCNfL/bKMnBdPOBXh7MCvkQuhZG4sbIeieAhOq+NYQ+82ikiqSMFEd+DW3JLqpbjYLSC23Mrqx40UTsi/iXg1etkhqa50cEPO8O/6eVTJ6AUTVPSvZVqhioxHv/gh7RpEXE68ybjhtOrIwLgm2eN7VwZR7vJZr3ew0pfQbC6sim2PoArRjs+ASJA+auUQfjV+XheiS7FFGUYbXgzG0kc0bAsDbVZaQeDEO9bm4kDKBx+kc0Po1se9p7YvBDwe7GfSJ9k7anXQepb9lRycoxrL5H5ZGq7KIoASv7V8OdzuKqN9MwOforMDqdqY4Na4vEWuqiev02KHdvOQ3Oo0Odhl8evJyNqwQYDigyhUvXjghPUrw+tePhltB29Fq/ZSzJPwo=
+    # ACCESS_KEY_ID
+    - secure: "DgF05Jqsf1/bc06bo6gjFU+UQmtEcCQlU2EoAB9TDcHAuFsEWxPAhk+mHLVeiTa9oOjPFhfcWG50Qsdw/AIb7kb4V2qRVjOQ+hWQyZyI2OstfmxNzn0wBjLQKKgtYyhh/5Op9ZHqJXszlwDUXT6LXo/8AAcv/pWSvfbm9411+Uam7CKmZ423uR1VYLzdN+eY93FHfcXN40MlHp4ReCAXdXPU3NIQmI87nFHR653TtbrUolKv99N5OD3dGpVfWC/9i7MkqapcDqAz568EZ+LiBS4Hwj8BoRXq/gP5SPSpAd/M0/fsmM49GaFvK9OFuOuuYdvqEEmJDTeUP/9RUUl+Mdz91ipGFaK1BwjFr9soQVAVagzxneLadvLC8Te49paC7pOC64fLeMcYuls+W259Qbwk/KK1D/m/iv9K+hx30DEgusYpPkCzLacZHi1BPcj4cIQIVpBIXlXQyDa7hzSbfRQPih6amxLxePUsgCc/0P6iiAZ2MS+pq0RSzjO93qXITiF8LBtZvNFNct6TGNcg/En92g+i6pScf0yznyRRd5HISTgI1uYjWqXU5ZbFrMDfgUXq7iXk2OtRXuPdS9JGYdpacaoXlutwqU0bQR91yhyAg5ZZGSu2HhzSG7ELlgBcvKwCJWb0kmOJ5Xt4y94YIOznufpwjNU8PmK2fpgX7xU="
+    # SECRET_ACCESS_KEY
+    - secure: "rkMYCfXqsUrnlY2ITWT+PCmhFmxVcYdcoryfsfErBDez0BKDmx5zXGcMDSVHIqh5fOwpSQeDXPTSOomRA+pOuFv042wEbGVZ7d5TJUQJowrKvEy4vQlDTR4/GSuGzagRjSNnBl8bPkcI3ul1eHNrPiVOjShPbfBKhPbgaZ/5pj0KGe13JridATNMKaQwj1zPBJfwmucB0KyLbEDyakT/xm1O1XU/q7jyHmDeKoB8emX+Q1shdzOlWayKGWeOERUYR3dVhKt508yFrmP8Xr5iQD3Mx6YDMDxBHgyKE4DC3nswLGr1dQRN/Yjf3bNP7C9u2vbLDeSV0MaAEYva52aHsjvoyWfONyXaB0CoH8H1DmRzUULSygFdRTFzdJSccP8WM1gt3031mWDJXg6Fi6V3KILuvIdfi6snutwahEH7j7b3lF7YuUI4tqLQeFMZMJYXzqlWj/YqTEPnIRKBQwvxSnJUSSB3Kjma/ynLA9Gqax5QKCExT/Qv/Wy0if6eJU+i1U4f7lrvB/llGakNhgBppMrmYisOUVtbdL0P9l96zW9BkDL+GR+w8U6ICVdluYbDkEd5Ix8kJpJjIfHtgN7r5GocvkKiLp7h7Cc+2x8i6rArDwY8H+/i1fDTn8+AkcOCMUfPSCLDFCtL1m6HlBHBfTiOmr9K4bTN2BY3xibr4RI="
+    # S3_STATE_BUCKET_NAME
+    - secure: "X+f8b9Q9BHnemZU6RA62w1grF9kTPBsk3CSTqCacmBw8nfcuUK6TC7Q3k0ZZVTgu5+jHHDPOJs6sjKrp0gvEypqa7niJQjyd2NuqoSxDTISZUBouikW83gxIyyW5PBwUhF+51xwmrRHI8moh6TEbf5lNvU+0td7DdK+LMkYpyr2xmO4jg5qGv6BjdCQdMrLxA6Yev32MkZVcDUcrLd5cWa7yqMypu9Y1KzgU5iUYnNsgJw1gTI4S6DIE6RoK7nEfdXFhtz0zMp5d65b9d1yhb7iwckkE4Y703y77tYsOer1uNj9DoiF8ZlpdL5fpfYcWxCXhJ0NW9GptYik4YWuAYVZu8M1N9S1Ft95zesAHa4tY5ntBm5ep0899npTxUhqbrvwpHt7iSuhln5CWVi+45TXSeX2WgHoNYlPl4d9imc64xxwMoHWriDTkktMxjYQXwRc67AOlHj0JIlTr9J4nJOZ4ZxYzaoICsaCvQPzkZ96AKfEZrthejo3b+qLOt+3aEaywVs8gloFv+iPVfzU2aeBFqOA20Blg96sanXhH6aS0pyAikX5MbzgcNfKfGrM15jvItBHnBh9SX98tIRPm0vn9kQln6ra+GGGNk2fDYXR5AXepGIMjN8mFpRgxbXytxWUxyuMKT3oW9bpOPzDlbSgdKMU9Le6RJIiuFh91vjw="
+    # DDB_LOCK_TABLE_NAME
+    - secure: "XD9sR+mXa/zk91KxwJx/oRrAo/MStUMiPIjUMGhWJO1g608ELPYDxqsNrEf+ovlXrDan5qVW0RH7ylU5CHnzpbXuqtukTltMfreXQcXKaIAY2UG6FAE8/TUNHrkF66uYdgUatSsAqJde+QBEzTIpDoRC0ZdRp5cgWgmRfrW6oswG1JbXMrQbsrcbTS3Ccey4NRTpHuIxpoGlIg4TvmR9+uSdH9sYa1yFRti0x7TBMZ4uB7ZiRh4V0w2TKnC4xrRY3ZlSXlepECGTiGvPMBFE5K/jr5DYr2hgcrfaQnviTq/e7Fobl2F9nTEZqSuyc1Dk2baQFEYxBhCyblfoJ5lolvzcjUpgxS+FjOAu3mtMvkqSXcY80OpvxBtzq1/BIfITepWEO8Y1FG9Ti6D1iJYfYj0omgCqFLmT0b6TC6ynVu7lK8OSTR+86baIArhnmi1BFpLG/RTBjE+IT5vJvJ/qtjZFUI6ziSne9dSHwycbMO18AtbYbQJa7DBfo9ZJ4MU3v7zKXcM0xejD9301JRar62+RONc7wrYRqBnfRLpzlFFnIn174k6rokKtzUeN0ShvbRw3OutFiBgRMB/9bZ/zR719jpmYt+E4h4iGT386jxRsEePzsMtmeYwJW55XM9sIjk0AiRycw+kKF3Y8MJyLD72HAc9mOkmwOD95Qm8FEfs="
+    # CF_USERNAME
+    - secure: "8vR6tbXwHAq7W1WQWaPAEw9kdfCOwiuTB0JKFy6F/I4K35mB9tglw5L6LslXY5V2BAIM3XHnukSzr0l5klk5B5FZwe4UIm+XCD3b+SmAL+zdEvwQEyTRrwpooz26MCXFpGMWU6+YLfGPvST/voM6svfV22VQlC+aGgORakTX9wHlArBo0FCs9/ks58Pks5Ih9s0tkK2D/2h5vStHeKoF/K+pnsO6bJl+xbCA81a5QIRwRGk/yFCYj6sviAdXSj/nNdG0CSQZih5bbwBwWgR+0tvm6k4/8bLUId4MCZk5D2Jk+fKhbskGSRIkZtr0hnbYmyLKsot0dW2XBp8V/5BDmMCHWiG+8RWyV2Xp4JBYPLlBjhHWZoGTAFtrb5pZtW9YgcyzNiF3xlk4y5jWDsD/iUv03RxZ2cISog4tpaETXWrRGSVq7gqmDz3JP0hCoP/LGdp7Eq2ABiffFpNS8CFWOy9Vxi7GztGX8EpX4NGZx9uSypkvnwyAMqrAxDZgO6J+9QGkwDqxp/iFEzcD/CEIXfjRrDM6BnC0cD1bWOQjKyn63Vp7FtnZ++X80u37Mt+FfV2KX1khUtiefaY7fu2hznjQYzxarGWp45kTE2QQaQO25HRpNtdfcDeG0FFxGdr32IovB+gTyFp5oL/xhvxQYc7n+30vmtT38pMmBwbnq9E="
+    # CF_PASSWORD
+    - secure: "8ARLNJkWSR3w0vnpdIA0YfemXOuO+8a9xvqdXLUYwPGsFzhfeqfsNcKN3ht/McKLAD+8HkrXC/2r3qqYpzi940eujzBcOpk4ufhXuFJokPyPx1Ncko2rCnBxq67mgKu6bWoja5H/FZxnhSPtFw/YjB5tzmeQI5YMWqMbVedjTVpUkkvGkm92QDTTfJXtUM6GtG0y+wFnSINLYpoS4FHNIWfmS2tVTDsORwHwn67btf54ekyQQeT4/kpyKd4c3zoC/0cDjGXVU/OQO6AktHHS3r9ZMftAOPUx/STB32RWoRtdcwAGvvvyXPBu+uADRUV6Puwe4ZCIDaB2EO4oIh4qtTIG5g8E5uyu9RdbOmLdVLYfmJ9Hxd5UwfuTA3rJ/QFWKVGPypK2Cv5pe8QKebRbkQLxrJkjiNMIs+wZQU6yr5FP3I/6QaGppCDSO3p3QFlUTIM+S9hgWSnhGvfm80jHLh+cE7KHqMr3Cea+E7ulijx45KZokV/ZZwN24YyNOWvJsKYJGc8Elqq+ET6cona3kdpA/S7DnLqaPI39nV/mRqtVum2boqcO7yoom0JhgvoqDMupBEMg0BSArJneKiVxkxN6jIOj+3CYwZtg5+f9Pn4O9S/qPOkL8rrU+j7Mf51poDwhtEBMR+w+YZpET6ZLK/iG7zygEqUY8KZYowNoeY4="
+    - TF_VERSION=1.0.5
