@@ -9,13 +9,12 @@ import express from 'express';
 import { Helmet } from './modules/helmet';
 import * as path from 'path';
 import favicon from 'serve-favicon';
-import { HTTPError } from 'HttpError';
 import { Nunjucks } from './modules/nunjucks';
 const { setupDev } = require('./development');
 import  i18next from 'i18next'
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
-
+import {HTTPError, NotFoundError} from './errors'
 export const app = express();
 app.locals.ENV = env;
 
@@ -50,16 +49,17 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
 
 setupDev(app,developmentMode);
 // returning "not found" page for requests with paths not resolved by the router
+
 app.use((req, res) => {
-  res.status(404);
-  res.render('error/404');
+  const notFoundError = new NotFoundError;
+  res.status(notFoundError.statusCode);
+  res.render(notFoundError.associatedView);
 });
+
 
 // error handler
 app.use((err: HTTPError, req: express.Request, res: express.Response) => {
   logger.error(`${err.stack || err}`);
-
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = env === 'development' ? err : {};
   res.status(err.status || 500);
