@@ -1,3 +1,9 @@
+ {#- Adding all of the components so that they can be added to the childern node. -#}
+{% from "components/breadcrumbs/macro.njk" import CCSBreadcrumbs %}
+  {% from "components/date-input/macro.njk" import CCSDateInput %}
+{% from "components/radios/macro.njk" import CCSRadios %}
+ 
+
 <html lang="{{ htmlLang | default('en') }}" class="govuk-template {{ htmlClasses }}">
   <head>
     <meta charset="utf-8">
@@ -16,6 +22,7 @@
     {% endblock %}
     {% block head %}
       {% include "webpack/css.njk" %}
+      
     {% endblock %}
     <meta property="og:image" content="{{ assetUrl | default('/assets') }}/images/govuk-opengraph-image.png">
   </head>
