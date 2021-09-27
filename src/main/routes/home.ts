@@ -1,6 +1,6 @@
 import { Application } from 'express';
 import * as Path from '../global/Path'
-import * as CONTROLLER   from '../controllers/HomeController'
+import * as CONTROLLER   from '../controllers/homeController'
 
 export default function(app: Application): void {
   
