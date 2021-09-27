@@ -22,6 +22,7 @@ const logger = Logger.getLogger('app');
 
 
 new Nunjucks(developmentMode, i18next).enableFor(app);
+
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
 
@@ -39,10 +40,20 @@ app.use((req, res, next) => {
 });
 app.enable('trust proxy')
 
+   
 //Setting up the routes and looping through individuals Paths
 glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
+
+
+ //RFI Related routes 
+ glob.sync(__dirname + '/features/RFI/routes/**/*.+(ts|js)')
+ .map(filename => require(filename))
+ .forEach(route => route.default(app));
+
+
+
 
 setupDev(app,developmentMode);
 
@@ -65,3 +76,6 @@ app.use((err: HTTPError, req: express.Request, res: express.Response) => {
   res.status(err.status || 500);
   res.render('error/500');
 });
+
+
+

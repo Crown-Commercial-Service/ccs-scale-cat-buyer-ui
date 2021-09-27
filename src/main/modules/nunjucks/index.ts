@@ -12,17 +12,34 @@ export class Nunjucks {
     this.i18next = i18next;
   }
 
-  enableFor(app: express.Express): void {
+  
+  enableFor(app: express.Application): void {
+    
     app.set('view engine', 'njk');
+
+
+
     const govUkFrontendPath = path.join(
       __dirname,
       'src',
       'main',
       'views'    
     );
+
+    const RFIJourneyPath = path.join(
+      __dirname,
+      'src',
+      'main',
+      'features',
+      'RFI',
+      'views'    
+    );
+
+
     var NunjucksEnvironment =  nunjucks.configure(
       [
         govUkFrontendPath,
+        RFIJourneyPath,
         path.join(__dirname, '..', '..', 'views'),
         path.join(__dirname, '..', '..', 'views', 'macro'),
     
