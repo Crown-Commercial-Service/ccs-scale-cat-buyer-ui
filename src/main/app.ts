@@ -1,8 +1,5 @@
 import { glob } from 'glob';
-
 const { Express, Logger } = require('@hmcts/nodejs-logging');
-
-import * as bodyParser from 'body-parser';
 import config = require('config');
 import cookieParser from 'cookie-parser';
 import express from 'express';
@@ -14,7 +11,7 @@ const { setupDev } = require('./development');
 import  i18next from 'i18next'
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
-import {HTTPError, NotFoundError} from './errors'
+import {HTTPError, NotFoundError} from './errors/errors'
 export const app = express();
 app.locals.ENV = env;
 
@@ -25,12 +22,13 @@ const logger = Logger.getLogger('app');
 
 
 new Nunjucks(developmentMode, i18next).enableFor(app);
+
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
 
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json())
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static('src/main/public'));
 app.use((req, res, next) => {
@@ -42,22 +40,35 @@ app.use((req, res, next) => {
 });
 app.enable('trust proxy')
 
+   
 //Setting up the routes and looping through individuals Paths
 glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
 
-setupDev(app,developmentMode);
-// returning "not found" page for requests with paths not resolved by the router
 
-app.use((req, res) => {
+ //RFI Related routes 
+ glob.sync(__dirname + '/features/RFI/routes/**/*.+(ts|js)')
+ .map(filename => require(filename))
+ .forEach(route => route.default(app));
+
+
+
+
+setupDev(app,developmentMode);
+
+
+/**
+ *  All error Handler Routes 
+ *  
+ */
+ app.use((req, res) => {
   const notFoundError = new NotFoundError;
   res.status(notFoundError.statusCode);
   res.render(notFoundError.associatedView);
 });
 
 
-// error handler
 app.use((err: HTTPError, req: express.Request, res: express.Response) => {
   logger.error(`${err.stack || err}`);
   res.locals.message = err.message;
@@ -65,3 +76,6 @@ app.use((err: HTTPError, req: express.Request, res: express.Response) => {
   res.status(err.status || 500);
   res.render('error/500');
 });
+
+
+
