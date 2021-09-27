@@ -1,7 +1,11 @@
 {
-    "title": "",
-    "subtitle": "",
-    "bredcrumbs": [],
+    "title": "Create a Request for Information (RFI)",
+    "subtitle": {
+        "Selected agreement": "Digital Outcomes and Specialists 5, Lot 2: Digital Specialist",
+        "Agreement ID": "RM1043.7",
+        "Project name": "dasdasdsa (Project-2364"
+    },
+    "bredcrumbs": ["Home", "Contract award service", "RFI task list"],
     "events": [
         {
             "eventno": 1,
@@ -10,16 +14,23 @@
                         {
                             "Task": 1,
                             "link": "#",
-                            "title": "Name your projectTO DO",
+                            "title": "Name your project",
                             "required": false,
                             "status": "todo"
                         },
                         {
-                            "Task": 1,
+                            "Task": 2,
                             "link": "#",
-                            "title": "Name your projectTO DO",
+                            "title": "Add members to your project",
                             "required": false,
                             "status": "optional"
+                        },
+                        {
+                            "Task": 3,
+                            "link": "#",
+                            "title": "Change who is going to lead the procurement",
+                            "required": false,
+                            "status": "done"
                         }
                 ]
         },
@@ -30,23 +41,59 @@
                         {
                             "Task": 1,
                             "link": "#",
-                            "title": "Name your projectTO DO",
-                            "required": false,
-                            "status": "todo"
-                        },
-                        {
-                            "Task": 1,
-                            "link": "#",
-                            "title": "Name your projectTO DO",
+                            "title": "How- will you build your request for- information (RFI)",
                             "required": false,
                             "status": "optional"
+                        },
+                        {
+                            "Task": 2,
+                            "link": "#",
+                            "title": "Build your request for information",
+                            "required": false,
+                            "status": "in progress"
                         }
                 ]
         },
         {
             "eventno": 3,
-            "eventTitle": "Review and publish your RFI",
-            "eventTask": []
+            "eventTitle": "Review and publish your your Request for Information (RFI)",
+                    "eventTask": [
+                        {
+                            "Task": 1,
+                            "link": "#",
+                            "title": "Upload or link any additional documentation",
+                            "required": false,
+                            "status": "cannot start yet"
+                        },
+                        {
+                            "Task": 2,
+                            "link": "#",
+                            "title": "Identify suppliers",
+                            "required": false,
+                            "status": "cannot start yet"
+                        }
+                        {
+                            "Task": 3,
+                            "link": "#",
+                            "title": "Set response date and time",
+                            "required": false,
+                            "status": "cannot start yet"
+                        },
+                        {
+                            "Task": 4,
+                            "link": "#",
+                            "title": "Review contact details",
+                            "required": false,
+                            "status": "cannot start yet"
+                        }
+                        {
+                            "Task": 5,
+                            "link": "#",
+                            "title": "Review and publish",
+                            "required": false,
+                            "status": "cannot start yet"
+                        }
+                ]
         }
     ]
 }
