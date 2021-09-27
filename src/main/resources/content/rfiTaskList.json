@@ -5,90 +5,90 @@
         {
             "eventno": 1,
             "eventTitle": "Project and collaborators",
-                "eventTask": [
-                        {
-                            "Task": 1,
-                            "link": "#",
-                            "title": "Name your project",
-                            "required": "mandatory",
-                            "status": "todo"
-                        },
-                        {
-                            "Task": 2,
-                            "link": "#",
-                            "title": "Add members to your project",
-                            "required": "optional",
-                            "status": "todo"
-                        },
-                        {
-                            "Task": 3,
-                            "link": "#",
-                            "title": "Change who is going to lead the procurement",
-                            "required": "mandatory",
-                            "status": "done"
-                        }
-                ]
+            "eventTask": [
+                {
+                    "Task": 1,
+                    "link": "#",
+                    "title": "Name your project",
+                    "required": "mandatory",
+                    "status": "todo"
+                },
+                {
+                    "Task": 2,
+                    "link": "#",
+                    "title": "Add members to your project",
+                    "required": "optional",
+                    "status": "todo"
+                },
+                {
+                    "Task": 3,
+                    "link": "#",
+                    "title": "Change who is going to lead the procurement",
+                    "required": "mandatory",
+                    "status": "done"
+                }
+            ]
         },
         {
             "eventno": 2,
             "eventTitle": "Build your Request for Information (RFI)",
-                    "eventTask": [
-                        {
-                            "Task": 1,
-                            "link": "#",
-                            "title": "How- will you build your request for- information (RFI)",
-                            "required": "mandatory",
-                            "status": "todo"
-                        },
-                        {
-                            "Task": 2,
-                            "link": "#",
-                            "title": "Build your request for information",
-                            "required": "mandatory",
-                            "status": "in progress"
-                        }
-                ]
+            "eventTask": [
+                {
+                    "Task": 1,
+                    "link": "#",
+                    "title": "How- will you build your request for- information (RFI)",
+                    "required": "mandatory",
+                    "status": "todo"
+                },
+                {
+                    "Task": 2,
+                    "link": "#",
+                    "title": "Build your request for information",
+                    "required": "mandatory",
+                    "status": "in progress"
+                }
+            ]
         },
         {
             "eventno": 3,
             "eventTitle": "Review and publish your your Request for Information (RFI)",
-                    "eventTask": [
-                        {
-                            "Task": 1,
-                            "link": "#",
-                            "title": "Upload or link any additional documentation",
-                            "required": "optional",
-                            "status": "cannot start yet"
-                        },
-                        {
-                            "Task": 2,
-                            "link": "#",
-                            "title": "Identify suppliers",
-                            "required": "optional",
-                            "status": "cannot start yet"
-                        }
-                        {
-                            "Task": 3,
-                            "link": "#",
-                            "title": "Set response date and time",
-                            "required": "mandatory",
-                            "status": "cannot start yet"
-                        },
-                        {
-                            "Task": 4,
-                            "link": "#",
-                            "title": "Review contact details",
-                            "required": "mandatory",
-                            "status": "cannot start yet"
-                        }
-                        {
-                            "Task": 5,
-                            "link": "#",
-                            "title": "Review and publish",
-                            "required": "optional",
-                            "status": "cannot start yet"
-                        }
-                ]
+            "eventTask": [
+                {
+                    "Task": 1,
+                    "link": "#",
+                    "title": "Upload or link any additional documentation",
+                    "required": "optional",
+                    "status": "cannot start yet"
+                },
+                {
+                    "Task": 2,
+                    "link": "#",
+                    "title": "Identify suppliers",
+                    "required": "optional",
+                    "status": "cannot start yet"
+                },
+                {
+                    "Task": 3,
+                    "link": "#",
+                    "title": "Set response date and time",
+                    "required": "mandatory",
+                    "status": "cannot start yet"
+                },
+                {
+                    "Task": 4,
+                    "link": "#",
+                    "title": "Review contact details",
+                    "required": "mandatory",
+                    "status": "cannot start yet"
+                },
+                {
+                    "Task": 5,
+                    "link": "#",
+                    "title": "Review and publish",
+                    "required": "optional",
+                    "status": "cannot start yet"
+                }
+            ]
         }
     ]
 }
