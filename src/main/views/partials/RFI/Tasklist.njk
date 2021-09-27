@@ -1,0 +1,203 @@
+
+
+{% extends "template.njk" %}
+
+{% block content %}
+{{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/home"
+          },
+          {
+            text: "Contract award service",
+            href: "/cAT"
+          },
+          {
+            text: "RFI Task List",
+            href: "#"
+          }
+        ]
+      }) }}
+
+      <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+            Create a Request for Information (RFI)
+        </h1>
+        {% include "includes/project_header.njk" %}
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <ol class="app-task-list">
+            <li>
+                <h2 class="app-task-list__section">
+                    <span class="app-task-list__section-number">1- </span> Project and collaborators
+                </h2>
+                <ul class="app-task-list__items">
+                    <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                            <a href="name" aria-describedby="name-your-project">
+                                Name your project
+                            </a>
+                        </span>
+                        {% if data['projLongName'] | length > 0 %}
+                        <strong class="govuk-tag app-task-list__tag" >COMPLETED</strong>
+                        {% else %}
+                        <strong class="govuk-tag app-task-list__tag">TO DO</strong>
+                        {% endif %}
+                    </li>
+                    <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                            <a href="add-collaborators" aria-describedby="add-team-members">
+                                Add collaborators
+                            </a>
+                        </span>
+                        {% if data['rfi_collab_name_1'] | length > 0 %}
+                        <strong class="govuk-tag app-task-list__tag" >COMPLETED</strong>
+                        {% else %}
+                        <strong class="govuk-tag app-task-list__tag" >OPTIONAL</strong>
+                        {% endif%}
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <h2 class="app-task-list__section">
+                    <span class="app-task-list__section-number">2- </span> Build your Request for Information (RFI)
+                </h2>
+                <ul class="app-task-list__items">
+                    <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                            {% if data['projLongName'] | length > 0 %}
+                            <a href="type" aria-describedby="RFI-type">
+                                Choose how to build it
+                            </a>
+                            {% else %}
+                            Choose how to build it
+                            {% endif %}
+                        </span>
+                        {% if data['projLongName'] | length == 0 %}
+                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">CANNOT START YET</strong>
+                        {% elif data['ccs_rfi_type'] === "all_online" or data['ccs_rfi_type'] === "all_offline" %}
+                        <strong class="govuk-tag app-task-list__tag">COMPLETED</strong>
+                        {% else %}
+                        <strong class="govuk-tag  app-task-list__tag">TO DO</strong>
+                        {% endif %}
+                    </li>
+                    <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                            {% if data['ccs_rfi_type'] === "all_online" or data['ccs_rfi_type'] === "all_offline" %}
+                            <a href="select-document-type" aria-describedby="build-RFI">
+                                Build your RFI
+                            </a>
+                            {% else %}
+                            Build your RFI
+                            {% endif %}
+                        </span>
+                        {% if data['ccs_rfi_type'] | length == 0 %}
+                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="contact-details-status">CANNOT
+                            START YET</strong>
+                        {% elif data['ccs_rfi_type'] |length > 0 and data['rfi_prog_phase'] | length == 0 %}
+                        <strong class="govuk-tag  app-task-list__tag" >TO DO</strong>
+                        {% elif data['rfi_prog_phase'] | length > 0 %}
+                        <strong class="govuk-tag  app-task-list__tag" >COMPLETED</strong>
+                        {% endif %}
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <h2 class="app-task-list__section">
+                    <span class="app-task-list__section-number">3- </span> Review and publish your RFI
+                </h2>
+                <ul class="app-task-list__items">
+                    <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                            {% if data['rfi_prog_phase'] | length > 0 %}
+                            <a href="upload" aria-describedby="upload-additional-documents">
+                                Upload or link any additional documentation
+                            </a>
+                            {% else %}
+                            Upload or link any additional documentation
+                            {% endif %}
+                        </span>
+                        {% if data['rfi_prog_phase'] | length > 0 %}
+                        <strong class="govuk-tag app-task-list__tag" >OPTIONAL</strong>
+                        {% else %}
+                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">CANNOT START YET</strong>
+                        {% endif %}
+                    </li>
+                    <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                            {% if data['rfi_prog_phase'] | length > 0 %}
+                            <a href="suppliers" aria-describedby="identify-suppliers">
+                                Identify suppliers
+                            </a>
+                            {% else %}
+                            Identify suppliers
+                            {% endif %}
+                        </span>
+                        {% if data['rfi_prog_phase'] | length > 0 %}
+                        <strong class="govuk-tag app-task-list__tag" >OPTIONAL</strong>
+                        {% else %}
+                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">CANNOT START YET</strong>
+                        {% endif %}
+                    </li>
+                    <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                            {% if data['rfi_prog_phase'] | length > 0 %}
+                            <a href="response-date" aria-describedby="set-response-date">
+                                Set response date and time
+                            </a>
+                            {% else %}
+                            Set response date and time
+                            {% endif %}
+                        </span>
+                        {% if data['rfi_response_date-day'] | length > 0 %}
+                        <strong class="govuk-tag app-task-list__tag" >COMPLETED</strong>
+                        {% elif data['rfi_prog_phase'] | length > 0 %}
+                        <strong class="govuk-tag app-task-list__tag" >TO DO</strong>
+                        {% else %}
+                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">CANNOT START YET</strong>
+                        {% endif %}
+                    </li>
+                    <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                            {% if data['rfi_prog_phase'] | length > 0 %}
+                            <a href="#" aria-describedby="read-declaration-status">
+                                Review contact details
+                            </a>
+                            {% else %}
+                            Review contact details
+                            {% endif %}
+                        </span>
+                        <strong class="govuk-tag app-task-list__tag">COMPLETED</strong>
+                    </li>
+                    <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                            {% if data['rfi_response_date-day'] | length > 0 %}
+                            <a href="review" aria-describedby="read-declaration-status">
+                                Review and publish
+                            </a>
+                            {% else %}
+                            Review and publish
+                            {% endif %}
+                        </span>
+                        {% if data['rfi_response_date-day'] | length == 0 %}
+                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">CANNOT START YET</strong>
+                        {% else %}
+                        <strong class="govuk-tag app-task-list__tag">TO DO</strong>
+                        {% endif %}
+                    </li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+{% endblock %}

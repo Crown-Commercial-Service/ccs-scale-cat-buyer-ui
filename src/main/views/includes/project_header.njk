@@ -1,0 +1,13 @@
+<div class="project-overview">
+  <p class="govuk-body">Selected agreement: <strong>{{ data['this_agreement_name'] }}, {{ data['this_lot'] }}</strong></p>
+  <p class="govuk-body">Agreement ID: <strong>{{ data['this_agreement_id'] }}</strong></p>
+  <p class="govuk-body">Project name:
+    {% if data['projLongName'] | length == 0 and data['projPersistID'] | length == 0 %}
+    <strong> {{ data['project_name'] }}</strong>
+    {% elif data['projLongName'] | length == 0 and data['projPersistID'] | length > 0 %}
+    <strong> {{ data['projPersistID'] }}</strong>
+    {% else %}
+    <strong>{{ data['projLongName'] }} ({{ data['projPersistID'] }})</strong>
+    {% endif %}
+  </p>
+</div>
