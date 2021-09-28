@@ -4,6 +4,7 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "target": "es6",
     "noImplicitAny": true,
     "moduleResolution": "node",
@@ -17,12 +18,9 @@
     ],
     "baseUrl": "src/main",
     "paths": {
-      "router/*": [
-        "router/*"
-      ],
-      "routes/*": [
-        "routes/*"
-      ]
+      "main/*":[
+        "src/main/*"
+        ]
     },
     "typeRoots": [
       "./node_modules/@types"
