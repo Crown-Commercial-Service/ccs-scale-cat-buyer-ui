@@ -1,5 +1,8 @@
 {% extends "template.njk" %}
 
+{% set title = 'Create a Request for Information (RFI)' %}
+
+
 {% block content %}
 {{ CCSBreadcrumbs({
         items: [
@@ -27,12 +30,16 @@
     </div>
 </div>
 
+
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
     <ol class="app-task-list">
 
     {# This is the part i have written #}
+
+    
 
     {% for item in data.events %}
          <li>
