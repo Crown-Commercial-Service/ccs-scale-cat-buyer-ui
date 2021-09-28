@@ -1,0 +1,37 @@
+{% extends "template.njk" %}
+
+
+
+{% set title = 'Create a Request for Information (RFI)' %}
+
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home" ,
+            href: "/home"
+          },
+          {
+            text: "Contract award service",
+            href: "/cAT"
+          },
+          {
+            text: "RFI Task List",
+            href: "#"
+          }
+        ]
+      }) }}
+ {% endblock %}
+
+{% block content %}
+      <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+        {{data.title }}
+        </h1>
+        {% include "includes/project_header.njk" %}
+    </div>
+</div>
+
+{% endblock %}
