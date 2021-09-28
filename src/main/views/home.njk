@@ -3,6 +3,7 @@
 {% set title = 'home | Contract a Thing' %}
 {# {% set heading = t('Welcome to the Money Claim legal rep beta') %} #}
 
+
 {% block content %}
 {{ CCSBreadcrumbs({
         items: [
@@ -21,7 +22,9 @@
         ]
       }) }}
 
-  
+{% endblock %}
+
+{% block content %} 
 
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
       
