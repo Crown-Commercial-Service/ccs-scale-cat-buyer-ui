@@ -50,15 +50,21 @@
                {% for Tasks in item.eventTask %}
                 <li class="app-task-list__item">
                         <span class="app-task-list__task-name">
-                        {% if Tasks.link !== undefined %}
-                            <a href="name" aria-describedby="name-your-project">
-                                {{Tasks.title}}
-                            </a>
-                        {% else %}
-                        {{Tasks.title}}
-                        {% endif %} 
+                          <strong>
+                            {% if Tasks.link !== undefined %}
+                                <a href="name" aria-describedby="name-your-project">
+                                    {{Tasks.title}}
+                                </a>
+                            {% else %}
+                            {{Tasks.title}}
+                            {% endif %} 
+                          </strong>
                         </span>
+                        {% if Tasks.status === "cannot start yet" %}
+                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
+                        {% else %}
                         <strong class="govuk-tag app-task-list__tag" > {{Tasks.status}}</strong>
+                        {% endif %} 
                     </li>
                {% endfor %}
                 </ul>
