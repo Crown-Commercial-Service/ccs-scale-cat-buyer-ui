@@ -40,7 +40,8 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
   disk_quota  = var.disk_quota
   enable_ssh  = true
   environment = {
-    PRIVATE_APP_URL : "http://${var.environment}-ccs-scale-cat-service.apps.internal:8080"
+    TENDERS_SERVICE_API_URL : "http://${var.environment}-ccs-scale-cat-service.apps.internal:8080"
+    AGREEMENTS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-shared-agreements-service.london.cloudapps.digital"
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
