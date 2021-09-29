@@ -4,5 +4,5 @@ import * as cmsData from '../../../resources/content/RFI/rfiTaskList.json'
 // RFI TaskList
 export const RFI_TASKLIST = (req : express.Request, res : express.Response)=> {
    var windowAppendData = {data : cmsData}
-   res.render('features/RFI/Tasklist', windowAppendData); 
+   res.render('Tasklist', windowAppendData); 
 }

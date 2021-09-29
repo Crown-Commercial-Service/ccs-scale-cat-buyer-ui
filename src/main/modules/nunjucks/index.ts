@@ -18,31 +18,21 @@ export class Nunjucks {
   enableFor(app: express.Application): void {
     
     app.set('view engine', 'njk');
-    const govUkFrontendPath = path.join(
-      __dirname,
-      'src',
-      'main',
-      'views'    
-    );
 
-    const RFIJourneyPath = path.join(
-      __dirname,
-      'src',
-      'main',
-      'features',
-      'RFI',
-      'views'    
-    );
+    const NunjucksPathFolders = {
+      mainViewDirectory : path.join(__dirname, '..', '..', 'views'),
+      RFIViewDirectory : path.join(__dirname, '..', '..','features', 'rfi', 'views')
+    }
 
+    
 
     var NunjucksEnvironment =  nunjucks.configure(
       [
-        govUkFrontendPath,
-        RFIJourneyPath,
-        path.join(__dirname, '..', '..', 'views'),
-        path.join(__dirname, '..', '..', 'views', 'macro'),
+        NunjucksPathFolders.mainViewDirectory,
+        NunjucksPathFolders.RFIViewDirectory
+       
     
-    ],
+      ],
       {
         autoescape: true,
         watch: this.developmentMode,
