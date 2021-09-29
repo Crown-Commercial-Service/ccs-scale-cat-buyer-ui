@@ -9,4 +9,8 @@ export default function(app: Application): void {
   app.get(RFI_PATHS.RFI_TASKLIST, RFI_TASKLIST);          // @GET '/rfi/rfi-task-list'
   app.get(RFI_PATHS.RFI_TYPE, RFI_TYPE );                //  @GET '/rfi/type'
 
+
+
+  //@ postRoutes
+  app.post('/add', (req, res) =>  console.log(req.body))
 }

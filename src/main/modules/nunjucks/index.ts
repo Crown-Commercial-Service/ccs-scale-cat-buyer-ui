@@ -2,7 +2,8 @@ import * as path from 'path';
 import * as express from 'express';
 import * as nunjucks from 'nunjucks';
 import {dateFilter, dateInputFilter, dateWithDayAtFrontFilter, monthIncrementFilter, addDaysFilter} from './filters/dateFilter'
-import {stringFilter} from './filters/stringFilter'
+import {stringFilter } from './filters/stringFilter'
+import {jsonFilter, jsontoStringFilter} from './filters/jsonFilter'
 import { InitOptions } from 'i18next'
 
 export class Nunjucks {
@@ -57,7 +58,8 @@ export class Nunjucks {
     NunjucksEnvironment.addFilter('dateWithDayAtFront', dateWithDayAtFrontFilter)   
     NunjucksEnvironment.addFilter('monthIncrement', monthIncrementFilter)
     NunjucksEnvironment.addFilter('addDays', addDaysFilter)
-
+    NunjucksEnvironment.addFilter('json', jsonFilter)
+    NunjucksEnvironment.addFilter('stringJson', jsontoStringFilter)
     NunjucksEnvironment.addFilter('string', stringFilter)
     app.use((req, res, next) => {
       res.locals.pagePath = req.path;

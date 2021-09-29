@@ -4,7 +4,6 @@
 
 {% set title = 'Create a Request for Information (RFI)' %}
 
-
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
         items: [
@@ -17,7 +16,7 @@
             href: "/cAT"
           },
           {
-            text: "RFI Task List",
+            text: "How will you publish your RfI",
             href: "#"
           }
         ]
@@ -30,8 +29,27 @@
         <h1 class="govuk-heading-xl">
         {{data.title }}
         </h1>
-        {% include "includes/project_header.njk" %}
+        {% include "includes/project_header.njk" %}  
     </div>
 </div>
 
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body-l">{{ data.form.question }}</p>
+        <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/add" method="POST">
+            
+      
+      {{  data.form.radioOptions}}
+           
+
+            <div class="govuk-button-group">
+                {{ CCSButton({
+                text: "Save and continue"
+                }) }}
+                <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
