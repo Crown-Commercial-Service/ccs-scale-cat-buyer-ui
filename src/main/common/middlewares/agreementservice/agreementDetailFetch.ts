@@ -1,9 +1,14 @@
 import * as express from 'express'
 import {AgreementAPI} from '../../util/fetch/agreementservice/agreementsApiInstance'
 import {Query} from '../../util/operators/query'
-import { HttpStatusCode } from '../../../errors/HttpStatusCode';
+import { HttpStatusCode } from '../../../errors/httpStatusCode';
 
-
+  /**
+   * @Name AgreemmentDetailsFetchMiddleware 
+   * @summary initializes the middleware to be used in along with express route 
+   * 
+   */
+  
 export class AgreementDetailsFetchMiddleware {
     static FetchAgreements = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
 

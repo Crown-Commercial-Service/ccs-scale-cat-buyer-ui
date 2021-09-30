@@ -1,5 +1,5 @@
 export class Query {
-/**
+    /**
      * 
      * @param argument 
      * @returns  true if the argument is undefined
