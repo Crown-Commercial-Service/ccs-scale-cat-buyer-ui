@@ -1,7 +1,6 @@
 import * as express from 'express'
 import {AgreementAPI} from '../../util/fetch/agreementservice/agreementsApiInstance'
 import {Query} from '../../util/operators/query'
-import { HttpStatusCode } from '../../../errors/httpStatusCode';
 
   /**
    * @Name AgreemmentDetailsFetchMiddleware 
@@ -10,27 +9,21 @@ import { HttpStatusCode } from '../../../errors/httpStatusCode';
    */
   
 export class AgreementDetailsFetchMiddleware {
-    static FetchAgreements = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    static FetchAgreements = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         var {agreement_id} = req.query;
         if(Query.isUndefined(agreement_id) || Query.isEmpty(agreement_id)){
             res.render('error/404')
         }else{
-          
             let BaseURL = `agreements/${agreement_id}`;
-            let  retrieveAgreementDetails  = await AgreementAPI.Instance.get(BaseURL);  
-            let requestStatusCodeCheck =retrieveAgreementDetails.status == HttpStatusCode.OK;
+            let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
+            retrieveAgreementPromise.then( (data)=> {
+                let containedData = data?.data;
+                res.locals.project_header = containedData;
+                next(); 
 
-            console.log(requestStatusCodeCheck)
-            if(requestStatusCodeCheck){
-                let data : any = retrieveAgreementDetails.data;
-                res.locals.project_header = data;
-                next();        
-             }
+            }).catch(
+                (err) => res.render('error/404')
+            )            
         }
-        
-        
-
-       
     }
-    
 }
