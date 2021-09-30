@@ -11,23 +11,25 @@ import { HttpStatusCode } from '../../../errors/httpStatusCode';
   
 export class AgreementDetailsFetchMiddleware {
     static FetchAgreements = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-
         var {agreement_id} = req.query;
-        if(Query.isEmpty(agreement_id)){
+        if(Query.isUndefined(agreement_id) || Query.isEmpty(agreement_id)){
             res.render('error/404')
-        }
-        let BaseURL = `agreements/${agreement_id}`;
-         let  retrieveAgreementDetails  = await AgreementAPI.Instance.get(BaseURL);  
-         let requestStatusCodeCheck =retrieveAgreementDetails.status == HttpStatusCode.OK;
+        }else{
+          
+            let BaseURL = `agreements/${agreement_id}`;
+            let  retrieveAgreementDetails  = await AgreementAPI.Instance.get(BaseURL);  
+            let requestStatusCodeCheck =retrieveAgreementDetails.status == HttpStatusCode.OK;
 
-         if(requestStatusCodeCheck){
-            let data : any = retrieveAgreementDetails.data;
-            res.locals.project_header = data;
-            next();        
-         }
-         else{
-            res.send('no working')
-         }
+            console.log(requestStatusCodeCheck)
+            if(requestStatusCodeCheck){
+                let data : any = retrieveAgreementDetails.data;
+                res.locals.project_header = data;
+                next();        
+             }
+        }
+        
+        
+
        
     }
     
