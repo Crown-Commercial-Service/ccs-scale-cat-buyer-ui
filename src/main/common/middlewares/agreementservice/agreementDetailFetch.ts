@@ -1,3 +1,4 @@
+import { ErrorView } from '../../../common/shared/error/errorView';
 import * as express from 'express'
 import {AgreementAPI} from '../../util/fetch/agreementservice/agreementsApiInstance'
 import {Query} from '../../util/operators/query'
@@ -12,7 +13,7 @@ export class AgreementDetailsFetchMiddleware {
     static FetchAgreements = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         var {agreement_id} = req.query;
         if(Query.isUndefined(agreement_id) || Query.isEmpty(agreement_id)){
-            res.render('error/404')
+            res.render(ErrorView.notfound)
         }else{
             let BaseURL = `agreements/${agreement_id}`;
             let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
@@ -22,7 +23,7 @@ export class AgreementDetailsFetchMiddleware {
                 next(); 
 
             }).catch(
-                (err) => res.render('error/404')
+                (err) => res.render(ErrorView.notfound)
             )            
         }
     }

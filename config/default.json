@@ -6,5 +6,11 @@
   "PORT": "3000",
   "AgreementService": {
     "BASEURL": "https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital"
+  },
+  "pages": {
+    "error": {
+      "404": "error/404",
+      "500": "error/500"
+    }
   }
 }
