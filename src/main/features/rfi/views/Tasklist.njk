@@ -33,6 +33,47 @@
 
 </div>
 
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body-l">{{ data.form.question }}</p>
+        <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/add" method="POST">
+            
+      {# Server fetched information -> Array#}
+      {{  data.form.radioOptions.items}}
+
+       {{ CCSRadios({
+                idPrefix: "ccs_rfi_type",
+                name: "ccs_rfi_type",
+                items: [
+                  {
+                    value: "all_online",
+                    html: "<h3 class='govuk-heading-m'>Provide all information online</h3>",
+                    hint: {
+                      text: "The Procurement Portal will guide you in this process step-by-step. "
+                    }
+                  },
+                  {
+                    value: "all_offline",
+                    html: "<h3 class='govuk-heading-m'>Complete a document offline</h3>",
+                    hint: {
+                      text: "You'll be able to download a template, fill it offline and resume the process when you’re ready to upload it into the Portal. "
+                    }
+                  }
+                ]
+
+                
+              }) }}
+           
+
+            <div class="govuk-button-group">
+                {{ CCSButton({
+                text: "Save and continue"
+                }) }}
+                <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+            </div>
+        </form>
+    </div>
+</div>
 
 
 <div class="govuk-grid-row">
