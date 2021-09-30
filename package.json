@@ -41,6 +41,7 @@
     "@types/require-directory": "^2.1.1",
     "@types/sass": "^1.16.0",
     "@types/serve-favicon": "^2.5.0",
+    "axios": "^0.21.4",
     "ccs-frontend-kit": "^1.1.1",
     "config": "^3.2.5",
     "cookie-encrypter": "^1.0.1",

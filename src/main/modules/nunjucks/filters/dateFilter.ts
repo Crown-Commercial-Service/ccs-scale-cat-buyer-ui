@@ -1,7 +1,7 @@
 import  moment from 'moment'
-import { DateFormater } from '../../../util/dateFormatter'
-import { MomentFactory } from '../../../util/momentFactory'
-import { calculateMonthIncrement } from '../../../util/calculateMonthIncrement'
+import { DateFormater } from '../../../utils/dateFormatter'
+import { MomentFactory } from '../../../utils/momentFactory'
+import { calculateMonthIncrement } from '../../../utils/calculateMonthIncrement'
 
 
 export function dateFilter (value: moment.Moment | string): string {

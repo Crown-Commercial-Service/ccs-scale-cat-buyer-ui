@@ -1,31 +1,37 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
     "module": "commonjs",
+    "target": "es2017",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es6",
+    "resolveJsonModule": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
+    "alwaysStrict": true,
     "lib": [
       "es6",
+      "es2016.array.include",
       "es2017.object",
       "dom"
     ],
-    "baseUrl": "src/main",
+    "baseUrl": "./src",
     "paths": {
-      "router/*": [
-        "router/*"
+      "@utils/*": [
+        "main/utils/*"
       ],
-      "routes/*": [
-        "routes/*"
+      "@router/*": [
+        "main/routes/*"
+      ],
+      "@common/*" : [
+        "main/common/*"
       ]
     },
     "typeRoots": [
       "./node_modules/@types"
     ]
-  }
+  },
+  "include": [ "**/*.ts", "**/*.tsx"],
 }
