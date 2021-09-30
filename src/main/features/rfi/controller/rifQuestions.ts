@@ -55,10 +55,10 @@ export const RFI_QUESTIONS = (req : express.Request, res : express.Response)=> {
          Object.assign(path_view_loaded_data, rfi_project_status);
       break;
 
-      default:  path_view_loaded_data = '';
+      default:  path_view_loaded_data = null;
    }
 
-      if(path_view_loaded_data == ''){
+      if(path_view_loaded_data === null){
          res.redirect('/error?page=404')
       }
       else{
