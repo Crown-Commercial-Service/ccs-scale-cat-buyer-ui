@@ -29,47 +29,47 @@
           {
             "title": "Information you are looking for",
             "hreftitle": "Add Information you are looking for",
-            "href": "&path=rfi_questions"
+            "href": "rfi_questions"
           },
           {
             "title": "Who is the buyer?",
             "hreftitle": "Add buyer details",
-            "href": "/rfi/online-task-list?pat"
+            "href": "online_task_list"
           },
           {
             "title": "Security and vetting requirements",
             "hreftitle": "Add security and vetting requirements",
-            "href": "/rfi/vetting"
+            "href": "rfi_vetting"
           },
           {
             "title": "Key terms and acronyms",
             "hreftitle": "Add terms and acronyms",
-            "href": "/rfi/acronyms"
+            "href": "rfi_acronyms"
           },
           {
             "title": "Where the work will be completed",
             "hreftitle": "Add address",
-            "href": "/rfi/address"
+            "href": "rfi_address"
           },
           {
             "title": "Specify your budget",
             "hreftitle": "Add budget",
-            "href": "/rfi/budget"
+            "href": "rfi_budget"
           },
           {
             "title": "Specify your daily rate",
             "hreftitle": "Add daily rate",
-            "href": "/rfi/budget-step-two"
+            "href": "rfi_budget_step_two"
           },
           {
             "title": "About the project",
             "hreftitle": "Add information about the project",
-            "href": "/rfi/project"
+            "href": "rfi_project"
           },
           {
             "title": "Status of the project",
             "hreftitle": "Add status of the project",
-            "href": "/rfi/project-status"
+            "href": "rfi_project_status"
           }
         ],       
         "backJump": {
