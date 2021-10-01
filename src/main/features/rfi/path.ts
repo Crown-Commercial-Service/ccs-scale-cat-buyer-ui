@@ -13,7 +13,7 @@ export default function(app: Application): void {
   app.get(RFI_PATHS.RFI_TASKLIST, AgreementDetailsFetchMiddleware.FetchAgreements,  associatedViews.RFI_TASKLIST);  
 
 //  @GET '/rfi/type'
-  app.get(RFI_PATHS.RFI_TYPE, associatedViews.RFI_TYPE);     
+  app.get(RFI_PATHS.RFI_TYPE, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.RFI_TYPE);     
   
   //  @GET '/rfi/online-task-list'
   app.get(RFI_PATHS.RFI_ONLINE_TASKLIST, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.RFI_ONLINE_TASKLIST );      
