@@ -27,5 +27,5 @@ export default function(app: Application): void {
  * @summary: provide all the respective associated view to the certain routes
  */
   //@ postRoutes
-  app.post('/add', (req, res) =>  console.log(req.body))
+  app.post('/test', (req, res) =>  console.log(req.body))
 }

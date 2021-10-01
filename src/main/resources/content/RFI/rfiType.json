@@ -1,15 +1,15 @@
 {
     "breadCrumbs": [
         {
-            "title": "Home",
+            "text": "Home",
             "href": "/"
         },
         {
-            "title": "Contract award service",
+            "text": "Contract award service",
             "href": "#"
         },
         {
-            "title": "How will you publish your RfI",
+            "text": "How will you publish your RfI",
             "href": "#"
         }
 

@@ -1,23 +1,23 @@
 {
     "breadCrumbs": [
         {
-            "title": "Dashboard",
+            "text": "Dashboard",
             "href": "/"
         },
         {
-            "title": "Choose a commericial agreement",
+            "text": "Choose a commericial agreement",
             "href": "#"
         },
         {
-            "title": "Procurement overview",
+            "text": "Procurement overview",
             "href": "#"
         },
         {
-          "title": "Run premakert engagement",
+          "text": "Run premakert engagement",
           "href": "#"
         },
         {
-          "title": "Build your Request for Information (RFI)",
+          "text": "Build your Request for Information (RFI)",
           "href": "#"
       }
 
@@ -34,7 +34,7 @@
           {
             "title": "Who is the buyer?",
             "hreftitle": "Add buyer details",
-            "href": "online_task_list"
+            "href": "rfi_who"
           },
           {
             "title": "Security and vetting requirements",

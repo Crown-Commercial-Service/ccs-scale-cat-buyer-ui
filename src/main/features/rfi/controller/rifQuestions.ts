@@ -1,5 +1,8 @@
 import * as express from 'express'
 import * as cmsData from '../../../resources/content/RFI/rfiTaskList.json'
+import * as QuestionCmsData from '../../../resources/content/RFI/rfiquestions/information.json'
+import * as whoCmsData from '../../../resources/content/RFI/rfiquestions/who.json'
+
 // RFI TaskList
 export const RFI_QUESTIONS = (req : express.Request, res : express.Response)=> {
 
@@ -10,13 +13,13 @@ export const RFI_QUESTIONS = (req : express.Request, res : express.Response)=> {
    switch(path_view){
 
       case 'rfi_questions':
-         var rfi_questions_data: Object = {data : cmsData}
+         var rfi_questions_data: Object = {data : QuestionCmsData}
          Object.assign(path_view_loaded_data, rfi_questions_data);
       break;
 
-      case 'online_task_list':
-         var online_task_list : Object = {data : cmsData}
-         Object.assign(path_view_loaded_data, online_task_list);
+      case 'rfi_who':
+         var rfi_who : Object = {data : whoCmsData}
+         Object.assign(path_view_loaded_data, rfi_who);
       break;
 
       case 'rfi_vetting':

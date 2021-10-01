@@ -1,19 +1,19 @@
 {
     "breadCrumbs": [
         {
-            "title": "Dashboard",
+            "text": "Dashboard",
             "href": "/"
         },
         {
-            "title": "Choose a commercial agreement",
+            "text": "Choose a commercial agreement",
             "href": "#"
         },
         {
-            "title": "Procument overview",
+            "text": "Procument overview",
             "href": "#"
         },
         {
-            "title": "run pre-market engagement",
+            "text": "run pre-market engagement",
             "href": "#"
         }
 
