@@ -3,8 +3,13 @@ import * as cmsData from '../../../resources/content/RFI/rfiTaskList.json'
 import * as QuestionCmsData from '../../../resources/content/RFI/rfiquestions/information.json'
 import * as whoCmsData from '../../../resources/content/RFI/rfiquestions/who.json'
 
-// RFI TaskList
-export const RFI_QUESTIONS = (req : express.Request, res : express.Response)=> {
+/**
+ * @Controller
+ * @GET
+ * @summary switches query related to specific parameter 
+ * @validation false
+ */
+export const GET_QUESTIONS = (req : express.Request, res : express.Response)=> {
 
    var {path_view} = req.query;
 
@@ -67,7 +72,19 @@ export const RFI_QUESTIONS = (req : express.Request, res : express.Response)=> {
       else{
          res.render('questions', path_view_loaded_data); 
       }
-   
-   
-   
+     
 }
+
+/**
+ * @Controller
+ * @POST
+ * @param rfi_questions
+ * @summary 
+ * @validation true
+ */
+
+// path = /rfi/questions/question
+ export const POST_QUESTION = (req : express.Request, res : express.Response)=> {
+  console.log(req.body)
+
+ }

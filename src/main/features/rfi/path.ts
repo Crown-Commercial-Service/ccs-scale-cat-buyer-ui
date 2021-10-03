@@ -1,8 +1,7 @@
 import { Application } from 'express';
-import {RFI_PATHS} from './model/rfiConstants'
+import {RFI_PATHS} from './model/rficonstant'
 import {associatedViews} from './controller/index'
-import {AgreementDetailsFetchMiddleware} from '../../common/middlewares/agreementservice/agreementDetailFetch'
-
+import {AgreementDetailsFetchMiddleware} from '../../common/middlewares/agreementservice/agreementdetailsfetch'
 export default function(app: Application): void {
 /**
  * 
@@ -10,22 +9,26 @@ export default function(app: Application): void {
  * @summary: provide all the respective associated view to the certain routes
  */
 // @GET '/rfi/rfi-task-list'
-  app.get(RFI_PATHS.RFI_TASKLIST, AgreementDetailsFetchMiddleware.FetchAgreements,  associatedViews.RFI_TASKLIST);  
+  app.get(RFI_PATHS.GET_TASKLIST, AgreementDetailsFetchMiddleware.FetchAgreements,  associatedViews.GET_TASKLIST);  
 
 //  @GET '/rfi/type'
-  app.get(RFI_PATHS.RFI_TYPE, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.RFI_TYPE);     
+  app.get(RFI_PATHS.GET_TYPE, associatedViews.GET_TYPE);     
   
   //  @GET '/rfi/online-task-list'
-  app.get(RFI_PATHS.RFI_ONLINE_TASKLIST, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.RFI_ONLINE_TASKLIST );      
+  app.get(RFI_PATHS.GET_ONLINE_TASKLIST, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.GET_ONLINE_TASKLIST );      
 
   //  @GET '/rfi/questions'
-  app.get(RFI_PATHS.RFI_QUESTIONS,  AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.RFI_QUESTIONS);      
+  app.get(RFI_PATHS.GET_QUESTIONS, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.GET_QUESTIONS);      
 
 /**
  * 
- * @RPOST : POST Routes of RFI
+ * @POST : POST Routes of RFI
  * @summary: provide all the respective associated view to the certain routes
  */
-  //@ postRoutes
+
+  //@POST '/rfi/questions/question
+  app.post(RFI_PATHS.POST_QUESTIONS_QUESTION,   associatedViews.POST_QUESTION)
+
+  //@postRoutes
   app.post('/test', (req, res) =>  console.log(req.body))
 }

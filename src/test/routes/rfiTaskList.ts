@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import request from 'supertest';
-import {RFI_PATHS} from '../../main/features/rfi/model/rfiConstants'
-import {RFI_TASKLIST} from '../../main/features/rfi/controller/rfiTaskList'
+import {RFI_PATHS} from '../../main/features/rfi/model/rficonstant'
+import {RFI_TASKLIST} from '../../main/features/rfi/controller/tasklist'
 
 import { app } from '../../main/app';
 

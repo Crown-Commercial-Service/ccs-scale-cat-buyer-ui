@@ -1,4 +1,4 @@
-import { ErrorView } from '../../../common/shared/error/errorView';
+import { ErrorView } from '../../shared/error/errorView';
 import * as express from 'express'
 import {AgreementAPI} from '../../util/fetch/agreementservice/agreementsApiInstance'
 import {Query} from '../../util/operators/query'

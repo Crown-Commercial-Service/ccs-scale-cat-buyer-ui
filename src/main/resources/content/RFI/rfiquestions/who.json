@@ -56,6 +56,19 @@
                   "id": "rfi_on_behalf_of",
                   "name": "rfi_on_behalf_of",
                   "value": ""
+            },
+            {
+                "label": {
+
+                   "text": "Enter email address",
+                    "classes": "govuk-label--m"
+                  },
+                  "hint": {
+                    "text": "If different from the Contracting Authority"
+                  },
+                  "id": "email",
+                  "name": "email",
+                  "value": ""
             }
         ],
         "build_started": {

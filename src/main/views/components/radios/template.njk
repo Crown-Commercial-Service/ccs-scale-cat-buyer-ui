@@ -3,9 +3,12 @@
 {% from "components/hint/macro.njk" import CCSHint %}
 {% from "components/label/macro.njk" import CCSLabel %}
 
+{#- If an id 'prefix' is not passed, fall back to using the name attribute
+   instead. We need this for error messages and hints as well -#}
 {% set idPrefix = params.idPrefix if params.idPrefix else params.name %}
 
-
+{#- a record of other elements that we need to associate with the input using
+   aria-describedby – for example hints or error messages -#}
 {% set describedBy = params.fieldset.describedBy if params.fieldset.describedBy else "" %}
 
 {% set isConditional = false %}
@@ -79,7 +82,7 @@
           {% if hasHint %}
           {{ CCSHint({
             id: itemHintId,
-            classes: 'govuk-radios__hint radio_hint' + (' ' + item.hint.classes if item.hint.classes),
+            classes: 'govuk-radios__hint' + (' ' + item.hint.classes if item.hint.classes),
             attributes: item.hint.attributes,
             html: item.hint.html,
             text: item.hint.text

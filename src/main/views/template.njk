@@ -6,6 +6,10 @@
         {% from "components/helper/macro.njk" import helpSection %}
          {% from "components/button/macro.njk" import CCSButton %}
 
+         {% from "components/error-message/macro.njk" import CCSErrorMessage %}
+         {% from "components/error-summary/macro.njk" import CCSErrorSummary %}
+
+
 <html lang="{{ htmlLang | default('en') }}" class="govuk-template {{ htmlClasses }}">
   <head>
     <meta charset="utf-8">
