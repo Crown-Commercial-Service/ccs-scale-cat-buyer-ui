@@ -31,7 +31,7 @@ $ npm start
 Or
 
 ```bash
-$ npm "start-windows
+$ npm run start:win
 ```
 
 The applications's home page will be available at https://localhost:3000

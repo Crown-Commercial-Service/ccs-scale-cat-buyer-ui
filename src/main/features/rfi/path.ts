@@ -12,7 +12,7 @@ export default function(app: Application): void {
   app.get(RFI_PATHS.GET_TASKLIST, AgreementDetailsFetchMiddleware.FetchAgreements,  associatedViews.GET_TASKLIST);  
 
 //  @GET '/rfi/type'
-  app.get(RFI_PATHS.GET_TYPE, associatedViews.GET_TYPE);     
+  app.get(RFI_PATHS.GET_TYPE, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.GET_TYPE);     
   
   //  @GET '/rfi/online-task-list'
   app.get(RFI_PATHS.GET_ONLINE_TASKLIST, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.GET_ONLINE_TASKLIST );      
@@ -30,5 +30,7 @@ export default function(app: Application): void {
   app.post(RFI_PATHS.POST_QUESTIONS_QUESTION,   associatedViews.POST_QUESTION)
 
   //@postRoutes
-  app.post('/test', (req, res) =>  console.log(req.body))
+  app.post('/test', (req, res) => {
+    res.redirect('/questions')
+  })
 }
