@@ -1,0 +1,71 @@
+{% extends "template.njk" %}
+
+
+{% set title = 'Create a Request for Information (RFI)' %}
+
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+ {% endblock %}
+
+{% block content %}
+      <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+        {{data.title }}
+        </h1>
+      
+    </div>
+</div>
+
+
+
+ <div class="govuk-grid-row">
+ <div class="govuk-grid-column-two-thirds">
+  {% include "includes/project_header.njk" %}  
+ <p class="govuk-body-l">{{data.subtitle}}</p><br><br><br>
+
+
+{% if(data['name'] == 'rfi_questions') %}
+ <form id="ccs_rfi_questions_form" name="ccs_rfi_questions_form" class="form ccs_rfi_questions_form" action="/rfi/questions/question" method="post">
+        {% for item in data.form.input %}
+            {{ CCSInput(item) }}
+        {% endfor %}
+        <br><br>
+        <p class="govuk-body"><a href="#" id="ccs_criteria_add" class="govuk-link govuk-link--no-visited-state">Add another question</a> </p>
+        {{ CCSInput(data.form.addQuestion) }}        
+        <div class="govuk-button-group">
+          {{ CCSButton({
+            text: "Save and continue"
+          }) }}
+          <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+        </div>
+  </form>      
+{% endif %}
+
+
+
+
+{% if(data['name'] == 'rfi_who') %}
+       <form id="ccs_rfi_who_form" name="ccs_rfi_who_form" class="form ccs_rfi_who_form" action="/rfi/questions/question" method="post"  novalidate>
+        {% for item in data.form.input %}
+            {{ CCSInput(item) }}
+        {% endfor %}
+        {{ CCSInput(data.form.build_started) }}
+        <div class="govuk-button-group">
+          {{ CCSButton({
+            text: "Save and continue"
+          }) }}
+          <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+        </div>
+  </form>      
+{% endif %}
+
+
+</div>
+</div>
+
+{% endblock %}
+

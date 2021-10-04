@@ -1,4 +1,4 @@
-import {HttpStatusCode} from './HttpStatusCode'
+import {HttpStatusCode} from './httpStatusCodes'
 
 interface ViewError {
   statusCode: number

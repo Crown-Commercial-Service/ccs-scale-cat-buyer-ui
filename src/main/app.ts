@@ -48,10 +48,9 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
 
 
  //RFI Related routes 
- glob.sync(__dirname + '/features/RFI/routes/**/*.+(ts|js)')
+ glob.sync(__dirname + '/features/rfi/path.ts')
  .map(filename => require(filename))
  .forEach(route => route.default(app));
-
 
 
 

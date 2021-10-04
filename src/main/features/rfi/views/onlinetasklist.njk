@@ -1,0 +1,36 @@
+{% extends "template.njk" %}
+
+{% set title = 'Provide information online | Crown Commercial Service' %}
+
+  {% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+          items: data.breadCrumbs
+        }) }}
+  {% endblock %}
+
+    {% block content %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">{{data.title }}</h1>{% include "includes/project_header.njk" %}
+            </div>
+        </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <ul class="app-task-list">
+              {% for items in data.taskList %}
+                    <li class="app-task-list__item">
+                    <span class="app-task-list__task-name">
+                        <strong>{{items.title}}</strong>
+                    </span>
+                    <a class="app-task-list__tag" href="/rfi/questions?agreement_id={{agreement_id}}&path_view={{items.href}}" aria-describedby="rfi-questions">{{items.hreftitle}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+                <br>
+                <br>
+            <p class="govuk-body">
+                <a href="{{data.backJump.href }}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title }}</a>
+            </p>
+        </div>
+    </div>
+    {% endblock %}      

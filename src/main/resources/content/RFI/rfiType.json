@@ -1,0 +1,52 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Contract award service",
+            "href": "#"
+        },
+        {
+            "text": "How will you publish your RfI",
+            "href": "#"
+        }
+
+    ],
+
+    "title": "How will you build your Request for Information (RfI)?",
+    "subtitle": null,
+    "form": {
+        "question": "How will you build your Request for Information (RfI)? ",
+        "radioOptions": {
+            "idPrefix": "ccs_rfi_type",
+            "name": "ccs_rfi_type",
+            "items": [
+              {
+                "value": "all_online",
+                "html": "<h3 class='govuk-heading-m'>Provide all information online</h3>",
+                "hint": {
+                  "text": "The Procurement Portal will guide you in this process step-by-step. "
+                }
+
+              },
+              {
+                "value": "all_offline",
+                "html": "<h3 class='govuk-heading-m'>Complete a document offline</h3>",
+                "hint": {
+                  "text": "You'll be able to download a template, fill it offline and resume the process when you’re ready to upload it into the Portal. "
+                }
+              }
+            ]
+          },
+        "backJump": {
+            "title": " Return to Run pre-market engagement",
+            "href": "#"
+        }
+
+    }
+
+
+
+}
