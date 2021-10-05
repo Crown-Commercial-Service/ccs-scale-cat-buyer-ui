@@ -2,6 +2,7 @@ import * as express from 'express'
 import * as cmsData from '../../../resources/content/RFI/rfiTaskList.json'
 import * as QuestionCmsData from '../../../resources/content/RFI/rfiquestions/information.json'
 import * as whoCmsData from '../../../resources/content/RFI/rfiquestions/who.json'
+import * as online_task_list from '../../../resources/content/RFI/rfionlineTaskList.json'
 
 /**
  * @Controller
@@ -11,9 +12,12 @@ import * as whoCmsData from '../../../resources/content/RFI/rfiquestions/who.jso
  */
 export const GET_QUESTIONS = (req : express.Request, res : express.Response)=> {
 
-   var {path_view} = req.query;
+   var {path_view, agreement_id} = req.query;
 
-   var path_view_loaded_data: any = {};
+   let template = online_task_list.template;
+   let related_template_data : any = template[1].requirementGroups;
+
+   var path_view_loaded_data: Object = {};
    
    switch(path_view){
 
@@ -23,7 +27,8 @@ export const GET_QUESTIONS = (req : express.Request, res : express.Response)=> {
       break;
 
       case 'rfi_who':
-         var rfi_who : Object = {data : whoCmsData}
+         var group_2_data = related_template_data.filter((anItem : any) => anItem?.id === 'Group 2');
+         var rfi_who : Object = {data : whoCmsData, template: group_2_data[0]}
          Object.assign(path_view_loaded_data, rfi_who);
       break;
 
@@ -70,6 +75,7 @@ export const GET_QUESTIONS = (req : express.Request, res : express.Response)=> {
          res.redirect('/error?page=404')
       }
       else{
+         path_view_loaded_data = {...path_view_loaded_data, agreement_id : agreement_id}
          res.render('questions', path_view_loaded_data); 
       }
      
@@ -85,6 +91,17 @@ export const GET_QUESTIONS = (req : express.Request, res : express.Response)=> {
 
 // path = /rfi/questions/question
  export const POST_QUESTION = (req : express.Request, res : express.Response)=> {
-  console.log(req.body)
+    var {agreement_id} = req.query;
+    //api 
+    let redirect_path = `/rfi/questions?agreement_id=${agreement_id}&path_view=rfi_who`
+    res.redirect(redirect_path);
 
  }
+
+// path = /rfi/questions/who
+ export const POST_WHO = (req : express.Request, res : express.Response)=> {
+   var {agreement_id} = req.query;
+   //-> backend api posting -> 
+   let redirect_path = `/rfi/questions?agreement_id=${agreement_id}&path_view=rfi_vetting`
+   res.redirect(redirect_path);
+}

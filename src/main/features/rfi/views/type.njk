@@ -21,7 +21,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body-l">{{ data.form.question }}</p>
-        <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/test" method="POST">
+        <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/rfi/type?agreement_id={{agreement_id}}" method="POST">
        {{ CCSRadios({
                 idPrefix: "ccs_rfi_type",
                 name: "ccs_rfi_type",

@@ -26,8 +26,16 @@ export default function(app: Application): void {
  * @summary: provide all the respective associated view to the certain routes
  */
 
+
+  //@POST '/rfi/type
+  app.post(RFI_PATHS.POST_TYPE_TYPE,   associatedViews.POST_TYPE);
+
   //@POST '/rfi/questions/question
   app.post(RFI_PATHS.POST_QUESTIONS_QUESTION,   associatedViews.POST_QUESTION)
+
+
+  //@POST '/rfi/questions/who'
+  app.post(RFI_PATHS.POST_QUESTIONS_WHO,   associatedViews.POST_WHO)
 
   //@postRoutes
   app.post('/test', (req, res) => {

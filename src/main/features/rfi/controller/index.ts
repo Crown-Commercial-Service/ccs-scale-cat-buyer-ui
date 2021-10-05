@@ -1,7 +1,7 @@
 import {GET_TASKLIST} from './tasklist'
-import {GET_TYPE} from './type'
+import {GET_TYPE, POST_TYPE} from './type'
 import {GET_ONLINE_TASKLIST} from './onlinetasklist'
-import {GET_QUESTIONS, POST_QUESTION} from './questions'
+import {GET_QUESTIONS, POST_QUESTION, POST_WHO} from './questions'
 
 export var associatedViews =  {
     /**
@@ -17,6 +17,8 @@ export var associatedViews =  {
      /**
      * @POST_VIEW
      */
-    POST_QUESTION
+    POST_QUESTION,
+    POST_TYPE,
+    POST_WHO
 
 }
