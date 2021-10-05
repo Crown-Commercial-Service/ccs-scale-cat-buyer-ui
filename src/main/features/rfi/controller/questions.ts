@@ -1,8 +1,6 @@
 import * as express from 'express'
-import * as cmsData from '../../../resources/content/RFI/rfiTaskList.json'
-import * as QuestionCmsData from '../../../resources/content/RFI/rfiquestions/information.json'
-import * as whoCmsData from '../../../resources/content/RFI/rfiquestions/who.json'
-import * as online_task_list from '../../../resources/content/RFI/rfionlineTaskList.json'
+import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+
 
 /**
  * @Controller
@@ -10,74 +8,17 @@ import * as online_task_list from '../../../resources/content/RFI/rfionlineTaskL
  * @summary switches query related to specific parameter 
  * @validation false
  */
-export const GET_QUESTIONS = (req : express.Request, res : express.Response)=> {
+export const GET_QUESTIONS = async (req : express.Request, res : express.Response)=> {
 
-   var {path_view, agreement_id} = req.query;
+   let {id,path_view, agreement_id} = req.query;
+   let fetch_dynamic_api = await DynamicFrameworkInstance.Instance.get('');
+   let fetch_dynamic_api_data = fetch_dynamic_api.data; 
+   let CriterionId: any = id;
+  let filter_according_criterion = fetch_dynamic_api_data?.default.filter((aCriterion: any )=> aCriterion.id === CriterionId.split('_').join(' '))[0];
+   let route_path_address : any = path_view;
+  let match_according_to_path = filter_according_criterion?.requirementGroups.filter((routed_path: any)=> routed_path.description === route_path_address.split('_').join(' '))[0];
 
-   let template = online_task_list.template;
-   let related_template_data : any = template[1].requirementGroups;
-
-   var path_view_loaded_data: Object = {};
-   
-   switch(path_view){
-
-      case 'rfi_questions':
-         var rfi_questions_data: Object = {data : QuestionCmsData}
-         Object.assign(path_view_loaded_data, rfi_questions_data);
-      break;
-
-      case 'rfi_who':
-         var group_2_data = related_template_data.filter((anItem : any) => anItem?.id === 'Group 2');
-         var rfi_who : Object = {data : whoCmsData, template: group_2_data[0]}
-         Object.assign(path_view_loaded_data, rfi_who);
-      break;
-
-      case 'rfi_vetting':
-         var rfi_vetting : Object = {data : cmsData}
-         Object.assign(path_view_loaded_data, rfi_vetting);
-      break;
-
-      case 'rfi_acronyms':
-         var rfi_acronyms : Object = {data : cmsData}
-         Object.assign(path_view_loaded_data, rfi_acronyms);
-      break;
-
-      case 'rfi_address':
-         var rfi_address : Object = {data : cmsData}
-         Object.assign(path_view_loaded_data, rfi_address);
-      break;
-
-
-      case 'rfi_budget':
-         var rfi_budget : Object = {data : cmsData}
-         Object.assign(path_view_loaded_data, rfi_budget);
-      break;
-
-      case 'rfi_budget_step_two':
-         var rfi_budget_step_two : Object = {data : cmsData}
-         Object.assign(path_view_loaded_data, rfi_budget_step_two);
-      break;
-
-      case 'rfi_project':
-         var rfi_project : Object = {data : cmsData}
-         Object.assign(path_view_loaded_data, rfi_project);
-      break;
-
-      case 'rfi_project_status':
-         var rfi_project_status : Object = {data : cmsData}
-         Object.assign(path_view_loaded_data, rfi_project_status);
-      break;
-
-      default:  path_view_loaded_data = null;
-   }
-
-      if(path_view_loaded_data === null){
-         res.redirect('/error?page=404')
-      }
-      else{
-         path_view_loaded_data = {...path_view_loaded_data, agreement_id : agreement_id}
-         res.render('questions', path_view_loaded_data); 
-      }
+   res.render('questions',{"data": match_according_to_path, "agreement_id": agreement_id, "path_view": path_view, "id": id});
      
 }
 
@@ -89,19 +30,51 @@ export const GET_QUESTIONS = (req : express.Request, res : express.Response)=> {
  * @validation true
  */
 
-// path = /rfi/questions/question
- export const POST_QUESTION = (req : express.Request, res : express.Response)=> {
-    var {agreement_id} = req.query;
-    //api 
-    let redirect_path = `/rfi/questions?agreement_id=${agreement_id}&path_view=rfi_who`
-    res.redirect(redirect_path);
+// path = '/rfi/questionnaire'
+ export const POST_QUESTION =  async (req : express.Request, res : express.Response)=> {
+    var {agreement_id, path_view, id} = req.query;
+   let fetch_dynamic_api = await DynamicFrameworkInstance.Instance.get('');
+    let fetch_dynamic_api_data = fetch_dynamic_api.data; 
+    let criterion_items = fetch_dynamic_api_data.default.map((Items: any)=> Items.requirementGroups).flat();
+
+    let sorted_criterion_items_according_href = criterion_items.map((Items: any)=> Items.description );
+
+    let current_path : any = path_view;
+    let total_pagination_tab_length = sorted_criterion_items_according_href?.length ;
+
+    let current_tab_index_cursor = sorted_criterion_items_according_href?.indexOf(current_path.split('_').join(' '));
+
+    let next_index_cursor  = current_tab_index_cursor ;
+    
+    if(next_index_cursor < total_pagination_tab_length){
+      let next_index_cursor_path = sorted_criterion_items_according_href[next_index_cursor + 1];
+      let parsed_next_index_cursor_path = next_index_cursor_path.split(' ').join('_');
+
+      let find_criteriongrouped = fetch_dynamic_api_data.default.map((aSubItem: any)=> {
+         var {id, requirementGroups} = aSubItem;
+         
+         var refined_array_consisting_id = requirementGroups.map((item_in_requirementGroups : Object) => {
+            var newly_assigned_requirementGroup : any = item_in_requirementGroups;
+            newly_assigned_requirementGroup['id'] = id;
+            return newly_assigned_requirementGroup;
+
+         } )
+
+         return refined_array_consisting_id;
+      })
+      find_criteriongrouped = find_criteriongrouped.flat();
+      var find_criterion_id = find_criteriongrouped.filter((search_query: any) => search_query.description === parsed_next_index_cursor_path.split('_').join(' '))[0];
+      let criterion_id  = find_criterion_id.id.split(' ').join('_');
+      let base_redirect_url = `/rfi/questions?agreement_id=${agreement_id}&id=${criterion_id}&path_view=${parsed_next_index_cursor_path}`
+       let redirect_path = base_redirect_url;
+      res.redirect(redirect_path);
+    }
+    else if(next_index_cursor === (total_pagination_tab_length -1)){
+      console.log('api storage');
+    }
+    else{
+       res.redirect('/error')
+    }
+
 
  }
-
-// path = /rfi/questions/who
- export const POST_WHO = (req : express.Request, res : express.Response)=> {
-   var {agreement_id} = req.query;
-   //-> backend api posting -> 
-   let redirect_path = `/rfi/questions?agreement_id=${agreement_id}&path_view=rfi_vetting`
-   res.redirect(redirect_path);
-}

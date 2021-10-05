@@ -16,7 +16,7 @@ export enum RFI_PATHS  {
      * @POSTROUTES
      */
     //@ All of the Path related Request for information
-    POST_QUESTIONS_QUESTION = '/rfi/questions/question',
+    POST_QUESTIONS_QUESTIONNAIRE = '/rfi/questionnaire',
     POST_TYPE_TYPE = '/rfi/type',
     POST_QUESTIONS_WHO = '/rfi/questions/who'
 

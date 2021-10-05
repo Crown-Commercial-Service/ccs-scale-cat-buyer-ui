@@ -5,16 +5,14 @@
 
 
 {% block breadCrumb %}
-{{ CCSBreadcrumbs({
-        items: data.breadCrumbs
-      }) }}
+
  {% endblock %}
 
 {% block content %}
       <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-        {{template.description }}
+       {{data.description}}
         </h1>
       
     </div>
@@ -25,69 +23,44 @@
  <div class="govuk-grid-row">
  <div class="govuk-grid-column-two-thirds">
   {% include "includes/project_header.njk" %}  
- <p class="govuk-body-l">{{template.prompt}}</p><br><br><br>
+ <p class="govuk-body-l">{{data.prompt}}</p><br><br><br>
 
-
-{% if(data['name'] == 'rfi_questions') %}
- <form id="ccs_rfi_questions_form" name="ccs_rfi_questions_form" class="form ccs_rfi_questions_form" action="/rfi/questions/question?agreement_id={{agreement_id}}" method="post">
-        {% for item in data.form.input %}
-            {{ CCSInput(item) }}
-        {% endfor %}
-        <br><br>
-        <p class="govuk-body"><a href="#" id="ccs_criteria_add" class="govuk-link govuk-link--no-visited-state">Add another question</a> </p>
-        {{ CCSInput(data.form.addQuestion) }}        
-        <div class="govuk-button-group">
-          {{ CCSButton({
-            text: "Save and continue"
-          }) }}
-          <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
-        </div>
-  </form>      
-{% endif %}
-
-
-
-
-{% if(data['name'] == 'rfi_who') %}
-       <form id="ccs_rfi_who_form" name="ccs_rfi_who_form" class="form ccs_rfi_who_form" action="/rfi/questions/who?agreement_id={{agreement_id}}" method="post"  novalidate>
-        {% for item in template.requirements %}
-            {{ CCSInput( {
-                "label": {
-                    "text": item.ocds.title,
-                    "classes": "govuk-label--m"
+  <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/rfi/questionnaire?agreement_id={{agreement_id}}&path_view={{path_view}}&id={{id}}" method="post">
+            {{ CCSRadios({
+                idPrefix: "ccs_rfi_type",
+                name: "ccs_rfi_type",
+                items: [
+                  {
+                    value: "all_online",
+                    html: "<h3 class='govuk-heading-m'>Provide all information online</h3>",
+                    hint: {
+                      text: "The Procurement Portal will guide you in this process step-by-step. "
+                    }
                   },
-                  "hint": {
-                    "text": item.ocds.description
-                  },
-                  "id": "rfi_contracting_auth",
-                  "name": "rfi_contracting_auth",
-                  "value": ""
-            }) }}
-        {% endfor %}
-         {{ CCSInput( {
-                "label": {
-
-                   "text": "Enter email address",
-                    "classes": "govuk-label--m"
-                  },
-                  "hint": {
-                    "text": "If different from the Contracting Authority"
-                  },
-                  "id": "email",
-                  "name": "email",
-                  "value": ""
-            }) }}
-
-
-        {{ CCSInput(data.form.build_started) }}
-        <div class="govuk-button-group">
-          {{ CCSButton({
-            text: "Save and continue"
-          }) }}
-          <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
-        </div>
-  </form>      
-{% endif %}
+                  {
+                    value: "all_offline",
+                    html: "<h3 class='govuk-heading-m'>Complete a document offline</h3>",
+                    hint: {
+                      text: "You'll be able to download a template, fill it offline and resume the process when you’re ready to upload it into the Portal. "
+                    }
+                  }
+                ]
+              }) }}
+      
+              {{ CCSInput({
+                id: "choose_rfi_type",
+                name: "choose_rfi_type",
+                type: "hidden",
+                value: true
+              }) }}
+<br><br>
+            <div class="govuk-button-group">
+                {{ CCSButton({
+                text: "Save and continue"
+                }) }}
+                <a href="/rfi/rfi-task-list" class="govuk-link govuk-link--no-visited-state">Return to Run pre-market engagement</a>
+              </div>
+        </form>
 
 
 </div>

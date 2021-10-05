@@ -1,6 +1,7 @@
 import { Application } from 'express';
 import {RFI_PATHS} from './model/rficonstant'
 import {associatedViews} from './controller/index'
+import * as apisource from '../../resources/content/RFI/template.json'
 import {AgreementDetailsFetchMiddleware} from '../../common/middlewares/agreementservice/agreementdetailsfetch'
 export default function(app: Application): void {
 /**
@@ -27,15 +28,15 @@ export default function(app: Application): void {
  */
 
 
+// api 
+app.get('/api/template', (req, res)=> res.json(apisource))
+
   //@POST '/rfi/type
   app.post(RFI_PATHS.POST_TYPE_TYPE,   associatedViews.POST_TYPE);
 
-  //@POST '/rfi/questions/question
-  app.post(RFI_PATHS.POST_QUESTIONS_QUESTION,   associatedViews.POST_QUESTION)
+  //@POST '/rfi/questionnaire'
+  app.post(RFI_PATHS.POST_QUESTIONS_QUESTIONNAIRE,   associatedViews.POST_QUESTION)
 
-
-  //@POST '/rfi/questions/who'
-  app.post(RFI_PATHS.POST_QUESTIONS_WHO,   associatedViews.POST_WHO)
 
   //@postRoutes
   app.post('/test', (req, res) => {

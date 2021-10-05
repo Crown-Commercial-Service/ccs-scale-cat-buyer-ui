@@ -1,0 +1,609 @@
+[{
+	"id": "Criterion 1",
+	"title": "Technical Envelope",
+	"description": "Information You are looking for",
+	"source": "buyer",
+	"relatesTo": "Tenderer (Questions for Supplier)",
+	"relateItems": null,
+	"requirementGroups": [{
+		"id": "Group 1",
+		"description": "Information You are looking for",
+		"prompt": "Specify each question you are requesting an answer to.",
+		"task": "Add Information you are looking for",
+		"mandatory": true,
+		"requirements": [{
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": true,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 1",
+				"title": "Enter Your First Question",
+				"description": "Add Another Question",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}]
+	}]
+}, {
+	"id": "Criterion 2",
+	"title": "Buyer Details",
+	"description": "For Information Only",
+	"source": "buyer",
+	"relatesTo": "buyer (Information Only)",
+	"relateItems": null,
+	"requirementGroups": [{
+		"id": "Group 2",
+		"description": "Who is the buyer",
+		"prompt": "Tell us on whose behalf you will be inviting tenders?",
+		"task": "Add Buyer Details",
+		"mandatory": true,
+		"requirements": [{
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": false,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 2",
+				"title": "Name of the Contracting Authority",
+				"description": "Who is running the procurement",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": false,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": false,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 3",
+				"title": "Name of contracting authority you are buying on behalf of",
+				"description": "If different from contracting authority",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null
+			}
+		}]
+	}, {
+		"id": "Group 3",
+		"description": "Security and Vetting requirements",
+		"prompt": "Select the required level of national security vetting required for this project.",
+		"task": "Add security and vetting requirements",
+		"mandatory": true,
+		"requirements": [{
+			"nonOcds": {
+				"questionType": "SingleSelect",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": [{
+					"value": "Baseline Personnel Security Standard (BPSS)",
+					"select": false
+				}, {
+					"value": "Counter Terrorist Check (CTC)",
+					"select": false
+				}, {
+					"value": "Security Check (SC)",
+					"select": false
+				}, {
+					"value": "Enhanced Security Check (eSC)",
+					"select": false
+				}, {
+					"value": "Developed Vetting (DV)",
+					"select": false
+				}, {
+					"value": "Renewal and Enhanced Developed Vetting (eDV)",
+					"select": false
+				}]
+			},
+			"apiSupport": {
+				"goesToJaggaer": false,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 4",
+				"title": "Select the required level of national security vetting required for this project.",
+				"description": "Select the required level of national security vetting required for this project.",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}]
+	}, {
+		"id": "Group 4",
+		"description": "Key Terms and acronyms",
+		"prompt": "Include a definition of key terms and acrynoms used in your Rfi",
+		"task": "Add term and acronyms",
+		"mandatory": true,
+		"requirements": [{
+			"nonOcds": {
+				"questionType": "KeyValuePair",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": true,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 5",
+				"title": "Term or Acronym",
+				"description": "Add another",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}]
+	}, {
+		"id": "Group 5",
+		"description": "Where the work will be completed",
+		"prompt": "Include a definition of key terms and acrynoms used in your Rfi",
+		"task": "Add address",
+		"mandatory": true,
+		"requirements": [{
+			"nonOcds": {
+				"questionType": "Address",
+				"answered": false,
+				"mandatory": false,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 6",
+				"title": "Where will the work be completed",
+				"description": "Add another",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}]
+	}, {
+		"id": "Group 6",
+		"description": "Specify your budget",
+		"prompt": "You can specify your (indicator) budget range, your maximum budget, and, or your maximum rate per day in the next step.",
+		"mandatory": true,
+		"task": "Add budget",
+		"requirements": [{
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 7",
+				"title": "Maximum indicative budget",
+				"description": "",
+				"dataType": "string",
+				"pattern": "/^£?(([1-9]{1,3}(,\\d{3})*(\\.\\d{2})?)|(0\\.[1-9]\\d)|(0\\.0[1-9]))$/",
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": false,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 8",
+				"title": "Minimum indicative budget",
+				"description": "",
+				"dataType": "string",
+				"pattern": "/^£?(([1-9]{1,3}(,\\d{3})*(\\.\\d{2})?)|(0\\.[1-9]\\d)|(0\\.0[1-9]))$/",
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}]
+	}, {
+		"id": "Group 7",
+		"description": "Specify your daily rate",
+		"prompt": "You can specify here your maximum rate per day.",
+		"task": "Add daily rate",
+		"mandatory": true,
+		"requirements": [{
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 9",
+				"title": "Maximum rate per day",
+				"description": "",
+				"dataType": "string",
+				"pattern": "/^£?(([1-9]{1,3}(,\\d{3})*(\\.\\d{2})?)|(0\\.[1-9]\\d)|(0\\.0[1-9]))$/",
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "SingleSelect",
+				"answered": false,
+				"mandatory": false,
+				"multiAnswer": false,
+				"options": [{
+					"value": "per individual",
+					"select": false
+				}, {
+					"value": "in aggregate",
+					"select": false
+				}]
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 10",
+				"title": "Minimum indicative budget",
+				"description": "",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}]
+	}, {
+		"id": "Group 8",
+		"description": "About the project",
+		"prompt": "Provide some details about your project.",
+		"task": "Add information about the project",
+		"mandatory": true,
+		"requirements": [{
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 11",
+				"title": "What is the Project / Programme Name?",
+				"description": "",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": false,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 12",
+				"title": "What is your procurement reference",
+				"description": "",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 13",
+				"title": "Why is this work required?",
+				"description": "State why this work is required to help suppliers frame the project",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 14",
+				"title": "Set out the problem statement for the Project / Programme",
+				"description": "This will help suppliers to identify how they can help you with your project",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 15",
+				"title": "What resource will work on",
+				"description": "Describe the aspects of the project and / or technologies that the resource will work on",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 16",
+				"title": "Key users",
+				"description": "List the key users of the project deliverables",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 17",
+				"title": "Key outcomes",
+				"description": "What are the required outcomes for the key users?",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}]
+	}, {
+		"id": "Group 9",
+		"description": "Status of your project",
+		"prompt": "Provide some details about the status of your project.",
+		"task": "Add status of the project",
+		"mandatory": true,
+		"requirements": [{
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 18",
+				"title": "Indicate the phase the resource will be engaged for",
+				"description": "",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": false,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 19",
+				"title": "Set out the detail of work previously completed",
+				"description": "Outline any work that has already been carried out on the project",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 20",
+				"title": "Market engagement to date",
+				"description": "Outline any market engagement that has already been carried out in relation to this procurement",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": true,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 21",
+				"title": "Working arrangements",
+				"description": "Specify the working arrangements that the resource will adhere to",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}, {
+			"nonOcds": {
+				"questionType": "Value",
+				"answered": false,
+				"mandatory": false,
+				"multiAnswer": false,
+				"options": null
+			},
+			"apiSupport": {
+				"goesToJaggaer": true,
+				"goesToUI": true
+			},
+			"ocds": {
+				"id": "Question 22",
+				"title": "Existing team (optional)",
+				"description": "Detail whom the specialist will work with",
+				"dataType": "string",
+				"pattern": null,
+				"expectedValue": "",
+				"minValue": null,
+				"maxValue": null,
+				"period": null
+			}
+		}]
+	}]
+}]
