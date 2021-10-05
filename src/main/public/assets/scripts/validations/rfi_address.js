@@ -30,7 +30,7 @@ const ccsZFindAddress = (event) => {
     // ... and get on with looking up an address...
     let myPostCode = document.getElementById("rfi_proj_address-postcode").value.trim();
 
-    fetch(`https://api.getAddress.io/find/${myPostCode}?api-key=KYy-NhuV8UeHZ0AIAiwf4w32615`)
+    fetch(`https://api.getAddress.io/find/${myPostCode}?api-key=`)
       .then(response => {
 
         if (!response.ok) {
