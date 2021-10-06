@@ -32,7 +32,7 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
 
 // path = '/rfi/questionnaire'
  export const POST_QUESTION =  async (req : express.Request, res : express.Response)=> {
-    var {agreement_id, path_view, id} = req.query;
+    var {agreement_id, path_view} = req.query;
    let fetch_dynamic_api = await DynamicFrameworkInstance.Instance.get('');
     let fetch_dynamic_api_data = fetch_dynamic_api.data; 
     let criterion_items = fetch_dynamic_api_data.default.map((Items: any)=> Items.requirementGroups).flat();
@@ -50,20 +50,17 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
       let next_index_cursor_path = sorted_criterion_items_according_href[next_index_cursor + 1];
       let parsed_next_index_cursor_path = next_index_cursor_path.split(' ').join('_');
 
-      let find_criteriongrouped = fetch_dynamic_api_data.default.map((aSubItem: any)=> {
-         var {id, requirementGroups} = aSubItem;
-         
+      let find_criteriongrouped = fetch_dynamic_api_data.default.map((aSub_criterian_item: any)=> {
+         var {id, requirementGroups} = aSub_criterian_item;
          var refined_array_consisting_id = requirementGroups.map((item_in_requirementGroups : Object) => {
             var newly_assigned_requirementGroup : any = item_in_requirementGroups;
             newly_assigned_requirementGroup['id'] = id;
             return newly_assigned_requirementGroup;
-
-         } )
-
+         })
          return refined_array_consisting_id;
       })
       find_criteriongrouped = find_criteriongrouped.flat();
-      var find_criterion_id = find_criteriongrouped.filter((search_query: any) => search_query.description === parsed_next_index_cursor_path.split('_').join(' '))[0];
+      let find_criterion_id = find_criteriongrouped.filter((search_query: any) => search_query.description === parsed_next_index_cursor_path.split('_').join(' '))[0];
       let criterion_id  = find_criterion_id.id.split(' ').join('_');
       let base_redirect_url = `/rfi/questions?agreement_id=${agreement_id}&id=${criterion_id}&path_view=${parsed_next_index_cursor_path}`
        let redirect_path = base_redirect_url;

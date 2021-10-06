@@ -143,7 +143,8 @@
 				"period": null
 			}
 		}]
-	}, {
+	},
+	{
 		"id": "Group 4",
 		"description": "Key Terms and acronyms",
 		"prompt": "Include a definition of key terms and acrynoms used in your Rfi",
