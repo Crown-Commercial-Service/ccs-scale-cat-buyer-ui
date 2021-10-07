@@ -34,13 +34,29 @@ data "cloudfoundry_user_provided_service" "ip_router" {
   space = data.cloudfoundry_space.space.id
 }
 
+data "aws_ssm_parameter" "env_auth_server_client_id" {
+  name = "/cat/${var.environment}/auth-server-client-id"
+}
+
+data "aws_ssm_parameter" "env_auth_server_client_secret" {
+  name = "/cat/${var.environment}/auth-server-client-secret"
+}
+
+data "aws_ssm_parameter" "env_auth_server_base_url" {
+  name = "/cat/${var.environment}/auth-server-base-url"
+}
+
 resource "cloudfoundry_app" "cat_buyer_ui" {
   annotations = {}
   buildpack   = var.buildpack
   disk_quota  = var.disk_quota
   enable_ssh  = true
   environment = {
-    PRIVATE_APP_URL : "http://${var.environment}-ccs-scale-cat-service.apps.internal:8080"
+    TENDERS_SERVICE_API_URL : "http://${var.environment}-ccs-scale-cat-service.apps.internal:8080"
+    AGREEMENTS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-shared-agreements-service.london.cloudapps.digital"
+    AUTH_SERVER_CLIENT_ID : data.aws_ssm_parameter.env_auth_server_client_id.value
+    AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
+    AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
