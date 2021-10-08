@@ -41,15 +41,15 @@ export var array : any = [];
 // path = '/rfi/questionnaire'
  export const POST_QUESTION =  async (req : express.Request, res : express.Response)=> {
     var {agreement_id, path_view} = req.query;
-   var started_progress_check : Boolean = operations.isUndefined(req.body, 'rfi_build_started');
+   let started_progress_check : Boolean = operations.isUndefined(req.body, 'rfi_build_started');
 
    if(operations.equals(started_progress_check, false)){
-      var {rfi_build_started} = req.body;
+      let {rfi_build_started} = req.body;
       if(rfi_build_started === "true"){
 
-        var remove_objectWithKeyIdentifier =  ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfi_build_started')
-         var _RequestBody: any = remove_objectWithKeyIdentifier;
-         var filtered_object_with_empty_keys= ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
+        let remove_objectWithKeyIdentifier =  ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfi_build_started')
+         let _RequestBody: any = remove_objectWithKeyIdentifier;
+         let filtered_object_with_empty_keys= ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
          array.push(filtered_object_with_empty_keys)
         let fetch_dynamic_api = await DynamicFrameworkInstance.Instance.get('');
          let fetch_dynamic_api_data = fetch_dynamic_api.data; 
