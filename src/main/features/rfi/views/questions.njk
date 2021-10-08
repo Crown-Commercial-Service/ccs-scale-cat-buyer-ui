@@ -93,14 +93,6 @@
 
             <p class="govuk-body"><a href="#" id="ccs_criteria_add" class="govuk-link govuk-link--no-visited-state">{{requirement.ocds.description}}</a> </p>
 
-          
-        {{ CCSInput({
-          id: "rfi_build_started",
-          name: "rfi_build_started",
-          type: "hidden",
-          value: true
-        }) }}
-      
           {% endif %}
           {% endblock %}        
 
@@ -126,12 +118,7 @@
           value: ""
         }) }}
             
-        {{ CCSInput({
-          id: "rfi_build_started",
-          name: "rfi_build_started",
-          type: "hidden",
-          value: true
-        }) }}
+      
       
 
             {% endif %}
@@ -166,13 +153,7 @@
                 name: data.description | replace(' ', '_'),
                 items: radioArray
               }) }}
-              
-        {{ CCSInput({
-          id: "rfi_build_started",
-          name: "rfi_build_started",
-          type: "hidden",
-          value: true
-        }) }}
+      
        
           {% endif %}
           {% endblock %}
@@ -263,12 +244,7 @@
           {% endfor %}
             <p class="govuk-body"><a href="#" id="ccs_rfiTerm_add" class="govuk-link govuk-link--no-visited-state">Add another</a> </p>
     
-        {{ CCSInput({
-          id: "rfi_build_started",
-          name: "rfi_build_started",
-          type: "hidden",
-          value: true
-        }) }}
+      
        
           {% endif %}
           {% endblock %}
@@ -331,15 +307,9 @@
         </span>
 
         <br> 
-        <br>
-        <br>
+   
 
-        {{ CCSInput({
-          id: "rfi_build_started",
-          name: "rfi_build_started",
-          type: "hidden",
-          value: true
-        }) }}
+        
    
       
           {% endif %}
@@ -351,6 +321,12 @@
 
           {% endfor %}      
              <br><br>
+             {{ CCSInput({
+          id: "rfi_build_started",
+          name: "rfi_build_started",
+          type: "hidden",
+          value: true
+        }) }}
         
         <div class="govuk-button-group">
           {{ CCSButton({

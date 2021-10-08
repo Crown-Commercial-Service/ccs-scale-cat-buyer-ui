@@ -22,4 +22,11 @@ export class ObjectModifiers {
           return reconstructive_object;
         }, {});
     } 
+
+
+    static _deleteKeyofEntryinObject = (object_as_params: any, key_in_object: any) => {
+        delete object_as_params[key_in_object];
+        return object_as_params;
+
+    }
 }
