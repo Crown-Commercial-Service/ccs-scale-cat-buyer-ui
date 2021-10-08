@@ -1,6 +1,6 @@
 import * as express from 'express'
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-
+import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 
 /**
  * @Controller
@@ -30,9 +30,19 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
  * @validation true
  */
 
+
+export var array : any = [];
+
+
+
+
+
 // path = '/rfi/questionnaire'
  export const POST_QUESTION =  async (req : express.Request, res : express.Response)=> {
     var {agreement_id, path_view} = req.query;
+    var _RequestBody: any = req.body;
+    var filtered_object_with_empty_keys= ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
+    array.push(filtered_object_with_empty_keys)
    let fetch_dynamic_api = await DynamicFrameworkInstance.Instance.get('');
     let fetch_dynamic_api_data = fetch_dynamic_api.data; 
     let criterion_items = fetch_dynamic_api_data.default.map((Items: any)=> Items.requirementGroups).flat();

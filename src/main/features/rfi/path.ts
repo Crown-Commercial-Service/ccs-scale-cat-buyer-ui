@@ -3,6 +3,9 @@ import {RFI_PATHS} from './model/rficonstant'
 import {associatedViews} from './controller/index'
 import * as apisource from '../../resources/content/RFI/template.json'
 import {AgreementDetailsFetchMiddleware} from '../../common/middlewares/agreementservice/agreementdetailsfetch'
+import { array } from './controller/questions';
+
+
 export default function(app: Application): void {
 /**
  * 
@@ -19,7 +22,11 @@ export default function(app: Application): void {
   app.get(RFI_PATHS.GET_ONLINE_TASKLIST, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.GET_ONLINE_TASKLIST );      
 
   //  @GET '/rfi/questions'
-  app.get(RFI_PATHS.GET_QUESTIONS, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.GET_QUESTIONS);      
+  app.get(RFI_PATHS.GET_QUESTIONS, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.GET_QUESTIONS);    
+  
+  
+
+  app.get('/api/answers', (req, res)=> {res.json(array)})
 
 /**
  * 

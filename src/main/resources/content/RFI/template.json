@@ -5,7 +5,8 @@
 	"source": "buyer",
 	"relatesTo": "Tenderer (Questions for Supplier)",
 	"relateItems": null,
-	"requirementGroups": [{
+	"requirementGroups": [
+		{
 		"id": "Group 1",
 		"description": "Information You are looking for",
 		"prompt": "Specify each question you are requesting an answer to.",
@@ -34,7 +35,9 @@
 				"maxValue": null,
 				"period": null
 			}
-		}]
+		}
+	
+	]
 	}]
 }, {
 	"id": "Criterion 2",
@@ -606,5 +609,7 @@
 				"period": null
 			}
 		}]
-	}]
+	}
+
+]
 }]
