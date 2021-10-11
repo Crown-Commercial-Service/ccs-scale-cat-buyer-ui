@@ -25,7 +25,7 @@
             "items": [
               {
                 "value": "all_online",
-                "html": "<h3 class='govuk-heading-m'>Provide all information online</h3>",
+                "text": "Provide all information online",
                 "hint": {
                   "text": "The Procurement Portal will guide you in this process step-by-step. "
                 }
@@ -33,7 +33,7 @@
               },
               {
                 "value": "all_offline",
-                "html": "<h3 class='govuk-heading-m'>Complete a document offline</h3>",
+                "text": "Complete a document offline",
                 "hint": {
                   "text": "You'll be able to download a template, fill it offline and resume the process when you’re ready to upload it into the Portal. "
                 }

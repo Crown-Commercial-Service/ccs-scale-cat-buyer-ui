@@ -22,10 +22,32 @@
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body-l">{{ data.form.question }}</p>
         <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/rfi/type?agreement_id={{agreement_id}}" method="POST">
+
+        {% set formOptions =  data.form.radioOptions.items %}
+
+        {% set form_Options_Altered = [] %}
+
+      {% for item in formOptions %}
+           {% set form_Options_Altered = (form_Options_Altered.push(
+             {
+               value: item.value,
+              html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+              hint : {
+                text: item.hint.text
+              }
+              }
+             ), form_Options_Altered) 
+             
+             %}
+
+      {% endfor %}
+
+
+
        {{ CCSRadios({
                 idPrefix: "ccs_rfi_type",
                 name: "ccs_rfi_type",
-                items: data.form.radioOptions.items                
+                items: form_Options_Altered               
               }) }}
 
                {{ CCSInput({
