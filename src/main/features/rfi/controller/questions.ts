@@ -19,7 +19,23 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
    let route_path_address : any = path_view;
   let match_according_to_path = filter_according_criterion?.requirementGroups.filter((routed_path: any)=> routed_path.description === route_path_address.split('_').join(' '))[0];
 
-   res.render('questions',{"data": match_according_to_path, "agreement_id": agreement_id, "path_view": path_view, "id": id});
+  let validation_framework_path = match_according_to_path.requirements[0];
+  var validator_syntax = {};
+
+  if(validation_framework_path?.nonOcds.questionType === 'SingleSelect' && validation_framework_path.nonOcds.multiAnswer == false){
+      Object.assign(validator_syntax, {formID: 'ccs_rfi_type_form', formName: 'ccs_rfi_type_form', formClass: 'ccs_rfi_type_form'})
+  }
+  else if (validation_framework_path?.nonOcds.questionType === 'Value' && validation_framework_path.nonOcds.multiAnswer == true){
+   Object.assign(validator_syntax, {formID: 'ccs_rfi_questions_form', formName: 'ccs_rfi_questions_form', formClass: 'ccs_rfi_questions_form'})
+  }
+  else if (validation_framework_path?.nonOcds.questionType === 'Value' && validation_framework_path.nonOcds.multiAnswer == true){
+
+  }
+  else{
+     Object.assign(validator_syntax, {});
+  }
+
+   res.render('questions',{"data": match_according_to_path, "agreement_id": agreement_id, "path_view": path_view, "id": id, validation: validator_syntax});
      
 }
 
