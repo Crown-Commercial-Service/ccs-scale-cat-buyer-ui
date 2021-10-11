@@ -52,6 +52,11 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
  .map(filename => require(filename))
  .forEach(route => route.default(app));
 
+  //OAUTH Related routes 
+  glob.sync(__dirname + '/features/oauth/path.ts')
+  .map(filename => require(filename))
+  .forEach(route => route.default(app));
+
 
 
 setupDev(app,developmentMode);
