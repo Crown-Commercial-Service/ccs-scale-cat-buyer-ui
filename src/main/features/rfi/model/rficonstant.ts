@@ -9,6 +9,7 @@ export enum RFI_PATHS  {
     GET_TYPE = '/rfi/type',
     GET_ONLINE_TASKLIST = '/rfi/online-task-list',
     GET_QUESTIONS = '/rfi/questions',
+    GET_UPLOAD_DOC = '/rfi/upload-doc',
 
 
 

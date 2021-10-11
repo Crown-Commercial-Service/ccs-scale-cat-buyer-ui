@@ -1,6 +1,7 @@
 import * as express from 'express'
 import * as cmsData from '../../../resources/content/RFI/rfiType.json'
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
+import {RFI_PATHS} from '../model/rficonstant'
 
 // RFI TaskList
 export const GET_TYPE = (req : express.Request, res : express.Response)=> {
@@ -30,7 +31,8 @@ export const POST_TYPE = (req : express.Request, res : express.Response)=> {
       break;
 
       case 'all_offline':
-         // implement the logic here. 
+         const newAddress = RFI_PATHS.GET_UPLOAD_DOC;
+         res.redirect(newAddress);
       break;
 
       default: res.redirect('/404');

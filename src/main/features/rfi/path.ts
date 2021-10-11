@@ -23,6 +23,9 @@ export default function(app: Application): void {
 
   //  @GET '/rfi/questions'
   app.get(RFI_PATHS.GET_QUESTIONS, AgreementDetailsFetchMiddleware.FetchAgreements, associatedViews.GET_QUESTIONS);    
+
+  //  @GET '/rfi/upload-doc'
+  app.get(RFI_PATHS.GET_UPLOAD_DOC, associatedViews.GET_UPLOAD_DOC);    
   
   
 
