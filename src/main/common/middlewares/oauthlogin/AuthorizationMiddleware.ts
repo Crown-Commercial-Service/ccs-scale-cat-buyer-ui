@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const result = dotenv.config();
 if (result.error) throw result.error;
 const { parsed: envs } = result;
-
+// TODO check calls back
 export class AuthorizationMiddleware {
     static FetchOauth = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         // redirect the user to the resource owner for authorization
