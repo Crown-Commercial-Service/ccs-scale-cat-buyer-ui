@@ -184,10 +184,8 @@
              
 
           {% block valuewitNoMultiSelect %}
-          {% if (requirement.nonOcds.questionType == 'Value') and  (requirement.nonOcds.multiAnswer == false)   %}
-                 {% set formID = 'ccs_rfi_who_form' %}
-           {% set formName = 'ccs_rfi_who_form'%}
-            {% set formClass = 'ccs_rfi_who_form'%}
+          {% if (requirement.nonOcds.questionType === 'Value') and  (requirement.nonOcds.multiAnswer === false)   %}
+                
 
               {{ CCSInput({
           label: {
@@ -197,7 +195,7 @@
           hint: {
             text: requirement.ocds.description
           },
-          id: requirement.ocds.title | replace(" ", "_"),
+          id: "rfi_contracting_auth",
           name:requirement.ocds.title | replace(" ", "_"),
           value: ""
         }) }}

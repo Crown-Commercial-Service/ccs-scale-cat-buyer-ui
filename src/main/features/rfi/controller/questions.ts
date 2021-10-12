@@ -28,7 +28,9 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
   else if (validation_framework_path?.nonOcds.questionType === 'Value' && validation_framework_path.nonOcds.multiAnswer == true){
    Object.assign(validator_syntax, {formID: 'ccs_rfi_questions_form', formName: 'ccs_rfi_questions_form', formClass: 'ccs_rfi_questions_form'})
   }
-  else if (validation_framework_path?.nonOcds.questionType === 'Value' && validation_framework_path.nonOcds.multiAnswer == true){
+  else if (validation_framework_path?.nonOcds.questionType === 'Value' && validation_framework_path.nonOcds.multiAnswer == false){
+   Object.assign(validator_syntax, {formID: 'ccs_rfi_who_form', formName: 'ccs_rfi_who_form', formClass: 'ccs_rfi_who_form'})
+   //ccs_rfi_who_form
 
   }
   else{
