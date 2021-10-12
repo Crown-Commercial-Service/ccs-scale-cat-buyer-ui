@@ -14,9 +14,9 @@ export class AuthorizationMiddleware {
                 envs.AUTH_SERVER_BASE_URL + '/security/authorize'+
                 '?client_id=' + envs.CLIENT_ID +
                 '&redirect_uri=' +
-                    encodeURIComponent('https://127.0.0.1/login_callback') +
+                    encodeURIComponent('http://localhost:3000/receiver') +
                 '&response_type=code'+
-                '&scope=email%20profile'
+                '&scope=openid%20profile%20email'
             ); 
         } catch(error) {
             if (error.response.status === 401) {
@@ -31,7 +31,7 @@ export class AuthorizationMiddleware {
             }
         }
     }
-    async login_callback(req: express.Request, res: express.Response, next: express.NextFunction) {
+    async receiver(req: express.Request, res: express.Response, next: express.NextFunction) {
         // the code that comes back from the resource owner during authorization
         let code = req.query.code;
 
@@ -48,8 +48,8 @@ export class AuthorizationMiddleware {
                     client_id: envs.CLIENT_ID,
                     client_secret: envs.CLIENT_SECRET,
                     grant_type: 'authorization_code',
-                    redirect_uri: 'https://127.0.0.1/login_callback',
-                    scope: 'email profile openid'
+                    redirect_uri: 'http://localhost:3000/receiver',
+                    scope: 'openid profile email'
                 },
                 json: true,
                 simple: true
