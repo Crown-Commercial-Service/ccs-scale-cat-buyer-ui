@@ -9,14 +9,27 @@ const { parsed: envs } = result;
 export class AuthorizationMiddleware {
     static FetchOauth = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         // redirect the user to the resource owner for authorization
-        res.redirect(
-            envs.AUTH_SERVER_BASE_URL + '/security/authorize'+
-            '?client_id=' + envs.CLIENT_ID +
-            '&redirect_uri=' +
-                encodeURIComponent('https://127.0.0.1/login_callback') +
-            '&response_type=code'+
-            '&scope=email%20profile%20openid%20offline_access'
-        ); 
+        try {
+            res.redirect(
+                envs.AUTH_SERVER_BASE_URL + '/security/authorize'+
+                '?client_id=' + envs.CLIENT_ID +
+                '&redirect_uri=' +
+                    encodeURIComponent('https://127.0.0.1/login_callback') +
+                '&response_type=code'+
+                '&scope=email%20profile'
+            ); 
+        } catch(error) {
+            if (error.response.status === 401) {
+
+            } else if (error.response.status === 401) {
+                res.status(401).json("Unauthorized to access data");
+                
+            } else if (error.response.status === 403) {
+                res.status(401).json("Permission denied");
+            } else {
+                res.status(500).json("Whoops, something went wrong")
+            }
+        }
     }
     async login_callback(req: express.Request, res: express.Response, next: express.NextFunction) {
         // the code that comes back from the resource owner during authorization
@@ -36,7 +49,7 @@ export class AuthorizationMiddleware {
                     client_secret: envs.CLIENT_SECRET,
                     grant_type: 'authorization_code',
                     redirect_uri: 'https://127.0.0.1/login_callback',
-                    scope: 'email profile openid offline_access'
+                    scope: 'email profile openid'
                 },
                 json: true,
                 simple: true
