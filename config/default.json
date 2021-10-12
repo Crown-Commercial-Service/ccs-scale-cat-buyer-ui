@@ -3,5 +3,17 @@
   "security": {
     "referrerPolicy": "origin"
   },
-  "PORT": "3000"
+  "PORT": "3000",
+  "AgreementService": {
+    "BASEURL": "https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital"
+  },
+  "dynamic_framework": {
+    "BASEURL": "http://localhost:3000/api/template"
+  },
+  "pages": {
+    "error": {
+      "404": "error/404",
+      "500": "error/500"
+    }
+  }
 }

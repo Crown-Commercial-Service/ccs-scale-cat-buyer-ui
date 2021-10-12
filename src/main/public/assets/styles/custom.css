@@ -111,5 +111,6 @@
 }
 
 .radio_hint{
-    font-size: 17px !important;
+    margin-top: 0;
+    padding-bottom: 3vh;
 }
