@@ -37,8 +37,6 @@ export default function(app: Application): void {
  * @summary: provide all the respective associated view to the certain routes
  */
 
-//test comment
-
 
 // api 
 app.get('/api/template', (req, res)=> res.json(apisource))
