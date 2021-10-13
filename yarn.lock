@@ -1398,6 +1398,16 @@
   "resolved" "https://registry.npmjs.org/@types/cookiejar/-/cookiejar-2.1.2.tgz"
   "version" "2.1.2"
 
+"@types/cookies@^0.7.6":
+  "integrity" "sha512-FK4U5Qyn7/Sc5ih233OuHO0qAkOpEcD/eG6584yEiLKizTFRny86qHLe/rej3HFQrkBuUjF4whFliAdODbVN/w=="
+  "resolved" "https://registry.npmjs.org/@types/cookies/-/cookies-0.7.6.tgz"
+  "version" "0.7.6"
+  dependencies:
+    "@types/connect" "*"
+    "@types/express" "*"
+    "@types/keygrip" "*"
+    "@types/node" "*"
+
 "@types/copy-webpack-plugin@^6.0.0":
   "integrity" "sha512-Ousy+sNap1j44eG+C9FZvTUybpp9lFmKjBRF7L0NDs/+SDA9OXKo2OpsHJfD/LMWflz+uvfTCBXH1CgdL6AW/g=="
   "resolved" "https://registry.npmjs.org/@types/copy-webpack-plugin/-/copy-webpack-plugin-6.0.0.tgz"
@@ -1447,17 +1457,7 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
-"@types/express@*":
-  "integrity" "sha512-wLhcKh3PMlyA2cNAB9sjM1BntnhPMiM0JOBwPBqttjHev2428MLEB4AYVN+d8s2iyCVZac+o41Pflm/ZH5vLXQ=="
-  "resolved" "https://registry.npmjs.org/@types/express/-/express-4.17.8.tgz"
-  "version" "4.17.8"
-  dependencies:
-    "@types/body-parser" "*"
-    "@types/express-serve-static-core" "*"
-    "@types/qs" "*"
-    "@types/serve-static" "*"
-
-"@types/express@^4.17.8":
+"@types/express@*", "@types/express@^4.17.8":
   "integrity" "sha512-6bSZTPaTIACxn48l50SR+axgrqm6qXFIxrdAKaG6PaJk3+zuUr35hBlgT7vOmJcum+OEaIBLtHV/qloEAFITeA=="
   "resolved" "https://registry.npmjs.org/@types/express/-/express-4.17.13.tgz"
   "version" "4.17.13"
@@ -1531,6 +1531,11 @@
   "integrity" "sha1-7ihweulOEdK4J7y+UnC86n8+ce4="
   "resolved" "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
   "version" "0.0.29"
+
+"@types/keygrip@*":
+  "integrity" "sha512-GJhpTepz2udxGexqos8wgaBx4I/zWIDPh/KOGEwAqtuGDkOUJu5eFvwmdBX4AmB8Odsr+9pHCQqiAqDL/yKMKw=="
+  "resolved" "https://registry.npmjs.org/@types/keygrip/-/keygrip-1.0.2.tgz"
+  "version" "1.0.2"
 
 "@types/memory-fs@*":
   "integrity" "sha512-j5AcZo7dbMxHoOimcHEIh0JZe5e1b8q8AqGSpZJrYc7xOgCIP79cIjTdx5jSDLtySnQDwkDTqwlC7Xw7uXw7qg=="
@@ -3503,6 +3508,12 @@
     "process-nextick-args" "^2.0.0"
     "readable-stream" "^2.3.5"
 
+"cmc-cookies-manager@github:hmcts/cmc-cookies-manager#3.0.2":
+  "resolved" "git+ssh://git@github.com/hmcts/cmc-cookies-manager.git#b41d9321c8c0b12ed36a550a0859b75c7c75467b"
+  "version" "1.0.6"
+  dependencies:
+    "govuk-frontend" "^3.11.0"
+
 "co@^4.6.0", "co@4.6.0":
   "integrity" "sha1-bqa989hTrlTMuOR7+gvz+QMfsYQ="
   "resolved" "https://registry.npmjs.org/co/-/co-4.6.0.tgz"
@@ -3744,7 +3755,7 @@
   "resolved" "https://registry.npmjs.org/cookie-encrypter/-/cookie-encrypter-1.0.1.tgz"
   "version" "1.0.1"
 
-"cookie-parser@^1.4.4":
+"cookie-parser@^1.4.5":
   "integrity" "sha512-f13bPUj/gG/5mDr+xLmSxxDsB9DQiTIfhJS/sqjrmfAWiAN+x2O4i/XguTL9yDZ+/IFDanJ+5x7hC4CXT9Tdzw=="
   "resolved" "https://registry.npmjs.org/cookie-parser/-/cookie-parser-1.4.5.tgz"
   "version" "1.4.5"
@@ -3771,6 +3782,14 @@
   "integrity" "sha512-Mw+adcfzPxcPeI+0WlvRrr/3lGVO0bD75SxX6811cxSh1Wbxx7xZBGK1eVtDf6si8rg2lhnUjsVLMFMfbRIuwA=="
   "resolved" "https://registry.npmjs.org/cookiejar/-/cookiejar-2.1.2.tgz"
   "version" "2.1.2"
+
+"cookies@^0.8.0":
+  "integrity" "sha512-8aPsApQfebXnuI+537McwYsDtjVxGm8gTIzQI3FDW6t5t/DAhERxtnbEPN/8RX+uZthoz4eCOgloXaE5cYyNow=="
+  "resolved" "https://registry.npmjs.org/cookies/-/cookies-0.8.0.tgz"
+  "version" "0.8.0"
+  dependencies:
+    "depd" "~2.0.0"
+    "keygrip" "~1.1.0"
 
 "copy-concurrently@^1.0.0":
   "integrity" "sha512-f2domd9fsVDFtaFcbaRZuYXwtdmnzqbADSwhSWYxYB/Q8zsdUUFMXVRwXGDMWmbEzAn1kdRrtI1T/KTFOL4X2A=="
@@ -4209,6 +4228,11 @@
   "resolved" "https://registry.npmjs.org/depd/-/depd-1.1.2.tgz"
   "version" "1.1.2"
 
+"depd@~2.0.0":
+  "integrity" "sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw=="
+  "resolved" "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz"
+  "version" "2.0.0"
+
 "depd@2.0.0":
   "integrity" "sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw=="
   "resolved" "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz"
@@ -4359,6 +4383,11 @@
   "version" "5.3.0"
   dependencies:
     "is-obj" "^2.0.0"
+
+"dotenv@^10.0.0":
+  "integrity" "sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q=="
+  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-10.0.0.tgz"
+  "version" "10.0.0"
 
 "duplexer3@^0.1.4":
   "integrity" "sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI="
@@ -4982,14 +5011,6 @@
   dependencies:
     "assign-deep" "1.0.1"
     "nunjucks-async-loader" "1.1.5"
-
-"express-validator@^6.12.2":
-  "integrity" "sha512-UMVck7ZWrKH7eX75CRYk/pAc9jxZk8Ddsdkukw1R7LTWuQNiDaooz6nVfIdg33qZUHCuv2m2o+RS4pTMaLjGmA=="
-  "resolved" "https://registry.npmjs.org/express-validator/-/express-validator-6.12.2.tgz"
-  "version" "6.12.2"
-  dependencies:
-    "lodash" "^4.17.21"
-    "validator" "^13.5.2"
 
 "express@^4.16.2":
   "integrity" "sha512-mHJ9O79RqluphRrcw2X/GTh3k9tVv8YcoyY4Kkh4WDMUYKRZUq0h1o0w2rrrxBqM7VoeUVqgb27xlEMXTnYt4g=="
@@ -7531,6 +7552,13 @@
   "resolved" "https://registry.npmjs.org/just-extend/-/just-extend-4.1.1.tgz"
   "version" "4.1.1"
 
+"keygrip@~1.1.0":
+  "integrity" "sha512-iYSchDJ+liQ8iwbSI2QqsQOvqv58eJCEanyJPJi+Khyu8smkcKSFUCbPwzFcL7YVtZ6eONjqRX/38caJ7QjRAQ=="
+  "resolved" "https://registry.npmjs.org/keygrip/-/keygrip-1.1.0.tgz"
+  "version" "1.1.0"
+  dependencies:
+    "tsscmp" "1.0.6"
+
 "keyv@^3.0.0":
   "integrity" "sha512-9ykJ/46SN/9KPM/sichzQ7OvXyGDYKGTaDlKMGCAlg2UK8KRy4jb0d8sFc+0Tt0YYnThq8X2RZgCg74RPxgcVA=="
   "resolved" "https://registry.npmjs.org/keyv/-/keyv-3.1.0.tgz"
@@ -7783,7 +7811,7 @@
   "resolved" "https://registry.npmjs.org/lodash.sortby/-/lodash.sortby-4.7.0.tgz"
   "version" "4.7.0"
 
-"lodash@^4.0.0", "lodash@^4.17.10", "lodash@^4.17.14", "lodash@^4.17.15", "lodash@^4.17.19", "lodash@^4.17.20", "lodash@^4.17.21", "lodash@^4.17.4", "lodash@^4.3.0", "lodash@~4.17.10":
+"lodash@^4.0.0", "lodash@^4.17.10", "lodash@^4.17.14", "lodash@^4.17.15", "lodash@^4.17.19", "lodash@^4.17.20", "lodash@^4.17.4", "lodash@^4.3.0", "lodash@~4.17.10":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
@@ -11961,11 +11989,6 @@
   dependencies:
     "spdx-correct" "^3.0.0"
     "spdx-expression-parse" "^3.0.0"
-
-"validator@^13.5.2":
-  "integrity" "sha512-gVgKbdbHgtxpRyR8K0O6oFZPhhB5tT1jeEHZR0Znr9Svg03U0+r9DXWMrnRAB+HtCStDQKlaIZm42tVsVjqtjg=="
-  "resolved" "https://registry.npmjs.org/validator/-/validator-13.6.0.tgz"
-  "version" "13.6.0"
 
 "value-or-function@^3.0.0":
   "integrity" "sha1-HCQ6ULWVwb5Up1S/7OhWO5/42BM="
