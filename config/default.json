@@ -7,6 +7,10 @@
   "AgreementService": {
     "BASEURL": "https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital"
   },
+  "AuthService": {
+    "BaseURL": "https://tst.api.crowncommercial.gov.uk",
+    "Oauth_token_endpoint": "/security/token"
+  },
   "dynamic_framework": {
     "BASEURL": "http://localhost:3000/api/template"
   },
@@ -14,6 +18,16 @@
     "error": {
       "404": "error/404",
       "500": "error/500"
+    }
+  },
+  "secrets":{
+    "cat":{
+      "tenders-service-api-url": "TENDERS_SERVICE_API_URL",
+      "agreements-service-api-url": "AGREEMENTS_SERVICE_API_URL",
+      "auth-server-client-id": "AUTH_SERVER_CLIENT_ID",
+      "auth-server-client-secret": "AUTH_SERVER_CLIENT_SECRET",
+      "auth_server_base_url": "AUTH_SERVER_BASE_URL",
+      "os-postcode-lookup-api-key": "POSTCODE_LOOKUP_API_KEY"
     }
   }
 }
