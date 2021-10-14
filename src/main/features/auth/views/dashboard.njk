@@ -1,0 +1,50 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'home | Contract a Thing' %}
+{# {% set heading = t('Welcome to the Money Claim legal rep beta') %} #}
+
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/home"
+          },
+          {
+            text: "Contract a Thing",
+            href: "/cAT"
+          },
+          {
+            text: "Dashboard",
+            href: "#"
+          }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+      
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+       <h1 class="govuk-heading-xl">
+        Dashboard
+      </h1>
+    
+
+    </div>
+    <div class="govuk-grid-column-one-third">
+  
+      {{ howToGetSupport() }}
+
+    </div>
+  </div>
+    
+  </div>
+  </main>
+{% endblock %}
