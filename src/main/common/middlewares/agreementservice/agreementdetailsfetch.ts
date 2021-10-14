@@ -3,11 +3,13 @@ import * as express from 'express'
 import {AgreementAPI} from '../../util/fetch/agreementservice/agreementsApiInstance'
 import {Query} from '../../util/operators/query'
 
-  /**
-   * @Name AgreemmentDetailsFetchMiddleware 
-   * @summary initializes the middleware to be used in along with express route 
-   * 
-   */
+/**
+ * 
+ * @Middleware
+ * @param req 
+ * @param res 
+ * @param next 
+ */
 export class AgreementDetailsFetchMiddleware {
     static FetchAgreements = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         var {agreement_id} = req.query;

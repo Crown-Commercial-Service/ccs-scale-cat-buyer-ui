@@ -15,6 +15,7 @@ import {HTTPError, NotFoundError} from './errors/errors'
 export const app = express();
 app.locals.ENV = env;
 
+
 // setup logging of HTTP requests
 app.use(Express.accessLogger());
 
@@ -40,12 +41,6 @@ app.use((req, res, next) => {
 });
 app.enable('trust proxy')
 
-  //Authentication related routes
-  glob.sync(__dirname + '/features/auth/path.ts')
-  .map(filename => require(filename))
-  .forEach(route => route.default(app));
-
-
    
 //Setting up the routes and looping through individuals Paths
 glob.sync(__dirname + '/routes/**/*.+(ts|js)')
@@ -58,7 +53,10 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
  .map(filename => require(filename))
  .forEach(route => route.default(app));
 
-
+  //Authentication related routes
+  glob.sync(__dirname + '/features/auth/path.ts')
+  .map(filename => require(filename))
+  .forEach(route => route.default(app));
 
 
 

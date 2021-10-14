@@ -3,8 +3,10 @@ import * as cmsData from '../../../resources/content/RFI/rfiType.json'
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import {RFI_PATHS} from '../model/rficonstant'
 
+
 // RFI TaskList
 export const GET_TYPE = (req : express.Request, res : express.Response)=> {
+
    var {agreement_id} = req.query;
    var windowAppendData = {data : cmsData, agreement_id: agreement_id}
    res.render('type', windowAppendData); 
@@ -16,7 +18,6 @@ export const GET_TYPE = (req : express.Request, res : express.Response)=> {
  * @description
  * 
  */
-
 //POST 'rfi/type'
 export const POST_TYPE = (req : express.Request, res : express.Response)=> {
    let {agreement_id} = req.query;

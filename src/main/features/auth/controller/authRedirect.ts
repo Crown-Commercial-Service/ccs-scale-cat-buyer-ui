@@ -1,19 +1,17 @@
 //@ts-nocheck
 import * as express from 'express'
-import * as dotenv from 'dotenv'
-const result = dotenv.config();
-if (result.error) throw result.error;
-const { parsed: envs } = result;
-
+import config from 'config'
 /**
  * @Controller
  * @Path AuthVariable
  * @description created Auth Paramaters
  */
 class Auth_Variable {
-    AuthBaseURL : string = envs.AUTH_SERVER_BASE_URL;
-    ClientID : string  = envs.CLIENT_ID;
-    CallBackURL : string =  envs.CALLBACK_URL;
+
+    // using local environement variables
+    AuthBaseURL : string = process.env.AUTH_SERVER_BASE_URL;
+    ClientID : string  = process.env.AUTH_SERVER_CLIENT_ID;
+    CallBackURL : string =  config.get('authenticationService.callbackURL');
 }
 
 /**
@@ -23,7 +21,7 @@ class Auth_Variable {
  */
 export class AuthorizationRedirect {
 
-     Auth_var = new Auth_Variable;
+     Auth_var = new Auth_Variable;    
       
      Redirect_Oauth_URL = () => {
         let redirectral_url =  `${this.Auth_var.AuthBaseURL}/security/authorize?response_type=code&scope=openid%20profile%20email&client_id=${this.Auth_var.ClientID}&redirect_uri=${this.Auth_var.CallBackURL}`;
