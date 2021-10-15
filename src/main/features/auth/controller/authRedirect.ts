@@ -11,7 +11,7 @@ class Auth_Variable {
     // using local environement variables
     AuthBaseURL : string = process.env.AUTH_SERVER_BASE_URL;
     ClientID : string  = process.env.AUTH_SERVER_CLIENT_ID;
-    CallBackURL : string =  config.get('authenticationService.callbackURL');
+    CallBackURL : string =  process.env.CAT_URL+'/receiver';
 }
 
 /**
