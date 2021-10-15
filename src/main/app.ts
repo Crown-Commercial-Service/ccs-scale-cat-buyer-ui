@@ -15,6 +15,7 @@ import {HTTPError, NotFoundError} from './errors/errors'
 export const app = express();
 app.locals.ENV = env;
 
+
 // setup logging of HTTP requests
 app.use(Express.accessLogger());
 
@@ -51,6 +52,11 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
  glob.sync(__dirname + '/features/rfi/path.ts')
  .map(filename => require(filename))
  .forEach(route => route.default(app));
+
+  //Authentication related routes
+  glob.sync(__dirname + '/features/auth/path.ts')
+  .map(filename => require(filename))
+  .forEach(route => route.default(app));
 
 
 
