@@ -57,7 +57,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     AUTH_SERVER_CLIENT_ID : data.aws_ssm_parameter.env_auth_server_client_id.value
     AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
     AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
-
+    CAT_URL : "https://${var.environment}-ccs-scale-cat-buyer-ui"
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
