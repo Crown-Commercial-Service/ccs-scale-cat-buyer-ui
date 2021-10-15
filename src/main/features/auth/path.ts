@@ -14,6 +14,9 @@ export default function(app: Application): void {
   //@GET 'oauth/login'
  app.get(OAUTH_PATHS.OAUTH_LOGIN,   OAUTH_CONTROLLER.OAUTH_LOGIN);  
 
+   //@GET 'oauth/logout'
+   app.get(OAUTH_PATHS.OAUTH_LOGOUT,   OAUTH_CONTROLLER.OAUTH_LOGOUT);  
+
 
  // This is the reciever callback after getting the token
  app.get(OAUTH_PATHS.OAUTH_RECEIVER_CALLBACK,CREDENTAILS_FETCH_RECEIVER,  OAUTH_CONTROLLER.Receiver)
