@@ -15,12 +15,10 @@ import {HTTPError, NotFoundError} from './errors/errors'
 export const app = express();
 app.locals.ENV = env;
 
-
 // setup logging of HTTP requests
 app.use(Express.accessLogger());
 
 const logger = Logger.getLogger('app');
-
 
 new Nunjucks(developmentMode, i18next).enableFor(app);
 
@@ -47,7 +45,6 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
 
-
  //RFI Related routes 
  glob.sync(__dirname + '/features/rfi/path.ts')
  .map(filename => require(filename))
@@ -58,10 +55,7 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
 
-
-
 setupDev(app,developmentMode);
-
 
 /**
  *  All error Handler Routes 
@@ -81,6 +75,3 @@ app.use((err: HTTPError, req: express.Request, res: express.Response) => {
   res.status(err.status || 500);
   res.render('error/500');
 });
-
-
-
