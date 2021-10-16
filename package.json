@@ -62,7 +62,7 @@
     "nodejs-logging": "^1.1.1",
     "nunjucks": "^3.2.3",
     "require-directory": "^2.1.1",
-    "sass": "^1.39.0",
+    "sass": "^1.42.1",
     "serve-favicon": "^2.5.0",
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.11.0",
