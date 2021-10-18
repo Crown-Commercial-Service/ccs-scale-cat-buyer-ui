@@ -57,7 +57,7 @@
     "govuk-frontend": "^3.13.1",
     "helmet": "^3.21.2",
     "i18next": "^20.6.1",
-    "jquery": "^3.5.0",
+    "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "nodejs-logging": "^1.1.1",
     "nunjucks": "^3.2.3",
