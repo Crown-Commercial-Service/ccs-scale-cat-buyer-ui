@@ -28,7 +28,7 @@
   "dependencies": {
     "@hmcts/info-provider": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.7.0",
-    "@hmcts/nodejs-logging": "^3.0.2",
+    "@hmcts/nodejs-logging": "^3.0.4",
     "@types/config": "^0.0.39",
     "@types/cookie-parser": "^1.4.2",
     "@types/cookies": "^0.7.7",
