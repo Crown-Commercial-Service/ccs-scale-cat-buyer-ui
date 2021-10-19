@@ -28,5 +28,19 @@ export class Oauth_Instance {
             }
         })
     } 
+
+    static tokenRemove = async (secret_token: string) : Promise<string>  => {
+        const BaseURL = `${process.env.AUTH_SERVER_BASE_URL}/security/log-out`;
+        return await axios.default.create({
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${secret_token}`   
+            },
+            params: {
+                'redirect-uri': 'http://localhost:3000/logout',
+                'client-id': Oauth_Instance.Client_id
+            }
+        }).get(BaseURL);
+    } 
    
 }
