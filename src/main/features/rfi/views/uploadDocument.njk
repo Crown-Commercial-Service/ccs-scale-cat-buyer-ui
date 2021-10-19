@@ -1,2 +1,56 @@
 {% extends "template.njk" %}
 
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Complete and upload a document | Contract a Thing' %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/home"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "#"
+          },
+                    {
+            text: "Procurement overview",
+            href: "#"
+          },
+          {
+            text: "Run pre-market engagement",
+            href: "#"
+          },
+          {
+            text: "Complete and upload a document",
+            href: "#"
+          }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+  <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+       <h1 class="govuk-heading-xl">
+        Complete and upload a document
+      </h1>
+
+    <div class="govuk-grid-column-one-third">
+  
+      {{ howToGetSupport() }}
+
+    </div>
+  </div>
+    
+  </div>
+  </main>
+{% endblock %}
+

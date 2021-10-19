@@ -1,20 +1,15 @@
 import * as axios from 'axios'
+import config from 'config'
+
 
 
 export class DynamicFrameworkInstance {
 
-    static Instance = (SESSION_ID : string) => {
-
-            return  axios.default.create({
-                baseURL: process.env.TENDERS_SERVICE_API_URL,
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${SESSION_ID}`
-                }
-            })
-    }
-    
-    
-   
+    static Instance = axios.default.create({
+        baseURL: config.get('dynamic_framework.BASEURL'),
+        headers: {
+        'Content-Type': 'application/json'
+        }
+    })
 
 }

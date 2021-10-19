@@ -39,13 +39,10 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
             let {
                 access_token, expires_in
             } = containedData;
-
-            
             let AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
             let check_token_validation = AuthCheck_Instance.post('');
             check_token_validation.then(data => {
                 let auth_status_check = data?.data;
-                console.log(auth_status_check)
                 if(auth_status_check) {
                     let timeforcookies = Number(expires_in) * 1000;
                     res.cookie(cookies.sessionID, access_token, {
