@@ -20,7 +20,7 @@ export class Oauth_Instance {
     })
     static TokenCheckInstance =  (secret_token: string)  => {
         let BaseURL = `${Oauth_Instance.tokenCheck_AuthService_BaseURL}?client-id=${Oauth_Instance.Client_id}`;
-       return  axios.default.create({
+        return  axios.default.create({
             baseURL: BaseURL,
             headers: {
             'Content-Type': 'application/json',

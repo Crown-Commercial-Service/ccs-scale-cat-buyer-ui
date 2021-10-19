@@ -3,6 +3,11 @@
 
 {% set title = 'Create a Request for Information (RFI)' %}
 
+{% set requirements = data.requirements %}
+
+
+
+
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
     items: [
@@ -44,11 +49,12 @@
   
 
 
-   <form id="{{validation}}" name="{{validation}}" class="form {{validation}}" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
+   <form id="{{validation.formID}}" name="{{validation.formName}}" class="form {{validation.formClass}}" action="/rfi/questionnaire?agreement_id={{agreement_id}}&path_view={{path_view}}&id={{id}}" method="post">
 
-          {% for requirement in data %}
+          {% for requirement in requirements %}
             {% block value %}
-          {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
+          {% if requirement.nonOcds.questionType === 'Value' and requirement.nonOcds.multiAnswer === true %}
+
         {{ CCSInput({
           label: {
             text: "Enter your first question",
@@ -157,21 +163,20 @@
           classes: "ccs-dynaform-hidden",
           value: data['rfi_question_10']
         }) }}
+       
+
+      
+             
            <p class="govuk-body">
           {{ CCSButton({
-            text: requirement.OCDS.description,
+            text: requirement.ocds.description,
             attributes: {
               id: "ccs_criteria_add"
             },
             classes: "govuk-button--secondary"
           }) }}
         </p>
-          {{ CCSInput({
-          id: "question_id",
-          name: "question_id",
-          type: "hidden",
-          value: requirement.OCDS.id
-        }) }}
+
           {% endif %}
           {% endblock %}        
 
@@ -179,27 +184,25 @@
              
 
           {% block valuewitNoMultiSelect %}
-          {% if (requirement.nonOCDS.questionType === 'Value') and  (requirement.nonOCDS.multiAnswer === false)   %}
+          {% if (requirement.nonOcds.questionType === 'Value') and  (requirement.nonOcds.multiAnswer === false)   %}
+                
+
               {{ CCSInput({
           label: {
-            text: requirement.OCDS.title,
+            text: requirement.ocds.title,
             classes: "govuk-label--m"
           },
           hint: {
-            text: requirement.OCDS.description
+            text: requirement.ocds.description
           },
           id: "rfi_contracting_auth",
-          name:requirement.OCDS.title | replace(" ", "_"),
-          value: requirement.nonOCDS.options[0].value
+          name:requirement.ocds.title | replace(" ", "_"),
+          value: ""
         }) }}
-
-            {{ CCSInput({
-          id: "question_id",
-          name: "question_id",
-          type: "hidden",
-          value: requirement.OCDS.id
-        }) }}
+            
       
+      
+
             {% endif %}
           {% endblock %}   
 
@@ -207,15 +210,15 @@
 
 
 
-           {% block singleSelect%}
-          {% if (requirement.nonOCDS.questionType == 'SingleSelect') and  (requirement.nonOCDS.multiAnswer == false)   %}
+          {% block singleSelect%}
+          {% if (requirement.nonOcds.questionType == 'SingleSelect') and  (requirement.nonOcds.multiAnswer == false)   %}
           
            
           
           {% set radioArray = [] %}
 
-          {% for radioOption in requirement.nonOCDS.options %}
-        
+          {% for radioOption in requirement.nonOcds.options %}
+          
          {% set radioArray = (radioArray.push(
            {
              value: radioOption.value,
@@ -227,7 +230,7 @@
 
           {{ CCSRadios({
                 idPrefix: "ccs_rfi_type",
-                name: data.OCDS.description | replace(' ', '_'),
+                name: data.description | replace(' ', '_'),
                 items: radioArray
               }) }}
       
@@ -246,7 +249,7 @@
 
 
           {% block KeySelect%}
-          {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and  (requirement.nonOCDS.multiAnswer === true)   %}
+          {% if (requirement.nonOcds.questionType == 'KeyValuePair') and  (requirement.nonOcds.multiAnswer == true)   %}
   
           {{ CCSFieldset({
           legend: {
@@ -414,13 +417,6 @@
             classes: "govuk-button--secondary"
           }) }}
         </p>
-
-           {{ CCSInput({
-          id: "question_id",
-          name: "question_id",
-          type: "hidden",
-          value: requirement.OCDS.id
-        }) }}
        
           {% endif %}
           {% endblock %}
@@ -434,7 +430,7 @@
 
 
         {% block Address%}
-          {% if (requirement.nonOCDS.questionType == 'Address') and  (requirement.nonOCDS.multiAnswer == false)   %}
+          {% if (requirement.nonOcds.questionType == 'Address') and  (requirement.nonOcds.multiAnswer == false)   %}
             {% call CCSFieldset({
           legend: {
             text: "Where will the work be completed (optional)",
@@ -483,12 +479,9 @@
         </span>
 
         <br> 
-      {{ CCSInput({
-          id: "question_id",
-          name: "question_id",
-          type: "hidden",
-          value: requirement.OCDS.id
-        }) }}
+   
+
+        
    
       
           {% endif %}
