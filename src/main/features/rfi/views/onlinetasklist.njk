@@ -15,41 +15,27 @@
             </div>
         </div>
     <div class="govuk-grid-row">
-    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>    
-       {#  <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-grid-column-two-thirds">
             <ul class="app-task-list">
               {% for items in data %}
-                {% for subItem in items.requirementGroups%}
-
+        
                  <li class="app-task-list__item">
                     <span class="app-task-list__task-name">
-                        <strong>{{subItem.description}}</strong>
+                        <strong>{{items.OCDS.description}}</strong>
                     </span>
-                    {% set hreflink  = subItem.description | replace(" ", "_" ) %}
+                    {% set hreflink  = items.OCDS.description | replace(" ", "_" ) %}
                     {% set criterion_id  = items.id | replace(" ", "_" ) %}
-                    <a class="app-task-list__tag" href="/rfi/questions?agreement_id={{agreement_id}}&id={{criterion_id}}&path_view={{hreflink}}" aria-describedby="rfi-questions">{{subItem.task}}</a>
+                    <a class="app-task-list__tag" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}" aria-describedby="rfi-questions">{{items.nonOCDS.task}}</a>
                 </li>
-
-                {% endfor %}
                    
                 {% endfor %}
 
-                 {% for items in data[1] %}
-                    <li class="app-task-list__item">
-                    <span class="app-task-list__task-name">
-                        <strong>{{items.description}}</strong>
-                    </span>
-                    {% set hreflink  = subItem.description | replace(" ", "_" ) %}
-                     {% set criterion_id  = items.id | replace(" ", "_" ) %}
-                    <a class="app-task-list__tag" href="/rfi/questions?agreement_id={{agreement_id}}&id={{criterion_id}}&path_view={{hreflink}}" aria-describedby="rfi-questions">{{subItem.task}}</a>
-                </li>
-                {% endfor %}
             </ul>
                 <br>
                 <br>
             <p class="govuk-body">
                 <a href="{{data.backJump.href }}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title }}</a>
             </p>
-        </div> #}
+        </div>
     </div>
     {% endblock %}      
