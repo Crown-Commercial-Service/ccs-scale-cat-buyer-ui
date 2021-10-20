@@ -102,7 +102,6 @@ export var array : any = [];
                        "answered": true,
                        "options": [
                         iteration.answer,
-                        
                        ]
                      }
                    };
@@ -121,7 +120,25 @@ export var array : any = [];
              
           }
           else{
-             console.log(question_id)
+           
+             let answerBody = {
+               "nonOCDS": {
+                 "answered": true,
+                 "options": [
+                  ...object_values,
+                 ]
+               }
+             };
+             try {
+               let answerBaseURL =  `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+               let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+               console.log(postData)
+
+             } catch (error) {
+                res.redirect('/404')
+             }
+
+
           }
                  
             /**
