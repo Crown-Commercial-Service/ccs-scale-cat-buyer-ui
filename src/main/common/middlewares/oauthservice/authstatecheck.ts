@@ -2,7 +2,7 @@ import { ErrorView } from '../../shared/error/errorView';
 import * as express from 'express'
 import {Oauth_Instance} from '../../util/fetch/OauthService/OauthInstance'
 import {cookies} from '../../cookies/cookies'
-
+import * as jwt from 'jsonwebtoken';
 /**
  * 
  * @Middleware
@@ -25,6 +25,10 @@ export const AUTH  =  (req : express.Request, res : express.Response, next: expr
                 session : true
             }
             res.locals.Session = isAuthicated ;
+            // get the decoded payload ignoring signature, no secretOrPrivateKey needed
+            let decoded = jwt.decode(access_token, {complete: true});
+            let user_email = decoded.payload.sub;
+            res.locals.user_email = user_email;
                  next()
          }else{
             res.clearCookie(cookies.sessionID);
