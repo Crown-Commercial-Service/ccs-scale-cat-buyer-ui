@@ -1,0 +1,496 @@
+{% extends "template.njk" %}
+
+
+{% set title = 'Create a Request for Information (RFI)' %}
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+    items: [
+      {
+        text: "Dashboard",
+        href: "/"
+      },
+      {
+        text: "Choose a commercial agreement",
+        href: "/dashboard"
+      },
+      {
+        text: "procurement overview",
+        href: "/projects/"
+      },
+      {
+        text: data.description
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+      <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+       {{data.description}}
+        </h1>
+      
+    </div>
+</div>
+
+
+
+ <div class="govuk-grid-row">
+ <div class="govuk-grid-column-two-thirds">
+  {% include "includes/project_header.njk" %}  
+ <p class="govuk-body-l">{{data.prompt}}</p><br><br><br>
+  
+
+
+   <form id="{{validation}}" name="{{validation}}" class="form {{validation}}" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
+
+          {% for requirement in data %}
+            {% block value %}
+          {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
+        {{ CCSInput({
+          label: {
+            text: "Enter your first question",
+            classes: "govuk-label--m"
+          },
+          id: "rfi_question_1",
+          name: "rfi_question_1",
+          value: data['rfi_question_1']
+        }) }}
+
+        {{ CCSInput({
+          label: {
+            html: "Enter your second question <a href='2' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-label--m"
+          },
+          id: "rfi_question_2",
+          name: "rfi_question_2",
+          classes: "ccs-dynaform-hidden",
+          value: data['rfi_question_2']
+        }) }}
+
+        {{ CCSInput({
+          label: {
+            html: "Enter your third question <a href='3' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-label--m"
+          },
+          id: "rfi_question_3",
+          name: "rfi_question_3",
+          classes: "ccs-dynaform-hidden",
+          value: data['rfi_question_3']
+        }) }}
+
+        {{ CCSInput({
+          label: {
+            html: "Enter your fourth question <a href='4' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-label--m"
+          },
+          id: "rfi_question_4",
+          name: "rfi_question_4",
+          classes: "ccs-dynaform-hidden",
+          value: data['rfi_question_4']
+        }) }}
+
+        {{ CCSInput({
+          label: {
+            html: "Enter your fifth question <a href='5' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-label--m"
+          },
+          id: "rfi_question_5",
+          name: "rfi_question_5",
+          classes: "ccs-dynaform-hidden",
+          value: data['rfi_question_5']
+        }) }}
+
+        {{ CCSInput({
+          label: {
+            html: "Enter your sixth question <a href='6' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-label--m"
+          },
+          id: "rfi_question_6",
+          name: "rfi_question_6",
+          classes: "ccs-dynaform-hidden",
+          value: data['rfi_question_6']
+        }) }}
+
+        {{ CCSInput({
+          label: {
+            html: "Enter your seventh question <a href='7' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-label--m"
+          },
+          id: "rfi_question_7",
+          name: "rfi_question_7",
+          classes: "ccs-dynaform-hidden",
+          value: data['rfi_question_7']
+        }) }}
+
+        {{ CCSInput({
+          label: {
+            html: "Enter your eighth question <a href='8' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-label--m"
+          },
+          id: "rfi_question_8",
+          name: "rfi_question_8",
+          classes: "ccs-dynaform-hidden",
+          value: data['rfi_question_8']
+        }) }}
+
+        {{ CCSInput({
+          label: {
+            html: "Enter your ninth question <a href='9' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-label--m"
+          },
+          id: "rfi_question_9",
+          name: "rfi_question_9",
+          classes: "ccs-dynaform-hidden",
+          value: data['rfi_question_9']
+        }) }}
+
+        {{ CCSInput({
+          label: {
+            html: "Enter your tenth question <a href='10' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-label--m"
+          },
+          id: "rfi_question_10",
+          name: "rfi_question_10",
+          classes: "ccs-dynaform-hidden",
+          value: data['rfi_question_10']
+        }) }}
+           <p class="govuk-body">
+          {{ CCSButton({
+            text: requirement.OCDS.description,
+            attributes: {
+              id: "ccs_criteria_add"
+            },
+            classes: "govuk-button--secondary"
+          }) }}
+        </p>
+          {{ CCSInput({
+          id: "question_id",
+          name: "question_id",
+          type: "hidden",
+          value: requirement.OCDS.id
+        }) }}
+          {% endif %}
+          {% endblock %}        
+
+
+             
+
+          {% block valuewitNoMultiSelect %}
+          {% if (requirement.nonOCDS.questionType === 'Value') and  (requirement.nonOCDS.multiAnswer === false)   %}
+              {{ CCSInput({
+          label: {
+            text: requirement.OCDS.title,
+            classes: "govuk-label--m"
+          },
+          hint: {
+            text: requirement.OCDS.description
+          },
+          id: "rfi_contracting_auth",
+          name:requirement.OCDS.title | replace(" ", "_"),
+          value: requirement.nonOCDS.options[0].value
+        }) }}
+
+            {{ CCSInput({
+          id: "question_id",
+          name: "question_id",
+          type: "hidden",
+          value: requirement.OCDS.id
+        }) }}
+      
+            {% endif %}
+          {% endblock %}   
+
+           {% block singleSelect%}
+          {% if (requirement.nonOCDS.questionType == 'SingleSelect') and  (requirement.nonOCDS.multiAnswer == false)   %}
+          
+           
+          
+          {% set radioArray = [] %}
+
+          {% for radioOption in requirement.nonOCDS.options %}
+        
+         {% set radioArray = (radioArray.push(
+           {
+             value: radioOption.value,
+             html: "<h3 class='govuk-heading-m'>" + radioOption.value + "</h3>"
+           }), radioArray) 
+           %}
+
+          {% endfor %}
+
+          {{ CCSRadios({
+                idPrefix: "ccs_rfi_type",
+                name: data.OCDS.description | replace(' ', '_'),
+                items: radioArray
+              }) }}
+      
+       
+          {% endif %}
+          {% endblock %}
+
+
+          {% block KeySelect%}
+          {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and  (requirement.nonOCDS.multiAnswer === true)   %}
+  
+          {{ CCSFieldset({
+          legend: {
+            text: "Term or Acronym 1",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          },
+          classes: "acronym_1"
+        }) }}
+
+          {{ CCSInput({
+            label: {
+              text: "Expression or acronym"
+            },
+            id: "rfi_term_1",
+            name: "rfi_term_1",
+            classes: "rfi_term_1",
+            value: data['rfi_term_1']
+          }) }}
+
+          {{ CCSTextarea({
+            name: "rfi_term_definition_1",
+            id: "rfi_term_definition_1",
+            label: {
+              text: "Definition"
+            },
+            classes: "rfi_term_definition_1",
+            value: data['rfi_term_definition_1']
+          }) }}
+  
+ 
+
+        {{ CCSFieldset({
+          legend: {
+            html: "Term or Acronym 2 <a href='2' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          },
+          classes: "acronym_2"
+        }) }}
+
+          {{ CCSInput({
+            label: {
+              text: "Expression or acronym"
+            },
+            id: "rfi_term_2",
+            name: "rfi_term_2",
+            classes: "rfi_term_2",
+            value: data['rfi_term_2']
+          }) }}
+
+          {{ CCSInput({
+            label: {
+              text: "Definition"
+            },
+            id: "rfi_term_definition_2",
+            name: "rfi_term_definition_2",
+            spellcheck: false,
+            classes: "rfi_term_definition_2",
+            value: data['rfi_term_definition_2']
+          }) }}
+
+      
+
+        {{  CCSFieldset({
+          legend: {
+            html: "Term or Acronym 3 <a href='3' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          },
+          classes: "acronym_3"
+        }) }}
+
+          {{ CCSInput({
+            label: {
+              text: "Expression or acronym"
+            },
+            id: "rfi_term_3",
+            name: "rfi_term_3",
+            classes: "rfi_term_3",
+            value: data['rfi_term_3']
+          }) }}
+
+          {{ CCSInput({
+            label: {
+              text: "Definition"
+            },
+            id: "rfi_term_definition_3",
+            name: "rfi_term_definition_3",
+            spellcheck: false,
+            classes: "rfi_term_definition_3",
+            value: data['rfi_term_definition_3']
+          }) }}
+
+
+        {{ CCSFieldset({
+          legend: {
+            html: "Term or Acronym 4 <a href='4' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          },
+          classes: "acronym_4"
+        }) }}
+
+          {{ CCSInput({
+            label: {
+              text: "Expression or acronym"
+            },
+            id: "rfi_term_4",
+            name: "rfi_term_4",
+            classes: "rfi_term_4",
+            value: data['rfi_term_4']
+          }) }}
+
+          {{ CCSInput({
+            label: {
+              text: "Definition"
+            },
+            id: "rfi_term_definition_4",
+            name: "rfi_term_definition_4",
+            spellcheck: false,
+            classes: "rfi_term_definition_4",
+            value: data['rfi_term_definition_4']
+          }) }}
+
+
+        {{ CCSFieldset({
+          legend: {
+            html: "Term or Acronym 5 <a href='5' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          },
+          classes: "acronym_5"
+        }) }}
+
+          {{ CCSInput({
+            label: {
+              text: "Expression or acronym"
+            },
+            id: "rfi_term_5",
+            name: "rfi_term_5",
+            classes: "rfi_term_5",
+            value: data['rfi_term_5']
+          }) }}
+
+          {{ CCSInput({
+            label: {
+              text: "Definition"
+            },
+            id: "rfi_term_definition_5",
+            name: "rfi_term_definition_5",
+            spellcheck: false,
+            classes: "rfi_term_definition_5",
+            value: data['rfi_term_definition_5']
+          }) }}
+
+
+       
+     <p class="govuk-body">
+          {{ CCSButton({
+            text: requirement.ocds.description,
+            attributes: {
+              id: "ccs_criteria_add"
+            },
+            classes: "govuk-button--secondary"
+          }) }}
+        </p>
+
+           {{ CCSInput({
+          id: "question_id",
+          name: "question_id",
+          type: "hidden",
+          value: requirement.OCDS.id
+        }) }}
+       
+          {% endif %}
+          {% endblock %}
+
+
+        {% block Address%}
+          {% if (requirement.nonOCDS.questionType == 'Address') and  (requirement.nonOCDS.multiAnswer == false)   %}
+            {% call CCSFieldset({
+          legend: {
+            text: "Where will the work be completed (optional)",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          }
+        }) %}
+
+          {{ CCSInput({
+            label: {
+              text: "Postcode",
+              classes: "govuk-label--m"
+            },
+            classes: "govuk-input--width-10",
+            id: "rfi_proj_address-postcode",
+            name: "rfi_proj_address-postcode",
+            autocomplete: "postal-code",
+            value: data['rfi_proj_address-postcode']
+          }) }}
+
+          <div id="ccs_postcode_holder" class="ccs-dynaform-hidden">
+            <p class="govuk-body-l"><span id="display_postcode" class="govuk-!-font-weight-bold"></span>&nbsp;&nbsp; <a id="change_postcode" href="change" class="govuk-link govuk-link--no-visited-state">Change</a></p>
+          </div>
+
+          {{ CCSSelect({
+            id: "rfi_proj_address-address",
+            name: "rfi_proj_address-address",
+            label: {
+              text: "Select an address",
+              classes: "govuk-label--m"
+            },
+            items: []
+          }) }}
+
+          {{ CCSButton({
+            text: "Find address",
+            attributes: {
+              id: "rfi_find_address_btn"
+            },
+            classes: "govuk-button--secondary"
+          }) }}
+
+        {% endcall %}
+        <span>
+          <a href="/rfi/address-manual" class="govuk-link govuk-link--no-visited-state">Enter address manually</a>
+        </span>
+
+        <br> 
+      {{ CCSInput({
+          id: "question_id",
+          name: "question_id",
+          type: "hidden",
+          value: requirement.OCDS.id
+        }) }}
+          {% endif %}
+          {% endblock %}
+
+          {% endfor %}      
+             <br><br>
+             {{ CCSInput({
+          id: "rfi_build_started",
+          name: "rfi_build_started",
+          type: "hidden",
+          value: true
+        }) }}
+        
+        <div class="govuk-button-group">
+          {{ CCSButton({
+            text: "Save and continue"
+          }) }}
+          <a href="/rfi/online-task-list" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information</a>
+        </div>
+           
+</form>
+
+</div>
+</div>
+
+{% endblock %}

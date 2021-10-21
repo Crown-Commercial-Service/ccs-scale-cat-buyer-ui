@@ -1,0 +1,29 @@
+{
+  "useCSRFProtection": true,
+  "security": {
+    "referrerPolicy": "origin"
+  },
+  "PORT": "3000",
+  "AgreementService": {
+    "BASEURL": "https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital"
+  },
+  "authenticationService": {
+    "token-endpoint": "/security/token",
+    "access_granttype": "authorization_code",
+    "token_validation_endpoint": "/security/tokens/validation",
+    "callbackURL": "http://localhost:3000/receiver"
+  },
+  "dynamic_framework": {
+    "BASEURL": "https://dev-ccs-scale-cat-buyer-ui.london.cloudapps.digital/api/template"
+  },
+  "pages": {
+    "error": {
+      "404": "error/404",
+      "500": "error/500"
+    }
+  },
+  "cookies": {
+    "sessionid": "SESSION_ID",
+    "state": "state"
+  }
+}

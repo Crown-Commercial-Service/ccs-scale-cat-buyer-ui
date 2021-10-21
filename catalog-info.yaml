@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "hmcts-cookies-consent"
+  description: {{ cookies-consent.description }}
+  annotations:
+    # This must match folder-name/job-name in Jenkins.
+    jenkins.io/github-folder: 'HMCTS_hmcts/hmcts-cookies-consent'
+    github.com/project-slug: '{{ cookies-consent.storePath }}'
+  tags:
+    - expressjs
+    - hmcts
+spec:
+  type: website
+  lifecycle: experimental
+  owner: {{ cookies-consent.owner }}
