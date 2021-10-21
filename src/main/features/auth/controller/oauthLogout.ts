@@ -1,5 +1,5 @@
-import * as express from 'express'
-import { Oauth_Instance } from './../../../common/util/fetch/OauthService/OauthInstance';
+import * as express from 'express';
+import config from 'config';
 
 /**
  * 
@@ -9,14 +9,9 @@ import { Oauth_Instance } from './../../../common/util/fetch/OauthService/OauthI
  * @param res 
  */
 export const OAUTH_LOGOUT = async (req : express.Request, res : express.Response)=> {
-    const access_token = req.cookies['SESSION_ID'];
     res.clearCookie('state'); 
-    res.cookie('SESSION_ID', {expires: Date.now()});
-    try {
-        let redirectURL: any = await Oauth_Instance.tokenRemove(access_token);
-        res.redirect(redirectURL.request.res.responseUrl)
-    } 
-    catch (err){
-         console.log(err);
-     }
+    res.clearCookie('SESSION_ID');
+    const paramsUrl = `redirect-uri=${config.get('authenticationService.logout_callback')}&client-id=${process.env.AUTH_SERVER_CLIENT_ID}`;
+    const logoutUrl = `${process.env.AUTH_SERVER_BASE_URL}${config.get('authenticationService.logout')}?${paramsUrl}`;
+    res.redirect(logoutUrl);
 }

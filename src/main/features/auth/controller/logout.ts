@@ -9,5 +9,5 @@ import * as express from 'express'
  * @param res 
  */
 export const LOGOUT = (req : express.Request, res : express.Response)=> {
-  res.render('logout');
+  res.redirect('/');
 }
