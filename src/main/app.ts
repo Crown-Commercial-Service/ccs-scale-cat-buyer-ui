@@ -43,6 +43,7 @@ app.enable('trust proxy')
 
 
 
+
    
 //Setting up the routes and looping through individuals Paths
 glob.sync(__dirname + '/routes/**/*.+(ts|js)')
