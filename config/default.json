@@ -11,9 +11,8 @@
     "token-endpoint": "/security/token",
     "access_granttype": "authorization_code",
     "token_validation_endpoint": "/security/tokens/validation",
-    "callbackURL": "http://localhost:3000/receiver",
     "logout": "/security/log-out",
-    "logout_callback": "http://localhost:3000/logout"
+    "logout_callback": "/logout"
   },
   "dynamic_framework": {
     "BASEURL": "https://dev-ccs-scale-cat-buyer-ui.london.cloudapps.digital/api/template"
