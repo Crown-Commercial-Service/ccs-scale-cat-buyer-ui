@@ -20,6 +20,7 @@ export class AgreementDetailsFetchMiddleware {
             let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
             retrieveAgreementPromise.then( (data)=> {
                 let containedData = data?.data;
+
                 res.locals.project_header = containedData;
                 next(); 
 
@@ -29,3 +30,4 @@ export class AgreementDetailsFetchMiddleware {
         }
     }
 }
+
