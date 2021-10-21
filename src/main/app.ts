@@ -22,6 +22,8 @@ const logger = Logger.getLogger('app');
 
 new Nunjucks(developmentMode, i18next).enableFor(app);
 
+
+
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
 

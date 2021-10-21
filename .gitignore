@@ -5,6 +5,8 @@ node_modules
 .project
 .vscode/
 
+node_modules
+
 .env
 
 

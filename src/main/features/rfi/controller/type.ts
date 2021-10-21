@@ -27,7 +27,7 @@ export const POST_TYPE = (req : express.Request, res : express.Response)=> {
 
    switch(ccs_rfi_type){
       case 'all_online':
-         let redirect_address = `/rfi/online-task-list?agreement_id=${agreement_id}`;
+         let redirect_address = `/rfi/online-task-list?agreement_id=${agreement_id}&proc_id=1&event_id=ocds-b5fd17-1`;
           res.redirect(redirect_address);
       break;
 
