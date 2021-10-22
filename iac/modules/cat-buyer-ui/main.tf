@@ -46,6 +46,10 @@ data "aws_ssm_parameter" "env_auth_server_base_url" {
   name = "/cat/${var.environment}/auth-server-base-url"
 }
 
+data "aws_ssm_parameter" "env_logit_api_key" {
+  name = "/cat/${var.environment}/logit-api-key"
+}
+
 resource "cloudfoundry_app" "cat_buyer_ui" {
   annotations = {}
   buildpack   = var.buildpack
@@ -58,6 +62,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
     AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
     CAT_URL : "https://${var.environment}-ccs-scale-cat-buyer-ui.london.cloudapps.digital"
+    LOGIT_API_KEY: data.aws_ssm_parameter.env_logit_api_key.value
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
