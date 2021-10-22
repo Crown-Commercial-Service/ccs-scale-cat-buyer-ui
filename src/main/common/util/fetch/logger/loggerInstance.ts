@@ -7,7 +7,7 @@ export class LoggerInstance {
         baseURL: config.get('logger.baseURL'),
         headers: {
         'Content-Type': 'application/json',
-        'ApiKey': process.env.LOGIT_APIKEY
+        'ApiKey': process.env.LOGIT_API_KEY
         }
     })
 
