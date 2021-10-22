@@ -11,7 +11,8 @@ import {Query} from '../../util/operators/query'
  * @param next 
  */
 export class AgreementDetailsFetchMiddleware {
-    static FetchAgreements = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+    static FetchAgreements : express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         var {agreement_id} = req.query;
         if(Query.isUndefined(agreement_id) || Query.isEmpty(agreement_id)){
             res.render(ErrorView.notfound)

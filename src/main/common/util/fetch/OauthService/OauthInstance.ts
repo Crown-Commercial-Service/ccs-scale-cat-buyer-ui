@@ -18,8 +18,8 @@ export class Oauth_Instance {
         'Content-Type': 'application/x-www-form-urlencoded'
         }
     })
-    static TokenCheckInstance =  (secret_token: string)  => {
-        let BaseURL = `${Oauth_Instance.tokenCheck_AuthService_BaseURL}?client-id=${Oauth_Instance.Client_id}`;
+    static TokenCheckInstance =  (secret_token: string) : axios.AxiosInstance  => {
+        let BaseURL : string = `${Oauth_Instance.tokenCheck_AuthService_BaseURL}?client-id=${Oauth_Instance.Client_id}`;
         return  axios.default.create({
             baseURL: BaseURL,
             headers: {
