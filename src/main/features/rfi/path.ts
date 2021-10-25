@@ -16,16 +16,16 @@ export default function(app: Application): void {
  * @summary: provide all the respective associated view to the certain routes
  */
 // @GET '/rfi/rfi-task-list'
-  app.get(RFI_PATHS.GET_TASKLIST, [AgreementDetailsFetchMiddleware.FetchAgreements, AUTH],  associatedViews.GET_TASKLIST);  
+  app.get(RFI_PATHS.GET_TASKLIST, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],  associatedViews.GET_TASKLIST);  
 
 //  @GET '/rfi/type'
-  app.get(RFI_PATHS.GET_TYPE, [AgreementDetailsFetchMiddleware.FetchAgreements, AUTH], associatedViews.GET_TYPE);     
+  app.get(RFI_PATHS.GET_TYPE, [AUTH ,AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_TYPE);     
   
   //  @GET '/rfi/online-task-list'
-  app.get(RFI_PATHS.GET_ONLINE_TASKLIST, [AgreementDetailsFetchMiddleware.FetchAgreements, AUTH], associatedViews.GET_ONLINE_TASKLIST );      
+  app.get(RFI_PATHS.GET_ONLINE_TASKLIST, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_ONLINE_TASKLIST );      
 
   //  @GET '/rfi/questions'
-  app.get(RFI_PATHS.GET_QUESTIONS, [AgreementDetailsFetchMiddleware.FetchAgreements, AUTH], associatedViews.GET_QUESTIONS);    
+  app.get(RFI_PATHS.GET_QUESTIONS, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_QUESTIONS);    
 
   //  @GET '/rfi/upload-doc'
   app.get(RFI_PATHS.GET_UPLOAD_DOC, AUTH ,associatedViews.GET_UPLOAD_DOC);    

@@ -4,6 +4,7 @@ import {AgreementAPI} from '../../util/fetch/agreementservice/agreementsApiInsta
 import {Query} from '../../util/operators/query'
 import {LogMessageFormatter} from '../../logtracer/logmessageformatter'
 import {LoggTracer} from '../../logtracer/tracer'
+import {TokenDecoder} from '../../tokendecoder/tokendecoder'
 /**
  * 
  * @Middleware
@@ -15,6 +16,7 @@ export class AgreementDetailsFetchMiddleware {
 
     static FetchAgreements : express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         var {agreement_id} = req.query;
+        var {SESSION_ID} = req.cookies
         if(Query.isUndefined(agreement_id) || Query.isEmpty(agreement_id)){
             res.render(ErrorView.notfound)
         }else{
@@ -28,7 +30,7 @@ export class AgreementDetailsFetchMiddleware {
                 (error) => {
                     delete error?.config?.['headers'];
                     let Logmessage = {
-                        "Person_email": "null",
+                        "Person_email": TokenDecoder.decoder(SESSION_ID),
                          "error_location": `${req.headers.host}${req.originalUrl}`,
                          "error_reason": "Agreement Service Api cannot be connected",
                          "exception": error
