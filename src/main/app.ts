@@ -22,8 +22,6 @@ const logger = Logger.getLogger('app');
 
 new Nunjucks(developmentMode, i18next).enableFor(app);
 
-
-
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
 
@@ -57,6 +55,12 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
 
+  //Error routes
+  glob.sync(__dirname + '/errors/path.ts')
+  .map(filename => require(filename))
+  .forEach(route => route.default(app));
+  
+
 setupDev(app,developmentMode);
 
 /**
@@ -66,7 +70,7 @@ setupDev(app,developmentMode);
  app.use((req, res) => {
   const notFoundError = new NotFoundError;
   res.status(notFoundError.statusCode);
-  res.render(notFoundError.associatedView);
+  res.redirect('/404')
 });
 
 
@@ -75,5 +79,5 @@ app.use((err: HTTPError, req: express.Request, res: express.Response) => {
   res.locals.message = err.message;
   res.locals.error = env === 'development' ? err : {};
   res.status(err.status || 500);
-  res.render('error/500');
+  res.render('error/500')
 });
