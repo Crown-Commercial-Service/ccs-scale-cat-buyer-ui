@@ -6,12 +6,17 @@ import { ErrorView } from "../../common/shared/error/errorView";
  * @class
  * 
  */
-
 export class LoggTracer {
-
+    /**
+     * 
+     * @param errorLog 
+     * @param res 
+     */
     static errorTracer = async (errorLog: any, res: express.Response): Promise<void>  => {
         let LogMessage ={"AppName": "Cat UI frontend","type":"error","errordetails": errorLog }
         await LoggerInstance.Instance.post('', LogMessage);
         res.redirect(ErrorView.notfound)
     }
+
+
 }
