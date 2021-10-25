@@ -3,6 +3,9 @@ import {operations } from '../../../utils/operations/operations';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { ErrorView } from '../../../common/shared/error/errorView';
+import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
+import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { LoggTracer } from '../../../common/logtracer/tracer';
 
 /**
  * @Controller
@@ -52,8 +55,20 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
         }     
       res.render('questions', data );
     }
-    catch(err){
-       res.redirect(ErrorView.notfound)
+    catch(error){
+      delete error?.config?.['headers'];
+      let message = {
+         "Person_email": TokenDecoder.decoder(SESSION_ID),
+          "error_location": `${req.headers.host}${req.originalUrl}`,
+          "error_reason": "Tender api cannot be connected",
+          "exception": error
+      }
+      let Log = new LogMessageFormatter(
+         message.Person_email, 
+         message.error_location, 
+         message.error_reason, 
+         message.exception) 
+      LoggTracer.errorTracer(Log, res);
     }
 
 }
@@ -113,7 +128,19 @@ export var array : any = [];
                      console.log(postData)
 
                    } catch (error) {
-                      res.redirect('/404')
+                     delete error?.config?.['headers'];
+                     let message = {
+                        "Person_email": TokenDecoder.decoder(SESSION_ID),
+                         "error_location": `${req.headers.host}${req.originalUrl}`,
+                         "error_reason": "Tender api cannot be connected",
+                         "exception": error
+                     }
+                     let Log = new LogMessageFormatter(
+                        message.Person_email, 
+                        message.error_location, 
+                        message.error_reason, 
+                        message.exception) 
+                     LoggTracer.errorTracer(Log, res);
                    }
               
 

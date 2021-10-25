@@ -2,7 +2,8 @@ import { ErrorView } from '../../shared/error/errorView';
 import * as express from 'express'
 import {AgreementAPI} from '../../util/fetch/agreementservice/agreementsApiInstance'
 import {Query} from '../../util/operators/query'
-
+import {LogMessageFormatter} from '../../logtracer/logmessageformatter'
+import {LoggTracer} from '../../logtracer/tracer'
 /**
  * 
  * @Middleware
@@ -11,7 +12,8 @@ import {Query} from '../../util/operators/query'
  * @param next 
  */
 export class AgreementDetailsFetchMiddleware {
-    static FetchAgreements = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+    static FetchAgreements : express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         var {agreement_id} = req.query;
         if(Query.isUndefined(agreement_id) || Query.isEmpty(agreement_id)){
             res.render(ErrorView.notfound)
@@ -22,9 +24,23 @@ export class AgreementDetailsFetchMiddleware {
                 let containedData = data?.data;
                 res.locals.project_header = containedData;
                 next(); 
-
             }).catch(
-                (err) => res.render(ErrorView.notfound)
+                (error) => {
+                    delete error?.config?.['headers'];
+                    let Logmessage = {
+                        "Person_email": "null",
+                         "error_location": `${req.headers.host}${req.originalUrl}`,
+                         "error_reason": "Agreement Service Api cannot be connected",
+                         "exception": error
+                     }
+                     let Log = new LogMessageFormatter(
+                         Logmessage.Person_email, 
+                         Logmessage.error_location, 
+                         Logmessage.error_reason, 
+                         Logmessage.exception
+                         )
+                    LoggTracer.errorTracer(Log, res);
+                }
             )            
         }
     }

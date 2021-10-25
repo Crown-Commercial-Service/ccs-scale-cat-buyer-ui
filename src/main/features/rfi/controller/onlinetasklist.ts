@@ -1,12 +1,33 @@
 import * as express from 'express'
-import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import fileData from '../../../resources/content/RFI/rfionlineTaskList.json'
-import { operations } from '../../../utils/operations/operations';
-import { ErrorView } from '../../../common/shared/error/errorView';
+
 
 // RFI TaskList
 export const GET_ONLINE_TASKLIST = async (req : express.Request, res : express.Response)=> {
-   if(operations.isUndefined(req.query, 'agreement_id') || operations.isUndefined(req.query, 'proc_id') || operations.isUndefined(req.query, 'event_id')){
+   var {agreement_id , proc_id, event_id }  = req.query;
+   var display_fetch_data = {
+      agreement_id: agreement_id, 
+      proc_id: proc_id,
+      event_id: event_id
+   }
+
+
+   res.render('example', display_fetch_data);   
+}
+
+
+/**
+ *  
+ * 
+ * import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import fileData from '../../../resources/content/RFI/rfionlineTaskList.json'
+import { operations } from '../../../utils/operations/operations';
+import { ErrorView } from '../../../common/shared/error/errorView';
+import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
+import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { LoggTracer } from '../../../common/logtracer/tracer';
+
+
+ * if(operations.isUndefined(req.query, 'agreement_id') || operations.isUndefined(req.query, 'proc_id') || operations.isUndefined(req.query, 'event_id')){
       res.redirect(ErrorView.notfound)
    }
    else{
@@ -49,7 +70,20 @@ export const GET_ONLINE_TASKLIST = async (req : express.Request, res : express.R
       }
       res.render('onlinetasklist', display_fetch_data);   
    } catch (error) {
-      res.redirect(ErrorView.notfound)
+      delete error?.config?.['headers'];
+      let message = {
+         "Person_email": TokenDecoder.decoder(SESSION_ID),
+          "error_location": `${req.headers.host}${req.originalUrl}`,
+          "error_reason": "Tender api cannot be connected",
+          "exception": error
+      }
+      let Log = new LogMessageFormatter(
+         message.Person_email, 
+         message.error_location, 
+         message.error_reason, 
+         message.exception) 
+      LoggTracer.errorTracer(Log, res);
    }
-}       
-}
+}    
+ * 
+ */
