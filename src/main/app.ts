@@ -59,6 +59,16 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
 
+  //Dashboard related routes
+  glob.sync(__dirname + '/features/dashboard/path.ts')
+  .map(filename => require(filename))
+  .forEach(route => route.default(app));
+
+    //Choose Agreement related routes
+    glob.sync(__dirname + '/features/agreement/path.ts')
+    .map(filename => require(filename))
+    .forEach(route => route.default(app));
+
 setupDev(app,developmentMode);
 
 /**
