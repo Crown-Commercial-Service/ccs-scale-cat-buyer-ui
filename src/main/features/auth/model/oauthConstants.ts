@@ -3,6 +3,5 @@ export enum OAUTH_PATHS  {
     OAUTH_LOGIN = '/oauth/login',
     OAUTH_LOGOUT = '/oauth/logout',
     LOGOUT = '/logout',
-    OAUTH_RECEIVER_CALLBACK = '/receiver',
-    DASHBOARD = '/dashboard'
+    OAUTH_RECEIVER_CALLBACK = '/receiver'
 }

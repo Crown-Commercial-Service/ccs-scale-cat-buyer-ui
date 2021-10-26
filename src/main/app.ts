@@ -18,10 +18,11 @@ app.locals.ENV = env;
 // setup logging of HTTP requests
 app.use(Express.accessLogger());
 
-
 const logger = Logger.getLogger('app');
 
 new Nunjucks(developmentMode, i18next).enableFor(app);
+
+
 
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
@@ -41,6 +42,8 @@ app.use((req, res, next) => {
 app.enable('trust proxy')
 
 
+
+   
 //Setting up the routes and looping through individuals Paths
 glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
@@ -56,11 +59,20 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
 
-  //Error routes
-  glob.sync(__dirname + '/errors/path.ts')
+  //Dashboard related routes
+  glob.sync(__dirname + '/features/dashboard/path.ts')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
-  
+
+    //Choose Agreement related routes
+    glob.sync(__dirname + '/features/agreement/path.ts')
+    .map(filename => require(filename))
+    .forEach(route => route.default(app));
+
+  glob.sync(__dirname + '/features/procurement/path.ts')
+  .map(filename => require(filename))
+  .forEach(route => route.default(app));
+
 
 setupDev(app,developmentMode);
 
@@ -80,5 +92,5 @@ app.use((err: HTTPError, req: express.Request, res: express.Response) => {
   res.locals.message = err.message;
   res.locals.error = env === 'development' ? err : {};
   res.status(err.status || 500);
-  res.render('error/500')
+  res.render('error/500');
 });
