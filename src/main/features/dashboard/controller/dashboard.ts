@@ -1,5 +1,5 @@
 import * as express from 'express'
-
+import * as dashboarData from '../../../resources/content/dashboard/ccs-dashboard.json'
 
 /**
  * 
@@ -9,5 +9,6 @@ import * as express from 'express'
  * @param res 
  */
 export const DASHBOARD = (req : express.Request, res : express.Response)=> {
-  res.render('dashboard');
+  var appendData = {data : dashboarData}
+  res.render('dashboard', appendData);
 }
