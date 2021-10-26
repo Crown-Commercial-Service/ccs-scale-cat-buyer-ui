@@ -78,7 +78,7 @@ setupDev(app,developmentMode);
  app.use((req, res) => {
   const notFoundError = new NotFoundError;
   res.status(notFoundError.statusCode);
-  res.render(notFoundError.associatedView);
+  res.redirect('/404')
 });
 
 
