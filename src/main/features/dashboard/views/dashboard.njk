@@ -1,0 +1,133 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'home | Contract a Thing' %}
+{# {% set heading = t('Welcome to the Money Claim legal rep beta') %} #}
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/home"
+          },
+          {
+            text: "Contract award service",
+            href: "#"
+          }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %}
+
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title}}</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <div class="ccs-page-section">
+          <h3 class="govuk-heading-m">
+            Hello, {{ user_email }}
+          </h3>
+          <p class="govuk-body">{{ data.line1 }}</p>
+          <h2 class="govuk-heading-m">Get started</h2>
+          <p class="govuk-body">
+          <span>{{ data.line2 }}</span>
+          <span>{{ data.line3 }}</span> 
+          <a href="https://www.crowncommercial.gov.uk/contact">{{ data.line4 }}</a> <span>{{ data.line5 }}</span></p>
+          <ul class="govuk-list govuk-list--number">
+          {% for item in data.list %}
+            <li>{{item}}</li>
+          {% endfor %}
+          </ul>
+          <a href="/projects/choose-agreement" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+             {{data.buttonText}}
+          </a>
+        </div>
+        {# <h2 class="govuk-heading-l">My activities</h2>
+        <p class="govuk-body">You can find any projects you have created in this section, as well as any notifications or messages about these projects.</p>
+        <div class="govuk-tabs" data-module="govuk-tabs">
+          <h2 class="govuk-tabs__title">
+            Contents
+          </h2>
+          <ul class="govuk-tabs__list" role="tablist">
+            <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
+              <a class="govuk-tabs__tab" href="#projects" id="tab_projects" role="tab" aria-controls="projects" aria-selected="true" tabindex="0">
+            Projects
+          </a>
+            </li>
+            <li class="govuk-tabs__list-item" role="presentation">
+              <a class="govuk-tabs__tab" href="#notifications" data-new-items="1" id="tab_notifications" role="tab" aria-controls="notifications" aria-selected="false" tabindex="-1">
+            Notifications
+          </a>
+            </li>
+          </ul>
+          <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="notifications" role="tabpanel" aria-labelledby="tab_notifications">
+            <div class="ccs-notifications-center">
+              <div class="notify_message">
+                <h4 class="govuk-heading-s">Welcome to Contract award service</h4>
+                <p class="govuk-body">Using this service you can create new projects to find a supplier, and award a contract. You can also invite your colleagues to help you draft your needs, or evaluate suppliers. </p>
+                <p class="govuk-body">To get started, <a href="/projects/choose-agreement" class="govuk-link govuk-link--no-visited-state">choose a commercial agreement</a></p>
+                <p class="govuk-body received"><span class="visuallyhidden">Received: </span>25/05/2021 8:30am</p>
+              </div>
+            </div>
+          </div>
+          <div class="govuk-tabs__panel" id="projects" role="tabpanel" aria-labelledby="tab_projects">
+            <p class="govuk-body">You don't have any live or saved projects saved,  <a href="/projects/choose-agreement" class="govuk-link govuk-link--no-visited-state">choose a commercial agreement</a></p>
+          </div>
+        </div> #}
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="ccs-callout-panel">
+          <h2 class="govuk-heading-m">Related content</h2>
+          <p class="govuk-body">
+            <a class="govuk-link govuk-link--no-visited-state" href="#" target="_blank" onclick="return false;">Link 1</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  {# <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+ 
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+       <h1 class="govuk-heading-xl">
+        {{ data.title }}
+      </h1>      
+      <h3 class="govuk-heading-m">
+        Hello, {{ user_email }}
+      </h3>
+      <p class="govuk-body">{{ data.line1 }}</p>
+      <h3 class="govuk-heading-m">
+        RFI temporary landing page
+      </h3>
+      <ul class="govuk-list">
+        
+        <li>
+          <a class="govuk-link" href="/rfi/type?agreement_id=RM1043.6">How will you build your Request for Information (RfI)</a>
+        </li>
+        
+        <li>
+          <a class="govuk-link" href="/rfi/online-task-list?agreement_id=RM1043.6">Build your Request for Information (RfI)</a>
+        </li>
+      </ul>
+
+    </div>
+    <div class="govuk-grid-column-one-third">
+  
+      {{ howToGetSupport() }}
+
+    </div>
+  </div>
+    
+  </div>
+  </main> #}
+{% endblock %}
