@@ -10,5 +10,5 @@ import * as data from '../../../resources/content/procurement/ccs-procurement.js
  */
 export const PROCUREMENT = (req : express.Request, res : express.Response)=> {
   var appendData = { data }
-  res.render('template', appendData);
+  res.render('procurement', appendData);
 }

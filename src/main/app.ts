@@ -69,6 +69,11 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
     .map(filename => require(filename))
     .forEach(route => route.default(app));
 
+  glob.sync(__dirname + '/features/procurement/path.ts')
+  .map(filename => require(filename))
+  .forEach(route => route.default(app));
+
+
 setupDev(app,developmentMode);
 
 /**
