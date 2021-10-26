@@ -14,7 +14,7 @@ import {LoggTracer} from '../../logtracer/tracer'
  * @param next 
  */
 export const AUTH : express.Handler  =  (req : express.Request, res : express.Response, next: express.NextFunction) => {
-    var {SESSION_ID } = req.cookies;
+    var {SESSION_ID, state } = req.cookies;
     if(SESSION_ID === undefined){
         res.redirect('/oauth/login');
     }
@@ -40,18 +40,20 @@ export const AUTH : express.Handler  =  (req : express.Request, res : express.Re
          }
      }).catch( error => {
         delete error?.config?.['headers'];
-        let message = {
-            "Person_email": TokenDecoder.decoder(SESSION_ID),
-             "error_location": `${req.headers.host}${req.originalUrl}`,
-             "error_reason": "Tender api cannot be connected",
-             "exception": error
-         }
-         let Log = new LogMessageFormatter(
-             message.Person_email, 
-             message.error_location, 
-             message.error_reason, 
-             message.exception
-             )
-        LoggTracer.errorTracer(Log, res);
+                    let Logmessage = {
+                        "Person_email": TokenDecoder.decoder(SESSION_ID), 
+                         "error_location": `${req.headers.host}${req.originalUrl}`,
+                         "sessionId": state,
+                         "error_reason": "Agreement Service Api cannot be connected",
+                         "exception": error
+                     }
+                     let Log = new LogMessageFormatter(
+                         Logmessage.Person_email, 
+                         Logmessage.error_location, 
+                         Logmessage.sessionId,
+                         Logmessage.error_reason, 
+                         Logmessage.exception
+                         )
+                    LoggTracer.errorTracer(Log, res);
     })
 }

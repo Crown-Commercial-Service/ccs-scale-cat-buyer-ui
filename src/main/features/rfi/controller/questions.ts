@@ -14,7 +14,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  * @validation false
  */
 export const GET_QUESTIONS = async (req : express.Request, res : express.Response)=> {
-   let {SESSION_ID} = req.cookies;
+   let {SESSION_ID, state} = req.cookies;
    let {
       agreement_id,
       proc_id,
@@ -57,17 +57,20 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
     }
     catch(error){
       delete error?.config?.['headers'];
-      let message = {
-         "Person_email": TokenDecoder.decoder(SESSION_ID),
-          "error_location": `${req.headers.host}${req.originalUrl}`,
-          "error_reason": "Tender api cannot be connected",
-          "exception": error
-      }
-      let Log = new LogMessageFormatter(
-         message.Person_email, 
-         message.error_location, 
-         message.error_reason, 
-         message.exception) 
+      let Logmessage = {
+          "Person_email": TokenDecoder.decoder(SESSION_ID), 
+           "error_location": `${req.headers.host}${req.originalUrl}`,
+           "sessionId": state,
+           "error_reason": "Agreement Service Api cannot be connected",
+           "exception": error
+       }
+       let Log = new LogMessageFormatter(
+           Logmessage.Person_email, 
+           Logmessage.error_location, 
+           Logmessage.sessionId,
+           Logmessage.error_reason, 
+           Logmessage.exception
+           )
       LoggTracer.errorTracer(Log, res);
     }
 
@@ -86,7 +89,7 @@ export var array : any = [];
  export const POST_QUESTION =  async (req : express.Request, res : express.Response)=> {
     var {agreement_id, proc_id, event_id, id, group_id} = req.query;
 
-    var {SESSION_ID} = req.cookies;
+    var {SESSION_ID, state} = req.cookies;
    let started_progress_check : Boolean = operations.isUndefined(req.body, 'rfi_build_started');
    
    if(operations.equals(started_progress_check, false)){
@@ -129,18 +132,21 @@ export var array : any = [];
 
                    } catch (error) {
                      delete error?.config?.['headers'];
-                     let message = {
-                        "Person_email": TokenDecoder.decoder(SESSION_ID),
+                    let Logmessage = {
+                        "Person_email": TokenDecoder.decoder(SESSION_ID), 
                          "error_location": `${req.headers.host}${req.originalUrl}`,
-                         "error_reason": "Tender api cannot be connected",
+                         "sessionId": state,
+                         "error_reason": "Agreement Service Api cannot be connected",
                          "exception": error
                      }
                      let Log = new LogMessageFormatter(
-                        message.Person_email, 
-                        message.error_location, 
-                        message.error_reason, 
-                        message.exception) 
-                     LoggTracer.errorTracer(Log, res);
+                         Logmessage.Person_email, 
+                         Logmessage.error_location, 
+                         Logmessage.sessionId,
+                         Logmessage.error_reason, 
+                         Logmessage.exception
+                         )
+                    LoggTracer.errorTracer(Log, res);
                    }
               
 
