@@ -12,20 +12,21 @@ import  i18next from 'i18next'
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
 import {HTTPError, NotFoundError} from './errors/errors'
+import fs from 'fs'
 export const app = express();
 app.locals.ENV = env;
 
 // setup logging of HTTP requests
 app.use(Express.accessLogger());
 
+
 const logger = Logger.getLogger('app');
 
 new Nunjucks(developmentMode, i18next).enableFor(app);
 
-
-
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
+
 
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(express.json())
@@ -41,9 +42,18 @@ app.use((req, res, next) => {
 });
 app.enable('trust proxy')
 
+let checkforenvFile = fs.existsSync('.env')
+if(checkforenvFile){
+  const environentVar =  require('dotenv').config()
+  const { parsed: envs } = environentVar;
+  process.env['AUTH_SERVER_CLIENT_ID'] = envs.AUTH_SERVER_CLIENT_ID;
+  process.env['AUTH_SERVER_CLIENT_SECRET'] = envs.AUTH_SERVER_CLIENT_SECRET;
+  process.env['AUTH_SERVER_BASE_URL'] = envs.AUTH_SERVER_BASE_URL;
+  process.env['CAT_URL'] = envs.CAT_URL;
+  process.env['TENDERS_SERVICE_API_URL'] = envs.TENDERS_SERVICE_API_URL;
+  process.env['LOGIT_API_KEY'] = envs.LOGIT_API_KEY;
+}
 
-
-   
 //Setting up the routes and looping through individuals Paths
 glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
@@ -59,20 +69,11 @@ glob.sync(__dirname + '/routes/**/*.+(ts|js)')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
 
-  //Dashboard related routes
-  glob.sync(__dirname + '/features/dashboard/path.ts')
+  //Error routes
+  glob.sync(__dirname + '/errors/path.ts')
   .map(filename => require(filename))
   .forEach(route => route.default(app));
-
-    //Choose Agreement related routes
-    glob.sync(__dirname + '/features/agreement/path.ts')
-    .map(filename => require(filename))
-    .forEach(route => route.default(app));
-
-  glob.sync(__dirname + '/features/procurement/path.ts')
-  .map(filename => require(filename))
-  .forEach(route => route.default(app));
-
+  
 
 setupDev(app,developmentMode);
 
@@ -92,5 +93,5 @@ app.use((err: HTTPError, req: express.Request, res: express.Response) => {
   res.locals.message = err.message;
   res.locals.error = env === 'development' ? err : {};
   res.status(err.status || 500);
-  res.render('error/500');
+  res.render('error/500')
 });
