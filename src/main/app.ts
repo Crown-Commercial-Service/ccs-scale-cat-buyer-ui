@@ -20,6 +20,7 @@ app.use(Express.accessLogger());
 
 const logger = Logger.getLogger('app');
 
+
 new Nunjucks(developmentMode, i18next).enableFor(app);
 
 
