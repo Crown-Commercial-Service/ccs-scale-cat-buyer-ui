@@ -1,1 +1,60 @@
-{}
+{
+    "title": "Procurement overview",
+    "line1": "Follow the steps below to start and complete your procurement. Each step can be saved and continued at any time.",
+    "line2": "You can write your requirements online, using this service, or upload a document instead. You can also download what you enter online and save it to your internal systems.",
+    "line3": "You cannot run step two and three at the same time.",
+    "line4": "If you are not sure about the terms and conditions of this lot, please see the ",
+    "line5": "lot detail page.",
+    "events": [
+        {
+            "eventno": 1,
+            "eventTitle": "1. Take a look at available suppliers",
+            "buttonText": "See available suppliers",
+            "line1": "Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement. You can sort them by:",
+            "list": [
+                "location",
+                "SME status"
+            ],
+            "required": "optional",
+            "status": "todo"
+        },
+        {
+            "eventno": 2,
+            "eventTitle": "2. Do pre-market engagement",
+            "buttonText": "Start pre-market engagement",
+            "line1": "You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or refine your needs. For the lot you selected, you can choose one of the options below:",
+            "line2": "<b>Request for Information (RfI)</b>",
+            "line3": "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
+            "line4": "This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below.",
+            "list": [],
+            "required": "optional",
+            "status": "todo"
+        },
+        {
+            "eventno": 3,
+            "eventTitle": "3. Write and publish your requirements",
+            "buttonText": "Start to write and publish your requirements",
+            "line1": "Write and publish your bid-pack for suppliers, who can then submit their responses to your requirements and compelte any other evaluation tasks set by you.",
+            "line2": "You will need a clear set of criteria that suppliers will need to meet, and be evaluated against. You will also need to include how you will score their responses.",
+            "line3": "For the lot you selected, you can run your procurement in one of the following ways:",
+            "list": [],
+            "required": "optional",
+            "status": "todo"
+        },
+        {
+            "eventno": 4,
+            "eventTitle": "4. Award your contract",
+            "line1": "When you have completed your evaluation and found a suitable supplier, you can award your contract.",
+            "line2": "You will need to give feedback to any unsuccessful suppliers.",
+            "required": "optional",
+            "status": "todo"
+        },
+        {
+            "eventno": 5,
+            "eventTitle": "5. Publish your contract",
+            "line1": "You need to publish the contract on Contracts Finder. This is a legal requirement.",
+            "required": "optional",
+            "status": "todo"
+        }
+    ]
+}
