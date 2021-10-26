@@ -5,7 +5,8 @@ import { Query } from '../../util/operators/query';
 import config from 'config'
 import { cookies } from '../../cookies/cookies';
 import { ErrorView } from '../../shared/error/errorView';
-
+import {LogMessageFormatter} from '../../logtracer/logmessageformatter'
+import {LoggTracer} from '../../logtracer/tracer'
 
 /**
  * 
@@ -57,9 +58,44 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
                 } else {
                     res.redirect('/oauth/login')
                 }
-            }).catch(err => res.redirect(ErrorView.notfound));
-        }).catch(err => res.redirect(ErrorView.notfound))
+            }).catch(error => {
+                delete error?.config?.['headers'];
+                let Logmessage = {
+                    "Person_email": 'null',
+                     "error_location": `${req.headers.host}${req.originalUrl}`,
+                     "sessionId": "null",
+                     "error_reason": "Conclave authentication flow error",
+                     "exception": error
+                 }
+                 let Log = new LogMessageFormatter(
+                     Logmessage.Person_email, 
+                     Logmessage.error_location, 
+                     Logmessage.sessionId,
+                     Logmessage.error_reason, 
+                     Logmessage.exception
+                     )
+                 LoggTracer.errorTracer(Log, res);
+
+            });
+        }).catch(error => {
+            delete error?.config?.['headers'];
+            let Logmessage = {
+                "Person_email": 'null',
+                 "error_location": `${req.headers.host}${req.originalUrl}`,
+                 "sessionId": "null",
+                 "error_reason": "Conclave authentication flow error",
+                 "exception": error
+             }
+             let Log = new LogMessageFormatter(
+                 Logmessage.Person_email, 
+                 Logmessage.error_location, 
+                 Logmessage.sessionId,
+                 Logmessage.error_reason, 
+                 Logmessage.exception
+                 )
+             LoggTracer.errorTracer(Log, res);
+        })
     }
-
-
 }
+
+

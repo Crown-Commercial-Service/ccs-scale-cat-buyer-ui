@@ -22,7 +22,9 @@ export class Nunjucks {
     const NunjucksPathFolders = {
       mainViewDirectory : path.join(__dirname, '..', '..', 'views'),
       RFIViewDirectory : path.join(__dirname, '..', '..','features', 'rfi', 'views'),
-      AUTHViewDirectory : path.join(__dirname, '..', '..','features', 'auth', 'views')
+      DASHBOARDViewDirectory : path.join(__dirname, '..', '..','features', 'dashboard', 'views'),
+      AGREEMENTViewDirectory : path.join(__dirname, '..', '..','features', 'agreement', 'views'),
+      PROCUREMENTViewDirectory : path.join(__dirname, '..', '..','features', 'procurement', 'views')
     }
 
     
@@ -31,9 +33,9 @@ export class Nunjucks {
       [
         NunjucksPathFolders.mainViewDirectory,
         NunjucksPathFolders.RFIViewDirectory,
-        NunjucksPathFolders.AUTHViewDirectory
-       
-    
+        NunjucksPathFolders.DASHBOARDViewDirectory,
+        NunjucksPathFolders.AGREEMENTViewDirectory,
+        NunjucksPathFolders.PROCUREMENTViewDirectory
       ],
       {
         autoescape: true,

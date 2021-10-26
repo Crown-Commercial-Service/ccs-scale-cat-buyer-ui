@@ -7,7 +7,7 @@ interface ViewError {
 
 export class NotFoundError extends Error implements ViewError {
   statusCode: number = HttpStatusCode.NOT_FOUND
-  associatedView: string = 'error/404'
+  associatedView: string = '/404'
 
   constructor () {
     super(`Page Not Found`)
@@ -16,10 +16,10 @@ export class NotFoundError extends Error implements ViewError {
 
 export class InternalServerError extends Error implements ViewError {
     statusCode: number = HttpStatusCode.INTERNAL_SERVER
-    associatedView: string = 'error/500'
+    associatedView: string = '/500'
   
     constructor () {
-      super(`Page Not Found`)
+      super(`Internal Server error`)
     }
   }
 
