@@ -16,7 +16,7 @@ export class AgreementDetailsFetchMiddleware {
 
     static FetchAgreements : express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
         var {agreement_id} = req.query;
-        var {SESSION_ID} = req.cookies
+        var {SESSION_ID, state} = req.cookies
         if(Query.isUndefined(agreement_id) || Query.isEmpty(agreement_id)){
             res.render(ErrorView.notfound)
         }else{
@@ -30,14 +30,16 @@ export class AgreementDetailsFetchMiddleware {
                 (error) => {
                     delete error?.config?.['headers'];
                     let Logmessage = {
-                        "Person_email": TokenDecoder.decoder(SESSION_ID),
+                        "Person_email": TokenDecoder.decoder(SESSION_ID), 
                          "error_location": `${req.headers.host}${req.originalUrl}`,
+                         "sessionId": state,
                          "error_reason": "Agreement Service Api cannot be connected",
                          "exception": error
                      }
                      let Log = new LogMessageFormatter(
                          Logmessage.Person_email, 
                          Logmessage.error_location, 
+                         Logmessage.sessionId,
                          Logmessage.error_reason, 
                          Logmessage.exception
                          )

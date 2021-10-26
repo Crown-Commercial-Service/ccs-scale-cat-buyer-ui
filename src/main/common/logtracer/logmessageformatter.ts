@@ -1,21 +1,23 @@
-
+/**
+ * @LogMessageFormater
+ * used for creating Log Messages
+ */
 
 export class LogMessageFormatter {
 
     email: string;
-    timestamp : string
-    where : any ;
-    what : any ;
-    result : any;
+    timestamp : string;
+    sessionId : string;
+    errorURI : string ;
+    errorRoot : any ;
+    exception : any;
 
-    constructor(Person_email: any, error_location: any, error_reason: any, exception: any  ){
+    constructor(Person_email: any, error_location: string, session_id: string,  error_reason: any, exception: any){
         this.email = Person_email;
         this.timestamp = (new Date()).toUTCString();
-        this.where = error_location,
-        this.what = error_reason,
-        this.result = exception
+        this.sessionId = session_id;
+        this.errorURI = error_location;
+        this.errorRoot = error_reason;
+        this.exception = exception;        
     }
-
-  //  who (username) , when (timestamp) , where (context, servletorpage,database) , what (command / API calls ….) , result (exception)
-
 }
