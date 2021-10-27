@@ -14,7 +14,6 @@ import {NotFoundError} from './errors/errors'
 import fs from 'fs'
 export const app = express();
 import glob from 'glob'
-import {setupRedisInstance} from './setup/redis'
 import {routeExceptionHandler} from './setup/routeexception'
 import {localEnvariables} from './setup/envs'
 
@@ -52,7 +51,7 @@ app.enable('trust proxy')
 /**
  * @RedisClient
  */
-setupRedisInstance(app);
+
 
 
 /**
