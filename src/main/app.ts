@@ -1,4 +1,3 @@
-import { glob } from 'glob';
 const { Express, Logger } = require('@hmcts/nodejs-logging');
 import config = require('config');
 import cookieParser from 'cookie-parser';
@@ -7,27 +6,34 @@ import { Helmet } from './modules/helmet';
 import * as path from 'path';
 import favicon from 'serve-favicon';
 import { Nunjucks } from './modules/nunjucks';
-const { setupDev } = require('./development');
+const { setupDev } = require('./setup/development');
 import  i18next from 'i18next'
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
-import {HTTPError, NotFoundError} from './errors/errors'
+import {NotFoundError} from './errors/errors'
 import fs from 'fs'
 export const app = express();
+import glob from 'glob'
+import {setupRedisInstance} from './setup/redis'
+import {routeExceptionHandler} from './setup/routeexception'
+import {localEnvariables} from './setup/envs'
+
+
+
+
 app.locals.ENV = env;
 
 // setup logging of HTTP requests
-app.use(Express.accessLogger());
+
 
 
 const logger = Logger.getLogger('app');
 
 new Nunjucks(developmentMode, i18next).enableFor(app);
-
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
 
-
+app.use(Express.accessLogger());
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(express.json())
 app.use(express.urlencoded({extended: false}));
@@ -42,56 +48,47 @@ app.use((req, res, next) => {
 });
 app.enable('trust proxy')
 
-let checkforenvFile = fs.existsSync('.env')
-if(checkforenvFile){
-  const environentVar =  require('dotenv').config()
-  const { parsed: envs } = environentVar;
-  process.env['AUTH_SERVER_CLIENT_ID'] = envs.AUTH_SERVER_CLIENT_ID;
-  process.env['AUTH_SERVER_CLIENT_SECRET'] = envs.AUTH_SERVER_CLIENT_SECRET;
-  process.env['AUTH_SERVER_BASE_URL'] = envs.AUTH_SERVER_BASE_URL;
-  process.env['CAT_URL'] = envs.CAT_URL;
-  process.env['TENDERS_SERVICE_API_URL'] = envs.TENDERS_SERVICE_API_URL;
-  process.env['LOGIT_API_KEY'] = envs.LOGIT_API_KEY;
-}
-
-//Setting up the routes and looping through individuals Paths
-glob.sync(__dirname + '/routes/**/*.+(ts|js)')
-  .map(filename => require(filename))
-  .forEach(route => route.default(app));
-
- //RFI Related routes 
- glob.sync(__dirname + '/features/rfi/path.ts')
- .map(filename => require(filename))
- .forEach(route => route.default(app));
-
-  //Authentication related routes
-  glob.sync(__dirname + '/features/auth/path.ts')
-  .map(filename => require(filename))
-  .forEach(route => route.default(app));
-
-  //Error routes
-  glob.sync(__dirname + '/errors/path.ts')
-  .map(filename => require(filename))
-  .forEach(route => route.default(app));
-  
-
-setupDev(app,developmentMode);
 
 /**
+ * @RedisClient
+ */
+setupRedisInstance(app);
+
+
+/**
+ * @env Local variables 
+ */
+let checkforenvFile = fs.existsSync('.env')
+if(checkforenvFile){
+  localEnvariables(app);
+}
+
+/**
+ * @Routable path getting content from default.json
+ */
+    let featureRoutes : any = config.get('featureDir')
+    featureRoutes?.forEach((aRoute: any) => {
+      glob.sync(__dirname + aRoute?.['path'])
+      .map((filename : string )=> require(filename))
+      .forEach((route: any) => route.default(app));
+    });
+
+/**
+ * @developementEnvironment
+ *  Setting up development environment
+ *  
+ */
+    setupDev(app,developmentMode);
+
+/**
+ * @ExceptionHandler
  *  All error Handler Routes 
  *  
  */
- app.use((req, res) => {
-  const notFoundError = new NotFoundError;
-  res.status(notFoundError.statusCode);
-  res.redirect('/404')
-});
+    routeExceptionHandler(
+      app,
+      NotFoundError,
+      logger,
+      env
+    )
 
-
-app.use((err: HTTPError, req: express.Request, res: express.Response) => {
-  logger.error(`${err.stack || err}`);
-  res.locals.message = err.message;
-  res.locals.error = env === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.render('error/500')
-});
