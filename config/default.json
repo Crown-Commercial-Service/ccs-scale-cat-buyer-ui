@@ -3,6 +3,13 @@
   "security": {
     "referrerPolicy": "origin"
   },
+  "featureDir": [
+    {"path": "/routes/**/*.+(ts|js)"},
+    {"path": "/features/rfi/path.ts"},
+    {"path": "/features/auth/path.ts"},
+    {"path": "/features/dashboard/path.ts"},
+    {"path": "/errors/path.ts"}
+  ],
   "PORT": "3000",
   "AgreementService": {
     "BASEURL": "https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital"

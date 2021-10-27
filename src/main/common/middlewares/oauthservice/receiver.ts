@@ -20,7 +20,7 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
         code, state
     } = req.query;
     if(Query.isUndefined(code) || Query.isEmpty(state)) {
-        res.redirect(ErrorView.notfound);
+       res.redirect(ErrorView.notfound);
     } else {
         let Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint')
             //@ Create the authentication credetial to to allow the re-direct
