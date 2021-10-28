@@ -14,8 +14,9 @@ import { sortObject } from '../../util/operators/sortObject';
  */
 export class ChooseAgreementMiddleware {
     static FetchAgreements = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        var {agreement_id} = req.cookies;
-        let BaseURL = `/agreements/${agreement_id}`;
+        // var {agreement_id} = req.query;
+        //let BaseURL = `agreements/${agreement_id}`;
+        let BaseURL = "agreements/RM1043.6";
         let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL)
         retrieveAgreementPromise.then( (data)=> {
             let containedData = data?.data;
@@ -25,9 +26,7 @@ export class ChooseAgreementMiddleware {
             next(); 
 
         }).catch(
-            (err) => {
-                res.render(ErrorView.notfound)
-            }
+            (err) => res.render(ErrorView.notfound)
         )            
     }
 }
