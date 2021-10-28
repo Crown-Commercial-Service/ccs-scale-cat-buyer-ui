@@ -1,7 +1,7 @@
 
 import * as express from 'express'
 import * as data from '../../../resources/content/procurement/ccs-procurement.json'
-import {TenderApiInstance} from '../util/fetch/tenderInstance'
+//import {TenderApiInstance} from '../util/fetch/tenderInstance'
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -15,21 +15,20 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  * @param res 
  */
 export const PROCUREMENT = async (req : express.Request, res : express.Response)=> {
-  var { agreement_id, lotId } = req.query;
+  const { agreement_id, lotId, projName, aggName } = req.query;
   var {SESSION_ID} = req.cookies;
 
-  const baseURL = `/tenders/ProcurementProject/agreements/${agreement_id}/lots/${lotId}`;
+  //const baseURL = `/tenders/ProcurementProject/agreements/${agreement_id}/lots/${lotId}`;
   try {
-      let _body = {
-        "agreementId": agreement_id,
-        "lotId": lotId
-    }
-      const createdProcurement = await TenderApiInstance.Instance.post(baseURL, _body);
+      //let _body = {
+      //  "agreementId": agreement_id,
+      //  "lotId": lotId
+      //}
+      //const createdProcurement = await TenderApiInstance.Instance.post(baseURL, _body);
 
-      console.log(createdProcurement?.data)
-
-      const isCreatedProcurement = !!createdProcurement; 
-      const appendData = { ...data, isCreatedProcurement };
+      //const isCreatedProcurement = !!createdProcurement; 
+      //const appendData = { ...data, isCreatedProcurement };
+      const appendData = { ...data, SESSION_ID, agreement_id, lotId, projName, aggName};
       res.render('procurement', appendData);
   } catch(error) { 
 
