@@ -53,33 +53,36 @@
         </div>
         <h2 class="govuk-heading-l">{{ data.line6 }}</h2>
         <p class="govuk-body">{{ data.line7 }}</p>
-        <div class="govuk-tabs" data-module="govuk-tabs">
-          <ul class="govuk-tabs__list" role="tablist">
-            <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
-              <a class="govuk-tabs__tab" href="#projects" id="tab_projects" role="tab" aria-controls="projects" aria-selected="true" tabindex="0">
-            {{ data.line8 }}
+<div class="govuk-tabs" data-module="govuk-tabs">
+  <h2 class="govuk-tabs__title">
+    Contents
+  </h2>
+  <ul class="govuk-tabs__list" role="tablist">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
+          <a class="govuk-tabs__tab" href="#projects" id="tab_projects" role="tab" aria-controls="projects" aria-selected="true" tabindex="0">
+            {{data.line8}}
           </a>
-            </li>
-            <li class="govuk-tabs__list-item" role="presentation">
-              <a class="govuk-tabs__tab" href="#notifications" data-new-items="1" id="tab_notifications" role="tab" aria-controls="notifications" aria-selected="false" tabindex="-1">
-            {{ data.line9 }}
+        </li>
+        <li class="govuk-tabs__list-item" role="presentation">
+          <a class="govuk-tabs__tab" href="#notifications" data-new-items="1" id="tab_notifications" role="tab" aria-controls="notifications" aria-selected="false" tabindex="-1">
+            {{data.line9}}
           </a>
-            </li>
-          </ul>
-          <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="notifications" role="tabpanel" aria-labelledby="tab_notifications">
-            <div class="ccs-notifications-center">
-              <div class="notify_message">
-                <h4 class="govuk-heading-s">{{data.line10}}</h4>
-                <p class="govuk-body">{{ data.line11 }} </p>
-                <p class="govuk-body">{{ data.line12 }} <a href="/projects/choose-agreement" class="govuk-link govuk-link--no-visited-state">{{ data.line13 }}</a></p>
-                <p class="govuk-body received"><span class="visuallyhidden">Received: </span>25/05/2021 8:30am</p>
-              </div>
-            </div>
-          </div>
-          <div class="govuk-tabs__panel" id="projects" role="tabpanel" aria-labelledby="tab_projects">
-            <p class="govuk-body">{{ data.line14 }}  <a href="/projects/choose-agreement" class="govuk-link govuk-link--no-visited-state">{{ data.line15 }}</a></p>
+        </li>
+  </ul>
+      <div class="govuk-tabs__panel" id="projects" role="tabpanel" aria-labelledby="tab_projects">
+        <p class="govuk-body">{{data.line11}} <a href="/projects/choose-agreement" class="govuk-link govuk-link--no-visited-state">{{data.line12}}</a>. </p>
+      </div>
+      <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="notifications" role="tabpanel" aria-labelledby="tab_notifications">
+        <div class="ccs-notifications-center">
+          <div class="notify_message">
+            <h4 class="govuk-heading-s">{{data.line10}}</h4>
+            <p class="govuk-body">{{data.line13}} </p>
+            <p class="govuk-body">{{data.line14}} <a href="/projects/choose-agreement" class="govuk-link govuk-link--no-visited-state">{{data.line12}}</a>. </p>
+            <p class="govuk-body received"><span class="visuallyhidden">Received: </span>{{data.date}}</p>
           </div>
         </div>
+      </div>
+</div>
       </div>
     </div>
   </main>
