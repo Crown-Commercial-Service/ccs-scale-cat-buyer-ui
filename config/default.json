@@ -7,7 +7,9 @@
     {"path": "/routes/**/*.+(ts|js)"},
     {"path": "/features/rfi/path.ts"},
     {"path": "/features/auth/path.ts"},
+    {"path": "/features/agreement/path.ts"},
     {"path": "/features/dashboard/path.ts"},
+    {"path": "/features/procurement/path.ts"},
     {"path": "/errors/path.ts"}
   ],
   "PORT": "3000",
