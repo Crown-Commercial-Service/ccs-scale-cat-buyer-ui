@@ -9,10 +9,6 @@ import * as dashboarData from '../../../resources/content/choose-agreement/agree
  * @param res 
  */
 export const CHOOSE_AGREEMENT = (req : express.Request, res : express.Response)=> {
-  var {agreement_id} = req.cookies;
-  var appendData = {
-    data : dashboarData,
-    agreement_id: agreement_id,
-  }
+  var appendData = {data : dashboarData}
   res.render('agreement', appendData);
 }
