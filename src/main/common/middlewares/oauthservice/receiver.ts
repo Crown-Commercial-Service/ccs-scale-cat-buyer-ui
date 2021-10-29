@@ -7,7 +7,7 @@ import { cookies } from '../../cookies/cookies';
 import { ErrorView } from '../../shared/error/errorView';
 import {LogMessageFormatter} from '../../logtracer/logmessageformatter'
 import {LoggTracer} from '../../logtracer/tracer'
-
+import * as jwtDecoder from 'jsonwebtoken';
 /**
  * 
  * @Middleware
@@ -38,14 +38,17 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
         PostAuthCrendetails.then((data) => {
             let containedData = data?.data;
             let {
-                access_token, expires_in
+                access_token, session_state
             } = containedData;
             let AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
             let check_token_validation = AuthCheck_Instance.post('');
             check_token_validation.then(data => {
-                let auth_status_check = data?.data;
+                let auth_status_check = data?.['data'];
                 if(auth_status_check) {
-                    let timeforcookies = Number(expires_in) * 1000;
+
+                    let cookieExpiryTime = Number(config.get('Session.time'));
+                    cookieExpiryTime = cookieExpiryTime * 60 * 1000;  //milliseconds
+                    let timeforcookies = cookieExpiryTime
                     res.cookie(cookies.sessionID, access_token, {
                         maxAge: Number(timeforcookies),
                         httpOnly: true
@@ -54,6 +57,11 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
                         maxAge: Number(timeforcookies),
                         httpOnly: true
                     })
+                    let userSessionInformation = jwtDecoder.decode(access_token, {complete: true});
+                    req.session['isAuthenticated'] = true;
+                    req.session['access_token'] = access_token;
+                    req.session['user'] = userSessionInformation;
+                    req.session['userServerSessionID'] = session_state;
                     next();
                 } else {
                     res.redirect('/oauth/login')
