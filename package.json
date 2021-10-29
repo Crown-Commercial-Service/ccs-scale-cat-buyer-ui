@@ -79,7 +79,7 @@
     "@types/chai-as-promised": "^7.1.1",
     "@types/connect-redis": "^0.0.17",
     "@types/copy-webpack-plugin": "^6.0.0",
-    "@types/express-session": "^1.17.4",
+    "@types/express-session": "^1.17.0",
     "@types/jest": "^26.0.13",
     "@types/mini-css-extract-plugin": "^0.9.1",
     "@types/redis": "^2.8.32",
