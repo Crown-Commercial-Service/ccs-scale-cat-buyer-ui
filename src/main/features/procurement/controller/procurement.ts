@@ -1,3 +1,4 @@
+import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
 
 import * as express from 'express'
 import * as data from '../../../resources/content/procurement/ccs-procurement.json'
@@ -15,31 +16,36 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  * @param res 
  */
 export const PROCUREMENT = async (req : express.Request, res : express.Response)=> {
-  const { agreement_id, lotId, projName, aggName } = req.query;
-  var {SESSION_ID} = req.cookies;
+  const { agreement_id, lotId, projName, aggName } = req.query; 
+  var {SESSION_ID} = req.cookies; 
 
-  //const baseURL = `/tenders/ProcurementProject/agreements/${agreement_id}/lots/${lotId}`;
+  //const lotsURL = `/tenders/ProcurementProject/agreements/${agreement_id}/lots/${lotId}`;
+  const eventTypesURL = `agreements/${agreement_id}/lots/${lotId}/event-types`;
+  let appendData: any = { ...data, SESSION_ID, agreement_id, lotId, projName, aggName};
   try {
-      //let _body = {
-      //  "agreementId": agreement_id,
-      //  "lotId": lotId
-      //}
-      //const createdProcurement = await TenderApiInstance.Instance.post(baseURL, _body);
+    const {data: types} = await AgreementAPI.Instance.get(eventTypesURL);
+    appendData = {types, ...appendData};
 
-      //const isCreatedProcurement = !!createdProcurement; 
-      //const appendData = { ...data, isCreatedProcurement };
-      const appendData = { ...data, SESSION_ID, agreement_id, lotId, projName, aggName};
-      res.render('procurement', appendData);
-  } catch(error) { 
+    //const _body = {
+    //  "agreementId": agreement_id,
+    //  "lotId": lotId
+    //}
 
-    delete error?.config?.['headers'];
-    let Logmessage = {
+    //const test = await TenderApiInstance.Instance.post(lotsURL, _body);
+    //console.log(test);
+      
+
+    //const isCreatedProcurement = !!createdProcurement; 
+    //const appendData = { ...data, isCreatedProcurement };
+    } catch(error) { 
+      delete error?.config?.['headers'];
+      let Logmessage = {
         "Person_email": TokenDecoder.decoder(SESSION_ID),
          "error_location": `${req.headers.host}${req.originalUrl}`,
          "sessionId": "null",
          "error_reason": "Tender agreement failed to be added",
          "exception": error
-     }
+        }
      let Log = new LogMessageFormatter(
          Logmessage.Person_email, 
          Logmessage.error_location, 
@@ -47,8 +53,8 @@ export const PROCUREMENT = async (req : express.Request, res : express.Response)
          Logmessage.error_reason, 
          Logmessage.exception
          )
-     LoggTracer.errorTracer(Log, res);
-
-  }   
-     
+         LoggTracer.errorTracer(Log, res);
+    }   
+    res.render('procurement', appendData);
+        
 }
