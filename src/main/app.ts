@@ -16,7 +16,6 @@ export const app = express();
 import glob from 'glob'
 import {routeExceptionHandler} from './setup/routeexception'
 import {localEnvariables} from './setup/envs'
-import {RedisInstanceSetup} from './setup/redis'
 
 
 
@@ -24,14 +23,7 @@ import {RedisInstanceSetup} from './setup/redis'
 app.locals.ENV = env;
 
 // setup logging of HTTP requests
-/**
- * @env Local variables 
- */
- let checkforenvFile = fs.existsSync('.env')
- if(checkforenvFile){
-   localEnvariables(app);
- }
- 
+
 
 
 const logger = Logger.getLogger('app');
@@ -59,14 +51,21 @@ app.enable('trust proxy')
 /**
  * @RedisClient
  */
-RedisInstanceSetup(app);
 
 
 
 /**
+ * @env Local variables 
+ */
+let checkforenvFile = fs.existsSync('.env')
+if(checkforenvFile){
+  localEnvariables(app);
+}
+
+/**
  * @Routable path getting content from default.json
  */
-    let featureRoutes : Array<Object> = config.get('featureDir')
+    let featureRoutes : any = config.get('featureDir')
     featureRoutes?.forEach((aRoute: any) => {
       glob.sync(__dirname + aRoute?.['path'])
       .map((filename : string )=> require(filename))
