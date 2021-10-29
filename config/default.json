@@ -16,9 +16,6 @@
   "AgreementService": {
     "BASEURL": "https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital"
   },
-  "Session": {
-    "time": "15"
-  },
   "authenticationService": {
     "token-endpoint": "/security/token",
     "access_granttype": "authorization_code",
