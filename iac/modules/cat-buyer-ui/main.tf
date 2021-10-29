@@ -68,9 +68,6 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
     CAT_URL : "https://${var.environment}-ccs-scale-cat-buyer-ui.london.cloudapps.digital"
     LOGIT_API_KEY : data.aws_ssm_parameter.env_logit_api_key.value
-    REDIS_HOST: 
-    REDIS_PORT: 
-    REDIS_PASSWORD:  
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
