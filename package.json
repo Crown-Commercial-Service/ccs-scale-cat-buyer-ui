@@ -57,7 +57,7 @@
     "express-session": "^1.17.2",
     "express-validator": "^6.13.0",
     "glob": "^7.2.0",
-    "govuk-frontend": "^3.13.1",
+    "govuk-frontend": "^3.14.0",
     "helmet": "^3.21.2",
     "i18next": "^20.6.1",
     "jquery": "^3.6.0",
