@@ -1,3 +1,4 @@
+import { ErrorView } from '../../shared/error/errorView';
 import * as express from 'express'
 import {Oauth_Instance} from '../../util/fetch/OauthService/OauthInstance'
 import {cookies} from '../../cookies/cookies'
@@ -20,41 +21,22 @@ export const AUTH : express.Handler  =  (req : express.Request, res : express.Re
     let access_token = SESSION_ID;
     let AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
     let check_token_validation  = AuthCheck_Instance.post('');
-     check_token_validation.then( async (data) => {
+     check_token_validation.then( (data): any => {
         let auth_status_check = data?.data;
          if(auth_status_check){
             var isAuthicated = {
-                session : req.session['isAuthenticated']
+                session : true
             }
             res.locals.Session = isAuthicated ;
             // get the decoded payload ignoring signature, no secretOrPrivateKey needed
             let decoded = jwt.decode(access_token, {complete: true});
             let user_email = decoded.payload.sub;
             res.locals.user_email = user_email;
-
-            let redis_access_token = req.session['access_token'];
-           
-  
-            if(redis_access_token == access_token){
-                next()
-            }
-            else{
-                req.session.destroy(function(err) {
-                   console.log(err)
-                 })
-                res.clearCookie(cookies.sessionID);
-                res.clearCookie(cookies.state);
-                res.redirect('/oauth/logout')
-            }
-
-                
+                 next()
          }else{
-            req.session.destroy(function(err) {
-                console.log(err)
-              })
             res.clearCookie(cookies.sessionID);
             res.clearCookie(cookies.state);
-            res.redirect('/oauth/logout')
+            res.redirect(ErrorView.notfound)
          }
      }).catch( error => {
         delete error?.config?.['headers'];

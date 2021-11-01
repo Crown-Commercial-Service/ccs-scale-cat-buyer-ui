@@ -30,8 +30,7 @@
       ]
     },
     "typeRoots": [
-      "./node_modules/@types",
-      "./src/main/types"
+      "./node_modules/@types"
     ]
   },
   "include": [ "**/*.ts", "**/*.tsx"],
