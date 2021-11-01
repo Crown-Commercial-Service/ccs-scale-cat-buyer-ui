@@ -74,19 +74,6 @@ RedisInstanceSetup(app);
       .forEach((route: any) => route.default(app));
     });
 
-
-    app.get('/envs', (req, res)=> res.json({
-      "1": process.env['AUTH_SERVER_CLIENT_ID'],
-      "2": process.env['AUTH_SERVER_CLIENT_SECRET'],
-      "3": process.env['AUTH_SERVER_BASE_URL'],
-      "4": process.env['CAT_URL'],
-      "5": process.env['TENDERS_SERVICE_API_URL'],
-      "6": process.env['LOGIT_API_KEY'],
-      "7": JSON.parse(process.env['VCAP_SERVICES']),
-      "8": process.env['SESSION_SECRET']
-    }))
-
-    
 /**
  * @developementEnvironment
  *  Setting up development environment

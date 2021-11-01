@@ -19,10 +19,10 @@ const redisClient = redis.createClient({
     password: redisPassword
 })
 redisClient.on('error', function (err) {
-    console.log('Could not establish a connection with redis. ' + err);
+    console.log({msg: `error establishing connection `});
 });
-redisClient.on('connect', function (err) {
-    console.log('Connected to redis successfully');
+redisClient.on('connect', function () {
+    console.log({msg: 'successfully connected to the redis'});
 });
 
 let sessionExpiryTime = Number(config.get('Session.time'));
