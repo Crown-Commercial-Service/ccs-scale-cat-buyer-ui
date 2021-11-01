@@ -55,6 +55,10 @@ data "aws_ssm_parameter" "env_logit_api_key" {
   name = "/cat/${var.environment}/logit-api-key"
 }
 
+data "aws_ssm_parameter" "env_session_secret" {
+  name = "/cat/${var.environment}/buyer-ui-session-secret"
+}
+
 resource "cloudfoundry_app" "cat_buyer_ui" {
   annotations = {}
   buildpack   = var.buildpack
