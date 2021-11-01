@@ -33,6 +33,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
         secure: false, // if true only transmit cookie over https
         httpOnly: false, // if true prevent client side JS from reading the cookie 
