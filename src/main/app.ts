@@ -16,7 +16,9 @@ export const app = express();
 import glob from 'glob'
 import {routeExceptionHandler} from './setup/routeexception'
 
-import {setupRedisInstance} from './setup/redis'
+import {RedisInstanceSetup} from './setup/redis'
+
+
 
 
 app.locals.ENV = env;
@@ -27,9 +29,11 @@ app.locals.ENV = env;
  */
  let checkforenvFile = fs.existsSync('.env')
  import {localEnvariables} from './setup/envs'
- if(checkforenvFile){   
+ if(checkforenvFile){
    localEnvariables(app);
  }
+ 
+
 
 const logger = Logger.getLogger('app');
 
@@ -56,19 +60,8 @@ app.enable('trust proxy')
 /**
  * @RedisClient
  */
- setupRedisInstance(app);
+RedisInstanceSetup(app);
 
-
-app.get('/envs', (req, res)=> res.json({
-  "1": process.env['AUTH_SERVER_CLIENT_ID'],
-  "2": process.env['AUTH_SERVER_CLIENT_SECRET'],
-  "3": process.env['AUTH_SERVER_BASE_URL'],
-  "4": process.env['CAT_URL'],
-  "5": process.env['TENDERS_SERVICE_API_URL'],
-  "6": process.env['LOGIT_API_KEY'],
-  "7": JSON.parse(process.env['VCAP_SERVICES']),
-  "8": process.env['SESSION_SECRET']
-}))
 
 
 /**
@@ -99,3 +92,4 @@ app.get('/envs', (req, res)=> res.json({
       logger,
       env
     )
+
