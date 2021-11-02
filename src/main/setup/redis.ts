@@ -9,8 +9,7 @@ const RedisStore = connectRedis(session);
 
 let redis_localenv_access : string | any = process.env['VCAP_SERVICES'];
 redis_localenv_access = JSON.parse(redis_localenv_access);
-// let redisHost = redis_localenv_access?.redis?.[0]?.['credentials']?.['host']
-let redisHost = '127.0.0.1'
+let redisHost = redis_localenv_access?.redis?.[0]?.['credentials']?.['host']
 let redisPort= Number(redis_localenv_access?.redis?.[0]?.['credentials']?.['port']) || 6379;
 let redisPassword = redis_localenv_access?.redis?.[0]?.['credentials']?.['password'];
 
