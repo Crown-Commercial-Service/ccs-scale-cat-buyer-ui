@@ -7,7 +7,7 @@ import { cookies } from '../../cookies/cookies';
 import { ErrorView } from '../../shared/error/errorView';
 import {LogMessageFormatter} from '../../logtracer/logmessageformatter'
 import {LoggTracer} from '../../logtracer/tracer'
-import * as jwtDecoder from 'jsonwebtoken';
+
 /**
  * 
  * @Middleware
@@ -20,7 +20,7 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
         code, state
     } = req.query;
     if(Query.isUndefined(code) || Query.isEmpty(state)) {
-       res.redirect(ErrorView.notfound);
+        res.redirect(ErrorView.notfound);
     } else {
         let Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint')
             //@ Create the authentication credetial to to allow the re-direct
@@ -38,17 +38,14 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
         PostAuthCrendetails.then((data) => {
             let containedData = data?.data;
             let {
-                access_token, session_state
+                access_token, expires_in
             } = containedData;
             let AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
             let check_token_validation = AuthCheck_Instance.post('');
             check_token_validation.then(data => {
-                let auth_status_check = data?.['data'];
+                let auth_status_check = data?.data;
                 if(auth_status_check) {
-
-                    let cookieExpiryTime = Number(config.get('Session.time'));
-                    cookieExpiryTime = cookieExpiryTime * 60 * 1000;  //milliseconds
-                    let timeforcookies = cookieExpiryTime
+                    let timeforcookies = Number(expires_in) * 1000;
                     res.cookie(cookies.sessionID, access_token, {
                         maxAge: Number(timeforcookies),
                         httpOnly: true
@@ -57,11 +54,6 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
                         maxAge: Number(timeforcookies),
                         httpOnly: true
                     })
-                    let userSessionInformation = jwtDecoder.decode(access_token, {complete: true});
-                    req.session['isAuthenticated'] = true;
-                    req.session['access_token'] = access_token;
-                    req.session['user'] = userSessionInformation;
-                    req.session['userServerSessionID'] = session_state;
                     next();
                 } else {
                     res.redirect('/oauth/login')

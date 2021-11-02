@@ -24,9 +24,7 @@ export class ChooseAgreementMiddleware {
             next(); 
 
         }).catch(
-            (err) => {
-                res.render(ErrorView.notfound)
-            }
+            (err) => res.render(ErrorView.notfound)
         )            
     }
 }

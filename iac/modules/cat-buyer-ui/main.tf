@@ -34,11 +34,6 @@ data "cloudfoundry_user_provided_service" "ip_router" {
   space = data.cloudfoundry_space.space.id
 }
 
-data "cloudfoundry_service_instance" "redis" {
-  name_or_id = "${var.environment}-ccs-scale-cat-redis-buyer-ui"
-  space      = data.cloudfoundry_space.space.id
-}
-
 data "aws_ssm_parameter" "env_auth_server_client_id" {
   name = "/cat/${var.environment}/auth-server-client-id"
 }
@@ -55,10 +50,6 @@ data "aws_ssm_parameter" "env_logit_api_key" {
   name = "/cat/${var.environment}/logit-api-key"
 }
 
-data "aws_ssm_parameter" "env_session_secret" {
-  name = "/cat/${var.environment}/buyer-ui-session-secret"
-}
-
 resource "cloudfoundry_app" "cat_buyer_ui" {
   annotations = {}
   buildpack   = var.buildpack
@@ -71,8 +62,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
     AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
     CAT_URL : "https://${var.environment}-ccs-scale-cat-buyer-ui.london.cloudapps.digital"
-    LOGIT_API_KEY : data.aws_ssm_parameter.env_logit_api_key.value
-    SESSION_SECRET : data.aws_ssm_parameter.env_session_secret.value
+    LOGIT_API_KEY: data.aws_ssm_parameter.env_logit_api_key.value
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
@@ -89,10 +79,6 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
 
   service_binding {
     service_instance = data.cloudfoundry_user_provided_service.logit.id
-  }
-
-  service_binding {
-    service_instance = data.cloudfoundry_service_instance.redis.id
   }
 }
 
