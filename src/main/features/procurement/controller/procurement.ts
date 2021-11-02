@@ -7,11 +7,10 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 
-
 /**
  * 
  * @Rediect 
- * @endpoint
+ * @endpoint '/oauth/login
  * @param req 
  * @param res 
  */
