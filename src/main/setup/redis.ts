@@ -16,10 +16,11 @@ let redisPassword = redis_localenv_access?.redis?.[0]?.['credentials']?.['passwo
 const redisClient = redis.createClient({
     host: redisHost,
     port: redisPort,
-    password: redisPassword
+    password: redisPassword,
+    tls: {}
 })
 redisClient.on('error', function (err) {
-    console.log({msg: `error establishing connection `});
+    console.log({msg: `error establishing connection`});
 });
 redisClient.on('connect', function () {
     console.log({msg: 'successfully connected to the redis'});
