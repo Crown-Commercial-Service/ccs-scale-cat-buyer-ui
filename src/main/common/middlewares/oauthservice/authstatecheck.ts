@@ -5,6 +5,7 @@ import * as jwt from 'jsonwebtoken';
 import {TokenDecoder} from '../../tokendecoder/tokendecoder'
 import {LogMessageFormatter} from '../../logtracer/logmessageformatter'
 import {LoggTracer} from '../../logtracer/tracer'
+import  config from 'config';
 /**
  * 
  * @Middleware
@@ -15,7 +16,7 @@ import {LoggTracer} from '../../logtracer/tracer'
 export const AUTH : express.Handler  =  (req : express.Request, res : express.Response, next: express.NextFunction) => {
     var {SESSION_ID, state } = req.cookies;
     if(SESSION_ID === undefined){
-        res.redirect('/oauth/login');
+        res.redirect('/oauth/logout');
     }
     let access_token = SESSION_ID;
     let AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
@@ -23,31 +24,41 @@ export const AUTH : express.Handler  =  (req : express.Request, res : express.Re
      check_token_validation.then( async (data) => {
         let auth_status_check = data?.data;
          if(auth_status_check){
+
+        
             var isAuthicated = {
                 session : req.session['isAuthenticated']
             }
             res.locals.Session = isAuthicated ;
             // get the decoded payload ignoring signature, no secretOrPrivateKey needed
-            let decoded = jwt.decode(access_token, {complete: true});
-            let user_email = decoded.payload.sub;
-            res.locals.user_email = user_email;
-
-            let redis_access_token = req.session['access_token'];
-           
-  
-            if(redis_access_token == access_token){
-                next()
-            }
+            let decoded : any = jwt.decode(access_token, {complete: true});
+            let rolesOfUser = decoded?.payload?.roles
+            let isAuthorized = rolesOfUser?.includes('CAT_USER');
+           console.log({isAuthorized: rolesOfUser})
+            if(!isAuthorized){
+            res.redirect('/404')
+            }     
             else{
-                req.session.destroy(function(err) {
-                   console.log(err)
-                 })
-                res.clearCookie(cookies.sessionID);
-                res.clearCookie(cookies.state);
-                res.redirect('/oauth/logout')
-            }
+                let user_email = decoded.payload.sub;
+                res.locals.user_email = user_email;
+                let redis_access_token = req.session['access_token'];
+                if(redis_access_token === access_token){
+                    var sessionExtendedTime : Date = new Date();
+                    sessionExtendedTime.setMinutes(sessionExtendedTime.getMinutes() + Number(config.get('Session.time')));
+                    req.session.cookie.expires = sessionExtendedTime;
+                    next()
+                }
+                else{
+                    req.session.destroy(function(err) {
+                       console.log(err)
+                     })
+                    res.clearCookie(cookies.sessionID);
+                    res.clearCookie(cookies.state);
+                    res.redirect('/oauth/logout')
+                }
+            }        
+          
 
-                
          }else{
             req.session.destroy(function(err) {
                 console.log(err)
@@ -72,6 +83,6 @@ export const AUTH : express.Handler  =  (req : express.Request, res : express.Re
                          Logmessage.error_reason, 
                          Logmessage.exception
                          )
-                    LoggTracer.errorTracer(Log, res);
+                    LoggTracer.errorTracer(Log, res );
     })
 }

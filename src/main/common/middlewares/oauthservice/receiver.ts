@@ -19,7 +19,7 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
     let {
         code, state
     } = req.query;
-    if(Query.isUndefined(code) || Query.isEmpty(state)) {
+    if(Query.isUndefined(code)) {
        res.redirect(ErrorView.notfound);
     } else {
         let Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint')
@@ -36,6 +36,7 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
         let PostAuthCrendetails = Oauth_Instance.Instance.post(Oauth_check_endpoint, auth_credentails);
         //@ set the cookies for SESSION_ID and state with an expiration time
         PostAuthCrendetails.then((data) => {
+
             let containedData = data?.data;
             let {
                 access_token, session_state
@@ -44,27 +45,31 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
             let check_token_validation = AuthCheck_Instance.post('');
             check_token_validation.then(data => {
                 let auth_status_check = data?.['data'];
-                if(auth_status_check) {
 
+                if(auth_status_check) {
                     let cookieExpiryTime = Number(config.get('Session.time'));
                     cookieExpiryTime = cookieExpiryTime * 60 * 1000;  //milliseconds
                     let timeforcookies = cookieExpiryTime
+
                     res.cookie(cookies.sessionID, access_token, {
                         maxAge: Number(timeforcookies),
                         httpOnly: true
                     })
+
                     res.cookie(cookies.state, state, {
                         maxAge: Number(timeforcookies),
                         httpOnly: true
                     })
+
                     let userSessionInformation = jwtDecoder.decode(access_token, {complete: true});
                     req.session['isAuthenticated'] = true;
                     req.session['access_token'] = access_token;
                     req.session['user'] = userSessionInformation;
                     req.session['userServerSessionID'] = session_state;
+                   
                     next();
                 } else {
-                    res.redirect('/oauth/login')
+                    res.redirect('/oauth/logout')
                 }
             }).catch(error => {
                 delete error?.config?.['headers'];

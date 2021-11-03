@@ -23,6 +23,7 @@ import {RedisInstanceSetup} from './setup/redis'
 
 app.locals.ENV = env;
 
+
 // setup logging of HTTP requests
 /**
  * @env Local variables 
@@ -33,7 +34,10 @@ app.locals.ENV = env;
    localEnvariables(app);
  }
  
-
+/**
+ * @RedisClient
+ */
+ RedisInstanceSetup(app);
 
 const logger = Logger.getLogger('app');
 
@@ -57,10 +61,7 @@ app.use((req, res, next) => {
 app.enable('trust proxy')
 
 
-/**
- * @RedisClient
- */
-RedisInstanceSetup(app);
+
 
 
 
