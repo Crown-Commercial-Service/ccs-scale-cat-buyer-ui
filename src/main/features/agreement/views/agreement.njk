@@ -55,8 +55,7 @@
             <p class="govuk-body"><a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">xx suppliers <span class="visuallyhidden">for Lot 1: Digital Outcomes</span></a> </p>
           </dd> #}
           {% for item in sortedItems %}
-          <dt><a href="/projects/create-or-choose?agg={{item.name}}&amp;lot=Lot+{{item.number}}:&amp;agID={{project_agreement.number}}&amp;ltID={{item.number}}" class=" govuk-link govuk-link--no-visited-state">Lot {{item.number}}: {{item.name}}</a> <span>Expires: <time>{{item.endDate}}</time> </span></dt>
-          <dd>
+          <dt><a href="/projects/create-or-choose?agreement_id={{agreement_id}}&lotId={{item.number}}&aggName={{item.name}}&projName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{item.number}}: {{item.name}}</a> <span>Expires: <time>{{item.endDate}}</time> </span></dt>          <dd>
             <p class="govuk-body"></p>
             <p class="govuk-body"><a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.description}} <span class="visuallyhidden">for Lot 2: Digital Outcomes</span></a> </p>
           </dd>
