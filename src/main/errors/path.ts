@@ -10,5 +10,7 @@ export default function(app: Application): void {
  //@GET '/404'
  app.get(ROUTECONST.Route_404, ERROR_CONTROLLER.Error_404)
 
+  //@GET '/401'
+  app.get(ROUTECONST.Route_401, ERROR_CONTROLLER.Error_401)
 
 }
