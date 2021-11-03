@@ -30,9 +30,9 @@ export const PROCUREMENT = async (req : express.Request, res : express.Response)
       "lotId": lotId
     }
 
-    const test = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
-    console.log(test);
-      
+    // check if project is already created
+    const {data: procurement} = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
+    appendData = {...appendData, projName: procurement['defaultName']['name']};
 
     //const isCreatedProcurement = !!createdProcurement; 
     //const appendData = { ...data, isCreatedProcurement };
