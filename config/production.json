@@ -1,0 +1,49 @@
+{
+    "useCSRFProtection": true,
+    "security": {
+      "referrerPolicy": "origin"
+    },
+    "featureDir": [
+      {"path": "/routes/**/*.+(ts|js)"},
+      {"path": "/features/rfi/path.ts"},
+      {"path": "/features/auth/path.ts"},
+      {"path": "/features/dashboard/path.ts"},
+      {"path": "/errors/path.ts"}
+    ],
+    "PORT": "3000",
+    "AgreementService": {
+      "BASEURL": "https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital"
+    },
+    "Session": {
+      "time": "15"
+    },
+    "contentService": {
+      "BASEURL":"https://dev-ccs-scale-cat-buyer-ui.london.cloudapps.digital/",
+      "menuDirectory": "src/main/resources/content/menu-content/content.json"
+    },
+    "authenticationService": {
+      "token-endpoint": "/security/token",
+      "access_granttype": "authorization_code",
+      "token_validation_endpoint": "/security/tokens/validation",
+      "logout": "/security/log-out",
+      "logout_callback": "/logout"
+    },
+    "logger":{
+      "baseURL": "https://api.logit.io/v2"
+    },
+    "dynamic_framework": {
+      "BASEURL": "https://dev-ccs-scale-cat-buyer-ui.london.cloudapps.digital/api/template"
+    },
+    "pages": {
+      "error": {
+        "401": "error/401",
+        "404": "error/404",
+        "500": "error/500"
+      }
+    },
+    "cookies": {
+      "sessionid": "SESSION_ID",
+      "state": "state"
+    }
+  }
+  
