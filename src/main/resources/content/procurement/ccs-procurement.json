@@ -15,6 +15,7 @@
             "eventno": 1,
             "eventTitle": "Take a look at available suppliers",
             "buttonText": "See available suppliers",
+            "href": "/projects/choose-agreement",
             "sections": ["Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement. You can sort them by:"],
             "list": [
                 "location",
@@ -27,6 +28,7 @@
             "eventno": 2,
             "eventTitle": "Do pre-market engagement",
             "buttonText": "Start pre-market engagement",
+            "href": "/projects/choose-agreement",
             "sections" : ["You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or refine your needs. For the lot you selected, you can choose one of the options below:"],
             "subsections": [["<b>Request for Information (RfI)</b>",
                 "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
@@ -40,6 +42,7 @@
             "eventno": 3,
             "eventTitle": "Write and publish your requirements",
             "buttonText": "Start to write and publish your requirements",
+            "href": "/projects/choose-agreement",
             "sections": ["Write and publish your bid-pack for suppliers, who can then submit their responses to your requirements and compelte any other evaluation tasks set by you.",
              "You will need a clear set of criteria that suppliers will need to meet, and be evaluated against. You will also need to include how you will score their responses.",
              "For the lot you selected, you can run your procurement in one of the following ways:"],

@@ -73,9 +73,9 @@ href: "#"
                </ul>
                {% endif %}
                {% if event.buttonText %}
-                  <button hidden={{event.buttonText}} disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+                  <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
                   {{event.buttonText}}
-                  </button>
+                  </a>
                {% endif %}
             </li>
           {% else %}
