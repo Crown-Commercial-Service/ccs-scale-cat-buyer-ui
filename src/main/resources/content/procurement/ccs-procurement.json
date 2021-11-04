@@ -15,7 +15,7 @@
             "eventno": 1,
             "eventTitle": "Take a look at available suppliers",
             "buttonText": "See available suppliers",
-            "lines": ["Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement. You can sort them by:"],
+            "sections": ["Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement. You can sort them by:"],
             "list": [
                 "location",
                 "SME status"
@@ -27,11 +27,11 @@
             "eventno": 2,
             "eventTitle": "Do pre-market engagement",
             "buttonText": "Start pre-market engagement",
-            "lines" : ["You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or refine your needs. For the lot you selected, you can choose one of the options below:",
-                "Request for Information (RfI)",
+            "sections" : ["You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or refine your needs. For the lot you selected, you can choose one of the options below:"],
+            "subsections": [["<b>Request for Information (RfI)</b>",
                 "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
                 "This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below."
-            ],
+            ]],
             "list": [],
             "required": "optional",
             "status": "todo"
@@ -40,17 +40,16 @@
             "eventno": 3,
             "eventTitle": "Write and publish your requirements",
             "buttonText": "Start to write and publish your requirements",
-            "lines": ["Write and publish your bid-pack for suppliers, who can then submit their responses to your requirements and compelte any other evaluation tasks set by you.",
+            "sections": ["Write and publish your bid-pack for suppliers, who can then submit their responses to your requirements and compelte any other evaluation tasks set by you.",
              "You will need a clear set of criteria that suppliers will need to meet, and be evaluated against. You will also need to include how you will score their responses.",
-             "For the lot you selected, you can run your procurement in one of the following ways:",
-             "One stage further competition",
-             "You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted.",
-             "Two stage further competition",
-             "You can shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool.",
-             "Only the suppliers on the shortlist will be invited to bid for your opportunity.",
-             "Direct award",
-             "Based on the supplier responses you receive, if you find a single supplier who can meet your needs you can choose to award your contract directly to them after completing a capability assessement.",
-             "You need to complete this step before you can award your contract."],
+             "For the lot you selected, you can run your procurement in one of the following ways:"],
+             "subsections": [["<b>One stage further competition</b>",
+                "You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."],
+                ["<b>Two stage further competition</b>",
+                "You can shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool.",
+                "Only the suppliers on the shortlist will be invited to bid for your opportunity."],["<b>Direct award</b>",
+                "Based on the supplier responses you receive, if you find a single supplier who can meet your needs you can choose to award your contract directly to them after completing a capability assessement.",
+                "You need to complete this step before you can award your contract."]],
             "list": [],
             "required": "optional",
             "status": "todo"
@@ -58,7 +57,7 @@
         {
             "eventno": 4,
             "eventTitle": "Award your contract",
-            "lines": ["When you have completed your evaluation and found a suitable supplier, you can award your contract.",
+            "sections": ["When you have completed your evaluation and found a suitable supplier, you can award your contract.",
                 "You will need to give feedback to any unsuccessful suppliers."],
             "required": "optional",
             "status": "todo"
@@ -66,7 +65,7 @@
         {
             "eventno": 5,
             "eventTitle": "Publish your contract",
-            "lines": ["You need to publish the contract on Contracts Finder. This is a legal requirement."],
+            "sections": ["You need to publish the contract on Contracts Finder. This is a legal requirement."],
             "required": "optional",
             "status": "todo"
         }

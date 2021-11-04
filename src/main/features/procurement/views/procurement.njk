@@ -51,15 +51,19 @@ href: "#"
                   {{event.eventTitle}}
                   <strong class="govuk-tag app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
                </h2>
-               {% for line in event.lines %}
-                  {% if (event.eventno) == 1 
-                     or (event.eventno == 2)
-                     or (event.eventno) == 3 
-                     or (event.eventno) == 4 
-                     or (event.eventno) == 5 %}
-                     <p class="govuk-body">{{line}}</p>
+               {% for section in event.sections %}
+                  <p class="govuk-body">{{section | safe }}</p>
+               {% endfor %}
+               {% for subSections in event.subsections %}
+                  {% if ((event.eventno === 2) and ('RFI' in types)) 
+                     or ((event.eventno === 3) and (loop.index0 === 0) and ('FC' in types)) 
+                     or ((event.eventno === 3) and (loop.index0 === 1) and ('CA' in types))
+                     or ((event.eventno === 3) and (loop.index0 === 2) and ('DA' in types))
+                     %}   
+                    {% for subSection in subSections %}
+                      <p class="govuk-body">{{subSection | safe }}</p>
+                    {% endfor %}                    
                   {% endif %}
-    
                {% endfor %}
                {% if event.list.length %}
                <ul class="govuk-list govuk-list--bullet">
