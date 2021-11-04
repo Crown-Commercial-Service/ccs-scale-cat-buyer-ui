@@ -1,11 +1,11 @@
 import * as express from 'express'
 import { Oauth_Instance } from '../../util/fetch/OauthService/OauthInstance'
-import { cookies } from '../../cookies/cookies'
 import * as jwt from 'jsonwebtoken';
 import { TokenDecoder } from '../../tokendecoder/tokendecoder'
 import { LogMessageFormatter } from '../../logtracer/logmessageformatter'
 import { LoggTracer } from '../../logtracer/tracer'
 import config from 'config';
+import {LogoutPostHandler} from '../../util/session/logoutpostHandler'
 /**
  * 
  * @Middleware
@@ -25,7 +25,6 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
         let auth_status_check = data?.data;
         if (auth_status_check) {
 
-
             var isAuthicated = {
                 session: req.session['isAuthenticated']
             }
@@ -34,7 +33,6 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
             let decoded: any = jwt.decode(access_token, { complete: true });
             let rolesOfUser = decoded?.payload?.roles
             let isAuthorized = rolesOfUser?.includes('CAT_USER');
-            console.log({ isAuthorized: rolesOfUser })
             if (!isAuthorized) {
                 res.redirect('/401')
             }
@@ -49,23 +47,11 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                     next()
                 }
                 else {
-                    req.session.destroy(function (err) {
-                        console.log(err)
-                    })
-                    res.clearCookie(cookies.sessionID);
-                    res.clearCookie(cookies.state);
-                    res.redirect('/oauth/logout')
+                    LogoutPostHandler(req, res, SESSION_ID, state)
                 }
             }
-
-
         } else {
-            req.session.destroy(function (err) {
-                console.log(err)
-            })
-            res.clearCookie(cookies.sessionID);
-            res.clearCookie(cookies.state);
-            res.redirect('/oauth/logout')
+            LogoutPostHandler(req, res,SESSION_ID, state)
         }
     }).catch(error => {
         delete error?.config?.['headers'];
