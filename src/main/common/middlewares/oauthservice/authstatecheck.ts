@@ -5,7 +5,7 @@ import { TokenDecoder } from '../../tokendecoder/tokendecoder'
 import { LogMessageFormatter } from '../../logtracer/logmessageformatter'
 import { LoggTracer } from '../../logtracer/tracer'
 import config from 'config';
-import {LogoutPostHandler} from '../../util/session/logoutpostHandler'
+import { LogoutPostHandler } from '../../util/session/logoutpostHandler'
 /**
  * 
  * @Middleware
@@ -51,7 +51,7 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                 }
             }
         } else {
-            LogoutPostHandler(req, res,SESSION_ID, state)
+            LogoutPostHandler(req, res, SESSION_ID, state)
         }
     }).catch(error => {
         delete error?.config?.['headers'];
