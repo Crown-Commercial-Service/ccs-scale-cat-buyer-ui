@@ -1,6 +1,5 @@
 import * as express from 'express'
-import {contentAPI} from '../../util/fetch/contentservice/contentapiInstance'
-//import HeaderAndFooterFile from '../../../resources/menucontent/content.json'
+import {contentAPI} from '../../util/fetch/contentservice/contentApiInstance'
 import FileIOSystem from 'fs'
 import config from 'config'
 import {operations} from '../../../utils/operations/operations'
