@@ -62,6 +62,7 @@ export const CREDENTAILS_FETCH_RECEIVER =  (req : express.Request, res : express
                     req.session['access_token'] = access_token;
                     req.session['user'] = userSessionInformation;
                     req.session['userServerSessionID'] = session_state;
+                    req.session['procurements'] = [];
                     next();
                 } else {
                     res.redirect('/oauth/login')

@@ -24,19 +24,27 @@ export const PROCUREMENT = async (req : express.Request, res : express.Response)
   try {
     const {data: types} = await AgreementAPI.Instance.get(eventTypesURL);
     appendData = {types, ...appendData};
-
-    const _body = {
-      "agreementId": agreement_id,
-      "lotId": lotId
+    
+    const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
+    let procurement;
+    if (!elementCached) {
+      console.log('PROCUREMENT.gettingElement');
+      const _body = {
+        "agreementId": agreement_id,
+        "lotId": lotId
+      }
+      const {data: procurementRaw} = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
+      procurement = procurementRaw;
+      req.session.procurements.push(procurement);
     }
-
-    // check if project is already created
-    const {data: procurement} = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
+    else {
+      console.log('PROCUREMENT.usingCache');
+      procurement = elementCached;
+    }
     appendData = {...appendData, projName: procurement['defaultName']['name']};
-
-    //const isCreatedProcurement = !!createdProcurement; 
-    //const appendData = { ...data, isCreatedProcurement };
     } catch(error) { 
+      console.log(error);
+      
       delete error?.config?.['headers'];
       let Logmessage = {
         "Person_email": TokenDecoder.decoder(SESSION_ID),
