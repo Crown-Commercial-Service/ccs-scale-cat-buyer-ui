@@ -17,6 +17,10 @@
   "Session": {
     "time": "15"
   },
+  "contentService": {
+    "BASEURL":"http://localhost:3000",
+    "menuDirectory": "src/main/resources/content/menu-content/content.json"
+  },
   "authenticationService": {
     "token-endpoint": "/security/token",
     "access_granttype": "authorization_code",
