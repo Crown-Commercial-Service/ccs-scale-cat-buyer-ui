@@ -15,6 +15,10 @@
   "Session": {
     "time": "15"
   },
+  "contentService": {
+    "BASEURL":"http://localhost:3000",
+    "menuDirectory": "src/main/resources/content/menu-content/content.json"
+  },
   "authenticationService": {
     "token-endpoint": "/security/token",
     "access_granttype": "authorization_code",
@@ -30,6 +34,7 @@
   },
   "pages": {
     "error": {
+      "401": "error/401",
       "404": "error/404",
       "500": "error/500"
     }
