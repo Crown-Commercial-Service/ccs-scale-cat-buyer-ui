@@ -17,7 +17,7 @@ $(document).ready(function () {
 function timerIncrement() {
     inactiviyTime = inactiviyTime + 1;
 
-    if (inactiviyTime > 15) { // 2 minutes
+    if (inactiviyTime > 15) { // 15 minutes
         window.location.href= logoutlocationURL
     }
 }

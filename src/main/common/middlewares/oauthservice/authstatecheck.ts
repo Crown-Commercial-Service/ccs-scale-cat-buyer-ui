@@ -5,7 +5,8 @@ import { TokenDecoder } from '../../tokendecoder/tokendecoder'
 import { LogMessageFormatter } from '../../logtracer/logmessageformatter'
 import { LoggTracer } from '../../logtracer/tracer'
 import config from 'config';
-import { LogoutPostHandler } from '../../util/session/logoutpostHandler'
+import { cookies } from '../../cookies/cookies'
+
 /**
  * 
  * @Middleware
@@ -33,6 +34,12 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
             let decoded: any = jwt.decode(access_token, { complete: true });
             let rolesOfUser = decoded?.payload?.roles
             let isAuthorized = rolesOfUser?.includes('CAT_USER');
+
+            if(req.session?.user === undefined){
+                res.clearCookie(cookies.sessionID);
+                res.clearCookie(cookies.state);
+                res.redirect('/oauth/logout')
+            }
             if (!isAuthorized) {
                 res.redirect('/401')
             }
@@ -44,14 +51,18 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                     var sessionExtendedTime: Date = new Date();
                     sessionExtendedTime.setMinutes(sessionExtendedTime.getMinutes() + Number(config.get('Session.time')));
                     req.session.cookie.expires = sessionExtendedTime;
-                    next()
+                    next();
                 }
                 else {
-                    LogoutPostHandler(req, res, SESSION_ID, state)
+                    res.clearCookie(cookies.sessionID);
+                    res.clearCookie(cookies.state);
+                    res.redirect('/oauth/logout')
                 }
             }
         } else {
-            LogoutPostHandler(req, res, SESSION_ID, state)
+            res.clearCookie(cookies.sessionID);
+            res.clearCookie(cookies.state);
+            res.redirect('/oauth/logout')
         }
     }).catch(error => {
         delete error?.config?.['headers'];
