@@ -8,6 +8,7 @@ export class contentAPI {
         baseURL: config.get('contentService.BASEURL'),
         headers: {
         'Content-Type': 'application/json'
+            
         }
 
     })
