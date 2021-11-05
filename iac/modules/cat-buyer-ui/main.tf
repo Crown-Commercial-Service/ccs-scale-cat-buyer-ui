@@ -59,6 +59,10 @@ data "aws_ssm_parameter" "env_session_secret" {
   name = "/cat/${var.environment}/buyer-ui-session-secret"
 }
 
+data "aws_ssm_parameter" "conclave_wrapper_api_key" {
+  name = "/cat/${var.environment}/conclave-wrapper-api-key"
+}
+
 resource "cloudfoundry_app" "cat_buyer_ui" {
   annotations = {}
   buildpack   = var.buildpack
@@ -73,6 +77,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     CAT_URL : "https://${var.environment}-ccs-scale-cat-buyer-ui.london.cloudapps.digital"
     LOGIT_API_KEY : data.aws_ssm_parameter.env_logit_api_key.value
     SESSION_SECRET : data.aws_ssm_parameter.env_session_secret.value
+    CONCLAVE_WRAPPER_API_KEY : data.aws_ssm_parameter.conclave_wrapper_api_key.value
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
