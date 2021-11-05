@@ -18,7 +18,7 @@
       "time": "15"
     },
     "settings": {
-      "fetch-timelimit" : "500"
+      "fetch-timelimit" : "1500"
     },
     "contentService": {
       "BASEURL":"https://webdev-cms.crowncommercial.gov.uk",
