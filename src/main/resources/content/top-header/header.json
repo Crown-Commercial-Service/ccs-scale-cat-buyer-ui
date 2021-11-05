@@ -1,0 +1,7 @@
+{
+    "topHeader": {
+        "selectedAggrementText": ["Selected agreement: ",", Lot"],
+        "aggrementIdText": "Agreement ID: ",
+        "projectNameText": "Project name: "
+    }
+}

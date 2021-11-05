@@ -11,14 +11,11 @@
       {"path": "/errors/path.ts"}
     ],
     "PORT": "3000",
-    "AgreementService": {
-      "BASEURL": "https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital"
-    },
     "Session": {
       "time": "15"
     },
     "contentService": {
-      "BASEURL":"https://dev-ccs-scale-cat-buyer-ui.london.cloudapps.digital/",
+      "BASEURL":"https://dev-ccs-scale-cat-buyer-ui.london.cloudapps.digital",
       "menuDirectory": "src/main/resources/content/menu-content/content.json"
     },
     "authenticationService": {
