@@ -32,6 +32,15 @@ export class ForbiddenError extends Error implements ViewError {
   }
 }
 
+export class UnauthorizedError extends Error implements ViewError {
+  statusCode: number = HttpStatusCode.UNAUTHORIZED
+  associatedView: string = '/401'
+
+  constructor () {
+    super(`You are not allowed to access this resource`)
+  }
+}
+
 export class HTTPError extends Error {
     status: number;
   }

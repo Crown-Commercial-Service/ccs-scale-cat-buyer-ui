@@ -32,9 +32,10 @@ sessionExpiryTime = sessionExpiryTime * 60 * 1000;  //milliseconds
 app.use(session({
     store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: false,
     proxy: true,
+    rolling: true,
     cookie: {
         secure: false, // if true only transmit cookie over https
         httpOnly: false, // if true prevent client side JS from reading the cookie 

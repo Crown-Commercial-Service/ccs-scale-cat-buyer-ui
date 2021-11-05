@@ -5,7 +5,7 @@ import * as apisource from '../../resources/content/RFI/template.json'
 import {AgreementDetailsFetchMiddleware} from '../../common/middlewares/agreementservice/agreementdetailsfetch'
 import { array } from './controller/questions';
 import {AUTH} from '../../common/middlewares/oauthservice/authstatecheck'
-
+import {ContentFetchMiddleware} from '../../common/middlewares/menu-contentservice/contentservice'
 
 
 
@@ -16,23 +16,21 @@ export default function(app: Application): void {
  * @summary: provide all the respective associated view to the certain routes
  */
 // @GET '/rfi/rfi-task-list'
-  app.get(RFI_PATHS.GET_TASKLIST, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],  associatedViews.GET_TASKLIST);  
+  app.get(RFI_PATHS.GET_TASKLIST, [ContentFetchMiddleware.FetchContents,AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],  associatedViews.GET_TASKLIST);  
 
 //  @GET '/rfi/type'
-  app.get(RFI_PATHS.GET_TYPE, [AUTH ,AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_TYPE);     
+  app.get(RFI_PATHS.GET_TYPE, [ContentFetchMiddleware.FetchContents,AUTH ,AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_TYPE);     
   
   //  @GET '/rfi/online-task-list'
-  app.get(RFI_PATHS.GET_ONLINE_TASKLIST, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_ONLINE_TASKLIST );      
+  app.get(RFI_PATHS.GET_ONLINE_TASKLIST, [ContentFetchMiddleware.FetchContents,AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_ONLINE_TASKLIST );      
 
   //  @GET '/rfi/questions'
-  app.get(RFI_PATHS.GET_QUESTIONS, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_QUESTIONS);    
+  app.get(RFI_PATHS.GET_QUESTIONS, [ContentFetchMiddleware.FetchContents,AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_QUESTIONS);    
 
   //  @GET '/rfi/upload-doc'
-  app.get(RFI_PATHS.GET_UPLOAD_DOC, AUTH ,associatedViews.GET_UPLOAD_DOC);
+  app.get(RFI_PATHS.GET_UPLOAD_DOC, [ContentFetchMiddleware.FetchContents ,AUTH] ,associatedViews.GET_UPLOAD_DOC);    
   
   app.get(RFI_PATHS.GET_NAME_YOUR_PROJECT, AUTH, associatedViews.GET_NAME_PROJECT)
-  
-  
 
   app.get('/api/answers', AUTH,  (req, res)=> {res.json(array)})
 
