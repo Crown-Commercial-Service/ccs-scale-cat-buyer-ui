@@ -24,8 +24,9 @@ export class AgreementDetailsFetchMiddleware {
             let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
             retrieveAgreementPromise.then( (data)=> {
                 let containedData = data?.data;
-                const {topHeader} = req.session.header;
-                res.locals.project_header = {...containedData, topHeader};
+               // const {topHeader} = req.session.header;
+               console.log({containedData: containedData})
+                res.locals.project_header = containedData;
                 next(); 
             }).catch(
                 (error) => {
