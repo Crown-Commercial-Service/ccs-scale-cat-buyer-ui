@@ -1,5 +1,10 @@
 {
     "title": "Procurement overview",
+    "topHeader": {
+        "selectedAggrement": ["Selected agreement: ",", Lot ", ": Specialists"], 
+        "aggrementId": "Agreement ID: ",
+        "projectName": "Project name: "
+    },
     "line1": "Follow the steps below to start and complete your procurement. Each step can be saved and continued at any time.",
     "line2": "You can write your requirements online, using this service, or upload a document instead. You can also download what you enter online and save it to your internal systems.",
     "line3": "You cannot run step two and three at the same time.",
@@ -8,9 +13,10 @@
     "events": [
         {
             "eventno": 1,
-            "eventTitle": "1. Take a look at available suppliers",
+            "eventTitle": "Take a look at available suppliers",
             "buttonText": "See available suppliers",
-            "line1": "Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement. You can sort them by:",
+            "href": "/projects/choose-agreement",
+            "sections": ["Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement. You can sort them by:"],
             "list": [
                 "location",
                 "SME status"
@@ -20,41 +26,58 @@
         },
         {
             "eventno": 2,
-            "eventTitle": "2. Do pre-market engagement",
+            "eventTitle": "Do pre-market engagement",
             "buttonText": "Start pre-market engagement",
-            "line1": "You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or refine your needs. For the lot you selected, you can choose one of the options below:",
-            "line2": "<b>Request for Information (RfI)</b>",
-            "line3": "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
-            "line4": "This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below.",
+            "href": "/projects/choose-agreement",
+            "sections" : ["You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or refine your needs. For the lot you selected, you can choose one of the options below:"],
+            "subsections": [["<b>Request for Information (RfI)</b>",
+                "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
+                "This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below."
+            ]],
             "list": [],
             "required": "optional",
             "status": "todo"
         },
         {
             "eventno": 3,
-            "eventTitle": "3. Write and publish your requirements",
+            "eventTitle": "Write and publish your requirements",
             "buttonText": "Start to write and publish your requirements",
-            "line1": "Write and publish your bid-pack for suppliers, who can then submit their responses to your requirements and compelte any other evaluation tasks set by you.",
-            "line2": "You will need a clear set of criteria that suppliers will need to meet, and be evaluated against. You will also need to include how you will score their responses.",
-            "line3": "For the lot you selected, you can run your procurement in one of the following ways:",
+            "href": "/projects/choose-agreement",
+            "sections": ["Write and publish your bid-pack for suppliers, who can then submit their responses to your requirements and compelte any other evaluation tasks set by you.",
+             "You will need a clear set of criteria that suppliers will need to meet, and be evaluated against. You will also need to include how you will score their responses.",
+             "For the lot you selected, you can run your procurement in one of the following ways:"],
+             "subsections": [["<b>One stage further competition</b>",
+                "You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."],
+                ["<b>Two stage further competition</b>",
+                "You can shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool.",
+                "Only the suppliers on the shortlist will be invited to bid for your opportunity."],["<b>Direct award</b>",
+                "Based on the supplier responses you receive, if you find a single supplier who can meet your needs you can choose to award your contract directly to them after completing a capability assessement.",
+                "You need to complete this step before you can award your contract."]],
             "list": [],
             "required": "optional",
             "status": "todo"
         },
         {
             "eventno": 4,
-            "eventTitle": "4. Award your contract",
-            "line1": "When you have completed your evaluation and found a suitable supplier, you can award your contract.",
-            "line2": "You will need to give feedback to any unsuccessful suppliers.",
+            "eventTitle": "Award your contract",
+            "sections": ["When you have completed your evaluation and found a suitable supplier, you can award your contract.",
+                "You will need to give feedback to any unsuccessful suppliers."],
             "required": "optional",
             "status": "todo"
         },
         {
             "eventno": 5,
-            "eventTitle": "5. Publish your contract",
-            "line1": "You need to publish the contract on Contracts Finder. This is a legal requirement.",
+            "eventTitle": "Publish your contract",
+            "sections": ["You need to publish the contract on Contracts Finder. This is a legal requirement."],
             "required": "optional",
             "status": "todo"
         }
-    ]
+    ],
+    "related": {
+        "title": "Related content",
+        "content": {
+            "href": "/agreement/DSP/lot?no=2",
+            "text": "Digital Specialists and Programmes, Lot 2: Specialists"
+        }
+    }
 }
