@@ -15,16 +15,16 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  * @param res 
  */
 export const PROCUREMENT = async (req : express.Request, res : express.Response)=> {
-  const { lotId, projName, aggName } = req.query; 
+  const { lotId, aggNameText, aggNameValue } = req.query; 
   var {agreement_id, SESSION_ID} = req.cookies; 
 
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `agreements/${agreement_id}/lots/${lotId}/event-types`;
-  let appendData: any = { ...data, SESSION_ID, agreement_id, lotId, projName, aggName};
-  try {
+  let appendData: any = { ...data, SESSION_ID, agreement_id, lotId, aggNameText, aggNameValue};
+  try { 
     const {data: typesRaw} = await AgreementAPI.Instance.get(eventTypesURL);
     const types = typesRaw.map((typeRaw: any) => typeRaw.type);
-
+ 
     appendData = {types, ...appendData};
     
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
@@ -43,8 +43,9 @@ export const PROCUREMENT = async (req : express.Request, res : express.Response)
       console.log('PROCUREMENT.usingCache');
       procurement = elementCached;
     }
+    req.session.header = { lotId, projName: procurement['defaultName']['name'], aggNameText, aggNameValue };
     appendData = {...appendData, projName: procurement['defaultName']['name']};
-    } catch(error) { 
+  } catch(error) { 
       console.log(error);
       
       delete error?.config?.['headers'];

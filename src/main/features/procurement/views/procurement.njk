@@ -21,21 +21,15 @@ href: "#"
 {% block content %}
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-         <h1 class="govuk-heading-xl">
-            {{title}}
-         </h1>
-      </div>
-   </div>
-   <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-         <div class="project-overview">
-            <p class="govuk-body">{{topHeader.selectedAggrement[0]}}<strong>{{aggName}}{{topHeader.selectedAggrement[1]}}{{lotId}}{{topHeader.selectedAggrement[2]}}</strong></p>
-            <p class="govuk-body">{{topHeader.aggrementId}}<strong>{{agreement_id}}</strong></p>
-            <p class="govuk-body">{{topHeader.projectName}}
-               <strong>{{projName}}</strong>
-            </p>
-         </div>
+         <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+               <h1 class="govuk-heading-xl">
+                  {{title}}
+               </h1>
+               {% include "includes/project_header.njk" %}
+            </div>
+         </div>         
          <br>
          <div class="govuk-inset-text">
             <p class="govuk-body">{{line1}}</p>
