@@ -28,7 +28,9 @@ export default function(app: Application): void {
   app.get(RFI_PATHS.GET_QUESTIONS, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_QUESTIONS);    
 
   //  @GET '/rfi/upload-doc'
-  app.get(RFI_PATHS.GET_UPLOAD_DOC, AUTH ,associatedViews.GET_UPLOAD_DOC);    
+  app.get(RFI_PATHS.GET_UPLOAD_DOC, AUTH ,associatedViews.GET_UPLOAD_DOC);
+  
+  app.get(RFI_PATHS.GET_NAME_YOUR_PROJECT, AUTH, associatedViews.GET_NAME_PROJECT)
   
   
 
@@ -49,6 +51,9 @@ app.get('/api/template', (req, res)=> res.json(apisource))
 
   //@POST '/rfi/questionnaire'
   app.post(RFI_PATHS.POST_QUESTIONS_QUESTIONNAIRE,   associatedViews.POST_QUESTION)
+
+  //@POST '/rfi/name'
+  app.post(RFI_PATHS.POST_PROJECT_NAME, associatedViews.POST_NAME_PROJECT);
 
 
   //@postRoutes

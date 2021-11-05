@@ -10,6 +10,7 @@ export enum RFI_PATHS  {
     GET_ONLINE_TASKLIST = '/rfi/online-task-list',
     GET_QUESTIONS = '/rfi/questions',
     GET_UPLOAD_DOC = '/rfi/upload-doc',
+    GET_NAME_YOUR_PROJECT = '/rfi/name-your-project',
 
 
 
@@ -19,6 +20,7 @@ export enum RFI_PATHS  {
     //@ All of the Path related Request for information
     POST_QUESTIONS_QUESTIONNAIRE = '/rfi/questionnaire',
     POST_TYPE_TYPE = '/rfi/type',
-    POST_QUESTIONS_WHO = '/rfi/questions/who'
+    POST_QUESTIONS_WHO = '/rfi/questions/who',
+    POST_PROJECT_NAME = 'rfi/name'
 
 }

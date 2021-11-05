@@ -1,0 +1,50 @@
+{% extends "template.njk" %}
+
+{% set title = 'Name project | Crown Commercial Service' %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+        {{data.title }}
+        </h1>        
+    </div>
+  </div>
+  <div class="div-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">  
+      {% include "includes/project_header.njk" %} 
+      <br/>
+      <div class="govuk-inset-text">
+        <p class="govuk-body-l">Your unique project ID is <strong>{{data.projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
+      </div>
+      <p class="govuk-body">{{data.caption}}</p>
+      <form id="ccs_project_name_form" name="ccs_project_name_form" action="/rfi/name" method="post">       
+          <div class="govuk-form-group">
+            <input class="govuk-input" id="{{data.form.input.id}}" name="{{data.form.name}}" type="text" >
+          </div>
+          <div class="govuk-form-group">
+            <input class="govuk-input" id="projPersistID" name="projPersistID" type="hidden" value="RM6263-Lot 1-Department of work and pension">
+          </div>
+          <div class="govuk-button-group">
+            {{ CCSButton({
+                text: "Save and continue"
+                })
+            }}
+            <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>            
+          </div>
+      </form>
+    </div>
+    <div class="govuk-grid-column-one-third">
+         <div class="ccs-callout-panel">
+            <h2 class="govuk-heading-m">{{data.related.title}}</h2>
+            <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href={{data.related.content.href}} target="_blank">{{data.related.content.text}}</a> </p>
+         </div>
+    </div>
+  </div>
+{% endblock %}
