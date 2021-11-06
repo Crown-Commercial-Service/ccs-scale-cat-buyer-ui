@@ -17,7 +17,7 @@ const redisClient = redis.createClient({
     host: redisHost,
     port: redisPort,
     password: redisPassword,
-    tls: {}
+   // tls: {}
 })
 redisClient.on('error', function (err) {
     console.log({msg: `error establishing connection`});

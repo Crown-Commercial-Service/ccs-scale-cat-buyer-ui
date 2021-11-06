@@ -10,7 +10,7 @@
     "setup": "gulp sass copy-files sass-govuk-frontend",
     "configure": "gulp",
     "start": "NODE_ENV=production ./node_modules/.bin/ts-node -r tsconfig-paths/register src/main/server.ts",
-    "start:win": "SET NODE_ENV=development & nodemon ./node_modules/.bin/ts-node -r tsconfig-paths/register  src/main/server.ts",
+    "start:win": "SET NODE_ENV=development & nodemon -e js,ts,njk -x ./node_modules/.bin/ts-node -r tsconfig-paths/register  src/main/server.ts",
     "start:dev": "nodemon --config nodemon.json",
     "lint": "sass-lint -v -q && eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "yarn webpack --config webpack.config.js",

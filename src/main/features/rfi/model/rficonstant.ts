@@ -12,6 +12,7 @@ export enum RFI_PATHS  {
     GET_UPLOAD_DOC = '/rfi/upload-doc',
     GET_NAME_YOUR_PROJECT = '/rfi/name-your-project',
     GET_LEAD_PROCUEMENT = '/rfi/lead-procurement',
+    GET_ADD_COLLABORATOR = '/rfi/add-collaborators',
 
 
 
