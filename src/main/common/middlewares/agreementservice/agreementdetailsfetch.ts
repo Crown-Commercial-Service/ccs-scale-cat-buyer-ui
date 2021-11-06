@@ -3,7 +3,6 @@ import {AgreementAPI} from '../../util/fetch/agreementservice/agreementsApiInsta
 import {LogMessageFormatter} from '../../logtracer/logmessageformatter'
 import {LoggTracer} from '../../logtracer/tracer'
 import {TokenDecoder} from '../../tokendecoder/tokendecoder';
-import * as headerData from '../../../resources/content/top-header/header.json';
 /**
  * 
  * @Middleware
@@ -14,19 +13,19 @@ import * as headerData from '../../../resources/content/top-header/header.json';
 export class AgreementDetailsFetchMiddleware {
 
     static FetchAgreements : express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        var {SESSION_ID, state} = req.cookies;
-
-            req.session.header = headerData;
+            var {SESSION_ID, state} = req.cookies;
             const aggrementId =  "RM3741";
             req.session.agreement_id = aggrementId;
-            const agreementId_session = req.session.agreement_id
+            const agreementId_session = req.session.agreement_id;
+            const agreementLotName = req.session.agreementLotName;
             let BaseURL = `agreements/${agreementId_session}`;
             let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
             retrieveAgreementPromise.then( (data)=> {
                 let containedData = data?.data;
-               // const {topHeader} = req.session.header;
-               console.log({containedData: containedData})
-                res.locals.project_header = containedData;
+               const lotId = req.session.lotId;
+               const project_name = req.session.project_name;
+               req.session.agreementName =  containedData['name'];
+               res.locals.agreement_header = {...containedData, project_name, lotId, agreementLotName};
                 next(); 
             }).catch(
                 (error) => {

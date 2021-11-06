@@ -61,6 +61,8 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
                     req.session['userServerSessionID'] = session_state;
                     req.session['procurements'] = [];
                     req.session['agreement_id'] = "";
+                    req.session['agreementName'] = "";
+                    
                     next();
                 } else {
                     res.redirect('/oauth/logout')
