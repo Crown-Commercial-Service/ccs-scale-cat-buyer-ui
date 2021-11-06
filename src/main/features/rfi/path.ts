@@ -30,7 +30,7 @@ export default function(app: Application): void {
   //  @GET '/rfi/upload-doc'
   app.get(RFI_PATHS.GET_UPLOAD_DOC, [ContentFetchMiddleware.FetchContents ,AUTH] ,associatedViews.GET_UPLOAD_DOC);    
   
-  
+  app.get(RFI_PATHS.GET_NAME_YOUR_PROJECT, AUTH, associatedViews.GET_NAME_PROJECT)
 
   //@GET '/rfi/add-collaborators'
   app.get(RFI_PATHS.GET_ADD_COLLABORATOR, [ContentFetchMiddleware.FetchContents, AgreementDetailsFetchMiddleware.FetchAgreements ,AUTH] ,associatedViews.GET_ADD_COLLABORATOR); 
@@ -39,6 +39,8 @@ export default function(app: Application): void {
 
 
   app.get('/api/answers', AUTH,  (req, res)=> {res.json(array)})
+
+  app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, AUTH, associatedViews.GET_LEAD_PROCUREMENT)
 
 /**
  * 
@@ -55,6 +57,9 @@ app.get('/api/template', (req, res)=> res.json(apisource))
 
   //@POST '/rfi/questionnaire'
   app.post(RFI_PATHS.POST_QUESTIONS_QUESTIONNAIRE,   associatedViews.POST_QUESTION)
+
+  //@POST '/rfi/name'
+  app.post(RFI_PATHS.POST_PROJECT_NAME, associatedViews.POST_NAME_PROJECT);
 
 
   //@postRoutes

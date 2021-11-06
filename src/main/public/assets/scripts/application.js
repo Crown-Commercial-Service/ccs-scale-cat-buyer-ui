@@ -100,6 +100,7 @@ if (document.getElementById("ccs_rfi_response_date_form") !== null) document.get
 
 if (document.getElementById("ccs_rfi_contact_form") !== null) document.getElementById("ccs_rfi_contact_form").addEventListener('submit', ccsZvalidateRfiContact);
 
+if(document.getElementById("ccs_project_name_form") !== null) document.getElementById("ccs_project_name_form").addEventListener('submit', ccsZvalidateRfiName);
 /* global $ */
 $('body').on('submit', 'form', function (e) {
   // On form submit, add hidden inputs for checkboxes so the server knows if

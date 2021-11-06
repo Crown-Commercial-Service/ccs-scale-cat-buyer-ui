@@ -27,7 +27,7 @@
             "eventTask": [
                 {
                     "Task": 1,
-                    "link": "#",
+                    "link": "/rfi/name-your-project",
                     "title": "Name your project",
                     "required": "mandatory",
                     "status": "todo"
