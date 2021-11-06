@@ -4,6 +4,7 @@ import {GET_ONLINE_TASKLIST} from './onlinetasklist'
 import {GET_QUESTIONS, POST_QUESTION} from './questions'
 import { GET_UPLOAD_DOC } from './upload'
 import { GET_NAME_PROJECT, POST_NAME_PROJECT } from './nameAProject'
+import {GET_LEAD_PROCUREMENT} from './leadProcurement'
 
 export var associatedViews =  {
     /**
@@ -15,6 +16,7 @@ export var associatedViews =  {
     GET_QUESTIONS,
     GET_UPLOAD_DOC,
     GET_NAME_PROJECT,
+    GET_LEAD_PROCUREMENT,
     
 
 

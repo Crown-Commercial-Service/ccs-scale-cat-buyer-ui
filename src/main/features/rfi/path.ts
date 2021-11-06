@@ -34,6 +34,8 @@ export default function(app: Application): void {
 
   app.get('/api/answers', AUTH,  (req, res)=> {res.json(array)})
 
+  app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, AUTH, associatedViews.GET_LEAD_PROCUREMENT)
+
 /**
  * 
  * @POST : POST Routes of RFI

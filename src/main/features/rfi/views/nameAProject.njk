@@ -25,10 +25,14 @@
       </div>
       <p class="govuk-body">{{data.caption}}</p>
       <form id="ccs_project_name_form" name="ccs_project_name_form" action="/rfi/name?procid={{procId}}" method="POST">       
-          <div class="govuk-form-group">
-            <input class="govuk-input" id="{{data.form.input.id}}" name="{{data.form.name}}" type="text" >
-          </div>
-          <button type="submit" name="test">
+          
+        {{ CCSInput({           
+            id: data.form.input.id,
+            name: data.form.input.name,
+            value: projectLongName
+            })
+        }}
+
           <div class="govuk-button-group">
             {{ CCSButton({
                 text: "Save and continue",
