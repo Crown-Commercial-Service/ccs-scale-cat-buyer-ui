@@ -9,7 +9,7 @@ import {ContentFetchMiddleware} from '../../common/middlewares/menu-contentservi
 export default function(app: Application): void {
  // 
  app.get(CHOOSE_AGREEMENT_PATHS.CHOOSE_AGREEMENT, 
-    [ContentFetchMiddleware.FetchContents,ChooseAgreementMiddleware.FetchAgreements, AUTH],
+    [ContentFetchMiddleware.FetchContents,AUTH, ChooseAgreementMiddleware.FetchAgreements],
      CHOOSE_AGREEMENT_CONTROLLER.CHOOSE_AGREEMENT);
 
 }

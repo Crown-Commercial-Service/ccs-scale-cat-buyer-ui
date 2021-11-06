@@ -15,24 +15,23 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  * @param res 
  */
 export const PROCUREMENT = async (req : express.Request, res : express.Response)=> {
-  const { lotId, aggNameText, aggNameValue } = req.query; 
-  var {agreement_id, SESSION_ID} = req.cookies; 
-
+  const { lotId, agreementLotName } = req.query; 
+  var {SESSION_ID} = req.cookies; 
+  const agreementId_session = req.session.agreement_id;
   const lotsURL = `/tenders/projects/agreements`;
-  const eventTypesURL = `agreements/${agreement_id}/lots/${lotId}/event-types`;
-  let appendData: any = { ...data, SESSION_ID, agreement_id, lotId, aggNameText, aggNameValue};
+  const eventTypesURL = `agreements/${agreementId_session}/lots/${lotId}/event-types`;
+  let appendData: any = { ...data, SESSION_ID, agreement_header: {number:agreementId_session} };
   try { 
     const {data: typesRaw} = await AgreementAPI.Instance.get(eventTypesURL);
     const types = typesRaw.map((typeRaw: any) => typeRaw.type);
  
-    appendData = {types, ...appendData};
+    appendData = {types, ...appendData };
     
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
     let procurement;
     if (!elementCached) {
-      console.log('PROCUREMENT.gettingElement');
       const _body = {
-        "agreementId": agreement_id,
+        "agreementId": agreementId_session,
         "lotId": lotId
       }
       const {data: procurementRaw} = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
@@ -40,11 +39,14 @@ export const PROCUREMENT = async (req : express.Request, res : express.Response)
       req.session.procurements.push(procurement);
     }
     else {
-      console.log('PROCUREMENT.usingCache');
       procurement = elementCached;
     }
-    req.session.header = { lotId, projName: procurement['defaultName']['name'], aggNameText, aggNameValue };
-    appendData = {...appendData, projName: procurement['defaultName']['name']};
+    req.session.lotId =  procurement['defaultName']['components']['lotId'];
+    req.session.project_name = procurement['defaultName']['name'];
+    req.session.agreementLotName = agreementLotName;
+    const agreementName = req.session.agreementName;
+    appendData = {...appendData, agreement_header: {name: agreementName, number: agreementId_session, lotId: lotId,  project_name: procurement['defaultName']['name'], agreementLotName: agreementLotName }};
+
   } catch(error) { 
       console.log(error);
       
