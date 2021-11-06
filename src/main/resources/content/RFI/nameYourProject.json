@@ -23,6 +23,11 @@
     
     ],
     "title": "Name your project",
+    "topHeader": {
+        "selectedAggrement": ["Selected agreement: ",", Lot ", ": Specialists"], 
+        "aggrementId": "Agreement ID: ",
+        "projectName": "Project name: "
+    },
     "subtitle": null,
     "caption" : "You can change the name of your project. Enter the new name below.",
     "form": {

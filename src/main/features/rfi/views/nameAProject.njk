@@ -21,19 +21,18 @@
       {% include "includes/project_header.njk" %} 
       <br/>
       <div class="govuk-inset-text">
-        <p class="govuk-body-l">Your unique project ID is <strong>{{data.projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
+        <p class="govuk-body-l">Your unique project ID is <strong>{{projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
       </div>
       <p class="govuk-body">{{data.caption}}</p>
-      <form id="ccs_project_name_form" name="ccs_project_name_form" action="/rfi/name" method="post">       
+      <form id="ccs_project_name_form" name="ccs_project_name_form" action="/rfi/name?procid={{procId}}" method="POST">       
           <div class="govuk-form-group">
             <input class="govuk-input" id="{{data.form.input.id}}" name="{{data.form.name}}" type="text" >
           </div>
-          <div class="govuk-form-group">
-            <input class="govuk-input" id="projPersistID" name="projPersistID" type="hidden" value="RM6263-Lot 1-Department of work and pension">
-          </div>
+          <button type="submit" name="test">
           <div class="govuk-button-group">
             {{ CCSButton({
-                text: "Save and continue"
+                text: "Save and continue",
+                action:"submit"
                 })
             }}
             <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>            
