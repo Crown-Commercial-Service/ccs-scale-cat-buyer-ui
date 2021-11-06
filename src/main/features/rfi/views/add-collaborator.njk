@@ -1,0 +1,54 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Complete and upload a document | Contract a Thing' %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+       items: [
+        {
+        text: "Dashboard",
+        href: "/dashboard"
+        },
+        {
+        text: "Choose a commercial agreement",
+        href: "/projects/choose-agreement"
+        },
+        {
+        text: "Procurement overview",
+        href: "/projects/"
+        },
+        {
+        text: "Do pre-market engagement",
+        href: "/rfi/rfi-task-list"
+        },
+        {
+        text: "Add colleagues "
+        }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">
+      Add colleagues and team members
+    </h1>
+     {% include "includes/project_header.njk" %}
+  </div>
+</div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+  </div>
+    
+  </div>
+  </main>
+{% endblock %}
+

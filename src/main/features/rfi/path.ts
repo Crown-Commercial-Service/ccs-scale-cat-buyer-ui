@@ -32,6 +32,12 @@ export default function(app: Application): void {
   
   
 
+  //@GET '/rfi/add-collaborators'
+  app.get(RFI_PATHS.GET_ADD_COLLABORATOR, [ContentFetchMiddleware.FetchContents, AgreementDetailsFetchMiddleware.FetchAgreements ,AUTH] ,associatedViews.GET_ADD_COLLABORATOR); 
+
+
+
+
   app.get('/api/answers', AUTH,  (req, res)=> {res.json(array)})
 
 /**

@@ -3,6 +3,7 @@ import {GET_TYPE, POST_TYPE} from './type'
 import {GET_ONLINE_TASKLIST} from './onlinetasklist'
 import {GET_QUESTIONS, POST_QUESTION} from './questions'
 import { GET_UPLOAD_DOC } from './upload';
+import {GET_ADD_COLLABORATOR} from './addcollaborator'
 
 export var associatedViews =  {
     /**
@@ -13,6 +14,7 @@ export var associatedViews =  {
     GET_TYPE,
     GET_QUESTIONS,
     GET_UPLOAD_DOC,
+    GET_ADD_COLLABORATOR,
 
 
      /**
