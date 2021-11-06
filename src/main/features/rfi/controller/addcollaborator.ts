@@ -11,9 +11,6 @@ export const GET_ADD_COLLABORATOR = async (req : express.Request, res : express.
    let organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
    let organisation_user_data  = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
    organisation_user_data = organisation_user_data?.data
-
-   console.log(organisation_user_data)
-
-   var windowAppendData = {data : cmsData, userdata: organisation_user_data}
+   const windowAppendData = {data : cmsData, userdata: organisation_user_data}
    res.render('add-collaborator', windowAppendData); 
 }
