@@ -12,8 +12,11 @@
   "Session": {
     "time": "15"
   },
+  "settings": {
+    "fetch-timelimit" : "500"
+  },
   "contentService": {
-    "BASEURL":"http://localhost:3000",
+    "BASEURL":"https://webdev-cms.crowncommercial.gov.uk",
     "menuDirectory": "src/main/resources/content/menu-content/content.json"
   },
   "authenticationService": {
