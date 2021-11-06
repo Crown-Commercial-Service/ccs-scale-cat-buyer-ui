@@ -10,6 +10,7 @@ export enum RFI_PATHS  {
     GET_ONLINE_TASKLIST = '/rfi/online-task-list',
     GET_QUESTIONS = '/rfi/questions',
     GET_UPLOAD_DOC = '/rfi/upload-doc',
+    GET_ADD_COLLABORATOR = '/rfi/add-collaborators',
 
 
 
