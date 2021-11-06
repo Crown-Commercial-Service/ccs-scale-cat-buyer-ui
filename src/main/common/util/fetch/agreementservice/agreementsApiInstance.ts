@@ -1,4 +1,4 @@
-import * as axios from 'axios'
+import * as axios from 'axios';
 
 export class AgreementAPI {
 
