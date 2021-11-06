@@ -7,6 +7,7 @@ export class contentAPI {
         baseURL: process.env['AGREEMENTS_SERVICE_API_URL'],
         headers: {
         'Content-Type': 'application/json'
+            
         }
 
     })

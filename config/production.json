@@ -14,8 +14,11 @@
     "Session": {
       "time": "15"
     },
+    "settings": {
+      "fetch-timelimit" : "1500"
+    },
     "contentService": {
-      "BASEURL":"https://dev-ccs-scale-cat-buyer-ui.london.cloudapps.digital",
+      "BASEURL":"https://webdev-cms.crowncommercial.gov.uk",
       "menuDirectory": "src/main/resources/content/menu-content/content.json"
     },
     "authenticationService": {
