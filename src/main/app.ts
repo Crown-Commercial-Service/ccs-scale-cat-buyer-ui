@@ -8,17 +8,15 @@ import favicon from 'serve-favicon';
 import { Nunjucks } from './modules/nunjucks';
 const { setupDev } = require('./setup/development');
 import  i18next from 'i18next'
-const env = process.env.NODE_ENV || 'development';
-const developmentMode = env === 'development';
 import {NotFoundError} from './errors/errors'
 import fs from 'fs'
 export const app = express();
 import glob from 'glob'
 import {routeExceptionHandler} from './setup/routeexception'
-
 import {RedisInstanceSetup} from './setup/redis'
 
-
+const env = process.env.NODE_ENV || 'development';
+const developmentMode = env === 'development';
 
 
 app.locals.ENV = env;
