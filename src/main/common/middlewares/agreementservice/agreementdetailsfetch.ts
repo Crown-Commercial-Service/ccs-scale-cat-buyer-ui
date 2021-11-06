@@ -1,10 +1,8 @@
-import { ErrorView } from '../../shared/error/errorView';
 import * as express from 'express'
 import {AgreementAPI} from '../../util/fetch/agreementservice/agreementsApiInstance'
-import {Query} from '../../util/operators/query'
 import {LogMessageFormatter} from '../../logtracer/logmessageformatter'
 import {LoggTracer} from '../../logtracer/tracer'
-import {TokenDecoder} from '../../tokendecoder/tokendecoder'
+import {TokenDecoder} from '../../tokendecoder/tokendecoder';
 /**
  * 
  * @Middleware
@@ -15,16 +13,19 @@ import {TokenDecoder} from '../../tokendecoder/tokendecoder'
 export class AgreementDetailsFetchMiddleware {
 
     static FetchAgreements : express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        var {agreement_id} = req.query;
-        var {SESSION_ID, state} = req.cookies
-        if(Query.isUndefined(agreement_id) || Query.isEmpty(agreement_id)){
-            res.render(ErrorView.notfound)
-        }else{
-            let BaseURL = `agreements/${agreement_id}`;
+            var {SESSION_ID, state} = req.cookies;
+            const aggrementId =  "RM3741";
+            req.session.agreement_id = aggrementId;
+            const agreementId_session = req.session.agreement_id;
+            const agreementLotName = req.session.agreementLotName;
+            let BaseURL = `agreements/${agreementId_session}`;
             let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
             retrieveAgreementPromise.then( (data)=> {
                 let containedData = data?.data;
-                res.locals.project_header = containedData;
+               const lotId = req.session.lotId;
+               const project_name = req.session.project_name;
+               req.session.agreementName =  containedData['name'];
+               res.locals.agreement_header = {...containedData, project_name, lotId, agreementLotName};
                 next(); 
             }).catch(
                 (error) => {
@@ -46,6 +47,5 @@ export class AgreementDetailsFetchMiddleware {
                     LoggTracer.errorTracer(Log, res);
                 }
             )            
-        }
     }
 }

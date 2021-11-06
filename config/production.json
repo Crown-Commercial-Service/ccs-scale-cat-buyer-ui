@@ -11,9 +11,6 @@
       {"path": "/errors/path.ts"}
     ],
     "PORT": "3000",
-    "AgreementService": {
-      "BASEURL": "https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital"
-    },
     "Session": {
       "time": "15"
     },

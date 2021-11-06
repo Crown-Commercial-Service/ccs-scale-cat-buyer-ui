@@ -1,7 +1,10 @@
 <div class="project-overview">
-   <p class="govuk-body">{{topHeader.selectedAggrement[0]}}<strong>{{aggNameText}}{{topHeader.selectedAggrement[1]}}{{lotId}}: {{aggNameValue}}</strong></p>
-   <p class="govuk-body">{{topHeader.aggrementId}}<strong>{{agreement_id}}</strong></p>
-   <p class="govuk-body">{{topHeader.projectName}}
-      <strong>{{projName}}</strong>
-   </p>
+  <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['name'] }}, Lot {{agreement_header['lotId']}}: {{agreement_header['agreementLotName']}}</strong></p>
+  <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['number'] }}</strong></p>
+  {% if agreement_header['project_name'] %}
+   <p class="govuk-body">Project name: <strong>{{agreement_header['project_name']}}</strong></p>
+    {% else %}
+     <p class="govuk-body">Project name: You have not saved projects </p>
+    {% endif %}
+  </p>
 </div>
