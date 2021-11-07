@@ -10,12 +10,9 @@ export enum RFI_PATHS {
     GET_ONLINE_TASKLIST = '/rfi/online-task-list',
     GET_QUESTIONS = '/rfi/questions',
     GET_UPLOAD_DOC = '/rfi/upload-doc',
-<<<<<<< HEAD
     GET_NAME_YOUR_PROJECT = '/rfi/name-your-project',
     GET_LEAD_PROCUEMENT = '/rfi/lead-procurement',
     GET_ADD_COLLABORATOR = '/rfi/add-collaborators',
-=======
->>>>>>> bc1a6d01 (rebase refactoring)
 
 
 
