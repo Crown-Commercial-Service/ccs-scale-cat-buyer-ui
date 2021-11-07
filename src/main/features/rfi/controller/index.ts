@@ -54,5 +54,4 @@ export var associatedViews = {
     POST_QUESTION,
     POST_TYPE,
     POST_NAME_PROJECT
-
 }
