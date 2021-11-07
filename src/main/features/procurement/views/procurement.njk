@@ -1,35 +1,20 @@
 {% extends "template.njk" %}
+
 {% from "components/support/macro.njk" import howToGetSupport %}
-{% block breadCrumb %}
-{{ CCSBreadcrumbs({
-items: [
-{
-text: "Dashboard",
-href: "/dashboard"
-},
-{
-text: "Choose a commercial agreement",
-href: "/projects/choose-agreement"
-},
-{
-text: "Procurement overview",
-href: "#"
-}
-]
-}) }}
-{% endblock %}
+
 {% block content %}
+{{ CCSBreadcrumbs({
+        items: breadCrumbs
+      }) }}
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-               <h1 class="govuk-heading-xl">
-                  {{title}}
-               </h1>
-               {% include "includes/project_header.njk" %}
-            </div>
-         </div>         
+      <div class="govuk-grid-column-full">
+         <div class="govuk-grid-column-full">
+            <h1 class="govuk-heading-xl">
+               {{title}}
+            </h1>
+            {% include "includes/project_header.njk" %}
+         </div>        
          <br>
          <div class="govuk-inset-text">
             <p class="govuk-body">{{line1}}</p>
