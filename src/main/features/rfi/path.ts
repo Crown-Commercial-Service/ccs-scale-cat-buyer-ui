@@ -32,12 +32,6 @@ export default function(app: Application): void {
   
   app.get(RFI_PATHS.GET_NAME_YOUR_PROJECT, AUTH, associatedViews.GET_NAME_PROJECT)
 
-  //@GET '/rfi/add-collaborators'
-  app.get(RFI_PATHS.GET_ADD_COLLABORATOR, [ContentFetchMiddleware.FetchContents, AgreementDetailsFetchMiddleware.FetchAgreements ,AUTH] ,associatedViews.GET_ADD_COLLABORATOR); 
-
-
-
-
   app.get('/api/answers', AUTH,  (req, res)=> {res.json(array)})
 
   app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, AUTH, associatedViews.GET_LEAD_PROCUREMENT)
