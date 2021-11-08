@@ -11,6 +11,11 @@ data "cloudfoundry_domain" "domain" {
   name = "london.cloudapps.digital"
 }
 
+data "cloudfoundry_app" "cat_service" {
+  name_or_id = "${var.environment}-ccs-scale-cat-service"
+  space      = "var.space"
+}
+
 data "archive_file" "cat_buyer_ui" {
   type       = "zip"
   source_dir = "${path.module}/../../.."
@@ -103,6 +108,15 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
 
   service_binding {
     service_instance = data.cloudfoundry_service_instance.redis.id
+  }
+}
+
+resource "cf_network_policy" "my-policy" {
+
+  policy {
+    source_app      = cloudfoundry_app.cat_buyer_ui.id
+    destination_app = cloudfoundry_app.cat_service.id
+    port            = "8080"
   }
 }
 
