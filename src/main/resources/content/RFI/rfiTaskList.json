@@ -2,34 +2,28 @@
     "breadCrumbs": [
         {
             "text": "Dashboard",
-            "href": "/dashboard"
+            "href": "/"
         },
         {
             "text": "Choose a commercial agreement",
-            "href": "/projects/choose-agreement"
+            "href": "#"
         },
         {
             "text": "Procument overview",
-            "href": "/projects/create-or-choose"
+            "href": "#"
         },
         {
-            "text": "Do pre-market engagement",
+            "text": "run pre-market engagement",
             "href": "#"
         }
 
     ],
-    "title": "Do pre-market engagement",
+    "title": "Create a Request for Information (RFI)",
     "subtitle": null,
-    "line1": "Pre-market engagement can help you to:",
-    "line2": "better understand what you need",
-    "line3": "write clearer needs to publish for suppliers",
-    "line4": "understand how much this work could cost",
-    "line5": "better understand how long this work could take",
     "events": [
         {
             "eventno": 1,
             "eventTitle": "Project and collaborators",
-            "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
             "eventTask": [
                 {
                     "Task": 1,
@@ -40,67 +34,71 @@
                 },
                 {
                     "Task": 2,
-                    "link": "#",
-                    "title": "Change who is going to lead the procurement",
+                    "link": "/rfi/add-collaborators",
+                    "title": "Add members to your project",
                     "required": "optional",
-                    "status": "optional"
+                    "status": "todo"
                 },
                 {
                     "Task": 3,
-                    "link": "#",
-                    "title": "Add colleagues to your project",
-                    "required": "optional",
-                    "status": "optional"
+                    "link": "/rfi/procurement-lead",
+                    "title": "Change who is going to lead the procurement",
+                    "required": "mandatory",
+                    "status": "done"
                 }
             ]
         },
         {
             "eventno": 2,
             "eventTitle": "Build your Request for Information (RFI)",
-            "eventDescription": "You can choose to enter information online to build your RfI, or upload a document. If you choose to build your RfI online you can write your own questions, include context about your organisation and your procurement, and get more detailed information about what suppliers can offer.",
             "eventTask": [
                 {
                     "Task": 1,
-                    "title": "Choose how to build your RfI",
+                    "title": "How- will you build your request for- information (RFI)",
                     "required": "mandatory",
-                    "status": "cannot start yet"
+                    "status": "todo"
                 },
                 {
                     "Task": 2,
 
-                    "title": "Build your RfI",
+                    "title": "Build your request for information",
                     "required": "mandatory",
-                    "status": "cannot start yet"
+                    "status": "in progress"
                 }
             ]
         },
         {
             "eventno": 3,
-            "eventTitle": "Review and publish your RfI",
-            "eventDescription": "Review the information you have entered, confirm which suppliers you want to send it to, set out your timeline (including how long suppliers have to ask questions and when you will respond by), and then publish your RfI.",
+            "eventTitle": "Review and publish your your Request for Information (RFI)",
             "eventTask": [
                 {
                     "Task": 1,
-                    "title": "Upload documents or add links",
+                    "title": "Upload or link any additional documentation",
                     "required": "optional",
                     "status": "cannot start yet"
                 },
                 {
                     "Task": 2,
-                    "title": "Confirm which suppliers you want to approach",
+                    "title": "Identify suppliers",
                     "required": "optional",
                     "status": "cannot start yet"
                 },
                 {
                     "Task": 3,
-                    "title": "Your RfI timeline",
+                    "title": "Set response date and time",
                     "required": "mandatory",
                     "status": "cannot start yet"
                 },
                 {
                     "Task": 4,
-                    "title": "Review and publish your RfI",
+                    "title": "Review contact details",
                     "required": "mandatory",
+                    "status": "cannot start yet"
+                },
+                {
+                    "Task": 5,
+                    "title": "Review and publish",
+                    "required": "optional",
                     "status": "cannot start yet"
                 }
             ]
