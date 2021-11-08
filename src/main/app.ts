@@ -7,18 +7,15 @@ import * as path from 'path';
 import favicon from 'serve-favicon';
 import { Nunjucks } from './modules/nunjucks';
 const { setupDev } = require('./setup/development');
-import  i18next from 'i18next'
+import i18next from 'i18next'
 const env = process.env.NODE_ENV || 'development';
 const developmentMode = env === 'development';
-import {NotFoundError} from './errors/errors'
+import { NotFoundError } from './errors/errors'
 import fs from 'fs'
 export const app = express();
 import glob from 'glob'
-import {routeExceptionHandler} from './setup/routeexception'
-
-import {RedisInstanceSetup} from './setup/redis'
-
-
+import { routeExceptionHandler } from './setup/routeexception'
+import { RedisInstanceSetup } from './setup/redis'
 
 
 app.locals.ENV = env;
@@ -28,16 +25,16 @@ app.locals.ENV = env;
 /**
  * @env Local variables 
  */
- let checkforenvFile = fs.existsSync('.env')
- import {localEnvariables} from './setup/envs'
- if(checkforenvFile){
-   localEnvariables(app);
- }
- 
+let checkforenvFile = fs.existsSync('.env')
+import { localEnvariables } from './setup/envs'
+if (checkforenvFile) {
+  localEnvariables(app);
+}
+
 /**
  * @RedisClient
  */
- RedisInstanceSetup(app);
+RedisInstanceSetup(app);
 
 const logger = Logger.getLogger('app');
 
@@ -48,7 +45,7 @@ new Helmet(config.get('security')).enableFor(app);
 app.use(Express.accessLogger());
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(express.json())
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('src/main/public'));
 app.use((req, res, next) => {
@@ -60,37 +57,32 @@ app.use((req, res, next) => {
 });
 app.enable('trust proxy')
 
-
-
-
-
-
 /**
  * @Routable path getting content from default.json
  */
-    let featureRoutes : Array<Object> = config.get('featureDir')
-    featureRoutes?.forEach((aRoute: any) => {
-      glob.sync(__dirname + aRoute?.['path'])
-      .map((filename : string )=> require(filename))
-      .forEach((route: any) => route.default(app));
-    });
+let featureRoutes: Array<Object> = config.get('featureDir')
+featureRoutes?.forEach((aRoute: any) => {
+  glob.sync(__dirname + aRoute?.['path'])
+    .map((filename: string) => require(filename))
+    .forEach((route: any) => route.default(app));
+});
 
 /**
  * @developementEnvironment
  *  Setting up development environment
  *  
  */
-    setupDev(app,developmentMode);
+setupDev(app, developmentMode);
 
 /**
  * @ExceptionHandler
  *  All error Handler Routes 
  *  
  */
-    routeExceptionHandler(
-      app,
-      NotFoundError,
-      logger,
-      env
-    )
+routeExceptionHandler(
+  app,
+  NotFoundError,
+  logger,
+  env
+)
 
