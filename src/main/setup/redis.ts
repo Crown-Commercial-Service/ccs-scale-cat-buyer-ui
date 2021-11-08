@@ -5,6 +5,9 @@ import connectRedis from 'connect-redis'
 import config from 'config'
 import { operations } from '../utils/operations/operations'
 
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('redis');
+
 
 const RedisInstanceSetup = (app: express.Express): void => {
 
@@ -27,16 +30,15 @@ const RedisInstanceSetup = (app: express.Express): void => {
         redisProperties = Object.assign(
             {},
             {
-                ...redisProperties,
-                tls: {}
+                ...redisProperties
             })
     }
     const redisClient = redis.createClient(redisProperties);
     redisClient.on('error', function (err) {
-        console.log({ msg: `error establishing connection` });
+        logger.error({ msg: `error establishing connection` });
     });
     redisClient.on('connect', function () {
-        console.log({ msg: 'successfully connected to the redis' });
+        logger.info({ msg: 'successfully connected to the redis' });
     });
     let sessionExpiryTime = Number(config.get('Session.time'));
     sessionExpiryTime = sessionExpiryTime * 60 * 1000;  //milliseconds

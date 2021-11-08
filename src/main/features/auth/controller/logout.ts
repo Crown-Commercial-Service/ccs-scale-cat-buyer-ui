@@ -1,5 +1,6 @@
 import * as express from 'express'
-
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('logout');
 
 /**
  * 
@@ -10,7 +11,7 @@ import * as express from 'express'
  */
 export const LOGOUT = (req : express.Request, res : express.Response)=> {
   req.session.destroy(function(err) {
-    console.log(err)
+    logger.info(err);
   })
   res.redirect('/');
 }

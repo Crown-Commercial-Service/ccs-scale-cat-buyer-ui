@@ -31,7 +31,4 @@ export default function(app: Application): void {
     app.get('/wp-json/wp-api-menus/v2/menus/25', [NO_AUTH],  (req: express.Request, res: express.Response)=> {
         res.json(AboutContant)
     });
-
-
-
 }

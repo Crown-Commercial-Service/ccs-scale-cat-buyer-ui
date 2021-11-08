@@ -35,7 +35,7 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
             let rolesOfUser = decoded?.payload?.roles
             let isAuthorized = rolesOfUser?.includes('CAT_USER');
 
-            if(req.session?.user === undefined){
+            if (req.session?.user === undefined) {
                 res.clearCookie(cookies.sessionID);
                 res.clearCookie(cookies.state);
                 res.redirect('/oauth/logout')
