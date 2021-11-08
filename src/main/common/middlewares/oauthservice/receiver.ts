@@ -63,6 +63,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
                     req.session['agreement_id'] = "";
                     req.session['agreementName'] = "";
                     
+                    
                     next();
                 } else {
                     res.redirect('/oauth/logout')

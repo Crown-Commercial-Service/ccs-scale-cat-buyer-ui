@@ -14,7 +14,7 @@ export class AgreementDetailsFetchMiddleware {
 
     static FetchAgreements : express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             var {SESSION_ID, state} = req.cookies;
-            const aggrementId =  "RM1043.6";
+            const aggrementId =  "RM6263";
             req.session.agreement_id = aggrementId;
             const agreementId_session = req.session.agreement_id;
             const agreementLotName = req.session.agreementLotName;

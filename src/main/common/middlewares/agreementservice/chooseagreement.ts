@@ -16,7 +16,7 @@ import { LoggTracer } from '../../logtracer/tracer'
  */
 export class ChooseAgreementMiddleware {
     static FetchAgreements = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        let BaseURL = "/agreements/RM1043.6/lots";
+        let BaseURL = "/agreements/RM6263/lots";
         let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL)
         const { state, SESSION_ID } = req.cookies;
         retrieveAgreementPromise.then( (data)=> {
