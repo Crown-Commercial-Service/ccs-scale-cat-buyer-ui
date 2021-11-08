@@ -14,7 +14,7 @@ export class AgreementDetailsFetchMiddleware {
 
     static FetchAgreements : express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             var {SESSION_ID, state} = req.cookies;
-            const aggrementId =  "RM3741";
+            const aggrementId =  "RM1043.6";
             req.session.agreement_id = aggrementId;
             const agreementId_session = req.session.agreement_id;
             const agreementLotName = req.session.agreementLotName;
@@ -25,7 +25,7 @@ export class AgreementDetailsFetchMiddleware {
                const lotId = req.session.lotId;
                const project_name = req.session.project_name;
                req.session.agreementName =  containedData['name'];
-               res.locals.agreement_header = {...containedData, project_name, lotId, agreementLotName};
+               res.locals.agreement_header = {project_name, lotId, agreementLotName};
                 next(); 
             }).catch(
                 (error) => {

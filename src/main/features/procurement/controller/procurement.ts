@@ -13,6 +13,8 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  * @endpoint '/oauth/login
  * @param req 
  * @param res 
+ * 
+ * 
  */
 export const PROCUREMENT = async (req : express.Request, res : express.Response)=> {
   const { lotId, agreementLotName } = req.query; 
@@ -23,11 +25,15 @@ export const PROCUREMENT = async (req : express.Request, res : express.Response)
   let appendData: any = { ...data, SESSION_ID, agreement_header: {number:agreementId_session} };
   try { 
     const {data: typesRaw} = await AgreementAPI.Instance.get(eventTypesURL);
-    const types = typesRaw.map((typeRaw: any) => typeRaw.type);
- 
+
+
+    console.log({data})
+    const types = typesRaw.map((typeRaw: any) => typeRaw.type); 
     appendData = {types, ...appendData };
     
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
+
+    console.log({elementCached})
     let procurement;
     if (!elementCached) {
       const _body = {
@@ -35,21 +41,28 @@ export const PROCUREMENT = async (req : express.Request, res : express.Response)
         "lotId": lotId
       }
       const {data: procurementRaw} = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
+
+      console.log({data})
+      
       procurement = procurementRaw;
       req.session.procurements.push(procurement);
     }
     else {
+
       procurement = elementCached;
+
+      console.log({msg: "triggered"})
     }
     req.session.lotId =  procurement['defaultName']['components']['lotId'];
     req.session.project_name = procurement['defaultName']['name'];
     req.session.agreementLotName = agreementLotName;
-    const agreementName = req.session.agreementName;
+    const agreementName = req.session.agreementName; //udefined
     appendData = {...appendData, agreement_header: {name: agreementName, number: agreementId_session, lotId: lotId,  project_name: procurement['defaultName']['name'], agreementLotName: agreementLotName }};
-
+    res.render('procurement', appendData);
   } catch(error) { 
-      console.log(error);
-      
+
+    console.log({error})
+            
       delete error?.config?.['headers'];
       let Logmessage = {
         "Person_email": TokenDecoder.decoder(SESSION_ID),
@@ -67,6 +80,6 @@ export const PROCUREMENT = async (req : express.Request, res : express.Response)
          )
          LoggTracer.errorTracer(Log, res);
     }   
-    res.render('procurement', appendData);
+    
         
 }

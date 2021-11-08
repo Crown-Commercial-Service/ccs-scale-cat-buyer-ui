@@ -3,7 +3,6 @@ import {RFI_PATHS} from './model/rficonstant'
 import {associatedViews} from './controller/index'
 import * as apisource from '../../resources/content/RFI/template.json'
 import {AgreementDetailsFetchMiddleware} from '../../common/middlewares/agreementservice/agreementdetailsfetch'
-import { array } from './controller/questions';
 import {AUTH} from '../../common/middlewares/oauthservice/authstatecheck'
 import {ContentFetchMiddleware} from '../../common/middlewares/menu-contentservice/contentservice'
 
@@ -28,20 +27,21 @@ export default function(app: Application): void {
   app.get(RFI_PATHS.GET_QUESTIONS, [ContentFetchMiddleware.FetchContents,AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_QUESTIONS);    
 
   //  @GET '/rfi/upload-doc'
-  app.get(RFI_PATHS.GET_UPLOAD_DOC, [ContentFetchMiddleware.FetchContents ,AUTH] ,associatedViews.GET_UPLOAD_DOC);    
+  app.get(RFI_PATHS.GET_UPLOAD_DOC, [ContentFetchMiddleware.FetchContents ,AUTH] ,associatedViews.GET_UPLOAD_DOC); 
   
-  app.get(RFI_PATHS.GET_NAME_YOUR_PROJECT, AUTH, associatedViews.GET_NAME_PROJECT)
+  //@GET name your projects
+  
+  app.get(RFI_PATHS.GET_NAME_YOUR_PROJECT, [ContentFetchMiddleware.FetchContents, AgreementDetailsFetchMiddleware.FetchAgreements ,AUTH], associatedViews.GET_NAME_PROJECT)
 
   //@GET '/rfi/add-collaborators'
   app.get(RFI_PATHS.GET_ADD_COLLABORATOR, [ContentFetchMiddleware.FetchContents, AgreementDetailsFetchMiddleware.FetchAgreements ,AUTH] ,associatedViews.GET_ADD_COLLABORATOR); 
 
 
+  //@GET '/rfi/procurement-lead'
+  app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, [ContentFetchMiddleware.FetchContents, AgreementDetailsFetchMiddleware.FetchAgreements, AUTH], associatedViews.GET_LEAD_PROCUREMENT)
 
 
-  app.get('/api/answers', AUTH,  (req, res)=> {res.json(array)})
-
-  app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, AUTH, associatedViews.GET_LEAD_PROCUREMENT)
-
+  
 /**
  * 
  * @POST : POST Routes of RFI

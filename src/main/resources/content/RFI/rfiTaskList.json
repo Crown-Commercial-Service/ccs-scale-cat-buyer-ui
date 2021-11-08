@@ -27,21 +27,21 @@
             "eventTask": [
                 {
                     "Task": 1,
-                    "link": "/rfi/name-your-project",
+                    "link": "/projects/create-or-choose",
                     "title": "Name your project",
                     "required": "mandatory",
                     "status": "todo"
                 },
                 {
                     "Task": 2,
-                    "link": "#",
+                    "link": "/rfi/add-collaborators",
                     "title": "Add members to your project",
                     "required": "optional",
                     "status": "todo"
                 },
                 {
                     "Task": 3,
-                    "link": "#",
+                    "link": "/rfi/procurement-lead",
                     "title": "Change who is going to lead the procurement",
                     "required": "mandatory",
                     "status": "done"

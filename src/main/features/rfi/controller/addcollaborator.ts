@@ -5,7 +5,7 @@ import {OrganizationInstance} from '../util/fetch/organizationuserInstance'
 // RFI ADD_Collaborator
 export const GET_ADD_COLLABORATOR = async (req : express.Request, res : express.Response)=> {
 
-   let organization_id = '849851633428287029'
+   let organization_id = req.session.user.payload.ciiOrgId;
    req.session['organizationId'] = organization_id;
 
    let organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
