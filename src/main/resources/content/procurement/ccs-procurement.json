@@ -1,10 +1,19 @@
 {
+        "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procument overview",
+            "href": "#"
+        }
+    ],
     "title": "Procurement overview",
-    "topHeader": {
-        "selectedAggrement": ["Selected agreement: ",", Lot ", ": Specialists"], 
-        "aggrementId": "Agreement ID: ",
-        "projectName": "Project name: "
-    },
     "line1": "Follow the steps below to start and complete your procurement. Each step can be saved and continued at any time.",
     "line2": "You can write your requirements online, using this service, or upload a document instead. You can also download what you enter online and save it to your internal systems.",
     "line3": "You cannot run step two and three at the same time.",

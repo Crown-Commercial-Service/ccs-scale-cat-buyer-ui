@@ -1,5 +1,5 @@
 
-export enum RFI_PATHS  {
+export enum RFI_PATHS {
 
     /**
      * @GETROUTES
