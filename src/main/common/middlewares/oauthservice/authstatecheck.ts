@@ -17,9 +17,8 @@ import { cookies } from '../../cookies/cookies'
 export const AUTH: express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     var { SESSION_ID, state } = req.cookies;
     if (SESSION_ID === undefined) {
-        res.redirect('/oauth/login');
+        res.redirect('/oauth/logout');
     }
-    else{
     let access_token = SESSION_ID;
     let AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
     let check_token_validation = AuthCheck_Instance.post('');
@@ -41,27 +40,25 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                 res.clearCookie(cookies.state);
                 res.redirect('/oauth/logout')
             }
-            else{
-                        if (!isAuthorized) {
-                            res.redirect('/401')
-                        }
-                        else {
-                            let user_email = decoded.payload.sub;
-                            res.locals.user_email = user_email;
-                            let redis_access_token = req.session['access_token'];
-                                    if (redis_access_token === access_token) {
-                                        var sessionExtendedTime: Date = new Date();
-                                        sessionExtendedTime.setMinutes(sessionExtendedTime.getMinutes() + Number(config.get('Session.time')));
-                                        req.session.cookie.expires = sessionExtendedTime;
-                                        next();
-                                    }
-                                    else {
-                                        res.clearCookie(cookies.sessionID);
-                                        res.clearCookie(cookies.state);
-                                        res.redirect('/oauth/logout')
-                                    }
-                        }
-        }
+            if (!isAuthorized) {
+                res.redirect('/401')
+            }
+            else {
+                let user_email = decoded.payload.sub;
+                res.locals.user_email = user_email;
+                let redis_access_token = req.session['access_token'];
+                if (redis_access_token === access_token) {
+                    var sessionExtendedTime: Date = new Date();
+                    sessionExtendedTime.setMinutes(sessionExtendedTime.getMinutes() + Number(config.get('Session.time')));
+                    req.session.cookie.expires = sessionExtendedTime;
+                    next();
+                }
+                else {
+                    res.clearCookie(cookies.sessionID);
+                    res.clearCookie(cookies.state);
+                    res.redirect('/oauth/logout')
+                }
+            }
         } else {
             res.clearCookie(cookies.sessionID);
             res.clearCookie(cookies.state);
@@ -85,6 +82,4 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
         )
         LoggTracer.errorTracer(Log, res);
     })
-
-}
 }
