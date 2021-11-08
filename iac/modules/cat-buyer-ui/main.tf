@@ -73,7 +73,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
   disk_quota  = var.disk_quota
   enable_ssh  = true
   environment = {
-    TENDERS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-cat-service.apps.internal:8080"
+    TENDERS_SERVICE_API_URL : "http://${var.environment}-ccs-scale-cat-service.apps.internal:8080"
     AGREEMENTS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-shared-agreements-service.london.cloudapps.digital"
     AUTH_SERVER_CLIENT_ID : data.aws_ssm_parameter.env_auth_server_client_id.value
     AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
