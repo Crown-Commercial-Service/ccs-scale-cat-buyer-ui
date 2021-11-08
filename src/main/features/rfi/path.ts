@@ -29,16 +29,17 @@ export default function(app: Application): void {
   //  @GET '/rfi/upload-doc'
   app.get(RFI_PATHS.GET_UPLOAD_DOC, [ContentFetchMiddleware.FetchContents ,AUTH] ,associatedViews.GET_UPLOAD_DOC); 
   
+  
   //@GET name your projects
   
-  app.get(RFI_PATHS.GET_NAME_YOUR_PROJECT, [ContentFetchMiddleware.FetchContents, AgreementDetailsFetchMiddleware.FetchAgreements ,AUTH], associatedViews.GET_NAME_PROJECT)
+  app.get(RFI_PATHS.GET_NAME_YOUR_PROJECT, [ContentFetchMiddleware.FetchContents,AUTH, AgreementDetailsFetchMiddleware.FetchAgreements ], associatedViews.GET_NAME_PROJECT)
 
   //@GET '/rfi/add-collaborators'
-  app.get(RFI_PATHS.GET_ADD_COLLABORATOR, [ContentFetchMiddleware.FetchContents, AgreementDetailsFetchMiddleware.FetchAgreements ,AUTH] ,associatedViews.GET_ADD_COLLABORATOR); 
+  app.get(RFI_PATHS.GET_ADD_COLLABORATOR, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements ] ,associatedViews.GET_ADD_COLLABORATOR); 
 
 
   //@GET '/rfi/procurement-lead'
-  app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, [ContentFetchMiddleware.FetchContents, AgreementDetailsFetchMiddleware.FetchAgreements, AUTH], associatedViews.GET_LEAD_PROCUREMENT)
+  app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_LEAD_PROCUREMENT)
 
 
   

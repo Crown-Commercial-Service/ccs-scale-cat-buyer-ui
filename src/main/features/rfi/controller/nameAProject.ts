@@ -13,7 +13,7 @@ import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 
 export const GET_NAME_PROJECT = async (req : express.Request, res : express.Response)=> {    
     const procurements = req.session.procurements;
-    var {agreement_id} = req.cookies;
+    var agreement_id = req.session['agreement_id'];
     var lotId = req.session.lotId;
     let procurement:procurementDetail = procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
     const agreementId_session = req.session.agreement_id;
@@ -31,9 +31,9 @@ export const GET_NAME_PROJECT = async (req : express.Request, res : express.Resp
 }
 
 export const POST_NAME_PROJECT = async (req : express.Request, res : express.Response)=> {
-    var {SESSION_ID} = req.cookies;
+    var {SESSION_ID} = req.cookies; //jwt
     var {procid} = req.query;
-    var name = req.body[cmsData.form.input.name];
+    var name = req.body['rfi_projLongName'];
     const nameUpdateUrl = `tenders/projects/${procid}/name`;
     try { 
         const _body = {
@@ -42,10 +42,9 @@ export const POST_NAME_PROJECT = async (req : express.Request, res : express.Res
         var response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl,_body);
         if(response.status == HttpStatusCode.OK)
         req.session.project_name = name;
+        res.redirect('/rfi/procurement-lead');
     }
     catch(error) { 
-        console.log(error);
-        
         delete error?.config?.['headers'];
         let Logmessage = {
           "Person_email": TokenDecoder.decoder(SESSION_ID),
@@ -63,5 +62,5 @@ export const POST_NAME_PROJECT = async (req : express.Request, res : express.Res
            )
            LoggTracer.errorTracer(Log, res);
     }
-    res.redirect('/rfi/lead-procurement');
+   
 }

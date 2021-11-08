@@ -27,7 +27,7 @@
             "eventTask": [
                 {
                     "Task": 1,
-                    "link": "/projects/create-or-choose",
+                    "link": "/rfi/name-your-project",
                     "title": "Name your project",
                     "required": "mandatory",
                     "status": "todo"
