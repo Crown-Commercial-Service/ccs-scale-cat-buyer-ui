@@ -52,8 +52,10 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     const agreementName = req.session.agreementName; //udefined
     
     var lotid = req.session?.lotId;
-    res.locals.agreement_header = { agreementName, agreementId_session, agreementLotName, lotid}
+    
+    const project_name = req.session.project_name;
 
+    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid }
 
     appendData = { ...appendData, agreementName };
     res.render('procurement', appendData);
