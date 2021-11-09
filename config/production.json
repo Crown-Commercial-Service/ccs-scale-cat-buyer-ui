@@ -24,7 +24,8 @@
       "access_granttype": "authorization_code",
       "token_validation_endpoint": "/security/tokens/validation",
       "logout": "/security/log-out",
-      "logout_callback": "/logout"
+      "logout_callback": "/logout",
+      "user_profile_endpoint": "/user-profiles"
     },
     "logger":{
       "baseURL": "https://api.logit.io/v2"
