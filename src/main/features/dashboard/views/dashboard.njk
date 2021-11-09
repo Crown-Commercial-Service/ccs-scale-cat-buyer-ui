@@ -2,8 +2,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'home | Contract a Thing' %}
-{# {% set heading = t('Welcome to the Money Claim legal rep beta') %} #}
+{% set title = 'Welcome to the Contract a Thing beta' %}
 {% block content %}
 {{ CCSBreadcrumbs({
         items: data.breadCrumbs
@@ -19,7 +18,7 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         <div class="ccs-page-section">
           <h3 class="govuk-heading-m">
-            Hello, {{ user_email }}
+            Hello, {{ user_firstName }}
           </h3>
           <p class="govuk-body">{{ data.line1 }}</p>
           <h2 class="govuk-heading-m">Get started</h2>
