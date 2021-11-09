@@ -1,17 +1,33 @@
 import * as express from 'express'
-import {OrganizationInstance} from '../util/fetch/organizationuserInstance'
-import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
-import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import { LoggTracer } from '../../../common/logtracer/tracer';
+
 
 
 export const GET_LEAD_PROCUREMENT = async (req : express.Request, res : express.Response)=> { 
-    let organization_id = req.session.user.payload.ciiOrgId;
+
+    res.render('leadexample')
+
+}
+
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * import {OrganizationInstance} from '../util/fetch/organizationuserInstance'
+import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
+import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { LoggTracer } from '../../../common/logtracer/tracer';
+ * 
+ * 
+ * 
+ *     let organization_id = req.session.user.payload.ciiOrgId;
    req.session['organizationId'] = organization_id;
    let {SESSION_ID} = req.cookies;
    try {
 
-    
+
     let organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
     let organisation_user_data  = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
     organisation_user_data = organisation_user_data?.data
@@ -41,4 +57,8 @@ export const GET_LEAD_PROCUREMENT = async (req : express.Request, res : express.
    }
 
    
-}
+
+
+
+ * 
+ */
