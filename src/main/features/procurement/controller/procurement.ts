@@ -17,12 +17,15 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  * 
  */
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
-  const { lotId, agreementLotName } = req.query;
+  const { lotId, agreementLotName} = req.query;
+
+  console.log({lotId})
   var { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `agreements/${agreementId_session}/lots/${lotId}/event-types`;
-  let appendData: any = { ...data, SESSION_ID, agreement_header: { number: agreementId_session } };
+  let appendData: any = { ...data, SESSION_ID };
+  //agreement_header: { number: agreementId_session } 
   try {
     const { data: typesRaw } = await AgreementAPI.Instance.get(eventTypesURL);
     const types = typesRaw.map((typeRaw: any) => typeRaw.type);
@@ -47,7 +50,12 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.project_name = procurement['defaultName']['name'];
     req.session.agreementLotName = agreementLotName;
     const agreementName = req.session.agreementName; //udefined
-    appendData = { ...appendData, agreement_header: { name: agreementName, number: agreementId_session, lotId: lotId, project_name: procurement['defaultName']['name'], agreementLotName: agreementLotName } };
+    
+    var lotid = req.session?.lotId;
+    res.locals.agreement_header = { agreementName, agreementId_session, agreementLotName, lotid}
+
+
+    appendData = { ...appendData, agreementName };
     res.render('procurement', appendData);
   } catch (error) {
     delete error?.config?.['headers'];
