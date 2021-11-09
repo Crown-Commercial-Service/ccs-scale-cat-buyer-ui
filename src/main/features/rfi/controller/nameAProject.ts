@@ -13,18 +13,12 @@ import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 
 export const GET_NAME_PROJECT = async (req : express.Request, res : express.Response)=> {    
     const procurements = req.session.procurements;
-    var agreement_id = req.session['agreement_id'];
     var lotId = req.session.lotId;
     let procurement:procurementDetail = procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
-    const agreementId_session = req.session.agreement_id;
-    const agreementName = req.session.agreementName;
-    const agreementLotName = req.session.agreementLotName;
     const project_name = req.session.project_name;
-    let viewData :any = {   data :cmsData, 
-                            agreement_id,                            
+    let viewData :any = {   data :cmsData,                 
                             procId: procurement.pocurementID,
                             projectLongName:project_name,
-                            agreement_header: {name: agreementName, number: agreementId_session, lotId,  project_name, agreementLotName }
                         };
 
     res.render('nameAProject', viewData); 

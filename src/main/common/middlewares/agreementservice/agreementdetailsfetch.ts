@@ -17,15 +17,17 @@ export class AgreementDetailsFetchMiddleware {
         const aggrementId = "RM6263";
         req.session.agreement_id = aggrementId;
         const agreementId_session = req.session.agreement_id;
-        const agreementLotName = req.session.agreementLotName;
+        var agreementLotName = req.session.agreementLotName;
+        var lotid = req.session?.lotId;
         let BaseURL = `agreements/${agreementId_session}`;
         let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
         retrieveAgreementPromise.then((data) => {
             let containedData = data?.data;
-            const lotId = req.session.lotId;
-            const project_name = req.session.project_name;
+            
+            var project_name = req.session.project_name;
             req.session.agreementName = containedData['name'];
-            res.locals.agreement_header = { project_name, lotId, agreementLotName };
+            let agreementName = req.session?.agreementName;            
+            res.locals.agreement_header = {project_name, agreementName, agreementId_session, agreementLotName, lotid}
             next();
         }).catch(
             (error) => {

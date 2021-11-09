@@ -17,7 +17,13 @@
             "href": "#"
         }
 
-    ],
+        ],
+     "line1": "Pre-market engagement can help you to:",
+     "line2": "better understand what you need",
+     "line3": "write clearer needs to publish for suppliers",
+     "line4": "understand how much this work could cost",
+     "line5": "better understand how long this work could take",
+
     "title": "Create a Request for Information (RFI)",
     "subtitle": null,
     "events": [
