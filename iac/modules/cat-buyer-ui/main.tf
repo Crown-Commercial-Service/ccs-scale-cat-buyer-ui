@@ -13,7 +13,7 @@ data "cloudfoundry_domain" "domain" {
 
 data "cloudfoundry_app" "cat_service" {
   name_or_id = "${var.environment}-ccs-scale-cat-service"
-  space      = "var.space"
+  space      = data.cloudfoundry_space.space.id
 }
 
 data "archive_file" "cat_buyer_ui" {
@@ -111,11 +111,11 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
   }
 }
 
-resource "cf_network_policy" "my-policy" {
+resource "cloudfoundry_network_policy" "cat_service" {
 
   policy {
     source_app      = cloudfoundry_app.cat_buyer_ui.id
-    destination_app = cloudfoundry_app.cat_service.id
+    destination_app = data.cloudfoundry_app.cat_service.id
     port            = "8080"
   }
 }
