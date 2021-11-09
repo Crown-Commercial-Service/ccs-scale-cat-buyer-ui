@@ -3,6 +3,8 @@ import { DateFormater } from '../../../utils/dateFormatter'
 import { MomentFactory } from '../../../utils/momentFactory'
 import { calculateMonthIncrement } from '../../../utils/calculateMonthIncrement'
 
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('dateFilter');
 
 export function dateFilter (value: moment.Moment | string): string {
     try {
@@ -16,7 +18,7 @@ export function dateFilter (value: moment.Moment | string): string {
       }
       return DateFormater.formatLongDate(date)
     } catch (err) {
-      console.log(err)
+      logger.console.error(err);      
       throw err
     }
   }
@@ -33,7 +35,7 @@ export function dateFilter (value: moment.Moment | string): string {
       }
       return DateFormater.formatInputDate(date)
     } catch (err) {
-      console.log(err)
+      logger.console.error(err);
       throw err
     }
   }
@@ -51,7 +53,7 @@ export function dateFilter (value: moment.Moment | string): string {
       }
       return DateFormater.formatDayDate(date)
     } catch (err) {
-      console.log(err)
+      logger.console.error(err);
       throw err
     }
   }
@@ -78,13 +80,10 @@ export function dateFilter (value: moment.Moment | string): string {
       }
       return date.add(num, 'day')
     } catch (err) {
-     console.log(err)
+      logger.console.error(err);
       throw err
     }
   }
-
-
-
 
   export function monthIncrementFilter (value: moment.Moment | string): moment.Moment {
   try {
@@ -107,7 +106,7 @@ export function dateFilter (value: moment.Moment | string): string {
     }
     return calculateMonthIncrement(date)
   } catch (err) {
-    console.log(err)
+    logger.console.error(err);
     throw err
   }
 }

@@ -1,12 +1,11 @@
 import * as axios from 'axios'
-import  config from 'config'
 
 export class AgreementAPI {
 
-    static Instance : axios.AxiosInstance = axios.default.create({
-        baseURL: config.get('AgreementService.BASEURL'),
+    static Instance: axios.AxiosInstance = axios.default.create({
+        baseURL: process.env['AGREEMENTS_SERVICE_API_URL'],
         headers: {
-        'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
     })
 

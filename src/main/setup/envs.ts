@@ -25,6 +25,9 @@ const localEnvariables = (app: express.Express): void => {
     process.env['LOGIT_API_KEY'] = envs.LOGIT_API_KEY;
     process.env['VCAP_SERVICES'] = JSON.stringify(LocalredisCluster); 
     process.env['SESSION_SECRET'] = envs.SESSION_SECRET
+    process.env['CONCLAVE_WRAPPER_API_KEY'] = envs.CONCLAVE_WRAPPER_API_KEY
+    process.env['CONCLAVE_WRAPPER_API_BASE_URL'] = envs.CONCLAVE_WRAPPER_API_BASE_URL
 };
 
 export {localEnvariables}
+

@@ -1,13 +1,15 @@
 <div class="project-overview">
-  <p class="govuk-body">Selected agreement: <strong>{{ project_header['name'] }}, Lot {{project_header.lots[0].number }}- {{ project_header.lots[0].name }}</strong></p>
-  <p class="govuk-body">Agreement ID: <strong>{{ project_header['number'] }}</strong></p>
-  <p class="govuk-body">Project name:
-    {% if data['projLongName'] | length == 0 and data['projPersistID'] | length == 0 %}
-    <strong> {{ data['project_name'] }}</strong>
-    {% elif data['projLongName'] | length == 0 and data['projPersistID'] | length > 0 %}
-    <strong> {{ data['projPersistID'] }}</strong>
+  <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}
+  {% if(agreement_header.agreementLotName !== undefined)%}
+  ,{{agreement_header['lotid']}}, {{ agreement_header['agreementLotName'] }}
+  
+  </strong></p>
+  {%endif %}
+  <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+  {% if agreement_header['project_name'] %}
+   <p class="govuk-body">Project name: <strong>{{agreement_header['project_name']}}</strong></p>
     {% else %}
-    <strong>{{ data['projLongName'] }} ({{ data['projPersistID'] }})</strong>
+     <p class="govuk-body">Project name: You have not saved projects </p>
     {% endif %}
   </p>
 </div>

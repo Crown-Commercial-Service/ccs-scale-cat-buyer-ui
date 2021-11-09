@@ -1,3 +1,7 @@
+{% set primary =  menudata.primaryContents %}
+{% set secondary =  menudata.secondaryContents %}
+
+
 <header class="header-global header-global--home" >
    <div class="ccs-width-container">
       <div class="nav-wrapper">
@@ -17,7 +21,7 @@
          <ul class="nav-list nav-list--personal">
 
          {% if Session['session'] %}
-          <li class="nav-list__item"><a class="nav-list__link" href="/oauth/login">My account</a></li>
+          <li class="nav-list__item"><a class="nav-list__link" href="/dashboard">My account</a></li>
            <li class="nav-list__item"><a class="nav-list__link" href="/oauth/logout">Sign out</a></li>
          {% else %}
           <li class="nav-list__item"><a class="nav-list__link" href="/oauth/login">Sign in</a></li>
@@ -28,44 +32,18 @@
           
         </ul>
             <ul class="nav-list nav-list--secondary">
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/buy-and-supply/carbon-net-zero">Carbon Net Zero</a>
+             {% for item in secondary.data.items %}
+              <li class="nav-list__item">
+                  <a class="nav-list__link  " href="{{item.url}}">{{item.title}}</a>
                </li>
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/about-ccs/">About</a>
-               </li>
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/contact">Contact</a>
-               </li>
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/events">Events</a>
-               </li>
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/news">News</a>
-               </li>
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/buy-and-supply/">Buy and supply</a>
-               </li>
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="tel:0345%20410%202222">call us: 0345 410 2222</a>
-               </li>
+               {% endfor %}
             </ul>
             <ul class="nav-list nav-list--primary">
+               {% for item in primary.data.items %}
                <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/agreements">Search agreements</a>
-               </li>
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/suppliers">Search suppliers</a>
-               </li>
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/agreements/upcoming">Upcoming deals</a>
-               </li>
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/products-and-services/">Products and Services</a>
-               </li>
-               <li class="nav-list__item">
-                  <a class="nav-list__link  " href="https://www.crowncommercial.gov.uk/sectors">Sectors</a>
-               </li>
+                  <a class="nav-list__link  " href="{{item.url}}">{{item.title}}</a>
+               </li>            
+               {% endfor %}
             </ul>
          </nav>
       </div>

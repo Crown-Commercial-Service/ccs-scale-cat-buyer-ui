@@ -17,7 +17,13 @@
             "href": "#"
         }
 
-    ],
+        ],
+     "line1": "Pre-market engagement can help you to:",
+     "line2": "better understand what you need",
+     "line3": "write clearer needs to publish for suppliers",
+     "line4": "understand how much this work could cost",
+     "line5": "better understand how long this work could take",
+
     "title": "Create a Request for Information (RFI)",
     "subtitle": null,
     "events": [
@@ -27,21 +33,21 @@
             "eventTask": [
                 {
                     "Task": 1,
-                    "link": "#",
+                    "link": "/rfi/name-your-project",
                     "title": "Name your project",
                     "required": "mandatory",
                     "status": "todo"
                 },
                 {
                     "Task": 2,
-                    "link": "#",
+                    "link": "/rfi/add-collaborators",
                     "title": "Add members to your project",
                     "required": "optional",
                     "status": "todo"
                 },
                 {
                     "Task": 3,
-                    "link": "#",
+                    "link": "/rfi/procurement-lead",
                     "title": "Change who is going to lead the procurement",
                     "required": "mandatory",
                     "status": "done"

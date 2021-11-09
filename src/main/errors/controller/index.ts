@@ -1,4 +1,5 @@
 import {Error_404} from './404'
+import {Error_401} from './401'
 
 /**
  * @BaseController
@@ -6,5 +7,6 @@ import {Error_404} from './404'
  * @description Provides as Base for all Controller
  */
  export const ERROR_CONTROLLER = {
-   Error_404
+   Error_404,
+   Error_401
 }

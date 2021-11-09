@@ -5,8 +5,8 @@
             "href": "/"
         },
         {
-            "text": "Contract award service",
-            "href": "#"
+            "text": "Dashboard",
+            "href": "/dashboard"
         },
         {
             "text": "Choose a commercial agreement",
@@ -15,8 +15,10 @@
     ],
     "title": null,
     "subtitle": null,
-    "line1": "These are the commercial agreements currently available on Contract award service.",
-    "line2": "Digital Specialists and Programmes",
-    "line3": "See agreement details",
-    "line4": "Other agreements available in Contract award service"
+    "line1": "Choose a commercial agreement",
+    "line2": "These are the commercial agreements currently available on Contract award service.",
+    "line3": "Digital Specialists and Programmes",
+    "line4": "Individual Digital, Data and Technology (DDaT) specialist roles and end-to-end digital transformation programmes.",
+    "line5": "See agreement details",
+    "line6": "Other agreements available in Contract award service"
 }

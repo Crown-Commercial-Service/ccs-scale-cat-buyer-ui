@@ -8,7 +8,8 @@ import * as dashboarData from '../../../resources/content/choose-agreement/agree
  * @param req 
  * @param res 
  */
-export const CHOOSE_AGREEMENT = (req : express.Request, res : express.Response)=> {
-  var appendData = {data : dashboarData}
-  res.render('agreement', appendData);
+export const CHOOSE_AGREEMENT = (req: express.Request, res: express.Response) => {
+  var agreement_id = 'RM6263'
+  var appendData = { data: dashboarData, agreement_id }
+  res.render('agreement', appendData)
 }

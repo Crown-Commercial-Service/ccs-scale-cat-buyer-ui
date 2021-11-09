@@ -1,10 +1,10 @@
-import {DASHBOARD} from './dashboard';
+import { DASHBOARD } from './dashboard';
 /**
  * @BaseController
  * @Provider
  * 
  * @description Provides as Base for all Controller
  */
- export const DASHBOARD_CONTROLLER = {
+export const DASHBOARD_CONTROLLER = {
     DASHBOARD
 }

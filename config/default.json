@@ -5,17 +5,19 @@
   },
   "featureDir": [
     {"path": "/routes/**/*.+(ts|js)"},
-    {"path": "/features/rfi/path.ts"},
-    {"path": "/features/auth/path.ts"},
-    {"path": "/features/dashboard/path.ts"},
+    {"path": "/features/**/path.ts"},
     {"path": "/errors/path.ts"}
   ],
   "PORT": "3000",
-  "AgreementService": {
-    "BASEURL": "https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital"
-  },
   "Session": {
     "time": "15"
+  },
+  "settings": {
+    "fetch-timelimit" : "500"
+  },
+  "contentService": {
+    "BASEURL":"https://webdev-cms.crowncommercial.gov.uk",
+    "menuDirectory": "src/main/resources/content/menu-content/content.json"
   },
   "authenticationService": {
     "token-endpoint": "/security/token",
@@ -32,6 +34,7 @@
   },
   "pages": {
     "error": {
+      "401": "error/401",
       "404": "error/404",
       "500": "error/500"
     }

@@ -1,3 +1,4 @@
+const { Logger } = require('@hmcts/nodejs-logging');
 import * as express from 'express'
 import {operations } from '../../../utils/operations/operations';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
@@ -6,6 +7,7 @@ import { ErrorView } from '../../../common/shared/error/errorView';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+const logger = Logger.getLogger('questions');
 
 /**
  * @Controller
@@ -41,8 +43,6 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
           return '';
         }
       })
-
-      console.log(find_validtor?.[0])
 
       let data =  {
          "data": fetch_dynamic_api_data,
@@ -127,8 +127,7 @@ export var array : any = [];
                 
                    try {
                      let answerBaseURL =  `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
-                     let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                     console.log(postData)
+                     await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody)
 
                    } catch (error) {
                      delete error?.config?.['headers'];
@@ -148,13 +147,10 @@ export var array : any = [];
                          )
                     LoggTracer.errorTracer(Log, res);
                    }
-              
-
                }
-             
           }
           else{
-             console.log(question_id)
+            logger.info('Question ID:' + question_id )
           }
                  
             /**
@@ -198,7 +194,6 @@ export var array : any = [];
                   let next_group_id = next_cursor_object.OCDS['id'];
                   let next_criterian_id = next_cursor_object['criterianId'];
                   let base_url = `/rfi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`
-                  console.log(id)
                   res.redirect(base_url)
                }
                else{
