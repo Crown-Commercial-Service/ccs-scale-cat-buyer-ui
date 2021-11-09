@@ -152,13 +152,5 @@ export class ContentFetchMiddleware {
                 }
             })
         }
-
-
-
-
-
-
-
-
     }
 }
