@@ -29,7 +29,9 @@ export class ContentFetchMiddleware {
             let menuItemsStorage: Array<any> = [];
             for (let menuId of allMenuIdentifiersId) {
                 let BaseURL = `/wp-json/wp-api-menus/v2/menus/${menuId}`;
-                let fetchMenuItems = await contentAPI.Instance.get(BaseURL);
+                let newInstance = contentAPI.Instance;
+                newInstance.defaults.timeout = Number(config.get('settings.fetch-timelimit'));
+                let fetchMenuItems = await newInstance.get(BaseURL);
                 let { ID, name }: menuFetchItems = fetchMenuItems?.data;
                 let reformedObject = {
                     "ID": ID,
@@ -40,7 +42,6 @@ export class ContentFetchMiddleware {
             }
             FileIOSystem.readFile(ContentFetchMiddleware.MenuContentFilePath, "utf8", (error: any, savedContentData) => {
                 if (error) {
-
                     delete error?.config?.['headers'];
                     let Logmessage = {
                         "Person_email": "null",
@@ -58,7 +59,7 @@ export class ContentFetchMiddleware {
                     )
                     LoggTracer.errorTracer(Log, res);
                 }
-                let compareData: boolean = operations.equals(JSON.parse(savedContentData)?.toString(), menuItemsStorage?.toString());
+                let compareData: boolean = operations.equals(savedContentData, JSON.stringify(menuItemsStorage));
                 if (compareData) {
                     let menu_contents = JSON.parse(savedContentData);
                     let primaryContents = menu_contents?.filter((aContent: any) => aContent?.ID == 21)?.[0];
@@ -88,38 +89,21 @@ export class ContentFetchMiddleware {
                                 Logmessage.exception
                             )
                             LoggTracer.errorTracer(Log, res);
-                        } else {
-                            let menu_contents = JSON.parse(savedContentData);
-                            let primaryContents = menu_contents?.filter((aContent: any) => aContent?.ID == 21)?.[0];
-                            let secondaryContents = menu_contents?.filter((aContent: any) => aContent?.ID == 22)?.[0];
-                            let sitemap = menu_contents?.filter((aContent: any) => aContent?.ID == 23)?.[0];
-                            let quickLink = menu_contents?.filter((aContent: any) => aContent?.ID == 24)?.[0];
-                            let aboutandcontact = menu_contents?.filter((aContent: any) => aContent?.ID == 25)?.[0];
-                            menu_contents = { primaryContents, secondaryContents, sitemap, quickLink, aboutandcontact };
-                            res.locals.menudata = menu_contents;
-                            next();
                         }
+                        let menu_contents = JSON.parse(savedContentData);
+                        let primaryContents = menu_contents?.filter((aContent: any) => aContent?.ID == 21)?.[0];
+                        let secondaryContents = menu_contents?.filter((aContent: any) => aContent?.ID == 22)?.[0];
+                        let sitemap = menu_contents?.filter((aContent: any) => aContent?.ID == 23)?.[0];
+                        let quickLink = menu_contents?.filter((aContent: any) => aContent?.ID == 24)?.[0];
+                        let aboutandcontact = menu_contents?.filter((aContent: any) => aContent?.ID == 25)?.[0];
+                        menu_contents = { primaryContents, secondaryContents, sitemap, quickLink, aboutandcontact };
+                        res.locals.menudata = menu_contents;
+                        next();
+
                     })
                 }
             });
         } catch (error) {
-            delete error?.config?.['headers'];
-            let Logmessage = {
-                "Person_email": "null",
-                "error_location": `${req.headers.host}${req.originalUrl}`,
-                "sessionId": "null",
-                "error_reason": "Menu content service api throw exception",
-                "exception": error
-            }
-            let Log = new LogMessageFormatter(
-                Logmessage.Person_email,
-                Logmessage.error_location,
-                Logmessage.sessionId,
-                Logmessage.error_reason,
-                Logmessage.exception
-            )
-            let LogMessage = { "AppName": "CaT frontend", "type": "error", "errordetails": Log }
-            await LoggerInstance.Instance.post('', LogMessage);
             FileIOSystem.readFile(ContentFetchMiddleware.MenuContentFilePath, "utf8", (error: any, savedContentData) => {
                 if (error) {
                     delete error?.config?.['headers'];
@@ -151,14 +135,24 @@ export class ContentFetchMiddleware {
                     next();
                 }
             })
+            delete error?.config?.['headers'];
+            let Logmessage = {
+                "Person_email": "null",
+                "error_location": `${req.headers.host}${req.originalUrl}`,
+                "sessionId": "null",
+                "error_reason": "Menu content service api throw exception",
+                "exception": error
+            }
+            let Log = new LogMessageFormatter(
+                Logmessage.Person_email,
+                Logmessage.error_location,
+                Logmessage.sessionId,
+                Logmessage.error_reason,
+                Logmessage.exception
+            )
+            let LogMessage = { "AppName": "CaT frontend", "type": "error", "errordetails": Log }
+            await LoggerInstance.Instance.post('', LogMessage);
+
         }
-
-
-
-
-
-
-
-
     }
 }

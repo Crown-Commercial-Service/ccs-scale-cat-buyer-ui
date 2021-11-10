@@ -19,13 +19,11 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { lotId, agreementLotName} = req.query;
 
-  console.log({lotId})
   var { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `agreements/${agreementId_session}/lots/${lotId}/event-types`;
   let appendData: any = { ...data, SESSION_ID };
-  //agreement_header: { number: agreementId_session } 
   try {
     const { data: typesRaw } = await AgreementAPI.Instance.get(eventTypesURL);
     const types = typesRaw.map((typeRaw: any) => typeRaw.type);

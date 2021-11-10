@@ -1,13 +1,9 @@
-const { Logger } = require('@hmcts/nodejs-logging');
 import * as express from 'express'
 import {operations } from '../../../utils/operations/operations';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { ErrorView } from '../../../common/shared/error/errorView';
-import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
-import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import { LoggTracer } from '../../../common/logtracer/tracer';
-const logger = Logger.getLogger('questions');
+import {QuestionHelper} from '../helpers/question'
 
 /**
  * @Controller
@@ -16,7 +12,7 @@ const logger = Logger.getLogger('questions');
  * @validation false
  */
 export const GET_QUESTIONS = async (req : express.Request, res : express.Response)=> {
-   let {SESSION_ID, state} = req.cookies;
+   let {SESSION_ID} = req.cookies;
    let {
       agreement_id,
       proc_id,
@@ -55,23 +51,8 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
         }     
       res.render('questions', data );
     }
-    catch(error){
-      delete error?.config?.['headers'];
-      let Logmessage = {
-          "Person_email": TokenDecoder.decoder(SESSION_ID), 
-           "error_location": `${req.headers.host}${req.originalUrl}`,
-           "sessionId": state,
-           "error_reason": "Agreement Service Api cannot be connected",
-           "exception": error
-       }
-       let Log = new LogMessageFormatter(
-           Logmessage.Person_email, 
-           Logmessage.error_location, 
-           Logmessage.sessionId,
-           Logmessage.error_reason, 
-           Logmessage.exception
-           )
-      LoggTracer.errorTracer(Log, res);
+    catch(err){
+       res.redirect(ErrorView.notfound)
     }
 
 }
@@ -89,7 +70,7 @@ export var array : any = [];
  export const POST_QUESTION =  async (req : express.Request, res : express.Response)=> {
     var {agreement_id, proc_id, event_id, id, group_id} = req.query;
 
-    var {SESSION_ID, state} = req.cookies;
+    var {SESSION_ID} = req.cookies;
    let started_progress_check : Boolean = operations.isUndefined(req.body, 'rfi_build_started');
    
    if(operations.equals(started_progress_check, false)){
@@ -120,88 +101,49 @@ export var array : any = [];
                        "answered": true,
                        "options": [
                         iteration.answer,
-                        
                        ]
                      }
                    };
                 
                    try {
                      let answerBaseURL =  `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
-                     await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody)
-
+                     let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                     console.log({
+                        data: postData,
+                        answerBody: answerBody,
+                        selected : 1
+                     })
+                     QuestionHelper.AFTER_UPDATINGDATA(ErrorView,DynamicFrameworkInstance,proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
                    } catch (error) {
-                     delete error?.config?.['headers'];
-                    let Logmessage = {
-                        "Person_email": TokenDecoder.decoder(SESSION_ID), 
-                         "error_location": `${req.headers.host}${req.originalUrl}`,
-                         "sessionId": state,
-                         "error_reason": "Agreement Service Api cannot be connected",
-                         "exception": error
-                     }
-                     let Log = new LogMessageFormatter(
-                         Logmessage.Person_email, 
-                         Logmessage.error_location, 
-                         Logmessage.sessionId,
-                         Logmessage.error_reason, 
-                         Logmessage.exception
-                         )
-                    LoggTracer.errorTracer(Log, res);
+                      res.redirect('/404')
                    }
                }
           }
           else{
-            logger.info('Question ID:' + question_id )
+           
+             let answerBody = {
+               "nonOCDS": {
+                 "answered": true,
+                 "options": [
+                  ...object_values,
+                 ]
+               }
+             };
+             try {
+               let answerBaseURL =  `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+               let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+               console.log({
+                  data: postData,
+                  answerBody: answerBody,
+                  selected: 2
+               })
+               QuestionHelper.AFTER_UPDATINGDATA(ErrorView,DynamicFrameworkInstance,proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
+             } catch (error) {
+                res.redirect('/404')
+             }
+
           }
                  
-            /**
-             * @Path
-             * @Next
-             * Sorting and following to the next path
-             */
-
-            let baseURL : any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
-            try {
-               let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-               let fetch_dynamic_api_data = fetch_dynamic_api?.data; 
-               let extracted_criterion_based = fetch_dynamic_api_data?.map((criterian : any)=> criterian?.id);
-               var criterianStorage: any = [];
-               for (let aURI of extracted_criterion_based) {
-                  let criterian_bas_url =  `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-                  let fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
-                  let criterian_array = fetch_criterian_group_data?.data;
-                  let rebased_object_with_requirements = criterian_array?.map((anItem: any)=> {
-                     let object = anItem;
-                     object['criterianId'] = aURI;
-                     return object;
-                  })
-                  criterianStorage.push(rebased_object_with_requirements)
-               }
-               criterianStorage = criterianStorage.flat();
-               let sorted_ascendingly = criterianStorage.map((aCriterian : any) => {
-                  let object = aCriterian;
-                  object.OCDS['id'] = aCriterian.OCDS['id']?.split('Group ').join('');
-                  return object;
-               }).sort((current_cursor: any, iterator_cursor : any) => Number(current_cursor.OCDS['id']) - Number(iterator_cursor.OCDS['id'])).map((aCriterian : any ) => {
-                  var object = aCriterian;
-                  object.OCDS['id'] = `Group ${aCriterian.OCDS['id']}`
-                  return object;
-               });
-               let current_cursor = sorted_ascendingly?.findIndex((pointer : any) => pointer.OCDS['id'] === group_id);
-               let check_for_overflowing : Boolean = current_cursor < sorted_ascendingly.length;
-               if(check_for_overflowing){
-                  let next_cursor = current_cursor + 1;
-                  let next_cursor_object = sorted_ascendingly[next_cursor];
-                  let next_group_id = next_cursor_object.OCDS['id'];
-                  let next_criterian_id = next_cursor_object['criterianId'];
-                  let base_url = `/rfi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`
-                  res.redirect(base_url)
-               }
-               else{
-                  // do some logic here 
-               }
-            } catch (error) {
-               res.redirect(ErrorView.notfound)
-            }
       }
       else{
          res.redirect('/error')
@@ -211,3 +153,7 @@ export var array : any = [];
       res.redirect('/error')
    }
  }
+
+
+
+ 
