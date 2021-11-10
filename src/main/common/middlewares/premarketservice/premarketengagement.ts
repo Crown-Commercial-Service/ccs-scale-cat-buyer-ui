@@ -15,22 +15,16 @@ import { LoggTracer } from '../../logtracer/tracer'
  */
 export class PreMarketEngagementMiddleware {
     static PutPremarket = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const lotid = req.session?.lotId;
-        const project_name = req.session.project_name;
-        //const eventType = req.session.eventType;
-        if (project_name && lotid) {
-            var { SESSION_ID, state } = req.cookies;
-            const baseURL = `tenders/projects/1/events/ocds-b5fd17-1`;
-            let _body = {
-                "name": "ocds-b5fd17-1",
-                "eventType": "EOI"
+        const { eventId, projectId } = req.session.eventId;
+        if (projectId && eventId) {
+            const { SESSION_ID, state } = req.cookies;
+            const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
+            const _body = {
+                "eventType": 'RFI' //scat-964 for the time being this is hardcoded
             }
-            let retrievePreMarketPromise = TenderApi.Instance(SESSION_ID).put(baseURL, _body)
+            const retrievePreMarketPromise = TenderApi.Instance(SESSION_ID).put(baseURL, _body)
             retrievePreMarketPromise.then((data) => {
-                let containedData = data?.data;
-                console.log(" containedData", containedData)
                 next();
-
             }).catch(
                 (err) => {
                     console.log("BIG ERROR ", err)

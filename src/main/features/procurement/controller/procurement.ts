@@ -5,11 +5,12 @@ import * as data from '../../../resources/content/procurement/ccs-procurement.js
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('procurement');
 
 /**
  * 
  * @Rediect 
- * @endpoint '/oauth/login
  * @param req 
  * @param res 
  * 
@@ -35,16 +36,19 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         "agreementId": agreementId_session,
         "lotId": lotId
       }
-      const { data: procurementRaw } = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
-
+      const { data: procurementRaw } = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);      
       procurement = procurementRaw;
       req.session.procurements.push(procurement);
     }
     else {
       procurement = elementCached;
     }
+    logger.info('procurement.created',procurement)
     req.session.lotId = procurement['defaultName']['components']['lotId'];
     req.session.project_name = procurement['defaultName']['name'];
+    req.session.projectId = procurement['pocurementID'];
+    req.session.eventId = procurement['eventId'];
+    req.session.types = types;
     req.session.agreementLotName = agreementLotName;
     const eventType = req.session.lotId;
     req.session.eventType = types[eventType];
