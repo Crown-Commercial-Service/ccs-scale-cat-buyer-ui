@@ -40,8 +40,6 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
         }
       })
 
-      console.log(find_validtor?.[0])
-
       let data =  {
          "data": fetch_dynamic_api_data,
          "agreement_id": agreement_id,
