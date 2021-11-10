@@ -1,12 +1,14 @@
-import * as axios from 'axios';
+import * as axios from 'axios'
+import config from 'config'
 
 export class contentAPI {
 
     static Instance : axios.AxiosInstance = axios.default.create({
 
-        baseURL: process.env['AGREEMENTS_SERVICE_API_URL'],
+        baseURL: config.get('contentService.BASEURL'),
         headers: {
         'Content-Type': 'application/json'
+            
         }
 
     })
