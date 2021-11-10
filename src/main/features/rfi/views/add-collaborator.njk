@@ -80,12 +80,17 @@
       <div class="ccs-page-section">
         <p class="govuk-body">Select and add colleagues</p>
         <form method="POST" action="/rfi/get-collaborator-detail">
+         <div class="govuk-button-group">
         {{ CCSSelect({
         id: "rfi_collaborators",
         name: "rfi_collaborators",
         items: sortedMembers
         })
         }}
+         {{ CCSButton({
+        text: "Add"
+        }) }}
+        </div>
         </form>
       </div>
       <div class="ccs-page-section" id="potential-collaborator">
