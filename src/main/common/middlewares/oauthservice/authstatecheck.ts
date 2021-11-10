@@ -47,6 +47,9 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                         }
                         else {
                             let user_email = decoded.payload.sub;
+                            let UserProfile_Instance = Oauth_Instance.TokenWithApiKeyInstance(process.env.CONCLAVE_WRAPPER_API_KEY,user_email);
+                            let userProfile = await UserProfile_Instance.get('');
+                            res.locals.user_firstName = userProfile.data['firstName']
                             res.locals.user_email = user_email;
                             let redis_access_token = req.session['access_token'];
                                     if (redis_access_token === access_token) {
@@ -68,6 +71,7 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
             res.redirect('/oauth/logout')
         }
     }).catch(error => {
+       
         delete error?.config?.['headers'];
         let Logmessage = {
             "Person_email": TokenDecoder.decoder(SESSION_ID),
