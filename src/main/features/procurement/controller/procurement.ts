@@ -1,8 +1,7 @@
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
-
 import * as express from 'express'
-import * as data from '../../../resources/content/procurement/ccs-procurement.json'
+import * as data from '../../../resources/content/procurement/ccs-procurement.json';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -17,7 +16,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  * 
  */
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
-  const { lotId, agreementLotName} = req.query;
+  const { lotId, agreementLotName } = req.query;
 
   var { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
@@ -47,10 +46,12 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.lotId = procurement['defaultName']['components']['lotId'];
     req.session.project_name = procurement['defaultName']['name'];
     req.session.agreementLotName = agreementLotName;
+    const eventType = req.session.lotId;
+    req.session.eventType = types[eventType];
     const agreementName = req.session.agreementName; //udefined
-    
+
     var lotid = req.session?.lotId;
-    
+
     const project_name = req.session.project_name;
 
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid }
@@ -75,6 +76,4 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     )
     LoggTracer.errorTracer(Log, res);
   }
-
-
 }
