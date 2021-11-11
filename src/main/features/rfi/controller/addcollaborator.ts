@@ -17,7 +17,6 @@ export const GET_ADD_COLLABORATOR = async (req : express.Request, res : express.
    let {SESSION_ID} = req.cookies;
    let organization_id = req.session.user.payload.ciiOrgId;
    req.session['organizationId'] = organization_id;
-
    try {
       let organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
       let organisation_user_data  = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);

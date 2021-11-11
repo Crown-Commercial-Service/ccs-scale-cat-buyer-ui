@@ -17,7 +17,7 @@ import { cookies } from '../../cookies/cookies'
 export const AUTH: express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     var { SESSION_ID, state } = req.cookies;
     if (SESSION_ID === undefined) {
-        res.redirect('/oauth/login');
+        res.redirect('/oauth/logout');
     }
     else{
     let access_token = SESSION_ID;
@@ -34,7 +34,8 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
             // get the decoded payload ignoring signature, no secretOrPrivateKey needed
             let decoded: any = jwt.decode(access_token, { complete: true });
             let rolesOfUser = decoded?.payload?.roles
-            let isAuthorized = rolesOfUser?.includes('CAT_USER');          
+            let isAuthorized = rolesOfUser?.includes('CAT_USER');
+
                         if (!isAuthorized) {
                             res.redirect('/401')
                         }
@@ -48,6 +49,16 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                                     if (redis_access_token === access_token) {
                                         var sessionExtendedTime: Date = new Date();
                                         sessionExtendedTime.setMinutes(sessionExtendedTime.getMinutes() + Number(config.get('Session.time')));
+                                        res.cookie(cookies.sessionID, access_token, {
+                                            maxAge: Number(config.get('Session.time')) * 60 * 1000,
+                                            httpOnly: true
+                                        })
+                                        res.cookie(cookies.state, state, {
+                                            maxAge: Number(config.get('Session.time')) * 60 * 1000,
+                                            httpOnly: true
+                                        })
+
+
                                         req.session.cookie.expires = sessionExtendedTime;
                                         next();
                                     }
@@ -57,12 +68,12 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                                         res.redirect('/oauth/logout')
                                     }
                         }
+        
         } else {
             res.clearCookie(cookies.sessionID);
             res.clearCookie(cookies.state);
             res.redirect('/oauth/logout')
         }
-
     }).catch(error => {
        
         delete error?.config?.['headers'];
@@ -82,5 +93,6 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
         )
         LoggTracer.errorTracer(Log, res);
     })
-    }
+
+}
 }

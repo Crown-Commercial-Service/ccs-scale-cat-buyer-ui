@@ -43,20 +43,29 @@ const RedisInstanceSetup = (app: express.Express): void => {
     });
     let sessionExpiryTime = Number(config.get('Session.time'));
     sessionExpiryTime = sessionExpiryTime * 60 * 1000;  //milliseconds
-   // let expiryDateandTime =  new Date(Date.now() + sessionExpiryTime);
+  // let expiryDateandTime =  new Date(Date.now() + sessionExpiryTime);
+
+   var Session = {
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: false,
+    proxy: true,
+    rolling: true,
+    cookie: {
+        secure: false, // if true only transmit cookie over https
+        httpOnly: false, // if true prevent client side JS from reading the cookie 
+        maxAge: sessionExpiryTime, // session max age in miliseconds
+    }
+   }
+
+   if (operations.notEquals(runner_environment, 'development')) {
+   Session.cookie['secure'] = true
+    }
+   
 
     app.use(session({
         store: new RedisStore({ client: redisClient }),
-        secret: process.env.SESSION_SECRET,
-        resave: true,
-        saveUninitialized: false,
-        proxy: true,
-        rolling: true,
-        cookie: {
-            secure: false, // if true only transmit cookie over https
-            httpOnly: false, // if true prevent client side JS from reading the cookie 
-            maxAge: sessionExpiryTime // session max age in miliseconds
-        }
+        ...Session
     }))
 };
 
