@@ -4,12 +4,15 @@ node_modules
 # IDE
 .project
 .vscode/
+node_modules
+.env
 
 ### OSX ###
 .DS_Store
 
 # All local .terraform directories
 **/.terraform/*
+
 
 # All .tfstate files
 **/*.tfstate

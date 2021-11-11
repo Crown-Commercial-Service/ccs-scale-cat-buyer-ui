@@ -1,6 +1,6 @@
 # CCS Scale CaT Buyer UI
 
-CCS Scale CaT Buyer UI -{{description}}
+CCS Scale CaT Buyer UI - ‘Contract a Thing’ (CaT)/'Create and award a contract'.
 
 ## Getting Started
 
@@ -31,7 +31,7 @@ $ npm start
 Or
 
 ```bash
-$ npm "start-windows
+$ npm start:win
 ```
 
 The applications's home page will be available at https://localhost:3000

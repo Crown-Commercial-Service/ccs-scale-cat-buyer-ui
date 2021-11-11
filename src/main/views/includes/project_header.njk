@@ -1,0 +1,15 @@
+<div class="project-overview">
+  <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}
+  {% if(agreement_header.agreementLotName !== undefined)%}
+  ,{{agreement_header['lotid']}}, {{ agreement_header['agreementLotName'] }}
+  
+  </strong></p>
+  {%endif %}
+  <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+  {% if agreement_header['project_name'] %}
+   <p class="govuk-body">Project ID/Name: <strong>{{agreement_header['project_name']}}</strong></p>
+    {% else %}
+     <p class="govuk-body">Project name: You have not saved projects </p>
+    {% endif %}
+  </p>
+</div>

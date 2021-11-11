@@ -1,0 +1,66 @@
+{% extends "template.njk" %}
+
+{% set title = 'RFI Task List | Crown commericial Services' %}
+
+{% block content %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">
+          {{ data.title }}
+          </h1>
+          {% include "includes/project_header.njk" %} 
+      </div>  
+  </div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    <br>
+    <p class="govuk-body">{{data.line1}}</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>{{data.line2}} </li>
+      <li>{{data.line3}}</li>
+      <li>{{data.line4}}</li>
+      <li>{{data.line5}}</li>
+    </ul>
+    <br>
+    <ol class="app-task-list">
+    {% for item in data.events %}
+         <li>
+            <h2 class="app-task-list__section">
+            <span class="app-task-list__section-number">{{item.eventno}} </span> {{item.eventTitle}}
+             </h2>
+             <p class="govuk-body">{{item.eventDescription}}</p>
+              <ul class="app-task-list__items">
+               {% for Tasks in item.eventTask %}
+                <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                          <strong>
+                            {% if Tasks.link !== undefined %}
+                                <a href="{{Tasks.link}}" aria-describedby="name-your-project">
+                                    {{Tasks.title}}
+                                </a>
+                            {% else %}
+                            {{Tasks.title}}
+                            {% endif %} 
+                          </strong>
+                        </span>
+                        {% if Tasks.status === "cannot start yet" %}
+                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
+                        {% else %}
+                        <strong class="govuk-tag app-task-list__tag" > {{Tasks.status}}</strong>
+                        {% endif %} 
+                    </li>
+               {% endfor %}
+                </ul>
+             </li>
+    {% endfor %}
+    </ol>
+    </div>
+</div>
+</main>
+
+{% endblock %}

@@ -1,3 +1,17 @@
+        {#- Adding all of the components so that they can be added to the childern node. -#}
+        {% from "components/breadcrumbs/macro.njk" import CCSBreadcrumbs %}
+        {% from "components/date-input/macro.njk" import CCSDateInput %}
+        {% from "components/input/macro.njk" import CCSInput %}
+        {% from "components/radios/macro.njk" import CCSRadios %}
+        {% from "components/helper/macro.njk" import helpSection %}
+        {% from "components/button/macro.njk" import CCSButton %}
+        {% from "components/fieldset/macro.njk" import CCSFieldset %}
+        {% from "components/select/macro.njk" import CCSSelect %} 
+        {% from "components/error-message/macro.njk" import CCSErrorMessage %}
+        {% from "components/error-summary/macro.njk" import CCSErrorSummary %}
+        {% from "components/textarea/macro.njk" import CCSTextarea %}
+         {% from "components/InsetText/macro.njk" import CCSInsetText %}
+
 <html lang="{{ htmlLang | default('en') }}" class="govuk-template {{ htmlClasses }}">
   <head>
     <meta charset="utf-8">
@@ -6,6 +20,7 @@
     <meta name="theme-color" content="{{ themeColor | default('#0b0c0c') }}"> {# Hardcoded value of $govuk-black #}
     {# Ensure that older IE versions always render with the correct rendering engine #}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
     {% block headIcons %}
       <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ assetPath | default('/assets') }}/images/favicon.ico" type="image/x-icon">
       <link rel="mask-icon" href="{{ assetPath | default('/assets') }}/images/govuk-mask-icon.svg" color="{{ themeColor | default('#0b0c0c') }}"> {# Hardcoded value of $govuk-black #}
@@ -13,10 +28,12 @@
       <link rel="apple-touch-icon" sizes="167x167" href="{{ assetPath | default('/assets') }}/images/govuk-apple-touch-icon-167x167.png">
       <link rel="apple-touch-icon" sizes="152x152" href="{{ assetPath | default('/assets') }}/images/govuk-apple-touch-icon-152x152.png">
       <link rel="apple-touch-icon" href="{{ assetPath | default('/assets') }}/images/govuk-apple-touch-icon.png">
+    
     {% endblock %}
     {% block head %}
       {% include "webpack/css.njk" %}
     {% endblock %}
+
     <meta property="og:image" content="{{ assetUrl | default('/assets') }}/images/govuk-opengraph-image.png">
   </head>
   <body class="govuk-template__body {{ bodyClasses }} show-flourishes  pillar--none" {%- for attribute, value in bodyAttributes %} {{attribute}}="{{value}}"{% endfor %}>
@@ -30,12 +47,22 @@
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
   {% include "components/Header.njk" %}
     {% include "components/phase_banner_beta.njk" %}
-{% endblock %}
+  {% endblock %}
 
-{# This is main content section#}
-<div class="ccs-width-container">
-{% block content %}{% endblock %}
-</div>
+  {# This is main content section#}
+  <div class="ccs-width-container">
+
+   {% block breadCrumb %}
+  {% endblock %}
+
+  {% block content %}
+  {% endblock %}
+  </div>
+
+  {% block helpSection%}
+  {{helpSection()}}
+  {% endblock %}
+
 
   {% block footer %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
