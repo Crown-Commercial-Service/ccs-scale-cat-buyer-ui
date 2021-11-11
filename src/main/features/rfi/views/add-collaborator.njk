@@ -73,27 +73,34 @@
     <p class="govuk-body">You cannot remove yourself from this procurement project. If you need to change the lead
       colleague, you can do this on the previous step. </p>
 
+  {### ##}
 
-    <form id="ccs_add_rfi_collab" name="ccs_add_rfi_collab" class="form ccs_add_rfi_collab"
-      action="/rfi/store-collaborators" method="post">
+   
 
       <div class="ccs-page-section">
         <p class="govuk-body">Select and add colleagues</p>
         <form method="POST" action="/rfi/get-collaborator-detail">
+         <div class="govuk-button-group">
         {{ CCSSelect({
         id: "rfi_collaborators",
         name: "rfi_collaborators",
         items: sortedMembers
         })
         }}
+        &nbsp;
+         {{ CCSButton({
+        text: "Add",
+        type: "submit"
+        }) }}
+        </div>
         </form>
       </div>
       <div class="ccs-page-section" id="potential-collaborator">
         <div id="potential-collaborator-detail">
-          <p class="govuk-body"><strong>Colleague <span id="collab_no"></span>: </strong><span id="collab_name"></span>
+          <p class="govuk-body"><strong>Colleague <span ></span>: </strong> {{collaborator['fullName']}}
           </p>
-          <p class="govuk-body"><strong>Email address: </strong><span id="collab_email"></span></p>
-          <p class="govuk-body"><strong>Phone number: </strong><span id="collab_tel"></span></p>
+          <p class="govuk-body"><strong>Email address: </strong>{{collaborator['email']}}</p>
+          <p class="govuk-body"><strong>Phone number: </strong>{{collaborator['tel']}}</p>
         </div>
         {{ CCSButton({
         text: "Add colleague",
@@ -111,7 +118,7 @@
             <a href='{{collaborator.id}}' class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
             <p class="govuk-body"><strong>Colleague <span id="collab_no"></span>: </strong><span
-                id="collab_name">{{collaborator.fullname}}</span></p>
+                id="collab_name">{{collaborator.fullName}}</span></p>
             <p class="govuk-body"><strong>Email address: </strong><span id="collab_email">{{ collaborator.email
                 }}</span></p>
             <p class="govuk-body"><strong>Phone number: </strong><span id="collab_tel">{{ collaborator.telephone
@@ -127,7 +134,10 @@
       </div>
       <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
       <br>
+<form id="ccs_add_rfi_collab" name="ccs_add_rfi_collab" class="form ccs_add_rfi_collab"
+      action="/rfi/store-collaborators" method="post">
 
+      
       {{ CCSInput({
       id: "rfi_collaborators_added",
       name: "rfi_collaborators_added",
@@ -141,6 +151,7 @@
         }) }}
         <a href="/rfi/rfi-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
       </div>
+
 
     </form>
 

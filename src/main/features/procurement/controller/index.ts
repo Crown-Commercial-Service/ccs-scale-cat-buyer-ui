@@ -6,6 +6,6 @@ import { PROCUREMENT } from './procurement';
  * 
  * @description Provides as Base for all Controller
  */
- export const PROCUREMENT_CONTROLLER = {
+export const associatedViews = {
     PROCUREMENT
 }
