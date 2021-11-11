@@ -24,6 +24,7 @@ export enum RFI_PATHS {
     POST_QUESTIONS_QUESTIONNAIRE = '/rfi/questionnaire',
     POST_TYPE_TYPE = '/rfi/type',
     POST_QUESTIONS_WHO = '/rfi/questions/who',
-    POST_PROJECT_NAME = '/rfi/name'
+    POST_PROJECT_NAME = '/rfi/name',
+    POST_ADD_COLLABORATOR = '/rfi/get-collaborator-detail'
 
 }

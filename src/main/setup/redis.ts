@@ -43,6 +43,7 @@ const RedisInstanceSetup = (app: express.Express): void => {
     });
     let sessionExpiryTime = Number(config.get('Session.time'));
     sessionExpiryTime = sessionExpiryTime * 60 * 1000;  //milliseconds
+   // let expiryDateandTime =  new Date(Date.now() + sessionExpiryTime);
 
     app.use(session({
         store: new RedisStore({ client: redisClient }),

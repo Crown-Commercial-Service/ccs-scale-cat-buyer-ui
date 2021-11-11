@@ -34,14 +34,7 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
             // get the decoded payload ignoring signature, no secretOrPrivateKey needed
             let decoded: any = jwt.decode(access_token, { complete: true });
             let rolesOfUser = decoded?.payload?.roles
-            let isAuthorized = rolesOfUser?.includes('CAT_USER');
-
-            if(req.session?.user === undefined){
-                res.clearCookie(cookies.sessionID);
-                res.clearCookie(cookies.state);
-                res.redirect('/oauth/logout')
-            }
-            else{
+            let isAuthorized = rolesOfUser?.includes('CAT_USER');          
                         if (!isAuthorized) {
                             res.redirect('/401')
                         }
@@ -64,12 +57,12 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                                         res.redirect('/oauth/logout')
                                     }
                         }
-        }
         } else {
             res.clearCookie(cookies.sessionID);
             res.clearCookie(cookies.state);
             res.redirect('/oauth/logout')
         }
+
     }).catch(error => {
        
         delete error?.config?.['headers'];
@@ -89,6 +82,5 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
         )
         LoggTracer.errorTracer(Log, res);
     })
-
-}
+    }
 }
