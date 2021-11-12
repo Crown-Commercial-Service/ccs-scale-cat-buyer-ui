@@ -112,21 +112,22 @@
 
       </div>
       <div id="collaborators-section">
-        {% for collaborator in data['rfi_collaborators_list'] %}
+        {% for collaborator in collaborators %}
         <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.id}}">
           <div id="collaborator-detail">
             <a href='{{collaborator.id}}' class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
             <p class="govuk-body"><strong>Colleague <span id="collab_no"></span>: </strong><span
-                id="collab_name">{{collaborator.fullName}}</span></p>
-            <p class="govuk-body"><strong>Email address: </strong><span id="collab_email">{{ collaborator.email
-                }}</span></p>
-            <p class="govuk-body"><strong>Phone number: </strong><span id="collab_tel">{{ collaborator.telephone
-                }}</span></p>
+                id="collab_name">{{collaborator.contact.name}}</span></p>
+            <p class="govuk-body"><strong>Email address: </strong><span id="collab_email">{{ collaborator.contact.email}}</span></p>
+            <p class="govuk-body"><strong>Phone number: </strong><span id="collab_tel">{{ collaborator.contact.telephone }}</span></p>
           </div>
         </div>
         {% endfor%}
       </div>
+
+
+
       <div class="ccs-page-section" id="lead-user-section">
         <p class="govuk-body"><strong>Lead colleague: </strong>{{lead_user.fullname}}</p>
         <p class="govuk-body"><strong>Email address: </strong>{{ lead_user.email }}</p>

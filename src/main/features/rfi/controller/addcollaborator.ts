@@ -4,6 +4,7 @@ import {OrganizationInstance} from '../util/fetch/organizationuserInstance'
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import {DynamicFrameworkInstance} from '../util/fetch/dyanmicframeworkInstance'
 
 
 
@@ -24,14 +25,23 @@ export const GET_ADD_COLLABORATOR = async (req : express.Request, res : express.
       let collaborator ;
       let {userName, firstName, lastName} = req.session['searched_user'];
       let fullName = firstName + " " + lastName;
+      let procurementId = req.session.procurements?.[0].pocurementID;
+      let collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`
+      let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
+      collaboratorData = collaboratorData.data;
+
       if(!Array.isArray(req.session['searched_user'])){
          collaborator = {"fullName": fullName, "email": userName};
       }else{
          collaborator = {"fullName": "", "email": ""};
       }
-      const windowAppendData = {data : cmsData, userdata: organisation_user_data, collaborator: collaborator}
+      const windowAppendData = {
+         data : cmsData, 
+         userdata: organisation_user_data, 
+         collaborator: collaborator,
+         collaborators : collaboratorData
+      }
       res.render('add-collaborator', windowAppendData); 
-      
    } catch (error) {
       console.log(error)
       delete error?.config?.['headers'];
@@ -55,14 +65,14 @@ export const GET_ADD_COLLABORATOR = async (req : express.Request, res : express.
 
 
 
+
+
 /**
  * 
  * @param req 
  * @param res 
  */
-
 export const POST_ADD_COLLABORATOR = async (req : express.Request, res : express.Response)=> {
-
    var {SESSION_ID} = req.cookies
    var {rfi_collaborators} = req['body'];
    try {
@@ -72,10 +82,7 @@ export const POST_ADD_COLLABORATOR = async (req : express.Request, res : express
       let userData = organisation_user_data?.data;
       req.session['searched_user'] = userData;
       res.redirect('/rfi/add-collaborators')
-     
-
    } catch (error) {
-      
       delete error?.config?.['headers'];
       let Logmessage = {
          "Person_email": TokenDecoder.decoder(SESSION_ID),
@@ -93,8 +100,4 @@ export const POST_ADD_COLLABORATOR = async (req : express.Request, res : express
       )
       LoggTracer.errorTracer(Log, res);
    }
-   
-
-
-
 }
