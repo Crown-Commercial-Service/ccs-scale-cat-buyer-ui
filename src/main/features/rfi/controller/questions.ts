@@ -24,6 +24,23 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
       let baseURL : any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       let fetch_dynamic_api_data = fetch_dynamic_api?.data; 
+
+      let headingBaseURL : any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
+      let heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
+
+
+      let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any)=>{
+         return agroupitem?.OCDS?.['id'] === group_id;
+      } )
+
+      matched_selector = matched_selector?.[0];
+      let {OCDS} = matched_selector;
+      let titleText = OCDS?.description;
+
+
+      
+      
+
       let find_validtor = fetch_dynamic_api_data?.map((aSelector: any)=> {
 
          if(aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false){
@@ -35,6 +52,13 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
         else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer == false){
         return 'ccs_rfi_who_form'
         }
+        else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true){
+         return 'ccs_rfi_acronyms_for'
+         }
+         else if (aSelector.nonOCDS.questionType === 'Address' && aSelector.nonOCDS.multiAnswer === false){
+            return 'rfi_location'
+          }
+
         else{
           return '';
         }
@@ -47,8 +71,10 @@ export const GET_QUESTIONS = async (req : express.Request, res : express.Respons
          "event_id": event_id,
          "group_id": group_id,
          "criterian_id": id,
-         "validation": find_validtor?.[0]      
+         "validation": find_validtor?.[0]  ,
+         "rfiTitle": titleText    
         }     
+
       res.render('questions', data );
     }
     catch(err){
@@ -68,7 +94,7 @@ export var array : any = [];
  */
 // path = '/rfi/questionnaire'
  export const POST_QUESTION =  async (req : express.Request, res : express.Response)=> {
-    var {agreement_id, proc_id, event_id, id, group_id} = req.query;
+   var {agreement_id, proc_id, event_id, id, group_id} = req.query;
 
     var {SESSION_ID} = req.cookies;
    let started_progress_check : Boolean = operations.isUndefined(req.body, 'rfi_build_started');
@@ -79,12 +105,15 @@ export var array : any = [];
 
         let remove_objectWithKeyIdentifier =  ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfi_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(remove_objectWithKeyIdentifier, 'question_id' )
+        remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(remove_objectWithKeyIdentifier, 'rfi_term_definition' );
          let _RequestBody: any = remove_objectWithKeyIdentifier;
          let filtered_object_with_empty_keys= ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
          let object_values = Object.values(filtered_object_with_empty_keys
             ).map(an_answer => {
                return {"value" : an_answer}
             })
+
+          console.log(object_values)  
           let question_array_check : Boolean = Array.isArray(question_id);
           if(question_array_check){
              var sortedStorage = []
@@ -115,18 +144,42 @@ export var array : any = [];
                      })
                      QuestionHelper.AFTER_UPDATINGDATA(ErrorView,DynamicFrameworkInstance,proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
                    } catch (error) {
+                     console.log({
+                        no : 1,
+                        error
+                     })
                       res.redirect('/404')
                    }
                }
           }
           else{
-           
+            
+            let selectionOnArrayBasis : any = [...object_values];
+            selectionOnArrayBasis = selectionOnArrayBasis.map((anItem: any) => {
+               var selection = Object.assign({}, {...anItem, "selected": true} )
+               return selection
+            })
+
+               var arrayPostProcessing : Array<Object> =[];
+
+               if(Array.isArray(selectionOnArrayBasis['value'])){
+                     var values = selectionOnArrayBasis['value'];
+
+                     for(let item of values){
+                        var anObject = {"value": item, "selected": true}
+                        arrayPostProcessing.push(anObject)
+                     }
+               }
+               else{
+                  arrayPostProcessing = selectionOnArrayBasis;
+               }
+
+               console.log(arrayPostProcessing)
+
              let answerBody = {
                "nonOCDS": {
                  "answered": true,
-                 "options": [
-                  ...object_values,
-                 ]
+                 "options": arrayPostProcessing
                }
              };
              try {
@@ -139,6 +192,10 @@ export var array : any = [];
                })
                QuestionHelper.AFTER_UPDATINGDATA(ErrorView,DynamicFrameworkInstance,proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
              } catch (error) {
+                console.log({
+                   no : 2,
+                   error
+                })
                 res.redirect('/404')
              }
 

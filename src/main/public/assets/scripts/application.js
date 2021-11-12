@@ -8,16 +8,16 @@ if (window.console && window.console.info) {
 $(document).ready(function () {
   window.GOVUKFrontend.initAll();
 
-const thisLocation = window.location.href;
-const journeyPagesURL = ['event-needs','offer-type','location','event-type','vetting','incumbent',
-'event-budget','event-eval-criteria','event-right-to-cancel','event-supporting-docs','event-response-deadline',
-'event-contact','event-confidential'];
-$.each(journeyPagesURL,function() {
-  if(thisLocation.indexOf(this) != -1) {
-     ccsScrollToJourney();
-     return false;   
-  }       
-});
+// const thisLocation = window.location.href;
+// const journeyPagesURL = ['name','procurement-lead','add-collaborators','type','offline-doc','online-task-list',
+// 'questions','who','vetting','upload','suppliers',
+// 'review','response-date','project','project-status','address','address-manual','acronyms'];
+// $.each(journeyPagesURL,function() {
+//   if(thisLocation.indexOf(this) != -1) {
+//      ccsScrollToJourney();
+//      return false;   
+//   }       
+// });
 
   if (matchMedia) {
     const mq = window.matchMedia("(min-width: 40.0625em)");
@@ -67,13 +67,14 @@ if (document.getElementById("ccs_select_location") !== null) document.getElement
 
 if (document.getElementById("ccs_eoi_contact_form") !== null) document.getElementById("ccs_eoi_contact_form").addEventListener('submit', ccsZvalidateEoiContact);
 
-if (document.getElementById("ccs_add_collab") !== null) document.getElementById("ccs_add_collab").addEventListener('submit', ccsZvalidateTeamMems);
+//if (document.getElementById("ccs_add_collab") !== null) document.getElementById("ccs_add_collab").addEventListener('submit', ccsZvalidateTeamMems);
 
 //if (document.getElementById("ccs_add_rfi_collab") !== null) document.getElementById("ccs_add_rfi_collab").addEventListener('submit', ccsZvalidateRfiTeamMems);
+if (document.getElementById("ccs_project_name_form") !== null) document.getElementById("ccs_project_name_form").addEventListener('submit', ccsZvalidateProjectName);
 
 if(document.getElementById("ccs_rfi_type_form") !== null) document.getElementById("ccs_rfi_type_form").addEventListener('submit', ccsZvalidateRfiType);
 
-if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
+//if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
 
 if (document.getElementById("ccs_rfi_vetting_form") !== null) document.getElementById("ccs_rfi_vetting_form").addEventListener('submit', ccsZvalidateRfiSecurity);
 
@@ -84,7 +85,7 @@ if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getEleme
 if (document.getElementById("ccs_rfi_address_form") !== null) {
   ccsZInitAddressFinder("rfi_proj_address-address");
   document.getElementById("rfi_find_address_btn").addEventListener('click', ccsZFindAddress);
-  document.getElementById("rfi_proj_address-address").addEventListener('change', ccsZFoundAddress);
+ // document.getElementById("rfi_proj_address-address").addEventListener('change', ccsZFoundAddress);
   document.getElementById("change_postcode").addEventListener('click', ccsZResetAddress);
 }
 
@@ -92,38 +93,10 @@ if (document.getElementById("ccs_rfi_address_manual_form") !== null) document.ge
 
 if (document.getElementById("ccs_rfi_about_proj") !== null) document.getElementById("ccs_rfi_about_proj").addEventListener('submit', ccsZvalidateRfiProject);
 
-if(document.getElementById("ccs_rfi_proj_status") !== null) document.getElementById("ccs_rfi_proj_status").addEventListener('submit', ccsZvalidateRfiProjectStatus);
+//if(document.getElementById("ccs_rfi_proj_status") !== null) document.getElementById("ccs_rfi_proj_status").addEventListener('submit', ccsZvalidateRfiProjectStatus);
 
 if (document.getElementById("ccs_rfi_docs_form") !== null) document.getElementById("ccs_rfi_docs_form").addEventListener('submit', ccsZvalidateRfiDocs);
 
-if (document.getElementById("ccs_rfi_response_date_form") !== null) document.getElementById("ccs_rfi_response_date_form").addEventListener('submit', ccsZvalidateRfiResponseDate);
+//if (document.getElementById("ccs_rfi_response_date_form") !== null) document.getElementById("ccs_rfi_response_date_form").addEventListener('submit', ccsZvalidateRfiResponseDate);
 
-if (document.getElementById("ccs_rfi_contact_form") !== null) document.getElementById("ccs_rfi_contact_form").addEventListener('submit', ccsZvalidateRfiContact);
-
-if(document.getElementById("ccs_project_name_form") !== null) document.getElementById("ccs_project_name_form").addEventListener('submit', ccsZvalidateRfiName);
-/* global $ */
-$('body').on('submit', 'form', function (e) {
-  // On form submit, add hidden inputs for checkboxes so the server knows if
-  // they've been unchecked. This means we can automatically store and update
-  // all form data on the server, including checkboxes that are checked, then
-  // later unchecked
-
-  var $checkboxes = $(this).find('input:checkbox')
-
-  var $inputs = []
-  var names = {}
-
-  $checkboxes.each(function () {
-    var $this = $(this)
-
-    if (!names[$this.attr('name')]) {
-      names[$this.attr('name')] = true
-      var $input = $('<input type="hidden">')
-      $input.attr('name', $this.attr('name'))
-      $input.attr('value', '_unchecked')
-      $inputs.push($input)
-    }
-  })
-
-  $(this).prepend($inputs)
-})
+if (document.getElementById("ccs_rfi_questions_form") !== null) document.getElementById("ccs_rfi_questions_form").addEventListener('submit', ccsZvalidateRfIQuestions);

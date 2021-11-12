@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
       } else {
-        let the_label = document.querySelector('label[for=\'rfi_question_' + text_box_num + '\']');
+        let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
         the_label.classList.add('ccs-dynaform-hidden');
         with_value_count = text_box_num;
       }
@@ -30,11 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       document.getElementById("rfi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
-      document.querySelector('label[for=\'rfi_question_' + with_value_count + '\']').classList.remove("ccs-dynaform-hidden");
+      document.querySelector('label[for=rfi_question_' + with_value_count + ']').classList.remove("ccs-dynaform-hidden");
 
       if (with_value_count > 2 ) {
         prev_input = with_value_count - 1;
-        document.querySelector('label[for=\'rfi_question_' + prev_input + '\'] a.del').classList.add("ccs-dynaform-hidden");
+        document.querySelector('label[for=rfi_question_' + prev_input + '] a.del').classList.add("ccs-dynaform-hidden");
       }
 
       with_value_count++;
@@ -55,11 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
           prev_box = Number(target) - 1;
         document.getElementById('rfi_question_' + target).value = "";
         document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
-        document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
-        document.querySelector('label[for=\'rfi_question_' + target + '\']').classList.add("ccs-dynaform-hidden");
+        //document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
+        document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
 
         if (prev_box > 1) {
-          document.querySelector('label[for=\'rfi_question_' + prev_box + '\'] a.del').classList.remove("ccs-dynaform-hidden");
+          document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
         }
         document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
         with_value_count--;
@@ -92,4 +92,3 @@ const ccsZvalidateRfIQuestions = (event) => {
   if (errorStore.length === 0) document.forms["ccs_rfi_questions_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
 };
-
