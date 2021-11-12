@@ -46,14 +46,14 @@ export const GET_ADD_COLLABORATOR = async (req : express.Request, res : express.
       console.log(error)
       delete error?.config?.['headers'];
       let Logmessage = {
-         "Person_email": TokenDecoder.decoder(SESSION_ID),
+         "Person_id": TokenDecoder.decoder(SESSION_ID),
          "error_location": `${req.headers.host}${req.originalUrl}`,
          "sessionId": "null",
          "error_reason": "Tender agreement failed to be added",
          "exception": error
       }
       let Log = new LogMessageFormatter(
-         Logmessage.Person_email,
+         Logmessage.Person_id,
          Logmessage.error_location,
          Logmessage.sessionId,
          Logmessage.error_reason,
@@ -85,14 +85,14 @@ export const POST_ADD_COLLABORATOR = async (req : express.Request, res : express
    } catch (error) {
       delete error?.config?.['headers'];
       let Logmessage = {
-         "Person_email": TokenDecoder.decoder(SESSION_ID),
+         "Person_id": TokenDecoder.decoder(SESSION_ID),
          "error_location": `${req.headers.host}${req.originalUrl}`,
          "sessionId": "null",
          "error_reason": "Tender agreement failed to be added",
          "exception": error
       }
       let Log = new LogMessageFormatter(
-         Logmessage.Person_email,
+         Logmessage.Person_id,
          Logmessage.error_location,
          Logmessage.sessionId,
          Logmessage.error_reason,

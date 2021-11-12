@@ -10,14 +10,14 @@ export const LogoutPostHandler = (req: express.Request, res: express.Response, S
     req.session.destroy(function (error) {
         delete error?.config?.['headers'];
         let Logmessage = {
-            "Person_email": TokenDecoder.decoder(SESSION_ID),
+            "Person_id": TokenDecoder.decoder(SESSION_ID),
             "error_location": `${req.headers.host}${req.originalUrl}`,
             "sessionId": state,
             "error_reason": "Something went wrong while destroying the session",
             "exception": error
         }
         let Log = new LogMessageFormatter(
-            Logmessage.Person_email,
+            Logmessage.Person_id,
             Logmessage.error_location,
             Logmessage.sessionId,
             Logmessage.error_reason,
