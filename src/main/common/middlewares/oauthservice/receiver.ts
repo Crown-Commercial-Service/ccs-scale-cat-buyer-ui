@@ -73,14 +73,14 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
             } catch (error) {
                 delete error?.config?.['headers'];
                 let Logmessage = {
-                    "Person_email": 'null',
+                    "Person_id": 'null',
                     "error_location": `${req.headers.host}${req.originalUrl}`,
                     "sessionId": "null",
                     "error_reason": "Conclave authentication flow error",
                     "exception": error
                 }
                 let Log = new LogMessageFormatter(
-                    Logmessage.Person_email,
+                    Logmessage.Person_id,
                     Logmessage.error_location,
                     Logmessage.sessionId,
                     Logmessage.error_reason,

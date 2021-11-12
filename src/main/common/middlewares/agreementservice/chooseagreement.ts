@@ -29,14 +29,14 @@ export class ChooseAgreementMiddleware {
             (err) => {
                 delete err?.config?.['headers'];
                 let Logmessage = {
-                    "Person_email": TokenDecoder.decoder(SESSION_ID),
+                    "Person_id": TokenDecoder.decoder(SESSION_ID),
                     "error_location": `${req.headers.host}${req.originalUrl}`,
                     "sessionId": state,
                     "error_reason": "Agreement Service Api cannot be connected",
                     "exception": err
                 }
                 let Log = new LogMessageFormatter(
-                    Logmessage.Person_email,
+                    Logmessage.Person_id,
                     Logmessage.error_location,
                     Logmessage.sessionId,
                     Logmessage.error_reason,

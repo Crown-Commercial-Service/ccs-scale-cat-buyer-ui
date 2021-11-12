@@ -44,14 +44,14 @@ export class ContentFetchMiddleware {
                 if (error) {
                     delete error?.config?.['headers'];
                     let Logmessage = {
-                        "Person_email": "null",
+                        "Person_id": "null",
                         "error_location": `${req.headers.host}${req.originalUrl}`,
                         "sessionId": "null",
                         "error_reason": "Menu content service api throw exception",
                         "exception": error
                     }
                     let Log = new LogMessageFormatter(
-                        Logmessage.Person_email,
+                        Logmessage.Person_id,
                         Logmessage.error_location,
                         Logmessage.sessionId,
                         Logmessage.error_reason,
@@ -75,14 +75,14 @@ export class ContentFetchMiddleware {
                         if (error) {
                             delete error?.config?.['headers'];
                             let Logmessage = {
-                                "Person_email": "null",
+                                "Person_id": "null",
                                 "error_location": `${req.headers.host}${req.originalUrl}`,
                                 "sessionId": "null",
                                 "error_reason": "File System cannot write local menu content json file",
                                 "exception": error
                             }
                             let Log = new LogMessageFormatter(
-                                Logmessage.Person_email,
+                                Logmessage.Person_id,
                                 Logmessage.error_location,
                                 Logmessage.sessionId,
                                 Logmessage.error_reason,
@@ -108,14 +108,14 @@ export class ContentFetchMiddleware {
                 if (error) {
                     delete error?.config?.['headers'];
                     let Logmessage = {
-                        "Person_email": "null",
+                        "Person_id": "null",
                         "error_location": `${req.headers.host}${req.originalUrl}`,
                         "sessionId": "null",
                         "error_reason": "File System cannot read local menu content json file",
                         "exception": error
                     }
                     let Log = new LogMessageFormatter(
-                        Logmessage.Person_email,
+                        Logmessage.Person_id,
                         Logmessage.error_location,
                         Logmessage.sessionId,
                         Logmessage.error_reason,
@@ -137,14 +137,14 @@ export class ContentFetchMiddleware {
             })
             delete error?.config?.['headers'];
             let Logmessage = {
-                "Person_email": "null",
+                "Person_id": "null",
                 "error_location": `${req.headers.host}${req.originalUrl}`,
                 "sessionId": "null",
                 "error_reason": "Menu content service api throw exception",
                 "exception": error
             }
             let Log = new LogMessageFormatter(
-                Logmessage.Person_email,
+                Logmessage.Person_id,
                 Logmessage.error_location,
                 Logmessage.sessionId,
                 Logmessage.error_reason,
