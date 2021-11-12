@@ -62,6 +62,7 @@
                     "Task": 1,
                     "title": "How- will you build your request for- information (RFI)",
                     "required": "mandatory",
+                    "link": "/rfi/type",
                     "status": "todo"
                 },
                 {
