@@ -1,5 +1,5 @@
 import * as express from 'express'
-// import * as dashboarData from '../../../resources/content/choose-agreement/agreement.json'
+import * as lotData from '../../../resources/content/lot-agreement/lot.json'
 
 /**
  * 
@@ -9,8 +9,8 @@ import * as express from 'express'
  * @param res 
  */
 export const LOT_BEFORE_START_PAGE = (req: express.Request, res: express.Response) => {
-  // var agreement_id = 'RM6263'
-  // var appendData = { data: dashboarData, agreement_id }
-  // res.render('lot', appendData)
-  res.render('lot')
+  const agreement_id = req.query.agreement_id;
+  var appendData = { data: lotData, agreement_id }
+  res.render('lot', appendData);
+  // res.render('lot');
 }
