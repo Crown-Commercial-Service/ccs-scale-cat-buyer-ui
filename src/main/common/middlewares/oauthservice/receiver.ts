@@ -63,6 +63,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
                     req.session['procurements'] = [];
                     req.session['agreement_id'] = "";
                     req.session['agreementName'] = "";
+                    req.session['searched_user'] = []
 
                     next();
                 } else {
