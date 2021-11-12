@@ -12,5 +12,4 @@ export const LOT_BEFORE_START_PAGE = (req: express.Request, res: express.Respons
   const agreement_id = req.query.agreement_id;
   var appendData = { data: lotData, agreement_id }
   res.render('lot', appendData);
-  // res.render('lot');
 }
