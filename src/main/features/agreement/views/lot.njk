@@ -15,8 +15,7 @@
     <li class="govuk-breadcrumbs__list-item" aria-current="page">{{lotNum}}: Programmes </li>
   </ol>
 </div>
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">    
-<strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl ccs-agrement-pagetitle">
@@ -34,7 +33,7 @@
 
         <div class="govuk-inset-text">
   <p class="govuk-body"><strong>{{data.line1}}</strong> <br>
-              <a href="#sign-in" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a></p>
+              <a href="/dashboard" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a></p>
 </div>
 
             <div class="ccs-page-section" id="description">
@@ -50,7 +49,7 @@
 
         </div>
         <div class="ccs-page-section">
-        <p>{{data.line7}} <a class="govuk-link govuk-link--no-visited-state" href="#" onclick="return false;">lot supplier list (xx suppliers)</a></p><br></div>
+        <p>{{data.line7}} <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="https://www.crowncommercial.gov.uk/suppliers" onclick="return false;">lot supplier list</a></p><br></div>
         
         <div id="sign-in" class="ccs-page-section">
           <p class="govuk-body">{{data.line8}}</p>
