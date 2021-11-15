@@ -31,15 +31,15 @@
             <p class="govuk-body">If you need to wait for them to register, you can return to the pre-market engagement section and complete this step later, or you can continue to the next step.</p>
             <br>
          </div>
-         <form id="ccs_rfi_procurement_lead" name="ccs_rfi_procurement_lead" class="form ccs_rfi_procurement_lead" action="/rfi/add-collaborators"
+         <form id="ccs_rfi_procurement_lead" name="ccs_rfi_procurement_lead" class="form ccs_rfi_procurement_lead" action="/rfi/procurement-lead"
             method="post">
             <p class="govuk-body">Select the procurement lead for this project:</p>
               {{ CCSSelect({
-            id: "rfi_procurement_lead",
-            name: "rfi_procurement_lead",
-            items: sortedMembers
-            })
-            }}
+                  id: "rfi_procurement_lead",
+                  name: "rfi_procurement_lead",
+                  items: sortedMembers
+               })
+              }}
             <br>
             <div id='selected_user_detail'>
                <p class="govuk-body"><strong>Email address: </strong><span id="lead-email">jgough@biz.com</span></p>

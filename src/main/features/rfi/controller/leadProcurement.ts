@@ -1,3 +1,4 @@
+import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as express from 'express'
 import {OrganizationInstance} from '../util/fetch/organizationuserInstance'
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
@@ -40,5 +41,39 @@ export const GET_LEAD_PROCUREMENT = async (req : express.Request, res : express.
    }
 
 
+}
+
+export const POST_LEAD_PROCUREMENT = async (req : express.Request, res : express.Response)=> {
+   const {SESSION_ID} = req.cookies; 
+   const {projectId} = req.session;
+   const {rfi_procurement_lead: userMail} = req.body;
+   
+   const url = `/tenders/projects/${projectId}/users/${userMail}`;
+   try { 
+       const _body = {
+            "userType": "PROJECT_OWNER"
+         }
+       await TenderApi.Instance(SESSION_ID).put(url,_body);
+       res.redirect('/rfi/rfi-tasklist');
+   }
+   catch(error) { 
+       delete error?.config?.['headers'];
+       let Logmessage = {
+         "Person_id": TokenDecoder.decoder(SESSION_ID),
+          "error_location": `${req.headers.host}${req.originalUrl}`,
+          "sessionId": "null",
+          "error_reason": "Tender Api - update procurement leader failed",
+          "exception": error
+         }
+      let Log = new LogMessageFormatter(
+          Logmessage.Person_id, 
+          Logmessage.error_location, 
+          Logmessage.sessionId,
+          Logmessage.error_reason, 
+          Logmessage.exception
+          )
+          LoggTracer.errorTracer(Log, res);
+   }
+  
 }
 
