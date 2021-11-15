@@ -25,6 +25,7 @@ export enum RFI_PATHS {
     POST_TYPE_TYPE = '/rfi/type',
     POST_QUESTIONS_WHO = '/rfi/questions/who',
     POST_PROJECT_NAME = '/rfi/name',
-    POST_ADD_COLLABORATOR = '/rfi/get-collaborator-detail'
+    POST_ADD_COLLABORATOR = '/rfi/get-collaborator-detail',
+    POST_ADD_COLLABORATOR_TO_JAGGER  = "/rfi/add-collaborator-detail"
 
 }

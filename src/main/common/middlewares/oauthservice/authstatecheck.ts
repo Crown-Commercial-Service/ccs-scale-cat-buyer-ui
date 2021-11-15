@@ -57,8 +57,6 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                             maxAge: Number(config.get('Session.time')) * 60 * 1000,
                             httpOnly: true
                         })
-
-
                         req.session.cookie.expires = sessionExtendedTime;
                         next();
                     }

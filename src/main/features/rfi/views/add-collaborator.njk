@@ -42,6 +42,19 @@
 {% block content %} 
 
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "you cannot add this use. Please try with another user"
+    }
+  ]
+}) }}
+{%endif %}
+
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">
@@ -95,6 +108,8 @@
         </div>
         </form>
       </div>
+
+      <form method="POST" action="/rfi/add-collaborator-detail" >
       <div class="ccs-page-section" id="potential-collaborator">
         <div id="potential-collaborator-detail">
           <p class="govuk-body"><strong>Colleague <span ></span>: </strong> {{collaborator['fullName']}}
@@ -102,6 +117,14 @@
           <p class="govuk-body"><strong>Email address: </strong>{{collaborator['email']}}</p>
           <p class="govuk-body"><strong>Phone number: </strong>{{collaborator['tel']}}</p>
         </div>
+
+        {{ CCSInput({
+            id: "rfi_collaborator",
+            name: "rfi_collaborator",
+            type: "hidden",
+            value: collaborator['email']
+            }) }}
+
         {{ CCSButton({
         text: "Add colleague",
         attributes: {
@@ -111,11 +134,13 @@
         }) }}
 
       </div>
+
+      </form>
       <div id="collaborators-section">
         {% for collaborator in collaborators %}
         <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.id}}">
           <div id="collaborator-detail">
-            <a href='{{collaborator.id}}' class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
+            <a href='{{collaborator.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
             <p class="govuk-body"><strong>Colleague <span id="collab_no"></span>: </strong><span
                 id="collab_name">{{collaborator.contact.name}}</span></p>
