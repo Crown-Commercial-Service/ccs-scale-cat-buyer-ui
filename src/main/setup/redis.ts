@@ -42,8 +42,7 @@ const RedisInstanceSetup = (app: express.Express): void => {
         logger.info({ msg: 'successfully connected to the redis' });
     });
     let sessionExpiryTime = Number(config.get('Session.time'));
-    sessionExpiryTime = sessionExpiryTime * 60 * 1000;  //milliseconds
-  // let expiryDateandTime =  new Date(Date.now() + sessionExpiryTime);
+    sessionExpiryTime = sessionExpiryTime * 60 * 1000;
 
    var Session = {
     secret: process.env.SESSION_SECRET,
