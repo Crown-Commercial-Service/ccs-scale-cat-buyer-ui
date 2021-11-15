@@ -42,7 +42,9 @@
     },
     "cookies": {
       "sessionid": "SESSION_ID",
-      "state": "state"
+      "state": "state",
+      "lotNum": "lotNum",
+      "agreement_id": "agreement_id"
     }
   }
   
