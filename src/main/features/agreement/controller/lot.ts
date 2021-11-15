@@ -1,5 +1,7 @@
 import * as express from 'express'
 import * as lotData from '../../../resources/content/lot-agreement/lot.json'
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('lot page');
 
 /**
  * 
