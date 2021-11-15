@@ -78,12 +78,12 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
   disk_quota  = var.disk_quota
   enable_ssh  = true
   environment = {
-    TENDERS_SERVICE_API_URL : "http://${var.environment}-ccs-scale-cat-service.apps.internal:8080"
-    AGREEMENTS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-shared-agreements-service.london.cloudapps.digital"
+    TENDERS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-cat-service.${data.cloudfoundry_domain.domain.name}"
+    AGREEMENTS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-shared-agreements-service.${data.cloudfoundry_domain.domain.name}"
     AUTH_SERVER_CLIENT_ID : data.aws_ssm_parameter.env_auth_server_client_id.value
     AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
     AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
-    CAT_URL : "https://${var.environment}-ccs-scale-cat-buyer-ui.london.cloudapps.digital"
+    CAT_URL : "https://${var.environment}-ccs-scale-cat-buyer-ui.${data.cloudfoundry_domain.domain.name}"
     LOGIT_API_KEY : data.aws_ssm_parameter.env_logit_api_key.value
     SESSION_SECRET : data.aws_ssm_parameter.env_session_secret.value
     CONCLAVE_WRAPPER_API_BASE_URL : data.aws_ssm_parameter.conclave_wrapper_api_base_url.value
