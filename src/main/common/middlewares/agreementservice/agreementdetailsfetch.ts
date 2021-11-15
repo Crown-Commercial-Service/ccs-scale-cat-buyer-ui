@@ -23,11 +23,11 @@ export class AgreementDetailsFetchMiddleware {
         let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
         retrieveAgreementPromise.then((data) => {
             let containedData = data?.data;
-            
+            console.log("THE AGREEMENT NAME ", containedData);
             var project_name = req.session.project_name;
             req.session.agreementName = containedData['name'];
-            let agreementName = req.session?.agreementName;            
-            res.locals.agreement_header = {project_name, agreementName, agreementId_session, agreementLotName, lotid}
+            let agreementName = req.session?.agreementName;
+            res.locals.agreement_header = { project_name, agreementName, agreementId_session, agreementLotName, lotid }
             next();
         }).catch(
             (error) => {

@@ -12,7 +12,7 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/agreement?id=RM6263">Digital Specialists and Programmes</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">{{lotNum}}: Programmes </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">{{agreement_lot.lotNum}}: Programmes </li>
   </ol>
 </div>
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">    
@@ -20,16 +20,16 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl ccs-agrement-pagetitle">
-            Lot 1 Programmes 
+            {{agreement_lot.lotNum}} Programmes 
         </h1>
     </div>
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         <div class="project-overview">
-            <p class="govuk-body">Agreement name: <strong>{{agreement_lot.name}}</strong></p>
+            <p class="govuk-body">Agreement name: <strong>{{agreement.name}}</strong></p>
             <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}</strong></p>
-            <p class="govuk-body">Expiry date: <strong>{{agreement_lot.endDate}}</strong></p>
+            <p class="govuk-body">Expiry date: <strong>{{agreement.endDate}}</strong></p>
         </div><br>
 
         <div class="govuk-inset-text">

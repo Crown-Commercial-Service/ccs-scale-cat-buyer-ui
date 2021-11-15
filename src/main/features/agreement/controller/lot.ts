@@ -9,8 +9,10 @@ import * as lotData from '../../../resources/content/lot-agreement/lot.json'
  * @param res 
  */
 export const LOT_BEFORE_START_PAGE = (req: express.Request, res: express.Response) => {
-  const agreement_id = req.query.agreement_id;
-  var appendData = { data: lotData, agreement_id }
+  const { agreement_id, lotNum } = req.query;
+  const { agreementName, agreementEndDate } = req.session;
+  const agreement = { name: agreementName, endDate: agreementEndDate };
+  var appendData = { data: lotData, agreement_id, lotNum, agreement }
+
   res.render('lot', appendData);
-  // res.render('lot');
 }
