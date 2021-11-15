@@ -2,176 +2,211 @@
 
 {% set title = 'Lot details | Contract a Thing' %}
 {% block content %}
-<div class="ccs-width-container ">
-    
-<div class="govuk-breadcrumbs">
-  <ol class="govuk-breadcrumbs__list">
-    <li class="govuk-breadcrumbs__list-item">
-      <a class="govuk-breadcrumbs__link" href="/">Home</a>
-    </li>
-    <li class="govuk-breadcrumbs__list-item">
-      <a class="govuk-breadcrumbs__link" href="/agreement?id=RM6263">Digital Specialists and Programmes</a>
-    </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">{{lot}}: Programmes </li>
-  </ol>
-</div>
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl ccs-agrement-pagetitle">
+  <div class="ccs-width-container ">
+
+    <div class="govuk-breadcrumbs">
+      <ol class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item">
+          <a class="govuk-breadcrumbs__link" href="/">Home</a>
+        </li>
+        <li class="govuk-breadcrumbs__list-item">
+          <a class="govuk-breadcrumbs__link" href="/agreement?id=RM6263">Digital Specialists and Programmes</a>
+        </li>
+        <li class="govuk-breadcrumbs__list-item" aria-current="page">{{lot}}: Programmes </li>
+      </ol>
+    </div>
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl ccs-agrement-pagetitle">
             {{lot}} Programmes 
         </h1>
-    </div>
-</div>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-        <div class="project-overview">
-            <p class="govuk-body">Agreement name: <strong>{{agreement.name}}</strong></p>
-            <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}</strong></p>
-            <p class="govuk-body">Expiry date: <strong>{{agreement.endDate}}</strong></p>
-        </div><br>
-
-        <div class="govuk-inset-text">
-  <p class="govuk-body"><strong>{{data.line1}}</strong> <br>
-              <a href="/dashboard" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a></p>
-</div>
-
-            <div class="ccs-page-section" id="description">
-            <h1 class="govuk-heading-l"> {{data.line3}}</h1>
-            <p class="govuk-body">{{data.line4}}</p>
-<ul class="govuk-list govuk-list--bullet">
-{% for sector in agreement_lot.sectors %}
-    <li>{{sector}}</li>
-{% endfor %}
-</ul>
-<p class="govuk-body">{{data.line5}}</p>
-<p class="govuk-body">{{data.line6}}</p>
-
         </div>
-        <div class="ccs-page-section">
-        <p>{{data.line7}} <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="https://www.crowncommercial.gov.uk/suppliers" onclick="return false;">lot supplier list</a></p><br></div>
-        
-        <div id="sign-in" class="ccs-page-section">
-          <p class="govuk-body">{{data.line8}}</p>
-                <p class="govuk-body">{{data.line9}}</p>
-            
-              <br> 
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+          <div class="project-overview">
+            <p class="govuk-body">Agreement name: <strong>{{agreement.name}}</strong>
+            </p>
+            <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}</strong>
+            </p>
+            <p class="govuk-body">Expiry date: <strong>{{agreement.endDate}}</strong>
+            </p>
+          </div><br>
 
-<a href="/dashboard" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+          <div class="govuk-inset-text">
+            <p class="govuk-body">
+              <strong>{{data.line1}}</strong>
+              <br>
+              <a href="/dashboard" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a>
+            </p>
+          </div>
+
+          <div class="ccs-page-section" id="description">
+            <h1 class="govuk-heading-l">
+              {{data.line3}}</h1>
+            <p class="govuk-body">{{data.line4}}</p>
+            <ul class="govuk-list govuk-list--bullet">
+              {% for sector in agreement_lot.sectors %}
+                <li>{{sector}}</li>
+              {% endfor %}
+            </ul>
+            <p class="govuk-body">{{data.line5}}</p>
+            <p class="govuk-body">{{data.line6}}</p>
+
+          </div>
+          <div class="ccs-page-section">
+            <p>{{data.line7}}
+              <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="https://www.crowncommercial.gov.uk/suppliers" onclick="return false;">lot supplier list</a>
+            </p><br></div>
+
+          <div id="sign-in" class="ccs-page-section">
+            <p class="govuk-body">{{data.line8}}</p>
+            <p class="govuk-body">{{data.line9}}</p>
+
+            <br>
+
+            <a href="/dashboard" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
   Start Now
 </a>
 
             <br>
-        </div>
-        
+          </div>
 
-        <div class="ccs-page-section" id="buyonline">
-            <h1 class="govuk-heading-l">{{data.line10}} </h1>
-            <p class="govuk-body"><strong>{{dat.line11}}</strong></p>
+          <div class="ccs-page-section" id="buyonline">
+            <h1 class="govuk-heading-l">{{data.line10}}
+            </h1>
+            <p class="govuk-body">
+              <strong>{{dat.line11}}</strong>
+            </p>
 
-<ul class="govuk-list govuk-list--bullet">
-<li><strong>{{data.line12}}</strong> {{data.line13}}</li>
-<li><strong>{{data.line14}}</strong> {{line15}}</li>
-<li><strong>{{data.line16}}</strong> {{data.line17}}</li>
-</ul>
-<br>
-<h3 class="govuk-heading-m">{{data.line18}} </h3><h3>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>
+                <strong>{{data.line12}}</strong>
+                {{data.line13}}</li>
+              <li>
+                <strong>{{data.line14}}</strong>
+                {{line15}}</li>
+              <li>
+                <strong>{{data.line16}}</strong>
+                {{data.line17}}</li>
+            </ul>
+            <br>
+            <h3 class="govuk-heading-m">{{data.line18}}
+            </h3>
+            <h3>
 
-    <ol class="govuk-list govuk-list--number">
-        <li>
-          <h3 class="proc-task-list__section">
-            
-             {{data.line19}}
-          </h3>
+              <ol class="govuk-list govuk-list--number">
+                <li>
+                  <h3 class="proc-task-list__section">
 
-          <p class="govuk-body">{{data.line20}}
-          </p> 
-          <ul class="govuk-list govuk-list--bullet">
-            <li>
-              {{data.line21}}
-            </li>
-            <li>
-              {{data.line22}}
-            </li>
-          </ul>
-        </li>
-  
-        <li>
-          <h3 class="proc-task-list__section">
-          
-            {{data.line23}}
-          </h3>
-  
-          <p class="govuk-body"> {{data.line24}}
-          </p>
-          <!-- description for RFI -->
-         <h2 class="govuk-heading-s"> {{data.line25}} </h2>
-         <p class="govuk-body">{{data.line26}}</p>
-  <!-- description for EOI in case the agreement supportsincorporate that logic  -->
-  <!--  <h2 class="govuk-heading-m"> Expression of Interest (EoI)  </h2>
+                    {{data.line19}}
+                  </h3>
+
+                  <p class="govuk-body">{{data.line20}}
+                  </p>
+                  <ul class="govuk-list govuk-list--bullet">
+                    <li>
+                      {{data.line21}}
+                    </li>
+                    <li>
+                      {{data.line22}}
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  <h3 class="proc-task-list__section">
+
+                    {{data.line23}}
+                  </h3>
+
+                  <p class="govuk-body">
+                    {{data.line24}}
+                  </p>
+                  <!-- description for RFI -->
+                  <h2 class="govuk-heading-s">
+                    {{data.line25}}
+                  </h2>
+                  <p class="govuk-body">{{data.line26}}</p>
+                  <!-- description for EOI in case the agreement supportsincorporate that logic  -->
+                  <!--  <h2 class="govuk-heading-m"> Expression of Interest (EoI)  </h2>
          <p class="govuk-body">Suppliers can show their interest in providing the products or services you need, based on high level needs set out by you.</p>
          -->
-        </li>
-  
-        <li>
-          <h3 class="proc-task-list__section">
-            {{data.line27}}
-          </h3>
-          <p class="govuk-body">{{data.line28}}</p>
+                </li>
 
-          <p class="govuk-body"> {{data.line29}}</p>
-          
-            <p class="govuk-body">{{data.line30}}</p>
-           
-           <h2 class="govuk-heading-s">{{data.line31}}</h2>
-            <p class="govuk-body">{{data.line32}}</p>
+                <li>
+                  <h3 class="proc-task-list__section">
+                    {{data.line27}}
+                  </h3>
+                  <p class="govuk-body">{{data.line28}}</p>
 
-            <h2 class="govuk-heading-s">{{data.line33}}</h2>
-            <p class="govuk-body">{{data.line34}}</p>
-            <p class="govuk-body">{{data.line35}}</p>
+                  <p class="govuk-body">
+                    {{data.line29}}</p>
 
-            <h2 class="govuk-heading-s">{{data.line36}}</h2>
-            <p class="govuk-body">{{data.line37}}</p>
+                  <p class="govuk-body">{{data.line30}}</p>
 
-            <p>{{data.line38}}</p>
-        </li>
-        <li>
-          <h3 class="proc-task-list__section">
-            {{data.line39}}
-          </h3>
-          <p class="govuk-body">When you have completed your evaluation and found a suitable supplier, you can award your contract.</p>
-          <p class="govuk-body">You will need to give feedback to any unsuccessful suppliers.</p>     
-       </li>
-        <li>
-          <h3 class="proc-task-list__section">
-            {{data.line40}}
-          </h3>
-          <p class="govuk-body">{{data.line41}} <a href="https://www.gov.uk/contracts-finder"> {{data.line42}}</a>. {{data.line43}} </p>        
-        </li>
-      </ol>
-            <br>
-        </h3></div>
-        <a class="govuk-link govuk-link--no-visited-state" href="#description">{{data.line44}}</a> <br><br>
-    </div>
+                  <h2 class="govuk-heading-s">{{data.line31}}</h2>
+                  <p class="govuk-body">{{data.line32}}</p>
 
-    <div class="govuk-grid-column-one-third-from-desktop govuk-grid-column-one-half ">
+                  <h2 class="govuk-heading-s">{{data.line33}}</h2>
+                  <p class="govuk-body">{{data.line34}}</p>
+                  <p class="govuk-body">{{data.line35}}</p>
 
-        <div class="ccs-callout-panel">
-            <h2 class="govuk-heading-m">{{data.line45}} </h2>
+                  <h2 class="govuk-heading-s">{{data.line36}}</h2>
+                  <p class="govuk-body">{{data.line37}}</p>
 
-            <p class="govuk-body">{{data.line46}} <a href="https://www.crowncommercial.gov.uk/contact">{{data.line47}}</a>. </p>
+                  <p>{{data.line38}}</p>
+                </li>
+                <li>
+                  <h3 class="proc-task-list__section">
+                    {{data.line39}}
+                  </h3>
+                  <p class="govuk-body">When you have completed your evaluation and found a suitable supplier, you can award your contract.</p>
+                  <p class="govuk-body">You will need to give feedback to any unsuccessful suppliers.</p>
+                </li>
+                <li>
+                  <h3 class="proc-task-list__section">
+                    {{data.line40}}
+                  </h3>
+                  <p class="govuk-body">{{data.line41}}
+                    <a href="https://www.gov.uk/contracts-finder">
+                      {{data.line42}}</a>. {{data.line43}}
+                  </p>
+                </li>
+              </ol>
+              <br>
+            </h3>
+          </div>
+          <a class="govuk-link govuk-link--no-visited-state" href="#description">{{data.line44}}</a>
+          <br><br>
+        </div>
 
-            <h3 class="govuk-heading-s govuk-!-margin-0">{{data.line48}} </h3>
-            <p class="govuk-body"><a href="mailto:info@crowncommercial.gov.uk">{{data.line49}}</a> </p>
+        <div class="govuk-grid-column-one-third-from-desktop govuk-grid-column-one-half ">
 
-            <h3 class="govuk-heading-s govuk-!-margin-0">{{data.line50}} </h3>
-            <p class="govuk-body"><a href="tel:03454102222">{{data.line51}}</a></p>
+          <div class="ccs-callout-panel">
+            <h2 class="govuk-heading-m">{{data.line45}}
+            </h2>
+
+            <p class="govuk-body">{{data.line46}}
+              <a href="https://www.crowncommercial.gov.uk/contact">{{data.line47}}</a>. </p>
+
+            <h3 class="govuk-heading-s govuk-!-margin-0">{{data.line48}}
+            </h3>
+            <p class="govuk-body">
+              <a href="mailto:info@crowncommercial.gov.uk">{{data.line49}}</a>
+            </p>
+
+            <h3 class="govuk-heading-s govuk-!-margin-0">{{data.line50}}
+            </h3>
+            <p class="govuk-body">
+              <a href="tel:03454102222">{{data.line51}}</a>
+            </p>
 
             <p class="govuk-body">{{data.line52}}</p>
+          </div>
         </div>
-    </div>
-</div>
-
+      </div>
 
     </main>
   </div>
