@@ -195,7 +195,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   Logmessage.exception
                )
                LoggTracer.errorTracer(Log, res);
-               // res.redirect('/404')
             }
 
          }

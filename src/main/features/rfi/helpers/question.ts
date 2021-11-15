@@ -77,7 +77,6 @@ export class QuestionHelper {
             Logmessage.exception
          )
          LoggTracer.errorTracer(Log, res);
-         // res.redirect(ErrorView.notfound)
       }
    }
 }

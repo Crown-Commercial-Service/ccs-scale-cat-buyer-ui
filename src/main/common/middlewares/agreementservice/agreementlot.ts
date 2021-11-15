@@ -44,7 +44,6 @@ export class AgreementLotMiddleware {
                 Logmessage.exception
             )
             LoggTracer.errorTracer(Log, res);
-            res.render(ErrorView.notfound)
         }
     }
 }

@@ -15,6 +15,6 @@ export const LOT_BEFORE_START_PAGE = (req: express.Request, res: express.Respons
   const { agreementName, agreementEndDate } = req.session;
   const agreement = { name: agreementName, endDate: agreementEndDate };
   var appendData = { data: lotData, agreement_id, lotNum, agreement }
-
+  logger.log("LOT NUMBER agreement_id ", agreement_id);
   res.render('lot', appendData);
 }
