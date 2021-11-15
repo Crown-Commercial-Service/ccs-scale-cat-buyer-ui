@@ -73,6 +73,10 @@ export default function (app: Application): void {
   app.post(RFI_PATHS.POST_ADD_COLLABORATOR, AUTH, associatedViews.POST_ADD_COLLABORATOR)
 
 
+
+    //@POST '/rfi/add-collaborator-detail'
+    app.post(RFI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER)
+
   //@postRoutes
   app.post('/test', (req, res) => {
     res.redirect('/questions')
