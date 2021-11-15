@@ -5,7 +5,8 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import {DynamicFrameworkInstance} from '../util/fetch/dyanmicframeworkInstance'
-
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('addCollaborator');
 
 
 // RFI ADD_Collaborator
@@ -43,7 +44,7 @@ export const GET_ADD_COLLABORATOR = async (req : express.Request, res : express.
       }
       res.render('add-collaborator', windowAppendData); 
    } catch (error) {
-      console.log(error)
+      logger.log("Something went wrong, please review the logit error log for more information")
       delete error?.config?.['headers'];
       let Logmessage = {
          "Person_id": TokenDecoder.decoder(SESSION_ID),

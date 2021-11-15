@@ -4,7 +4,8 @@ import { ErrorView } from '../../shared/error/errorView';
 import * as express from 'express'
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { LoggTracer } from '../../logtracer/tracer'
-
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('PreMarketEngagementMiddleware');
 
 /**
  * 
@@ -22,12 +23,12 @@ export class PreMarketEngagementMiddleware {
             const _body = {
                 "eventType": 'RFI' //scat-964 for the time being this is hardcoded
             }
+            logger.warn("request body is hardcoded");
             const retrievePreMarketPromise = TenderApi.Instance(SESSION_ID).put(baseURL, _body)
             retrievePreMarketPromise.then((data) => {
-                next();
+            next();
             }).catch(
                 (err) => {
-                    console.log("BIG ERROR ", err)
                     delete err?.config?.['headers'];
                     let Logmessage = {
                         "Person_id": TokenDecoder.decoder(SESSION_ID),

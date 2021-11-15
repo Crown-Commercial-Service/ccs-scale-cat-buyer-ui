@@ -3,6 +3,8 @@ import { AgreementAPI } from '../../util/fetch/agreementservice/agreementsApiIns
 import { LogMessageFormatter } from '../../logtracer/logmessageformatter'
 import { LoggTracer } from '../../logtracer/tracer'
 import { TokenDecoder } from '../../tokendecoder/tokendecoder';
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('agreementdetailsfetch');
 /**
  * 
  * @Middleware
@@ -23,11 +25,11 @@ export class AgreementDetailsFetchMiddleware {
         let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
         retrieveAgreementPromise.then((data) => {
             let containedData = data?.data;
-            
+            logger.info("THE AGREEMENT NAME ", containedData)
             var project_name = req.session.project_name;
             req.session.agreementName = containedData['name'];
-            let agreementName = req.session?.agreementName;            
-            res.locals.agreement_header = {project_name, agreementName, agreementId_session, agreementLotName, lotid}
+            let agreementName = req.session?.agreementName;
+            res.locals.agreement_header = { project_name, agreementName, agreementId_session, agreementLotName, lotid }
             next();
         }).catch(
             (error) => {
