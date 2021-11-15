@@ -61,7 +61,7 @@ export class QuestionHelper {
          }
       } catch (error) {
          logger.log("Something went wrong, please review the logit error log for more information")
-         delete err?.config?.['headers'];
+         delete error?.config?.['headers'];
          let Logmessage = {
             "Person_id": TokenDecoder.decoder(SESSION_ID),
             "error_location": "questions healper class",
