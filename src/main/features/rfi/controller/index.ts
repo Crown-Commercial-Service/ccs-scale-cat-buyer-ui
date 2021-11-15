@@ -5,7 +5,7 @@ import { GET_QUESTIONS, POST_QUESTION } from './questions'
 import { GET_UPLOAD_DOC } from './upload'
 import { GET_NAME_PROJECT, POST_NAME_PROJECT } from './nameAProject'
 import { GET_LEAD_PROCUREMENT } from './leadProcurement'
-import { GET_ADD_COLLABORATOR, POST_ADD_COLLABORATOR } from './addcollaborator'
+import { GET_ADD_COLLABORATOR, POST_ADD_COLLABORATOR, POST_ADD_COLLABORATOR_TO_JAGGER } from './addcollaborator'
 
 
 export var associatedViews = {
@@ -29,6 +29,7 @@ export var associatedViews = {
     POST_QUESTION,
     POST_TYPE,
     POST_NAME_PROJECT,
-    POST_ADD_COLLABORATOR
+    POST_ADD_COLLABORATOR,
+    POST_ADD_COLLABORATOR_TO_JAGGER
 
 }

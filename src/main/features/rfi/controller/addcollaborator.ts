@@ -4,8 +4,11 @@ import {OrganizationInstance} from '../util/fetch/organizationuserInstance'
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
-
-
+import {DynamicFrameworkInstance} from '../util/fetch/dyanmicframeworkInstance'
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('addCollaborator');
+import { LoggerInstance } from "../../../common/util/fetch/logger/loggerInstance"
+ 
 
 // RFI ADD_Collaborator
 /**
@@ -24,26 +27,35 @@ export const GET_ADD_COLLABORATOR = async (req : express.Request, res : express.
       let collaborator ;
       let {userName, firstName, lastName} = req.session['searched_user'];
       let fullName = firstName + " " + lastName;
+      let procurementId = req.session.procurements?.[0].pocurementID;
+      let collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`
+      let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
+      collaboratorData = collaboratorData.data;
+
       if(!Array.isArray(req.session['searched_user'])){
          collaborator = {"fullName": fullName, "email": userName};
       }else{
          collaborator = {"fullName": "", "email": ""};
       }
-      const windowAppendData = {data : cmsData, userdata: organisation_user_data, collaborator: collaborator}
+      const windowAppendData = {
+         data : cmsData, 
+         userdata: organisation_user_data, 
+         collaborator: collaborator,
+         collaborators : collaboratorData
+      }
       res.render('add-collaborator', windowAppendData); 
-      
    } catch (error) {
-      console.log(error)
+      logger.log("Something went wrong, please review the logit error log for more information")
       delete error?.config?.['headers'];
       let Logmessage = {
-         "Person_email": TokenDecoder.decoder(SESSION_ID),
+         "Person_id": TokenDecoder.decoder(SESSION_ID),
          "error_location": `${req.headers.host}${req.originalUrl}`,
          "sessionId": "null",
          "error_reason": "Tender agreement failed to be added",
          "exception": error
       }
       let Log = new LogMessageFormatter(
-         Logmessage.Person_email,
+         Logmessage.Person_id,
          Logmessage.error_location,
          Logmessage.sessionId,
          Logmessage.error_reason,
@@ -55,14 +67,14 @@ export const GET_ADD_COLLABORATOR = async (req : express.Request, res : express.
 
 
 
+
+
 /**
  * 
  * @param req 
  * @param res 
  */
-
 export const POST_ADD_COLLABORATOR = async (req : express.Request, res : express.Response)=> {
-
    var {SESSION_ID} = req.cookies
    var {rfi_collaborators} = req['body'];
    try {
@@ -72,20 +84,17 @@ export const POST_ADD_COLLABORATOR = async (req : express.Request, res : express
       let userData = organisation_user_data?.data;
       req.session['searched_user'] = userData;
       res.redirect('/rfi/add-collaborators')
-     
-
    } catch (error) {
-      
       delete error?.config?.['headers'];
       let Logmessage = {
-         "Person_email": TokenDecoder.decoder(SESSION_ID),
+         "Person_id": TokenDecoder.decoder(SESSION_ID),
          "error_location": `${req.headers.host}${req.originalUrl}`,
          "sessionId": "null",
          "error_reason": "Tender agreement failed to be added",
          "exception": error
       }
       let Log = new LogMessageFormatter(
-         Logmessage.Person_email,
+         Logmessage.Person_id,
          Logmessage.error_location,
          Logmessage.sessionId,
          Logmessage.error_reason,
@@ -93,8 +102,75 @@ export const POST_ADD_COLLABORATOR = async (req : express.Request, res : express
       )
       LoggTracer.errorTracer(Log, res);
    }
+}
+
+
+
+
+export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req : express.Request, res : express.Response)=> {
+
+   var {SESSION_ID} = req.cookies
+   var {rfi_collaborator} = req['body'];
+
    
+   try {
+
+  let baseURL = `/tenders/projects/${req.session.projectId}/users/${rfi_collaborator}`
+  let userType = {
+   "userType": "TEAM_MEMBER"
+}
+   await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
 
 
+   res.redirect('/rfi/add-collaborators')
+
+   } catch (error) {
+      delete error?.config?.['headers'];
+      let Logmessage = {
+         "Person_id": TokenDecoder.decoder(SESSION_ID),
+         "error_location": `${req.headers.host}${req.originalUrl}`,
+         "sessionId": "null",
+         "error_reason": "Tender agreement failed to be added",
+         "exception": error
+      }
+      let Log = new LogMessageFormatter(
+         Logmessage.Person_id,
+         Logmessage.error_location,
+         Logmessage.sessionId,
+         Logmessage.error_reason,
+         Logmessage.exception
+      )
+      let LogMessage = { "AppName": "CaT frontend", "type": "error", "errordetails": Log }
+      await LoggerInstance.Instance.post('', LogMessage);
+     
+      let organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
+      let organisation_user_data  = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
+      organisation_user_data = organisation_user_data?.data;
+      let collaborator ;
+      let {userName, firstName, lastName} = req.session['searched_user'];
+      let fullName = firstName + " " + lastName;
+      let procurementId = req.session.procurements?.[0].pocurementID;
+      let collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`
+      let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
+      collaboratorData = collaboratorData.data;
+
+      if(!Array.isArray(req.session['searched_user'])){
+         collaborator = {"fullName": fullName, "email": userName};
+      }else{
+         collaborator = {"fullName": "", "email": ""};
+      }
+      const windowAppendData = {
+         data : cmsData, 
+         userdata: organisation_user_data, 
+         collaborator: collaborator,
+         collaborators : collaboratorData,
+         error: true
+      }
+      res.render('add-collaborator', windowAppendData); 
+
+
+
+
+   }
 
 }
