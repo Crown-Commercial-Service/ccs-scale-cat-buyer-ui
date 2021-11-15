@@ -15,7 +15,7 @@ import { LoggTracer } from '../../logtracer/tracer'
  */
 export class AgreementLotMiddleware {
     static FetchAgreements = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const lotNum = req.query.no;
+        const lotNum = req.query.lotNum;
         let BaseUrlAgreement = "/agreements/RM6263";
         let BaseUrlAgreementLotNum = `/agreements/RM6263/lots/${lotNum}`;
         let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseUrlAgreement);
@@ -30,14 +30,14 @@ export class AgreementLotMiddleware {
             (err) => {
                 delete err?.config?.['headers'];
                 let Logmessage = {
-                    "Person_email": TokenDecoder.decoder(SESSION_ID),
+                    "Person_id": TokenDecoder.decoder(SESSION_ID),
                     "error_location": `${req.headers.host}${req.originalUrl}`,
                     "sessionId": state,
                     "error_reason": "Agreement Service Api cannot be connected",
                     "exception": err
                 }
                 let Log = new LogMessageFormatter(
-                    Logmessage.Person_email,
+                    Logmessage.Person_id,
                     Logmessage.error_location,
                     Logmessage.sessionId,
                     Logmessage.error_reason,
@@ -49,7 +49,7 @@ export class AgreementLotMiddleware {
         );
         retrieveAgreementPromiseLotNum.then((data) => {
             let containedData = data?.data;
-            res.locals.agreement_lot = { ...containedData, lotNum };
+            res.locals.agreement_lot = { ...containedData };
             next();
 
         }).catch(
