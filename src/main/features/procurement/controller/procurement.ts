@@ -2,7 +2,6 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import * as express from 'express'
 import * as data from '../../../resources/content/procurement/ccs-procurement.json';
-import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -36,14 +35,14 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         "agreementId": agreementId_session,
         "lotId": lotId
       }
-      const { data: procurementRaw } = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);      
+      const { data: procurementRaw } = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
       procurement = procurementRaw;
       req.session.procurements.push(procurement);
     }
     else {
       procurement = elementCached;
     }
-    logger.info('procurement.created',procurement)
+    logger.info('procurement.created', procurement)
     req.session.lotId = procurement['defaultName']['components']['lotId'];
     req.session.project_name = procurement['defaultName']['name'];
     req.session.projectId = procurement['pocurementID'];
@@ -63,21 +62,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     appendData = { ...appendData, agreementName };
     res.render('procurement', appendData);
   } catch (error) {
-    delete error?.config?.['headers'];
-    let Logmessage = {
-      "Person_id": TokenDecoder.decoder(SESSION_ID),
-      "error_location": `${req.headers.host}${req.originalUrl}`,
-      "sessionId": "null",
-      "error_reason": "Tender agreement failed to be added",
-      "exception": error
-    }
-    let Log = new LogMessageFormatter(
-      Logmessage.Person_id,
-      Logmessage.error_location,
-      Logmessage.sessionId,
-      Logmessage.error_reason,
-      Logmessage.exception
-    )
-    LoggTracer.errorTracer(Log, res);
+    LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+      TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
   }
 }

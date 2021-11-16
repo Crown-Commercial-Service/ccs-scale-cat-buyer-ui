@@ -1,6 +1,5 @@
 import * as express from 'express'
 import { AgreementAPI } from '../../util/fetch/agreementservice/agreementsApiInstance'
-import { LogMessageFormatter } from '../../logtracer/logmessageformatter'
 import { LoggTracer } from '../../logtracer/tracer'
 import { TokenDecoder } from '../../tokendecoder/tokendecoder';
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -33,22 +32,8 @@ export class AgreementDetailsFetchMiddleware {
             next();
         }).catch(
             (error) => {
-                delete error?.config?.['headers'];
-                let Logmessage = {
-                    "Person_id": TokenDecoder.decoder(SESSION_ID),
-                    "error_location": `${req.headers.host}${req.originalUrl}`,
-                    "sessionId": state,
-                    "error_reason": "Agreement Service Api cannot be connected",
-                    "exception": error
-                }
-                let Log = new LogMessageFormatter(
-                    Logmessage.Person_id,
-                    Logmessage.error_location,
-                    Logmessage.sessionId,
-                    Logmessage.error_reason,
-                    Logmessage.exception
-                )
-                LoggTracer.errorTracer(Log, res);
+                LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, state,
+                    TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
             }
         )
     }

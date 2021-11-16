@@ -5,9 +5,13 @@ import { Query } from '../../util/operators/query';
 import config from 'config'
 import { cookies } from '../../cookies/cookies';
 import { ErrorView } from '../../shared/error/errorView';
-import { LogMessageFormatter } from '../../logtracer/logmessageformatter'
 import { LoggTracer } from '../../logtracer/tracer'
 import * as jwtDecoder from 'jsonwebtoken';
+
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('receiver-middleware');
+
+
 /**
  * 
  * @Middleware
@@ -77,26 +81,12 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
 
                 next();
             } else {
+                logger.info("User redirected to logout")
                 res.redirect('/oauth/logout')
             }
 
         } catch (error) {
-            delete error?.config?.['headers'];
-            let Logmessage = {
-                "Person_id": 'null',
-                "error_location": `${req.headers.host}${req.originalUrl}`,
-                "sessionId": "null",
-                "error_reason": "Conclave authentication flow error",
-                "exception": error
-            }
-            let Log = new LogMessageFormatter(
-                Logmessage.Person_id,
-                Logmessage.error_location,
-                Logmessage.sessionId,
-                Logmessage.error_reason,
-                Logmessage.exception
-            )
-            LoggTracer.errorTracer(Log, res);
+            LoggTracer.errorLogger(error,`${req.headers.host}${req.originalUrl}`, null, null, "Conclave authentication flow error", true)
         }
 
     }
