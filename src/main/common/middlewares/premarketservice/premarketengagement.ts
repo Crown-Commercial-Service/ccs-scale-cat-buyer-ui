@@ -16,13 +16,15 @@ const logger = Logger.getLogger('PreMarketEngagementMiddleware');
  */
 export class PreMarketEngagementMiddleware {
     static PutPremarket = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const { eventId, projectId } = req.session.eventId;
+        const { eventId, projectId } = req.session;
         if (projectId && eventId) {
             const { SESSION_ID, state } = req.cookies;
             const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
             const _body = {
                 "eventType": 'RFI' //scat-964 for the time being this is hardcoded
             }
+
+            console.log(_body)
             logger.warn("request body is hardcoded");
             const retrievePreMarketPromise = TenderApi.Instance(SESSION_ID).put(baseURL, _body)
             retrievePreMarketPromise.then((data) => {

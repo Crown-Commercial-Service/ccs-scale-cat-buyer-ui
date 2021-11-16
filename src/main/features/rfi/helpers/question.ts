@@ -53,7 +53,6 @@ export class QuestionHelper {
             let next_group_id = next_cursor_object.OCDS['id'];
             let next_criterian_id = next_cursor_object['criterianId'];
             let base_url = `/rfi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`
-            console.log(id)
             res.redirect(base_url)
          }
          else {

@@ -8,6 +8,9 @@ import {RFI_PATHS} from '../model/rficonstant'
 export const GET_TYPE = (req : express.Request, res : express.Response)=> {
 
    var {agreement_id} = req.query;
+
+  
+
    var windowAppendData = {data : cmsData, agreement_id: agreement_id}
    res.render('type', windowAppendData); 
 }
@@ -21,13 +24,18 @@ export const GET_TYPE = (req : express.Request, res : express.Response)=> {
 //POST 'rfi/type'
 export const POST_TYPE = (req : express.Request, res : express.Response)=> {
          let {agreement_id} = req.query;
+         let  projectId = req.session['projectId']
+         let  event_id = req.session['eventId'];
+
+         
+
          let filtered_body_content_removed_rfi_key =    ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_rfi_type');
 
          let {ccs_rfi_type} = filtered_body_content_removed_rfi_key;
 
          switch(ccs_rfi_type){
             case 'all_online':
-               let redirect_address = `/rfi/online-task-list?agreement_id=${agreement_id}&proc_id=1&event_id=ocds-b5fd17-1`;
+               let redirect_address = `/rfi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
                res.redirect(redirect_address);
             break;
 
