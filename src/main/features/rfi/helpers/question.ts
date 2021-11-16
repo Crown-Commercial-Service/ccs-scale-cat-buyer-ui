@@ -1,5 +1,4 @@
 import express from 'express'
-import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -60,22 +59,8 @@ export class QuestionHelper {
          }
       } catch (error) {
          logger.log("Something went wrong, please review the logit error log for more information")
-         delete error?.config?.['headers'];
-         let Logmessage = {
-            "Person_id": TokenDecoder.decoder(SESSION_ID),
-            "error_location": "questions healper class",
-            "sessionId": "null",
-            "error_reason": "Tender agreement failed to be added",
-            "exception": error
-         }
-         let Log = new LogMessageFormatter(
-            Logmessage.Person_id,
-            Logmessage.error_location,
-            Logmessage.sessionId,
-            Logmessage.error_reason,
-            Logmessage.exception
-         )
-         LoggTracer.errorTracer(Log, res);
+         LoggTracer.errorLogger(error, "questions healper class", null,
+            TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
       }
    }
 }
