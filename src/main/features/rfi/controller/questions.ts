@@ -16,68 +16,79 @@ const logger = Logger.getLogger('questions page');
  * @summary switches query related to specific parameter 
  * @validation false
  */
-export const GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
-   let { SESSION_ID } = req.cookies;
+ export const GET_QUESTIONS = async (req : express.Request, res : express.Response)=> {
+   let {SESSION_ID} = req.cookies;
    let {
       agreement_id,
       proc_id,
       event_id,
       id,
       group_id
-   } = req.query;
-   try {
-      let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
+    } =  req.query;
+    try {
+      let baseURL : any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-      let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-      let find_validtor = fetch_dynamic_api_data?.map((aSelector: any) => {
+      let fetch_dynamic_api_data = fetch_dynamic_api?.data; 
 
-         if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
+      let headingBaseURL : any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
+      let heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
+
+
+      let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any)=>{
+         return agroupitem?.OCDS?.['id'] === group_id;
+      } )
+
+      matched_selector = matched_selector?.[0];
+      let {OCDS} = matched_selector;
+      let titleText = OCDS?.description;
+
+
+      
+      
+
+      let find_validtor = fetch_dynamic_api_data?.map((aSelector: any)=> {
+
+         if(aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false){
             return 'ccs_rfi_type_form'
+        }
+        else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer === true){
+          return 'ccs_rfi_questions_forms'
+        }
+        else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer == false){
+        return 'ccs_rfi_who_form'
+        }
+        else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true){
+         return 'ccs_rfi_acronyms_for'
          }
-         else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer === true) {
-            return 'ccs_rfi_questions_form'
-         }
-         else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer == false) {
-            return 'ccs_rfi_who_form'
-         }
-         else {
-            return '';
-         }
+         else if (aSelector.nonOCDS.questionType === 'Address' && aSelector.nonOCDS.multiAnswer === false){
+            return 'rfi_location'
+          }
+
+        else{
+          return '';
+        }
       })
 
-      let data = {
+      let data =  {
          "data": fetch_dynamic_api_data,
          "agreement_id": agreement_id,
          "proc_id": proc_id,
          "event_id": event_id,
          "group_id": group_id,
          "criterian_id": id,
-         "validation": find_validtor?.[0]
-      }
-      res.render('questions', data);
-   }
-   catch (err) {
-      logger.log("Something went wrong, please review the logit error log for more information")
-      delete err?.config?.['headers'];
-      let Logmessage = {
-         "Person_id": TokenDecoder.decoder(SESSION_ID),
-         "error_location": `${req.headers.host}${req.originalUrl}`,
-         "sessionId": "null",
-         "error_reason": "Tender agreement failed to be added",
-         "exception": err
-      }
-      let Log = new LogMessageFormatter(
-         Logmessage.Person_id,
-         Logmessage.error_location,
-         Logmessage.sessionId,
-         Logmessage.error_reason,
-         Logmessage.exception
-      )
-      LoggTracer.errorTracer(Log, res);
-      // res.redirect(ErrorView.notfound)
-   }
+         "validation": find_validtor?.[0]  ,
+         "rfiTitle": titleText    
+        }     
+
+      res.render('questions', data );
+    }
+    catch(err){
+       res.redirect(ErrorView.notfound)
+    }
 
 }
+
+
 export var array: any = [];
 
 
