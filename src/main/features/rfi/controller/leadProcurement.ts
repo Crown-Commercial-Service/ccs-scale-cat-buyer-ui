@@ -26,7 +26,7 @@ export const GET_LEAD_PROCUREMENT = async (req : express.Request, res : express.
     const selectedUser = finalUsersTemp.find((user:any) => user.email === defaultLeader);
     
     const windowAppendData = { userdata: finalData, selectedUser}
-    res.render('procurementlead', windowAppendData);
+    res.render('procurementLead', windowAppendData);
 
    } catch (error) {
     delete error?.config?.['headers'];
@@ -51,7 +51,7 @@ export const GET_LEAD_PROCUREMENT = async (req : express.Request, res : express.
 
 }
 
-export const POST_LEAD_PROCUREMENT = async (req : express.Request, res : express.Response)=> {
+export const PUT_LEAD_PROCUREMENT = async (req : express.Request, res : express.Response)=> {
    const {SESSION_ID} = req.cookies; 
    const {projectId} = req.session;
    const {rfi_procurement_lead: userMail} = req.body;
