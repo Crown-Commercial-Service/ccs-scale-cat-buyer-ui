@@ -72,7 +72,7 @@ export default function (app: Application): void {
   app.post(RFI_PATHS.POST_PROJECT_NAME, associatedViews.POST_NAME_PROJECT);
 
   //@POST '/rfi/procurement-lead'
-  app.post(RFI_PATHS.POST_LEAD_PROCUREMENT, associatedViews.POST_LEAD_PROCUREMENT)
+  app.post(RFI_PATHS.PUT_LEAD_PROCUREMENT, associatedViews.PUT_LEAD_PROCUREMENT)
   
 
 
