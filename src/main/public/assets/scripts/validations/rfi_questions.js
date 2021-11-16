@@ -92,3 +92,6 @@ const ccsZvalidateRfIQuestions = (event) => {
   if (errorStore.length === 0) document.forms["ccs_rfi_questions_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
 };
+
+
+$('.add').addClass('ccs-dynaform-hidden');

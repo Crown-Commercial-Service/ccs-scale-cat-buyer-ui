@@ -49,17 +49,18 @@ const logger = Logger.getLogger('questions page');
       let find_validtor = fetch_dynamic_api_data?.map((aSelector: any)=> {
 
          if(aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false){
-            return 'ccs_rfi_type_form'
+            return 'ccs_rfi_vetting_form'
         }
         else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer === true){
-          return 'ccs_rfi_questions_forms'
+          return 'ccs_rfi_questions_form'
         }
         else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer == false){
         return 'ccs_rfi_who_form'
         }
         else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true){
-         return 'ccs_rfi_acronyms_for'
+         return 'ccs_rfi_acronyms_form'
          }
+
          else if (aSelector.nonOCDS.questionType === 'Address' && aSelector.nonOCDS.multiAnswer === false){
             return 'rfi_location'
           }

@@ -69,7 +69,7 @@
           },
           id: "rfi_question_2",
           name: "rfi_question_2",
-          classes: "ccs-dynaform-hidden",
+          classes: "add",
           value: requirement.nonOCDS.options[1].value
         }) }}
 
@@ -80,7 +80,7 @@
           },
           id: "rfi_question_3",
           name: "rfi_question_3",
-          classes: "ccs-dynaform-hidden",
+          classes: "add",
           value: requirement.nonOCDS.options[2].value
         }) }}
 
@@ -91,7 +91,7 @@
           },
           id: "rfi_question_4",
           name: "rfi_question_4",
-          classes: "ccs-dynaform-hidden",
+          classes: "add",
           value:  requirement.nonOCDS.options[3].value
         }) }}
 
@@ -102,7 +102,7 @@
           },
           id: "rfi_question_5",
           name: "rfi_question_5",
-          classes: "ccs-dynaform-hidden",
+          classes: "add",
           value:  requirement.nonOCDS.options[4].value
         }) }}
 
@@ -113,7 +113,7 @@
           },
           id: "rfi_question_6",
           name: "rfi_question_6",
-          classes: "ccs-dynaform-hidden",
+          classes: "add",
           value:  requirement.nonOCDS.options[5].value
         }) }}
 
@@ -124,7 +124,7 @@
           },
           id: "rfi_question_7",
           name: "rfi_question_7",
-          classes: "ccs-dynaform-hidden",
+          classes: "add",
           value:  requirement.nonOCDS.options[6].value
         }) }}
 
@@ -135,7 +135,7 @@
           },
           id: "rfi_question_8",
           name: "rfi_question_8",
-          classes: "ccs-dynaform-hidden",
+          classes: "add",
           value:  requirement.nonOCDS.options[7].value
         }) }}
 
@@ -146,7 +146,7 @@
           },
           id: "rfi_question_9",
           name: "rfi_question_9",
-          classes: "ccs-dynaform-hidden",
+          classes: "add",
           value:  requirement.nonOCDS.options[8].value
         }) }}
 
@@ -157,7 +157,7 @@
           },
           id: "rfi_question_10",
           name: "rfi_question_10",
-          classes: "ccs-dynaform-hidden",
+          classes: "add",
           value:  requirement.nonOCDS.options[9].value
         }) }}
            <p class="govuk-body">
@@ -231,7 +231,17 @@
          {% set radioArray = (radioArray.push(
            {
              value: radioOption.value,
-             html: "<h3 class='govuk-heading-m'>" + radioOption.value + "</h3>"
+             html: "<h3 class='govuk-heading-m'>" + radioOption.value + "</h3>",
+              hint: {
+                html: "<p class='govuk-hint'>For individuals with any access to government assets. 
+                  This means all civil servants, members of the armed forces, temporary staff and government 
+                  contractors generally. 
+                  <a class='govuk-link govuk-link--no-visited-state' href='https://www.gov.uk/government/publications/united-kingdom-security-vetting-clearance-levels/national-security-vetting-clearance-levels#baseline-personnel-security-standard-bpss'>Read more about BPSS clearance.</a></p>"
+              },
+              checked: "",
+              label: {
+                classes: "ccs_eoi_vetting"
+              }
            }), radioArray) 
            %}
 
@@ -265,6 +275,7 @@
 
           {% block KeySelect%}
           {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and  (requirement.nonOCDS.multiAnswer === true)   %}
+          
   
           {{ CCSFieldset({
           legend: {
