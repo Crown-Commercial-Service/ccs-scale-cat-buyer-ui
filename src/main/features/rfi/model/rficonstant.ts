@@ -13,6 +13,7 @@ export enum RFI_PATHS {
     GET_NAME_YOUR_PROJECT = '/rfi/name-your-project',
     GET_LEAD_PROCUEMENT = '/rfi/procurement-lead',
     GET_ADD_COLLABORATOR = '/rfi/add-collaborators',
+    GET_USER_PROCUREMENT = '/rft/users-procurement-lead',
     
 
 
