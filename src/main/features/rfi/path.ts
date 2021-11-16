@@ -48,6 +48,8 @@ export default function (app: Application): void {
   //@GET '/rfi/procurement-lead'
   app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_LEAD_PROCUREMENT)
 
+ //@GET '/rfi/procurement-lead'
+ app.get(RFI_PATHS.GET_USER_PROCUREMENT, associatedViews.GET_USER_PROCUREMENT)
 
 
   /**
@@ -69,8 +71,9 @@ export default function (app: Application): void {
   //@POST '/rfi/name'
   app.post(RFI_PATHS.POST_PROJECT_NAME, associatedViews.POST_NAME_PROJECT);
 
-  //@POST '/rfi/get-collaborator-detail'
-  app.post(RFI_PATHS.POST_ADD_COLLABORATOR, AUTH, associatedViews.POST_ADD_COLLABORATOR)
+  //@POST '/rfi/procurement-lead'
+  app.post(RFI_PATHS.POST_LEAD_PROCUREMENT, associatedViews.POST_LEAD_PROCUREMENT)
+  
 
 
 
