@@ -40,17 +40,17 @@
                 },
                 {
                     "Task": 2,
-                    "link": "/rfi/add-collaborators",
-                    "title": "Add members to your project",
-                    "required": "optional",
-                    "status": "todo"
-                },
-                {
-                    "Task": 3,
                     "link": "/rfi/procurement-lead",
                     "title": "Change who is going to lead the procurement",
                     "required": "mandatory",
                     "status": "done"
+                },
+                {
+                    "Task": 3,
+                    "link": "/rfi/add-collaborators",
+                    "title": "Add members to your project",
+                    "required": "optional",
+                    "status": "todo"
                 }
             ]
         },
