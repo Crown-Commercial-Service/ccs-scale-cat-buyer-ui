@@ -70,9 +70,7 @@ export const GET_USER_PROCUREMENT = async (req: express.Request, res: express.Re
    const { projectId } = req.session;
    const url = `/tenders/projects/${projectId}/users`;
    try {
-      const { data: users } = await TenderApi.Instance(SESSION_ID).get(url);
-      console.log(url);
-      
+      const { data: users } = await TenderApi.Instance(SESSION_ID).get(url);      
       const finalUsers = users.map((user: any) => user.OCDS.contact);
       const selectedUser = finalUsers.find((user: any) => user.email === id);
       res.json(selectedUser);

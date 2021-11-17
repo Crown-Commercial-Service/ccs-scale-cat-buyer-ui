@@ -28,6 +28,7 @@ export enum RFI_PATHS {
     POST_PROJECT_NAME = '/rfi/name',
     POST_ADD_COLLABORATOR = '/rfi/get-collaborator-detail',
     POST_ADD_COLLABORATOR_TO_JAGGER  = "/rfi/add-collaborator-detail",
-    PUT_LEAD_PROCUREMENT = '/rfi/procurement-lead'
+    PUT_LEAD_PROCUREMENT = '/rfi/procurement-lead',
+    POST_PROCEED_COLLABORTORS = '/rfi/proceed-collaborators'
 
 }
