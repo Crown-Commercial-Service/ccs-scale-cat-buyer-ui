@@ -10,19 +10,30 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
    req.session['organizationId'] = organization_id;
    let { SESSION_ID } = req.cookies;
    const { projectId } = req.session;
-   const { sub: defaultLeader } = req.session.user.payload;
    const url = `/tenders/projects/${projectId}/users`;
 
    try {
-      let organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
+      const { data: usersTemp } = await TenderApi.Instance(SESSION_ID).get(url);
+      
+      let leaderFound = usersTemp.find((user: any) => user.nonOCDS.projectOwner);
+      
+      let leader: string;
+      if (leaderFound) {
+         leader = leaderFound.OCDS.id;
+      } else {
+         const { sub: defaultLeader } = req.session.user.payload;
+         leader = defaultLeader;
+      } 
+
+      const finalUsersTemp = usersTemp.map((user: any) => user.OCDS.contact);
+      const selectedUser = finalUsersTemp.find((user: any) => user.email === leader);
+
+      const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`      
       const { data: dataRaw } = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
       const { userList: userRaw } = dataRaw;
-      const users = userRaw.map((user: any) => { return { ...user, selected: defaultLeader === user.userName } });
+      const users = userRaw.map((user: any) => { return { ...user, selected: leader === user.userName } });
       const finalData = { ...dataRaw, userList: users };
 
-      const { data: usersTemp } = await TenderApi.Instance(SESSION_ID).get(url);
-      const finalUsersTemp = usersTemp.map((user: any) => user.OCDS.contact);
-      const selectedUser = finalUsersTemp.find((user: any) => user.email === defaultLeader);
 
       const windowAppendData = { userdata: finalData, selectedUser }
       res.render('procurementLead', windowAppendData);
@@ -44,7 +55,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
          "userType": "PROJECT_OWNER"
       }
       await TenderApi.Instance(SESSION_ID).put(url, _body);
-      res.redirect('/rfi/rfi-tasklist');
+      res.redirect('/rfi/add-collaborators');
    }
    catch (error) {
       LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
@@ -60,6 +71,8 @@ export const GET_USER_PROCUREMENT = async (req: express.Request, res: express.Re
    const url = `/tenders/projects/${projectId}/users`;
    try {
       const { data: users } = await TenderApi.Instance(SESSION_ID).get(url);
+      console.log(url);
+      
       const finalUsers = users.map((user: any) => user.OCDS.contact);
       const selectedUser = finalUsers.find((user: any) => user.email === id);
       res.json(selectedUser);
