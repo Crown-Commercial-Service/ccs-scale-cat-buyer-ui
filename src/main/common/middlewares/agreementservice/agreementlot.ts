@@ -41,7 +41,7 @@ export class AgreementLotMiddleware {
             next();
 
         } catch (err) {
-            LoggTracer.errorLogger(err, `${req.headers.host}${req.originalUrl}`, state,
+            LoggTracer.errorLogger(res, err, `${req.headers.host}${req.originalUrl}`, state,
                 TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
         }
     }

@@ -7,7 +7,7 @@ import { LoggTracer } from '../../logtracer/tracer'
 export const LogoutPostHandler = (req: express.Request, res: express.Response, SESSION_ID: string, state: string) => {
 
     req.session.destroy(function (error) {
-        LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, state,
+        LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
             TokenDecoder.decoder(SESSION_ID), "Something went wrong while destroying the session", true)
     })
     res.clearCookie(cookies.sessionID);

@@ -31,7 +31,7 @@ export class LoggTracer {
             await LoggerInstance.Instance.post('', LogMessage);
         }
 
-    static errorLogger = async (errorLog: any, location: string, sessionId: string, userId: string, error_reason: string, redirect?: boolean): Promise<void> => {
+    static errorLogger = async (res: express.Response, errorLog: any, location: string, sessionId: string, userId: string, error_reason: string, redirect?: boolean): Promise<void> => {
         delete errorLog?.config?.['headers'];
         let Logmessage = {
             "Person_id": userId,
@@ -49,7 +49,7 @@ export class LoggTracer {
         )
         logger.error("Exception logged in Logit: "+error_reason);
         if(redirect){
-            LoggTracer.errorTracer(Log, null);
+            LoggTracer.errorTracer(Log, res);
         } else {
             LoggTracer.errorTracerWithoutRedirect(Log);
         }

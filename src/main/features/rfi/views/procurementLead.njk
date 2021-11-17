@@ -2,6 +2,34 @@
 
 {% set title = 'Lead Procurement | Contract a Thing' %}
 
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+    items: [
+      {
+         text: "Dashboard",
+         href: "/dashboard"
+      },
+      {
+         text: "Choose a commericial agreement",
+         href: "/projects/choose-agreement"
+      },
+      {
+         text: "Procurement overview",
+         href: "/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}"
+      },
+      {
+         text: "Do pre-market engagement",
+         href: "/rfi/rfi-tasklist"
+      },
+      {
+         text: "Change who is going to lead the procurement",
+         href: "#"
+      }
+    ]
+      }) }}
+{% endblock %}
+
+
 {% set organisationUser = userdata.userList%}
 
 {% set sortedMembers = [{value: "", text: "Please select procurement lead", disabled: true}] %}

@@ -6,14 +6,14 @@
         },
         {
             "text": "Choose a commercial agreement",
-            "href": "#"
+            "href": "/projects/choose-agreement"
         },
         {
             "text": "Procument overview",
-            "href": "#"
+            "href": "/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}"
         },
         {
-            "text": "run pre-market engagement",
+            "text": "Do pre-market engagement",
             "href": "#"
         }
 

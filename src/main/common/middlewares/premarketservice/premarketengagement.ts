@@ -29,7 +29,7 @@ export class PreMarketEngagementMiddleware {
             next();
             }).catch(
                 (err) => {
-                    LoggTracer.errorLogger(err, `${req.headers.host}${req.originalUrl}`, state,
+                    LoggTracer.errorLogger(res, err, `${req.headers.host}${req.originalUrl}`, state,
                     TokenDecoder.decoder(SESSION_ID), "Pre market engagement Service Api cannot be connected", true)
                     // res.render(ErrorView.notfound)
                 }

@@ -86,7 +86,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
             }
 
         } catch (error) {
-            LoggTracer.errorLogger(error,`${req.headers.host}${req.originalUrl}`, null, null, "Conclave authentication flow error", true)
+            LoggTracer.errorLogger(res, error,`${req.headers.host}${req.originalUrl}`, null, null, "Conclave authentication flow error", true)
         }
 
     }
