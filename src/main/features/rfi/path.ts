@@ -48,7 +48,6 @@ export default function (app: Application): void {
   //@GET '/rfi/procurement-lead'
   app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_LEAD_PROCUREMENT)
 
-  //@GET '/rfi/procurement-lead'
   app.get(RFI_PATHS.GET_USER_PROCUREMENT, associatedViews.GET_USER_PROCUREMENT)
 
 
