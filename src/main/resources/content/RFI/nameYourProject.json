@@ -10,7 +10,7 @@
         },
         {
             "text": "Procurement overview",
-            "href": "#"
+            "href": "/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}"
         },
         {
           "text": "Do pre-market engagement",
