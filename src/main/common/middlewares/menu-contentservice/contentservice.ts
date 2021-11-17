@@ -40,7 +40,7 @@ export class ContentFetchMiddleware {
             }
             FileIOSystem.readFile(ContentFetchMiddleware.MenuContentFilePath, "utf8", (error: any, savedContentData) => {
                 if (error) {
-                    LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+                    LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
                         null, "Menu content service api throw exception", true)
                 }
                 let compareData: boolean = operations.equals(savedContentData, JSON.stringify(menuItemsStorage));
@@ -57,7 +57,7 @@ export class ContentFetchMiddleware {
                 } else {
                     FileIOSystem.writeFile(ContentFetchMiddleware.MenuContentFilePath, JSON.stringify(menuItemsStorage), (error: any) => {
                         if (error) {
-                            LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+                            LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
                                 null, "File System cannot write local menu content json file", true)
                         }
                         let menu_contents = JSON.parse(savedContentData);
@@ -76,7 +76,7 @@ export class ContentFetchMiddleware {
         } catch (error) {
             FileIOSystem.readFile(ContentFetchMiddleware.MenuContentFilePath, "utf8", (error: any, savedContentData) => {
                 if (error) {
-                    LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+                    LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
                         null, "File System cannot write local menu content json file", true)
                 }
                 else {
@@ -91,7 +91,7 @@ export class ContentFetchMiddleware {
                     next();
                 }
             })
-            LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+            LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
                 null, "Menu content service api throw exception", false)
         }
     }

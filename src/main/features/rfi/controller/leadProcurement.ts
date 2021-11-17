@@ -46,7 +46,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       const windowAppendData = { userdata: finalData, selectedUser }
       res.render('procurementLead', windowAppendData);
    } catch (error) {
-      LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
          TokenDecoder.decoder(SESSION_ID), "Tender Api - getting users from organization or from tenders failed", true)
    }
 }
@@ -64,7 +64,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       res.redirect('/rfi/add-collaborators');
    }
    catch (error) {
-      LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
          TokenDecoder.decoder(SESSION_ID), "Tender Api - getting users from organization or from tenders failed", true)
    }
 
@@ -82,7 +82,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
        res.json(selectedUser);
     }
     catch (error) {
-       LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
           TokenDecoder.decoder(SESSION_ID), "Tender Api - getting users from organization or from tenders failed", true)
     }
  }

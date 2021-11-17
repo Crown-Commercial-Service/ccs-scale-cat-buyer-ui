@@ -72,7 +72,7 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                 res.redirect('/oauth/logout')
             }
         }).catch(error => {
-            LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, state,
+            LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
                 TokenDecoder.decoder(SESSION_ID), "Menu content service api throw exception", true)
         })
 

@@ -59,7 +59,7 @@ export class QuestionHelper {
          }
       } catch (error) {
          logger.log("Something went wrong, please review the logit error log for more information")
-         LoggTracer.errorLogger(error, "questions healper class", null,
+         LoggTracer.errorLogger(res, error, "questions healper class", null,
             TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
       }
    }

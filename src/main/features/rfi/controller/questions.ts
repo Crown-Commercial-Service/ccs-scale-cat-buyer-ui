@@ -169,7 +169,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
                } catch (error) {
                   logger.log("Something went wrong, please review the logit error log for more information")
-                  LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+                  LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
                      TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
                   // res.redirect('/404')
                }
@@ -196,7 +196,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
             } catch (error) {
                logger.log("Something went wrong, please review the logit error log for more information")
-               LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+               LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
                   TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
             }
 

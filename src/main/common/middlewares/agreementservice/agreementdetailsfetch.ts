@@ -32,7 +32,7 @@ export class AgreementDetailsFetchMiddleware {
             next();
         }).catch(
             (error) => {
-                LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, state,
+                LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
                     TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
             }
         )

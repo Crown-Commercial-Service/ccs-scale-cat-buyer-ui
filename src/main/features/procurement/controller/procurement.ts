@@ -63,7 +63,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     appendData = { ...appendData, agreementName };
     res.render('procurement', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(error, `${req.headers.host}${req.originalUrl}`, null,
+    LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
       TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
   }
 }
