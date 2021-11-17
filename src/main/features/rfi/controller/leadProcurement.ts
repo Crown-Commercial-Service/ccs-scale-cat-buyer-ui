@@ -42,9 +42,13 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       for (var a = 1; a <= pageCount; a++) {
          let organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`
          let organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint_loop);
+         console.log(organisation_user_data_loop?.data)
          let { userList } = organisation_user_data_loop?.data;
+ 
          usersRaw.push(...userList)
       }
+
+     
       const users = usersRaw.map((user: any) => { return { ...user, selected: leader === user.userName } });
       const finalData = { ...usersRaw, userList: users };
 
