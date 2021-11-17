@@ -1,6 +1,7 @@
 import * as express from 'express'
 import { operations } from '../../../utils/operations/operations';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import {OrganizationInstance} from '../util/fetch/organizationuserInstance'
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { QuestionHelper } from '../helpers/question'
@@ -28,9 +29,26 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-
       let headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
       let heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
+      let organiztionID = req.session.user.payload.ciiOrgId;
+      let organizationDataBaseURL = `/organisation-profiles/${organiztionID}`;
+      let organizationDataPromise = await OrganizationInstance.OrganizationUserInstance().get(organizationDataBaseURL);
+      let organizationName = organizationDataPromise?.data.organisationDetails.identifier.legalName
+      req.session.organisationDetails = organizationName
+      
+      /**
+       * let { organizationData} = organizationDataPromise.data;
+      let organisationName = organizationData?.identifier.legalName;
+      console.log({organizationData: organisationName})
+       */
+
+      /**
+       *  
+     
+       */
+
+     
 
 
       let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
@@ -68,6 +86,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
             return '';
          }
       })
+
+      console.log(fetch_dynamic_api_data)
 
       let data = {
          "data": fetch_dynamic_api_data,

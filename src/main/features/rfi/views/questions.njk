@@ -456,7 +456,7 @@
 
 
         {% block Address%}
-          {% if (requirement.nonOCDS.questionType == 'Address') and  (requirement.nonOCDS.multiAnswer == false)   %}
+          {% if (requirement.nonOCDS.questionType === 'MultiSelect') and  (requirement.nonOCDS.multiAnswer === true)   %}
           <p class="govuk-body">Select the locations where you would expect the staff supplied to work. You can select multiple locations or if you do not need them to work in an office you can select ‘No specific location’.</p><br>
 
           {{ CCSCheckboxes({
