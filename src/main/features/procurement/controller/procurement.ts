@@ -45,7 +45,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     logger.info('procurement.created', procurement)
     req.session.lotId = procurement['defaultName']['components']['lotId'];
     req.session.project_name = procurement['defaultName']['name'];
-    req.session.projectId = procurement['pocurementID'];
+      req.session.projectId = procurement['procurementID'];
     req.session.eventId = procurement['eventId'];
     req.session.types = types;
     req.session.agreementLotName = agreementLotName;

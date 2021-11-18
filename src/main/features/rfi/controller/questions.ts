@@ -169,13 +169,17 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                };
 
                try {
-                  let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
-                  let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+
                   console.log({
-                     data: postData,
-                     answerBody: answerBody.nonOCDS.options,
+                     answerBody: answerBody,
                      selected: 1
                   })
+
+
+
+                  let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
+                  let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                  console.log(postData)
                   QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
                } catch (error) {
                   console.log(error)
@@ -200,29 +204,43 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             }
          }
          else {
-
             let selectedOptionToggle = [...object_values].map((anObject : any)=> {
-               let modifiedObject = {...anObject, "selected": true};
-               return modifiedObject;
+                 
+               let check = Array.isArray(anObject?.value);
+               if(check){
+                  let arrayOFArrayedObjects = anObject?.value.map((anItem: any)=> {
+                     return {value: anItem, selected: true}
+                  });
+                  arrayOFArrayedObjects = arrayOFArrayedObjects.flat().flat()
+                  return arrayOFArrayedObjects;
+               }
+               else return {value: anObject.value, selected: true}
             })
+
+            selectedOptionToggle = selectedOptionToggle.map((anItem: any)=> {
+               if(Array.isArray(anItem)){
+                  return anItem;
+               }
+               else{
+                  return [anItem];
+               }
+            });
+
+            console.log(selectedOptionToggle)
 
             let answerBody = {
                "nonOCDS": {
                   "answered": true,
                   "options": [
-                     ...selectedOptionToggle,
+                     ...object_values,
                   ]
                }
             };
 
-            try {
+             try {
                let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-               console.log({
-                  data: postData,
-                  answerBody: answerBody,
-                  selected: 2
-               })
+              console.log(postData)
                QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
             } catch (error) {
                console.log(error)
@@ -245,7 +263,9 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                LoggTracer.errorTracer(Log, res)
             }
 
-         }
+                   
+
+      }
 
       }
       else {
