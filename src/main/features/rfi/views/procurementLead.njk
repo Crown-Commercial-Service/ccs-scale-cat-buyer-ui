@@ -29,12 +29,9 @@
       }) }}
 {% endblock %}
 
-
-{% set organisationUser = userdata.userList%}
-
 {% set sortedMembers = [{value: "", text: "Please select procurement lead", disabled: true}] %}
-{% for user in organisationUser %}
-    {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name, selected: user.selected}), sortedMembers) %}
+{% for user in userdata %}
+    {% set sortedMembers = (sortedMembers.push({value: user.email, text: user.name, selected: user.selected}), sortedMembers) %}
 {% endfor %}
 
 {% block content %}
