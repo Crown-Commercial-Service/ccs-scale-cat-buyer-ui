@@ -41,11 +41,12 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
          let { userList } = organisation_user_data_loop?.data;
          usersRaw.push(...userList)
       }
-
+      const lotId = req.session?.lotId;
+      const agreementLotName = req.session.agreementLotName;
       const users = usersRaw.map((user: any) => { return { ...user, selected: leader === user.userName } });
 
 
-      const windowAppendData = { userdata: users, selectedUser }
+      const windowAppendData = { userdata: users, selectedUser, lotId, agreementLotName }
       res.render('procurementLead', windowAppendData);
    } catch (error) {
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
