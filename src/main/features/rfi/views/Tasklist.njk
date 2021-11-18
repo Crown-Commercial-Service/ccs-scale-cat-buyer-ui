@@ -3,8 +3,29 @@
 {% set title = 'RFI Task List | Contract a Thing' %}
 
 {% block content %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
 {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
+        items: [
+        {
+            "text": "Dashboard",
+            "href": "/"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procument overview",
+            "href": url
+        },
+        {
+            "text": "Do pre-market engagement",
+            "href": "#"
+        }
+
+        ]
       }) }}
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
   <div class="govuk-grid-row">

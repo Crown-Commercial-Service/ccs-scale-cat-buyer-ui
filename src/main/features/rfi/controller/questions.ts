@@ -1,7 +1,7 @@
 import * as express from 'express'
 import { operations } from '../../../utils/operations/operations';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import {OrganizationInstance} from '../util/fetch/organizationuserInstance'
+//import {OrganizationInstance} from '../util/fetch/organizationuserInstance'
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { QuestionHelper } from '../helpers/question'
@@ -9,6 +9,9 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('questions page');
+import {LogMessageFormatter} from '../../../common/logtracer/logmessageformatter'
+
+
 
 /**
  * @Controller
@@ -31,37 +34,24 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       let fetch_dynamic_api_data = fetch_dynamic_api?.data;
       let headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
       let heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
-      let organiztionID = req.session.user.payload.ciiOrgId;
+
+
+      /** let organiztionID = req.session.user.payload.ciiOrgId;
       let organizationDataBaseURL = `/organisation-profiles/${organiztionID}`;
       let organizationDataPromise = await OrganizationInstance.OrganizationUserInstance().get(organizationDataBaseURL);
-      let organizationName = organizationDataPromise?.data.organisationDetails.identifier.legalName
+      let organizationName = organizationDataPromise?.data?.identifier?.legalName;
       req.session.organisationDetails = organizationName
-      
-      /**
-       * let { organizationData} = organizationDataPromise.data;
-      let organisationName = organizationData?.identifier.legalName;
-      console.log({organizationData: organisationName})
+       * 
        */
-
-      /**
-       *  
      
-       */
-
-     
-
-
       let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
          return agroupitem?.OCDS?.['id'] === group_id;
       })
 
       matched_selector = matched_selector?.[0];
-      let { OCDS } = matched_selector;
+      let { OCDS, nonOCDS } = matched_selector;
       let titleText = OCDS?.description;
-
-
-
-
+      let promptData = nonOCDS?.prompt;
 
       let find_validtor = fetch_dynamic_api_data?.map((aSelector: any) => {
 
@@ -77,7 +67,9 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
          else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true) {
             return 'ccs_rfi_acronyms_form'
          }
-
+         else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == false) {
+            return 'ccs_rfi_about_proj'
+         }
          else if (aSelector.nonOCDS.questionType === 'Address' && aSelector.nonOCDS.multiAnswer === false) {
             return 'rfi_location'
          }
@@ -87,8 +79,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
          }
       })
 
-      console.log(fetch_dynamic_api_data)
-
       let data = {
          "data": fetch_dynamic_api_data,
          "agreement_id": agreement_id,
@@ -97,13 +87,31 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
          "group_id": group_id,
          "criterian_id": id,
          "validation": find_validtor?.[0],
-         "rfiTitle": titleText
+         "rfiTitle": titleText,
+         "prompt": promptData
       }
 
       res.render('questions', data);
    }
-   catch (err) {
-      res.redirect(ErrorView.notfound)
+   catch (error) {
+
+      logger.log("Something went wrong, please review the logit error log for more information")
+      delete error?.config?.['headers'];
+      let Logmessage = {
+         "Person_id": TokenDecoder.decoder(SESSION_ID),
+         "error_location": `${req.headers.host}${req.originalUrl}`,
+         "sessionId": "null",
+         "error_reason": "RFI Dynamic framework throws error - Tenders Api is causing problem",
+         "exception": error
+      }
+      let Log = new LogMessageFormatter(
+         Logmessage.Person_id,
+         Logmessage.error_location,
+         Logmessage.sessionId,
+         Logmessage.error_reason,
+         Logmessage.exception
+      )
+      LoggTracer.errorTracer(Log, res);
    }
 
 }
@@ -122,6 +130,8 @@ export var array: any = [];
 // path = '/rfi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
    var { agreement_id, proc_id, event_id, id, group_id } = req.query;
+
+   console.log(req.body)
 
    var { SESSION_ID } = req.cookies;
    let started_progress_check: Boolean = operations.isUndefined(req.body, 'rfi_build_started');
@@ -159,23 +169,64 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                };
 
                try {
-                  let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
-                  let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+
                   console.log({
-                     data: postData,
                      answerBody: answerBody,
                      selected: 1
                   })
+
+
+
+                  let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
+                  let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                  console.log(postData)
                   QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
                } catch (error) {
+                  console.log(error)
                   logger.log("Something went wrong, please review the logit error log for more information")
-                  LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-                     TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
-                  // res.redirect('/404')
+                  delete error?.config?.['headers'];
+                  let Logmessage = {
+                     "Person_id": TokenDecoder.decoder(SESSION_ID),
+                     "error_location": `${req.headers.host}${req.originalUrl}`,
+                     "sessionId": "null",
+                     "error_reason": "RFI Dynamic framework throws error - Tender Api is causing problem",
+                     "exception": error
+                  }
+                  let Log = new LogMessageFormatter(
+                     Logmessage.Person_id,
+                     Logmessage.error_location,
+                     Logmessage.sessionId,
+                     Logmessage.error_reason,
+                     Logmessage.exception
+                  )
+                  LoggTracer.errorTracer(Log, res);
                }
             }
          }
          else {
+            let selectedOptionToggle = [...object_values].map((anObject : any)=> {
+                 
+               let check = Array.isArray(anObject?.value);
+               if(check){
+                  let arrayOFArrayedObjects = anObject?.value.map((anItem: any)=> {
+                     return {value: anItem, selected: true}
+                  });
+                  arrayOFArrayedObjects = arrayOFArrayedObjects.flat().flat()
+                  return arrayOFArrayedObjects;
+               }
+               else return {value: anObject.value, selected: true}
+            })
+
+            selectedOptionToggle = selectedOptionToggle.map((anItem: any)=> {
+               if(Array.isArray(anItem)){
+                  return anItem;
+               }
+               else{
+                  return [anItem];
+               }
+            });
+
+            console.log(selectedOptionToggle)
 
             let answerBody = {
                "nonOCDS": {
@@ -185,22 +236,36 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   ]
                }
             };
-            try {
+
+             try {
                let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-               console.log({
-                  data: postData,
-                  answerBody: answerBody,
-                  selected: 2
-               })
+              console.log(postData)
                QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
             } catch (error) {
+               console.log(error)
                logger.log("Something went wrong, please review the logit error log for more information")
-               LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-                  TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
+               delete error?.config?.['headers'];
+               let Logmessage = {
+                  "Person_id": TokenDecoder.decoder(SESSION_ID),
+                  "error_location": `${req.headers.host}${req.originalUrl}`,
+                  "sessionId": "null",
+                  "error_reason": "Dyanamic framework throws error - Tender Api is causing problem",
+                  "exception": error
+               }
+               let Log = new LogMessageFormatter(
+                  Logmessage.Person_id,
+                  Logmessage.error_location,
+                  Logmessage.sessionId,
+                  Logmessage.error_reason,
+                  Logmessage.exception
+               )
+               LoggTracer.errorTracer(Log, res)
             }
 
-         }
+                   
+
+      }
 
       }
       else {

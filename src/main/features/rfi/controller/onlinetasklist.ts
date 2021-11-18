@@ -42,12 +42,16 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             return object;
          });
          let select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
+         const lotId = req.session?.lotId;
+         const agreementLotName = req.session.agreementLotName;
          var display_fetch_data = {
             data: select_default_data_from_fetch_dynamic_api,
             agreement_id: agreement_id,
             file_data: fileData,
             proc_id: proc_id,
-            event_id: event_id
+            event_id: event_id,
+            lotId,
+            agreementLotName
          }
          res.render('onlinetasklist', display_fetch_data);
       } catch (error) {

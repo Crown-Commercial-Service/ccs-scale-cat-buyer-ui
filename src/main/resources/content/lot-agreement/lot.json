@@ -1,18 +1,4 @@
 {
-    "breadCrumbs": [
-        {
-            "text": "Home",
-            "href": "/"
-        },
-        {
-            "text": "Dashboard",
-            "href": "/dashboard"
-        },
-        {
-            "text": "Choose a commercial agreement",
-            "href": "#"
-        }
-    ],
     "title": null,
     "subtitle": null,
     "line1": "You can now procure online with CCS.",

@@ -41,17 +41,18 @@
  <div class="govuk-grid-row">
  <div class="govuk-grid-column-two-thirds">
   {% include "includes/project_header.njk" %}  
- <p class="govuk-body-l">{{data.rfiTitle}}</p><br><br><br>
+ <p class="govuk-body-l">{{data.rfiTitle}}</p><br>
   
 
 
    <form id="{{validation}}" name="{{validation}}" class="form {{validation}}" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
+        <p class="govuk-body">{{prompt | safe}}</p>
 
           {% for requirement in data %}
             {% block value %}
           {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
 
-          <p class="govuk-body">You can ask suppliers up to 10 questions. These questions can help you to better understand costs, time needed for the work and the types of products and services they can offer. You can edit and remove questions before you save and continue or before you publish your RfI. </p>
+          
         {{ CCSInput({
           label: {
             text: "Enter your first question",
@@ -210,6 +211,33 @@
 
 
 
+  {% block TextSelect%}
+          {% if (requirement.nonOCDS.questionType == 'Text') and  (requirement.nonOCDS.multiAnswer == false)   %}
+
+           {{ CCSTextarea({
+      name: "rfi_prob_statement",
+      id: "rfi_prob_statement",
+      value: requirement.nonOCDS.options[0].value,
+      label: {
+      text: "Write your key background information here",
+      classes: "govuk-label--m"
+      }
+      }) }}
+
+
+      {{ CCSInput({
+          id: "question_id",
+          name: "question_id",
+          type: "hidden",
+          value: requirement.OCDS.id
+        }) }}
+
+
+          {%endif%}
+
+  {% endblock %}        
+
+
 
 
 
@@ -222,38 +250,64 @@
 
            {% block singleSelect%}
           {% if (requirement.nonOCDS.questionType == 'SingleSelect') and  (requirement.nonOCDS.multiAnswer == false)   %}
-      
+          <br>
           
           {% set radioArray = [] %}
 
-          {% for radioOption in requirement.nonOCDS.options %}
-        
-         {% set radioArray = (radioArray.push(
-           {
-             value: radioOption.value,
-             html: "<h3 class='govuk-heading-m'>" + radioOption.value + "</h3>",
-              hint: {
-                html: "<p class='govuk-hint'>For individuals with any access to government assets. 
-                  This means all civil servants, members of the armed forces, temporary staff and government 
-                  contractors generally. 
-                  <a class='govuk-link govuk-link--no-visited-state' href='https://www.gov.uk/government/publications/united-kingdom-security-vetting-clearance-levels/national-security-vetting-clearance-levels#baseline-personnel-security-standard-bpss'>Read more about BPSS clearance.</a></p>"
-              },
-              checked: "",
-              label: {
-                classes: "ccs_eoi_vetting"
-              }
-           }), radioArray) 
-           %}
+          {% for i in range(0, requirement.nonOCDS.options | length) -%}
+        {% if i == 0%}
+        <div class="govuk-radios__item">
+         {%if requirement.nonOCDS.options[i].selected === true %}
+          <input class="govuk-radios__input" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
+           {%else%}
+          <input class="govuk-radios__input" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
+           {%endif%}
+          <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
+        <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+        </label>
+          <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
+          <p class="govuk-hint">For individuals with any access to government assets. 
+                        This means all civil servants, members of the armed forces, temporary staff and government 
+                        contractors generally. 
+                        <a class="govuk-link govuk-link--no-visited-state" href="https://www.gov.uk/government/publications/united-kingdom-security-vetting-clearance-levels/national-security-vetting-clearance-levels#baseline-personnel-security-standard-bpss">Read more about BPSS clearance.</a></p>
+        </div>
+        </div>
+        {% else %}
 
-          {% endfor %}
+        <div class="govuk-radios__item">
+        {%if requirement.nonOCDS.options[i].selected === true %}
+          <input class="govuk-radios__input" id="ccs_vetting_type-{{i}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
+         {%else%}
+          <input class="govuk-radios__input" id="ccs_vetting_type-{{i}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
+         {% endif %} 
+          <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
+        <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+      </label>
+          <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
+        <p class="govuk-hint">For individuals with any access to government assets. 
+                        This means all civil servants, members of the armed forces, temporary staff and government 
+                        contractors generally. 
+                        <a class="govuk-link govuk-link--no-visited-state" href="https://www.gov.uk/government/publications/united-kingdom-security-vetting-clearance-levels/national-security-vetting-clearance-levels#baseline-personnel-security-standard-bpss">Read more about BPSS clearance.</a></p>
+        </div>
+        </div>
+
+        {%endif%}
+        {%- endfor %}
 
           {{ CCSRadios({
                 idPrefix: "ccs_rfi_type",
                 name: data.OCDS.description | replace(' ', '_'),
                 items: radioArray
            }) }}
-      
-       
+
+
+      {{ CCSInput({
+          id: "question_id",
+          name: "question_id",
+          type: "hidden",
+          value: requirement.OCDS.id
+        }) }}
+
           {% endif %}
           {% endblock %}
 
@@ -274,30 +328,30 @@
 
 
           {% block KeySelect%}
-          {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and  (requirement.nonOCDS.multiAnswer === true)   %}
-          
-  
-          {{ CCSFieldset({
+          {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and  (requirement.nonOCDS.multiAnswer === true)   %} 
+
+         
+         {% call CCSFieldset({
           legend: {
-            text: "Term or Acronym 1",
+            text: "First term or acronym",
             classes: "govuk-fieldset__legend--m",
             isPageHeading: false
           },
           classes: "acronym_1"
-        }) }}
+        }) %}
 
           {{ CCSInput({
             label: {
-              text: "Expression or acronym"
+              text: "Write the term or acronym"
             },
             id: "rfi_term_1",
             name: "rfi_term_1",
             classes: "rfi_term_1",
-            value: requirement.nonOCDS.options[0].value
+            value: data['rfi_term_1']
           }) }}
 
           {{ CCSTextarea({
-            name: "rfi_term_definition",
+            name: "rfi_term_definition_1",
             id: "rfi_term_definition_1",
             label: {
               text: "Write a definition for the term or acronym explaining what it means"
@@ -305,26 +359,26 @@
             classes: "rfi_term_definition_1",
             value: data['rfi_term_definition_1']
           }) }}
-  
- 
 
-        {{ CCSFieldset({
-           legend: {
+        {% endcall %} 
+
+        {% call CCSFieldset({
+          legend: {
             html: "Second term or acronym<a href='2' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
             classes: "govuk-fieldset__legend--m",
             isPageHeading: false
           },
           classes: "acronym_2"
-        }) }}
+        }) %}
 
           {{ CCSInput({
-           label: {
+            label: {
               text: "Write the term or acronym"
             },
             id: "rfi_term_2",
             name: "rfi_term_2",
             classes: "rfi_term_2",
-            value: requirement.nonOCDS.options[1].value
+            value: data['rfi_term_2']
           }) }}
 
           {{ CCSTextarea({
@@ -332,53 +386,54 @@
               text: "Write a definition for the term or acronym explaining what it means"
             },
             id: "rfi_term_definition_2",
-            name: "rfi_term_definition",
+            name: "rfi_term_definition_2",
             spellcheck: false,
             classes: "rfi_term_definition_2",
             value: data['rfi_term_definition_2']
           }) }}
 
-      
+        {% endcall %}
 
-        {{  CCSFieldset({
-         legend: {
+        {% call CCSFieldset({
+          legend: {
             html: "Third term or acronym<a href='3' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
             classes: "govuk-fieldset__legend--m",
             isPageHeading: false
           },
           classes: "acronym_3"
-        }) }}
+        }) %}
 
           {{ CCSInput({
-             label: {
+            label: {
               text: "Write the term or acronym"
             },
             id: "rfi_term_3",
             name: "rfi_term_3",
             classes: "rfi_term_3",
-            value: requirement.nonOCDS.options[2].value
+            value: data['rfi_term_3']
           }) }}
 
           {{ CCSTextarea({
-           label: {
+            label: {
               text: "Write a definition for the term or acronym explaining what it means"
             },
             id: "rfi_term_definition_3",
-            name: "rfi_term_definition",
+            name: "rfi_term_definition_3",
             spellcheck: false,
             classes: "rfi_term_definition_3",
             value: data['rfi_term_definition_3']
           }) }}
 
+        {% endcall %}
 
-        {{ CCSFieldset({
-         legend: {
+        {% call CCSFieldset({
+          legend: {
             html: "Fourth term or acronym <a href='4' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
             classes: "govuk-fieldset__legend--m",
             isPageHeading: false
           },
           classes: "acronym_4"
-        }) }}
+        }) %}
 
           {{ CCSInput({
             label: {
@@ -387,29 +442,30 @@
             id: "rfi_term_4",
             name: "rfi_term_4",
             classes: "rfi_term_4",
-            value: requirement.nonOCDS.options[3].value
+            value: data['rfi_term_4']
           }) }}
 
           {{ CCSTextarea({
-           label: {
+            label: {
               text: "Write a definition for the term or acronym explaining what it means"
             },
             id: "rfi_term_definition_4",
-            name: "rfi_term_definition",
+            name: "rfi_term_definition_4",
             spellcheck: false,
             classes: "rfi_term_definition_4",
             value: data['rfi_term_definition_4']
           }) }}
 
+        {% endcall %}
 
-        {{ CCSFieldset({
-           legend: {
+        {% call CCSFieldset({
+          legend: {
             html: "Fifth term or acronym <a href='5' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
             classes: "govuk-fieldset__legend--m",
             isPageHeading: false
           },
           classes: "acronym_5"
-        }) }}
+        }) %}
 
           {{ CCSInput({
             label: {
@@ -418,116 +474,238 @@
             id: "rfi_term_5",
             name: "rfi_term_5",
             classes: "rfi_term_5",
-            value: requirement.nonOCDS.options[4].value
+            value: data['rfi_term_5']
           }) }}
 
            {{ CCSTextarea({
-           label: {
+            label: {
               text: "Write a definition for the term or acronym explaining what it means"
             },
             id: "rfi_term_definition_5",
-            name: "rfi_term_definition",
+            name: "rfi_term_definition_5",
             spellcheck: false,
             classes: "rfi_term_definition_5",
             value: data['rfi_term_definition_5']
           }) }}
 
+        {% endcall %}
 
-       
-     <p class="govuk-body">
-          {{ CCSButton({
-            text: requirement.ocds.description,
-            attributes: {
-              id: "ccs_criteria_add"
+
+
+        {% call CCSFieldset({
+          legend: {
+            html: "Sixth term or acronym <a href='6' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          },
+          classes: "acronym_6"
+        }) %}
+
+          {{ CCSInput({
+            label: {
+              text: "Write the term or acronym"
             },
-            classes: "govuk-button--secondary"
+            id: "rfi_term_6",
+            name: "rfi_term_6",
+            classes: "rfi_term_6",
+            value: data['rfi_term_6']
           }) }}
-        </p>
 
-           {{ CCSInput({
+           {{ CCSTextarea({
+            label: {
+              text: "Write a definition for the term or acronym explaining what it means"
+            },
+            id: "rfi_term_definition_6",
+            name: "rfi_term_definition_6",
+            spellcheck: false,
+            classes: "rfi_term_definition_6",
+            value: data['rfi_term_definition_6']
+          }) }}
+
+        {% endcall %}
+
+
+        {% call CCSFieldset({
+          legend: {
+            html: "Seventh term or acronym <a href='7' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          },
+          classes: "acronym_7"
+        }) %}
+
+          {{ CCSInput({
+            label: {
+              text: "Write the term or acronym"
+            },
+            id: "rfi_term_7",
+            name: "rfi_term_7",
+            classes: "rfi_term_7",
+            value: data['rfi_term_7']
+          }) }}
+
+           {{ CCSTextarea({
+            label: {
+              text: "Write a definition for the term or acronym explaining what it means"
+            },
+            id: "rfi_term_definition_7",
+            name: "rfi_term_definition_7",
+            spellcheck: false,
+            classes: "rfi_term_definition_7",
+            value: data['rfi_term_definition_7']
+          }) }}
+
+        {% endcall %}
+
+
+        {% call CCSFieldset({
+          legend: {
+            html: "Eight term or acronym <a href='8' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          },
+          classes: "acronym_8"
+        }) %}
+
+          {{ CCSInput({
+            label: {
+              text: "Write the term or acronym"
+            },
+            id: "rfi_term_8",
+            name: "rfi_term_8",
+            classes: "rfi_term_8",
+            value: data['rfi_term_8']
+          }) }}
+
+           {{ CCSTextarea({
+            label: {
+              text: "Write a definition for the term or acronym explaining what it means"
+            },
+            id: "rfi_term_definition_8",
+            name: "rfi_term_definition_8",
+            spellcheck: false,
+            classes: "rfi_term_definition_8",
+            value: data['rfi_term_definition_8']
+          }) }}
+
+        {% endcall %}
+
+
+         {% call CCSFieldset({
+          legend: {
+            html: "Nineth term or acronym <a href='9' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          },
+          classes: "acronym_9"
+        }) %}
+
+          {{ CCSInput({
+            label: {
+              text: "Write the term or acronym"
+            },
+            id: "rfi_term_9",
+            name: "rfi_term_9",
+            classes: "rfi_term_9",
+            value: data['rfi_term_9']
+          }) }}
+
+           {{ CCSTextarea({
+            label: {
+              text: "Write a definition for the term or acronym explaining what it means"
+            },
+            id: "rfi_term_definition_9",
+            name: "rfi_term_definition_9",
+            spellcheck: false,
+            classes: "rfi_term_definition_9",
+            value: data['rfi_term_definition_9']
+          }) }}
+
+        {% endcall %}
+
+ {% call CCSFieldset({
+          legend: {
+            html: "Tenth term or acronym <a href='10' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
+            classes: "govuk-fieldset__legend--m",
+            isPageHeading: false
+          },
+          classes: "acronym_10"
+        }) %}
+
+          {{ CCSInput({
+            label: {
+              text: "Write the term or acronym"
+            },
+            id: "rfi_term_10",
+            name: "rfi_term_10",
+            classes: "rfi_term_10",
+            value: data['rfi_term_10']
+          }) }}
+
+           {{ CCSTextarea({
+            label: {
+              text: "Write a definition for the term or acronym explaining what it means"
+            },
+            id: "rfi_term_definition_10",
+            name: "rfi_term_definition_10",
+            spellcheck: false,
+            classes: "rfi_term_definition_10",
+            value: data['rfi_term_definition_10']
+          }) }}
+
+        {% endcall %}
+
+         <p class="govuk-body">
+            {{ CCSButton({
+              text: "Add another term or acronym",
+              attributes: {
+                id: "ccs_rfiTerm_add"
+              },
+              classes: "govuk-button--secondary"
+            }) }}
+          </p>
+
+          
+      {{ CCSInput({
           id: "question_id",
           name: "question_id",
           type: "hidden",
           value: requirement.OCDS.id
         }) }}
-       
           {% endif %}
           {% endblock %}
 
 
+
+
+
+
+
+
+
+
+
+
         {% block Address%}
           {% if (requirement.nonOCDS.questionType === 'MultiSelect') and  (requirement.nonOCDS.multiAnswer === true)   %}
-          <p class="govuk-body">Select the locations where you would expect the staff supplied to work. You can select multiple locations or if you do not need them to work in an office you can select ‘No specific location’.</p><br>
 
+           {% set countryArray = [] %}
+          {% for countries in requirement.nonOCDS.options %}
+           {% set countryArray = (countryArray.push(
+           {
+             value: countries.value,
+             text: countries.value,
+             checked: countries.selected
+           }), countryArray) 
+            %}
+          {% endfor %}
+
+
+         
           {{ CCSCheckboxes({
           idPrefix: "required_locations",
           name: "required_locations",
-          items: [
-            {
-              "value": "North East England",
-              "text": "North East England"
-              
-            },
-            {
-              "value": "North West England",
-              "text": "North West England"
-              
-            },
-            {
-              "value": "Yorkshire and the Humber",
-              "text": "Yorkshire and the Humber"
-             
-            },
-            {
-              "value": "East Midlands",
-              "text": "East Midlands"
-              
-            },
-            {
-              "value": "East of England",
-              "text": "East of England"
-              
-            },
-            {
-              "value": "London",
-              "text": "London"
-              
-            },
-            {
-              "value": "South East England",
-              "text": "South East England"
-              
-            },
-            {
-              "value": "South West England",
-              "text": "South West England"
-              
-            },
-            {
-              "value": "Wales",
-              "text": "Wales"
-              
-            },
-            {
-              "value": "Scotland",
-              "text": "Scotland"
-              
-            },
-            {
-              "value": "Northern Ireland",
-              "text": "Northern Ireland"
-             
-            },
-            {
-              "value": "West Midlands",
-              "text": "West Midlands"
-              
-            },
-            {
-              "value": 13,
-              "text": "No specific location, for example they can work remotely"
-            }
-          ]
+          items: countryArray
         }) }}
 
 

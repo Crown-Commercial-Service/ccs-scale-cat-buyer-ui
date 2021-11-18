@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("ccs_rfi_acronyms_form") !== null) {
 
-    let with_value_count = 5,
+    let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
 
-    for (var acronym_fieldset = 5; acronym_fieldset > 1; acronym_fieldset--) {
+    for (var acronym_fieldset = 10; acronym_fieldset > 1; acronym_fieldset--) {
 
 
       let this_fieldset = document.querySelector(".acronym_" + acronym_fieldset),
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
 
-        if (acronym_fieldset === 5) {
+        if (acronym_fieldset === 10) {
           document.getElementById("ccs_rfiTerm_add").classList.add('ccs-dynaform-hidden');
         }
 
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       with_value_count++;
 
-      if (with_value_count === 6) {
+      if (with_value_count === 11) {
         document.getElementById("ccs_rfiTerm_add").classList.add('ccs-dynaform-hidden');
       }
 
