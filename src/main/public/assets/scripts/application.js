@@ -70,12 +70,14 @@ if (document.getElementById("ccs_eoi_contact_form") !== null) document.getElemen
 //if (document.getElementById("ccs_add_collab") !== null) document.getElementById("ccs_add_collab").addEventListener('submit', ccsZvalidateTeamMems);
 
 //if (document.getElementById("ccs_add_rfi_collab") !== null) document.getElementById("ccs_add_rfi_collab").addEventListener('submit', ccsZvalidateRfiTeamMems);
-//if (document.getElementById("ccs_project_name_form") !== null) document.getElementById("ccs_project_name_form").addEventListener('submit', ccsZvalidateProjectName);
 
+
+if (document.getElementById("ccs_project_name_form") !== null) document.getElementById("ccs_project_name_form").addEventListener('submit', ccsZvalidateRfiName);
 
 if(document.getElementById("ccs_choose_pre_engage") !== null) document.getElementById("ccs_choose_pre_engage").addEventListener('submit', ccsZvalidatePreMarketRoute);
 
 if(document.getElementById("ccs_eoi_type_form") !== null) document.getElementById("ccs_eoi_type_form").addEventListener('submit', ccsZvalidateEoiType);
+
 
 if(document.getElementById("ccs_rfi_type_form") !== null) document.getElementById("ccs_rfi_type_form").addEventListener('submit', ccsZvalidateRfiType);
 

@@ -90,6 +90,7 @@
 
   {### ##}
 
+  {%if(collaborators.length < 5)%}
    
 
       <div class="ccs-page-section">
@@ -138,6 +139,7 @@
       </div>
 
       </form>
+      {%endif%}
       <div id="collaborators-section">
         {% for collaborator in collaborators %}
         <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.id}}">
