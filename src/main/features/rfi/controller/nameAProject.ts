@@ -36,6 +36,7 @@ export const POST_NAME_PROJECT = async (req : express.Request, res : express.Res
             req.session.project_name = name;
         res.redirect('/rfi/procurement-lead');
     }
+    
     catch(error) { 
         LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
         TokenDecoder.decoder(SESSION_ID), "Tender Api - getting users from organization or from tenders failed", true)
