@@ -36,7 +36,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       let collaborator;
       let { userName, firstName, lastName } = req.session['searched_user'];
       let fullName = firstName + " " + lastName;
-      let procurementId = req.session.procurements?.[0].pocurementID;
+      let procurementId = req.session.procurements?.[0].procurementID;
       let collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`
       let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
       collaboratorData = collaboratorData.data;
@@ -47,12 +47,16 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       } else {
          collaborator = { "fullName": "", "email": "" };
       }
+      const lotId = req.session?.lotId;
+      const agreementLotName = req.session.agreementLotName;
       const windowAppendData = {
          data: cmsData,
          userdata: allUserStorge,
          collaborator: collaborator,
          collaborators: collaboratorData,
-         lead: leadUser
+         lead: leadUser,
+         lotId,
+         agreementLotName
       }
       res.render('add-collaborator', windowAppendData);
    } catch (error) {
@@ -149,7 +153,7 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       let collaborator;
       let { userName, firstName, lastName } = req.session['searched_user'];
       let fullName = firstName + " " + lastName;
-      let procurementId = req.session.procurements?.[0].pocurementID;
+      let procurementId = req.session.procurements?.[0].procurementID;
       let collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`
       let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
       collaboratorData = collaboratorData.data;

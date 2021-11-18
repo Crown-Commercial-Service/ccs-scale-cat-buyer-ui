@@ -1,27 +1,4 @@
 {
-    "breadCrumbs": [
-        {
-            "text": "Dashboard",
-            "href": "/dashboard"
-        },
-        {
-            "text": "Choose a commericial agreement",
-            "href": "/projects/choose-agreement"
-        },
-        {
-            "text": "Procurement overview",
-            "href": "/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}"
-        },
-        {
-          "text": "Do pre-market engagement",
-          "href": "/rfi/rfi-tasklist"
-        },
-        {
-          "text": "Name your project",
-          "href": "#"
-      }
-    
-    ],
     "title": "Name your project (Optional)",
     "topHeader": {
         "selectedAggrement": ["Selected agreement: ",", Lot ", ": Specialists"], 

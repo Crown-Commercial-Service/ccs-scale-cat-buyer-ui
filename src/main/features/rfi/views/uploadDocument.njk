@@ -3,25 +3,27 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Complete and upload a document | Contract a Thing' %}
-
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
         items: [
           {
-            text: "Home",
-            href: "/home"
+            text: "Dashboard",
+            href: "/dashboard"
           },
           {
             text: "Choose a commercial agreement",
-            href: "#"
+            href: "/projects/choose-agreement"
           },
                     {
             text: "Procurement overview",
-            href: "#"
+            href: url
           },
           {
-            text: "Run pre-market engagement",
-            href: "#"
+            text: "Do pre-market engagement",
+            href: "/rfi/rfi-tasklist"
           },
           {
             text: "Complete and upload a document",

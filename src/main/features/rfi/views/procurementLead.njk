@@ -1,6 +1,9 @@
 {% extends "template.njk" %}
 
 {% set title = 'Lead Procurement | Contract a Thing' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
 
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
@@ -15,7 +18,7 @@
       },
       {
          text: "Procurement overview",
-         href: "/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}"
+         href: url
       },
       {
          text: "Do pre-market engagement",
@@ -31,7 +34,7 @@
 
 {% set sortedMembers = [{value: "", text: "Please select procurement lead", disabled: true}] %}
 {% for user in userdata %}
-    {% set sortedMembers = (sortedMembers.push({value: user.email, text: user.name, selected: user.selected}), sortedMembers) %}
+    {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name, selected: user.selected}), sortedMembers) %}
 {% endfor %}
 
 {% block content %}
