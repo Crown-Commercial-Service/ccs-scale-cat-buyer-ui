@@ -38,7 +38,7 @@
             <p class="govuk-body">
               <strong>{{data.line1}}</strong>
               <br>
-              <a href="/dashboard" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a>
+              <a href="/oauth/login" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a>
             </p>
           </div>
 
@@ -65,11 +65,15 @@
             <p class="govuk-body">{{data.line9}}</p>
 
             <br>
-
-            <a href="/dashboard" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
-  Start Now
-</a>
-
+            <div class="govuk-button-group">
+              {{ CCSButton({
+               text: "Start Now",
+               type: "a",
+               classes: "govuk-button",
+               href: "/oauth/login"
+              }) }}
+              <a href="/oauth/login" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+            </div>
             <br>
           </div>
 
