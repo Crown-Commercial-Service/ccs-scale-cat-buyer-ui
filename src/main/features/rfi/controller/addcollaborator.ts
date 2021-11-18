@@ -56,26 +56,10 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       }
       res.render('add-collaborator', windowAppendData);
    } catch (error) {
-      logger.log("Something went wrong, please review the logit error log for more information")
-      delete error?.config?.['headers'];
-      let Logmessage = {
-         "Person_id": TokenDecoder.decoder(SESSION_ID),
-         "error_location": `${req.headers.host}${req.originalUrl}`,
-         "sessionId": "null",
-         "error_reason": "Tender agreement failed to be added",
-         "exception": error
-      }
-      let Log = new LogMessageFormatter(
-         Logmessage.Person_id,
-         Logmessage.error_location,
-         Logmessage.sessionId,
-         Logmessage.error_reason,
-         Logmessage.exception
-      )
-      LoggTracer.errorTracer(Log, res);
+      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+      TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)    
    }
 }
-
 
 /**
  * 
@@ -93,27 +77,10 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
       req.session['searched_user'] = userData;
       res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
    } catch (error) {
-      delete error?.config?.['headers'];
-      let Logmessage = {
-         "Person_id": TokenDecoder.decoder(SESSION_ID),
-         "error_location": `${req.headers.host}${req.originalUrl}`,
-         "sessionId": "null",
-         "error_reason": "Tender agreement failed to be added",
-         "exception": error
-      }
-      let Log = new LogMessageFormatter(
-         Logmessage.Person_id,
-         Logmessage.error_location,
-         Logmessage.sessionId,
-         Logmessage.error_reason,
-         Logmessage.exception
-      )
-      LoggTracer.errorTracer(Log, res);
+      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+      TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)      
    }
 }
-
-
-
 
 export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
    var { SESSION_ID } = req.cookies
@@ -126,23 +93,9 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
       res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR)
    } catch (error) {
-      delete error?.config?.['headers'];
-      let Logmessage = {
-         "Person_id": TokenDecoder.decoder(SESSION_ID),
-         "error_location": `${req.headers.host}${req.originalUrl}`,
-         "sessionId": "null",
-         "error_reason": "Tender agreement failed to be added",
-         "exception": error
-      }
-      let Log = new LogMessageFormatter(
-         Logmessage.Person_id,
-         Logmessage.error_location,
-         Logmessage.sessionId,
-         Logmessage.error_reason,
-         Logmessage.exception
-      )
-      let LogMessage = { "AppName": "CaT frontend", "type": "error", "errordetails": Log }
-      await LoggerInstance.Instance.post('', LogMessage);
+      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+      TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", false)    
+      
       let organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
       let organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
       organisation_user_data = organisation_user_data?.data;
