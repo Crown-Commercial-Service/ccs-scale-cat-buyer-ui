@@ -9,7 +9,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('questions page');
-import {LogMessageFormatter} from '../../../common/logtracer/logmessageformatter'
+import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter'
 
 
 
@@ -43,7 +43,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       req.session.organisationDetails = organizationName
        * 
        */
-     
+
       let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
          return agroupitem?.OCDS?.['id'] === group_id;
       })
@@ -78,7 +78,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
             return '';
          }
       })
-
+      const lotId = req.session?.lotId;
+      const agreementLotName = req.session.agreementLotName;
       let data = {
          "data": fetch_dynamic_api_data,
          "agreement_id": agreement_id,
@@ -88,7 +89,9 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
          "criterian_id": id,
          "validation": find_validtor?.[0],
          "rfiTitle": titleText,
-         "prompt": promptData
+         "prompt": promptData,
+         "lotId": lotId,
+         "agreementLotName": agreementLotName
       }
 
       res.render('questions', data);
@@ -204,24 +207,24 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             }
          }
          else {
-            let selectedOptionToggle = [...object_values].map((anObject : any)=> {
-                 
+            let selectedOptionToggle = [...object_values].map((anObject: any) => {
+
                let check = Array.isArray(anObject?.value);
-               if(check){
-                  let arrayOFArrayedObjects = anObject?.value.map((anItem: any)=> {
-                     return {value: anItem, selected: true}
+               if (check) {
+                  let arrayOFArrayedObjects = anObject?.value.map((anItem: any) => {
+                     return { value: anItem, selected: true }
                   });
                   arrayOFArrayedObjects = arrayOFArrayedObjects.flat().flat()
                   return arrayOFArrayedObjects;
                }
-               else return {value: anObject.value, selected: true}
+               else return { value: anObject.value, selected: true }
             })
 
-            selectedOptionToggle = selectedOptionToggle.map((anItem: any)=> {
-               if(Array.isArray(anItem)){
+            selectedOptionToggle = selectedOptionToggle.map((anItem: any) => {
+               if (Array.isArray(anItem)) {
                   return anItem;
                }
-               else{
+               else {
                   return [anItem];
                }
             });
@@ -237,10 +240,10 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                }
             };
 
-             try {
+            try {
                let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                let postData = await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-              console.log(postData)
+               console.log(postData)
                QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
             } catch (error) {
                console.log(error)
@@ -263,9 +266,9 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                LoggTracer.errorTracer(Log, res)
             }
 
-                   
 
-      }
+
+         }
 
       }
       else {
