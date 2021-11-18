@@ -17,7 +17,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
     const agreementLotName = req.session.agreementLotName;
     let viewData: any = {
         data: cmsData,
-        procId: procurement.pocurementID,
+        procId: procurement.procurementID,
         projectLongName: project_name,
         lotId,
         agreementLotName,
