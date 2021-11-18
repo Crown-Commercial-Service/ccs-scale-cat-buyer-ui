@@ -1,13 +1,9 @@
 import * as express from 'express'
 import * as cmsData from '../../../resources/content/RFI/rfiTaskList.json'
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance'
-import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance'
-const { Logger } = require('@hmcts/nodejs-logging');
-const logger = Logger.getLogger('addCollaborator');
-import { LoggerInstance } from "../../../common/util/fetch/logger/loggerInstance"
 import { RFI_PATHS } from "../model/rficonstant"
 
 
