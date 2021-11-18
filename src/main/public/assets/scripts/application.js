@@ -51,26 +51,31 @@ if (document.getElementById("ccs_select_offer") !== null) document.getElementByI
 
 if (document.getElementById("ccs_eoi_needs") !== null) document.getElementById("ccs_eoi_needs").addEventListener('submit', ccsZvalidateEoiNeeds);
 
-if (document.getElementById("ccs_eoi_vetting_form") !== null) document.getElementById("ccs_eoi_vetting_form").addEventListener('submit', ccsZvalidateEoiSecurity);
+//if (document.getElementById("ccs_eoi_vetting_form") !== null) document.getElementById("ccs_eoi_vetting_form").addEventListener('submit', ccsZvalidateEoiSecurity);
 
-if (document.getElementById("ccs_eoi_incumbent_form") !== null) document.getElementById("ccs_eoi_incumbent_form").addEventListener('submit', ccsZvalidateEoiIncumbent);
+//if (document.getElementById("ccs_eoi_incumbent_form") !== null) document.getElementById("ccs_eoi_incumbent_form").addEventListener('submit', ccsZvalidateEoiIncumbent);
 
-if (document.getElementById("ccs_eoi_budget_form") !== null) document.getElementById("ccs_eoi_budget_form").addEventListener('submit', ccsZvalidateEoiBudget);
+if (document.getElementById("eoi_budget_form") !== null) document.getElementById("eoi_budget_form").addEventListener('submit', ccsZvalidateEoiBudget);
 
 if (document.getElementById("ccs_eoi_criteria_form") !== null) document.getElementById("ccs_eoi_criteria_form").addEventListener('submit', ccsZvalidateEoiCriteria);
 
-if (document.getElementById("ccs_eoi_docs_form") !== null) document.getElementById("ccs_eoi_docs_form").addEventListener('submit', ccsZvalidateEoiDocs);
+//if (document.getElementById("ccs_eoi_docs_form") !== null) document.getElementById("ccs_eoi_docs_form").addEventListener('submit', ccsZvalidateEoiDocs);
 
 if (document.getElementById("ccs_eoi_deadline_form") !== null) document.getElementById("ccs_eoi_deadline_form").addEventListener('submit', ccsZvalidateEoiDeadline);
 
-if (document.getElementById("ccs_select_location") !== null) document.getElementById("ccs_select_location").addEventListener('submit', ccsZvalidateEoiLocation);
+//if (document.getElementById("ccs_select_location") !== null) document.getElementById("ccs_select_location").addEventListener('submit', ccsZvalidateEoiLocation);
 
 if (document.getElementById("ccs_eoi_contact_form") !== null) document.getElementById("ccs_eoi_contact_form").addEventListener('submit', ccsZvalidateEoiContact);
 
 //if (document.getElementById("ccs_add_collab") !== null) document.getElementById("ccs_add_collab").addEventListener('submit', ccsZvalidateTeamMems);
 
 //if (document.getElementById("ccs_add_rfi_collab") !== null) document.getElementById("ccs_add_rfi_collab").addEventListener('submit', ccsZvalidateRfiTeamMems);
-if (document.getElementById("ccs_project_name_form") !== null) document.getElementById("ccs_project_name_form").addEventListener('submit', ccsZvalidateRfiName);
+//if (document.getElementById("ccs_project_name_form") !== null) document.getElementById("ccs_project_name_form").addEventListener('submit', ccsZvalidateProjectName);
+
+
+if(document.getElementById("ccs_choose_pre_engage") !== null) document.getElementById("ccs_choose_pre_engage").addEventListener('submit', ccsZvalidatePreMarketRoute);
+
+if(document.getElementById("ccs_eoi_type_form") !== null) document.getElementById("ccs_eoi_type_form").addEventListener('submit', ccsZvalidateEoiType);
 
 if(document.getElementById("ccs_rfi_type_form") !== null) document.getElementById("ccs_rfi_type_form").addEventListener('submit', ccsZvalidateRfiType);
 
@@ -100,3 +105,22 @@ if (document.getElementById("ccs_rfi_docs_form") !== null) document.getElementBy
 //if (document.getElementById("ccs_rfi_response_date_form") !== null) document.getElementById("ccs_rfi_response_date_form").addEventListener('submit', ccsZvalidateRfiResponseDate);
 
 if (document.getElementById("ccs_rfi_questions_form") !== null) document.getElementById("ccs_rfi_questions_form").addEventListener('submit', ccsZvalidateRfIQuestions);
+
+if (document.getElementById("ccs_eoi_purpose_form") !== null) document.getElementById("ccs_eoi_purpose_form").addEventListener('submit', ccsZvalidateEoiPurpose);
+
+//if (document.getElementById("ccs_eoi_scope_form") !== null) document.getElementById("ccs_eoi_scope_form").addEventListener('submit', ccsZvalidateEoiScope);
+
+if (document.getElementById("ccs_eoi_acronyms_form") !== null) document.getElementById("ccs_eoi_acronyms_form").addEventListener('submit', ccsZvalidateEoiAcronyms);
+
+if (document.getElementById("ccs_eoi_about_proj") !== null) document.getElementById("ccs_eoi_about_proj").addEventListener('submit', ccsZvalidateEoiContext);
+
+
+if (document.getElementById("ccs_eoi_new_form") !== null) document.getElementById("ccs_eoi_new_form").addEventListener('submit', ccsZvalidateEoiServiceType);
+
+if (document.getElementById("ccs_eoi_terms_form") !== null) document.getElementById("ccs_eoi_terms_form").addEventListener('submit', ccsZvalidateEoiTermsForm);
+
+if (document.getElementById("ccs_incumbent_form") !== null) document.getElementById("ccs_incumbent_form").addEventListener('submit', ccsZvalidateIncumbentForm);
+
+if (document.getElementById("eoi_docs_form") !== null) document.getElementById("eoi_docs_form").addEventListener('submit', ccsZvalidateEoiDocs);
+
+if (document.getElementById("ccs_eoi_duration") !== null) document.getElementById("ccs_eoi_duration").addEventListener('submit', ccsZvalidateEoiStartDate);

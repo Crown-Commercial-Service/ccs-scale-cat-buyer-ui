@@ -55,7 +55,7 @@ export class QuestionHelper {
             res.redirect(base_url)
          }
          else {
-            // do some logic here 
+            res.redirect('/')
          }
       } catch (error) {
          logger.log("Something went wrong, please review the logit error log for more information")
