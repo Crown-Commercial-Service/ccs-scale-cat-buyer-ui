@@ -12,7 +12,7 @@
  * Works with text, number and file inputs (make sure the
  * 'accepts' attribute is set for files).
  */
-const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
+ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
   const element = document.getElementById(elementName);
 
   if (element.value.trim().match(typeRegex)) {

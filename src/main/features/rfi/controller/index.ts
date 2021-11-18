@@ -4,11 +4,11 @@ import { GET_ONLINE_TASKLIST } from './onlinetasklist'
 import { GET_QUESTIONS, POST_QUESTION } from './questions'
 import { GET_UPLOAD_DOC } from './upload'
 import { GET_NAME_PROJECT, POST_NAME_PROJECT } from './nameAProject'
-import { GET_LEAD_PROCUREMENT } from './leadProcurement'
-import { GET_ADD_COLLABORATOR, POST_ADD_COLLABORATOR, POST_ADD_COLLABORATOR_TO_JAGGER } from './addcollaborator'
+import { GET_LEAD_PROCUREMENT, PUT_LEAD_PROCUREMENT, GET_USER_PROCUREMENT } from './leadProcurement'
+import { GET_ADD_COLLABORATOR, POST_ADD_COLLABORATOR, POST_ADD_COLLABORATOR_TO_JAGGER, POST_PROCEED_COLLABORATORS } from './addcollaborator'
 
 
-export var associatedViews = {
+export const associatedViews = {
     /**
      * @GET_VIEW
      */
@@ -19,6 +19,7 @@ export var associatedViews = {
     GET_UPLOAD_DOC,
     GET_NAME_PROJECT,
     GET_LEAD_PROCUREMENT,
+    GET_USER_PROCUREMENT,
     GET_ADD_COLLABORATOR,
 
 
@@ -30,6 +31,8 @@ export var associatedViews = {
     POST_TYPE,
     POST_NAME_PROJECT,
     POST_ADD_COLLABORATOR,
-    POST_ADD_COLLABORATOR_TO_JAGGER
+    POST_ADD_COLLABORATOR_TO_JAGGER,
+    PUT_LEAD_PROCUREMENT,
+    POST_PROCEED_COLLABORATORS
 
 }

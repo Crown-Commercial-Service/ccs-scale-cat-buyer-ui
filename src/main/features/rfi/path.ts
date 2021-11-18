@@ -48,6 +48,7 @@ export default function (app: Application): void {
   //@GET '/rfi/procurement-lead'
   app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_LEAD_PROCUREMENT)
 
+  app.get(RFI_PATHS.GET_USER_PROCUREMENT, associatedViews.GET_USER_PROCUREMENT)
 
 
   /**
@@ -61,24 +62,28 @@ export default function (app: Application): void {
   app.get('/api/template', (req, res) => res.json(apisource))
 
   //@POST '/rfi/type
-  app.post(RFI_PATHS.POST_TYPE_TYPE, associatedViews.POST_TYPE);
+  app.post(RFI_PATHS.POST_TYPE_TYPE, AUTH, associatedViews.POST_TYPE);
 
   //@POST '/rfi/questionnaire'
-  app.post(RFI_PATHS.POST_QUESTIONS_QUESTIONNAIRE, associatedViews.POST_QUESTION)
+  app.post(RFI_PATHS.POST_QUESTIONS_QUESTIONNAIRE, AUTH , associatedViews.POST_QUESTION)
 
   //@POST '/rfi/name'
-  app.post(RFI_PATHS.POST_PROJECT_NAME, associatedViews.POST_NAME_PROJECT);
+  app.post(RFI_PATHS.POST_PROJECT_NAME, AUTH , associatedViews.POST_NAME_PROJECT);
+
+
 
   //@POST '/rfi/get-collaborator-detail'
   app.post(RFI_PATHS.POST_ADD_COLLABORATOR, AUTH, associatedViews.POST_ADD_COLLABORATOR)
 
 
+  app.post(RFI_PATHS.PUT_LEAD_PROCUREMENT, AUTH, associatedViews.PUT_LEAD_PROCUREMENT)
+   
 
-    //@POST '/rfi/add-collaborator-detail'
-    app.post(RFI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER)
+  //@POST '/rfi/proceed-collaborators'
+  app.post(RFI_PATHS.POST_PROCEED_COLLABORTORS, AUTH, associatedViews.POST_PROCEED_COLLABORATORS)  
 
-  //@postRoutes
-  app.post('/test', (req, res) => {
-    res.redirect('/questions')
-  })
+  //@POST '/rfi/add-collaborator-detail'
+  app.post(RFI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER)
+
+
 }

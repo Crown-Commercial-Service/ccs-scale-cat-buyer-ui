@@ -3,9 +3,7 @@ import { contentAPI } from '../../util/fetch/contentservice/contentApiInstance'
 import FileIOSystem from 'fs'
 import config from 'config'
 import { operations } from '../../../utils/operations/operations'
-import { LogMessageFormatter } from '../../logtracer/logmessageformatter'
 import { LoggTracer } from '../../logtracer/tracer'
-import { LoggerInstance } from '../../util/fetch/logger/loggerInstance'
 
 /**
  * 
@@ -42,22 +40,8 @@ export class ContentFetchMiddleware {
             }
             FileIOSystem.readFile(ContentFetchMiddleware.MenuContentFilePath, "utf8", (error: any, savedContentData) => {
                 if (error) {
-                    delete error?.config?.['headers'];
-                    let Logmessage = {
-                        "Person_id": "null",
-                        "error_location": `${req.headers.host}${req.originalUrl}`,
-                        "sessionId": "null",
-                        "error_reason": "Menu content service api throw exception",
-                        "exception": error
-                    }
-                    let Log = new LogMessageFormatter(
-                        Logmessage.Person_id,
-                        Logmessage.error_location,
-                        Logmessage.sessionId,
-                        Logmessage.error_reason,
-                        Logmessage.exception
-                    )
-                    LoggTracer.errorTracer(Log, res);
+                    LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+                        null, "Menu content service api throw exception", true)
                 }
                 let compareData: boolean = operations.equals(savedContentData, JSON.stringify(menuItemsStorage));
                 if (compareData) {
@@ -73,22 +57,8 @@ export class ContentFetchMiddleware {
                 } else {
                     FileIOSystem.writeFile(ContentFetchMiddleware.MenuContentFilePath, JSON.stringify(menuItemsStorage), (error: any) => {
                         if (error) {
-                            delete error?.config?.['headers'];
-                            let Logmessage = {
-                                "Person_id": "null",
-                                "error_location": `${req.headers.host}${req.originalUrl}`,
-                                "sessionId": "null",
-                                "error_reason": "File System cannot write local menu content json file",
-                                "exception": error
-                            }
-                            let Log = new LogMessageFormatter(
-                                Logmessage.Person_id,
-                                Logmessage.error_location,
-                                Logmessage.sessionId,
-                                Logmessage.error_reason,
-                                Logmessage.exception
-                            )
-                            LoggTracer.errorTracer(Log, res);
+                            LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+                                null, "File System cannot write local menu content json file", true)
                         }
                         let menu_contents = JSON.parse(savedContentData);
                         let primaryContents = menu_contents?.filter((aContent: any) => aContent?.ID == 21)?.[0];
@@ -106,22 +76,8 @@ export class ContentFetchMiddleware {
         } catch (error) {
             FileIOSystem.readFile(ContentFetchMiddleware.MenuContentFilePath, "utf8", (error: any, savedContentData) => {
                 if (error) {
-                    delete error?.config?.['headers'];
-                    let Logmessage = {
-                        "Person_id": "null",
-                        "error_location": `${req.headers.host}${req.originalUrl}`,
-                        "sessionId": "null",
-                        "error_reason": "File System cannot read local menu content json file",
-                        "exception": error
-                    }
-                    let Log = new LogMessageFormatter(
-                        Logmessage.Person_id,
-                        Logmessage.error_location,
-                        Logmessage.sessionId,
-                        Logmessage.error_reason,
-                        Logmessage.exception
-                    )
-                    LoggTracer.errorTracer(Log, res);
+                    LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+                        null, "File System cannot write local menu content json file", true)
                 }
                 else {
                     let menu_contents = JSON.parse(savedContentData);
@@ -135,24 +91,8 @@ export class ContentFetchMiddleware {
                     next();
                 }
             })
-            delete error?.config?.['headers'];
-            let Logmessage = {
-                "Person_id": "null",
-                "error_location": `${req.headers.host}${req.originalUrl}`,
-                "sessionId": "null",
-                "error_reason": "Menu content service api throw exception",
-                "exception": error
-            }
-            let Log = new LogMessageFormatter(
-                Logmessage.Person_id,
-                Logmessage.error_location,
-                Logmessage.sessionId,
-                Logmessage.error_reason,
-                Logmessage.exception
-            )
-            let LogMessage = { "AppName": "CaT frontend", "type": "error", "errordetails": Log }
-            await LoggerInstance.Instance.post('', LogMessage);
-
+            LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+                null, "Menu content service api throw exception", false)
         }
     }
 }

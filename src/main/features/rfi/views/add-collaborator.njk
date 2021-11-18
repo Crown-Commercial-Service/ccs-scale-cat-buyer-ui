@@ -3,7 +3,7 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 
-{% set organisationUser = userdata.userList%}
+{% set organisationUser = userdata%}
 
 {% set sortedMembers = [{value: "", text: "Please select a colleague to be added", disabled: true}] %}
 {% for user in organisationUser %}
@@ -11,7 +11,9 @@
 {% endfor %}
 
 {% set title = 'Complete and upload a document | Contract a Thing' %}
-
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
        items: [
@@ -25,11 +27,11 @@
         },
         {
         text: "Procurement overview",
-        href: "/projects/"
+        href: url
         },
         {
         text: "Do pre-market engagement",
-        href: "/rfi/rfi-task-list"
+        href: "/rfi/rfi-tasklist"
         },
         {
         text: "Add colleagues "
@@ -88,6 +90,7 @@
 
   {### ##}
 
+  {%if(collaborators.length < 5)%}
    
 
       <div class="ccs-page-section">
@@ -136,6 +139,7 @@
       </div>
 
       </form>
+      {%endif%}
       <div id="collaborators-section">
         {% for collaborator in collaborators %}
         <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.id}}">
@@ -143,9 +147,9 @@
             <a href='{{collaborator.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
             <p class="govuk-body"><strong>Colleague <span id="collab_no"></span>: </strong><span
-                id="collab_name">{{collaborator.contact.name}}</span></p>
-            <p class="govuk-body"><strong>Email address: </strong><span id="collab_email">{{ collaborator.contact.email}}</span></p>
-            <p class="govuk-body"><strong>Phone number: </strong><span id="collab_tel">{{ collaborator.contact.telephone }}</span></p>
+                id="collab_name">{{collaborator.OCDS.contact.name}}</span></p>
+            <p class="govuk-body"><strong>Email address: </strong><span id="collab_email">{{ collaborator.OCDS.contact.email}}</span></p>
+            <p class="govuk-body"><strong>Phone number: </strong><span id="collab_tel">{{ collaborator.OCDS.contact.telephone }}</span></p>
           </div>
         </div>
         {% endfor%}
@@ -154,16 +158,14 @@
 
 
       <div class="ccs-page-section" id="lead-user-section">
-        <p class="govuk-body"><strong>Lead colleague: </strong>{{lead_user.fullname}}</p>
-        <p class="govuk-body"><strong>Email address: </strong>{{ lead_user.email }}</p>
-        <p class="govuk-body"><strong>Phone number: </strong>{{ lead_user.telephone }}</p>
+        <p class="govuk-body"><strong>Lead colleague: </strong>{{lead.OCDS.contact.name}}</p>
+        <p class="govuk-body"><strong>Email address: </strong>{{ lead.OCDS.contact.email }}</p>
+        <p class="govuk-body"><strong>Phone number: </strong>{{ lead.OCDS.contact.telephone }}</p>
       </div>
       <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
       <br>
-<form id="ccs_add_rfi_collab" name="ccs_add_rfi_collab" class="form ccs_add_rfi_collab"
-      action="/rfi/store-collaborators" method="post">
+<form  class="form ccs_add_rfi_collab" method="POST" action="/rfi/proceed-collaborators" method="post">
 
-      
       {{ CCSInput({
       id: "rfi_collaborators_added",
       name: "rfi_collaborators_added",
@@ -191,4 +193,3 @@
    </div>
   </main>
 {% endblock %}
-
