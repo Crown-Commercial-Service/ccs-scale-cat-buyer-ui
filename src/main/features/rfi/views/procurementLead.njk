@@ -31,7 +31,7 @@
 
 {% set sortedMembers = [{value: "", text: "Please select procurement lead", disabled: true}] %}
 {% for user in userdata %}
-    {% set sortedMembers = (sortedMembers.push({value: user.email, text: user.name, selected: user.selected}), sortedMembers) %}
+    {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name, selected: user.selected}), sortedMembers) %}
 {% endfor %}
 
 {% block content %}
