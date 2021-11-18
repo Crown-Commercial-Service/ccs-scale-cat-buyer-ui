@@ -1,6 +1,9 @@
 {% extends "template.njk" %}
 
 {% set title = 'Lead Procurement | Contract a Thing' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
 
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
@@ -15,7 +18,7 @@
       },
       {
          text: "Procurement overview",
-         href: "/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}"
+         href: url
       },
       {
          text: "Do pre-market engagement",
