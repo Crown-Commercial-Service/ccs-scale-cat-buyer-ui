@@ -1,0 +1,116 @@
+.ccs_pre_footer_help {
+  border-left-color: #006435;
+  background-color: #F0FFF1;
+
+  .govuk-heading-s {
+    margin: 20px 0 0 0;
+  }
+}
+
+.clear-data-link {
+  background-color: #2F2F2F;
+  margin-top: 3.125rem;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 700;
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid #b1b4b6;
+  font-family: "Source Sans Pro","HelveticaNeue","Helvetica Neue","Arial","Helvetica",sans-serif;
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  + .footer-global {
+    padding-top: 1rem;
+    border-top: 1px solid #666;
+  }
+}
+
+.ccs-contact-footer {
+  background-color: $ccs-callout-bg-col;
+  padding: 0.8rem 0 1px 0;
+
+  + .footer-global {
+    margin-top: -.6rem;
+  }
+}
+
+.footer-global {
+  background-color: #2F2F2F;
+  color: #fff;
+  position: relative;
+  font-family: "Source Sans Pro","HelveticaNeue","Helvetica Neue","Arial","Helvetica",sans-serif;
+
+  .logo {
+    margin-bottom: 2.5rem;
+    display: block;
+    max-width: 6.875rem;
+
+    img {
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+      vertical-align: middle;
+    }
+  }
+}
+
+.govuk-footer__section {
+
+  .list--inline {
+    list-style-type: none;
+    padding-left: 0;
+
+    li {
+      display: inline-block;
+      margin-right: 0.5em;
+    }
+  }
+
+  .govuk-list {
+    li {
+      margin-bottom: .125rem;
+    }
+  }
+}
+
+.govuk-footer__heading {
+  border-color: #636363;
+  color: inherit;
+  margin-bottom: 1.125rem;
+  margin-top: 0;
+  padding-bottom: 1rem;
+}
+
+.ccs {
+  .govuk-footer__link {
+    color: white;
+    font-family: "Source Sans Pro","HelveticaNeue","Helvetica Neue","Arial","Helvetica",sans-serif;
+
+    &:link, &:visited {
+      color: white;
+    }
+
+    .icon {
+      margin-top: 0;
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      fill: currentColor;
+      position: relative;
+      top: 0.125em;
+    }
+  }
+}
+
+.govuk-\!-font-size-18 {
+  /* font-size: 18px !important; */
+  font-size: 1.125rem !important;
+  line-height: 1.27778 !important;
+}

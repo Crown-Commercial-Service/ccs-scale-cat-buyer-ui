@@ -1,0 +1,25 @@
+.ccs-callout-panel {
+  .contact_supp_butt {
+    position: static;
+  }
+}
+
+.ccs-supplier-profile {
+
+  span {
+    color: #fff;
+    font-size: 70%;
+    text-transform: uppercase;
+    float: right;
+    width: 3.6em;
+    text-align: center;
+
+    &.Yes {
+      background-color: $cta-colour;
+    }
+
+    &.No {
+      background-color: $ccs-warning-colour;
+    }
+  }
+}

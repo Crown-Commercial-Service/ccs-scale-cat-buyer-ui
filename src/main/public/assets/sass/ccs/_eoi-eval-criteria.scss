@@ -1,0 +1,32 @@
+.ccs-dynaform-hidden {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.govuk-panel--confirmation {
+  .govuk-body {
+    color: #fff;
+  }
+}
+
+.ccs_eoi_criteria_form,
+.ccs_eoi_confid_form,
+.ccs_rfi_questions_form {
+  label {
+    position: relative;
+
+    .del {
+      position: absolute;
+      right: 0;
+      text-decoration: none;
+    }
+  }
+}
+
+.ccs_eoi_docs_form {
+  .del {
+    margin-left: 2.6rem;
+    text-decoration: none;
+  }
+}

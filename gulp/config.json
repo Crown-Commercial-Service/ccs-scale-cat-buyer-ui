@@ -1,0 +1,8 @@
+{
+    "paths": {
+      "public": "src/main/public/",
+      "assets" : "src/main/public/assets",
+      "nodeModules": "node_modules/",
+      "lib": "lib/"
+    }
+  }

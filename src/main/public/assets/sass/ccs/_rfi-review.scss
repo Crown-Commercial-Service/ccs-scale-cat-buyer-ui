@@ -1,0 +1,36 @@
+.ccs-summary-list-heading {
+    position: relative;
+    top:10px;
+}
+.ccs-summary-list-action {
+    position: relative;
+    top:-24px;
+    right:0px;
+}
+.ccs-link-group {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-content: flex-start;
+    >span {
+        display: inline-block;
+        position: relative;
+        margin-bottom: -4px;
+        >a {
+            position: relative;
+            top: -4px;
+        }
+    }
+}
+
+.govuk-summary-list {
+    font-size: 1rem;
+    margin-bottom: 45px;
+}
+
+.govuk-summary-list__value>ul>li{
+    font-size: 1rem;
+}
+.ccs-publish-date-margin {
+margin-left: 20px;
+}

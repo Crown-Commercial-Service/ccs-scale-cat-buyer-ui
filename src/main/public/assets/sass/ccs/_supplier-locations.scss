@@ -1,0 +1,16 @@
+#ccs_select_location, 
+#rfi_location {
+  .govuk-checkboxes__item {
+    &:last-of-type {
+      margin-top: 4rem;
+      position: relative;
+
+      &:before {
+        content: 'OR';
+        position: absolute;
+        top: -2.8rem;
+
+      }
+    }
+  }
+}

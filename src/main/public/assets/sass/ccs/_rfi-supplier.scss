@@ -1,0 +1,74 @@
+
+.ccs-rfi-suppliers-form {
+
+                .govuk-checkboxes__item {
+                    .govuk-checkboxes__hint{
+                        margin-top: -26px;
+                        }
+                    }
+              }
+           
+.ccs-rfi-left-icon {
+    display: inline-block;
+    width: .8em;
+    height: 1em;
+    margin-top: -5px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.ccs-rfi-suppliers-form {
+.sidebar__search-group {
+    position: relative;
+}
+
+ .sidebar__search-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.sidebar__search-button {
+    background: transparent url(../images/icon-search.png) center center no-repeat;
+    background-size: 19px 19px;
+    border: 0;
+    max-height: 2.5rem;
+    max-width: 2.75rem;
+}
+}
+.ccs-trading-name {
+    display: block;
+    font-size: 19px;
+    margin-bottom: 30px;
+    line-height: 0px;
+    // font-size: 1.125rem;
+    // font-weight: 400;
+}
+.govuk-list--suppliers>li {
+    border-bottom: 1px solid #b1b4b6;
+    margin-bottom: 2rem;
+    display: block;
+    // border-top: .0625rem solid #E1E1E1;
+     //padding-top: 1.25rem;
+     
+}
+.govuk-grid-column-two-third {
+overflow: hidden;
+}
+.ccs-company-size {
+    margin-bottom: 30px;
+    display: inline-block;
+    font-size: 1rem;
+}
+
+.ccs-pagelink-group {
+display: flex;
+justify-content: space-between;
+margin-top: 40px;
+}
+
+.ccs-div-pad {
+margin-right: 20px;
+}
+
+.ccs-add-supplier-link {
+    float: right;
+}
