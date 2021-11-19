@@ -16,7 +16,7 @@ import { cookies } from '../../cookies/cookies'
 export const AUTH: express.Handler = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     var { SESSION_ID, state } = req.cookies;
     if (SESSION_ID === undefined) {
-        res.redirect('/oauth/logout');
+        res.redirect('/oauth/login');
     }
     else {
         let access_token = SESSION_ID;
