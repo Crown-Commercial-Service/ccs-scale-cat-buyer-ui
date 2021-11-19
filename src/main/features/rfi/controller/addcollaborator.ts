@@ -99,34 +99,8 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       const isJaggaerError = error.response.data.errors.some((error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'));
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
          TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", !isJaggaerError)
-
-      // let organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
-      // let organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
-      // organisation_user_data = organisation_user_data?.data;
-      // let collaborator;
-      // let { userName, firstName, lastName } = req.session['searched_user'];
-      // let fullName = firstName + " " + lastName;
-      // let procurementId = req.session.procurements?.[0].procurementID;
-      // let collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`
-      // let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
-      // collaboratorData = collaboratorData.data;
-      // if (!Array.isArray(req.session['searched_user'])) {
-      //    collaborator = { "fullName": fullName, "email": userName };
-      // } else {
-      //    collaborator = { "fullName": "", "email": "" };
-      // }
-      // const windowAppendData = {
-      //    data: cmsData,
-      //    userdata: organisation_user_data,
-      //    collaborator: collaborator,
-      //    collaborators: collaboratorData,
-      //    error: true
-      // }
-
       req.session['isJaggaerError'] = isJaggaerError;
       res.redirect('/rfi/add-collaborators');
-      // res.render('add-collaborator', windowAppendData);
-
    }
 }
 
