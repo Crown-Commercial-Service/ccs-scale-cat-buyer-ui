@@ -95,9 +95,9 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       }
       await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
       res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR)
-   } catch (error) {
-      const isJaggaerError = error.response.data.errors.some((error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'));
-      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+   } catch (err) {
+      const isJaggaerError = err.response.data.errors.some((error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'));
+      LoggTracer.errorLogger(res, err, `${req.headers.host}${req.originalUrl}`, null,
          TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", !isJaggaerError)
       req.session['isJaggaerError'] = isJaggaerError;
       res.redirect('/rfi/add-collaborators');
