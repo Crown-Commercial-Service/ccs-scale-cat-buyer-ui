@@ -18,11 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const setUserDetails = (user) => {
             let div_email = document.getElementById('lead-email');
-            div_email.innerText = user.email;
+            div_email.innerText = user.userName;
             let div_tel = document.getElementById('lead-telephone');
-            div_tel.innerText = user.telephone;
+            div_tel.innerText = '1';
             let div_email_value = document.getElementById('rfi_procurement_lead_input');
-            div_email_value.value = user.email;
+            div_email_value.value = user.userName;
             
         };
     }
