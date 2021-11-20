@@ -73,7 +73,7 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
             }
         }).catch(error => {
             LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, state,
-                TokenDecoder.decoder(SESSION_ID), "Menu content service api throw exception", true)
+                TokenDecoder.decoder(SESSION_ID), "Conclave authentication flow error", true)
         })
 
     }
