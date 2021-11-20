@@ -9,7 +9,8 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
    let organization_id = req.session.user.payload.ciiOrgId;
    req.session['organizationId'] = organization_id;
    let { SESSION_ID } = req.cookies;
-   const { projectId } = req.session;
+   const { projectId, isJaggaerError } = req.session; 
+   req.session['isJaggaerError'] = false;
    const { rfi_procurement_lead: user } = req.query
 
    const url = `/tenders/projects/${projectId}/users`;
@@ -44,9 +45,10 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
       const users = usersRaw.map((user: any) => { return { ...user, selected: leader === user.userName } });
+      req.session['selectedUser'] = selectedUser;
+      req.session['users'] = users;
 
-
-      const windowAppendData = { userdata: users, selectedUser, lotId, agreementLotName }
+      const windowAppendData = { userdata: users, selectedUser, lotId, agreementLotName, error: isJaggaerError }
       res.render('procurementLead', windowAppendData);
    } catch (error) {
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
@@ -67,8 +69,12 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       res.redirect('/rfi/add-collaborators');
    }
    catch (error) {
+      const isJaggaerError = error.response.data.errors.some((error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'));      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-         TokenDecoder.decoder(SESSION_ID), "Tender Api - getting users from organization or from tenders failed", true)
+         TokenDecoder.decoder(SESSION_ID), "Tender Api - getting users from organization or from tenders failed", !isJaggaerError);
+
+      req.session['isJaggaerError'] = isJaggaerError;
+      res.redirect('/rfi/procurement-lead');
    }
 
 }
@@ -76,12 +82,16 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
 export const GET_USER_PROCUREMENT = async (req: express.Request, res: express.Response) => {
    const { SESSION_ID } = req.cookies;
    const { id } = req.query;
-   const { projectId } = req.session;
-   const url = `/tenders/projects/${projectId}/users`;
    try {
-      const { data: users } = await TenderApi.Instance(SESSION_ID).get(url);
-      const finalUsers = users.map((user: any) => user.OCDS.contact);
-      const selectedUser = finalUsers.find((user: any) => user.email === id);
+      const { users } = req.session;      
+      users.forEach((user:any) => {
+         user.selected = false;
+      });
+      const selectedUserNum = users.findIndex((user: any) => user.userName === id);
+      
+      const selectedUser = users[selectedUserNum];
+      users[selectedUserNum].selected = false;
+      req.session['users'] = users;
       res.json(selectedUser);
    }
    catch (error) {

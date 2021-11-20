@@ -8,7 +8,7 @@ CCS Scale CaT Buyer UI - ‘Contract a Thing’ (CaT)/'Create and award a contra
 
 Running the application requires the following tools to be installed in your environment:
 
-- [Node.js](https://nodejs.org/) v12.0.0 or later
+- [Node.js](https://nodejs.org/) v12.0.0 or later 
 
 ### Running the application
 
@@ -28,7 +28,7 @@ Run:
 $ npm start
 ```
 
-Or
+Or for windows PC
 
 ```bash
 $ npm start:win
