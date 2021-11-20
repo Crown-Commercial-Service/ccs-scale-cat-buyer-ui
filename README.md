@@ -28,7 +28,7 @@ Run:
 $ npm start
 ```
 
-Or
+Or for windows PC
 
 ```bash
 $ npm start:win

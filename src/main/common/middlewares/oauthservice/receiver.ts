@@ -45,14 +45,6 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
             let containedData = data;
             let { access_token, session_state } = containedData;
             
-            // get the decoded payload ignoring signature, no secretOrPrivateKey needed
-            let decoded: any = jwtDecoder.decode(access_token, { complete: true });
-            let rolesOfUser = decoded?.payload?.roles
-            let isAuthorized = rolesOfUser?.includes('CAT_USER');
-
-            if (!isAuthorized) {
-                res.redirect('/401')
-            }
             let AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
             let check_token_validation = await AuthCheck_Instance.post('');
             let auth_status_check = check_token_validation?.['data'];
@@ -86,7 +78,13 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
             }
 
         } catch (error) {
-            LoggTracer.errorLogger(res, error,`${req.headers.host}${req.originalUrl}`, null, null, "Conclave authentication flow error", true)
+            if (error.response.status === 401)
+            {
+                LoggTracer.errorLogger(res, error,`${req.headers.host}${req.originalUrl}`, null, null, "Conclave authentication flow error", false)
+                res.redirect('/401')
+            } else {
+                LoggTracer.errorLogger(res, error,`${req.headers.host}${req.originalUrl}`, null, null, "Conclave authentication flow error", true)
+            }
         }
 
     }

@@ -17,6 +17,8 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
    let { SESSION_ID } = req.cookies;
    let organization_id = req.session.user.payload.ciiOrgId;
    req.session['organizationId'] = organization_id;
+   const { isJaggaerError } = req.session;
+   req.session['isJaggaerError'] = false;
    try {
       let organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
       let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
@@ -52,12 +54,13 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
          collaborators: collaboratorData,
          lead: leadUser,
          lotId,
-         agreementLotName
+         agreementLotName,
+         error: isJaggaerError
       }
       res.render('add-collaborator', windowAppendData);
    } catch (error) {
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-      TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)    
+         TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
    }
 }
 
@@ -78,7 +81,7 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
       res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
    } catch (error) {
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-      TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)      
+         TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
    }
 }
 
@@ -92,34 +95,12 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       }
       await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
       res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR)
-   } catch (error) {
-      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-      TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", false)    
-      
-      let organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
-      let organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
-      organisation_user_data = organisation_user_data?.data;
-      let collaborator;
-      let { userName, firstName, lastName } = req.session['searched_user'];
-      let fullName = firstName + " " + lastName;
-      let procurementId = req.session.procurements?.[0].procurementID;
-      let collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`
-      let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
-      collaboratorData = collaboratorData.data;
-      if (!Array.isArray(req.session['searched_user'])) {
-         collaborator = { "fullName": fullName, "email": userName };
-      } else {
-         collaborator = { "fullName": "", "email": "" };
-      }
-      const windowAppendData = {
-         data: cmsData,
-         userdata: organisation_user_data,
-         collaborator: collaborator,
-         collaborators: collaboratorData,
-         error: true
-      }
-      res.render('add-collaborator', windowAppendData);
-
+   } catch (err) {
+      const isJaggaerError = err.response.data.errors.some((error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'));
+      LoggTracer.errorLogger(res, err, `${req.headers.host}${req.originalUrl}`, null,
+         TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", !isJaggaerError)
+      req.session['isJaggaerError'] = isJaggaerError;
+      res.redirect('/rfi/add-collaborators');
    }
 }
 
