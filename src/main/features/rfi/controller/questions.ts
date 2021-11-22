@@ -41,7 +41,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       let getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
       let name = getOrganizationDetails.data.identifier.legalName;
       let organizationName = name;
-
+      
       let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
          return agroupitem?.OCDS?.['id'] === group_id;
       })
@@ -132,11 +132,10 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
    let started_progress_check: Boolean = operations.isUndefined(req.body, 'rfi_build_started');
    if (operations.equals(started_progress_check, false)) {
       let { rfi_build_started, question_id, questionType } = req.body;
-
       if (rfi_build_started === "true") {
          let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfi_build_started');    
          remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(remove_objectWithKeyIdentifier, 'question_id');   
-         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(remove_objectWithKeyIdentifier, 'questionType');     
+         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(remove_objectWithKeyIdentifier, 'questionType');      
          let _RequestBody: any = remove_objectWithKeyIdentifier;
          let filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
          let object_values = Object.values(filtered_object_with_empty_keys
@@ -178,125 +177,49 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
          }
         
 
-     
-         else if(questionType === "MultiSelecttrue"){
-
-            let allCountries = req.session['Countries'];
-            let toggledTrueCountries = allCountries.map((aCountry: any) => {
-               return {"value": aCountry['value'], "selected": false}
-            })
-            console.log(toggledTrueCountries)
-
-            let question_array_check: Boolean = Array.isArray(question_id);
-            if (question_array_check) {
-               var sortedStorage = []
-               for (let start = 0; start < question_id.length; start++) {
-                  var comparisonObject = {
-                     "questionNo": question_id[start],
-                     "answer": object_values[start]
-                  }
-                  sortedStorage.push(comparisonObject)
-               }
-
-               console.log(sortedStorage)
-
-               for (let iteration of sortedStorage) {
-                  let answerBody = {
-                     "nonOCDS": {
-                        "answered": true,
-                        "options": [
-                           iteration.answer,
-                        ]
-                     }
-                  };
-   
-                  try {
-   
-                  
-                     let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
-                      await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                     QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
-                  } catch (error) {
-                     logger.log("Something went wrong, please review the logit error log for more information")
-                     delete error?.config?.['headers'];
-                     let Logmessage = {
-                        "Person_id": TokenDecoder.decoder(SESSION_ID),
-                        "error_location": `${req.headers.host}${req.originalUrl}`,
-                        "sessionId": "null",
-                        "error_reason": "RFI Dynamic framework throws error - Tender Api is causing problem",
-                        "exception": error
-                     }
-                     let Log = new LogMessageFormatter(
-                        Logmessage.Person_id,
-                        Logmessage.error_location,
-                        Logmessage.sessionId,
-                        Logmessage.error_reason,
-                        Logmessage.exception
-                     )
-                     LoggTracer.errorTracer(Log, res);
-                  }
-               }
+         else if (questionType === "KeyValuePairtrue"){
+            let {term, value} = req.body;
+            let TAStorage = [];
+            term = term.filter((akeyTerm : any)=> akeyTerm !== "" );
+            value = value.filter((aKeyValue : any)=> aKeyValue !== "" );
+            for(let item=0; item < term.length; item++){
+               let termObject = {value: term[item], text: value[item], selected: true}
+               TAStorage.push(termObject);
             }
-            else {
-               let selectedOptionToggle = [...object_values].map((anObject : any)=> {
-                  let check = Array.isArray(anObject?.value);
-                  if(check){
-                     let arrayOFArrayedObjects = anObject?.value.map((anItem: any)=> {
-                        return {value: anItem, selected: true}
-                     });
-                     arrayOFArrayedObjects = arrayOFArrayedObjects.flat().flat()
-                     return arrayOFArrayedObjects;
-                  }
-                  else return {value: anObject.value, selected: true}
-               })
-   
-               selectedOptionToggle = selectedOptionToggle.map((anItem: any)=> {
-                  if(Array.isArray(anItem)){
-                     return anItem;
-                  }
-                  else{
-                     return [anItem];
-                  }
-               });
-   
-               let answerBody = {
-                  "nonOCDS": {
-                     "answered": true,
-                     "options": [
-                        ...selectedOptionToggle[0],
-                     ]
-                  }
-               };
-   
-               try {
-                  let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                  QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
-               } catch (error) {
-                  logger.log("Something went wrong, please review the logit error log for more information")
-                  delete error?.config?.['headers'];
-                  let Logmessage = {
-                     "Person_id": TokenDecoder.decoder(SESSION_ID),
-                     "error_location": `${req.headers.host}${req.originalUrl}`,
-                     "sessionId": "null",
-                     "error_reason": "Dyanamic framework throws error - Tender Api is causing problem",
-                     "exception": error
-                  }
-                  let Log = new LogMessageFormatter(
-                     Logmessage.Person_id,
-                     Logmessage.error_location,
-                     Logmessage.sessionId,
-                     Logmessage.error_reason,
-                     Logmessage.exception
-                  )
-                  LoggTracer.errorTracer(Log, res)
+            let answerBody = {
+               "nonOCDS": {
+                  "answered": true,
+                  "options": [
+                     ...TAStorage
+                  ]
                }
-   
-               
-                      
-   
-         }
-         }
+            };
+
+            try {
+               let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+               await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+               QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
+            } catch (error) {
+              // console.log(error)
+               logger.log("Something went wrong, please review the logit error log for more information")
+               delete error?.config?.['headers'];
+               let Logmessage = {
+                  "Person_id": TokenDecoder.decoder(SESSION_ID),
+                  "error_location": `${req.headers.host}${req.originalUrl}`,
+                  "sessionId": "null",
+                  "error_reason": "Dyanamic framework throws error - Tender Api is causing problem",
+                  "exception": error
+               }
+               let Log = new LogMessageFormatter(
+                  Logmessage.Person_id,
+                  Logmessage.error_location,
+                  Logmessage.sessionId,
+                  Logmessage.error_reason,
+                  Logmessage.exception
+               )
+               LoggTracer.errorTracer(Log, res)
+            }
+         }      
 
          else{
        
