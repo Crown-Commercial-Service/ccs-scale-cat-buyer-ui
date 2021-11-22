@@ -118,9 +118,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 }
 
 
-export var array: any = [];
-
-
 /**
  * @Controller
  * @POST
@@ -131,12 +128,8 @@ export var array: any = [];
 // path = '/rfi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
    var { agreement_id, proc_id, event_id, id, group_id } = req.query;
-
-   //console.log(req.body)
-
    var { SESSION_ID } = req.cookies;
    let started_progress_check: Boolean = operations.isUndefined(req.body, 'rfi_build_started');
-
    if (operations.equals(started_progress_check, false)) {
       let { rfi_build_started, question_id, questionType } = req.body;
       if (rfi_build_started === "true") {
@@ -148,14 +141,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
          let object_values = Object.values(filtered_object_with_empty_keys
          ).map(an_answer => {
             return { "value": an_answer }
-         })
-
-
-
-            
-         if(questionType === "Valuetrue"){
-
-         
+         })            
+         if(questionType === "Valuetrue"){        
             let answerValueBody = {
                "nonOCDS": {
                   "answered": true,
@@ -167,7 +154,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             try {
                let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-
                QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
             } catch (error) {
                logger.log("Something went wrong, please review the logit error log for more information")
@@ -189,22 +175,17 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                LoggTracer.errorTracer(Log, res)
             }
          }
-
-
-         
+        
 
          else if (questionType === "KeyValuePairtrue"){
             let {term, value} = req.body;
             let TAStorage = [];
             term = term.filter((akeyTerm : any)=> akeyTerm !== "" );
             value = value.filter((aKeyValue : any)=> aKeyValue !== "" );
-
             for(let item=0; item < term.length; item++){
                let termObject = {value: term[item], text: value[item], selected: true}
                TAStorage.push(termObject);
             }
-
-
             let answerBody = {
                "nonOCDS": {
                   "answered": true,
@@ -217,7 +198,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             try {
                let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-   
                QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
             } catch (error) {
               // console.log(error)
@@ -239,9 +219,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                )
                LoggTracer.errorTracer(Log, res)
             }
-
-            
-
          }      
 
          else{
@@ -273,7 +250,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                    await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
                   QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
                } catch (error) {
-                 // console.log(error)
                   logger.log("Something went wrong, please review the logit error log for more information")
                   delete error?.config?.['headers'];
                   let Logmessage = {
@@ -328,10 +304,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             try {
                let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-
                QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
             } catch (error) {
-              // console.log(error)
                logger.log("Something went wrong, please review the logit error log for more information")
                delete error?.config?.['headers'];
                let Logmessage = {
