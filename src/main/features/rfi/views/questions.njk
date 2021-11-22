@@ -667,9 +667,22 @@
                       {% set countryArray = [] %}
                       {% set countryList = [] %}
                       {% for countries in requirement.nonOCDS.options %}
+                        {% if countries.value !== "No specific location, for example they can work remotely" %}
                         {% set countryList = (countryList.push(countries.value),countryList)%}
                         {% set countryArray = (countryArray.push({value: countries.value, text: countries.value, checked: countries.selected}), countryArray)
                         %}
+                        {%else%}
+                      {% set countryList = (countryList.push(countries.value),countryList)%}
+                        {% set countryArray = (countryArray.push(
+                           {divider:"OR"},
+                          {value: countries.value, text: countries.value, checked: countries.selected}
+
+                          ), countryArray)
+                        %}
+
+                    
+
+                      {%endif%}  
                       {% endfor %}
 
                       {{ CCSCheckboxes({
@@ -685,13 +698,14 @@
                             value: requirement.OCDS.id
                           })
                       }}
-                      {{ CCSInput({
-                            id: "ContryList",
-                            name: "ContryList",
-                            type: "hidden",
-                            value:  countryList 
-                          })
-                      }}
+                       {{ CCSInput({
+                      id: "questionType",
+                      name: "questionType",
+                      type: "hidden",
+                      value: requirement.nonOCDS.questionType+requirement.nonOCDS.multiAnswer
+                    })
+                }}
+                   
               {% endif %}
             {% endblock %}
 

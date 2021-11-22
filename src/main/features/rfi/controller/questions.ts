@@ -69,7 +69,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
             return 'ccs_rfi_about_proj'
          }
          else if (aSelector.nonOCDS.questionType === 'MultiSelect' && aSelector.nonOCDS.multiAnswer === true) {
-            return 'ccs_rfi_location'
+            return 'rfi_location'
          }
 
          else {
