@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as express from 'express'
 import { Oauth_Instance } from '../../util/fetch/OauthService/OauthInstance'
 import * as jwt from 'jsonwebtoken';

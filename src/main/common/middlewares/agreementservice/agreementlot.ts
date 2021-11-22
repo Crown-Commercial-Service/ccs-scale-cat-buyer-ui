@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { TokenDecoder } from '../../tokendecoder/tokendecoder';
 import * as express from 'express'
 import { AgreementAPI } from '../../util/fetch/agreementservice/agreementsApiInstance';
@@ -22,10 +23,13 @@ export class AgreementLotMiddleware {
             const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
             const { data: retrieveAgreementLotNum } = await AgreementAPI.Instance.get(BaseUrlAgreementLotNum);
             const endDate = retrieveAgreement.endDate;
+            const agreementDescription = retrieveAgreementLotNum.description;
             const agreementName = retrieveAgreement.name;
             res.locals.agreement_lot = { ...retrieveAgreementLotNum };
             req.session.agreementEndDate = endDate;
             req.session.agreementName = agreementName;
+            req.session.agreementDescription = agreementDescription;
+            console.log("retrieveAgreementLotNum ", retrieveAgreementLotNum)
             let redis_access_token = req.session['access_token'];
             let access_token = SESSION_ID;
             if (redis_access_token === access_token) {

@@ -15,9 +15,9 @@ export const LOT_BEFORE_START_PAGE = (req: express.Request, res: express.Respons
   const { agreement_id, lotNum } = req.query;
   const regExp = /[a-zA-Z]/g;
   let lot = lotNum;
-  const { agreementName, agreementEndDate } = req.session;
+  const { agreementName, agreementEndDate, agreementDescription } = req.session;
   regExp.test(lotNum) ? lot = lotNum : lot = "Lot " + lotNum;
-  const agreement = { name: agreementName, endDate: agreementEndDate };
+  const agreement = { name: agreementName, endDate: agreementEndDate, agreementDescription };
   var appendData = { data: lotData, agreement_id, lot, agreement }
 
   res.render('lot', appendData);

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as express from 'express'
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import fileData from '../../../resources/content/RFI/rfionlineTaskList.json'

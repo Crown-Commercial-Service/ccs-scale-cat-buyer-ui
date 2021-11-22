@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as express from 'express'
 import * as cmsData from '../../../resources/content/RFI/nameYourProject.json';
 import procurementDetail from '../model/procurementDetail'

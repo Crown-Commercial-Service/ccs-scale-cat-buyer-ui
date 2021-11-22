@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Oauth_Instance } from '../../util/fetch/OauthService/OauthInstance';
 import * as express from 'express'
 import qs from 'qs';
@@ -44,7 +45,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
             let data = PostAuthCrendetails?.data
             let containedData = data;
             let { access_token, session_state } = containedData;
-            
+
             let AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
             let check_token_validation = await AuthCheck_Instance.post('');
             let auth_status_check = check_token_validation?.['data'];
@@ -70,7 +71,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
                 req.session['agreementName'] = "";
                 req.session['searched_user'] = [];
                 req.session['agreementEndDate'] = "";
-
+                req.session['agreementDescription'] = "";
                 next();
             } else {
                 logger.info("User redirected to logout")
@@ -78,12 +79,11 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
             }
 
         } catch (error) {
-            if (error.response.status === 401)
-            {
-                LoggTracer.errorLogger(res, error,`${req.headers.host}${req.originalUrl}`, null, null, "Conclave authentication flow error", false)
+            if (error.response.status === 401) {
+                LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null, null, "Conclave authentication flow error", false)
                 res.redirect('/401')
             } else {
-                LoggTracer.errorLogger(res, error,`${req.headers.host}${req.originalUrl}`, null, null, "Conclave authentication flow error", true)
+                LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null, null, "Conclave authentication flow error", true)
             }
         }
 

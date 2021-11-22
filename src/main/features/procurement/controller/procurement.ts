@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import * as express from 'express'
@@ -45,7 +46,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     logger.info('procurement.created', procurement)
     req.session.lotId = procurement['defaultName']['components']['lotId'];
     req.session.project_name = procurement['defaultName']['name'];
-      req.session.projectId = procurement['procurementID'];
+    req.session.projectId = procurement['procurementID'];
     req.session.eventId = procurement['eventId'];
     req.session.types = types;
     req.session.agreementLotName = agreementLotName;

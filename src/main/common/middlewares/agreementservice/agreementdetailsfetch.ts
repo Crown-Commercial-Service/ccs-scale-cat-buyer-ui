@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as express from 'express'
 import { AgreementAPI } from '../../util/fetch/agreementservice/agreementsApiInstance'
 import { LoggTracer } from '../../logtracer/tracer'
