@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as express from 'express'
 import * as cmsData from '../../../resources/content/RFI/rfiTaskList.json'
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance'

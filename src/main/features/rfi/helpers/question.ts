@@ -45,7 +45,7 @@ export class QuestionHelper {
             return object;
          });
          let current_cursor = sorted_ascendingly?.findIndex((pointer: any) => pointer.OCDS['id'] === group_id);
-         let check_for_overflowing: Boolean = current_cursor < sorted_ascendingly.length;
+         let check_for_overflowing: Boolean = current_cursor < sorted_ascendingly.length - 1;
          if (check_for_overflowing) {
             let next_cursor = current_cursor + 1;
             let next_cursor_object = sorted_ascendingly[next_cursor];
@@ -55,10 +55,10 @@ export class QuestionHelper {
             res.redirect(base_url)
          }
          else {
-            res.redirect('/')
+            res.redirect('/rfi/rfi-tasklist')
          }
       } catch (error) {
-         logger.log("Something went wrong, please review the logit error log for more information")
+         logger.log("Something went wrong in the RFI Journey, please review the logit error log for more information")
          LoggTracer.errorLogger(res, error, "questions healper class", null,
             TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
       }
