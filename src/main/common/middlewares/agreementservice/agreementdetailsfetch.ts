@@ -25,7 +25,7 @@ export class AgreementDetailsFetchMiddleware {
         let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL);
         retrieveAgreementPromise.then((data) => {
             let containedData = data?.data;
-            logger.info("THE AGREEMENT NAME ", containedData)
+            logger.info("Feached agreement details from Agreement service API")
             var project_name = req.session.project_name;
             req.session.agreementName = containedData['name'];
             let agreementName = req.session?.agreementName;

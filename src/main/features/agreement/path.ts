@@ -16,4 +16,8 @@ export default function (app: Application): void {
    app.get(CHOOSE_AGREEMENT_PATHS.LOT_BEFORE_START_PAGE,
       [ContentFetchMiddleware.FetchContents, NO_AUTH, AgreementLotMiddleware.FetchAgreements],
       CHOOSE_AGREEMENT_CONTROLLER.LOT_BEFORE_START_PAGE);
+   // query parameter handling route
+   app.get(CHOOSE_AGREEMENT_PATHS.SELECTED_AGREEMENT,
+      [ContentFetchMiddleware.FetchContents, AUTH, ChooseAgreementMiddleware.FetchAgreements],
+      CHOOSE_AGREEMENT_CONTROLLER.SELECTED_AGREEMENT);
 }

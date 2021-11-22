@@ -17,7 +17,7 @@ const logger = Logger.getLogger('procurement');
  * 
  */
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
-  const { lotId, agreementLotName } = req.query;
+  const { lotId, agreementLotName } = req.session;
 
   var { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
