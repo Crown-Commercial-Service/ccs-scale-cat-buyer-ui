@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { TokenDecoder } from './../../tokendecoder/tokendecoder';
 import * as express from 'express'
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
@@ -26,11 +27,11 @@ export class PreMarketEngagementMiddleware {
             logger.warn("request body is hardcoded");
             const retrievePreMarketPromise = TenderApi.Instance(SESSION_ID).put(baseURL, _body)
             retrievePreMarketPromise.then((data) => {
-            next();
+                next();
             }).catch(
                 (err) => {
                     LoggTracer.errorLogger(res, err, `${req.headers.host}${req.originalUrl}`, state,
-                    TokenDecoder.decoder(SESSION_ID), "Pre market engagement Service Api cannot be connected", true)
+                        TokenDecoder.decoder(SESSION_ID), "Pre market engagement Service Api cannot be connected", true)
                     // res.render(ErrorView.notfound)
                 }
             )

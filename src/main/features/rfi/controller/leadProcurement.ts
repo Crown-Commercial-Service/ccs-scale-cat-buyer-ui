@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { OrganizationInstance } from './../util/fetch/organizationuserInstance';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as express from 'express'
@@ -9,7 +10,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
    let organization_id = req.session.user.payload.ciiOrgId;
    req.session['organizationId'] = organization_id;
    let { SESSION_ID } = req.cookies;
-   const { projectId, isJaggaerError } = req.session; 
+   const { projectId, isJaggaerError } = req.session;
    req.session['isJaggaerError'] = false;
    const { rfi_procurement_lead: user } = req.query
 
@@ -69,7 +70,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       res.redirect('/rfi/add-collaborators');
    }
    catch (error) {
-      const isJaggaerError = error.response.data.errors.some((error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'));      
+      const isJaggaerError = error.response.data.errors.some((error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'));
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
          TokenDecoder.decoder(SESSION_ID), "Tender Api - getting users from organization or from tenders failed", !isJaggaerError);
 
@@ -83,12 +84,12 @@ export const GET_USER_PROCUREMENT = async (req: express.Request, res: express.Re
    const { SESSION_ID } = req.cookies;
    const { id } = req.query;
    try {
-      const { users } = req.session;      
-      users.forEach((user:any) => {
+      const { users } = req.session;
+      users.forEach((user: any) => {
          user.selected = false;
       });
       const selectedUserNum = users.findIndex((user: any) => user.userName === id);
-      
+
       const selectedUser = users[selectedUserNum];
       users[selectedUserNum].selected = false;
       req.session['users'] = users;
