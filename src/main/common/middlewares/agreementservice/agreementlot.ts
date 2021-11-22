@@ -29,7 +29,6 @@ export class AgreementLotMiddleware {
             req.session.agreementEndDate = endDate;
             req.session.agreementName = agreementName;
             req.session.agreementDescription = agreementDescription;
-            console.log("retrieveAgreementLotNum ", retrieveAgreementLotNum)
             let redis_access_token = req.session['access_token'];
             let access_token = SESSION_ID;
             if (redis_access_token === access_token) {
