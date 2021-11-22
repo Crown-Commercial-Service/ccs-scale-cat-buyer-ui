@@ -1,4 +1,5 @@
 {% extends "template.njk" %}
+{% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Lot details | Contract a Thing' %}
 {% block content %}
@@ -12,7 +13,8 @@
         <li class="govuk-breadcrumbs__list-item">
           <a class="govuk-breadcrumbs__link" href="/dashboard">Digital Specialists and Programmes</a>
         </li>
-        <li class="govuk-breadcrumbs__list-item" aria-current="page">{% if lot == "Lot 1" %}
+        <li class="govuk-breadcrumbs__list-item" aria-current="page">
+          {% if lot == "Lot 1" %}
             {{lot}}: Programmes 
             {%else %}
             {{lot}} Specialists 
@@ -24,13 +26,13 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-xl ccs-agrement-pagetitle">
-          {% if lot == "Lot 1" %}
-            {{lot}} Programmes 
+            {% if lot == "Lot 1" %}
+              {{lot}} Programmes 
             {%else %}
-            {{lot}} Specialists 
+              {{lot}} Specialists 
           {% endif %}
-            
-        </h1>
+
+          </h1>
         </div>
       </div>
       <div class="govuk-grid-row">
@@ -68,7 +70,7 @@
           </div>
           <div class="ccs-page-section">
             <p>{{data.line7}}
-              <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="https://www.crowncommercial.gov.uk/suppliers" onclick="return false;">lot supplier list (xx suppliers)</a>
+              <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="https://www.crowncommercial.gov.uk/suppliers" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers)</a>
             </p><br></div>
 
           <div id="sign-in" class="ccs-page-section">
@@ -78,7 +80,7 @@
             <br>
             <div class="govuk-button-group">
               {{ CCSButton({
-               text: "Sign in or create an account",
+               text: "Start Now",
                type: "a",
                classes: "govuk-button",
                href: "/oauth/login"
@@ -109,7 +111,14 @@
                 <strong>{{data.line53}}</strong>
                 {{data.line54}}</li>
             </ul>
-            <br>
+            {% if lot == "Lot 2" %}
+              <p class="govuk-body">or</p>
+              <ul class="govuk-list govuk-list--bullet">
+                <li>
+                  <strong>{{data.line53}}</strong>
+                  {{data.line54}}</li>
+              </ul>
+            {% endif %}
             <h3 class="govuk-heading-m">{{data.line18}}
             </h3>
             <h3>
@@ -185,6 +194,11 @@
           </div>
           <a class="govuk-link govuk-link--no-visited-state" href="#description">{{data.line44}}</a>
           <br><br>
+        </div>
+        <div class="govuk-grid-column-one-third">
+
+          {{ howToGetSupport() }}
+
         </div>
       </div>
 

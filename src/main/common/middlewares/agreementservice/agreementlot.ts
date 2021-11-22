@@ -19,15 +19,18 @@ export class AgreementLotMiddleware {
         const { state, SESSION_ID } = req.cookies;
         const BaseUrlAgreement = `/agreements/${agreement_id}`;
         const BaseUrlAgreementLotNum = `/agreements/${agreement_id}/lots/${lotNum}`;
+        const BaseUrlAgreementSuppliers = `/agreements/${agreement_id}/lots/${lotNum}/suppliers`;
         try {
             const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
             const { data: retrieveAgreementLotNum } = await AgreementAPI.Instance.get(BaseUrlAgreementLotNum);
+            const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance.get(BaseUrlAgreementSuppliers);
             const endDate = retrieveAgreement.endDate;
             const agreementDescription = retrieveAgreementLotNum.description;
             const agreementName = retrieveAgreement.name;
             res.locals.agreement_lot = { ...retrieveAgreementLotNum };
             req.session.agreementEndDate = endDate;
             req.session.agreementName = agreementName;
+            req.session.suppliersCount = retrieveAgreementSuppliers.length;
             req.session.agreementDescription = agreementDescription;
             let redis_access_token = req.session['access_token'];
             let access_token = SESSION_ID;
