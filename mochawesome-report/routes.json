@@ -1,0 +1,180 @@
+{
+  "stats": {
+    "suites": 4,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-11-23T22:51:47.191Z",
+    "end": "2021-11-23T22:51:48.549Z",
+    "duration": 1358,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "3e9bff4b-310e-4744-93e1-402cda3827b1",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "1ab41f9b-40ea-4437-a71a-9181ffdcbbd2",
+          "title": "Choose a commercial agreement page",
+          "fullFile": "/Users/m_436812/Documents/GitHub/CCS/CaT/ccs-scale-cat-buyer-ui/src/test/routes/features/agreement/agreement.ts",
+          "file": "/src/test/routes/features/agreement/agreement.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "6227e087-3e1a-4d29-819f-307e134207cc",
+              "title": "on GET",
+              "fullFile": "/Users/m_436812/Documents/GitHub/CCS/CaT/ccs-scale-cat-buyer-ui/src/test/routes/features/agreement/agreement.ts",
+              "file": "/src/test/routes/features/agreement/agreement.ts",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should render `Choose a commercial agreement` page when everything is fine",
+                  "fullTitle": "Choose a commercial agreement page on GET should render `Choose a commercial agreement` page when everything is fine",
+                  "timedOut": false,
+                  "duration": 1230,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "await supertest_1.default(app_1.app)\n    .get('/projects/choose-agreement')\n    .expect(res => chai_1.expect(res.status).to.equal(302));",
+                  "err": {},
+                  "uuid": "5ad7cc45-980b-46fc-8c75-3acb5ba1aa84",
+                  "parentUUID": "6227e087-3e1a-4d29-819f-307e134207cc",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "5ad7cc45-980b-46fc-8c75-3acb5ba1aa84"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 1230,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "99e4ac59-d3a7-424d-9b86-b5f47dfc99cf",
+          "title": "Home page",
+          "fullFile": "/Users/m_436812/Documents/GitHub/CCS/CaT/ccs-scale-cat-buyer-ui/src/test/routes/home.ts",
+          "file": "/src/test/routes/home.ts",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "95cc19a3-cbb3-4db7-ae61-2d1f8f0af224",
+              "title": "on GET",
+              "fullFile": "/Users/m_436812/Documents/GitHub/CCS/CaT/ccs-scale-cat-buyer-ui/src/test/routes/home.ts",
+              "file": "/src/test/routes/home.ts",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should render Home page when everything is fine",
+                  "fullTitle": "Home page on GET should render Home page when everything is fine",
+                  "timedOut": false,
+                  "duration": 117,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "await supertest_1.default(app_1.app)\n    .get('/')\n    .expect(res => chai_1.expect(res.status).to.equal(200));",
+                  "err": {},
+                  "uuid": "e19cd0b4-12c4-433a-80b5-f40bac16a086",
+                  "parentUUID": "95cc19a3-cbb3-4db7-ae61-2d1f8f0af224",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "e19cd0b4-12c4-433a-80b5-f40bac16a086"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 117,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 10000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "6.2.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "routes",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false
+      },
+      "version": "4.1.0"
+    },
+    "marge": {
+      "options": {
+        "reportFilename": "routes",
+        "inlineAssets": "true",
+        "reportTitle": "CaT-buyer-frontend-routes"
+      },
+      "version": "4.1.0"
+    }
+  }
+}
