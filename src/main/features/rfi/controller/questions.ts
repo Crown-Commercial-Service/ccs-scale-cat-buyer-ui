@@ -77,7 +77,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
             return '';
          }
       })
-
+      fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id) ? -1 : 1)
       let data = {
          "data": fetch_dynamic_api_data,
          "agreement_id": agreement_id,
