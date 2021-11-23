@@ -34,7 +34,7 @@ export default function (app: Application): void {
   app.get(RFI_PATHS.GET_QUESTIONS, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_QUESTIONS);
 
   //  @GET '/rfi/upload-doc'
-  app.get(RFI_PATHS.GET_UPLOAD_DOC, [ContentFetchMiddleware.FetchContents, AUTH], associatedViews.GET_UPLOAD_DOC);
+  app.get(RFI_PATHS.GET_UPLOAD_DOC, [ContentFetchMiddleware.FetchContents,  AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_UPLOAD_DOC);
 
 
   //@GET name your projects
