@@ -15,8 +15,10 @@ const logger = Logger.getLogger('PreMarketEngagementMiddleware');
  */
 export class PreMarketEngagementMiddleware {
     static PutPremarket = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const { eventId, projectId } = req.session;
+        const { eventId, projectId, procurements } = req.session;
         if (projectId && eventId) {
+        const isAlreadyStarted = procurements.some((proc: any) => proc.eventId === eventId && proc.procurementID === projectId && proc.started); 
+        if (projectId && eventId && !isAlreadyStarted) {
             const { SESSION_ID, state } = req.cookies;
             const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
             const _body = {
@@ -27,6 +29,8 @@ export class PreMarketEngagementMiddleware {
             logger.warn("request body is hardcoded");
             const retrievePreMarketPromise = TenderApi.Instance(SESSION_ID).put(baseURL, _body)
             retrievePreMarketPromise.then((data) => {
+                const currentProcNum = procurements.findIndex((proc: any) => proc.eventId === eventId && proc.procurementID === projectId); 
+                req.session.procurements[currentProcNum].started = true;
                 next();
             }).catch(
                 (err) => {
