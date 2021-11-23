@@ -12,7 +12,7 @@
     "start": "NODE_ENV=production ./node_modules/.bin/ts-node -r tsconfig-paths/register src/main/server.ts",
     "start:win": "SET NODE_ENV=development & nodemon -r tsconfig-paths/register  src/main/server.ts",
     "start:dev": "nodemon --config nodemon.json",
-    "lint": "sass-lint -v -q && eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint . --ext .ts",
     "build": "yarn webpack --config webpack.config.js",
     "build:prod": "NODE_ENV=production yarn webpack --mode production --config webpack.config.js",
     "test": "jest",
@@ -73,8 +73,7 @@
     "sass": "^1.43.2",
     "serve-favicon": "^2.5.0",
     "ts-node": "^8.6.2",
-    "tsconfig-paths": "^3.11.0",
-    "typescript": "^3.9.10"
+    "tsconfig-paths": "^3.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -88,9 +87,9 @@
     "@types/pa11y": "^5.3.3",
     "@types/supertest": "^2.0.8",
     "@types/webpack-dev-middleware": "^3.7.0",
-    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.19.2",
-    "@typescript-eslint/parser": "^5.3.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.27.5",
@@ -137,6 +136,7 @@
     "ts-jest": "^25.2.1",
     "ts-loader": "^6.2.1",
     "tslint": "5.20.1",
+    "typescript": "^4.5.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^5.59.1",
     "webpack-cli": "^4.9.1",
