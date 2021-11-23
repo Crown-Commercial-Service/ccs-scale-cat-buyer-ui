@@ -48,7 +48,7 @@
                 {{ CCSInput({
                       label: {
                         text: "Enter your first question",
-                        classes: "govuk-label--m"
+                        classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_1",
                       name: "rfi_question_1",
@@ -59,7 +59,7 @@
                 {{ CCSInput({
                       label: {
                         html: "Enter your second question <a href='2' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
-                        classes: "govuk-label--m"
+                        classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_2",
                       name: "rfi_question_2",
@@ -71,7 +71,7 @@
                 {{ CCSInput({
                       label: {
                         html: "Enter your third question <a href='3' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
-                        classes: "govuk-label--m"
+                        classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_3",
                       name: "rfi_question_3",
@@ -83,7 +83,7 @@
                 {{ CCSInput({
                       label: {
                         html: "Enter your fourth question <a href='4' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
-                        classes: "govuk-label--m"
+                        classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_4",
                       name: "rfi_question_4",
@@ -95,7 +95,7 @@
                 {{ CCSInput({
                       label: {
                         html: "Enter your fifth question <a href='5' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
-                        classes: "govuk-label--m"
+                        classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_5",
                       name: "rfi_question_5",
@@ -107,7 +107,7 @@
                 {{ CCSInput({
                       label: {
                         html: "Enter your sixth question <a href='6' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
-                        classes: "govuk-label--m"
+                        classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_6",
                       name: "rfi_question_6",
@@ -119,7 +119,7 @@
                 {{ CCSInput({
                       label: {
                         html: "Enter your seventh question <a href='7' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
-                        classes: "govuk-label--m"
+                        classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_7",
                       name: "rfi_question_7",
@@ -131,7 +131,7 @@
                 {{ CCSInput({
                       label: {
                         html: "Enter your eighth question <a href='8' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
-                        classes: "govuk-label--m"
+                        classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_8",
                       name: "rfi_question_8",
@@ -143,7 +143,7 @@
                 {{ CCSInput({
                       label: {
                         html: "Enter your ninth question <a href='9' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
-                        classes: "govuk-label--m"
+                        classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_9",
                       name: "rfi_question_9",
@@ -155,7 +155,7 @@
                 {{ CCSInput({
                       label: {
                         html: "Enter your tenth question <a href='10' class='del govuk-link govuk-link--no-visited-state' title='delete'> X </a>",
-                        classes: "govuk-label--m"
+                        classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_10",
                       name: "rfi_question_10",
@@ -194,16 +194,16 @@
 
             {% block valuewitNoMultiSelect %}
               {% if (requirement.nonOCDS.questionType === 'Value') and (requirement.nonOCDS.multiAnswer === false) %}
-                {% if requirement.OCDS.id == "Question 3"%}
+                {% if requirement.OCDS.id == "Question 2"%}
                     <div class="govuk-!-margin-bottom-9">
-                      <label class="govuk-label--m">Name of the organisation doing the procurement</label>
+                      <label class="govuk-label govuk-label--m">{{requirement.OCDS.title}}</label>
                       <p class="govuk-body govuk-!-font-size-19 govuk-!-margin-top-3"><strong>{{organizationName}}</strong></p>
                     </div>
                 {% else %}
                   {{  CCSInput({
                         label: {
                           text: requirement.OCDS.title,
-                          classes: "govuk-label--m"
+                          classes: "govuk-label govuk-label--m"
                         },
                         hint: {
                           text: requirement.OCDS.description
@@ -234,7 +234,7 @@
                       value: requirement.nonOCDS.options[0].value,
                       label: {
                       text: "Write your key background information here",
-                      classes: "govuk-label--m"
+                      classes: "govuk-label govuk-label--m"
                       }
                     })
                 }}
@@ -253,15 +253,17 @@
 
             {% block singleSelect%}
                 {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
-                  <br>
+                    <div class="govuk-form-group"> 
+                    <div class="govuk-radios">
+                    <br>
                   {% set radioArray = [] %}
                   {% for i in range(0, requirement.nonOCDS.options | length) -%}
                     {% if i == 0%}
                       <div class="govuk-radios__item">
                         {%if requirement.nonOCDS.options[i].selected === true %}
-                          <input class="govuk-radios__input" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
+                          <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
                         {%else%}
-                          <input class="govuk-radios__input" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
+                          <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
                         {%endif%}
                         <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
                             <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
@@ -276,9 +278,9 @@
 
                         <div class="govuk-radios__item">
                           {%if requirement.nonOCDS.options[i].selected === true %}
-                            <input class="govuk-radios__input" id="ccs_vetting_type-{{i}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
                           {%else%}
-                            <input class="govuk-radios__input" id="ccs_vetting_type-{{i}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
                           {% endif %}
                           <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
                             <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
@@ -289,17 +291,10 @@
                             </p>
                           </div>
                         </div>
-
                     {%endif%}
                   {%- endfor %}
-
-                      {{ CCSRadios({
-                          idPrefix: "ccs_rfi_type",
-                          name: data.OCDS.description | replace(' ', '_'),
-                          items: radioArray
-                        })
-                      }}
-
+                  </div>
+                  </div>
                       {{ CCSInput({
                             id: "question_id",
                             name: "question_id",
@@ -724,7 +719,7 @@
                         text: "Save and continue"
                       })
                   }}
-                  <a href="/rfi/online-task-list" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information</a>
+                  <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI)</a>
                 </div>
 
         </form>
