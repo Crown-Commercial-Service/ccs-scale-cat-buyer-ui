@@ -253,15 +253,17 @@
 
             {% block singleSelect%}
                 {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
-                  <br>
+                    <div class="govuk-form-group"> 
+                    <div class="govuk-radios">
+                    <br>
                   {% set radioArray = [] %}
                   {% for i in range(0, requirement.nonOCDS.options | length) -%}
                     {% if i == 0%}
                       <div class="govuk-radios__item">
                         {%if requirement.nonOCDS.options[i].selected === true %}
-                          <input class="govuk-radios__input" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
+                          <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
                         {%else%}
-                          <input class="govuk-radios__input" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
+                          <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
                         {%endif%}
                         <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
                             <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
@@ -276,9 +278,9 @@
 
                         <div class="govuk-radios__item">
                           {%if requirement.nonOCDS.options[i].selected === true %}
-                            <input class="govuk-radios__input" id="ccs_vetting_type-{{i}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
                           {%else%}
-                            <input class="govuk-radios__input" id="ccs_vetting_type-{{i}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
                           {% endif %}
                           <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
                             <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
@@ -289,17 +291,10 @@
                             </p>
                           </div>
                         </div>
-
                     {%endif%}
                   {%- endfor %}
-
-                      {{ CCSRadios({
-                          idPrefix: "ccs_rfi_type",
-                          name: data.OCDS.description | replace(' ', '_'),
-                          items: radioArray
-                        })
-                      }}
-
+                  </div>
+                  </div>
                       {{ CCSInput({
                             id: "question_id",
                             name: "question_id",

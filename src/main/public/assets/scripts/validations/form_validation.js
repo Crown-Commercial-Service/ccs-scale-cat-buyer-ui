@@ -1,3 +1,5 @@
+
+
 /*************************************************************************
  * Client-side validation for GDS form elements:
  * Validate against a regex (text or file inputs);
@@ -42,6 +44,36 @@ const ccsZvalidateTextArea = (elementName, errMsg) => {
 /**
  * Validate that one checkbox or radio button in a set has been selected
  */
+
+const ccsZisOptionCheckedForVetting = (elementName, errMsg) => {
+  const element = document.getElementById(elementName);
+
+
+  let checkForAllVettingRadioFields = $('.ccs_vetting').is(':checked');
+  let gotACheck = false,
+  containingDiv = ".govuk-checkboxes";
+
+  if(!checkForAllVettingRadioFields){
+     gotACheck = false;
+
+  }
+  else{
+    gotACheck = true;
+  }
+
+  if (element.type === "radio") containingDiv = ".govuk-radios";
+
+  if (gotACheck) ccsZremoveErrorMessage(element);
+  else ccsZaddErrorMessage(element, errMsg)
+
+  if (gotACheck) return true;
+  else return [element.id, errMsg];
+}
+
+
+
+
+
 const ccsZisOptionChecked = (elementName, errMsg) => {
   const element = document.getElementById(elementName);
 
