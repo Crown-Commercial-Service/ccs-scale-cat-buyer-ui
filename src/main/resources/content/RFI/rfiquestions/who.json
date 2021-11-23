@@ -34,7 +34,7 @@
             {
                 "label": {
                     "text": "Name of the Contracting Authority",
-                    "classes": "govuk-label--m"
+                    "classes": "govuk-label govuk-label--m"
                   },
                   "hint": {
                     "text": "Who is running the procurement?"
@@ -48,7 +48,7 @@
                 "label": {
 
                    "text": "Organisation you are buying on behalf of (optional)",
-                    "classes": "govuk-label--m"
+                    "classes": "govuk-label govuk-label--m"
                   },
                   "hint": {
                     "text": "If different from the Contracting Authority"
@@ -61,7 +61,7 @@
                 "label": {
 
                    "text": "Enter email address",
-                    "classes": "govuk-label--m"
+                    "classes": "govuk-label govuk-label--m"
                   },
                   "hint": {
                     "text": "If different from the Contracting Authority"
