@@ -34,7 +34,7 @@ export default function (app: Application): void {
   app.get(RFI_PATHS.GET_QUESTIONS, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_QUESTIONS);
 
   //  @GET '/rfi/upload-doc'
-  app.get(RFI_PATHS.GET_UPLOAD_DOC, [ContentFetchMiddleware.FetchContents, AUTH], associatedViews.GET_UPLOAD_DOC);
+  app.get(RFI_PATHS.GET_UPLOAD_DOC, [ContentFetchMiddleware.FetchContents,  AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_UPLOAD_DOC);
 
 
   //@GET name your projects
@@ -49,6 +49,7 @@ export default function (app: Application): void {
   app.get(RFI_PATHS.GET_LEAD_PROCUEMENT, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_LEAD_PROCUREMENT)
 
   app.get(RFI_PATHS.GET_USER_PROCUREMENT, associatedViews.GET_USER_PROCUREMENT)
+
 
 
   /**
@@ -80,7 +81,13 @@ export default function (app: Application): void {
    
 
   //@POST '/rfi/proceed-collaborators'
-  app.post(RFI_PATHS.POST_PROCEED_COLLABORTORS, AUTH, associatedViews.POST_PROCEED_COLLABORATORS)  
+  app.post(RFI_PATHS.POST_PROCEED_COLLABORTORS, AUTH, associatedViews.POST_PROCEED_COLLABORATORS)
+  
+  
+  //@POST '/rfi/get-collaborator-detail/js-enabled'
+  app.post(RFI_PATHS.POST_ADD_COLLABORATOR_JSENABLED, AUTH, associatedViews.POST_ADD_COLLABORATOR_JSENABLED)
+
+
 
   //@POST '/rfi/add-collaborator-detail'
   app.post(RFI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER)
