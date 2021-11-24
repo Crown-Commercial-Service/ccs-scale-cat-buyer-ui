@@ -63,7 +63,8 @@
                     "Task": 1,
                     "title": "Upload or link any additional documentation",
                     "required": "optional",
-                    "status": "cannot start yet"
+                    "status": "todo",
+                    "link": "/rfi/upload-doc"
                 },
                 {
                     "Task": 2,

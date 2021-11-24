@@ -5,6 +5,7 @@ import {dateFilter, dateInputFilter, dateWithDayAtFrontFilter, monthIncrementFil
 import {stringFilter } from './filters/stringFilter'
 import {jsonFilter, jsontoStringFilter} from './filters/jsonFilter'
 import { InitOptions } from 'i18next'
+import {MemoryFormatter} from './filters/memoryformatter'
 
 export class Nunjucks {
 
@@ -55,6 +56,7 @@ export class Nunjucks {
     NunjucksEnvironment.addFilter('json', jsonFilter)
     NunjucksEnvironment.addFilter('stringJson', jsontoStringFilter)
     NunjucksEnvironment.addFilter('string', stringFilter)
+    NunjucksEnvironment.addFilter('KbtoMb', MemoryFormatter)
     app.use((req, res, next) => {
       res.locals.pagePath = req.path;
       next();
