@@ -78,9 +78,23 @@
             <p class="govuk-body">{{data.line9}}</p>
 
             <br>
+            {% if(isAuth === true)%}
             <div class="govuk-button-group">
               {{ CCSButton({
                text: "Start Now",
+               type: "a",
+               classes: "govuk-button",
+               href: "/dashboard"
+              }) }}
+            </div>
+            <br>
+          </div>
+
+            {%else%}
+
+            <div class="govuk-button-group">
+              {{ CCSButton({
+               text: "Sign in or create an account",
                type: "a",
                classes: "govuk-button",
                href: "/oauth/login"
@@ -88,6 +102,10 @@
             </div>
             <br>
           </div>
+
+            {%endif%}
+
+            
 
           <div class="ccs-page-section" id="buyonline">
             <h1 class="govuk-heading-l">{{data.line10}}

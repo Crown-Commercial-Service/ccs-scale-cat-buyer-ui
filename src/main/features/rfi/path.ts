@@ -50,6 +50,13 @@ export default function (app: Application): void {
 
   app.get(RFI_PATHS.GET_USER_PROCUREMENT, associatedViews.GET_USER_PROCUREMENT)
 
+    //@GET "/rfi/upload-doc/remove"
+    app.get(RFI_PATHS.GET_REMOVE_FILE, AUTH, associatedViews.GET_REMOVE_FILES )
+
+    
+
+
+
 
 
   /**
@@ -91,6 +98,11 @@ export default function (app: Application): void {
 
   //@POST '/rfi/add-collaborator-detail'
   app.post(RFI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER)
+
+  //@POST "rfi/upload-doc"
+  app.post(RFI_PATHS.POST_UPLOAD_DOC, AUTH, associatedViews.POST_UPLOAD_DOC )
+
+
 
 
 }
