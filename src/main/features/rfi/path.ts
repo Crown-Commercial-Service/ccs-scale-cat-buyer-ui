@@ -51,6 +51,7 @@ export default function (app: Application): void {
   app.get(RFI_PATHS.GET_USER_PROCUREMENT, associatedViews.GET_USER_PROCUREMENT)
 
 
+
   /**
    * 
    * @POST : POST Routes of RFI
@@ -80,7 +81,13 @@ export default function (app: Application): void {
    
 
   //@POST '/rfi/proceed-collaborators'
-  app.post(RFI_PATHS.POST_PROCEED_COLLABORTORS, AUTH, associatedViews.POST_PROCEED_COLLABORATORS)  
+  app.post(RFI_PATHS.POST_PROCEED_COLLABORTORS, AUTH, associatedViews.POST_PROCEED_COLLABORATORS)
+  
+  
+  //@POST '/rfi/get-collaborator-detail/js-enabled'
+  app.post(RFI_PATHS.POST_ADD_COLLABORATOR_JSENABLED, AUTH, associatedViews.POST_ADD_COLLABORATOR_JSENABLED)
+
+
 
   //@POST '/rfi/add-collaborator-detail'
   app.post(RFI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER)

@@ -1,6 +1,6 @@
 {% extends "template.njk" %}
 
-{% set title = 'Create a Request for Information (RFI)' %}
+{% set title =  rfiTitle + '- Create a Request for Information (RFI)' %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -14,8 +14,16 @@
         href: "/projects/choose-agreement"
       },
       {
-        text: "procurement overview",
-        href: url
+            text: "Procurement overview",
+            href: "/projects/create-or-choose"
+        },
+        {
+          text: "Do pre-market engagement",
+          href: "/rfi/rfi-tasklist"
+        },
+        {
+          text: "Build your RfI",
+          href: "/rfi/online-task-list?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
       },
       {
         text: rfiTitle
