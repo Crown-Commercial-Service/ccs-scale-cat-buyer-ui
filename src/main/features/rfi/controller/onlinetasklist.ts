@@ -57,7 +57,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
          res.render('onlinetasklist', display_fetch_data);
       } catch (error) {
          LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-            TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
+            TokenDecoder.decoder(SESSION_ID), "Tenders Service Api cannot be connected", true)
       }
    }
 }

@@ -10,7 +10,7 @@ const ccsZvalidateRfiProject = (event) => {
     // fieldCheck = ccsZvalidateTextArea( "rfi_why_this_work", "Describe why this work is required" );
     // if (fieldCheck !== true) errorStore.push(fieldCheck);
 
-    fieldCheck = ccsZvalidateTextArea( "rfi_prob_statement", "Describe the problem you are aiming to solve" );
+    fieldCheck = ccsZvalidateTextArea( "rfi_prob_statement", "You must enter information here" );
     if (fieldCheck !== true) errorStore.push(fieldCheck);
 
     // fieldCheck = ccsZvalidateTextArea( "rfi_will_work_on", "Describe the areas or techologies the resource will work on" );
