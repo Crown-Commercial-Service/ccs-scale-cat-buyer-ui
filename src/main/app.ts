@@ -16,6 +16,7 @@ export const app = express();
 import glob from 'glob'
 import { routeExceptionHandler } from './setup/routeexception'
 import { RedisInstanceSetup } from './setup/redis'
+import {fileUploadSetup} from './setup/fileupload'
 
 
 app.locals.ENV = env;
@@ -35,6 +36,8 @@ if (checkforenvFile) {
  * @RedisClient
  */
 RedisInstanceSetup(app);
+
+fileUploadSetup(app);
 
 const logger = Logger.getLogger('app');
 
