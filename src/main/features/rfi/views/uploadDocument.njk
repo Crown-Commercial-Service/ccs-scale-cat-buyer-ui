@@ -26,6 +26,9 @@
 <p class="govuk-body">[instruction for this page]</p>
 
 <div class="ccs-page-section govuk-!-margin-bottom-9 govuk-!-margin-top-9 ">
+
+
+      <form action="rfi/upload-doc" method="post">
         {{ CCSFileUpload({
         id: "rfi_offline_document",
         name: "rfi_offline_document",
@@ -36,6 +39,15 @@
         }
         }) }}
       </div>
+
+         {{ CCSButton({
+                        text: "Save and continue"
+                      })
+                  }}
+
+
+    </form>
+
 
 
       <div class="govuk-!-margin-bottom-9 govuk-!-margin-top-9 ">

@@ -70,6 +70,31 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
  * @param req 
  * @param res 
  */
+
+ export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res: express.Response) => {
+   var { SESSION_ID } = req.cookies
+   var { rfi_collaborators } = req['body'];
+   try {
+      let user_profile = rfi_collaborators;
+      let userdata_endpoint = `user-profiles?user-Id=${user_profile}`
+      let organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+      let userData = organisation_user_data?.data;
+      let {userName,firstName, lastName, telephone } = userData;
+      let userdetailsData = {userName, firstName, lastName}
+
+      if(telephone === undefined) userdetailsData = {...userdetailsData, tel: "N/A"}
+      else  userdetailsData = {...userdetailsData, tel: telephone}
+      
+      res.status(200).json(userdetailsData);
+   } catch (error) {
+      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+         TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
+   }
+}
+
+
+
+
 export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
    var { SESSION_ID } = req.cookies
    var { rfi_collaborators } = req['body'];
