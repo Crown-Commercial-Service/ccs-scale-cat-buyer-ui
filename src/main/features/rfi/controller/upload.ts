@@ -1,4 +1,4 @@
-
+//@ts-nocheck
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/RFI/offline-doc.json'
 
