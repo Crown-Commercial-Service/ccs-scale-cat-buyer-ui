@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
+    document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
       e.preventDefault();
 
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // delete buttons
     deleteButtons.forEach((db) => {
+      db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
 
         e.preventDefault();
@@ -55,9 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
           prev_box = Number(target) - 1;
         document.getElementById('rfi_question_' + target).value = "";
         document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
+        let parentNode = document.querySelector('label[for=rfi_question_' + target + ']').parentNode;
+        if(parentNode.children["rfi_question_" + target + '-error'] !== undefined)
+        {
+          parentNode.removeChild(document.getElementById("rfi_question_" + target + '-error'))
+          parentNode.classList.remove("govuk-form-group--error");
+          parentNode.children["rfi_question_" + target ].classList.remove("govuk-input--error");
+        }
         //document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
         document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
-
+        
         if (prev_box > 1) {
           document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
         }
@@ -80,7 +89,6 @@ const ccsZvalidateRfIQuestions = (event) => {
   //if (event_typ !== "Request for Information") {
     fieldCheck = ccsZvalidateWithRegex( "rfi_question_1", "Enter question 1", /\w+/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
-
     for (var i = 2; i < 11; i++) {
       if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
         fieldCheck = ccsZvalidateWithRegex( "rfi_question_" + i, "Enter question " + i, /\w+/);
