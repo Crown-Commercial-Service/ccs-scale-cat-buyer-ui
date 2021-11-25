@@ -51,9 +51,14 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       let { OCDS, nonOCDS } = matched_selector;
       let titleText = OCDS?.description;
       let promptData = nonOCDS?.prompt;
-
+      let nonOCDSList = [];
       let form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
 
+         let nonOCDS = {
+            "question_id": aSelector.OCDS.id,
+            "mandatory": aSelector.nonOCDS.mandatory
+         }
+         nonOCDSList.push(nonOCDS);
          if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
             return 'ccs_rfi_vetting_form'
          }
@@ -77,8 +82,9 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
             return '';
          }
       })
+      req.session?.nonOCDSList = nonOCDSList;
       fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id) ? -1 : 1)
-      let data = {
+      const data = {
          "data": fetch_dynamic_api_data,
          "agreement_id": agreement_id,
          "proc_id": proc_id,
@@ -88,10 +94,9 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
          "form_name": form_name?.[0],
          "rfiTitle": titleText,
          "prompt": promptData,
-         "organizationName": organizationName
+         "organizationName": organizationName,
+         error: req.session['isLocationError']
       }
-
-
 
       res.render('questions', data);
    }
@@ -128,11 +133,13 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  */
 // path = '/rfi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
-   var { agreement_id, proc_id, event_id, id, group_id ,stop_page_navigate} = req.query;
+   var { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
    var { SESSION_ID } = req.cookies;
+   req.session['isLocationError'] = false;
    let started_progress_check: Boolean = operations.isUndefined(req.body, 'rfi_build_started');
    if (operations.equals(started_progress_check, false)) {
       let { rfi_build_started, question_id, questionType } = req.body;
+      let nonOCDS = req.session?.nonOCDSList.find(x => x.question_id === question_id)
       if (rfi_build_started === "true") {
          let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfi_build_started');
          remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(remove_objectWithKeyIdentifier, 'question_id');
@@ -193,19 +200,18 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   ]
                }
             };
-          
+
 
             try {
                let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-       
-               if(stop_page_navigate == null || stop_page_navigate == undefined)
-               {
+
+               if (stop_page_navigate == null || stop_page_navigate == undefined) {
                   QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
                }
                else {
-                res.send();
-                return
+                  res.send();
+                  return
                }
             } catch (error) {
                // console.log(error)
@@ -228,9 +234,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                LoggTracer.errorTracer(Log, res)
             }
          }
-
          else {
-
             let question_array_check: Boolean = Array.isArray(question_id);
             if (question_array_check) {
                var sortedStorage = []
@@ -300,19 +304,31 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   }
                });
 
-               let answerBody = {
-                  "nonOCDS": {
-                     "answered": true,
-                     "options": [
-                        ...selectedOptionToggle[0],
-                     ]
-                  }
-               };
-
                try {
-                  let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                  QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
+                  if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == true) {
+                     //return error & show
+                  } else if (selectedOptionToggle[0].find(x => x.value === "No specific location, for example they can work remotely") && selectedOptionToggle[0].length > 1) {
+                     console.log("Bye")
+                     req.session['isLocationError'] = true;
+                     const regex = /questionnaire/ig;
+                     const url = req.originalUrl.toString()
+                     res.redirect(url.replaceAll(regex, 'questions'));
+                  }
+                  else if (selectedOptionToggle.length > 0) {
+                     let answerBody = {
+                        "nonOCDS": {
+                           "answered": true,
+                           "options": [
+                              ...selectedOptionToggle[0],
+                           ]
+                        }
+                     };
+                     let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+                     await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                  }
+                  if (req.session['isLocationError'] === false) {
+                     QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
+                  }
                } catch (error) {
                   logger.log("Something went wrong, please review the logit error log for more information")
                   delete error?.config?.['headers'];
@@ -332,10 +348,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   )
                   LoggTracer.errorTracer(Log, res)
                }
-
-
-
-
             }
 
          }
