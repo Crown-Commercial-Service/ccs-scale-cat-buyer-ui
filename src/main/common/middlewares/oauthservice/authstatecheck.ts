@@ -18,15 +18,13 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
     var { SESSION_ID, state } = req.cookies;
     if (SESSION_ID === undefined) {
         res.redirect('/oauth/login');
-    }
-    else {
+    } else {
         let access_token = SESSION_ID;
         let AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
         let check_token_validation = AuthCheck_Instance.post('');
         check_token_validation.then(async (data) => {
             let auth_status_check = data?.data;
             if (auth_status_check) {
-
                 var isAuthicated = {
                     session: req.session['isAuthenticated']
                 }
@@ -35,7 +33,6 @@ export const AUTH: express.Handler = (req: express.Request, res: express.Respons
                 let decoded: any = jwt.decode(access_token, { complete: true });
                 let rolesOfUser = decoded?.payload?.roles
                 let isAuthorized = rolesOfUser?.includes('CAT_USER');
-
                 if (!isAuthorized) {
                     res.redirect('/401')
                 }

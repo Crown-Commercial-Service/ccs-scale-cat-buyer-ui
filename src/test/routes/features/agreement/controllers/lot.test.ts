@@ -7,9 +7,9 @@ import nock from 'nock'
 import express from 'express';
 import {jwt} from '../../__Mock__/env'
 
-describe('Choose a commercial agreement page', () => {
+describe('Choose a lot agreement page', () => {
   let parentApp;
-  
+
   beforeEach(function(){
       parentApp = express();
       parentApp.use(function(req, res, next) { // lets stub session middleware
@@ -42,7 +42,7 @@ describe('Choose a commercial agreement page', () => {
 
   });
 
-  it('should render `Agreements` page when everything is fine', async () => {
+  it('should render `Lots` page when everything is fine', async () => {
     const dummyLots = [
       {
         number: 'Lot 2',
@@ -82,5 +82,4 @@ describe('Choose a commercial agreement page', () => {
           expect(res.status).to.equal(200);
       })
   });
-
 })
