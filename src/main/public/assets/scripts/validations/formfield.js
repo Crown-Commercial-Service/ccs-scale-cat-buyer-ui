@@ -44,7 +44,7 @@ const ccsZvalidateProjectPhase = (event) => {
 const ccsZvalidateRfiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
- fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", "Select a security vetting level");
+ fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", "You must provide a security clearance level before proceeding");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_vetting_form"].submit();
@@ -60,7 +60,7 @@ const ccsZvalidateRfiSecurity = (event) => {
 const ccsZvalidateRfpSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
-  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", "Select a security vetting level");
+  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", "You must provide a security clearance level before proceeding");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfp_vetting_form"].submit();

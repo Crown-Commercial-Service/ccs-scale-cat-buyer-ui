@@ -14,11 +14,11 @@ import { LoggTracer } from '../../logtracer/tracer'
  */
 export class ChooseAgreementMiddleware {
     static FetchAgreements = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        let BaseURL = "/agreements/RM6263/lots";
-        let retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL)
+        const BaseURL = "/agreements/RM6263/lots";
+        const retrieveAgreementPromise = AgreementAPI.Instance.get(BaseURL)
         const { state, SESSION_ID } = req.cookies;
         retrieveAgreementPromise.then((data) => {
-            let containedData = data?.data;
+            const containedData = data?.data;
             res.locals.project_agreement = containedData;
             res.locals.sortedItems = sortObject.sort_by(containedData, "number", true);
             next();
@@ -27,7 +27,6 @@ export class ChooseAgreementMiddleware {
             (err) => {
                 LoggTracer.errorLogger(res, err, `${req.headers.host}${req.originalUrl}`, state,
                     TokenDecoder.decoder(SESSION_ID), "Agreement Service Api cannot be connected", true)
-                // res.render(ErrorView.notfound)
             }
         )
     }

@@ -19,7 +19,7 @@ const logger = Logger.getLogger('procurement');
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { lotId, agreementLotName } = req.session;
 
-  var { SESSION_ID } = req.cookies;
+  const { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `agreements/${agreementId_session}/lots/${lotId}/event-types`;
@@ -58,8 +58,10 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
 
     const project_name = req.session.project_name;
 
+    const lotURL = "/agreement/lot?agreement_id="+req.session.agreement_id+"&lotNum="+req.session.lotId.replace(/ /g,"%20");
+
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid }
-    appendData = { ...appendData, agreementName };
+    appendData = { ...appendData, agreementName, lotURL};
     res.render('procurement', appendData);
   } catch (error) {
     LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
