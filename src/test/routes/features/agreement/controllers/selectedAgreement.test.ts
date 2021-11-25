@@ -7,9 +7,9 @@ import nock from 'nock'
 import express from 'express';
 import {jwt} from '../../__Mock__/env'
 
-describe('Choose a commercial agreement page', () => {
+describe('Choose a lot agreement page', () => {
   let parentApp;
-  
+
   beforeEach(function(){
       parentApp = express();
       parentApp.use(function(req, res, next) { // lets stub session middleware
@@ -42,7 +42,7 @@ describe('Choose a commercial agreement page', () => {
 
   });
 
-  it('should render `Agreements` page when everything is fine', async () => {
+  it('should redirect to following page when everything is fine', async () => {
     const dummyLots = [
       {
         number: 'Lot 2',
@@ -62,9 +62,9 @@ describe('Choose a commercial agreement page', () => {
     .query(true)
     .reply(200, dummyLots);
     await request(parentApp)
-      .get('/projects/choose-agreement')
+      .get('/projects/selected-agreement')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => expect(res.status).to.equal(200)) 
+      .expect(res => expect(res.status).to.equal(302)) 
   });
 
   it('should render error page when lot api is not ready', async () => {
@@ -76,11 +76,14 @@ describe('Choose a commercial agreement page', () => {
       }
     );
     await request(parentApp)
-      .get('/projects/choose-agreement')
+      .get('/projects/selected-agreement')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .expect(res => { 
           expect(res.status).to.equal(200);
       })
   });
-
 })
+
+
+
+
