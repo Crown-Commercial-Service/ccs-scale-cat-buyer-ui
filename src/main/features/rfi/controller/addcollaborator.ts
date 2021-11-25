@@ -1,12 +1,13 @@
 //@ts-nocheck
 import * as express from 'express'
-import * as cmsData from '../../../resources/content/RFI/rfiTaskList.json'
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance'
 import { RFI_PATHS } from "../model/rficonstant"
 import {RemoveDuplicatedList} from '../util/operations/arrayremoveobj'
+import * as cmsData from '../../../resources/content/RFI/addcollaborator.json';
+
 
 
 // RFI ADD_Collaborator
