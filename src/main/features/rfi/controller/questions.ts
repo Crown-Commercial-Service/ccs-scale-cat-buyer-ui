@@ -51,9 +51,14 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       let { OCDS, nonOCDS } = matched_selector;
       let titleText = OCDS?.description;
       let promptData = nonOCDS?.prompt;
-
+      let nonOCDSList = [];
       let form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
 
+         let nonOCDS = {
+            "question_id":aSelector.OCDS.id,
+            "mandatory":aSelector.nonOCDS.mandatory
+         }
+         nonOCDSList.push(nonOCDS);
          if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
             return 'ccs_rfi_vetting_form'
          }
@@ -77,6 +82,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
             return '';
          }
       })
+      res.session?.nonOCDSList = nonOCDSList;
       fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id) ? -1 : 1)
       let data = {
          "data": fetch_dynamic_api_data,
@@ -133,6 +139,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
    let started_progress_check: Boolean = operations.isUndefined(req.body, 'rfi_build_started');
    if (operations.equals(started_progress_check, false)) {
       let { rfi_build_started, question_id, questionType } = req.body;
+      let nonOCDS = req.session?.nonOCDSList.find(x => x.question_id === question_id)
       if (rfi_build_started === "true") {
          let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfi_build_started');
          remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(remove_objectWithKeyIdentifier, 'question_id');
@@ -228,7 +235,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                LoggTracer.errorTracer(Log, res)
             }
          }
-
          else {
             let question_array_check: Boolean = Array.isArray(question_id);
             if (question_array_check) {
@@ -298,10 +304,14 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                      return [anItem];
                   }
                });             
-
+               
                try {
-                  if(selectedOptionToggle.length > 0)
+                  if(selectedOptionToggle.length == 0 && nonOCDS.mandatory == true )
                   {
+                      //return error & show
+                  }
+                  else if(selectedOptionToggle.length > 0 )
+                  {                     
                      let answerBody = {
                         "nonOCDS": {
                            "answered": true,
