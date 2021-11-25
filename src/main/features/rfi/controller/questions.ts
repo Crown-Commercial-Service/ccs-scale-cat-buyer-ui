@@ -230,7 +230,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
          }
 
          else {
-
             let question_array_check: Boolean = Array.isArray(question_id);
             if (question_array_check) {
                var sortedStorage = []
@@ -298,20 +297,22 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   else {
                      return [anItem];
                   }
-               });
-
-               let answerBody = {
-                  "nonOCDS": {
-                     "answered": true,
-                     "options": [
-                        ...selectedOptionToggle[0],
-                     ]
-                  }
-               };
+               });             
 
                try {
-                  let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                  if(selectedOptionToggle.length > 0)
+                  {
+                     let answerBody = {
+                        "nonOCDS": {
+                           "answered": true,
+                           "options": [
+                              ...selectedOptionToggle[0],
+                           ]
+                        }
+                     };
+                     let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+                     await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                  }
                   QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
                } catch (error) {
                   logger.log("Something went wrong, please review the logit error log for more information")
