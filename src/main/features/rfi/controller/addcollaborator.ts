@@ -6,6 +6,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance'
 import { RFI_PATHS } from "../model/rficonstant"
+import {RemoveDuplicatedList} from '../util/operations/arrayremoveobj'
 
 
 // RFI ADD_Collaborator
@@ -41,20 +42,30 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       collaboratorData = collaboratorData.data;
       let userData: any = collaboratorData;
       let leadUser = userData?.filter((leaduser: any) => leaduser?.nonOCDS.projectOwner === true)[0];
+      let userIsLead = leadUser?.OCDS.id === req.session.user.payload.sub;
       if (!Array.isArray(req.session['searched_user'])) {
          collaborator = { "fullName": fullName, "email": userName };
       } else {
          collaborator = { "fullName": "", "email": "" };
       }
+      let filteredListofOrganisationUser = allUserStorge;
+      let filteredUser = userData.map((user)=> {
+         return {name: `${user.OCDS.contact.name}`, userName: user.OCDS.id}
+      })
+
+      filteredListofOrganisationUser = RemoveDuplicatedList(filteredListofOrganisationUser, filteredUser);
+   
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
       const windowAppendData = {
          data: cmsData,
-         userdata: allUserStorge,
+         userdata: filteredListofOrganisationUser,
          collaborator: collaborator,
          collaborators: collaboratorData,
          lead: leadUser,
          lotId,
+         userIsLead,
+         lead_data: leadUser,
          agreementLotName,
          error: isJaggaerError
       }
