@@ -3,11 +3,16 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 
+{% set lead = lead.OCDS.contact.email %}
+
+
 {% set organisationUser = userdata%}
 
 {% set sortedMembers = [{value: "", text: "Please select a colleague to be added"}] %}
 {% for user in organisationUser %}
+  {% if user.userName !== lead%}
     {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
+  {%endif %}  
 {% endfor %}
 
 {% set title = 'Complete and upload a document | Contract a Thing' %}
@@ -70,7 +75,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
 
-    <p class="govuk-body">You can add colleagues to help you write your your requirements and review and evaluate
+    <p class="govuk-body">You can add colleagues to help you write your requirements and review and evaluate
       suppliers.</p>
 
     <p class="govuk-body">Use the drop-down box below to add colleagues. They will need to be registered with CCS. If
@@ -90,10 +95,18 @@
 
   {### ##}
 
-  {%if(collaborators.length < 5)%}
-   
+  {% set noOfUser = 0%}
 
-      <div class="ccs-page-section">
+  {%if(userIsLead)%}
+  {% set noOfUser = 5%}
+  {%else%}
+{% set noOfUser = 4%}
+  {%endif%}
+
+
+
+  {%if(collaborators.length < noOfUser)%}
+         <div class="ccs-page-section">
         <p class="govuk-body">Select and add colleagues</p>
         <form method="POST" action="/rfi/get-collaborator-detail">
          <div class="govuk-button-group">
@@ -145,6 +158,7 @@
       {%endif%}
       <div id="collaborators-section">
         {% for collaborator in collaborators %}
+        {% if collaborator.OCDS.contact.email !== lead %}
         <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.id}}">
           <div id="collaborator-detail">
             <a href='{{collaborator.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
@@ -155,15 +169,16 @@
             <p class="govuk-body"><strong>Phone number: </strong><span id="collab_tel">{{ collaborator.OCDS.contact.telephone }}</span></p>
           </div>
         </div>
+        {%endif%}
         {% endfor%}
       </div>
 
 
 
       <div class="ccs-page-section" id="lead-user-section">
-        <p class="govuk-body"><strong>Lead colleague: </strong>{{lead.OCDS.contact.name}}</p>
-        <p class="govuk-body"><strong>Email address: </strong>{{ lead.OCDS.contact.email }}</p>
-        <p class="govuk-body"><strong>Phone number: </strong>{{ lead.OCDS.contact.telephone }}</p>
+        <p class="govuk-body"><strong>Lead colleague: </strong> {{lead_data.OCDS.contact.name}}</p>
+        <p class="govuk-body"><strong>Email address: </strong>{{  lead_data.OCDS.contact.email }}</p>
+        <p class="govuk-body"><strong>Phone number: </strong>{{  lead_data.OCDS.contact.telephone }}</p>
       </div>
       <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
       <br>
