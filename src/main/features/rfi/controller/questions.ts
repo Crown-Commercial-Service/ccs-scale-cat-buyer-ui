@@ -128,7 +128,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  */
 // path = '/rfi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
-   var { agreement_id, proc_id, event_id, id, group_id } = req.query;
+   var { agreement_id, proc_id, event_id, id, group_id ,stop_page_navigate} = req.query;
    var { SESSION_ID } = req.cookies;
    let started_progress_check: Boolean = operations.isUndefined(req.body, 'rfi_build_started');
    if (operations.equals(started_progress_check, false)) {
@@ -176,8 +176,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                LoggTracer.errorTracer(Log, res)
             }
          }
-
-
          else if (questionType === "KeyValuePairtrue") {
             let { term, value } = req.body;
             let TAStorage = [];
@@ -195,11 +193,20 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   ]
                }
             };
+          
 
             try {
                let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-               QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
+       
+               if(stop_page_navigate == null || stop_page_navigate == undefined)
+               {
+                  QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
+               }
+               else {
+                res.send();
+                return
+               }
             } catch (error) {
                // console.log(error)
                logger.log("Something went wrong, please review the logit error log for more information")
