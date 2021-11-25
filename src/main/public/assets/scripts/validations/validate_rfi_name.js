@@ -1,4 +1,4 @@
-const ccsZvalidateRfiName = (event) => {
+const ccsZvalidateProjectName = (event) => {
     event.preventDefault();
 
     let fieldCheck = "",
