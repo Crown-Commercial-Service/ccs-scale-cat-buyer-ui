@@ -35,6 +35,16 @@
 {% block content %}
 
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+   {% if(error) %}
+      {{ CCSErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+         {
+            text: "New project name must be supplied. The text field cannot be blank." 
+         }
+      ]
+      }) }}
+   {%endif %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">

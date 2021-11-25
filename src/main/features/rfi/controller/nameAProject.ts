@@ -11,17 +11,16 @@ import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 
 
 export const GET_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
-    const procurements = req.session.procurements;
-    var lotId = req.session.lotId;
+    const { project_name, agreementLotName, isMissingNameError, lotId, procurements } = req.session;
     let procurement: procurementDetail = procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
-    const project_name = req.session.project_name;
-    const agreementLotName = req.session.agreementLotName;
+
     let viewData: any = {
         data: cmsData,
         procId: procurement.procurementID,
         projectLongName: project_name,
         lotId,
         agreementLotName,
+        error: isMissingNameError
     };
 
     res.render('nameAProject', viewData);
@@ -42,7 +41,10 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
         res.redirect('/rfi/procurement-lead');
     }
     catch (error) {
+        const isMissingNameError = error.response.data.errors.some((error: any) => error.status.includes('400') && error.title.includes('Validation error'));
         LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-            TokenDecoder.decoder(SESSION_ID), "Tender Api - getting users from organization or from tenders failed", true)
+            TokenDecoder.decoder(SESSION_ID), "Tender Api - getting users from organization or from tenders failed", !isMissingNameError)
+        req.session['isMissingNameError'] = isMissingNameError;
+        res.redirect('/rfi/name-your-project');
     }
 }
