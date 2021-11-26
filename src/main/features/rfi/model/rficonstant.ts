@@ -1,4 +1,5 @@
 
+
 export enum RFI_PATHS {
 
     /**
@@ -13,6 +14,10 @@ export enum RFI_PATHS {
     GET_NAME_YOUR_PROJECT = '/rfi/name-your-project',
     GET_LEAD_PROCUEMENT = '/rfi/procurement-lead',
     GET_ADD_COLLABORATOR = '/rfi/add-collaborators',
+    GET_USER_PROCUREMENT = '/rft/users-procurement-lead',
+    GET_REMOVE_FILE = "/rfi/files/remove",
+
+    
     
 
 
@@ -25,6 +30,12 @@ export enum RFI_PATHS {
     POST_TYPE_TYPE = '/rfi/type',
     POST_QUESTIONS_WHO = '/rfi/questions/who',
     POST_PROJECT_NAME = '/rfi/name',
-    POST_ADD_COLLABORATOR = '/rfi/get-collaborator-detail'
+    POST_ADD_COLLABORATOR = '/rfi/get-collaborator-detail',
+    POST_ADD_COLLABORATOR_TO_JAGGER  = "/rfi/add-collaborator-detail",
+    PUT_LEAD_PROCUREMENT = '/rfi/procurement-lead',
+    POST_PROCEED_COLLABORTORS = '/rfi/proceed-collaborators',
+    POST_ADD_COLLABORATOR_JSENABLED = "/rfi/get-collaborator-detail/js-enabled",
+    POST_UPLOAD_DOC = "/rfi/upload-doc"
+  
 
 }

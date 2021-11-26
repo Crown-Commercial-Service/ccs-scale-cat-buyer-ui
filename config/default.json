@@ -16,7 +16,7 @@
     "fetch-timelimit" : "500"
   },
   "contentService": {
-    "BASEURL":"https://webdev-cms.crowncommercial.gov.uk",
+    "BASEURL":"https://webprod-cms.crowncommercial.gov.uk",
     "menuDirectory": "src/main/resources/content/menu-content/content.json"
   },
   "authenticationService": {
@@ -42,6 +42,8 @@
   },
   "cookies": {
     "sessionid": "SESSION_ID",
-    "state": "state"
+    "state": "state",
+    "lotNum": "lotNum",
+    "agreement_id": "agreement_id"
   }
 }

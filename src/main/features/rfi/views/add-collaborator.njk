@@ -3,15 +3,22 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 
-{% set organisationUser = userdata.userList%}
+{% set lead = lead.OCDS.contact.email %}
 
-{% set sortedMembers = [{value: "", text: "Please select a colleague to be added", disabled: true}] %}
+
+{% set organisationUser = userdata%}
+
+{% set sortedMembers = [{value: "", text: "Please select a colleague to be added"}] %}
 {% for user in organisationUser %}
+  {% if user.userName !== lead%}
     {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
+  {%endif %}  
 {% endfor %}
 
 {% set title = 'Complete and upload a document | Contract a Thing' %}
-
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
        items: [
@@ -25,11 +32,11 @@
         },
         {
         text: "Procurement overview",
-        href: "/projects/"
+        href: url
         },
         {
         text: "Do pre-market engagement",
-        href: "/rfi/rfi-task-list"
+        href: "/rfi/rfi-tasklist"
         },
         {
         text: "Add colleagues "
@@ -42,10 +49,23 @@
 {% block content %} 
 
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "you cannot add this use. Please try with another user"
+    }
+  ]
+}) }}
+{%endif %}
+
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">
-      Add colleagues
+      {{data.title}}
     </h1>
      {% include "includes/project_header.njk" %}
   </div>
@@ -55,29 +75,32 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
 
-    <p class="govuk-body">You can add colleagues to help you write your your requirements and review and evaluate
-      suppliers.</p>
+    <p class="govuk-body">{{data.content.p1}}</p>
 
-    <p class="govuk-body">Use the drop-down box below to add colleagues. They will need to be registered with CCS. If
-      they’re not registered, send them this link to our <a class="govuk-link govuk-link--no-visited-state"
-        href="#">self-registration service.</a></p>
+    <p class="govuk-body">{{data.content.p2}} <a class="govuk-link govuk-link--no-visited-state"
+        href="{{data.content.a1.href}}">{{data.content.a1.text}}</a></p>
 
-    <p class="govuk-body">If you need to wait for them to register, you can return to the pre-market engagement section
-      and complete this step later, or you can continue to the next step.</p>
+    <p class="govuk-body">{{data.content.p3}}</p>
       
       {{ CCSInsetText({
         html: '<p class="govuk-body">If you are the lead on this project you can add four colleagues.<br>
           If you are not the lead you can add three colleagues.</p>'
         }) }}
 
-    <p class="govuk-body">You cannot remove yourself from this procurement project. If you need to change the lead
-      colleague, you can do this on the previous step. </p>
+    <p class="govuk-body">{{data.content.p4}} </p>
 
-  {### ##}
+  {% set noOfUser = 0%}
 
-   
+  {%if(userIsLead)%}
+  {% set noOfUser = 5%}
+  {%else%}
+{% set noOfUser = 4%}
+  {%endif%}
 
-      <div class="ccs-page-section">
+
+
+  {%if(collaborators.length < noOfUser)%}
+         <div class="ccs-page-section">
         <p class="govuk-body">Select and add colleagues</p>
         <form method="POST" action="/rfi/get-collaborator-detail">
          <div class="govuk-button-group">
@@ -90,18 +113,31 @@
         &nbsp;
          {{ CCSButton({
         text: "Add",
+         attributes: {
+        id: "ccs_collab_view"
+        },
         type: "submit"
         }) }}
         </div>
         </form>
       </div>
+
+      <form method="POST" action="/rfi/add-collaborator-detail" >
       <div class="ccs-page-section" id="potential-collaborator">
         <div id="potential-collaborator-detail">
-          <p class="govuk-body"><strong>Colleague <span ></span>: </strong> {{collaborator['fullName']}}
+          <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
           </p>
-          <p class="govuk-body"><strong>Email address: </strong>{{collaborator['email']}}</p>
-          <p class="govuk-body"><strong>Phone number: </strong>{{collaborator['tel']}}</p>
+          <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="show_collab_email" > {{collaborator['email']}}<span></p>
+          <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="show_collab-phone">{{collaborator['tel']}}</span></p>
         </div>
+
+        {{ CCSInput({
+            id: "rfi_collaborator_append",
+            name: "rfi_collaborator",
+            type: "hidden",
+            value: collaborator['email']
+            }) }}
+
         {{ CCSButton({
         text: "Add colleague",
         attributes: {
@@ -111,33 +147,37 @@
         }) }}
 
       </div>
+
+      </form>
+      {%endif%}
       <div id="collaborators-section">
-        {% for collaborator in data['rfi_collaborators_list'] %}
+        {% for collaborator in collaborators %}
+        {% if collaborator.OCDS.contact.email !== lead %}
         <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.id}}">
           <div id="collaborator-detail">
-            <a href='{{collaborator.id}}' class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
+            <a href='{{collaborator.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
-            <p class="govuk-body"><strong>Colleague <span id="collab_no"></span>: </strong><span
-                id="collab_name">{{collaborator.fullName}}</span></p>
-            <p class="govuk-body"><strong>Email address: </strong><span id="collab_email">{{ collaborator.email
-                }}</span></p>
-            <p class="govuk-body"><strong>Phone number: </strong><span id="collab_tel">{{ collaborator.telephone
-                }}</span></p>
+            <p class="govuk-body"><strong>{{data.content.collegue.name}}<span id="collab_no"></span>: </strong><span
+                id="collab_name">{{collaborator.OCDS.contact.name}}</span></p>
+            <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="collab_email">{{ collaborator.OCDS.contact.email}}</span></p>
+            <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="collab_tel">{{ collaborator.OCDS.contact.telephone }}</span></p>
           </div>
         </div>
+        {%endif%}
         {% endfor%}
       </div>
+
+
+
       <div class="ccs-page-section" id="lead-user-section">
-        <p class="govuk-body"><strong>Lead colleague: </strong>{{lead_user.fullname}}</p>
-        <p class="govuk-body"><strong>Email address: </strong>{{ lead_user.email }}</p>
-        <p class="govuk-body"><strong>Phone number: </strong>{{ lead_user.telephone }}</p>
+        <p class="govuk-body"><strong>{{data.content.lead.name}} </strong> {{lead_data.OCDS.contact.name}}</p>
+        <p class="govuk-body"><strong>{{data.content.lead.email}} </strong>{{  lead_data.OCDS.contact.email }}</p>
+        <p class="govuk-body"><strong>{{data.content.lead.tel}} </strong>{{  lead_data.OCDS.contact.telephone }}</p>
       </div>
       <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
       <br>
-<form id="ccs_add_rfi_collab" name="ccs_add_rfi_collab" class="form ccs_add_rfi_collab"
-      action="/rfi/store-collaborators" method="post">
+<form  class="form ccs_add_rfi_collab" method="POST" action="/rfi/proceed-collaborators" method="post">
 
-      
       {{ CCSInput({
       id: "rfi_collaborators_added",
       name: "rfi_collaborators_added",
@@ -149,7 +189,7 @@
         {{ CCSButton({
         text: "Save and continue"
         }) }}
-        <a href="/rfi/rfi-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+        <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
       </div>
 
 
@@ -158,11 +198,10 @@
  </div>
       <div class="govuk-grid-column-one-third">
          <div class="ccs-callout-panel">
-            <h2 class="govuk-heading-m">Related content</h2>
-            <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="/agreement/DSP/lot?no=1" target="_blank">Digital Specialists and Programmes, Lot 1: Programmes </a> </p>
+            <h2 class="govuk-heading-m">{{data.related.title}}</h2>
+            <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="{{data.related.content.href}}" target="_blank">{{data.related.content.text}}</a> </p>
          </div>
       </div>
    </div>
   </main>
 {% endblock %}
-

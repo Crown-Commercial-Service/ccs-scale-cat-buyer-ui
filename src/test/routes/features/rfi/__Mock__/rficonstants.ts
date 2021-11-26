@@ -1,0 +1,22 @@
+export const ALL_STATIC_RFI_PATH = [
+    '/rfi/rfi-tasklist',
+    '/rfi/type',
+    '/rfi/online-task-list',
+    '/rfi/questions',
+    '/rfi/upload-doc',
+    '/rfi/name-your-project',
+    '/rfi/procurement-lead',
+    '/rfi/add-collaborators',
+    '/rft/users-procurement-lead',
+    '/rfi/files/remove',
+    '/rfi/questionnaire',
+    '/rfi/type',
+    '/rfi/questions/who',
+    '/rfi/name',
+    '/rfi/get-collaborator-detail',
+    '/rfi/add-collaborator-detail',
+    '/rfi/procurement-lead',
+    '/rfi/proceed-collaborators',
+    '/rfi/get-collaborator-detail/js-enabled',
+    '/rfi/upload-doc'
+  ]

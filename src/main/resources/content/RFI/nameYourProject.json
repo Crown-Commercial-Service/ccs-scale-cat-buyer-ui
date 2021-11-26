@@ -1,27 +1,4 @@
 {
-    "breadCrumbs": [
-        {
-            "text": "Dashboard",
-            "href": "/"
-        },
-        {
-            "text": "Choose a commericial agreement",
-            "href": "#"
-        },
-        {
-            "text": "Procurement overview",
-            "href": "#"
-        },
-        {
-          "text": "Do pre-market engagement",
-          "href": "#"
-        },
-        {
-          "text": "Name your project",
-          "href": "#"
-      }
-    
-    ],
     "title": "Name your project (Optional)",
     "topHeader": {
         "selectedAggrement": ["Selected agreement: ",", Lot ", ": Specialists"], 

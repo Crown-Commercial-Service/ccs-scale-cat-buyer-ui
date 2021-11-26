@@ -8,7 +8,7 @@ CCS Scale CaT Buyer UI - ‘Contract a Thing’ (CaT)/'Create and award a contra
 
 Running the application requires the following tools to be installed in your environment:
 
-- [Node.js](https://nodejs.org/) v12.0.0 or later
+- [Node.js](https://nodejs.org/) v12.0.0 or later 
 
 ### Running the application
 
@@ -28,7 +28,7 @@ Run:
 $ npm start
 ```
 
-Or
+Or for windows PC
 
 ```bash
 $ npm start:win
@@ -43,12 +43,16 @@ The applications's home page will be available at https://localhost:3000
 We use [ESLint](https://github.com/typescript-eslint/typescript-eslint)
 alongside [sass-lint](https://github.com/sasstools/sass-lint)
 
-Running the linting with auto fix:
+Running the linting:
 
 ```bash
-$ yarn lint --fix
+$ npm run lint
 ```
+Running the unit test case:
 
+```bash
+$ npm run test:routes
+```
 ### Running the tests
 
 This template app uses [Jest](https://jestjs.io//) as the test engine. You can run unit tests by executing
@@ -57,7 +61,7 @@ the following command:
 Running accessibility tests:
 
 ```bash
-$ yarn test:a11y
+$ npm run test:a11y
 ```
 
 Make sure all the paths in your application are covered by accessibility tests (see [a11y.ts](src/test/a11y/a11y.ts)).

@@ -17,7 +17,7 @@
     "line1": "Follow the steps below to start and complete your procurement. Each step can be saved and continued at any time.",
     "line2": "You can write your requirements online, using this service, or upload a document instead. You can also download what you enter online and save it to your internal systems.",
     "line3": "You cannot run step two and three at the same time.",
-    "line4": "If you are not sure about the terms and conditions of this lot, please see the ",
+    "line4": "If you are not sure about the terms and conditions of this lot, please see the <a class='govuk-link govuk-link--no-visited-state' href='#'>lot detail page</a>",
     "line5": "lot detail page.",
     "events": [
         {
@@ -25,11 +25,8 @@
             "eventTitle": "Take a look at available suppliers",
             "buttonText": "See available suppliers",
             "href": "/rfi/rfi-tasklist",
-            "sections": ["Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement. You can sort them by:"],
-            "list": [
-                "location",
-                "SME status"
-            ],
+            "sections": ["Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement."],
+            "list": [],
             "required": "optional",
             "status": "todo"
         },
@@ -39,10 +36,12 @@
             "buttonText": "Start pre-market engagement",
             "href": "/rfi/rfi-tasklist",
             "sections" : ["You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or refine your needs. For the lot you selected, you can choose one of the options below:"],
-            "subsections": [["<b>Request for Information (RfI)</b>",
-                "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
-                "This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below."
-            ]],
+            "subsections": [["<b>Expression of Interest (EoI)</b>","Find out if suppliers are interested in bidding for your project, and can offer the products or services needed. If a supplier does not respond to an EoI sent from the buyer, they cannot bid for the opportunity later."],
+                            ["<b>Request for Information (RfI)</b>",
+                                "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
+                                "This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below.",
+                                "If you start this step you cannot start step 3 at the same time."
+                            ]],
             "list": [],
             "required": "optional",
             "status": "todo"
@@ -61,7 +60,8 @@
                 "You can shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool.",
                 "Only the suppliers on the shortlist will be invited to bid for your opportunity."],["<b>Direct award</b>",
                 "Based on the supplier responses you receive, if you find a single supplier who can meet your needs you can choose to award your contract directly to them after completing a capability assessement.",
-                "You need to complete this step before you can award your contract."]],
+                "You need to complete this step before you can award your contract.",
+                "If you start this step you cannot start step 2 at the same time."]],
             "list": [],
             "required": "optional",
             "status": "todo"
@@ -85,7 +85,7 @@
     "related": {
         "title": "Related content",
         "content": {
-            "href": "/agreement/DSP/lot?no=2",
+            "href": "/agreement/lot?agreement_id=RM6263&lotNum=Lot%202",
             "text": "Digital Specialists and Programmes, Lot 2: Specialists"
         }
     }

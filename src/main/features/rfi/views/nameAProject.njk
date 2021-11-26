@@ -1,16 +1,51 @@
 {% extends "template.njk" %}
 
 {% set title = 'Name project | Contract a Thing' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
 
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
+    items: [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commericial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": url
+        },
+        {
+          "text": "Do pre-market engagement",
+          "href": "/rfi/rfi-tasklist"
+        },
+        {
+          "text": "Name your project",
+          "href": "#"
+        }
+    ]
       }) }}
 {% endblock %}
 
 {% block content %}
 
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "Your project must have a name."
+    }
+  ]
+}) }}
+{%endif %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">

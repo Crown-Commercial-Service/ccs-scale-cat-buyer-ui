@@ -1,16 +1,54 @@
 {% extends "template.njk" %}
 
 {% set title = 'Lead Procurement | Contract a Thing' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
 
-{% set organisationUser = userdata.userList%}
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+    items: [
+      {
+         text: "Dashboard",
+         href: "/dashboard"
+      },
+      {
+         text: "Choose a commericial agreement",
+         href: "/projects/choose-agreement"
+      },
+      {
+         text: "Procurement overview",
+         href: url
+      },
+      {
+         text: "Do pre-market engagement",
+         href: "/rfi/rfi-tasklist"
+      },
+      {
+         text: "Change who is going to lead the procurement",
+         href: "#"
+      }
+    ]
+      }) }}
+{% endblock %}
 
 {% set sortedMembers = [{value: "", text: "Please select procurement lead", disabled: true}] %}
-{% for user in organisationUser %}
-    {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
+{% for user in userdata %}
+    {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name, selected: user.selected}), sortedMembers) %}
 {% endfor %}
 
 {% block content %}
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+   {% if(error) %}
+      {{ CCSErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+         {
+            text: "You cannot made this user lead. Please try with another user" 
+         }
+      ]
+      }) }}
+   {%endif %}
    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
          <h1 class="govuk-heading-xl">
@@ -31,33 +69,46 @@
             <p class="govuk-body">If you need to wait for them to register, you can return to the pre-market engagement section and complete this step later, or you can continue to the next step.</p>
             <br>
          </div>
-         <form id="ccs_rfi_procurement_lead" name="ccs_rfi_procurement_lead" class="form ccs_rfi_procurement_lead" action="/rfi/add-collaborators"
-            method="post">
+
+         <div class="form ccs_procurement_lead">
             <p class="govuk-body">Select the procurement lead for this project:</p>
-              {{ CCSSelect({
-            id: "rfi_procurement_lead",
-            name: "rfi_procurement_lead",
-            items: sortedMembers
-            })
-            }}
-            <br>
+            <form method="GET" id="ccs_rfi_procurement_lead" name="ccs_rfi_procurement_lead"  action="/rfi/procurement-lead">
+             <div class="govuk-button-group">
+               {{ CCSSelect({
+                     id: "rfi_procurement_lead",
+                     name: "rfi_procurement_lead",
+                     items: sortedMembers
+                  })
+               }}
+                  &nbsp;
+                  {{ CCSButton({
+                  text: "Add",
+                  type: "submit",
+                  classes: "add"
+                  }) }}
+               </div>
+            </form>
+         </div>
+
+         <form class="form ccs_rfi_procurement_lead" action="/rfi/procurement-lead"
+            method="post">
             <div id='selected_user_detail'>
-               <p class="govuk-body"><strong>Email address: </strong><span id="lead-email">jgough@biz.com</span></p>
-               <p class="govuk-body"><strong>Phone number: </strong><span id="lead-telephone">070 0489 6000</span></p>
+               <p class="govuk-body"><strong>Email address: </strong><span id="lead-email">{{selectedUser.email}}</span></p>
+               <p class="govuk-body"><strong>Phone number: </strong><span id="lead-telephone">{{selectedUser.telephone}}</span></p>
             </div>
             <br>
              {{ CCSInput({
-            id: "rfi_collaborators_added",
-            name: "rfi_collaborators_added",
-            type: "hidden",
-            value: true
+               id: "rfi_procurement_lead_input",
+               name: "rfi_procurement_lead_input",
+               type: "hidden",
+               value: selectedUser.email
             }) }}
 
             <div class="govuk-button-group">
               {{ CCSButton({
-              text: "Save and continue"
+               text: "Save and continue"
               }) }}
-              <a href="/rfi/rfi-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+              <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
             </div>
 
          </form>
