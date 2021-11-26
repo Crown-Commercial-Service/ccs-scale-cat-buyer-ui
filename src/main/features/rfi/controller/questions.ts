@@ -93,7 +93,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
          "rfiTitle": titleText,
          "prompt": promptData,
          "organizationName": organizationName,
-         "related": contentData.default[1].related,
          error: req.session['isLocationError'],
          "relatedTitle": "Related content",
          "lotURL": "/agreement/lot?agreement_id="+req.session.agreement_id+"&lotNum="+req.session.lotId.replace(/ /g,"%20"),
