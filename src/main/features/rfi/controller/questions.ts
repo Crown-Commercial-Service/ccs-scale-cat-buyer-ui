@@ -12,8 +12,6 @@ const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('questions page');
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter'
 
-
-
 /**
  * @Controller
  * @GET
@@ -95,7 +93,10 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
          "rfiTitle": titleText,
          "prompt": promptData,
          "organizationName": organizationName,
-         error: req.session['isLocationError']
+         error: req.session['isLocationError'],
+         "relatedTitle": "Related content",
+         "lotURL": "/agreement/lot?agreement_id="+req.session.agreement_id+"&lotNum="+req.session.lotId.replace(/ /g,"%20"),
+         "lotText" : req.session.agreementName+', '+ req.session.agreementLotName
       }
 
       res.render('questions', data);

@@ -33,10 +33,10 @@
 {% endblock %}
 
 {% block content %}
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  {% if(error) %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if (error) %}
 
-  {{ CCSErrorSummary({
+      {{ CCSErrorSummary({
     titleText: "There is a problem",
     errorList: [
       {
@@ -44,27 +44,25 @@
       }
     ]
   }) }}
-  {%endif %}
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-          <h1 class="govuk-heading-xl">
-            {{rfiTitle}}
-          </h1>
-        </div>
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{rfiTitle}}
+        </h1>
       </div>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
+      <p class="govuk-body-l">{{data.rfiTitle}}</p>
 
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-          {% include "includes/project_header.njk" %}
-          <p class="govuk-body-l">{{data.rfiTitle}}</p><br>
+      <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}}" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
+        <p class="govuk-body govuk-!-margin-bottom-9">{{prompt | safe}}</p>
+        {% for requirement in data %}
+          {% block value %}
+            {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
 
-          <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}}" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
-            <p class="govuk-body">{{prompt | safe}}</p>
-            {% for requirement in data %}
-              {% block value %}
-                {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
-
-                  {{ CCSInput({
+              {{ CCSInput({
                       label: {
                         text: "Enter your first question",
                         classes: "govuk-label govuk-label--m"
@@ -74,22 +72,22 @@
                       value: requirement.nonOCDS.options[0].value
                     })
                 }}
-                  {% set numberWord = [
-                    'Zero',
-                    'first',
-                    'second',
-                    ' third',
-                    ' fourth',
-                    ' fifth',
-                    ' sixth',
-                    ' seventh',
-                    ' eight',
-                    ' ninth',
-                    ' tenth'
-                  ] %}
-                  {% for i in range(2, 11) -%}
+              {% set numberWord = [
+                'Zero',
+                'first',
+                'second',
+                ' third',
+                ' fourth',
+                ' fifth',
+                ' sixth',
+                ' seventh',
+                ' eight',
+                ' ninth',
+                ' tenth'
+              ] %}
+              {% for i in range(2, 11) -%}
 
-                    {{ CCSInput({
+                {{ CCSInput({
                       label: {
                         html: "Enter your "+numberWord[i]+" question <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
                         classes: "govuk-label govuk-label--m"
@@ -101,10 +99,10 @@
                     })
                 }}
 
-                  {%- endfor %}
+              {%- endfor %}
 
-                  <p class="govuk-body">
-                    {{ CCSButton({
+              <p class="govuk-body">
+                {{ CCSButton({
                         text: requirement.OCDS.description,
                         attributes: {
                           id: "ccs_criteria_add"
@@ -112,8 +110,8 @@
                         classes: "govuk-button--secondary ccs-dynaform-hidden"
                       })
                   }}
-                  </p>
-                  {{ CCSInput({
+              </p>
+              {{ CCSInput({
                       id: "questionType",
                       name: "questionType",
                       type: "hidden",
@@ -121,27 +119,27 @@
                     })
                 }}
 
-                  {{ CCSInput({
+              {{ CCSInput({
                       id: "question_id",
                       name: "question_id",
                       type: "hidden",
                       value: requirement.OCDS.id
                     })
                 }}
-                {% endif %}
-              {% endblock %}
+            {% endif %}
+          {% endblock %}
 
-              {% block valuewitNoMultiSelect %}
-                {% if (requirement.nonOCDS.questionType === 'Value') and (requirement.nonOCDS.multiAnswer === false) %}
-                  {% if requirement.OCDS.id == "Question 2"%}
-                    <div class="govuk-!-margin-bottom-9">
-                      <label class="govuk-label govuk-label--m">{{requirement.OCDS.title}}</label>
-                      <p class="govuk-body govuk-!-font-size-19 govuk-!-margin-top-3">
-                        <strong>{{organizationName}}</strong>
-                      </p>
-                    </div>
-                  {% else %}
-                    {{  CCSInput({
+          {% block valuewitNoMultiSelect %}
+            {% if (requirement.nonOCDS.questionType === 'Value') and (requirement.nonOCDS.multiAnswer === false) %}
+              {% if requirement.OCDS.id == "Question 2"%}
+                <div class="govuk-!-margin-bottom-9">
+                  <label class="govuk-label govuk-label--m">{{requirement.OCDS.title}}</label>
+                  <p class="govuk-body govuk-!-font-size-19 govuk-!-margin-top-3">
+                    <strong>{{organizationName}}</strong>
+                  </p>
+                </div>
+              {% else %}
+                {{  CCSInput({
                         label: {
                           text: requirement.OCDS.title,
                           classes: "govuk-label govuk-label--m"
@@ -155,21 +153,21 @@
                       })
                   }}
 
-                    {{  CCSInput({
+                {{  CCSInput({
                         id: "question_id",
                         name: "question_id",
                         type: "hidden",
                         value: requirement.OCDS.id
                       })
                   }}
-                  {% endif %}
-                {% endif %}
-              {% endblock %}
+              {% endif %}
+            {% endif %}
+          {% endblock %}
 
-              {% block TextSelect%}
-                {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
+          {% block TextSelect%}
+            {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
 
-                  {{  CCSTextarea({
+              {{  CCSTextarea({
                       name: "rfi_prob_statement",
                       id: "rfi_prob_statement",
                       value: requirement.nonOCDS.options[0].value,
@@ -180,7 +178,7 @@
                     })
                 }}
 
-                  {{  CCSInput({
+              {{  CCSInput({
                       id: "question_id",
                       name: "question_id",
                       type: "hidden",
@@ -188,55 +186,55 @@
                     })
                 }}
 
-                  {%endif%}
+              {%endif%}
 
-                {% endblock %}
+            {% endblock %}
 
-                {% block singleSelect%}
-                  {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
-                    <div class="govuk-form-group">
-                      <div class="govuk-radios">
-                        <br>
-                        {% set radioArray = [] %}
-                        {% for i in range(0, requirement.nonOCDS.options | length) -%}
-                          {% if i == 0%}
-                            <div class="govuk-radios__item">
-                              {%if requirement.nonOCDS.options[i].selected === true %}
-                                <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
-                                {%else%}
-                                <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
-                                {%endif%}
-                                <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
-                                  <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
-                                </label>
-                                <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
-                                  <p class="govuk-hint">{{requirement.nonOCDS.options[i].text | safe}}
+            {% block singleSelect%}
+              {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
+                <div class="govuk-form-group">
+                  <div class="govuk-radios">
+                    <br>
+                    {% set radioArray = [] %}
+                    {% for i in range(0, requirement.nonOCDS.options | length) -%}
+                      {% if i == 0%}
+                        <div class="govuk-radios__item">
+                          {%if requirement.nonOCDS.options[i].selected === true %}
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
+                            {%else%}
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
+                            {%endif%}
+                            <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
+                              <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                            </label>
+                            <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
+                              <p class="govuk-hint">{{requirement.nonOCDS.options[i].text | safe}}
 
-                                  </p>
-                                </div>
-                              </div>
-                            {% else %}
-
-                              <div class="govuk-radios__item">
-                                {%if requirement.nonOCDS.options[i].selected === true %}
-                                  <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
-                                  {%else%}
-                                  <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
-                                {% endif %}
-                                <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
-                                  <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
-                                </label>
-                                <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
-                                  <p class="govuk-hint">{{requirement.nonOCDS.options[i].text |safe}}
-
-                                  </p>
-                                </div>
-                              </div>
-                              {%endif%}
-                            {%- endfor %}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        {{ CCSInput({
+                        {% else %}
+
+                          <div class="govuk-radios__item">
+                            {%if requirement.nonOCDS.options[i].selected === true %}
+                              <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
+                              {%else%}
+                              <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
+                            {% endif %}
+                            <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
+                              <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                            </label>
+                            <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
+                              <p class="govuk-hint">{{requirement.nonOCDS.options[i].text |safe}}
+
+                              </p>
+                            </div>
+                          </div>
+                          {%endif%}
+                        {%- endfor %}
+                      </div>
+                    </div>
+                    {{ CCSInput({
                             id: "question_id",
                             name: "question_id",
                             type: "hidden",
@@ -244,13 +242,13 @@
                           })
                       }}
 
-                      {% endif %}
-                    {% endblock %}
+                  {% endif %}
+                {% endblock %}
 
-                    {% block KeySelect%}
-                      {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) %}
+                {% block KeySelect%}
+                  {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) %}
 
-                        {% call CCSFieldset({
+                    {% call CCSFieldset({
                             legend: {
                               text: "First term or acronym",
                               classes: "govuk-fieldset__legend--m",
@@ -260,7 +258,7 @@
                           })
                       %}
 
-                        {{ CCSInput({
+                    {{ CCSInput({
                             label: {
                               text: "Write the term or acronym"
                             },
@@ -271,7 +269,7 @@
                           })
                       }}
 
-                        {{ CCSTextarea({
+                    {{ CCSTextarea({
                             name: "value",
                             id: "rfi_term_definition_1",
                             label: {
@@ -282,23 +280,23 @@
                           })
                       }}
 
-                        {% endcall %}
-                        {% set NumberWord = [
-                          'Zero',
-                          'First',
-                          'Second',
-                          ' Third',
-                          ' Fourth',
-                          ' Fifth',
-                          ' Sixth',
-                          ' Seventh',
-                          ' Eight',
-                          ' Ninth',
-                          ' Tenth'
-                        ] %}
-                        {% for i in range(2, 11) -%}
+                    {% endcall %}
+                    {% set NumberWord = [
+                      'Zero',
+                      'First',
+                      'Second',
+                      ' Third',
+                      ' Fourth',
+                      ' Fifth',
+                      ' Sixth',
+                      ' Seventh',
+                      ' Eight',
+                      ' Ninth',
+                      ' Tenth'
+                    ] %}
+                    {% for i in range(2, 11) -%}
 
-                          {% call CCSFieldset({
+                      {% call CCSFieldset({
                       legend: {
                         html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
@@ -308,7 +306,7 @@
                       id:"term_acronym_fieldset"
                     }) %}
 
-                          {{ CCSInput({
+                      {{ CCSInput({
                         label: {
                           text: "Write the term or acronym"
                         },
@@ -318,7 +316,7 @@
                         value: requirement.nonOCDS.options[i-1].value
                       }) }}
 
-                          {{ CCSTextarea({
+                      {{ CCSTextarea({
                         label: {
                           text: "Write a definition for the term or acronym explaining what it means"
                         },
@@ -329,20 +327,20 @@
                         value: requirement.nonOCDS.options[i-1].text
                       }) }}
 
-                          {% endcall %}
+                      {% endcall %}
 
-                        {%- endfor %}
+                    {%- endfor %}
 
-                        <p class="govuk-body">
-                          {{ CCSButton({
+                    <p class="govuk-body">
+                      {{ CCSButton({
                           text: "Add another term or acronym",
                           attributes: {
                             id: "ccs_rfiTerm_add"
                           },
                           classes: "govuk-button--secondary ccs-dynaform-hidden"
                         }) }}
-                        </p>
-                        {{ CCSInput({
+                    </p>
+                    {{ CCSInput({
                       id: "questionType",
                       name: "questionType",
                       type: "hidden",
@@ -350,52 +348,52 @@
                     })
                 }}
 
-                        {{ CCSInput({
+                    {{ CCSInput({
                             id: "question_id",
                             name: "question_id",
                             type: "hidden",
                             value: requirement.OCDS.id
                           }) }}
-                      {% endif %}
-                    {% endblock %}
+                  {% endif %}
+                {% endblock %}
 
-                    {% block Address%}
-                      {% if (requirement.nonOCDS.questionType === 'MultiSelect') and (requirement.nonOCDS.multiAnswer === true) %}
-                        {% set countryArray = [] %}
-                        {% set countryList = [] %}
-                        {% for countries in requirement.nonOCDS.options %}
-                          {% if countries.value !== "No specific location, for example they can work remotely" %}
-                            {% set countryList = (countryList.push(countries.value),countryList)%}
-                            {% set countryArray = (countryArray.push({value: countries.value, text: countries.value, checked: countries.selected}), countryArray)
+                {% block Address%}
+                  {% if (requirement.nonOCDS.questionType === 'MultiSelect') and (requirement.nonOCDS.multiAnswer === true) %}
+                    {% set countryArray = [] %}
+                    {% set countryList = [] %}
+                    {% for countries in requirement.nonOCDS.options %}
+                      {% if countries.value !== "No specific location, for example they can work remotely" %}
+                        {% set countryList = (countryList.push(countries.value),countryList)%}
+                        {% set countryArray = (countryArray.push({value: countries.value, text: countries.value, checked: countries.selected}), countryArray)
  %}
-                            {%else%}
-                            {% set countryList = (countryList.push(countries.value),countryList)%}
-                            {% set countryArray = (countryArray.push({
-                              divider: "OR"
-                            }, {
-                              value: countries.value,
-                              text: countries.value,
-                              checked: countries.selected
-                            }), countryArray)
+                        {%else%}
+                        {% set countryList = (countryList.push(countries.value),countryList)%}
+                        {% set countryArray = (countryArray.push({
+                          divider: "OR"
+                        }, {
+                          value: countries.value,
+                          text: countries.value,
+                          checked: countries.selected
+                        }), countryArray)
  %}
 
-                            {%endif%}
-                          {% endfor %}
+                        {%endif%}
+                      {% endfor %}
 
-                          {{ CCSCheckboxes({
+                      {{ CCSCheckboxes({
                             idPrefix: "required_locations",
                             name: "required_locations",
                             items: countryArray
                           })
                       }}
-                          {{ CCSInput({
+                      {{ CCSInput({
                             id: "question_id",
                             name: "question_id",
                             type: "hidden",
                             value: requirement.OCDS.id
                           })
                       }}
-                          {{ CCSInput({
+                      {{ CCSInput({
                       id: "questionType",
                       name: "questionType",
                       type: "hidden",
@@ -403,12 +401,12 @@
                     })
                 }}
 
-                        {% endif %}
-                      {% endblock %}
+                    {% endif %}
+                  {% endblock %}
 
-                    {% endfor %}
-                    <br><br>
-                    {{ CCSInput({
+                {% endfor %}
+                <br><br>
+                {{ CCSInput({
                     id: "rfi_build_started",
                     name: "rfi_build_started",
                     type: "hidden",
@@ -416,18 +414,27 @@
                   })
                 }}
 
-                    <div class="govuk-button-group">
-                      {{ CCSButton({
+                <div class="govuk-button-group">
+                  {{ CCSButton({
                         text: "Save and continue",
                         classes:"save-button"
                       })
                   }}
-                      <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI)</a>
-                    </div>
+                  <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI)</a>
+                </div>
 
-                  </form>
+              </form>
 
+            </div>
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-one-third">
+                <div class="ccs-callout-panel">
+                  <h2 class="govuk-heading-m">{{relatedTitle}}</h2>
+                  <p class="govuk-body">
+                    <a class="govuk-link govuk-link--no-visited-state" href={{ lotURL | safe }} target="_blank">{{lotText}}</a>
+                  </p>
                 </div>
               </div>
-            </main>
-          {% endblock %}
+            </div>
+          </main>
+        {% endblock %}
