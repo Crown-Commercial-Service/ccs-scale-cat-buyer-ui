@@ -59,9 +59,10 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     const project_name = req.session.project_name;
 
     const lotURL = "/agreement/lot?agreement_id="+req.session.agreement_id+"&lotNum="+req.session.lotId.replace(/ /g,"%20");
+    const lotText = req.session.agreementName+', '+ req.session.agreementLotName;
 
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid }
-    appendData = { ...appendData, agreementName, lotURL};
+    appendData = { ...appendData, agreementName, lotURL, lotText};
     res.render('procurement', appendData);
   } catch (error) {
     LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
