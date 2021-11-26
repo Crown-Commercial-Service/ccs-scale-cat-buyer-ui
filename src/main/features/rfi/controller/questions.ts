@@ -307,8 +307,10 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                try {
                   if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == true) {
                      //return error & show
-                  } else if (selectedOptionToggle[0].find(x => x.value === "No specific location, for example they can work remotely") && selectedOptionToggle[0].length > 1) {
-                     console.log("Bye")
+                  } else if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == false) {
+                     //go to next page
+                  } 
+                  else if (selectedOptionToggle[0].find(x => x.value === "No specific location, for example they can work remotely") && selectedOptionToggle[0].length > 1) {
                      req.session['isLocationError'] = true;
                      const regex = /questionnaire/ig;
                      const url = req.originalUrl.toString()
