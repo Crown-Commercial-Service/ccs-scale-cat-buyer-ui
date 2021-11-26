@@ -52,7 +52,10 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             proc_id: proc_id,
             event_id: event_id,
             lotId,
-            agreementLotName
+            agreementLotName,
+            "relatedTitle": "Related content",
+            "lotURL": "/agreement/lot?agreement_id="+req.session.agreement_id+"&lotNum="+req.session.lotId.replace(/ /g,"%20"),
+            "lotText" : req.session.agreementName+', '+ req.session.agreementLotName
          }
          res.render('onlinetasklist', display_fetch_data);
       } catch (error) {

@@ -57,7 +57,7 @@
       <p class="govuk-body-l">{{data.rfiTitle}}</p>
 
       <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}}" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
-        <p class="govuk-body">{{prompt | safe}}</p><br><br>
+        <p class="govuk-body govuk-!-margin-bottom-9">{{prompt | safe}}</p>
         {% for requirement in data %}
           {% block value %}
             {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
