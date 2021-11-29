@@ -157,7 +157,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
          if (nonOCDS.mandatory == true && object_values.length == 0) {
             req.session.isValidationError = true
             res.redirect(url.replace(regex, 'questions'))
-         }
+         }         
          else {
             if (questionType === "Valuetrue") {
                let answerValueBody = {
@@ -210,7 +210,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   }
                };
 
-
                try {
                   let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
@@ -221,7 +220,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   else {
                      res.send();
                      return
-                  }
+                  }                  
                } catch (error) {
                   // console.log(error)
                   logger.log("Something went wrong, please review the logit error log for more information")
@@ -265,8 +264,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                      };
 
                      try {
-
-
                         let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
                         await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
                         QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
@@ -317,11 +314,18 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                      if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == true) {
                         //return error & show
                      } else if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == false) {
-                        //go to next page
+                        let answerBody = {
+                           "nonOCDS": {
+                              "answered": true,
+                              "options": []
+                           }
+                        };
+                        let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+                        await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
                      }
                      else if (selectedOptionToggle[0].find(x => x.value === "No specific location, for example they can work remotely") && selectedOptionToggle[0].length > 1) {
                         req.session['isLocationError'] = true;
-                        res.redirect(url.replaceAll(regex, 'questions'));
+                        res.redirect(url.replace(regex, 'questions'));
                      }
                      else if (selectedOptionToggle.length > 0) {
                         let answerBody = {

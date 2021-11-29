@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
               url: action,
               data: $("#ccs_rfi_acronyms_form").serialize(),
               success: function() {
-                console.log("success");
+                
                    //success message mybe...
               }
          });
