@@ -8,11 +8,13 @@ import { RFI_PATHS } from '../model/rficonstant'
 // RFI TaskList
 export const GET_TYPE = (req: express.Request, res: express.Response) => {
 
-   var { agreement_id } = req.query;
+   const { agreement_id } = req.query;
 
+   const relatedTitle = "Related content";
+   const lotURL = "/agreement/lot?agreement_id="+req.session.agreement_id+"&lotNum="+req.session.lotId.replace(/ /g,"%20");
+   const lotText = req.session.agreementName+', '+ req.session.agreementLotName;
 
-
-   var windowAppendData = { data: cmsData, agreement_id: agreement_id }
+   const windowAppendData = { data: cmsData, agreement_id: agreement_id, relatedTitle, lotURL, lotText }
    res.render('type', windowAppendData);
 }
 

@@ -5,10 +5,12 @@ import request from 'supertest';
 import { app } from '../../../../../main/app';
 import nock from 'nock'
 import express from 'express';
-import {jwt} from '../../__Mock__/env'
+import { createDummyJwt } from 'test/utils/auth';
 
 describe('Choose a lot agreement page', () => {
   let parentApp;
+  const jwtUser = 'dummyEmail@dummyServer.com';
+  const jwt = createDummyJwt(jwtUser,  ['CAT_ADMINISTRATOR', 'CAT_USER' ]);
 
   beforeEach(function(){
       parentApp = express();
@@ -32,7 +34,7 @@ describe('Choose a lot agreement page', () => {
 
       nock('https://tst.api.crowncommercial.gov.uk')
       .get(`/user-profiles`)
-      .query({ 'user-id': 'dummyEmail@dummyServer.com'  })
+      .query({ 'user-id': jwtUser })
       .reply(200, { data: true});
           
       nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')

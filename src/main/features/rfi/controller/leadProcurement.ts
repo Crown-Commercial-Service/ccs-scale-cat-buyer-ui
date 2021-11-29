@@ -7,48 +7,52 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 
 
 export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
-   let organization_id = req.session.user.payload.ciiOrgId;
+   const organization_id = req.session.user.payload.ciiOrgId;
    req.session['organizationId'] = organization_id;
-   let { SESSION_ID } = req.cookies;
+   const { SESSION_ID } = req.cookies;
    const { projectId, isJaggaerError } = req.session;
    req.session['isJaggaerError'] = false;
-   const { rfi_procurement_lead: user } = req.query
+   const { rfi_procurement_lead: userParam } = req.query
 
    const url = `/tenders/projects/${projectId}/users`;
    try {
       const { data: usersTemp } = await TenderApi.Instance(SESSION_ID).get(url);
-      let leaderFound = usersTemp.find((user: any) => user.nonOCDS.projectOwner);
-      let leader: any;
-      if (user) {
-         leader = user;
-      }
-      else if (leaderFound) {
-         leader = leaderFound.OCDS.id;
-      } else {
-         const { sub: defaultLeader } = req.session.user.payload;
-         leader = defaultLeader;
-      }
-
-      const finalUsersTemp = usersTemp.map((user: any) => user.OCDS.contact);
-      const selectedUser = finalUsersTemp.find((user: any) => user.email === leader);
-      // const users = finalUsersTemp.map((user: any) => { return { ...user, selected: leader === user.name } });
-
       const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`
       const { data: dataRaw } = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint);
-      let { pageCount } = dataRaw;
+      const { pageCount } = dataRaw;
       let usersRaw = [];
-      for (var a = 1; a <= pageCount; a++) {
-         let organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`
-         let organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint_loop);
-         let { userList } = organisation_user_data_loop?.data;
+      for (let a = 1; a <= pageCount; a++) {
+         const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`
+         const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(organisation_user_endpoint_loop);
+         const { userList } = organisation_user_data_loop?.data;
          usersRaw.push(...userList)
+      }
+
+      const leaderFound = usersTemp.find((user: any) => user.nonOCDS.projectOwner);
+      let leader: any;
+      let selectedUser: any;
+      if (userParam) {
+         leader = userParam;
+         const {name, userName: email} = usersRaw.find((user: any) => user.userName === leader);
+         selectedUser = {name, email, telephone: 1}; 
+      }
+      else {
+         if (leaderFound) {
+            leader = leaderFound.OCDS.id;
+         } else {
+            const { sub: defaultLeader } = req.session.user.payload;
+            leader = defaultLeader;
+         }
+         const finalUsersTemp = usersTemp.map((user: any) => user.OCDS.contact);
+         selectedUser = finalUsersTemp.find((user: any) => user.email === leader);
       }
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
       const users = usersRaw.map((user: any) => { return { ...user, selected: leader === user.userName } });
+      
       req.session['selectedUser'] = selectedUser;
       req.session['users'] = users;
-
+      
       const windowAppendData = { userdata: users, selectedUser, lotId, agreementLotName, error: isJaggaerError }
       res.render('procurementLead', windowAppendData);
    } catch (error) {

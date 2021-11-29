@@ -8,7 +8,7 @@
       }) }}
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
          <div class="govuk-grid-column-full">
             <h1 class="govuk-heading-xl">
                {{title}}
@@ -20,7 +20,7 @@
             <p class="govuk-body">{{line1}}</p>
             <p class="govuk-body">{{line2}}</p>
             <p class="govuk-body">{{line3}}</p>
-            <p class="govuk-body">{{line4}}</p>
+            <p class="govuk-body">{{line4 | safe }}</p>
          </div>
          <ol class="proc-task-list">
           {% for event in events %}
@@ -66,7 +66,7 @@
       <div class="govuk-grid-column-one-third">
          <div class="ccs-callout-panel">
             <h2 class="govuk-heading-m">{{related.title}}</h2>
-            <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href={{related.content.href}} target="_blank">{{related.content.text}}</a> </p>
+            <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href={{ lotURL | safe }} target="_blank">{{lotText}}</a> </p>
          </div>
       </div>
    </div>
