@@ -1,9 +1,9 @@
-//@ts-nocheck 
+//@ts-nocheck
 
 import { expect } from 'chai';
 import request from 'supertest';
 import { app } from '../../../../../main/app';
-import nock from 'nock'
+import nock from 'nock';
 import express from 'express';
 import { createDummyJwt } from 'test/utils/auth';
 
@@ -28,7 +28,7 @@ describe('Procurement page', () => {
     }
     nock('https://tst.api.crowncommercial.gov.uk')
       .post(`/security/tokens/validation`)
-      .query({ 'client-id': 'zyicrDa0oJsH4hULIWTNdadxQV477w45' })
+      .query({ 'client-id': /z.*/ })
       .reply(200, { data: true });
 
     nock('https://tst.api.crowncommercial.gov.uk')
@@ -39,36 +39,34 @@ describe('Procurement page', () => {
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
       .get(`/agreements/RM6263`)
       .query(true)
-      .reply(200, { data: [{ 'name': 'sisarProject' }] });
+      .reply(200, { data: [{ name: 'sisarProject' }] });
   });
-
 
   describe('Should be able to show procurements', () => {
     it('should render `Procurements` page when everything is fine', async () => {
       nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
         .get(`/agreements/RM6263/lots/1/event-types`)
         .query(true)
-        .reply(200, [{ 'type': 'EOI' }]);
+        .reply(200, [{ type: 'EOI' }]);
 
       nock('http://localhost:8080')
         .post(`/tenders/projects/agreements`)
         .reply(200, {
-          "procurementID": 981,
-          "eventId": "ocds-b5fd17-904",
-          "defaultName": {
-            "name": "RM6263-Lot 1-CCS",
-            "components": {
-              "agreementId": "RM6263",
-              "lotId": "Lot 1",
-              "org": "CCS"
-            }
-          }
-        }
-        );
+          procurementID: 981,
+          eventId: 'ocds-b5fd17-904',
+          defaultName: {
+            name: 'RM6263-Lot 1-CCS',
+            components: {
+              agreementId: 'RM6263',
+              lotId: 'Lot 1',
+              org: 'CCS',
+            },
+          },
+        });
       await request(parentApp)
         .get('/agreement/lot')
         .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-        .expect(res => expect(res.status).to.equal(200))
+        .expect(res => expect(res.status).to.equal(200));
     });
 
     it('should render error page when event types api not ready', async () => {
@@ -76,7 +74,7 @@ describe('Procurement page', () => {
         .get(`/agreements/RM6263/lots/1/event-types`)
         .query(true)
         .replyWithError(500, {
-          "description": "An unknown error has occurred."
+          description: 'An unknown error has occurred.',
         });
 
       await request(parentApp)
@@ -85,26 +83,23 @@ describe('Procurement page', () => {
         .expect(res => {
           console.log(res.body);
 
-          expect(res.status).to.equal(200)
-        })
+          expect(res.status).to.equal(200);
+        });
     });
-
 
     it('should render error page when agreement api not ready', async () => {
       nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
         .get(`/agreements/RM6263/lots/1/event-types`)
         .query(true)
-        .reply(200, [{ 'type': 'EOI' }]);
+        .reply(200, [{ type: 'EOI' }]);
 
-      nock('http://localhost:8080')
-        .post(`/tenders/projects/agreements`)
-        .replyWithError(500, {
-          "description": "An unknown error has occurred."
-        });
+      nock('http://localhost:8080').post(`/tenders/projects/agreements`).replyWithError(500, {
+        description: 'An unknown error has occurred.',
+      });
       await request(parentApp)
         .get('/agreement/lot')
         .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-        .expect(res => expect(res.status).to.equal(200))
+        .expect(res => expect(res.status).to.equal(200));
     });
 
     // it('should redirect to login page if no session', async () => {
@@ -118,14 +113,11 @@ describe('Procurement page', () => {
 
     //     await request(parentApp)
     //       .get('/projects/create-or-choose')
-    //       .expect(res => { 
+    //       .expect(res => {
     //         expect(res.status).to.equal(302);
     //         expect(res.headers).to.have.property('location');
     //         expect(res.headers.location).to.include('/oauth/login');
-    //       }) 
+    //       })
     //   });
-
-  })
-
-
-})
+  });
+});
