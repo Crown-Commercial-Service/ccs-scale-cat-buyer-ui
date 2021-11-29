@@ -30,8 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
-
-      console.log({"click": this})
       e.preventDefault();
       errorStore = emptyFieldCheck();
       if (errorStore.length == 0) {
