@@ -27,10 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
     document.getElementById("ccs_rfiTerm_add").classList.remove("ccs-dynaform-hidden");
+
+
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
       e.preventDefault();
       errorStore = emptyFieldCheck();
       if (errorStore.length == 0) {
+
+        removeErrorFields();      
 
         document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
@@ -44,6 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (with_value_count === 11) {
           document.getElementById("ccs_rfiTerm_add").classList.add('ccs-dynaform-hidden');
         }
+
+       
+
       }
       else ccsZPresentErrorSummary(errorStore);
     });
@@ -106,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
               url: action,
               data: $("#ccs_rfi_acronyms_form").serialize(),
               success: function() {
-                console.log("success");
+                
                    //success message mybe...
               }
          });
@@ -118,6 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+const removeErrorFields = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+  $('.govuk-error-summary').remove();
+}
 
 const emptyFieldCheck = () => {
   let fieldCheck = "",
@@ -150,7 +163,13 @@ const ccsZvalidateAcronyms = (event) => {
 
   errorStore = emptyFieldCheck();
 
-  if (errorStore.length === 0) document.forms["ccs_rfi_acronyms_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
+  if (errorStore.length === 0) {
+
+    document.forms["ccs_rfi_acronyms_form"].submit();
+  }
+  else {
+    ccsZPresentErrorSummary(errorStore);
+  
+  }
 
 };

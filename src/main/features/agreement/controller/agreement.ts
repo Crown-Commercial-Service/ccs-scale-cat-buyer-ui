@@ -10,6 +10,6 @@ import * as dashboarData from '../../../resources/content/choose-agreement/agree
  */
 export const CHOOSE_AGREEMENT = (req: express.Request, res: express.Response) => {
   const agreement_id = 'RM6263'
-  const appendData = { data: dashboarData, agreement_id }
+  const appendData = { data: dashboarData, agreement_id };
   res.render('agreement', appendData)
 }

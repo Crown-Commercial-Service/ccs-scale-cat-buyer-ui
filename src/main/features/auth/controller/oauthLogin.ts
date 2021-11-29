@@ -8,8 +8,8 @@ import { AuthorizationRedirect } from './authRedirect'
  * @param req 
  * @param res 
  */
-export const OAUTH_LOGIN = (req : express.Request, res : express.Response)=> {
-   let redirectURL : string | any =  new AuthorizationRedirect();
+export const OAUTH_LOGIN = (req: express.Request, res: express.Response) => {
+   let redirectURL: string | any = new AuthorizationRedirect();
    redirectURL = redirectURL.Redirect_Oauth_URL();
    res.redirect(redirectURL)
 }
