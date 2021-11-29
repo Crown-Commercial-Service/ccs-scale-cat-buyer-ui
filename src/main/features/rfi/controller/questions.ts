@@ -94,7 +94,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
          "prompt": promptData,
          "organizationName": organizationName,
          error: req.session['isLocationError'],
-         emptyFieldError:req.session['isValidationError'],
+         emptyFieldError: req.session['isValidationError'],
          "relatedTitle": "Related content",
          "lotURL": "/agreement/lot?agreement_id=" + req.session.agreement_id + "&lotNum=" + req.session.lotId.replace(/ /g, "%20"),
          "lotText": req.session.agreementName + ', ' + req.session.agreementLotName
@@ -157,7 +157,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
          if (nonOCDS.mandatory == true && object_values.length == 0) {
             req.session.isValidationError = true
             res.redirect(url.replace(regex, 'questions'))
-         }         
+         }
          else {
             if (questionType === "Valuetrue") {
                let answerValueBody = {
@@ -171,7 +171,13 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                try {
                   let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-                  QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
+                  if (stop_page_navigate == null || stop_page_navigate == undefined) {
+                     QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
+                  }
+                  else {
+                     res.send();
+                     return
+                  }
                } catch (error) {
                   logger.log("Something went wrong, please review the logit error log for more information")
                   delete error?.config?.['headers'];
@@ -220,7 +226,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   else {
                      res.send();
                      return
-                  }                  
+                  }
                } catch (error) {
                   // console.log(error)
                   logger.log("Something went wrong, please review the logit error log for more information")
