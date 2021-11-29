@@ -6,15 +6,26 @@ let tempArray = [];
 
 
 // RFI Upload document
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @GETController
+ */
+
 export const GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: express.Response) => {
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
-      var windowAppendData = { lotId, agreementLotName, data: cmsData, files: tempArray }
-      console.log(tempArray)
+      const windowAppendData = { lotId, agreementLotName, data: cmsData, files: tempArray }
       res.render('uploadDocument', windowAppendData);
 }
 
-
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @POSTController
+ */
 
 
 export const POST_UPLOAD_DOC : express.Handler = (req: express.Request, res: express.Response) => {
@@ -33,22 +44,13 @@ export const POST_UPLOAD_DOC : express.Handler = (req: express.Request, res: exp
                   tempArray.push(rfi_offline_document);
                   res.redirect('/rfi/upload-doc')
             }
-
-            
       }
       else res.render('error/500')
-    
 }
-
 
 
 export const GET_REMOVE_FILES = express.Handler = (req: express.Request, res: express.Response) => {
       const {file} = req.query;
-
       tempArray = tempArray.filter((afile)=> afile.name !== file);
-
-
       res.redirect('/rfi/upload-doc')
-
-
 }
