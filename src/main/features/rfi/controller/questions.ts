@@ -163,7 +163,13 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             try {
                let answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
                await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-               QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
+               if (stop_page_navigate == null || stop_page_navigate == undefined) {
+                  QuestionHelper.AFTER_UPDATINGDATA(ErrorView, DynamicFrameworkInstance, proc_id, event_id, SESSION_ID, group_id, agreement_id, id, res);
+               }
+               else {
+                  res.send();
+                  return
+               }
             } catch (error) {
                logger.log("Something went wrong, please review the logit error log for more information")
                delete error?.config?.['headers'];
@@ -310,7 +316,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                      //return error & show
                   } else if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == false) {
                      //go to next page
-                  } 
+                  }
                   else if (selectedOptionToggle[0].find(x => x.value === "No specific location, for example they can work remotely") && selectedOptionToggle[0].length > 1) {
                      req.session['isLocationError'] = true;
                      const regex = /questionnaire/ig;
