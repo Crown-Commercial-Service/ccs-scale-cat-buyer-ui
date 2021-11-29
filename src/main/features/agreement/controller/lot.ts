@@ -13,7 +13,7 @@ const logger = Logger.getLogger('lot page');
  */
 export const LOT_BEFORE_START_PAGE = (req: express.Request, res: express.Response) => {
   const { agreement_id, lotNum } = req.query;
-  const {isAuthenticated} = req.session;
+  const { isAuthenticated } = req.session;
   const regExp = /[a-zA-Z]/g;
   let lot = lotNum;
   const { agreementName, agreementEndDate, agreementDescription, suppliersCount } = req.session;
@@ -21,8 +21,8 @@ export const LOT_BEFORE_START_PAGE = (req: express.Request, res: express.Respons
   const agreement = { name: agreementName, endDate: agreementEndDate, agreementDescription, suppliersCount };
   let appendData = { data: lotData, agreement_id, lot, agreement }
 
-  if(isAuthenticated){
-    appendData = Object.assign({}, {...appendData, isAuth: true})
+  if (isAuthenticated) {
+    appendData = Object.assign({}, { ...appendData, isAuth: true })
   }
 
   res.render('lot', appendData);

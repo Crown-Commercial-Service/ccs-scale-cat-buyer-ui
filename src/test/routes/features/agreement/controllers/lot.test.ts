@@ -1,9 +1,9 @@
-//@ts-nocheck 
+//@ts-nocheck
 
 import { expect } from 'chai';
 import request from 'supertest';
 import { app } from '../../../../../main/app';
-import nock from 'nock'
+import nock from 'nock';
 import express from 'express';
 import { createDummyJwt } from 'test/utils/auth';
 
@@ -14,7 +14,8 @@ describe('Choose a lot agreement page', () => {
 
   beforeEach(function () {
     parentApp = express();
-    parentApp.use(function (req, res, next) { // lets stub session middleware
+    parentApp.use(function (req, res, next) {
+      // lets stub session middleware
       req.session = { lotId: 1, agreementLotName: 'test', access_token: jwt, cookie: {}, procurements: [] };
       next();
     });
@@ -29,7 +30,7 @@ describe('Choose a lot agreement page', () => {
     }
     nock('https://tst.api.crowncommercial.gov.uk')
       .post(`/security/tokens/validation`)
-      .query({ 'client-id': 'zyicrDa0oJsH4hULIWTNdadxQV477w45' })
+      .query({ 'client-id': /z.*/ })
       .reply(200, { data: true });
 
     nock('https://tst.api.crowncommercial.gov.uk')
@@ -40,8 +41,7 @@ describe('Choose a lot agreement page', () => {
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
       .get(`/agreements/RM6263`)
       .query(true)
-      .reply(200, { data: [{ 'name': 'sisarProject' }] });
-
+      .reply(200, { data: [{ name: 'sisarProject' }] });
   });
 
   it('should render `Lots` page when everything is fine', async () => {
@@ -54,10 +54,8 @@ describe('Choose a lot agreement page', () => {
         description: 'Digital Specialists and Programmes Lot 2 Description',
         type: 'service',
         routesToMarket: null,
-        sectors: [
-          'Devolved'
-        ]
-      }
+        sectors: ['Devolved'],
+      },
     ];
     nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
       .get(`/agreements/RM6263/lots`)
@@ -66,7 +64,7 @@ describe('Choose a lot agreement page', () => {
     await request(parentApp)
       .get('/agreement/lot')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => expect(res.status).to.equal(200))
+      .expect(res => expect(res.status).to.equal(200));
   });
 
   it('should render error page when lot api is not ready', async () => {
@@ -74,14 +72,13 @@ describe('Choose a lot agreement page', () => {
       .get(`/agreements/RM6263/lots`)
       .query(true)
       .replyWithError(500, {
-        "description": "An unknown error has occurred."
-      }
-      );
+        description: 'An unknown error has occurred.',
+      });
     await request(parentApp)
       .get('/agreement/lot')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .expect(res => {
         expect(res.status).to.equal(200);
-      })
+      });
   });
-})
+});
