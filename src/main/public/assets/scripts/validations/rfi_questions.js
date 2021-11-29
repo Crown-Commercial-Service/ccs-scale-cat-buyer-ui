@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
       e.preventDefault();
       $(".govuk-error-summary").remove();
-      errorStore = emptyFieldCheck();
+      errorStore = emptyQuestionFieldCheck();
       if (errorStore.length == 0) {
 
         document.getElementById("rfi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    let length = 10;
-    while (length--) {
+    let length = 11;
+    while (--length) {
       console.log(length);
       let element = document.querySelector("#rfi_question_" + length);
       element.addEventListener('focusout', (event) => {
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             url: action,
             data: $("#ccs_rfi_questions_form").serialize(),
             success: function () {
-              console.log("success");
+            
               //success message mybe...
             }
           });
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-const emptyFieldCheck = () => {
+const emptyQuestionFieldCheck = () => {
   let fieldCheck = "",
     errorStore = [];
 
@@ -124,7 +124,7 @@ const emptyFieldCheck = () => {
 };
 const ccsZvalidateRfIQuestions = (event) => {
   event.preventDefault();
-  errorStore = emptyFieldCheck();
+  errorStore = emptyQuestionFieldCheck();
 
   //}
 

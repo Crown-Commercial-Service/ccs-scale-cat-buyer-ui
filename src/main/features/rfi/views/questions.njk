@@ -35,7 +35,6 @@
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     {% if (error) %}
-
       {{ CCSErrorSummary({
     titleText: "There is a problem",
     errorList: [
@@ -44,6 +43,16 @@
       }
     ]
   }) }}
+    {%endif %}
+    {% if(emptyFieldError)%}
+     {{ CCSErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: 'You must add at least one question'
+            }
+          ]
+      }) }}
     {%endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
