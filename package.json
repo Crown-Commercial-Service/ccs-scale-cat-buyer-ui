@@ -19,6 +19,7 @@
     "test:coverage": "SET NODE_ENV==development nyc --reporter=text npm test",
     "test:routes": "SET NODE_ENV=development && mocha --opts mocha.opts src/test/routes/**/*.test.ts --timeout 10000 --reporter-options reportFilename=routes,inlineAssets=true,reportTitle=CaT-buyer-frontend-routes",
     "test:a11y": "SET NODE_ENV=development && mocha --exit --opts mocha.opts src/test/a11y/a11y.test.ts --timeout 60000 --reporter-options reportFilename=a11y,inlineAssets=true,reportTitle=CaT-buyer-frontend-a11y",
+    "test:unit": "SET NODE_ENV=development && mocha --opts mocha.opts src/test/unit/**/*.test.ts --timeout 10000 --reporter-options reportFilename=routes,inlineAssets=true,reportTitle=CaT-buyer-frontend-unit-test-all",
     "sonar-scan": "sonar-scanner",
     "test:smoke": "echo 'TODO add smoke tests' && exit 1",
     "test:functional": "echo 'TODO add functional tests' && exit 1",
