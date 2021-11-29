@@ -417,3 +417,6 @@ const checkFormInputValidationError = (nonOCDS: any, object_values: any, questio
       }
 
    }
+
+   return false;
+}
