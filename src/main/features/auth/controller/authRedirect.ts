@@ -9,9 +9,9 @@ import config from 'config'
 class Auth_Variable {
 
     // using local environement variables
-    AuthBaseURL : string = process.env.AUTH_SERVER_BASE_URL;
-    ClientID : string  = process.env.AUTH_SERVER_CLIENT_ID;
-    CallBackURL : string =  process.env.CAT_URL+'/receiver';
+    AuthBaseURL: string = process.env.AUTH_SERVER_BASE_URL;
+    ClientID: string = process.env.AUTH_SERVER_CLIENT_ID;
+    CallBackURL: string = process.env.CAT_URL + '/receiver';
 }
 
 /**
@@ -21,10 +21,10 @@ class Auth_Variable {
  */
 export class AuthorizationRedirect {
 
-     Auth_var = new Auth_Variable;    
-      
-     Redirect_Oauth_URL = () => {
-        let redirectral_url =  `${this.Auth_var.AuthBaseURL}/security/authorize?response_type=code&scope=openid%20profile%20FirstName%20LastName%20%20email&client_id=${this.Auth_var.ClientID}&redirect_uri=${this.Auth_var.CallBackURL}`;
-        return  redirectral_url;
+    const Auth_var = new Auth_Variable;
+
+    Redirect_Oauth_URL = () => {
+        const redirectral_url = `${this.Auth_var.AuthBaseURL}/security/authorize?response_type=code&scope=openid%20profile%20FirstName%20LastName%20%20email&client_id=${this.Auth_var.ClientID}&redirect_uri=${this.Auth_var.CallBackURL}`;
+        return redirectral_url;
     }
 };

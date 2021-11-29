@@ -8,8 +8,12 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 
 
-
-
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @GETController
+ */
 export const GET_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
     const { isEmptyProjectError } = req.session;
     req.session['isEmptyProjectError'] = false;
@@ -26,9 +30,15 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
         agreementLotName,
         error: isEmptyProjectError
     };
-
     res.render('nameAProject', viewData);
 }
+
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @POSTController
+ */
 
 export const POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies; //jwt

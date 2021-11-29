@@ -8,51 +8,60 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 
 // RFI TaskList
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @GETController
+ */
 export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Response) => {
    if (operations.isUndefined(req.query, 'agreement_id') || operations.isUndefined(req.query, 'proc_id') || operations.isUndefined(req.query, 'event_id')) {
       res.redirect(ErrorView.notfound)
    }
    else {
-      var { agreement_id, proc_id, event_id } = req.query;
-      let { SESSION_ID } = req.cookies;
-      let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
+      const { agreement_id, proc_id, event_id } = req.query;
+      const { SESSION_ID } = req.cookies;
+      const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
       try {
-         let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-         let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-         let extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
-         var criterianStorage: any = [];
-         for (let aURI of extracted_criterion_based) {
-            let criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-            let fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
-            let criterian_array = fetch_criterian_group_data?.data;
-            let rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
-               let object = anItem;
+         const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+         const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+         const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
+         let criterianStorage: any = [];
+         for (const aURI of extracted_criterion_based) {
+            const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+            const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+            const criterian_array = fetch_criterian_group_data?.data;
+            const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
+               const object = anItem;
                object['criterianId'] = aURI;
                return object;
             })
             criterianStorage.push(rebased_object_with_requirements)
          }
          criterianStorage = criterianStorage.flat();
-         let sorted_ascendingly = criterianStorage.map((aCriterian: any) => {
-            let object = aCriterian;
+         const sorted_ascendingly = criterianStorage.map((aCriterian: any) => {
+            const object = aCriterian;
             object.OCDS['id'] = aCriterian.OCDS['id']?.split('Group ').join('');
             return object;
          }).sort((current_cursor: any, iterator_cursor: any) => Number(current_cursor.OCDS['id']) - Number(iterator_cursor.OCDS['id'])).map((aCriterian: any) => {
-            var object = aCriterian;
+            const object = aCriterian;
             object.OCDS['id'] = `Group ${aCriterian.OCDS['id']}`
             return object;
          });
-         let select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
+         const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
          const lotId = req.session?.lotId;
          const agreementLotName = req.session.agreementLotName;
-         var display_fetch_data = {
+         const display_fetch_data = {
             data: select_default_data_from_fetch_dynamic_api,
             agreement_id: agreement_id,
             file_data: fileData,
             proc_id: proc_id,
             event_id: event_id,
             lotId,
-            agreementLotName
+            agreementLotName,
+            "relatedTitle": "Related content",
+            "lotURL": "/agreement/lot?agreement_id="+req.session.agreement_id+"&lotNum="+req.session.lotId.replace(/ /g,"%20"),
+            "lotText" : req.session.agreementName+', '+ req.session.agreementLotName
          }
          res.render('onlinetasklist', display_fetch_data);
       } catch (error) {
