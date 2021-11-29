@@ -82,6 +82,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       })
       req.session?.nonOCDSList = nonOCDSList;
       fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id) ? -1 : 1)
+      let errorText = findErrorText(fetch_dynamic_api_data)
       const data = {
          "data": fetch_dynamic_api_data,
          "agreement_id": agreement_id,
@@ -95,6 +96,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
          "organizationName": organizationName,
          error: req.session['isLocationError'],
          emptyFieldError: req.session['isValidationError'],
+         errorText: errorText,
          "relatedTitle": "Related content",
          "lotURL": "/agreement/lot?agreement_id=" + req.session.agreement_id + "&lotNum=" + req.session.lotId.replace(/ /g, "%20"),
          "lotText": req.session.agreementName + ', ' + req.session.agreementLotName
@@ -153,7 +155,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
          ).map(an_answer => {
             return { "value": an_answer }
          })
-         if (nonOCDS.mandatory == true && object_values.length == 0) {
+         if (checkFormInputValidationError(nonOCDS, object_values, questionType)) {
             req.session.isValidationError = true
             res.redirect(url.replace(regex, 'questions'))
          }
@@ -381,4 +383,40 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
       res.redirect('/error')
    }
 
+}
+
+const findErrorText = (data: any) => {
+   let errorText = ''
+   data.forEach(requirement => {      
+      if (requirement.nonOCDS.questionType == 'KeyValuePair')
+      errorText ='You must add information in both fields.'
+      else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
+      errorText=  'You must add at least one question'
+      else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)
+      errorText=  'You must provide a security clearance level before proceeding'
+      else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
+      errorText = 'You must enter information here'      
+   });
+   return errorText;
+}
+const checkFormInputValidationError = (nonOCDS: any, object_values: any, questionType: string) => {
+   if (nonOCDS.mandatory == true && object_values.length == 0) {
+      return true;
+   }
+   if (questionType === 'KeyValuePairtrue' && object_values.length == 2) {
+      let key = object_values[0];
+      let keyValue = object_values[1];
+      if (Array.isArray(key.value) && Array.isArray(keyValue.value)) {
+         let eitherElementEmptys = []
+         for (var i = 0; i < key.value.length; i++) {
+            if ((key.value[i] === '' && keyValue.value[i] !== '') || (key.value[i] !== '' && keyValue.value[i] === '')) {
+               eitherElementEmptys.push({ index: i, isError: true });
+            }
+         }
+         return eitherElementEmptys.length > 0
+      }
+
+   }
+
+   return false;
 }
