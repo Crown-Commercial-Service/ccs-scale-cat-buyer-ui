@@ -12,6 +12,7 @@ import { DASHBOARD_PATHS } from '../../main/features/dashboard/model/dashboardCo
 import { PROCUREMENT_PATHS } from '../../main/features/procurement/model/procurement';
 import { RFI_PATHS } from '../../main/features/rfi/model/rficonstant';
 import { ERROR_PATHS } from '../../main/errors/model/errorConstants';
+import { OAUTH_PATHS } from '../../main/features/auth/model/oauthConstants'
 
 app.locals.csrf = 'dummy-token'
 
@@ -98,8 +99,13 @@ describe('Accessibility', () => {
   checkPaths(RFI_PATHS.POST_QUESTIONS_QUESTIONNAIRE)
   checkPaths(RFI_PATHS.POST_QUESTIONS_WHO)
   checkPaths(RFI_PATHS.POST_TYPE_TYPE)
-  checkPaths(RFI_PATHS.PUT_LEAD_PROCUREMENT)
+  checkPaths(RFI_PATHS.PUT_LEAD_PROCUREMENT);
+
   checkPaths(ERROR_PATHS.ROUTE_401);
   checkPaths(ERROR_PATHS.ROUTE_404);
+
+  checkPaths(OAUTH_PATHS.OAUTH_LOGIN);
+  checkPaths(OAUTH_PATHS.LOGOUT);
+  checkPaths(OAUTH_PATHS.OAUTH_RECEIVER_CALLBACK);
 
 })
