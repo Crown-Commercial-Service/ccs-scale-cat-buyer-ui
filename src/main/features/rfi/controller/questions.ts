@@ -136,6 +136,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 // path = '/rfi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
    var { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
+
+   console.log(req.body)
    var { SESSION_ID } = req.cookies;
    req.session['isLocationError'] = false;
    let started_progress_check: Boolean = operations.isUndefined(req.body, 'rfi_build_started');
