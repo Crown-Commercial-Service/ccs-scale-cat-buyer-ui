@@ -41,92 +41,91 @@ describe('Procurement page', () => {
       .query(true)
       .reply(200, { data: [{ 'name': 'sisarProject' }] });
   });
-  parentApp.use(app);
-  const mockMenus = ['21', '22', '23', '24', '25'];
-  for (const mockMenu of mockMenus) {
-    nock('https://webprod-cms.crowncommercial.gov.uk')
-      .get(`/wp-json/wp-api-menus/v2/menus/${mockMenu}`)
-      .query(true)
-      .reply(200, { data: { data: { name: 'sisar', ID: mockMenu } } });
-  }
-  nock('https://tst.api.crowncommercial.gov.uk')
-    .post(`/security/tokens/validation`)
-    .query({ 'client-id': 'zyicrDa0oJsH4hULIWTNdadxQV477w45' })
-    .reply(200, { data: true });
-
-  nock('https://tst.api.crowncommercial.gov.uk')
-    .get(`/user-profiles`)
-    .query({ 'user-id': 'dummyEmail@dummyServer.com' })
-    .reply(200, { data: true });
-
-  nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-    .get(`/agreements/RM6263`)
-    .query(true)
-    .reply(200, { data: [{ 'name': 'sisarProject' }] });
-});
 
 
-describe('Should be able to show procurements', () => {
-  it('should render `Procurements` page when everything is fine', async () => {
-    nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263/lots/1/event-types`)
-      .query(true)
-      .reply(200, [{ 'type': 'EOI' }]);
+  describe('Should be able to show procurements', () => {
+    it('should render `Procurements` page when everything is fine', async () => {
+      nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
+        .get(`/agreements/RM6263/lots/1/event-types`)
+        .query(true)
+        .reply(200, [{ 'type': 'EOI' }]);
 
-    nock('http://localhost:8080')
-      .post(`/tenders/projects/agreements`)
-      .reply(200, {
-        "procurementID": 981,
-        "eventId": "ocds-b5fd17-904",
-        "defaultName": {
-          "name": "RM6263-Lot 1-CCS",
-          "components": {
-            "agreementId": "RM6263",
-            "lotId": "Lot 1",
-            "org": "CCS"
+      nock('http://localhost:8080')
+        .post(`/tenders/projects/agreements`)
+        .reply(200, {
+          "procurementID": 981,
+          "eventId": "ocds-b5fd17-904",
+          "defaultName": {
+            "name": "RM6263-Lot 1-CCS",
+            "components": {
+              "agreementId": "RM6263",
+              "lotId": "Lot 1",
+              "org": "CCS"
+            }
           }
         }
-      }
-      );
-    await request(parentApp)
-      .get('/agreement/lot')
-      .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => expect(res.status).to.equal(200))
-  });
+        );
+      await request(parentApp)
+        .get('/agreement/lot')
+        .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
+        .expect(res => expect(res.status).to.equal(200))
+    });
 
-  it('should render error page when event types api not ready', async () => {
-    nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263/lots/1/event-types`)
-      .query(true)
-      .replyWithError(500, {
-        "description": "An unknown error has occurred."
-      });
+    it('should render error page when event types api not ready', async () => {
+      nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
+        .get(`/agreements/RM6263/lots/1/event-types`)
+        .query(true)
+        .replyWithError(500, {
+          "description": "An unknown error has occurred."
+        });
 
-    await request(parentApp)
-      .get('/agreement/lot')
-      .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => {
-        console.log(res.body);
+      await request(parentApp)
+        .get('/agreement/lot')
+        .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
+        .expect(res => {
+          console.log(res.body);
 
-        expect(res.status).to.equal(200)
-      })
-  });
+          expect(res.status).to.equal(200)
+        })
+    });
 
 
-  it('should render error page when agreement api not ready', async () => {
-    nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
-      .get(`/agreements/RM6263/lots/1/event-types`)
-      .query(true)
-      .reply(200, [{ 'type': 'EOI' }]);
+    it('should render error page when agreement api not ready', async () => {
+      nock('https://dev-ccs-scale-shared-agreements-service.london.cloudapps.digital')
+        .get(`/agreements/RM6263/lots/1/event-types`)
+        .query(true)
+        .reply(200, [{ 'type': 'EOI' }]);
 
-    nock('http://localhost:8080')
-      .post(`/tenders/projects/agreements`)
-      .replyWithError(500, {
-        "description": "An unknown error has occurred."
-      });
-    await request(parentApp)
-      .get('/agreement/lot')
-      .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
-      .expect(res => expect(res.status).to.equal(200))
-  });
+      nock('http://localhost:8080')
+        .post(`/tenders/projects/agreements`)
+        .replyWithError(500, {
+          "description": "An unknown error has occurred."
+        });
+      await request(parentApp)
+        .get('/agreement/lot')
+        .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
+        .expect(res => expect(res.status).to.equal(200))
+    });
+
+    // it('should redirect to login page if no session', async () => {
+    //     const mockMenus = ['21', '22', '23', '24', '25'];
+    //     for (const mockMenu of mockMenus) {
+    //       nock('https://webprod-cms.crowncommercial.gov.uk')
+    //       .get(`/wp-json/wp-api-menus/v2/menus/${mockMenu}`)
+    //       .query(true)
+    //       .reply(200, { data: {data: {name: 'sisar', ID: mockMenu}} });
+    //     }
+
+    //     await request(parentApp)
+    //       .get('/projects/create-or-choose')
+    //       .expect(res => { 
+    //         expect(res.status).to.equal(302);
+    //         expect(res.headers).to.have.property('location');
+    //         expect(res.headers.location).to.include('/oauth/login');
+    //       }) 
+    //   });
+
+  })
+
+
 })
