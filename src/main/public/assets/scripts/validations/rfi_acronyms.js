@@ -146,6 +146,9 @@ const removeErrorFields = () => {
   $('.govuk-error-message').remove();
   $('.govuk-form-group--error').removeClass('govuk-form-group--error')
   $('.govuk-error-summary').remove();
+
+  $(".govuk-input").removeClass("govuk-input--error")
+
 }
 
 const emptyFieldCheck = () => {
