@@ -259,11 +259,12 @@
 
                     {% call CCSFieldset({
                             legend: {
-                              text: "First term or acronym",
+                               html: "First term or acronym uu<a href="+1+" class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform' title='clear'> X </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_acronym_fieldset acronym_1"
+                            classes: "term_acronym_fieldset acronym_1",
+                            id:"term_acronym_fieldset_acronym_1"
                           })
                       %}
 
