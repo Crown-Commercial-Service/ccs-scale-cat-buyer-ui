@@ -88,13 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (eleValue !== '') {
           let formElement = document.getElementById("ccs_rfi_questions_form");
           let action = formElement.getAttribute("action");
-          action = action + "&stop_page_navigate=true";         
+          action = action + "&stop_page_navigate=true";
           $.ajax({
             type: "POST",
             url: action,
             data: $("#ccs_rfi_questions_form").serialize(),
             success: function () {
-            
+
               //success message mybe...
             }
           });
@@ -112,7 +112,7 @@ const emptyQuestionFieldCheck = () => {
   //const event_typ = document.getElementById("event_type_label").value;
 
   //if (event_typ !== "Request for Information") {
-  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must type a question before you can add another question", /\w+/);
+  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
   for (var i = 2; i < 11; i++) {
     if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {

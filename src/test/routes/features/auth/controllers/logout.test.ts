@@ -1,19 +1,21 @@
 import { app } from '../../../../../main/app';
-import request from 'supertest';
+import chai, { expect } from 'chai';
+import chaiHttp from 'chai-http';
+chai.use(chaiHttp);
 
-describe("Logout redirect", () => {
-
+describe('Logout redirect', () => {
   it('should redirect request to home', (done) => {
-    request(app)
-      .post('/logout')
+    chai
+      .request(app)
+      .get('/logout')
+      .redirects(0)
       .end((err, res) => {
-        if (err) { return done(err); }
-        request(app)
-          .get('/')
-          .end((err, res) => {
-            if (err) { return done(err); }
-            done();
-          });
+        if (err) {
+          return done(err);
+        }
+        expect(res).to.have.status(302);
+        expect(res).to.redirectTo('/');
+        done();
       });
   });
 });
