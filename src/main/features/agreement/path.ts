@@ -6,11 +6,16 @@ import { ChooseAgreementMiddleware } from '../../common/middlewares/agreementser
 import { Application } from 'express';
 import { ContentFetchMiddleware } from '../../common/middlewares/menu-contentservice/contentservice';
 import { AgreementLotMiddleware } from '../../common/middlewares/agreementservice/agreementlot'
+import {BookMarkMiddleware} from '../../common/middlewares/bookmarked/bookmark-redirect'
+
+const {BookMarkStorer} = BookMarkMiddleware;
+
 
 export default function (app: Application): void {
+
    // agreement page
    app.get(CHOOSE_AGREEMENT_PATHS.CHOOSE_AGREEMENT,
-      [ContentFetchMiddleware.FetchContents, AUTH, ChooseAgreementMiddleware.FetchAgreements],
+      [ContentFetchMiddleware.FetchContents,BookMarkStorer, AUTH, ChooseAgreementMiddleware.FetchAgreements],
       CHOOSE_AGREEMENT_CONTROLLER.CHOOSE_AGREEMENT);
    // Before start page - Lot details - No Auth required.
    app.get(CHOOSE_AGREEMENT_PATHS.LOT_BEFORE_START_PAGE,
@@ -18,6 +23,6 @@ export default function (app: Application): void {
       CHOOSE_AGREEMENT_CONTROLLER.LOT_BEFORE_START_PAGE);
    // query parameter handling route
    app.get(CHOOSE_AGREEMENT_PATHS.SELECTED_AGREEMENT,
-      [ContentFetchMiddleware.FetchContents, AUTH, ChooseAgreementMiddleware.FetchAgreements],
+      [ContentFetchMiddleware.FetchContents,BookMarkStorer, AUTH, ChooseAgreementMiddleware.FetchAgreements],
       CHOOSE_AGREEMENT_CONTROLLER.SELECTED_AGREEMENT);
 }
