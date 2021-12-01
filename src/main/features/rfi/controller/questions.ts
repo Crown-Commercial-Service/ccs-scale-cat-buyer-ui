@@ -120,10 +120,14 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  */
 // path = '/rfi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
+  logger.log('questions.POST_QUESTION.init.query:', query);
+  logger.log('questions.POST_QUESTION.init.body:', body);
+
   try {
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const { SESSION_ID } = req.cookies;
     req.session['isLocationError'] = false;
+    logger.log('questions.POST_QUESTION.session:', req.session);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfi_build_started');
     if (operations.equals(started_progress_check, false)) {
       const { rfi_build_started, question_id, questionType } = req.body;
@@ -147,9 +151,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
         });
         if (checkFormInputValidationError(nonOCDS, object_values, questionType)) {
           req.session.isValidationError = true;
+          logger.log('questions.POST_QUESTION.isValidationError.redirection', url.replace(regex, 'questions'));
           res.redirect(url.replace(regex, 'questions'));
         } else {
           if (questionType === 'Valuetrue') {
+            logger.log('questions.POST_QUESTION.Valuetrue');
             const answerValueBody = {
               nonOCDS: {
                 answered: true,
@@ -157,6 +163,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               },
             };
             try {
+              console.log('answerValueBody', answerValueBody);
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
               await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
               if (stop_page_navigate == null || stop_page_navigate == undefined) {
@@ -195,6 +202,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               LoggTracer.errorTracer(Log, res);
             }
           } else if (questionType === 'KeyValuePairtrue') {
+            logger.log('questions.POST_QUESTION.KeyValuePairtrue');
             let { term, value } = req.body;
             const TAStorage = [];
             term = term.filter((akeyTerm: any) => akeyTerm !== '');
@@ -251,8 +259,10 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               LoggTracer.errorTracer(Log, res);
             }
           } else {
+            logger.log('questions.POST_QUESTION.others');
             const question_array_check: boolean = Array.isArray(question_id);
             if (question_array_check) {
+              logger.log('questions.POST_QUESTION.others.question_array_check');
               const sortedStorage = [];
               for (let start = 0; start < question_id.length; start++) {
                 const comparisonObject = {
@@ -304,6 +314,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 }
               }
             } else {
+              logger.log('questions.POST_QUESTION.others.noQuestion_array_check');
               let selectedOptionToggle = [...object_values].map((anObject: any) => {
                 const check = Array.isArray(anObject?.value);
                 if (check) {
@@ -367,7 +378,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   );
                 }
               } catch (error) {
-                logger.log('Something went wrong, please review the logit error log for more information');
+                logger.log('questions.POST_QUESTION.errorException:', err);
                 delete error?.config?.['headers'];
                 const Logmessage = {
                   Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -389,14 +400,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
           }
         }
       } else {
-        logger.log('Something went wrong');
+        logger.log('questions.POST_QUESTION.error.rfi_build_started');
         res.redirect('/error');
       }
     } else {
-      logger.log('Something went wrong');
+      logger.log('questions.POST_QUESTION.error.started_progress_check');
       res.redirect('/error');
     }
   } catch (err) {
+    logger.log('questions.POST_QUESTION.errorException:', err);
     LoggTracer.errorTracer(err, res);
   }
 };
