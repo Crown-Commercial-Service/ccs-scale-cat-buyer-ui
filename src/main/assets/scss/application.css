@@ -3794,6 +3794,9 @@ p + .govuk-heading-s,
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
+.govuk-footer__section:first-child {
+  width: 45px;
+}
 
 .govuk-footer__section {
   display: inline-block;
@@ -8414,8 +8417,9 @@ body {
 
 @media (min-width: 1340px) {
   .ccs-width-container {
-    margin: 0 auto;
-    max-width: 1280px;
+    max-width: 960px;
+    margin-right: auto;
+    margin-left: auto;
   }
 }
 

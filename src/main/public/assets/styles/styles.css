@@ -2593,7 +2593,9 @@ p + .govuk-heading-s,
   margin-left: -15px;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap; }
-
+.govuk-footer__section:first-child {
+  width: 45px;
+}
 .govuk-footer__section {
   display: inline-block;
   margin-right: 15px;
@@ -6692,8 +6694,9 @@ img {
       margin: 0 30px; } }
   @media (min-width: 1340px) {
     .ccs-width-container {
-      margin: 0 auto;
-      max-width: 1280px; } }
+    max-width: 960px;
+    margin-right: auto;
+    margin-left: auto; } }
 
 .nav-wrapper {
   padding: 0 0 1.25rem 0;
