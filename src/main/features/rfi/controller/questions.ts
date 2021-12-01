@@ -120,8 +120,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  */
 // path = '/rfi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
-  logger.log('questions.POST_QUESTION.init.query:', query);
-  logger.log('questions.POST_QUESTION.init.body:', body);
+  logger.log('questions.POST_QUESTION.init.query:', req.query);
+  logger.log('questions.POST_QUESTION.init.body:', req.body);
 
   try {
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
