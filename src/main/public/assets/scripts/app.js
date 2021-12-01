@@ -1,5 +1,5 @@
 /* global $ */
-
+$('.remove_icon').removeClass('hide');
 document.addEventListener("DOMContentLoaded", function (event) {
 
 

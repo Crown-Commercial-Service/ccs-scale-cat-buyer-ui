@@ -118,3 +118,7 @@
 .del{
     float: right !important;
 }
+
+.hide{
+    visibility: hidden !important;
+}
