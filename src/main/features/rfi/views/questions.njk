@@ -49,7 +49,8 @@
           titleText: "There is a problem",
           errorList: [
             {
-               text: errorText 
+               text: errorText,
+               href: "#"
             }
           ]
       }) }}
@@ -256,10 +257,11 @@
 
                 {% block KeySelect%}
                   {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) %}
+ 
 
                     {% call CCSFieldset({
                             legend: {
-                               html: "First term or acronym <a href="+1+" class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform' title='clear'> X </a>",
+                               html: "First term or acronym <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -278,6 +280,8 @@
                             value: requirement.nonOCDS.options[0].value
                           })
                       }}
+
+                   
 
                     {{ CCSTextarea({
                             name: "value",
@@ -308,7 +312,7 @@
 
                       {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
+                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },

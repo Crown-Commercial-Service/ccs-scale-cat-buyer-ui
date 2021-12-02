@@ -162,8 +162,8 @@ const emptyFieldCheck = () => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
 
       if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'Please provide definition for the term');
-        fieldCheck = [definition_field.id, 'Please provide definition for the term'];
+        ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
+        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
         errorStore.push(fieldCheck);
       }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
