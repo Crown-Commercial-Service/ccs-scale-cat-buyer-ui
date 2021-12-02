@@ -1,0 +1,29 @@
+{
+    "title": "Name your project (Optional)",
+    "topHeader": {
+        "selectedAggrement": ["Selected agreement: ",", Lot ", ": Specialists"], 
+        "aggrementId": "Agreement ID: ",
+        "projectName": "Project name: "
+    },
+    "subtitle": null,
+    "caption" : "You can change the name of your project. Enter the new name below.",
+    "form": {
+        "input": {            
+            "id": "rfi_projLongName",
+            "name": "rfi_projLongName",
+            "value": ""
+        },        
+        "backJump": {
+            "title": " Return to pre-market engagement",
+            "href": "#"
+        }
+    },    
+    "related": {
+        "title": "Related content",
+        "content": {
+            "href": "/agreement/DSP/lot?no=2",
+            "text": "Digital Specialists and Programmes, Lot 2: Specialists"
+        }
+    }
+
+}

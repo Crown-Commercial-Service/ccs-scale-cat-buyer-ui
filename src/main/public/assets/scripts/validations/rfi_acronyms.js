@@ -31,42 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
-
- 
-
-      $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-      const start = 1;
-      const end = 10;
-
-      for(var a = start; a <= end; a++){
-        let input = $(`#rfi_term_${a}`)
-        let textbox = $(`#rfi_term_definition_${a}`);
-       
-
-        if(input.val() !== ""){
-
-          $(`#rfi_term_${a}-error`).remove();
-          $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
-          $(`.acronym_${a} input`).removeClass('govuk-input--error')
-          
-
-        }
-        if (textbox.val() !== ""){
-
-          $(`#rfi_term_definition_${a}-error`).remove();
-          $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
-          $(`.acronym_${a} textarea`).removeClass('govuk-input--error');
-          $(`.acronym_${a} textarea`).removeClass('govuk-textarea--error')
-        }
-        
-      }
-
       e.preventDefault();
       errorStore = emptyFieldCheck();
       if (errorStore.length == 0) {
 
         removeErrorFields();
-      
 
         document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
@@ -198,8 +167,8 @@ const emptyFieldCheck = () => {
         errorStore.push(fieldCheck);
       }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
-        fieldCheck = [term_field.id, 'You must add information in both fields.'];
+        ccsZaddErrorMessage(term_field, 'Please provide a term or acronym');
+        fieldCheck = [term_field.id, 'Please provide a term or acronym'];
         errorStore.push(fieldCheck);
       }
     }

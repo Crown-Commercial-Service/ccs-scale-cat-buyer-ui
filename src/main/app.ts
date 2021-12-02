@@ -51,13 +51,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('src/main/public'));
-app.use((req, res, next) => {
-  res.setHeader(
-    'Cache-Control',
-    'no-cache, max-age=0, must-revalidate, no-store',
-  );
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader(
+//     'Cache-Control',
+//     'no-cache, max-age=0, must-revalidate, no-store',
+//   );
+//   next();
+// });
 app.enable('trust proxy')
 
 /**
