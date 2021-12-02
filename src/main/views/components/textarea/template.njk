@@ -37,7 +37,7 @@
     visuallyHiddenText: params.errorMessage.visuallyHiddenText
   }) | indent(2) | trim }}
 {% endif %}
-  <textarea class="govuk-textarea {{- ' govuk-textarea--error' if params.errorMessage }} {{- ' ' + params.classes if params.classes}}" id="{{ params.id }}" name="{{ params.name }}" rows="{%if params.rows %} {{- params.rows -}} {% else %}5{%endif %}"
+ <textarea class="govuk-textarea {{- ' govuk-textarea--error' if params.errorMessage }} {{- ' ' + params.classes if params.classes}}" id="{{ params.id }}" name="{{ params.name }}" rows="{%if params.rows %} {{- params.rows -}} {% else %}5{%endif %}"
   {%- if (params.spellcheck === false) or (params.spellcheck === true) %} spellcheck="{{ params.spellcheck }}"{% endif %}
   {%- if describedBy %} aria-describedby="{{ describedBy }}"{% endif %}
   {%- if params.autocomplete %} autocomplete="{{ params.autocomplete}}"{% endif %}
