@@ -19,7 +19,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
  * @validation false
  */
 export const GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
-  //console.log('GET_QUESTIONS.init.query:', req.query);
+  console.log('GET_QUESTIONS.init.query:', req.query);
   const { SESSION_ID } = req.cookies;
   const { agreement_id, proc_id, event_id, id, group_id } = req.query;
 
@@ -27,11 +27,11 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     const baseURL= `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
 
-    //console.log('GET_QUESTIONS.fetchDynamicApiQuestions:', fetch_dynamic_api.data);
+    console.log('GET_QUESTIONS.fetchDynamicApiQuestions:', fetch_dynamic_api.data);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     const headingBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
-   // console.log('GET_QUESTIONS.headingFetchDynamicApiGroups:', heading_fetch_dynamic_api.data);
+   console.log('GET_QUESTIONS.headingFetchDynamicApiGroups:', heading_fetch_dynamic_api.data);
 
     const organizationID = req.session.user.payload.ciiOrgId;
     const organisationBaseURL = `/organisation-profiles/${organizationID}`;
@@ -132,11 +132,14 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
  */
 // path = '/rfi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
+ console.log('questions.POST_QUESTION.init.query:', req.query);
+  console.log('questions.POST_QUESTION.init.body:', req.body);
+
   try {
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const { SESSION_ID } = req.cookies;
     req.session['isLocationError'] = false;
-    //console.log('questions.POST_QUESTION.session:', req.session);
+    console.log('questions.POST_QUESTION.session:', req.session);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfi_build_started');
     if (operations.equals(started_progress_check, false)) {
       const { rfi_build_started, question_id, questionType } = req.body;
@@ -159,6 +162,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
           return { value: an_answer };
         });
         if (checkFormInputValidationError(nonOCDS, object_values, questionType)) {
+
+          console.log(object_values)
           req.session.isValidationError = true;
           if(object_values.length > 0){
             const object_values_Keyterm = object_values[0].value;
@@ -202,7 +207,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 return;
               }
             } catch (error) {
-              logger.log('Something went wrong, please review the logit error log for more information',error);
+              console.log('Something went wrong, please review the logit error log for more information',error);
               delete error?.config?.['headers'];
               const Logmessage = {
                 Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -221,7 +226,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               LoggTracer.errorTracer(Log, res);
             }
           } else if (questionType === 'KeyValuePairtrue') {
-           logger.log('questions.POST_QUESTION.KeyValuePairtrue',error);
+           console.log('questions.POST_QUESTION.KeyValuePairtrue',error);
             let { term, value } = req.body;
             const TAStorage = [];
             term = term.filter((akeyTerm: any) => akeyTerm !== '');
@@ -259,7 +264,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               }
             } catch (error) {
               
-             logger.log('Something went wrong, please review the logit error log for more information',error);
+             console.log('Something went wrong, please review the logit error log for more information',error);
               delete error?.config?.['headers'];
               const Logmessage = {
                 Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -280,7 +285,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
           } else {
             const question_array_check: boolean = Array.isArray(question_id);
             if (question_array_check) {
-            //  logger.log('questions.POST_QUESTION.others.question_array_check');
+             console.log('questions.POST_QUESTION.others.question_array_check');
               const sortedStorage = [];
               for (let start = 0; start < question_id.length; start++) {
                 const comparisonObject = {
@@ -312,7 +317,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     res,
                   );
                 } catch (error) {
-                logger.log('Something went wrong, please review the logit error log for more information');
+                console.log('Something went wrong, please review the logit error log for more information');
                   delete error?.config?.['headers'];
                   const Logmessage = {
                     Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -332,7 +337,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 }
               }
             } else {
-            logger.log('questions.POST_QUESTION.others.noQuestion_array_check');
+            console.log('questions.POST_QUESTION.others.noQuestion_array_check');
               let selectedOptionToggle = [...object_values].map((anObject: any) => {
                 const check = Array.isArray(anObject?.value);
                 if (check) {
