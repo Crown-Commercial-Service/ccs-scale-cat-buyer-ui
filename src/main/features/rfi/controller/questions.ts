@@ -1,3 +1,4 @@
+
 //@ts-nocheck
 import * as express from 'express';
 import { operations } from '../../../utils/operations/operations';
@@ -229,7 +230,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               LoggTracer.errorTracer(Log, res);
             }
           } else if (questionType === 'KeyValuePairtrue') {
-            console.log('questions.POST_QUESTION.KeyValuePairtrue', error);
             let { term, value } = req.body;
             const TAStorage = [];
             term = term.filter((akeyTerm: any) => akeyTerm !== '');
