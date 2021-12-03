@@ -19,11 +19,9 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
  * @validation false
  */
 export const GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
-  res.setHeader({
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
-    Pragma: 'no-cache',
-    Expires: 0,
-  });
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
 
   const { SESSION_ID } = req.cookies;
   const { agreement_id, proc_id, event_id, id, group_id } = req.query;
