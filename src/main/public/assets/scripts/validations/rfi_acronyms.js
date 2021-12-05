@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
+    let clearFieldsButtons = document.querySelectorAll("a.clear-fields");
 
     for (var acronym_fieldset = 10; acronym_fieldset > 1; acronym_fieldset--) {
 
@@ -30,11 +31,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
+
+ 
+
+      $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+      const start = 1;
+      const end = 10;
+
+      for(var a = start; a <= end; a++){
+        let input = $(`#rfi_term_${a}`)
+        let textbox = $(`#rfi_term_definition_${a}`);
+       
+
+        if(input.val() !== ""){
+
+          $(`#rfi_term_${a}-error`).remove();
+          $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+          $(`.acronym_${a} input`).removeClass('govuk-input--error')
+          
+
+        }
+        if (textbox.val() !== ""){
+
+          $(`#rfi_term_definition_${a}-error`).remove();
+          $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+          $(`.acronym_${a} textarea`).removeClass('govuk-input--error');
+          $(`.acronym_${a} textarea`).removeClass('govuk-textarea--error')
+        }
+        
+      }
+
       e.preventDefault();
       errorStore = emptyFieldCheck();
       if (errorStore.length == 0) {
 
-        removeErrorFields();      
+        removeErrorFields();
+      
 
         document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
@@ -49,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById("ccs_rfiTerm_add").classList.add('ccs-dynaform-hidden');
         }
 
-       
+
 
       }
       else ccsZPresentErrorSummary(errorStore);
@@ -80,6 +112,20 @@ document.addEventListener('DOMContentLoaded', () => {
         with_value_count--;
       });
     });
+    clearFieldsButtons.forEach((db) => {
+      db.addEventListener('click', (e) => {
+
+        e.preventDefault();
+
+        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+          target_fieldset = db.closest("fieldset");
+
+        target_fieldset.classList.add("ccs-dynaform");
+
+        document.getElementById('rfi_term_' + target).value = "";
+        document.getElementById('rfi_term_definition_' + target).value = "";
+      });
+    });
 
 
     if (document.getElementsByClassName("term_acronym_fieldset").length > 0) {
@@ -107,16 +153,16 @@ document.addEventListener('DOMContentLoaded', () => {
             let formElement = document.getElementById("ccs_rfi_acronyms_form");
             let action = formElement.getAttribute("action");
             action = action + "&stop_page_navigate=true";
-           // console.log($("#ccs_rfi_acronyms_form").serialize());
+            // console.log($("#ccs_rfi_acronyms_form").serialize());
             $.ajax({
               type: "POST",
               url: action,
               data: $("#ccs_rfi_acronyms_form").serialize(),
-              success: function() {
-                
-                   //success message mybe...
+              success: function () {
+
+                //success message mybe...
               }
-         });
+            });
           }
         };
         // break;
@@ -130,6 +176,8 @@ const removeErrorFields = () => {
   $('.govuk-error-message').remove();
   $('.govuk-form-group--error').removeClass('govuk-form-group--error')
   $('.govuk-error-summary').remove();
+  $(".govuk-input").removeClass("govuk-input--error")
+
 }
 
 const emptyFieldCheck = () => {
@@ -145,13 +193,13 @@ const emptyFieldCheck = () => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
 
       if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'Please provide definition for the term');
-        fieldCheck = [definition_field.id, 'Please provide definition for the term'];
+        ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
+        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
         errorStore.push(fieldCheck);
       }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'Please provide a term or acronym');
-        fieldCheck = [term_field.id, 'Please provide a term or acronym'];
+        ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
+        fieldCheck = [term_field.id, 'You must add information in both fields.'];
         errorStore.push(fieldCheck);
       }
     }
@@ -169,7 +217,7 @@ const ccsZvalidateAcronyms = (event) => {
   }
   else {
     ccsZPresentErrorSummary(errorStore);
-  
+
   }
 
 };
