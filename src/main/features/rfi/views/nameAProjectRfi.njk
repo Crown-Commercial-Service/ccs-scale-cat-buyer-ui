@@ -22,7 +22,7 @@
         },
         {
           "text": "Do pre-market engagement",
-          "href": "/eoi/eoi-tasklist"
+          "href": "/rfi/rfi-tasklist"
         },
         {
           "text": "Name your project",
@@ -63,7 +63,7 @@
         <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
       </div>
       <p class="govuk-body">{{data.caption}}</p>
-      <form id="ccs_project_name_form" name="ccs_project_name_form" action="/eoi/name?procid={{procId}}" method="POST">       
+      <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfi/name?procid={{procId}}" method="POST">       
           
         {{ CCSInput({           
             id: data.form.input.id,
