@@ -50,8 +50,19 @@ export default function (app: Application): void {
 
   app.get(RFI_PATHS.GET_USER_PROCUREMENT,[AUTH], associatedViews.GET_USER_PROCUREMENT)
 
-    //@GET "/rfi/upload-doc/remove"
-    app.get(RFI_PATHS.GET_REMOVE_FILE, AUTH, associatedViews.GET_REMOVE_FILES )
+  //@GET "/rfi/upload-doc/remove"
+  app.get(RFI_PATHS.GET_REMOVE_FILE, AUTH, associatedViews.GET_REMOVE_FILES )
+
+
+  // @GET "/rfi/suppliers"
+  app.get(RFI_PATHS.GET_RFI_SUPPLIERS, [ContentFetchMiddleware.FetchContents , AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_RFI_SUPPLIERS )
+
+  //@GET "/rfi/response-date"
+  app.get(RFI_PATHS.GET_RESPONSE_DATE, [ContentFetchMiddleware.FetchContents , AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_RESPONSE_DATE )
+
+  //@GET = "/rfi/review"
+  app.get(RFI_PATHS.GET_RFI_REVIEW, [ContentFetchMiddleware.FetchContents , AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_RFI_REVIEW )
+
 
     
 
@@ -101,6 +112,10 @@ export default function (app: Application): void {
 
   //@POST "rfi/upload-doc"
   app.post(RFI_PATHS.POST_UPLOAD_DOC, AUTH, associatedViews.POST_UPLOAD_DOC )
+
+
+  //@POST "rfi/suppliers"
+  app.post(RFI_PATHS.POST_RFI_SUPPLIER, AUTH, associatedViews.POST_RFI_SUPPLIER )
 
 
 
