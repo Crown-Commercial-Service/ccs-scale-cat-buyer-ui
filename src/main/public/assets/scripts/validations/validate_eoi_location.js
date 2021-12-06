@@ -6,7 +6,7 @@ const ccsZvalidateEoiLocation = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZisOptionChecked("required_locations", "Select at least one location");
+  fieldCheck = ccsZisOptionChecked( "required_locations", "Select at least one location");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_select_location"].submit();
@@ -15,7 +15,7 @@ const ccsZvalidateEoiLocation = (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  if (document.getElementById("ccs_select_location") !== null || document.getElementById("eoi_location") !== null || document.getElementById("eoi_location") !== null) {
+  if (document.getElementById("ccs_select_location") !== null || document.getElementById("rfi_location")!==null || document.getElementById("eoi_location")!==null ) {
 
     let allCheckbox = document.getElementById("required_locations-13"),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
