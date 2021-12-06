@@ -9088,20 +9088,16 @@ p,
 
 .ccs_eoi_criteria_form label,
 .ccs_eoi_confid_form label,
-.ccs_rfi_questions_form label,
-.ccs_eoi_questions_form label
-{
+.ccs_rfi_questions_form label {
   position: relative;
 }
 
 .ccs_eoi_criteria_form label .del,
 .ccs_eoi_confid_form label .del,
 .ccs_rfi_questions_form label .del, 
-.ccs_eoi_questions_form label .del, 
 .ccs_eoi_criteria_form label .clear-fields,
 .ccs_eoi_confid_form label .clear-fields,
-.ccs_rfi_questions_form label .clear-fields,
-.ccs_eoi_questions_form label .clear-fields
+.ccs_rfi_questions_form label .clear-fields
  {
   position: absolute;
   right: 0;

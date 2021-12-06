@@ -7,7 +7,7 @@ function initializeErrorStoreForFieldCheck(event) {
 const ccsZvalidateIR35acknowledgement = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
-  fieldCheck = ccsZisOptionChecked("IR35_acknowledgement", "Please select an option");
+  fieldCheck = ccsZisOptionChecked( "IR35_acknowledgement", "Please select an option");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_ir35_acknowledgement_form"].submit();
@@ -16,16 +16,16 @@ const ccsZvalidateIR35acknowledgement = (event) => {
 
 const ccsZvalidateCompetitionRoute = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked("ccs_route_to_market", "Please select an option");
+  fieldCheck = ccsZisOptionChecked( "ccs_route_to_market", "Please select an option");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_route_to_market_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
 }
 
-const ccsZvalidateBuildType = (event) => {
+const ccsZvalidateBuildType= (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked("ccs_fc_type", "Please select an option");
+  fieldCheck = ccsZisOptionChecked( "ccs_fc_type", "Please select an option");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_ca_type_form"].submit();
@@ -34,7 +34,7 @@ const ccsZvalidateBuildType = (event) => {
 
 const ccsZvalidateProjectPhase = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked("ccs_rfp_project_phase", "Please select an option");
+  fieldCheck = ccsZisOptionChecked( "ccs_rfp_project_phase", "Please select an option");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfp_project_phase_form"].submit();
@@ -44,14 +44,12 @@ const ccsZvalidateProjectPhase = (event) => {
 const ccsZvalidateRfiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
-  fieldCheck = ccsZisOptionCheckedForVetting("ccs_vetting_type", "You must provide a security clearance level before proceeding");
+ fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", "You must provide a security clearance level before proceeding");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_vetting_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
+  
 
 
 };
@@ -62,7 +60,7 @@ const ccsZvalidateRfiSecurity = (event) => {
 const ccsZvalidateRfpSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
-  fieldCheck = ccsZisOptionChecked("ccs_rfp_vetting_type", "You must provide a security clearance level before proceeding");
+  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", "You must provide a security clearance level before proceeding");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfp_vetting_form"].submit();
@@ -72,20 +70,17 @@ const ccsZvalidateRfpSecurity = (event) => {
 const ccsZvalidateRfiType = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
-  fieldCheck = ccsZisOptionChecked("ccs_rfi_type", "Select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
+  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select an option");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-  if (errorStore.length === 0) document.forms["ccs_eoi_type_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
 };
 
 const ccsZvalidateEoiType = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 
-  fieldCheck = ccsZisOptionChecked("ccs_eoi_type", "Select an option");
+  fieldCheck = ccsZisOptionChecked( "ccs_eoi_type", "Select an option");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_eoi_type_form"].submit();
@@ -94,7 +89,7 @@ const ccsZvalidateEoiType = (event) => {
 
 const ccsZvalidateEoiServiceType = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked("eoi_service_type", "Please select an option");
+  fieldCheck = ccsZisOptionChecked( "eoi_service_type", "Please select an option");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_eoi_new_form"].submit();
@@ -103,7 +98,7 @@ const ccsZvalidateEoiServiceType = (event) => {
 
 const ccsZvalidatePreMarketRoute = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked("choose_pre_engage", "Please select an option");
+  fieldCheck = ccsZisOptionChecked( "choose_pre_engage", "Please select an option");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_choose_pre_engage"].submit();
