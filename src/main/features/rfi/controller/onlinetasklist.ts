@@ -51,8 +51,9 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
          const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
          const lotId = req.session?.lotId;
          const agreementLotName = req.session.agreementLotName;
+         const ExcludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(AField => AField.OCDS.id !== "Group Key Dates");
          const display_fetch_data = {
-            data: select_default_data_from_fetch_dynamic_api,
+            data: ExcludingKeyDates,
             agreement_id: agreement_id,
             file_data: fileData,
             proc_id: proc_id,
