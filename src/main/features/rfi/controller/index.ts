@@ -8,7 +8,7 @@ import { GET_LEAD_PROCUREMENT, PUT_LEAD_PROCUREMENT, GET_USER_PROCUREMENT } from
 import { GET_ADD_COLLABORATOR, POST_ADD_COLLABORATOR, POST_ADD_COLLABORATOR_TO_JAGGER, POST_PROCEED_COLLABORATORS, POST_ADD_COLLABORATOR_JSENABLED } from './addcollaborator'
 import {GET_RFI_REVIEW} from './review'
 import {GET_RFI_SUPPLIERS, POST_RFI_SUPPLIER} from './suppliers'
-import {GET_RESPONSE_DATE} from './responsedate'
+import {GET_RESPONSE_DATE, POST_RESPONSE_DATE} from './responsedate'
 
 export const associatedViews = {
     /**
@@ -42,6 +42,7 @@ export const associatedViews = {
     POST_PROCEED_COLLABORATORS,
     POST_ADD_COLLABORATOR_JSENABLED,
     POST_UPLOAD_DOC,
-    POST_RFI_SUPPLIER
+    POST_RFI_SUPPLIER,
+    POST_RESPONSE_DATE
 
 }
