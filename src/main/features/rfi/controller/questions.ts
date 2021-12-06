@@ -99,7 +99,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
-    res.render('questions', data);
+    res.render('questionsRfi', data);
   } catch (error) {
     delete error?.config?.['headers'];
     const Logmessage = {

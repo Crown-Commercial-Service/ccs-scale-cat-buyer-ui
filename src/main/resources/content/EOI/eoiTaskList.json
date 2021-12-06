@@ -1,0 +1,96 @@
+{
+     "line1": "Pre-market engagement can help you to:",
+     "line2": "better understand what you need",
+     "line3": "write clearer needs to publish for suppliers",
+     "line4": "understand how much this work could cost",
+     "line5": "better understand how long this work could take",
+
+    "title": "Do pre-market engagement",
+    "subtitle": null,
+    "events": [
+        {
+            "eventno": 1,
+            "eventTitle": "Project and collaborators",
+            "eventTask": [
+                {
+                    "Task": 1,
+                    "link": "/eoi/name-your-project",
+                    "title": "Name your project",
+                    "required": "mandatory",
+                    "status": "todo"
+                },
+                {
+                    "Task": 2,
+                    "link": "/eoi/procurement-lead",
+                    "title": "Change who is going to lead the procurement",
+                    "required": "mandatory",
+                    "status": "done"
+                },
+                {
+                    "Task": 3,
+                    "link": "/eoi/add-collaborators",
+                    "title": "Add members to your project",
+                    "required": "optional",
+                    "status": "todo"
+                }
+            ]
+        },
+        {
+            "eventno": 2,
+            "eventTitle": "Build your Request for Information (EOI)",
+            "eventTask": [
+                {
+                    "Task": 1,
+                    "title": "How- will you build your request for- information (EOI)",
+                    "required": "mandatory",
+                    "link": "/eoi/type",
+                    "status": "todo"
+                },
+                {
+                    "Task": 2,
+
+                    "title": "Build your request for information",
+                    "required": "mandatory",
+                    "status": "in progress"
+                }
+            ]
+        },
+        {
+            "eventno": 3,
+            "eventTitle": "Review and publish your your Request for Information (EOI)",
+            "eventTask": [
+                {
+                    "Task": 1,
+                    "title": "Upload or link any additional documentation",
+                    "required": "optional",
+                    "status": "todo",
+                    "link": "/eoi/upload-doc"
+                },
+                {
+                    "Task": 2,
+                    "title": "Identify suppliers",
+                    "required": "optional",
+                    "status": "cannot start yet"
+                },
+                {
+                    "Task": 3,
+                    "title": "Set response date and time",
+                    "required": "mandatory",
+                    "status": "cannot start yet"
+                },
+                {
+                    "Task": 4,
+                    "title": "Review contact details",
+                    "required": "mandatory",
+                    "status": "cannot start yet"
+                },
+                {
+                    "Task": 5,
+                    "title": "Review and publish",
+                    "required": "optional",
+                    "status": "cannot start yet"
+                }
+            ]
+        }
+    ]
+}
