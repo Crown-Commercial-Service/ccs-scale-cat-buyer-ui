@@ -8,16 +8,16 @@ if (window.console && window.console.info) {
 $(document).ready(function () {
   window.GOVUKFrontend.initAll();
 
-// const thisLocation = window.location.href;
-// const journeyPagesURL = ['name','procurement-lead','add-collaborators','type','offline-doc','online-task-list',
-// 'questions','who','vetting','upload','suppliers',
-// 'review','response-date','project','project-status','address','address-manual','acronyms'];
-// $.each(journeyPagesURL,function() {
-//   if(thisLocation.indexOf(this) != -1) {
-//      ccsScrollToJourney();
-//      return false;   
-//   }       
-// });
+  // const thisLocation = window.location.href;
+  // const journeyPagesURL = ['name','procurement-lead','add-collaborators','type','offline-doc','online-task-list',
+  // 'questions','who','vetting','upload','suppliers',
+  // 'review','response-date','project','project-status','address','address-manual','acronyms'];
+  // $.each(journeyPagesURL,function() {
+  //   if(thisLocation.indexOf(this) != -1) {
+  //      ccsScrollToJourney();
+  //      return false;   
+  //   }       
+  // });
 
   if (matchMedia) {
     const mq = window.matchMedia("(min-width: 40.0625em)");
@@ -72,13 +72,15 @@ if (document.getElementById("ccs_eoi_contact_form") !== null) document.getElemen
 //if (document.getElementById("ccs_add_rfi_collab") !== null) document.getElementById("ccs_add_rfi_collab").addEventListener('submit', ccsZvalidateRfiTeamMems);
 
 
-if (document.getElementById("ccs_project_name_form") !== null) document.getElementById("ccs_project_name_form").addEventListener('submit', ccsZvalidateProjectName);
+if (document.getElementById("ccs_rfi_project_name_form") !== null) document.getElementById("ccs_rfi_project_name_form").addEventListener('submit', ccsZvalidateRfiProjectName);
 
-if(document.getElementById("ccs_choose_pre_engage") !== null) document.getElementById("ccs_choose_pre_engage").addEventListener('submit', ccsZvalidatePreMarketRoute);
+if (document.getElementById("ccs_eoi_project_name_form") !== null) document.getElementById("ccs_eoi_project_name_form").addEventListener('submit', ccsZvalidateEoiProjectName);
 
-if(document.getElementById("ccs_eoi_type_form") !== null) document.getElementById("ccs_eoi_type_form").addEventListener('submit', ccsZvalidateEoiType);
+if (document.getElementById("ccs_choose_pre_engage") !== null) document.getElementById("ccs_choose_pre_engage").addEventListener('submit', ccsZvalidatePreMarketRoute);
 
-if(document.getElementById("ccs_rfi_type_form") !== null) document.getElementById("ccs_rfi_type_form").addEventListener('submit', ccsZvalidateRfiType);
+if (document.getElementById("ccs_eoi_type_form") !== null) document.getElementById("ccs_eoi_type_form").addEventListener('submit', ccsZvalidateEoiType);
+
+if (document.getElementById("ccs_rfi_type_form") !== null) document.getElementById("ccs_rfi_type_form").addEventListener('submit', ccsZvalidateRfiType);
 
 //if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
 
@@ -91,7 +93,7 @@ if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getEleme
 if (document.getElementById("ccs_rfi_address_form") !== null) {
   ccsZInitAddressFinder("rfi_proj_address-address");
   document.getElementById("rfi_find_address_btn").addEventListener('click', ccsZFindAddress);
- // document.getElementById("rfi_proj_address-address").addEventListener('change', ccsZFoundAddress);
+  // document.getElementById("rfi_proj_address-address").addEventListener('change', ccsZFoundAddress);
   document.getElementById("change_postcode").addEventListener('click', ccsZResetAddress);
 }
 
