@@ -32,9 +32,11 @@ export class AgreementLotMiddleware {
             req.session.agreementName = agreementName;
             req.session.suppliersCount = retrieveAgreementSuppliers.length;
             req.session.agreementDescription = agreementDescription;
-            let redis_access_token = req.session['access_token'];
-            let access_token = SESSION_ID;
+            const redis_access_token = req.session['access_token'];
+            const access_token = SESSION_ID;
             if (redis_access_token === access_token) {
+                req.session.agreement_id = agreement_id;
+                req.session.selectedLotNum_lot_details = lotNum;
                 res.cookie(cookies.lotNum, lotNum, {
                     maxAge: Number(config.get('Session.time')) * 60 * 1000,
                     httpOnly: true

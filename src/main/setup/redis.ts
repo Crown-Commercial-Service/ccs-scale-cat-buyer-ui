@@ -30,8 +30,7 @@ const RedisInstanceSetup = (app: express.Express): void => {
         redisProperties = Object.assign(
             {},
             {
-                ...redisProperties,
-                tls: {}
+                ...redisProperties
             })
     }
     const redisClient = redis.createClient(redisProperties);
