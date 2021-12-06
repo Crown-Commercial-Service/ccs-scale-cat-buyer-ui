@@ -25,20 +25,18 @@ export class Nunjucks {
     const NunjucksPathFolders = {
       mainViewDirectory: path.join(__dirname, '..', '..', 'views'),
       RFIViewDirectory: path.join(__dirname, '..', '..', 'features', 'rfi', 'views'),
-      EOIViewDirectory: path.join(__dirname, '..', '..', 'features', 'eoi', 'views'),
       DASHBOARDViewDirectory: path.join(__dirname, '..', '..', 'features', 'dashboard', 'views'),
       AGREEMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'agreement', 'views'),
       PROCUREMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'procurement', 'views'),
     };
 
-    var NunjucksEnvironment = nunjucks.configure(
+    const NunjucksEnvironment = nunjucks.configure(
       [
         NunjucksPathFolders.mainViewDirectory,
         NunjucksPathFolders.RFIViewDirectory,
         NunjucksPathFolders.DASHBOARDViewDirectory,
         NunjucksPathFolders.AGREEMENTViewDirectory,
         NunjucksPathFolders.PROCUREMENTViewDirectory,
-        NunjucksPathFolders.EOIViewDirectory,
       ],
       {
         autoescape: true,
