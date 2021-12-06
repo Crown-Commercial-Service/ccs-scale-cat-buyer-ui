@@ -1,46 +1,47 @@
 {
   "breadCrumbs": [
-    {
-      "text": "Home",
-      "href": "/"
-    },
-    {
-      "text": "Do pre-market engagement",
-      "href": "/eoi/eoi-tasklist"
-    },
-    {
-      "text": "How will you publish your EoI",
-      "href": "#"
-    }
+      {
+          "text": "Home",
+          "href": "/"
+      },
+      {
+          "text": "Do pre-market engagement",
+          "href": "/eoi/eoi-tasklist"
+      },
+      {
+          "text": "Choose how to build your EOI",
+          "href": "#"
+      }
   ],
 
-  "title": "How will you build your Request for Information (EoI)?",
+  "title": "Choose how to build your EOI",
   "subtitle": null,
   "form": {
-    "question": "How will you build your Request for Information (EoI)? ",
-    "radioOptions": {
-      "idPrefix": "ccs_eoi_type",
-      "name": "ccs_eoi_type",
-      "items": [
-        {
-          "value": "all_online",
-          "text": "Provide all information online",
-          "hint": {
-            "text": "The Procurement Portal will guide you in this process step-by-step. "
-          }
+    "question": "You can choose to either enter the information online to build your EOI or upload your own document.",
+      "radioOptions": {
+          "idPrefix": "ccs_eoi_type",
+          "name": "ccs_eoi_type",
+          "items": [
+            {
+              "value": "all_online",
+              "text": "Enter all the information online",
+              "hint": {
+                "text": "Enter all the information needed to build your EoI and submit to the suppliers."
+              }
+
+            },
+            {
+              "value": "all_offline",
+              "text": "Complete and upload a document",
+              "hint": {
+                "text": "Use this option to prepare your EoI offline and then upload it."
+              }
+            }
+          ]
         },
-        {
-          "value": "all_offline",
-          "text": "Complete a document offline",
-          "hint": {
-            "text": "You'll be able to download a template, fill it offline and resume the process when you’re ready to upload it into the Portal. "
-          }
-        }
-      ]
-    },
-    "backJump": {
-      "title": " Return to Run pre-market engagement",
-      "href": "#"
-    }
+      "backJump": {
+          "title": " Return to pre-market engagement",
+          "href": "#"
+      }
   }
 }
