@@ -16,9 +16,9 @@
   ],
 
   "title": "Choose how to build your EOI",
-  "subtitle": "You can choose to either enter the information online to build your EOI or upload your own document.",
+  "subtitle": null,
   "form": {
-    "question": "Choose how to build your EOI",
+    "question": "You can choose to either enter the information online to build your EOI or upload your own document.",
       "radioOptions": {
           "idPrefix": "ccs_eoi_type",
           "name": "ccs_eoi_type",
