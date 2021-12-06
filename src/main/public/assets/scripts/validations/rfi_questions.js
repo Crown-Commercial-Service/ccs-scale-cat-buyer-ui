@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  if (document.getElementById("ccs_rfi_questions_form") !== null) {
+  if (document.getElementById("ccs_rfi_questions_form") !== null || document.getElementById("ccs_eoi_questions_form") !== null) {
 
     let with_value_count = 10,
       prev_input = 0,
@@ -81,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let length = 11;
     while (--length) {
-      console.log(length);
       let element = document.querySelector("#rfi_question_" + length);
       element.addEventListener('focusout', (event) => {
         let eleValue = event.target.value;
