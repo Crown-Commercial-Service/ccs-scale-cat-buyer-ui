@@ -68,27 +68,24 @@
                 },
                 {
                     "Task": 2,
-                    "title": "Identify suppliers",
+                    "title": "Confirm which suppliers you want to approach",
                     "required": "optional",
-                    "status": "cannot start yet"
+                    "status": "cannot start yet",
+                    "link": "/rfi/suppliers"
                 },
                 {
                     "Task": 3,
-                    "title": "Set response date and time",
+                    "title": "Your RfI timeline",
                     "required": "mandatory",
-                    "status": "cannot start yet"
+                    "status": "cannot start yet",
+                    "link": "/rfi/response-date"
                 },
                 {
                     "Task": 4,
-                    "title": "Review contact details",
+                    "title": "Review and publish your RfI",
                     "required": "mandatory",
-                    "status": "cannot start yet"
-                },
-                {
-                    "Task": 5,
-                    "title": "Review and publish",
-                    "required": "optional",
-                    "status": "cannot start yet"
+                    "status": "cannot start yet",
+                    "link": "/rfi/review"
                 }
             ]
         }
