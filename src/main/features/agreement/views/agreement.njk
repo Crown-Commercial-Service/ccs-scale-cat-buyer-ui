@@ -33,7 +33,7 @@
             <dl class="ccs-desc-list">
               {% for item in sortedItems %}
                 <dt>
-                  <a href="/projects/selected-agreement?lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{item.number}}: {{item.name}}</a>
+                  <a href="/projects/selected-agreement?agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{item.number}}: {{item.name}}</a>
                   <span>Expires: <time>{{item.endDate}}</time>
                   </span>
                 </dt>
@@ -74,7 +74,7 @@
                       <dl class="ccs-desc-list">
                         {% for lot in agreement.lotDetails %}
                           <dt>
-                            <a href="/projects/selected-agreement?lotId={{lot.number}}&agreementLotName={{lot.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{lot.number}}: {{lot.name}}</a>
+                            <a href="/projects/selected-agreement?agreementId={{agreement.number}}&lotId={{lot.number}}&agreementLotName={{lot.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{lot.number}}: {{lot.name}}</a>
                             <span>Expires: <time>{{lot.endDate}}</time>
                             </span>
                           </dt>
