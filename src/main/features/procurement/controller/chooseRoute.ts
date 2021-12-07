@@ -17,7 +17,9 @@ const logger = Logger.getLogger('choseRoute');
  */
 export const GET_CHOOSE_ROUTE = (req: express.Request, res: express.Response) => {
    const releatedContent = req.session.releatedContent 
-   const windowAppendData = { data: cmsData, releatedContent }
+   const { isJaggaerError } = req.session;
+   req.session['isJaggaerError'] = false;
+   const windowAppendData = { data: cmsData, releatedContent, error: isJaggaerError }
    res.render('chooseRoute', windowAppendData);
 }
 
@@ -36,25 +38,28 @@ export const GET_CHOOSE_ROUTE = (req: express.Request, res: express.Response) =>
 */
 
 export const POST_CHOOSE_ROUTE= (req: express.Request, res: express.Response) => {
-
-   const choose_eoi_type = req.body['choose_eoi_type'][0]
+   if (req.body['choose_eoi_type'].length == 2){
+      const choose_eoi_type = req.body['choose_eoi_type'][0]
   
-  switch (choose_eoi_type) {
-     case 'EOI':
-        // eslint-disable-next-line no-case-declarations
-        const redirect_address = EOI_PATHS.GET_TASKLIST;
-        logger.info("EOI Route selected");
-        res.redirect(redirect_address);
-        break;
-
-     case 'RFI':
-        // eslint-disable-next-line no-case-declarations
-        const newAddress = RFI_PATHS.GET_TASKLIST;
-        logger.info("RFI Route selected");
-        res.redirect(newAddress);
-        break;
-
-     default: res.redirect('/404');
-  }
-
+      switch (choose_eoi_type) {
+         case 'EOI':
+            // eslint-disable-next-line no-case-declarations
+            const redirect_address = EOI_PATHS.GET_TASKLIST;
+            logger.info("EOI Route selected");
+            res.redirect(redirect_address);
+            break;
+    
+         case 'RFI':
+            // eslint-disable-next-line no-case-declarations
+            const newAddress = RFI_PATHS.GET_TASKLIST;
+            logger.info("RFI Route selected");
+            res.redirect(newAddress);
+            break;
+    
+         default: res.redirect('/404');
+      }
+   } else {
+      req.session['isJaggaerError'] = true;
+      res.redirect('/projects/events/choose-route');
+   }
 }

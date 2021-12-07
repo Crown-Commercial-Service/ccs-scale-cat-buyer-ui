@@ -37,8 +37,6 @@ export const POST_TYPE = (req: express.Request, res: express.Response) => {
    const projectId = req.session['projectId']
    const event_id = req.session['eventId'];
 
-
-
    const filtered_body_content_removed_rfi_key = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_rfi_type');
 
    const { ccs_rfi_type } = filtered_body_content_removed_rfi_key;

@@ -33,7 +33,7 @@
             <dl class="ccs-desc-list">
               {% for item in sortedItems %}
                 <dt>
-                  <a href="/projects/selected-agreement?agreementName={{agreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{item.number}}: {{item.name}}</a>
+                  <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{item.number}}: {{item.name}}</a>
                   <span>Expires: <time>{{item.endDate}}</time>
                   </span>
                 </dt>
