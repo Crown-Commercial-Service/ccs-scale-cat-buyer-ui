@@ -1,0 +1,53 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "Choose your route to market",
+            "href": "#"
+        }
+
+    ],
+
+    "title": "Choose your route to market",
+    "subtitle": null,
+    "form": {
+        "question": "Choose from the options below",
+        "radioOptions": {
+            "idPrefix": "ccs_chose_route",
+            "name": "ccs_rfi_type",
+            "items": [
+              {
+                "value": "EOI",
+                "text": "Expression of Interest",
+                "hint": {
+                  "text": "Find out if suppliers are interested in bidding for your project, and can offer the products or services needed. If a supplier does not respond to an EoI sent from the buyer, they cannot bid for the opportunity later."
+                }
+
+              },
+              {
+                "value": "RFI",
+                "text": "Request for Information",
+                "hint": {
+                  "text": "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them."
+                }
+              }
+            ]
+          },
+        "backJump": {
+            "title": "Return to procurement overview",
+            "href": "/projects/create-or-choose"
+        }
+
+    }
+}

@@ -74,6 +74,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
                 req.session['agreementEndDate'] = "";
                 req.session['agreementDescription'] = "";
                 req.session['nonOCDSList'] = "";
+                req.session['selectedRoute'] = "";
                 next();
             } else {
                 logger.info("User redirected to logout")

@@ -1,0 +1,84 @@
+{% extends "template.njk" %}
+
+{% set title = 'How will you publish your RfI? | Contract a Thing' %}
+
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+{% endblock %}
+
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                    {{data.title }}
+                </h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %}
+
+                <p class="govuk-body-l">{{ data.form.question }}</p>
+
+                <form id="ccs_event_type_form" name="ccs_event_type_form" class="form ccs_event_type_form" action="/projects/events/choose-route" method="POST">
+
+                    {% set formOptions = data.form.radioOptions.items %}
+
+                    {% set form_Options_Altered = [] %}
+
+                    {% for item in formOptions %}
+                        {% set form_Options_Altered = (form_Options_Altered.push(
+             {
+               value: item.value,
+              html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+              hint : {
+                text: item.hint.text
+              }
+              }
+             ), form_Options_Altered) 
+             
+             %}
+
+                    {% endfor %}
+
+                    {{ CCSRadios({
+                idPrefix: "choose_eoi_type",
+                name: "choose_eoi_type",
+                items: form_Options_Altered               
+              }) }}
+
+                    {{ CCSInput({
+                id: "choose_eoi__type",
+                name: "choose_eoi_type",
+                type: "hidden",
+                value: true
+              }) }}
+
+                    <div class="govuk-button-group">
+                        {{ CCSButton({
+                text: "Save and continue"
+                }) }}
+                        <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+                    </div>
+                </form>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                <div class="ccs-callout-panel">
+                    <h2 class="govuk-heading-m">Related content</h2>
+                    <p class="govuk-body">
+                        <a class="govuk-link govuk-link--no-visited-state" href="/agreement/lot?no=1" target="_blank">Digital Specialists and Programmes, Lot 1: Programmes </a>
+                    </p>
+                    <!-- <p class="govuk-body"><a href="#">Link to external resource</a> </p>
+        <p class="govuk-body"><a href="#">Link to external resource</a> </p> -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+{% endblock %}
