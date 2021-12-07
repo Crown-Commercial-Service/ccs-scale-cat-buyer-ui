@@ -1,4 +1,6 @@
 import { PROCUREMENT } from './procurement';
+import { ROUTE_TO_MARKET } from './routeToMarket';
+import { GET_CHOOSE_ROUTE, POST_CHOOSE_ROUTE } from './chooseRoute';
 
 /**
  * @BaseController
@@ -7,5 +9,8 @@ import { PROCUREMENT } from './procurement';
  * @description Provides as Base for all Controller
  */
 export const associatedViews = {
-    PROCUREMENT
+    PROCUREMENT,
+    ROUTE_TO_MARKET,
+    GET_CHOOSE_ROUTE,
+    POST_CHOOSE_ROUTE
 }

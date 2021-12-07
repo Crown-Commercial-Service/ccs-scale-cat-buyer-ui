@@ -34,7 +34,7 @@
             "eventno": 2,
             "eventTitle": "Do pre-market engagement",
             "buttonText": "Start pre-market engagement",
-            "href": "/rfi/rfi-tasklist",
+            "href": "/projects/routeToMarket",
             "sections" : ["You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or refine your needs. For the lot you selected, you can choose one of the options below:"],
             "subsections": [["<b>Expression of Interest (EoI)</b>","Find out if suppliers are interested in bidding for your project, and can offer the products or services needed. If a supplier does not respond to an EoI sent from the buyer, they cannot bid for the opportunity later."],
                             ["<b>Request for Information (RfI)</b>",
