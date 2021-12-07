@@ -17,13 +17,15 @@
       "href": "#"
     },
     {
-      "text": "Build your Request for Information (EOI)",
+      "text": "Build your Expression of Interest (EoI)",
       "href": "#"
     }
   ],
 
-  "title": "Build your Eoi",
+  "title": "Build your Expression of Interest",
   "subtitle": null,
+  "line1": "Follow each of the steps below to build your EoI.",
+  "line2": "If a step is optional you don’t have to complete it but it may help the supplier to give you further details about what they can offer.",
   "taskList": [
     {
       "title": "Information you are looking for",

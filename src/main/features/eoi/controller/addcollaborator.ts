@@ -72,7 +72,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       agreementLotName,
       error: isJaggaerError,
     };
-    res.render('add-collaborator', windowAppendData);
+    res.render('add-collaborator-eoi', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
