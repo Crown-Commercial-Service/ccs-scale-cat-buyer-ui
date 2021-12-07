@@ -122,6 +122,11 @@ export default function (app: Application): void {
     app.post(RFI_PATHS.POST_RESPONSE_DATE, AUTH, associatedViews.POST_RESPONSE_DATE )
 
 
+    ///rfi/review
+    app.post(RFI_PATHS.POST_RFI_REVIEW, AUTH, associatedViews.POST_RFI_REVIEW )
+
+
+
 
 
 }
