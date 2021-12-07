@@ -13,6 +13,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
    const { projectId, isJaggaerError } = req.session;
    req.session['isJaggaerError'] = false;
    const { rfi_procurement_lead: userParam } = req.query
+   const releatedContent = req.session.releatedContent 
 
    const url = `/tenders/projects/${projectId}/users`;
    try {
@@ -53,7 +54,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       req.session['selectedUser'] = selectedUser;
       req.session['users'] = users;
       
-      const windowAppendData = { userdata: users, selectedUser, lotId, agreementLotName, error: isJaggaerError }
+      const windowAppendData = { userdata: users, selectedUser, lotId, agreementLotName, error: isJaggaerError, releatedContent }
       res.render('procurementLead', windowAppendData);
    } catch (error) {
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,

@@ -52,6 +52,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
          const lotId = req.session?.lotId;
          const agreementLotName = req.session.agreementLotName;
          const ExcludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(AField => AField.OCDS.id !== "Group Key Dates");
+         const releatedContent = req.session.releatedContent 
          const display_fetch_data = {
             data: ExcludingKeyDates,
             agreement_id: agreement_id,
@@ -60,9 +61,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             event_id: event_id,
             lotId,
             agreementLotName,
-            "relatedTitle": "Related content",
-            "lotURL": "/agreement/lot?agreement_id="+req.session.agreement_id+"&lotNum="+req.session.lotId.replace(/ /g,"%20"),
-            "lotText" : req.session.agreementName+', '+ req.session.agreementLotName
+            releatedContent: releatedContent
          }
          res.render('onlinetasklist', display_fetch_data);
       } catch (error) {

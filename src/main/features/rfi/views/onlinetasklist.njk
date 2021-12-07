@@ -1,4 +1,5 @@
 {% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% set title = 'Provide information online | Contract a Thing' %}
 {% set url -%}
@@ -67,12 +68,7 @@
             </p>
         </div>
         <div class="govuk-grid-column-one-third">
-            <div class="ccs-callout-panel">
-                <h2 class="govuk-heading-m">{{relatedTitle}}</h2>
-                <p class="govuk-body">
-                    <a class="govuk-link govuk-link--no-visited-state" href={{ lotURL | safe }} target="_blank">{{lotText}}</a>
-                </p>
-            </div>
+            {{ CCSReleatedContent(releatedContent) }}
         </div>
     </div>
     </main>

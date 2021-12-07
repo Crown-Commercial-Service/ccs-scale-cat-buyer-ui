@@ -60,6 +60,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
       const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
+      const releatedContent = req.session?.releatedContent; 
       const display_fetch_data = {
         data: select_default_data_from_fetch_dynamic_api,
         agreement_id: agreement_id,
@@ -68,13 +69,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
         event_id: event_id,
         lotId,
         agreementLotName,
-        relatedTitle: 'Related content',
-        lotURL:
-          '/agreement/lot?agreement_id=' +
-          req.session.agreement_id +
-          '&lotNum=' +
-          req.session.lotId.replace(/ /g, '%20'),
-        lotText: req.session.agreementName + ', ' + req.session.agreementLotName,
+        releatedContent: releatedContent
       };
       res.render('onlinetasklistEoi', display_fetch_data);
     } catch (error) {

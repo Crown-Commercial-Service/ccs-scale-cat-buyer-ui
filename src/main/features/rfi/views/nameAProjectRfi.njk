@@ -1,4 +1,5 @@
 {% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% set title = 'Name project | Contract a Thing' %}
 {% set url -%}
@@ -83,10 +84,7 @@
       </form>
  </div>
       <div class="govuk-grid-column-one-third">
-         <div class="ccs-callout-panel">
-            <h2 class="govuk-heading-m">Related content</h2>
-            <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="/agreement/DSP/lot?no=1" target="_blank">Digital Specialists and Programmes, Lot 1: Programmes </a> </p>
-         </div>
+        {{ CCSReleatedContent(releatedContent) }}
       </div>
    </div>
   </main>

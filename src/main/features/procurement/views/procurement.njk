@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 
 {% from "components/support/macro.njk" import howToGetSupport %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% block content %}
 {{ CCSBreadcrumbs({
@@ -64,10 +65,7 @@
          </ol>
       </div>
       <div class="govuk-grid-column-one-third">
-         <div class="ccs-callout-panel">
-            <h2 class="govuk-heading-m">{{related.title}}</h2>
-            <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href={{ lotURL | safe }} target="_blank">{{lotText}}</a> </p>
-         </div>
+         {{ CCSReleatedContent(releatedContent) }}
       </div>
    </div>
 </main>

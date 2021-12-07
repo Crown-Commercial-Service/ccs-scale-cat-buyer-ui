@@ -58,6 +58,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
    
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
+      const releatedContent = req.session.releatedContent 
       const windowAppendData = {
          data: cmsData,
          userdata: filteredListofOrganisationUser,
@@ -68,7 +69,8 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
          userIsLead,
          lead_data: leadUser,
          agreementLotName,
-         error: isJaggaerError
+         error: isJaggaerError,
+         releatedContent: releatedContent
       }
       res.render('add-collaborator', windowAppendData);
    } catch (error) {

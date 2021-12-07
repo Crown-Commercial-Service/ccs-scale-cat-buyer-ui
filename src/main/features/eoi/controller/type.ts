@@ -12,8 +12,8 @@ export const GET_TYPE = (req: express.Request, res: express.Response) => {
   const lotURL =
     '/agreement/lot?agreement_id=' + req.session.agreement_id + '&lotNum=' + req.session.lotId.replace(/ /g, '%20');
   const lotText = req.session.agreementName + ', ' + req.session.agreementLotName;
-
-  const windowAppendData = { data: cmsData, agreement_id: agreement_id, relatedTitle, lotURL, lotText };
+  const releatedContent = req.session.releatedContent 
+  const windowAppendData = { data: cmsData, agreement_id: agreement_id, releatedContent };
   res.render('typeEoi', windowAppendData);
 };
 
