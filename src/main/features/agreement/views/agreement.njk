@@ -4,40 +4,98 @@
 
 {% set title = 'Choose a commercial agreement | Contract a Thing' %}
 {% block content %}
-{{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl">
-       {{data.line1}}
-      </h1>
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.line1}}
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <p class="govuk-body-l">{{data.line2}}</p>
+        <div class="ccs-choose-agreement">
+          <div class="ccs-page-section">
+            {% if agreement_id %}
+              <h2 class="govuk-heading-m">{{selectedAgreement.name}}
+                <span>Agreement number: {{agreement_id}}</span>
+              </h2>
+              <p class="govuk-body">{{selectedAgreement.description | safe}}</p>
+              <p class="govuk-body">
+                <a target="_blank" href="{{selectedAgreement.detailUrl}}" class="govuk-link govuk-link--no-visited-state">{{data.line5}}
+                  <span class="visuallyhidden">{{selectedAgreement.name}}</span></a>
+              </p>
+            </div>
+            <dl class="ccs-desc-list">
+              {% for item in sortedItems %}
+                <dt>
+                  <a href="/projects/selected-agreement?agreementName={{agreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{item.number}}: {{item.name}}</a>
+                  <span>Expires: <time>{{item.endDate}}</time>
+                  </span>
+                </dt>
+                <dd>
+                  <p class="govuk-body"></p>
+                  <p class="govuk-body">
+                    <a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
+                      <span class="visuallyhidden">for {{item.number}}: {{item.name}}</span></a>
+                  </p>
+                </dd>
+              {% endfor %}
+            </dl>
+          {% endif %}
+        </div>
+
+        <h2 class="govuk-heading-m">{{data.line6}}</h2>
+
+        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+          {% for agreement in agreements %}
+            {% if agreement_id != agreement.number %}
+              <div class="govuk-accordion__section ">
+                <div class="govuk-accordion__section-header">
+                  <h2 class="govuk-accordion__section-heading">
+                    <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                      {{agreement.name}} ({{agreement.number}})
+                    </span>
+                  </h2>
+                </div>
+                <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+                  <div class="ccs-choose-agreement">
+                    <div class="ccs-page-section">
+                        <p class="govuk-body">{{agreement.description | safe}}</p>
+                        <p class="govuk-body">
+                          <a target="_blank" href="{{agreement.detailUrl}}" class="govuk-link govuk-link--no-visited-state">{{data.line5}}
+                            <span class="visuallyhidden">{{agreement.name}}</span></a>
+                        </p>
+                      </div>
+                      <dl class="ccs-desc-list">
+                        {% for lot in agreement.lotDetails %}
+                          <dt>
+                            <a href="/projects/selected-agreement?agreementName={{agreement.name}}&agreementId={{agreement.number}}&lotId={{lot.number}}&agreementLotName={{lot.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{lot.number}}: {{lot.name}}</a>
+                            <span>Expires: <time>{{lot.endDate}}</time>
+                            </span>
+                          </dt>
+                          <dd>
+                            <p class="govuk-body"></p>
+                            <p class="govuk-body">
+                              <a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
+                                <span class="visuallyhidden">for {{lot.number}}: {{lot.name}}</span></a>
+                            </p>
+                          </dd>
+                        {% endfor %}
+                      </dl>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+      </div>
     </div>
   </div>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-      <p class="govuk-body-l">{{data.line2}}</p>
-      <div class="ccs-choose-agreement">
-        <div class="ccs-page-section">
-          <h2 class="govuk-heading-m">{{data.line3}} <span>Agreement number: {{agreement_id}}</span> </h2>
-          <p class="govuk-body">{{data.line4}}</p>
-          <p class="govuk-body">
-            <a href="/agreement?id=RM6263" class="govuk-link govuk-link--no-visited-state">{{data.line5}}<span class="visuallyhidden">the Digital Specialists and Programmes </span></a>
-          </p>
-        </div>
-        <dl class="ccs-desc-list">
-          {% for item in sortedItems %}
-          <dt><a href="/projects/selected-agreement?lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{item.number}}: {{item.name}}</a> <span>Expires: <time>{{item.endDate}}</time> </span></dt>          <dd>
-            <p class="govuk-body"></p>
-            <p class="govuk-body"><a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.description}} <span class="visuallyhidden">for Lot 2: Digital Outcomes</span></a> </p>
-          </dd>
-          {% endfor %}
-        </dl>
-      </div>
-      <h2 class="govuk-heading-m">{{data.line6}}</h2>
-      </div>
-      </div>
-    </div>
-  </main>
+</main>
 {% endblock %}

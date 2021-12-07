@@ -1,0 +1,205 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+
+{% set lead = lead.OCDS.contact.email %}
+
+
+{% set organisationUser = userdata%}
+
+{% set sortedMembers = [{value: "", text: "Please select a colleague to be added"}] %}
+{% for user in organisationUser %}
+  {% if user.userName !== lead%}
+    {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
+  {%endif %}  
+{% endfor %}
+
+{% set title = 'Complete and upload a document | Contract a Thing' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+       items: [
+        {
+        text: "Dashboard",
+        href: "/dashboard"
+        },
+        {
+        text: "Choose a commercial agreement",
+        href: "/projects/choose-agreement"
+        },
+        {
+        text: "Procurement overview",
+        href: url
+        },
+        {
+        text: "Do pre-market engagement",
+        href: "/eoi/eoi-tasklist"
+        },
+        {
+        text: "Add colleagues "
+        }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "you cannot add this use. Please try with another user"
+    }
+  ]
+}) }}
+{%endif %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">
+      {{data.title}}
+    </h1>
+     {% include "includes/project_header.njk" %}
+  </div>
+</div>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+
+    <p class="govuk-body">{{data.content.p1}}</p>
+
+    <p class="govuk-body">{{data.content.p2}} <a class="govuk-link govuk-link--no-visited-state"
+        href="{{data.content.a1.href}}">{{data.content.a1.text}}</a></p>
+
+    <p class="govuk-body">{{data.content.p3}}</p>
+      
+      {{ CCSInsetText({
+        html: '<p class="govuk-body">If you are the lead on this project you can add four colleagues.<br>
+          If you are not the lead you can add three colleagues.</p>'
+        }) }}
+
+    <p class="govuk-body">{{data.content.p4}} </p>
+
+  {% set noOfUser = 0%}
+
+  {%if(userIsLead)%}
+  {% set noOfUser = 5%}
+  {%else%}
+{% set noOfUser = 4%}
+  {%endif%}
+
+
+
+  {%if(collaborators.length < noOfUser)%}
+         <div class="ccs-page-section">
+        <p class="govuk-body">Select and add colleagues</p>
+        <form method="POST" action="/eoi/get-collaborator-detail">
+         <div class="govuk-button-group">
+        {{ CCSSelect({
+        id: "eoi_collaborators",
+        name: "eoi_collaborators",
+        items: sortedMembers
+        })
+        }}
+        &nbsp;
+         {{ CCSButton({
+        text: "Add",
+         attributes: {
+        id: "ccs_collab_view"
+        },
+        type: "submit"
+        }) }}
+        </div>
+        </form>
+      </div>
+
+      <form method="POST" action="/eoi/add-collaborator-detail" >
+      <div class="ccs-page-section" id="potential-collaborator">
+        <div id="potential-collaborator-detail">
+          <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
+          </p>
+          <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="show_collab_email" > {{collaborator['email']}}<span></p>
+          <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="show_collab-phone">{{collaborator['tel']}}</span></p>
+        </div>
+
+        {{ CCSInput({
+            id: "eoi_collaborator_append",
+            name: "eoi_collaborator",
+            type: "hidden",
+            value: collaborator['email']
+            }) }}
+
+        {{ CCSButton({
+        text: "Add colleague",
+        attributes: {
+        id: "ccs_collab_add"
+        },
+        classes: "govuk-button--secondary"
+        }) }}
+
+      </div>
+
+      </form>
+      {%endif%}
+      <div id="collaborators-section">
+        {% for collaborator in collaborators %}
+        {% if collaborator.OCDS.contact.email !== lead %}
+        <div class="ccs-page-section" id="eoi_collaborator_{{collaborator.id}}">
+          <div id="collaborator-detail">
+            <a href='{{collaborator.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
+            </a>
+            <p class="govuk-body"><strong>{{data.content.collegue.name}}<span id="collab_no"></span>: </strong><span
+                id="collab_name">{{collaborator.OCDS.contact.name}}</span></p>
+            <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="collab_email">{{ collaborator.OCDS.contact.email}}</span></p>
+            <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="collab_tel">{{ collaborator.OCDS.contact.telephone }}</span></p>
+          </div>
+        </div>
+        {%endif%}
+        {% endfor%}
+      </div>
+
+
+
+      <div class="ccs-page-section" id="lead-user-section">
+        <p class="govuk-body"><strong>{{data.content.lead.name}} </strong> {{lead_data.OCDS.contact.name}}</p>
+        <p class="govuk-body"><strong>{{data.content.lead.email}} </strong>{{  lead_data.OCDS.contact.email }}</p>
+        <p class="govuk-body"><strong>{{data.content.lead.tel}} </strong>{{  lead_data.OCDS.contact.telephone }}</p>
+      </div>
+      <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
+      <br>
+<form  class="form ccs_add_eoi_collab" method="POST" action="/eoi/proceed-collaborators" method="post">
+
+      {{ CCSInput({
+      id: "eoi_collaborators_added",
+      name: "eoi_collaborators_added",
+      type: "hidden",
+      value: true
+      }) }}
+
+      <div class="govuk-button-group">
+        {{ CCSButton({
+        text: "Save and continue"
+        }) }}
+        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+      </div>
+
+
+    </form>
+
+ </div>
+      <div class="govuk-grid-column-one-third">
+         {{ CCSReleatedContent(releatedContent) }}
+      </div>
+   </div>
+  </main>
+{% endblock %}

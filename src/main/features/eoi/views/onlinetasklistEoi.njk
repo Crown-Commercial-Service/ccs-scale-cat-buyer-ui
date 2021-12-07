@@ -1,0 +1,76 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% set title = 'Provide information online | Contract a Thing' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+          items:[
+        {
+            text: "Dashboard",
+            href: "/"
+        },
+        {
+            text: "Choose a commericial agreement",
+            href: "/projects/choose-agreement"
+        },
+        {
+            text: "Procurement overview",
+            href: url
+        },
+        {
+          text: "Do pre-market engagement",
+          href: "/eoi/eoi-tasklist"
+        },
+        {
+          text: "Build your Expression of Interest",
+          href: "#"
+      }
+
+    ]
+        }) }}
+{% endblock %}
+
+{% block content %}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <h1 class="govuk-heading-l">{{file_data.title }}</h1>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop ">
+        <div class="govuk-!-margin-bottom-6">
+        {% include "includes/project_header.njk" %}
+        </div>
+        <p class="govuk-body">{{file_data.line1}}</p>
+        <p class="govuk-body">{{file_data.line2}}</p>
+            <ul class="app-task-list ccs-eoi-buildtask-list">
+                {% for items in data %}
+
+                    <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                            <strong>{{items.OCDS.description}}</strong>
+                        </span>
+                        {% set hreflink = items.OCDS.description | replace(" ", "_") %}
+                        {% set criterion_id = items.id | replace(" ", "_") %}
+                        <a class="app-task-list__tag" href="/eoi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}" aria-describedby="eoi-questions">{{items.nonOCDS.task}}</a>
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+            <br>
+            <br>
+            <p class="govuk-body">
+                <a href="{{file_data.backJump.href }}" class="govuk-link govuk-link--no-visited-state">{{file_data.backJump.title }}</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-third"> {{releatedContent.title}}
+            {{ CCSReleatedContent(releatedContent) }}
+        </div>
+    </div>
+    </main>
+{% endblock %}

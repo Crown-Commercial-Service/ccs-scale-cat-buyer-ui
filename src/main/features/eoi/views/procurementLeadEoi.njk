@@ -1,0 +1,132 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% set title = 'Lead Procurement | Contract a Thing' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{% block breadCrumb %}
+   {{ CCSBreadcrumbs({
+    items: [
+      {
+         text: "Dashboard",
+         href: "/dashboard"
+      },
+      {
+         text: "Choose a commericial agreement",
+         href: "/projects/choose-agreement"
+      },
+      {
+         text: "Procurement overview",
+         href: url
+      },
+      {
+         text: "Do pre-market engagement",
+         href: "/eoi/eoi-tasklist"
+      },
+      {
+         text: "Change who is going to lead the procurement",
+         href: "#"
+      }
+    ]
+      }) }}
+{% endblock %}
+
+{% set sortedMembers = [
+   {
+      value: "",
+      text: "Please select procurement lead",
+      disabled: true
+   }
+] %}
+{% for user in userdata %}
+   {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name, selected: user.selected}), sortedMembers) %}
+{% endfor %}
+
+{% block content %}
+   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+      {% if (error) %}
+         {{ CCSErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+         {
+            text: "You cannot made this user lead. Please try with another user" 
+         }
+      ]
+      }) }}
+      {%endif %}
+      <div class="govuk-grid-row">
+         <div class="govuk-grid-column-full">
+            <h1 class="govuk-heading-xl">
+            Change who is going to lead the procurement
+         </h1>
+            {% include "includes/project_header.njk" %}
+         </div>
+      </div>
+      <div class="govuk-grid-row">
+         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            <br>
+            <div>
+               <p class="govuk-body">You are registered as the lead for this procurement. This means you will be the main point of contact for any questions submitted by suppliers.</p>
+               <p class="govuk-body">Use the drop-down box below to change the procurement leader. 
+               They will need to be registered with CCS.
+               If they’re not registered, send them this link to our <a href="#" class="govuk-link govuk-link--no-visited-state"> self-registration service</a>.
+            </p>
+               <p class="govuk-body">If you need to wait for them to register, you can return to the pre-market engagement section and complete this step later, or you can continue to the next step.</p>
+               <br>
+            </div>
+
+            <div class="form ccs_procurement_lead">
+               <p class="govuk-body">Select the procurement lead for this project:</p>
+               <form method="GET" id="ccs_eoi_procurement_lead" name="ccs_eoi_procurement_lead"  action="/eoi/procurement-lead">
+                  <div class="govuk-button-group">
+                     {{ CCSSelect({
+                     id: "eoi_procurement_lead",
+                     name: "eoi_procurement_lead",
+                     items: sortedMembers
+                  })
+               }}
+                  &nbsp;
+                  {{ CCSButton({
+                  text: "Add",
+                  type: "submit",
+                  classes: "add"
+                  }) }}
+                  </div>
+               </form>
+            </div>
+
+            <form class="form ccs_eoi_procurement_lead" action="/eoi/procurement-lead"
+            method="post">
+               <div id='selected_user_detail'>
+                  <p class="govuk-body">
+                     <strong>Email address: </strong>
+                     <span id="lead-email">{{selectedUser.email}}</span></p>
+                  <p class="govuk-body">
+                     <strong>Phone number: </strong>
+                     <span id="lead-telephone">{{selectedUser.telephone}}</span></p>
+               </div>
+               <br>
+               {{ CCSInput({
+               id: "eoi_procurement_lead_input",
+               name: "eoi_procurement_lead_input",
+               type: "hidden",
+               value: selectedUser.email
+            }) }}
+
+               <div class="govuk-button-group">
+                  {{ CCSButton({
+               text: "Save and continue"
+              }) }}
+                  <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+               </div>
+
+            </form>
+         </div>
+         <div class="govuk-grid-column-one-third">
+            {{ CCSReleatedContent(releatedContent) }}
+         </div>
+      </div>
+   </main>
+{% endblock %}

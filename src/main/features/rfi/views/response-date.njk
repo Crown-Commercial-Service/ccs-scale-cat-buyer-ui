@@ -1,0 +1,207 @@
+{% extends "template.njk" %}
+
+{% set title = 'RfI - response date | Crown Commercial Service' %}
+
+
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+{% endblock %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title }}
+        </h1>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        {% include "includes/project_header.njk" %}
+
+        {{prompt | safe}}
+       
+        <div class="govuk-form-group ccs-page-section">
+            <p class="govuk-body-l"><strong>Timeline for your RfI</strong></p> <br>
+        </div>
+
+        
+         {% block valuewitNoMultiSelect %}
+         {% for requirement in framework%}
+            {% if (requirement.nonOCDS.questionType === 'Value') and (requirement.nonOCDS.multiAnswer === false) %}
+             
+            <div class="govuk-form-group ccs-page-section rfi_publish_date">
+                <p class="govuk-body"><span>{{loop.index}} &nbsp; </span>{{requirement.OCDS.title}}</p>
+
+               
+
+                <div id="rfi_clarification_date">
+
+                    {% if(requirement.nonOCDS.options[0].selected)%}
+                <label class="govuk-label govuk-body"><strong id="lbl-clarification">{{ requirement.nonOCDS.options[0].value }}</strong></label>
+                {%endif %}
+                
+                {% if( requirement.nonOCDS.options.length == 0)%}
+                <label class="govuk-label govuk-body"><strong id="lbl-clarification">{{ rfi_clarification_date}}</strong></label>
+                {%endif%}
+
+                {%if (requirement.OCDS.id !== "Question 1")%}
+
+                    <a href="#rfi_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
+                        class="govuk-link govuk-link--no-visited-state change">change</a>
+                </div>
+
+                <div id="rfi_clarification_date_expanded_{{loop.index}}">
+                    <div>
+                        <label class="govuk-label govuk-body"><strong id="lbl-clarification_copy">{{
+                                clarification_date_string }}</strong></label>
+                        <br> <a href="#rfi_clarification_date_{{loop.index}}"  id="cancel_change_clarification_date_{{loop.index}}"
+                            class="govuk-link govuk-link--no-visited-state ">I do not want to change this date and time</a>
+                    </div>
+                    <br>
+                    <form action="/rfi/add/response-date" method="post">
+                    <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
+
+                        <div class="govuk-date-input" id="clarification_date">
+
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-day">
+                                        Day
+                                    </label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                        id="clarification_date-day" name="clarification_date_day" type="text"
+                                        pattern="[0-9]*" inputmode="numeric"
+                                        value="{{ data['clarification_date-day'] }}">
+                                </div>
+                            </div>
+
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-month">
+                                        Month
+                                    </label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                        id="clarification_date-month" name="clarification_date_month" type="text"
+                                        pattern="[0-9]*" inputmode="numeric"
+                                        value="{{ data['clarification_date-month'] }}">
+                                </div>
+                            </div>
+
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-year">
+                                        Year
+                                    </label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                        id="clarification_date-year" name="clarification_date_year" type="text"
+                                        pattern="[0-9]*" inputmode="numeric"
+                                        value="{{ data['clarification_date-year'] }}">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_time">
+
+                        <div class="govuk-date-input" id="clarification_time">
+
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-hour">
+                                        Hour
+                                    </label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                        id="clarification_date-hour" name="clarification_date_hour" type="text"
+                                        pattern="[0-9]*" inputmode="numeric"
+                                        value="{{ data['clarification_date-hour'] }}">
+                                </div>
+                            </div>
+
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-minute">
+                                        Minutes
+                                    </label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                        id="clarification_date-minute" name="clarification_date_minute" type="text"
+                                        pattern="[0-9]*" inputmode="numeric"
+                                        value="{{ data['clarification_date-minute'] }}">
+                                </div>
+                            </div>
+
+                            <div class="govuk-date-input__item">
+                                {{ CCSSelect({
+                                id: "clarification_date-hourFormat",
+                                name: "clarification_date_hourFormat",
+                                classes: "",
+                                items: [
+                                { value:"",
+                                text:"Please select"
+                                },
+                                { value:"AM",
+                                text:"AM"
+                                },
+                                { value:"PM",
+                                text:"PM"
+                                }
+                                ]
+                                })
+                                }}
+                            </div>
+                        </div>
+                    </fieldset>
+                    
+
+                    {{ CCSInput({
+                    id: "selected_question_id",
+                    name: "selected_question_id",
+                    type: "hidden",
+                    value: requirement.OCDS.id
+                    }) }}
+                    <br><br>
+                    {{ CCSButton({
+                    attributes: {
+                    id: "save_clarification_date"
+                    },
+                    text: "Save New Date"
+                    }) }}
+                    </form>
+                    {%endif%}
+                </div>
+            </div>
+            {% endif %}
+            {%endfor%}
+          {% endblock %}
+
+
+
+
+
+<div class="govuk-button-group">
+<form method="post" action="/rfi/response-date">   
+                {{ CCSInput({
+                    id: "timeStamp",
+                    name: "timeStamp",
+                    type: "hidden",
+                    value: rfi_clarification_date
+                    }) }}
+
+
+<button class="govuk-button" data-module="govuk-button">
+  Save and continue
+</button>
+
+</form>
+                <a href="/rfi/rfi-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+            </div>
+
+        </div>
+
+  </main>
+
+{% endblock %}

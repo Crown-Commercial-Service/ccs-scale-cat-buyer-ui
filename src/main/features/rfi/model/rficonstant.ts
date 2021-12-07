@@ -16,12 +16,12 @@ export enum RFI_PATHS {
     GET_ADD_COLLABORATOR = '/rfi/add-collaborators',
     GET_USER_PROCUREMENT = '/rft/users-procurement-lead',
     GET_REMOVE_FILE = "/rfi/files/remove",
+    GET_RFI_SUPPLIERS = "/rfi/suppliers",
+    GET_RESPONSE_DATE = "/rfi/response-date",
+    GET_RFI_REVIEW = "/rfi/review",
 
     
     
-
-
-
     /**
      * @POSTROUTES
      */
@@ -35,7 +35,11 @@ export enum RFI_PATHS {
     PUT_LEAD_PROCUREMENT = '/rfi/procurement-lead',
     POST_PROCEED_COLLABORTORS = '/rfi/proceed-collaborators',
     POST_ADD_COLLABORATOR_JSENABLED = "/rfi/get-collaborator-detail/js-enabled",
-    POST_UPLOAD_DOC = "/rfi/upload-doc"
+    POST_UPLOAD_DOC = "/rfi/upload-doc",
+    POST_RFI_SUPPLIER = "/rfi/suppliers",
+    POST_RESPONSE_DATE = "/rfi/response-date",
+    POST_ADD_RESPONSE_DATA = "/rfi/add/response-date",
+    POST_RFI_REVIEW = "/rfi/review"
   
 
 }

@@ -1,0 +1,122 @@
+{% extends "template.njk" %}
+
+{% set title = 'Suppliers you want to approach | Crown Commercial Service' %}
+
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+{% endblock %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+        <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title }}
+        </h1>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        {% include "includes/project_header.njk" %}
+
+         <p class="govuk-body">{{total_suppliers }} {{data.data.supplier['text']}} <a href="{{data.data.supplier.href}}"
+                class="govuk-link govuk-link--no-visited-state"> {{data.data.supplier['href_text']}} </a></p>
+
+        <p class="govuk-body">You can choose to send your RfI to all suppliers on this list. We recommend sending it to
+            at least three. Not all suppliers will respond to your RfI.</p>
+
+        {{ CCSInsetText({
+        html: '<p class="govuk-body">'+data.data.Inset+'</p>'
+        }) }}
+        
+ <form id="ccs-rfi-suppliers-form" class="ccs-rfi-suppliers-form" action="/rfi/suppliers" method="POST">
+
+            <br>
+            <h2 class="govuk-heading-m"><span id="added_suppliers_count">
+                    {{data['rfi_selected_supplier_count']}}
+                </span> suppliers selected for this lot </h2>
+            <br>
+            <div class="govuk-button-group govuk-!-margin-bottom-9">
+                {{ CCSButton({
+                text: "Save and continue"
+                }) }}
+                <a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list
+                </a>
+                <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement
+                </a>
+            </div>
+              <div class=" ccs-page-section govuk-!-padding-top-3 govuk-!-padding-bottom-3">
+          <label class="govuk-label--m ccs-supplier-heading-left">Supplier</label>
+          <label class="govuk-label--m ccs-supplier-heading-right">Company size</label>
+            </div> 
+            <div id="page1" >
+                <div id="supplier-list ccs-page-section">
+                    <div class="govuk-form-group">
+                        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                            {% for supplier in suppliers_list %}
+                            <!-- <div class="ccs-page-section css-margin-bottom-10"> -->
+                            <div class="govuk-checkboxes__item css-margin-bottom-10 ccs-page-section" >
+                                
+                                <input class="govuk-checkboxes__input" id="rfi_required_suppliers" name="rfi_required_suppliers" type="checkbox"
+                                    value="{{supplier.id}}"  aria-describedby="rfi_required_suppliers-item-hint">
+                                <label class="govuk-label govuk-checkboxes__label" for="rfi_required_suppliers">
+                                    <h3 class="govuk-heading-m">{{supplier.legal_name}}</h3>
+                                </label>
+                                <span class="ccs-company-size">{{supplier.size}}</span>
+                                <div id="rfi_required_suppliers-item-hint" class="govuk-hint govuk-checkboxes__hint">
+                                   {% if supplier.trading_name | length > 0 %}
+                                    <label>{{supplier.trading_name}} </label> <br>
+                                    {% endif %}
+                                    <a class="govuk-link govuk-link--no-visited-state" href="{{supplier.link}}" target="_blank">View {{supplier.legal_name}} details</a>
+                                </div>
+                        </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                
+                </div>
+        
+            </div>
+
+            {{ CCSInput({
+            id: "rfi_selected_supplier_count",
+            name: "rfi_selected_supplier_count",
+            type: "hidden",
+            value: data['rfi_selected_supplier_count']
+            }) }}
+
+            {{
+            CCSInput({
+            id: "rfi_selected_suppliers",
+            name: "rfi_selected_suppliers",
+            type: "hidden",
+            value: data['rfi_selected_suppliers']
+            })
+            }}
+
+            {{ CCSInput({
+            id: "rfi_supplier_selected",
+            name: "rfi_supplier_selected",
+            type: "hidden",
+            value: true
+            }) }}
+            <br>
+            <div class="govuk-button-group">
+                {{ CCSButton({
+                text: "Save and continue"
+                }) }}
+                <a href="/rfi/rfi-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+            </div>
+
+        </form>
+
+        </div>
+
+  </main>
+
+{% endblock %}

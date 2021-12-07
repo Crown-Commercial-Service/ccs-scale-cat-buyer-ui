@@ -1,0 +1,82 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "#"
+    },
+    {
+      "text": "Procument overview",
+      "href": "#"
+    },
+    {
+      "text": "run pre-market engagement",
+      "href": "#"
+    },
+    {
+      "text": "Build your Expression of Interest (EoI)",
+      "href": "#"
+    },
+    {
+      "text": "Who is the buyer",
+      "href": "#"
+    }
+  ],
+  "title": "Who is the buyer?",
+  "name": "eoi_who",
+  "subtitle": "Tell us on whose behalf you will be inviting tenders?",
+  "form": {
+    "input": [
+      {
+        "label": {
+          "text": "Name of the Contracting Authority",
+          "classes": "govuk-label govuk-label--m"
+        },
+        "hint": {
+          "text": "Who is running the procurement?"
+        },
+        "id": "eoi_contracting_auth",
+        "name": "eoi_contracting_auth",
+        "value": ""
+      },
+
+      {
+        "label": {
+          "text": "Organisation you are buying on behalf of (optional)",
+          "classes": "govuk-label govuk-label--m"
+        },
+        "hint": {
+          "text": "If different from the Contracting Authority"
+        },
+        "id": "eoi_on_behalf_of",
+        "name": "eoi_on_behalf_of",
+        "value": ""
+      },
+      {
+        "label": {
+          "text": "Enter email address",
+          "classes": "govuk-label govuk-label--m"
+        },
+        "hint": {
+          "text": "If different from the Contracting Authority"
+        },
+        "id": "email",
+        "name": "email",
+        "value": ""
+      }
+    ],
+    "build_started": {
+      "id": "eoi_build_started",
+      "name": "eoi_build_started",
+      "type": "hidden",
+      "value": true
+    },
+    "backJump": {
+      "title": "Return to Build your Request for Information",
+      "href": "#"
+    }
+  }
+}
