@@ -16,8 +16,9 @@ const logger = Logger.getLogger('choseRoute');
  * 
  */
 export const GET_CHOOSE_ROUTE = (req: express.Request, res: express.Response) => {
-  const windowAppendData = { data: cmsData }
-  res.render('chooseRoute', windowAppendData);
+   const releatedContent = req.session.releatedContent 
+   const windowAppendData = { data: cmsData, releatedContent }
+   res.render('chooseRoute', windowAppendData);
 }
 
 

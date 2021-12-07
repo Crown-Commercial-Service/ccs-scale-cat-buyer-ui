@@ -67,6 +67,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       }
     });
     req.session?.nonOCDSList = nonOCDSList;
+    const releatedContent = req.session.releatedContent 
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data);
     const { isFieldError } = req.session;
@@ -84,10 +85,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       error: req.session['isLocationError'],
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,
-      relatedTitle: 'Related content',
-      lotURL:
-        '/agreement/lot?agreement_id=' + req.session.agreement_id + '&lotNum=' + req.session.lotId.replace(/ /g, '%20'),
-      lotText: req.session.agreementName + ', ' + req.session.agreementLotName,
+      releatedContent: releatedContent,
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;

@@ -71,6 +71,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       lead_data: leadUser,
       agreementLotName,
       error: isJaggaerError,
+      releatedContent: req.session.releatedContent,
     };
     res.render('add-collaborator-eoi', windowAppendData);
   } catch (error) {

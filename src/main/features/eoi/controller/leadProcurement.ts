@@ -54,8 +54,8 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
 
     req.session['selectedUser'] = selectedUser;
     req.session['users'] = users;
-
-    const windowAppendData = { userdata: users, selectedUser, lotId, agreementLotName, error: isJaggaerError };
+    const releatedContent = req.session.releatedContent 
+    const windowAppendData = { userdata: users, selectedUser, lotId, agreementLotName, error: isJaggaerError, releatedContent };
     res.render('procurementLeadEoi', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(

@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 
 {% from "components/support/macro.njk" import howToGetSupport %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 
 {% set lead = lead.OCDS.contact.email %}
@@ -197,10 +198,7 @@
 
  </div>
       <div class="govuk-grid-column-one-third">
-         <div class="ccs-callout-panel">
-            <h2 class="govuk-heading-m">{{data.related.title}}</h2>
-            <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="{{data.related.content.href}}" target="_blank">{{data.related.content.text}}</a> </p>
-         </div>
+         {{ CCSReleatedContent(releatedContent) }}
       </div>
    </div>
   </main>

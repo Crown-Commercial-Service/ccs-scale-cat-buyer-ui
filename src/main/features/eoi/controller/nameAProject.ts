@@ -21,6 +21,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
   const procurement: procurementDetail = procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
   const project_name = req.session.project_name;
   const agreementLotName = req.session.agreementLotName;
+  const releatedContent = req.session.releatedContent 
   const viewData: any = {
     data: cmsData,
     procId: procurement.procurementID,
@@ -28,6 +29,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
     lotId,
     agreementLotName,
     error: isEmptyProjectError,
+    releatedContent: releatedContent,
   };
   res.render('nameAProjectEoi', viewData);
 };
