@@ -11,6 +11,17 @@
 
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if(error) %}
+
+    {{ CCSErrorSummary({
+    titleText: "There is a problem",
+    errorList: [
+        {
+        text: "Please select an option"
+        }
+    ]
+    }) }}
+    {%endif %}
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
@@ -50,7 +61,8 @@
                     {{ CCSRadios({
                 idPrefix: "choose_eoi_type",
                 name: "choose_eoi_type",
-                items: form_Options_Altered               
+                items: form_Options_Altered,
+                errorMessage: error               
               }) }}
 
                     {{ CCSInput({
