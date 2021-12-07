@@ -38,6 +38,7 @@ export enum RFI_PATHS {
     POST_UPLOAD_DOC = "/rfi/upload-doc",
     POST_RFI_SUPPLIER = "/rfi/suppliers",
     POST_RESPONSE_DATE = "/rfi/response-date",
+    POST_ADD_RESPONSE_DATA = "/rfi/add/response-date",
     POST_RFI_REVIEW = "/rfi/review"
   
 

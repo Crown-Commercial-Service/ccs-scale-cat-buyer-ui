@@ -120,9 +120,11 @@ export default function (app: Application): void {
 
     //@POST "/rfi/response-date"
     app.post(RFI_PATHS.POST_RESPONSE_DATE, AUTH, associatedViews.POST_RESPONSE_DATE )
+    
+    //@POST /rfi/add/response-date
+    app.post(RFI_PATHS.POST_ADD_RESPONSE_DATA, AUTH, associatedViews.POST_ADD_RESPONSE_DATE)
 
-
-    ///rfi/review
+    //@POST rfi/review
     app.post(RFI_PATHS.POST_RFI_REVIEW, AUTH, associatedViews.POST_RFI_REVIEW )
 
 
