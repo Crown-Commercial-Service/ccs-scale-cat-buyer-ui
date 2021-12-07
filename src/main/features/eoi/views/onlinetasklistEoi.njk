@@ -24,7 +24,7 @@
           href: "/eoi/eoi-tasklist"
         },
         {
-          text: "Build your EoI",
+          text: "Build your Expression of Interest",
           href: "#"
       }
 
@@ -44,7 +44,8 @@
         <div class="govuk-!-margin-bottom-6">
         {% include "includes/project_header.njk" %}
         </div>
-        <p class="govuk-body govuk-!-margin-bottom-7">Ask suppliers questions and tell them about the information you need. You can add more detail in the optional sections if you think it will help the suppliers to answer your questions.</p>
+        <p class="govuk-body">{{file_data.line1}}</p>
+        <p class="govuk-body">{{file_data.line2}}</p>
             <ul class="app-task-list ccs-eoi-buildtask-list">
                 {% for items in data %}
 
