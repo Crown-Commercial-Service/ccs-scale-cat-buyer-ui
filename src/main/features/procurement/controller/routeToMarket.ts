@@ -1,6 +1,5 @@
 //@ts-nocheck
 import * as express from 'express'
-
 /**
  * 
  * @Rediect 
