@@ -28,7 +28,7 @@
             "sections": ["Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement."],
             "list": [],
             "required": "optional",
-            "status": "todo"
+            "status": "optional"
         },
         {
             "eventno": 2,
@@ -44,7 +44,7 @@
                             ]],
             "list": [],
             "required": "optional",
-            "status": "todo"
+            "status": "optional"
         },
         {
             "eventno": 3,
@@ -64,7 +64,7 @@
                 "If you start this step you cannot start step 2 at the same time."]],
             "list": [],
             "required": "optional",
-            "status": "todo"
+            "status": "not started"
         },
         {
             "eventno": 4,
@@ -72,14 +72,14 @@
             "sections": ["When you have completed your evaluation and found a suitable supplier, you can award your contract.",
                 "You will need to give feedback to any unsuccessful suppliers."],
             "required": "optional",
-            "status": "todo"
+            "status": "cannot start yet"
         },
         {
             "eventno": 5,
             "eventTitle": "Publish your contract",
             "sections": ["You need to publish the contract on Contracts Finder. This is a legal requirement."],
             "required": "optional",
-            "status": "todo"
+            "status": "cannot start yet"
         }
     ],
     "related": {
