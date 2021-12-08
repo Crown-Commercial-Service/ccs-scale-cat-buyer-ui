@@ -6,67 +6,27 @@ import {LoggTracer} from '../../../common/logtracer/tracer'
 import {TokenDecoder} from '../../../common/tokendecoder/tokendecoder'
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
+import  moment from 'moment-business-days'
+import {RESPONSEDATEHELPER} from '../helpers/responsedate'
 
 
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async  (req: express.Request, res: express.Response) => {
-
-    const proc_id = req.session.projectId;
-    const event_id = req.session.eventId;
-    const {SESSION_ID} = req.cookies;
-    let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
-    baseURL = baseURL+ '/criteria'
-    const keyDateselector = "Key Dates";
-
-
-    try {
-        
-        const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-        const fetch_dynamic_api_data = fetch_dynamic_api?.data;
-        const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id);
-        let criterianStorage = [];
-        for (const aURI of extracted_criterion_based) {
-           const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-           const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
-           const criterian_array = fetch_criterian_group_data?.data;
-           const rebased_object_with_requirements = criterian_array?.map((anItem) => {
-              const object = anItem;
-              object['criterianId'] = aURI;
-              return object;
-           })
-           criterianStorage.push(rebased_object_with_requirements)
-        }
-
-        criterianStorage = criterianStorage.flat();
-        criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector)
-        const prompt = criterianStorage[0].nonOCDS.prompt;
-        const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/${keyDateselector}/questions`;
-        const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
-        const fetchQuestionsData = fetchQuestions.data;
-        const  rfi_clarification_date = new Date().toLocaleDateString('en-uk', { weekday:"long", year:"numeric", month:"short", day:"numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"})
-        const appendData = {
-            data: cmsData,
-            prompt: prompt,
-            framework: fetchQuestionsData,
-            rfi_clarification_date
-        }
-    
-    
-    res.render('response-date', appendData)
-  
-     } catch (error) {
-        LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-        TokenDecoder.decoder(SESSION_ID), "Tenders Service Api cannot be connected", true)        
-     }
-
+  RESPONSEDATEHELPER(req, res);
 
 }
 
 
 export const POST_RESPONSE_DATE = async(req: express.Request, res: express.Response) => {
 
-   const {timeStamp} = req.body;
+   const RequestBodyValues = Object.values(req.body);
+   const filterWithQuestions = RequestBodyValues.map(aQuestions => {
+      const anEntry = aQuestions.split("*");
+      return {Question: anEntry[0], value: anEntry[1]};
+   })
+
+
    const proc_id = req.session.projectId;
    const event_id = req.session.eventId;
    const {SESSION_ID} = req.cookies;
@@ -98,16 +58,17 @@ export const POST_RESPONSE_DATE = async(req: express.Request, res: express.Respo
        const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
        const fetchQuestionsData = fetchQuestions.data;
        const allunfilledAnswer = fetchQuestionsData.filter(anAswer => anAswer.nonOCDS.options.length == 0).map(aQuestion=> aQuestion.OCDS.id)
-
+       console.log(allunfilledAnswer)
        for(const answers of allunfilledAnswer){
          const proc_id = req.session.projectId;
          const event_id = req.session.eventId;
          const id = "Criterion 2";
          const group_id = "Key Dates";
          const question_id = answers;
-
-         const answerformater = {
-            "value": timeStamp,
+         const findFilterQuestion = filterWithQuestions.filter(question => question.Question === question_id);
+         const findFilterValues = findFilterQuestion[0].value;
+           const answerformater = {
+            "value": findFilterValues,
             "selected": true,
             "text": answers
          } 
@@ -117,17 +78,16 @@ export const POST_RESPONSE_DATE = async(req: express.Request, res: express.Respo
               options: [answerformater]
             },
           };
-        
          const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
          await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-
        }
 
        res.redirect('/rfi/review')
  
     } catch (error) {
        LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-       TokenDecoder.decoder(SESSION_ID), "Tenders Service Api cannot be connected", true)        
+       TokenDecoder.decoder(SESSION_ID), "Tenders Service Api cannot be connected", true)  
+   
     }
  
 //res.redirect('/rfi/review')
@@ -163,13 +123,19 @@ export const POST_ADD_RESPONSE_DATE = async(req: express.Request, res: express.R
       timeinHoursBased = Number(clarification_date_hour) + 12;
    }
 
-   const date = new Date(
+   let date = new Date(
      clarification_date_year, 
      clarification_date_month, 
      clarification_date_day, 
      timeinHoursBased, 
-     clarification_date_minute, 
-      0, 0).toLocaleDateString('en-uk', { weekday:"long", year:"numeric", month:"short", day:"numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"})
+     clarification_date_minute)
+
+
+   let nowDate = new Date();
+
+   if(date.getTime() >= nowDate.getTime()){
+      date = date.toLocaleDateString('en-uk', {  weekday:"long", year:"numeric", month:"short", day:"numeric", hour: "2-digit", minute: "2-digit"});
+   nowDate = nowDate.toLocaleDateString('en-uk', {  weekday:"long", year:"numeric", month:"short", day:"numeric", hour: "2-digit", minute: "2-digit"});
  
    const answerformater = {
       "value": date,
@@ -215,6 +181,50 @@ export const POST_ADD_RESPONSE_DATE = async(req: express.Request, res: express.R
          );
          LoggTracer.errorTracer(Log, res);
       }
+   }else{
+      const selectedErrorCause = selected_question_id;   //Question 2
+
+      let selector = "";
+      let selectorID = "";
+
+      switch(selectedErrorCause){
+
+         case 'Question 1':
+         selector = " Publish your RfI - Date should be in the future";
+         selectorID = "rfi_clarification_date"
+         break;
+
+         case 'Question 2':
+            selector = "Clarification period ends - Date should be in the future";
+            selectorID = "rfi_clarification_period_end"
+         break;
+
+         case 'Question 3':
+            selector = "Deadline for publishing responses to RfI clarification questions- Date should be in the future ";
+            selectorID = "deadline_period_for_clarification_period"
+         break;
+
+         case 'Question 4':
+            selector = "Deadline for suppliers to submit their RfI response - Date should be in the future";
+            selectorID = "supplier_period_for_clarification_period"
+         break;
+
+         case 'Question 5':
+            selector = "Confirm your next steps to suppliers - Date should be in the future";
+            selectorID = "supplier_dealine_for_clarification_period"
+         break;
+
+         default : selector = " Date should be in the future" ;
+
+      }
+      const errorItem = {
+         text: selector,
+         href: selectorID 
+      }
+      RESPONSEDATEHELPER(req, res, true, errorItem);
+   }
+
+   
    
    }
    
