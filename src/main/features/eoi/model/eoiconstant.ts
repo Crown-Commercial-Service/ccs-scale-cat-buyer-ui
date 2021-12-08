@@ -11,7 +11,7 @@ export enum EOI_PATHS {
   GET_NAME_YOUR_PROJECT = '/eoi/name-your-project',
   GET_LEAD_PROCUEMENT = '/eoi/procurement-lead',
   GET_ADD_COLLABORATOR = '/eoi/add-collaborators',
-  GET_USER_PROCUREMENT = '/rfi/users-procurement-lead',
+  GET_USER_PROCUREMENT = '/eoi/users-procurement-lead',
   GET_REMOVE_FILE = '/eoi/files/remove',
 
   /**
