@@ -45,6 +45,7 @@ export const POST_CHOOSE_ROUTE= (req: express.Request, res: express.Response) =>
          case 'EOI':
             // eslint-disable-next-line no-case-declarations
             const redirect_address = EOI_PATHS.GET_TASKLIST;
+            req.session.selectedRoute = 'EOI'
             logger.info("EOI Route selected");
             res.redirect(redirect_address);
             break;
@@ -52,6 +53,7 @@ export const POST_CHOOSE_ROUTE= (req: express.Request, res: express.Response) =>
          case 'RFI':
             // eslint-disable-next-line no-case-declarations
             const newAddress = RFI_PATHS.GET_TASKLIST;
+            req.session.selectedRoute = 'RFI'
             logger.info("RFI Route selected");
             res.redirect(newAddress);
             break;
