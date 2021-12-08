@@ -1,0 +1,107 @@
+{
+    "states": [
+        {
+            "step": 1,
+            "state": "Optional"
+        },
+        {
+            "step": 2,
+            "state": "Optional"
+        },
+        {
+            "step": 3,
+            "state": "Optional"
+        },
+        {
+
+            "step": 4,
+            "state": "Not started"
+        },
+        {
+            "step": 5,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 6,
+            "state": "Optional"
+        },
+        {
+
+            "step": 7,
+            "state": "Optional"
+        },
+        {
+            "step": 8,
+            "state": "Optional"
+        },
+        {
+            "step": 9,
+            "state": "Not started"
+        },
+        {
+
+            "step": 10,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 11,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 12,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 13,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 14,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 15,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 16,
+            "state": "Optional"
+        },
+        {
+            "step": 17,
+            "state": "Optional"
+        },
+        {
+            "step": 18,
+            "state": "Optional"
+        },
+        {
+            "step": 19,
+            "state": "Not started"
+        },
+        {
+            "step": 20,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 21,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 22,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 23,
+            "state": "Optional"
+        },
+        {
+            "step": 24,
+            "state": "Optional"
+        },
+        {
+            "step": 25,
+            "state": "Optional"
+        }
+    ]
+}
