@@ -1,7 +1,6 @@
 //@ts-nocheck
 import * as express from 'express'
 import * as cmsData from '../../../resources/content/procurement/chooseRoute.json';
-import { ObjectModifiers } from '../../eoi/util/operations/objectremoveEmptyString';
 import { RFI_PATHS } from 'main/features/rfi/model/rficonstant';
 import { EOI_PATHS } from 'main/features/eoi/model/eoiconstant';
 const { Logger } = require('@hmcts/nodejs-logging');
