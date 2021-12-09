@@ -9,6 +9,7 @@ import { GET_ADD_COLLABORATOR, POST_ADD_COLLABORATOR, POST_ADD_COLLABORATOR_TO_J
 import {GET_RFI_REVIEW, POST_RFI_REVIEW} from './review'
 import {GET_RFI_SUPPLIERS, POST_RFI_SUPPLIER} from './suppliers'
 import {GET_RESPONSE_DATE, POST_RESPONSE_DATE, POST_ADD_RESPONSE_DATE} from './responsedate'
+import {GET_EVENT_PUBLISHED} from './eventpublished'
 
 export const associatedViews = {
     /**
@@ -27,6 +28,7 @@ export const associatedViews = {
     GET_RESPONSE_DATE,
     GET_RFI_SUPPLIERS,
     GET_RFI_REVIEW,
+    GET_EVENT_PUBLISHED,
 
 
 

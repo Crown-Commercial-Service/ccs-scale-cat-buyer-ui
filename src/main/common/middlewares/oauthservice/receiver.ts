@@ -70,6 +70,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
                 req.session['agreementName'] = "";
                 req.session['lotNum'] = "";
                 req.session['releatedContent'] = "";
+                req.session['journey_status'] = "";
                 req.session['procurements'] = [];
                 req.session['searched_user'] = [];
                 req.session['agreementEndDate'] = "";

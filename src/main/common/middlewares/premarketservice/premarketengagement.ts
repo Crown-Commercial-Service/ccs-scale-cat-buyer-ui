@@ -27,7 +27,6 @@ export class PreMarketEngagementMiddleware {
         eventType: eventType,
       };
 
-      logger.warn('request body is hardcoded');
       const retrievePreMarketPromise = TenderApi.Instance(SESSION_ID).put(baseURL, _body);
       retrievePreMarketPromise
         .then(data => {
