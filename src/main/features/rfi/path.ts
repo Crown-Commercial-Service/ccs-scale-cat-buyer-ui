@@ -63,7 +63,8 @@ export default function (app: Application): void {
   //@GET = "/rfi/review"
   app.get(RFI_PATHS.GET_RFI_REVIEW, [ContentFetchMiddleware.FetchContents , AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_RFI_REVIEW )
 
-
+  //@GET ="/rfi/event-sent"
+  app.get(RFI_PATHS.GET_EVENT_PUBLISHED, [ContentFetchMiddleware.FetchContents , AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_EVENT_PUBLISHED )
     
 
 

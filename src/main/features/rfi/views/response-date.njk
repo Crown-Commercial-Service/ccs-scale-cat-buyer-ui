@@ -89,7 +89,7 @@
                             class="govuk-link govuk-link--no-visited-state ">I do not want to change this date and time</a>
                     </div>
                     <br>
-                    <form action="/rfi/add/response-date" method="post">
+                    <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfi_response_date_form">
                     <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
 
                         <div class="govuk-date-input" id="clarification_date">
@@ -209,7 +209,7 @@
 
 
 <div class="govuk-button-group">
-<form method="post" action="/rfi/response-date">   
+<form method="post" action="/rfi/response-date" >   
                 {{ CCSInput({
                     id: "timeStamp",
                     name: "rfi_clarification_date",
