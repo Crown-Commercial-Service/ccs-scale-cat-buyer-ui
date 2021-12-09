@@ -1,4 +1,4 @@
-const ccsZvalidateEoiSecurity = (event) => {
+const ccsZvalidateRfiSecurity = (event) => {
   event.preventDefault();
 
   let fieldCheck = "",
