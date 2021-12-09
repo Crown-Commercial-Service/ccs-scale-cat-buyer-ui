@@ -16,6 +16,7 @@ export enum RFI_PATHS {
   GET_RFI_SUPPLIERS = '/rfi/suppliers',
   GET_RESPONSE_DATE = '/rfi/response-date',
   GET_RFI_REVIEW = '/rfi/review',
+  GET_EVENT_PUBLISHED = '/rfi/event-sent',
 
   /**
    * @POSTROUTES

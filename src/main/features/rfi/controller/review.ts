@@ -18,5 +18,5 @@ res.render('review', appendData)
 
 export const POST_RFI_REVIEW  = (req: express.Request, res: express.Response) => {
    
-    res.redirect('/rfi/rfi-tasklist')
+    res.redirect('/rfi/event-sent')
 }
