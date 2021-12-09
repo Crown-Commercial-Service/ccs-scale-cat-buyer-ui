@@ -28,11 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
     document.getElementById("ccs_rfiTerm_add").classList.remove("ccs-dynaform-hidden");
-
-
+    
     document.getElementById("ccs_rfiTerm_add").addEventListener('click', (e) => {
-
- 
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
       const start = 1;
@@ -58,9 +55,14 @@ document.addEventListener('DOMContentLoaded', () => {
           $(`.acronym_${a} textarea`).removeClass('govuk-input--error');
           $(`.acronym_${a} textarea`).removeClass('govuk-textarea--error')
         }
+        //Fix for SCAT 2519 red text box
+        if(textbox.val() == ""){
+          $(`.acronym_${a} textarea`).addClass('govuk-textarea--error')
+        }
         
       }
 
+    
       e.preventDefault();
       errorStore = emptyFieldCheck();
       if (errorStore.length == 0) {
@@ -124,9 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('rfi_term_' + target).value = "";
         document.getElementById('rfi_term_definition_' + target).value = "";
+        //Fix for SCAT 2519 Issue 2
+        removeErrorFields();
       });
     });
-
 
     if (document.getElementsByClassName("term_acronym_fieldset").length > 0) {
       let fieldSets = document.getElementsByClassName("term_acronym_fieldset");
@@ -176,8 +179,8 @@ const removeErrorFields = () => {
   $('.govuk-error-message').remove();
   $('.govuk-form-group--error').removeClass('govuk-form-group--error')
   $('.govuk-error-summary').remove();
-  $(".govuk-input").removeClass("govuk-input--error")
-
+  $(".govuk-input").removeClass("govuk-input--error");
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 }
 
 const emptyFieldCheck = () => {
@@ -208,6 +211,15 @@ const emptyFieldCheck = () => {
 }
 const ccsZvalidateAcronyms = (event) => {
   event.preventDefault();
+  //SCAT 2591 Red box fix
+  const start = 1;
+  const end = 10;
+  for(var a = start; a <= end; a++){
+    let textbox = $(`#rfi_term_definition_${a}`);
+    if(textbox.val() == ""){
+      $(`.acronym_${a} textarea`).addClass('govuk-textarea--error')
+    }
+  }
 
   errorStore = emptyFieldCheck();
 
