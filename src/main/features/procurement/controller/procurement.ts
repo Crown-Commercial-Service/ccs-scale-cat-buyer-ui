@@ -67,9 +67,8 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       req.session['journey_status'] = JourneyStatus?.data;
     } catch (journeyError) {
       if (journeyError.response.status == 404) {
-        await TenderApi.Instance(SESSION_ID).post(`journeys`, _body);
-      //  JourneyStatus  = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`, _body);
-        req.session['journey_status'] = JourneyStatus?.data;
+        await TenderApi.Instance(SESSION_ID).post(`journeys`, _body);     
+        req.session['journey_status'] = journyData.states;
       }
     }
 
