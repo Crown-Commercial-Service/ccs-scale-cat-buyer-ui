@@ -29,6 +29,7 @@
       <div class="govuk-grid-column-one-third">
          {{ CCSReleatedContent(releatedContent) }}
       </div>
+      </div>
       <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/rfi/type?agreement_id={{agreement_id}}" method="POST">
 
         {% set formOptions = data.form.radioOptions.items %}
