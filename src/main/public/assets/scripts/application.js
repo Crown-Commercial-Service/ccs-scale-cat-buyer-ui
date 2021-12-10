@@ -86,7 +86,7 @@ if (document.getElementById("ccs_rfi_type_form") !== null) document.getElementBy
 
 if (document.getElementById("ccs_rfi_vetting_form") !== null) document.getElementById("ccs_rfi_vetting_form").addEventListener('submit', ccsZvalidateRfiSecurity);
 
-if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getElementById("ccs_rfi_acronyms_form").addEventListener('submit', ccsZvalidateAcronyms);
+
 
 // if (document.getElementById("ccs_rfi_dates_form") !== null) document.getElementById("ccs_rfi_dates_form").addEventListener('submit', ccsZvalidateRfiDates);
 
@@ -115,8 +115,6 @@ if (document.getElementById("ccs_eoi_purpose_form") !== null) document.getElemen
 
 //if (document.getElementById("ccs_eoi_scope_form") !== null) document.getElementById("ccs_eoi_scope_form").addEventListener('submit', ccsZvalidateEoiScope);
 
-if (document.getElementById("ccs_eoi_acronyms_form") !== null) document.getElementById("ccs_eoi_acronyms_form").addEventListener('submit', ccsZvalidateEoiAcronyms);
-
 if (document.getElementById("ccs_eoi_about_proj") !== null) document.getElementById("ccs_eoi_about_proj").addEventListener('submit', ccsZvalidateEoiContext);
 
 
@@ -131,3 +129,7 @@ if (document.getElementById("eoi_docs_form") !== null) document.getElementById("
 if (document.getElementById("ccs_eoi_duration") !== null) document.getElementById("ccs_eoi_duration").addEventListener('submit', ccsZvalidateEoiStartDate);
 
 if (document.getElementById("ccs-rfi-suppliers-form") !== null) document.getElementById("ccs-rfi-suppliers-form").addEventListener('submit', ccsZValidateSuppliersForm);
+
+if (document.getElementById("ccs_eoi_acronyms_form") !== null) document.getElementById("ccs_eoi_acronyms_form").addEventListener('submit', ccsZvalidateEoiAcronyms);
+
+if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getElementById("ccs_rfi_acronyms_form").addEventListener('submit', ccsZvalidateRfiAcronyms);
