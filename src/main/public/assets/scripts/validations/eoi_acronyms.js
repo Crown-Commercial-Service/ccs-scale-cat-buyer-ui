@@ -35,37 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-      const start = 1;
-      const end = 10;
-
-      for (var a = start; a <= end; a++) {
-        let input = $(`#eoi_term_${a}`)
-        let textbox = $(`#eoi_term_definition_${a}`);
-
-
-        if (input.val() !== "") {
-
-          $(`#eoi_term_${a}-error`).remove();
-          $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
-          $(`.acronym_${a} input`).removeClass('govuk-input--error')
-
-
-        }
-        if (textbox.val() !== "") {
-
-          $(`#eoi_term_definition_${a}-error`).remove();
-          $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
-          $(`.acronym_${a} textarea`).removeClass('govuk-input--error');
-          $(`.acronym_${a} textarea`).removeClass('govuk-textarea--error')
-        }
-
-      }
+      checkFieldsEoi();
 
       e.preventDefault();
-      errorStore = emptyFieldCheck();
+      errorStore = emptyFieldCheckEoi();
       if (errorStore.length == 0) {
 
-        removeErrorFields();
+        removeErrorFieldsEoi();
 
 
         document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
@@ -169,53 +145,79 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
+});
+const checkFieldsEoi = () => {
+  const start = 1;
+  const end = 10;
 
-  const removeErrorFields = () => {
-    $('.govuk-error-message').remove();
-    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
-    $('.govuk-error-summary').remove();
-    $(".govuk-input").removeClass("govuk-input--error")
+  for (var a = start; a <= end; a++) {
+    let input = $(`#eoi_term_${a}`)
+    let textbox = $(`#eoi_term_definition_${a}`);
+
+
+    if (input.val() !== "") {
+
+      $(`#eoi_term_${a}-error`).remove();
+      $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+      $(`.acronym_${a} input`).removeClass('govuk-input--error')
+
+
+    }
+    if (textbox.val() !== "") {
+
+      $(`#eoi_term_definition_${a}-error`).remove();
+      $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+      $(`.acronym_${a} textarea`).removeClass('govuk-input--error');
+      $(`.acronym_${a} textarea`).removeClass('govuk-textarea--error')
+    }
 
   }
+}
+const removeErrorFieldsEoi = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+  $('.govuk-error-summary').remove();
+  $(".govuk-input").removeClass("govuk-input--error")
 
-  const emptyFieldCheck = () => {
-    let fieldCheck = "",
-      errorStore = [];
+}
 
-    for (var x = 1; x < 11; x++) {
-      let term_field = document.getElementById('eoi_term_' + x);
-      let definition_field = document.getElementById("eoi_term_definition_" + x);
+const emptyFieldCheckEoi = () => {
+  let fieldCheck = "",
+    errorStore = [];
 
-      // console.log(name_field.classList.value);
+  for (var x = 1; x < 11; x++) {
+    let term_field = document.getElementById('eoi_term_' + x);
+    let definition_field = document.getElementById("eoi_term_definition_" + x);
 
-      if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+    // console.log(name_field.classList.value);
 
-        if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-          ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
-          fieldCheck = [definition_field.id, 'You must add information in both fields.'];
-          errorStore.push(fieldCheck);
-        }
-        if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-          ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
-          fieldCheck = [term_field.id, 'You must add information in both fields.'];
-          errorStore.push(fieldCheck);
-        }
+    if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+      checkFieldsEoi();
+      if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
+        ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
+        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+        errorStore.push(fieldCheck);
+      }
+      if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
+        ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
+        fieldCheck = [term_field.id, 'You must add information in both fields.'];
+        errorStore.push(fieldCheck);
       }
     }
-    return errorStore;
   }
-  const ccsZvalidateAcronyms = (event) => {
-    event.preventDefault();
+  return errorStore;
+}
+const ccsZvalidateEoiAcronyms = (event) => {
+  event.preventDefault();
 
-    errorStore = emptyFieldCheck();
+  errorStore = emptyFieldCheckEoi();
 
-    if (errorStore.length === 0) {
+  if (errorStore.length === 0) {
 
-      document.forms["ccs_eoi_acronyms_form"].submit();
-    }
-    else {
-      ccsZPresentErrorSummary(errorStore);
+    document.forms["ccs_eoi_acronyms_form"].submit();
+  }
+  else {
+    ccsZPresentErrorSummary(errorStore);
 
-    }
-  };
-});
+  }
+};

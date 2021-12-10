@@ -13,6 +13,7 @@ export const ROUTE_TO_MARKET = (req: express.Request, res: express.Response) => 
   if (eoiRoute == 'EOI') {
     res.redirect('/projects/events/choose-route')
   } else {
+    req.session.selectedRoute = 'RFI'
     res.redirect('/rfi/rfi-tasklist')
   }
 }

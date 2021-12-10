@@ -25,7 +25,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 
   const { SESSION_ID } = req.cookies;
   const { agreement_id, proc_id, event_id, id, group_id } = req.query;
-  const releatedContent = req.session.releatedContent 
+  const releatedContent = req.session.releatedContent;
 
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
