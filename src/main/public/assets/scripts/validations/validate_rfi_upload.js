@@ -17,3 +17,17 @@ const ccsZvalidateRfiDocs = (event) => {
     if (errorStore.length === 0) document.forms["ccs_rfi_docs_form"].submit();
     else ccsZPresentErrorSummary(errorStore);
   };
+
+
+  let inputLinks = $('#rfi_additional_link');
+  inputLinks.on('keypress', ()=>{
+    if(inputLinks.val() !== ""){
+      $('#upload_doc_form').fadeOut();
+    }
+  })
+
+  inputLinks.on('blur', ()=>{
+    if(inputLinks.val() === ""){
+      $('#upload_doc_form').fadeIn();
+    }
+  })

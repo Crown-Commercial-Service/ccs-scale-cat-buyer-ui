@@ -100,7 +100,7 @@
                                         Day
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-day" name="clarification_date_day" type="text"
+                                        id="clarification_date-day_{{loop.index}}" name="clarification_date_day" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-day'] }}" required>
                                 </div>
@@ -112,7 +112,7 @@
                                         Month
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-month" name="clarification_date_month" type="text"
+                                        id="clarification_date-month__{{loop.index}}" name="clarification_date_month" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-month'] }}" required>
                                 </div>
@@ -124,7 +124,7 @@
                                         Year
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-4"
-                                        id="clarification_date-year" name="clarification_date_year" type="text"
+                                        id="clarification_date-year__{{loop.index}}" name="clarification_date_year" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-year'] }}" required>
                                 </div>
@@ -141,7 +141,7 @@
                                         Hour
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-hour" name="clarification_date_hour" type="text"
+                                        id="clarification_date-hour__{{loop.index}}" name="clarification_date_hour" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-hour'] }}" required>
                                 </div>
@@ -153,7 +153,7 @@
                                         Minutes
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-minute" name="clarification_date_minute" type="text"
+                                        id="clarification_date-minute__{{loop.index}}" name="clarification_date_minute" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-minute'] }}" required>
                                 </div>

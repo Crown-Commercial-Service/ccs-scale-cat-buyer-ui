@@ -62,6 +62,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         "journey-id": req.session.eventId,
         "states": journyData.states
       };
+
     try {
       const JourneyStatus  = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`, _body);
       req.session['journey_status'] = JourneyStatus?.data;
