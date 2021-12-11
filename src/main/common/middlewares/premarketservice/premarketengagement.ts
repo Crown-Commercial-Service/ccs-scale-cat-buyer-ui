@@ -37,8 +37,6 @@ export class PreMarketEngagementMiddleware {
           next();
         })
         .catch(err => {
-          console.log(err);
-
           LoggTracer.errorLogger(
             res,
             err,

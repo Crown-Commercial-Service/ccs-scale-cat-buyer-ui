@@ -21,7 +21,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
   const procurement: procurementDetail = procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
   const project_name = req.session.project_name;
   const agreementLotName = req.session.agreementLotName;
-  const releatedContent = req.session.releatedContent;
+  const releatedContent = req.session.releatedContent 
   const viewData: any = {
     data: cmsData,
     procId: procurement.procurementID,
@@ -44,7 +44,6 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
 export const POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
-  const { eventId } = req.session;
   const name = req.body['rfi_projLongName'];
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   try {
@@ -54,7 +53,6 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
       };
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
       if (response.status == HttpStatusCode.OK) req.session.project_name = name;
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/6`, 'Completed');
       res.redirect('/rfi/procurement-lead');
     } else {
       req.session['isEmptyProjectError'] = true;
