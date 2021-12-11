@@ -43,9 +43,11 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             const object = aCriterian;
             object.OCDS['id'] = aCriterian.OCDS['id']?.split('Group ').join('');
             return object;
-         }).sort((current_cursor: any, iterator_cursor: any) => Number(current_cursor.OCDS['id']) - Number(iterator_cursor.OCDS['id'])).map((aCriterian: any) => {
+         }).sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1)).map((aCriterian: any) => {
             const object = aCriterian;
-            object.OCDS['id'] = `Group ${aCriterian.OCDS['id']}`
+            object.OCDS['id'] = `Group ${aCriterian.OCDS['id']}`;
+            if(object.nonOCDS['mandatory'] === false)
+               object.OCDS['description'] = object.OCDS['description']+' (Optional)'
             return object;
          });
          const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
