@@ -24,8 +24,8 @@
           "Task": 2,
           "link": "/eoi/procurement-lead",
           "title": "Change who is going to lead the procurement",
-          "required": "mandatory",
-          "status": "done"
+          "required": "optional",
+          "status": "todo"
         },
         {
           "Task": 3,
@@ -53,7 +53,7 @@
 
           "title": "Build your Expression of Interest",
           "required": "mandatory",
-          "status": "in progress"
+          "status": "Cannot start yet"
         }
       ]
     },
@@ -66,26 +66,29 @@
           "Task": 1,
           "title": "Upload documents or add links",
           "required": "optional",
-          "status": "todo",
+          "status": "Cannot start yet",
           "link": "/eoi/upload-doc"
         },
         {
           "Task": 2,
           "title": "Look at the available suppliers",
-          "required": "optional",
-          "status": "cannot start yet"
+          "required": "Cannot start yet",
+          "status": "Cannot start yet",
+          "link": "/eoi/suppliers"
         },
         {
           "Task": 3,
           "title": "Your EoI timeline",
           "required": "mandatory",
-          "status": "cannot start yet"
+          "status": "Cannot start yet",
+          "link": "/eoi/response-date"
         },
         {
           "Task": 4,
           "title": "Review and publish your EoI",
           "required": "mandatory",
-          "status": "cannot start yet"
+          "status": "Cannot start yet",
+          "link": "/eoi/review"
         }
       ]
     }
