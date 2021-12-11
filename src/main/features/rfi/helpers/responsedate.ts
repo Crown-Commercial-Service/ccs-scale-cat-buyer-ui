@@ -42,7 +42,7 @@ export const RESPONSEDATEHELPER = async(req: express.Request, res: express.Respo
         const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/${keyDateselector}/questions`;
         const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
         let  fetchQuestionsData = fetchQuestions.data;
-        const  rfi_clarification_date = new Date().toLocaleDateString('en-uk', { weekday:"long", year:"numeric", month:"short", day:"numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"})
+        const  rfi_clarification_date = new Date().toLocaleDateString('en-uk', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
         
  
         const  clarification_period_end_date = new Date();
