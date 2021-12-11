@@ -1,22 +1,22 @@
 //@ts-nocheck
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
-import * as express from 'express'
+import * as express from 'express';
 import * as data from '../../../resources/content/procurement/ccs-procurement.json';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 
-import * as journyData from '../model/tasklist.json'
+import * as journyData from '../model/tasklist.json';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('procurement');
 
 /**
- * 
- * @Rediect 
- * @param req 
- * @param res 
- * 
- * 
+ *
+ * @Rediect
+ * @param req
+ * @param res
+ *
+ *
  */
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { lotId, agreementLotName } = req.session;
@@ -35,17 +35,16 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     let procurement;
     if (!elementCached) {
       const _body = {
-        "agreementId": agreementId_session,
-        "lotId": lotId
-      }
+        agreementId: agreementId_session,
+        lotId: lotId,
+      };
       const { data: procurementRaw } = await TenderApi.Instance(SESSION_ID).post(lotsURL, _body);
       procurement = procurementRaw;
       req.session.procurements.push(procurement);
-    }
-    else {
+    } else {
       procurement = elementCached;
     }
-    logger.info('procurement.created', procurement)
+    logger.info('procurement.created', procurement);
     req.session.lotId = procurement['defaultName']['components']['lotId'];
     req.session.project_name = procurement['defaultName']['name'];
     req.session.projectId = procurement['procurementID'];
@@ -55,35 +54,42 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     const eventType = req.session.lotId;
     req.session.eventType = types[eventType];
     const agreementName = req.session.agreementName; //udefined
-
-    // journey service
-    
-      const _body = {
-        "journey-id": req.session.eventId,
-        "states": journyData.states
-      };
-
     try {
-      const JourneyStatus  = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`, _body);
+      const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
     } catch (journeyError) {
+      const _body = {
+        'journey-id': req.session.eventId,
+        states: journyData.states,
+      };
       if (journeyError.response.status == 404) {
-        await TenderApi.Instance(SESSION_ID).post(`journeys`, _body);     
-        req.session['journey_status'] = journyData.states;
+        const res = await TenderApi.Instance(SESSION_ID).post(`journeys`, _body);
+        console.log('PROCUREMENT.journey.created', res.data);
+        const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
+        console.log('PROCUREMENT.journey.status', JourneyStatus.data);
+        req.session['journey_status'] = JourneyStatus?.data;
       }
     }
-
 
     const lotid = req.session?.lotId;
 
     const project_name = req.session.project_name;
-    const releatedContent = req.session.releatedContent 
+    const releatedContent = req.session.releatedContent;
 
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid }
-    appendData = { ...appendData, agreementName,  releatedContent};
+    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+    appendData = { ...appendData, agreementName, releatedContent };
     res.render('procurement', appendData);
   } catch (error) {
-    LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-      TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
+    console.log(error);
+
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tender agreement failed to be added',
+      true,
+    );
   }
-}
+};
