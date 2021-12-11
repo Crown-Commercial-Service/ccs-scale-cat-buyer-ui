@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
       e.preventDefault();
       $(".govuk-error-summary").remove();
-      errorStore = emptyQuestionFieldCheck();
+      errorStore = emptyObjectiveFieldCheck();
       if (errorStore.length == 0) {
 
         document.getElementById("eoi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let length = 11;
     while (--length) {
-      console.log(length);
       let element = document.querySelector("#eoi_question_" + length);
       element.addEventListener('focusout', (event) => {
         let eleValue = event.target.value;
@@ -103,32 +102,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  const emptyQuestionFieldCheck = () => {
+  const emptyObjectiveFieldCheck = () => {
     let fieldCheck = "",
       errorStore = [];
 
     //const event_typ = document.getElementById("event_type_label").value;
 
     //if (event_typ !== "Request for Information") {
-    fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "You must add at least one question", /\w+/);
+    fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "You must type an objective before you can add another objective", /\w+/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
     for (var i = 2; i < 11; i++) {
       if (!document.getElementById("eoi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
-        fieldCheck = ccsZvalidateWithRegex("eoi_question_" + i, "You must type a question before you can add another question", /\w+/);
+        fieldCheck = ccsZvalidateWithRegex("eoi_question_" + i, "You must type an objective before you can add another objective", /\w+/);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }
     return errorStore;
   };
-  const ccsZvalidateEoIQuestions = (event) => {
-    event.preventDefault();
-    errorStore = emptyQuestionFieldCheck();
 
-    //}
-
-    if (errorStore.length === 0) document.forms["ccs_eoi_questions_form"].submit();
-    else ccsZPresentErrorSummary(errorStore);
-  };
+  
 })
 
 $('.add').addClass('ccs-dynaform-hidden');

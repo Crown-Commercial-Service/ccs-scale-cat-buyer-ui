@@ -43,20 +43,19 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
       }
       criterianStorage = criterianStorage.flat();
       const sorted_ascendingly = criterianStorage
-        .map((aCriterian: any) => {
+        .map((aCriterian: any) => {          
           const object = aCriterian;
-          object.OCDS['id'] = aCriterian.OCDS['id']?.split('Group ').join('');
-          return object;
+          let tempId = object.criterianId.split('Criterion ').join('')+'000'
+          if(object.nonOCDS['mandatory'] === false)
+           object.OCDS['description'] = object.OCDS['description']+' (Optional)'
+          object.OCDS['sortId'] =Number(tempId)+Number(aCriterian.OCDS['id']?.split('Group ').join(''))
+          if(!isNaN(object.OCDS['sortId']) )          
+            return object;
         })
-        .sort(
-          (current_cursor: any, iterator_cursor: any) =>
-            Number(current_cursor.OCDS['id']) - Number(iterator_cursor.OCDS['id']),
-        )
-        .map((aCriterian: any) => {
-          const object = aCriterian;
-          object.OCDS['id'] = `Group ${aCriterian.OCDS['id']}`;
-          return object;
-        });
+        .sort((a: any, b: any) => (a.OCDS.sortId < b.OCDS.sortId ? -1 : 1))
+        .filter(obj => obj != undefined);
+        
+
       const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
