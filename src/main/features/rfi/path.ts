@@ -129,7 +129,7 @@ export default function (app: Application): void {
     app.post(RFI_PATHS.POST_RFI_REVIEW, AUTH, associatedViews.POST_RFI_REVIEW )
 
 
-
-
+  // Offline page
+  app.get(RFI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);
 
 }
