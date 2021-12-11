@@ -35,16 +35,19 @@ export class QuestionHelper {
             criterianStorage.push(rebased_object_with_requirements)
          }
          criterianStorage = criterianStorage.flat();
-         let sorted_ascendingly = criterianStorage.map((aCriterian: any) => {
-            let object = aCriterian;
-            object.OCDS['id'] = aCriterian.OCDS['id']?.split('Group ').join('');
-            return object;
-         }).sort((current_cursor: any, iterator_cursor: any) => Number(current_cursor.OCDS['id']) - Number(iterator_cursor.OCDS['id'])).map((aCriterian: any) => {
-            var object = aCriterian;
-            object.OCDS['id'] = `Group ${aCriterian.OCDS['id']}`
-            return object;
-         });
-         let current_cursor = sorted_ascendingly?.findIndex((pointer: any) => pointer.OCDS['id'] === group_id);
+         const sorted_ascendingly = criterianStorage
+            .map((aCriterian: any) => {          
+                  const object = aCriterian;
+                  let tempId = object.criterianId.split('Criterion ').join('')+'000'
+                  if(object.nonOCDS['mandatory'] === false)
+                     object.OCDS['description'] = object.OCDS['description']+' (Optional)'
+                  object.OCDS['sortId'] =Number(tempId)+Number(aCriterian.OCDS['id']?.split('Group ').join(''))
+                  if(!isNaN(object.OCDS['sortId']) )          
+                  return object;
+            })
+            .sort((a: any, b: any) => (a.OCDS.sortId < b.OCDS.sortId ? -1 : 1))
+            .filter((obj:any) => obj != undefined);
+         let current_cursor = sorted_ascendingly?.findIndex((pointer: any) => pointer.OCDS['id'] === group_id && pointer.criterianId === id);
          let check_for_overflowing: Boolean = current_cursor < sorted_ascendingly.length - 1;
          if (check_for_overflowing) {
             let next_cursor = current_cursor + 1;
