@@ -13,6 +13,7 @@ export enum EOI_PATHS {
   GET_ADD_COLLABORATOR = '/eoi/add-collaborators',
   GET_USER_PROCUREMENT = '/eoi/users-procurement-lead',
   GET_REMOVE_FILE = '/eoi/files/remove',
+  GET_OFFLINE = '/eoi/offline',
 
   /**
    * @POSTROUTES

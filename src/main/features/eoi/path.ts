@@ -114,4 +114,7 @@ export default function (app: Application): void {
 
   //@POST "eoi/upload-doc"
   app.post(EOI_PATHS.POST_UPLOAD_DOC, AUTH, associatedViews.POST_UPLOAD_DOC);
+
+  // Offline page
+  app.get(EOI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);
 }

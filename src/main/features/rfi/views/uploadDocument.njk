@@ -27,6 +27,7 @@
 
 <div class="ccs-page-section govuk-!-margin-bottom-9 govuk-!-margin-top-6 ">
 <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
+  <div id="upload_doc_form">
       <form action="/rfi/upload-doc" method="post" encType="multipart/form-data">
        <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
@@ -43,19 +44,18 @@
                   <div class="govuk-grid-row">
                   <div class="govuk-grid-column-one-third">
                    <span class="app-task-list__task-name">
-                        <strong>{{file.name}}</strong>
+                    <a href="/rfi/upload-doc?file_id={{file.id}}">
+                        <strong>{{file.fileName}}</strong>
+                    </a>    
                     </span>
                   </div>
                   <div class="govuk-grid-column-one-third">
-                    <p>{{file.size | KbtoMb}} MB</p>
+                    <p>{{file.fileSize | KbtoMb}} MB</p>
                   </div>
                   <div class="govuk-grid-column-one-third">
-
                     <p>  <a class="app-task-list__tag" href="/rfi/files/remove?file={{file.name}}" aria-describedby="rfi-questions">remove</a></p>
                   </div>
                   </div>
-
-
                     {% set hreflink  = items.OCDS.description | replace(" ", "_" ) %}
                     {% set criterion_id  = items.id | replace(" ", "_" ) %}
                   
@@ -99,12 +99,13 @@
 
 
                     </form>
+                  
       </div>
 
-       
+     {% if (files.length === 0)%}  
 
  <h3 class="govuk-heading-m">Or</h3>
-
+  </div>
 
       <div class="govuk-!-margin-bottom-9 govuk-!-margin-top-9 ">
       {{ CCSInput({
@@ -121,7 +122,7 @@
             value: data['rfi_additional_link']
           }) }}
     </div>
-
+{%endif%}
 
           <div class="govuk-button-group">
                   {{ CCSButton({
