@@ -48,7 +48,7 @@ export const POST_TYPE = (req: express.Request, res: express.Response) => {
 
     case 'all_offline':
       // eslint-disable-next-line no-case-declarations
-      const newAddress = EOI_PATHS.GET_UPLOAD_DOC;
+      const newAddress = EOI_PATHS.GET_OFFLINE;
       res.redirect(newAddress);
       break;
 
