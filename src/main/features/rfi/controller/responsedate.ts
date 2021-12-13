@@ -8,6 +8,8 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import  moment from 'moment-business-days'
 import {RESPONSEDATEHELPER} from '../helpers/responsedate'
+import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 
 
 
@@ -81,7 +83,7 @@ export const POST_RESPONSE_DATE = async(req: express.Request, res: express.Respo
          const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
          await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
        }
-
+       await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Completed');
        res.redirect('/rfi/review')
  
     } catch (error) {

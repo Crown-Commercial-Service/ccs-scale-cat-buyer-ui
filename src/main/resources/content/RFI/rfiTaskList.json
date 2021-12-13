@@ -17,21 +17,21 @@
           "link": "/rfi/name-your-project",
           "title": "Name your project",
           "required": "mandatory",
-          "status": "todo"
+          "status": "optional"
         },
         {
           "Task": 2,
           "link": "/rfi/procurement-lead",
           "title": "Change who is going to lead the procurement",
           "required": "optional",
-          "status": "todo"
+          "status": "optional"
         },
         {
           "Task": 3,
           "link": "/rfi/add-collaborators",
           "title": "Add members to your project",
           "required": "optional",
-          "status": "todo"
+          "status": "optional"
         }
       ]
     },
@@ -44,11 +44,11 @@
           "title": "How- will you build your request for- information (RFI)",
           "required": "mandatory",
           "link": "/rfi/type",
-          "status": "todo"
+          "status": "optional"
         },
         {
           "Task": 2,
-
+          "link": "/rfi/type",
           "title": "Build your request for information",
           "required": "mandatory",
           "status": "Cannot start yet"

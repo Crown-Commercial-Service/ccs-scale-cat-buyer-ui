@@ -2,6 +2,8 @@
 import express from 'express'
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('questions healper');
 /**
@@ -58,6 +60,12 @@ export class QuestionHelper {
             res.redirect(base_url)
          }
          else {
+            const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'Completed');
+            if (response.status == HttpStatusCode.OK) {
+               await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/11`, 'Optional');
+               await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/12`, 'Not started');
+               await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Not started');
+            }
             res.redirect('/rfi/rfi-tasklist')
          }
       } catch (error) {
