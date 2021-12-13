@@ -58,7 +58,7 @@
           <div class="ccs-page-section" id="description">
             <h1 class="govuk-heading-l">
               {{data.line3}}</h1>
-            <p class="govuk-body">{{agreement.agreementDescription}}</p>
+            <p class="govuk-body">{{agreement.agreementDescription | safe}}</p>
             <ul class="govuk-list govuk-list--bullet">
               {% for sector in agreement_lot.sectors %}
                 <li>{{sector}}</li>
