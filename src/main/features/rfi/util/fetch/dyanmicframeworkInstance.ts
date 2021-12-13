@@ -31,7 +31,8 @@ export class DynamicFrameworkInstance {
                 baseURL: process.env.TENDERS_SERVICE_API_URL,
                 headers: {
                 'Authorization': `Bearer ${SESSION_ID}`
-                }
+                },
+                responseType: 'stream'
             })
 
 }
