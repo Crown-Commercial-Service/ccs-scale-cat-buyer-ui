@@ -22,7 +22,9 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
   ) {
     res.redirect(ErrorView.notfound);
   } else {
+    const { agreement_id, proc_id, event_id } = req.query;
     const { SESSION_ID } = req.cookies;
+    const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -43,7 +45,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
       const sorted_ascendingly = criterianStorage
         .map((aCriterian: any) => {          
           const object = aCriterian;
-          const tempId = object.criterianId.split('Criterion ').join('')+'000'
+          let tempId = object.criterianId.split('Criterion ').join('')+'000'
           if(object.nonOCDS['mandatory'] === false)
            object.OCDS['description'] = object.OCDS['description']+' (Optional)'
           object.OCDS['sortId'] =Number(tempId)+Number(aCriterian.OCDS['id']?.split('Group ').join(''))
@@ -59,7 +61,13 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
       const agreementLotName = req.session.agreementLotName;
       const releatedContent = req.session?.releatedContent; 
       const display_fetch_data = {
+        data: select_default_data_from_fetch_dynamic_api,
+        agreement_id: agreement_id,
         file_data: fileData,
+        proc_id: proc_id,
+        event_id: event_id,
+        lotId,
+        agreementLotName,
         releatedContent: releatedContent
       };
       res.render('onlinetasklistEoi', display_fetch_data);
