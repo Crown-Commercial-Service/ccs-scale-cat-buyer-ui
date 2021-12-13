@@ -60,6 +60,7 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
                   Logmessage.error_reason,
                   Logmessage.exception,
                 );
+                fileSystem.unlinkSync(fileTemporaryPath);
                 LoggTracer.errorTracer(Log, res);
               }else{
                 fileSystem.unlinkSync(fileTemporaryPath);
