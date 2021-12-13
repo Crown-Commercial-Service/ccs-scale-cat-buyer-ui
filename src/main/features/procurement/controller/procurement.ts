@@ -55,7 +55,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.eventType = types[eventType];
     const agreementName = req.session.agreementName; //udefined
     try {
-      const JourneyStatus  = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
+      let JourneyStatus  = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
     } catch (journeyError) {
       const _body = {
@@ -65,27 +65,20 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       if (journeyError.response.status == 404) {
         const res = await TenderApi.Instance(SESSION_ID).post(`journeys`, _body);
         console.log('PROCUREMENT.journey.created', res.data);
-        const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
+        let JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
         console.log('PROCUREMENT.journey.status', JourneyStatus.data);
         req.session['journey_status'] = JourneyStatus?.data;
       }
     }
 
-    appendData.events.forEach(event => {
-      console.log('event no - ', event.eventno);
+    JourneyStatus.data.forEach(event => {
       let step = journyData.states.find(item => item.step === event.eventno);
       if (step){
-        console.log('step no - ', step);
-        console.log('status before - ', event.status);
         event.status = step.state;
-        console.log('status after - ', event.status);
-
       }
     })
 
-
     const lotid = req.session?.lotId;
-
     const project_name = req.session.project_name;
     const releatedContent = req.session.releatedContent;
 
