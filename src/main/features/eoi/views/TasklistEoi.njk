@@ -1,6 +1,6 @@
 {% extends "template.njk" %}
 
-{% set title = 'RFI Task List | Contract a Thing' %}
+{% set title = 'EOI Task List | Contract a Thing' %}
 
 {% block content %}
 {% set url -%}
@@ -61,7 +61,7 @@
                         <span class="app-task-list__task-name">
                           <strong>
                             {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %}
-                                <a href="{{Tasks.link}}" aria-describedby="name-your-project">
+                                <a href="{{Tasks.link}}" aria-describedby="{{Tasks.title}}">
                                     {{Tasks.title}}
                                 </a>
                             {% else %}

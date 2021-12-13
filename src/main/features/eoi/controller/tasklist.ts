@@ -16,7 +16,7 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
   const { lotId, agreementLotName, eventId, projectId, agreement_id } = req.session;
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-    statusStepsDataFilter(cmsData, journeySteps, 'rfi', agreement_id, projectId, eventId);
+    statusStepsDataFilter(cmsData, journeySteps, 'eoi', agreement_id, projectId, eventId);
     const windowAppendData = { data: cmsData, lotId, agreementLotName };
     res.render('TasklistEoi', windowAppendData);
   } catch (error) {
