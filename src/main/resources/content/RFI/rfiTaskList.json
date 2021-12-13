@@ -48,7 +48,7 @@
         },
         {
           "Task": 2,
-
+          "link": "/rfi/type",
           "title": "Build your request for information",
           "required": "mandatory",
           "status": "Cannot start yet"
