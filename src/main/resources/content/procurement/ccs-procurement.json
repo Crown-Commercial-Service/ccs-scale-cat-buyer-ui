@@ -24,6 +24,7 @@
             "eventno": 1,
             "eventTitle": "Take a look at available suppliers",
             "buttonText": "See available suppliers",
+            "buttonDisable": true,
             "href": "/rfi/rfi-tasklist",
             "sections": ["Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement."],
             "list": [],
