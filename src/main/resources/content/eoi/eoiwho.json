@@ -1,13 +1,21 @@
 {
     "breadCrumbs": [
         {
-            "title": "Home",
-            "href": "/"
-        },
-        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+          },
+          {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+          },
+          {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+          },
+          {
             "text": "Do pre-market engagement",
             "href": "/eoi/eoi-tasklist"
-        },
+          },
         {
             "title": "Who is the buyer ?",
             "href": "#"

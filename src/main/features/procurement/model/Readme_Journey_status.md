@@ -53,14 +53,13 @@ The file explorer is accessible using the button in left corner of the navigatio
 > 
 > Do pre-market engagement  
 > 
-> Step 2 - EOI  (Optional)
+> Step 2 - EOI / RFI  (Optional)
 > 
-> Step 3 - RFI  (Optional)
+> Step 3 - Write and publish your requirements (Not started)
 > 
-> Step 4 - Write and publish your requirements (Not started)
-> 
-> Step 5 - Award your contract (Cannot start yet)
-> 
+> Step 4 - Award your contract (Cannot start yet)
+>
+> Step 5 - Publish your contract (Cannot start yet)
 >   
 > 
 > **pre-market engagement (RFI)**  
@@ -117,5 +116,11 @@ The file explorer is accessible using the button in left corner of the navigatio
 > Step 25 - Eoi completed ? (Cannot start yet) - Once user in Do
 > pre-market engagement this status has to be changed to (In progress)
 
+# UI Status --> API response
 
 ```
+    Optional = 'Optional',
+    TODO = 'Not started',
+    CannotStartYet = 'Cannot start yet',
+    InProgress = 'In progress',
+    DONE = 'Completed'

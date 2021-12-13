@@ -24,6 +24,39 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
   } else {
     const { SESSION_ID } = req.cookies;
     try {
+      const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+      const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+      const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
+      let criterianStorage: any = [];
+      for (const aURI of extracted_criterion_based) {
+        const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+        const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+        const criterian_array = fetch_criterian_group_data?.data;
+        const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
+          const object = anItem;
+          object['criterianId'] = aURI;
+          return object;
+        });
+        criterianStorage.push(rebased_object_with_requirements);
+      }
+      criterianStorage = criterianStorage.flat();
+      const sorted_ascendingly = criterianStorage
+        .map((aCriterian: any) => {          
+          const object = aCriterian;
+          const tempId = object.criterianId.split('Criterion ').join('')+'000'
+          if(object.nonOCDS['mandatory'] === false)
+           object.OCDS['description'] = object.OCDS['description']+' (Optional)'
+          object.OCDS['sortId'] =Number(tempId)+Number(aCriterian.OCDS['id']?.split('Group ').join(''))
+          if(!isNaN(object.OCDS['sortId']) )          
+            return object;
+        })
+        .sort((a: any, b: any) => (a.OCDS.sortId < b.OCDS.sortId ? -1 : 1))
+        .filter(obj => obj != undefined);
+        
+
+      const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
+      const lotId = req.session?.lotId;
+      const agreementLotName = req.session.agreementLotName;
       const releatedContent = req.session?.releatedContent; 
       const display_fetch_data = {
         file_data: fileData,
