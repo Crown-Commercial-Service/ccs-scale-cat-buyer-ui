@@ -10,6 +10,7 @@ import {GET_RFI_REVIEW, POST_RFI_REVIEW} from './review'
 import {GET_RFI_SUPPLIERS, POST_RFI_SUPPLIER} from './suppliers'
 import {GET_RESPONSE_DATE, POST_RESPONSE_DATE, POST_ADD_RESPONSE_DATE} from './responsedate'
 import {GET_EVENT_PUBLISHED} from './eventpublished'
+import { OFFLINE_JOURNEY_PAGE } from './offline'
 
 export const associatedViews = {
     /**
@@ -29,7 +30,7 @@ export const associatedViews = {
     GET_RFI_SUPPLIERS,
     GET_RFI_REVIEW,
     GET_EVENT_PUBLISHED,
-
+    OFFLINE_JOURNEY_PAGE,
 
 
     /**

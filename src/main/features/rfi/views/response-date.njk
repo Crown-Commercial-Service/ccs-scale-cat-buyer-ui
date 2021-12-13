@@ -69,7 +69,7 @@
                     {% elif (requirement.OCDS.id == "Question 5" ) %}
                    <label class="govuk-label govuk-body"><strong id="supplier_dealine_for_clarification_period">{{supplier_dealine_for_clarification_period }}</strong></label>
                  {%else%}
-                  <label class="govuk-label govuk-body"><strong id="rfi_clarification_date">{{ rfi_clarification_date}}</strong></label>
+                  <label class="govuk-label govuk-body"><strong id="rfi_clarification_date">{{rfi_clarification_date}}</strong></label>
                 {%endif%}
 
 
@@ -97,7 +97,7 @@
                             <div class="govuk-date-input__item">
                                 <div class="govuk-form-group">
                                     <label class="govuk-label govuk-date-input__label" for="clarification_date-day">
-                                        Day
+                                        Date
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-day_{{loop.index}}" name="clarification_date_day" type="text"
@@ -112,7 +112,7 @@
                                         Month
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-month__{{loop.index}}" name="clarification_date_month" type="text"
+                                        id="clarification_date-month_{{loop.index}}" name="clarification_date_month" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-month'] }}" required>
                                 </div>
@@ -124,7 +124,7 @@
                                         Year
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-4"
-                                        id="clarification_date-year__{{loop.index}}" name="clarification_date_year" type="text"
+                                        id="clarification_date-year_{{loop.index}}" name="clarification_date_year" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-year'] }}" required>
                                 </div>
@@ -141,7 +141,7 @@
                                         Hour
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-hour__{{loop.index}}" name="clarification_date_hour" type="text"
+                                        id="clarification_date-hour_{{loop.index}}" name="clarification_date_hour" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-hour'] }}" required>
                                 </div>
@@ -153,7 +153,7 @@
                                         Minutes
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                        id="clarification_date-minute__{{loop.index}}" name="clarification_date_minute" type="text"
+                                        id="clarification_date-minute_{{loop.index}}" name="clarification_date_minute" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-minute'] }}" required>
                                 </div>

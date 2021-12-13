@@ -46,7 +46,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
-    const titleText = OCDS?.description;
+    const bcTitleText = OCDS?.description;
+    const titleText = nonOCDS.mandatory === false? OCDS?.description +' (Optional)':OCDS?.description
     const promptData = nonOCDS?.prompt;
     const nonOCDSList = [];
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
@@ -84,6 +85,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       criterian_id: id,
       form_name: form_name?.[0],
       rfiTitle: titleText,
+      bcTitleText,
       prompt: promptData,
       organizationName: organizationName,
       error: req.session['isLocationError'],

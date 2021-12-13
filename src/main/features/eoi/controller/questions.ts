@@ -41,7 +41,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
-    const titleText = OCDS?.description;
+    const bcTitleText = OCDS?.description;
+    const titleText = nonOCDS.mandatory === false? OCDS?.description +' (Optional)':OCDS?.description
     const promptData = nonOCDS?.prompt;
     const nonOCDSList = [];
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
@@ -80,6 +81,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       criterian_id: id,
       form_name: form_name?.[0],
       eoiTitle: titleText,
+      bcTitleText,
       prompt: promptData,
       organizationName: organizationName,
       error: req.session['isLocationError'],
@@ -420,7 +422,7 @@ const findErrorText = (data: any) => {
   data.forEach(requirement => {
     if (requirement.nonOCDS.questionType == 'KeyValuePair') errorText = 'You must add information in both fields.';
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
-      errorText = 'You must add at least one question';
+      errorText = 'You must add at least one objective';
     else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)
       errorText = 'You must provide a security clearance level before proceeding';
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
