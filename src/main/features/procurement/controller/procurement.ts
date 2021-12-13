@@ -24,7 +24,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
   const { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
   const lotsURL = `/tenders/projects/agreements`;
-  const eventTypesURL = `agreements/${agreementId_session}/lots/${lotId}/event-types`;
+  const eventTypesURL = `/agreements/${agreementId_session}/lots/${lotId}/event-types`;
   let appendData: any = { ...data, SESSION_ID };
   try {
     const { data: typesRaw } = await AgreementAPI.Instance.get(eventTypesURL);
@@ -64,7 +64,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       };
 
     try {
-      const JourneyStatus  = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`, _body);
+      const JourneyStatus  = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
     } catch (journeyError) {
       if (journeyError.response.status == 404) {
@@ -73,11 +73,23 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       }
     }
 
+    appendData.events.forEach(event => {
+      console.log('event no - ', event.eventno);
+      let step = journyData.states.find(item => item.step === event.eventno);
+      if (step){
+        console.log('step no - ', step);
+        console.log('status before - ', event.status);
+        event.status = step.state;
+        console.log('status after - ', event.status);
+
+      }
+    })
+
 
     const lotid = req.session?.lotId;
 
     const project_name = req.session.project_name;
-    const releatedContent = req.session.releatedContent 
+    const releatedContent = req.session.releatedContent;
 
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid }
     appendData = { ...appendData, agreementName,  releatedContent};

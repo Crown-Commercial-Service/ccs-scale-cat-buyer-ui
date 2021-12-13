@@ -48,6 +48,21 @@
         },
         {
             "eventno": 3,
+            "eventTitle": "Do pre-market engagement",
+            "buttonText": "Start pre-market engagement",
+            "href": "/projects/routeToMarket",
+            "sections" : ["You can ask suppliers questions, before formally publishing your requirements, to find out what products and services are available, or refine your needs. For the lot you selected, you can choose one of the options below:"],
+            "subsections": [["<b>Request for Information (RfI)</b>",
+                                "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
+                                "This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below.",
+                                "If you start this step you cannot start step 3 at the same time."
+                            ]],
+            "list": [],
+            "required": "optional",
+            "status": "optional"
+        },
+        {
+            "eventno": 4,
             "eventTitle": "Write and publish your requirements",
             "buttonText": "Start to write and publish your requirements",
             "href": "/rfi/rfi-tasklist",
@@ -67,7 +82,7 @@
             "status": "not started"
         },
         {
-            "eventno": 4,
+            "eventno": 5,
             "eventTitle": "Award your contract",
             "sections": ["When you have completed your evaluation and found a suitable supplier, you can award your contract.",
                 "You will need to give feedback to any unsuccessful suppliers."],
@@ -75,7 +90,7 @@
             "status": "cannot start yet"
         },
         {
-            "eventno": 5,
+            "eventno": 6,
             "eventTitle": "Publish your contract",
             "sections": ["You need to publish the contract on Contracts Finder. This is a legal requirement."],
             "required": "optional",

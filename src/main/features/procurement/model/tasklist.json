@@ -10,12 +10,12 @@
         },
         {
             "step": 3,
-            "state": "Optional"
+            "state": "Not started"
         },
         {
 
             "step": 4,
-            "state": "Not started"
+            "state": "Cannot start yet"
         },
         {
             "step": 5,
