@@ -116,5 +116,11 @@ The file explorer is accessible using the button in left corner of the navigatio
 > Step 25 - Eoi completed ? (Cannot start yet) - Once user in Do
 > pre-market engagement this status has to be changed to (In progress)
 
+# UI Status --> API response
 
 ```
+    Optional = 'Optional',
+    TODO = 'Not started',
+    CannotStartYet = 'Cannot start yet',
+    InProgress = 'In progress',
+    DONE = 'Completed'
