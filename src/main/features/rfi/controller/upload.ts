@@ -11,8 +11,6 @@ import fileSystem from 'fs'
 
 
 
-let tempArray = [];
-
 
 
 // RFI Upload document
@@ -45,12 +43,8 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
                   if (err) throw err;
                   console.log('File is created successfully.');
                   const filef = directory
-           
                   res.download(filef);
-
                 });
-                
-             
       }
 
       try {
@@ -87,64 +81,103 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
  */
 
 
-export const POST_UPLOAD_DOC : express.Handler = async (req: express.Request, res: express.Response) => {
-      const {rfi_file_started} = req.body;
-      const {SESSION_ID} = req.cookies;
-      const ProjectId = req.session['projectId'];
-      const EventId = req.session['eventId'];
-      const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`
-   
+ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res: express.Response) => {
+  const {
+      rfi_file_started
+  } = req.body;
+  const {
+      SESSION_ID
+  } = req.cookies;
+  const ProjectId = req.session['projectId'];
+  const EventId = req.session['eventId'];
+  const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`
 
-      if(rfi_file_started){
-        const {rfi_offline_document} = req.files;
-        const fileName = rfi_offline_document.name;
-        const fileTemporaryPath = 'uploads/'
-        rfi_offline_document.mv(fileTemporaryPath + fileName, async (err)=> {
-          if (err){
-            res.render('error/500')     
-          }
-                const formData = new FormData(); 
-                const formDataReadPath = fileTemporaryPath + fileName;
-                const fileReadStream = fileSystem.createReadStream(formDataReadPath);
 
+  if (rfi_file_started) {
+      const {
+          rfi_offline_document
+      } = req.files;
+
+      const multipleFileCheck = Array.isArray(rfi_offline_document);
+      if (multipleFileCheck) {
+          for (const file of rfi_offline_document) {
+              const fileName = file.name;
+              const fileTemporaryPath = 'uploads/'
+              file.mv(fileTemporaryPath + fileName, async (err) => {
+                  if (err) {
+                      res.render('error/500')
+                  }
+                  const formData = new FormData();
+                  const formDataReadPath = fileTemporaryPath + fileName;
+                  const fileReadStream = fileSystem.createReadStream(formDataReadPath);
                   formData.append("data", fileReadStream);
-                  formData.append("description", rfi_offline_document.name)
+                  formData.append("description", file.name)
                   formData.append("audience", "buyer")
                   const formHeaders = formData.getHeaders();
                   try {
-                    await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {headers: {...formHeaders}});
-                    fileSystem.unlinkSync(formDataReadPath);
-                    res.redirect('/rfi/upload-doc')
-  
+                      await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
+                          headers: {
+                              ...formHeaders
+                          }
+                      });
+                      fileSystem.unlinkSync(formDataReadPath);
+
                   } catch (error) {
-                    delete error?.config?.['headers'];
-                    const Logmessage = {
+                      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+                          TokenDecoder.decoder(SESSION_ID), "Multiple File Upload Error", false)
+                  }
+              });
+
+          }
+
+          res.redirect('/rfi/upload-doc')
+      } else {
+          const fileName = rfi_offline_document.name;
+          const fileTemporaryPath = 'uploads/'
+          rfi_offline_document.mv(fileTemporaryPath + fileName, async (err) => {
+              if (err) {
+                  res.render('error/500')
+              }
+              const formData = new FormData();
+              const formDataReadPath = fileTemporaryPath + fileName;
+              const fileReadStream = fileSystem.createReadStream(formDataReadPath);
+              formData.append("data", fileReadStream);
+              formData.append("description", rfi_offline_document.name)
+              formData.append("audience", "buyer")
+              const formHeaders = formData.getHeaders();
+              try {
+                  await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
+                      headers: {
+                          ...formHeaders
+                      }
+                  });
+                  fileSystem.unlinkSync(formDataReadPath);
+                  res.redirect('/rfi/upload-doc')
+              } catch (error) {
+                  delete error?.config?.['headers'];
+                  const Logmessage = {
                       Person_id: TokenDecoder.decoder(SESSION_ID),
                       error_location: `${req.headers.host}${req.originalUrl}`,
                       sessionId: 'null',
                       error_reason: 'File uploading Causes Problem in RFI  - Tenders Api throws error',
                       exception: error,
-                    };
-                    const Log = new LogMessageFormatter(
+                  };
+                  const Log = new LogMessageFormatter(
                       Logmessage.Person_id,
                       Logmessage.error_location,
                       Logmessage.sessionId,
                       Logmessage.error_reason,
                       Logmessage.exception,
-                    );
-                    LoggTracer.errorTracer(Log, res);
-                  }
-
-        });
-      
-            
+                  );
+                  LoggTracer.errorTracer(Log, res);
+              }
+          });
       }
-      else res.render('error/500')
+
+  } else res.render('error/500')
 }
 
 
 export const GET_REMOVE_FILES = express.Handler = (req: express.Request, res: express.Response) => {
-      const {file} = req.query;
-      tempArray = tempArray.filter((afile)=> afile.name !== file);
       res.redirect('/rfi/upload-doc')
 }
