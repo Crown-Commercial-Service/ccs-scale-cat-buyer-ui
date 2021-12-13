@@ -75,7 +75,7 @@
 
               {{ CCSInput({
                       label: {
-                        text: "Enter your first objective",
+                        text: requirement.OCDS.title,
                         classes: "govuk-label govuk-label--m"
                       },
                       id: "eoi_question_1",
@@ -100,7 +100,7 @@
 
                 {{ CCSInput({
                       label: {
-                        html: "Enter your "+numberWord[i]+" objective <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
+                        html: requirement.OCDS.title | replace("first",numberWord[i]) +"<a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
                         classes: "govuk-label govuk-label--m"
                       },
                       id: "eoi_question_"+i,
