@@ -18,21 +18,21 @@
           "link": "/eoi/name-your-project",
           "title": "Name your project",
           "required": "mandatory",
-          "status": "todo"
+          "status": "optional"
         },
         {
           "Task": 2,
           "link": "/eoi/procurement-lead",
           "title": "Change who is going to lead the procurement",
           "required": "optional",
-          "status": "todo"
+          "status": "optional"
         },
         {
           "Task": 3,
           "link": "/eoi/add-collaborators",
           "title": "Add members to your project",
           "required": "optional",
-          "status": "todo"
+          "status": "optional"
         }
       ]
     },
@@ -46,7 +46,7 @@
           "title": "Choose how to build your EoI",
           "required": "mandatory",
           "link": "/eoi/type",
-          "status": "todo"
+          "status": "optional"
         },
         {
           "Task": 2,
