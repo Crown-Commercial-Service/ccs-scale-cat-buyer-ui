@@ -1,4 +1,4 @@
-export const StepState = {
+const StepState = {
   Optional: { key: 'Optional', value: 'Optional' },
   NotStarted: { key: 'Not started', value: 'To do' },
   CannotStartYet: { key: 'Cannot start yet', value: 'Cannot start yet' },
@@ -7,7 +7,7 @@ export const StepState = {
 };
 export const getValue = (stateKey: any) => {
   const elemState: any = Object.keys(StepState).find((elem: any) => elem.key === stateKey);
-  return elemState.value;
+  return elemState?.value;
 };
 
 export function statusStepsDataFilter(data: any, steps: any, type: string) {
