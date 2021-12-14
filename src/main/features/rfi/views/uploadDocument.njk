@@ -16,6 +16,14 @@
 {% block content %} 
 
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+{% if (fileError)%}
+{{ CCSErrorSummary({
+  titleText: "There is a problem with these files",
+  errorList: errorlist
+}) }}
+
+{% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
        <h1 class="govuk-heading-xl">
@@ -25,12 +33,13 @@
 
 
 
+
 <div class="ccs-page-section govuk-!-margin-bottom-9 govuk-!-margin-top-6 ">
 <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
   <div id="upload_doc_form">
       <form action="/rfi/upload-doc" method="post" encType="multipart/form-data">
        <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
+      <div class="govuk-grid-column-full" id="documents_upload">
       <label class="govuk-label govuk-label--m" for="rfi_offline_document">Upload a file</label>
       
       <p class="govuk-body-s"> {{data.filedesc}}</p>
