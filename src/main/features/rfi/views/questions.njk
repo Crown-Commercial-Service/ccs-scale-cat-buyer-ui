@@ -67,7 +67,7 @@
       {% include "includes/project_header.njk" %}
       <p class="govuk-body-l">{{data.rfiTitle}}</p>
 
-      <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}}" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
+      <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} rfi_form" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
         <p class="govuk-body govuk-!-margin-bottom-7">{{prompt | safe}}</p>
         {% for requirement in data %}
           {% block value %}
@@ -258,7 +258,7 @@
 
                 {% block KeySelect%}
                   {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) %}
- 
+
 
                     {% call CCSFieldset({
                             legend: {
@@ -369,6 +369,8 @@
                             type: "hidden",
                             value: requirement.OCDS.id
                           }) }}
+
+                          <div id="keyterm"> </div>
                   {% endif %}
                 {% endblock %}
 
