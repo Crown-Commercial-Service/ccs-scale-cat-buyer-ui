@@ -37,7 +37,7 @@
       </div>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-          <div class="project-overview">
+          <div class="project-overview govuk-!-padding-bottom-3">
             <p class="govuk-body">Agreement name: <strong>{{agreement.name}}</strong>
             </p>
             <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}</strong>
@@ -45,7 +45,7 @@
             {% set agreementDate = agreement.endDate | date("YYYY-MM-DD") %}
             <p class="govuk-body">Expiry date: <strong>{{agreementDate}}</strong>
             </p>
-          </div><br>
+          </div>
 
           <div class="govuk-inset-text">
             <p class="govuk-body">
@@ -59,25 +59,24 @@
             <h1 class="govuk-heading-l">
               {{data.line3}}</h1>
             <p class="govuk-body">{{agreement.agreementDescription | safe}}</p>
-            <ul class="govuk-list govuk-list--bullet">
-              {% for sector in agreement_lot.sectors %}
-                <li>{{sector}}</li>
-              {% endfor %}
-            </ul>
-            <p class="govuk-body">{{data.line5}}</p>
-            <p class="govuk-body">{{data.line6}}</p>
-
+            {% if (agreement_id != 'RM6263') and (lot != 'lot 2') %}
+              <ul class="govuk-list govuk-list--bullet">
+                {% for sector in agreement_lot.sectors %}
+                  <li>{{sector}}</li>
+                {% endfor %}
+              </ul>
+              <p class="govuk-body">{{data.line5}}</p>
+              <p class="govuk-body">{{data.line6}}</p>
+            {% endif %}
           </div>
           <div class="ccs-page-section">
-            <p>{{data.line7}}
+            <p class="govuk-!-padding-bottom-3">{{data.line7}}
               <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="https://www.crowncommercial.gov.uk/suppliers" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers)</a>
-            </p><br></div>
+            </p></div>
 
-          <div id="sign-in" class="ccs-page-section">
+          <div id="sign-in" class="ccs-page-section govuk-!-padding-bottom-3">
             <p class="govuk-body">{{data.line8}}</p>
             <p class="govuk-body">{{data.line9}}</p>
-
-            <br>
             {% if(isAuth === true)%}
             <div class="govuk-button-group">
               {{ CCSButton({
@@ -87,12 +86,11 @@
                href: "/dashboard"
               }) }}
             </div>
-            <br>
           </div>
 
             {%else%}
 
-            <div class="govuk-button-group">
+            <div class="govuk-button-group govuk-!-padding-bottom-3">
               {{ CCSButton({
                text: "Sign in or create an account",
                type: "a",
@@ -100,18 +98,15 @@
                href: "/oauth/login"
               }) }}
             </div>
-            <br>
           </div>
 
             {%endif%}
-
-            
 
           <div class="ccs-page-section" id="buyonline">
             <h1 class="govuk-heading-l">{{data.line10}}
             </h1>
             <p class="govuk-body">
-              {{data.line11}}
+              <strong>{{data.line11}}</strong>
             </p>
 
             <ul class="govuk-list govuk-list--bullet">
@@ -120,7 +115,7 @@
                 {{data.line13}}</li>
               <li>
                 <strong>{{data.line14}}</strong>
-                {{line15}}</li>
+                {{data.line15}}</li>
               <li>
                 <strong>{{data.line16}}</strong>
                 {{data.line17}}</li>
@@ -180,10 +175,13 @@
                   <h2 class="govuk-heading-s">{{data.line33}}</h2>
                   <p class="govuk-body">{{data.line34}}</p>
                   <p class="govuk-body">{{data.line35}}</p>
-
-                  <h2 class="govuk-heading-s">{{data.line36}}</h2>
-                  <p class="govuk-body">{{data.line37}}</p>
-
+                  {% if (agreement_id == 'RM6263') and (lot == 'Lot 2') %}
+                    <h2 class="govuk-heading-s">{{data.line36}}</h2>
+                    <p class="govuk-body">{{data.line37}}</p>
+                  {% elif agreement_id != 'RM6263' %}
+                    <h2 class="govuk-heading-s">{{data.line36}}</h2>
+                    <p class="govuk-body">{{data.line37}}</p>
+                  {% endif %}
                   <p>{{data.line38}}</p>
                 </li>
                 <li>
