@@ -113,7 +113,7 @@ export default function (app: Application): void {
   app.post(RFI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER)
 
   //@POST "rfi/upload-doc"
-  app.post(RFI_PATHS.POST_UPLOAD_DOC, AUTH, associatedViews.POST_UPLOAD_DOC )
+  app.post(RFI_PATHS.POST_UPLOAD_DOC, [ContentFetchMiddleware.FetchContents,  AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.POST_UPLOAD_DOC )
 
 
   //@POST "rfi/suppliers"
