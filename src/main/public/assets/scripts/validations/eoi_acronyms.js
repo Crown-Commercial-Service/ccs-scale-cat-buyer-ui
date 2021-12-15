@@ -1,3 +1,8 @@
+if ($('#eoi_keyterm').length > 0) {
+  $('.eoi_form').attr('id', 'ccs_eoi_acronyms_form');
+  $('.eoi_form').attr('name', 'ccs_eoi_acronyms_form');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("ccs_eoi_acronyms_form") !== null) {
