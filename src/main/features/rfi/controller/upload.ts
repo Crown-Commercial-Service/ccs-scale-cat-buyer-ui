@@ -110,12 +110,12 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
       } else {
           const fileName = rfi_offline_document.name;
           const fileTemporaryPath = 'uploads/upload/'
-
           const fileMimeType = rfi_offline_document.mimetype;
           const fileSize = rfi_offline_document.size;
 
           const validateMimeType = FileValidations.formatValidation(fileMimeType);
           const validateFileSize = FileValidations.sizeValidation(fileSize);
+
 
           if(validateMimeType && validateFileSize)
           {
@@ -139,6 +139,7 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
                   fileSystem.unlinkSync(formDataReadPath);
                   res.redirect('/rfi/upload-doc')
               } catch (error) {
+                 fileSystem.unlinkSync(formDataReadPath);
                   delete error?.config?.['headers'];
                   const Logmessage = {
                       Person_id: TokenDecoder.decoder(SESSION_ID),

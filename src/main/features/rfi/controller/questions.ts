@@ -40,17 +40,17 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     const name = getOrganizationDetails.data.identifier.legalName;
     const organizationName = name;
 
-    let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
+    let matched_selector = heading_fetch_dynamic_api.data.filter((agroupitem: any) => {
       return agroupitem?.OCDS?.['id'] === group_id;
     });
 
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
-    const bcTitleText = OCDS?.description;
-    const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
-    const promptData = nonOCDS?.prompt;
+    const bcTitleText = OCDS.description;
+    const titleText = nonOCDS.mandatory === false ? OCDS.description + ' (Optional)' : OCDS.description;
+    const promptData = nonOCDS.prompt;
     const nonOCDSList = [];
-    const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
+    const form_name = fetch_dynamic_api_data.map((aSelector: any) => {
       const nonOCDS = {
         question_id: aSelector.OCDS.id,
         mandatory: aSelector.nonOCDS.mandatory,
@@ -72,6 +72,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         return '';
       }
     });
+
     req.session?.nonOCDSList = nonOCDSList;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data);

@@ -1,4 +1,11 @@
+
+if ($('#rfi_keyterm').length > 0) {
+  $('.rfi_form').attr('id', 'ccs_rfi_acronyms_form');
+  $('.rfi_form').attr('name', 'ccs_rfi_acronyms_form');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+
 
   if (document.getElementById("ccs_rfi_acronyms_form") !== null) {
 
@@ -36,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
       checkFields();
+
 
       e.preventDefault();
       errorStore = emptyFieldCheck();
@@ -100,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('rfi_term_' + target).value = "";
         document.getElementById('rfi_term_definition_' + target).value = "";
+        removeErrorFields();
       });
     });
 
@@ -178,7 +187,8 @@ const removeErrorFields = () => {
   $('.govuk-error-message').remove();
   $('.govuk-form-group--error').removeClass('govuk-form-group--error')
   $('.govuk-error-summary').remove();
-  $(".govuk-input").removeClass("govuk-input--error")
+  $(".govuk-input").removeClass("govuk-input--error");
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
 
@@ -208,6 +218,10 @@ const emptyFieldCheck = () => {
   }
   return errorStore;
 }
+
+
+
+
 const ccsZvalidateRfiAcronyms = (event) => {
   event.preventDefault();
 

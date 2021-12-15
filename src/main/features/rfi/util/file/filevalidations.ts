@@ -4,7 +4,7 @@ import {FileMimeType} from './mimetype'
 export class FileValidations{
 
         static sizeValidation = (fileSize: number) => {
-        const KbsInGbs = 1000000;
+        const KbsInGbs = 1000000000;
         if(fileSize < KbsInGbs) return true;
         else return false;
         }

@@ -41,7 +41,8 @@
        <div class="govuk-grid-row">
       <div class="govuk-grid-column-full" id="documents_upload">
       <label class="govuk-label govuk-label--m" for="rfi_offline_document">Upload a file</label>
-      
+      <br>
+      <span id="rfi_upload_error_summary" class="govuk-error-message"></span>
       <p class="govuk-body-s"> {{data.filedesc}}</p>
       {% if (files.length > 0)%}
       <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
@@ -92,7 +93,8 @@
       <div class="govuk-grid-column-full">
           {{ CCSButton({
                         text: "upload",
-                        type: "submit"
+                        type: "submit",
+                        classes: "doc_upload_button"
                       })
                   }}
       </div>
