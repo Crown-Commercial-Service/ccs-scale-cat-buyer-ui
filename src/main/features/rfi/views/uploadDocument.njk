@@ -1,140 +1,145 @@
-{% extends "template.njk" %}
+      {% extends "template.njk" %}
 
-{% from "components/support/macro.njk" import howToGetSupport %}
+      {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Complete and upload a document | Contract a Thing' %}
-{% set url -%}
-  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
-{%- endset %}
-{% block breadCrumb %}
-{{ CCSBreadcrumbs({
-        items: data.breadCrumbs
+      {% set title = 'Complete and upload a document | Contract a Thing' %}
+      {% set url -%}
+        /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+      {%- endset %}
+
+
+    {% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+            items: data.breadCrumbs
+          }) }}
+
+    {% endblock %}
+
+
+
+      {% block content %} 
+      <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+      {% if (fileError)%}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem with these files",
+        errorList: errorlist
       }) }}
+      {% endif %}
 
-{% endblock %}
 
-{% block content %} 
-
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-
-{% if (fileError)%}
-{{ CCSErrorSummary({
-  titleText: "There is a problem with these files",
-  errorList: errorlist
-}) }}
-
-{% endif %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-       <h1 class="govuk-heading-xl">
-       {{data.title}}
-      </h1>
-{% include "includes/project_header.njk" %} 
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">
+            {{data.title}}
+            </h1>
+      {% include "includes/project_header.njk" %} 
+            </div>
+            </div>
 
 
 
+      <div class="ccs-page-section govuk-!-margin-bottom-9 govuk-!-margin-top-6 ">
+    <div class="govuk-grid-row">
+  <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
 
-<div class="ccs-page-section govuk-!-margin-bottom-9 govuk-!-margin-top-6 ">
-<p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
-  <div id="upload_doc_form">
-      <form action="/rfi/upload-doc" method="post" encType="multipart/form-data">
-       <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full" id="documents_upload">
-      <label class="govuk-label govuk-label--m" for="rfi_offline_document">Upload a file</label>
-      <br>
-      <span id="rfi_upload_error_summary" class="govuk-error-message"></span>
-      <p class="govuk-body-s"> {{data.filedesc}}</p>
-      {% if (files.length > 0)%}
-      <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-       <ul class="app-task-list">
-              {% for file in files %}
-        
-                 <li class="app-task-list__item">
+      <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
+        <div id="upload_doc_form">
+            <form action="/rfi/upload-doc" method="post" encType="multipart/form-data">
+            <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full" id="documents_upload">
+            <label class="govuk-label govuk-label--m" for="rfi_offline_document">Upload a file</label>
+            <br>
+            <span id="rfi_upload_error_summary" class="govuk-error-message"></span>
+            <p class="govuk-body-s"> {{data.filedesc}}</p>
+            {% if (files.length > 0)%}
+            <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+            <ul class="app-task-list">
+                    {% for file in files %}
+              
+                      <li class="app-task-list__item">
 
-                  <div class="govuk-grid-row">
-                  <div class="govuk-grid-column-one-third">
-                   <span class="app-task-list__task-name">
-                    <a href="/rfi/upload-doc?file_id={{file.id}}">
-                        <strong>{{file.fileName}}</strong>
-                    </a>    
-                    </span>
-                  </div>
-                  <div class="govuk-grid-column-one-third">
-                    <p>{{file.fileSize | KbtoMb}} MB</p>
-                  </div>
-                  <div class="govuk-grid-column-one-third">
-                    <p>  <a class="app-task-list__tag" href="/rfi/files/remove?file={{file.name}}" aria-describedby="rfi-questions">remove</a></p>
-                  </div>
-                  </div>
-                    {% set hreflink  = items.OCDS.description | replace(" ", "_" ) %}
-                    {% set criterion_id  = items.id | replace(" ", "_" ) %}
-                  
-                </li>
-                   
-                {% endfor %}
+                        <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-one-third text-overflow ">
+                        <span class="app-task-list__task-name">
+                          <a href="/rfi/upload-doc?file_id={{file.id}}">
+                              <strong>{{file.fileName}}</strong>
+                          </a>    
+                          </span>
+                        </div>
+                        <div class="govuk-grid-column-one-third">
+                          <p>{{file.fileSize | KbtoMb}} MB</p>
+                        </div>
+                        <div class="govuk-grid-column-one-third">
+                          <p>  <a class="app-task-list__tag" href="/rfi/files/remove?file={{file.name}}" aria-describedby="rfi-questions">remove</a></p>
+                        </div>
+                        </div>
+                          {% set hreflink  = items.OCDS.description | replace(" ", "_" ) %}
+                          {% set criterion_id  = items.id | replace(" ", "_" ) %}
+                        
+                      </li>
+                        
+                      {% endfor %}
 
             </ul>
-      </div>
-      {%endif%}
-            
-
-         {{ CCSFileUpload({
-        id: "rfi_offline_document",
-        name: "rfi_offline_document",
-        value: data['rfi_offline_document'],
-        multiple: true,
-        label: {
-        text: "",
-        classes: "govuk-label--m"
-        }
-        }) }}
-      </div>
-
-      <div class="govuk-grid-column-full">
-          {{ CCSButton({
-                        text: "upload",
-                        type: "submit",
-                        classes: "doc_upload_button"
-                      })
-                  }}
-      </div>
-
-       {{ CCSInput({
-                    id: "rfi_file_started",
-                    name: "rfi_file_started",
-                    type: "hidden",
-                    value: true
-                  })
-                }}
-
-
-
-                    </form>
+            </div>
+            {%endif%}
                   
-      </div>
+
+              {{ CCSFileUpload({
+              id: "rfi_offline_document",
+              name: "rfi_offline_document",
+              value: data['rfi_offline_document'],
+              multiple: true,
+              label: {
+              text: "",
+              classes: "govuk-label--m"
+              }
+              }) }}
+            </div>
+
+            <div class="govuk-grid-column-full">
+                {{ CCSButton({
+                              text: "upload",
+                              type: "submit",
+                              classes: "doc_upload_button"
+                            })
+                        }}
+            </div>
+
+            {{ CCSInput({
+                          id: "rfi_file_started",
+                          name: "rfi_file_started",
+                          type: "hidden",
+                          value: true
+                        })
+                      }}
+
+            </div>
 
 
-  </div>
+            </div>
 
- 
-          <div class="govuk-button-group">
-                  {{ CCSButton({
-                        text: "Save and continue"
-                      })
-                  }}
-                  <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI)</a>
+          </form>
+                        
+           
+
+      
+                <div class="govuk-button-group">
+                        {{ CCSButton({
+                              text: "Save and continue"
+                            })
+                        }}
+                        <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI)</a>
                 </div>
 
 
 
-</div>
-    <div class="govuk-grid-column-one-third">
-  
-      {{ howToGetSupport() }}
-
-    </div>
-  </div>
-    
-  </div>
-  </main>
-{% endblock %}
+            </div>
+            <div class="govuk-grid-column-one-third">
+              {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
+          
+        </main>
+      {% endblock %}
