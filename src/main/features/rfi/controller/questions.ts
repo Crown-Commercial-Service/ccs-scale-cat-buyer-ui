@@ -100,6 +100,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
+    req.session['isLocationError'] = false;
     res.render('questions', data);
   } catch (error) {
     delete error?.config?.['headers'];
