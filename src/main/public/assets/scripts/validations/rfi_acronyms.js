@@ -1,9 +1,8 @@
-if($('#keyterm').length > 0) {
+
+if ($('#rfi_keyterm').length > 0) {
   $('.rfi_form').attr('id', 'ccs_rfi_acronyms_form');
   $('.rfi_form').attr('name', 'ccs_rfi_acronyms_form');
-  
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -44,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
       checkFields();
-      
+
 
       e.preventDefault();
       errorStore = emptyFieldCheck();
