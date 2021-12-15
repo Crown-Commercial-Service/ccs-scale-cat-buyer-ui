@@ -22,45 +22,20 @@ export const FILEUPLOADHELPER: express.Handler = async (req: express.Request, re
     if(file_id !== undefined){
           try {
           const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`
-          const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {responseType: 'blob'});
+          const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {responseType: 'arraybuffer'});
           const file = FetchDocuments;
           const fileName = file.headers["content-disposition"].split("filename=")[1].split('"').join("");
-          const pipeline = util.promisify(stream.pipeline);
           const fileData = file.data;
-          const fileTemporaryPath = 'uploads/downloads/'+fileName;
-          const type = file.headers['content-type']
-          const charset = type.split(";")[1].split("charset=")[1];
-
-         await pipeline(fileData, fileSystem.createWriteStream(fileTemporaryPath));
-
-          res.download(fileTemporaryPath, (err)=>{
-            if(err){
-              delete error?.config?.['headers'];
-              const Logmessage = {
-                Person_id: TokenDecoder.decoder(SESSION_ID),
-                error_location: `${req.headers.host}${req.originalUrl}`,
-                sessionId: 'null',
-                error_reason: 'Error -Downloading File to the local Storage',
-                exception: error,
-              };
-              const Log = new LogMessageFormatter(
-                Logmessage.Person_id,
-                Logmessage.error_location,
-                Logmessage.sessionId,
-                Logmessage.error_reason,
-                Logmessage.exception,
-              );
-              fileSystem.unlinkSync(fileTemporaryPath);
-              LoggTracer.errorTracer(Log, res);
-            }else{
-              fileSystem.unlinkSync(fileTemporaryPath);
-            }
-        
-        })
-         
-      
-         
-
+          const type = file.headers['content-type'];
+          const ContentLength = file.headers['content-length'];
+          res.status(200);
+          res.set({
+            'Cache-Control': 'no-cache',
+            'Content-Type': type,
+            'Content-Length': ContentLength ,
+            'Content-Disposition': 'attachment; filename=' + fileName
+          });
+          res.send(fileData);       
       } catch (error) {
         console.log(error)
         delete error?.config?.['headers'];
@@ -86,7 +61,8 @@ export const FILEUPLOADHELPER: express.Handler = async (req: express.Request, re
         const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`
         const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
         const FETCH_FILEDATA = FetchDocuments.data;
-        let windowAppendData = { lotId, agreementLotName, data: cmsData, files: FETCH_FILEDATA }
+        const releatedContent = req.session.releatedContent;
+        let windowAppendData = { lotId, agreementLotName, data: cmsData, files: FETCH_FILEDATA, releatedContent: releatedContent }
         if(fileError && errorList !== null){
           windowAppendData = Object.assign({}, {...windowAppendData, fileError: 'true', errorlist: errorList})
         }        
