@@ -105,7 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('eoi_term_' + target).value = "";
         document.getElementById('eoi_term_definition_' + target).value = "";
+        removeErrorFieldsEoi();
       });
+     
     });
 
 
@@ -182,7 +184,8 @@ const removeErrorFieldsEoi = () => {
   $('.govuk-error-message').remove();
   $('.govuk-form-group--error').removeClass('govuk-form-group--error')
   $('.govuk-error-summary').remove();
-  $(".govuk-input").removeClass("govuk-input--error")
+  $(".govuk-input").removeClass("govuk-input--error");
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
 

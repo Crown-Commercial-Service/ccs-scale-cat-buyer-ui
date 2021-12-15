@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('rfi_term_' + target).value = "";
         document.getElementById('rfi_term_definition_' + target).value = "";
+        removeErrorFields();
       });
     });
 
@@ -186,7 +187,8 @@ const removeErrorFields = () => {
   $('.govuk-error-message').remove();
   $('.govuk-form-group--error').removeClass('govuk-form-group--error')
   $('.govuk-error-summary').remove();
-  $(".govuk-input").removeClass("govuk-input--error")
+  $(".govuk-input").removeClass("govuk-input--error");
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
 
