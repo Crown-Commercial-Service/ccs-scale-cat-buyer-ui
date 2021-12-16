@@ -179,3 +179,9 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
 export const GET_REMOVE_FILES = express.Handler = (req: express.Request, res: express.Response) => {
       res.redirect('/rfi/upload-doc')
 }
+
+
+///rfi/upload-doc/procceed
+export const POST_UPLOAD_PROCCEED = express.Handler = (req: express.Request, res: express.Response) => {
+  res.redirect('/rfi/suppliers')
+}
