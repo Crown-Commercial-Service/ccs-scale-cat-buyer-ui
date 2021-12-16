@@ -26,6 +26,15 @@ $(document).ready(function () {
 
     uploadField.onchange = function () {
         const FileList = this.files;
+        const totalFiles = FileList.length;
+        let totalFileSum = 0;
+
+        for(var a =0; a < totalFiles; a ++){
+            let file = FileList[a];
+            totalFileSum = totalFileSum + file.size;
+        }
+       
+        
 
         const allValidMimeTypes = Object.values(FileMimeType);
         const ErrorCheckArray = [];
@@ -33,8 +42,10 @@ $(document).ready(function () {
         for(const file of FileList){
 
             const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
+
+            let size = 300000000;
             
-            if(file.size > 1000000000){
+            if(file.size >= size){
                ErrorCheckArray.push({
                    type: "size"
                })
@@ -52,7 +63,6 @@ $(document).ready(function () {
             }
 
         }
-
         const noError = ErrorCheckArray.every(element => element.type === "none");
         const ErrorForSize = ErrorCheckArray.some(element => element.type === "size");
         const ErrorForMimeType = ErrorCheckArray.some(element => element.type === "type")
@@ -67,7 +77,7 @@ $(document).ready(function () {
             $('#rfi_offline_document').addClass("govuk-input--error")
             $('#upload_doc_form').addClass('govuk-form-group--error');
             $('#rfi_offline_document').val() === "";
-            $('#rfi_upload_error_summary').text('Upload size exceeds 1 GB');
+            $('#rfi_upload_error_summary').text('Upload size exceeds 300 MB');
             $('.doc_upload_button').hide();
         }
         else if(ErrorForMimeType){
@@ -77,6 +87,7 @@ $(document).ready(function () {
             $('#rfi_upload_error_summary').text('Acceptable file formats:  csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip');
             $('.doc_upload_button').hide();
         }
+       
         else{
             $('#rfi_offline_document').removeClass("govuk-input--error")
             $('#upload_doc_form').removeClass('govuk-form-group--error');
@@ -86,6 +97,14 @@ $(document).ready(function () {
 
         }
 
+
+        if (Number(totalFileSum) > 1000000000){
+            $('#rfi_offline_document').addClass("govuk-input--error")
+            $('#upload_doc_form').addClass('govuk-form-group--error');
+            $('#rfi_offline_document').val() === "";
+            $('#rfi_upload_error_summary').text('Total Files Size cannot exceed 1 GB');
+            $('.doc_upload_button').hide();
+        }
 
 
     }
