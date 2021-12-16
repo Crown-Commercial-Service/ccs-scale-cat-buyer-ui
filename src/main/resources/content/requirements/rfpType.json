@@ -1,0 +1,53 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "How will you build your one stage further competition",
+            "href": "#"
+        }
+
+    ],
+
+    "title": "How will you build your one stage further competition?",
+    "subtitle": null,
+    "form": {
+        "question": "You can choose to either enter the information online to build your one stage further competition or upload your own document.",
+        "radioOptions": {
+            "idPrefix": "ccs_chose_route",
+            "name": "ccs_ca_type",
+            "items": [
+              {
+                "value": "all_online",
+                "text": "Enter all the information online",
+                "hint": {
+                  "text": "Enter all the information needed to build your one stage further competition online and submit it to your selected suppliers."
+                }
+
+              },
+              {
+                "value": "all_offline",
+                "text": "Complete and upload a document",
+                "hint": {
+                  "text": "Use this option to prepare your one stage further competition offline and then upload it."
+                }
+              }
+            ]
+          },
+        "backJump": {
+            "title": "Return to procurement overview",
+            "href": "/projects/create-or-choose"
+        }
+
+    }
+}

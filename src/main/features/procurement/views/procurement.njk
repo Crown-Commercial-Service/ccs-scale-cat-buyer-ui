@@ -29,7 +29,7 @@
                <h2 class="proc-task-list__section">
                   <span class="proc-task-list__section-number">{{event.eventno}}.</span>
                   {{event.eventTitle}}
-                  {% if (event.status === 'optional') or (event.status === 'todo') %}
+                  {% if (event.status === 'Optional') or (event.status === 'TODO') or (event.status === 'DONE') %}
                   <strong class="govuk-tag app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
                   {% else %}
                   <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="suppliers-status">{{event.status}}</strong>

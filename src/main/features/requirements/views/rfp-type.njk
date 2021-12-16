@@ -1,19 +1,27 @@
 {% extends "template.njk" %}
-{% from "components/releatedContent.njk" import CCSReleatedContent %}
 
-{% set title = 'How will you publish your EoI? | Contract a Thing' %}
+{% from "components/support/macro.njk" import howToGetSupport %}
 
-{% block breadCrumb %}
-  {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
-      }) }}
-{% endblock %}
+{% set title = 'How to build market event' %}
 
 {% block content %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
 
+    {{ CCSErrorSummary({
+    titleText: "There is a problem",
+    errorList: [
+        {
+        text: "Please select an option"
+        }
+    ]
+    }) }}
+    {%endif %}
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         <h1 class="govuk-heading-xl">
           {{data.title }}
         </h1>
@@ -25,12 +33,7 @@
         {% include "includes/project_header.njk" %}
 
         <p class="govuk-body">{{ data.form.question }}</p>
-      </div>
-      <div class="govuk-grid-column-one-third">
-        {{ CCSReleatedContent(releatedContent) }}
-      </div>
-      </div>
-      <form id="ccs_eoi_type_form" name="ccs_eoi_type_form" class="form ccs_eoi_type_form" action="/eoi/type?agreement_id={{agreement_id}}" method="POST">
+              <form id="ccs_ca_type_form" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/rfp/type" method="POST">
 
         {% set formOptions = data.form.radioOptions.items %}
 
@@ -50,16 +53,29 @@
              %}
 
         {% endfor %}
+{% if(error) %}
+
+            {{ CCSRadios({
+                idPrefix: "fc_rfp_type",
+                name: "fc_rfp_type",
+                items: form_Options_Altered,
+                errorMessage: error,
+                errorMessage: {
+                text: 'Please select an option'
+                  }                  
+              }) }}
+    {% else %}
 
         {{ CCSRadios({
-                idPrefix: "ccs_eoi_type",
-                name: "ccs_eoi_type",
-                items: form_Options_Altered               
+                idPrefix: "fc_rfp_type",
+                name: "fc_rfp_type",
+                items: form_Options_Altered        
               }) }}
+{%endif %}
 
         {{ CCSInput({
-                id: "choose_eoi_type",
-                name: "choose_eoi_type",
+                id: "choose_fc_rfp_type",
+                name: "choose_fc_rfp_type",
                 type: "hidden",
                 value: true
               }) }}
@@ -71,6 +87,12 @@
           <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
         </div>
       </form>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+      </div>
+      </div>
+
     </div>
 
   </main>
