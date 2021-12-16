@@ -1,0 +1,32 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "Write and publish your requirements",
+            "href": "#"
+        }
+
+    ],
+
+    "title": "Write and publish your requirements",
+    "subtitle": null,
+    "form": {
+        "question": "[instructions for this page]",
+        "backJump": {
+            "title": "Return to procurement overview",
+            "href": "/projects/create-or-choose"
+        }
+
+    }
+}
