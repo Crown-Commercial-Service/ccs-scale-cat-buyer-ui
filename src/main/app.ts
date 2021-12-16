@@ -16,7 +16,7 @@ export const app = express();
 import glob from 'glob'
 import { routeExceptionHandler } from './setup/routeexception'
 import { RedisInstanceSetup } from './setup/redis'
-import {fileUploadSetup} from './setup/fileupload'
+import {fileUploadSetup} from './setup/fileUpload'
 
 app.locals.ENV = env;
 
