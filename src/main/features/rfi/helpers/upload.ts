@@ -61,8 +61,9 @@ export const FILEUPLOADHELPER: express.Handler = async (req: express.Request, re
         const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`
         const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
         const FETCH_FILEDATA = FetchDocuments.data;
+        const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
         const releatedContent = req.session.releatedContent;
-        let windowAppendData = { lotId, agreementLotName, data: cmsData, files: FETCH_FILEDATA, releatedContent: releatedContent }
+        let windowAppendData = { lotId, agreementLotName, data: cmsData, files: FETCH_FILEDATA, releatedContent: releatedContent, storage: TOTALSUM }
         if(fileError && errorList !== null){
           windowAppendData = Object.assign({}, {...windowAppendData, fileError: 'true', errorlist: errorList})
         }        
