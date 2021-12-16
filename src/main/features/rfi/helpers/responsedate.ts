@@ -7,7 +7,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import moment from 'moment-business-days'
 import * as cmsData from '../../../resources/content/RFI/rfi-response-date.json';
-import config from 'config'
+import  config from 'config'
 
 
 
@@ -98,6 +98,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         res.render('response-date', appendData)
 
     } catch (error) {
+        console.log(error)
         LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
             TokenDecoder.decoder(SESSION_ID), "Tenders Service Api cannot be connected", true)
     }
