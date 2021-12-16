@@ -1,36 +1,36 @@
 {% extends "template.njk" %}
 
-{% set title = 'RfI - response date | Crown Commercial Service' %}
+{% set title = 'EoI - response date | Crown Commercial Service' %}
 
 
 
 {% block breadCrumb %}
-    {{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
         items: data.breadCrumbs
-    }) }}
+      }) }}
 {% endblock %}
 
 {% block content %}
-    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-                <h1 class="govuk-heading-xl">
-                    {{data.title }}
-                </h1>
-            </div>
-        </div>
-        {% if(error)%}
-            {{ CCSErrorSummary({
-                titleText: "There is a problem",
-                errorList: [
-                    {
-                      text: errorMessage.text,
-                      href: "#"+errorMessage.href
-                    }
-                ]
-            }) }}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title }}
+        </h1>
+      </div>
+    </div>
+    {% if(error)%}
+    {{ CCSErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+    {
+      text: errorMessage.text,
+      href: "#"+errorMessage.href
+    }
+  ]
+}) }}
 
-        {% endif%}
+{% endif%}
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
@@ -40,7 +40,7 @@
          {% block valuewitNoMultiSelect %}
             {% for requirement in framework%}
                 {% if (requirement.nonOCDS.questionType === 'DateTime') and (requirement.nonOCDS.multiAnswer === false) %}
-                    <div class="govuk-form-group ccs-page-section rfi_publish_date">
+                    <div class="govuk-form-group ccs-page-section eoi_publish_date">
                     <p class="govuk-body"><span>{{loop.index}} &nbsp; </span>{{requirement.OCDS.title}}</p>
                     <div id="clarification_date">
                     
@@ -78,7 +78,7 @@
                             class="govuk-link govuk-link--no-visited-state ">I do not want to change this date and time</a>
                         </div>
                         <br>
-                        <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfi_response_date_form">
+                        <form action="/eoi/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_eoi_response_date_form">
                             <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
 
                                 <div class="govuk-date-input" id="clarification_date">
@@ -194,7 +194,7 @@
         {% endblock %}
 
         <div class="govuk-button-group">
-            <form method="post" action="/rfi/response-date" >   
+            <form method="post" action="/eoi/response-date" >   
                 {{ CCSInput({
                     id: "timeStamp",
                     name: "clarification_date",
@@ -237,7 +237,7 @@
                 <button class="govuk-button" data-module="govuk-button">
                     Save and continue
                 </button>
-                <a href="/rfi/rfi-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+                <a href="/eoi/eoi-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
             </form>
                 
         </div>
