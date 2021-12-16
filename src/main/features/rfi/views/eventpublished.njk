@@ -2,7 +2,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = ' Request for information issued | Crown Commercial Service' %}
+{% set title = 'Request for information issued | Crown Commercial Service' %}
 
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
@@ -54,7 +54,7 @@
           text: data.dashboard.title,
           href: data.dashboard.href
         }) }}
-        <a href="{{data.procurement.title}}" class="govuk-link govuk-link--no-visited-state">{{data.procurement.title}} </a>
+        <a href="{{data.procurement.href}}" class="govuk-link govuk-link--no-visited-state">{{data.procurement.title}} </a>
       </div>
 
     </div>
