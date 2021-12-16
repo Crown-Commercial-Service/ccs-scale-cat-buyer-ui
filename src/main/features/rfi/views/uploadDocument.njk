@@ -124,15 +124,16 @@
                         
            
 
-      
+                <form action="/rfi/upload-doc/proceed" method="post">      
                 <div class="govuk-button-group">
                         {{ CCSButton({
-                              text: "Save and continue"
+                              text: "Save and continue",
+                              type: "submit"
                             })
                         }}
                         <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI)</a>
                 </div>
-
+              </form>
 
 
             </div>

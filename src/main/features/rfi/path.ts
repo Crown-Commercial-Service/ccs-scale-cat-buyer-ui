@@ -1,7 +1,6 @@
 import { Application } from 'express';
 import { RFI_PATHS } from './model/rficonstant'
 import { associatedViews } from './controller/index'
-import * as apisource from '../../resources/content/RFI/template.json'
 import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch'
 import { AUTH } from '../../common/middlewares/oauthservice/authstatecheck'
 import { ContentFetchMiddleware } from '../../common/middlewares/menu-contentservice/contentservice'
@@ -67,6 +66,8 @@ export default function (app: Application): void {
   //@GET ="/rfi/event-sent"
   app.get(RFI_PATHS.GET_EVENT_PUBLISHED, [ContentFetchMiddleware.FetchContents , AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.GET_EVENT_PUBLISHED )
     
+ //@GET Offline page
+ app.get(RFI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);
 
 
 
@@ -79,8 +80,6 @@ export default function (app: Application): void {
    */
 
 
-  // api 
-  app.get('/api/template', (req, res) => res.json(apisource))
 
   //@POST '/rfi/type
   app.post(RFI_PATHS.POST_TYPE_TYPE, AUTH, associatedViews.POST_TYPE);
@@ -129,8 +128,8 @@ export default function (app: Application): void {
     //@POST rfi/review
     app.post(RFI_PATHS.POST_RFI_REVIEW, AUTH, associatedViews.POST_RFI_REVIEW )
 
-
-  // Offline page
-  app.get(RFI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);
+ 
+   //@POST /rfi/upload-doc/procceed
+   app.post(RFI_PATHS.POST_UPLOAD_PROCEED, AUTH, associatedViews.POST_UPLOAD_PROCEED);
 
 }

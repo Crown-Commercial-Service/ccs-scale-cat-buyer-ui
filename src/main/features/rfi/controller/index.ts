@@ -2,7 +2,7 @@ import { GET_TASKLIST } from './tasklist'
 import { GET_TYPE, POST_TYPE } from './type'
 import { GET_ONLINE_TASKLIST } from './onlinetasklist'
 import { GET_QUESTIONS, POST_QUESTION } from './questions'
-import { GET_UPLOAD_DOC, POST_UPLOAD_DOC, GET_REMOVE_FILES } from './upload'
+import { GET_UPLOAD_DOC, POST_UPLOAD_DOC, GET_REMOVE_FILES, POST_UPLOAD_PROCEED } from './upload'
 import { GET_NAME_PROJECT, POST_NAME_PROJECT } from './nameAProject'
 import { GET_LEAD_PROCUREMENT, PUT_LEAD_PROCUREMENT, GET_USER_PROCUREMENT } from './leadProcurement'
 import { GET_ADD_COLLABORATOR, POST_ADD_COLLABORATOR, POST_ADD_COLLABORATOR_TO_JAGGER, POST_PROCEED_COLLABORATORS, POST_ADD_COLLABORATOR_JSENABLED } from './addcollaborator'
@@ -48,6 +48,7 @@ export const associatedViews = {
     POST_RFI_SUPPLIER,
     POST_RESPONSE_DATE,
     POST_RFI_REVIEW,
-    POST_ADD_RESPONSE_DATE
+    POST_ADD_RESPONSE_DATE,
+    POST_UPLOAD_PROCEED
 
 }
