@@ -1,15 +1,14 @@
 //@ts-nocheck
 import * as express from 'express';
-import {DynamicFrameworkInstance} from '../util/fetch/dyanmicframeworkInstance'
-import {LoggTracer} from '../../../common/logtracer/tracer'
-import {TokenDecoder} from '../../../common/tokendecoder/tokendecoder'
-import { LoggTracer } from '../../../common/logtracer/tracer';
-import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
+import {tenderApiInstance} from '../../common/util/fetch/tenderService/tenderApiInstance'
+import {LoggTracer} from '../../common/logtracer/tracer'
+import {TokenDecoder} from '../../common/tokendecoder/tokendecoder'
+import { LoggTracer } from '../../common/logtracer/tracer';
+import { LogMessageFormatter } from '../../common/logtracer/logmessageformatter';
 import  moment from 'moment-business-days'
-import * as cmsData from '../../../resources/content/RFI/rfi-response-date.json';
 
 
-export const RESPONSEDATEHELPER = async(req: express.Request, res: express.Response, errorTriggered, errorItem)=> {
+export const RESPONSEDATEHELPER = async(req: express.Request, res: express.Response,cmsData, errorTriggered, errorItem)=> {
     const proc_id = req.session.projectId;
     const event_id = req.session.eventId;
     const {SESSION_ID} = req.cookies;
@@ -20,7 +19,7 @@ export const RESPONSEDATEHELPER = async(req: express.Request, res: express.Respo
  
     try {
         
-        const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+        const fetch_dynamic_api = await tenderApiInstance.Instance(SESSION_ID).get(baseURL);
         const fetch_dynamic_api_data = fetch_dynamic_api?.data;
         const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id);
         let criterianStorage = [];
