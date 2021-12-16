@@ -122,3 +122,7 @@
 .hide{
     visibility: hidden !important;
 }
+
+.text-overflow {
+    word-break: break-word !important;
+}

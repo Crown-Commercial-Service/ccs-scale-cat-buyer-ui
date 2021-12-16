@@ -117,4 +117,7 @@ export default function (app: Application): void {
 
   // Offline page
   app.get(EOI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);
+
+  // Publish summary page
+  app.get(EOI_PATHS.GET_EVENT_PUBLISHED, AUTH, associatedViews.GET_EVENT_PUBLISHED);
 }

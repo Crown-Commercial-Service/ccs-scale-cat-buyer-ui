@@ -45,5 +45,14 @@
     "state": "state",
     "lotNum": "lotNum",
     "agreement_id": "agreement_id"
-  }
+  },
+  "predefinedDays" : {
+    "defaultEndingHour" : "23",
+    "defaultEndingMinutes": "59",
+    "clarification_days": "4",
+    "clarification_period_end": "2",
+    "supplier_period": "4",
+    "supplier_deadline" : "6"
+    
+    }
 }

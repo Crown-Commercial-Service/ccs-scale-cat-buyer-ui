@@ -2,14 +2,14 @@
     "breadCrumbs": [
     ],
 
-    "title": "Your Request for Information is published  ",
+    "title": "Your Expression of Interest is published  ",
     "board": {
-        "header": "Your Request for Information was sent to the suppliers you selected ",
+        "header": "Your Expression of Interest was sent to the suppliers you selected ",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",
         "next": [
-            {"li": "the suppliers you selected can read your RfI and ask questions if they need more information"},
+            {"li": "the suppliers you selected can read your EOI and ask questions if they need more information"},
             {"li": "when the clarification period ends you will need to answer the supplier questions by the deadline you set"}
         ]
     },

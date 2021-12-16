@@ -14,6 +14,7 @@ export enum EOI_PATHS {
   GET_USER_PROCUREMENT = '/eoi/users-procurement-lead',
   GET_REMOVE_FILE = '/eoi/files/remove',
   GET_OFFLINE = '/eoi/offline',
+  GET_EVENT_PUBLISHED = '/eoi/event-sent',
 
   /**
    * @POSTROUTES
