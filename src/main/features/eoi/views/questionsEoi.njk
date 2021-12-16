@@ -65,7 +65,7 @@
     </div>
     <div class="govuk-grid-column-two-thirds">
       {% include "includes/project_header.njk" %}
-      <p class="govuk-body-l">{{data.eoiTitle}}</p>
+      <p class="govuk-body">{{data.eoiTitle}}</p>
 
       <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} eoi_form" action="/eoi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
         <p class="govuk-body govuk-!-margin-bottom-7">{{prompt | safe}}</p>

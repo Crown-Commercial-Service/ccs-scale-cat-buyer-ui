@@ -71,7 +71,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
 
     data.events.forEach(event => {
-      const step = journyData.states.find(item => item.step === event.eventno);
+      const step = req.session['journey_status'] ? req.session['journey_status'].find(item => item.step === event.eventno) : journyData.states.find(item => item.step === event.eventno);
       if (step){
         if(step.state === 'Not started') {
           event.status = 'TODO';

@@ -43,6 +43,8 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
   const EventId = req.session['eventId'];
   const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`
 
+  
+
   const FileFilterArray = [];
 
   if (rfi_file_started) {
@@ -54,8 +56,6 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
       if (multipleFileCheck) {
           for (const file of rfi_offline_document) {
               const fileName = file.name;
-              const fileTemporaryPath = 'uploads/upload/';
-
               const fileMimeType = file.mimetype;
               const fileSize = file.size;
     
@@ -64,15 +64,12 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
               
               if(validateMimeType && validateFileSize)
               {
-                file.mv(fileTemporaryPath + fileName, async (err) => {
-                  if (err) {
-                    LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-                    TokenDecoder.decoder(SESSION_ID), "Multiple File Upload Error", false)
-                  }
+               
                   const formData = new FormData();
-                  const formDataReadPath = fileTemporaryPath + fileName;
-                  const fileReadStream = fileSystem.createReadStream(formDataReadPath);
-                  formData.append("data", fileReadStream);
+                  formData.append("data", file.data, { 
+                    contentType: file.mimetype,
+                    filename: file.name}
+                    );
                   formData.append("description", file.name)
                   formData.append("audience", "buyer")
                   const formHeaders = formData.getHeaders();
@@ -82,15 +79,11 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
                               ...formHeaders
                           }
                       });
-                      fileSystem.unlinkSync(formDataReadPath);
 
                   } catch (error) {
                       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
                           TokenDecoder.decoder(SESSION_ID), "Multiple File Upload Error", false)
                   }
-              });
-               
-
               }
               else{
                 FileFilterArray.push({
@@ -109,7 +102,6 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
          
       } else {
           const fileName = rfi_offline_document.name;
-          const fileTemporaryPath = 'uploads/upload/'
           const fileMimeType = rfi_offline_document.mimetype;
           const fileSize = rfi_offline_document.size;
 
@@ -119,14 +111,11 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
 
           if(validateMimeType && validateFileSize)
           {
-            rfi_offline_document.mv(fileTemporaryPath + fileName, async (err) => {
-              if (err) {
-                  res.render('error/500')
-              }
               const formData = new FormData();
-              const formDataReadPath = fileTemporaryPath + fileName;
-              const fileReadStream = fileSystem.createReadStream(formDataReadPath);
-              formData.append("data", fileReadStream);
+              formData.append("data", rfi_offline_document.data, { 
+                contentType: rfi_offline_document.mimetype,
+                filename: rfi_offline_document.name}
+                );
               formData.append("description", rfi_offline_document.name)
               formData.append("audience", "buyer")
               const formHeaders = formData.getHeaders();
@@ -136,10 +125,8 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
                           ...formHeaders
                       }
                   });
-                  fileSystem.unlinkSync(formDataReadPath);
                   res.redirect('/rfi/upload-doc')
               } catch (error) {
-                 fileSystem.unlinkSync(formDataReadPath);
                   delete error?.config?.['headers'];
                   const Logmessage = {
                       Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -157,7 +144,6 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
                   );
                   LoggTracer.errorTracer(Log, res);
               }
-          });
           }
 
           else{

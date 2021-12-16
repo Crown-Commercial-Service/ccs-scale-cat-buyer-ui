@@ -115,6 +115,47 @@ The file explorer is accessible using the button in left corner of the navigatio
 > 
 > Step 25 - Eoi completed ? (Cannot start yet) - Once user in Do
 > pre-market engagement this status has to be changed to (In progress)
+>   
+> 
+> **Write and publish your requirements**  
+> 
+> Step 26 - Name your project (Optional)
+> 
+> Step 27 - Change who is going to lead the procurement (Optional)
+> 
+> Step 28 - Add colleagues to your project (Optional)
+> 
+>   
+> *Context to your 1-stage further competition*
+> Step 29 - IR35 acknowledgement (Not started)
+> 
+> Step 30 - Add context (Not started)
+>
+> *Your requirements and evaluation weightings*
+> 
+> Step 31- How would you like to create your requirements? (Cannot start yet)
+> 
+> Step 32 - Your requirements (Cannot start yet)
+> 
+>
+>*Your assessment bases and evaluation weightings*
+> Step 33 - Define your assessment bases (Cannot start yet)
+> 
+> Step 34 - Add your evaluation weightings (Cannot start yet)
+> 
+> Step 35 - How would you like to set your scoring criteria ? (Cannot start yet)
+>
+> Step 36 - Set your scoring criteria (Cannot start yet)
+> 
+>
+>*Review and publish your 1-stage RfP*
+> Step 37 - Upload documents or add links (Cannot start yet)
+> 
+> Step 38 - Look at the suppliers for this further competition (Cannot start yet)
+> 
+> Step 39 - Set response date and time ? (Cannot start yet)
+>
+> Step 40 - Review and publish ? (Cannot start yet)
 
 # UI Status --> API response
 
