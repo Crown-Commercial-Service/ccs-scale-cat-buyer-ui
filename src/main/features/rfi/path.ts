@@ -130,6 +130,6 @@ export default function (app: Application): void {
 
  
    //@POST /rfi/upload-doc/procceed
-   app.post(RFI_PATHS.POST_UPLOAD_PROCCED, AUTH, associatedViews.POST_UPLOAD_PROCCEED);
+   app.post(RFI_PATHS.POST_UPLOAD_PROCEED, AUTH, associatedViews.POST_UPLOAD_PROCEED);
 
 }

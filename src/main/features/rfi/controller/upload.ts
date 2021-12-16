@@ -182,6 +182,6 @@ export const GET_REMOVE_FILES = express.Handler = (req: express.Request, res: ex
 
 
 ///rfi/upload-doc/procceed
-export const POST_UPLOAD_PROCCEED = express.Handler = (req: express.Request, res: express.Response) => {
+export const POST_UPLOAD_PROCEED = express.Handler = (req: express.Request, res: express.Response) => {
   res.redirect('/rfi/suppliers')
 }
