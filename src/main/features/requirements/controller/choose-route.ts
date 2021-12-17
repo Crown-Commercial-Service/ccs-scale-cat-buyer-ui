@@ -14,7 +14,7 @@ const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
  * @param req 
  * @param res 
  */
-export const REQUIREMENT_CHOOSE_ROUTE = (req: express.Request, res: express.Response) => {
+export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: express.Response) => {
   const releatedContent = req.session.releatedContent
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
@@ -23,9 +23,44 @@ export const REQUIREMENT_CHOOSE_ROUTE = (req: express.Request, res: express.Resp
   const agreementLotName = req.session.agreementLotName;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
+  const updatedOptions = await updateRadioButtonOptions(chooseRouteData, agreementId_session, lotid, req.session?.types)
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
-  const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError  }
+  const appendData = { data: updatedOptions, releatedContent, error: isJaggaerError  }
   res.render('choose-route', appendData);
+}
+
+function updateRadioButtonOptions (chooseRouteOptions: any, agreementId: string, lotid: string, types: string[]): object {
+  let updatedOptions = chooseRouteOptions;
+  switch (agreementId) {
+    case 'RM6263':
+       if (lotid == 'Lot 1') {
+        for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
+          if ( types.find((element => element == 'FC'))){
+            if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
+              updatedOptions.form.radioOptions.items[i].disabled = "true"
+            } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
+              updatedOptions.form.radioOptions.items[i].remove = "true"
+            }
+          }
+        }
+       } else {
+        for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
+          if ( types.find((element => element == 'DA'))){
+            if (updatedOptions.form.radioOptions.items[i].value === '2-stage' || updatedOptions.form.radioOptions.items[i].value === 'award') {
+              updatedOptions.form.radioOptions.items[i].disabled = "true"
+            }
+          }
+        }
+       }
+       break;
+
+    case 'RM6187':
+       
+       break;
+
+    default: updatedOptions = chooseRouteOptions;
+} 
+  return updatedOptions
 }
 
 /**
