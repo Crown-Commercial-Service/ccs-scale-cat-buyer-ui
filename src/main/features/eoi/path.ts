@@ -45,6 +45,11 @@ export default function (app: Application): void {
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_QUESTIONS,
   );
+  //@GET "/eoi/response-date"
+  app.get(EOI_PATHS.GET_RESPONSE_DATE, 
+    [ContentFetchMiddleware.FetchContents , AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_RESPONSE_DATE )
+
 
   //  @GET '/eoi/upload-doc'
   app.get(
@@ -111,7 +116,12 @@ export default function (app: Application): void {
 
   //@POST '/eoi/add-collaborator-detail'
   app.post(EOI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER);
-
+  
+  //@POST "/eoi/response-date"
+  app.post(EOI_PATHS.POST_RESPONSE_DATE, AUTH, associatedViews.POST_RESPONSE_DATE )
+    
+  //@POST /eoi/add/response-date
+  app.post(EOI_PATHS.POST_ADD_RESPONSE_DATA, AUTH, associatedViews.POST_ADD_RESPONSE_DATE)
   //@POST "eoi/upload-doc"
   app.post(EOI_PATHS.POST_UPLOAD_DOC, AUTH, associatedViews.POST_UPLOAD_DOC);
 

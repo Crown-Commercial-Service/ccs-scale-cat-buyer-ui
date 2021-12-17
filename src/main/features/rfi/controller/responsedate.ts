@@ -1,18 +1,19 @@
 //@ts-nocheck
 import * as express from 'express';
-
-import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance'
+import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance'
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
-import { RESPONSEDATEHELPER } from '../helpers/responsedate'
-import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+import { RESPONSEDATEHELPER } from '../../shared/responsedate'
+import *  as cmsData from '../../../resources/content/RFI/rfi-response-date.json'
 
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-   RESPONSEDATEHELPER(req, res);
+   let appendData = await RESPONSEDATEHELPER(req, res);
+   appendData.data = cmsData;
+   res.render("response-date", appendData)
 }
 
 export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -30,13 +31,13 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
 
    try {
 
-      const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+      const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id);
       let criterianStorage = [];
       for (const aURI of extracted_criterion_based) {
          const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-         const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+         const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
          const criterian_array = fetch_criterian_group_data?.data;
          const rebased_object_with_requirements = criterian_array?.map((anItem) => {
             const object = anItem;
@@ -48,7 +49,7 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       criterianStorage = criterianStorage.flat();
       criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector)
       const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/${keyDateselector}/questions`;
-      const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
+      const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
       const fetchQuestionsData = fetchQuestions.data;
       const allunfilledAnswer = fetchQuestionsData.filter(anAswer => anAswer.nonOCDS.options.length == 0).map(aQuestion => aQuestion.OCDS.id)
       console.log(allunfilledAnswer)
@@ -72,7 +73,7 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
             },
          };
          const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-         await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       }
       await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Completed');
       res.redirect('/rfi/review')
@@ -150,7 +151,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
 
          const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-         await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
          res.redirect('/rfi/response-date')
       }
       catch (error) {
@@ -181,12 +182,12 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
          case 'Question 1':
             selector = " Publish your RfI - Date should be in the future";
-            selectorID = "rfi_clarification_date"
+            selectorID = "clarification_date"
             break;
 
          case 'Question 2':
             selector = "Clarification period ends - Date should be in the future";
-            selectorID = "rfi_clarification_period_end"
+            selectorID = "clarification_period_end"
             break;
 
          case 'Question 3':
@@ -210,8 +211,10 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
       const errorItem = {
          text: selector,
          href: selectorID
-      }
-      RESPONSEDATEHELPER(req, res, true, errorItem);
+      }     
+      let appendData = await  RESPONSEDATEHELPER(req, res, true, errorItem);
+      appendData.data = cmsData;
+      res.render("response-date", appendData)
    }
 
 

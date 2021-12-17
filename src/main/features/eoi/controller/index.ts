@@ -2,6 +2,7 @@ import { GET_TASKLIST } from './tasklist'
 import { GET_TYPE, POST_TYPE } from './type'
 import { GET_ONLINE_TASKLIST } from './onlinetasklist'
 import { GET_QUESTIONS, POST_QUESTION } from './questions'
+import {GET_RESPONSE_DATE,POST_ADD_RESPONSE_DATE,POST_RESPONSE_DATE} from './responseDate'
 import { GET_UPLOAD_DOC, POST_UPLOAD_DOC, GET_REMOVE_FILES } from './upload'
 import { GET_EVENT_PUBLISHED } from './eventpublished'
 import { GET_NAME_PROJECT, POST_NAME_PROJECT } from './nameAProject'
@@ -26,6 +27,7 @@ export const associatedViews = {
     GET_REMOVE_FILES,
     OFFLINE_JOURNEY_PAGE,
     GET_EVENT_PUBLISHED,
+    GET_RESPONSE_DATE,
 
 
     /**
@@ -39,6 +41,9 @@ export const associatedViews = {
     PUT_LEAD_PROCUREMENT,
     POST_PROCEED_COLLABORATORS,
     POST_ADD_COLLABORATOR_JSENABLED,
-    POST_UPLOAD_DOC
+    POST_UPLOAD_DOC,
+    POST_ADD_RESPONSE_DATE,
+    POST_RESPONSE_DATE
+
 
 }
