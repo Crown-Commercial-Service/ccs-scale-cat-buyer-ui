@@ -1,8 +1,10 @@
+//@ts-nocheck
 import * as express from 'express'
 import * as chooseRouteData from '../../../resources/content/requirements/rfpTaskList.json'
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import fileData from '../../../resources/content/RFI/rfionlineTaskList.json'
 
 /**
  * 
@@ -12,6 +14,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  * @param res 
  */
 export const REQUIREMENT_RFP_TASK_LIST = async (req: express.Request, res: express.Response) => {
+  console.log(fileData)
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId } = req.session;
   const releatedContent = req.session.releatedContent
