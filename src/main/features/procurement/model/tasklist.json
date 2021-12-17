@@ -101,6 +101,66 @@
         {
             "step": 25,
             "state": "Optional"
+        },
+        {
+            "step": 26,
+            "state": "Optional"
+        },
+        {
+            "step": 27,
+            "state": "Optional"
+        },
+        {
+            "step": 28,
+            "state": "Optional"
+        },
+        {
+            "step": 29,
+            "state": "Not started"
+        },
+        {
+            "step": 30,
+            "state": "Not started"
+        },
+        {
+            "step": 31,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 32,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 33,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 34,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 35,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 36,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 37,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 38,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 39,
+            "state": "Cannot start yet"
+        },
+        {
+            "step": 40,
+            "state": "Cannot start yet"
         }
     ]
 }
