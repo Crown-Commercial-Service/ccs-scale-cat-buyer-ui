@@ -16,6 +16,7 @@ export enum EOI_PATHS {
   GET_OFFLINE = '/eoi/offline',
   GET_EVENT_PUBLISHED = '/eoi/event-sent',
   GET_RESPONSE_DATE = '/eoi/response-date',
+  GET_EOI_REVIEW = '/eoi/review',
 
   /**
    * @POSTROUTES
@@ -32,5 +33,6 @@ export enum EOI_PATHS {
   POST_ADD_COLLABORATOR_JSENABLED = '/eoi/get-collaborator-detail/js-enabled',
   POST_UPLOAD_DOC = '/eoi/upload-doc',
   POST_RESPONSE_DATE = '/eoi/response-date',
-  POST_ADD_RESPONSE_DATA = '/eoi/add/response-date'
+  POST_ADD_RESPONSE_DATA = '/eoi/add/response-date',
+  POST_EOI_REVIEW = '/eoi/review',
 }
