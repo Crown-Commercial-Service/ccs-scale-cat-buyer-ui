@@ -1,8 +1,8 @@
 {
     "breadCrumbs": [
         {
-            "text": "Home",
-            "href": "/"
+            "text": "Dashboard",
+            "href": "/dashboard"
         },
         {
             "text": "Choose a commercial agreement",
