@@ -91,6 +91,7 @@ function updateRadioButtonOptions (chooseRouteOptions: any, agreementId: string,
           const redirect_address = REQUIREMENT_PATHS.RFP_TYPE;
           req.session.caSelectedRoute = fc_route_to_market
           logger.info("One stage further competition selected");
+          req.session.selectedRoute = 'FC';
           res.redirect(redirect_address);
           break;
   
@@ -99,9 +100,19 @@ function updateRadioButtonOptions (chooseRouteOptions: any, agreementId: string,
           const newAddress = '#';
           req.session.caSelectedRoute = fc_route_to_market
           logger.info("two stage further competition selected");
+          req.session.selectedRoute = 'FC';
           res.redirect(newAddress);
           break;
   
+        case 'award':
+          // eslint-disable-next-line no-case-declarations
+          const nextAddress = '#';
+          req.session.caSelectedRoute = fc_route_to_market
+          logger.info("DA selected");
+          req.session.selectedRoute = 'DA';
+          res.redirect(nextAddress);
+          break;
+
        default: res.redirect('/404');
   } 
 }else {

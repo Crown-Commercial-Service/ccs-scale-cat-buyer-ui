@@ -14,7 +14,6 @@ import fileData from '../../../resources/content/RFI/rfionlineTaskList.json'
  * @param res 
  */
 export const REQUIREMENT_RFP_TASK_LIST = async (req: express.Request, res: express.Response) => {
-  console.log(fileData)
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId } = req.session;
   const releatedContent = req.session.releatedContent

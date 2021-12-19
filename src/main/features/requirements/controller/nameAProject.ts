@@ -1,6 +1,6 @@
 //@ts-nocheck
 import * as express from 'express';
-import * as cmsData from '../../../resources/content/rfp/nameYourProject.json';
+import * as cmsData from '../../../resources/content/requirements/nameYourProject.json';
 import procurementDetail from '../model/procurementDetail';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -31,7 +31,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
     error: isEmptyProjectError,
     releatedContent: releatedContent,
   };
-  res.render('nameAProjectRfi', viewData);
+  res.render('nameAProject-rfp', viewData);
 };
 
 /**

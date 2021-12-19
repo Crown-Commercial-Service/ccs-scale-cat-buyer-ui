@@ -11,7 +11,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
   const { SESSION_ID } = req.cookies;
   const { projectId, isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
-  const { rfi_procurement_lead: userParam } = req.query;
+  const { rfp_procurement_lead: userParam } = req.query;
   const releatedContent = req.session.releatedContent;
 
   const url = `/tenders/projects/${projectId}/users`;
@@ -64,7 +64,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       error: isJaggaerError,
       releatedContent,
     };
-    res.render('procurementLead', windowAppendData);
+    res.render('procurementLead-rfp', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -81,7 +81,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
 export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId, eventId } = req.session;
-  const { rfi_procurement_lead_input: userMail } = req.body;
+  const { rfp_procurement_lead_input: userMail } = req.body;
   const url = `/tenders/projects/${projectId}/users/${userMail}`;
   try {
     const _body = {

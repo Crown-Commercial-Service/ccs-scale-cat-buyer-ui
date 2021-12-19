@@ -22,8 +22,8 @@
             "href": url
         },
         {
-          "text": "Do pre-market engagement",
-          "href": "/rfi/rfi-tasklist"
+        "text": "Write and publish your requirements",
+        "href": "/rfp/task-list"
         },
         {
           "text": "Name your project",
@@ -64,7 +64,7 @@
         <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
       </div>
       <p class="govuk-body">{{data.caption}}</p>
-      <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfi/name?procid={{procId}}" method="POST">       
+      <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfp/name?procid={{procId}}" method="POST">       
           
         {{ CCSInput({           
             id: data.form.input.id,
@@ -88,29 +88,4 @@
       </div>
    </div>
   </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% endblock %}

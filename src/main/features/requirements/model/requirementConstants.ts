@@ -14,8 +14,9 @@ export enum REQUIREMENT_PATHS {
     POST_PROCEED_COLLABORATORS = '/rfp/proceed-collaborators',
 
     // Proc lead
-    GET_NAME_YOUR_PROJECT = '/rfp/name-your-project',
-    GET_LEAD_PROCUEMENT = '/rfp/procurement-lead',
+    GET_NAME_PROJECT = '/rfp/name-your-project',
+    POST_NAME_PROJECT = '/rfp/name',
+    GET_LEAD_PROCUREMENT = '/rfp/procurement-lead',
     POST_PROJECT_NAME = '/rfp/name',
     PUT_LEAD_PROCUREMENT = '/rfp/procurement-lead',
     GET_USER_PROCUREMENT = '/rfp/users-procurement-lead',
