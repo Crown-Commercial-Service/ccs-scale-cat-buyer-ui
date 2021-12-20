@@ -42,15 +42,18 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
     const bcTitleText = OCDS?.description;
-    const titleText = nonOCDS.mandatory === false? OCDS?.description +' (Optional)':OCDS?.description
+    const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
     const promptData = nonOCDS?.prompt;
     const nonOCDSList = [];
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
-      const nonOCDS = {
-        question_id: aSelector.OCDS.id,
+      const questionNonOCDS = {
+        groupId: group_id,
+        questionId: aSelector.OCDS.id,
+        questionType: aSelector.nonOCDS.questionType,
         mandatory: aSelector.nonOCDS.mandatory,
+        multiAnswer: aSelector.nonOCDS.multiAnswer,
       };
-      nonOCDSList.push(nonOCDS);
+      nonOCDSList.push(questionNonOCDS);
       if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
         return 'ccs_eoi_vetting_form';
       } else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer === true) {
@@ -59,14 +62,15 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         return 'ccs_eoi_who_form';
       } else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true) {
         return 'ccs_eoi_acronyms_form';
-      } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == true && group_id == 'Group 2') {
+      } else if (aSelector.nonOCDS.questionType === 'Text' && nonOCDS.order == '2') {
         return 'ccs_eoi_about_proj';
       } else if (aSelector.nonOCDS.questionType === 'MultiSelect' && aSelector.nonOCDS.multiAnswer === true) {
         return 'eoi_location';
-      }else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer === true && group_id == 'Group 6') {
+      } else if (aSelector.nonOCDS.questionType === 'Text' && nonOCDS.order == '6') {
         return 'ccs_eoi_splterms_form';
-      }
-       else {
+      } else if (aSelector.nonOCDS.questionType === 'Monetary' && aSelector.nonOCDS.multiAnswer === false) {
+        return 'eoi_budget_form';
+      } else {
         return '';
       }
     });
@@ -132,283 +136,152 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
   try {
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const { SESSION_ID } = req.cookies;
-    req.session['isLocationError'] = false;
+    const regex = /questionnaire/gi;
+    const url = req.originalUrl.toString();
+    const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'eoi_build_started');
+    let { eoi_build_started, question_id } = req.body;
+    let question_ids = [];
+
+    if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
+    else question_ids = question_id;
+
     if (operations.equals(started_progress_check, false)) {
-      const { eoi_build_started, question_id, questionType } = req.body;
-      const nonOCDS = req.session?.nonOCDSList.find(x => x.question_id === question_id);
-      if (eoi_build_started === 'true') {
+      if (eoi_build_started === 'true' && nonOCDS.length > 0) {
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'eoi_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
           'question_id',
         );
-        remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
-          remove_objectWithKeyIdentifier,
-          'questionType',
-        );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
         const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
-        const regex = /questionnaire/gi;
-        const url = req.originalUrl.toString();
         const object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
-          return { value: an_answer };
+          return { value: an_answer, selected: true };
         });
-        if (checkFormInputValidationError(nonOCDS, object_values, questionType)) {
-          req.session.isValidationError = true;
-          if (object_values.length > 0) {
-            const object_values_Keyterm = object_values[0].value;
-            const object_values_acronyms = object_values[1].value;
-            const keyTermsAcronymsSorted = [];
-            for (let start = 0; start < object_values_Keyterm.length; start++) {
-              const termAndAcryonys = {
-                value: object_values_Keyterm[start],
-                text: object_values_acronyms[start],
-                selected: true,
-              };
-              keyTermsAcronymsSorted.push(termAndAcryonys);
+
+        let validationError = false;
+        let answerValueBody = {};
+        for (let i = 0; i < question_ids.length; i++) {
+          const questionNonOCDS = nonOCDS.find(item => item.questionId == question_ids[i]);
+          if (questionNonOCDS.questionType === 'Value' && questionNonOCDS.multiAnswer === true) {
+            if (questionNonOCDS.mandatory == true && object_values.length == 0) {
+              validationError = true;
+              break;
             }
-            req.session['errorFields'] = keyTermsAcronymsSorted;
-            req.session.isFieldError = true;
-          }
-          res.redirect(url.replace(regex, 'questions'));
-        } else {
-          if (questionType === 'Valuetrue') {
-            const answerValueBody = {
+            answerValueBody = {
               nonOCDS: {
                 answered: true,
                 options: [...object_values],
               },
             };
-            try {
-              const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-              await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-              if (stop_page_navigate == null || stop_page_navigate == undefined) {
-                QuestionHelper.AFTER_UPDATINGDATA(
-                  ErrorView,
-                  DynamicFrameworkInstance,
-                  proc_id,
-                  event_id,
-                  SESSION_ID,
-                  group_id,
-                  agreement_id,
-                  id,
-                  res,
-                );
-              } else {
-                res.send();
-                return;
-              }
-            } catch (error) {
-              console.log('Something went wrong, please review the logit error log for more information');
-              delete error?.config?.['headers'];
-              const Logmessage = {
-                Person_id: TokenDecoder.decoder(SESSION_ID),
-                error_location: `${req.headers.host}${req.originalUrl}`,
-                sessionId: 'null',
-                error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-                exception: error,
-              };
-              const Log = new LogMessageFormatter(
-                Logmessage.Person_id,
-                Logmessage.error_location,
-                Logmessage.sessionId,
-                Logmessage.error_reason,
-                Logmessage.exception,
-              );
-              LoggTracer.errorTracer(Log, res);
+          } else if (questionNonOCDS.questionType === 'KeyValuePair') {
+            if (KeyValuePairValidation(object_values, req)) {
+              validationError = true;
+              break;
             }
-          } else if (questionType === 'KeyValuePairtrue') {
+
             let { term, value } = req.body;
             const TAStorage = [];
             term = term.filter((akeyTerm: any) => akeyTerm !== '');
             value = value.filter((aKeyValue: any) => aKeyValue !== '');
+
             for (let item = 0; item < term.length; item++) {
               const termObject = { value: term[item], text: value[item], selected: true };
               TAStorage.push(termObject);
             }
-            const answerBody = {
+            answerValueBody = {
               nonOCDS: {
                 answered: true,
                 options: [...TAStorage],
               },
             };
-
-            try {
-              const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-              await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-
-              if (stop_page_navigate == null || stop_page_navigate == undefined) {
-                QuestionHelper.AFTER_UPDATINGDATA(
-                  ErrorView,
-                  DynamicFrameworkInstance,
-                  proc_id,
-                  event_id,
-                  SESSION_ID,
-                  group_id,
-                  agreement_id,
-                  id,
-                  res,
-                );
+          } else if (questionNonOCDS.questionType === 'MultiSelect') {
+            let selectedOptionToggle = [...object_values].map((anObject: any) => {
+              const check = Array.isArray(anObject?.value);
+              if (check) {
+                let arrayOFArrayedObjects = anObject?.value.map((anItem: any) => {
+                  return { value: anItem, selected: true };
+                });
+                arrayOFArrayedObjects = arrayOFArrayedObjects.flat().flat();
+                return arrayOFArrayedObjects;
+              } else return { value: anObject.value, selected: true };
+            });
+            selectedOptionToggle = selectedOptionToggle.map((anItem: any) => {
+              if (Array.isArray(anItem)) {
+                return anItem;
               } else {
-                res.send();
-                return;
+                return [anItem];
               }
-            } catch (error) {
-              console.log('Something went wrong, please review the logit error log for more information');
-              delete error?.config?.['headers'];
-              const Logmessage = {
-                Person_id: TokenDecoder.decoder(SESSION_ID),
-                error_location: `${req.headers.host}${req.originalUrl}`,
-                sessionId: 'null',
-                error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-                exception: error,
+            });
+
+            if (selectedOptionToggle.length == 0) {
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [],
+                },
               };
-              const Log = new LogMessageFormatter(
-                Logmessage.Person_id,
-                Logmessage.error_location,
-                Logmessage.sessionId,
-                Logmessage.error_reason,
-                Logmessage.exception,
-              );
-              LoggTracer.errorTracer(Log, res);
+            } else if (
+              selectedOptionToggle[0].find(
+                x => x.value === 'No specific location, for example they can work remotely',
+              ) &&
+              selectedOptionToggle[0].length > 1
+            ) {
+              validationError = true;
+              req.session['isLocationError'] = true;
+              break;
+            } else if (selectedOptionToggle.length > 0) {
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [...selectedOptionToggle[0]],
+                },
+              };
             }
           } else {
-            const question_array_check: boolean = Array.isArray(question_id);
-            if (question_array_check) {
-              const sortedStorage = [];
-              for (let start = 0; start < question_id.length; start++) {
-                const comparisonObject = {
-                  questionNo: question_id[start],
-                  answer: object_values[start],
-                };
-                sortedStorage.push(comparisonObject);
-              }
-              for (const iteration of sortedStorage) {
-                const answerBody = {
-                  nonOCDS: {
-                    answered: true,
-                    options: [iteration.answer],
-                  },
-                };
-
-                try {
-                  const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iteration.questionNo}`;
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                  QuestionHelper.AFTER_UPDATINGDATA(
-                    ErrorView,
-                    DynamicFrameworkInstance,
-                    proc_id,
-                    event_id,
-                    SESSION_ID,
-                    group_id,
-                    agreement_id,
-                    id,
-                    res,
-                  );
-                } catch (error) {
-                  console.log('Something went wrong, please review the logit error log for more information');
-                  delete error?.config?.['headers'];
-                  const Logmessage = {
-                    Person_id: TokenDecoder.decoder(SESSION_ID),
-                    error_location: `${req.headers.host}${req.originalUrl}`,
-                    sessionId: 'null',
-                    error_reason: 'EOI Dynamic framework throws error - Tender Api is causing problem',
-                    exception: error,
-                  };
-                  const Log = new LogMessageFormatter(
-                    Logmessage.Person_id,
-                    Logmessage.error_location,
-                    Logmessage.sessionId,
-                    Logmessage.error_reason,
-                    Logmessage.exception,
-                  );
-                  LoggTracer.errorTracer(Log, res);
-                }
-              }
+            let objValueArrayCheck = false;
+            object_values.map(obj => {
+              if (Array.isArray(obj.value)) objValueArrayCheck = true;
+            });
+            if (objValueArrayCheck) {
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [{ value: object_values[0].value[i] }],
+                },
+              };
             } else {
-              let selectedOptionToggle = [...object_values].map((anObject: any) => {
-                const check = Array.isArray(anObject?.value);
-                if (check) {
-                  let arrayOFArrayedObjects = anObject?.value.map((anItem: any) => {
-                    return { value: anItem, selected: true };
-                  });
-                  arrayOFArrayedObjects = arrayOFArrayedObjects.flat().flat();
-                  return arrayOFArrayedObjects;
-                } else return { value: anObject.value, selected: true };
-              });
-
-              selectedOptionToggle = selectedOptionToggle.map((anItem: any) => {
-                if (Array.isArray(anItem)) {
-                  return anItem;
-                } else {
-                  return [anItem];
-                }
-              });
-
-              try {
-                if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == true) {
-                  //return error & show
-                } else if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == false) {
-                  const answerBody = {
-                    nonOCDS: {
-                      answered: true,
-                      options: [],
-                    },
-                  };
-                  const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                } else if (
-                  selectedOptionToggle[0].find(
-                    x => x.value === 'No specific location, for example they can work remotely',
-                  ) &&
-                  selectedOptionToggle[0].length > 1
-                ) {
-                  req.session['isLocationError'] = true;
-                  res.redirect(url.replace(regex, 'questions'));
-                } else if (selectedOptionToggle.length > 0) {
-                  const answerBody = {
-                    nonOCDS: {
-                      answered: true,
-                      options: [...selectedOptionToggle[0]],
-                    },
-                  };
-                  const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-                }
-                if (req.session['isLocationError'] === false) {
-                  QuestionHelper.AFTER_UPDATINGDATA(
-                    ErrorView,
-                    DynamicFrameworkInstance,
-                    proc_id,
-                    event_id,
-                    SESSION_ID,
-                    group_id,
-                    agreement_id,
-                    id,
-                    res,
-                  );
-                }
-              } catch (error) {
-                delete error?.config?.['headers'];
-                const Logmessage = {
-                  Person_id: TokenDecoder.decoder(SESSION_ID),
-                  error_location: `${req.headers.host}${req.originalUrl}`,
-                  sessionId: 'null',
-                  error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-                  exception: error,
-                };
-                const Log = new LogMessageFormatter(
-                  Logmessage.Person_id,
-                  Logmessage.error_location,
-                  Logmessage.sessionId,
-                  Logmessage.error_reason,
-                  Logmessage.exception,
-                );
-                LoggTracer.errorTracer(Log, res);
-              }
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [...object_values],
+                },
+              };
             }
           }
+          try {
+            const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
+            await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+          } catch (error) {}
+        }
+        if (validationError) {
+          req.session['isValidationError'] = true;
+          res.redirect(url.replace(regex, 'questions'));
+        } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
+          QuestionHelper.AFTER_UPDATINGDATA(
+            ErrorView,
+            DynamicFrameworkInstance,
+            proc_id,
+            event_id,
+            SESSION_ID,
+            group_id,
+            agreement_id,
+            id,
+            res,
+          );
+        } else {
+          res.send();
+          return;
         }
       } else {
         res.redirect('/error');
@@ -421,24 +294,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
   }
 };
 
-const findErrorText = (data: any) => {
-  let errorText = '';
-  data.forEach(requirement => {
-    if (requirement.nonOCDS.questionType == 'KeyValuePair') errorText = 'You must add information in both fields.';
-    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
-      errorText = 'You must add at least one objective';
-    else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)
-      errorText = 'You must provide a security clearance level before proceeding';
-    else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
-      errorText = 'You must enter information here';
-  });
-  return errorText;
-};
-const checkFormInputValidationError = (nonOCDS: any, object_values: any, questionType: string) => {
-  if (nonOCDS.mandatory == true && object_values.length == 0) {
-    return true;
-  }
-  if (questionType === 'KeyValuePairtrue' && object_values.length == 2) {
+const KeyValuePairValidation = (object_values: any, req: express.Request) => {
+  if (object_values.length == 2) {
     let key = object_values[0];
     let keyValue = object_values[1];
     if (Array.isArray(key.value) && Array.isArray(keyValue.value)) {
@@ -448,9 +305,26 @@ const checkFormInputValidationError = (nonOCDS: any, object_values: any, questio
           eitherElementEmptys.push({ index: i, isError: true });
         }
       }
-      return eitherElementEmptys.length > 0;
+      if (eitherElementEmptys.length > 0) {
+        req.session.isFieldError = true;
+        return true;
+      }
     }
   }
-
   return false;
+};
+
+const findErrorText = (data: any) => {
+  let errorText = [];
+  data.forEach(requirement => {
+    if (requirement.nonOCDS.questionType == 'KeyValuePair')
+      errorText.push({ text: 'You must add information in both fields.' });
+    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
+      errorText.push({ text: 'You must add at least one objective' });
+    else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)
+      errorText.push({ text: 'Please select an option' });
+    else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
+      errorText.push({ text: 'You must enter information here' });
+  });
+  return errorText;
 };
