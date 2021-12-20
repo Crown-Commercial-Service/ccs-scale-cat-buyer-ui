@@ -122,9 +122,19 @@ const emptyQuestionFieldCheck = () => {
   }
   return errorStore;
 };
+
+
+const emptyQuestionFieldCheckForSave = () => {
+  let fieldCheck = "",
+    errorStore = [];
+  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+    return errorStore;
+};
+
 const ccsZvalidateRfIQuestions = (event) => {
   event.preventDefault();
-  errorStore = emptyQuestionFieldCheck();
+  errorStore = emptyQuestionFieldCheckForSave();
 
   //}
 

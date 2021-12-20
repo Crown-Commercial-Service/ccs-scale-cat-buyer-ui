@@ -43,7 +43,7 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "How will you build your request for information (RFI)",
+          "title": "Choose how to build your RfI",
           "required": "mandatory",
           "link": "/rfi/type",
           "status": "optional"

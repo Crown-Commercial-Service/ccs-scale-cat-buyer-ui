@@ -1,16 +1,14 @@
 //@ts-nocheck
 import * as express from 'express';
-import * as cmsData from '../../../resources/content/RFI/offline-doc.json'
 import {DynamicFrameworkInstance} from '../util/fetch/dyanmicframeworkInstance'
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import FormData from 'form-data'
-import fileSystem from 'fs'
-import util from 'util'
-import stream from 'stream';
 import {FileValidations} from '../util/file/filevalidations'
 import {FILEUPLOADHELPER} from '../helpers/upload'
+import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
+import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 
 // RFI Upload document
 /**
@@ -168,6 +166,9 @@ export const GET_REMOVE_FILES = express.Handler = (req: express.Request, res: ex
 
 
 ///rfi/upload-doc/procceed
-export const POST_UPLOAD_PROCEED = express.Handler = (req: express.Request, res: express.Response) => {
+export const POST_UPLOAD_PROCEED = express.Handler = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { eventId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/11`, 'Completed');
   res.redirect('/rfi/suppliers')
 }

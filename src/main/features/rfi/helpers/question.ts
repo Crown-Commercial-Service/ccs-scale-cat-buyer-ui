@@ -64,7 +64,6 @@ export class QuestionHelper {
             if (response.status == HttpStatusCode.OK) {
                await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/11`, 'Optional');
                await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/12`, 'Not started');
-               await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Not started');
             }
             res.redirect('/rfi/rfi-tasklist')
          }
