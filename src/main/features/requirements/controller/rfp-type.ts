@@ -56,10 +56,18 @@ export const REQUIREMENT_RFP_TYPE = (req: express.Request, res: express.Response
   
        case 'all_offline':
           // eslint-disable-next-line no-case-declarations
-          const newAddress = REQUIREMENT_PATHS.REQUIREMENT_RFP_TASK_LIST;
+          const newAddress = REQUIREMENT_PATHS.OFFLINE_JOURNEY_PAGE;
           req.session.caSelectedRoute = fc_rfp_type
           logger.info(fc_rfp_type + "selected");
           res.redirect(newAddress);
+          break;
+
+        case 'part_online':
+          // eslint-disable-next-line no-case-declarations
+          const partAddress = REQUIREMENT_PATHS.REQUIREMENT_RFP_TASK_LIST;
+          req.session.caSelectedRoute = fc_rfp_type
+          logger.info(fc_rfp_type + "selected");
+          res.redirect(partAddress);
           break;
   
        default: res.redirect('/404');
