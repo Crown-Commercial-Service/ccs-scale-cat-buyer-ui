@@ -36,8 +36,8 @@
         href: url
         },
         {
-        text: "Do pre-market engagement",
-        href: "/eoi/eoi-tasklist"
+        text: "Write and publish your requirements",
+        href: "/rfp/task-list"
         },
         {
         text: "Add colleagues "
@@ -56,7 +56,8 @@
   titleText: "There is a problem",
   errorList: [
     {
-      text: "You cannot add this user. Please try with another user."
+      text: "You cannot add this user. Please try with another user.",
+      href: "#"
     }
   ]
 }) }}
@@ -89,59 +90,59 @@
         }) }}
 
     <p class="govuk-body">{{data.content.p4}} </p>
-         <div class="ccs-page-section">
+
+      <div class="ccs-page-section">
         <p class="govuk-body">Select and add colleagues</p>
-        <form method="POST" action="/eoi/get-collaborator-detail">
-         <div class="govuk-button-group">
-        {{ CCSSelect({
-        id: "eoi_collaborators",
-        name: "eoi_collaborators",
-        items: sortedMembers
-        })
-        }}
-        &nbsp;
-         {{ CCSButton({
-        text: "Add",
-         attributes: {
-        id: "ccs_collab_view"
-        },
-        type: "submit"
-        }) }}
-        </div>
+        <form method="POST" action="/rfi/get-collaborator-detail">
+          <div class="govuk-button-group">
+          {{ CCSSelect({
+          id: "rfi_collaborators",
+          name: "rfi_collaborators",
+          items: sortedMembers
+          })
+          }}
+          &nbsp;
+          {{ CCSButton({
+          text: "Add",
+          attributes: {
+          id: "ccs_collab_view"
+          },
+          type: "submit"
+          }) }}
+          </div>
         </form>
       </div>
 
-      <form method="POST" action="/eoi/add-collaborator-detail" >
-      <div class="ccs-page-section" id="potential-collaborator">
-        <div id="potential-collaborator-detail">
-          <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="eoi_show_collab_name" > {{collaborator['fullName']}}</span>
-          </p>
-          <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="eoi_show_collab_email" > {{collaborator['email']}}<span></p>
-          <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="eoi_show_collab-phone">{{collaborator['tel']}}</span></p>
+      <form method="POST" action="/rfi/add-collaborator-detail" >
+        <div class="ccs-page-section" id="potential-collaborator">
+          <div id="potential-collaborator-detail">
+            <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
+            </p>
+            <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="show_collab_email" > {{collaborator['email']}}<span></p>
+            <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="show_collab-phone">{{collaborator['tel']}}</span></p>
+          </div>
+
+          {{ CCSInput({
+              id: "rfi_collaborator_append",
+              name: "rfi_collaborator",
+              type: "hidden",
+              value: collaborator['email']
+              }) }}
+
+          {{ CCSButton({
+          text: "Add colleague",
+          attributes: {
+          id: "ccs_collab_add"
+          },
+          classes: "govuk-button--secondary"
+          }) }}
         </div>
-
-        {{ CCSInput({
-            id: "eoi_collaborator_append",
-            name: "eoi_collaborator",
-            type: "hidden",
-            value: collaborator['email']
-            }) }}
-
-        {{ CCSButton({
-        text: "Add colleague",
-        attributes: {
-        id: "ccs_collab_add"
-        },
-        classes: "govuk-button--secondary"
-        }) }}
-
-      </div>
 
       </form>
       <div id="collaborators-section">
         {% for collaborator in collaborators %}
         {% if collaborator.OCDS.contact.email !== lead %}
-        <div class="ccs-page-section" id="eoi_collaborator_{{collaborator.id}}">
+        <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.id}}">
           <div id="collaborator-detail">
             <a href='{{collaborator.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
@@ -164,11 +165,11 @@
       </div>
       <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
       <br>
-<form  class="form ccs_add_eoi_collab" method="POST" action="/eoi/proceed-collaborators" method="post">
+<form  class="form ccs_add_rfi_collab" method="POST" action="/rfi/proceed-collaborators" method="post">
 
       {{ CCSInput({
-      id: "eoi_collaborators_added",
-      name: "eoi_collaborators_added",
+      id: "rfi_collaborators_added",
+      name: "rfi_collaborators_added",
       type: "hidden",
       value: true
       }) }}
@@ -177,10 +178,8 @@
         {{ CCSButton({
         text: "Save and continue"
         }) }}
-        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+        <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to write and publish your requirements</a>
       </div>
-
-
     </form>
 
  </div>

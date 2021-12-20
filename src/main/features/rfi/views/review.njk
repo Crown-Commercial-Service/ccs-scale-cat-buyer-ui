@@ -55,6 +55,445 @@
         </p>
 <br><br>
 
+</div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h2 class="govuk-heading-m">1. Project and colleagues</h2>
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Name your project
+        </dt>
+        {% if data['projLongName'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+          {{ data['projLongName'] }}
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          You have not given a custom name to your project
+        </dd>
+        {% endif %}
+
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/name">
+            Change<span class="govuk-visually-hidden">project name</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Change who is going to lead the procurement
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <ul class="govuk-list govuk-list--none">
+            <li><span>{{lead_user.fullname}}</span></li>
+            <li><span>{{lead_user.email}}</span></li>
+            <li><span>{{lead_user.telephone}}</span></li>
+          </ul>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/procurement-lead">
+            Change<span class="govuk-visually-hidden"> procurement lead</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Add colleagues to your project
+        </dt>
+        {% if data['collaborators_list'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+          <ul class="govuk-list govuk-list--none">
+            {% for collaborator in data['collaborators_list'] %}
+            <li>
+              <ul class="govuk-list govuk-list--none">
+                <li><span>{{collaborator.fullname}}</span></li>
+                <li><span>{{collaborator.email}}</span></li>
+                <li><span>{{collaborator.telephone}}</span></li>
+              </ul>
+            </li>
+            {%- endfor %}
+          </ul>
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          You have not added anyone so far in your team
+        </dd>
+        {% endif %}
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/add-collaborators">
+            Change<span class="govuk-visually-hidden"> rfi team members</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+
+    <h2 class="govuk-heading-m">2. Build your Request for Information (RfI) </h2>
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Choose how to build your RfI
+        </dt>
+        {% if data['ccs_rfi_type'] == 'all_online' %}
+        <dd class="govuk-summary-list__value">
+          Provide all information online
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          Complete a document offline
+        </dd>
+        {% endif %}
+
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/type">
+            Change<span class="govuk-visually-hidden">RFI type</span>
+          </a>
+        </dd>
+      </div>
+      {% if data['ccs_rfi_type'] == 'all_online' %}
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Ask suppliers questions
+        </dt>
+        {% if data['rfi_question_1'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+          <ul class="govuk-list govuk-list--none">
+            <li>
+              {{ data['rfi_question_1'] }}
+            </li>
+            {% for ques in range(2, 11) %}
+            {% set key = 'rfi_question_'+ques %}
+            {% if data[ key] | length > 0 %}
+            <li>
+              {{ data[key] }}
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          You have not asked for any extra information
+        </dd>
+        {% endif %}
+
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/questions">
+            Change<span class="govuk-visually-hidden"> rfi questions</span>
+          </a>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Terms and acronyms (Optional)
+        </dt>
+        {% if data['rfi_term_1'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+          <ul class="govuk-list govuk-list--none">
+            <li> {{ data['rfi_term_1']}}: &nbsp; {{ data['rfi_term_definition_1']}}</li>
+            {% for term in range(2, 5) %}
+            {% set key = 'rfi_term_'+ term %}
+            {% set value = 'rfi_term_definition_' + term %}
+            {% if data[ key] | length > 0 %}
+            <li>
+              {{ data[key] }}:&nbsp; {{ data[value] }}
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          You have not added any terms or acronyms
+        </dd>
+        {% endif %}
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/acronyms">
+            Change<span class="govuk-visually-hidden"> rfi acronyms</span>
+          </a>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Background for your procurement
+        </dt>
+        {% if data['rfi_prob_statement'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+          {{ data['rfi_prob_statement'] }}
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          You have not added any problem statement
+        </dd>
+        {% endif %}
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/project">
+            Change<span class="govuk-visually-hidden"> rfi problem statement</span>
+          </a>
+        </dd>
+      </div>
+
+      <div class="ccs-summary-list-heading"> <strong> The buying organisation (Optional)</strong> </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key ccs-summary-list-heading" style="border-bottom: 0px;">
+          Name of the organisation doing the procurement
+        </dt>
+        <dd class="govuk-summary-list__value ccs-summary-list-heading" style="border-bottom: 0px;">
+          {{ data['contracting_auth'] }}
+        </dd>
+
+        <dd class="govuk-summary-list__actions ccs-summary-list-action" style="border-bottom: 0px;">
+          <a class="govuk-link govuk-link--no-visited-state" href="/rfi/who">
+            Change<span class="govuk-visually-hidden"> rfi buyer</span>
+          </a>
+        </dd>
+
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Name of the organisation using the products or services that are being procured
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ data['rfi_on_behalf_of'] }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/who">
+            <span class="govuk-visually-hidden"> rfi buyer</span>
+          </a>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Security and vetting requirements (Optional) 
+        </dt>
+        {% if data['ccs_vetting_type'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+          {{ data['ccs_vetting_type'] }}
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          You have not added security and vetting requirements
+        </dd>
+        {% endif %}
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/vetting">
+            Change<span class="govuk-visually-hidden"> rfi security requirements</span>
+          </a>
+        </dd>
+      </div>
+
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Where the supplied staff will work (Optional)
+        </dt>
+        {% if data['required_locations'] === undefined or data['required_locations'] | length == 0 %}
+        <dd class="govuk-summary-list__value">
+          You have not added any location
+        </dd>
+        {% else %}
+        {% if data['required_locations'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+          <ul class="govuk-list govuk-list--none">
+            {% for loc in data['required_locations'] %}
+            {% if loc == '13'%}
+            <li>
+              No specific location, for example they can work remotely
+              </li>
+             {% else %} 
+            <li>
+            {{ loc }}
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </dd>
+        {% endif %}
+        {% endif %}
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/location">
+            Change<span class="govuk-visually-hidden"> rfi address/span>
+          </a>
+        </dd>
+      </div>
+
+
+      <!-- <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          [ Status of the project ]
+        </dt>
+        {% if data['rfi_work_to_date'] | length > 0 or data['rfi_prog_phase'] | length > 0 or data['rfi_prog_resourse_phase_req'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+         <ul class="govuk-list govuk-list--none ">
+           {% if data['rfi_prog_phase'] | length > 0 %}
+          <li>Current phase of project: {{data['rfi_prog_phase'] }} </li>
+          {% endif %}
+          {% if data['rfi_prog_resourse_phase_req'] | length > 0 %}
+          <li>Phase resourse will be employed for: {{data['rfi_prog_resourse_phase_req'] }} </li>
+          {% endif %}
+          {% if data['rfi_work_to_date'] | length > 0 %}
+          <li>work done till now: {{data['rfi_work_to_date'] }} </li>
+          {% endif %}
+         </ul>
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          You have not added any answer.
+        </dd>
+        {% endif %}
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/project-status">
+            Change<span class="govuk-visually-hidden"> rfi project status</span>
+          </a>
+        </dd>
+      </div> -->
+      {% else %}
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          [ Uploaded document ]
+        </dt>
+        {% if data['rfi_offline_document'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+          data['rfi_offline_document']
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          You have not uploaded any document
+        </dd>
+        {% endif %}
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/offline-doc">
+            Change<span class="govuk-visually-hidden"> rfi offline document</span>
+          </a>
+        </dd>
+      </div>
+      {% endif %}
+    </dl>
+
+    <h2 class="govuk-heading-m"> 3. Review and publish your RfI </h2>
+    <dl class="govuk-summary-list">
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Upload documents or add links
+        </dt>
+        {% if data['rfi_file_upload_1'] | length > 0 or data['rfi_additional_link'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+          <ul class="govuk-list govuk-list--none">
+            {% if data['rfi_file_upload_1'] | length > 0 %}
+            <li>
+              <span>Uploaded file: &nbsp;</span> {{ data['rfi_file_upload_1'] }}
+            </li>
+            {% endif %}
+            {% if data['rfi_additional_link'] | length > 0 %}
+            <li>
+              <span>Link:&nbsp;</span> {{ data['rfi_additional_link'] }}
+            </li>
+            {% endif %}
+          </ul>
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          You have not provided any link or uploaded any document
+        </dd>
+        {% endif %}
+
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/upload">
+            Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
+          </a>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Confirm which suppliers you want to approach
+        </dt>
+        {% if data['rfi_selected_suppliers'] | length > 0 %}
+        <dd class="govuk-summary-list__value">
+          {{data['rfi_selected_supplier_count']}} suppliers selected
+        </dd>
+        {% else %}
+        <dd class="govuk-summary-list__value">
+          No suppliers selected
+        </dd>
+        {% endif %}
+
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/rfi/suppliers">
+            Change<span class="govuk-visually-hidden">rfi suppliers</span>
+          </a>
+        </dd>
+      </div>
+
+      <div class="ccs-summary-list-heading"><strong> Your RfI timeline</strong> </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key ccs-summary-list-heading" style="border-bottom: 0px;">
+          Clarification period ends
+        </dt>
+        <dd class="govuk-summary-list__value ccs-summary-list-heading" style="border-bottom: 0px;">
+          {{ data['rfi_clarification_date_string'] }}
+        </dd>
+
+        <dd class="govuk-summary-list__actions ccs-summary-list-action" style="border-bottom: 0px;">
+          <a class="govuk-link" href="/rfi/response-date">
+            Change<span class="govuk-visually-hidden"> rfi response dates</span>
+          </a>
+        </dd>
+
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key" style="border-bottom: 0px;">
+          Deadline for publishing repsonses to RfI clarification questions
+        </dt>
+        <dd class="govuk-summary-list__value" style="border-bottom: 0px;">
+          {{ data['rfi_clarification_response_date_string'] }}
+        </dd>
+        <dd class="govuk-summary-list__actions" style="border-bottom: 0px;">
+          <a class="govuk-link">
+            <span class="govuk-visually-hidden"> rfi response dates</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key" style="border-bottom: 0px;">
+          Deadline for suppliers to submit their RfI response
+        </dt>
+        <dd class="govuk-summary-list__value" style="border-bottom: 0px;">
+          {{ data['rfi_response_date_string'] }}
+        </dd>
+        <dd class="govuk-summary-list__actions" style="border-bottom: 0px;">
+          <a class="govuk-link">
+            <span class="govuk-visually-hidden"> rfi response dates</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Confirm your next steps to suppliers
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ data['rfi_next_steps_date_string'] }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link">
+            <span class="govuk-visually-hidden"> rfi response dates</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+
+
+
     {{ CCSWarningText({
     text: "By publishing this Request for Information (RfI) to all the suppliers you selected, you are stating that, to the best of your knowledge, the information you have provided is correct.",
     iconFallbackText: "Warning"

@@ -9309,16 +9309,26 @@ p,
 
 .ccs_eoi_criteria_form label .del,
 .ccs_eoi_confid_form label .del,
-.ccs_rfi_questions_form label .del,
+.ccs_rfi_questions_form label .del
+{
+  text-decoration: none;
+}
 .ccs_eoi_criteria_form label .clear-fields,
 .ccs_eoi_confid_form label .clear-fields,
 .ccs_rfi_questions_form label .clear-fields,
 .ccs_rfi_acronyms_form label .clear-fields,
-.ccs_eoi_acronyms_form label .clear-fields
-{
-  position: absolute!important;
-  right: 20!important;
+.ccs_eoi_acronyms_form label .clear-fields,
+.ccs_eoi_splterms_form label .clear-fields {
+  position: absolute;
+  right: 0;
   text-decoration: none;
+}
+.govuk-fieldset.term_acronym_fieldset {
+  position: relative;
+}
+.clear-fields {
+    position: absolute;
+    right: 0;
 }
 
 .ccs_eoi_docs_form .del {
@@ -9343,7 +9353,8 @@ p,
 
 .ccs_add_collab fieldset,
 .ccs_rfi_acronyms_form fieldset,
-.ccs_eoi_acronyms_form fieldset {
+.ccs_eoi_acronyms_form fieldset,
+.ccs_eoi_splterms_form fieldset {
   border-bottom: 1px solid #ccc;
   margin-bottom: 30px;
   position: relative;
@@ -9351,7 +9362,8 @@ p,
 
 .ccs_add_collab legend,
 .ccs_rfi_acronyms_form legend,
-.ccs_eoi_acronyms_form legend {
+.ccs_eoi_acronyms_form legend,
+.ccs_eoi_splterms_form legend {
   position: relative;
   display: block;
   width: 100%;
@@ -9361,7 +9373,8 @@ p,
 .ccs_rfi_acronyms_form legend .del,
 .ccs_add_collab legend .clear-fields,
 .ccs_rfi_acronyms_form legend .clear-fields,
-.ccs_eoi_acronyms_form legend .clear-fields
+.ccs_eoi_acronyms_form legend .clear-fields,
+.ccs_eoi_splterms_form legend .clear-fields
 {
   position: absolute;
   right: 0;
