@@ -1,8 +1,10 @@
+//@ts-nocheck
 import * as express from 'express'
 import * as chooseRouteData from '../../../resources/content/requirements/rfpTaskList.json'
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import fileData from '../../../resources/content/RFI/rfionlineTaskList.json'
 
 /**
  * 
