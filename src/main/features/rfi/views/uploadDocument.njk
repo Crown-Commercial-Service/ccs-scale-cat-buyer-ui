@@ -45,12 +45,10 @@
 
       <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
         <div id="upload_doc_form">
-            <form action="/rfi/upload-doc" method="post" encType="multipart/form-data">
             <div class="govuk-grid-row">
             <div class="govuk-grid-column-full" id="documents_upload">
-            <label class="govuk-label govuk-label--m" for="rfi_offline_document">Upload a file</label>
-            <br>
-            <span id="rfi_upload_error_summary" class="govuk-error-message"></span>
+            <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfi_offline_document">Upload a file</label>
+            <span id="rfi_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
             <p class="govuk-body-s"> {{data.filedesc}}</p>
             {% if (files.length > 0)%}
             <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
@@ -84,8 +82,8 @@
             </ul>
             </div>
             {%endif%}
-                  
-
+            {% if(storage < 1000000000)  %}
+            <form action="/rfi/upload-doc" method="post" encType="multipart/form-data">    
               {{ CCSFileUpload({
               id: "rfi_offline_document",
               name: "rfi_offline_document",
@@ -97,7 +95,6 @@
               }
               }) }}
             </div>
-
             <div class="govuk-grid-column-full">
                 {{ CCSButton({
                               text: "upload",
@@ -106,7 +103,6 @@
                             })
                         }}
             </div>
-
             {{ CCSInput({
                           id: "rfi_file_started",
                           name: "rfi_file_started",
@@ -116,13 +112,9 @@
                       }}
 
             </div>
-
-
             </div>
-
-          </form>
-                        
-           
+          </form>        
+         {%endif%}  
 
                 <form action="/rfi/upload-doc/proceed" method="post">      
                 <div class="govuk-button-group">

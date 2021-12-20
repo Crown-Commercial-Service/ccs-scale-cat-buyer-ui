@@ -39,29 +39,25 @@
         {{prompt | safe}}
        
         <div class="govuk-form-group ccs-page-section">
-            <p class="govuk-body-l"><strong>Timeline for your EoI</strong></p> <br>
+            <p class="govuk-body"><strong>Timeline for your EoI</strong></p> <br>
         </div>
 
         
          {% block valuewitNoMultiSelect %}
-            {% for requirement in framework%}
-                {% if (requirement.nonOCDS.questionType === 'Value') and (requirement.nonOCDS.multiAnswer === false) %}
+         {% for requirement in framework%}
+            {% if (requirement.nonOCDS.questionType === 'DateTime') and (requirement.nonOCDS.multiAnswer === false) %}             
+            <div class="govuk-form-group ccs-page-section eoi_publish_date">
+                <p class="govuk-body"><span>{{loop.index}} &nbsp; </span>{{requirement.OCDS.title}}</p>
+                <div id="eoi_clarification_date">
 
-                <div class="govuk-form-group ccs-page-section eoi_publish_date">
-                    <p class="govuk-body"><span>{{loop.index}} &nbsp; </span>{{requirement.OCDS.title}}</p>
-
-
-
-                    <div id="eoi_clarification_date">
-
-                        {% if(requirement.nonOCDS.options[0].selected)%}
-                    <label class="govuk-label govuk-body"><strong id="lbl-clarification">{{ requirement.nonOCDS.options[0].value }}</strong></label>
-                    {%endif %}
+                    {% if(requirement.nonOCDS.options[0].selected)%}
+                <label class="govuk-label govuk-body"><strong id="lbl-clarification">{{ requirement.nonOCDS.options[0].value }}</strong></label>
+                {%endif %}
                 
                 {% if( requirement.nonOCDS.options.length == 0)%}
 
                 {% if(requirement.OCDS.id == "Question 2" )%}
-                 <label class="govuk-label govuk-body"><strong id="eoi_clarification_period_end">{{ eoi_clarification_period_end}}</strong></label>
+                 <label class="govuk-label govuk-body"><strong id="eoi_clarification_period_end">{{ clarification_period_end}}</strong></label>
                  {% elif (requirement.OCDS.id == "Question 3" ) %}
                 <label class="govuk-label govuk-body"><strong id="deadline_period_for_clarification_period">{{deadline_period_for_clarification_period }}</strong></label>
                   {% elif (requirement.OCDS.id == "Question 4" ) %}
@@ -69,7 +65,7 @@
                     {% elif (requirement.OCDS.id == "Question 5" ) %}
                    <label class="govuk-label govuk-body"><strong id="supplier_dealine_for_clarification_period">{{supplier_dealine_for_clarification_period }}</strong></label>
                  {%else%}
-                  <label class="govuk-label govuk-body"><strong id="eoi_clarification_date">{{eoi_clarification_date}}</strong></label>
+                  <label class="govuk-label govuk-body"><strong id="eoi_clarification_date">{{clarification_date}}</strong></label>
                 {%endif%}
 
 
@@ -209,12 +205,12 @@
 
 
 <div class="govuk-button-group">
-<form method="post" action="/eoi/response-date" >   
+<form method="post" action="/rfi/response-date" >   
                 {{ CCSInput({
                     id: "timeStamp",
                     name: "eoi_clarification_date",
                     type: "hidden",
-                    value: "Question 1*"+eoi_clarification_date
+                    value: "Question 1*"+clarification_date
                     }) }}
 
 
@@ -222,7 +218,7 @@
                     id: "timeStamp",
                     name: "eoi_clarification_period_end",
                     type: "hidden",
-                    value: "Question 2*"+eoi_clarification_period_end
+                    value: "Question 2*"+clarification_period_end
                     }) }}
                 
                  {{ CCSInput({

@@ -101,6 +101,8 @@ if (document.getElementById("ccs_rfi_address_manual_form") !== null) document.ge
 
 if (document.getElementById("ccs_rfi_about_proj") !== null) document.getElementById("ccs_rfi_about_proj").addEventListener('submit', ccsZvalidateRfiProject);
 
+if (document.getElementById("ccs_eoi_about_proj") !== null) document.getElementById("ccs_eoi_about_proj").addEventListener('submit', ccsZvalidateEoiProject);
+
 //if(document.getElementById("ccs_rfi_proj_status") !== null) document.getElementById("ccs_rfi_proj_status").addEventListener('submit', ccsZvalidateRfiProjectStatus);
 
 if (document.getElementById("ccs_rfi_docs_form") !== null) document.getElementById("ccs_rfi_docs_form").addEventListener('submit', ccsZvalidateRfiDocs);

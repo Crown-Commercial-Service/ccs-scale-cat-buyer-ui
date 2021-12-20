@@ -43,6 +43,8 @@ export const GET_UPLOAD_DOC: express.Handler = async (req: express.Request, res:
   const EventId = req.session['eventId'];
   const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`
 
+  
+
   const FileFilterArray = [];
 
   if (rfi_file_started) {

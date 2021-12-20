@@ -16,7 +16,7 @@
   {%endif %}  
 {% endfor %}
 
-{% set title = 'Complete and upload a document | Contract a Thing' %}
+{% set title = 'Add colleagues | Contract a Thing' %}
 {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
@@ -89,18 +89,6 @@
         }) }}
 
     <p class="govuk-body">{{data.content.p4}} </p>
-
-  {% set noOfUser = 0%}
-
-  {%if(userIsLead)%}
-  {% set noOfUser = 5%}
-  {%else%}
-{% set noOfUser = 4%}
-  {%endif%}
-
-
-
-  {%if(collaborators.length < noOfUser)%}
          <div class="ccs-page-section">
         <p class="govuk-body">Select and add colleagues</p>
         <form method="POST" action="/eoi/get-collaborator-detail">
@@ -150,7 +138,6 @@
       </div>
 
       </form>
-      {%endif%}
       <div id="collaborators-section">
         {% for collaborator in collaborators %}
         {% if collaborator.OCDS.contact.email !== lead %}

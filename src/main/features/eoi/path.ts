@@ -45,6 +45,12 @@ export default function (app: Application): void {
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_QUESTIONS,
   );
+  //@GET "/eoi/response-date"
+  app.get(
+    EOI_PATHS.GET_RESPONSE_DATE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_RESPONSE_DATE,
+  );
 
   //  @GET '/eoi/upload-doc'
   app.get(
@@ -80,6 +86,13 @@ export default function (app: Application): void {
   //@GET "/eoi/upload-doc/remove"
   app.get(EOI_PATHS.GET_REMOVE_FILE, AUTH, associatedViews.GET_REMOVE_FILES);
 
+  //@GET '/eoi/review'
+  app.get(
+    EOI_PATHS.GET_EOI_REVIEW,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_EOI_REVIEW,
+  );
+
   /**
    *
    * @POST : POST Routes of EOI
@@ -112,8 +125,16 @@ export default function (app: Application): void {
   //@POST '/eoi/add-collaborator-detail'
   app.post(EOI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER);
 
+  //@POST "/eoi/response-date"
+  app.post(EOI_PATHS.POST_RESPONSE_DATE, AUTH, associatedViews.POST_RESPONSE_DATE);
+
+  //@POST /eoi/add/response-date
+  app.post(EOI_PATHS.POST_ADD_RESPONSE_DATA, AUTH, associatedViews.POST_ADD_RESPONSE_DATE);
   //@POST "eoi/upload-doc"
   app.post(EOI_PATHS.POST_UPLOAD_DOC, AUTH, associatedViews.POST_UPLOAD_DOC);
+
+  //@POST '/eoi/review'
+  app.post(EOI_PATHS.POST_EOI_REVIEW, AUTH, associatedViews.POST_EOI_REVIEW);
 
   // Offline page
   app.get(EOI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);

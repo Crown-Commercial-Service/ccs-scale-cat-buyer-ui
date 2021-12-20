@@ -71,7 +71,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
 
     data.events.forEach(event => {
-      const step = journyData.states.find(item => item.step === event.eventno);
+      const step = req.session['journey_status'] ? req.session['journey_status'].find(item => item.step === event.eventno) : journyData.states.find(item => item.step === event.eventno);
       if (step){
         if(step.state === 'Not started') {
           event.status = 'TODO';
@@ -79,6 +79,16 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
           event.status = 'DONE';
         } else {
           event.status = step.state;
+        }
+      }
+      if (step.step == 2) {
+        if (req.session['journey_status'][2].state == 'In progress') {
+          event.buttonDisable = true;
+        }
+      }
+      if (step.step == 3) {
+        if (req.session['journey_status'][1].state == 'In progress') {
+          event.buttonDisable = true;
         }
       }
     })
