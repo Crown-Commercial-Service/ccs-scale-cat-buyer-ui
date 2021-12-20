@@ -59,11 +59,14 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         return 'ccs_eoi_who_form';
       } else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true) {
         return 'ccs_eoi_acronyms_form';
-      } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == false) {
+      } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == true && group_id == 'Group 2') {
         return 'ccs_eoi_about_proj';
       } else if (aSelector.nonOCDS.questionType === 'MultiSelect' && aSelector.nonOCDS.multiAnswer === true) {
         return 'eoi_location';
-      } else {
+      }else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer === true && group_id == 'Group 6') {
+        return 'ccs_eoi_splterms_form';
+      }
+       else {
         return '';
       }
     });

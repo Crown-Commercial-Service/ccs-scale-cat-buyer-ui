@@ -176,7 +176,7 @@
           {% endblock %}
 
           {% block TextSelect%}
-            {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
+            {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == true) and (group_id == 'Group 2')  %}
 
               {{  CCSTextarea({
                       name: "eoi_prob_statement",
@@ -198,6 +198,120 @@
                 }}
 
               {%endif%}
+              {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (group_id === 'Group 6') and (requirement.nonOCDS.order === 1)  %}
+ 
+
+                    {% call CCSFieldset({
+                            legend: {
+                               html: "Enter the first special term or condition <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                              classes: "govuk-fieldset__legend--m",
+                              isPageHeading: false
+                            },
+                            classes: "term_fieldset splterm_1",
+                            id:"term_fieldset_splterm_1"
+                          })
+                      %}
+
+                    {{ CCSInput({
+                            label: {
+                              text: "Write the special term or condition"
+                            },
+                            id: "eoi_splterm_1",
+                            name: "splterm",
+                            classes: "eoi_splterm_1",
+                            value: requirement.nonOCDS.options[0].value
+                          })
+                      }}
+
+                   
+
+                    {{ CCSTextarea({
+                            name: "value",
+                            id: "eoi_splterm_definition_1",
+                            label: {
+                              text: "Explain the first special term or condition"
+                            },
+                            classes: "eoi_splterm_definition_1",
+                            value: requirement.nonOCDS.options[0].text
+                          })
+                      }}
+
+                    {% endcall %}
+                    {% set NumberWord = [
+                      'Zero',
+                      'First',
+                      'Second',
+                      ' Third',
+                      ' Fourth',
+                      ' Fifth',
+                      ' Sixth',
+                      ' Seventh',
+                      ' Eight',
+                      ' Ninth',
+                      ' Tenth'
+                    ] %}
+                    {% for i in range(2, 11) -%}
+
+                      {% call CCSFieldset({
+                      legend: {
+                        html: NumberWord[i]+" special term or condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        classes: "govuk-fieldset__legend--m",
+                        isPageHeading: false
+                      },
+                      classes: "term_fieldset splterm"+i,
+                      id:"term_fieldset"
+                    }) %}
+
+                      {{ CCSInput({
+                        label: {
+                          text: "Write the special term or condition"
+                        },
+                        id: "eoi_splterm_"+i,
+                        name: "splterm",
+                        classes: "eoi_splterm_"+i,
+                        value: requirement.nonOCDS.options[i-1].value
+                      }) }}
+
+                      {{ CCSTextarea({
+                        label: {
+                          text: "Explain the special term or condition"
+                        },
+                        id: "eoi_splterm_definition_"+i,
+                        name: "value",
+                        spellcheck: false,
+                        classes: "eoi_splterm_definition_"+i,
+                        value: requirement.nonOCDS.options[i-1].text
+                      }) }}
+
+                      {% endcall %}
+
+                    {%- endfor %}
+
+                    <p class="govuk-body">
+                      {{ CCSButton({
+                          text: "Add another special term or condition",
+                          attributes: {
+                            id: "ccs_eoisplTerm_add"
+                          },
+                          classes: "govuk-button--secondary ccs-dynaform-hidden"
+                        }) }}
+                    </p>
+                    {{ CCSInput({
+                      id: "questionType",
+                      name: "questionType",
+                      type: "hidden",
+                      value: requirement.nonOCDS.questionType+requirement.nonOCDS.multiAnswer
+                    })
+                }}
+
+                    {{ CCSInput({
+                            id: "question_id",
+                            name: "question_id",
+                            type: "hidden",
+                            value: requirement.OCDS.id
+                          }) }}
+                          <div id="eoi_splterm"> </div>
+                  {% endif %}
 
             {% endblock %}
 
