@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let errorText = '';
     if($("#page-heading").text().includes("Project scope"))
-    errorText = "You must type an item before you can add another item"
+    errorText = "You must type at least one project scope before you can add another"
     else
     errorText = "You must type an objective before you can add another objective"
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1",errorText, /\w+/);
