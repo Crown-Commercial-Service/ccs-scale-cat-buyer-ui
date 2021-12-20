@@ -43,7 +43,7 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "Choose how to build your RfI",
+          "title": "How will you build your request for information (RFI)",
           "required": "mandatory",
           "link": "/rfi/type",
           "status": "optional"
@@ -59,12 +59,12 @@
     },
     {
       "eventno": 3,
-      "eventTitle": "Review and publish your RfI",
+      "eventTitle": "Review and publish your Request for Information",
       "eventDescription": "Review the information you have entered, confirm which suppliers you want to send it to, set out your timeline (including how long suppliers have to ask questions and when you will respond by), and then publish your RfI.",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Upload documents or add links",
+          "title": "Upload or link any additional documentation",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfi/upload-doc"
@@ -85,7 +85,7 @@
         },
         {
           "Task": 4,
-          "title": "Review and publish your RfI",
+          "title": "Review and publish your Request For Information",
           "required": "mandatory",
           "status": "Cannot start yet",
           "link": "/rfi/review"
