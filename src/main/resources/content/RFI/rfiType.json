@@ -22,10 +22,10 @@
       }
     ],
 
-    "title": "How will you build your Request for Information (RfI)?",
+    "title": "Choose how to build your RfI",
     "subtitle": null,
     "form": {
-        "question": "How will you build your Request for Information (RfI)? ",
+        "question": "You can choose to either enter the information online to build your RfI or upload your own document.",
         "radioOptions": {
             "idPrefix": "ccs_rfi_type",
             "name": "ccs_rfi_type",
