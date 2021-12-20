@@ -46,19 +46,14 @@
   }) }}
     {%endif %}
     {% if(emptyFieldError)%}
-     {{ CCSErrorSummary({
+      {{ CCSErrorSummary({
           titleText: "There is a problem",
-          errorList: [
-            {
-               text: errorText,
-               href: "#"
-            }
-          ]
+          errorList: errorText
       }) }}
     {%endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">
+        <h1 id="page-heading" class="govuk-heading-xl">
           {{eoiTitle}}
         </h1>
       </div>
@@ -122,13 +117,6 @@
                       })
                   }}
               </p>
-              {{ CCSInput({
-                      id: "questionType",
-                      name: "questionType",
-                      type: "hidden",
-                      value: requirement.nonOCDS.questionType+requirement.nonOCDS.multiAnswer
-                    })
-                }}
 
               {{ CCSInput({
                       id: "question_id",
@@ -176,7 +164,7 @@
           {% endblock %}
 
           {% block TextSelect%}
-            {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == true) and (group_id == 'Group 2')  %}
+            {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == true) and (group_id == 'Group 2') %}
 
               {{  CCSTextarea({
                       name: "eoi_prob_statement",
@@ -198,10 +186,9 @@
                 }}
 
               {%endif%}
-              {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (group_id === 'Group 6') and (requirement.nonOCDS.order === 1)  %}
- 
+              {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (group_id === 'Group 6') and (requirement.nonOCDS.order === 1) %}
 
-                    {% call CCSFieldset({
+                {% call CCSFieldset({
                             legend: {
                                html: "Enter the first special term or condition <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
                               classes: "govuk-fieldset__legend--m",
@@ -212,7 +199,7 @@
                           })
                       %}
 
-                    {{ CCSInput({
+                {{ CCSInput({
                             label: {
                               text: "Write the special term or condition"
                             },
@@ -223,9 +210,7 @@
                           })
                       }}
 
-                   
-
-                    {{ CCSTextarea({
+                {{ CCSTextarea({
                             name: "value",
                             id: "eoi_splterm_definition_1",
                             label: {
@@ -236,23 +221,23 @@
                           })
                       }}
 
-                    {% endcall %}
-                    {% set NumberWord = [
-                      'Zero',
-                      'First',
-                      'Second',
-                      ' Third',
-                      ' Fourth',
-                      ' Fifth',
-                      ' Sixth',
-                      ' Seventh',
-                      ' Eight',
-                      ' Ninth',
-                      ' Tenth'
-                    ] %}
-                    {% for i in range(2, 11) -%}
+                {% endcall %}
+                {% set NumberWord = [
+                  'Zero',
+                  'First',
+                  'Second',
+                  ' Third',
+                  ' Fourth',
+                  ' Fifth',
+                  ' Sixth',
+                  ' Seventh',
+                  ' Eight',
+                  ' Ninth',
+                  ' Tenth'
+                ] %}
+                {% for i in range(2, 11) -%}
 
-                      {% call CCSFieldset({
+                  {% call CCSFieldset({
                       legend: {
                         html: NumberWord[i]+" special term or condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
@@ -262,7 +247,7 @@
                       id:"term_fieldset"
                     }) %}
 
-                      {{ CCSInput({
+                  {{ CCSInput({
                         label: {
                           text: "Write the special term or condition"
                         },
@@ -272,7 +257,7 @@
                         value: requirement.nonOCDS.options[i-1].value
                       }) }}
 
-                      {{ CCSTextarea({
+                  {{ CCSTextarea({
                         label: {
                           text: "Explain the special term or condition"
                         },
@@ -283,35 +268,28 @@
                         value: requirement.nonOCDS.options[i-1].text
                       }) }}
 
-                      {% endcall %}
+                  {% endcall %}
 
-                    {%- endfor %}
+                {%- endfor %}
 
-                    <p class="govuk-body">
-                      {{ CCSButton({
+                <p class="govuk-body">
+                  {{ CCSButton({
                           text: "Add another special term or condition",
                           attributes: {
                             id: "ccs_eoisplTerm_add"
                           },
                           classes: "govuk-button--secondary ccs-dynaform-hidden"
                         }) }}
-                    </p>
-                    {{ CCSInput({
-                      id: "questionType",
-                      name: "questionType",
-                      type: "hidden",
-                      value: requirement.nonOCDS.questionType+requirement.nonOCDS.multiAnswer
-                    })
-                }}
+                </p>
 
-                    {{ CCSInput({
+                {{ CCSInput({
                             id: "question_id",
                             name: "question_id",
                             type: "hidden",
                             value: requirement.OCDS.id
                           }) }}
-                          <div id="eoi_splterm"> </div>
-                  {% endif %}
+                <div id="eoi_splterm"></div>
+              {% endif %}
 
             {% endblock %}
 
@@ -372,7 +350,6 @@
 
                 {% block KeySelect%}
                   {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) %}
- 
 
                     {% call CCSFieldset({
                             legend: {
@@ -395,8 +372,6 @@
                             value: requirement.nonOCDS.options[0].value
                           })
                       }}
-
-                   
 
                     {{ CCSTextarea({
                             name: "value",
@@ -469,13 +444,6 @@
                           classes: "govuk-button--secondary ccs-dynaform-hidden"
                         }) }}
                     </p>
-                    {{ CCSInput({
-                      id: "questionType",
-                      name: "questionType",
-                      type: "hidden",
-                      value: requirement.nonOCDS.questionType+requirement.nonOCDS.multiAnswer
-                    })
-                }}
 
                     {{ CCSInput({
                             id: "question_id",
@@ -483,7 +451,7 @@
                             type: "hidden",
                             value: requirement.OCDS.id
                           }) }}
-                          <div id="eoi_keyterm"> </div>
+                    <div id="eoi_keyterm"></div>
                   {% endif %}
                 {% endblock %}
 
@@ -523,19 +491,45 @@
                             value: requirement.OCDS.id
                           })
                       }}
-                      {{ CCSInput({
-                      id: "questionType",
-                      name: "questionType",
-                      type: "hidden",
-                      value: requirement.nonOCDS.questionType+requirement.nonOCDS.multiAnswer
-                    })
-                }}
 
                     {% endif %}
                   {% endblock %}
+                  {% block Budget %}
+                    {% if ((requirement.nonOCDS.questionType === 'Monetary') and (requirement.nonOCDS.multiAnswer === false)) %}
+                      {% set titleText = requirement.OCDS.title %}
 
+                      {{ CCSInput({
+                            label: {
+                              text: titleText,
+                              classes: "govuk-label--m"
+                            },
+                            hint: {
+                              text: requirement.OCDS.description,
+                              classes: "govuk-hint"
+                            },
+                            prefix: {
+                              text: "£"
+                            },
+                            id: "eoi_"+requirement.OCDS.title | replace(" ", "_") | lower,
+                            name: "eoi_budget",
+                            inputmode: "numeric",
+                            pattern: "[0-9]*",
+                            classes: "govuk-input--width-5",
+                            value: requirement.nonOCDS.options[0].value
+                        })
+                      }}
+
+                      {{ CCSInput({
+                          id: "question_id",
+                          name: "question_id",
+                          type: "hidden",
+                          value: requirement.OCDS.id
+                      })
+                      }}
+                    {% endif %}
+                  {% endblock %}
                 {% endfor %}
-                
+
                 {{ CCSInput({
                     id: "eoi_build_started",
                     name: "eoi_build_started",
@@ -558,7 +552,7 @@
             </div>
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-one-third">
-                  {{ CCSReleatedContent(releatedContent) }}
+                {{ CCSReleatedContent(releatedContent) }}
               </div>
             </div>
           </main>
