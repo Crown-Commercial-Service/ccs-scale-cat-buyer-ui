@@ -91,67 +91,54 @@
 
     <p class="govuk-body">{{data.content.p4}} </p>
 
-  {% set noOfUser = 0%}
-
-  {%if(userIsLead)%}
-  {% set noOfUser = 5%}
-  {%else%}
-{% set noOfUser = 5%}
-  {%endif%}
-
-
-
-  {%if(collaborators.length < noOfUser)%}
-         <div class="ccs-page-section">
+      <div class="ccs-page-section">
         <p class="govuk-body">Select and add colleagues</p>
         <form method="POST" action="/rfi/get-collaborator-detail">
-         <div class="govuk-button-group">
-        {{ CCSSelect({
-        id: "rfi_collaborators",
-        name: "rfi_collaborators",
-        items: sortedMembers
-        })
-        }}
-        &nbsp;
-         {{ CCSButton({
-        text: "Add",
-         attributes: {
-        id: "ccs_collab_view"
-        },
-        type: "submit"
-        }) }}
-        </div>
+          <div class="govuk-button-group">
+          {{ CCSSelect({
+          id: "rfi_collaborators",
+          name: "rfi_collaborators",
+          items: sortedMembers
+          })
+          }}
+          &nbsp;
+          {{ CCSButton({
+          text: "Add",
+          attributes: {
+          id: "ccs_collab_view"
+          },
+          type: "submit"
+          }) }}
+          </div>
         </form>
       </div>
 
       <form method="POST" action="/rfi/add-collaborator-detail" >
-      <div class="ccs-page-section" id="potential-collaborator">
-        <div id="potential-collaborator-detail">
-          <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
-          </p>
-          <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="show_collab_email" > {{collaborator['email']}}<span></p>
-          <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="show_collab-phone">{{collaborator['tel']}}</span></p>
+        <div class="ccs-page-section" id="potential-collaborator">
+          <div id="potential-collaborator-detail">
+            <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
+            </p>
+            <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="show_collab_email" > {{collaborator['email']}}<span></p>
+            <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="show_collab-phone">{{collaborator['tel']}}</span></p>
+          </div>
+
+          {{ CCSInput({
+              id: "rfi_collaborator_append",
+              name: "rfi_collaborator",
+              type: "hidden",
+              value: collaborator['email']
+              }) }}
+
+          {{ CCSButton({
+          text: "Add colleague",
+          attributes: {
+          id: "ccs_collab_add"
+          },
+          classes: "govuk-button--secondary"
+          }) }}
         </div>
 
-        {{ CCSInput({
-            id: "rfi_collaborator_append",
-            name: "rfi_collaborator",
-            type: "hidden",
-            value: collaborator['email']
-            }) }}
-
-        {{ CCSButton({
-        text: "Add colleague",
-        attributes: {
-        id: "ccs_collab_add"
-        },
-        classes: "govuk-button--secondary"
-        }) }}
-
-      </div>
-
       </form>
-      {%endif%}
       <div id="collaborators-section">
         {% for collaborator in collaborators %}
         {% if collaborator.OCDS.contact.email !== lead %}
