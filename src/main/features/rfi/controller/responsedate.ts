@@ -3,10 +3,10 @@ import * as express from 'express';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance'
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
-import { LoggTracer } from '../../../common/logtracer/tracer';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { RESPONSEDATEHELPER } from '../../shared/responsedate'
 import *  as cmsData from '../../../resources/content/RFI/rfi-response-date.json'
+import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 
 
 ///rfi/response-date
@@ -75,7 +75,10 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
          const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
          await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Completed');
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Completed');
+      if (response.status == HttpStatusCode.OK) {
+         await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/14`, 'Not started');
+      }
       res.redirect('/rfi/review')
    } catch (error) {
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,

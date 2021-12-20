@@ -28,7 +28,7 @@ export const REQUIREMENT_RFP_TYPE = (req: express.Request, res: express.Response
   res.render('rfp-type', appendData);
 }
 
-//POST 'eoi/type'
+//POST 'rfp/type'
 /**
  *
  * @param req

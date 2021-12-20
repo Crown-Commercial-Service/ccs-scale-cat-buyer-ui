@@ -1,5 +1,7 @@
 //@ts-nocheck
+import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import * as express from 'express';
+import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import * as cmsData from '../../../resources/content/RFI/suppliers.json';
 
 // RFI Suppliers
@@ -223,7 +225,13 @@ export const GET_RFI_SUPPLIERS  = (req: express.Request, res: express.Response) 
 
 }
 
-export const POST_RFI_SUPPLIER = (req: express.Request, res: express.Response) => {
+export const POST_RFI_SUPPLIER = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { eventId } = req.session;
+  const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/12`, 'Completed');
+  if (response.status == HttpStatusCode.OK) {
+     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Not started');
+  }
 
 res.redirect('/rfi/response-date');
 

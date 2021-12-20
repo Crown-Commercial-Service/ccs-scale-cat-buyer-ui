@@ -36,8 +36,16 @@
 
               },
               {
+                "value": "part_online",
+                "text": "Upload only your statement of requirements but finish the bid pack online",
+                "hint": {
+                  "text": "Use this option to upload attachement and complete the assessment online."
+                }
+
+              },
+              {
                 "value": "all_offline",
-                "text": "Complete and upload a document",
+                "text": "Complete and upload the whole bid back",
                 "hint": {
                   "text": "Use this option to prepare your one stage further competition offline and then upload it."
                 }

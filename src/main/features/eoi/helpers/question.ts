@@ -1,4 +1,6 @@
+import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import express from 'express'
+import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -58,6 +60,11 @@ export class QuestionHelper {
             res.redirect(base_url)
          }
          else {
+            const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'Completed');
+            if (response.status == HttpStatusCode.OK) {
+               await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/21`, 'Optional');
+               await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/22`, 'Not started');
+            }
             res.redirect('/eoi/eoi-tasklist')
          }
       } catch (error) {
