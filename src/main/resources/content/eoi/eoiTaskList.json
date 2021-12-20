@@ -43,7 +43,7 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "Choose how to build your EoI",
+          "title": "How will you build your request for information (EOI)",
           "required": "mandatory",
           "link": "/eoi/type",
           "status": "optional"
@@ -59,12 +59,12 @@
     },
     {
       "eventno": 3,
-      "eventTitle": "Review and publish your EoI",
+      "eventTitle": "Review and publish your Expression of Interest",
       "eventDescription": "Review the information you have entered, confirm which suppliers you want to send it to, set out your timeline (including how long suppliers have to ask questions and when you will respond by), and then publish your EoI.",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Upload documents or add links",
+          "title": "Upload or link any additional documentation",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/eoi/upload-doc"
@@ -85,7 +85,7 @@
         },
         {
           "Task": 4,
-          "title": "Review and publish your EoI",
+          "title": "Review and publish your Expression of Interest",
           "required": "mandatory",
           "status": "Cannot start yet",
           "link": "/eoi/review"

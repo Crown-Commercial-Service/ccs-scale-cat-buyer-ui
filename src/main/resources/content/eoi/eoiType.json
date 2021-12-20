@@ -17,11 +17,11 @@
       "href": "/eoi/eoi-tasklist"
     },
     {
-      "text": "Choose how to build your EOI",
+      "text": "How will you build your request for information (EOI)",
       "href": "#"
     }
   ],
-  "title": "Choose how to build your EOI",
+  "title": "How will you build your request for information (EOI)",
   "subtitle": null,
   "form": {
     "question": "You can choose to either enter the information online to build your EOI or upload your own document.",
