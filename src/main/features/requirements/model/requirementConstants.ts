@@ -5,6 +5,7 @@ export enum REQUIREMENT_PATHS {
     POST_ROUTE = '/requirements/choose-route',
     POST_RFP_TYPE = '/rfp/type',
     REQUIREMENT_RFP_TASK_LIST = '/rfp/task-list',
+    OFFLINE_JOURNEY_PAGE = '/rfp/offline',
 
     // Add collaborator
     GET_ADD_COLLABORATOR = '/rfp/add-collaborators',
