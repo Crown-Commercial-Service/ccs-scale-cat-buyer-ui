@@ -9309,17 +9309,26 @@ p,
 
 .ccs_eoi_criteria_form label .del,
 .ccs_eoi_confid_form label .del,
-.ccs_rfi_questions_form label .del,
+.ccs_rfi_questions_form label .del
+{
+  text-decoration: none;
+}
 .ccs_eoi_criteria_form label .clear-fields,
 .ccs_eoi_confid_form label .clear-fields,
 .ccs_rfi_questions_form label .clear-fields,
 .ccs_rfi_acronyms_form label .clear-fields,
 .ccs_eoi_acronyms_form label .clear-fields,
-.ccs_eoi_splterms_form label .clear-fields
-{
-  position: absolute!important;
-  right: 20!important;
+.ccs_eoi_splterms_form label .clear-fields {
+  position: absolute;
+  right: 0;
   text-decoration: none;
+}
+.govuk-fieldset.term_acronym_fieldset {
+  position: relative;
+}
+.clear-fields {
+    position: absolute;
+    right: 0;
 }
 
 .ccs_eoi_docs_form .del {
