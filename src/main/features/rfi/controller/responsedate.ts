@@ -4,16 +4,14 @@ import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiIns
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
-import { RESPONSEDATEHELPER } from '../../shared/responsedate'
-import *  as cmsData from '../../../resources/content/RFI/rfi-response-date.json'
+import { RESPONSEDATEHELPER } from '../helpers/responsedate'
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-   let appendData = await RESPONSEDATEHELPER(req, res);
-   appendData.data = cmsData;
-   res.render("response-date", appendData)
+   RESPONSEDATEHELPER(req, res);
+  
 }
 
 export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -100,6 +98,8 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
       clarification_date_hourFormat,
       selected_question_id
    } = req.body;
+
+   console.log(req.body)
 
    clarification_date_day = Number(clarification_date_day);
    clarification_date_month = Number(clarification_date_month);
