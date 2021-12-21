@@ -154,38 +154,7 @@
       </div>
       {% if data['ccs_rfi_type'] == 'all_online' %}
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Ask suppliers questions
-        </dt>
-        {% if data['rfi_question_1'] | length > 0 %}
-        <dd class="govuk-summary-list__value">
-          <ul class="govuk-list govuk-list--none">
-            <li>
-              {{ data['rfi_question_1'] }}
-            </li>
-            {% for ques in range(2, 11) %}
-            {% set key = 'rfi_question_'+ques %}
-            {% if data[ key] | length > 0 %}
-            <li>
-              {{ data[key] }}
-            </li>
-            {% endif %}
-            {% endfor %}
-          </ul>
-        </dd>
-        {% else %}
-        <dd class="govuk-summary-list__value">
-          You have not asked for any extra information
-        </dd>
-        {% endif %}
-
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/rfi/questions">
-            Change<span class="govuk-visually-hidden"> rfi questions</span>
-          </a>
-        </dd>
-      </div>
+     
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
@@ -239,124 +208,15 @@
       </div>
 
       <div class="ccs-summary-list-heading"> <strong> The buying organisation (Optional)</strong> </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key ccs-summary-list-heading" style="border-bottom: 0px;">
-          Name of the organisation doing the procurement
-        </dt>
-        <dd class="govuk-summary-list__value ccs-summary-list-heading" style="border-bottom: 0px;">
-          {{ data['contracting_auth'] }}
-        </dd>
-
-        <dd class="govuk-summary-list__actions ccs-summary-list-action" style="border-bottom: 0px;">
-          <a class="govuk-link govuk-link--no-visited-state" href="/rfi/who">
-            Change<span class="govuk-visually-hidden"> rfi buyer</span>
-          </a>
-        </dd>
-
+     
       </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Name of the organisation using the products or services that are being procured
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ data['rfi_on_behalf_of'] }}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/rfi/who">
-            <span class="govuk-visually-hidden"> rfi buyer</span>
-          </a>
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Security and vetting requirements (Optional) 
-        </dt>
-        {% if data['ccs_vetting_type'] | length > 0 %}
-        <dd class="govuk-summary-list__value">
-          {{ data['ccs_vetting_type'] }}
-        </dd>
-        {% else %}
-        <dd class="govuk-summary-list__value">
-          You have not added security and vetting requirements
-        </dd>
-        {% endif %}
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/rfi/vetting">
-            Change<span class="govuk-visually-hidden"> rfi security requirements</span>
-          </a>
-        </dd>
-      </div>
-
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Where the supplied staff will work (Optional)
-        </dt>
-        {% if data['required_locations'] === undefined or data['required_locations'] | length == 0 %}
-        <dd class="govuk-summary-list__value">
-          You have not added any location
-        </dd>
-        {% else %}
-        {% if data['required_locations'] | length > 0 %}
-        <dd class="govuk-summary-list__value">
-          <ul class="govuk-list govuk-list--none">
-            {% for loc in data['required_locations'] %}
-            {% if loc == '13'%}
-            <li>
-              No specific location, for example they can work remotely
-              </li>
-             {% else %} 
-            <li>
-            {{ loc }}
-            </li>
-            {% endif %}
-            {% endfor %}
-          </ul>
-        </dd>
-        {% endif %}
-        {% endif %}
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/rfi/location">
-            Change<span class="govuk-visually-hidden"> rfi address/span>
-          </a>
-        </dd>
-      </div>
-
-
-      <!-- <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          [ Status of the project ]
-        </dt>
-        {% if data['rfi_work_to_date'] | length > 0 or data['rfi_prog_phase'] | length > 0 or data['rfi_prog_resourse_phase_req'] | length > 0 %}
-        <dd class="govuk-summary-list__value">
-         <ul class="govuk-list govuk-list--none ">
-           {% if data['rfi_prog_phase'] | length > 0 %}
-          <li>Current phase of project: {{data['rfi_prog_phase'] }} </li>
-          {% endif %}
-          {% if data['rfi_prog_resourse_phase_req'] | length > 0 %}
-          <li>Phase resourse will be employed for: {{data['rfi_prog_resourse_phase_req'] }} </li>
-          {% endif %}
-          {% if data['rfi_work_to_date'] | length > 0 %}
-          <li>work done till now: {{data['rfi_work_to_date'] }} </li>
-          {% endif %}
-         </ul>
-        </dd>
-        {% else %}
-        <dd class="govuk-summary-list__value">
-          You have not added any answer.
-        </dd>
-        {% endif %}
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/rfi/project-status">
-            Change<span class="govuk-visually-hidden"> rfi project status</span>
-          </a>
-        </dd>
-      </div> -->
       {% else %}
+
+      {#rfi_data#}
+      {%for item in rfi_data%}
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          [ Uploaded document ]
+         {{item.title}}
         </dt>
         {% if data['rfi_offline_document'] | length > 0 %}
         <dd class="govuk-summary-list__value">
@@ -364,24 +224,30 @@
         </dd>
         {% else %}
         <dd class="govuk-summary-list__value">
-          You have not uploaded any document
+        {% for i in item.answer %}
+        {% for answer in i.values%}
+        <p>{{answer.value}}<p>
+        <p>{{answer.text | safe}} </p>
+        {%endfor%}
+        
+        {%endfor%}
         </dd>
         {% endif %}
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/rfi/offline-doc">
-            Change<span class="govuk-visually-hidden"> rfi offline document</span>
-          </a>
+         
         </dd>
       </div>
+      {%endfor%}
       {% endif %}
     </dl>
+
 
     <h2 class="govuk-heading-m"> 3. Review and publish your RfI </h2>
     <dl class="govuk-summary-list">
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          Upload documents or add links
+          Upload documents
         </dt>
         {% if data['rfi_file_upload_1'] | length > 0 or data['rfi_additional_link'] | length > 0 %}
         <dd class="govuk-summary-list__value">
@@ -391,16 +257,12 @@
               <span>Uploaded file: &nbsp;</span> {{ data['rfi_file_upload_1'] }}
             </li>
             {% endif %}
-            {% if data['rfi_additional_link'] | length > 0 %}
-            <li>
-              <span>Link:&nbsp;</span> {{ data['rfi_additional_link'] }}
-            </li>
-            {% endif %}
+            
           </ul>
         </dd>
         {% else %}
         <dd class="govuk-summary-list__value">
-          You have not provided any link or uploaded any document
+         
         </dd>
         {% endif %}
 
@@ -411,82 +273,23 @@
         </dd>
       </div>
 
+    {% for dates in rfi_keydates.answer%}
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          Confirm which suppliers you want to approach
+         {{dates.question}}
         </dt>
-        {% if data['rfi_selected_suppliers'] | length > 0 %}
         <dd class="govuk-summary-list__value">
-          {{data['rfi_selected_supplier_count']}} suppliers selected
+         {%for value in dates.values%}
+         <p> {{value.value}}</p>
+         {%endfor%}
         </dd>
-        {% else %}
-        <dd class="govuk-summary-list__value">
-          No suppliers selected
-        </dd>
-        {% endif %}
-
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/rfi/suppliers">
-            Change<span class="govuk-visually-hidden">rfi suppliers</span>
-          </a>
-        </dd>
-      </div>
-
-      <div class="ccs-summary-list-heading"><strong> Your RfI timeline</strong> </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key ccs-summary-list-heading" style="border-bottom: 0px;">
-          Clarification period ends
-        </dt>
-        <dd class="govuk-summary-list__value ccs-summary-list-heading" style="border-bottom: 0px;">
-          {{ data['rfi_clarification_date_string'] }}
-        </dd>
-
-        <dd class="govuk-summary-list__actions ccs-summary-list-action" style="border-bottom: 0px;">
           <a class="govuk-link" href="/rfi/response-date">
-            Change<span class="govuk-visually-hidden"> rfi response dates</span>
-          </a>
-        </dd>
-
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key" style="border-bottom: 0px;">
-          Deadline for publishing repsonses to RfI clarification questions
-        </dt>
-        <dd class="govuk-summary-list__value" style="border-bottom: 0px;">
-          {{ data['rfi_clarification_response_date_string'] }}
-        </dd>
-        <dd class="govuk-summary-list__actions" style="border-bottom: 0px;">
-          <a class="govuk-link">
-            <span class="govuk-visually-hidden"> rfi response dates</span>
+           Change <span class="govuk-visually-hidden"> rfi response dates</span>
           </a>
         </dd>
       </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key" style="border-bottom: 0px;">
-          Deadline for suppliers to submit their RfI response
-        </dt>
-        <dd class="govuk-summary-list__value" style="border-bottom: 0px;">
-          {{ data['rfi_response_date_string'] }}
-        </dd>
-        <dd class="govuk-summary-list__actions" style="border-bottom: 0px;">
-          <a class="govuk-link">
-            <span class="govuk-visually-hidden"> rfi response dates</span>
-          </a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Confirm your next steps to suppliers
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ data['rfi_next_steps_date_string'] }}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link">
-            <span class="govuk-visually-hidden"> rfi response dates</span>
-          </a>
-        </dd>
-      </div>
+      {%endfor%}
     </dl>
   </div>
 </div>

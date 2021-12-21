@@ -5,7 +5,7 @@ import {DynamicFrameworkInstance} from '../util/fetch/dyanmicframeworkInstance'
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
-
+import JSONData from './data.json'
 
 
 //@GET /rfi/review
@@ -17,8 +17,6 @@ export const GET_RFI_REVIEW  = async (req: express.Request, res: express.Respons
     try {
         const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
         const ReviewData = FetchReviewData.data;
-    
-        
         //Buyer Questions
         const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions;
         const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -31,10 +29,57 @@ export const GET_RFI_REVIEW  = async (req: express.Request, res: express.Respons
             return {"requirement": data}}
         ).flat();
 
+        //JSONData; 
+        let Rfi_answered_questions = BuyerAnsweredAnswers.map(rfi => rfi.requirement).flat()
+        
+        const GROUP1_Toggle = Rfi_answered_questions.filter(question => question.OCDS.id === 'Group 1')[0];
+        const ToggledTrue = GROUP1_Toggle.OCDS.requirements.filter(reqs => reqs.OCDS.id === 'Question 1')[0];
+        const selectedToggled = ToggledTrue.nonOCDS.options.map(op => {
+            return {"value": op.value, selected: true}
+        })
+        ToggledTrue.nonOCDS.options = selectedToggled;
+        GROUP1_Toggle.OCDS.requirements.map(group => {
+            if(group.OCDS.id === "Question 1") return ToggledTrue
+            else return group
+        })
+        Rfi_answered_questions = Rfi_answered_questions.map(question => {
+            if(question.OCDS.id === "Group 1") return GROUP1_Toggle
+            else return question
+        })
+
+        const ExtractedRFI_Answers = Rfi_answered_questions.map(question => {
+            return {
+                "title": question.OCDS.description,
+                "id": question.OCDS.id,
+                "answers": question.OCDS.requirements.map(o => {
+                    return {"question": o.OCDS?.title, "values": o.nonOCDS.options}
+                })
+            }
+        })
+
+        const FilteredSetWithTrue = ExtractedRFI_Answers.map(questions => {
+            return {
+                "title": questions.title,
+                "id": questions.id,
+                "answer": questions.answers.map(answer => {
+                    return {
+                        "question": answer.question,
+                        "values": answer.values.filter(val => val.selected)
+                    }
+                })
+            }
+        })
+
+        const RFI_DATA_WITHOUT_KEYDATES = FilteredSetWithTrue.filter(obj => obj.id !== "Key Dates");
+
+        const RFI_DATA_TIMELINE_DATES = FilteredSetWithTrue.filter(obj => obj.id === 'Key Dates')
 
         const appendData = {
+            rfi_data : RFI_DATA_WITHOUT_KEYDATES,
+            rfi_keydates : RFI_DATA_TIMELINE_DATES[0],
             data: cmsData
         }
+
         res.render('review', appendData)
 
     } catch (error) {
