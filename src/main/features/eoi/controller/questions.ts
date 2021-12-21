@@ -77,7 +77,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     req.session?.nonOCDSList = nonOCDSList;
     const releatedContent = req.session.releatedContent;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
-    const errorText = findErrorText(fetch_dynamic_api_data);
+    const errorText = findErrorText(fetch_dynamic_api_data, req);
     const { isFieldError } = req.session;
     const data = {
       data: fetch_dynamic_api_data,
@@ -91,7 +91,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       bcTitleText,
       prompt: promptData,
       organizationName: organizationName,
-      error: req.session['isLocationError'],
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,
       releatedContent: releatedContent,
@@ -314,7 +313,7 @@ const KeyValuePairValidation = (object_values: any, req: express.Request) => {
   return false;
 };
 
-const findErrorText = (data: any) => {
+const findErrorText = (data: any, req: express.Request) => {
   let errorText = [];
   data.forEach(requirement => {
     if (requirement.nonOCDS.questionType == 'KeyValuePair')
@@ -325,6 +324,8 @@ const findErrorText = (data: any) => {
       errorText.push({ text: 'Please select an option' });
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must enter information here' });
+    else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true)
+      errorText.push({ text: 'Select regions where your staff will be working, or select "No specific location...."' });
   });
   return errorText;
 };
