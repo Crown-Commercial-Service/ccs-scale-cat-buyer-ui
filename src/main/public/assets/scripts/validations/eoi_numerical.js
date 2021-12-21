@@ -20,18 +20,6 @@ const ccsZvalidateEoiDate = (event) => {
     fieldCheck = ccsZvalidateWithRegex("eoi_duration-days", "Enter numbers of days", /^\d{1,}$/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }
-  if (document.getElementById("eoi_duration-months").value.trim().length === 0) {
-    fieldCheck = ccsZvalidateWithRegex("eoi_duration-months", "Enter numbers of month", /^\d{1,}$/);
-    if (fieldCheck !== true) errorStore.push(fieldCheck);
-  }
-  if (document.getElementById("eoi_duration-years").value.trim().length === 0) {
-    fieldCheck = ccsZvalidateWithRegex("eoi_duration-years", "Enter numbers of years", /^\d{1,}$/);
-    if (fieldCheck !== true) errorStore.push(fieldCheck);
-  }
-  if (document.getElementById("eoi_resource_start_date-day").value.trim().length === 0) {
-    fieldCheck = ccsZvalidateWithRegex("eoi_resource_start_date-day", "Enter numbers of days", /^\d{1,}$/);
-    if (fieldCheck !== true) errorStore.push(fieldCheck);
-  }
 
 
   if (errorStore.length === 0) document.forms["ccs_eoi_date_form"].submit();

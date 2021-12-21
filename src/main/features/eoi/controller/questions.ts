@@ -239,14 +239,23 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   options: [...selectedOptionToggle[0]],
                 },
               };
-          } else if (questionNonOCDS.questionType === 'Date' || questionNonOCDS.questionType === 'Duration') {
-                     answerValueBody = {
-                nonOCDS: {
-                  answered: true,
-                  options: [],
-                },
-              };
-
+            }
+          } else if (questionNonOCDS.questionType === 'Date') {
+            const slideObj = object_values.slice(0, 3);
+            answerValueBody = {
+              nonOCDS: {
+                answered: true,
+                options: [...slideObj],
+              },
+            };
+          } else if (questionNonOCDS.questionType === 'Duration') {
+            const slideObj = object_values.slice(3);
+            answerValueBody = {
+              nonOCDS: {
+                answered: true,
+                options: [...slideObj],
+              },
+            };
           } else {
             if (
               (questionNonOCDS.mandatory == true && object_values.length == 0) ||
