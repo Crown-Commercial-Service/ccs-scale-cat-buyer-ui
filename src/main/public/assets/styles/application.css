@@ -3476,6 +3476,7 @@ p + .govuk-heading-s,
 .govuk-error-summary__list {
   margin-top: 0;
   margin-bottom: 0;
+  color: #b10e1e;
 }
 
 .govuk-error-summary__list a {

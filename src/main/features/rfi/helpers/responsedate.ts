@@ -7,7 +7,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import moment from 'moment-business-days'
 import * as cmsData from '../../../resources/content/RFI/rfi-response-date.json';
-import  config from 'config'
+import config from 'config'
 
 
 
@@ -28,7 +28,10 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
     baseURL = baseURL + '/criteria'
     const keyDateselector = "Key Dates";
+
+
     try {
+
         const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
         const fetch_dynamic_api_data = fetch_dynamic_api?.data;
         const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian) => criterian?.id);
@@ -44,6 +47,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
             })
             criterianStorage.push(rebased_object_with_requirements)
         }
+
         criterianStorage = criterianStorage.flat();
         criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector)
         const prompt = criterianStorage[0].nonOCDS.prompt;
@@ -51,6 +55,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
         let fetchQuestionsData = fetchQuestions.data;
         const rfi_clarification_date = new Date().toLocaleDateString('en-uk', { weekday: "long", year: "numeric", month: "short", day: "numeric" })
+
+        console.log({rfi_clarification_date})
 
         const clarification_period_end_date = new Date();
         const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${clarification_period_end_date.getMonth() + 1}-${clarification_period_end_date.getFullYear()}`;
@@ -71,17 +77,20 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         supplier_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
         supplier_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
 
+
         const SupplierPeriodDeadLine = supplier_period_for_clarification_period;
         const SupplierPeriodDeadLine_Parsed = `${SupplierPeriodDeadLine.getDate()}-${SupplierPeriodDeadLine.getMonth() + 1}-${SupplierPeriodDeadLine.getFullYear()}`;
         const supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(predefinedDays.supplier_deadline)._d
         supplier_dealine_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
         supplier_dealine_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
 
+
         fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
             const currentElementID = Number(current_element.OCDS.id.split("Question ").join(""));
             const nextElementID = Number(next_element.OCDS.id.split("Question ").join(""));
             return currentElementID - nextElementID;
         });
+
         let appendData = {
             data: cmsData,
             prompt: prompt,
@@ -92,13 +101,15 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
             supplier_period_for_clarification_period: supplier_period_for_clarification_period.toLocaleTimeString('en-uk', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }),
             supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period.toLocaleTimeString('en-uk', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
         }
+
         if (errorTriggered) {
             appendData = { ...appendData, error: true, errorMessage: errorItem }
         }
+
+
         res.render('response-date', appendData)
 
     } catch (error) {
-        console.log(error)
         LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
             TokenDecoder.decoder(SESSION_ID), "Tenders Service Api cannot be connected", true)
     }

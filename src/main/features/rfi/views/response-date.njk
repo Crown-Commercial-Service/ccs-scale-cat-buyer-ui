@@ -61,7 +61,7 @@
                 {% if( requirement.nonOCDS.options.length == 0)%}
 
                 {% if(requirement.OCDS.id == "Question 2" )%}
-                 <label class="govuk-label govuk-body"><strong id="rfi_clarification_period_end">{{ clarification_period_end}}</strong></label>
+                 <label class="govuk-label govuk-body"><strong id="rfi_clarification_period_end">{{ rfi_clarification_period_end}}</strong></label>
                  {% elif (requirement.OCDS.id == "Question 3" ) %}
                 <label class="govuk-label govuk-body"><strong id="deadline_period_for_clarification_period">{{deadline_period_for_clarification_period }}</strong></label>
                   {% elif (requirement.OCDS.id == "Question 4" ) %}
@@ -69,7 +69,7 @@
                     {% elif (requirement.OCDS.id == "Question 5" ) %}
                    <label class="govuk-label govuk-body"><strong id="supplier_dealine_for_clarification_period">{{supplier_dealine_for_clarification_period }}</strong></label>
                  {%else%}
-                  <label class="govuk-label govuk-body"><strong id="rfi_clarification_date">{{clarification_date}}</strong></label>
+                  <label class="govuk-label govuk-body"><strong id="rfi_clarification_date">{{rfi_clarification_date}}</strong></label>
                 {%endif%}
 
 
@@ -238,9 +238,6 @@
                     type: "hidden",
                     value: "Question 4*"+supplier_period_for_clarification_period
                     }) }}
-
-
-
 
                   {{ CCSInput({
                     id: "timeStamp",
