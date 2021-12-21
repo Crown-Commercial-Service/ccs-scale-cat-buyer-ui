@@ -29,7 +29,7 @@ const ccsZvalidateEoiDate = (event) => {
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }
   if (document.getElementById("eoi_resource_start_date-day").value.trim().length === 0) {
-    fieldCheck = ccsZvalidateWithRegex("eoi_resource_start_date-day", "Enter a day value", /^\d{1,}$/);
+    fieldCheck = ccsZvalidateWithRegex("eoi_resource_start_date-day", "Enter numbers of days", /^\d{1,}$/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }
 

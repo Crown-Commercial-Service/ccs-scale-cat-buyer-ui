@@ -73,8 +73,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         return 'eoi_budget_form';
       } else if (aSelector.nonOCDS.questionType === 'Date' && aSelector.nonOCDS.multiAnswer == false) {
         return 'ccs_eoi_date_form';
-      } else if (aSelector.nonOCDS.questionType === 'Duration' && aSelector.nonOCDS.multiAnswer == false) {
-        return 'ccs_eoi_date_form';
       } else {
         return '';
       }
