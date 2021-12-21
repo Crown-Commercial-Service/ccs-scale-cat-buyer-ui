@@ -155,7 +155,7 @@
           {% endblock %}
 
           {% block TextSelect%}
-            {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == true) and (group_id == 'Group 2') %}
+            {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
 
               {{  CCSTextarea({
                       name: "eoi_prob_statement",
@@ -177,7 +177,7 @@
                 }}
 
               {%endif%}
-              {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (group_id === 'Group 6') and (requirement.nonOCDS.order === 1) %}
+              {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (requirement.nonOCDS.order === 1) %}
 
                 {% call CCSFieldset({
                             legend: {
