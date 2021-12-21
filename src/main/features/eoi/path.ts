@@ -136,6 +136,8 @@ export default function (app: Application): void {
   //@POST '/eoi/review'
   app.post(EOI_PATHS.POST_EOI_REVIEW, AUTH, associatedViews.POST_EOI_REVIEW);
 
+  app.post(EOI_PATHS.POST_UPLOAD_PROCEED, AUTH, associatedViews.POST_UPLOAD_PROCEED);
+
   // Offline page
   app.get(EOI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);
 
