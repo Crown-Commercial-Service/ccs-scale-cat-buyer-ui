@@ -5,7 +5,6 @@ import {DynamicFrameworkInstance} from '../util/fetch/dyanmicframeworkInstance'
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
-import JSONData from './data.json'
 
 
 //@GET /rfi/review
