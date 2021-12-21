@@ -17,7 +17,6 @@ export enum EOI_PATHS {
   GET_EVENT_PUBLISHED = '/eoi/event-sent',
   GET_RESPONSE_DATE = '/eoi/response-date',
   GET_EOI_REVIEW = '/eoi/review',
-  GET_EOI_SUPPLIERS = '/eoi/suppliers',
 
   /**
    * @POSTROUTES
@@ -36,5 +35,4 @@ export enum EOI_PATHS {
   POST_RESPONSE_DATE = '/eoi/response-date',
   POST_ADD_RESPONSE_DATA = '/eoi/add/response-date',
   POST_EOI_REVIEW = '/eoi/review',
-  POST_UPLOAD_PROCEED = '/eoi/upload-doc/proceed',
 }
