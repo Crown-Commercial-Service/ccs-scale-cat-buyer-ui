@@ -132,7 +132,7 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
     const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
     const userData = organisation_user_data?.data;
     req.session['searched_user'] = userData;
-    res.redirect(RFP_PATHS.GET_ADD_COLLABORATOR);
+    res.redirect('/rfp/add-collaborators');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -155,7 +155,7 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       userType: 'TEAM_MEMBER',
     };
     await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
-    res.redirect(RFP_PATHS.GET_ADD_COLLABORATOR);
+    res.redirect('/rfp/add-collaborators');
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
