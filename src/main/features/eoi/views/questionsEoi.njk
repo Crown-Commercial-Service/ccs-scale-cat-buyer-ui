@@ -152,6 +152,169 @@
                   }}
               {% endif %}
             {% endif %}
+            {% if (requirement.nonOCDS.questionType === 'Date') or (requirement.nonOCDS.questionType === 'Duration') and (requirement.nonOCDS.multiAnswer === false) %}
+              {% if requirement.OCDS.id == "Question 1"%}
+                <div class="govuk-form-group">
+                <div class="govuk-fieldset" role="group" aria-describedby="eoi_resource_start_date-hint">
+                  <legend class="govuk-fieldset__legend govuk-label--m">
+                      {{requirement.OCDS.title}}
+                  </legend>
+                  <div id="eoi_resource_start_date-hint" class="govuk-hint">
+                  <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
+                  </div>
+                  <div class="govuk-date-input" id="eoi_resource_start_date">
+                      <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                          {{ CCSInput({
+                            label: {
+                              text: "Day",
+                              classes: "govuk-label govuk-date-input__label",
+                              for: "eoi_resource_start_date-day"
+                            },
+                            id: "eoi_resource_start_date-day",
+                            name: "eoi_resource_start_date-day",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[0].value,
+                            max: 31,
+                            min: 1
+                          }) }}
+                        </div>
+                      </div>
+                      <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                          {{ CCSInput({
+                            label: {
+                              text: "Month",
+                              classes: "govuk-label govuk-date-input__label",
+                              for: "eoi_resource_start_date-month"
+                            },
+                            id: "eoi_resource_start_date-month",
+                            name: "eoi_resource_start_date-month",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[1].value,
+                            max: "12",
+                            min: "0",
+                            maxlength: "2"
+                          }) }}                        
+                        </div>
+                      </div>
+                      <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                          {{ CCSInput({
+                            label: {
+                              text: "Year",
+                              classes: "govuk-label govuk-date-input__label",
+                              for: "eoi_resource_start_date-year"
+                            },
+                            id: "eoi_resource_start_date-year",
+                            name: "eoi_resource_start_date-year",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-4",
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[2].value,
+                            max: "2023",
+                            min: "2021",
+                            maxlength: "4"
+                          }) }}    
+                          {{ CCSInput({
+                              id: "question_id",
+                              name: "question_id",
+                              type: "hidden",
+                              value: requirement.OCDS.id
+                            })
+                          }}                                                
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              {% else %}
+              <div class="govuk-form-group">
+                <div class="govuk-fieldset" role="group" aria-describedby="eoi_duration-hint">
+                  <legend class="govuk-fieldset__legend govuk-label--m">
+                       {{requirement.OCDS.title}} (Optional)
+                  </legend>
+                  <div id="eoi_duration-hint" class="govuk-hint">
+                     <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
+                  </div>
+                  <div class="govuk-date-input" id="eoi_duration">
+                      <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                          {{ CCSInput({
+                            label: {
+                              text: "Years",
+                              classes: "govuk-label govuk-date-input__label",
+                              for: "eoi_duration-years"
+                            },
+                            id: "eoi_duration-years",
+                            name: "eoi_duration-years",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[0].value,
+                            max: "4",
+                            min: "0",
+                            maxlength: "1"
+                          }) }}                          
+                        </div>
+                      </div>
+                      <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                          {{ CCSInput({
+                            label: {
+                              text: "Month",
+                              classes: "govuk-label govuk-date-input__label",
+                              for: "eoi_duration-months"
+                            },
+                            id: "eoi_duration-months",
+                            name: "eoi_duration-months",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[1].value,
+                            max: "12",
+                            min: "0",
+                            maxlength: "2"
+                          }) }}                         
+                        </div>
+                      </div>
+                      <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                          {{ CCSInput({
+                            label: {
+                              text: "Days",
+                              classes: "govuk-label govuk-date-input__label",
+                              for: "eoi_duration-days"
+                            },
+                            id: "eoi_duration-days",
+                            name: "eoi_duration-days",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[2].value,
+                            max: "31",
+                            min: "0",
+                            maxlength: "2"
+                          }) }}
+                          {{ CCSInput({
+                              id: "question_id",
+                              name: "question_id",
+                              type: "hidden",
+                              value: requirement.OCDS.id
+                            })
+                          }}                          
+                        </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <br><br>
+              {% endif %}
+            {% endif %} 
           {% endblock %}
 
           {% block TextSelect%}
