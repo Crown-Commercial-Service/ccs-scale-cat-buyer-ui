@@ -35,16 +35,7 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-    {% if (error) %}
-      {{ CCSErrorSummary({
-    titleText: "There is a problem",
-    errorList: [
-      {
-        text: 'Select regions where your staff will be working, or select "No specific location...."'
-      }
-    ]
-  }) }}
-    {%endif %}
+
     {% if(emptyFieldError)%}
       {{ CCSErrorSummary({
           titleText: "There is a problem",
