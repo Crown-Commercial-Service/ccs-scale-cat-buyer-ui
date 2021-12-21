@@ -152,99 +152,8 @@
                   }}
               {% endif %}
             {% endif %}
-            {% if (requirement.nonOCDS.questionType === 'Monetary') and (requirement.nonOCDS.multiAnswer === false) %}
-              {% if requirement.OCDS.id == "Question 1"%}
-                <div class="govuk-form-group">
-                  <fieldset class="govuk-fieldset" role="group" aria-describedby="eoi_resource_start_date-hint">
-                    <legend class="govuk-fieldset__legend govuk-label--m">
-                        Enter the date you want the project to start
-                    </legend>
-                    <div id="eoi_resource_start_date-hint" class="govuk-hint">
-                        Your project cannot start after: &nbsp;23 August 2025
-                        <br>
-                        For example, 22 11 2021
-                    </div>
-                    <div class="govuk-date-input" id="eoi_resource_start_date">
-                        <div class="govuk-date-input__item">
-                          <div class="govuk-form-group">
-                              <label class="govuk-label govuk-date-input__label" for="eoi_resource_start_date-day">
-                              Day
-                              </label>
-                              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="eoi_resource_start_date-day" name="eoi_resource_start_date-day" type="text" pattern="[0-9]*" inputmode="numeric">
-                          </div>
-                        </div>
-                        <div class="govuk-date-input__item">
-                          <div class="govuk-form-group">
-                              <label class="govuk-label govuk-date-input__label" for="eoi_resource_start_date-month">
-                              Month
-                              </label>
-                              <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="eoi_resource_start_date-month" name="eoi_resource_start_date-month" type="text" pattern="[0-9]*" inputmode="numeric">
-                          </div>
-                        </div>
-                        <div class="govuk-date-input__item">
-                          <div class="govuk-form-group">
-                              <label class="govuk-label govuk-date-input__label" for="eoi_resource_start_date-year">
-                              Year
-                              </label>
-                              <input class="govuk-input govuk-date-input__input govuk-input--width-4 " id="eoi_resource_start_date-year" name="eoi_resource_start_date-year" type="text" pattern="[0-9]*" inputmode="numeric">
-                          </div>
-                        </div>
-                    </div>
-                  </fieldset>
-              </div>
-              {% else %}
-              <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset" role="group" aria-describedby="eoi_duration-hint">
-                  <legend class="govuk-fieldset__legend govuk-label--m">
-                      Enter how long you think the project will run for (Optional)
-                  </legend>
-                  <div id="eoi_duration-hint" class="govuk-hint">
-                      We recommend that your project should not be for longer than 4 years
-                      <br>
-                      For example 2 years, 4 months, 10 days
-                  </div>
-                  <div class="govuk-date-input" id="eoi_duration">
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-date-input__label" for="eoi_duration-years">
-                            Years
-                            </label>
-                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="eoi_duration-years" name="eoi_duration-years" type="text" inputmode="numeric" value="">
-                        </div>
-                      </div>
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-date-input__label" for="eoi_duration-months">
-                            Month
-                            </label>
-                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="eoi_duration-months" name="eoi_duration-months" type="number" inputmode="numeric" value="">
-                        </div>
-                      </div>
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-date-input__label" for="eoi_duration-days">
-                            Days
-                            </label>
-                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="eoi_duration-days" name="eoi_duration-days" type="number" inputmode="numeric" value="">
-                        </div>
-                      </div>
-                  </div>
-                </fieldset>
-            </div>
-            <br><br>
-            <div class="govuk-button-group">
-                <button class="govuk-button" data-module="govuk-button">
-                Save and Continue
-                </button>
-                <a href="/eoi/online-task-list" class="govuk-link govuk-link--no-visited-state">Return to Build your Expression of Interest (EoI)</a>
-            </div>
-              {% endif %}
-            {% endif %} 
-
-
             {% if (requirement.nonOCDS.questionType === 'Date') or (requirement.nonOCDS.questionType === 'Duration') and (requirement.nonOCDS.multiAnswer === false) %}
               {% if requirement.OCDS.id == "Question 1"%}
-
                 <div class="govuk-form-group">
                 <div class="govuk-fieldset" role="group" aria-describedby="eoi_resource_start_date-hint">
                   <legend class="govuk-fieldset__legend govuk-label--m">
@@ -265,7 +174,11 @@
                             id: "eoi_resource_start_date-day",
                             name: "eoi_resource_start_date-day",
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
-                            value: requirement.nonOCDS.options[0]
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[0].value,
+                            max: 31,
+                            min: 1
                           }) }}
                         </div>
                       </div>
@@ -280,7 +193,12 @@
                             id: "eoi_resource_start_date-month",
                             name: "eoi_resource_start_date-month",
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
-                            value: requirement.nonOCDS.options[1]
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[1].value,
+                            max: "12",
+                            min: "0",
+                            maxlength: "2"
                           }) }}                        
                         </div>
                       </div>
@@ -295,8 +213,27 @@
                             id: "eoi_resource_start_date-year",
                             name: "eoi_resource_start_date-year",
                             classes: "govuk-input govuk-date-input__input govuk-input--width-4",
-                            value: requirement.nonOCDS.options[2]
-                          }) }}                        
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[2].value,
+                            max: "2023",
+                            min: "2021",
+                            maxlength: "4"
+                          }) }}    
+                          {{ CCSInput({
+                              id: "questionType",
+                              name: "questionType",
+                              type: "hidden",
+                              value: requirement.nonOCDS.questionType
+                            })
+                          }}
+                          {{ CCSInput({
+                              id: "question_id",
+                              name: "question_id",
+                              type: "hidden",
+                              value: requirement.OCDS.id
+                            })
+                          }}                                                
                         </div>
                       </div>
                   </div>
@@ -304,7 +241,7 @@
               </div>
               {% else %}
               <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset" role="group" aria-describedby="eoi_duration-hint">
+                <div class="govuk-fieldset" role="group" aria-describedby="eoi_duration-hint">
                   <legend class="govuk-fieldset__legend govuk-label--m">
                        {{requirement.OCDS.title}} (Optional)
                   </legend>
@@ -323,7 +260,12 @@
                             id: "eoi_duration-years",
                             name: "eoi_duration-years",
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
-                            value: requirement.nonOCDS.options[0]
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[0].value,
+                            max: "4",
+                            min: "0",
+                            maxlength: "1"
                           }) }}                          
                         </div>
                       </div>
@@ -338,7 +280,12 @@
                             id: "eoi_duration-months",
                             name: "eoi_duration-months",
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
-                            value: requirement.nonOCDS.options[1]
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[1].value,
+                            max: "12",
+                            min: "0",
+                            maxlength: "2"
                           }) }}                         
                         </div>
                       </div>
@@ -353,12 +300,31 @@
                             id: "eoi_duration-days",
                             name: "eoi_duration-days",
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
-                            value: requirement.nonOCDS.options[2]
-                          }) }}                          
+                            type: "number", 
+                            inputmode:"numeric",
+                            value: requirement.nonOCDS.options[2].value,
+                            max: "31",
+                            min: "0",
+                            maxlength: "2"
+                          }) }}
+                          {{ CCSInput({
+                              id: "questionType",
+                              name: "questionType",
+                              type: "hidden",
+                              value: requirement.nonOCDS.questionType
+                            })
+                          }}
+                          {{ CCSInput({
+                              id: "question_id",
+                              name: "question_id",
+                              type: "hidden",
+                              value: requirement.OCDS.id
+                            })
+                          }}                          
                         </div>
                       </div>
                   </div>
-                </fieldset>
+                </div>
             </div>
             <br><br>
               {% endif %}
