@@ -64,7 +64,7 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "Upload or link any additional documentation",
+          "title": "Upload documents or add links",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/eoi/upload-doc"
