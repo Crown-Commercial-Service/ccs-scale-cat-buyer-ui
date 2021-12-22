@@ -1,13 +1,6 @@
 //@ts-nocheck
 import * as express from 'express';
-import { FILEUPLOADHELPER } from 'main/features/RFI/helpers/upload';
-import { FileValidations } from 'main/features/RFI/util/file/filevalidations';
-import FormData from 'form-data';
-import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
-import { LoggTracer } from '../../../common/logtracer/tracer';
-import { DynamicFrameworkInstance } from 'main/features/RFI/util/fetch/dyanmicframeworkInstance';
-import { TenderApi } from './../../../common/util/fetch/tenderService/tenderApiInstance';
+import * as cmsData from '../../../resources/content/eoi/offline-doc.json';
 
 let tempArray = [];
 
@@ -20,7 +13,10 @@ let tempArray = [];
  */
 
 export const GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: express.Response) => {
-  FILEUPLOADHELPER(req, res, false, null, 'eoi');
+  const lotId = req.session?.lotId;
+  const agreementLotName = req.session.agreementLotName;
+  const windowAppendData = { lotId, agreementLotName, data: cmsData, files: tempArray };
+  res.render('uploadDocumentEoi', windowAppendData);
 };
 
 /**
@@ -30,115 +26,20 @@ export const GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: expre
  * @POSTController
  */
 
-export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res: express.Response) => {
+export const POST_UPLOAD_DOC: express.Handler = (req: express.Request, res: express.Response) => {
   const { eoi_file_started } = req.body;
-  const { SESSION_ID } = req.cookies;
-  const ProjectId = req.session['projectId'];
-  const EventId = req.session['eventId'];
-  const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
-
-  const FileFilterArray = [];
-
   if (eoi_file_started) {
     const { eoi_offline_document } = req.files;
-
     const multipleFileCheck = Array.isArray(eoi_offline_document);
+
     if (multipleFileCheck) {
       for (const file of eoi_offline_document) {
-        const fileName = file.name;
-        const fileMimeType = file.mimetype;
-        const fileSize = file.size;
-
-        const validateMimeType = FileValidations.formatValidation(fileMimeType);
-        const validateFileSize = FileValidations.sizeValidation(fileSize);
-
-        if (validateMimeType && validateFileSize) {
-          const formData = new FormData();
-          formData.append('data', file.data, {
-            contentType: file.mimetype,
-            filename: file.name,
-          });
-          formData.append('description', file.name);
-          formData.append('audience', 'buyer');
-          const formHeaders = formData.getHeaders();
-          try {
-            await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
-              headers: {
-                ...formHeaders,
-              },
-            });
-          } catch (error) {
-            LoggTracer.errorLogger(
-              res,
-              error,
-              `${req.headers.host}${req.originalUrl}`,
-              null,
-              TokenDecoder.decoder(SESSION_ID),
-              'Multiple File Upload Error',
-              false,
-            );
-          }
-        } else {
-          FileFilterArray.push({
-            href: '#documents_upload',
-            text: fileName,
-          });
-        }
+        tempArray.push(file);
       }
-
-      if (FileFilterArray.length > 0) {
-        FILEUPLOADHELPER(req, res, true, FileFilterArray);
-      } else res.redirect('/eoi/upload-doc');
+      res.redirect('/eoi/upload-doc');
     } else {
-      const fileName = eoi_offline_document.name;
-      const fileMimeType = eoi_offline_document.mimetype;
-      const fileSize = eoi_offline_document.size;
-
-      const validateMimeType = FileValidations.formatValidation(fileMimeType);
-      const validateFileSize = FileValidations.sizeValidation(fileSize);
-
-      if (validateMimeType && validateFileSize) {
-        const formData = new FormData();
-        formData.append('data', eoi_offline_document.data, {
-          contentType: eoi_offline_document.mimetype,
-          filename: eoi_offline_document.name,
-        });
-        formData.append('description', eoi_offline_document.name);
-        formData.append('audience', 'buyer');
-        const formHeaders = formData.getHeaders();
-        try {
-          await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
-            headers: {
-              ...formHeaders,
-            },
-          });
-          res.redirect('/eoi/upload-doc');
-        } catch (error) {
-          delete error?.config?.['headers'];
-          const Logmessage = {
-            Person_id: TokenDecoder.decoder(SESSION_ID),
-            error_location: `${req.headers.host}${req.originalUrl}`,
-            sessionId: 'null',
-            error_reason: 'File uploading Causes Problem in EOI  - Tenders Api throws error',
-            exception: error,
-          };
-          const Log = new LogMessageFormatter(
-            Logmessage.Person_id,
-            Logmessage.error_location,
-            Logmessage.sessionId,
-            Logmessage.error_reason,
-            Logmessage.exception,
-          );
-          LoggTracer.errorTracer(Log, res);
-        }
-      } else {
-        FileFilterArray.push({
-          href: '#documents_upload',
-          text: fileName,
-        });
-
-        FILEUPLOADHELPER(req, res, true, FileFilterArray);
-      }
+      tempArray.push(eoi_offline_document);
+      res.redirect('/eoi/upload-doc');
     }
   } else res.render('error/500');
 };
@@ -147,12 +48,4 @@ export const GET_REMOVE_FILES = (express.Handler = (req: express.Request, res: e
   const { file } = req.query;
   tempArray = tempArray.filter(afile => afile.name !== file);
   res.redirect('/eoi/upload-doc');
-});
-
-export const POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
-  const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/21`, 'Completed');
-
-  res.redirect('/eoi/eoi-tasklist');
 });
