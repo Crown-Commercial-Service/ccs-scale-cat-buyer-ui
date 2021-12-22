@@ -16,10 +16,6 @@ const ccsZvalidateEoiDate = (event) => {
     fieldCheck = ccsZvalidateWithRegex("eoi_resource_start_date-year", "Enter a year", /^\d{1,}$/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }
-  if (document.getElementById("eoi_duration-days").value.trim().length === 0) {
-    fieldCheck = ccsZvalidateWithRegex("eoi_duration-days", "Enter numbers of days", /^\d{1,}$/);
-    if (fieldCheck !== true) errorStore.push(fieldCheck);
-  }
 
 
   if (errorStore.length === 0) document.forms["ccs_eoi_date_form"].submit();
