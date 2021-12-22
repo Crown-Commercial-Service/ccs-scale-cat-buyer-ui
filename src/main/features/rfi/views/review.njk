@@ -66,9 +66,9 @@
         <dt class="govuk-summary-list__key">
           Name your project
         </dt>
-        {% if data['projLongName'] | length > 0 %}
+        {% if project_name | length > 0 %}
         <dd class="govuk-summary-list__value">
-          {{ data['projLongName'] }}
+          <p class="govuk-body-s"> {{ project_name | safe }} </p>
         </dd>
         {% else %}
         <dd class="govuk-summary-list__value">
@@ -88,9 +88,9 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <ul class="govuk-list govuk-list--none">
-            <li><span>{{lead_user.fullname}}</span></li>
-            <li><span>{{lead_user.email}}</span></li>
-            <li><span>{{lead_user.telephone}}</span></li>
+            <li><span class="govuk-body-s">{{procurementLead.name }}</span></li>
+            <li><span class="govuk-body-s">{{procurementLead.email }}</span></li>
+            <li><span class="govuk-body-s">{{procurementLead.telephone }}</span></li>
           </ul>
         </dd>
         <dd class="govuk-summary-list__actions">
@@ -103,15 +103,15 @@
         <dt class="govuk-summary-list__key">
           Add colleagues to your project
         </dt>
-        {% if data['collaborators_list'] | length > 0 %}
+        {% if procurementColleagues | length > 0 %}
         <dd class="govuk-summary-list__value">
           <ul class="govuk-list govuk-list--none">
-            {% for collaborator in data['collaborators_list'] %}
+            {% for collaborator in procurementColleagues %}
             <li>
               <ul class="govuk-list govuk-list--none">
-                <li><span>{{collaborator.fullname}}</span></li>
-                <li><span>{{collaborator.email}}</span></li>
-                <li><span>{{collaborator.telephone}}</span></li>
+                <li><span class="govuk-body-s">{{collaborator.name}}</span></li>
+                <li><span class="govuk-body-s">{{collaborator.email}}</span></li>
+                <li><span class="govuk-body-s">{{collaborator.telephone}}</span></li>
               </ul>
             </li>
             {%- endfor %}
@@ -154,58 +154,6 @@
       </div>
       {% if data['ccs_rfi_type'] == 'all_online' %}
 
-     
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Terms and acronyms (Optional)
-        </dt>
-        {% if data['rfi_term_1'] | length > 0 %}
-        <dd class="govuk-summary-list__value">
-          <ul class="govuk-list govuk-list--none">
-            <li> {{ data['rfi_term_1']}}: &nbsp; {{ data['rfi_term_definition_1']}}</li>
-            {% for term in range(2, 5) %}
-            {% set key = 'rfi_term_'+ term %}
-            {% set value = 'rfi_term_definition_' + term %}
-            {% if data[ key] | length > 0 %}
-            <li>
-              {{ data[key] }}:&nbsp; {{ data[value] }}
-            </li>
-            {% endif %}
-            {% endfor %}
-          </ul>
-        </dd>
-        {% else %}
-        <dd class="govuk-summary-list__value">
-          You have not added any terms or acronyms
-        </dd>
-        {% endif %}
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/rfi/acronyms">
-            Change<span class="govuk-visually-hidden"> rfi acronyms</span>
-          </a>
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Background for your procurement
-        </dt>
-        {% if data['rfi_prob_statement'] | length > 0 %}
-        <dd class="govuk-summary-list__value">
-          {{ data['rfi_prob_statement'] }}
-        </dd>
-        {% else %}
-        <dd class="govuk-summary-list__value">
-          You have not added any problem statement
-        </dd>
-        {% endif %}
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/rfi/project">
-            Change<span class="govuk-visually-hidden"> rfi problem statement</span>
-          </a>
-        </dd>
-      </div>
 
       <div class="ccs-summary-list-heading"> <strong> The buying organisation (Optional)</strong> </div>
      
@@ -225,16 +173,22 @@
         {% else %}
         <dd class="govuk-summary-list__value">
         {% for i in item.answer %}
+        {% if i.values | length > 0 %}
         {% for answer in i.values%}
-        <p>{{answer.value}}<p>
-        <p>{{answer.text | safe}} </p>
+        <p class="govuk-body-s">{{answer.value}}<p>
+        <p class="govuk-body-s">{{answer.text | safe}} </p>
+
         {%endfor%}
-        
+        {%else%}
+         <p class="govuk-body-s">You have not answered this question<p>        
+        {%endif%}
         {%endfor%}
         </dd>
         {% endif %}
         <dd class="govuk-summary-list__actions">
-         
+          <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
+            Change<span class="govuk-visually-hidden">RFI type</span>
+          </a>
         </dd>
       </div>
       {%endfor%}
@@ -249,38 +203,38 @@
         <dt class="govuk-summary-list__key">
           Upload documents
         </dt>
-        {% if data['rfi_file_upload_1'] | length > 0 or data['rfi_additional_link'] | length > 0 %}
+        {% if documents | length > 0  %}
         <dd class="govuk-summary-list__value">
           <ul class="govuk-list govuk-list--none">
-            {% if data['rfi_file_upload_1'] | length > 0 %}
+         {% for document in documents%}
             <li>
-              <span>Uploaded file: &nbsp;</span> {{ data['rfi_file_upload_1'] }}
+              <span>Uploaded file: &nbsp;</span> <a href="/rfi/upload-doc"> {{ document }} </a>
             </li>
-            {% endif %}
-            
+
+            {%endfor%}
           </ul>
         </dd>
-        {% else %}
+        {%else%}
         <dd class="govuk-summary-list__value">
-         
+        <p class="govuk-body-s"> You have not uploaded any document </p>
         </dd>
         {% endif %}
 
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/rfi/upload">
+          <a class="govuk-link" href="/rfi/upload-doc">
             Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
           </a>
         </dd>
       </div>
 
-    {% for dates in rfi_keydates.answer%}
-      <div class="govuk-summary-list__row">
+     {% for dates in rfi_keydates.answer%}
+      <div class="govuk-summary-list__row no-borders">
         <dt class="govuk-summary-list__key">
          {{dates.question}}
         </dt>
         <dd class="govuk-summary-list__value">
          {%for value in dates.values%}
-         <p> {{value.value}}</p>
+         <p class="govuk-body-s"> {{value.value}}</p>
          {%endfor%}
         </dd>
         <dd class="govuk-summary-list__actions">
@@ -288,8 +242,12 @@
            Change <span class="govuk-visually-hidden"> rfi response dates</span>
           </a>
         </dd>
+        
       </div>
-      {%endfor%}
+  {%endfor%}
+        
+
+
     </dl>
   </div>
 </div>
