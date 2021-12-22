@@ -37,4 +37,5 @@ export enum EOI_PATHS {
   POST_ADD_RESPONSE_DATA = '/eoi/add/response-date',
   POST_EOI_REVIEW = '/eoi/review',
   POST_UPLOAD_PROCEED = '/eoi/upload-doc/proceed',
+  POST_EOI_SUPPLIER = '/eoi/suppliers',
 }

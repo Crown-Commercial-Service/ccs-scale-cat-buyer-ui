@@ -6,6 +6,7 @@ import { GET_RESPONSE_DATE, POST_ADD_RESPONSE_DATE, POST_RESPONSE_DATE } from '.
 import { GET_UPLOAD_DOC, POST_UPLOAD_DOC, GET_REMOVE_FILES, POST_UPLOAD_PROCEED } from './upload';
 import { GET_EVENT_PUBLISHED } from './eventpublished';
 import { GET_NAME_PROJECT, POST_NAME_PROJECT } from './nameAProject';
+import { GET_EOI_SUPPLIERS, POST_EOI_SUPPLIERS } from './suppliers';
 import { GET_LEAD_PROCUREMENT, PUT_LEAD_PROCUREMENT, GET_USER_PROCUREMENT } from './leadProcurement';
 import {
   GET_ADD_COLLABORATOR,
@@ -35,7 +36,7 @@ export const associatedViews = {
   GET_EVENT_PUBLISHED,
   GET_RESPONSE_DATE,
   GET_EOI_REVIEW,
-
+  GET_EOI_SUPPLIERS,
   /**
    * @POST_VIEW
    */
@@ -52,4 +53,5 @@ export const associatedViews = {
   POST_RESPONSE_DATE,
   POST_EOI_REVIEW,
   POST_UPLOAD_PROCEED,
+  POST_EOI_SUPPLIERS,
 };

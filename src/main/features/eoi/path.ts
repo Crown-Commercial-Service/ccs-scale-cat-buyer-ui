@@ -86,6 +86,13 @@ export default function (app: Application): void {
   //@GET "/eoi/upload-doc/remove"
   app.get(EOI_PATHS.GET_REMOVE_FILE, AUTH, associatedViews.GET_REMOVE_FILES);
 
+  // @GET "/rfi/suppliers"
+  app.get(
+    EOI_PATHS.GET_EOI_SUPPLIERS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_EOI_SUPPLIERS,
+  );
+
   //@GET '/eoi/review'
   app.get(
     EOI_PATHS.GET_EOI_REVIEW,
@@ -137,6 +144,9 @@ export default function (app: Application): void {
   app.post(EOI_PATHS.POST_EOI_REVIEW, AUTH, associatedViews.POST_EOI_REVIEW);
 
   app.post(EOI_PATHS.POST_UPLOAD_PROCEED, AUTH, associatedViews.POST_UPLOAD_PROCEED);
+
+  //@POST "eoi/suppliers"
+  app.post(EOI_PATHS.POST_EOI_SUPPLIER, AUTH, associatedViews.POST_EOI_SUPPLIERS);
 
   // Offline page
   app.get(EOI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);
