@@ -1,12 +1,12 @@
 //@ts-nocheck
 import * as express from 'express';
-import { FILEUPLOADHELPER } from 'main/features/RFI/helpers/upload';
-import { FileValidations } from 'main/features/RFI/util/file/filevalidations';
+import { FILEUPLOADHELPER } from '../../rfi/helpers/upload';
+import { FileValidations } from '../../rfi/util/file/filevalidations';
 import FormData from 'form-data';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { LoggTracer } from '../../../common/logtracer/tracer';
-import { DynamicFrameworkInstance } from 'main/features/RFI/util/fetch/dyanmicframeworkInstance';
+import { DynamicFrameworkInstance } from '../../rfi/util/fetch/dyanmicframeworkInstance';
 import { TenderApi } from './../../../common/util/fetch/tenderService/tenderApiInstance';
 
 let tempArray = [];
