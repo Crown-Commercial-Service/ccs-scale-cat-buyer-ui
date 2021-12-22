@@ -8,7 +8,6 @@ import FormData from 'form-data'
 import {FileValidations} from '../util/file/filevalidations'
 import {FILEUPLOADHELPER} from '../helpers/upload'
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
-import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 
 // RFI Upload document
 /**
