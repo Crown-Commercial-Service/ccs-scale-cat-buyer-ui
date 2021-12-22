@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=17.3.0"
+    "node": "17.3.0"
   },
   "scripts": {
     "setup": "gulp sass copy-files sass-govuk-frontend",
