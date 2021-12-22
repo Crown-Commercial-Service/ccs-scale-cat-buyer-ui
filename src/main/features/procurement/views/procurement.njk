@@ -48,9 +48,12 @@
                      %}   
                     {% for subSection in subSections %}
                       <p class="govuk-body">{{subSection | safe }}</p>
-                    {% endfor %}                    
+                    {% endfor %}                  
                   {% endif %}
                {% endfor %}
+               {%if event.note != undefined%}
+                   <p class="govuk-body">{{ event.note | safe }}</p>
+               {% endif %} 
                {% if event.list.length %}
                <ul class="govuk-list govuk-list--bullet">
                   {% for elem in event.list %}
