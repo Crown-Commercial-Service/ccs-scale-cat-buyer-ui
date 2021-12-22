@@ -1,9 +1,7 @@
+
 $(document).ready(function () {
 
-    const checkType = document.getElementById("rfi_offline_document");
-    const type = checkType ? 'rfi' : 'eoi';
-
-    const uploadField = document.getElementById(`${type}_offline_document`);
+    var uploadField = document.getElementById("rfi_offline_document");
     const FileMimeType = {
         "csv": "text/csv",
         "doc": "application/msword",
@@ -16,95 +14,99 @@ $(document).ready(function () {
         "png": "image/png",
         "ppt": "application/vnd.ms-powerpoint",
         "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-        "rdf": "application/rdf+xml",
+        "rdf": "application/rdf+xml", 
         "rtf": "application/rtf",
         "txt": "text/plain",
         "xls": "application/vnd.ms-excel",
-        "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "xml": "application/xml",
+        "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+        "xml": "application/xml", 
         "zip": "application/zip"
-    }
-
+    } 
+    
 
     uploadField.onchange = function () {
         const FileList = this.files;
         const totalFiles = FileList.length;
         let totalFileSum = 0;
 
-        for (var a = 0; a < totalFiles; a++) {
+        for(var a =0; a < totalFiles; a ++){
             let file = FileList[a];
             totalFileSum = totalFileSum + file.size;
         }
-
-
+       
+        
 
         const allValidMimeTypes = Object.values(FileMimeType);
         const ErrorCheckArray = [];
 
-        for (const file of FileList) {
+        for(const file of FileList){
 
             const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
             let size = 300000000;
-
-            if (file.size >= size) {
-                ErrorCheckArray.push({
-                    type: "size"
-                })
-
+            
+            if(file.size >= size){
+               ErrorCheckArray.push({
+                   type: "size"
+               })
+                
             }
-            else if (!checkFileValidMimeType) {
-                ErrorCheckArray.push({
-                    type: "type"
-                })
+            else if(!checkFileValidMimeType){
+               ErrorCheckArray.push({
+                   type: "type"
+               })
             }
-            else {
-                ErrorCheckArray.push({
-                    type: "none"
-                })
+            else{
+               ErrorCheckArray.push({
+                   type: "none"
+               })
             }
 
         }
         const noError = ErrorCheckArray.every(element => element.type === "none");
         const ErrorForSize = ErrorCheckArray.some(element => element.type === "size");
         const ErrorForMimeType = ErrorCheckArray.some(element => element.type === "type")
-        if (noError) {
-            $(`#${type}_offline_document`).removeClass("govuk-input--error")
-            $(`#upload_doc_form`).removeClass("govuk-form-group--error");
-            $(`#${type}_offline_document`).val() === "";
-            $(`#${type}_upload_error_summary`).text("");
-            $(`.doc_upload_button`).show();
+        if(noError){
+            $('#rfi_offline_document').removeClass("govuk-input--error")
+            $('#upload_doc_form').removeClass('govuk-form-group--error');
+            $('#rfi_offline_document').val() === "";
+            $('#rfi_upload_error_summary').text('');
+            $('.doc_upload_button').show();
         }
-        else if (ErrorForSize) {
-            $(`#${type}_offline_document`).addClass("govuk-input--error")
-            $(`#upload_doc_form`).addClass("govuk-form-group--error");
-            $(`#${type}_offline_document`).val() === "";
-            $(`#${type}_upload_error_summary`).text("Upload size exceeds 300 MB");
-            $(`.doc_upload_button`).hide();
+        else if(ErrorForSize){
+            $('#rfi_offline_document').addClass("govuk-input--error")
+            $('#upload_doc_form').addClass('govuk-form-group--error');
+            $('#rfi_offline_document').val() === "";
+            $('#rfi_upload_error_summary').text('Upload size exceeds 300 MB');
+            $('.doc_upload_button').hide();
         }
-        else if (ErrorForMimeType) {
-            $(`#${type}_offline_document`).addClass("govuk-input--error")
-            $(`#upload_doc_form`).addClass("govuk-form-group--error");
-            $(`#${type}_offline_document`).val() === "";
-            $(`#${type}_upload_error_summary`).text("Acceptable file formats:  csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
-            $(`.doc_upload_button`).hide();
+        else if(ErrorForMimeType){
+            $('#rfi_offline_document').addClass("govuk-input--error")
+            $('#upload_doc_form').addClass('govuk-form-group--error');
+            $('#rfi_offline_document').val() === "";
+            $('#rfi_upload_error_summary').text('Acceptable file formats:  csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip');
+            $('.doc_upload_button').hide();
+        }
+       
+        else{
+            $('#rfi_offline_document').removeClass("govuk-input--error")
+            $('#upload_doc_form').removeClass('govuk-form-group--error');
+            $('#rfi_offline_document').val() === "";
+            $('#rfi_upload_error_summary').text('');
+            $('.doc_upload_button').show();
+
         }
 
-        else {
-            $(`#${type}_offline_document`).removeClass("govuk-input--error")
-            $(`#upload_doc_form`).removeClass("govuk-form-group--error");
-            $(`#${type}_offline_document`).val() === "";
-            $(`#${type}_upload_error_summary`).text("");
-            $(`.doc_upload_button`).show();
 
+        if (Number(totalFileSum) > 1000000000){
+            $('#rfi_offline_document').addClass("govuk-input--error")
+            $('#upload_doc_form').addClass('govuk-form-group--error');
+            $('#rfi_offline_document').val() === "";
+            $('#rfi_upload_error_summary').text('Total Files Size cannot exceed 1 GB');
+            $('.doc_upload_button').hide();
         }
 
-        if (Number(totalFileSum) > 1000000000) {
-            $(`#${type}_offline_document`).addClass("govuk-input--error")
-            $(`#upload_doc_form`).addClass(`govuk-form-group--error`);
-            $(`#${type}_offline_document`).val() === "";
-            $(`#${type}_upload_error_summary`).text(`Total Files Size cannot exceed 1 GB`);
-            $(`.doc_upload_button`).hide();
-        }
+
     }
+
 });
