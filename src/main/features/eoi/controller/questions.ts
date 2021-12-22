@@ -256,7 +256,29 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 options: [...slideObj],
               },
             };
-          } else {
+          } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
+            if (KeyValuePairValidation(object_values, req)) {
+              validationError = true;
+              break;
+            }
+
+            let splterm= req.body.splterm;
+            let splTermvalue = req.body.value; 
+            const TAStorage = [];
+            splterm = splterm.filter((akeyTerm: any) => akeyTerm !== '');
+            splTermvalue = splTermvalue.filter((aKeyValue: any) => aKeyValue !== '');
+
+            for (let item = 0; item < splterm.length; item++) {
+              const spltermObject = { value: splterm[item], text: splTermvalue[item], selected: true };
+              TAStorage.push(spltermObject);
+            }
+            answerValueBody = {
+              nonOCDS: {
+                answered: true,
+                options: [...TAStorage],
+              },
+            };
+          }else {
             if (
               (questionNonOCDS.mandatory == true && object_values.length == 0) ||
               object_values[0]?.value.length == 0
