@@ -3,7 +3,7 @@ import { GET_TYPE, POST_TYPE } from './type';
 import { GET_ONLINE_TASKLIST } from './onlinetasklist';
 import { GET_QUESTIONS, POST_QUESTION } from './questions';
 import { GET_RESPONSE_DATE, POST_ADD_RESPONSE_DATE, POST_RESPONSE_DATE } from './responseDate';
-import { GET_UPLOAD_DOC, POST_UPLOAD_DOC, GET_REMOVE_FILES, POST_UPLOAD_PROCEED } from './upload';
+import { GET_UPLOAD_DOC, POST_UPLOAD_DOC, GET_REMOVE_FILES } from './upload';
 import { GET_EVENT_PUBLISHED } from './eventpublished';
 import { GET_NAME_PROJECT, POST_NAME_PROJECT } from './nameAProject';
 import { GET_LEAD_PROCUREMENT, PUT_LEAD_PROCUREMENT, GET_USER_PROCUREMENT } from './leadProcurement';
@@ -51,5 +51,4 @@ export const associatedViews = {
   POST_ADD_RESPONSE_DATE,
   POST_RESPONSE_DATE,
   POST_EOI_REVIEW,
-  POST_UPLOAD_PROCEED,
 };
