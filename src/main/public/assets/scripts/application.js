@@ -136,4 +136,12 @@ if (document.getElementById("ccs_eoi_acronyms_form") !== null) document.getEleme
 
 if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getElementById("ccs_rfi_acronyms_form").addEventListener('submit', ccsZvalidateRfiAcronyms);
 
-if (document.getElementById("ccs_eoi_splterms_form") !== null) document.getElementById("ccs_eoi_splterms_form").addEventListener('submit', ccsZvalidateEoiSpecialTerms);
+if (document.getElementById("ccs_eoi_date_form") !== null) document.getElementById("ccs_eoi_date_form").addEventListener('submit', ccsZvalidateEoiDate);
+
+setInputFilter(document.getElementById("eoi_resource_start_date-day"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
+setInputFilter(document.getElementById("eoi_resource_start_date-month"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
+setInputFilter(document.getElementById("eoi_resource_start_date-year"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 2023));
+setInputFilter(document.getElementById("eoi_duration-days"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
+setInputFilter(document.getElementById("eoi_duration-months"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
+setInputFilter(document.getElementById("eoi_duration-years"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 4));
+

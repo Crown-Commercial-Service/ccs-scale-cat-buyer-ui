@@ -11,6 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('questionsPage');
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
+import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 
 /**
  * @Controller
@@ -70,6 +71,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         return 'ccs_eoi_splterms_form';
       } else if (aSelector.nonOCDS.questionType === 'Monetary' && aSelector.nonOCDS.multiAnswer === false) {
         return 'eoi_budget_form';
+      } else if (aSelector.nonOCDS.questionType === 'Date' && aSelector.nonOCDS.multiAnswer == false) {
+        return 'ccs_eoi_date_form';
       } else {
         return '';
       }
@@ -134,6 +137,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
   try {
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const { SESSION_ID } = req.cookies;
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -236,6 +240,22 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 },
               };
             }
+          } else if (questionNonOCDS.questionType === 'Date') {
+            const slideObj = object_values.slice(0, 3);
+            answerValueBody = {
+              nonOCDS: {
+                answered: true,
+                options: [...slideObj],
+              },
+            };
+          } else if (questionNonOCDS.questionType === 'Duration') {
+            const slideObj = object_values.slice(3);
+            answerValueBody = {
+              nonOCDS: {
+                answered: true,
+                options: [...slideObj],
+              },
+            };
           } else {
             if (
               (questionNonOCDS.mandatory == true && object_values.length == 0) ||
