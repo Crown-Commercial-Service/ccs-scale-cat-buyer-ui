@@ -152,3 +152,8 @@
 &:nth-of-type(n) {
     margin-top: 26px;
 }
+
+
+.no-borders{
+    border-bottom: none !important;
+}

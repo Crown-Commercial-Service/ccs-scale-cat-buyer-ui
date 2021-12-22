@@ -16,7 +16,7 @@ if ($('#eoi_splterm').length > 0) {
       for (var acronym_fieldset = 10; acronym_fieldset > 1; acronym_fieldset--) {
   
   
-        let this_fieldset = document.querySelector(".splterm" + acronym_fieldset),
+        let this_fieldset = document.querySelector(".splterm_" + acronym_fieldset),
           term_box = document.getElementById("eoi_splterm_" + acronym_fieldset);
   
         if (term_box.value !== "") {
