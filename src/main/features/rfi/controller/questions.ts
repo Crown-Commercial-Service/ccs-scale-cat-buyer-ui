@@ -433,7 +433,7 @@ const findErrorText = (data: any) => {
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
       errorText = 'You must provide the organization name';
     else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)
-      errorText = 'You must provide a security clearance level before proceeding';
+      errorText = 'You must xxxxxxx provide a security clearance level before proceeding';
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText = 'You must enter information here';
   });
