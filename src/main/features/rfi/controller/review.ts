@@ -29,15 +29,17 @@ export const POST_RFI_REVIEW  = async (req: express.Request, res: express.Respon
     const EventID = req.session['eventId'];
     const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
     const {SESSION_ID} = req.cookies;
-    const CurrentTimeStamp = new Date().toISOString();
+    let CurrentTimeStamp = req.session.endDate;
+    CurrentTimeStamp = new Date(CurrentTimeStamp.split("*")[1]).toISOString();
+    console.log(CurrentTimeStamp)
+
     const _bodyData = {
         "endDate": CurrentTimeStamp
     }
+
     if(finished_pre_engage && rfi_publish_confirmation === '1'){
         try {
-           const Publish_Project = await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData );
-           const RetrivedData = Publish_Project.data;
-          
+            await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData );          
 
            /**
             * @Viswa this is causing problem
@@ -77,5 +79,6 @@ export const POST_RFI_REVIEW  = async (req: express.Request, res: express.Respon
     else{
         RFI_REVIEW_HELPER(req, res, true);
     }
+   
    
 }
