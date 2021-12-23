@@ -368,8 +368,6 @@ const findErrorText = (data: any, req: express.Request) => {
       errorText.push({ text: 'You must add information in both fields.' });
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
       errorText.push({ text: 'You must add at least one objective' });
-    else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)
-      errorText.push({ text: 'You must provide a security clearance level before proceeding' });
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must enter information here' });
     else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true)

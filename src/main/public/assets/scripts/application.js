@@ -51,8 +51,6 @@ if (document.getElementById("ccs_select_offer") !== null) document.getElementByI
 
 if (document.getElementById("ccs_eoi_needs") !== null) document.getElementById("ccs_eoi_needs").addEventListener('submit', ccsZvalidateEoiNeeds);
 
-//if (document.getElementById("ccs_eoi_vetting_form") !== null) document.getElementById("ccs_eoi_vetting_form").addEventListener('submit', ccsZvalidateEoiSecurity);
-
 //if (document.getElementById("ccs_eoi_incumbent_form") !== null) document.getElementById("ccs_eoi_incumbent_form").addEventListener('submit', ccsZvalidateEoiIncumbent);
 
 if (document.getElementById("eoi_budget_form") !== null) document.getElementById("eoi_budget_form").addEventListener('submit', ccsZvalidateEoiBudget);
@@ -85,6 +83,8 @@ if (document.getElementById("ccs_rfi_type_form") !== null) document.getElementBy
 //if (document.getElementById("ccs_rfi_who_form") !== null) document.getElementById("ccs_rfi_who_form").addEventListener('submit', ccsZvalidateRfiWho);
 
 if (document.getElementById("ccs_rfi_vetting_form") !== null) document.getElementById("ccs_rfi_vetting_form").addEventListener('submit', ccsZvalidateRfiSecurity);
+
+if (document.getElementById("ccs_eoi_vetting_form") !== null) document.getElementById("ccs_eoi_vetting_form").addEventListener('submit', ccsZvalidateEoiSecurity);
 
 
 
