@@ -650,7 +650,11 @@
                   {% endblock %}
                   {% block Budget %}
                     {% if ((requirement.nonOCDS.questionType === 'Monetary') and (requirement.nonOCDS.multiAnswer === false)) %}
-                      {% set titleText = requirement.OCDS.title %}
+                      {% if (requirement.nonOCDS.mandatory === false) %}
+                        {% set titleText = requirement.OCDS.title+" (optional)" %}
+                      {% else %}
+                        {% set titleText = requirement.OCDS.title %}
+                      {% endif %}
 
                       {{ CCSInput({
                             label: {
@@ -666,8 +670,7 @@
                             },
                             id: "eoi_"+requirement.OCDS.title | replace(" ", "_") | lower,
                             name: "eoi_budget",
-                            inputmode: "numeric",
-                            pattern: "[0-9]*",
+                            spellcheck: false,
                             classes: "govuk-input--width-5",
                             value: requirement.nonOCDS.options[0].value
                         })
