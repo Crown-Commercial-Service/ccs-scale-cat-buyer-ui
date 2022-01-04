@@ -30,7 +30,7 @@
         {
           "Task": 3,
           "link": "/eoi/add-collaborators",
-          "title": "Add members to your project",
+          "title": "Add colleagues to your project",
           "required": "optional",
           "status": "optional"
         }
@@ -38,8 +38,8 @@
     },
     {
       "eventno": 2,
-      "eventTitle": "Build your Expression of Interest (EoI))",
-      "eventDescription": "You can choose to enter information online to build your EoI, or upload a document. If you choose to build your EoI online you can write your own questions, include context about your organisation and your procurement, and get more detailed information about what suppliers can offer.",
+      "eventTitle": "Build your expression of interest (EoI))",
+      "eventDescription": "You can choose to enter information online to build your EoI, or upload a document. If you choose to build your EoI online you can write your own questions, include context about your organisation, scope of the service and your procurement, and get more detailed information about what suppliers can offer.",
       "eventTask": [
         {
           "Task": 1,
@@ -50,8 +50,7 @@
         },
         {
           "Task": 2,
-
-          "title": "Build your Expression of Interest",
+          "title": "Build your EoI",
           "required": "mandatory",
           "status": "Cannot start yet"
         }
@@ -85,7 +84,7 @@
         },
         {
           "Task": 4,
-          "title": "Review and publish your Expression of Interest",
+          "title": "Review and publish your EoI",
           "required": "mandatory",
           "status": "Cannot start yet",
           "link": "/eoi/review"

@@ -43,7 +43,7 @@
         {
           "Task": 3,
           "link": "/rfp/add-collaborators",
-          "title": "Add members to your project",
+          "title": "Add colleagues to your project",
           "required": "optional",
           "status": "Todo"
         }
