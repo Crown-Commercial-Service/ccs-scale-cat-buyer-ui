@@ -40,19 +40,12 @@ export const POST_RFI_REVIEW  = async (req: express.Request, res: express.Respon
     if(finished_pre_engage && rfi_publish_confirmation === '1'){
         try {
             await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData );          
-
-           /**
-            * @Viswa this is causing problem
-            *  const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventId}/steps/2`, 'Completed');
+            const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventId}/steps/2`, 'Completed');
             if (response.status == HttpStatusCode.OK) {
                 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/15`, 'Completed');
             }
-            * 
-            */
-
            
             res.redirect('/rfi/event-sent')
-            
 
         } catch (error) {
             console.log('Something went wrong, please review the logit error log for more information');
