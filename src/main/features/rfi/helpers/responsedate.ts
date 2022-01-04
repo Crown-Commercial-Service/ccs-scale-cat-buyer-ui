@@ -98,10 +98,10 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
             prompt: prompt,
             framework: fetchQuestionsData,
             rfi_clarification_date,
-            rfi_clarification_period_end: moment(rfi_clarification_period_end, 'DD/MM/YYYY, hh:mm').format('DD MMMM YYYY, hh:mm'),
-            deadline_period_for_clarification_period: moment(deadline_period_for_clarification_period, 'DD/MM/YYYY, hh:mm').format('DD MMMM YYYY, hh:mm'),
-            supplier_period_for_clarification_period: moment(supplier_period_for_clarification_period, 'DD/MM/YYYY, hh:mm').format('DD MMMM YYYY, hh:mm'),
-            supplier_dealine_for_clarification_period: moment(supplier_dealine_for_clarification_period, 'DD/MM/YYYY, hh:mm').format('DD MMMM YYYY, hh:mm'),
+            rfi_clarification_period_end: moment(rfi_clarification_period_end, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, hh:mm a'),
+            deadline_period_for_clarification_period: moment(deadline_period_for_clarification_period, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, hh:mm a'),
+            supplier_period_for_clarification_period: moment(supplier_period_for_clarification_period, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, hh:mm a'),
+            supplier_dealine_for_clarification_period: moment(supplier_dealine_for_clarification_period, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, hh:mm a'),
             releatedContent: req.session.releatedContent
         }
 
