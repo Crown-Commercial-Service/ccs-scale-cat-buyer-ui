@@ -179,7 +179,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
           } else if (questionNonOCDS.questionType === 'KeyValuePair') {
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
-              break;
             }
 
             let { term, value } = req.body;
@@ -191,6 +190,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               const termObject = { value: term[item], text: value[item], selected: true };
               TAStorage.push(termObject);
             }
+            req.session['errorFields'] = TAStorage;
             answerValueBody = {
               nonOCDS: {
                 answered: true,
@@ -262,8 +262,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               break;
             }
 
-            let splterm= req.body.splterm;
-            let splTermvalue = req.body.value; 
+            let splterm = req.body.splterm;
+            let splTermvalue = req.body.value;
             const TAStorage = [];
             splterm = splterm.filter((akeyTerm: any) => akeyTerm !== '');
             splTermvalue = splTermvalue.filter((aKeyValue: any) => aKeyValue !== '');
@@ -278,7 +278,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 options: [...TAStorage],
               },
             };
-          }else {
+          } else {
             if (
               (questionNonOCDS.mandatory == true && object_values.length == 0) ||
               object_values[0]?.value.length == 0
@@ -306,10 +306,12 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               };
             }
           }
-          try {
-            const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-            await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-          } catch (error) {}
+          if (!validationError) {
+            try {
+              const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
+              await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+            } catch (error) {}
+          }
         }
         if (validationError) {
           req.session['isValidationError'] = true;
