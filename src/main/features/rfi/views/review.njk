@@ -11,6 +11,20 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+  {% if (viewError)%}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem with publishing RFI",
+        errorList: [
+          {
+            text: "Please check the confirmation box",
+            href: "#ccs_rfi_publish_form"
+          }
+        ]
+      }) }}
+      {% endif %}
+
+
   <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
