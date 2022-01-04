@@ -33,13 +33,12 @@
           <h1 class="govuk-heading-xl">
           {{ data.title }}
           </h1>
-          {% include "includes/project_header.njk" %} 
       </div>  
   </div>
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-    <br>
+    {% include "includes/project_header.njk" %} 
     <p class="govuk-body">{{data.line1}}</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>{{data.line2}} </li>
@@ -52,7 +51,7 @@
     {% for item in data.events %}
          <li>
             <h2 class="app-task-list__section">
-            <span class="app-task-list__section-number">{{item.eventno}} </span> {{item.eventTitle}}
+            <span class="app-task-list__section-number">{{item.eventno}}. </span> {{item.eventTitle}}
              </h2>
              <p class="govuk-body">{{item.eventDescription}}</p>
               <ul class="app-task-list__items">
@@ -83,6 +82,9 @@
     {% endfor %}
     </ol>
     </div>
+          <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+      </div>
 </div>
 </main>
 

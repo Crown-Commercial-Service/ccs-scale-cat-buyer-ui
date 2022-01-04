@@ -344,7 +344,7 @@
 
                 {% call CCSFieldset({
                             legend: {
-                               html: "Enter the first special term or condition <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                               html: "First special term or condition <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -355,7 +355,7 @@
 
                 {{ CCSInput({
                             label: {
-                              text: "Write the special term or condition"
+                              text: "Enter the first special term or condition"
                             },
                             id: "eoi_splterm_1",
                             name: "splterm",
@@ -393,7 +393,7 @@
 
                   {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" special term or condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" special term and condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -403,7 +403,7 @@
 
                   {{ CCSInput({
                         label: {
-                          text: "Write the special term or condition"
+                          text: "Enter the "+NumberWord[i]+" special term or condition"
                         },
                         id: "eoi_splterm_"+i,
                         name: "splterm",
@@ -413,7 +413,7 @@
 
                   {{ CCSTextarea({
                         label: {
-                          text: "Explain the special term or condition"
+                          text: "Explain the "+NumberWord[i]+" special term or condition"
                         },
                         id: "eoi_splterm_definition_"+i,
                         name: "value",
@@ -701,7 +701,7 @@
                         classes:"save-button"
                       })
                   }}
-                  <a href="/eoi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Expression of Interest (EoI)</a>
+                  <a href="/eoi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Expression of Interest</a>
                 </div>
 
               </form>

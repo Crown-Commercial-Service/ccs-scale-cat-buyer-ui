@@ -9235,6 +9235,7 @@ p,
 .ccs_eoi_type_form .govuk-radios__item .govuk-heading-m,
 .ccs_rfi_type_form .govuk-radios__item .govuk-heading-m,
 .ccs_rfi_vetting_form .govuk-radios__item .govuk-heading-m,
+.ccs_eoi_vetting_form .govuk-radios__item .govuk-heading-m,
 .ccs_eoi_new_form .govuk-radios__item .govuk-heading-m {
   margin-bottom: 0;
   margin-top: -4px;
@@ -9247,6 +9248,7 @@ p,
 .ccs_eoi_type_form .govuk-radios__item:nth-of-type(n),
 .ccs_rfi_type_form .govuk-radios__item:nth-of-type(n),
 .ccs_rfi_vetting_form .govuk-radios__item:nth-of-type(n),
+.ccs_eoi_vetting_form .govuk-radios__item:nth-of-type(n),
 .ccs_eoi_new_form .govuk-radios__item:nth-of-type(n) {
   margin-top: 26px;
 }

@@ -1,4 +1,5 @@
 {% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% set title = 'RfI - response date | Crown Commercial Service' %}
 
@@ -49,7 +50,9 @@
              
             <div class="govuk-form-group ccs-page-section rfi_publish_date">
                 <p class="govuk-body"><span>{{loop.index}} &nbsp; </span>{{requirement.OCDS.title}}</p>
-
+                {% if(requirement.OCDS.title == "Publish your RfI" )%}
+                <p class="govuk-body"><span> &nbsp; &nbsp; &nbsp;</span>{{data['data'].body.p4}}</p>
+                {%endif %}
                
 
                 <div id="rfi_clarification_date">
@@ -69,7 +72,7 @@
                     {% elif (requirement.OCDS.id == "Question 5" ) %}
                    <label class="govuk-label govuk-body"><strong id="supplier_dealine_for_clarification_period">{{supplier_dealine_for_clarification_period }}</strong></label>
                  {%else%}
-                  <label class="govuk-label govuk-body"><strong id="rfi_clarification_date">{{rfi_clarification_date}}</strong></label>
+                  <label class="govuk-label govuk-body"><strong>{{rfi_clarification_date}}</strong></label>
                 {%endif%}
 
 
@@ -249,13 +252,15 @@
 <button class="govuk-button" data-module="govuk-button">
   Save and continue
 </button>
-<a href="/rfi/rfi-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+<a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
 </form>
                 
             </div>
 
         </div>
-
+      <div class="govuk-grid-column-one-third">
+         {{ CCSReleatedContent(releatedContent) }}
+      </div>
   </main>
 
 {% endblock %}
