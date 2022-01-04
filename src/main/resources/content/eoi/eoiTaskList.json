@@ -43,7 +43,7 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "How will you build your request for information (EOI)",
+          "title": "Choose how to build your EoI",
           "required": "mandatory",
           "link": "/eoi/type",
           "status": "optional"
