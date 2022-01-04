@@ -4,83 +4,88 @@
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% block content %}
-{{ CCSBreadcrumbs({
+   {{ CCSBreadcrumbs({
         items: breadCrumbs
       }) }}
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-   <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+      <div class="govuk-grid-row">
          <div class="govuk-grid-column-full">
             <h1 class="govuk-heading-xl">
                {{title}}
             </h1>
-            {% include "includes/project_header.njk" %}
-         </div>        
-         <br>
-         <div class="govuk-inset-text">
-            <p class="govuk-body">{{line1}}</p>
-            <p class="govuk-body">{{line2}}</p>
-            <p class="govuk-body">{{line3}}</p>
-            <p class="govuk-body">{{line4 | safe }}</p>
          </div>
-         <ol class="proc-task-list">
-          {% for event in events %}
-            <li>
-               <h2 class="proc-task-list__section">
-                  <span class="proc-task-list__section-number">{{event.eventno}}.</span>
-                  {{event.eventTitle}}
-                  {% if (event.status === 'Optional') or (event.status === 'TODO') or (event.status === 'DONE') or (event.status === 'In progress') %}
-                  <strong class="govuk-tag app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
-                  {% else %}
-                  <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
-                  {% endif %}
-               </h2>
-               {% for section in event.sections %}
-                  <p class="govuk-body">{{section | safe }}</p>
-               {% endfor %}
-               {% for subSections in event.subsections %}
-                  {% if ((event.eventno === 2) and (loop.index0 === 0) and ('EOI' in types)) 
-                     or ((event.eventno === 2) and (loop.index0 === 1) and ('RFI' in types))                      
-                     or ((event.eventno === 3) and (loop.index0 === 0) and ('FC' in types)) 
-                     or ((event.eventno === 3) and (loop.index0 === 1) and ('FC' in types)) 
-                     or ((event.eventno === 3) and (loop.index0 === 1) and ('CA' in types))
-                     or ((event.eventno === 3) and (loop.index0 === 2) and ('DA' in types))
-                     %}   
-                    {% for subSection in subSections %}
-                      <p class="govuk-body">{{subSection | safe }}</p>
-                    {% endfor %}                  
-                  {% endif %}
-               {% endfor %}
-               {%if event.note != undefined%}
-                   <p class="govuk-body">{{ event.note | safe }}</p>
-               {% endif %} 
-               {% if event.list.length %}
-               <ul class="govuk-list govuk-list--bullet">
-                  {% for elem in event.list %}
-                  <li>{{elem}}</li>
-                  {% endfor %}
-               </ul>
-               {% endif %}
-               {% if event.buttonText %}
-                  {% if event.buttonDisable === true %}
-                     <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
-                     {{event.buttonText}}
-                     </button>
-                  {% else %}
-                     <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
-                     {{event.buttonText}}
-                     </a>
-                  {% endif %}
-               {% endif %}
-            </li>
-          {% else %}
-            <li>There are no events to display</li>
-          {% endfor %}
-         </ol>
       </div>
-      <div class="govuk-grid-column-one-third">
-         {{ CCSReleatedContent(releatedContent) }}
+      <div class="govuk-grid-row">
+         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            <div class="govuk-grid-column-full">
+               {% include "includes/project_header.njk" %}
+            </div>
+            <br>
+            <div class="govuk-inset-text">
+               <p class="govuk-body">{{line1}}</p>
+               <p class="govuk-body">{{line2}}</p>
+               <p class="govuk-body">{{line3}}</p>
+               <p class="govuk-body">{{line4 | safe }}</p>
+            </div>
+            <ol class="proc-task-list">
+               {% for event in events %}
+                  <li>
+                     <h2 class="proc-task-list__section">
+                        <span class="proc-task-list__section-number">{{event.eventno}}.</span>
+                        {{event.eventTitle}}
+                        {% if (event.status === 'Optional') 
+                           or(event.status === 'TODO')or(event.status === 'DONE')or(event.status === 'In progress') %}
+                           <strong class="govuk-tag app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
+                        {% else %}
+                           <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
+                        {% endif %}
+                     </h2>
+                     {% for section in event.sections %}
+                        <p class="govuk-body">{{section | safe }}</p>
+                     {% endfor %}
+                     {% for subSections in event.subsections %}
+                        {% if ((event.eventno === 2) and (loop.index0 === 0) and ('EOI' in types)) 
+                           or((event.eventno === 2) and (loop.index0 === 1) and ('RFI' in types))
+                        or((event.eventno === 3) and (loop.index0 === 0) and ('FC' in types))
+                        or((event.eventno === 3) and (loop.index0 === 1) and ('FC' in types))
+                        or((event.eventno === 3) and (loop.index0 === 1) and ('CA' in types))
+                        or((event.eventno === 3) and (loop.index0 === 2) and ('DA' in types))
+ %}
+                           {% for subSection in subSections %}
+                              <p class="govuk-body">{{subSection | safe }}</p>
+                           {% endfor %}
+                        {% endif %}
+                     {% endfor %}
+                     {%if event.note != undefined%}
+                        <p class="govuk-body">{{ event.note | safe }}</p>
+                     {% endif %}
+                     {% if event.list.length %}
+                        <ul class="govuk-list govuk-list--bullet">
+                           {% for elem in event.list %}
+                              <li>{{elem}}</li>
+                           {% endfor %}
+                        </ul>
+                     {% endif %}
+                     {% if event.buttonText %}
+                        {% if event.buttonDisable === true %}
+                           <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+                              {{event.buttonText}}
+                           </button>
+                        {% else %}
+                           <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                              {{event.buttonText}}
+                           </a>
+                        {% endif %}
+                     {% endif %}
+                  </li>
+               {% else %}
+                  <li>There are no events to display</li>
+               {% endfor %}
+            </ol>
+         </div>
+         <div class="govuk-grid-column-one-third">
+            {{ CCSReleatedContent(releatedContent) }}
+         </div>
       </div>
-   </div>
-</main>
+   </main>
 {% endblock %}
