@@ -48,7 +48,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/${keyDateselector}/questions`;
         const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
         let fetchQuestionsData = fetchQuestions.data;
-        const clarification_date = new Date().toLocaleDateString('en-uk', { weekday: "long", year: "numeric", month: "short", day: "numeric" })
+        const clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
 
         const clarification_period_end_date = new Date();
         const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${clarification_period_end_date.getMonth() + 1}-${clarification_period_end_date.getFullYear()}`;
@@ -84,10 +84,11 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
             prompt: prompt,
             framework: fetchQuestionsData,
             clarification_date,
-            clarification_period_end: clarification_period_end.toLocaleTimeString('en-uk', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }),
-            deadline_period_for_clarification_period: deadline_period_for_clarification_period.toLocaleTimeString('en-uk', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }),
-            supplier_period_for_clarification_period: supplier_period_for_clarification_period.toLocaleTimeString('en-uk', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }),
-            supplier_dealine_for_clarification_period: supplier_dealine_for_clarification_period.toLocaleTimeString('en-uk', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
+            clarification_period_end: moment(clarification_period_end, 'DD/MM/YYYY, hh:mm').format('DD MMMM YYYY, hh:mm'),
+            deadline_period_for_clarification_period: moment(deadline_period_for_clarification_period, 'DD/MM/YYYY, hh:mm').format('DD MMMM YYYY, hh:mm'),
+            supplier_period_for_clarification_period: moment(supplier_period_for_clarification_period, 'DD/MM/YYYY, hh:mm').format('DD MMMM YYYY, hh:mm'),
+            supplier_dealine_for_clarification_period: moment(supplier_dealine_for_clarification_period, 'DD/MM/YYYY, hh:mm').format('DD MMMM YYYY, hh:mm'),
+            releatedContent: req.session.releatedContent
         }
         if (errorTriggered) {
             appendData = { ...appendData, error: true, errorMessage: errorItem }

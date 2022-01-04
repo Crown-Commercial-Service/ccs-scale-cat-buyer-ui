@@ -32,7 +32,8 @@
           {"li": "4 working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response"}
         ],
         "p2": "The clarification period is when suppliers can ask you further questions before submitting their information. You must meet the deadline you set for responding to their questions.",
-        "p3": "You can change the length of time for each section to more suitable times for you."
+        "p3": "You can change the length of time for each section to more suitable times for you.",
+        "p4": "This will always show the current date."
       }
     },
         "backJump": {

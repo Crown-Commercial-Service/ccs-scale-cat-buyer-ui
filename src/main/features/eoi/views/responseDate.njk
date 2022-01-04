@@ -1,5 +1,5 @@
 {% extends "template.njk" %}
-
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% set title = 'EoI - response date | Crown Commercial Service' %}
 
 
@@ -48,6 +48,9 @@
             {% if (requirement.nonOCDS.questionType === 'DateTime') and (requirement.nonOCDS.multiAnswer === false) %}             
             <div class="govuk-form-group ccs-page-section eoi_publish_date">
                 <p class="govuk-body"><span>{{loop.index}} &nbsp; </span>{{requirement.OCDS.title}}</p>
+                {% if(requirement.OCDS.title == "Publish your EoI" )%}
+                <p class="govuk-body"><span> &nbsp; &nbsp; &nbsp;</span>{{data['data'].body.p1}}</p>
+                {%endif %} 
                 <div id="eoi_clarification_date">
 
                     {% if(requirement.nonOCDS.options[0].selected)%}
@@ -65,7 +68,7 @@
                     {% elif (requirement.OCDS.id == "Question 5" ) %}
                    <label class="govuk-label govuk-body"><strong id="supplier_dealine_for_clarification_period">{{supplier_dealine_for_clarification_period }}</strong></label>
                  {%else%}
-                  <label class="govuk-label govuk-body"><strong id="eoi_clarification_date">{{clarification_date}}</strong></label>
+                  <label class="govuk-label govuk-body"><strong>{{clarification_date}}</strong></label>
                 {%endif%}
 
 
@@ -254,7 +257,9 @@
             </div>
 
         </div>
-
+      <div class="govuk-grid-column-one-third">
+         {{ CCSReleatedContent(releatedContent) }}
+      </div>
   </main>
 
 {% endblock %}
