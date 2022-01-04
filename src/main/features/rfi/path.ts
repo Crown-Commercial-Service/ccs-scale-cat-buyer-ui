@@ -15,7 +15,7 @@ export default function (app: Application): void {
    * @GET : Get Routes of RFI
    * @summary: provide all the respective associated view to the certain routes
    */
-  // @GET '/rfi/rfi-task-list'
+  // @GET '/rfi/rfi-tasklist'
   app.get(RFI_PATHS.GET_TASKLIST,
     [ContentFetchMiddleware.FetchContents,
       AUTH,
