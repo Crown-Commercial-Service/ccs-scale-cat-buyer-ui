@@ -37,11 +37,6 @@
         {% include "includes/project_header.njk" %}
 
         {{prompt | safe}}
-       
-        <div class="govuk-form-group ccs-page-section">
-            <p class="govuk-body"><strong>Timeline for your EoI</strong></p> <br>
-        </div>
-
         
          {% block valuewitNoMultiSelect %}
          {% for requirement in framework%}
@@ -208,7 +203,7 @@
 
 
 <div class="govuk-button-group">
-<form method="post" action="/rfi/response-date" >   
+<form method="post" action="/eoi/response-date" >   
                 {{ CCSInput({
                     id: "timeStamp",
                     name: "eoi_clarification_date",
@@ -252,14 +247,13 @@
   Save and continue
 </button>
 <a href="/eoi/eoi-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
-</form>
-                
-            </div>
-
-        </div>
+</form>             
+</div>
+</div>
+</div>
       <div class="govuk-grid-column-one-third">
          {{ CCSReleatedContent(releatedContent) }}
       </div>
-  </main>
-
+</div>
+</main>
 {% endblock %}
