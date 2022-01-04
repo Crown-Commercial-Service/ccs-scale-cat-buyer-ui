@@ -1,4 +1,4 @@
-# Releated Content macro
+# Related Content macro
 
 ## How to use
 Step #1
