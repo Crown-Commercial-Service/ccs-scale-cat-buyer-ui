@@ -3,10 +3,10 @@
 {% set title = 'EOI Task List | Contract a Thing' %}
 
 {% block content %}
-{% set url -%}
+  {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
-{%- endset %}
-{{ CCSBreadcrumbs({
+  {%- endset %}
+  {{ CCSBreadcrumbs({
         items: [
         {
             "text": "Dashboard",
@@ -27,63 +27,70 @@
 
         ]
       }) }}
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  <div class="govuk-grid-row">
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-          <h1 class="govuk-heading-xl">
+        <h1 class="govuk-heading-xl">
           {{ data.title }}
-          </h1>
-          {% include "includes/project_header.njk" %} 
-      </div>  
-  </div>
-
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-    <br>
-    <p class="govuk-body">{{data.line1}}</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>{{data.line2}} </li>
-      <li>{{data.line3}}</li>
-      <li>{{data.line4}}</li>
-      <li>{{data.line5}}</li>
-    </ul>
-    <br>
-    <ol class="app-task-list">
-    {% for item in data.events %}
-         <li>
-            <h2 class="app-task-list__section">
-            <span class="app-task-list__section-number">{{item.eventno}}. </span> {{item.eventTitle}}
-             </h2>
-             <p class="govuk-body">{{item.eventDescription}}</p>
-              <ul class="app-task-list__items">
-               {% for Tasks in item.eventTask %}
-                <li class="app-task-list__item">
-                        <span class="app-task-list__task-name">
-                          <strong>
-                            {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %}
-                                <a href="{{Tasks.link}}" aria-describedby="{{Tasks.title}}">
-                                    {{Tasks.title}}
-                                </a>
-                            {% else %}
-                            {{Tasks.title}}
-                            {% endif %} 
-                          </strong>
-                        </span>
-                        {% if (Tasks.status == "Cannot start yet") or (Tasks.status == "Not started") %}
-                          <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
-                        {% elif Tasks.status == "Done" %}
-                          <strong class="govuk-tag govuk-tag--green app-task-list__tag">{{Tasks.status}}</strong>
-                        {% else %}
-                          <strong class="govuk-tag app-task-list__tag" > {{Tasks.status}}</strong>
-                        {% endif %} 
-                    </li>
-               {% endfor %}
-                </ul>
-             </li>
-    {% endfor %}
-    </ol>
+        </h1>
+        {% include "includes/project_header.njk" %}
+      </div>
     </div>
-</div>
-</main>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <br>
+        <p class="govuk-body">{{data.line1}}</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>{{data.line2}}
+          </li>
+          <li>{{data.line3}}</li>
+          <li>{{data.line4}}</li>
+          <li>{{data.line5}}</li>
+        </ul>
+        <br>
+        <ol class="app-task-list">
+          {% for item in data.events %}
+            <li>
+              <h2 class="app-task-list__section">
+                <span class="app-task-list__section-number">{{item.eventno}}. </span>
+                {{item.eventTitle}}
+              </h2>
+              <p class="govuk-body">{{item.eventDescription}}</p>
+              <ul class="app-task-list__items">
+                {% for Tasks in item.eventTask %}
+                  <li class="app-task-list__item">
+                    <span class="app-task-list__task-name">
+                      <strong>
+                        {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %}
+                          <a href="{{Tasks.link}}" aria-describedby="{{Tasks.title}}">
+                            {{Tasks.title}}
+                          </a>
+                        {% else %}
+                          {{Tasks.title}}
+                        {% endif %}
+                      </strong>
+                    </span>
+                    {% if (Tasks.status == "Cannot start yet") 
+                      or(Tasks.status == "Not started") %}
+                      <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
+                    {% elif Tasks.status == "Done" %}
+                      <strong class="govuk-tag govuk-tag--green app-task-list__tag">{{Tasks.status}}</strong>
+                    {% else %}
+                      <strong class="govuk-tag app-task-list__tag" >
+                        {{Tasks.status}}</strong>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="govuk-grid-column-one-third">
+            {{ CCSReleatedContent(releatedContent) }}
+         </div>
+    </div>
+  </main>
 
 {% endblock %}
