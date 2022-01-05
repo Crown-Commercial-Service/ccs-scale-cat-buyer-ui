@@ -134,6 +134,8 @@ if (document.getElementById("ccs-rfi-suppliers-form") !== null) document.getElem
 
 if (document.getElementById("ccs_eoi_acronyms_form") !== null) document.getElementById("ccs_eoi_acronyms_form").addEventListener('submit', ccsZvalidateEoiAcronyms);
 
+if (document.getElementById("ccs_eoi_splterms_form") !== null) document.getElementById("ccs_eoi_splterms_form").addEventListener('submit', ccsZvalidateEoiSpecialTerms);
+
 if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getElementById("ccs_rfi_acronyms_form").addEventListener('submit', ccsZvalidateRfiAcronyms);
 
 if (document.getElementById("ccs_eoi_date_form") !== null) document.getElementById("ccs_eoi_date_form").addEventListener('submit', ccsZvalidateEoiDate);
