@@ -71,7 +71,7 @@
             {% endif %}
 
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/rfi/name">
+              <a class="govuk-link" href="/rfi/name-your-project">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
             </dd>
@@ -308,7 +308,7 @@
         },
         text: "Publish and continue"
         }) }}
-                              <a href="/rfi/online-task-list" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI) </a>
+                              <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI) </a>
                             </div>
                             {{ CCSInput({
       id: "finished_pre_engage",
