@@ -45,6 +45,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     const bcTitleText = OCDS?.description;
     const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
     const promptData = nonOCDS?.prompt;
+    const splitOn = " <br> ";
+    const promptSplit = promptData.split(splitOn);
     const nonOCDSList = [];
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
       const questionNonOCDS = {
@@ -92,7 +94,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       form_name: form_name?.[0],
       eoiTitle: titleText,
       bcTitleText,
-      prompt: promptData,
+      prompt: promptSplit,
       organizationName: organizationName,
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,

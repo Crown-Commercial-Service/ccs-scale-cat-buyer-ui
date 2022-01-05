@@ -54,11 +54,15 @@
       <p class="govuk-body">{{data.eoiTitle}}</p>
 
       <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} eoi_form" action="/eoi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
-        <p class="govuk-body govuk-!-margin-bottom-7">{{prompt | safe}}</p>
+        <br>
+        <p class="govuk-body">{{prompt[0] | safe}}</p>
+        <p class="govuk-body">{{prompt[1] | safe}}</p>
+
         {% for requirement in data %}
           {% block value %}
             {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
-
+        <br>
+        <br>
               {{ CCSInput({
                       label: {
                         text: requirement.OCDS.title,
@@ -445,7 +449,7 @@
                 <div id="eoi_splterm"></div>
               {% endif %}
 
-            {% endblock %}
+          {% endblock %}
 
             {% block singleSelect%}
               {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
@@ -458,16 +462,14 @@
                         <div class="govuk-radios__item">
                           {%if requirement.nonOCDS.options[i].selected === true %}
                             <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
-                            {%else%}
+                          {%else%}
                             <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
-                            {%endif%}
+                          {%endif%}
                             <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
                               <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
                             </label>
                             <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
-                              <p class="govuk-hint">{{requirement.nonOCDS.options[i].text | safe}}
-
-                              </p>
+                              {{requirement.nonOCDS.options[i].text | safe}}
                             </div>
                           </div>
                         {% else %}
@@ -482,9 +484,7 @@
                               <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
                             </label>
                             <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
-                              <p class="govuk-hint">{{requirement.nonOCDS.options[i].text |safe}}
-
-                              </p>
+                              {{requirement.nonOCDS.options[i].text |safe}}
                             </div>
                           </div>
                           {%endif%}
@@ -500,7 +500,7 @@
                       }}
 
                   {% endif %}
-                {% endblock %}
+            {% endblock %}
 
                 {% block KeySelect%}
                   {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) %}
@@ -616,8 +616,7 @@
                     {% for countries in requirement.nonOCDS.options %}
                       {% if countries.value !== "No specific location, for example they can work remotely" %}
                         {% set countryList = (countryList.push(countries.value),countryList)%}
-                        {% set countryArray = (countryArray.push({value: countries.value, text: countries.value, checked: countries.selected}), countryArray)
- %}
+                        {% set countryArray = (countryArray.push({value: countries.value, text: countries.value, checked: countries.selected}), countryArray) %}
                         {%else%}
                         {% set countryList = (countryList.push(countries.value),countryList)%}
                         {% set countryArray = (countryArray.push({
@@ -626,8 +625,7 @@
                           value: countries.value,
                           text: countries.value,
                           checked: countries.selected
-                        }), countryArray)
- %}
+                        }), countryArray) %}
 
                         {%endif%}
                       {% endfor %}
@@ -647,7 +645,8 @@
                       }}
 
                     {% endif %}
-                  {% endblock %}
+                {% endblock %}
+
                   {% block Budget %}
                     {% if ((requirement.nonOCDS.questionType === 'Monetary') and (requirement.nonOCDS.multiAnswer === false)) %}
                       {% if (requirement.nonOCDS.mandatory === false) %}
@@ -694,14 +693,15 @@
                     value: true
                   })
                 }}
-
+        <br>
+        <br>
                 <div class="govuk-button-group">
                   {{ CCSButton({
                         text: "Save and continue",
                         classes:"save-button"
                       })
                   }}
-                  <a href="/eoi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Expression of Interest</a>
+                  <a href="/eoi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Expression of Interest (EoI)</a>
                 </div>
 
               </form>

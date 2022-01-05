@@ -203,13 +203,13 @@ if ($('#eoi_splterm').length > 0) {
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
         checkFieldsEoiTerms();
         if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-          ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
-          fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+          ccsZaddErrorMessage(definition_field, 'Please provide description for the term and condition.');
+          fieldCheck = [definition_field.id, 'Please provide description for the term and condition.'];
           errorStore.push(fieldCheck);
         }
         if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-          ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
-          fieldCheck = [term_field.id, 'You must add information in both fields.'];
+          ccsZaddErrorMessage(term_field, 'Please provide description for the term and condition.');
+          fieldCheck = [term_field.id, 'Please provide description for the term and condition.'];
           errorStore.push(fieldCheck);
         }
       }
