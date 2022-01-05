@@ -61,7 +61,7 @@ if (document.getElementById("ccs_eoi_criteria_form") !== null) document.getEleme
 
 if (document.getElementById("ccs_eoi_deadline_form") !== null) document.getElementById("ccs_eoi_deadline_form").addEventListener('submit', ccsZvalidateEoiDeadline);
 
-//if (document.getElementById("ccs_select_location") !== null) document.getElementById("ccs_select_location").addEventListener('submit', ccsZvalidateEoiLocation);
+if (document.getElementById("eoi_location") !== null) document.getElementById("eoi_location").addEventListener('submit', ccsZvalidateEoiLocation);
 
 if (document.getElementById("ccs_eoi_contact_form") !== null) document.getElementById("ccs_eoi_contact_form").addEventListener('submit', ccsZvalidateEoiContact);
 
@@ -111,7 +111,7 @@ if (document.getElementById("ccs_rfi_docs_form") !== null) document.getElementBy
 
 if (document.getElementById("ccs_rfi_questions_form") !== null) document.getElementById("ccs_rfi_questions_form").addEventListener('submit', ccsZvalidateRfIQuestions);
 
-
+if (document.getElementById("ccs_eoi_questions_form") !== null) document.getElementById("ccs_eoi_questions_form").addEventListener('submit', ccsZvalidateEoIQuestions);
 
 if (document.getElementById("ccs_eoi_purpose_form") !== null) document.getElementById("ccs_eoi_purpose_form").addEventListener('submit', ccsZvalidateEoiPurpose);
 
@@ -133,6 +133,8 @@ if (document.getElementById("ccs_eoi_duration") !== null) document.getElementByI
 if (document.getElementById("ccs-rfi-suppliers-form") !== null) document.getElementById("ccs-rfi-suppliers-form").addEventListener('submit', ccsZValidateSuppliersForm);
 
 if (document.getElementById("ccs_eoi_acronyms_form") !== null) document.getElementById("ccs_eoi_acronyms_form").addEventListener('submit', ccsZvalidateEoiAcronyms);
+
+if (document.getElementById("ccs_eoi_splterms_form") !== null) document.getElementById("ccs_eoi_splterms_form").addEventListener('submit', ccsZvalidateEoiSpecialTerms);
 
 if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getElementById("ccs_rfi_acronyms_form").addEventListener('submit', ccsZvalidateRfiAcronyms);
 

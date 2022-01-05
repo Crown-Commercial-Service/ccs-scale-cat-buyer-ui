@@ -107,11 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
       errorStore = [];
 
     let errorText = '';
-    if($("#page-heading").text().includes("Project scope"))
-    errorText = "You must type at least one project scope before you can add another"
+    if ($("#page-heading").text().includes("Project scope"))
+      errorText = "You must type at least one project scope before you can add another"
     else
-    errorText = "You must type an objective before you can add another objective"
-    fieldCheck = ccsZvalidateWithRegex("eoi_question_1",errorText, /\w+/);
+      errorText = "You must type an objective before you can add another objective"
+    fieldCheck = ccsZvalidateWithRegex("eoi_question_1", errorText, /\w+/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
     for (var i = 2; i < 11; i++) {
       if (!document.getElementById("eoi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
@@ -121,8 +121,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return errorStore;
   };
+});
 
-  
-})
+const emptyObjectiveFieldCheckForSave = () => {
+  let fieldCheck = "",
+    errorStore = [];
+  fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "You must add at least one objective", /\w+/);
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+  return errorStore;
+};
+
+const ccsZvalidateEoIQuestions = (event) => {
+  event.preventDefault();
+  errorStore = emptyObjectiveFieldCheckForSave();
+
+  //}
+
+  if (errorStore.length === 0) document.forms["ccs_eoi_questions_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
 
 $('.add').addClass('ccs-dynaform-hidden');
