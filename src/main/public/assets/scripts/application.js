@@ -61,7 +61,7 @@ if (document.getElementById("ccs_eoi_criteria_form") !== null) document.getEleme
 
 if (document.getElementById("ccs_eoi_deadline_form") !== null) document.getElementById("ccs_eoi_deadline_form").addEventListener('submit', ccsZvalidateEoiDeadline);
 
-//if (document.getElementById("ccs_select_location") !== null) document.getElementById("ccs_select_location").addEventListener('submit', ccsZvalidateEoiLocation);
+if (document.getElementById("eoi_location") !== null) document.getElementById("eoi_location").addEventListener('submit', ccsZvalidateEoiLocation);
 
 if (document.getElementById("ccs_eoi_contact_form") !== null) document.getElementById("ccs_eoi_contact_form").addEventListener('submit', ccsZvalidateEoiContact);
 
