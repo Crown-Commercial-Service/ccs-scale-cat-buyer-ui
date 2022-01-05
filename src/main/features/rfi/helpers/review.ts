@@ -46,7 +46,9 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       else return question;
     });
 
-    const ExtractedRFI_Answers = Rfi_answered_questions.map(question => {
+    const ExtractedRFI_Answers = Rfi_answered_questions.sort((a: any, b: any) =>
+      a.nonOCDS.order < b.nonOCDS.order ? -1 : 1,
+    ).map(question => {
       return {
         title: question.OCDS.description,
         id: question.OCDS.id,
