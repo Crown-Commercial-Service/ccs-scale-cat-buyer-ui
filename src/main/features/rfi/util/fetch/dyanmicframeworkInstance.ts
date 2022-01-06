@@ -17,6 +17,8 @@ export class DynamicFrameworkInstance {
 
         return  axios.default.create({
             baseURL: process.env.TENDERS_SERVICE_API_URL,
+            maxContentLength: Infinity,
+            maxBodyLength: Infinity,
             headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${SESSION_ID}`
