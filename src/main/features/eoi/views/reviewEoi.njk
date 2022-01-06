@@ -1,6 +1,6 @@
 {% extends "template.njk" %}
 
-{% set title = 'EoI review | Crown Commercial Service' %}
+{% set title = 'EOI review | Crown Commercial Service' %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -10,6 +10,19 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    {% if (viewError)%}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem with publishing EOI",
+        errorList: [
+          {
+            text: "You must check this box to confirm that I have read and confirm the statements above",
+            href: "#ccs_eoi_publish_form"
+          }
+        ]
+      }) }}
+    {% endif %}
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
@@ -111,7 +124,7 @@
             {% endif %}
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="/eoi/add-collaborators">
-            Change<span class="govuk-visually-hidden"> EoI team members</span>
+            Change<span class="govuk-visually-hidden"> eoi team members</span>
               </a>
             </dd>
           </div>
@@ -139,7 +152,7 @@
               </a>
             </dd>
           </div>
-          {#eoi_data#}
+
           {%for item in eoi_data%}
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
@@ -189,7 +202,7 @@
                                   {% for document in documents%}
                                     <li>
                                       <span>Uploaded file: &nbsp;</span>
-                                      <a href="/rfi/upload-doc">
+                                      <a href="/eoi/upload-doc">
                                         {{ document }}
                                       </a>
                                     </li>
@@ -205,7 +218,7 @@
 
                               <dd class="govuk-summary-list__actions">
                                 <a class="govuk-link" href="/eoi/upload-doc">
-            Change<span class="govuk-visually-hidden">Eoi additional link and documents</span>
+            Change<span class="govuk-visually-hidden">eoi additional link and documents</span>
                                 </a>
                               </dd>
                             </div>
@@ -287,7 +300,7 @@
         },
         text: "Publish and continue"
         }) }}
-                              <a href="/eoi/online-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement </a>
+                              <a href="/eoi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to do premarket engagement </a>
                             </div>
                             {{ CCSInput({
       id: "finished_pre_engage",

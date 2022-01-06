@@ -294,7 +294,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
-                  options: [{ value: object_values[0].value[i] }],
+                  options: [{ value: object_values[0].value[i], selected: true }],
                 },
               };
             } else {

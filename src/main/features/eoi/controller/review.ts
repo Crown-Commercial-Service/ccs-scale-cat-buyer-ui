@@ -35,29 +35,13 @@ export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response
     //JSONData;
     let Eoi_answered_questions = BuyerAnsweredAnswers.map(eoi => eoi.requirement).flat();
 
-    const GROUP1_Toggle = Eoi_answered_questions.filter(question => question.OCDS.id === 'Group 1')[0];
-    const ToggledTrue = GROUP1_Toggle.OCDS.requirements.filter(reqs => reqs.OCDS.id === 'Question 1')[0];
-    const selectedToggled = ToggledTrue.nonOCDS.options.map(op => {
-      return { value: op.value, selected: true };
-    });
-    ToggledTrue.nonOCDS.options = selectedToggled;
-    GROUP1_Toggle.OCDS.requirements.map(group => {
-      if (group.OCDS.id === 'Question 1') return ToggledTrue;
-      else return group;
-    });
-    Eoi_answered_questions = Eoi_answered_questions.map(question => {
-      if (question.OCDS.id === 'Group 1') return GROUP1_Toggle;
-      else return question;
-    });
-
-    const ExtractedEOI_Answers = Eoi_answered_questions.sort((a: any, b: any) =>
-      a.nonOCDS.order < b.nonOCDS.order ? -1 : 1,
-    ).map(question => {
+    const ExtractedEOI_Answers = Eoi_answered_questions.map(question => {
       return {
         title: question.OCDS.description,
         id: question.OCDS.id,
+        criterian: question.nonOCDS.criterian,
         answers: question.OCDS.requirements.map(o => {
-          return { question: o.OCDS?.title, values: o.nonOCDS.options };
+          return { question: o.OCDS?.title, questionType: o.nonOCDS.questionType, values: o.nonOCDS.options };
         }),
       };
     });
@@ -66,11 +50,37 @@ export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response
       return {
         title: questions.title,
         id: questions.id,
+        criterian: questions.criterian,
         answer: questions.answers.map(answer => {
-          return {
+          const obj = {
             question: answer.question,
             values: answer.values.filter(val => val.selected),
           };
+          if (answer.questionType == 'Date' && answer.values.length == 3) {
+            obj.values = [
+              {
+                value: 'Date you want the project to start: ' + obj.values.map(v => v.value).join('-'),
+                selected: true,
+              },
+            ];
+          } else if (answer.questionType == 'Duration') {
+            const duration = obj.values.map(v => v.value);
+            obj.values = [
+              {
+                value:
+                  'How long you think the project will run for (Optional): ' +
+                  (duration.length == 3
+                    ? duration[0] + ' years ' + duration[1] + ' months ' + duration[2] + ' days'
+                    : ''),
+                selected: true,
+              },
+            ];
+          } else if (answer.questionType == 'Monetary' && obj.values.length > 0) {
+            obj.values = obj.values.map(v => {
+              return { value: answer.question + ': ' + v.value, selected: v.selected };
+            });
+          }
+          return obj;
         }),
       };
     });
@@ -111,26 +121,8 @@ export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response
     const proc_id = req.session['projectId'];
     const event_id = req.session['eventId'];
 
-    const GROUPINCLUDING_CRITERIANID = Eoi_answered_questions.filter(data => data.OCDS.id !== 'Key Dates').map(data => {
-      return {
-        criterian: data.nonOCDS.criterian,
-        id: data.OCDS.id,
-      };
-    });
-
-    const EOI_ANSWER_STORAGE = [];
-
-    for (const dataOFEOI of EOI_DATA_WITHOUT_KEYDATES) {
-      for (const dataOFCRITERIAN of GROUPINCLUDING_CRITERIANID) {
-        if (dataOFEOI.id === dataOFCRITERIAN.id) {
-          const formattedData = { ...dataOFEOI, criterian: dataOFCRITERIAN.criterian };
-          EOI_ANSWER_STORAGE.push(formattedData);
-        }
-      }
-    }
-
     let appendData = {
-      eoi_data: EOI_ANSWER_STORAGE,
+      eoi_data: EOI_DATA_WITHOUT_KEYDATES,
       eoi_keydates: EOI_DATA_TIMELINE_DATES[0],
       data: cmsData,
       project_name: project_name,
@@ -140,7 +132,7 @@ export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response
       agreement_id,
       proc_id,
       event_id,
-      ccs_eoi_type: EOI_ANSWER_STORAGE.length > 0 ? 'all_online' : '',
+      ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
     };
 
     if (viewError) {
