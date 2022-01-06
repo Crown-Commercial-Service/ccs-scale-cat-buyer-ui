@@ -37,7 +37,7 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
    const { SESSION_ID } = req.cookies;
    try {
       // eslint-disable-next-line no-case-declarations
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/9`, 'In progress');
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/9`, 'Completed');
       if (response.status == HttpStatusCode.OK){
          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'Not started');
       }
