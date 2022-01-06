@@ -10,7 +10,58 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 
 //@GET /eoi/review
 export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response) => {
-  const viewError = false;
+  EOI_REVIEW_RENDER(req, res, false);
+};
+
+//@POST  /eoi/review
+export const POST_EOI_REVIEW = async (req: express.Request, res: express.Response) => {
+  const { eoi_publish_confirmation, finished_pre_engage } = req.body;
+  const ProjectID = req.session['projectId'];
+  const EventID = req.session['eventId'];
+  const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
+  const { SESSION_ID } = req.cookies;
+  let CurrentTimeStamp = req.session.endDate;
+  CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
+  console.log(CurrentTimeStamp);
+
+  const _bodyData = {
+    endDate: CurrentTimeStamp,
+  };
+
+  if (finished_pre_engage && eoi_publish_confirmation === '1') {
+    try {
+      await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      if (response.status == Number(HttpStatusCode.OK)) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
+      }
+
+      res.redirect('/eoi/event-sent');
+    } catch (error) {
+      console.log('Something went wrong, please review the logit error log for more information');
+      delete error?.config?.['headers'];
+      const Logmessage = {
+        Person_id: TokenDecoder.decoder(SESSION_ID),
+        error_location: `${req.headers.host}${req.originalUrl}`,
+        sessionId: 'null',
+        error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
+        exception: error,
+      };
+      const Log = new LogMessageFormatter(
+        Logmessage.Person_id,
+        Logmessage.error_location,
+        Logmessage.sessionId,
+        Logmessage.error_reason,
+        Logmessage.exception,
+      );
+      LoggTracer.errorTracer(Log, res);
+    }
+  } else {
+    EOI_REVIEW_RENDER(req, res, true);
+  }
+};
+
+const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, viewError: boolean) => {
   const { SESSION_ID } = req.cookies;
   const ProjectID = req.session['projectId'];
   const EventID = req.session['eventId'];
@@ -159,15 +210,4 @@ export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response
     );
     LoggTracer.errorTracer(Log, res);
   }
-};
-
-//@POST  /eoi/review
-export const POST_EOI_REVIEW = async (req: express.Request, res: express.Response) => {
-  const { SESSION_ID } = req.cookies;
-  const eventId = req.session['eventId'];
-  const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'Completed');
-  if (response.status == HttpStatusCode.OK) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/25`, 'Completed');
-  }
-  res.redirect('/eoi/event-sent');
 };
