@@ -40,9 +40,22 @@ $(document).ready(function () {
     if (is_hidden == "true") new_val = "false";
     document.querySelector('.global-navigation').setAttribute('aria-hidden', new_val);
   });
-})
+});
+const ccsZvalidateRfiLocation = (event) => {
+  event.preventDefault();
+
+  let fieldCheck = "",
+    errorStore = [];
+
+  fieldCheck = ccsZisOptionChecked("required_locations", "You must select at least one region where your staff will be working, or  the “No specific location....");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["rfi_location"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
 
 // forms validation
+
 if (document.getElementById("ccs_login") !== null) document.getElementById("ccs_login").addEventListener('submit', ccsZvalidateLogin);
 
 if (document.getElementById("ccs_create_or_choose") !== null) document.getElementById("ccs_create_or_choose").addEventListener('submit', ccsZvalidateCreateOrChoose);
@@ -62,6 +75,8 @@ if (document.getElementById("ccs_eoi_criteria_form") !== null) document.getEleme
 if (document.getElementById("ccs_eoi_deadline_form") !== null) document.getElementById("ccs_eoi_deadline_form").addEventListener('submit', ccsZvalidateEoiDeadline);
 
 if (document.getElementById("eoi_location") !== null) document.getElementById("eoi_location").addEventListener('submit', ccsZvalidateEoiLocation);
+
+if (document.getElementById("rfi_location") !== null) document.getElementById("rfi_location").addEventListener('submit', ccsZvalidateRfiLocation);
 
 if (document.getElementById("ccs_eoi_contact_form") !== null) document.getElementById("ccs_eoi_contact_form").addEventListener('submit', ccsZvalidateEoiContact);
 
