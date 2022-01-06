@@ -2,25 +2,23 @@
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% set title = 'EoI - response date | Crown Commercial Service' %}
 
-
-
 {% block breadCrumb %}
-  {{ CCSBreadcrumbs({
+    {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
 {% endblock %}
 
 {% block content %}
-  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">
-          {{data.title }}
-        </h1>
-      </div>
-    </div>
-    {% if(error)%}
-    {{ CCSErrorSummary({
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                    {{data.title }}
+                </h1>
+            </div>
+        </div>
+        {% if(error)%}
+            {{ CCSErrorSummary({
   titleText: "There is a problem",
   errorList: [
     {
@@ -30,131 +28,147 @@
   ]
 }) }}
 
-{% endif%}
+            {% endif%}
 
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-        {% include "includes/project_header.njk" %}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                    {% include "includes/project_header.njk" %}
 
-        {{prompt | safe}}
-        
-         {% block valuewitNoMultiSelect %}
-         {% for requirement in framework%}
-            {% if (requirement.nonOCDS.questionType === 'DateTime') and (requirement.nonOCDS.multiAnswer === false) %}             
-            <div class="govuk-form-group ccs-page-section eoi_publish_date">
-                <p class="govuk-body"><span>{{loop.index}} &nbsp; </span>{{requirement.OCDS.title}}</p>
-                {% if(requirement.OCDS.title == "Publish your EoI" )%}
-                <p class="govuk-body"><span> &nbsp; &nbsp; &nbsp;</span>{{data['data'].body.p1}}</p>
-                {%endif %} 
-                <div id="eoi_clarification_date">
+                    {{prompt | safe}}
 
-                    {% if(requirement.nonOCDS.options[0].selected)%}
-                <label class="govuk-label govuk-body"><strong id="lbl-clarification">{{ requirement.nonOCDS.options[0].value }}</strong></label>
-                {%endif %}
-                
-                {% if( requirement.nonOCDS.options.length == 0)%}
+                    {% block valuewitNoMultiSelect %}
+                        {% for requirement in framework%}
+                            {% if (requirement.nonOCDS.questionType === 'DateTime') and (requirement.nonOCDS.multiAnswer === false) %}
+                                <div class="govuk-form-group ccs-page-section eoi_publish_date">
+                                    <p class="govuk-body">
+                                        <span>{{loop.index}} &nbsp; </span>{{requirement.OCDS.title}}</p>
+                                    {% if(requirement.OCDS.title == "Publish your EoI" )%}
+                                        <p class="govuk-body">
+                                            <span> &nbsp; &nbsp; &nbsp;</span>{{data['data'].body.p1}}</p>
+                                    {%endif %}
+                                    <div id="eoi_clarification_date">
 
-                {% if(requirement.OCDS.id == "Question 2" )%}
-                 <label class="govuk-label govuk-body"><strong id="eoi_clarification_period_end">{{ clarification_period_end}}</strong></label>
-                 {% elif (requirement.OCDS.id == "Question 3" ) %}
-                <label class="govuk-label govuk-body"><strong id="deadline_period_for_clarification_period">{{deadline_period_for_clarification_period }}</strong></label>
-                  {% elif (requirement.OCDS.id == "Question 4" ) %}
-                   <label class="govuk-label govuk-body"><strong id="supplier_period_for_clarification_period">{{supplier_period_for_clarification_period }}</strong></label>
-                    {% elif (requirement.OCDS.id == "Question 5" ) %}
-                   <label class="govuk-label govuk-body"><strong id="supplier_dealine_for_clarification_period">{{supplier_dealine_for_clarification_period }}</strong></label>
-                 {%else%}
-                  <label class="govuk-label govuk-body"><strong>{{clarification_date}}</strong></label>
-                {%endif%}
+                                        {% if(requirement.nonOCDS.options[0].selected)%}
+                                            <label class="govuk-label govuk-body">
+                                                <strong id="lbl-clarification">{{ requirement.nonOCDS.options[0].value }}</strong>
+                                            </label>
+                                        {%endif %}
 
+                                        {% if( requirement.nonOCDS.options.length == 0)%}
 
-                {%endif%}
+                                            {% if(requirement.OCDS.id == "Question 2" )%}
+                                                <label class="govuk-label govuk-body">
+                                                    <strong id="eoi_clarification_period_end">{{ clarification_period_end}}</strong>
+                                                </label>
+                                            {% elif(requirement.OCDS.id == "Question 3") %}
+                                                <label class="govuk-label govuk-body">
+                                                    <strong id="deadline_period_for_clarification_period">{{deadline_period_for_clarification_period }}</strong>
+                                                </label>
+                                            {% elif(requirement.OCDS.id == "Question 4") %}
+                                                <label class="govuk-label govuk-body">
+                                                    <strong id="supplier_period_for_clarification_period">{{supplier_period_for_clarification_period }}</strong>
+                                                </label>
+                                            {% elif(requirement.OCDS.id == "Question 5") %}
+                                                <label class="govuk-label govuk-body">
+                                                    <strong id="supplier_dealine_for_clarification_period">{{supplier_dealine_for_clarification_period }}</strong>
+                                                </label>
+                                                {%else%}
+                                                <label class="govuk-label govuk-body">
+                                                    <strong>{{clarification_date}}</strong>
+                                                </label>
+                                                {%endif%}
 
-                {%if (requirement.OCDS.id !== "Question 1")%}
+                                                {%endif%}
 
-                    <a href="#eoi_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
+                                                {%if (requirement.OCDS.id !== "Question 1")%}
+
+                                                    <a href="#eoi_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
                         class="govuk-link govuk-link--no-visited-state change">change</a>
-                </div>
+                                                </div>
 
-                <div id="eoi_clarification_date_expanded_{{loop.index}}">
-                    <div>
-                        <label class="govuk-label govuk-body"><strong id="lbl-clarification_copy">{{
-                                clarification_date_string }}</strong></label>
-                        <br> <a href="#eoi_clarification_date_{{loop.index}}"  id="cancel_change_clarification_date_{{loop.index}}"
+                                                <div id="eoi_clarification_date_expanded_{{loop.index}}">
+                                                    <div>
+                                                        <label class="govuk-label govuk-body">
+                                                            <strong id="lbl-clarification_copy">{{
+                                clarification_date_string }}</strong>
+                                                        </label>
+                                                        <br>
+                                                        <a href="#eoi_clarification_date_{{loop.index}}"  id="cancel_change_clarification_date_{{loop.index}}"
                             class="govuk-link govuk-link--no-visited-state ">I do not want to change this date and time</a>
-                    </div>
-                    <br>
-                    <form action="/eoi/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_eoi_response_date_form">
-                    <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
+                                                    </div>
+                                                    <br>
+                                                    <form action="/eoi/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_eoi_response_date_form">
+                                                        <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
 
-                        <div class="govuk-date-input" id="clarification_date">
+                                                            <div class="govuk-date-input" id="clarification_date">
 
-                            <div class="govuk-date-input__item">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-day">
+                                                                <div class="govuk-date-input__item">
+                                                                    <div class="govuk-form-group">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-day">
                                         Date
                                     </label>
-                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                                        <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-day_{{loop.index}}" name="clarification_date_day" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-day'] }}" required>
-                                </div>
-                            </div>
+                                                                    </div>
+                                                                </div>
 
-                            <div class="govuk-date-input__item">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-month">
+                                                                <div class="govuk-date-input__item">
+                                                                    <div class="govuk-form-group">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-month">
                                         Month
                                     </label>
-                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                                        <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-month_{{loop.index}}" name="clarification_date_month" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-month'] }}" required>
-                                </div>
-                            </div>
+                                                                    </div>
+                                                                </div>
 
-                            <div class="govuk-date-input__item">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-year">
+                                                                <div class="govuk-date-input__item">
+                                                                    <div class="govuk-form-group">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-year">
                                         Year
                                     </label>
-                                    <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                                                        <input class="govuk-input govuk-date-input__input govuk-input--width-4"
                                         id="clarification_date-year_{{loop.index}}" name="clarification_date_year" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-year'] }}" required>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
-                    <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_time">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                        <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_time">
 
-                        <div class="govuk-date-input" id="clarification_time">
+                                                            <div class="govuk-date-input" id="clarification_time">
 
-                            <div class="govuk-date-input__item">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-hour">
+                                                                <div class="govuk-date-input__item">
+                                                                    <div class="govuk-form-group">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-hour">
                                         Hour
                                     </label>
-                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                                        <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-hour_{{loop.index}}" name="clarification_date_hour" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-hour'] }}" required>
-                                </div>
-                            </div>
+                                                                    </div>
+                                                                </div>
 
-                            <div class="govuk-date-input__item">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="clarification_date-minute">
+                                                                <div class="govuk-date-input__item">
+                                                                    <div class="govuk-form-group">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-minute">
                                         Minutes
                                     </label>
-                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                                                        <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-minute_{{loop.index}}" name="clarification_date_minute" type="text"
                                         pattern="[0-9]*" inputmode="numeric"
                                         value="{{ data['clarification_date-minute'] }}" required>
-                                </div>
-                            </div>
+                                                                    </div>
+                                                                </div>
 
-                            <div class="govuk-date-input__item">
-                                {{ CCSSelect({
+                                                                <div class="govuk-date-input__item">
+                                                                    {{ CCSSelect({
                                 id: "clarification_date-hourFormat",
                                 name: "clarification_date_hourFormat",
                                 required: true,
@@ -172,88 +186,79 @@
                                 ]
                                 })
                                 }}
-                            </div>
-                        </div>
-                    </fieldset>
-                    
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
 
-                    {{ CCSInput({
+                                                        {{ CCSInput({
                     id: "selected_question_id",
                     name: "selected_question_id",
                     type: "hidden",
                     value: requirement.OCDS.id
                     }) }}
-                    <br><br>
-                    {{ CCSButton({
+                                                        <br><br>
+                                                        {{ CCSButton({
                     attributes: {
                     id: "save_clarification_date"
                     },
                     text: "Save New Date"
                     }) }}
-                    </form>
-                    {%endif%}
-                </div>
-            </div>
-            {% endif %}
-            {%endfor%}
-          {% endblock %}
+                                                    </form>
+                                                    {%endif%}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        {%endfor%}
+                                    {% endblock %}
 
-
-
-
-
-<div class="govuk-button-group">
-<form method="post" action="/eoi/response-date" >   
-                {{ CCSInput({
+                                    <div class="govuk-button-group">
+                                        <form method="post" action="/eoi/response-date" >
+                                            {{ CCSInput({
                     id: "timeStamp",
                     name: "eoi_clarification_date",
                     type: "hidden",
                     value: "Question 1*"+clarification_date
                     }) }}
 
-
-                 {{ CCSInput({
+                                            {{ CCSInput({
                     id: "timeStamp",
                     name: "eoi_clarification_period_end",
                     type: "hidden",
                     value: "Question 2*"+clarification_period_end
                     }) }}
-                
-                 {{ CCSInput({
+
+                                            {{ CCSInput({
                     id: "timeStamp",
                     name: "deadline_period_for_clarification_period",
                     type: "hidden",
                     value: "Question 3*"+deadline_period_for_clarification_period
                     }) }}
 
-                 {{ CCSInput({
+                                            {{ CCSInput({
                     id: "timeStamp",
                     name: "supplier_period_for_clarification_period",
                     type: "hidden",
                     value: "Question 4*"+supplier_period_for_clarification_period
                     }) }}
 
-
-
-
-                  {{ CCSInput({
+                                            {{ CCSInput({
                     id: "timeStamp",
                     name: "supplier_dealine_for_clarification_period",
                     type: "hidden",
                     value: "Question 5*"+supplier_dealine_for_clarification_period
                     }) }}
 
-<button class="govuk-button" data-module="govuk-button">
+                                            <button class="govuk-button" data-module="govuk-button">
   Save and continue
 </button>
-<a href="/eoi/eoi-task-list" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
-</form>             
-</div>
-</div>
-</div>
-      <div class="govuk-grid-column-one-third">
-         {{ CCSReleatedContent(releatedContent) }}
-      </div>
-</div>
-</main>
-{% endblock %}
+                                            <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="govuk-grid-column-one-third">
+                                {{ CCSReleatedContent(releatedContent) }}
+                            </div>
+                        </div>
+                    </main>
+                {% endblock %}
