@@ -60,7 +60,7 @@ export class QuestionHelper {
             res.redirect(base_url)
          }
          else {
-            const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'Completed');
+            const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'Completed');
             if (response.status == HttpStatusCode.OK) {
                await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/21`, 'Optional');
                await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/22`, 'Not started');
