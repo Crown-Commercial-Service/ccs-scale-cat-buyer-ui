@@ -217,14 +217,12 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 return [anItem];
               }
             });
-
+            req.session['isLocationMandatoryError'] = false;
             if (selectedOptionToggle.length == 0) {
-              answerValueBody = {
-                nonOCDS: {
-                  answered: true,
-                  options: [],
-                },
-              };
+              validationError = true;
+              req.session['isLocationError'] = true;
+              req.session['isLocationMandatoryError'] = true;
+              break;
             } else if (
               selectedOptionToggle[0].find(
                 x => x.value === 'No specific location, for example they can work remotely',
@@ -296,7 +294,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
-                  options: [{ value: object_values[0].value[i] }],
+                  options: [{ value: object_values[0].value[i], selected: true }],
                 },
               };
             } else {
@@ -374,8 +372,10 @@ const findErrorText = (data: any, req: express.Request) => {
       errorText.push({ text: 'You must add at least one objective' });
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must enter information here' });
-    else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true)
+    else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == false)
       errorText.push({ text: 'Select regions where your staff will be working, or select "No specific location...."' });
+    else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == true)
+      errorText.push({ text: 'You must select at least one region where your staff will be working, or select "No specific location...."' });
   });
   return errorText;
 };

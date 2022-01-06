@@ -1,7 +1,6 @@
 {% extends "template.njk" %}
 
-{% set title = 'RFI review | Crown Commercial Service' %}
-
+{% set title = 'EOI review | Crown Commercial Service' %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -11,7 +10,20 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  <div class="govuk-grid-row">
+
+    {% if (viewError)%}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem with publishing EOI",
+        errorList: [
+          {
+            text: "You must check this box to confirm that I have read and confirm the statements above",
+            href: "#ccs_eoi_publish_form"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
           {{data.title }}
@@ -23,261 +35,256 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
 
-    <p class="govuk-body">{{data.subtitle}} </p>
-  {{ CCSButton({
-    text: "Download your RfI (.ODT format)",
+        <p class="govuk-body">{{data.subtitle}}
+        </p>
+        {{ CCSButton({
+    text: "Download your EoI (.ODT format)",
     classes: "govuk-button--secondary",
     href: "#"
     }) }}
 
-       </div>
       </div>
+    </div>
 
-      <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full"></div>
+    </div>
 
-
-  </div>
-  </div>
-
-
-  <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-    <p class="govuk-body">
-    <h2 class="govuk-heading-m"> Publish your RfI</h2>
-    </p>
-    <p class="govuk-body">
-      After publishing this RfI, you can cancel amend, clarify, add to or withdraw all or part of it, at any time.
-    </p>
-
-    <p class="govuk-body">
-      The document sent to suppliers will also include a number of best practice statements from your organisation.  These are in the link below for you to review.
-        </p>
-<br><br>
-
-</div>
-</div>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <h2 class="govuk-heading-m">1. Project and colleagues</h2>
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">1. Project and colleagues</h2>
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
           Name your project
         </dt>
-        {% if project_name | length > 0 %}
-        <dd class="govuk-summary-list__value">
-          <p class="govuk-body-s"> {{ project_name | safe }} </p>
-        </dd>
-        {% else %}
-        <dd class="govuk-summary-list__value">
+            {% if project_name | length > 0 %}
+              <dd class="govuk-summary-list__value">
+                <p class="govuk-body-s">
+                  {{ project_name | safe }}
+                </p>
+              </dd>
+            {% else %}
+              <dd class="govuk-summary-list__value">
           You have not given a custom name to your project
         </dd>
-        {% endif %}
+            {% endif %}
 
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/eoi/name">
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/eoi/name-your-project">
             Change<span class="govuk-visually-hidden">project name</span>
-          </a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+              </a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
           Change who is going to lead the procurement
         </dt>
-        <dd class="govuk-summary-list__value">
-          <ul class="govuk-list govuk-list--none">
-            <li><span class="govuk-body-s">{{procurementLead.name }}</span></li>
-            <li><span class="govuk-body-s">{{procurementLead.email }}</span></li>
-            <li><span class="govuk-body-s">{{procurementLead.telephone }}</span></li>
-          </ul>
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/eoi/procurement-lead">
+            <dd class="govuk-summary-list__value">
+              <ul class="govuk-list govuk-list--none">
+                <li>
+                  <span class="govuk-body-s">{{procurementLead.name }}</span></li>
+                <li>
+                  <span class="govuk-body-s">{{procurementLead.email }}</span></li>
+                <li>
+                  <span class="govuk-body-s">{{procurementLead.telephone }}</span></li>
+              </ul>
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/eoi/procurement-lead">
             Change<span class="govuk-visually-hidden"> procurement lead</span>
-          </a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+              </a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
           Add colleagues to your project
         </dt>
-        {% if procurementColleagues | length > 0 %}
-        <dd class="govuk-summary-list__value">
-          <ul class="govuk-list govuk-list--none">
-            {% for collaborator in procurementColleagues %}
-            <li>
-              <ul class="govuk-list govuk-list--none">
-                <li><span class="govuk-body-s">{{collaborator.name}}</span></li>
-                <li><span class="govuk-body-s">{{collaborator.email}}</span></li>
-                <li><span class="govuk-body-s">{{collaborator.telephone}}</span></li>
-              </ul>
-            </li>
-            {%- endfor %}
-          </ul>
-        </dd>
-        {% else %}
-        <dd class="govuk-summary-list__value">
+            {% if procurementColleagues | length > 0 %}
+              <dd class="govuk-summary-list__value">
+                <ul class="govuk-list govuk-list--none">
+                  {% for collaborator in procurementColleagues %}
+                    <li>
+                      <ul class="govuk-list govuk-list--none">
+                        <li>
+                          <span class="govuk-body-s">{{collaborator.name}}</span></li>
+                        <li>
+                          <span class="govuk-body-s">{{collaborator.email}}</span></li>
+                        <li>
+                          <span class="govuk-body-s">{{collaborator.telephone}}</span></li>
+                      </ul>
+                    </li>
+                  {%- endfor %}
+                </ul>
+              </dd>
+            {% else %}
+              <dd class="govuk-summary-list__value">
           You have not added anyone so far in your team
         </dd>
-        {% endif %}
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/eoi/add-collaborators">
-            Change<span class="govuk-visually-hidden"> rfi team members</span>
-          </a>
-        </dd>
-      </div>
-    </dl>
+            {% endif %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/eoi/add-collaborators">
+            Change<span class="govuk-visually-hidden"> eoi team members</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
 
-    <h2 class="govuk-heading-m">2. Build your Request for Information (RfI) </h2>
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Choose how to build your RfI
+        <h2 class="govuk-heading-m">2. Build your Expression of Interest (EoI) </h2>
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Choose how to build your EoI
         </dt>
-        {% if data['ccs_rfi_type'] == 'all_online' %}
-        <dd class="govuk-summary-list__value">
+            {% if ccs_eoi_type == 'all_online' %}
+              <dd class="govuk-summary-list__value">
           Provide all information online
         </dd>
-        {% else %}
-        <dd class="govuk-summary-list__value">
+            {% else %}
+              <dd class="govuk-summary-list__value">
           Complete a document offline
         </dd>
-        {% endif %}
+            {% endif %}
 
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/eoi/type">
-            Change<span class="govuk-visually-hidden">RFI type</span>
-          </a>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/eoi/type">
+            Change<span class="govuk-visually-hidden">EoI type</span>
+              </a>
+            </dd>
+          </div>
+
+          {%for item in eoi_data%}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                {{item.title}}
+              </dt>
+              {% if data['eoi_offline_document'] | length > 0 %}
+                <dd class="govuk-summary-list__value">
+          data['eoi_offline_document']
         </dd>
-      </div>
-      {% if data['ccs_rfi_type'] == 'all_online' %}
+              {% else %}
+                <dd class="govuk-summary-list__value">
+                  {% for i in item.answer %}
+                    {% if i.values | length > 0 %}
+                      {% for answer in i.values%}
+                        <p class="govuk-body-s">{{answer.value}}
+                          <p>
+                            <p class="govuk-body-s">{{answer.text | safe}}
+                            </p>
 
+                            {%endfor%}
+                            {%else%}
+                            <p class="govuk-body-s">You have not answered this question<p>
+                                {%endif%}
+                                {%endfor%}
+                              </dd>
+                            {% endif %}
+                            <dd class="govuk-summary-list__actions">
+                              <a class="govuk-link" href="/eoi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
+            Change<span class="govuk-visually-hidden">EoI type</span>
+                              </a>
+                            </dd>
+                          </div>
+                          {%endfor%}
 
-      <div class="ccs-summary-list-heading"> <strong> The buying organisation (Optional)</strong> </div>
-     
-      </div>
-      {% else %}
+                        </dl>
 
-      {#rfi_data#}
-      {%for item in rfi_data%}
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-         {{item.title}}
-        </dt>
-        {% if data['rfi_offline_document'] | length > 0 %}
-        <dd class="govuk-summary-list__value">
-          data['rfi_offline_document']
-        </dd>
-        {% else %}
-        <dd class="govuk-summary-list__value">
-        {% for i in item.answer %}
-        {% if i.values | length > 0 %}
-        {% for answer in i.values%}
-        <p class="govuk-body-s">{{answer.value}}<p>
-        <p class="govuk-body-s">{{answer.text | safe}} </p>
+                        <h2 class="govuk-heading-m"> 3. Review and publish your EoI </h2>
+                        <dl class="govuk-summary-list">
 
-        {%endfor%}
-        {%else%}
-         <p class="govuk-body-s">You have not answered this question<p>        
-        {%endif%}
-        {%endfor%}
-        </dd>
-        {% endif %}
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/eoi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
-            Change<span class="govuk-visually-hidden">RFI type</span>
-          </a>
-        </dd>
-      </div>
-      {%endfor%}
-      {% endif %}
-    </dl>
-
-
-    <h2 class="govuk-heading-m"> 3. Review and publish your RfI </h2>
-    <dl class="govuk-summary-list">
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+                          <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
           Upload documents
         </dt>
-        {% if documents | length > 0  %}
-        <dd class="govuk-summary-list__value">
-          <ul class="govuk-list govuk-list--none">
-         {% for document in documents%}
-            <li>
-              <span>Uploaded file: &nbsp;</span> <a href="/rfi/upload-doc"> {{ document }} </a>
-            </li>
+                            {% if documents | length > 0 %}
+                              <dd class="govuk-summary-list__value">
+                                <ul class="govuk-list govuk-list--none">
+                                  {% for document in documents%}
+                                    <li>
+                                      <span>Uploaded file: &nbsp;</span>
+                                      <a href="/eoi/upload-doc">
+                                        {{ document }}
+                                      </a>
+                                    </li>
 
-            {%endfor%}
-          </ul>
-        </dd>
-        {%else%}
-        <dd class="govuk-summary-list__value">
-        <p class="govuk-body-s"> You have not uploaded any document </p>
-        </dd>
-        {% endif %}
+                                    {%endfor%}
+                                  </ul>
+                                </dd>
+                                {%else%}
+                                <dd class="govuk-summary-list__value">
+                                  <p class="govuk-body-s"> You have not uploaded any document </p>
+                                </dd>
+                              {% endif %}
 
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/eoi/upload-doc">
-            Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
-          </a>
-        </dd>
-      </div>
+                              <dd class="govuk-summary-list__actions">
+                                <a class="govuk-link" href="/eoi/upload-doc">
+            Change<span class="govuk-visually-hidden">eoi additional link and documents</span>
+                                </a>
+                              </dd>
+                            </div>
 
-     {% for dates in rfi_keydates.answer%}
-      <div class="govuk-summary-list__row no-borders">
-        <dt class="govuk-summary-list__key">
-         {{dates.question}}
-        </dt>
-        <dd class="govuk-summary-list__value">
-         {%for value in dates.values%}
-         <p class="govuk-body-s"> {{value.value}}</p>
-         {%endfor%}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/eoi/response-date">
-           Change <span class="govuk-visually-hidden"> rfi response dates</span>
-          </a>
-        </dd>
-        
-      </div>
-  {%endfor%}
-        
+                            {% for dates in eoi_keydates.answer%}
+                              <div class="govuk-summary-list__row no-borders">
+                                <dt class="govuk-summary-list__key">
+                                  {{dates.question}}
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                  {%for value in dates.values%}
+                                    <p class="govuk-body-s">
+                                      {{value.value}}</p>
+                                    {%endfor%}
+                                  </dd>
+                                  <dd class="govuk-summary-list__actions">
+                                    <a class="govuk-link" href="/eoi/response-date">
+           Change <span class="govuk-visually-hidden"> eoi response dates</span>
+                                    </a>
+                                  </dd>
 
+                                </div>
+                                {%endfor%}
 
-    </dl>
-  </div>
-</div>
+                              </dl>
+                            </div>
+                          </div>
+                          <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                              <p class="govuk-body">
+                                <h2 class="govuk-heading-m"> Publish your EoI</h2>
+                              </p>
+                              <p class="govuk-body">
+      After publishing this EoI, you can cancel amend, clarify, add to or withdraw all or part of it, at any time.
+    </p>
 
+                              <p class="govuk-body">
+      The document sent to suppliers will also include a number of best practice statements from your organisation.  These are in the link below for you to review.
+        </p>
+                              <br><br>
 
-
-
-    {{ CCSWarningText({
-    text: "By publishing this Request for Information (RfI) to all the suppliers you selected, you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                              {{ CCSWarningText({
+    text: "By publishing this Expression of Interest (EoI) to all the suppliers you selected, you are stating that, to the best of your knowledge, the information you have provided is correct.",
     iconFallbackText: "Warning"
     }) }}
 
-    <div class="ccs-link-group">
-      <span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd"
+                              <div class="ccs-link-group">
+                                <span>
+                                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
             d="M0 1.77778C0 1.34823 0.335786 1 0.75 1H5.00286C6.23012 1 7.31979 1.61142 8.00393 2.55666C8.68803 1.61146 9.77766 1 11.005 1H15.25C15.6642 1 16 1.34823 16 1.77778V12.6667C16 13.0962 15.6642 13.4445 15.25 13.4445H10.7426C10.1459 13.4445 9.57361 13.6903 9.15165 14.1279L8.53033 14.7722C8.23744 15.0759 7.76256 15.0759 7.46967 14.7722L6.84835 14.1279C6.42639 13.6903 5.8541 13.4445 5.25736 13.4445H0.75C0.335786 13.4445 0 13.0962 0 12.6667V1.77778ZM8.755 4.8889C8.755 3.60023 9.76236 2.55556 11.005 2.55556H14.5V11.8889H10.7426C10.0326 11.8889 9.34339 12.0978 8.75124 12.4825L8.755 4.8889ZM7.25124 12.4842L7.255 7.22297L7.25285 4.88668C7.25167 3.59887 6.24466 2.55556 5.00286 2.55556H1.5V11.8889H5.25736C5.96836 11.8889 6.65854 12.0983 7.25124 12.4842Z"
-            fill="#505A5F" />
-        </svg>&nbsp;&nbsp;<a href="#" onclick="return false;"  class="govuk-link govuk-link--no-visited-state"> link 1</a>
-      </span>
-      <br>
-    
+            fill="#505A5F"/>
+                                  </svg>&nbsp;&nbsp;<a href="#" onclick="return false;"  class="govuk-link govuk-link--no-visited-state"> link 1</a>
+                                </span>
+                                <br>
 
-    </div>
-    <br><br>
-    <form id="ccs_rfi_publish_form" name="ccs_rfi_publish_form" class="form ccs_rfi_publish_form"
-      action="/rfi/review" method="post">
+                              </div>
+                              <br><br>
+                            </div>
+                          </div>
+                          <form id="ccs_eoi_publish_form" name="ccs_eoi_publish_form" class="form ccs_eoi_publish_form"
+      action="/eoi/review" method="post">
 
-      {{ CCSCheckboxes({
-      idPrefix: "rfi_publish_confirmation",
-      name: "rfi_publish_confirmation",
+                            {{ CCSCheckboxes({
+      idPrefix: "eoi_publish_confirmation",
+      name: "eoi_publish_confirmation",
       items: [
       {
       "value": 1,
@@ -286,28 +293,27 @@
       }
       ]
       }) }}
-      <div class="govuk-button-group">
-        {{ CCSButton({
+                            <div class="govuk-button-group">
+                              {{ CCSButton({
         attributes: {
-        id: "rfi_btn_publish_now"
+        id: "eoi_btn_publish_now"
         },
         text: "Publish and continue"
         }) }}
-        <a href="/rfi/online-task-list" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI) </a>
-      </div>
-      {{ CCSInput({
+                              <a href="/eoi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to do premarket engagement </a>
+                            </div>
+                            {{ CCSInput({
       id: "finished_pre_engage",
       name: "finished_pre_engage",
       type: "hidden",
       value: "true"
       }) }}
 
-    </form>
+                          </form>
 
-  </div>
-</div>
+                        </div>
+                      </div>
 
+                    </main>
 
-  </main>
-
-{% endblock %}
+                  {% endblock %}

@@ -35,8 +35,14 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   const { SESSION_ID } = req.cookies;
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
-  const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
 
+  if (!req.files) {
+    const journey = journeyStatus.find(journey => journey.step === 21)?.state;
+    const routeRedirect = journey === 'Optional' ? '/rfi/suppliers' : '/rfi/upload-doc';
+    res.redirect(routeRedirect);
+  }
+
+  const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
   const FileFilterArray = [];
 
   if (eoi_file_started) {
