@@ -1,0 +1,172 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "#"
+    }
+  ],
+
+  "title": "Write and publish your requirements",
+  "subtitle": null,
+  "events": [
+    {
+      "eventno": 1,
+      "eventTitle": "Project and collaborators",
+      "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+      "eventTask": [
+        {
+          "Task": 1,
+          "link": "/rfp/name-your-project",
+          "title": "Name your project",
+          "required": "mandatory",
+          "status": "Todo"
+        },
+        {
+          "Task": 2,
+          "link": "/rfp/procurement-lead",
+          "title": "Change who is going to lead the procurement",
+          "required": "optional",
+          "status": "Todo"
+        },
+        {
+          "Task": 3,
+          "link": "/rfp/add-collaborators",
+          "title": "Add colleagues to your project",
+          "required": "optional",
+          "status": "Todo"
+        }
+      ]
+    },
+    {
+      "eventno": 2,
+      "eventTitle": "[ Context to your 1-stage further competition ]",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "[ IR35 acknowledgement ]",
+          "required": "mandatory",
+          "link": "#",
+          "status": "Todo"
+        },
+        {
+          "Task": 2,
+          "link": "#",
+          "title": "[ Add context ]",
+          "required": "mandatory",
+          "status": "Todo"
+        }
+      ]
+    },
+    {
+      "eventno": 3,
+      "eventTitle": "[ Your requirements and evaluation weightings ]",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "[ How would you like to create your requirements?]",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 2,
+          "title": "[ Your requirements ]",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        }
+      ]
+    },
+    {
+      "eventno": 4,
+      "eventTitle": "[ Your assessment bases and evaluation weightings ]",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "[ Define your assessment bases ]",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 2,
+          "title": "[ Add your evaluation weightings ]",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 3,
+          "title": "[ How would you like to set your scoring criteria? ]",
+          "required": "mandatory",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 4,
+          "title": "[ Set your scoring criteria ]",
+          "required": "mandatory",
+          "status": "Cannot start yet",
+          "link": "#"
+        }
+      ]
+    },
+    {
+      "eventno": 5,
+      "eventTitle": "[Review and publish your 1-stage RfP ]",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "Upload or link any additional documentation",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 2,
+          "title": "[ Look at the suppliers for this further competition ]",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 3,
+          "title": "[ Set response date and time ]",
+          "required": "mandatory",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 4,
+          "title": "Review and publish",
+          "required": "mandatory",
+          "status": "Cannot start yet",
+          "link": "#"
+        }
+      ]
+    }
+  ],
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to procurement overview",
+      "href": "/projects/create-or-choose"
+    }
+  }
+}

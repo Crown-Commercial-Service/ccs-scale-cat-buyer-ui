@@ -1,0 +1,113 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Route to market' %}
+
+{% block content %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if (error) %}
+
+      {{ CCSErrorSummary({
+    titleText: "There is a problem",
+    errorList: [
+        {
+        text: "Select an option"
+        }
+    ]
+    }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="govuk-heading-xl">
+          {{data.title }}
+        </h1>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        {% include "includes/project_header.njk" %}
+
+        <p class="govuk-body">{{ data.form.question }}</p>
+        <form id="ccs_ca_type_form" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/requirements/choose-route" method="POST">
+
+          {% set formOptions = data.form.radioOptions.items %}
+
+          {% set form_Options_Altered = [] %}
+
+          {% for item in formOptions %}
+            {% if (item.remove != 'true') and (item.disabled != 'true') %}
+              {% set form_Options_Altered = (form_Options_Altered.push(
+                {
+                  value: item.value,
+                    html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+                    hint : {
+                      text: item.hint.text
+                    }
+                  }
+                ), form_Options_Altered) 
+              %}
+            {%endif%}
+            {% if (item.remove != 'true') and (item.disabled == 'true') %}
+              {% set form_Options_Altered = (form_Options_Altered.push(
+                {
+                  value: item.value,
+                    html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+                    disabled: 'true',
+                    hint : {
+                      text: item.hint.text
+                    }
+                  }
+                ), form_Options_Altered) 
+              %}
+            {%endif%}
+          {% endfor %}
+
+          {% if (error) %}
+
+            {{ CCSRadios({
+                idPrefix: "fc_route_to_market",
+                name: "fc_route_to_market",
+                items: form_Options_Altered,
+                errorMessage: error,
+                errorMessage: {
+                text: 'Select an option'
+                  }                  
+              }) }}
+          {% else %}
+
+            {{ CCSRadios({
+                idPrefix: "fc_route_to_market",
+                name: "fc_route_to_market",
+                items: form_Options_Altered        
+              }) }}
+          {%endif %}
+          {{ CCSInput({
+                id: "choose_fc_route_to_market",
+                name: "choose_fc_route_to_market",
+                type: "hidden",
+                value: true
+              }) }}
+
+          <div class="govuk-button-group">
+            {{ CCSButton({
+                text: "Save and continue"
+                }) }}
+            <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+          </div>
+        </form>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+{% endblock %}

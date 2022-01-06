@@ -1,4 +1,5 @@
 {% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% set title =  rfiTitle + '- Create a Request for Information (RFI)' %}
 
@@ -22,11 +23,11 @@
           href: "/rfi/rfi-tasklist"
         },
         {
-          text: "Build your RfI",
+          text: " Build your request for information",
           href: "/rfi/online-task-list?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
       },
       {
-        text: rfiTitle
+        text: bcTitleText
       }
     ]
   }) }}
@@ -64,9 +65,9 @@
     </div>
     <div class="govuk-grid-column-two-thirds">
       {% include "includes/project_header.njk" %}
-      <p class="govuk-body-l">{{data.rfiTitle}}</p>
+      <p class="govuk-body">{{data.rfiTitle}}</p>
 
-      <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}}" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
+      <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} rfi_form" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
         <p class="govuk-body govuk-!-margin-bottom-7">{{prompt | safe}}</p>
         {% for requirement in data %}
           {% block value %}
@@ -257,7 +258,7 @@
 
                 {% block KeySelect%}
                   {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) %}
- 
+
 
                     {% call CCSFieldset({
                             legend: {
@@ -368,6 +369,8 @@
                             type: "hidden",
                             value: requirement.OCDS.id
                           }) }}
+
+                          <div id="rfi_keyterm"> </div>
                   {% endif %}
                 {% endblock %}
 
@@ -442,12 +445,7 @@
             </div>
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-one-third">
-                <div class="ccs-callout-panel">
-                  <h2 class="govuk-heading-m">{{relatedTitle}}</h2>
-                  <p class="govuk-body">
-                    <a class="govuk-link govuk-link--no-visited-state" href={{ lotURL | safe }} target="_blank">{{lotText}}</a>
-                  </p>
-                </div>
+                {{ CCSReleatedContent(releatedContent) }}
               </div>
             </div>
           </main>

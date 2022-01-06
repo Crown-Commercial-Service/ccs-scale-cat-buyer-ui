@@ -954,7 +954,7 @@ Accordion.prototype.checkIfAllSectionsOpen = function () {
 // Update "Open all" button
 Accordion.prototype.updateOpenAllButton = function (expanded) {
   var newButtonText = expanded ? 'Close all' : 'Open all';
-  newButtonText += '<span class="govuk-visually-hidden"> sections</span>';
+  newButtonText += '<span class="govuk-visually-hidden">sections</span>';
   this.$openAllButton.setAttribute('aria-expanded', expanded);
   this.$openAllButton.innerHTML = newButtonText;
 };
@@ -978,6 +978,7 @@ var helper = {
 };
 
 // Set the state of the accordions in sessionStorage
+var accordionsCount = 0;
 Accordion.prototype.storeState = function ($section) {
   if (this.browserSupportsSessionStorage) {
     // We need a unique way of identifying each content in the accordion. Since
@@ -2560,7 +2561,11 @@ function initAll (options) {
 
   var $accordions = scope.querySelectorAll('[data-module="govuk-accordion"]');
   nodeListForEach($accordions, function ($accordion) {
-    new Accordion($accordion).init();
+    if (accordionsCount <  $accordions.length)
+      {
+        new Accordion($accordion).init();
+        accordionsCount = accordionsCount+1;
+      }
   });
 
   var $details = scope.querySelectorAll('[data-module="govuk-details"]');

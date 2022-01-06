@@ -14,7 +14,7 @@
  * Works with text, number and file inputs (make sure the
  * 'accepts' attribute is set for files).
  */
- const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
+const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
   const element = document.getElementById(elementName);
 
   if (element.value.trim().match(typeRegex)) {
@@ -51,13 +51,13 @@ const ccsZisOptionCheckedForVetting = (elementName, errMsg) => {
 
   let checkForAllVettingRadioFields = $('.ccs_vetting').is(':checked');
   let gotACheck = false,
-  containingDiv = ".govuk-checkboxes";
+    containingDiv = ".govuk-checkboxes";
 
-  if(!checkForAllVettingRadioFields){
-     gotACheck = false;
+  if (!checkForAllVettingRadioFields) {
+    gotACheck = false;
 
   }
-  else{
+  else {
     gotACheck = true;
   }
 
@@ -121,7 +121,7 @@ const ccsZvalidateThisDate = (elementName, errMsg, direction, offset) => {
     monthPrepend = "",
     isValidDate = false;
 
-  if (theDay < 10 ) dayPrepend = "0";
+  if (theDay < 10) dayPrepend = "0";
   if (theMonth < 10) monthPrepend = "0";
   if (timeField !== null) timeString = timeField.value;
   else timeString = "00:01";
@@ -159,7 +159,7 @@ const ccsZvalidateThisDate = (elementName, errMsg, direction, offset) => {
       testTime = relativeTestDate.getTime();
     }
 
-    if ( (direction < 0 && submittedDate.getTime() < testTime) || (direction > 0 && submittedDate.getTime() > testTime) ) {
+    if ((direction < 0 && submittedDate.getTime() < testTime) || (direction > 0 && submittedDate.getTime() > testTime)) {
       ccsZremoveErrorMessage(element);
     } else {
       ccsZaddErrorMessage(element, errMsg);
@@ -217,6 +217,14 @@ const ccsZaddErrorMessage = (element, message) => {
       let childInputs = element.querySelectorAll('input');
       childInputs.forEach((child_i) => {
         child_i.classList.add("govuk-input--error");
+      });
+    }
+    if (element.tagName === "TEXTAREA" && (element.type !== "radio" || element.type !== "checkbox")) {
+      element.classList.add("govuk-textarea--error");
+    } else {
+      let childInputs = element.querySelectorAll('textarea');
+      childInputs.forEach((child_i) => {
+        child_i.classList.add("govuk-textarea--error");
       });
     }
 
@@ -281,7 +289,7 @@ const ccsZPresentErrorSummary = (errorStore) => {
   errorStore.forEach((errDetail) => {
     let errListItem = document.createElement("li"),
       errAnchorItem = document.createElement("a")
-      errItemText = document.createTextNode(errDetail[1]);
+    errItemText = document.createTextNode(errDetail[1]);
 
     errAnchorItem.setAttribute("href", "#" + errDetail[0]);
     errAnchorItem.appendChild(errItemText);
@@ -295,8 +303,8 @@ const ccsZPresentErrorSummary = (errorStore) => {
   errSummaryBody.appendChild(errSummaryList);
   errSummaryBox.appendChild(errSummaryBody);
 
-// and finally, insert the error summary box into the page
+  // and finally, insert the error summary box into the page
   document.querySelector("h1").parentNode.insertBefore(errSummaryBox, document.querySelector("h1"));
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 
 };

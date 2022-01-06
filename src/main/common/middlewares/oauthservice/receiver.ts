@@ -61,18 +61,23 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
                     maxAge: Number(timeforcookies),
                     httpOnly: true
                 })
-                let userSessionInformation = jwtDecoder.decode(access_token, { complete: true });
+                const userSessionInformation = jwtDecoder.decode(access_token, { complete: true });
                 req.session['isAuthenticated'] = true;
                 req.session['access_token'] = access_token;
                 req.session['user'] = userSessionInformation;
                 req.session['userServerSessionID'] = session_state;
-                req.session['procurements'] = [];
                 req.session['agreement_id'] = "";
                 req.session['agreementName'] = "";
+                req.session['lotNum'] = "";
+                req.session['releatedContent'] = "";
+                req.session['journey_status'] = "";
+                req.session['procurements'] = [];
                 req.session['searched_user'] = [];
                 req.session['agreementEndDate'] = "";
                 req.session['agreementDescription'] = "";
                 req.session['nonOCDSList'] = "";
+                req.session['selectedRoute'] = "";
+                req.session['caSelectedRoute'] = "";
                 next();
             } else {
                 logger.info("User redirected to logout")

@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 
 {% set title = 'How will you publish your RfI? | Contract a Thing' %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -23,17 +24,11 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
 
-        <p class="govuk-body-l">{{ data.form.question }}</p>
+        <p class="govuk-body">{{ data.form.question }}</p>
       </div>
       <div class="govuk-grid-column-one-third">
-        <div class="ccs-callout-panel">
-          <h2 class="govuk-heading-m">Related content</h2>
-          <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state" href="/agreement/lot?no=1" target="_blank">Digital Specialists and Programmes, Lot 1: Programmes </a>
-          </p>
-          <!-- <p class="govuk-body"><a href="#">Link to external resource</a> </p>
-        <p class="govuk-body"><a href="#">Link to external resource</a> </p> -->
-        </div>
+         {{ CCSReleatedContent(releatedContent) }}
+      </div>
       </div>
       <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/rfi/type?agreement_id={{agreement_id}}" method="POST">
 

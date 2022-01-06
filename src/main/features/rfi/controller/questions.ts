@@ -11,6 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('questionsPage');
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
+import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 
 /**
  * @Controller
@@ -25,6 +26,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 
   const { SESSION_ID } = req.cookies;
   const { agreement_id, proc_id, event_id, id, group_id } = req.query;
+  const releatedContent = req.session.releatedContent;
 
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
@@ -39,16 +41,17 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     const name = getOrganizationDetails.data.identifier.legalName;
     const organizationName = name;
 
-    let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
+    let matched_selector = heading_fetch_dynamic_api.data.filter((agroupitem: any) => {
       return agroupitem?.OCDS?.['id'] === group_id;
     });
 
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
-    const titleText = OCDS?.description;
-    const promptData = nonOCDS?.prompt;
+    const bcTitleText = OCDS.description;
+    const titleText = nonOCDS.mandatory === false ? OCDS.description + ' (Optional)' : OCDS.description;
+    const promptData = nonOCDS.prompt;
     const nonOCDSList = [];
-    const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
+    const form_name = fetch_dynamic_api_data.map((aSelector: any) => {
       const nonOCDS = {
         question_id: aSelector.OCDS.id,
         mandatory: aSelector.nonOCDS.mandatory,
@@ -72,7 +75,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     });
     req.session?.nonOCDSList = nonOCDSList;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
-    const errorText = findErrorText(fetch_dynamic_api_data);
+    const errorText = findErrorText(fetch_dynamic_api_data, req);
     const { isFieldError } = req.session;
     const data = {
       data: fetch_dynamic_api_data,
@@ -83,15 +86,12 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       criterian_id: id,
       form_name: form_name?.[0],
       rfiTitle: titleText,
+      bcTitleText,
       prompt: promptData,
       organizationName: organizationName,
-      error: req.session['isLocationError'],
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,
-      relatedTitle: 'Related content',
-      lotURL:
-        '/agreement/lot?agreement_id=' + req.session.agreement_id + '&lotNum=' + req.session.lotId.replace(/ /g, '%20'),
-      lotText: req.session.agreementName + ', ' + req.session.agreementLotName,
+      releatedContent: releatedContent,
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
@@ -132,12 +132,14 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
   try {
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const { SESSION_ID } = req.cookies;
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'In progress');
     req.session['isLocationError'] = false;
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfi_build_started');
     if (operations.equals(started_progress_check, false)) {
       const { rfi_build_started, question_id, questionType } = req.body;
       const nonOCDS = req.session?.nonOCDSList.find(x => x.question_id === question_id);
       if (rfi_build_started === 'true') {
+        let validationError = false;
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfi_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
@@ -171,8 +173,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             req.session['errorFields'] = keyTermsAcronymsSorted;
             req.session.isFieldError = true;
           }
+          if (questionType === 'MultiSelecttrue') {
+            validationError = true;
+            req.session['isLocationError'] = true;
+            req.session['isLocationMandatoryError'] = true;
+          }
+
           res.redirect(url.replace(regex, 'questions'));
         } else {
+          req.session['isLocationMandatoryError'] = false;
           if (questionType === 'Valuetrue') {
             const answerValueBody = {
               nonOCDS: {
@@ -345,7 +354,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   return [anItem];
                 }
               });
-
               try {
                 if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == true) {
                   //return error & show
@@ -364,6 +372,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   ) &&
                   selectedOptionToggle[0].length > 1
                 ) {
+                  validationError = true;
                   req.session['isLocationError'] = true;
                   res.redirect(url.replace(regex, 'questions'));
                 } else if (selectedOptionToggle.length > 0) {
@@ -421,16 +430,20 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
   }
 };
 
-const findErrorText = (data: any) => {
+const findErrorText = (data: any, req: express.Request) => {
   let errorText = '';
   data.forEach(requirement => {
     if (requirement.nonOCDS.questionType == 'KeyValuePair') errorText = 'You must add information in both fields.';
     else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === true)
       errorText = 'You must add at least one question';
-    else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)
-      errorText = 'You must provide a security clearance level before proceeding';
+    else if (requirement.nonOCDS.questionType == 'Value' && requirement.nonOCDS.multiAnswer === false)
+      errorText = 'You must provide the organization name';
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText = 'You must enter information here';
+        else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == false)
+      errorText = 'Select regions where your staff will be working, or select "No specific location...."';
+    else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == true)
+      errorText = 'You must select at least one region where your staff will be working, or select "No specific location...."';
   });
   return errorText;
 };

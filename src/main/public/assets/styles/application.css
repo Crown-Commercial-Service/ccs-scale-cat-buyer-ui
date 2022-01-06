@@ -3476,6 +3476,8 @@ p + .govuk-heading-s,
 .govuk-error-summary__list {
   margin-top: 0;
   margin-bottom: 0;
+  color: #b10e1e;
+  font-weight: 600;
 }
 
 .govuk-error-summary__list a {
@@ -9233,6 +9235,7 @@ p,
 .ccs_eoi_type_form .govuk-radios__item .govuk-heading-m,
 .ccs_rfi_type_form .govuk-radios__item .govuk-heading-m,
 .ccs_rfi_vetting_form .govuk-radios__item .govuk-heading-m,
+.ccs_eoi_vetting_form .govuk-radios__item .govuk-heading-m,
 .ccs_eoi_new_form .govuk-radios__item .govuk-heading-m {
   margin-bottom: 0;
   margin-top: -4px;
@@ -9245,6 +9248,7 @@ p,
 .ccs_eoi_type_form .govuk-radios__item:nth-of-type(n),
 .ccs_rfi_type_form .govuk-radios__item:nth-of-type(n),
 .ccs_rfi_vetting_form .govuk-radios__item:nth-of-type(n),
+.ccs_eoi_vetting_form .govuk-radios__item:nth-of-type(n),
 .ccs_eoi_new_form .govuk-radios__item:nth-of-type(n) {
   margin-top: 26px;
 }
@@ -9309,14 +9313,26 @@ p,
 
 .ccs_eoi_criteria_form label .del,
 .ccs_eoi_confid_form label .del,
-.ccs_rfi_questions_form label .del,
+.ccs_rfi_questions_form label .del
+{
+  text-decoration: none;
+}
 .ccs_eoi_criteria_form label .clear-fields,
 .ccs_eoi_confid_form label .clear-fields,
-.ccs_rfi_questions_form label .clear-fields
-{
+.ccs_rfi_questions_form label .clear-fields,
+.ccs_rfi_acronyms_form label .clear-fields,
+.ccs_eoi_acronyms_form label .clear-fields,
+.ccs_eoi_splterms_form label .clear-fields {
   position: absolute;
   right: 0;
   text-decoration: none;
+}
+.govuk-fieldset.term_acronym_fieldset {
+  position: relative;
+}
+.clear-fields {
+    position: absolute;
+    right: 0;
 }
 
 .ccs_eoi_docs_form .del {
@@ -9340,13 +9356,18 @@ p,
 }
 
 .ccs_add_collab fieldset,
-.ccs_rfi_acronyms_form fieldset {
+.ccs_rfi_acronyms_form fieldset,
+.ccs_eoi_acronyms_form fieldset,
+.ccs_eoi_splterms_form fieldset {
   border-bottom: 1px solid #ccc;
   margin-bottom: 30px;
+  position: relative;
 }
 
 .ccs_add_collab legend,
-.ccs_rfi_acronyms_form legend {
+.ccs_rfi_acronyms_form legend,
+.ccs_eoi_acronyms_form legend,
+.ccs_eoi_splterms_form legend {
   position: relative;
   display: block;
   width: 100%;
@@ -9355,7 +9376,9 @@ p,
 .ccs_add_collab legend .del,
 .ccs_rfi_acronyms_form legend .del,
 .ccs_add_collab legend .clear-fields,
-.ccs_rfi_acronyms_form legend .clear-fields
+.ccs_rfi_acronyms_form legend .clear-fields,
+.ccs_eoi_acronyms_form legend .clear-fields,
+.ccs_eoi_splterms_form legend .clear-fields
 {
   position: absolute;
   right: 0;
