@@ -34,7 +34,7 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
   const event_id = req.session['eventId'];
   const { SESSION_ID } = req.cookies;
  try {
-   const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/19`, 'In progress');
+   const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/19`, 'Completed');
    if (response.status == HttpStatusCode.OK){
       await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'Not started');
    }
