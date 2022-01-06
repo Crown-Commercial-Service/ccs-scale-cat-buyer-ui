@@ -75,7 +75,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     });
     req.session?.nonOCDSList = nonOCDSList;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
-    const errorText = findErrorText(fetch_dynamic_api_data);
+    const errorText = findErrorText(fetch_dynamic_api_data, req);
     const { isFieldError } = req.session;
     const data = {
       data: fetch_dynamic_api_data,
@@ -89,7 +89,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
       bcTitleText,
       prompt: promptData,
       organizationName: organizationName,
-      error: req.session['isLocationError'],
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,
       releatedContent: releatedContent,
@@ -100,7 +99,6 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
-    req.session['isLocationError'] = false;
     res.render('questions', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -141,6 +139,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
       const { rfi_build_started, question_id, questionType } = req.body;
       const nonOCDS = req.session?.nonOCDSList.find(x => x.question_id === question_id);
       if (rfi_build_started === 'true') {
+        let validationError = false;
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfi_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
@@ -174,8 +173,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             req.session['errorFields'] = keyTermsAcronymsSorted;
             req.session.isFieldError = true;
           }
+          if (questionType === 'MultiSelecttrue') {
+            validationError = true;
+            req.session['isLocationError'] = true;
+            req.session['isLocationMandatoryError'] = true;
+          }
+
           res.redirect(url.replace(regex, 'questions'));
         } else {
+          req.session['isLocationMandatoryError'] = false;
           if (questionType === 'Valuetrue') {
             const answerValueBody = {
               nonOCDS: {
@@ -348,7 +354,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   return [anItem];
                 }
               });
-
               try {
                 if (selectedOptionToggle.length == 0 && nonOCDS.mandatory == true) {
                   //return error & show
@@ -367,6 +372,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   ) &&
                   selectedOptionToggle[0].length > 1
                 ) {
+                  validationError = true;
                   req.session['isLocationError'] = true;
                   res.redirect(url.replace(regex, 'questions'));
                 } else if (selectedOptionToggle.length > 0) {
@@ -424,7 +430,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
   }
 };
 
-const findErrorText = (data: any) => {
+const findErrorText = (data: any, req: express.Request) => {
   let errorText = '';
   data.forEach(requirement => {
     if (requirement.nonOCDS.questionType == 'KeyValuePair') errorText = 'You must add information in both fields.';
@@ -434,6 +440,10 @@ const findErrorText = (data: any) => {
       errorText = 'You must provide the organization name';
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText = 'You must enter information here';
+        else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == false)
+      errorText = 'Select regions where your staff will be working, or select "No specific location...."';
+    else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == true)
+      errorText = 'You must select at least one region where your staff will be working, or select "No specific location...."';
   });
   return errorText;
 };
