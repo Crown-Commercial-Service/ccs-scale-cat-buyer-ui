@@ -24,7 +24,7 @@ export class AuthorizationRedirect {
     const Auth_var = new Auth_Variable;
 
     Redirect_Oauth_URL = () => {
-        const redirectral_url = `${this.Auth_var.AuthBaseURL}/security/authorize?response_type=code&scope=openid%20profile%20FirstName%20LastName%20%20email&client_id=${this.Auth_var.ClientID}&redirect_uri=${this.Auth_var.CallBackURL}`;
+        const redirectral_url = `${this.Auth_var.AuthBaseURL}/security/authorize?response_type=code&scope=openid%20profile%20FirstName%20LastName%20%20email%20%20offline_access&client_id=${this.Auth_var.ClientID}&redirect_uri=${this.Auth_var.CallBackURL}`;
         return redirectral_url;
     }
 };

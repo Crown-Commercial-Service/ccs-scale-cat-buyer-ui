@@ -24,13 +24,14 @@ export class QuestionHelper {
          let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
          let fetch_dynamic_api_data = fetch_dynamic_api?.data;
          let extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
-         var criterianStorage: any = [];
+         let criterianStorage: any = [];
+         let criterian_array: any = [];
          for (let aURI of extracted_criterion_based) {
-            let criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-            let fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
-            let criterian_array = fetch_criterian_group_data?.data;
-            let rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
-               let object = anItem;
+            const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+            const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+            criterian_array = fetch_criterian_group_data?.data;
+            const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
+               const object = anItem;
                object['criterianId'] = aURI;
                return object;
             })
@@ -60,7 +61,22 @@ export class QuestionHelper {
             res.redirect(base_url)
          }
          else {
-            const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'Completed');
+            let mandatoryNum = 0;
+            const maxNum = 8;
+            let status = '';
+            for (let i = 0; i < criterian_array.length; i++) {
+              const groupId = criterian_array[i].OCDS['id'];
+              const mandatory = criterian_array[i].nonOCDS['mandatory'];
+              if (mandatory) {
+                const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
+                const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+                const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+                const answered = fetch_dynamic_api_data[0].nonOCDS['answered'];
+                if (answered) mandatoryNum += 1;
+                mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
+              }
+            }
+            const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, status);
             if (response.status == HttpStatusCode.OK) {
                await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/21`, 'Optional');
                await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/22`, 'Not started');
