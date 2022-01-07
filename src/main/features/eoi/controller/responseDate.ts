@@ -9,13 +9,30 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import moment from 'moment-business-days';
 import { RESPONSEDATEHELPER } from '../../shared/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
+import moment from 'moment';
 
 ///eoi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-  let appendData = await RESPONSEDATEHELPER(req, res);
-  appendData.data = cmsData;
-  res.render('responseDate', appendData);
+  await RESPONSEDATEHELPER(req, res);
 };
+
+function isValidQuestion(questionId: number, questionNewDate: date, timeline: any) {
+  let isValid = true,
+    error,
+    errorSelector;
+  switch (questionId) {
+    case 'Question 5':
+      if (questionNewDate < timeline.supplierSubmitResponse) {
+        isValid = false;
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        errorSelector = 'supplier_dealine_for_clarification_period';
+      }
+      break;
+    default:
+      isValid = true;
+  }
+  return { isValid, error, errorSelector };
+}
 
 export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const RequestBodyValues = Object.values(req.body);
@@ -135,7 +152,9 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
   let nowDate = new Date();
 
-  if (date.getTime() >= nowDate.getTime()) {
+  const { isValid, error, errorSelector } = isValidQuestion(selected_question_id, date.toISOString(), timeline);
+
+  if (date.getTime() >= nowDate.getTime() && isValid) {
     date = date.toLocaleDateString('en-uk', {
       weekday: 'long',
       year: 'numeric',
@@ -200,42 +219,46 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
     let selector = '';
     let selectorID = '';
+    if (!isValid) {
+      selector = error;
+      selectorID = errorSelector;
+    } else {
+      switch (selectedErrorCause) {
+        case 'Question 1':
+          selector = ' Publish your EoI - Date should be in the future';
+          selectorID = 'clarification_date';
+          break;
 
-    switch (selectedErrorCause) {
-      case 'Question 1':
-        selector = ' Publish your EoI - Date should be in the future';
-        selectorID = 'clarification_date';
-        break;
+        case 'Question 2':
+          selector = 'Clarification period ends - Date should be in the future';
+          selectorID = 'clarification_period_end';
+          break;
 
-      case 'Question 2':
-        selector = 'Clarification period ends - Date should be in the future';
-        selectorID = 'clarification_period_end';
-        break;
+        case 'Question 3':
+          selector = 'Deadline for publishing responses to EoI clarification questions- Date should be in the future ';
+          selectorID = 'deadline_period_for_clarification_period';
+          break;
 
-      case 'Question 3':
-        selector = 'Deadline for publishing responses to EoI clarification questions- Date should be in the future ';
-        selectorID = 'deadline_period_for_clarification_period';
-        break;
+        case 'Question 4':
+          selector = 'Deadline for suppliers to submit their EoI response - Date should be in the future';
+          selectorID = 'supplier_period_for_clarification_period';
+          break;
 
-      case 'Question 4':
-        selector = 'Deadline for suppliers to submit their EoI response - Date should be in the future';
-        selectorID = 'supplier_period_for_clarification_period';
-        break;
+        case 'Question 5':
+          selector = 'Confirm your next steps to suppliers - Date should be in the future';
+          selectorID = 'supplier_dealine_for_clarification_period';
+          break;
 
-      case 'Question 5':
-        selector = 'Confirm your next steps to suppliers - Date should be in the future';
-        selectorID = 'supplier_dealine_for_clarification_period';
-        break;
-
-      default:
-        selector = ' Date should be in the future';
+        default:
+          selector = ' Date should be in the future';
+      }
     }
     const errorItem = {
       text: selector,
       href: selectorID,
     };
 
-    let appendData = await RESPONSEDATEHELPER(req, res, true, errorItem);
+    const appendData = await RESPONSEDATEHELPER(req, res, true, errorItem);
     appendData.data = cmsData;
     res.render('response-date', appendData);
   }
