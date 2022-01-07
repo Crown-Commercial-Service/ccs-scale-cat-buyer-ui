@@ -21,16 +21,16 @@ const logger = Logger.getLogger('receiver-middleware');
  * @param next 
  */
 export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    let {
+    const {
         code, state
     } = req.query;
     if (Query.isUndefined(code)) {
 
         res.redirect(ErrorView.notfound);
     } else {
-        let Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint')
+        const Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint')
         //@ Create the authentication credetial to to allow the re-direct
-        var auth_credentails: any = {
+        let auth_credentails: any = {
             "code": code,
             "client_id": process.env.AUTH_SERVER_CLIENT_ID,
             "client_secret": process.env.AUTH_SERVER_CLIENT_SECRET,
@@ -41,18 +41,18 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
         //@ Grant Authorization with the token to re-direct to the callback page     
 
         try {
-            let PostAuthCrendetails = await Oauth_Instance.Instance.post(Oauth_check_endpoint, auth_credentails);
-            let data = PostAuthCrendetails?.data
-            let containedData = data;
-            let { access_token, session_state } = containedData;
+            const PostAuthCrendetails = await Oauth_Instance.Instance.post(Oauth_check_endpoint, auth_credentails);
+            const data = PostAuthCrendetails?.data
+            const containedData = data;
+            const { access_token, session_state, refresh_token } = containedData;
 
-            let AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
-            let check_token_validation = await AuthCheck_Instance.post('');
-            let auth_status_check = check_token_validation?.['data'];
+            const AuthCheck_Instance = Oauth_Instance.TokenCheckInstance(access_token);
+            const check_token_validation = await AuthCheck_Instance.post('');
+            const auth_status_check = check_token_validation?.['data'];
             if (auth_status_check) {
                 let cookieExpiryTime = Number(config.get('Session.time'));
                 cookieExpiryTime = cookieExpiryTime * 60 * 1000;  //milliseconds
-                let timeforcookies = cookieExpiryTime
+                const timeforcookies = cookieExpiryTime
                 res.cookie(cookies.sessionID, access_token, {
                     maxAge: Number(timeforcookies),
                     httpOnly: true
@@ -63,6 +63,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (req: express.Request, res: expr
                 })
                 const userSessionInformation = jwtDecoder.decode(access_token, { complete: true });
                 req.session['isAuthenticated'] = true;
+                req.session['refresh_token'] = refresh_token;
                 req.session['access_token'] = access_token;
                 req.session['user'] = userSessionInformation;
                 req.session['userServerSessionID'] = session_state;
