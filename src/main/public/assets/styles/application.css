@@ -9236,6 +9236,7 @@ p,
 .ccs_rfi_type_form .govuk-radios__item .govuk-heading-m,
 .ccs_rfi_vetting_form .govuk-radios__item .govuk-heading-m,
 .ccs_eoi_vetting_form .govuk-radios__item .govuk-heading-m,
+.ccs_event_type_form .govuk-radios__item .govuk-heading-m,
 .ccs_eoi_new_form .govuk-radios__item .govuk-heading-m {
   margin-bottom: 0;
   margin-top: -4px;
