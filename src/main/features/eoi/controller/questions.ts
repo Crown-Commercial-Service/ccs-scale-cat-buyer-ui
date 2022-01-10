@@ -12,6 +12,9 @@ import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('questionsPage');
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
+import moment from 'moment-business-days';
+import  moment from 'moment';
+import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 
 /**
  * @Controller
@@ -137,7 +140,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 // path = '/eoi/questionnaire'
 export const POST_QUESTION = async (req: express.Request, res: express.Response) => {
   try {
-    const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
+    const { proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
+    const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
     const regex = /questionnaire/gi;
@@ -146,7 +150,10 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     const started_progress_check: boolean = operations.isUndefined(req.body, 'eoi_build_started');
     let { eoi_build_started, question_id } = req.body;
     let question_ids = [];
-
+    //Added for SCAT-3315- Agreement expiry date
+    const BaseUrlAgreement = `/agreements/${agreement_id}`;
+    const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
+    const agreementExpiryDate =  retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
 
@@ -249,6 +256,26 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               },
             };
           } else if (questionNonOCDS.questionType === 'Duration') {
+            let currentDate =  moment(new Date(), 'DD/MM/YYYY').format('DD-MM-YYYY');
+            let inputDate = object_values[0].value+"-"+object_values[1].value+"-"+object_values[2].value;
+            let agreementExpiryDateFormated = moment(agreementExpiryDate, 'DD/MM/YYYY').format('DD-MM-YYYY');
+            let isInputDateLess = moment(inputDate).isBefore(currentDate);
+            let isExpiryDateLess = moment(inputDate).isAfter(agreementExpiryDate);
+            req.session["IsInputDateLessError"] =  false;
+            req.session["IsExpiryDateLessError"] =  false;
+            if(isInputDateLess)
+            {
+              validationError = true;
+              req.session["IsInputDateLessError"] =  true;
+              break;
+            }
+            else if(isExpiryDateLess)
+            {
+              validationError =  true;
+              req.session["IsExpiryDateLessError"] =  true;
+              break;
+            }
+            else{
             const slideObj = object_values.slice(3);
             answerValueBody = {
               nonOCDS: {
@@ -256,6 +283,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 options: [...slideObj],
               },
             };
+          }
           } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
@@ -376,6 +404,17 @@ const findErrorText = (data: any, req: express.Request) => {
       errorText.push({ text: 'Select regions where your staff will be working, or select "No specific location...."' });
     else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == true)
       errorText.push({ text: 'You must select at least one region where your staff will be working, or select "No specific location...."' });
+    else if (requirement.nonOCDS.questionType == 'Duration' && req.session["IsInputDateLessError"] ==  true)
+      errorText.push({ text: 'Start date must be a valid future date' });
+    else if (requirement.nonOCDS.questionType == 'Duration' && req.session["IsExpiryDateLessError"] ==  true)
+      errorText.push({ text: 'Start date cannot be after agreement expiry date' });
+
   });
   return errorText;
 };
+
+const isDateOlder = (date1:any, date2:any) => {
+  return date1.getFullYear() >= date2.getFullYear() ||
+     date1.getMonth() >= date2.getMonth() ||
+     date1.getDate() >= date2.getDate();
+ };
