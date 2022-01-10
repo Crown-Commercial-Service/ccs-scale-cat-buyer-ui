@@ -11,7 +11,7 @@ import { RFI_REVIEW_HELPER } from '../helpers/review';
 //@GET /rfi/review
 
 export const GET_RFI_REVIEW = async (req: express.Request, res: express.Response) => {
-  RFI_REVIEW_HELPER(req, res, false);
+  RFI_REVIEW_HELPER(req, res, false, false);
 };
 
 //@POST  /rfi/review
@@ -41,24 +41,11 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
       res.redirect('/rfi/event-sent');
     } catch (error) {
       console.log('Something went wrong, please review the logit error log for more information');
-      delete error?.config?.['headers'];
-      const Logmessage = {
-        Person_id: TokenDecoder.decoder(SESSION_ID),
-        error_location: `${req.headers.host}${req.originalUrl}`,
-        sessionId: 'null',
-        error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-        exception: error,
-      };
-      const Log = new LogMessageFormatter(
-        Logmessage.Person_id,
-        Logmessage.error_location,
-        Logmessage.sessionId,
-        Logmessage.error_reason,
-        Logmessage.exception,
-      );
-      LoggTracer.errorTracer(Log, res);
+      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
+      RFI_REVIEW_HELPER(req, res, true, true);
     }
   } else {
-    RFI_REVIEW_HELPER(req, res, true);
+    RFI_REVIEW_HELPER(req, res, true, false);
   }
 };
