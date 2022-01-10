@@ -26,10 +26,11 @@ export class QuestionHelper {
          const fetch_dynamic_api_data = fetch_dynamic_api?.data;
          const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
          let criterianStorage: any = [];
+         let criterian_array: any = [];
          for (const aURI of extracted_criterion_based) {
             const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
             const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
-            const criterian_array = fetch_criterian_group_data?.data;
+            criterian_array = fetch_criterian_group_data?.data;
             const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
                const object = anItem;
                object['criterianId'] = aURI;
@@ -60,7 +61,35 @@ export class QuestionHelper {
             res.redirect(base_url)
          }
          else {
-            const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'Completed');
+            let mandatoryNum = 0;
+            const maxNum = 4;
+            let status = '';
+            for (let i = 0; i < criterian_array.length; i++) {
+              const groupId = criterian_array[i].OCDS['id'];
+              const mandatory = criterian_array[i].nonOCDS['mandatory'];
+              if (mandatory) {
+                const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
+                const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+                 const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+                 let answered;
+                 const questionType = fetch_dynamic_api_data[0].nonOCDS['questionType'];
+                 let selectedLocation;
+                 if (fetch_dynamic_api_data[0].nonOCDS.options[0]) {
+                  if (questionType === 'Value' || questionType === 'Text') {
+                     answered = fetch_dynamic_api_data[0].nonOCDS.options[0]['value'];
+                     if (answered !== '') mandatoryNum += 1;
+                  } 
+                  if (questionType === 'SingleSelect' || questionType === 'MultiSelect') {
+                     for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
+                        selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
+                        if (selectedLocation) mandatoryNum += 1;
+                     }
+                  } 
+                 }
+                 mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
+              }
+            }
+            const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
             if (response.status == HttpStatusCode.OK) {
                await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/11`, 'Optional');
                await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/12`, 'Not started');

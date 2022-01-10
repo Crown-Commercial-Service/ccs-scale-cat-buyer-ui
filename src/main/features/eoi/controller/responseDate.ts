@@ -1,20 +1,15 @@
 //@ts-nocheck
 import * as express from 'express';
-import * as cmsData from '../../../resources/content/eoi/eoi-response-date.json';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import { LoggTracer } from '../../../common/logtracer/tracer';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
-import moment from 'moment-business-days';
-import { RESPONSEDATEHELPER } from '../../shared/responsedate';
+import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 
 ///eoi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-  let appendData = await RESPONSEDATEHELPER(req, res);
-  appendData.data = cmsData;
-  res.render('responseDate', appendData);
+  RESPONSEDATEHELPER(req, res);
 };
 
 export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -49,8 +44,8 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       criterianStorage.push(rebased_object_with_requirements);
     }
     criterianStorage = criterianStorage.flat();
-    criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
     const Criterian_ID = criterianStorage[0].criterianId;
+    criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
@@ -98,6 +93,43 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
   }
 };
 
+function isValidQuestion(questionId: number, questionNewDate: string, timeline: any) {
+  const dayOfWeek = new Date(questionNewDate).getDay();
+  console.log(dayOfWeek);
+
+  let isValid = true,
+    error,
+    errorSelector;
+  if (dayOfWeek === 6 || dayOfWeek === 0) {
+    isValid = false;
+    error = 'You can not set a date in weekend';
+  }
+  switch (questionId) {
+    case 'Question 1':
+      errorSelector = 'clarification_date';
+      break;
+    case 'Question 2':
+      errorSelector = 'clarification_period_end';
+      break;
+    case 'Question 3':
+      errorSelector = 'deadline_period_for_clarification_period';
+      break;
+    case 'Question 4':
+      errorSelector = 'supplier_period_for_clarification_period';
+      break;
+    case 'Question 5':
+      if (questionNewDate < timeline.supplierSubmitResponse) {
+        isValid = false;
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      errorSelector = 'supplier_dealine_for_clarification_period';
+      break;
+    default:
+      isValid = true;
+  }
+  return { isValid, error, errorSelector };
+}
+
 // @POST "/eoi/add/response-date"
 export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   let {
@@ -109,6 +141,8 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     clarification_date_hourFormat,
     selected_question_id,
   } = req.body;
+
+  const { timeline } = req.session;
 
   clarification_date_day = Number(clarification_date_day);
   clarification_date_month = Number(clarification_date_month);
@@ -135,7 +169,9 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
   let nowDate = new Date();
 
-  if (date.getTime() >= nowDate.getTime()) {
+  const { isValid, error, errorSelector } = isValidQuestion(selected_question_id, date.toISOString(), timeline);
+
+  if (date.getTime() >= nowDate.getTime() && isValid) {
     date = date.toLocaleDateString('en-uk', {
       weekday: 'long',
       year: 'numeric',
@@ -170,10 +206,30 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     try {
       const proc_id = req.session.projectId;
       const event_id = req.session.eventId;
-      const id = 'Criterion 2';
+
       const group_id = 'Key Dates';
       const question_id = selected_question_id;
 
+      let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
+      baseURL = baseURL + '/criteria';
+      const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
+      const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+      const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
+      let criterianStorage = [];
+      for (const aURI of extracted_criterion_based) {
+        const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+        const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
+        const criterian_array = fetch_criterian_group_data?.data;
+        const rebased_object_with_requirements = criterian_array?.map(anItem => {
+          const object = anItem;
+          object['criterianId'] = aURI;
+          return object;
+        });
+        criterianStorage.push(rebased_object_with_requirements);
+      }
+      criterianStorage = criterianStorage.flat();
+      const Criterian_ID = criterianStorage[0].criterianId;
+      const id = Criterian_ID;
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       res.redirect('/eoi/response-date');
@@ -201,42 +257,44 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     let selector = '';
     let selectorID = '';
 
-    switch (selectedErrorCause) {
-      case 'Question 1':
-        selector = ' Publish your EoI - Date should be in the future';
-        selectorID = 'clarification_date';
-        break;
+    if (!isValid) {
+      selector = error;
+      selectorID = errorSelector;
+    } else {
+      switch (selectedErrorCause) {
+        case 'Question 1':
+          selector = ' Publish your EoI - Date should be in the future';
+          selectorID = 'clarification_date';
+          break;
 
-      case 'Question 2':
-        selector = 'Clarification period ends - Date should be in the future';
-        selectorID = 'clarification_period_end';
-        break;
+        case 'Question 2':
+          selector = 'Clarification period ends - Date should be in the future';
+          selectorID = 'clarification_period_end';
+          break;
 
-      case 'Question 3':
-        selector = 'Deadline for publishing responses to EoI clarification questions- Date should be in the future ';
-        selectorID = 'deadline_period_for_clarification_period';
-        break;
+        case 'Question 3':
+          selector = 'Deadline for publishing responses to EoI clarification questions- Date should be in the future ';
+          selectorID = 'deadline_period_for_clarification_period';
+          break;
 
-      case 'Question 4':
-        selector = 'Deadline for suppliers to submit their EoI response - Date should be in the future';
-        selectorID = 'supplier_period_for_clarification_period';
-        break;
+        case 'Question 4':
+          selector = 'Deadline for suppliers to submit their EoI response - Date should be in the future';
+          selectorID = 'supplier_period_for_clarification_period';
+          break;
 
-      case 'Question 5':
-        selector = 'Confirm your next steps to suppliers - Date should be in the future';
-        selectorID = 'supplier_dealine_for_clarification_period';
-        break;
+        case 'Question 5':
+          selector = 'Confirm your next steps to suppliers - Date should be in the future';
+          selectorID = 'supplier_dealine_for_clarification_period';
+          break;
 
-      default:
-        selector = ' Date should be in the future';
+        default:
+          selector = ' Date should be in the future';
+      }
     }
     const errorItem = {
       text: selector,
       href: selectorID,
     };
-
-    let appendData = await RESPONSEDATEHELPER(req, res, true, errorItem);
-    appendData.data = cmsData;
-    res.render('response-date', appendData);
+    await RESPONSEDATEHELPER(req, res, true, errorItem);
   }
 };
