@@ -133,7 +133,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
     }
 
-    res.render('response-date', appendData);
+    res.render('responseDate', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,

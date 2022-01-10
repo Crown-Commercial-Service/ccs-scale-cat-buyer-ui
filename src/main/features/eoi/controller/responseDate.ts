@@ -263,7 +263,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     } else {
       switch (selectedErrorCause) {
         case 'Question 1':
-          selector = ' Publish your RfI - Date should be in the future';
+          selector = ' Publish your EoI - Date should be in the future';
           selectorID = 'clarification_date';
           break;
 
