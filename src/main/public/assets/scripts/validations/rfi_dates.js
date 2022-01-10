@@ -10,9 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
    let hour = $(`#clarification_date-hour_${element}`);
    let minutes = $(`#clarification_date-minute_${element}`);
  
-   
- 
- 
    day.on('blur', ()=>{
      let value  = day;
      let parentID = `rfi_clarification_date_expanded_${element}`
@@ -87,9 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 59;
      let startmonthCheck = Number(value.val()) <= 0;
-     if (matchValue || endmonthCheck || startmonthCheck) {
+     if (matchValue || endmonthCheck || startmonthCheck || value !== '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(parentID), "Enter  valid minutes");
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
      } else {
       value.removeClass("govuk-input--error");
        ccsZremoveErrorMessage(document.getElementById(parentID));
