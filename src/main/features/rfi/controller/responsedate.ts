@@ -94,17 +94,36 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
   }
 };
 
-function isValidQuestion(questionId: number, questionNewDate: date, timeline: any) {
+function isValidQuestion(questionId: number, questionNewDate: string, timeline: any) {
+  const dayOfWeek = new Date(questionNewDate).getDay();
+  console.log(dayOfWeek);
+
   let isValid = true,
     error,
     errorSelector;
+  if (dayOfWeek === 6 || dayOfWeek === 0) {
+    isValid = false;
+    error = 'You can not set a date in weekend';
+  }
   switch (questionId) {
+    case 'Question 1':
+      errorSelector = 'clarification_date';
+      break;
+    case 'Question 2':
+      errorSelector = 'clarification_period_end';
+      break;
+    case 'Question 3':
+      errorSelector = 'deadline_period_for_clarification_period';
+      break;
+    case 'Question 4':
+      errorSelector = 'supplier_period_for_clarification_period';
+      break;
     case 'Question 5':
       if (questionNewDate < timeline.supplierSubmitResponse) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
-        errorSelector = 'supplier_dealine_for_clarification_period';
       }
+      errorSelector = 'supplier_dealine_for_clarification_period';
       break;
     default:
       isValid = true;
@@ -277,8 +296,6 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
       text: selector,
       href: selectorID,
     };
-    const appendData = await RESPONSEDATEHELPER(req, res, true, errorItem);
-    appendData.data = cmsData;
-    res.render('response-date', appendData);
+    await RESPONSEDATEHELPER(req, res, true, errorItem);
   }
 };
