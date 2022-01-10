@@ -9094,15 +9094,36 @@ p,
 
 .ccs_eoi_criteria_form label .del,
 .ccs_eoi_confid_form label .del,
-.ccs_rfi_questions_form label .del {
+.ccs_rfi_questions_form label .del
+ {
+  text-decoration: none;
+}
+.ccs_eoi_criteria_form label .clear-fields,
+.ccs_eoi_confid_form label .clear-fields,
+.ccs_rfi_questions_form label .clear-fields,
+.ccs_rfi_acronyms_form label .clear-fields,
+.ccs_eoi_acronyms_form label .clear-fields {
   position: absolute;
   right: 0;
   text-decoration: none;
 }
+.govuk-fieldset.term_acronym_fieldset {
+  position: relative;
+}
+.clear-fields {
+    position: absolute;
+    right: 0;
+}
+.ccs_eoi_acronyms_form {
+  position: relative;
+}
 
-.ccs_eoi_docs_form .del {
+.ccs_eoi_docs_form , .clear-fields {
   margin-left: 2.6rem;
   text-decoration: none;
+}
+clear-fields govuk-link.govuk-link--no-visited-state.ccs-dynaformremove_icon {
+  position:absolute;
 }
 
 #ccs_select_location .govuk-checkboxes__item:last-of-type {
@@ -9142,7 +9163,8 @@ p,
   width: 100%;
 }
 
-.ccs_add_collab legend .del {
+.ccs_add_collab legend .del, 
+.ccs_add_collab legend .clear-fields {
   position: absolute;
   right: 0;
   text-decoration: none;

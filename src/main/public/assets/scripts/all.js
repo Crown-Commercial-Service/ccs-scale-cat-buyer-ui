@@ -954,7 +954,7 @@ Accordion.prototype.checkIfAllSectionsOpen = function () {
 // Update "Open all" button
 Accordion.prototype.updateOpenAllButton = function (expanded) {
   var newButtonText = expanded ? 'Close all' : 'Open all';
-  newButtonText += '<span class="govuk-visually-hidden"> sections</span>';
+  newButtonText += '<span class="govuk-visually-hidden">sections</span>';
   this.$openAllButton.setAttribute('aria-expanded', expanded);
   this.$openAllButton.innerHTML = newButtonText;
 };
@@ -978,6 +978,7 @@ var helper = {
 };
 
 // Set the state of the accordions in sessionStorage
+var accordionsCount = 0;
 Accordion.prototype.storeState = function ($section) {
   if (this.browserSupportsSessionStorage) {
     // We need a unique way of identifying each content in the accordion. Since
@@ -1677,7 +1678,7 @@ function Checkboxes ($module) {
 /**
  * Initialise Checkboxes
  *
- * Checkboxes can be associated with a 'conditionally revealed' content block â€“
+ * Checkboxes can be associated with a 'conditionally revealed' content block –
  * for example, a checkbox for 'Phone' could reveal an additional form field for
  * the user to enter their phone number.
  *
@@ -1755,7 +1756,7 @@ Checkboxes.prototype.syncConditionalRevealWithInputState = function ($input) {
  * Uncheck other checkboxes
  *
  * Find any other checkbox inputs with the same name value, and uncheck them.
- * This is useful for when a â€œNone of these" checkbox is checked.
+ * This is useful for when a “None of these" checkbox is checked.
  */
 Checkboxes.prototype.unCheckAllInputsExcept = function ($input) {
   var allInputsWithSameName = document.querySelectorAll('input[type="checkbox"][name="' + $input.name + '"]');
@@ -1795,7 +1796,7 @@ Checkboxes.prototype.unCheckExclusiveInputs = function ($input) {
 /**
  * Click event handler
  *
- * Handle a click within the $module â€“ if the click occurred on a checkbox, sync
+ * Handle a click within the $module – if the click occurred on a checkbox, sync
  * the state of any associated conditional reveal with the checkbox state.
  *
  * @param {MouseEvent} event Click event
@@ -1992,7 +1993,7 @@ ErrorSummary.prototype.getAssociatedLegendOrLabel = function ($input) {
         return $candidateLegend
       }
 
-      // For other input types, only scroll to the fieldsetâ€™s legend (instead of
+      // For other input types, only scroll to the fieldset’s legend (instead of
       // the label associated with the input) if the input would end up in the
       // top half of the screen.
       //
@@ -2080,7 +2081,7 @@ function Header ($module) {
 /**
  * Initialise header
  *
- * Check for the presence of the header, menu and menu button â€“ if any are
+ * Check for the presence of the header, menu and menu button – if any are
  * missing then there's nothing to do so return early.
  */
 Header.prototype.init = function () {
@@ -2124,7 +2125,7 @@ function Radios ($module) {
 /**
  * Initialise Radios
  *
- * Radios can be associated with a 'conditionally revealed' content block â€“ for
+ * Radios can be associated with a 'conditionally revealed' content block – for
  * example, a radio for 'Phone' could reveal an additional form field for the
  * user to enter their phone number.
  *
@@ -2202,7 +2203,7 @@ Radios.prototype.syncConditionalRevealWithInputState = function ($input) {
 /**
  * Click event handler
  *
- * Handle a click within the $module â€“ if the click occurred on a radio, sync
+ * Handle a click within the $module – if the click occurred on a radio, sync
  * the state of the conditional reveal for all radio buttons in the same form
  * with the same name (because checking one radio could have un-checked a radio
  * in another $module)
@@ -2560,7 +2561,11 @@ function initAll (options) {
 
   var $accordions = scope.querySelectorAll('[data-module="govuk-accordion"]');
   nodeListForEach($accordions, function ($accordion) {
-    new Accordion($accordion).init();
+    if (accordionsCount <  $accordions.length)
+      {
+        new Accordion($accordion).init();
+        accordionsCount = accordionsCount+1;
+      }
   });
 
   var $details = scope.querySelectorAll('[data-module="govuk-details"]');

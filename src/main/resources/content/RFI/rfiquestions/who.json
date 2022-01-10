@@ -1,0 +1,85 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "#"
+        },
+        {
+            "text": "Procument overview",
+            "href": "#"
+        },
+        {
+            "text": "run pre-market engagement",
+            "href": "#"
+        },
+        {
+            "text": "Build your Request for Information (RFI)",
+            "href": "#"
+        },
+        {
+            "text": "Who is the buyer",
+            "href": "#"
+        }
+
+    ],
+    "title": "Who is the buyer?",
+    "name": "rfi_who",
+    "subtitle": "Tell us on whose behalf you will be inviting tenders?",
+    "form": {
+        "input": [
+            {
+                "label": {
+                    "text": "Name of the Contracting Authority",
+                    "classes": "govuk-label govuk-label--m"
+                  },
+                  "hint": {
+                    "text": "Who is running the procurement?"
+                  },
+                  "id": "rfi_contracting_auth",
+                  "name": "rfi_contracting_auth",
+                  "value": ""
+            },
+
+            {
+                "label": {
+
+                   "text": "Organisation you are buying on behalf of (optional)",
+                    "classes": "govuk-label govuk-label--m"
+                  },
+                  "hint": {
+                    "text": "If different from the Contracting Authority"
+                  },
+                  "id": "rfi_on_behalf_of",
+                  "name": "rfi_on_behalf_of",
+                  "value": ""
+            },
+            {
+                "label": {
+
+                   "text": "Enter email address",
+                    "classes": "govuk-label govuk-label--m"
+                  },
+                  "hint": {
+                    "text": "If different from the Contracting Authority"
+                  },
+                  "id": "email",
+                  "name": "email",
+                  "value": ""
+            }
+        ],
+        "build_started": {
+            "id": "rfi_build_started",
+            "name": "rfi_build_started",
+            "type": "hidden",
+            "value": true
+        },
+        "backJump": {
+            "title": "Return to Build your Request for Information",
+            "href": "#"
+        }
+    }}
+

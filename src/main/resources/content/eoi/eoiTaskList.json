@@ -1,0 +1,95 @@
+{
+  "line1": "Pre-market engagement can help you to:",
+  "line2": "better understand what you need",
+  "line3": "write clearer needs to publish for suppliers",
+  "line4": "understand how much this work could cost",
+  "line5": "better understand how long this work could take",
+
+  "title": "Do pre-market engagement",
+  "subtitle": null,
+  "events": [
+    {
+      "eventno": 1,
+      "eventTitle": "Project and colleagues",
+      "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+      "eventTask": [
+        {
+          "Task": 1,
+          "link": "/eoi/name-your-project",
+          "title": "Name your project",
+          "required": "mandatory",
+          "status": "optional"
+        },
+        {
+          "Task": 2,
+          "link": "/eoi/procurement-lead",
+          "title": "Change who is going to lead the procurement",
+          "required": "optional",
+          "status": "optional"
+        },
+        {
+          "Task": 3,
+          "link": "/eoi/add-collaborators",
+          "title": "Add colleagues to your project",
+          "required": "optional",
+          "status": "optional"
+        }
+      ]
+    },
+    {
+      "eventno": 2,
+      "eventTitle": "Build your expression of interest (EoI)",
+      "eventDescription": "You can choose to enter information online to build your EoI, or upload a document. If you choose to build your EoI online you can write your own questions, include context about your organisation, scope of the service and your procurement, and get more detailed information about what suppliers can offer.",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "Choose how to build your EoI",
+          "required": "mandatory",
+          "link": "/eoi/type",
+          "status": "optional"
+        },
+        {
+          "Task": 2,
+          "title": "Build your EoI",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        }
+      ]
+    },
+    {
+      "eventno": 3,
+      "eventTitle": "Review and publish your EoI",
+      "eventDescription": "Review the information you have entered, confirm which suppliers you want to send it to, set out your timeline (including how long suppliers have to ask questions and when you will respond by), and then publish your EoI.",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "Upload documents or add links",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "/eoi/upload-doc"
+        },
+        {
+          "Task": 2,
+          "title": "Look at the available suppliers",
+          "required": "Cannot start yet",
+          "status": "Cannot start yet",
+          "link": "/eoi/suppliers"
+        },
+        {
+          "Task": 3,
+          "title": "Your EoI timeline",
+          "required": "mandatory",
+          "status": "Cannot start yet",
+          "link": "/eoi/response-date"
+        },
+        {
+          "Task": 4,
+          "title": "Review and publish your EoI",
+          "required": "mandatory",
+          "status": "Cannot start yet",
+          "link": "/eoi/review"
+        }
+      ]
+    }
+  ]
+}

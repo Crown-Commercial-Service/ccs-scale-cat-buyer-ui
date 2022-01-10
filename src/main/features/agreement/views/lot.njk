@@ -1,0 +1,222 @@
+{% extends "template.njk" %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Lot details | Contract a Thing' %}
+{% block content %}
+  <div class="ccs-width-container ">
+
+    <div class="govuk-breadcrumbs">
+      <ol class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item">
+          <a class="govuk-breadcrumbs__link" href="/">Home</a>
+        </li>
+        <li class="govuk-breadcrumbs__list-item">
+          <a class="govuk-breadcrumbs__link" href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}">{{agreement.name}}</a>
+        </li>
+        <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        {% if (lot == "Lot 1") and (agreement_id == "RM6263") %}
+            {{lot}}: Programmes 
+          {%elif (lot == "Lot 2") and (agreement_id == "RM6263") %}
+            {{lot}}: Specialists 
+          {% else %}
+            {{lot}}:{{agreement_lot.name}}
+          {% endif %}
+        </li>
+      </ol>
+    </div>
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl ccs-agrement-pagetitle">
+          {% if (lot == "Lot 1") and (agreement_id == "RM6263") %}
+            {{lot}} Programmes 
+          {%elif (lot == "Lot 2") and (agreement_id == "RM6263") %}
+            {{lot}} Specialists 
+          {% else %}
+            {{lot}} {{agreement_lot.name}}
+          {% endif %}
+          </h1>
+        </div>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+          <div class="project-overview govuk-!-padding-bottom-3">
+            <p class="govuk-body">Agreement name: <strong>{{agreement.name}}</strong>
+            </p>
+            <p class="govuk-body">Agreement ID: <strong>{{agreement_id}}</strong>
+            </p>
+            {% set agreementDate = agreement.endDate | date("YYYY-MM-DD") %}
+            <p class="govuk-body">Expiry date: <strong>{{agreementDate}}</strong>
+            </p>
+          </div>
+
+          <div class="govuk-inset-text">
+            <p class="govuk-body">
+              <strong>{{data.line1}}</strong>
+              <br>
+              <a href="#sign-in" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a>
+            </p>
+          </div>
+
+          <div class="ccs-page-section" id="description">
+            <h1 class="govuk-heading-l">
+              {{data.line3}}</h1>
+            <p class="govuk-body">{{agreement.agreementDescription | safe}}</p>
+            {% if (agreement_id != 'RM6263') and (lot != 'lot 2') %}
+              <ul class="govuk-list govuk-list--bullet">
+                {% for sector in agreement_lot.sectors %}
+                  <li>{{sector}}</li>
+                {% endfor %}
+              </ul>
+              <p class="govuk-body">{{data.line5}}</p>
+              <p class="govuk-body">{{data.line6}}</p>
+            {% endif %}
+          </div>
+          <div class="ccs-page-section">
+            <p class="govuk-!-padding-bottom-3">{{data.line7}}
+              <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="https://www.crowncommercial.gov.uk/suppliers" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers)</a>
+            </p></div>
+
+          <div id="sign-in" class="ccs-page-section govuk-!-padding-bottom-3">
+            <p class="govuk-body">{{data.line8}}</p>
+            <p class="govuk-body">{{data.line9}}</p>
+            {% if(isAuth === true)%}
+            <div class="govuk-button-group">
+              {{ CCSButton({
+               text: "Start Now",
+               type: "a",
+               classes: "govuk-button",
+               href: "/dashboard"
+              }) }}
+            </div>
+          </div>
+
+            {%else%}
+
+            <div class="govuk-button-group govuk-!-padding-bottom-3">
+              {{ CCSButton({
+               text: "Sign in or create an account",
+               type: "a",
+               classes: "govuk-button",
+               href: "/oauth/login"
+              }) }}
+            </div>
+          </div>
+
+            {%endif%}
+
+          <div class="ccs-page-section" id="buyonline">
+            <h1 class="govuk-heading-l">{{data.line10}}
+            </h1>
+            <p class="govuk-body">
+              <strong>{{data.line11}}</strong>
+            </p>
+
+            <ul class="govuk-list govuk-list--bullet">
+              <li>
+                <strong>{{data.line12}}</strong>
+                {{data.line13}}</li>
+              <li>
+                <strong>{{data.line14}}</strong>
+                {{data.line15}}</li>
+              <li>
+                <strong>{{data.line16}}</strong>
+                {{data.line17}}</li>
+            </ul>
+            {% if lot == "Lot 2" %}
+              <p class="govuk-body">or</p>
+              <ul class="govuk-list govuk-list--bullet">
+                <li>
+                  <strong>{{data.line53}}</strong>
+                  {{data.line54}}</li>
+              </ul>
+            {% endif %}
+            <h3 class="govuk-heading-m">{{data.line18}}
+            </h3>
+            <h3>
+
+              <ol class="govuk-list govuk-list--number">
+                <li>
+                  <h3 class="proc-task-list__section">
+
+                    {{data.line19}}
+                  </h3>
+                  <p class="govuk-body">{{data.line20}}
+                  </p>
+                </li>
+
+                <li>
+                  <h3 class="proc-task-list__section">
+
+                    {{data.line23}}
+                  </h3>
+
+                  <p class="govuk-body">
+                    {{data.line24}}
+                  </p>
+                  <!-- description for RFI -->
+                  <h2 class="govuk-heading-s">
+                    {{data.line25}}
+                  </h2>
+                  <p class="govuk-body">{{data.line26}}</p>
+                </li>
+
+                <li>
+                  <h3 class="proc-task-list__section">
+                    {{data.line27}}
+                  </h3>
+                  <p class="govuk-body">{{data.line28}}</p>
+
+                  <p class="govuk-body">
+                    {{data.line29}}</p>
+
+                  <p class="govuk-body">{{data.line30}}</p>
+
+                  <h2 class="govuk-heading-s">{{data.line31}}</h2>
+                  <p class="govuk-body">{{data.line32}}</p>
+
+                  <h2 class="govuk-heading-s">{{data.line33}}</h2>
+                  <p class="govuk-body">{{data.line34}}</p>
+                  <p class="govuk-body">{{data.line35}}</p>
+                  {% if (agreement_id == 'RM6263') and (lot == 'Lot 2') %}
+                    <h2 class="govuk-heading-s">{{data.line36}}</h2>
+                    <p class="govuk-body">{{data.line37}}</p>
+                  {% elif agreement_id != 'RM6263' %}
+                    <h2 class="govuk-heading-s">{{data.line36}}</h2>
+                    <p class="govuk-body">{{data.line37}}</p>
+                  {% endif %}
+                  <p>{{data.line38}}</p>
+                </li>
+                <li>
+                  <h3 class="proc-task-list__section">
+                    {{data.line39}}
+                  </h3>
+                  <p class="govuk-body">When you have completed your evaluation and found a suitable supplier, you can award your contract.</p>
+                  <p class="govuk-body">You will need to give feedback to any unsuccessful suppliers.</p>
+                </li>
+                <li>
+                  <h3 class="proc-task-list__section">
+                    {{data.line40}}
+                  </h3>
+                  <p class="govuk-body">{{data.line41}}
+                    <a href="https://www.gov.uk/contracts-finder">
+                      {{data.line42}}</a>. {{data.line43}}
+                  </p>
+                </li>
+              </ol>
+              <br>
+            </h3>
+          </div>
+          <a class="govuk-link govuk-link--no-visited-state" href="#description">{{data.line44}}</a>
+          <br><br>
+        </div>
+        <div class="govuk-grid-column-one-third">
+
+          {{ howToGetSupport() }}
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+{% endblock %}

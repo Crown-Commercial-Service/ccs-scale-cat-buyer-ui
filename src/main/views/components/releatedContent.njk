@@ -1,0 +1,8 @@
+{% macro CCSReleatedContent(releatedContent) %}
+    <div class="ccs-callout-panel">
+        <h2 class="govuk-heading-m">{{releatedContent.title}}</h2>
+        <p class="govuk-body">
+            <a class="govuk-link govuk-link--no-visited-state" href={{ releatedContent.lotUrl }} target="_blank">{{releatedContent.name}}, {{releatedContent.lotName}}</a>
+        </p>
+    </div>
+{% endmacro %}

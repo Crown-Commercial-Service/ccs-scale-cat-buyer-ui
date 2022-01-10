@@ -1,0 +1,32 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "#"
+        }
+    ],
+    "title": "Find suppliers and run your procurement online.",
+    "subtitle": null,
+    "line1": "You don't have any projects saved.",
+    "line2": "All public sector organisations, including agencies and arm's length bodies, can use Contract award",
+    "line3": "service to run their procurement end-to-end for a number of available commercial agreements.",
+    "line4": "Contact Crown Commercial Service",
+    "line5": "if you're not sure whether you're eligible.",
+    "list": [
+        "Choose a commercial agreement or lot you're interested in",
+        "Find suppliers straight away or create a new procurement project to run pre-market or call-off events",
+        "Add collaborators to your project",
+        "Prepare a draft of your needs",
+        "Write and publish your requirements",
+        "Answer supplier questions",
+        "Evaluate suppliers' written proposals",
+        "Award a contract and give feedback to any unsuccessful suppliers",
+        "Publish the contract on Contracts Finder"
+    ],
+    "buttonText": "Create your needs"
+
+}

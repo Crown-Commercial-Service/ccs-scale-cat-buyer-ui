@@ -11,6 +11,11 @@ data "cloudfoundry_domain" "domain" {
   name = "london.cloudapps.digital"
 }
 
+data "cloudfoundry_app" "cat_service" {
+  name_or_id = "${var.environment}-ccs-scale-cat-service"
+  space      = data.cloudfoundry_space.space.id
+}
+
 data "archive_file" "cat_buyer_ui" {
   type       = "zip"
   source_dir = "${path.module}/../../.."
@@ -34,13 +39,55 @@ data "cloudfoundry_user_provided_service" "ip_router" {
   space = data.cloudfoundry_space.space.id
 }
 
+data "cloudfoundry_service_instance" "redis" {
+  name_or_id = "${var.environment}-ccs-scale-cat-redis-buyer-ui"
+  space      = data.cloudfoundry_space.space.id
+}
+
+data "aws_ssm_parameter" "env_auth_server_client_id" {
+  name = "/cat/${var.environment}/auth-server-client-id"
+}
+
+data "aws_ssm_parameter" "env_auth_server_client_secret" {
+  name = "/cat/${var.environment}/auth-server-client-secret"
+}
+
+data "aws_ssm_parameter" "env_auth_server_base_url" {
+  name = "/cat/${var.environment}/auth-server-base-url"
+}
+
+data "aws_ssm_parameter" "env_logit_api_key" {
+  name = "/cat/${var.environment}/logit-api-key"
+}
+
+data "aws_ssm_parameter" "env_session_secret" {
+  name = "/cat/${var.environment}/buyer-ui-session-secret"
+}
+
+data "aws_ssm_parameter" "conclave_wrapper_api_base_url" {
+  name = "/cat/${var.environment}/conclave-wrapper-api-base-url"
+}
+
+data "aws_ssm_parameter" "conclave_wrapper_api_key" {
+  name = "/cat/${var.environment}/conclave-wrapper-api-key"
+}
+
 resource "cloudfoundry_app" "cat_buyer_ui" {
   annotations = {}
   buildpack   = var.buildpack
   disk_quota  = var.disk_quota
   enable_ssh  = true
   environment = {
-    PRIVATE_APP_URL : "http://${var.environment}-ccs-scale-cat-service.apps.internal:8080"
+    TENDERS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-cat-service.${data.cloudfoundry_domain.domain.name}"
+    AGREEMENTS_SERVICE_API_URL : "https://${var.environment}-ccs-scale-shared-agreements-service.${data.cloudfoundry_domain.domain.name}"
+    AUTH_SERVER_CLIENT_ID : data.aws_ssm_parameter.env_auth_server_client_id.value
+    AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
+    AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
+    CAT_URL : "https://${var.environment}-ccs-scale-cat-buyer-ui.${data.cloudfoundry_domain.domain.name}"
+    LOGIT_API_KEY : data.aws_ssm_parameter.env_logit_api_key.value
+    SESSION_SECRET : data.aws_ssm_parameter.env_session_secret.value
+    CONCLAVE_WRAPPER_API_BASE_URL : data.aws_ssm_parameter.conclave_wrapper_api_base_url.value
+    CONCLAVE_WRAPPER_API_KEY : data.aws_ssm_parameter.conclave_wrapper_api_key.value
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
@@ -57,6 +104,19 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
 
   service_binding {
     service_instance = data.cloudfoundry_user_provided_service.logit.id
+  }
+
+  service_binding {
+    service_instance = data.cloudfoundry_service_instance.redis.id
+  }
+}
+
+resource "cloudfoundry_network_policy" "cat_service" {
+
+  policy {
+    source_app      = cloudfoundry_app.cat_buyer_ui.id
+    destination_app = data.cloudfoundry_app.cat_service.id
+    port            = "8080"
   }
 }
 

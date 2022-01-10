@@ -1,0 +1,37 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/"
+    },
+    {
+      "text": "Do pre-market engagement",
+      "href": "/eoi/eoi-tasklist"
+    },
+    {
+      "text": "Review and publish"
+    }
+  ],
+  "title": " Review and publish your EoI",
+  "subtitle": "You should review your EoI before publishing it for suppliers to see. You can make changes to any sections",
+  "data": {
+    "supplier": {
+      "text": "suppliers can be contracted to supply products and services for this lot. Some suppliers are ",
+      "href": "https://ec.europa.eu/growth/smes/sme-definition_en",
+      "href_text": "small and medium-sized enterprises (SMEs)."
+    },
+    "Inset": "You will need to add the suppliers you want to send your EoI to. Any suppliers you don’t add at this stage will not remove them from future steps in your procurement."
+  },
+  "backJump": {
+    "title": " Return to Run pre-market engagement",
+    "href": "#"
+  }
+}

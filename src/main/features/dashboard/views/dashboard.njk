@@ -1,0 +1,50 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Welcome to the Contract a Thing beta' %}
+{% block content %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title}}</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <div class="ccs-page-section">
+          <h3 class="govuk-heading-m">
+            Hello, {{ user_firstName }}
+          </h3>
+          <p class="govuk-body">{{ data.line1 }}</p>
+          <h2 class="govuk-heading-m">Get started</h2>
+          <p class="govuk-body">
+          <span>{{ data.line2 }}</span>
+          <span>{{ data.line3 }}</span> 
+          <a href="https://www.crowncommercial.gov.uk/contact">{{ data.line4 }}</a> <span>{{ data.line5 }}</span></p>
+          <ul class="govuk-list govuk-list--number">
+          {% for item in data.list %}
+            <li>{{item}}</li>
+          {% endfor %}
+          </ul>
+          <a href="/projects/choose-agreement" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+             {{data.buttonText}}
+          </a>
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="ccs-callout-panel">
+          <h2 class="govuk-heading-m">Related content</h2>
+          <p class="govuk-body">
+            <a class="govuk-link govuk-link--no-visited-state" href="#" target="_blank" onclick="return false;">Link 1</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}

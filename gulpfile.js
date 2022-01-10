@@ -7,6 +7,9 @@ const path = require('path')
 const replace = require('gulp-replace')
 const rename = require('gulp-rename')
 const fs = require('fs')
+const del = require('del');
+
+
 
 const repoRoot = path.join(__dirname, '/')
 const ccsFrontendToolkitRoot = path.join(repoRoot, 'node_modules/govuk_frontend_toolkit/stylesheets')
@@ -83,3 +86,21 @@ gulp.task('default',
     )
   )
 )
+
+
+gulp.task('styles', () => {
+  return gulp.src('src/main/public/assets/sass/**/*.scss')
+      .pipe(sass().on('error', sass.logError))
+      .pipe(gulp.dest('src/main/public/assets/styles/'));
+});
+
+gulp.task('clean', () => {
+  return del([
+      'src/main/public/assets/styles/',
+  ]);
+});
+
+gulp.task('default', gulp.series(['clean', 'styles']));
+
+
+

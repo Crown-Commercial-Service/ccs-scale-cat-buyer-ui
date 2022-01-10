@@ -1,138 +1,82 @@
 {% extends "template.njk" %}
-{% from "components/breadcrumbs/macro.njk" import CCSBreadcrumbs %}
-  {% from "components/date-input/macro.njk" import CCSDateInput %}
-{% from "components/radios/macro.njk" import CCSRadios %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
 {% set title = 'home | Contract a Thing' %}
-{# {% set heading = t('Welcome to the Money Claim legal rep beta') %} #}
 
+{% block content %} 
 
-{% block content %}
-{{ CCSBreadcrumbs({
-        items: [
-          {
-            text: "Home",
-            href: "/home"
-          },
-          {
-            text: "Contract a Thing",
-            href: "/cAT"
-          },
-          {
-            text: "Commercial Agreements",
-            href: "#"
-          }
-        ]
-      }) }}
-
-  
-
-    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-      
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>    
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds" id="ccs_rfi_acronyms_form" class=" form ccs_rfi_acronyms_form">
        <h1 class="govuk-heading-xl">
-        Commercial agreements
-      </h1>
-      <ul class="govuk-list">
-        
-        <li>
-          <a class="govuk-link" href="#">Digital Outcomes and Specialists 5</a>
-        </li>
-        
-        <li>
-          <a class="govuk-link" href="#">G-Cloud 12</a>
-        </li>
-        
-        <li>
-          <a class="govuk-link" href="#">Management Consultancy Framework Two</a>
-        </li>
-      </ul>
+        Temporary landing page
+      </h1>       
+
+      <p class="govuk-body">
+        <aside role="complementary">
+          <h2 class="govuk-heading-m" id="subsection-title">
+            Digital Specialists and Programmes (RM6263)
+          </h2>
+          <nav role="navigation" aria-labelledby="subsection-title">
+            <ul class="govuk-list govuk-!-font-size-16">
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6263&lotNum=Lot 1" class="govuk-link govuk-link--no-visited-state">Lot 1: Programmes</a>
+              </li>
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6263&lotNum=Lot 2" class="govuk-link govuk-link--no-visited-state">Lot 2: Specialists</a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+
+        <aside role="complementary">
+          <h2 class="govuk-heading-m" id="subsection-title">
+            Management Consultancy Framework Three (MCF3) (RM6187)
+          </h2>
+          <nav role="navigation" aria-labelledby="subsection-title">
+            <ul class="govuk-list govuk-!-font-size-16">
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 1" class="govuk-link govuk-link--no-visited-state">Lot 1: Business</a>
+              </li>
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 2" class="govuk-link govuk-link--no-visited-state">Lot 2: Strategy & Policy</a>
+              </li>
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 3" class="govuk-link govuk-link--no-visited-state">Lot 3: Complex and Transformation</a>
+              </li>
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 4" class="govuk-link govuk-link--no-visited-state">Lot 4: Finance</a>
+              </li>
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 5" class="govuk-link govuk-link--no-visited-state">Lot 5: HR(human resources)</a>
+              </li>
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 6" class="govuk-link govuk-link--no-visited-state">Lot 6: Procurement and Supply Chain</a>
+              </li>
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 7" class="govuk-link govuk-link--no-visited-state">Lot 7: Health, Social Care and Community</a>
+              </li>
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 8" class="govuk-link govuk-link--no-visited-state">Lot 8: Infrastructure Including Transport</a>
+              </li>
+              <li>
+                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 9" class="govuk-link govuk-link--no-visited-state">Lot 9: Environmental Sustainability & Socio-Economic Development</a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </p>
+
+    </div>
+    <div class="govuk-grid-column-one-third">
+  
+      {{ howToGetSupport() }}
 
     </div>
   </div>
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      {{ CCSRadios({
-  idPrefix: "where-do-you-live",
-  name: "where-do-you-live",
-  fieldset: {
-    legend: {
-      text: "Where do you live?",
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
-    }
-  },
-  items: [
-    {
-      value: "england",
-      text: "England",
-       hint: {
-        text: "You’ll have an account if you’ve already proved your identity with either Barclays, CitizenSafe, Digidentity, Experian, Post Office, Royal Mail or SecureIdentity."
-      }
-    },
-    {
-      value: "scotland",
-      text: "Scotland",
-       hint: {
-        text: "You’ll have an account if you’ve already proved your identity with either Barclays, CitizenSafe, Digidentity, Experian, Post Office, Royal Mail or SecureIdentity."
-      }
-    },
-    {
-      value: "wales",
-      text: "Wales"
-    },
-    {
-      value: "northern-ireland",
-      text: "Northern Ireland",
-       hint: {
-        text: "You’ll have an account if you’ve already proved your identity with either Barclays, CitizenSafe, Digidentity, Experian, Post Office, Royal Mail or SecureIdentity."
-      }
-    }
-  ]
-}) }}  
-
-{{ CCSDateInput({
-  id: "contract-issued",
-  namePrefix: "contract-issued",
-  fieldset: {
-    legend: {
-      text: "When was your Contract issued?",
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
-    }
-  },
-  hint: {
-    text: "For example, 12 11 2007"
-  }
-}) }}
-</div>
     
-
-   <div class="govuk-grid-column-one-third">
-  
-  <div class="ccs-callout-panel">
-  <h2 class="govuk-heading-m">How to get support</h2>
-
-  <p class="govuk-body">You can contact us by email, phone or using the <a href="https://www.crowncommercial.gov.uk/contact">enquiry form</a>. </p>
-
-  <h3 class="govuk-heading-s govuk-!-margin-0">Email: </h3>
-  <p class="govuk-body"><a href="mailto:info@crowncommercial.gov.uk">info@crowncommercial.gov.uk</a> </p>
-
-  <h3 class="govuk-heading-s govuk-!-margin-0">Telephone: </h3>
-  <p class="govuk-body"><a href="tel:03454102222">0345 410 2222</a></p>
-
-  <p class="govuk-body">CCS customer services team is available Monday to Friday, 9am to 5pm.</p>
-</div>
-</div>
-
-
-
   </div>
-
-
-    </main>
-
-
-
+  </main>
 {% endblock %}
