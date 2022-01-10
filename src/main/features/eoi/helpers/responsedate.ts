@@ -1,10 +1,10 @@
 //@ts-nocheck
 import * as express from 'express';
-import { TenderApi } from '../../common/util/fetch/tenderService/tenderApiInstance';
-import { LoggTracer } from '../../common/logtracer/tracer';
-import { TokenDecoder } from '../../common/tokendecoder/tokendecoder';
-import { LogMessageFormatter } from '../../common/logtracer/logmessageformatter';
+import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import { LoggTracer } from '../../../common/logtracer/tracer';
+import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import moment from 'moment-business-days';
+import * as cmsData from '../../../resources/content/eoi/eoi-response-date.json';
 import config from 'config';
 
 const predefinedDays = {
@@ -21,17 +21,18 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   const event_id = req.session.eventId;
   const { SESSION_ID } = req.cookies;
   let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
-  let criteriaUrl = baseURL + '/criteria';
+  baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
   req.session.timeline = {};
+
   try {
-    const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(criteriaUrl);
+    const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
-    const extracted_criterion_Ids = fetch_dynamic_api_data?.map(criterian => criterian?.id);
+    const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
     let criterianStorage = [];
-    for (const aURI of extracted_criterion_Ids) {
+    for (const aURI of extracted_criterion_based) {
       const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-      const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
+      const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
       const criterian_array = fetch_criterian_group_data?.data;
       const rebased_object_with_requirements = criterian_array?.map(anItem => {
         const object = anItem;
@@ -40,24 +41,29 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       });
       criterianStorage.push(rebased_object_with_requirements);
     }
+
     criterianStorage = criterianStorage.flat();
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
+    const Criterian_ID = criterianStorage[0].criterianId;
     const prompt = criterianStorage[0].nonOCDS.prompt;
-    const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/${keyDateselector}/questions`;
-    const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
+    const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
+    const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
-    const clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
+    const rfi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
+
+    console.log({ rfi_clarification_date });
 
     const clarification_period_end_date = new Date();
     const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${
       clarification_period_end_date.getMonth() + 1
     }-${clarification_period_end_date.getFullYear()}`;
-    const clarification_period_end = moment(clarification_period_end_date_parsed, 'DD-MM-YYYY').businessAdd(
+    const rfi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD-MM-YYYY').businessAdd(
       predefinedDays.clarification_days,
     )._d;
-    clarification_period_end.setHours(predefinedDays.defaultEndingHour);
-    clarification_period_end.setMinutes(predefinedDays.defaultEndingMinutes);
-    const DeadlinePeriodDate = clarification_period_end;
+    rfi_clarification_period_end.setHours(predefinedDays.defaultEndingHour);
+    rfi_clarification_period_end.setMinutes(predefinedDays.defaultEndingMinutes);
+
+    const DeadlinePeriodDate = rfi_clarification_period_end;
 
     const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${
       DeadlinePeriodDate.getMonth() + 1
@@ -93,11 +99,15 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
       return currentElementID - nextElementID;
     });
+
     let appendData = {
+      data: cmsData,
       prompt: prompt,
       framework: fetchQuestionsData,
-      clarification_date,
-      clarification_period_end: moment(clarification_period_end, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, hh:mm a'),
+      rfi_clarification_date,
+      rfi_clarification_period_end: moment(rfi_clarification_period_end, 'DD/MM/YYYY, hh:mm a').format(
+        'DD MMMM YYYY, hh:mm a',
+      ),
       deadline_period_for_clarification_period: moment(
         deadline_period_for_clarification_period,
         'DD/MM/YYYY, hh:mm a',
@@ -112,6 +122,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       ).format('DD MMMM YYYY, hh:mm a'),
       releatedContent: req.session.releatedContent,
     };
+
     if (errorTriggered) {
       appendData = { ...appendData, error: true, errorMessage: errorItem };
     } else {
@@ -122,7 +133,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
     }
 
-    return appendData;
+    res.render('response-date', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,

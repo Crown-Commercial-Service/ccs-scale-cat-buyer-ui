@@ -71,8 +71,21 @@ export class QuestionHelper {
                 const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
                 const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
                 const fetch_dynamic_api_data = fetch_dynamic_api?.data;
-                const answered = fetch_dynamic_api_data[0].nonOCDS['answered'];
-                if (answered) mandatoryNum += 1;
+                let answered;
+                const questionType = fetch_dynamic_api_data[0].nonOCDS['questionType'];
+                let selectedLocation;
+                if (fetch_dynamic_api_data[0].nonOCDS.options[0]) {
+                  if (questionType === 'Value' || questionType === 'Text' || questionType === 'Monetary' || questionType === 'Duration' || questionType === 'Date') {
+                    answered = fetch_dynamic_api_data[0].nonOCDS.options[0]['value'];
+                    if (answered !== '') mandatoryNum += 1;
+                  }
+                  if (questionType === 'SingleSelect' || questionType === 'MultiSelect') {
+                    for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
+                      selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
+                      if (selectedLocation) mandatoryNum += 1;
+                    }
+                  }
+                }
                 mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
               }
             }
