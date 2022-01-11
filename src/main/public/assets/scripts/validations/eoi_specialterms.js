@@ -163,7 +163,7 @@ if ($('#eoi_splterm').length > 0) {
       let textbox = $(`#eoi_splterm_definition_${a}`);
   
   
-      if (input.val() !== "") {
+      if (input.val() !== "" ) {
   
         $(`#eoi_splterm_${a}-error`).remove();
         $(`.splterm_${a} div`).removeClass('govuk-form-group--error');
@@ -193,7 +193,8 @@ if ($('#eoi_splterm').length > 0) {
   const emptyFieldCheckEoiTerms = () => {
     let fieldCheck = "",
       errorStore = [];
-  
+    checkFieldsEoiTerms();
+    let termFieldError =false , defFieldError = false;
     for (var x = 1; x < 11; x++) {
       let term_field = document.getElementById('eoi_splterm_' + x);
       let definition_field = document.getElementById("eoi_splterm_definition_" + x);
@@ -201,7 +202,7 @@ if ($('#eoi_splterm').length > 0) {
       // console.log(name_field.classList.value);
   
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
-        checkFieldsEoiTerms();
+        //
         if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
           ccsZaddErrorMessage(definition_field, 'Please provide description for the term and condition.');
           fieldCheck = [definition_field.id, 'Please provide description for the term and condition.'];
@@ -212,8 +213,27 @@ if ($('#eoi_splterm').length > 0) {
           fieldCheck = [term_field.id, 'Please provide description for the term and condition.'];
           errorStore.push(fieldCheck);
         }
-      }
+        if (term_field.value?.length > 100 ) {
+          ccsZaddErrorMessage(term_field, 'Term and condition title must be 100 characters or fewer');
+          termFieldError = true;          
+        }
+        if (definition_field.value?.length > 1000 ) {
+          ccsZaddErrorMessage(definition_field, 'Term and condition description must be 1000 characters or fewer');
+          defFieldError = true;
+          
+        }
+      }      
     }
+    if(termFieldError)
+      {
+        fieldCheck = ["#", 'Term and condition title must be 100 characters or fewer'];
+        errorStore.push(fieldCheck);
+      }
+      if(defFieldError)
+      {
+        fieldCheck = ["#", 'Term and condition description must be 1000 characters or fewer'];
+        errorStore.push(fieldCheck);
+      }
     return errorStore;
   }
 
