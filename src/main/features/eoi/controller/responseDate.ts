@@ -6,6 +6,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
+import moment from 'moment-business-days';
 
 ///eoi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -172,22 +173,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   const { isValid, error, errorSelector } = isValidQuestion(selected_question_id, date.toISOString(), timeline);
 
   if (date.getTime() >= nowDate.getTime() && isValid) {
-    date = date.toLocaleDateString('en-uk', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-    nowDate = nowDate.toLocaleDateString('en-uk', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    date = moment(date).format('DD MMMM YYYY, hh:mm a');
 
     const answerformater = {
       value: date,
