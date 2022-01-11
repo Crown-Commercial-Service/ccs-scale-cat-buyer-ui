@@ -19,7 +19,7 @@
 
     ],
 
-    "title": "How will you build your one stage further competition?",
+    "title": "How will you build 1-stage further competition?",
     "subtitle": null,
     "form": {
         "question": "You can choose to either enter the information online to build your one stage further competition or upload your own document.",
@@ -29,7 +29,7 @@
             "items": [
               {
                 "value": "all_online",
-                "text": "Enter all the information online",
+                "text": "Provide all information online",
                 "hint": {
                   "text": "Enter all the information needed to build your one stage further competition online and submit it to your selected suppliers."
                 }
@@ -45,7 +45,7 @@
               },
               {
                 "value": "all_offline",
-                "text": "Complete and upload the whole bid back",
+                "text": "Complete and upload the whole bid pack",
                 "hint": {
                   "text": "Use this option to prepare your one stage further competition offline and then upload it."
                 }
