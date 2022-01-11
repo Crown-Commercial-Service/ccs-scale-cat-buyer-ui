@@ -2,7 +2,9 @@
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import * as express from 'express';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
-import * as cmsData from '../../../resources/content/RFI/suppliers.json';
+import * as cmsData from '../../../resources/content/eoi/suppliers.json';
+import { LoggTracer } from '../../../common/logtracer/tracer';
+import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
 // RFI Suppliers
 export const GET_EOI_SUPPLIERS = (req: express.Request, res: express.Response) => {
@@ -229,12 +231,24 @@ export const GET_EOI_SUPPLIERS = (req: express.Request, res: express.Response) =
 export const POST_EOI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId } = req.session;
-  const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/22`, 'Completed');
-  if (response.status == HttpStatusCode.OK) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/23`, 'Not started');
-  }
+  try {
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/22`, 'Completed');
+    if (response.status == HttpStatusCode.OK) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/23`, 'Not started');
+    }
 
-  res.redirect('/eoi/response-date');
+    res.redirect('/eoi/response-date');
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Journey service - Put failed - EOI suppliers page',
+      true,
+    );
+  }
 };
 
 //agreement_suppliers_list

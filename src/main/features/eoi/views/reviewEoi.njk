@@ -11,12 +11,24 @@
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
-    {% if (viewError)%}
+    {% if (viewError == true) and (apiError == false) %}
       {{ CCSErrorSummary({
         titleText: "There is a problem with publishing EOI",
         errorList: [
           {
             text: "You must check this box to confirm that I have read and confirm the statements above",
+            href: "#ccs_eoi_publish_form"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    {% if (viewError == true) and (apiError == true) %}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem with publishing EOI",
+        errorList: [
+          {
+            text: "Please try again or contact the CCS helpdesk",
             href: "#ccs_eoi_publish_form"
           }
         ]
