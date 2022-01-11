@@ -16,7 +16,8 @@ export const app = express();
 import glob from 'glob'
 import { routeExceptionHandler } from './setup/routeexception'
 import { RedisInstanceSetup } from './setup/redis'
-import {fileUploadSetup} from './setup/fileUpload'
+import { fileUploadSetup } from './setup/fileUpload'
+import { CsrfProtection } from './modules/csrf'
 
 app.locals.ENV = env;
 
@@ -56,6 +57,9 @@ app.use((req, res, next) => {
   );
   next();
 });
+if (env !== 'mocha') {
+  new CsrfProtection().enableFor(app)
+}
 app.enable('trust proxy')
 
 /**
