@@ -13,7 +13,7 @@ const logger = Logger.getLogger('questionsPage');
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import moment from 'moment-business-days';
-import  moment from 'moment';
+import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 
 /**
@@ -48,7 +48,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     const bcTitleText = OCDS?.description;
     const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
     const promptData = nonOCDS?.prompt;
-    const splitOn = " <br> ";
+    const splitOn = ' <br> ';
     const promptSplit = promptData.split(splitOn);
     const nonOCDSList = [];
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
@@ -58,6 +58,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         questionType: aSelector.nonOCDS.questionType,
         mandatory: aSelector.nonOCDS.mandatory,
         multiAnswer: aSelector.nonOCDS.multiAnswer,
+        length: aSelector.nonOCDS.length,
       };
       nonOCDSList.push(questionNonOCDS);
       if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
@@ -109,6 +110,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
+    req.session['fieldLengthError'] = [];
+    req.session['emptyFieldError'] = false;
     res.render('questionsEoi', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -153,7 +156,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
     const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
-    const agreementExpiryDate =  retrieveAgreement.endDate;
+    const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
 
@@ -199,7 +202,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               const termObject = { value: term[item], text: value[item], selected: true };
               TAStorage.push(termObject);
             }
-            req.session['errorFields'] = TAStorage;
             answerValueBody = {
               nonOCDS: {
                 answered: true,
@@ -256,41 +258,37 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               },
             };
           } else if (questionNonOCDS.questionType === 'Duration') {
-            let currentDate =  moment(new Date(), 'DD/MM/YYYY').format('DD-MM-YYYY');
-            let inputDate = object_values[0].value+"-"+object_values[1].value+"-"+object_values[2].value;
+            let currentDate = moment(new Date(), 'DD/MM/YYYY').format('DD-MM-YYYY');
+            let inputDate = object_values[0].value + '-' + object_values[1].value + '-' + object_values[2].value;
             let agreementExpiryDateFormated = moment(agreementExpiryDate, 'DD/MM/YYYY').format('DD-MM-YYYY');
             let isInputDateLess = moment(inputDate).isBefore(currentDate);
             let isExpiryDateLess = moment(inputDate).isAfter(agreementExpiryDate);
-            req.session["IsInputDateLessError"] =  false;
-            req.session["IsExpiryDateLessError"] =  false;
-            if(isInputDateLess)
-            {
+            req.session['IsInputDateLessError'] = false;
+            req.session['IsExpiryDateLessError'] = false;
+            if (isInputDateLess) {
               validationError = true;
-              req.session["IsInputDateLessError"] =  true;
+              req.session['IsInputDateLessError'] = true;
               break;
-            }
-            else if(isExpiryDateLess)
-            {
-              validationError =  true;
-              req.session["IsExpiryDateLessError"] =  true;
+            } else if (isExpiryDateLess) {
+              validationError = true;
+              req.session['IsExpiryDateLessError'] = true;
               break;
+            } else {
+              const slideObj = object_values.slice(3);
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [...slideObj],
+                },
+              };
             }
-            else{
-            const slideObj = object_values.slice(3);
-            answerValueBody = {
-              nonOCDS: {
-                answered: true,
-                options: [...slideObj],
-              },
-            };
-          }
           } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
               break;
             }
 
-            let splterm = req.body.splterm;
+            let splterm = req.body.term;
             let splTermvalue = req.body.value;
             const TAStorage = [];
             splterm = splterm.filter((akeyTerm: any) => akeyTerm !== '');
@@ -375,15 +373,33 @@ const KeyValuePairValidation = (object_values: any, req: express.Request) => {
   if (object_values.length == 2) {
     let key = object_values[0];
     let keyValue = object_values[1];
+    let keyErrorIndex = '',
+      keyValueErrorIndex = '';
     if (Array.isArray(key.value) && Array.isArray(keyValue.value)) {
       let eitherElementEmptys = [];
       for (var i = 0; i < key.value.length; i++) {
         if ((key.value[i] === '' && keyValue.value[i] !== '') || (key.value[i] !== '' && keyValue.value[i] === '')) {
-          eitherElementEmptys.push({ index: i, isError: true });
+          eitherElementEmptys.push({ index: i, isEmpty: true });
+        } else {
+          if (key.value[i].length > 100) {
+            keyErrorIndex = keyErrorIndex + i + ',';
+          }
+          if (keyValue.value[i].length > 1000) {
+            keyValueErrorIndex = keyValueErrorIndex + i + ',';
+          }
         }
       }
-      if (eitherElementEmptys.length > 0) {
+      if (eitherElementEmptys.length > 0 || keyErrorIndex !== '' || keyValueErrorIndex !== '') {
         req.session.isFieldError = true;
+        req.session.emptyFieldError = eitherElementEmptys.length > 0;
+        req.session.fieldLengthError = [keyErrorIndex, keyValueErrorIndex];
+        const { term, value } = req.body;
+        const TAStorage = [];
+        for (let item = 0; item < 10; item++) {
+          const termObject = { value: term[item], text: value[item], selected: true };
+          TAStorage.push(termObject);
+        }
+        req.session['errorFields'] = TAStorage;
         return true;
       }
     }
@@ -400,21 +416,47 @@ const findErrorText = (data: any, req: express.Request) => {
       errorText.push({ text: 'You must add at least one objective' });
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must enter information here' });
-    else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == false)
+    else if (
+      requirement.nonOCDS.questionType == 'Text' &&
+      requirement.nonOCDS.multiAnswer === true &&
+      requirement.OCDS.id == 'Question 1'
+    ) {
+      if (req.session.emptyFieldError) errorText.push({ text: 'You must add information in both fields.' });
+      if (req.session.fieldLengthError?.length == 2 && req.session.fieldLengthError[0] !== '')
+        errorText.push({
+          text: 'Term and condition title ' + req.session.fieldLengthError[0] + ' must be 100 characters or fewer',
+        });
+      if (req.session.fieldLengthError?.length == 2 && req.session.fieldLengthError[1] !== '')
+        errorText.push({
+          text:
+            'Term and condition definition ' + req.session.fieldLengthError[1] + ' must be 1000 characters or fewer',
+        });
+    } else if (
+      requirement.nonOCDS.questionType == 'MultiSelect' &&
+      req.session['isLocationError'] == true &&
+      req.session['isLocationMandatoryError'] == false
+    )
       errorText.push({ text: 'Select regions where your staff will be working, or select "No specific location...."' });
-    else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == true)
-      errorText.push({ text: 'You must select at least one region where your staff will be working, or select "No specific location...."' });
-    else if (requirement.nonOCDS.questionType == 'Duration' && req.session["IsInputDateLessError"] ==  true)
+    else if (
+      requirement.nonOCDS.questionType == 'MultiSelect' &&
+      req.session['isLocationError'] == true &&
+      req.session['isLocationMandatoryError'] == true
+    )
+      errorText.push({
+        text: 'You must select at least one region where your staff will be working, or select "No specific location...."',
+      });
+    else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
       errorText.push({ text: 'Start date must be a valid future date' });
-    else if (requirement.nonOCDS.questionType == 'Duration' && req.session["IsExpiryDateLessError"] ==  true)
+    else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsExpiryDateLessError'] == true)
       errorText.push({ text: 'Start date cannot be after agreement expiry date' });
-
   });
   return errorText;
 };
 
-const isDateOlder = (date1:any, date2:any) => {
-  return date1.getFullYear() >= date2.getFullYear() ||
-     date1.getMonth() >= date2.getMonth() ||
-     date1.getDate() >= date2.getDate();
- };
+const isDateOlder = (date1: any, date2: any) => {
+  return (
+    date1.getFullYear() >= date2.getFullYear() ||
+    date1.getMonth() >= date2.getMonth() ||
+    date1.getDate() >= date2.getDate()
+  );
+};
