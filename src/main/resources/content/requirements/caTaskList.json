@@ -204,7 +204,7 @@
               "subTitle": "[ Upload any additional documentation ]",
               "required": "optional",
               "status": "Cannot start yet",
-              "link": "#"
+              "link": "/ca/upload-doc"
             },
             {
               "subTask": 2,

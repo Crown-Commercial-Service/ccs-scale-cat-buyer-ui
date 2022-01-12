@@ -4,7 +4,7 @@ import { REQUIREMENT_PATHS } from './model/requirementConstants';
 import { Application } from 'express';
 import { ContentFetchMiddleware } from '../../common/middlewares/menu-contentservice/contentservice';
 import { PreMarketEngagementMiddleware } from '../../common/middlewares/premarketservice/premarketengagement';
-import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch'
+import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch';
 
 export default function (app: Application): void {
   // This is the reciever callback after getting the token
@@ -83,9 +83,20 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.GET_LEAD_PROCUREMENT,
   );
 
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_UPLOAD_DOC,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_UPLOAD_DOC,
+  );
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_UPLOAD_DOC,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_UPLOAD_DOC,
+  );
+
   app.get(REQUIREMENT_PATHS.GET_USER_PROCUREMENT, [AUTH], REQUIREMENT_CONTROLLER.GET_USER_PROCUREMENT);
 
-    app.get(REQUIREMENT_PATHS.CA_GET_USER_PROCUREMENT, [AUTH], REQUIREMENT_CONTROLLER.GET_USER_PROCUREMENT);
+  app.get(REQUIREMENT_PATHS.CA_GET_USER_PROCUREMENT, [AUTH], REQUIREMENT_CONTROLLER.GET_USER_PROCUREMENT);
 
   app.get(REQUIREMENT_PATHS.OFFLINE_JOURNEY_PAGE, [AUTH], REQUIREMENT_CONTROLLER.OFFLINE_JOURNEY_PAGE);
 
@@ -150,4 +161,12 @@ export default function (app: Application): void {
     AUTH,
     REQUIREMENT_CONTROLLER.POST_ADD_COLLABORATOR_TO_JAGGER,
   );
+
+  app.post(REQUIREMENT_PATHS.RFP_POST_UPLOAD_DOC, AUTH, REQUIREMENT_CONTROLLER.POST_UPLOAD_DOC);
+
+  app.post(REQUIREMENT_PATHS.CA_POST_UPLOAD_DOC, AUTH, REQUIREMENT_CONTROLLER.POST_UPLOAD_DOC);
+
+  app.post(REQUIREMENT_PATHS.CA_POST_UPLOAD_PROCEED, AUTH, REQUIREMENT_CONTROLLER.POST_UPLOAD_PROCEED);
+
+  app.post(REQUIREMENT_PATHS.RFP_POST_UPLOAD_PROCEED, AUTH, REQUIREMENT_CONTROLLER.POST_UPLOAD_PROCEED);
 }
