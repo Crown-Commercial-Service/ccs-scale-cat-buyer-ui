@@ -1,5 +1,5 @@
 <div class="project-overview">
-  <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if 'Lot' not in agreement_header.lotid %}Lot{%endif %} {{agreement_header.lotid}}: {{ agreement_header['agreementLotName'] }}  
+  <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, Lot {{agreement_header.lotid}}: {{ agreement_header['agreementLotName'] }}  
   </strong></p>
   {%endif %}
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
