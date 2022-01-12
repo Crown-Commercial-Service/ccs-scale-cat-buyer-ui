@@ -72,6 +72,14 @@ data "aws_ssm_parameter" "conclave_wrapper_api_key" {
   name = "/cat/${var.environment}/conclave-wrapper-api-key"
 }
 
+data "aws_ssm_parameter" "google_tag_manager_id" {
+  name = "/cat/${var.environment}/google-tag-manager-id"
+}
+
+data "aws_ssm_parameter" "google_site_tag_id" {
+  name = "/cat/${var.environment}/google-site-tag-id"
+}
+
 resource "cloudfoundry_app" "cat_buyer_ui" {
   annotations = {}
   buildpack   = var.buildpack
@@ -88,6 +96,8 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     SESSION_SECRET : data.aws_ssm_parameter.env_session_secret.value
     CONCLAVE_WRAPPER_API_BASE_URL : data.aws_ssm_parameter.conclave_wrapper_api_base_url.value
     CONCLAVE_WRAPPER_API_KEY : data.aws_ssm_parameter.conclave_wrapper_api_key.value
+    GOOGLE_TAG_MANAGER_ID : data.aws_ssm_parameter.google_tag_manager_id.value
+    GOOGLE_SITE_TAG_ID : data.aws_ssm_parameter.google_site_tag_id.value
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
