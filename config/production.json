@@ -1,59 +1,58 @@
 {
-    "useCSRFProtection": true,
-    "security": {
-      "referrerPolicy": "origin"
-    },
-    "featureDir": [
-      {"path": "/routes/**/*.+(ts|js)"},
-      {"path": "/features/**/path.ts"},
-      {"path": "/errors/path.ts"}
-    ],
-    "PORT": "3000",
-    "Session": {
-      "time": "15"
-    },
-    "settings": {
-      "fetch-timelimit" : "1500"
-    },
-    "contentService": {
-      "BASEURL":"https://webprod-cms.crowncommercial.gov.uk",
-      "menuDirectory": "src/main/resources/content/menu-content/content.json"
-    },
-    "authenticationService": {
-      "token-endpoint": "/security/token",
-      "access_granttype": "authorization_code",
-      "token_validation_endpoint": "/security/tokens/validation",
-      "logout": "/security/log-out",
-      "logout_callback": "/logout",
-      "user_profile_endpoint": "/user-profiles"
-    },
-    "logger":{
-      "baseURL": "https://api.logit.io/v2"
-    },
-    "dynamic_framework": {
-      "BASEURL": "https://dev-ccs-scale-cat-buyer-ui.london.cloudapps.digital/api/template"
-    },
-    "pages": {
-      "error": {
-        "401": "error/401",
-        "404": "error/404",
-        "500": "error/500"
-      }
-    },
-    "cookies": {
-      "sessionid": "SESSION_ID",
-      "state": "state",
-      "lotNum": "lotNum",
-      "agreement_id": "agreement_id"
-    },
-    "predefinedDays" : {
-      "defaultEndingHour" : "23",
-      "defaultEndingMinutes": "59",
-      "clarification_days": "4",
-      "clarification_period_end": "2",
-      "supplier_period": "4",
-      "supplier_deadline" : "6"
-      
-      }
+  "useCSRFProtection": true,
+  "security": {
+    "referrerPolicy": "origin"
+  },
+  "featureDir": [
+    { "path": "/routes/**/*.+(ts|js)" },
+    { "path": "/features/**/path.ts" },
+    { "path": "/errors/path.ts" }
+  ],
+  "PORT": "3000",
+  "Session": {
+    "time": "15"
+  },
+  "settings": {
+    "fetch-timelimit": "1500"
+  },
+  "contentService": {
+    "BASEURL": "https://webprod-cms.crowncommercial.gov.uk",
+    "menuDirectory": "src/main/resources/content/menu-content/content.json"
+  },
+  "authenticationService": {
+    "token-endpoint": "/security/token",
+    "access_granttype": "authorization_code",
+    "refresh_token": "refresh_token",
+    "token_validation_endpoint": "/security/tokens/validation",
+    "logout": "/security/log-out",
+    "logout_callback": "/logout",
+    "user_profile_endpoint": "/user-profiles"
+  },
+  "logger": {
+    "baseURL": "https://api.logit.io/v2"
+  },
+  "dynamic_framework": {
+    "BASEURL": "https://dev-ccs-scale-cat-buyer-ui.london.cloudapps.digital/api/template"
+  },
+  "pages": {
+    "error": {
+      "401": "error/401",
+      "404": "error/404",
+      "500": "error/500"
+    }
+  },
+  "cookies": {
+    "sessionid": "SESSION_ID",
+    "state": "state",
+    "lotNum": "lotNum",
+    "agreement_id": "agreement_id"
+  },
+  "predefinedDays": {
+    "defaultEndingHour": "23",
+    "defaultEndingMinutes": "59",
+    "clarification_days": "4",
+    "clarification_period_end": "2",
+    "supplier_period": "4",
+    "supplier_deadline": "6"
   }
-  
+}
