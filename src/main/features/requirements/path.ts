@@ -8,17 +8,49 @@ import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreem
 
 export default function (app: Application): void {
   // This is the reciever callback after getting the token
-  app.get(REQUIREMENT_PATHS.CHOOSE_ROUTE, [
-    ContentFetchMiddleware.FetchContents, AUTH], REQUIREMENT_CONTROLLER.REQUIREMENT_CHOOSE_ROUTE);
+  app.get(
+    REQUIREMENT_PATHS.CHOOSE_ROUTE,
+    [ContentFetchMiddleware.FetchContents, AUTH],
+    REQUIREMENT_CONTROLLER.REQUIREMENT_CHOOSE_ROUTE,
+  );
 
-  app.get(REQUIREMENT_PATHS.RFP_TYPE, [
-    ContentFetchMiddleware.FetchContents, AUTH], REQUIREMENT_CONTROLLER.REQUIREMENT_RFP_TYPE);
+  app.get(
+    REQUIREMENT_PATHS.RFP_TYPE,
+    [ContentFetchMiddleware.FetchContents, AUTH],
+    REQUIREMENT_CONTROLLER.REQUIREMENT_RFP_TYPE,
+  );
 
-  app.get(REQUIREMENT_PATHS.REQUIREMENT_RFP_TASK_LIST, [
-    ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements, PreMarketEngagementMiddleware.PutPremarket], REQUIREMENT_CONTROLLER.REQUIREMENT_RFP_TASK_LIST);
+  app.get(
+    REQUIREMENT_PATHS.REQUIREMENT_RFP_TASK_LIST,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+      PreMarketEngagementMiddleware.PutPremarket,
+    ],
+    REQUIREMENT_CONTROLLER.REQUIREMENT_RFP_TASK_LIST,
+  );
+
+  //@GET '/ca/task-list'
+  app.get(
+    REQUIREMENT_PATHS.CAPABILITY_ASSESSMENT,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.GET_CAPABILITY_ASSESSMENT,
+  );
 
   app.get(
     REQUIREMENT_PATHS.GET_NAME_PROJECT,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_NAME_PROJECT,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_NAME_PROJECT,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.GET_NAME_PROJECT,
   );
@@ -30,6 +62,13 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.GET_ADD_COLLABORATOR,
   );
 
+  //@GET '/ca/add-collaborators'
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_ADD_COLLABORATOR,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_ADD_COLLABORATOR,
+  );
+
   //@GET '/rfp/procurement-lead'
   app.get(
     REQUIREMENT_PATHS.GET_LEAD_PROCUREMENT,
@@ -37,10 +76,18 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.GET_LEAD_PROCUREMENT,
   );
 
+  //@GET '/ca/procurement-lead'
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_LEAD_PROCUREMENT,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_LEAD_PROCUREMENT,
+  );
+
   app.get(REQUIREMENT_PATHS.GET_USER_PROCUREMENT, [AUTH], REQUIREMENT_CONTROLLER.GET_USER_PROCUREMENT);
 
-  app.get(REQUIREMENT_PATHS.OFFLINE_JOURNEY_PAGE, [AUTH], REQUIREMENT_CONTROLLER.OFFLINE_JOURNEY_PAGE);
+    app.get(REQUIREMENT_PATHS.CA_GET_USER_PROCUREMENT, [AUTH], REQUIREMENT_CONTROLLER.GET_USER_PROCUREMENT);
 
+  app.get(REQUIREMENT_PATHS.OFFLINE_JOURNEY_PAGE, [AUTH], REQUIREMENT_CONTROLLER.OFFLINE_JOURNEY_PAGE);
 
   app.post(
     REQUIREMENT_PATHS.POST_ROUTE,
@@ -55,26 +102,52 @@ export default function (app: Application): void {
   );
 
   //@POST '/rfp/name'
-  app.post(REQUIREMENT_PATHS.POST_PROJECT_NAME, AUTH , REQUIREMENT_CONTROLLER.POST_NAME_PROJECT);
+  app.post(REQUIREMENT_PATHS.POST_PROJECT_NAME, AUTH, REQUIREMENT_CONTROLLER.POST_NAME_PROJECT);
 
+  //@POST '/ca/name'
+  app.post(REQUIREMENT_PATHS.CA_POST_PROJECT_NAME, AUTH, REQUIREMENT_CONTROLLER.POST_NAME_PROJECT);
 
   //@POST '/rfp/get-collaborator-detail'
-  app.post(REQUIREMENT_PATHS.POST_ADD_COLLABORATOR, AUTH, REQUIREMENT_CONTROLLER.POST_ADD_COLLABORATOR)
+  app.post(REQUIREMENT_PATHS.POST_ADD_COLLABORATOR, AUTH, REQUIREMENT_CONTROLLER.POST_ADD_COLLABORATOR);
 
+  //@POST '/ca/get-collaborator-detail'
+  app.post(REQUIREMENT_PATHS.CA_POST_ADD_COLLABORATOR, AUTH, REQUIREMENT_CONTROLLER.POST_ADD_COLLABORATOR);
 
-  app.post(REQUIREMENT_PATHS.PUT_LEAD_PROCUREMENT, AUTH, REQUIREMENT_CONTROLLER.PUT_LEAD_PROCUREMENT)
-   
+  app.post(REQUIREMENT_PATHS.PUT_LEAD_PROCUREMENT, AUTH, REQUIREMENT_CONTROLLER.PUT_LEAD_PROCUREMENT);
+
+  app.post(REQUIREMENT_PATHS.CA_PUT_LEAD_PROCUREMENT, AUTH, REQUIREMENT_CONTROLLER.PUT_LEAD_PROCUREMENT);
 
   //@POST '/rfp/proceed-collaborators'
-  app.post(REQUIREMENT_PATHS.POST_PROCEED_COLLABORATORS, AUTH, REQUIREMENT_CONTROLLER.POST_PROCEED_COLLABORATORS)
-  
-  
+  app.post(REQUIREMENT_PATHS.POST_PROCEED_COLLABORATORS, AUTH, REQUIREMENT_CONTROLLER.POST_PROCEED_COLLABORATORS);
+
+  //@POST '/ca/proceed-collaborators'
+  app.post(REQUIREMENT_PATHS.CA_POST_PROCEED_COLLABORATORS, AUTH, REQUIREMENT_CONTROLLER.POST_PROCEED_COLLABORATORS);
+
   //@POST '/rfp/get-collaborator-detail/js-enabled'
-  app.post(REQUIREMENT_PATHS.POST_ADD_COLLABORATOR_JSENABLED, AUTH, REQUIREMENT_CONTROLLER.POST_ADD_COLLABORATOR_JSENABLED)
+  app.post(
+    REQUIREMENT_PATHS.POST_ADD_COLLABORATOR_JSENABLED,
+    AUTH,
+    REQUIREMENT_CONTROLLER.POST_ADD_COLLABORATOR_JSENABLED,
+  );
 
-
+  //@POST '/ca/get-collaborator-detail/js-enabled'
+  app.post(
+    REQUIREMENT_PATHS.CA_POST_ADD_COLLABORATOR_JSENABLED,
+    AUTH,
+    REQUIREMENT_CONTROLLER.POST_ADD_COLLABORATOR_JSENABLED,
+  );
 
   //@POST '/rfp/add-collaborator-detail'
-  app.post(REQUIREMENT_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, REQUIREMENT_CONTROLLER.POST_ADD_COLLABORATOR_TO_JAGGER)
+  app.post(
+    REQUIREMENT_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER,
+    AUTH,
+    REQUIREMENT_CONTROLLER.POST_ADD_COLLABORATOR_TO_JAGGER,
+  );
 
+  //@POST '/ca/add-collaborator-detail'
+  app.post(
+    REQUIREMENT_PATHS.CA_POST_ADD_COLLABORATOR_TO_JAGGER,
+    AUTH,
+    REQUIREMENT_CONTROLLER.POST_ADD_COLLABORATOR_TO_JAGGER,
+  );
 }

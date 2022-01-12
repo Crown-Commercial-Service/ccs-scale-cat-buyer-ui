@@ -1,0 +1,249 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "#"
+    }
+  ],
+
+  "title": "Write and publish your requirements",
+  "subtitle": null,
+  "events": [
+    {
+      "eventno": 1,
+      "eventTitle": "Project and collaborators",
+      "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+      "eventTask": [
+        {
+          "Task": 1,
+          "link": "/ca/name-your-project",
+          "title": "Name your project",
+          "required": "mandatory",
+          "status": "Optional"
+        },
+        {
+          "Task": 2,
+          "link": "/ca/procurement-lead",
+          "title": "Change who is going to lead the procurement",
+          "required": "optional",
+          "status": "Optional"
+        },
+        {
+          "Task": 3,
+          "link": "/ca/add-collaborators",
+          "title": "Add memebers to your project",
+          "required": "optional",
+          "status": "Optional"
+        }
+      ]
+    },
+    {
+      "eventno": 2,
+      "eventTitle": "[ Stage 1: Complete a capability assessment ]",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "[ Learn about capability assessment ]",
+          "required": "optional",
+          "link": "#",
+          "status": "Optional"
+        },
+        {
+          "Task": 2,
+          "link": "#",
+          "title": "[ Enter your weightings ]",
+          "required": "mandatory",
+          "status": "To do"
+        },
+        {
+          "Task": 3,
+          "link": "#",
+          "title": "[ Choose your resources ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 4,
+          "link": "#",
+          "title": "[ Select your service capabilities ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 5,
+          "link": "#",
+          "title": "[ Where the work will be done ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 6,
+          "link": "#",
+          "title": "[ Will you accept sub-contractors? ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 7,
+          "link": "#",
+          "title": "[ View ranked suppliers ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 8,
+          "link": "#",
+          "title": "[ Next steps ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        }
+      ]
+    },
+    {
+      "eventno": 3,
+      "eventTitle": "[Stage 2: Progress to further competition ]",
+      "eventDescription": "[ In order to progress with the second stage of your further competition, you need to complete the previous “Next steps” screen at the end of stage 1. ]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "[ 1. Context ]",
+          "subDescription": "[description of this section]",
+          "eventSubTask": [
+            {
+              "subTask": 1,
+              "subTitle": "[ IR35 acknowledgement ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            },
+            {
+              "subTask": 2,
+              "subTitle": "[ Add context ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            }
+          ]
+        },
+        {
+          "Task": 2,
+          "title": "[ 2. Your requirements ]",
+          "subDescription": "[description of this section]",
+          "eventSubTask": [
+            {
+              "subTask": 1,
+              "subTitle": "[ How would you like to create your requirements?]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            },
+            {
+              "subTask": 2,
+              "subTitle": "[ Your requirements ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            }
+          ]
+        },
+        {
+          "Task": 3,
+          "title": "[ 3. Your assessment bases and evaluation weightings ]",
+          "subDescription": "[ When you build your 1-stage further competition online, you’ll be able to define your requirements and evaluation weightings as well. ]",
+          "eventSubTask": [
+            {
+              "subTask": 1,
+              "subTitle": "[ Define your assessment bases ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            },
+            {
+              "subTask": 2,
+              "subTitle": "[ Add your evaluation weightings ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            },
+            {
+              "subTask": 3,
+              "subTitle": "[ How would you like to set your scoring criteria? ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            },
+            {
+              "subTask": 4,
+              "subTitle": "[ Set your scoring criteria ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            }
+          ]
+        },
+        {
+          "Task": 4,
+          "title": "[ 4. Review and publish your further competition ]",
+          "subDescription": "[description of this section]",
+          "eventSubTask": [
+            {
+              "subTask": 1,
+              "subTitle": "[ Upload any additional documentation ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            },
+            {
+              "subTask": 2,
+              "subTitle": "[ Select the suppliers for this further competition ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            },
+            {
+              "subTask": 3,
+              "subTitle": "[ Enter your justification ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            },
+            {
+              "subTask": 4,
+              "subTitle": "[ Set response date and time ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            },
+            {
+              "subTask": 5,
+              "subTitle": "[ Review and publish your further competition ]",
+              "required": "optional",
+              "status": "Cannot start yet",
+              "link": "#"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to procurement overview",
+      "href": "/projects/create-or-choose"
+    }
+  }
+}
