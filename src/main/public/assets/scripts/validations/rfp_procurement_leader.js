@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('ccs_rfp_procurement_lead').addEventListener('change', function (event) {
             event.preventDefault();
             $.ajax({
-                url: "/rfi/users-procurement-lead?id=" + event.target.value,
+                url: "/rfp/users-procurement-lead?id=" + event.target.value,
                 type: "GET",
                 contentType: "application/json",
             }).done(function (result) {
