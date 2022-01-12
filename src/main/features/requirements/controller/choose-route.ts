@@ -17,7 +17,7 @@ const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
 export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: express.Response) => {
   const releatedContent = req.session.releatedContent
   const agreementName = req.session.agreementName;
-  const lotid = req.session?.lotId;
+  const lotId = req.session?.lotId;
   const project_name = req.session.project_name;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
@@ -26,10 +26,10 @@ export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: expres
   const updatedOptions = await updateRadioButtonOptions(
     chooseRouteData,
     agreementId_session,
-    lotid,
+    lotId,
     req.session?.types,
   );
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotId };
   const appendData = { data: updatedOptions, releatedContent, error: isJaggaerError  }
   res.render('choose-route', appendData);
 }
@@ -41,9 +41,10 @@ function updateRadioButtonOptions(
   types: string[],
 ): object {
   let updatedOptions = chooseRouteOptions;
+  const updateLotId = lotId.length > 1 ? lotId : 'Lot ' + lotId; 
   switch (agreementId) {
     case 'RM6263':
-      if (lotId == '1') {
+      if (updateLotId == 'Lot 1') {
         for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
           if (types.find(element => element == 'FC')) {
             if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {

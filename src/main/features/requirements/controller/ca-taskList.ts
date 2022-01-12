@@ -5,7 +5,7 @@ import * as chooseRouteData from '../../../resources/content/requirements/caTask
 import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
-// import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
+import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 
 export const GET_CAPABILITY_ASSESSMENT = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
@@ -14,7 +14,7 @@ export const GET_CAPABILITY_ASSESSMENT = async (req: express.Request, res: expre
     agreementLotName,
     agreementName,
     eventId,
-    // projectId,
+    projectId,
     agreement_id,
     releatedContent,
     project_name,
@@ -24,10 +24,10 @@ export const GET_CAPABILITY_ASSESSMENT = async (req: express.Request, res: expre
     req.session['isJaggaerError'] = false;
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotId, error: isJaggaerError };
     try {
-      //const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-      //statusStepsDataFilter(chooseRouteData, journeySteps, 'AC', agreement_id, projectId, eventId);
+      const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+      statusStepsDataFilter(chooseRouteData, journeySteps, 'AC', agreement_id, projectId, eventId);
       const windowAppendData = { data: chooseRouteData, lotId, agreementLotName, releatedContent };
-       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/3`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/3`, 'In progress');
       res.render('ca-taskList', windowAppendData);
     } catch (error) {
       req.session['isJaggaerError'] = true;
