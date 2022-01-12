@@ -41,6 +41,9 @@ export function statusStepsDataFilter(data: any, steps: any, type: string, agree
     case 'eoi':
       stepsByType = steps.slice(15, 25);
       break;
+    case 'CA':
+      stepsByType = steps.slice(44, 58);
+      break;
   }
 
   events.forEach((event: any) => {
@@ -59,9 +62,17 @@ export function statusStepsDataFilter(data: any, steps: any, type: string, agree
           : 'required';
         eventTask[keyMap] = getValue(stepInfo.state);
         if (stepInfo.step == 10) {
-          eventTask['link'] = `/rfi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
+          eventTask[
+            'link'
+          ] = `/rfi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
         } else if (stepInfo.step == 20) {
-          eventTask['link'] = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
+          eventTask[
+            'link'
+          ] = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
+        } else if (stepInfo.step == 14) {
+          eventTask[
+            'link'
+          ] = `/ca/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
         } 
       }
       accum = accum + 1;

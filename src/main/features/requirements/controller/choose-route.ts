@@ -17,50 +17,63 @@ const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
 export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: express.Response) => {
   const releatedContent = req.session.releatedContent
   const agreementName = req.session.agreementName;
-  const lotid = req.session?.lotId;
+  const lotId = req.session?.lotId;
   const project_name = req.session.project_name;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
-  const updatedOptions = await updateRadioButtonOptions(chooseRouteData, agreementId_session, lotid, req.session?.types)
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+  const updatedOptions = await updateRadioButtonOptions(
+    chooseRouteData,
+    agreementId_session,
+    lotId,
+    req.session?.types,
+  );
+  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotId };
   const appendData = { data: updatedOptions, releatedContent, error: isJaggaerError  }
   res.render('choose-route', appendData);
 }
 
-function updateRadioButtonOptions (chooseRouteOptions: any, agreementId: string, lotid: string, types: string[]): object {
+function updateRadioButtonOptions(
+  chooseRouteOptions: any,
+  agreementId: string,
+  lotId: string,
+  types: string[],
+): object {
   let updatedOptions = chooseRouteOptions;
   switch (agreementId) {
     case 'RM6263':
-       if (lotid == 'Lot 1') {
+      if (lotId == '1') {
         for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
-          if ( types.find((element => element == 'FC'))){
+          if (types.find(element => element == 'FC')) {
             if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
-              updatedOptions.form.radioOptions.items[i].disabled = "true"
+              // updatedOptions.form.radioOptions.items[i].disabled = "true"
             } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
-              updatedOptions.form.radioOptions.items[i].remove = "true"
+              updatedOptions.form.radioOptions.items[i].remove = 'true';
             }
           }
         }
-       } else {
+      } else {
         for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
-          if ( types.find((element => element == 'DA'))){
-            if (updatedOptions.form.radioOptions.items[i].value === '2-stage' || updatedOptions.form.radioOptions.items[i].value === 'award') {
-              updatedOptions.form.radioOptions.items[i].disabled = "true"
+          if (types.find(element => element == 'DA')) {
+            if (
+              updatedOptions.form.radioOptions.items[i].value === '2-stage' ||
+              updatedOptions.form.radioOptions.items[i].value === 'award'
+            ) {
+              // updatedOptions.form.radioOptions.items[i].disabled = "true"
             }
           }
         }
-       }
-       break;
+      }
+      break;
 
     case 'RM6187':
-       
-       break;
+      break;
 
-    default: updatedOptions = chooseRouteOptions;
-} 
-  return updatedOptions
+    default:
+      updatedOptions = chooseRouteOptions;
+  }
+  return updatedOptions;
 }
 
 /**
@@ -97,10 +110,10 @@ function updateRadioButtonOptions (chooseRouteOptions: any, agreementId: string,
   
        case '2-stage':
           // eslint-disable-next-line no-case-declarations
-          const newAddress = '#';
+          const newAddress = REQUIREMENT_PATHS.CAPABILITY_ASSESSMENT;
           req.session.caSelectedRoute = fc_route_to_market
           logger.info("two stage further competition selected");
-          req.session.selectedRoute = 'FC';
+          req.session.selectedRoute = 'CA';
           res.redirect(newAddress);
           break;
   
