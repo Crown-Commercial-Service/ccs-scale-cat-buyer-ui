@@ -31,21 +31,21 @@
           "link": "/rfp/name-your-project",
           "title": "Name your project",
           "required": "mandatory",
-          "status": "Todo"
+          "status": "Optional"
         },
         {
           "Task": 2,
           "link": "/rfp/procurement-lead",
           "title": "Change who is going to lead the procurement",
           "required": "optional",
-          "status": "Todo"
+          "status": "Optional"
         },
         {
           "Task": 3,
           "link": "/rfp/add-collaborators",
           "title": "Add colleagues to your project",
           "required": "optional",
-          "status": "Todo"
+          "status": "Optional"
         }
       ]
     },
@@ -59,14 +59,14 @@
           "title": "[ IR35 acknowledgement ]",
           "required": "mandatory",
           "link": "#",
-          "status": "Todo"
+          "status": "Optional"
         },
         {
           "Task": 2,
           "link": "#",
           "title": "[ Add context ]",
           "required": "mandatory",
-          "status": "Todo"
+          "status": "Optional"
         }
       ]
     },
