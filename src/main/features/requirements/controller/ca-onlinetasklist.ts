@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express'
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import fileData from '../../../resources/content/RFI/rfionlineTaskList.json'
+import fileData from '../../../resources/content/requirements/caonlineTaskList.json'
 import { operations } from '../../../utils/operations/operations';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
