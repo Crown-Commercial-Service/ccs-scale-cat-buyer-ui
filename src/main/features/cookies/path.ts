@@ -4,8 +4,13 @@ import { Application } from 'express';
 import { ContentFetchMiddleware } from '../../common/middlewares/menu-contentservice/contentservice';
 
 export default function (app: Application): void {
-   // agreement page
+   // Cookie setting page
    app.get(COOKIES_PATHS.COOKIES_SETTINGS,
       [ContentFetchMiddleware.FetchContents],
       COOKIES_CONTROLLER.COOKIES_SETTING_PAGE);
+
+   // Cookies details page
+   app.get(COOKIES_PATHS.COOKIES_DETAILS,
+      [ContentFetchMiddleware.FetchContents],
+      COOKIES_CONTROLLER.COOKIES_DETAILS_PAGE);
 }

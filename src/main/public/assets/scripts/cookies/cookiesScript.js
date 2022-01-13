@@ -100,7 +100,7 @@
         },
         {
             title: "Cookies that help with our communications and marketing",
-            description: "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS).",
+            description: "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS) - CaT.",
             cookie_type: "marketing",
             enabled: null,
             adjustable: true,

@@ -1,4 +1,3 @@
-//@ts-nocheck
 import * as express from 'express'
 import * as cookiesSettingsData from '../../../resources/content/cookies/cookie-settings.json'
 const { Logger } = require('@hmcts/nodejs-logging');
