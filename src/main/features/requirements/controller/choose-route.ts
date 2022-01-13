@@ -120,7 +120,7 @@ function updateRadioButtonOptions(
   
         case 'award':
           // eslint-disable-next-line no-case-declarations
-          const nextAddress = '#';
+          const nextAddress = REQUIREMENT_PATHS.CAPABILITY_ASSESSMENT;
           req.session.caSelectedRoute = fc_route_to_market
           logger.info("DA selected");
           req.session.selectedRoute = 'DA';
