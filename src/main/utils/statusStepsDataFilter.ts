@@ -69,7 +69,7 @@ export function statusStepsDataFilter(data: any, steps: any, type: string, agree
           eventTask[
             'link'
           ] = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
-        } else if (stepInfo.step == 14) {
+        } else if (stepInfo.step == 49) {
           eventTask[
             'link'
           ] = `/ca/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
