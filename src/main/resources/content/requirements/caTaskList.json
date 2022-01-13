@@ -43,7 +43,7 @@
         {
           "Task": 3,
           "link": "/ca/add-collaborators",
-          "title": "Add memebers to your project",
+          "title": "Add members to your project",
           "required": "optional",
           "status": "Optional"
         }

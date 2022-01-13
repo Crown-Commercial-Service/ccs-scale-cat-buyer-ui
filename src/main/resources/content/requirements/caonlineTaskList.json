@@ -1,0 +1,82 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/"
+        },
+        {
+            "text": "Choose a commericial agreement",
+            "href": "#"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "#"
+        },
+        {
+          "text": "Run premakert engagement",
+          "href": "#"
+        },
+        {
+          "text": "Build your Capability Assessment (CA)",
+          "href": "#"
+      }
+
+    ],
+
+    "title": "Build your CA",
+    "subtitle": null,
+     "taskList": [
+          {
+            "title": "Information you are looking for",
+            "hreftitle": "Add Information you are looking for",
+            "href": "ca_questions"
+          },
+          {
+            "title": "Who is the buyer?",
+            "hreftitle": "Add buyer details",
+            "href": "ca_who"
+          },
+          {
+            "title": "Security and vetting requirements",
+            "hreftitle": "Add security and vetting requirements",
+            "href": "ca_vetting"
+          },
+          {
+            "title": "Key terms and acronyms",
+            "hreftitle": "Add terms and acronyms",
+            "href": "ca_acronyms"
+          },
+          {
+            "title": "Where the work will be completed",
+            "hreftitle": "Add address",
+            "href": "ca_address"
+          },
+          {
+            "title": "Specify your budget",
+            "hreftitle": "Add budget",
+            "href": "ca_budget"
+          },
+          {
+            "title": "Specify your daily rate",
+            "hreftitle": "Add daily rate",
+            "href": "ca_budget_step_two"
+          },
+          {
+            "title": "About the project",
+            "hreftitle": "Add information about the project",
+            "href": "ca_project"
+          },
+          {
+            "title": "Status of the project",
+            "hreftitle": "Add status of the project",
+            "href": "ca_project_status"
+          }
+        ],       
+        "backJump": {
+            "title": "Return to pre-market engagement",
+            "href": "/ca/ca-tasklist"
+        },
+        "template": []
+
+
+}
