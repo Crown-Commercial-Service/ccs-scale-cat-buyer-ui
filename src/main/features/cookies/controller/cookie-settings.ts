@@ -7,5 +7,5 @@ const logger = Logger.getLogger('Cookies settings page');
 export const COOKIES_SETTING_PAGE = (req: express.Request, res: express.Response) => {
     logger.info("Rendering Cookies settings page");
     let appendData = { data: cookiesSettingsData }
-    res.render('cookie-settings.njk', appendData);
+    res.render('cookie-settings', appendData);
 }
