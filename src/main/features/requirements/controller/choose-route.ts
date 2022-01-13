@@ -17,7 +17,7 @@ const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
 export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: express.Response) => {
   const releatedContent = req.session.releatedContent
   const agreementName = req.session.agreementName;
-  const lotId = req.session?.lotId;
+  const lotid = req.session?.lotId;
   const project_name = req.session.project_name;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
@@ -26,10 +26,10 @@ export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: expres
   const updatedOptions = await updateRadioButtonOptions(
     chooseRouteData,
     agreementId_session,
-    lotId,
+    lotid,
     req.session?.types,
   );
-  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotId };
+  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   const appendData = { data: updatedOptions, releatedContent, error: isJaggaerError  }
   res.render('choose-route', appendData);
 }
