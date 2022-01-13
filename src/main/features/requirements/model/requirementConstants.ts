@@ -6,7 +6,10 @@ export enum REQUIREMENT_PATHS {
   POST_RFP_TYPE = '/rfp/type',
   REQUIREMENT_RFP_TASK_LIST = '/rfp/task-list',
   OFFLINE_JOURNEY_PAGE = '/rfp/offline',
-  CAPABILITY_ASSESSMENT = '/ca/task-list',
+  REQUIREMENT_CA_TASK_LIST = '/ca/task-list',
+  GET_CA_LEARN = '/ca/learn-about-capability-assessment',
+  POST_CA_LEARN = 'ca/learn',
+  GET_CA_WEIGHTINGS = '/ca/enter-your-weightings',
 
   // Add collaborator rfp
   GET_ADD_COLLABORATOR = '/rfp/add-collaborators',

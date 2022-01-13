@@ -7,7 +7,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 
-export const GET_CAPABILITY_ASSESSMENT = async (req: express.Request, res: express.Response) => {
+export const GET_CA_TASK_LIST = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;

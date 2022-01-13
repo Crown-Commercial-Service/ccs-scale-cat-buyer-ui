@@ -1,0 +1,50 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/ca/task-list"
+    },
+    {
+      "text": "Enter your weightings",
+      "href": "#"
+    }
+  ],
+
+  "title": "Enter your weightings",
+  "subtitle": null,
+  "events": [
+    {
+      "eventno": 1,
+      "eventTitle": "Project and collaborators",
+      "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+      "eventTask": [
+        {
+          "Task": 1,
+          "link": "/rfp/name-your-project",
+          "title": "Name your project",
+          "required": "mandatory",
+          "status": "Todo"
+        }
+      ]
+    }
+  ],
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to write and publish your requirements",
+      "href": "/ca/task-list"
+    }
+  }
+}
