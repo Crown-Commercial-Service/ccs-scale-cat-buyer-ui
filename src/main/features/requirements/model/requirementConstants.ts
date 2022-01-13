@@ -23,6 +23,11 @@ export enum REQUIREMENT_PATHS {
   PUT_LEAD_PROCUREMENT = '/rfp/procurement-lead',
   GET_USER_PROCUREMENT = '/rfp/users-procurement-lead',
 
+  // Upload doc rfp
+  RFP_GET_UPLOAD_DOC = '/rfp/upload-doc',
+  RFP_POST_UPLOAD_DOC = '/rfp/upload-doc',
+  RFP_POST_UPLOAD_PROCEED = '/rfp/upload-doc/proceed',
+
   // Add collaborator ca
   CA_GET_ADD_COLLABORATOR = '/ca/add-collaborators',
   CA_POST_ADD_COLLABORATOR_JSENABLED = '/ca/get-collaborator-detail/js-enabled',
@@ -37,4 +42,9 @@ export enum REQUIREMENT_PATHS {
   CA_POST_PROJECT_NAME = '/ca/name',
   CA_PUT_LEAD_PROCUREMENT = '/ca/procurement-lead',
   CA_GET_USER_PROCUREMENT = '/ca/users-procurement-lead',
+
+  // Upload doc ca
+  CA_GET_UPLOAD_DOC = '/ca/upload-doc',
+  CA_POST_UPLOAD_DOC = '/ca/upload-doc',
+  CA_POST_UPLOAD_PROCEED = '/ca/upload-doc/proceed',
 }
