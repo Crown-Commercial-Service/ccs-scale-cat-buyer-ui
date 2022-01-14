@@ -98,8 +98,14 @@ export function statusStepsDataFilter(
     case 'eoi':
       stepsByType = steps.slice(15, 25);
       break;
+    case 'rfp':
+      stepsByType = steps.slice(26, 40);
+      break;
     case 'CA':
-      stepsByType = steps.slice(44, 74);
+      stepsByType = steps.slice(41, 58);
+      break;
+    case 'DA':
+      stepsByType = steps.slice(59, 74);
       break;
   }
 
