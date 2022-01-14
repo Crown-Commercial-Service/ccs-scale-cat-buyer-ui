@@ -23,7 +23,7 @@ export const GET_CA_TASK_LIST = async (req: express.Request, res: express.Respon
     error: isJaggaerError,
   };
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Optional'); //todo: remove later
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Optional'); //todo: remove later
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     statusStepsDataFilter(chooseRouteData, journeySteps, 'CA', agreement_id, projectId, eventId);
     const windowAppendData = { data: chooseRouteData, lotId, agreementLotName, releatedContent };

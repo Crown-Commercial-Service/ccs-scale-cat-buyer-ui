@@ -30,9 +30,13 @@ export const getValue = (stateKey: any) => {
   return statusValue;
 };
 
+interface accumType {
+  accum: number;
+}
+
 function checkSublevels(
   obj: any,
-  accum: number,
+  accumElem: accumType,
   nameSublevel: string[],
   stepsByType: any,
   agreement_id: string,
@@ -41,7 +45,7 @@ function checkSublevels(
 ) {
   if (nameSublevel.length) {
     obj[nameSublevel[0]].forEach((eventTask: any) => {
-      const stepInfo = stepsByType[accum];
+      const stepInfo = stepsByType[accumElem.accum];
 
       if (stepInfo) {
         const keyMap = [
@@ -68,9 +72,9 @@ function checkSublevels(
           ] = `/ca/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
         }
       }
-      accum = accum + 1;
+      accumElem.accum = accumElem.accum + 1;
       if (eventTask[nameSublevel[1]]) {
-        checkSublevels(eventTask, accum, nameSublevel.slice(-1), stepsByType, agreement_id, projectId, event_id);
+        checkSublevels(eventTask, accumElem, nameSublevel.slice(-1), stepsByType, agreement_id, projectId, event_id);
       }
     });
   }
@@ -85,7 +89,7 @@ export function statusStepsDataFilter(
   event_id: string,
 ) {
   const { events } = data;
-  let accum = 0;
+  const accum: accumType = { accum: 0 };
   let stepsByType: any = [];
   switch (type) {
     case 'rfi':
@@ -100,6 +104,7 @@ export function statusStepsDataFilter(
   }
 
   events.forEach((event: any) => {
+    accum.accum = accum.accum + 1;
     checkSublevels(event, accum, ['eventTask', 'eventSubTask'], stepsByType, agreement_id, projectId, event_id);
   });
 }
