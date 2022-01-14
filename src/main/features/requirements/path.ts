@@ -33,14 +33,38 @@ export default function (app: Application): void {
 
   //@GET '/ca/task-list'
   app.get(
-    REQUIREMENT_PATHS.CAPABILITY_ASSESSMENT,
+    REQUIREMENT_PATHS.REQUIREMENT_CA_TASK_LIST,
     [
       ContentFetchMiddleware.FetchContents,
       AUTH,
       PreMarketEngagementMiddleware.PutPremarket,
       AgreementDetailsFetchMiddleware.FetchAgreements,
     ],
-    REQUIREMENT_CONTROLLER.GET_CAPABILITY_ASSESSMENT,
+    REQUIREMENT_CONTROLLER.GET_CA_TASK_LIST,
+  );
+
+  // @GET '/ca/learn-about-capability-assessment'
+  app.get(
+    REQUIREMENT_PATHS.GET_CA_LEARN,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.GET_CA_LEARN,
+  );
+
+  // @GET '/ca/enter-your-weightings'
+  app.get(
+    REQUIREMENT_PATHS.GET_CA_WEIGHTINGS,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.GET_CA_WEIGHTINGS,
   );
 
   app.get(
@@ -169,4 +193,7 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.CA_POST_UPLOAD_PROCEED, AUTH, REQUIREMENT_CONTROLLER.POST_UPLOAD_PROCEED);
 
   app.post(REQUIREMENT_PATHS.RFP_POST_UPLOAD_PROCEED, AUTH, REQUIREMENT_CONTROLLER.POST_UPLOAD_PROCEED);
+
+  //@POST '/ca/learn-about-capability-assessment'
+  app.post(REQUIREMENT_PATHS.POST_CA_LEARN, AUTH, REQUIREMENT_CONTROLLER.POST_CA_LEARN);
 }

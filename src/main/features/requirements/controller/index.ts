@@ -11,8 +11,10 @@ import {
 import { GET_LEAD_PROCUREMENT, PUT_LEAD_PROCUREMENT, GET_USER_PROCUREMENT } from './leadProcurement';
 import { GET_NAME_PROJECT, POST_NAME_PROJECT } from './nameAProject';
 import { OFFLINE_JOURNEY_PAGE } from './offline';
-import { GET_CAPABILITY_ASSESSMENT } from './ca-taskList';
+import { GET_CA_TASK_LIST } from './ca-taskList';
 import { GET_UPLOAD_DOC, POST_UPLOAD_DOC, GET_REMOVE_FILES, POST_UPLOAD_PROCEED } from './upload';
+import { GET_CA_LEARN, POST_CA_LEARN } from './ca-learnAboutCapabilityAssessment';
+import { GET_CA_WEIGHTINGS } from './ca-enterYourWeightings';
 /**
  * @BaseController
  * @Provider
@@ -36,9 +38,12 @@ export const REQUIREMENT_CONTROLLER = {
   PUT_LEAD_PROCUREMENT,
   GET_USER_PROCUREMENT,
   OFFLINE_JOURNEY_PAGE,
-  GET_CAPABILITY_ASSESSMENT,
+  GET_CA_TASK_LIST,
   GET_UPLOAD_DOC,
   POST_UPLOAD_DOC,
   GET_REMOVE_FILES,
   POST_UPLOAD_PROCEED,
+  GET_CA_LEARN,
+  POST_CA_LEARN,
+  GET_CA_WEIGHTINGS,
 };
