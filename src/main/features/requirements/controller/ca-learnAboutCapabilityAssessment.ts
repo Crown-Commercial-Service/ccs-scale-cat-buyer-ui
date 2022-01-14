@@ -1,7 +1,9 @@
 //@ts-nocheck
 import * as express from 'express';
+import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as caLearnData from '../../../resources/content/requirements/caLearnAboutCapabilityAssessment.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
 /**

@@ -1,7 +1,9 @@
 //@ts-nocheck
 import * as express from 'express';
+import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as caWeightingData from '../../../resources/content/requirements/caEnterYourWeightings.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
 /**
@@ -38,7 +40,7 @@ export const GET_CA_WEIGHTINGS = async (req: express.Request, res: express.Respo
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Get failed - CA learn page',
+      'Journey service - Get failed - CA weighting page',
       true,
     );
   }
