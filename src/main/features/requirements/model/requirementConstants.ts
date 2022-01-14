@@ -8,7 +8,7 @@ export enum REQUIREMENT_PATHS {
   OFFLINE_JOURNEY_PAGE = '/rfp/offline',
   REQUIREMENT_CA_TASK_LIST = '/ca/task-list',
   GET_CA_LEARN = '/ca/learn-about-capability-assessment',
-  POST_CA_LEARN = 'ca/learn',
+  POST_CA_LEARN = '/ca/learn-about-capability-assessment',
   GET_CA_WEIGHTINGS = '/ca/enter-your-weightings',
 
   // Add collaborator rfp
