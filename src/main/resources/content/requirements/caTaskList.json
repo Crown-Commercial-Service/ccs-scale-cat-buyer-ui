@@ -58,12 +58,12 @@
           "Task": 1,
           "title": "[ Learn about capability assessment ]",
           "required": "optional",
-          "link": "#",
+          "link": "/ca/learn-about-capability-assessment",
           "status": "Optional"
         },
         {
           "Task": 2,
-          "link": "#",
+          "link": "/ca/enter-your-weightings",
           "title": "[ Enter your weightings ]",
           "required": "mandatory",
           "status": "To do"
@@ -204,7 +204,7 @@
               "subTitle": "[ Upload any additional documentation ]",
               "required": "optional",
               "status": "Cannot start yet",
-              "link": "#"
+              "link": "/ca/upload-doc"
             },
             {
               "subTask": 2,

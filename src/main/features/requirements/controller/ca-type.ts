@@ -14,7 +14,7 @@ const logger = Logger.getLogger('RFP TYP');
  * @param req 
  * @param res 
  */
-export const RFP_REQUIREMENT_TYPE = (req: express.Request, res: express.Response) => {
+export const CA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response) => {
   const releatedContent = req.session.releatedContent
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
@@ -36,7 +36,7 @@ export const RFP_REQUIREMENT_TYPE = (req: express.Request, res: express.Response
  * @GETController
  */
 
- export const RFP_POST_TYPE = async (req: express.Request, res: express.Response) => {
+ export const CA_POST_TYPE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
  try {
   const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_fc_rfp_type');

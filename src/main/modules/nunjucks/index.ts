@@ -29,6 +29,7 @@ export class Nunjucks {
       AGREEMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'agreement', 'views'),
       PROCUREMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'procurement', 'views'),
       REQUIREMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'requirements', 'views'),
+      COOKIESViewDirectory: path.join(__dirname, '..', '..', 'features', 'cookies', 'views'),
       EOIViewDirectory: path.join(__dirname, '..', '..', 'features', 'eoi', 'views'),
     };
 
@@ -40,6 +41,7 @@ export class Nunjucks {
         NunjucksPathFolders.AGREEMENTViewDirectory,
         NunjucksPathFolders.PROCUREMENTViewDirectory,
         NunjucksPathFolders.REQUIREMENTViewDirectory,
+        NunjucksPathFolders.COOKIESViewDirectory,
         NunjucksPathFolders.EOIViewDirectory,
       ],
       {

@@ -136,7 +136,7 @@
           "title": "Upload or link any additional documentation",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/upload-doc"
         },
         {
           "Task": 2,

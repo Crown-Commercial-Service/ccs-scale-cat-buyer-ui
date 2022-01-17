@@ -1,0 +1,111 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Cookie settings | Contract a Thing' %}
+
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+    items: [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Cookie settings",
+            "href": "#"
+        }
+    ]
+      }) }}
+
+{% endblock %}
+
+{% block content %}
+
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl">{{data.title}}</h1>
+                <p class="govuk-body">{{data.subtitle}} {{data.subtitleLine2 | safe}}</p>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="wysiwyg-content">
+
+                    <div class="component--cookie-consent">
+                        <div>
+                            <h2 class="heading govuk-heading-m">{{data.heading}}</h2>
+                            <p>
+                                <noscript><br/>
+                                    We use Javascript to set most of our cookies. Unfortunately Javascript is not running on your browser, so you cannot change your settings. You can try:</p>
+                                <ul>
+                                    <li>reloading the page</li>
+                                    <li>turning on Javascript in your browser<span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start"></span></li>
+                                </ul>
+                                <p>
+                                    <span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start"></span><br/>
+                                </noscript>
+                            </p>
+                            <div class="cookie-consent-information">
+                                <div class="govuk-form-group">
+                                    <fieldset class="govuk-fieldset" aria-describedby="usage-hint">
+                                        <legend class="govuk-fieldset__legend">
+                                            <h3 class="heading size--xl">{{data.cookietype1}}</h3>
+                                        </legend>
+                                        <span id="usage-hint" class="govuk-hint">
+                                            <p>{{data.cookiestype1contentline1}}</p>
+                                            {{data.cookiestype1contentline2}}
+                                            <p>{{data.cookiestype1controlheading}}</p>
+                                        </span>
+                                        <div class="govuk-radios govuk-radios--inline">
+                                            <div class="govuk-radios__item">
+                                                <input class="govuk-radios__input" id="usage" name="usage" type="radio" value="true">
+                                                <label class="govuk-label govuk-radios__label" for="usage">On</label>
+                                            </div>
+                                            <div class="govuk-radios__item">
+                                                <input class="govuk-radios__input" id="usage-2" name="usage" type="radio" checked="" value="false">
+                                                <label class="govuk-label govuk-radios__label" for="usage-2">Off</label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="govuk-form-group">
+                                    <fieldset class="govuk-fieldset" aria-describedby="marketing-hint">
+                                        <legend class="govuk-fieldset__legend">
+                                            <h3 class="heading size--xl">{data.cookietype2}}</h3>
+                                        </legend>
+                                        <span id="marketing-hint" class="govuk-hint">{{data.cookiestype2controlheading}}</span>
+                                        <div class="govuk-radios govuk-radios--inline">
+                                            <div class="govuk-radios__item">
+                                                <input class="govuk-radios__input" id="marketing" name="marketing" type="radio" value="true">
+                                                <label class="govuk-label govuk-radios__label" for="marketing">On</label>
+                                            </div>
+                                            <div class="govuk-radios__item">
+                                                <input class="govuk-radios__input" id="marketing-2" name="marketing" type="radio" checked="" value="false">
+                                                <label class="govuk-label govuk-radios__label" for="marketing-2">Off</label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="govuk-form-group">
+                                    <h3 class="heading size--xl">{{data.cookietype3}}</h3>
+                                    <div>
+                                        <p>{{data.cookiestype2contentline1}}</p>
+                                        {{data.cookiestype2contentline2}}
+                                        <p>{{data.cookiestype3controlheading}}</p>
+                                    </div>
+                                </div>
+                                <button class="govuk-!-font-size-18 govuk-!-font-weight-bold govuk-button gtm--accept-cookies-in-banner">Save changes</button>
+                                <div class="cookie-updated-notice js-live-area" aria-label="Notice" aria-live="polite" role="region"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

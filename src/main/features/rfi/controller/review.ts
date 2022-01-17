@@ -29,6 +29,13 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
+  //Fix for SCAT-3440
+  const agreementName = req.session.agreementName;
+  const lotid = req.session?.lotId;
+  const project_name = req.session.project_name;
+  const agreementId_session = req.session.agreement_id;
+  const agreementLotName = req.session.agreementLotName;
+  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
   if (finished_pre_engage && rfi_publish_confirmation === '1') {
     try {
