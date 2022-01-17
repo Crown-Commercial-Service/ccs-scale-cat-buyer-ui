@@ -159,7 +159,7 @@
             {% if (requirement.nonOCDS.questionType === 'Date') 
               or(requirement.nonOCDS.questionType === 'Duration') and (requirement.nonOCDS.multiAnswer === false) %}
               {% if requirement.OCDS.id == "Question 1"%}
-                <div class="govuk-form-group">
+                <div class="govuk-form-group durations">
                   <div class="govuk-fieldset" role="group" aria-describedby="eoi_resource_start_date-hint">
                     <legend class="govuk-fieldset__legend govuk-label--m">
                       {{requirement.OCDS.title}}
@@ -167,9 +167,19 @@
                     <div id="eoi_resource_start_date-hint" class="govuk-hint">
                       <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
                     </div>
+                     <p id="event-name-error-date" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                        </p>
+                      <p id="event-name-error-month" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                        </p>
+                       <p id="event-name-error-year" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                        </p>   
                     <div class="govuk-date-input" id="eoi_resource_start_date">
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
+                       
                           {{ CCSInput({
                             label: {
                               text: "Day",
@@ -238,7 +248,7 @@
                   </div>
                 </div>
               {% else %}
-                <div class="govuk-form-group">
+                <div class="govuk-form-group p_durations">
                   <div class="govuk-fieldset" role="group" aria-describedby="eoi_duration-hint">
                     <legend class="govuk-fieldset__legend govuk-label--m">
                       {{requirement.OCDS.title}} (Optional)
@@ -246,6 +256,17 @@
                     <div id="eoi_duration-hint" class="govuk-hint">
                       <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
                     </div>
+                     <p id="event-name-error-pdate" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                        </p>
+                      <p id="event-name-error-pmonth" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                        </p>
+                       <p id="event-name-error-pyear" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                        </p>   
+
+
                     <div class="govuk-date-input" id="eoi_duration">
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
