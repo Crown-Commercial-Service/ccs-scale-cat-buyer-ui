@@ -1,6 +1,6 @@
 //@ts-nocheck
 import * as express from 'express';
-import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as caLearnData from '../../../resources/content/requirements/caLearnAboutCapabilityAssessment.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
@@ -12,7 +12,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @param res
  * @GETController
  */
-export const CA_GET_LEARN = async (req: express.Request, res: express.Response) => {
+export const RFP_GET_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
@@ -46,7 +46,7 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
   }
 };
 
-export const CA_POST_LEARN = async (req: express.Request, res: express.Response) => {
+export const RFP_POST_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   try {
