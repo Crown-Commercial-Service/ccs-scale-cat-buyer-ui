@@ -83,11 +83,15 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       if (step.step == 2) {
         if (req.session['journey_status'][2].state == 'In progress') {
           event.buttonDisable = true;
+        } else {
+          event.buttonDisable = false;
         }
       }
       if (step.step == 3) {
         if (req.session['journey_status'][1].state == 'In progress') {
           event.buttonDisable = true;
+        } else {
+          event.buttonDisable = false;
         }
       }
     })
