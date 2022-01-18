@@ -3,9 +3,13 @@ const DaySelector = $('#eoi_resource_start_date-day');
 const MonthSelector = $('#eoi_resource_start_date-month');
 const YearSelector = $('#eoi_resource_start_date-year');
 
-const expiryYears = 2024;
-const expiryMonth = 1;
-const expiryDate = 19;
+
+
+const agreementData = $('.agreement_no').attr('id').split("-");
+
+const expiryYears = Number(agreementData[0]);
+const expiryMonth = Number(agreementData[1]);
+const expiryDate = Number(agreementData[2])
 
 
 const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
@@ -128,6 +132,11 @@ $('.save-button').on('click', (e)=> {
         const FormDate = new Date(Year, Month, Day);
         const getTimeOfFormDate = FormDate.getTime();
 
+        const todayDate = new Date();
+
+
+        
+
         if(getTimeOfFormDate > getMSOfExpiryDate){
             e.preventDefault();
             $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
@@ -141,6 +150,16 @@ $('.save-button').on('click', (e)=> {
 
 
 
+        }
+        else if(getTimeOfFormDate < todayDate.getTime()){
+            e.preventDefault();
+            $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+            DaySelector.addClass('govuk-form-group--error');
+            MonthSelector.addClass('govuk-form-group--error');
+            YearSelector.addClass('govuk-form-group--error');
+            $('.durations').addClass('govuk-form-group--error');
+            const errorStore = [["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]];
+            ccsZPresentErrorSummary(errorStore);
         }
         else{
             document.forms['ccs_eoi_date_form'].submit();
