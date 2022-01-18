@@ -110,7 +110,6 @@ export function statusStepsDataFilter(
   }
 
   events.forEach((event: any) => {
-    accum.accum = accum.accum + 1;
     checkSublevels(event, accum, ['eventTask', 'eventSubTask'], stepsByType, agreement_id, projectId, event_id);
   });
 }

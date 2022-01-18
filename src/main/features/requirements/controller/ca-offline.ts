@@ -10,10 +10,10 @@ const logger = Logger.getLogger('eoi offline page');
  * @param req 
  * @param res 
  */
-export const OFFLINE_JOURNEY_PAGE = (req: express.Request, res: express.Response) => {
+export const CA_OFFLINE_JOURNEY_PAGE = (req: express.Request, res: express.Response) => {
   const lotId = req.session?.lotId;
   const agreementLotName = req.session.agreementLotName;
   const appendData = { lotId, agreementLotName };
-  logger.info("WIP page");
+  logger.info('WIP page');
   res.render('offline', appendData);
-}
+};

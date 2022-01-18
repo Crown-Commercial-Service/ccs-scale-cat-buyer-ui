@@ -1,30 +1,27 @@
 export enum REQUIREMENT_PATHS {
   //@ All of the Path related Request for dashboard
   CHOOSE_ROUTE = '/requirements/choose-route',
-  RFP_TYPE = '/rfp/type',
   POST_ROUTE = '/requirements/choose-route',
-  POST_RFP_TYPE = '/rfp/type',
-  REQUIREMENT_RFP_TASK_LIST = '/rfp/task-list',
-  OFFLINE_JOURNEY_PAGE = '/rfp/offline',
-  REQUIREMENT_CA_TASK_LIST = '/ca/task-list',
-  GET_CA_LEARN = '/ca/learn-about-capability-assessment',
-  POST_CA_LEARN = '/ca/learn-about-capability-assessment',
-  GET_CA_WEIGHTINGS = '/ca/enter-your-weightings',
+
+  RFP_TYPE = '/rfp/type',
+  RFP_POST_TYPE = '/rfp/type',
+  RFP_REQUIREMENT_TASK_LIST = '/rfp/task-list',
+  RFP_OFFLINE_JOURNEY_PAGE = '/rfp/offline',
 
   // Add collaborator rfp
-  GET_ADD_COLLABORATOR = '/rfp/add-collaborators',
-  POST_ADD_COLLABORATOR_JSENABLED = '/rfp/get-collaborator-detail/js-enabled',
-  POST_ADD_COLLABORATOR = '/rfp/get-collaborator-detail',
-  POST_ADD_COLLABORATOR_TO_JAGGER = '/rfp/add-collaborator-detail',
-  POST_PROCEED_COLLABORATORS = '/rfp/proceed-collaborators',
+  RFP_GET_ADD_COLLABORATOR = '/rfp/add-collaborators',
+  RFP_POST_ADD_COLLABORATOR_JSENABLED = '/rfp/get-collaborator-detail/js-enabled',
+  RFP_POST_ADD_COLLABORATOR = '/rfp/get-collaborator-detail',
+  RFP_POST_ADD_COLLABORATOR_TO_JAGGER = '/rfp/add-collaborator-detail',
+  RFP_POST_PROCEED_COLLABORATORS = '/rfp/proceed-collaborators',
 
   // Proc lead rfp
-  GET_NAME_PROJECT = '/rfp/name-your-project',
-  POST_NAME_PROJECT = '/rfp/name',
-  GET_LEAD_PROCUREMENT = '/rfp/procurement-lead',
-  POST_PROJECT_NAME = '/rfp/name',
-  PUT_LEAD_PROCUREMENT = '/rfp/procurement-lead',
-  GET_USER_PROCUREMENT = '/rfp/users-procurement-lead',
+  RFP_GET_NAME_PROJECT = '/rfp/name-your-project',
+  RFP_POST_NAME_PROJECT = '/rfp/name',
+  RFP_GET_LEAD_PROCUREMENT = '/rfp/procurement-lead',
+  RFP_POST_PROJECT_NAME = '/rfp/name',
+  RFP_PUT_LEAD_PROCUREMENT = '/rfp/procurement-lead',
+  RFP_GET_USER_PROCUREMENT = '/rfp/users-procurement-lead',
 
   // Upload doc rfp
   RFP_GET_UPLOAD_DOC = '/rfp/upload-doc',
@@ -50,4 +47,9 @@ export enum REQUIREMENT_PATHS {
   CA_GET_UPLOAD_DOC = '/ca/upload-doc',
   CA_POST_UPLOAD_DOC = '/ca/upload-doc',
   CA_POST_UPLOAD_PROCEED = '/ca/upload-doc/proceed',
+
+  CA_REQUIREMENT_TASK_LIST = '/ca/task-list',
+  CA_GET_LEARN = '/ca/learn-about-capability-assessment',
+  CA_POST_LEARN = '/ca/learn-about-capability-assessment',
+  CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
 }
