@@ -16,7 +16,7 @@ export const GET_EOI_SUPPLIERS = async (req: express.Request, res: express.Respo
   res.render('supplier', appendData);
 };
 
-export const POST_EOI_SUPPLIER = async (req: express.Request, res: express.Response) => {
+export const POST_EOI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId } = req.session;
   const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/22`, 'Completed');
