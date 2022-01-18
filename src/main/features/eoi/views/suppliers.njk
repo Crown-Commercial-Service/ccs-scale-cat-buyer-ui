@@ -23,45 +23,48 @@
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
 
-                <p class="govuk-body">{{total_suppliers }}
-                    {{data.data.supplier['text']}}
-                    <a href="{{data.data.supplier.href}}"
-                class="govuk-link govuk-link--no-visited-state">
-                        {{data.data.supplier['href_text']}}
-                    </a>
-                </p>
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">If you'd like to look at the details for each
+              suppliers please visit the <a href="">Search suppliers</a> page on the main CCS website. 
+              The page will open on a new tab</p>
+                </div>
 
-                <form id="ccs-rfi-suppliers-form" class="ccs-rfi-suppliers-form" action="/eoi/suppliers" method="POST">
+                <form id="ccs-eoi-suppliers-form" class="ccs-eoi-suppliers-form" action="/eoi/suppliers" method="POST">
 
                     <br>
                     <h2 class="govuk-heading-m">
                         <span id="added_suppliers_count">
-                            {{suppliers_list.count}}
+                            {{suppliers_list.length}}
                         </span> suppliers on this lot </h2>
                     <br>
-                    <div class="govuk-button-group govuk-!-margin-bottom-9">
+                    <div class="govuk-button-group govuk-!-margin-bottom-7">
                         {{ CCSButton({
                 text: "Save and continue"
                 }) }}
-                        <a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list
-                </a>
                         <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement
                 </a>
                     </div>
+                    <div class="govuk-form-group ccs-page-section"></div>
                     <div id="page1" >
-                        <div id="supplier-list ccs-page-section">
-                            <div class="govuk-form-group">
-                                {% for supplier in suppliers_list %}
-                                    <h3 class="govuk-heading-m">{{supplier.legal_name}}</h3>
+                        <div id="supplier-list">
+                            <div class="govuk-form-group ccs-page-section">
+                                <h3>
+                                    <a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list
+                </a>
+                                </h3>
+                            </div>
+                            {% for supplier in suppliers_list %}
+                                <div class="govuk-form-group ccs-page-section">
+                                    <h3 class="govuk-heading-m">{{supplier.organization.name}}</h3>
                                     <div id="rfi_required_suppliers-item-hint" class="govuk-hint govuk-checkboxes__hint">
-                                        {% if supplier.trading_name | length > 0 %}
-                                            <label>{{supplier.trading_name}}
+                                        {% if supplier.organization.identifier.legalName | length > 0 %}
+                                            <label>{{supplier.organization.identifier.legalName}}
                                             </label>
                                             <br>
                                         {% endif %}
                                     </div>
-                                {% endfor %}
-                            </div>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <br>
