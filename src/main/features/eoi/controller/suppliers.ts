@@ -3,7 +3,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import * as express from 'express';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
-import * as cmsData from '../../../resources/content/RFI/suppliers.json';
+import * as cmsData from '../../../resources/content/eoi/suppliers.json';
 
 // RFI Suppliers
 export const GET_EOI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
