@@ -125,6 +125,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       }
     }
 
+
     let appendData = {
       rfi_data: RFI_ANSWER_STORAGE,
       rfi_keydates: RFI_DATA_TIMELINE_DATES[0],

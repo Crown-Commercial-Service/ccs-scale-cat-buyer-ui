@@ -83,6 +83,10 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         return '';
       }
     });
+    const ChoosenAgreement = req.session.agreement_id;
+    const FetchAgreementServiceData = await AgreementAPI.Instance.get(`/agreements/${ChoosenAgreement}`);
+    const AgreementEndDate = FetchAgreementServiceData.data.endDate;
+
     req.session?.nonOCDSList = nonOCDSList;
     const releatedContent = req.session.releatedContent;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
@@ -90,6 +94,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     const { isFieldError } = req.session;
     const data = {
       data: fetch_dynamic_api_data,
+      agreement: AgreementEndDate,
       agreement_id: agreement_id,
       proc_id: proc_id,
       event_id: event_id,

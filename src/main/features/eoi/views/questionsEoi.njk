@@ -165,7 +165,8 @@
                       {{requirement.OCDS.title}}
                     </legend>
                     <div id="eoi_resource_start_date-hint" class="govuk-hint">
-                      <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
+                      <div id="{{agreement}}" class="agreement_no">
+                      <p class="govuk-body" id="p_expirydate">{{requirement.OCDS.description | nl2br | safe}}</p>
                     </div>
                     <p id="event-name-error-date" class="govuk-error-message">
                       <span class="govuk-visually-hidden">Error:</span>
