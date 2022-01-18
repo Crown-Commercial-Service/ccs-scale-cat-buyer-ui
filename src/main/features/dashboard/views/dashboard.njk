@@ -4,47 +4,129 @@
 
 {% set title = 'Welcome to the Contract a Thing beta' %}
 {% block content %}
-{{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
           {{data.title}}</h1>
       </div>
     </div>
-    <div class="govuk-grid-row">
+    <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-        <div class="ccs-page-section">
-          <h3 class="govuk-heading-m">
+        <h3 class="govuk-heading-m">
             Hello, {{ user_firstName }}
-          </h3>
-          <p class="govuk-body">{{ data.line1 }}</p>
-          <h2 class="govuk-heading-m">Get started</h2>
-          <p class="govuk-body">
-          <span>{{ data.line2 }}</span>
-          <span>{{ data.line3 }}</span> 
-          <a href="https://www.crowncommercial.gov.uk/contact">{{ data.line4 }}</a> <span>{{ data.line5 }}</span></p>
-          <ul class="govuk-list govuk-list--number">
-          {% for item in data.list %}
-            <li>{{item}}</li>
-          {% endfor %}
-          </ul>
-          <a href="/projects/choose-agreement" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
-             {{data.buttonText}}
+        </h3>
+        <div class="govuk-inset-text">
+          <a class="govuk-link" href="/projects/choose-agreement">
+            {{data.buttonText}}
           </a>
+          <p class="govuk-body">{{ data.line1 }}</p>
         </div>
       </div>
       <div class="govuk-grid-column-one-third">
         <div class="ccs-callout-panel">
           <h2 class="govuk-heading-m">Related content</h2>
           <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state" href="#" target="_blank" onclick="return false;">Link 1</a>
+            <a class="govuk-link govuk-link--no-visited-state" href="https://www.crowncommercial.gov.uk/agreements/RM6263" target="_blank" onclick="return false;">Digital Specialists and Programmes</a>
+            <a class="govuk-link govuk-link--no-visited-state" href="https://www.crowncommercial.gov.uk/agreements/RM6187" target="_blank" onclick="return false;">Management Consultancy Framework Three (MCF3)</a>
           </p>
         </div>
       </div>
     </div>
+
+    <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+      <div class="govuk-grid-column-full">
+        <table class="govuk-table">
+          <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} (XX)</caption>
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
+              <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
+              <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
+              <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__cell">
+                <a class="govuk-link" href="#">ocds-b5fd17-1849</a>
+              </th>
+              <td class="govuk-table__cell">Digital Specialists and Programmes, Lot 1: Digital Programmes</td>
+              <td class="govuk-table__cell">2022-01-12</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--green">Published</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+      <div class="govuk-grid-column-full">
+        <h3 class="govuk-heading-m">
+          {{data.subsection3_title}}
+        </h3>
+        <div class="govuk-tabs" data-module="govuk-tabs">
+          <h2 class="govuk-tabs__title">
+            {{data.subsection3_title}}
+          </h2>
+          <ul class="govuk-tabs__list">
+            <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+              <a class="govuk-tabs__tab" href="#tab-1">{{data.subsection3_tab_1}}</a>
+            </li>
+            <li class="govuk-tabs__list-item">
+              <a class="govuk-tabs__tab" href="#tab-2">{{data.subsection3_tab_2}}</a>
+            </li>
+          </ul>
+          <div class="govuk-tabs__panel" id="tab-1">
+            <p> {{data.subsection3_tab_1_content}} </p>
+          </div>
+          <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="tab-2">
+            <p> {{data.subsection3_tab_2_content}} </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+      <div class="govuk-grid-column-full">
+        <table class="govuk-table">
+          <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} (XX)</caption>
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
+              <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
+              <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__cell">
+                <a class="govuk-link" href="#">ocds-b5fd17-1848</a>
+              </th>
+              <td class="govuk-table__cell">Digital Specialists and Programmes, Lot 1: Digital Programmes</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--grey">CLOSED</strong>
+              </td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__cell">
+                <a class="govuk-link" href="#">ocds-b5fd17-1850</a>
+              </th>
+              <td class="govuk-table__cell">Management Consultancy Framework Three (MCF3), Lot 1: Business</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--grey">CLOSED</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </main>
 {% endblock %}
