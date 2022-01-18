@@ -125,7 +125,6 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       }
     }
 
-    console.log(RFI_DATA_TIMELINE_DATES)
 
     let appendData = {
       rfi_data: RFI_ANSWER_STORAGE,
