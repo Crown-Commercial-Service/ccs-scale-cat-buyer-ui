@@ -160,5 +160,5 @@ export const POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Reques
   const { eventId } = req.session;
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/21`, 'Completed');
 
-  res.redirect('/eoi/eoi-tasklist');
+  res.redirect('/eoi/suppliers');
 });
