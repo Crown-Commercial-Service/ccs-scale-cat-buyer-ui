@@ -99,6 +99,12 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
       return currentElementID - nextElementID;
     });
+    const agreementName = req.session.agreementName;
+    const lotid = req.session?.lotId;
+    const agreementId_session = req.session.agreement_id;
+    const agreementLotName = req.session.agreementLotName;
+    const project_name = req.session.project_name;
+    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
     let appendData = {
       data: cmsData,
