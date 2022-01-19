@@ -124,6 +124,20 @@ export default function (app: Application): void {
 
   app.get(REQUIREMENT_PATHS.RFP_OFFLINE_JOURNEY_PAGE, [AUTH], REQUIREMENT_CONTROLLER.RFP_OFFLINE_JOURNEY_PAGE);
 
+
+  // /rfp/add-context
+  app.get(REQUIREMENT_PATHS.RFP_ADD_CONTEXT, [AUTH], REQUIREMENT_CONTROLLER.RFP_GET_ADD_CONTEXT);
+
+  // /rfp/questions
+  app.get(REQUIREMENT_PATHS.RFP_GET_QUESTIONS, [AUTH], REQUIREMENT_CONTROLLER.RFP_GET_QUESTIONS)
+
+
+
+
+  /**
+   * @POST Routes
+   */
+
   app.post(
     REQUIREMENT_PATHS.POST_ROUTE,
     [ContentFetchMiddleware.FetchContents, AUTH],
