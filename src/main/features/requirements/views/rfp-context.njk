@@ -22,10 +22,10 @@
         },
         {
           text: "Do pre-market engagement",
-          href: "/rfi/rfi-tasklist"
+          href: "/rfp/rfp-tasklist"
         },
         {
-          text: "Build your RFI",
+          text: "Build your RFP",
           href: "#"
       }
 
@@ -46,7 +46,7 @@
         {% include "includes/project_header.njk" %}
         </div>
         <p class="govuk-body govuk-!-margin-bottom-7">Ask suppliers questions and tell them about the information you need. You can add more detail in the optional sections if you think it will help the suppliers to answer your questions.</p>
-            <ul class="app-task-list ccs-rfi-buildtask-list">
+            <ul class="app-task-list ccs-rfp-buildtask-list">
                 {% for items in data %}
 
                     <li class="app-task-list__item">
@@ -55,7 +55,7 @@
                         </span>
                         {% set hreflink = items.OCDS.description | replace(" ", "_") %}
                         {% set criterion_id = items.id | replace(" ", "_") %}
-                        <a class="app-task-list__tag" href="/rfp/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}" aria-describedby="rfi-questions">{{items.nonOCDS.task}}</a>
+                        <a class="app-task-list__tag" href="/rfp/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}" aria-describedby="rfp-questions">{{items.nonOCDS.task}}</a>
                     </li>
 
                 {% endfor %}

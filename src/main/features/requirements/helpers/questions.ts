@@ -57,7 +57,7 @@ export class QuestionHelper {
             let next_cursor_object = sorted_ascendingly[next_cursor];
             let next_group_id = next_cursor_object.OCDS['id'];
             let next_criterian_id = next_cursor_object['criterianId'];
-            let base_url = `/eoi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`
+            let base_url = `/rfp/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`
             res.redirect(base_url)
          }
          else {
@@ -94,10 +94,10 @@ export class QuestionHelper {
                await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/21`, 'Optional');
                await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/22`, 'Not started');
             }
-            res.redirect('/eoi/eoi-tasklist')
+            res.redirect('/rfp/rfp-tasklist')
          }
       } catch (error) {
-         logger.log("Something went wrong in the EOI Journey, please review the logit error log for more information")
+         logger.log("Something went wrong in the RFP Journey, please review the logit error log for more information")
          LoggTracer.errorLogger(res, error, "questions healper class", null,
             TokenDecoder.decoder(SESSION_ID), "Tender agreement failed to be added", true)
       }

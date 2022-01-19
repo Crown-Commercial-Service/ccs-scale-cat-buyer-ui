@@ -62,23 +62,23 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       };
       nonOCDSList.push(questionNonOCDS);
       if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
-        return 'ccs_eoi_vetting_form';
+        return 'ccs_rfp_vetting_form';
       } else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer === true) {
-        return 'ccs_eoi_questions_form';
+        return 'ccs_rfp_questions_form';
       } else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer == false) {
-        return 'ccs_eoi_who_form';
+        return 'ccs_rfp_who_form';
       } else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true) {
-        return 'ccs_eoi_acronyms_form';
+        return 'ccs_rfp_acronyms_form';
       } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == false) {
-        return 'ccs_eoi_about_proj';
+        return 'ccs_rfp_about_proj';
       } else if (aSelector.nonOCDS.questionType === 'MultiSelect' && aSelector.nonOCDS.multiAnswer === true) {
-        return 'eoi_location';
+        return 'rfp_location';
       } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == true) {
-        return 'ccs_eoi_splterms_form';
+        return 'ccs_rfp_splterms_form';
       } else if (aSelector.nonOCDS.questionType === 'Monetary' && aSelector.nonOCDS.multiAnswer === false) {
-        return 'eoi_budget_form';
+        return 'rfp_budget_form';
       } else if (aSelector.nonOCDS.questionType === 'Date' && aSelector.nonOCDS.multiAnswer == false) {
-        return 'ccs_eoi_date_form';
+        return 'ccs_rfp_date_form';
       } else {
         return '';
       }
@@ -101,7 +101,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       group_id: group_id,
       criterian_id: id,
       form_name: form_name?.[0],
-      eoiTitle: titleText,
+      rfpTitle: titleText,
       bcTitleText,
       prompt: promptSplit,
       organizationName: organizationName,
@@ -117,14 +117,14 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-    res.render('questionsEoi', data);
+    res.render('questionsRfp', data);
   } catch (error) {
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
       error_location: `${req.headers.host}${req.originalUrl}`,
       sessionId: 'null',
-      error_reason: 'EOI Dynamic framework throws error - Tenders Api is causing problem',
+      error_reason: 'RFP Dynamic framework throws error - Tenders Api is causing problem',
       exception: error,
     };
     const Log = new LogMessageFormatter(
@@ -141,11 +141,11 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 /**
  * @Controller
  * @POST
- * @param eoi_questions
+ * @param rfp_questions
  * @summary
  * @validation true
  */
-// path = '/eoi/questionnaire'
+// path = '/rfp/questionnaire'
 export const RFP_POST_QUESTION = async (req: express.Request, res: express.Response) => {
   try {
     const { proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
@@ -155,8 +155,8 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
-    const started_progress_check: boolean = operations.isUndefined(req.body, 'eoi_build_started');
-    let { eoi_build_started, question_id } = req.body;
+    const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
+    let { rfp_build_started, question_id } = req.body;
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
@@ -166,8 +166,8 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     else question_ids = question_id;
 
     if (operations.equals(started_progress_check, false)) {
-      if (eoi_build_started === 'true' && nonOCDS.length > 0) {
-        let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'eoi_build_started');
+      if (rfp_build_started === 'true' && nonOCDS.length > 0) {
+        let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfp_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
           'question_id',
