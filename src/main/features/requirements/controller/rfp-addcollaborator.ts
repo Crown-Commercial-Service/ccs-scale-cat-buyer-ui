@@ -179,5 +179,5 @@ export const RFP_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: 
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/28`, 'Completed');
-  res.redirect('/rfp/rfp-tasklist');
+  res.redirect('/rfp/task-list');
 };
