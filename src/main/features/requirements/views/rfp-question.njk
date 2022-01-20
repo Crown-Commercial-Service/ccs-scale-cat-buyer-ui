@@ -484,6 +484,9 @@
 
             {% block singleSelect%}
               {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
+              <p>
+              <span id="rfp_singleSelect" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span></span>
+              </p>
                 <div class="govuk-form-group">
                   <div class="govuk-radios">
                     <br>
