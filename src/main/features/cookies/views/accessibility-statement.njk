@@ -1,0 +1,115 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Complete and upload the whole bid pack | Contract a Thing' %}
+
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+    items: [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+          "text": "Accessibility Statement",
+          "href": "#"
+        }
+    ]
+      }) }}
+
+{% endblock %}
+
+{% block content %}
+
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">Accessibility Statement</h1>
+            </div>
+        </div>
+
+        <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress | Content required | this is sample static text</strong>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-width-container">
+                    <div class="govuk-grid-row">
+                        <div>
+                            <div class="wysiwyg-content">
+
+                                <p>This website is run by Crown Commercial Service (CCS). We want as many people as possible to be able to use this website. For example, that means you should be able to:</p>
+                                <ul>
+                                    <li>change colours, contrast levels and fonts</li>
+                                    <li>zoom in up to 300% without the text spilling off the screen</li>
+                                    <li>navigate most of the website using just a keyboard</li>
+                                    <li>navigate most of the website using speech recognition software</li>
+                                    <li>listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)</li>
+                                </ul>
+                                <p>We’ve also made the website text as simple as possible to understand.</p>
+                                <p>
+                                    <a href="https://mcmw.abilitynet.org.uk/">AbilityNet</a> has advice on making your device easier to use if you have a disability.</p>
+                                <h3>How accessible this website is</h3>
+                                <p>We know some parts of this website are not fully accessible:</p>
+                                <ul>
+                                    <li>forms do not have error validation</li>
+                                    <li>most older PDF documents are not fully accessible to screen reader software</li>
+                                    <li>most documents have not been saved in an open document format</li>
+                                    <li>alternative text has not been added for all of the images in the news section</li>
+                                </ul>
+                                <h3>What to do if you cannot access parts of this website</h3>
+                                <p>If you need information on this website in a different format like accessible PDF, large print, easy read, audio recording or braille:</p>
+                                <ul>
+                                    <li>email <a href="mailto:info@crowncommercial.gov.uk">info@crowncommercial.gov.uk</a>
+                                    </li>
+                                    <li>call 0345 410 2222</li>
+                                </ul>
+                                <p>We’ll consider your request and get back to you in five working days.</p>
+                                <h3>Reporting accessibility problems with this website</h3>
+                                <p>We’re always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we’re not meeting accessibility requirements, contact: <a href="mailto:info@crowncommercial.gov.uk">info@crowncommercial.gov.uk.</a>
+                                </p>
+                                <h3>Enforcement procedure</h3>
+                                <p>The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint, <a href="https://www.equalityadvisoryservice.com/">contact the Equality Advisory and Support Service (EASS)</a>.</p>
+                                <h3>Technical information about this website’s accessibility</h3>
+                                <p>Crown Commercial Service is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.</p>
+                                <p>This website is partially compliant with the <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1 AA standard,</a> due to the non-compliances listed below.</p>
+                                <h3>Non accessible content</h3>
+                                <p>The content listed below is non-accessible for the following reasons.</p>
+                                <h3>Non compliance with the accessibility regulations</h3>
+                                <p>
+                                    <strong>Form Fields</strong><br>
+                                    <span style="font-weight: 400;">When no information is entered in a mandatory field, or incorrect information is entered on any form on the website, the error message will only show for a few seconds on most modern web browsers (Chrome 5.0, IE 10.0 Firefox 4.0, Safari 10.1, Opera 9.6 and later versions). This fails WCAG 2.1 success criterion 3.3.1 (error identification). We plan to fix this by February 2020.</span></p>
+                                <p>
+                                    <strong>Open document format</strong><br>
+Many of our Word, Excel and PowerPoint documents are not saved in an open document format. This fails WCAG 2.1 success criterion 4.1.2 (name, role, value). We plan to fix this by September 2020, where we will have either replaced the documents, or we will no longer need them on the website.</p>
+                                <p>
+                                    <strong>Alternative text for images</strong><br>
+Some images do not have a text alternative, so people using a screen reader cannot access the information. This fails WCAG 2.1 success criterion 1.1.1 (non-text content).<br>
+We plan to add text alternatives for all images by March 2020. When we publish new content we’ll make sure our use of images meets accessibility standards.</p>
+                                <h3>Content that’s not within the scope of the accessibility regulations</h3>
+                                <p>
+                                    <strong>PDFs and other documents</strong><br>
+Many of our older PDFs and Word documents do not meet accessibility standards – for example, they may not be structured so they’re accessible to a screen reader. This does not meet WCAG 2.1 success criterion 4.1.2 (name, role value).</p>
+                                <p>Some of our PDFs and Word documents are essential to providing our services. For example, we have PDFs with information on how users can access our services, and forms published as Word documents. By September 2020, we plan to either fix these or replace them with accessible HTML pages.</p>
+                                <p>The accessibility regulations <a href="http://www.legislation.gov.uk/uksi/2018/952/regulation/4/made">do not require us to fix PDFs or other documents published before 23 September 2018</a> if they’re not essential to providing our services.<br>
+Any new PDFs or Word documents we publish will meet accessibility standards.</p>
+                                <h4>Live Video</h4>
+                                <p>Live video streams do not have captions. This fails WCAG 2.1 success criterion 1.2.4 (captions – live).</p>
+                                <p>We do not plan to add captions to live video streams because live video is <a href="http://www.legislation.gov.uk/uksi/2018/952/regulation/4/made">exempt from meeting the accessibility regulations</a>.</p>
+                                <h3>How we tested this website</h3>
+                                <p>This website was last tested on Friday 7 June 2019. The test was carried out by Olenick, using users with disabilities.</p>
+                                <p>We tested:<br>
+our main website, available at <a href="https://www.crowncommercial.gov.uk">https://www.crowncommercial.gov.uk</a>, based on our most commonly visited pages.</p>
+                                <h3>What we’re doing to improve accessibility</h3>
+                                <p>We have formed a working group to remediate all accessibility issues on this site, and on other CCS sites. We are also working with our third party suppliers to ensure they build and design to WCAG 2.1 AA standards from now on.</p>
+                                <p>We plan to fix all accessibility issues on this website in our next phase of website improvement works, due for completion in March 2020.</p>
+                                <p>This statement was prepared on 23 September 2019.</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+{% endblock %}

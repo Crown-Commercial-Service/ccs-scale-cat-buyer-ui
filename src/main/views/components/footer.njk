@@ -10,7 +10,7 @@
     </div>
 </div>
 
-{% if Session['session'] %}
+{# {% if Session['session'] %} #}
     <footer class="govuk-footer footer-global ccs">
         <div class="ccs-width-container">
             <div class="govuk-footer__navigation">
@@ -20,7 +20,7 @@
                 <div class="govuk-footer__section ccs-footer">
                     <ul class="govuk-list govuk-!-font-size-18">
                         <li class="footer__list">
-                            <a class="govuk-footer__link" href="#">Terms and conditions</a>
+                            <a class="govuk-footer__link" target="_blank" href="https://www.crowncommercial.gov.uk/terms-and-conditions">Terms and conditions</a>
                         </li>
                         <li class="footer__list">
                             <a class="govuk-footer__link" target="_blank" href="https://www.gov.uk/government/publications/crown-commercial-service-privacy-notice">Privacy policy</a>
@@ -29,7 +29,7 @@
                             <a class="govuk-footer__link" href="/cookie-details">Cookie policy</a>
                         </li>
                         <li class="footer__list">
-                            <a class="govuk-footer__link" href="#">Accessibility statement</a>
+                            <a class="govuk-footer__link" href="/accessibility-statement">Accessibility statement</a>
                         </li>
                         <li class="footer__list">
                             <a target="_blank" class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">©
@@ -41,7 +41,7 @@
         </div>
     </footer>
     
-{% else %}
+{# {% else %}
     <footer class="govuk-footer footer-global ccs">
         <div class="ccs-width-container">
             <div class="govuk-footer__navigation">
@@ -129,4 +129,4 @@
                         </div>
                     </div>
                 </footer>
-            {% endif %}
+            {% endif %} #}
