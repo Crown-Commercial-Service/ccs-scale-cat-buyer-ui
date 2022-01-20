@@ -26,7 +26,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
-  req.session.timeline = {};
 
   try {
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
@@ -129,6 +128,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     if (errorTriggered) {
       appendData = { ...appendData, error: true, errorMessage: errorItem };
     } else {
+      req.session.timeline = {};
       req.session.timeline.publish = new Date();
       req.session.timeline.clarificationPeriodEnd = rfi_clarification_period_end;
       req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
