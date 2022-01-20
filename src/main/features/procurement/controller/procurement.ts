@@ -85,7 +85,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         }
       }
       if (step.step == 2) {
-        if (req.session['journey_status'][2].state == 'In progress' || req.session['journey_status'][2].state == 'Completed') {
+        if (req.session['journey_status'][2].state == 'In progress' || req.session['journey_status'][1].state == 'Completed') {
           event.buttonDisable = true;
         } else {
           event.buttonDisable = false;
