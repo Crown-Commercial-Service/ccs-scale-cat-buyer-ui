@@ -72,20 +72,26 @@
                               {{event.buttonText}}
                            </button>
                         {% else %}
-                           <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
-                              {{event.buttonText}}
-                           </a>
+                           {% if event.eventno === 1 %}
+                              <a hidden={{event.buttonText}} target="_blank" href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                 {{event.buttonText}}
+                              </a>
+                              {% else %}
+                                 <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                    {{event.buttonText}}
+                                 </a>
+                              {% endif %}
+                           {% endif %}
                         {% endif %}
-                     {% endif %}
-                  </li>
-               {% else %}
-                  <li>There are no events to display</li>
-               {% endfor %}
-            </ol>
+                     </li>
+                  {% else %}
+                     <li>There are no events to display</li>
+                  {% endfor %}
+               </ol>
+            </div>
+            <div class="govuk-grid-column-one-third">
+               {{ CCSReleatedContent(releatedContent) }}
+            </div>
          </div>
-         <div class="govuk-grid-column-one-third">
-            {{ CCSReleatedContent(releatedContent) }}
-         </div>
-      </div>
-   </main>
-{% endblock %}
+      </main>
+   {% endblock %}
