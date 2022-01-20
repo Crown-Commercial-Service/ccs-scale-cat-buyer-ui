@@ -70,6 +70,10 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
 
     data.events.forEach(event => {
+      if (event.eventno == 1) {
+        const lot = lotId.length > 2 ? lotId.split(" ")[1] : 1 
+        event.href = "https://www.crowncommercial.gov.uk/agreements/"+agreementId_session+":"+lot+"/lot-suppliers";
+      }
       const step = req.session['journey_status'] ? req.session['journey_status'].find(item => item.step === event.eventno) : journyData.states.find(item => item.step === event.eventno);
       if (step){
         if(step.state === 'Not started') {
