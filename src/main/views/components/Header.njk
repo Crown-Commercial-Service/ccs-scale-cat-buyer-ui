@@ -1,7 +1,66 @@
-{% set primary =  menudata.primaryContents %}
-{% set secondary =  menudata.secondaryContents %}
+{% set primary = menudata.primaryContents %}
+{% set secondary = menudata.secondaryContents %}
 
+{% if Session['session'] %}
+<header class="header-global header-global--home" >
+   <div class="ccs-width-container">
+      <div class="nav-wrapper-secondary">
+         <a href="/" class="logo"><img src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
+         </a>
+         <button class="global-navigation__toggler" data-toggler="nav">
+            <span>Menu</span>
+            <span class="icon">
+               <svg width="16" height="13" xmlns="http://www.w3.org/2000/svg">
+                  <g stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="square">
+                     <path d="M14.5 1.12H1.464M14.5 6.12H1.464M14.5 11.24H1.464"/>
+                  </g>
+               </svg>
+            </span>
+         </button>
+         <nav class="global-navigation global-navigation__padding" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
+            <ul class="nav-list nav-list--personal">
 
+               {% if Session['session'] %}
+                  <li class="nav-list__item">
+                     <a class="nav-list__link" href="/dashboard">My account</a>
+                  </li>
+                  <li class="nav-list__item">
+                     <a class="nav-list__link" href="/oauth/logout">Sign out</a>
+                  </li>
+               {% else %}
+                  <li class="nav-list__item">
+                     <a class="nav-list__link" href="/oauth/login">Sign in</a>
+                  </li>
+               {% endif %}
+
+            </ul>
+               <ul class="nav-list nav-list--secondary">
+                  <li class="nav-list__item">
+                     <a class="nav-list__link_secondary" href="/">Create and award a contract</a>
+                  </li>
+               </ul>
+               <ul class="nav-list nav-list--primary">
+                  <li class="nav-list__item">
+                     <a class="nav-list__link" href="/">Home</a>
+                  </li>
+                  <li class="nav-list__item">
+                     <a class="nav-list__link" href="/dashboard">My Projects</a>
+                  </li>
+                  <li class="nav-list__item">
+                     <a class="nav-list__link" target="_blank" href="https://www.crowncommercial.gov.uk/">CCS website</a>
+                  </li>
+                  <li class="nav-list__item">
+                     <a class="nav-list__link" target="_blank" href="#">Guidance</a>
+                  </li>
+                  <li class="nav-list__item">
+                     <a class="nav-list__link" target="_blank" href="#">Get help</a>
+                  </li>
+               </ul>
+         </nav>
+      </div>
+   </div>
+</header>
+{% else %}
 <header class="header-global header-global--home" >
    <div class="ccs-width-container">
       <div class="nav-wrapper">
@@ -46,3 +105,4 @@
       </div>
    </div>
 </header>
+{% endif %}
