@@ -126,10 +126,10 @@ export default function (app: Application): void {
 
 
   // /rfp/add-context
-  app.get(REQUIREMENT_PATHS.RFP_ADD_CONTEXT, [AUTH], REQUIREMENT_CONTROLLER.RFP_GET_ADD_CONTEXT);
+  app.get(REQUIREMENT_PATHS.RFP_ADD_CONTEXT, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], REQUIREMENT_CONTROLLER.RFP_GET_ADD_CONTEXT);
 
   // /rfp/questions
-  app.get(REQUIREMENT_PATHS.RFP_GET_QUESTIONS, [AUTH], REQUIREMENT_CONTROLLER.RFP_GET_QUESTIONS)
+  app.get(REQUIREMENT_PATHS.RFP_GET_QUESTIONS, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], REQUIREMENT_CONTROLLER.RFP_GET_QUESTIONS)
 
 
 

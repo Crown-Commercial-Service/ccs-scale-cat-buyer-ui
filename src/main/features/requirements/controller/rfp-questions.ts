@@ -62,7 +62,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       };
       nonOCDSList.push(questionNonOCDS);
       if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
-        return 'ccs_rfp_vetting_form';
+        return 'rfp_singleselect';
       } else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer === true) {
         return 'ccs_rfp_questions_form';
       } else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer == false) {
@@ -117,14 +117,14 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-    res.render('questionsRfp', data);
+    res.render('rfp-question', data);
   } catch (error) {
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
       error_location: `${req.headers.host}${req.originalUrl}`,
       sessionId: 'null',
-      error_reason: 'RFP Dynamic framework throws error - Tenders Api is causing problem',
+      error_reason: 'FC Dynamic framework throws error - Tenders Api is causing problem',
       exception: error,
     };
     const Log = new LogMessageFormatter(
@@ -421,6 +421,9 @@ const findErrorText = (data: any, req: express.Request) => {
       errorText.push({ text: 'You must add at least one objective' });
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must enter information here' });
+      else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)
+      errorText.push({ text: 'You must select one of the radio items' });
+
     else if (
       requirement.nonOCDS.questionType == 'Text' &&
       requirement.nonOCDS.multiAnswer === true &&
