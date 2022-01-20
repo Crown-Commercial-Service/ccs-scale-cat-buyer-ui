@@ -48,7 +48,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         Person_id: TokenDecoder.decoder(SESSION_ID),
         error_location: `${req.headers.host}${req.originalUrl}`,
         sessionId: 'null',
-        error_reason: 'File uploading Causes Problem in RFI  - Tenders Api throws error',
+        error_reason: 'File uploading Causes Problem in EOI  - Tenders Api throws error',
         exception: error,
       };
       const Log = new LogMessageFormatter(
@@ -78,14 +78,14 @@ export const FILEUPLOADHELPER: express.Handler = async (
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
-      res.render(type === 'rfi' ? 'uploadDocument' : 'uploadDocumentEoi', windowAppendData);
+      res.render('uploadDocumentEoi', windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];
       const Logmessage = {
         Person_id: TokenDecoder.decoder(SESSION_ID),
         error_location: `${req.headers.host}${req.originalUrl}`,
         sessionId: 'null',
-        error_reason: 'File uploading Causes Problem in RFI  - Tenders Api throws error',
+        error_reason: 'File uploading Causes Problem in EOI  - Tenders Api throws error',
         exception: error,
       };
       const Log = new LogMessageFormatter(

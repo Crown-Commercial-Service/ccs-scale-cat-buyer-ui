@@ -56,7 +56,7 @@
                             {% for supplier in suppliers_list %}
                                 <div class="govuk-form-group ccs-page-section">
                                     <h3 class="govuk-heading-m">{{supplier.organization.name}}</h3>
-                                    <div id="rfi_required_suppliers-item-hint" class="govuk-hint govuk-checkboxes__hint">
+                                    <div id="eoi_required_suppliers-item-hint" class="govuk-hint govuk-checkboxes__hint">
                                         {% if supplier.organization.identifier.legalName | length > 0 %}
                                             <label>{{supplier.organization.identifier.legalName}}
                                             </label>
