@@ -13,7 +13,7 @@ export const GET_EOI_SUPPLIERS = async (req: express.Request, res: express.Respo
     data: cmsData,
     suppliers_list: supplierList,
   };
-  res.render('supplier', appendData);
+  res.render('suppliers', appendData);
 };
 
 export const POST_EOI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
