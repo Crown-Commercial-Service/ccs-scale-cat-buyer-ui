@@ -25,7 +25,7 @@
                <p class="govuk-body">{{line1}}</p>
                <p class="govuk-body">{{line2}}</p>
                <p class="govuk-body">{{line3}}</p>
-               <p class="govuk-body">{{line4 | safe }}</p>
+               <p class="govuk-body">{{line4}}<a class='govuk-link govuk-link--no-visited-state' target='_blank' href='{{ releatedContent.lotUrl }}'>{{line5}}</a></p>
             </div>
             <ol class="proc-task-list">
                {% for event in events %}
