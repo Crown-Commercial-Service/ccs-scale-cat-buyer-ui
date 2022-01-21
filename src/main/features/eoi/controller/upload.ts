@@ -35,6 +35,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   const { SESSION_ID } = req.cookies;
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
+  const journeyStatus = req.session['journey_status'];
 
   if (!req.files) {
     const journey = journeyStatus.find(journey => journey.step === 21)?.state;
@@ -120,6 +121,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
           });
           res.redirect('/eoi/upload-doc');
         } catch (error) {
+          console.log(error)
           delete error?.config?.['headers'];
           const Logmessage = {
             Person_id: TokenDecoder.decoder(SESSION_ID),
