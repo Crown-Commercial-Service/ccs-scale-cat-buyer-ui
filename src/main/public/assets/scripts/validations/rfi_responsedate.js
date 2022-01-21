@@ -20,7 +20,7 @@ for(const selector of totalElementSelectors){
         let ClickedID = "#rfi_clarification_date_expanded_"+selector;
         let elementSelectorClicked = $(ClickedID);
         if(elementSelectorClicked.length === 0)
-            elementSelectorClicked = $("#rf_clarification_date_expanded_"+selector);
+            elementSelectorClicked = $("#rfi_clarification_date_expanded_"+selector);
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
     })
