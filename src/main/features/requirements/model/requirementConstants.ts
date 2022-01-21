@@ -19,7 +19,6 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_NAME_PROJECT = '/rfp/name-your-project',
   RFP_POST_NAME_PROJECT = '/rfp/name',
   RFP_GET_LEAD_PROCUREMENT = '/rfp/procurement-lead',
-  RFP_POST_PROJECT_NAME = '/rfp/name',
   RFP_PUT_LEAD_PROCUREMENT = '/rfp/procurement-lead',
   RFP_GET_USER_PROCUREMENT = '/rfp/users-procurement-lead',
 
