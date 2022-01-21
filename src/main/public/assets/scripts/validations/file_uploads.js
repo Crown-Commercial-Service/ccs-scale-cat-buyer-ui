@@ -93,7 +93,7 @@ $(document).ready(function () {
             $(`#${type}_offline_document`).addClass("govuk-input--error")
             $(`#upload_doc_form`).addClass("govuk-form-group--error");
             $(`#${type}_offline_document`).val() === "";
-            $(`#${type}_upload_error_summary`).text("Only the following document types are permitted: csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+            $(`#${type}_upload_error_summary`).text("Only the following document types are permitted: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
             $(`.doc_upload_button`).hide();
         }
        

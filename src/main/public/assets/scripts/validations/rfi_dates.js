@@ -58,7 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         elementSelector = `eoi_clarification_date_expanded_${element}`;
      let matchValue = !value.val().match(/^\d{4}$/);
      let endyearCheck = Number(value.val()) > 2121;
-     let startyearCheck = Number(value.val()) < 2021;
+     let currentYear =  new Date().getFullYear();
+     let startyearCheck = Number(value.val()) < currentYear;
      if (matchValue || endyearCheck || startyearCheck) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter a valid year");
