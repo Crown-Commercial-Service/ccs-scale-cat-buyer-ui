@@ -26,8 +26,9 @@ for(const selector of totalElementSelectors){
     })
     let errorSelector = $("#click-error");
     errorSelector.on('click', () => {
-        let ClickedID = localStorage.getItem('dateItem');
-        let elementSelectorClicked = $(ClickedID);
+        let storedClickedID = localStorage.getItem('dateItem');
+        let cleanedClickedID = storedClickedID.slice(1);
+        let elementSelectorClicked = $(storedClickedID);
         if (elementSelector.selector === elementSelectorClicked.selector) {
             elementSelectorClicked = $("#rfi_clarification_date_expanded_" + selector);
             elementSelectorClicked.fadeIn();
@@ -36,6 +37,7 @@ for(const selector of totalElementSelectors){
             elementSelectorClicked.hide();
             elementSelector.fadeIn();
         }
+        ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'this milestone needs to be set after the previous milestone date');
     });
 }
 
@@ -53,7 +55,6 @@ for(const selector of totalElementSelectors){
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
-        console.log('ClickedID.slice(1) ', ClickedID.slice(1))
         ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
         const elementIDChange = $("#change_clarification_date_" + selector);
         elementIDChange.show();

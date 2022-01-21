@@ -25,12 +25,12 @@ for(const selector of eoi_totalElementSelectors){
         elementSelector.hide();
     });
     let errorSelector = $("#click-error");
+
+    
     errorSelector.on('click', () => {
-        let ClickedID = localStorage.getItem('dateItem');
-        console.log('ClickedID ', ClickedID);
-        let elementSelectorClicked = $(ClickedID);
-        console.log('elementSelectorClicked.selector ', elementSelectorClicked.selector);
-        console.log('elementSelector.selector ', elementSelector.selector);
+        let storedClickedID = localStorage.getItem('dateItem');
+        let cleanedClickedID = storedClickedID.slice(1);
+        let elementSelectorClicked = $(storedClickedID);
         if (elementSelector.selector === elementSelectorClicked.selector) {
             elementSelectorClicked = $("#eoi_clarification_date_expanded_" + selector);
             elementSelectorClicked.fadeIn();
@@ -39,9 +39,7 @@ for(const selector of eoi_totalElementSelectors){
             elementSelectorClicked.hide();
             elementSelector.fadeIn();
         }
-            
-        
-        
+        ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'this milestone needs to be set after the previous milestone date');
     });
 }
 
