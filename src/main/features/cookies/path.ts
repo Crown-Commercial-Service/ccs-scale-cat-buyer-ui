@@ -13,4 +13,9 @@ export default function (app: Application): void {
    app.get(COOKIES_PATHS.COOKIES_DETAILS,
       [ContentFetchMiddleware.FetchContents],
       COOKIES_CONTROLLER.COOKIES_DETAILS_PAGE);
+
+   // ACCESSIBILITY STATEMENT page
+   app.get(COOKIES_PATHS.ACCESSIBILITY_STATEMENT,
+      [ContentFetchMiddleware.FetchContents],
+      COOKIES_CONTROLLER.ACCESSIBILITY_STATEMENT_PAGE);
 }

@@ -1,5 +1,6 @@
 import { COOKIES_SETTING_PAGE } from './cookie-settings';
 import { COOKIES_DETAILS_PAGE } from './cookie-details';
+import { ACCESSIBILITY_STATEMENT_PAGE } from './accessibility-statement'
 /**
  * @BaseController
  * @Provider
@@ -8,5 +9,6 @@ import { COOKIES_DETAILS_PAGE } from './cookie-details';
  */
 export const COOKIES_CONTROLLER = {
     COOKIES_SETTING_PAGE,
-    COOKIES_DETAILS_PAGE
+    COOKIES_DETAILS_PAGE,
+    ACCESSIBILITY_STATEMENT_PAGE
 }
