@@ -118,14 +118,14 @@ function isValidQuestion(questionId: number, day: number, month: number, year: n
     isValid =  false;
     error = 'Enter a valid month';
   }
-  let currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
   
   if(year > 2121 || year < currentYear) {
     isValid = false;
     error = 'Enter a valid year';
   }
 
-  let questionNewDate = new Date(
+  const questionNewDate = new Date(
     year,
     month,
     day,
@@ -214,7 +214,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     clarification_date_minute,
   );
 
-  let nowDate = new Date();
+  const nowDate = new Date();
 
   const { isValid, error, errorSelector } = isValidQuestion(selected_question_id, clarification_date_day, clarification_date_month, clarification_date_year, clarification_date_hour, clarification_date_minute, timeinHoursBased, timeline);
 
