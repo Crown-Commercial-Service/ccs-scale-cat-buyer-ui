@@ -5,7 +5,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { ErrorView } from '../../../common/shared/error/errorView';
-import { QuestionHelper} from '../helpers/questions';
+import { QuestionHelper } from '../helpers/questions';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { Logger } from '@hmcts/nodejs-logging';
@@ -77,8 +77,11 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         return 'ccs_rfp_splterms_form';
       } else if (aSelector.nonOCDS.questionType === 'Monetary' && aSelector.nonOCDS.multiAnswer === false) {
         return 'rfp_budget_form';
-      } else if (aSelector.nonOCDS.questionType === 'Date' && aSelector.nonOCDS.multiAnswer == false) {
-        return 'ccs_rfp_date_form';
+      } else if (
+        aSelector.nonOCDS.questionType === 'Duration' ||
+        (aSelector.nonOCDS.questionType === 'Date' && aSelector.nonOCDS.multiAnswer == false)
+      ) {
+        return 'rfp_date';
       } else {
         return '';
       }
@@ -454,9 +457,9 @@ const findErrorText = (data: any, req: express.Request) => {
         text: 'You must select at least one region where your staff will be working, or select "No specific location...."',
       });
     else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
-      errorText.push({ text: 'Start date must be a valid future date' });
+      errorText.push({ text: 'Indicative duration cannot be negative' });
     else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsExpiryDateLessError'] == true)
-      errorText.push({ text: 'Start date cannot be after agreement expiry date' });
+      errorText.push({ text: 'Indicative duration cannot exceed 4 years from the indicative start date' });
   });
   return errorText;
 };
