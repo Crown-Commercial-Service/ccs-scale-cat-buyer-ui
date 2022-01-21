@@ -20,13 +20,13 @@ const getMSOfExpiryDate = ExpiryDates.getTime()
 DaySelector.on('blur', ()=> {
   DateCheck();
   MonthCheck();
-  YearCheck();
+
 })
 
 MonthSelector.on('blur', ()=> {
     DateCheck();
     MonthCheck();
-    YearCheck();
+
 })
 YearSelector.on('blur', ()=> {
     DateCheck();
@@ -71,7 +71,13 @@ const YearCheck = ()=> {
         YearSelector.addClass('govuk-form-group--error');
     $('.durations').addClass('govuk-form-group--error');
     $('#event-name-error-year').html('Enter a valid year');
-    } else{
+    } 
+    else if(YearValues == ""){
+        YearSelector.removeClass('govuk-form-group--error');
+        $('.durations').removeClass('govuk-form-group--error');
+        $('#event-name-error-year').html('');s
+    }
+    else{
         YearSelector.removeClass('govuk-form-group--error');
         $('.durations').removeClass('govuk-form-group--error');
         $('#event-name-error-year').html('');
