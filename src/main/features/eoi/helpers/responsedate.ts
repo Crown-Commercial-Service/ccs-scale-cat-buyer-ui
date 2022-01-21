@@ -48,21 +48,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
-    const rfi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
+    const eoi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
 
-    console.log({ rfi_clarification_date });
+    console.log({ eoi_clarification_date });
 
     const clarification_period_end_date = new Date();
     const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${
       clarification_period_end_date.getMonth() + 1
     }-${clarification_period_end_date.getFullYear()}`;
-    const rfi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD-MM-YYYY').businessAdd(
+    const eoi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD-MM-YYYY').businessAdd(
       predefinedDays.clarification_days,
     )._d;
-    rfi_clarification_period_end.setHours(predefinedDays.defaultEndingHour);
-    rfi_clarification_period_end.setMinutes(predefinedDays.defaultEndingMinutes);
+    eoi_clarification_period_end.setHours(predefinedDays.defaultEndingHour);
+    eoi_clarification_period_end.setMinutes(predefinedDays.defaultEndingMinutes);
 
-    const DeadlinePeriodDate = rfi_clarification_period_end;
+    const DeadlinePeriodDate = eoi_clarification_period_end;
 
     const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${
       DeadlinePeriodDate.getMonth() + 1
@@ -109,8 +109,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       data: cmsData,
       prompt: prompt,
       framework: fetchQuestionsData,
-      rfi_clarification_date,
-      rfi_clarification_period_end: moment(rfi_clarification_period_end, 'DD/MM/YYYY, hh:mm a').format(
+      eoi_clarification_date,
+      eoi_clarification_period_end: moment(eoi_clarification_period_end, 'DD/MM/YYYY, hh:mm a').format(
         'DD MMMM YYYY, hh:mm a',
       ),
       deadline_period_for_clarification_period: moment(
@@ -133,7 +133,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     } else {
       req.session.timeline = {};
       req.session.timeline.publish = new Date();
-      req.session.timeline.clarificationPeriodEnd = rfi_clarification_period_end;
+      req.session.timeline.clarificationPeriodEnd = eoi_clarification_period_end;
       req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
       req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
       req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;

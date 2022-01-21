@@ -62,7 +62,7 @@
 
                                             {% if(requirement.OCDS.id == "Question 2" )%}
                                                 <label class="govuk-label govuk-body">
-                                                    <strong id="eoi_clarification_period_end">{{ rfi_clarification_period_end}}</strong>
+                                                    <strong id="clarification_period_end">{{ eoi_clarification_period_end}}</strong>
                                                 </label>
                                             {% elif(requirement.OCDS.id == "Question 3") %}
                                                 <label class="govuk-label govuk-body">
@@ -78,7 +78,7 @@
                                                 </label>
                                                 {%else%}
                                                 <label class="govuk-label govuk-body">
-                                                    <strong>{{rfi_clarification_date}}</strong>
+                                                    <strong>{{eoi_clarification_date}}</strong>
                                                 </label>
                                                 {%endif%}
 
