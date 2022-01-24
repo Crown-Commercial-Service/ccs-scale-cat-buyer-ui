@@ -80,7 +80,7 @@
           "title": "[ How would you like to create your requirements?]",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "http://www.google.com"
+          "link": "#"
         },
         {
           "Task": 2,
