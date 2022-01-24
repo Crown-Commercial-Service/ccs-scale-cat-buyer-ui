@@ -493,19 +493,38 @@
                     {% set radioArray = [] %}
                     {% for i in range(0, requirement.nonOCDS.options | length) -%}
                       {% if i == 0%}
-                        <div class="govuk-radios__item">
-                          {%if requirement.nonOCDS.options[i].selected === true %}
-                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
-                            {%else%}
-                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
-                            {%endif%}
-                            <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type">
-                              <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
-                            </label>
-                            <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
-                              {{requirement.nonOCDS.options[i].text | safe}}
-                            </div>
+                          <div class="govuk-radios__item">
+                            {%if requirement.nonOCDS.options[i].selected === true %}
+                              <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
+                              {%else%}
+                              <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
+                              {%endif%}
+                              <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type">
+                                <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                              </label>
+                              <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
+                                {{requirement.nonOCDS.options[i].text | safe}}
+                              </div>
                           </div>
+                          {% if requirement.nonOCDS.options[i].value === 'Yes'%}
+                            <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation">
+                              <div class="govuk-form-group yeswho">
+                                  {{ CCSInput({
+                                      label: {
+                                        text: "[ How many resources need a lower security and vetting requirement?]",
+                                        classes: "govuk-label govuk-date-input__label",
+                                        for: "rfp_security_confirmation"
+                                      },
+                                      id: "rfp_security_confirmation",
+                                      name: "rfp_security_confirmation",
+                                      classes: "govuk-input govuk-!-width-one-third",
+                                      type: "number", 
+                                      inputmode:"numeric",
+                                      min: "0"
+                                  }) }}
+                              </div>
+                            </div>
+                          {%endif%}       
                         {% else %}
 
                           <div class="govuk-radios__item">
@@ -735,7 +754,7 @@
                         classes:"save-button"
                       })
                   }}
-                  <a href="/rfp/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Expression of Interest</a>
+                  <a href="/rfp/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to add context</a>
                 </div>
 
               </form>
