@@ -63,7 +63,7 @@
         },
         {
           "Task": 2,
-          "link": "#",
+          "link": "/rfp/add-context",
           "title": "[ Add context ]",
           "required": "mandatory",
           "status": "Optional"
