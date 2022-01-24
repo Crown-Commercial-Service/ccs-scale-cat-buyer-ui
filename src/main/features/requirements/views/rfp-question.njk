@@ -560,7 +560,7 @@
 
                         {% call CCSFieldset({
                             legend: {
-                               html: "First term or acronym <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                               html: "First key user <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -571,7 +571,7 @@
 
                         {{ CCSInput({
                             label: {
-                              text: "Write the term or acronym"
+                              text: "Write the key"
                             },
                             id: "rfp_term_1",
                             name: "term",
@@ -584,7 +584,7 @@
                             name: "value",
                             id: "rfp_term_definition_1",
                             label: {
-                              text: "Write a definition for the term or acronym explaining what it means"
+                              text: "Write a definition for the key explaining what it means"
                             },
                             classes: "rfp_term_definition_1",
                             value: requirement.nonOCDS.options[0].text
@@ -609,7 +609,7 @@
 
                           {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" key<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -619,7 +619,7 @@
 
                           {{ CCSInput({
                         label: {
-                          text: "Write the term or acronym"
+                          text: "Write the key"
                         },
                         id: "rfp_term_"+i,
                         name: "term",
@@ -629,7 +629,7 @@
 
                           {{ CCSTextarea({
                         label: {
-                          text: "Write a definition for the term or acronym explaining what it means"
+                          text: "Write a definition for the key explaining what it means"
                         },
                         id: "rfp_term_definition_"+i,
                         name: "value",
@@ -642,9 +642,9 @@
 
                         {%- endfor %}
 
-                        <p class="govuk-body">
-                          {{ CCSButton({
-                          text: "Add another term or acronym",
+                    <p class="govuk-body">
+                      {{ CCSButton({
+                          text: "Add another key",
                           attributes: {
                             id: "ccs_rfpTerm_add"
                           },
@@ -753,8 +753,8 @@
                         classes:"save-button"
                       })
                   }}
-                      <a href="/rfp/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to add context</a>
-                    </div>
+                  <a href="/rfp/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Add Context</a>
+                </div>
 
                   </form>
 
