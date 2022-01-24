@@ -64,10 +64,13 @@ const MonthCheck = ()=> {
     }
 }
 
+const currentYearDate = new Date();
+const currentYear = currentYearDate.getFullYear()
+
 
 const YearCheck = ()=> {
     const YearValues = YearSelector.val();
-    if(YearValues < 2022){
+    if(YearValues < currentYear){
         YearSelector.addClass('govuk-form-group--error');
     $('.durations').addClass('govuk-form-group--error');
     $('#event-name-error-year').html('Enter a valid year');
