@@ -51,19 +51,19 @@
     },
     {
       "eventno": 2,
-      "eventTitle": "[ Context to your 1-stage further competition ]",
+      "eventTitle": "Context to your 1-stage further competition",
       "eventDescription": "[description of this section]",
       "eventTask": [
         {
           "Task": 1,
-          "title": "[ IR35 acknowledgement ]",
+          "title": "IR35 acknowledgement",
           "required": "mandatory",
-          "link": "#",
+          "link": "/rfp/ir35",
           "status": "Optional"
         },
         {
           "Task": 2,
-          "link": "#",
+          "link": "/rfp/add-context",
           "title": "[ Add context ]",
           "required": "mandatory",
           "status": "Optional"

@@ -242,7 +242,9 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               break;
             } else if (
               selectedOptionToggle[0].find(
-                x => x.value === 'No specific location, for example they can work remotely',
+                x =>
+                  x.value === 'No specific location, for example they can work remotely' ||
+                  x.value === 'Not Applicable',
               ) &&
               selectedOptionToggle[0].length > 1
             ) {
@@ -424,9 +426,8 @@ const findErrorText = (data: any, req: express.Request) => {
       errorText.push({ text: 'You must add at least one objective' });
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must enter information here' });
-      else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)
+    else if (requirement.nonOCDS.questionType == 'SingleSelect' && requirement.nonOCDS.multiAnswer === false)
       errorText.push({ text: 'You must select one of the radio items' });
-
     else if (
       requirement.nonOCDS.questionType == 'Text' &&
       requirement.nonOCDS.multiAnswer === true &&
@@ -446,17 +447,24 @@ const findErrorText = (data: any, req: express.Request) => {
       requirement.nonOCDS.questionType == 'MultiSelect' &&
       req.session['isLocationError'] == true &&
       req.session['isLocationMandatoryError'] == false
-    )
-      errorText.push({ text: 'Select regions where your staff will be working, or select "No specific location...."' });
-    else if (
+    ) {
+      if (requirement.nonOCDS.options.find(x => x.value === 'Not Applicable'))
+        errorText.push({
+          text: 'You must select either one phase resource is required for, or select "Not Applicable"',
+        });
+      else
+        errorText.push({
+          text: 'Select regions where your staff will be working, or select "No specific location...."',
+        });
+    } else if (
       requirement.nonOCDS.questionType == 'MultiSelect' &&
       req.session['isLocationError'] == true &&
       req.session['isLocationMandatoryError'] == true
-    )
+    ) {
       errorText.push({
         text: 'You must select at least one region where your staff will be working, or select "No specific location...."',
       });
-    else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
+    } else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
       errorText.push({ text: 'Indicative duration cannot be negative' });
     else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsExpiryDateLessError'] == true)
       errorText.push({ text: 'Indicative duration cannot exceed 4 years from the indicative start date' });

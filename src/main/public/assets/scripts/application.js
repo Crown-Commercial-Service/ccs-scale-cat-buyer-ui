@@ -149,6 +149,8 @@ if (document.getElementById("ccs-rfi-suppliers-form") !== null) document.getElem
 
 if (document.getElementById("ccs_eoi_acronyms_form") !== null) document.getElementById("ccs_eoi_acronyms_form").addEventListener('submit', ccsZvalidateEoiAcronyms);
 
+if (document.getElementById("ccs_rfp_splterms_form") !== null) document.getElementById("ccs_rfp_splterms_form").addEventListener('submit', ccsZvalidateRfpAcronyms);
+
 if (document.getElementById("ccs_eoi_splterms_form") !== null) document.getElementById("ccs_eoi_splterms_form").addEventListener('submit', ccsZvalidateEoiSpecialTerms);
 
 if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getElementById("ccs_rfi_acronyms_form").addEventListener('submit', ccsZvalidateRfiAcronyms);
@@ -185,4 +187,5 @@ setInputFilter(document.getElementById("clarification_date-hour_5"), (value) => 
 setInputFilter(document.getElementById("clarification_date-day_5"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
 setInputFilter(document.getElementById("clarification_date-month_5"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
 setInputFilter(document.getElementById("clarification_date-year_5"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 2024));
+
 

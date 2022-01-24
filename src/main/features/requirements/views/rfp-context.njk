@@ -7,30 +7,8 @@
 {%- endset %}
 {% block breadCrumb %}
     {{ CCSBreadcrumbs({
-          items:[
-        {
-            text: "Dashboard",
-            href: "/"
-        },
-        {
-            text: "Choose a commericial agreement",
-            href: "/projects/choose-agreement"
-        },
-        {
-            text: "Procurement overview",
-            href: url
-        },
-        {
-          text: "Do pre-market engagement",
-          href: "/rfp/rfp-tasklist"
-        },
-        {
-          text: "Build your RFP",
-          href: "#"
-      }
-
-    ]
-        }) }}
+        items: file_data.breadCrumbs
+    }) }}
 {% endblock %}
 
 {% block content %}
@@ -45,7 +23,7 @@
         <div class="govuk-!-margin-bottom-6">
         {% include "includes/project_header.njk" %}
         </div>
-        <p class="govuk-body govuk-!-margin-bottom-7">Ask suppliers questions and tell them about the information you need. You can add more detail in the optional sections if you think it will help the suppliers to answer your questions.</p>
+        <p class="govuk-body govuk-!-margin-bottom-7">{{file_data.form.question}}</p>
             <ul class="app-task-list ccs-rfp-buildtask-list">
                 {% for items in data %}
 
@@ -64,7 +42,7 @@
             <br>
             <br>
             <p class="govuk-body">
-                <a href="{{file_data.backJump.href }}" class="govuk-link govuk-link--no-visited-state">{{file_data.backJump.title }}</a>
+                <a href="{{ file_data.form.backJump.href }}" class="govuk-link govuk-link--no-visited-state">{{ file_data.form.backJump.title }}</a>
             </p>
         </div>
         <div class="govuk-grid-column-one-third">

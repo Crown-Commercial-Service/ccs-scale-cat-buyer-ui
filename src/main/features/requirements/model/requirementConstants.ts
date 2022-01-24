@@ -22,8 +22,12 @@ export enum REQUIREMENT_PATHS {
   RFP_PUT_LEAD_PROCUREMENT = '/rfp/procurement-lead',
   RFP_GET_USER_PROCUREMENT = '/rfp/users-procurement-lead',
 
-  // Add Context 
+  // Add Context
   RFP_ADD_CONTEXT = '/rfp/add-context',
+
+  //RFP ir35
+  RFP_GET_IR35 = '/rfp/IR35',
+  RFP_POST_IR35 = '/rfp/IR35',
 
   // Upload doc rfp
   RFP_GET_UPLOAD_DOC = '/rfp/upload-doc',
@@ -55,6 +59,7 @@ export enum REQUIREMENT_PATHS {
   CA_POST_LEARN = '/ca/learn-about-capability-assessment',
   CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
 
-  //RFP questions 
-  RFP_GET_QUESTIONS = '/rfp/questions'
+  //RFP questions
+  RFP_GET_QUESTIONS = '/rfp/questions',
+  RFP_POST_QUESTIONS = '/rfp/questionnaire',
 }

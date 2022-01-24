@@ -124,14 +124,22 @@ export default function (app: Application): void {
 
   app.get(REQUIREMENT_PATHS.RFP_OFFLINE_JOURNEY_PAGE, [AUTH], REQUIREMENT_CONTROLLER.RFP_OFFLINE_JOURNEY_PAGE);
 
-
   // /rfp/add-context
-  app.get(REQUIREMENT_PATHS.RFP_ADD_CONTEXT, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], REQUIREMENT_CONTROLLER.RFP_GET_ADD_CONTEXT);
+  app.get(
+    REQUIREMENT_PATHS.RFP_ADD_CONTEXT,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_ADD_CONTEXT,
+  );
 
   // /rfp/questions
-  app.get(REQUIREMENT_PATHS.RFP_GET_QUESTIONS, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], REQUIREMENT_CONTROLLER.RFP_GET_QUESTIONS)
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_QUESTIONS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_QUESTIONS,
+  );
 
-
+  // /rfp/IR35
+  app.get(REQUIREMENT_PATHS.RFP_GET_IR35, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], REQUIREMENT_CONTROLLER.RFP_GET_I35)
 
 
   /**
@@ -167,7 +175,11 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.RFP_PUT_LEAD_PROCUREMENT, AUTH, REQUIREMENT_CONTROLLER.RFP_PUT_LEAD_PROCUREMENT);
 
   //@POST '/rfp/proceed-collaborators'
-  app.post(REQUIREMENT_PATHS.RFP_POST_PROCEED_COLLABORATORS, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_PROCEED_COLLABORATORS);
+  app.post(
+    REQUIREMENT_PATHS.RFP_POST_PROCEED_COLLABORATORS,
+    AUTH,
+    REQUIREMENT_CONTROLLER.RFP_POST_PROCEED_COLLABORATORS,
+  );
 
   //@POST '/ca/proceed-collaborators'
   app.post(REQUIREMENT_PATHS.CA_POST_PROCEED_COLLABORATORS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_PROCEED_COLLABORATORS);
@@ -210,4 +222,9 @@ export default function (app: Application): void {
 
   //@POST '/ca/learn-about-capability-assessment'
   app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
+  app.post(REQUIREMENT_PATHS.RFP_POST_QUESTIONS, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_QUESTION);
+
+
+  // /rfp/IR35
+  app.post(REQUIREMENT_PATHS.RFP_POST_IR35, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_I35)
 }
