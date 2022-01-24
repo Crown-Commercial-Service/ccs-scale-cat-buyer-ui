@@ -144,6 +144,17 @@ $('.save-button').on('click', (e)=> {
         const todayDate = new Date();
 
 
+
+        if(projectYears.val() < 0 || projectMonths.val() < 0 || projectDays.val() < 0){
+            const errorStore = [["eoi_resource_start_date", "Project time's format is not valid"]]
+
+            ccsZPresentErrorSummary(errorStore);
+
+
+            e.preventDefault()
+        }
+
+
         
 
         if(getTimeOfFormDate > getMSOfExpiryDate){
@@ -162,12 +173,12 @@ $('.save-button').on('click', (e)=> {
         }
         else if(getTimeOfFormDate < todayDate.getTime()){
             e.preventDefault();
-            $('#event-name-error-date').html('Start date cannot be a past date');
+            $('#event-name-error-date').html('Start date must be a valid future date');
             DaySelector.addClass('govuk-form-group--error');
             MonthSelector.addClass('govuk-form-group--error');
             YearSelector.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            const errorStore = [["eoi_resource_start_date", "Start date cannot be a past date"]];
+            const errorStore = [["eoi_resource_start_date", "Start date must be a valid future date"]];
             ccsZPresentErrorSummary(errorStore);
         }
         else{
