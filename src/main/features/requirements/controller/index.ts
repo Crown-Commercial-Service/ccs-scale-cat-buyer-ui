@@ -34,7 +34,7 @@ import { CA_GET_UPLOAD_DOC, CA_POST_UPLOAD_DOC, CA_GET_REMOVE_FILES, CA_POST_UPL
 import { CA_GET_LEARN, CA_POST_LEARN } from './ca-learnAboutCapabilityAssessment';
 import { CA_GET_WEIGHTINGS } from './ca-enterYourWeightings';
 import {RFP_GET_ADD_CONTEXT} from './rfp-addcontext'
-import {RFP_GET_QUESTIONS} from './rfp-questions'
+import { RFP_GET_QUESTIONS, RFP_POST_QUESTION } from './rfp-questions';
 /**
  * @BaseController
  * @Provider
@@ -68,6 +68,7 @@ export const REQUIREMENT_CONTROLLER = {
   RFP_GET_WEIGHTINGS,
   RFP_GET_ADD_CONTEXT,
   RFP_GET_QUESTIONS,
+  RFP_POST_QUESTION,
 //
   CA_REQUIREMENT_TYPE,
   CA_POST_TYPE,
