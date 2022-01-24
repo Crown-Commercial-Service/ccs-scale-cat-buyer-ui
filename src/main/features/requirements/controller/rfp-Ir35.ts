@@ -13,7 +13,7 @@ export const RFP_GET_I35: express.Handler = (req: express.Request, res: express.
       const { eventId } = req.session;
 
     try {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/4`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/29`, 'Completed');
         res.redirect('/rfp/task-list')
         
     } catch (error) {
