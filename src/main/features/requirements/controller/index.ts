@@ -35,6 +35,10 @@ import { CA_GET_LEARN, CA_POST_LEARN } from './ca-learnAboutCapabilityAssessment
 import { CA_GET_WEIGHTINGS } from './ca-enterYourWeightings';
 import {RFP_GET_ADD_CONTEXT} from './rfp-addcontext'
 import { RFP_GET_QUESTIONS, RFP_POST_QUESTION } from './rfp-questions';
+
+
+import {RFP_GET_I35, RFP_POST_I35} from './rfp-Ir35'
+
 /**
  * @BaseController
  * @Provider
@@ -69,6 +73,8 @@ export const REQUIREMENT_CONTROLLER = {
   RFP_GET_ADD_CONTEXT,
   RFP_GET_QUESTIONS,
   RFP_POST_QUESTION,
+  RFP_GET_I35,
+  RFP_POST_I35,
 //
   CA_REQUIREMENT_TYPE,
   CA_POST_TYPE,

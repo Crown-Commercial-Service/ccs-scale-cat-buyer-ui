@@ -138,6 +138,10 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_QUESTIONS,
   );
 
+  // /rfp/IR35
+  app.get(REQUIREMENT_PATHS.RFP_GET_IR35, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], REQUIREMENT_CONTROLLER.RFP_GET_I35)
+
+
   /**
    * @POST Routes
    */
@@ -219,4 +223,8 @@ export default function (app: Application): void {
   //@POST '/ca/learn-about-capability-assessment'
   app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
   app.post(REQUIREMENT_PATHS.RFP_POST_QUESTIONS, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_QUESTION);
+
+
+  // /rfp/IR35
+  app.post(REQUIREMENT_PATHS.RFP_POST_IR35, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_I35)
 }

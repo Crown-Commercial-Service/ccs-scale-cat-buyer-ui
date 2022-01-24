@@ -25,6 +25,10 @@ export enum REQUIREMENT_PATHS {
   // Add Context
   RFP_ADD_CONTEXT = '/rfp/add-context',
 
+  //RFP ir35
+  RFP_GET_IR35 = '/rfp/IR35',
+  RFP_POST_IR35 = '/rfp/IR35',
+
   // Upload doc rfp
   RFP_GET_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_DOC = '/rfp/upload-doc',

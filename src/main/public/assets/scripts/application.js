@@ -186,3 +186,4 @@ setInputFilter(document.getElementById("clarification_date-day_5"), (value) => /
 setInputFilter(document.getElementById("clarification_date-month_5"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
 setInputFilter(document.getElementById("clarification_date-year_5"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 2024));
 
+
