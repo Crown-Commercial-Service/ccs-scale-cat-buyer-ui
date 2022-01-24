@@ -95,10 +95,14 @@
       {% include "components/Header.njk" %}
       {% include "components/phase_banner_beta.njk" %}
     {% endblock %}
+    
+    {#  dialog Section #}
+    {% block dialog %}
+      {% include "components/dialog.njk" %}
+    {% endblock %}
 
     {# This is main content section#}
     <div class="ccs-width-container">
-
       {% block breadCrumb %}{% endblock %}
 
       {% block content %}{% endblock %}
