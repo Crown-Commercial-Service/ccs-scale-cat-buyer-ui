@@ -505,10 +505,10 @@
                               <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
                                 {{requirement.nonOCDS.options[i].text | safe}}
                               </div>
-                            </div>
-                            {% if requirement.nonOCDS.options[i].value === 'Yes'%}
-                              <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation">
-                                <div class="govuk-form-group yeswho">
+                          </div>
+                          {% if requirement.nonOCDS.options[i].value === 'Yes'%}
+                            <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation" hidden>
+                              <div class="govuk-form-group yeswho">
                                   {{ CCSInput({
                                       label: {
                                         text: "[ How many resources need a lower security and vetting requirement?]",
