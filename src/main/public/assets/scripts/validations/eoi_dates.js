@@ -144,13 +144,38 @@ $('.save-button').on('click', (e)=> {
         const todayDate = new Date();
 
 
+        if(Day == ""){
+            const errorStore = [["eoi_resource_start_date", "Project start day cannot be Empty"]]
+            DaySelector.addClass('govuk-form-group--error');
+            $('.durations').addClass('govuk-form-group--error');
+            $('#event-name-error-date').html('Enter a valid date')
+            ccsZPresentErrorSummary(errorStore);
+            e.preventDefault()
+        }
+        
+        if (Month == ""){
+            const errorStore = [["eoi_resource_start_date", "Project start Month cannot be Empty"]]
+            MonthSelector.addClass('govuk-form-group--error');
+            $('.durations').addClass('govuk-form-group--error');
+            $('#event-name-error-month').html('Enter a valid month');
+            ccsZPresentErrorSummary(errorStore);
+            e.preventDefault()
+        }
+        
+        if(Year == ""){
+            const errorStore = [["eoi_resource_start_date", "Porject start Year cannot be Empty"]]
+            YearSelector.addClass('govuk-form-group--error');
+            $('.durations').addClass('govuk-form-group--error');
+            ccsZPresentErrorSummary(errorStore);
+            e.preventDefault()
+        }
+
+
 
         if(projectYears.val() < 0 || projectMonths.val() < 0 || projectDays.val() < 0){
             const errorStore = [["eoi_resource_start_date", "Project time's format is not valid"]]
-
+            $('#event-name-error-year').html('Enter a valid year');
             ccsZPresentErrorSummary(errorStore);
-
-
             e.preventDefault()
         }
 
