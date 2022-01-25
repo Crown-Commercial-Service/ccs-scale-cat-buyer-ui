@@ -126,6 +126,12 @@ export const CA_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, r
 export const CA_POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
+
+  if(rfi_collaborators == ""){
+    req.session['isJaggaerError'] = true;
+    res.redirect('/eoi/add-collaborators');
+  }
+  else{
   try {
     const user_profile = rfi_collaborators;
     const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
@@ -144,6 +150,8 @@ export const CA_POST_ADD_COLLABORATOR = async (req: express.Request, res: expres
       true,
     );
   }
+
+}
 };
 
 export const CA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
@@ -155,6 +163,7 @@ export const CA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
       userType: 'TEAM_MEMBER',
     };
     await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+    req.session['searched_user'] = [];
     res.redirect('/rfp/add-collaborators');
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(
