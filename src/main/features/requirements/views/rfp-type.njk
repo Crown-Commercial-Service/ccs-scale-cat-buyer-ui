@@ -31,11 +31,12 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
-
-        <p class="govuk-body">{{ data.form.question }}</p>
-              <form id="ccs_ca_type_form" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/rfp/type" method="POST">
-
-        {% set formOptions = data.form.radioOptions.items %}
+  <p class="govuk-body">{{data.subtitle}}</p>  
+    <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form ccs_rfp_type_form" action="/rfp/type" method="POST">
+{% for form in data.form %}
+<fieldset id={{form.id}}>
+<p class="govuk-body">{{ form.question }}</p>
+        {% set formOptions = form.radioOptions.items %}
 
         {% set form_Options_Altered = [] %}
 
@@ -57,7 +58,7 @@
 
             {{ CCSRadios({
                 idPrefix: "fc_rfp_type",
-                name: "fc_rfp_type",
+                name: form.id,
                 items: form_Options_Altered,
                 errorMessage: error,
                 errorMessage: {
@@ -68,7 +69,7 @@
 
         {{ CCSRadios({
                 idPrefix: "fc_rfp_type",
-                name: "fc_rfp_type",
+                name: form.id,
                 items: form_Options_Altered        
               }) }}
 {%endif %}
@@ -79,7 +80,8 @@
                 type: "hidden",
                 value: true
               }) }}
-
+              </fieldset>
+      {% endfor %}
         <div class="govuk-button-group">
           {{ CCSButton({
                 text: "Save and continue"
@@ -87,6 +89,7 @@
           <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
         </div>
       </form>
+
       </div>
       <div class="govuk-grid-column-one-third">
         {{ CCSReleatedContent(releatedContent) }}

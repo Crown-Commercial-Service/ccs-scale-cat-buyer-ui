@@ -4,6 +4,23 @@ function deselect(e) {
   });
 }
 
+$(function() {
+  var foundin = $('body:contains("Save and continue")');
+  if (foundin.length < 1) {
+    removeClass();
+  }
+});
+
+function removeClass()
+  {
+   var allElements = document.querySelectorAll(".nav-popup");
+   for(i=0; i<allElements.length; i++)
+   { 
+    allElements[i].classList.remove('nav-popup');
+   }
+  }
+
+
 $(function () {
   $('.nav-popup').on('click', function () {
     if ($(this).hasClass('selected')) {
