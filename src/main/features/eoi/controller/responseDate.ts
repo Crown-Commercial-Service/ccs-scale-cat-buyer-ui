@@ -114,7 +114,7 @@ function isValidQuestion(questionId: number, day: number, month: number, year: n
     error = 'Enter a valid hour';
   }
 
-  if(month > 12 || month <= 0) {
+  if(month > 12 || month < 0) {
     isValid =  false;
     error = 'Enter a valid month';
   }
@@ -198,6 +198,8 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
   clarification_date_minute = Number(clarification_date_minute);
+
+  clarification_date_month = clarification_date_month - 1;
 
   let timeinHoursBased = 0;
   if (clarification_date_hourFormat == 'AM') {
@@ -295,32 +297,32 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     } else {
       switch (selectedErrorCause) {
         case 'Question 1':
-          selector = ' Publish your EoI - Date should be in the future';
+          selector = ' Publish your EoI - You can not set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'clarification_date';
           break;
 
         case 'Question 2':
-          selector = 'Clarification period ends - Date should be in the future';
+          selector = 'Clarification period ends - You can not set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'clarification_period_end';
           break;
 
         case 'Question 3':
-          selector = 'Deadline for publishing responses to EoI clarification questions- Date should be in the future ';
+          selector = 'Deadline for publishing responses to EoI clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'deadline_period_for_clarification_period';
           break;
 
         case 'Question 4':
-          selector = 'Deadline for suppliers to submit their EoI response - Date should be in the future';
+          selector = 'Deadline for suppliers to submit their EoI response - You can not set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'supplier_period_for_clarification_period';
           break;
 
         case 'Question 5':
-          selector = 'Confirm your next steps to suppliers - Date should be in the future';
+          selector = 'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'supplier_dealine_for_clarification_period';
           break;
 
         default:
-          selector = ' Date should be in the future';
+          selector = ' You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
     }
     const errorItem = {
