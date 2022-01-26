@@ -8859,7 +8859,11 @@ p,
   padding: 0.6rem;
 }
 
-.dialog-close, .warning-dialog-close a {
+.dialog-close a {
+  color: #fff;
+}
+
+.warning-dialog-close a {
   color: #fff;
 }
 
