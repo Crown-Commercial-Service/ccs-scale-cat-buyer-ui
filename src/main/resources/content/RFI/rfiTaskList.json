@@ -71,7 +71,7 @@
         },
         {
           "Task": 2,
-          "title": "Confirm which suppliers you want to approach",
+          "title": "Look at the available suppliers",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfi/suppliers"

@@ -2,9 +2,15 @@
 $(document).ready(function () {
 
     const checkType = document.getElementById("rfi_offline_document");
-    const type = checkType ? 'rfi':'eoi';
+    const elems = ['rfi', 'eoi','rfp','ca'];
+    let foundElem = false;
+    let type, uploadField;
+    while (!foundElem && elems.length > 0) {
+        type = elems.splice(0,1);
+        uploadField = document.getElementById(`${type}_offline_document`);
+        foundElem = !!uploadField;
+    } 
     
-    const uploadField = document.getElementById(`${type}_offline_document`);
     const FileMimeType = {
         "csv": "text/csv",
         "doc": "application/msword",
@@ -87,7 +93,7 @@ $(document).ready(function () {
             $(`#${type}_offline_document`).addClass("govuk-input--error")
             $(`#upload_doc_form`).addClass("govuk-form-group--error");
             $(`#${type}_offline_document`).val() === "";
-            $(`#${type}_upload_error_summary`).text("Acceptable file formats:  csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
+            $(`#${type}_upload_error_summary`).text("Only the following document types are permitted: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip");
             $(`.doc_upload_button`).hide();
         }
        

@@ -1,0 +1,18 @@
+{
+    "title": "Cookies on crowncommercial.gov.uk (CaT)",
+    "subtitle": "Cookies are files saved on your phone, tablet or computer when you visit a website. We use cookies to store information about how you use the GOV.UK website, such as the pages you visit.",
+    "subtitleLine2": "This page has a brief explanation of each type of cookie we use. If you want more details, <a href='/cookie-details' target='_blank' data-module='gem-track-click' data-track-category='cookieSettings' data-track-action='Find out more about cookies'> read our detailed cookie information  (opens in new tab)</a>.",
+    "heading": "Cookie settings",
+    "cookietype1": "Cookies that measure website use",
+    "cookiestype1contentline1": "We use Google Analytics to measure how you use the website so we can improve it based on user needs. Google Analytics sets cookies that store anonymised information about:",
+    "cookiestype1contentline2": "<ul><li>how you got to the site</li><li>the pages you visit on Crown Commercial Service (CCS) - CaT, and how long you spend on each page</li><li>what you click on while you're visiting the site</li></ul>",
+    "cookiestype1controlheading": "We do not allow Google to use or share the data about how you use this site.",
+    "cookietype2": "Cookies that help with our communications and marketing",
+    "cookiestype2contentline1": null,
+    "cookiestype2contentline2": null,
+    "cookiestype2controlheading": "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS) - CaT.",
+    "cookietype3": "Strictly necessary cookies",
+    "cookiestype3contentline1": "These essential cookies do things like:",
+    "cookiestype3contentline2": "<ul><li>remember the notifications you've seen so we do not show them to you again</li><li>remember your progress through a form (for example a licence application)</li></ul>",
+    "cookiestype3controlheading": "They always need to be on."
+}

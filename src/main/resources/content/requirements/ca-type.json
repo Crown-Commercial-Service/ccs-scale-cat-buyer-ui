@@ -1,0 +1,54 @@
+{
+    "breadCrumbs": [
+      {
+        "text": "Dashboard",
+        "href": "/dashboard"
+      },
+      {
+        "text": "Choose a commercial agreement",
+        "href": "/projects/choose-agreement"
+      },
+      {
+        "text": "Procurement overview",
+        "href": "/projects/create-or-choose"
+      },
+      {
+        "text": "How will you build 1-stage further competition",
+        "href": "#"
+      }
+    ],
+  
+    "title": "How will you build 1-stage further competition?",
+    "subtitle": "[ Instructions for this page ]",
+    "form": [
+      {
+        "id": "ccs_ca_type",
+        "question": "How would you like to include your requirements document (attachment 3)?",
+        "radioOptions": {
+          "idPrefix": "ccs_chose_route",
+          "name": "ccs_ca_type",
+          "items": [
+            {
+              "value": "all_online",
+              "text": "Provide all information online",
+              "hint": {
+                "text": "Enter all the information needed to build your one stage further competition online and submit it to your selected suppliers."
+              }
+            },
+            {
+              "value": "all_offline",
+              "text": "Upload only your statement of requirements but finish the bid pack online",
+              "hint": {
+                "text": "Use this option to upload attachement and complete the assessment online."
+              }
+            }
+        
+          ]
+        }
+      }
+    ],
+    "backJump": {
+      "title": "Return to Procurement overview",
+      "href": "/projects/create-or-choose"
+    }
+  }

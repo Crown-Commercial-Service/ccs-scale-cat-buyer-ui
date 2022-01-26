@@ -64,19 +64,20 @@
 {%endif %}
 
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-xl">
-      {{data.title}}
-    </h1>
-     {% include "includes/project_header.njk" %}
-  </div>
-</div>
+
 
 
 <div class="govuk-grid-row">
+  <h1 class="govuk-heading-xl">
+    {{data.title}}
+  </h1>
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
 
+        {% include "includes/project_header.njk" %}
+      </div>
+    </div>
     <p class="govuk-body">{{data.content.p1}}</p>
 
     <p class="govuk-body">{{data.content.p2}} <a class="govuk-link govuk-link--no-visited-state"
@@ -93,7 +94,7 @@
 
       <div class="ccs-page-section">
         <p class="govuk-body">Select and add colleagues</p>
-        <form method="POST" action="/rfi/get-collaborator-detail">
+        <form method="POST" action="/rfp/get-collaborator-detail">
           <div class="govuk-button-group">
           {{ CCSSelect({
           id: "rfi_collaborators",
@@ -113,7 +114,7 @@
         </form>
       </div>
 
-      <form method="POST" action="/rfi/add-collaborator-detail" >
+      <form method="POST" action="/rfp/add-collaborator-detail" >
         <div class="ccs-page-section" id="potential-collaborator">
           <div id="potential-collaborator-detail">
             <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
@@ -165,7 +166,7 @@
       </div>
       <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
       <br>
-<form  class="form ccs_add_rfi_collab" method="POST" action="/rfi/proceed-collaborators" method="post">
+<form  class="form ccs_add_rfi_collab" method="POST" action="/rfp/proceed-collaborators" method="post">
 
       {{ CCSInput({
       id: "rfi_collaborators_added",

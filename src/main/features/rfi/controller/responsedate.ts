@@ -110,18 +110,30 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
       errorSelector = 'clarification_date';
       break;
     case 'Question 2':
+      if (questionNewDate < timeline.publish) {
+        isValid = false;
+        error = 'this milestone needs to be set after the previous milestone date';
+      }
       errorSelector = 'clarification_period_end';
       break;
     case 'Question 3':
+      if (questionNewDate < timeline.clarificationPeriodEnd) {
+        isValid = false;
+        error = 'this milestone needs to be set after the previous milestone date';
+      }
       errorSelector = 'deadline_period_for_clarification_period';
       break;
     case 'Question 4':
+      if (questionNewDate < timeline.publishResponsesClarificationQuestions) {
+        isValid = false;
+        error = 'this milestone needs to be set after the previous milestone date';
+      }
       errorSelector = 'supplier_period_for_clarification_period';
       break;
     case 'Question 5':
       if (questionNewDate < timeline.supplierSubmitResponse) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        error = 'this milestone needs to be set after the previous milestone date';
       }
       errorSelector = 'supplier_dealine_for_clarification_period';
       break;
@@ -173,22 +185,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   const { isValid, error, errorSelector } = isValidQuestion(selected_question_id, date.toISOString(), timeline);
 
   if (date.getTime() >= nowDate.getTime() && isValid) {
-    date = date.toLocaleDateString('en-uk', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-    nowDate = nowDate.toLocaleDateString('en-uk', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    date = moment(date).format('DD MMMM YYYY, hh:mm a');
 
     const answerformater = {
       value: date,

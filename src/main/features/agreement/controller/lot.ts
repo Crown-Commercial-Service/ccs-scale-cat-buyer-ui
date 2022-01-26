@@ -16,9 +16,11 @@ export const LOT_BEFORE_START_PAGE = (req: express.Request, res: express.Respons
   const { isAuthenticated } = req.session;
   const regExp = /[a-zA-Z]/g;
   let lot = lotNum;
+  const lotId = lot.length > 2 ? lot.split(" ")[1] : 1 
+  const lotSuppliers = "https://www.crowncommercial.gov.uk/agreements/"+agreement_id+":"+lotId+"/lot-suppliers";
   const { agreementName, agreementEndDate, agreementDescription, suppliersCount } = req.session;
   regExp.test(lotNum) ? lot = lotNum : lot = "Lot " + lotNum;
-  const agreement = { name: agreementName, endDate: agreementEndDate, agreementDescription, suppliersCount };
+  const agreement = { name: agreementName, endDate: agreementEndDate, agreementDescription, suppliersCount, lotSuppliers };
   let appendData = { data: lotData, agreement_id, lot, agreement }
 
   if (isAuthenticated) {

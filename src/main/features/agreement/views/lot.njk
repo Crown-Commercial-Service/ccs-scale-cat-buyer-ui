@@ -1,4 +1,4 @@
-{% extends "template.njk" %}
+{% extends "ccs_template.njk" %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Lot details | Contract a Thing' %}
@@ -62,7 +62,7 @@
           </div>
           <div class="ccs-page-section">
             <p class="govuk-!-padding-bottom-3">{{data.line7}}
-              <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="https://www.crowncommercial.gov.uk/suppliers" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers)</a>
+              <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
             </p></div>
 
           <div id="sign-in" class="ccs-page-section govuk-!-padding-bottom-3">

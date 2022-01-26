@@ -4,79 +4,113 @@
 
 {% set title = 'home | Contract a Thing' %}
 
-{% block content %} 
-
+{% block content %}
+  {{ CCSBreadcrumbs({
+        items: breadCrumbs
+      }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>    
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds" id="ccs_rfi_acronyms_form" class=" form ccs_rfi_acronyms_form">
-       <h1 class="govuk-heading-xl">
-        Temporary landing page
-      </h1>       
+    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds" id="ccs_rfi_acronyms_form" class=" form ccs_rfi_acronyms_form">
+        <h1 class="govuk-heading-xl">{{title_h1}}</h1>
 
-      <p class="govuk-body">
-        <aside role="complementary">
-          <h2 class="govuk-heading-m" id="subsection-title">
+        {% if(isAuth !== true)%}
+          <div class="govuk-inset-text">
+            {{signposting}}
+          </div>
+          {%endif%}
+
+          <h2 class="govuk-heading-m">{{title_h2_1}}</h2>
+          <div class="ccs-callout-panel">
+            {{second_title_list | safe}}
+          </div>
+          <p class="govuk-body">{{second_title_line1}}</p>
+          <p class="govuk-body">{{second_title_line2}}</p>
+
+          {% if(isAuth === true)%}
+            {{ CCSButton({
+               text: buttonText_sigin,
+               type: "a",
+               classes: "govuk-button",
+               href: "/dashboard"
+              }) }}
+            {%else%}
+            {{ CCSButton({
+               text: buttonText_signout,
+               type: "a",
+               classes: "govuk-button",
+               href: "/oauth/login"
+              }) }}
+            {%endif%}
+
+            <h2 class="govuk-heading-m">{{title_h2_2}}</h2>
+            <p class="govuk-body">{{third_title_line_1 | safe}}</p>
+            <p class="govuk-body">{{third_title_line_2 | safe}}</p>
+
+          </div>
+          <div class="govuk-grid-column-one-third">
+
+            {{ howToGetSupport() }}
+
+          </div>
+        </div>
+
+      {# both the below <aside> element has to be removed before proceding to production. It's the Temporary links #}
+      <aside role="complementary">
+      <p class="govuk-phase-banner"></p>
+        <h2 class="govuk-heading-m" id="subsection-title">
             Digital Specialists and Programmes (RM6263)
           </h2>
-          <nav role="navigation" aria-labelledby="subsection-title">
-            <ul class="govuk-list govuk-!-font-size-16">
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6263&lotNum=1" class="govuk-link govuk-link--no-visited-state">Lot 1: Programmes</a>
-              </li>
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6263&lotNum=2" class="govuk-link govuk-link--no-visited-state">Lot 2: Specialists</a>
-              </li>
-            </ul>
-          </nav>
-        </aside>
-
-        <aside role="complementary">
-          <h2 class="govuk-heading-m" id="subsection-title">
+        <nav role="navigation" aria-labelledby="subsection-title">
+          <ul class="govuk-list govuk-!-font-size-16">
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6263&amp;lotNum=1" class="govuk-link govuk-link--no-visited-state">Lot 1: Programmes</a>
+            </li>
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6263&amp;lotNum=2" class="govuk-link govuk-link--no-visited-state">Lot 2: Specialists</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <aside role="complementary">
+        <h2 class="govuk-heading-m" id="subsection-title">
             Management Consultancy Framework Three (MCF3) (RM6187)
           </h2>
-          <nav role="navigation" aria-labelledby="subsection-title">
-            <ul class="govuk-list govuk-!-font-size-16">
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 1" class="govuk-link govuk-link--no-visited-state">Lot 1: Business</a>
-              </li>
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 2" class="govuk-link govuk-link--no-visited-state">Lot 2: Strategy & Policy</a>
-              </li>
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 3" class="govuk-link govuk-link--no-visited-state">Lot 3: Complex and Transformation</a>
-              </li>
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 4" class="govuk-link govuk-link--no-visited-state">Lot 4: Finance</a>
-              </li>
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 5" class="govuk-link govuk-link--no-visited-state">Lot 5: HR(human resources)</a>
-              </li>
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 6" class="govuk-link govuk-link--no-visited-state">Lot 6: Procurement and Supply Chain</a>
-              </li>
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 7" class="govuk-link govuk-link--no-visited-state">Lot 7: Health, Social Care and Community</a>
-              </li>
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 8" class="govuk-link govuk-link--no-visited-state">Lot 8: Infrastructure Including Transport</a>
-              </li>
-              <li>
-                <a href="/agreement/lot?agreement_id=RM6187&lotNum=Lot 9" class="govuk-link govuk-link--no-visited-state">Lot 9: Environmental Sustainability & Socio-Economic Development</a>
-              </li>
-            </ul>
-          </nav>
-        </aside>
-      </p>
+        <nav role="navigation" aria-labelledby="subsection-title">
+          <ul class="govuk-list govuk-!-font-size-16">
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6187&amp;lotNum=Lot 1" class="govuk-link govuk-link--no-visited-state">Lot 1: Business</a>
+            </li>
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6187&amp;lotNum=Lot 2" class="govuk-link govuk-link--no-visited-state">Lot 2: Strategy &amp; Policy</a>
+            </li>
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6187&amp;lotNum=Lot 3" class="govuk-link govuk-link--no-visited-state">Lot 3: Complex and Transformation</a>
+            </li>
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6187&amp;lotNum=Lot 4" class="govuk-link govuk-link--no-visited-state">Lot 4: Finance</a>
+            </li>
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6187&amp;lotNum=Lot 5" class="govuk-link govuk-link--no-visited-state">Lot 5: HR(human resources)</a>
+            </li>
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6187&amp;lotNum=Lot 6" class="govuk-link govuk-link--no-visited-state">Lot 6: Procurement and Supply Chain</a>
+            </li>
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6187&amp;lotNum=Lot 7" class="govuk-link govuk-link--no-visited-state">Lot 7: Health, Social Care and Community</a>
+            </li>
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6187&amp;lotNum=Lot 8" class="govuk-link govuk-link--no-visited-state">Lot 8: Infrastructure Including Transport</a>
+            </li>
+            <li>
+              <a href="/agreement/lot?agreement_id=RM6187&amp;lotNum=Lot 9" class="govuk-link govuk-link--no-visited-state">Lot 9: Environmental Sustainability &amp; Socio-Economic Development</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
 
-    </div>
-    <div class="govuk-grid-column-one-third">
-  
-      {{ howToGetSupport() }}
+      {# remove until this line  #}
 
-    </div>
-  </div>
-    
-  </div>
-  </main>
-{% endblock %}
+      </div>
+    </main>
+  {% endblock %}

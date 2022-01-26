@@ -1,0 +1,23 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Contract a Thing (CaT)",
+            "href": "#"
+        }
+    ],
+    "title_h1": "Contract a Thing (CaT)",
+    "signposting": "You have safely signed out or your session has timed out.",
+    "title_h2_1": "Buy online using our contract award service",
+    "second_title_list": "Contract a Thing (CaT) is scalable solution that will support:<ul><li>Further Competition (FC) - aka Request for Proposal (RFP) or Invitation To Tender (ITT)</li><li>Direct Award (DA)</li><li>Request for Information (RFI)</li><li>Capability Assessment</li></ul>",
+    "second_title_line1": "To use this service you will need to sign in to, or create an account for, the Public Procurement Gateway.",
+    "second_title_line2": "The Public Procurement Gateway helps you to access the different procurement services available to the public sector.",
+    "buttonText_signout": "Sign in or create an account",
+    "buttonText_sigin": "Start Now",
+    "title_h2_2": "The agreements below are available on our service",
+    "third_title_line_1": "<a target='_blank' href='https://www.crowncommercial.gov.uk/agreements/RM6263'> Digital Specialists and Programmes (RM6263)</a>",
+    "third_title_line_2": "<a target='_blank' href='https://www.crowncommercial.gov.uk/agreements/RM6187'> Management Consultancy Framework Three (MCF3) (RM6187)</a>"
+}

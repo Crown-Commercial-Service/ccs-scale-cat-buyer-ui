@@ -100,7 +100,7 @@
         },
         {
             title: "Cookies that help with our communications and marketing",
-            description: "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS).",
+            description: "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS) - CaT.",
             cookie_type: "marketing",
             enabled: null,
             adjustable: true,
@@ -231,7 +231,7 @@
         function createSeries(datarecord, idx) {
             if (datarecord.adjustable === true) {
                 return '\n<fieldset class="govuk-fieldset" aria-describedby="'
-                    .concat(datarecord.cookie_type, '-hint">\n    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">\n      <h3 class="govuk-fieldset__heading">\n        ')
+                    .concat(datarecord.cookie_type, '-hint">\n    <legend class="govuk-fieldset__legend">\n      <h3 class="heading size--xl">\n        ')
                     .concat(datarecord.title, '\n      </h3>\n    </legend>\n    <span id="')
                     .concat(datarecord.cookie_type, '-hint" class="govuk-hint">\n      ')
                     .concat(datarecord.description, '\n    </span>\n    <div class="govuk-radios govuk-radios--inline">\n      <div class="govuk-radios__item">\n                <input class="govuk-radios__input" id="')
@@ -279,7 +279,7 @@
         cookieMessageInner.classList.add("cookie-message__inner", "govuk-width-container");
         cookieMessageInner.classList.add("site-container");
         cookieMessageInner.innerHTML =
-            '<h2 class="govuk-heading-m">Cookies on crowncommercial.gov.uk</h2><div class="cookie-message__intro"><p>We use cookies to collect information about how you use crowncommercial.gov.uk.<br><br> We use this information to make the website work as well as possible and improve government services.</p></div>';
+            '<h2 class="govuk-heading-m">Cookies on CaT / crowncommercial.gov.uk</h2><div class="cookie-message__intro"><p>We use cookies to collect information about how you use crowncommercial.gov.uk.<br><br> We use this information to make the website work as well as possible and improve government services.</p></div>';
         var optInButton = document.createElement("button");
         optInButton.classList.add("govuk-!-font-size-18", "govuk-!-font-weight-bold", "govuk-button", "gtm--accept-cookies-in-banner");
         optInButton.innerHTML = "Accept all cookies";

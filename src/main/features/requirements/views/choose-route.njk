@@ -15,7 +15,7 @@
     titleText: "There is a problem",
     errorList: [
         {
-        text: "Select an option"
+        text: "Please select an option"
         }
     ]
     }) }}
@@ -33,7 +33,7 @@
         {% include "includes/project_header.njk" %}
 
         <p class="govuk-body">{{ data.form.question }}</p>
-        <form id="ccs_ca_type_form" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/requirements/choose-route" method="POST">
+        <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form ccs_rfp_type_form" action="/requirements/choose-route" method="POST">
 
           {% set formOptions = data.form.radioOptions.items %}
 

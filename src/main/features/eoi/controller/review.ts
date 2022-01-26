@@ -173,6 +173,12 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       event_id,
       ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
     };
+    //Fix for SCAT-3440 
+    const agreementName = req.session.agreementName;
+    const lotid = req.session?.lotId;
+    const agreementId_session = req.session.agreement_id;
+    const agreementLotName = req.session.agreementLotName;
+    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
