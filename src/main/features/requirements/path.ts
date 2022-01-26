@@ -73,6 +73,15 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_NAME_PROJECT,
   );
 
+
+  //@Get '/ca/type'
+  app.get(
+    REQUIREMENT_PATHS.CA_TYPE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_REQUIREMENT_TYPE,
+  );
+
+
   app.get(
     REQUIREMENT_PATHS.CA_GET_NAME_PROJECT,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -139,8 +148,17 @@ export default function (app: Application): void {
   );
 
   // /rfp/IR35
-  app.get(REQUIREMENT_PATHS.RFP_GET_IR35, [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], REQUIREMENT_CONTROLLER.RFP_GET_I35)
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_IR35,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_I35,
+  );
 
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_WHERE_WORK_DONE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_WHERE_WORK_DONE,
+  );
 
   /**
    * @POST Routes
@@ -224,7 +242,9 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
   app.post(REQUIREMENT_PATHS.RFP_POST_QUESTIONS, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_QUESTION);
 
-
   // /rfp/IR35
-  app.post(REQUIREMENT_PATHS.RFP_POST_IR35, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_I35)
+  app.post(REQUIREMENT_PATHS.RFP_POST_IR35, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_I35);
+
+  app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE)
+  app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_WHERE_WORK_DONE);
 }

@@ -50,7 +50,7 @@ function updateRadioButtonOptions(
             if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
               // updatedOptions.form.radioOptions.items[i].disabled = "true"
             } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
-              updatedOptions.form.radioOptions.items[i].remove = 'true';
+              //updatedOptions.form.radioOptions.items[i].remove = 'true';
             }
           }
         }
@@ -113,7 +113,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
 
         case '2-stage':
           // eslint-disable-next-line no-case-declarations
-          const newAddress = REQUIREMENT_PATHS.CA_GET_LEARN;
+          const newAddress = REQUIREMENT_PATHS.CA_TYPE;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('two stage further competition selected');
           req.session.selectedRoute = 'CA';

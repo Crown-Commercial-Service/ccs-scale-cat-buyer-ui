@@ -1,3 +1,4 @@
+import { DA_GET_WHERE_WORK_DONE, DA_POST_WHERE_WORK_DONE } from './da-whereWorkDone';
 import { REQUIREMENT_CHOOSE_ROUTE, POST_REQUIREMENT_CHOOSE_ROUTE } from './choose-route';
 
 import {
@@ -14,8 +15,8 @@ import { RFP_GET_LEAD_PROCUREMENT, RFP_PUT_LEAD_PROCUREMENT, RFP_GET_USER_PROCUR
 import { RFP_GET_NAME_PROJECT, RFP_POST_NAME_PROJECT } from './rfp-nameAProject';
 import { RFP_OFFLINE_JOURNEY_PAGE } from './rfp-offline';
 import { RFP_GET_UPLOAD_DOC, RFP_POST_UPLOAD_DOC, RFP_GET_REMOVE_FILES, RFP_POST_UPLOAD_PROCEED } from './rfp-upload';
-import { RFP_GET_LEARN, RFP_POST_LEARN } from './rfp-learnAboutCapabilityAssessment';
-import { RFP_GET_WEIGHTINGS } from './rfp-enterYourWeightings';
+import { RFP_GET_ADD_CONTEXT } from './rfp-addcontext';
+import { RFP_GET_QUESTIONS, RFP_POST_QUESTION } from './rfp-questions';
 
 import {
   CA_GET_ADD_COLLABORATOR,
@@ -33,11 +34,8 @@ import { CA_OFFLINE_JOURNEY_PAGE } from './ca-offline';
 import { CA_GET_UPLOAD_DOC, CA_POST_UPLOAD_DOC, CA_GET_REMOVE_FILES, CA_POST_UPLOAD_PROCEED } from './ca-upload';
 import { CA_GET_LEARN, CA_POST_LEARN } from './ca-learnAboutCapabilityAssessment';
 import { CA_GET_WEIGHTINGS } from './ca-enterYourWeightings';
-import {RFP_GET_ADD_CONTEXT} from './rfp-addcontext'
-import { RFP_GET_QUESTIONS, RFP_POST_QUESTION } from './rfp-questions';
 
-
-import {RFP_GET_I35, RFP_POST_I35} from './rfp-Ir35'
+import { RFP_GET_I35, RFP_POST_I35 } from './rfp-Ir35';
 
 /**
  * @BaseController
@@ -67,15 +65,12 @@ export const REQUIREMENT_CONTROLLER = {
   RFP_POST_UPLOAD_DOC,
   RFP_GET_REMOVE_FILES,
   RFP_POST_UPLOAD_PROCEED,
-  RFP_GET_LEARN,
-  RFP_POST_LEARN,
-  RFP_GET_WEIGHTINGS,
   RFP_GET_ADD_CONTEXT,
   RFP_GET_QUESTIONS,
   RFP_POST_QUESTION,
   RFP_GET_I35,
   RFP_POST_I35,
-//
+  //
   CA_REQUIREMENT_TYPE,
   CA_POST_TYPE,
   CA_REQUIREMENT_TASK_LIST,
@@ -97,4 +92,7 @@ export const REQUIREMENT_CONTROLLER = {
   CA_GET_LEARN,
   CA_POST_LEARN,
   CA_GET_WEIGHTINGS,
+
+  DA_GET_WHERE_WORK_DONE,
+  DA_POST_WHERE_WORK_DONE,
 };

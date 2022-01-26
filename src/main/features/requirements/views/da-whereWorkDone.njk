@@ -1,0 +1,82 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+    items: breadCrumbs
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    {% if(isError)%}
+      {{ CCSErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorText
+      }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 id="page-heading" class="govuk-heading-xl">
+          {{title}}
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
+      <div class="ccs-page-section">
+        <p class="govuk-body">{{subtitle}}</p>
+        <br>
+      </div>
+      <form id="da_where_work_done" name="da_where_work_done" class="form da_form" action="/da/get-work-done" method="post">
+        <div class="ccs-page-section">
+          <p class="govuk-body">{{data.total}} of 100% total weighting for locations<a href="2" class="del govuk-link govuk-link--no-visited-state" title="delete">Clear form</a></p>
+        </div>
+
+            {% for elem in data.parts %}
+                      {{ CCSInput({
+                            label: {
+                              text: elem.title,
+                              classes: "govuk-label--m"
+                            },
+                            hint: {
+                              text: requirement.OCDS.description,
+                              classes: "govuk-hint"
+                            },
+                            suffix: {
+                              text: "%"
+                            },
+                            id: "da_weight",
+                            name: "da_weight",
+                            spellcheck: false,
+                            classes: "govuk-input--width-2",
+                            value: elem.value
+                        })
+                      }}
+
+                      {{ CCSInput({
+                          id: "question_id",
+                          name: "question_id",
+                          type: "hidden",
+                          value: requirement.OCDS.id
+                      })
+                      }}
+            {% endfor %}
+
+            <div class="govuk-button-group">
+              {{ CCSButton({
+                    text: "Save and continue",
+                    classes:"save-button"
+                  })
+              }}
+              <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
+            </div>
+
+      </form>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </main>
+        {% endblock %}
