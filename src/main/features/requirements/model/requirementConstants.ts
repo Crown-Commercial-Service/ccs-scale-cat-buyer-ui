@@ -67,4 +67,7 @@ export enum REQUIREMENT_PATHS {
   //RFP questions
   RFP_GET_QUESTIONS = '/rfp/questions',
   RFP_POST_QUESTIONS = '/rfp/questionnaire',
+
+  DA_GET_WHERE_WORK_DONE = '/da/get-work-done',
+  DA_POST_WHERE_WORK_DONE = '/da/get-work-done',
 }

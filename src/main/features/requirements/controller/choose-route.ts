@@ -50,7 +50,7 @@ function updateRadioButtonOptions(
             if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
               // updatedOptions.form.radioOptions.items[i].disabled = "true"
             } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
-              updatedOptions.form.radioOptions.items[i].remove = 'true';
+              //updatedOptions.form.radioOptions.items[i].remove = 'true';
             }
           }
         }
