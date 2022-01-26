@@ -3,7 +3,6 @@ import * as express from 'express';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as caLearnData from '../../../resources/content/requirements/caLearnAboutCapabilityAssessment.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
-import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
 /**
@@ -28,8 +27,6 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
     error: isJaggaerError,
   };
   try {
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-    statusStepsDataFilter(caLearnData, journeySteps, 'CA', agreement_id, projectId, eventId);
     const windowAppendData = { data: caLearnData, lotId, agreementLotName, releatedContent };
     res.render('ca-learnAboutCapabilityAssessment', windowAppendData);
   } catch (error) {
