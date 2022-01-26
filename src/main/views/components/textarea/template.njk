@@ -4,7 +4,8 @@
 
 {#- a record of other elements that we need to associate with the input using
    aria-describedby – for example hints or error messages -#}
-{% set describedBy = params.describedBy if params.describedBy else "" %}
+{% set describedBy = params.describedBy if params.describedBy else 
+  "" %}
 <div class="govuk-form-group {%- if params.errorMessage %} govuk-form-group--error{% endif %} {%- if params.formGroup.classes %} {{ params.formGroup.classes }}{% endif %}">
   {{ CCSLabel({
     html: params.label.html,
@@ -14,21 +15,23 @@
     attributes: params.label.attributes,
     for: params.id
   }) | indent(2) | trim }}
-{% if params.hint %}
-  {% set hintId = params.id + '-hint' %}
-  {% set describedBy = describedBy + ' ' + hintId if describedBy else hintId %}
-  {{ CCSHint({
+  {% if params.hint %}
+    {% set hintId = params.id + '-hint' %}
+    {% set describedBy = describedBy + ' ' + hintId if describedBy else 
+      hintId %}
+    {{ CCSHint({
     id: hintId,
     classes: params.hint.classes,
     attributes: params.hint.attributes,
     html: params.hint.html,
     text: params.hint.text
   }) | indent(2) | trim }}
-{% endif %}
-{% if params.errorMessage %}
-  {% set errorId = params.id + '-error' %}
-  {% set describedBy = describedBy + ' ' + errorId if describedBy else errorId %}
-  {{ CCSErrorMessage({
+  {% endif %}
+  {% if params.errorMessage %}
+    {% set errorId = params.id + '-error' %}
+    {% set describedBy = describedBy + ' ' + errorId if describedBy else 
+      errorId %}
+    {{ CCSErrorMessage({
     id: errorId,
     classes: params.errorMessage.classes,
     attributes: params.errorMessage.attributes,
@@ -36,8 +39,8 @@
     text: params.errorMessage.text,
     visuallyHiddenText: params.errorMessage.visuallyHiddenText
   }) | indent(2) | trim }}
-{% endif %}
- <textarea class="govuk-textarea {{- ' govuk-textarea--error' if params.errorMessage }} {{- ' ' + params.classes if params.classes}}" id="{{ params.id }}" name="{{ params.name }}" rows="{%if params.rows %} {{- params.rows -}} {% else %}5{%endif %}"
+  {% endif %}
+  <textarea class="govuk-textarea {{- ' govuk-textarea--error' if params.errorMessage }} {{- ' ' + params.classes if params.classes}}" id="{{ params.id }}" name="{{ params.name }}"  data-mandatory= "{%if params.required %} {{- params.required -}} {% else %}false{%endif %}" rows="{%if params.rows %} {{- params.rows -}} {% else %}5{%endif %}"
   {%- if (params.spellcheck === false) or (params.spellcheck === true) %} spellcheck="{{ params.spellcheck }}"{% endif %}
   {%- if describedBy %} aria-describedby="{{ describedBy }}"{% endif %}
   {%- if params.autocomplete %} autocomplete="{{ params.autocomplete}}"{% endif %}
