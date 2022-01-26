@@ -1,5 +1,5 @@
 import * as express from 'express'
-import * as chooseRouteData from '../../../resources/content/requirements/rfpType.json'
+import * as chooseRouteData from '../../../resources/content/requirements/ca-type.json'
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -25,7 +25,7 @@ export const CA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError  }
-  res.render('rfp-type', appendData);
+  res.render('ca-type', appendData);
 }
 
 //POST 'rfp/type'
@@ -38,43 +38,35 @@ export const CA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
 
  export const CA_POST_TYPE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  console.log(req.body)
  try {
-  const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_fc_rfp_type');
+  const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_fc_ca_type');
+  const { ccs_ca_type } = filtered_body_content_removed_fc_key;
 
-  const { fc_rfp_type } = filtered_body_content_removed_fc_key;
-
-  if (fc_rfp_type) {
+  if (ccs_ca_type) {
   
-    switch (fc_rfp_type) {
+    switch (ccs_ca_type) {
        case 'all_online':
           // eslint-disable-next-line no-case-declarations
-          const redirect_address = REQUIREMENT_PATHS.RFP_REQUIREMENT_TASK_LIST;
-          req.session.caSelectedRoute = fc_rfp_type
-          logger.info(fc_rfp_type + "selected");
+          const redirect_address = REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST;
+          req.session.caSelectedRoute = ccs_ca_type
+          logger.info(ccs_ca_type + "selected");
           res.redirect(redirect_address);
           break;
   
        case 'all_offline':
           // eslint-disable-next-line no-case-declarations
           const newAddress = REQUIREMENT_PATHS.RFP_OFFLINE_JOURNEY_PAGE;
-          req.session.caSelectedRoute = fc_rfp_type
-          logger.info(fc_rfp_type + "selected");
+          req.session.caSelectedRoute = ccs_ca_type
+          logger.info(ccs_ca_type + "selected");
           res.redirect(newAddress);
-          break;
-
-        case 'part_online':
-          // eslint-disable-next-line no-case-declarations
-          const partAddress = REQUIREMENT_PATHS.RFP_REQUIREMENT_TASK_LIST;
-          req.session.caSelectedRoute = fc_rfp_type
-          logger.info(fc_rfp_type + "selected");
-          res.redirect(partAddress);
           break;
   
        default: res.redirect('/404');
   } 
 }else {
     req.session['isJaggaerError'] = true;
-    res.redirect(REQUIREMENT_PATHS.RFP_TYPE);
+    res.redirect(REQUIREMENT_PATHS.CA_TYPE);
   }
 
  } catch (error) {

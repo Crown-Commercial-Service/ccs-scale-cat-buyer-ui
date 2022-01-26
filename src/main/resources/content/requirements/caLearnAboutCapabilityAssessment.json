@@ -42,22 +42,6 @@
 
   "title": "Learn about capability assessment",
   "subtitle": null,
-  "events": [
-    {
-      "eventno": 1,
-      "eventTitle": "Project and collaborators",
-      "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
-      "eventTask": [
-        {
-          "Task": 1,
-          "link": "/rfp/name-your-project",
-          "title": "Name your project",
-          "required": "mandatory",
-          "status": "Todo"
-        }
-      ]
-    }
-  ],
   "form": {
     "question": "[instructions for this page]",
     "backJump1": {
