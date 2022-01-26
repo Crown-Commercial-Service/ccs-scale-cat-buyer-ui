@@ -299,5 +299,10 @@ export default function (app: Application): void {
 
   //@POST '/ca/team-scale'
   app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
+<<<<<<< HEAD
 >>>>>>> 295b57b54fa (wating for endpoint.)
+=======
+  //@POST '/ca/team-scale'
+  app.post(REQUIREMENT_PATHS.CA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.CA_POST_TEAM_SCALE);
+>>>>>>> 088ca0ae18f (fixing conflicts.)
 }
