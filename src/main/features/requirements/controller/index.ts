@@ -37,6 +37,10 @@ import { CA_GET_WEIGHTINGS } from './ca-enterYourWeightings';
 
 import { RFP_GET_I35, RFP_POST_I35 } from './rfp-Ir35';
 
+import { DA_REQUIREMENT_TYPE, DA_POST_TYPE } from './da-type';
+import { DA_OFFLINE_JOURNEY_PAGE } from './da-offline';
+import { DA_REQUIREMENT_TASK_LIST } from './da-taskList';
+
 /**
  * @BaseController
  * @Provider
@@ -95,4 +99,7 @@ export const REQUIREMENT_CONTROLLER = {
 
   DA_GET_WHERE_WORK_DONE,
   DA_POST_WHERE_WORK_DONE,
+  DA_REQUIREMENT_TYPE, DA_POST_TYPE,
+  DA_OFFLINE_JOURNEY_PAGE,
+  DA_REQUIREMENT_TASK_LIST,
 };

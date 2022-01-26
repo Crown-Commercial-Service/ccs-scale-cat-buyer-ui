@@ -1,0 +1,137 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "#"
+    }
+  ],
+
+  "title": "[ Write and publish your requirements ]",
+  "subtitle": null,
+  "events": [
+    {
+      "eventno": 1,
+      "eventTitle": "Project and collaborators",
+      "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+      "eventTask": [
+        {
+          "Task": 1,
+          "link": "/rfp/name-your-project",
+          "title": "Name your project",
+          "required": "mandatory",
+          "status": "Optional"
+        },
+        {
+          "Task": 2,
+          "link": "/rfp/procurement-lead",
+          "title": "Change who is going to lead the procurement",
+          "required": "optional",
+          "status": "Optional"
+        },
+        {
+          "Task": 3,
+          "link": "/rfp/add-collaborators",
+          "title": "Add members to your project",
+          "required": "optional",
+          "status": "Optional"
+        }
+      ]
+    },
+    {
+      "eventno": 2,
+      "eventTitle": "Upload pricing schedules and any other supporting documents",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "Upload pricing schedules and any other supporting documents",
+          "required": "mandatory",
+          "link": "#",
+          "status": "Todo"
+        }
+      ]
+    },
+    {
+      "eventno": 3,
+      "eventTitle": "Context and requirements to your 1-stage further competition",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": " Add context and requirements",
+          "required": "optional",
+          "status": "Todo",
+          "link": "/rfp/add-context"
+        }
+      ]
+    },
+    {
+      "eventno": 4,
+      "eventTitle": "Your assessment bases and evaluation weightings ",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "Your assessment bases and evaluation weightings ",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 2,
+          "title": "Set your scoring criteria",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        }
+      ]
+    },
+    {
+      "eventno": 5,
+      "eventTitle": "Review and publish your 1-stage RFP ",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "Look at the suppliers for this further competition",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "/rfp/upload-doc"
+        },
+        {
+          "Task": 2,
+          "title": "Set response date and time ",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 3,
+          "title": "Review and publish your 1-stage RFP",
+          "required": "mandatory",
+          "status": "Cannot start yet",
+          "link": "#"
+        }
+      ]
+    }
+  ],
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to procurement overview",
+      "href": "/projects/create-or-choose"
+    }
+  }
+}

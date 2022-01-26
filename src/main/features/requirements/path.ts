@@ -247,4 +247,40 @@ export default function (app: Application): void {
 
   app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE)
   app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_WHERE_WORK_DONE);
+
+
+  app.post(
+    REQUIREMENT_PATHS.DA_POST_TYPE,
+    [ContentFetchMiddleware.FetchContents, AUTH],
+    REQUIREMENT_CONTROLLER.DA_POST_TYPE,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.DA_TYPE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_REQUIREMENT_TYPE,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+      PreMarketEngagementMiddleware.PutPremarket,
+    ],
+    REQUIREMENT_CONTROLLER.DA_REQUIREMENT_TASK_LIST,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.DA_OFFLINE_JOURNEY_PAGE,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+      PreMarketEngagementMiddleware.PutPremarket,
+    ],
+    REQUIREMENT_CONTROLLER.DA_OFFLINE_JOURNEY_PAGE,
+  );
+
 }
