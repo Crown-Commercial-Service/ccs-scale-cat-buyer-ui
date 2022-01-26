@@ -8837,15 +8837,12 @@ p,
   position: absolute;
   left: 0;
   right: 0;
-/*   width: -moz-fit-content;
-  width: -webkit-fit-content; */
+  top: 30%;
   width: 40%;
   height: -moz-fit-content;
   height: -webkit-fit-content;
   height: fit-content;
   margin: auto;
-  /* border: solid;
-  padding: 0.1rem; */
   background: white;
   color: black;
   display: none;
@@ -8862,7 +8859,7 @@ p,
   padding: 0.6rem;
 }
 
-.dialog-close a {
+.dialog-close, .warning-dialog-close a {
   color: #fff;
 }
 
@@ -8871,6 +8868,17 @@ p,
 }
 
 .backdrop {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+.backdrop-timeout-warnings {
   position: fixed;
   top: 0px;
   left: 0px;
