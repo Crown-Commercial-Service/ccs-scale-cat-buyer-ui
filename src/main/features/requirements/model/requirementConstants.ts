@@ -54,6 +54,11 @@ export enum REQUIREMENT_PATHS {
   CA_POST_UPLOAD_DOC = '/ca/upload-doc',
   CA_POST_UPLOAD_PROCEED = '/ca/upload-doc/proceed',
 
+  // ca type
+  CA_TYPE = '/ca/type',
+  CA_POST_TYPE = '/ca/type',
+
+
   CA_REQUIREMENT_TASK_LIST = '/ca/task-list',
   CA_GET_LEARN = '/ca/learn-about-capability-assessment',
   CA_POST_LEARN = '/ca/learn-about-capability-assessment',
