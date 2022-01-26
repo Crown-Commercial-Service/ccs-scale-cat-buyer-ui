@@ -1638,10 +1638,10 @@ CharacterCount.prototype.updateCountMessage = function () {
   if (remainingNumber < 0) {
     countElement.classList.add('govuk-textarea--error');
     countMessage.classList.remove('govuk-hint');
-    countMessage.classList.add('govuk-error-message');
+    countMessage.classList.add('govuk-hint-error-message');
   } else {
     countElement.classList.remove('govuk-textarea--error');
-    countMessage.classList.remove('govuk-error-message');
+    countMessage.classList.remove('govuk-hint-error-message');
     countMessage.classList.add('govuk-hint');
   }
 

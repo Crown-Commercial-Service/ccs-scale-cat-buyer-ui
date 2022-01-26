@@ -3,6 +3,8 @@ import * as express from 'express';
 import * as cmsData from '../../../resources/content/eoi/eoiTaskList.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
+import { LoggTracer } from '../../../common/logtracer/tracer';
+import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
 // eoi TaskList
 /**

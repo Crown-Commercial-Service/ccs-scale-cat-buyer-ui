@@ -17,14 +17,14 @@
     "line1": "Follow the steps below to start and complete your procurement. Each step can be saved and continued at any time.",
     "line2": "You can write your requirements online, using this service, or upload a document instead. You can also download what you enter online and save it to your internal systems.",
     "line3": "You cannot run step two and three at the same time.",
-    "line4": "If you are not sure about the terms and conditions of this lot, please see the <a class='govuk-link govuk-link--no-visited-state' href='#'>lot detail page</a>",
+    "line4": "If you are not sure about the terms and conditions of this lot, please see the ",
     "line5": "lot detail page.",
     "events": [
         {
             "eventno": 1,
             "eventTitle": "Take a look at the available suppliers",
             "buttonText": "See available suppliers",
-            "buttonDisable": true,
+            "buttonDisable": false,
             "href": "/rfi/rfi-tasklist",
             "sections": ["Every supplier is checked to make sure they can supply the products or services offered by the commercial agreement."],
             "list": [],

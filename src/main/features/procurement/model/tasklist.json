@@ -1,166 +1,316 @@
 {
-    "states": [
-        {
-            "step": 1,
-            "state": "Optional"
-        },
-        {
-            "step": 2,
-            "state": "Optional"
-        },
-        {
-            "step": 3,
-            "state": "Not started"
-        },
-        {
-
-            "step": 4,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 5,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 6,
-            "state": "Optional"
-        },
-        {
-
-            "step": 7,
-            "state": "Optional"
-        },
-        {
-            "step": 8,
-            "state": "Optional"
-        },
-        {
-            "step": 9,
-            "state": "Not started"
-        },
-        {
-            "step": 10,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 11,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 12,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 13,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 14,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 15,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 16,
-            "state": "Optional"
-        },
-        {
-            "step": 17,
-            "state": "Optional"
-        },
-        {
-            "step": 18,
-            "state": "Optional"
-        },
-        {
-            "step": 19,
-            "state": "Not started"
-        },
-        {
-            "step": 20,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 21,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 22,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 23,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 24,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 25,
-            "state": "Optional"
-        },
-        {
-            "step": 26,
-            "state": "Optional"
-        },
-        {
-            "step": 27,
-            "state": "Optional"
-        },
-        {
-            "step": 28,
-            "state": "Optional"
-        },
-        {
-            "step": 29,
-            "state": "Not started"
-        },
-        {
-            "step": 30,
-            "state": "Not started"
-        },
-        {
-            "step": 31,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 32,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 33,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 34,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 35,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 36,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 37,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 38,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 39,
-            "state": "Cannot start yet"
-        },
-        {
-            "step": 40,
-            "state": "Cannot start yet"
-        }
-    ]
+  "states": [
+    {
+      "step": 1,
+      "state": "Optional"
+    },
+    {
+      "step": 2,
+      "state": "Optional"
+    },
+    {
+      "step": 3,
+      "state": "Not started"
+    },
+    {
+      "step": 4,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 5,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 6,
+      "state": "Optional"
+    },
+    {
+      "step": 7,
+      "state": "Optional"
+    },
+    {
+      "step": 8,
+      "state": "Optional"
+    },
+    {
+      "step": 9,
+      "state": "Not started"
+    },
+    {
+      "step": 10,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 11,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 12,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 13,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 14,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 15,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 16,
+      "state": "Optional"
+    },
+    {
+      "step": 17,
+      "state": "Optional"
+    },
+    {
+      "step": 18,
+      "state": "Optional"
+    },
+    {
+      "step": 19,
+      "state": "Not started"
+    },
+    {
+      "step": 20,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 21,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 22,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 23,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 24,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 25,
+      "state": "Optional"
+    },
+    {
+      "step": 26,
+      "state": "Optional"
+    },
+    {
+      "step": 27,
+      "state": "Optional"
+    },
+    {
+      "step": 28,
+      "state": "Optional"
+    },
+    {
+      "step": 29,
+      "state": "Not started"
+    },
+    {
+      "step": 30,
+      "state": "Not started"
+    },
+    {
+      "step": 31,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 32,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 33,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 34,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 35,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 36,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 37,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 38,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 39,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 40,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 41,
+      "state": "Not started"
+    },
+    {
+      "step": 42,
+      "state": "Not started"
+    },
+    {
+      "step": 43,
+      "state": "Not started"
+    },
+    {
+      "step": 44,
+      "state": "Optional"
+    },
+    {
+      "step": 45,
+      "state": "Optional"
+    },
+    {
+      "step": 46,
+      "state": "Optional"
+    },
+    {
+      "step": 47,
+      "state": "Not started"
+    },
+    {
+      "step": 48,
+      "state": "Optional"
+    },
+    {
+      "step": 49,
+      "state": "Not started"
+    },
+    {
+      "step": 50,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 51,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 52,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 53,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 54,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 55,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 56,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 57,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 58,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 59,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 60,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 61,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 62,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 63,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 64,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 65,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 66,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 67,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 68,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 69,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 70,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 71,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 72,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 73,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 74,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 75,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 76,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 77,
+      "state": "Cannot start yet"
+    },
+    {
+      "step": 78,
+      "state": "Cannot start yet"
+    }
+  ]
 }

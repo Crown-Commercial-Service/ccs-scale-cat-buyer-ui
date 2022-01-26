@@ -126,13 +126,22 @@ export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res:
 export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
-  try {
-    const user_profile = rfi_collaborators;
-    const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-    const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-    const userData = organisation_user_data?.data;
-    req.session['searched_user'] = userData;
-    res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
+  if(rfi_collaborators === ""){
+    req.session['isJaggaerError'] = true;
+    res.redirect('/rfi/add-collaborators');
+  }
+  else{
+
+    try {
+    
+      const user_profile = rfi_collaborators;
+      const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+      const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+      const userData = organisation_user_data?.data;
+      req.session['searched_user'] = userData;
+      res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
+    
+  
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -144,6 +153,7 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
       true,
     );
   }
+}
 };
 
 export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
@@ -155,6 +165,7 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       userType: 'TEAM_MEMBER',
     };
     await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+    req.session['searched_user'] = [];
     res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(

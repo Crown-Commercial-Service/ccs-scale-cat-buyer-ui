@@ -16,7 +16,8 @@ export const app = express();
 import glob from 'glob'
 import { routeExceptionHandler } from './setup/routeexception'
 import { RedisInstanceSetup } from './setup/redis'
-import {fileUploadSetup} from './setup/fileUpload'
+import { fileUploadSetup } from './setup/fileUpload'
+import { URL } from "url";
 
 app.locals.ENV = env;
 
@@ -54,8 +55,17 @@ app.use((req, res, next) => {
     'Cache-Control',
     'no-cache, max-age=0, must-revalidate, no-store',
   );
+  res.locals.GOOGLE_TAG_MANAGER_ID = process.env.GOOGLE_TAG_MANAGER_ID;
+  res.locals.GLOBAL_SITE_TAG_ID = process.env.GOOGLE_SITE_TAG_ID;
+  
+  // Health check URL values.
+  const url = new URL(process.env.CAT_URL);
+  process.env.PACKAGES_ENVIRONMENT = url.host;
+  process.env.PACKAGES_NAME = "CCS Scale CaT Buyer UI";
+  process.env.PACKAGES_PROJECT = "cat-buyer-frontend";
   next();
 });
+
 app.enable('trust proxy')
 
 /**

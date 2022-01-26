@@ -97,34 +97,46 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
 export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { eoi_collaborators } = req['body'];
-  try {
-    const user_profile = eoi_collaborators;
-    const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-    const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-    const userData = organisation_user_data?.data;
-    const { userName, firstName, lastName, telephone } = userData;
-    let userdetailsData = { userName, firstName, lastName };
 
-    if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
-    else userdetailsData = { ...userdetailsData, tel: telephone };
-
-    res.status(200).json(userdetailsData);
-  } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Tender agreement failed to be added',
-      true,
-    );
-  }
+ 
+    try {
+      const user_profile = eoi_collaborators;
+      const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+      const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+      const userData = organisation_user_data?.data;
+      const { userName, firstName, lastName, telephone } = userData;
+      let userdetailsData = { userName, firstName, lastName };
+  
+      if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
+      else userdetailsData = { ...userdetailsData, tel: telephone };
+  
+      res.status(200).json(userdetailsData);
+    } catch (error) {
+      LoggTracer.errorLogger(
+        res,
+        error,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'Tender agreement failed to be added',
+        true,
+      );
+    }
+  
+  
 };
 
 export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { eoi_collaborators } = req['body'];
+
+  if(eoi_collaborators == ""){
+    req.session['isJaggaerError'] = true;
+    res.redirect('/eoi/add-collaborators');
+  }
+  else{
+
+
   try {
     const user_profile = eoi_collaborators;
     const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
@@ -143,6 +155,8 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
       true,
     );
   }
+
+}
 };
 
 export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
@@ -154,6 +168,7 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       userType: 'TEAM_MEMBER',
     };
     await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+    req.session['searched_user'] = [];
     res.redirect(EOI_PATHS.GET_ADD_COLLABORATOR);
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(

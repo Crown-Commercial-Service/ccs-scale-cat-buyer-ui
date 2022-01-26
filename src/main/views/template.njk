@@ -15,9 +15,21 @@
 {% from "components/file-upload/macro.njk" import CCSFileUpload %}
 {% from "components/warning-text/macro.njk" import CCSWarningText %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "components/character-count/macro.njk" import CCSCharacterCount %}
 
 <html lang="{{ htmlLang | default('en') }}" class="govuk-template {{ htmlClasses }}">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{GLOBAL_SITE_TAG_ID}}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', '{{GLOBAL_SITE_TAG_ID}}');
+    </script>
     <meta charset="utf-8">
     <title>{{ title }}| Crown Commercial Service</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -41,8 +53,32 @@
     {% endblock %}
 
     <meta property="og:image" content="{{ assetUrl | default('/assets') }}/images/govuk-opengraph-image.png">
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer'
+            ? '&l=' + l
+            : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f
+          .parentNode
+          .insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', '{{GOOGLE_TAG_MANAGER_ID}}');
+    </script>
+    <!-- End Google Tag Manager -->
   </head>
   <body class="govuk-template__body {{ bodyClasses }} show-flourishes  pillar--none" {%- for attribute, value in bodyAttributes %} {{attribute}}="{{value}}"{% endfor %}>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id={{GOOGLE_TAG_MANAGER_ID}}"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <script>
       document.body.className = (
         (document.body.className)
@@ -59,10 +95,14 @@
       {% include "components/Header.njk" %}
       {% include "components/phase_banner_beta.njk" %}
     {% endblock %}
+    
+    {#  dialog Section #}
+    {% block dialog %}
+      {% include "components/dialog.njk" %}
+    {% endblock %}
 
     {# This is main content section#}
     <div class="ccs-width-container">
-
       {% block breadCrumb %}{% endblock %}
 
       {% block content %}{% endblock %}

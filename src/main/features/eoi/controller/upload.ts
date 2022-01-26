@@ -1,12 +1,12 @@
 //@ts-nocheck
 import * as express from 'express';
-import { FILEUPLOADHELPER } from '../../rfi/helpers/upload';
-import { FileValidations } from '../../rfi/util/file/filevalidations';
+import { FILEUPLOADHELPER } from '../../eoi/helpers/upload';
+import { FileValidations } from '../../eoi/util/file/filevalidations';
 import FormData from 'form-data';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { LoggTracer } from '../../../common/logtracer/tracer';
-import { DynamicFrameworkInstance } from '../../rfi/util/fetch/dyanmicframeworkInstance';
+import { DynamicFrameworkInstance } from '../../eoi/util/fetch/dyanmicframeworkInstance';
 import { TenderApi } from './../../../common/util/fetch/tenderService/tenderApiInstance';
 
 let tempArray = [];
@@ -35,10 +35,11 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   const { SESSION_ID } = req.cookies;
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
+  const journeyStatus = req.session['journey_status'];
 
   if (!req.files) {
     const journey = journeyStatus.find(journey => journey.step === 21)?.state;
-    const routeRedirect = journey === 'Optional' ? '/rfi/suppliers' : '/rfi/upload-doc';
+    const routeRedirect = journey === 'Optional' ? '/eoi/suppliers' : '/eoi/upload-doc';
     res.redirect(routeRedirect);
   }
 
@@ -120,6 +121,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
           });
           res.redirect('/eoi/upload-doc');
         } catch (error) {
+          console.log(error)
           delete error?.config?.['headers'];
           const Logmessage = {
             Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -160,5 +162,5 @@ export const POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Reques
   const { eventId } = req.session;
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/21`, 'Completed');
 
-  res.redirect('/eoi/eoi-tasklist');
+  res.redirect('/eoi/suppliers');
 });

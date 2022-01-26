@@ -1,0 +1,56 @@
+{
+  "breadCrumbs1": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Learn about capability assessment",
+      "href": "#"
+    }
+  ],
+  "breadCrumbs2": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/ca/task-list"
+    },
+    {
+      "text": "Learn about capability assessment",
+      "href": "#"
+    }
+  ],
+
+  "title": "Learn about capability assessment",
+  "subtitle": null,
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump1": {
+      "title": "Return to procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    "backJump2": {
+      "title": "Return to write and publish your requirements",
+      "href": "/ca/task-list"
+    }
+  }
+}

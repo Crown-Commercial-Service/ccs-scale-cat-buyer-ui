@@ -1,4 +1,4 @@
-# Related Content macro
+# Related content macro
 
 ## How to use
 Step #1

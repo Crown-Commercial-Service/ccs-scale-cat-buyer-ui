@@ -127,6 +127,7 @@ if (document.getElementById("ccs_rfi_docs_form") !== null) document.getElementBy
 if (document.getElementById("ccs_rfi_questions_form") !== null) document.getElementById("ccs_rfi_questions_form").addEventListener('submit', ccsZvalidateRfIQuestions);
 
 if (document.getElementById("ccs_eoi_questions_form") !== null) document.getElementById("ccs_eoi_questions_form").addEventListener('submit', ccsZvalidateEoIQuestions);
+if (document.getElementById("ccs_rfp_about_proj") !== null) document.getElementById("ccs_rfp_about_proj").addEventListener('submit', ccsZvalidateRfPAboutBG);
 
 if (document.getElementById("ccs_eoi_purpose_form") !== null) document.getElementById("ccs_eoi_purpose_form").addEventListener('submit', ccsZvalidateEoiPurpose);
 
@@ -149,6 +150,10 @@ if (document.getElementById("ccs-rfi-suppliers-form") !== null) document.getElem
 
 if (document.getElementById("ccs_eoi_acronyms_form") !== null) document.getElementById("ccs_eoi_acronyms_form").addEventListener('submit', ccsZvalidateEoiAcronyms);
 
+if (document.getElementById("ccs_rfp_splterms_form") !== null) document.getElementById("ccs_rfp_splterms_form").addEventListener('submit', ccsZvalidateRfpAcronyms);
+
+if (document.getElementById("rfp_location") !== null) document.getElementById("rfp_location").addEventListener('submit', ccsZvalidateRfpLocation);
+
 if (document.getElementById("ccs_eoi_splterms_form") !== null) document.getElementById("ccs_eoi_splterms_form").addEventListener('submit', ccsZvalidateEoiSpecialTerms);
 
 if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getElementById("ccs_rfi_acronyms_form").addEventListener('submit', ccsZvalidateRfiAcronyms);
@@ -161,4 +166,29 @@ setInputFilter(document.getElementById("eoi_resource_start_date-year"), (value) 
 setInputFilter(document.getElementById("eoi_duration-days"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
 setInputFilter(document.getElementById("eoi_duration-months"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
 setInputFilter(document.getElementById("eoi_duration-years"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 4));
+
+setInputFilter(document.getElementById("clarification_date-minute_2"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 60));
+setInputFilter(document.getElementById("clarification_date-hour_2"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
+setInputFilter(document.getElementById("clarification_date-day_2"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
+setInputFilter(document.getElementById("clarification_date-month_2"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
+setInputFilter(document.getElementById("clarification_date-year_2"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 2024));
+
+setInputFilter(document.getElementById("clarification_date-minute_3"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 60));
+setInputFilter(document.getElementById("clarification_date-hour_3"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
+setInputFilter(document.getElementById("clarification_date-day_3"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
+setInputFilter(document.getElementById("clarification_date-month_3"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
+setInputFilter(document.getElementById("clarification_date-year_3"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 2024));
+
+setInputFilter(document.getElementById("clarification_date-minute_4"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 60));
+setInputFilter(document.getElementById("clarification_date-hour_4"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
+setInputFilter(document.getElementById("clarification_date-day_4"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
+setInputFilter(document.getElementById("clarification_date-month_4"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
+setInputFilter(document.getElementById("clarification_date-year_4"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 2024));
+
+setInputFilter(document.getElementById("clarification_date-minute_5"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 60));
+setInputFilter(document.getElementById("clarification_date-hour_5"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
+setInputFilter(document.getElementById("clarification_date-day_5"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
+setInputFilter(document.getElementById("clarification_date-month_5"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
+setInputFilter(document.getElementById("clarification_date-year_5"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 2024));
+
 

@@ -8,7 +8,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 
-export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Response, viewError: boolean) => {
+export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Response, viewError: boolean, apiError: boolean) => {
   const { SESSION_ID } = req.cookies;
   const ProjectID = req.session['projectId'];
   const EventID = req.session['eventId'];
@@ -125,6 +125,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       }
     }
 
+
     let appendData = {
       rfi_data: RFI_ANSWER_STORAGE,
       rfi_keydates: RFI_DATA_TIMELINE_DATES[0],
@@ -140,7 +141,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
     };
 
     if (viewError) {
-      appendData = Object.assign({}, { ...appendData, viewError: true });
+      appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
 
     res.render('review', appendData);

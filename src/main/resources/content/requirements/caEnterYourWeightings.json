@@ -1,0 +1,34 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/ca/task-list"
+    },
+    {
+      "text": "Enter your weightings",
+      "href": "#"
+    }
+  ],
+
+  "title": "Enter your weightings",
+  "subtitle": null,
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to write and publish your requirements",
+      "href": "/ca/task-list"
+    }
+  }
+}

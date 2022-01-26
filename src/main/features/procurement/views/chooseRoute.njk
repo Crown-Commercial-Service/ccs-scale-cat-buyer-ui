@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'How will you publish your RfI? | Contract a Thing' %}
 
@@ -38,6 +39,7 @@
                 <p class="govuk-body">{{ data.form.question }}</p>
 
                 <form id="ccs_event_type_form" name="ccs_event_type_form" class="form ccs_event_type_form" action="/projects/events/choose-route" method="POST">
+                {{ csrfProtection(csrf) }}
 
                     {% set formOptions = data.form.radioOptions.items %}
 

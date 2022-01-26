@@ -10,7 +10,7 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 
 //@GET /eoi/review
 export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response) => {
-  EOI_REVIEW_RENDER(req, res, false);
+  EOI_REVIEW_RENDER(req, res, false, false);
 };
 
 //@POST  /eoi/review
@@ -39,29 +39,17 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
       res.redirect('/eoi/event-sent');
     } catch (error) {
       console.log('Something went wrong, please review the logit error log for more information');
-      delete error?.config?.['headers'];
-      const Logmessage = {
-        Person_id: TokenDecoder.decoder(SESSION_ID),
-        error_location: `${req.headers.host}${req.originalUrl}`,
-        sessionId: 'null',
-        error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
-        exception: error,
-      };
-      const Log = new LogMessageFormatter(
-        Logmessage.Person_id,
-        Logmessage.error_location,
-        Logmessage.sessionId,
-        Logmessage.error_reason,
-        Logmessage.exception,
-      );
-      LoggTracer.errorTracer(Log, res);
+
+      LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
+      EOI_REVIEW_RENDER(req, res, true, true);
     }
   } else {
-    EOI_REVIEW_RENDER(req, res, true);
+    EOI_REVIEW_RENDER(req, res, true, false);
   }
 };
 
-const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, viewError: boolean) => {
+const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, viewError: boolean, apiError: boolean) => {
   const { SESSION_ID } = req.cookies;
   const ProjectID = req.session['projectId'];
   const EventID = req.session['eventId'];
@@ -185,9 +173,15 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       event_id,
       ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
     };
+    //Fix for SCAT-3440 
+    const agreementName = req.session.agreementName;
+    const lotid = req.session?.lotId;
+    const agreementId_session = req.session.agreement_id;
+    const agreementLotName = req.session.agreementLotName;
+    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
     if (viewError) {
-      appendData = Object.assign({}, { ...appendData, viewError: true });
+      appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
 
     res.render('reviewEoi', appendData);

@@ -70,6 +70,10 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     }
 
     data.events.forEach(event => {
+      if (event.eventno == 1) {
+        const lot = lotId.length > 2 ? lotId.split(" ")[1] : 1 
+        event.href = "https://www.crowncommercial.gov.uk/agreements/"+agreementId_session+":"+lot+"/lot-suppliers";
+      }
       const step = req.session['journey_status'] ? req.session['journey_status'].find(item => item.step === event.eventno) : journyData.states.find(item => item.step === event.eventno);
       if (step){
         if(step.state === 'Not started') {
@@ -81,13 +85,17 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         }
       }
       if (step.step == 2) {
-        if (req.session['journey_status'][2].state == 'In progress') {
+        if (req.session['journey_status'][2].state == 'In progress' || req.session['journey_status'][1].state == 'Completed') {
           event.buttonDisable = true;
+        } else {
+          event.buttonDisable = false;
         }
       }
       if (step.step == 3) {
         if (req.session['journey_status'][1].state == 'In progress') {
           event.buttonDisable = true;
+        } else {
+          event.buttonDisable = false;
         }
       }
     })

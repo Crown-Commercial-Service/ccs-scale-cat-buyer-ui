@@ -32,7 +32,7 @@ const ccsZvalidateBuildType= (event) => {
   fieldCheck = ccsZisOptionChecked( "ccs_fc_type", "Please select an option");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
-  if (errorStore.length === 0) document.forms["ccs_ca_type_form"].submit();
+  if (errorStore.length === 0) document.forms["ccs_rfp_type_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
 }
 
@@ -47,8 +47,7 @@ const ccsZvalidateProjectPhase = (event) => {
 
 const ccsZvalidateRfiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 4') ? "Please select an option" : "You must provide a security clearance level before proceeding";
-  fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", msg);
+  fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", "You must provide a security clearance level before proceeding");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_vetting_form"].submit();
@@ -57,7 +56,7 @@ const ccsZvalidateRfiSecurity = (event) => {
 
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 4') ? "Please select an option" : "You must provide a security clearance level before proceeding";
+  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must provide a security clearance level before proceeding";
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -67,8 +66,7 @@ const ccsZvalidateEoiSecurity = (event) => {
 
 const ccsZvalidateRfpSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 4') ? "Please select an option" : "You must provide a security clearance level before proceeding";
-  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", msg);
+  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", "You must provide a security clearance level before proceeding");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfp_vetting_form"].submit();

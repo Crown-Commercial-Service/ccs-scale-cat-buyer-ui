@@ -156,6 +156,96 @@ The file explorer is accessible using the button in left corner of the navigatio
 > Step 39 - Set response date and time ? (Cannot start yet)
 >
 > Step 40 - Review and publish ? (Cannot start yet)
+>
+>
+> **requirements Choose route**
+> Step 41 - One stage further competition (Not started)
+> 
+> Step 42 - Two stage further competition (Not started)
+> 
+> Step 43 - DA (Not started)
+>
+> Step 41,42 & 43 is for requirements/choose-route page. At first all must me To-Do then based on user selection we need to mark it as In-Progress
+>
+> **capability assessment**
+> 1. Project and collaborators (Cannot start yet)
+> 
+> Step 44 - Name your project (Optional)
+> 
+> Step 45 - Change who is going to lead the procurement (Optional)
+> 
+> Step 46 - Add colleagues to your project (Optional)
+>
+> *If we are going to go via dynamic framwrok then Step 48 to 58 is not required*
+>
+> Step 47 - Stage 1: Complete a capability assessment (Not started)
+>
+> Step 48 - [ Learn about capability assessment ] (Optional)
+>
+> Step 49 - [ Enter your weightings ] (Not started)
+>
+> Step 50 - [ Choose your resources ] (Cannot start yet)
+>
+> Step 51 - [ Select your service capabilities ] (Cannot start yet)
+>
+> Step 52 - [ Will you accept suppliers working overseas? ] (Cannot start yet)
+>
+> Step 53 - [ How well the team can scale? ] (Cannot start yet)
+>
+> Step 54 - [ Where the work will be done ] (Cannot start yet)
+>
+> Step 55 - [ Will you accept sub-contractors? ] (Cannot start yet)
+>
+> Step 56 - [ Select your supplier for direct award ] (Cannot start yet)
+>
+> Step 57 - [ Enter your justification ] (Cannot start yet)
+>
+> Step 58 - [ Next steps ] (Cannot start yet)
+>
+> Update Step 47 as (Completed)
+>
+>
+>*[ Stage 2: Progress to direct award ]*
+>
+> Step 59 - [ Stage 2: Progress to direct award ] (Cannot start yet)
+>
+> Step 60 - [ 1. Context ] (Cannot start yet)
+>
+> Step 61 - [ IR35 acknowledgement ] (Cannot start yet)
+>
+> Step 62 - [ Add context ] (Cannot start yet)
+>
+> Once Step 61 and 62 is completed mark Step 60 as completed
+>
+> Step 63 - [ 2. Your requirements ] (Cannot start yet)
+>
+> Step 64 - [ How would you like to create your requirements?] (Cannot start yet)
+>
+> Step 65 - [ Your requirements ] (Cannot start yet)
+>
+> Once Step 64 and 65 is completed mark Step 63 as completed
+> Once Step 60 and 63 is completed mark Step 59 as completed
+>
+>
+> *[ 3. Your assessment bases and evaluation weightings ]*
+>
+> Step 66 - [ 3. Your assessment bases and evaluation weightings ] (Cannot start yet)
+>
+> Step 67 - [ Define your assessment bases ] (Cannot start yet) 
+> Step 68 - [ Add your evaluation weightings ] (Cannot start yet)
+> Step 69 - [ How would you like to set your scoring criteria? ] (Cannot start yet)
+> Step 70 - [ Set your scoring criteria ] (Cannot start yet)
+>
+> Once Step 67 - 70 is completed mark Step 66 as completed.
+>
+> *[ 4. Review and publish your direct award ]*
+> Step 71 - Upload documents or add links (Cannot start yet)
+> 
+> Step 72 - Look at the suppliers for this further competition (Cannot start yet)
+> 
+> Step 73 - Set response date and time ? (Cannot start yet)
+>
+> Step 74 - Review and publish ? (Cannot start yet)
 
 # UI Status --> API response
 

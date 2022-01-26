@@ -107,10 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
       errorStore = [];
 
     let errorText = '';
-    if ($("#page-heading").text().includes("Project scope"))
+    if ($("#page-heading").text().includes("Project scope")) {
       errorText = "You must type at least one project scope before you can add another"
-    else
+    } else {
       errorText = "You must type an objective before you can add another objective"
+    }
     fieldCheck = ccsZvalidateWithRegex("eoi_question_1", errorText, /\w+/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
     for (var i = 2; i < 11; i++) {
@@ -126,8 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
 const emptyObjectiveFieldCheckForSave = () => {
   let fieldCheck = "",
     errorStore = [];
-  fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "You must add at least one objective", /\w+/);
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
+  if ($("#page-heading").text().includes("Project objectives"))
+    fieldCheck = ccsZvalidateWithRegex("eoi_question_1", "You must add at least one objective", /\w+/);
+  if (fieldCheck !== true && ($("#page-heading").text().includes("Project objectives"))) errorStore.push(fieldCheck);
   return errorStore;
 };
 
