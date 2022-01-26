@@ -158,6 +158,16 @@ export default function (app: Application): void {
     REQUIREMENT_PATHS.DA_GET_WHERE_WORK_DONE,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.DA_GET_WHERE_WORK_DONE,
+  // @GET '/ca/team-scale'
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_TEAM_SCALE,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.CA_GET_TEAM_SCALE,
   );
 
   /**
@@ -247,6 +257,7 @@ export default function (app: Application): void {
 
   app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE)
   app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_WHERE_WORK_DONE);
+<<<<<<< HEAD
 
 
   app.post(
@@ -283,4 +294,10 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_OFFLINE_JOURNEY_PAGE,
   );
 
+=======
+  app.post(REQUIREMENT_PATHS.RFP_POST_IR35, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_I35);
+
+  //@POST '/ca/team-scale'
+  app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
+>>>>>>> 295b57b54fa (wating for endpoint.)
 }
