@@ -66,9 +66,13 @@ export enum REQUIREMENT_PATHS {
   CA_POST_WEIGHTINGS = '/ca/enter-your-weightings',
   CA_GET_NEXTSTEPS = '/ca/next-steps',
   CA_POST_NEXTSTEPS = '/ca/next-steps',
+  CA_GET_CANCEL = '/ca/cancel',
 
   DA_GET_TEAM_SCALE = '/da/team-scale',
   DA_POST_TEAM_SCALE = '/da/team-scale',
+  DA_GET_NEXTSTEPS = '/da/next-steps',
+  DA_POST_NEXTSTEPS = '/da/next-steps',
+  DA_GET_CANCEL = '/da/cancel',
 
   //RFP questions
   RFP_GET_QUESTIONS = '/rfp/questions',
