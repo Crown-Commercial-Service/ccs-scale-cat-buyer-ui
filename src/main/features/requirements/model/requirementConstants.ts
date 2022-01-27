@@ -59,12 +59,14 @@ export enum REQUIREMENT_PATHS {
   CA_POST_TYPE = '/ca/type',
   CA_OFFLINE_JOURNEY_PAGE = '/ca/offline',
 
-
   CA_REQUIREMENT_TASK_LIST = '/ca/task-list',
   CA_GET_LEARN = '/ca/learn-about-capability-assessment',
   CA_POST_LEARN = '/ca/learn-about-capability-assessment',
   CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
-  
+  CA_POST_WEIGHTINGS = '/ca/enter-your-weightings',
+  CA_GET_NEXTSTEPS = '/ca/next-steps',
+  CA_POST_NEXTSTEPS = '/ca/next-steps',
+
   DA_GET_TEAM_SCALE = '/da/team-scale',
   DA_POST_TEAM_SCALE = '/da/team-scale',
 
