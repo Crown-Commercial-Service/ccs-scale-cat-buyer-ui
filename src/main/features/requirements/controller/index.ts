@@ -1,6 +1,5 @@
 import { DA_GET_WHERE_WORK_DONE, DA_POST_WHERE_WORK_DONE } from './da-whereWorkDone';
 import { REQUIREMENT_CHOOSE_ROUTE, POST_REQUIREMENT_CHOOSE_ROUTE } from './choose-route';
-
 import {
   RFP_GET_ADD_COLLABORATOR,
   RFP_POST_ADD_COLLABORATOR_JSENABLED,
@@ -8,7 +7,6 @@ import {
   RFP_POST_ADD_COLLABORATOR_TO_JAGGER,
   RFP_POST_PROCEED_COLLABORATORS,
 } from './rfp-addcollaborator';
-
 import { RFP_REQUIREMENT_TYPE, RFP_POST_TYPE } from './rfp-type';
 import { RFP_REQUIREMENT_TASK_LIST } from './rfp-taskList';
 import { RFP_GET_LEAD_PROCUREMENT, RFP_PUT_LEAD_PROCUREMENT, RFP_GET_USER_PROCUREMENT } from './rfp-leadProcurement';
@@ -17,7 +15,6 @@ import { RFP_OFFLINE_JOURNEY_PAGE } from './rfp-offline';
 import { RFP_GET_UPLOAD_DOC, RFP_POST_UPLOAD_DOC, RFP_GET_REMOVE_FILES, RFP_POST_UPLOAD_PROCEED } from './rfp-upload';
 import { RFP_GET_ADD_CONTEXT } from './rfp-addcontext';
 import { RFP_GET_QUESTIONS, RFP_POST_QUESTION } from './rfp-questions';
-
 import {
   CA_GET_ADD_COLLABORATOR,
   CA_POST_ADD_COLLABORATOR_JSENABLED,
@@ -25,7 +22,6 @@ import {
   CA_POST_ADD_COLLABORATOR_TO_JAGGER,
   CA_POST_PROCEED_COLLABORATORS,
 } from './ca-addcollaborator';
-
 import { CA_REQUIREMENT_TYPE, CA_POST_TYPE } from './ca-type';
 import { CA_REQUIREMENT_TASK_LIST } from './ca-taskList';
 import { CA_GET_LEAD_PROCUREMENT, CA_PUT_LEAD_PROCUREMENT, CA_GET_USER_PROCUREMENT } from './ca-leadProcurement';
@@ -36,14 +32,12 @@ import { CA_GET_LEARN, CA_POST_LEARN } from './ca-learnAboutCapabilityAssessment
 import { GET_LEARN, POST_LEARN } from './learnAboutCapabilityAssessment';
 import { CA_GET_WEIGHTINGS } from './ca-enterYourWeightings';
 import { CA_GET_NEXTSTEPS, CA_POST_NEXTSTEPS } from './ca-nextSteps';
-
 import { DA_GET_TEAM_SCALE, DA_POST_TEAM_SCALE } from './ca-teamScale';
-
 import { RFP_GET_I35, RFP_POST_I35 } from './rfp-Ir35';
-
 import { DA_REQUIREMENT_TYPE, DA_POST_TYPE } from './da-type';
 import { DA_OFFLINE_JOURNEY_PAGE } from './da-offline';
 import { DA_REQUIREMENT_TASK_LIST } from './da-taskList';
+import { DA_GET_NEXTSTEPS, DA_POST_NEXTSTEPS } from './da-nextSteps';
 
 /**
  * @BaseController
@@ -104,6 +98,8 @@ export const REQUIREMENT_CONTROLLER = {
   CA_GET_NEXTSTEPS,
   CA_POST_NEXTSTEPS,
 
+  DA_GET_NEXTSTEPS,
+  DA_POST_NEXTSTEPS,
   DA_GET_WHERE_WORK_DONE,
   DA_POST_WHERE_WORK_DONE,
   DA_REQUIREMENT_TYPE,
