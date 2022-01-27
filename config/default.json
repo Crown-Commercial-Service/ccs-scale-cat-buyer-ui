@@ -15,6 +15,7 @@
   "settings": {
     "fetch-timelimit": "500"
   },
+  "CCS_agreements_url": "https://www.crowncommercial.gov.uk/agreements/",
   "contentService": {
     "BASEURL": "https://webprod-cms.crowncommercial.gov.uk",
     "menuDirectory": "src/main/resources/content/menu-content/content.json"

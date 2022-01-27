@@ -123,7 +123,7 @@ const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Res
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
-        state,
+        null,
         'Conclave refresh token flow error',
         true,
       );
