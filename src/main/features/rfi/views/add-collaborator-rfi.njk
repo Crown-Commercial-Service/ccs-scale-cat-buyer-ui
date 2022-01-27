@@ -65,18 +65,16 @@
 
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-xl">
-      {{data.title}}
-    </h1>
-     {% include "includes/project_header.njk" %}
-  </div>
-</div>
-
-
-<div class="govuk-grid-row">
+  <h1 class="govuk-heading-xl">
+    {{data.title}}
+  </h1>
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
 
+      {% include "includes/project_header.njk" %}
+    </div>
+  </div>
     <p class="govuk-body">{{data.content.p1}}</p>
 
     <p class="govuk-body">{{data.content.p2}} <a class="govuk-link govuk-link--no-visited-state"

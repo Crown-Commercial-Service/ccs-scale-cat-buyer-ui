@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express'
 const { Logger } = require('@hmcts/nodejs-logging');
-const logger = Logger.getLogger('rfp offline page');
+const logger = Logger.getLogger('da offline page');
 
 /**
  * 
@@ -10,10 +10,10 @@ const logger = Logger.getLogger('rfp offline page');
  * @param req 
  * @param res 
  */
-export const RFP_OFFLINE_JOURNEY_PAGE = (req: express.Request, res: express.Response) => {
+export const DA_OFFLINE_JOURNEY_PAGE = (req: express.Request, res: express.Response) => {
   const lotId = req.session?.lotId;
   const agreementLotName = req.session.agreementLotName;
   const appendData = { lotId, agreementLotName };
   logger.info("WIP page");
-  res.render('offline', appendData);
+  res.render('da-offline', appendData);
 }

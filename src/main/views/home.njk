@@ -28,33 +28,32 @@
           <p class="govuk-body">{{second_title_line2}}</p>
 
           {% if(isAuth === true)%}
-              {{ CCSButton({
+            {{ CCSButton({
                text: buttonText_sigin,
                type: "a",
                classes: "govuk-button",
                href: "/dashboard"
               }) }}
-          {%else%}
+            {%else%}
             {{ CCSButton({
                text: buttonText_signout,
                type: "a",
                classes: "govuk-button",
                href: "/oauth/login"
               }) }}
-        {%endif%}
+            {%endif%}
 
-        <h2 class="govuk-heading-m">{{title_h2_2}}</h2>
-        <p class="govuk-body">{{third_title_line_1 | safe}}</p>
-        <p class="govuk-body">{{third_title_line_2 | safe}}</p>
+            <h2 class="govuk-heading-m">{{title_h2_2}}</h2>
+            <p class="govuk-body">{{third_title_line_1 | safe}}</p>
+            <p class="govuk-body">{{third_title_line_2 | safe}}</p>
 
+          </div>
+          <div class="govuk-grid-column-one-third">
+
+            {{ howToGetSupport() }}
+
+          </div>
+        </div>
       </div>
-      <div class="govuk-grid-column-one-third">
-
-        {{ howToGetSupport() }}
-
-      </div>
-    </div>
-
-  </div>
-</main>
-{% endblock %}
+    </main>
+  {% endblock %}
