@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 
 {% from "components/support/macro.njk" import howToGetSupport %}
+{% from "components/notification-banner.njk" import notificationBanner %}
 
 {% set title = 'home | Contract a Thing' %}
 
@@ -9,51 +10,54 @@
         items: breadCrumbs
       }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds" id="ccs_rfi_acronyms_form" class=" form ccs_rfi_acronyms_form">
-        <h1 class="govuk-heading-xl">{{title_h1}}</h1>
+  <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+    {% if(isAuth !== true)%}
+      {{ notificationBanner() }}
+      {%endif%}
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds" id="ccs_rfi_acronyms_form" class=" form ccs_rfi_acronyms_form">
+          <h1 class="govuk-heading-xl">{{title_h1}}</h1>
 
-        {% if(isAuth !== true)%}
-          <div class="govuk-inset-text">
-            {{signposting}}
-          </div>
-          {%endif%}
+          {% if(isAuth !== true)%}
+            <div class="govuk-inset-text">
+              {{signposting | safe}}
+            </div>
+            {%endif%}
 
-          <h2 class="govuk-heading-m">{{title_h2_1}}</h2>
-          <div class="ccs-callout-panel">
-            {{second_title_list | safe}}
-          </div>
-          <p class="govuk-body">{{second_title_line1}}</p>
-          <p class="govuk-body">{{second_title_line2}}</p>
+            <h2 class="govuk-heading-m">{{title_h2_1}}</h2>
+            <div class="ccs-callout-panel">
+              {{second_title_list | safe}}
+            </div>
+            <p class="govuk-body">{{second_title_line1}}</p>
+            <p class="govuk-body">{{second_title_line2}}</p>
 
-          {% if(isAuth === true)%}
-            {{ CCSButton({
+            {% if(isAuth === true)%}
+              {{ CCSButton({
                text: buttonText_sigin,
                type: "a",
                classes: "govuk-button",
                href: "/dashboard"
               }) }}
-            {%else%}
-            {{ CCSButton({
+              {%else%}
+              {{ CCSButton({
                text: buttonText_signout,
                type: "a",
                classes: "govuk-button",
                href: "/oauth/login"
               }) }}
-            {%endif%}
+              {%endif%}
 
-            <h2 class="govuk-heading-m">{{title_h2_2}}</h2>
-            <p class="govuk-body">{{third_title_line_1 | safe}}</p>
-            <p class="govuk-body">{{third_title_line_2 | safe}}</p>
+              <h2 class="govuk-heading-m">{{title_h2_2}}</h2>
+              <p class="govuk-body">{{third_title_line_1 | safe}}</p>
+              <p class="govuk-body">{{third_title_line_2 | safe}}</p>
 
-          </div>
-          <div class="govuk-grid-column-one-third">
+            </div>
+            <div class="govuk-grid-column-one-third">
 
-            {{ howToGetSupport() }}
+              {{ howToGetSupport() }}
 
+            </div>
           </div>
         </div>
-      </div>
-    </main>
-  {% endblock %}
+      </main>
+    {% endblock %}
