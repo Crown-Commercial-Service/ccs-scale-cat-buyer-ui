@@ -57,6 +57,7 @@ export enum REQUIREMENT_PATHS {
   // ca type
   CA_TYPE = '/ca/type',
   CA_POST_TYPE = '/ca/type',
+  CA_OFFLINE_JOURNEY_PAGE = '/ca/offline',
 
 
   CA_REQUIREMENT_TASK_LIST = '/ca/task-list',

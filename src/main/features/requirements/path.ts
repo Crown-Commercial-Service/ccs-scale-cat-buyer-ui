@@ -43,6 +43,18 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_REQUIREMENT_TASK_LIST,
   );
 
+  //@get '/ca/offline'
+  app.get(
+    REQUIREMENT_PATHS.CA_OFFLINE_JOURNEY_PAGE,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+      PreMarketEngagementMiddleware.PutPremarket,
+    ],
+    REQUIREMENT_CONTROLLER.CA_OFFLINE_JOURNEY_PAGE,
+  );
+
   // @GET '/ca/learn-about-capability-assessment'
   app.get(
     REQUIREMENT_PATHS.CA_GET_LEARN,
