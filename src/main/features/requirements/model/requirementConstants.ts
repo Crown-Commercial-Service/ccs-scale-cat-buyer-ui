@@ -63,6 +63,9 @@ export enum REQUIREMENT_PATHS {
   CA_GET_LEARN = '/ca/learn-about-capability-assessment',
   CA_POST_LEARN = '/ca/learn-about-capability-assessment',
   CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
+  
+  DA_GET_TEAM_SCALE = '/da/team-scale',
+  DA_POST_TEAM_SCALE = '/da/team-scale',
 
   //RFP questions
   RFP_GET_QUESTIONS = '/rfp/questions',

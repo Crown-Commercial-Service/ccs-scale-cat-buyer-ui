@@ -73,14 +73,12 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_NAME_PROJECT,
   );
 
-
   //@Get '/ca/type'
   app.get(
     REQUIREMENT_PATHS.CA_TYPE,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.CA_REQUIREMENT_TYPE,
   );
-
 
   app.get(
     REQUIREMENT_PATHS.CA_GET_NAME_PROJECT,
@@ -158,6 +156,13 @@ export default function (app: Application): void {
     REQUIREMENT_PATHS.DA_GET_WHERE_WORK_DONE,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.DA_GET_WHERE_WORK_DONE,
+  );
+
+  // /ca/team-scale
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_TEAM_SCALE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_TEAM_SCALE,
   );
 
   /**
@@ -242,10 +247,13 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
   app.post(REQUIREMENT_PATHS.RFP_POST_QUESTIONS, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_QUESTION);
 
+  //@POST '/ca/team-scale'
+  app.post(REQUIREMENT_PATHS.DA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.DA_POST_TEAM_SCALE);
+
   // /rfp/IR35
   app.post(REQUIREMENT_PATHS.RFP_POST_IR35, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_I35);
 
-  app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE)
+  app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE);
   app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_WHERE_WORK_DONE);
 
 
@@ -283,4 +291,11 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_OFFLINE_JOURNEY_PAGE,
   );
 
+  app.post(REQUIREMENT_PATHS.RFP_POST_IR35, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_I35);
+
+  //@POST '/ca/team-scale'
+  app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
+
+  //@POST '/ca/team-scale'
+  app.post(REQUIREMENT_PATHS.DA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.DA_POST_TEAM_SCALE);
 }

@@ -1,0 +1,68 @@
+{
+    "breadCrumbs": [
+      {
+        "text": "Dashboard",
+        "href": "/dashboard"
+      },
+      {
+        "text": "Choose a commercial agreement",
+        "href": "/projects/choose-agreement"
+      },
+      {
+        "text": "Procurement overview",
+        "href": "/projects/create-or-choose"
+      },
+      {
+        "text": "Write and publish your requirements",
+        "href": "/ca/task-list"
+      },
+      {
+        "text": "How well can the team scale?",
+        "href": "#"
+      }
+    ],
+
+    "title": "How well can the team scale?",
+    "subtitle": "[ Instructions for this page ]",
+    "form": {
+        "question": "How would you like to include your requirements document (attachment 3)?",
+        "radioOptions": {
+            "idPrefix": "ccs_chose_route",
+            "name": "ccs_ca_type",
+            "items": [
+              {
+                "value": "scale_1",
+                "text": "1 - 10",
+                "hint": {
+                  "text": "[ Description for this option 1 ]."
+                }
+              },
+              {
+                "value": "scale_2",
+                "text": "11 - 25",
+                "hint": {
+                  "text": "[ Description for this option 2 ]."
+                }
+              },
+              {
+                "value": "scale_3",
+                "text": "26 - 99",
+                "hint": {
+                  "text": "[ Description for this option 3 ]."
+                }
+              },
+              {
+                "value": "scale_4",
+                "text": "100+",
+                "hint": {
+                  "text": "[ Description for this option 4 ]."
+                }
+              }
+            ]
+          },
+        "backJump": {
+            "title": "Return to Procurement overview",
+            "href": "/projects/create-or-choose"
+        }
+    }
+}
