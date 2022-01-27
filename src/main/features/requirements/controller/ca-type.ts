@@ -38,7 +38,7 @@ export const CA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
 
  export const CA_POST_TYPE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  console.log(req.body)
+
  try {
   const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_fc_ca_type');
  
@@ -58,18 +58,21 @@ export const CA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
     if (group1 === 'offline_attachment_3' && group2 === 'online_attachment_2') {
       choice = 'part_offline';
     }
+
+
      switch (choice) {
        case 'both_online':
          // eslint-disable-next-line no-case-declarations
-         const redirect_address = REQUIREMENT_PATHS.RFP_REQUIREMENT_TASK_LIST;
+         const redirect_address =  `${REQUIREMENT_PATHS.RFP_REQUIREMENT_TASK_LIST}?path=A1`
          req.session.fcSelectedRoute = choice;
          logger.info(choice + 'selected');
          res.redirect(redirect_address);
          break;
 
        case 'both_offline':
+        
          // eslint-disable-next-line no-case-declarations
-         const bothOfflineAddress = REQUIREMENT_PATHS.RFP_OFFLINE_JOURNEY_PAGE;
+         const bothOfflineAddress =  `${REQUIREMENT_PATHS.RFP_REQUIREMENT_TASK_LIST}?path=A2`;
          req.session.fcSelectedRoute = choice;
          logger.info(choice + 'selected');
          res.redirect(bothOfflineAddress);
@@ -77,14 +80,14 @@ export const CA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
 
        case 'part_online':
          // eslint-disable-next-line no-case-declarations
-         const partOnlineAddress = REQUIREMENT_PATHS.RFP_REQUIREMENT_TASK_LIST;
+         const partOnlineAddress =  `${REQUIREMENT_PATHS.RFP_REQUIREMENT_TASK_LIST}?path=A3`;
          req.session.fcSelectedRoute = choice;
          logger.info(choice + 'selected');
          res.redirect(partOnlineAddress);
          break;
        case 'part_offline':
          // eslint-disable-next-line no-case-declarations
-         const partOfflineAddress = REQUIREMENT_PATHS.RFP_REQUIREMENT_TASK_LIST;
+         const partOfflineAddress =  `${REQUIREMENT_PATHS.RFP_REQUIREMENT_TASK_LIST}?path=A4`;
          req.session.fcSelectedRoute = choice;
          logger.info(choice + 'selected');
          res.redirect(partOfflineAddress);

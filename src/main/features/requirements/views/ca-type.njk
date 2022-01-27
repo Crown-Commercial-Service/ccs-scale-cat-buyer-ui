@@ -32,9 +32,9 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
   <p class="govuk-body">{{data.subtitle}}</p>  
-    <form id="ccs_ca_type_form" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/ca/type" method="POST">
+    <form id="" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/ca/type" method="POST">
 {% for form in data.form %}
-<fieldset id={{form.id}}>
+<fieldset id="{{form.id}}">
 <p class="govuk-body">{{ form.question }}</p>
         {% set formOptions = form.radioOptions.items %}
 

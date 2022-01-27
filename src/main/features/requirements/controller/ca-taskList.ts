@@ -9,6 +9,8 @@ import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 
 export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  const {path} = req.query;
+  console.log({path})
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
   const agreementId_session = agreement_id;
