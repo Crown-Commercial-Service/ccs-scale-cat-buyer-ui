@@ -4,9 +4,15 @@
 {% set title = 'Learn about capability assessment | Contract a Thing' %}
 
 {% block breadCrumb %}
-    {{ CCSBreadcrumbs({
+    {% if isPathOne %}
+        {{ CCSBreadcrumbs({
+        items: data.breadCrumbs1
+    }) }}
+    {% else %}
+        {{ CCSBreadcrumbs({
         items: data.breadCrumbs2
     }) }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -30,21 +36,41 @@
             </div>
         </div>
 
-        <form id="ccs_ca_learn" name="ccs_ca_learn" class="form ccs_ca_learn" action="/ca/learn-about-capability-assessment" method="POST">
+        {% if isPathOne %}
+            <form id="ccs_ca_learn" name="ccs_ca_learn" class="form ccs_ca_learn" action="/ca/learnabout-capability-assessment" method="POST">
 
-            {{ CCSInput({
+                {{ CCSInput({
                 id: "ca_learn_input",
                 name: "ca_learn_input",
                 type: "hidden",
                 value: true
             }) }}
 
-            <div class="govuk-button-group">
-                {{ CCSButton({
+                <div class="govuk-button-group">
+                    {{ CCSButton({
+                    text: "continue"
+                }) }}
+                    <a href="{{data.form.backJump1.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump1.title}}</a>
+                </div>
+            </form>
+        {% else %}
+            <form id="ccs_ca_learn" name="ccs_ca_learn" class="form ccs_ca_learn" action="/ca/learn-about-capability-assessment" method="POST">
+
+                {{ CCSInput({
+                id: "ca_learn_input",
+                name: "ca_learn_input",
+                type: "hidden",
+                value: true
+            }) }}
+
+                <div class="govuk-button-group">
+                    {{ CCSButton({
                     text: "Save and continue"
                 }) }}
-                <a href="{{data.form.backJump2.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump2.title}}</a>
-            </div>
-        </form>
+                    <a href="{{data.form.backJump2.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump2.title}}</a>
+                </div>
+            </form>
+        {% endif %}
+
     </main>
 {% endblock %}

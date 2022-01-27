@@ -31,7 +31,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
-  <p class="govuk-body">{{data.subtitle}}</p>  
+  <p class="govuk-body govuk-inset-text">{{data.subtitle}}</p>  
     <form id="" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/ca/type" method="POST">
 {% for form in data.form %}
 <fieldset id="{{form.id}}">

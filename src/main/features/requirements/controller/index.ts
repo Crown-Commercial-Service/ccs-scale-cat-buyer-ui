@@ -33,6 +33,7 @@ import { CA_GET_NAME_PROJECT, CA_POST_NAME_PROJECT } from './ca-nameAProject';
 import { CA_OFFLINE_JOURNEY_PAGE } from './ca-offline';
 import { CA_GET_UPLOAD_DOC, CA_POST_UPLOAD_DOC, CA_GET_REMOVE_FILES, CA_POST_UPLOAD_PROCEED } from './ca-upload';
 import { CA_GET_LEARN, CA_POST_LEARN } from './ca-learnAboutCapabilityAssessment';
+import { GET_LEARN, POST_LEARN } from './learnAboutCapabilityAssessment';
 import { CA_GET_WEIGHTINGS } from './ca-enterYourWeightings';
 import { CA_GET_NEXTSTEPS, CA_POST_NEXTSTEPS } from './ca-nextSteps';
 
@@ -97,6 +98,8 @@ export const REQUIREMENT_CONTROLLER = {
   CA_POST_UPLOAD_PROCEED,
   CA_GET_LEARN,
   CA_POST_LEARN,
+  GET_LEARN,
+  POST_LEARN,
   CA_GET_WEIGHTINGS,
   CA_GET_NEXTSTEPS,
   CA_POST_NEXTSTEPS,

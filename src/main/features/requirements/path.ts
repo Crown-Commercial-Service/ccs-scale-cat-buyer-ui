@@ -67,6 +67,18 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_LEARN,
   );
 
+    // @GET '/ca/learnabout-capability-assessment'
+    app.get(
+      REQUIREMENT_PATHS.GET_LEARN,
+      [
+        ContentFetchMiddleware.FetchContents,
+        AUTH,
+        PreMarketEngagementMiddleware.PutPremarket,
+        AgreementDetailsFetchMiddleware.FetchAgreements,
+      ],
+      REQUIREMENT_CONTROLLER.GET_LEARN,
+    );
+
   // @GET '/ca/enter-your-weightings'
   app.get(
     REQUIREMENT_PATHS.CA_GET_WEIGHTINGS,
@@ -268,7 +280,11 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.RFP_POST_UPLOAD_PROCEED, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_UPLOAD_PROCEED);
 
   //@POST '/ca/learn-about-capability-assessment'
-  app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
+  app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.POST_LEARN);
+
+  //@POST '/ca/learnabout-capability-assessment'
+  app.post(REQUIREMENT_PATHS.POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.POST_LEARN);
+
   app.post(REQUIREMENT_PATHS.RFP_POST_QUESTIONS, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_QUESTION);
 
   //@POST '/ca/next-steps'

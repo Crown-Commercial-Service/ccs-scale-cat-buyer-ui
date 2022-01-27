@@ -11,13 +11,13 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @param res
  * @GETController
  */
-export const CA_GET_LEARN = async (req: express.Request, res: express.Response) => {
+export const GET_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
-  const isPathOne = false;
+  const isPathOne = true;
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = {
     agreementName,
@@ -44,12 +44,12 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
   }
 };
 
-export const CA_POST_LEARN = async (req: express.Request, res: express.Response) => {
+export const POST_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
-    res.redirect('/ca/enter-your-weightings');
+    res.redirect('/ca/type');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
