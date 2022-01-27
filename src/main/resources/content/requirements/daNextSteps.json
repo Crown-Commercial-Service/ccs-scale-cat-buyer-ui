@@ -14,7 +14,7 @@
     },
     {
       "text": "Write and publish your requirements",
-      "href": "/ca/task-list"
+      "href": "/da/task-list"
     },
     {
       "text": "Next Steps",
@@ -26,10 +26,10 @@
   "subtitle": "[ Instructions for this page ]",
   "form": [
     {
-      "id": "ca_next_steps",
+      "id": "da_next_steps",
       "question": "Would you like to progress to the 2nd stage?",
       "radioOptions": {
-        "name": "ca_next_steps",
+        "name": "da_next_steps",
         "items": [
           {
             "value": "yes",
@@ -58,6 +58,6 @@
   ],
   "backJump": {
     "title": "Return to Write and publish your requirements",
-    "href": "/ca/task-list"
+    "href": "/da/task-list"
   }
 }

@@ -3,30 +3,30 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import * as express from 'express';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
-import * as cmsData from '../../../resources/content/eoi/suppliers.json';
+import * as cmsData from '../../../resources/content/requirements/suppliers.json';
 import config from 'config';
 
 // RFI Suppliers
-export const GET_EOI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
-  const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+req.session.lotId+"/lot-suppliers";
+export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const releatedContent = req.session.releatedContent
+  const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+req.session.lotId+"/lot-suppliers";
   let supplierList = [];
   supplierList = await GetLotSuppliers(req);
   const appendData = {
     data: cmsData,
     suppliers_list: supplierList,
-    lotSuppliers: lotSuppliers,
     releatedContent: releatedContent,
+    lotSuppliers: lotSuppliers,
   };
-  res.render('suppliers', appendData);
+  res.render('rfp-suppliers', appendData);
 };
 
-export const POST_EOI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
+export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId } = req.session;
   const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/22`, 'Completed');
   if (response.status == HttpStatusCode.OK) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/23`, 'Not started');
   }
-  res.redirect('/eoi/response-date');
+  res.redirect('/rfp/response-date');
 };

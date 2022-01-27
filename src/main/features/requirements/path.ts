@@ -103,6 +103,18 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_NEXTSTEPS,
   );
 
+  // @GET '/da/next-steps'
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_NEXTSTEPS,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.DA_GET_NEXTSTEPS,
+  );
+
   app.get(
     REQUIREMENT_PATHS.RFP_GET_NAME_PROJECT,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -201,6 +213,13 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_GET_TEAM_SCALE,
   );
 
+    // @GET "/rfp/suppliers"
+    app.get(
+      REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
+      [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
+    );
+
   /**
    * @POST Routes
    */
@@ -290,6 +309,9 @@ export default function (app: Application): void {
   //@POST '/ca/next-steps'
   app.post(REQUIREMENT_PATHS.CA_POST_NEXTSTEPS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_NEXTSTEPS);
 
+  //@POST '/da/next-steps'
+  app.post(REQUIREMENT_PATHS.DA_POST_NEXTSTEPS, AUTH, REQUIREMENT_CONTROLLER.DA_POST_NEXTSTEPS);
+
   // /rfp/IR35
   app.post(REQUIREMENT_PATHS.RFP_POST_IR35, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_I35);
 
@@ -297,9 +319,6 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE);
   //@POST '/ca/team-scale'
   app.post(REQUIREMENT_PATHS.DA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.DA_POST_TEAM_SCALE);
-
-  // /rfp/IR35
-  app.post(REQUIREMENT_PATHS.RFP_POST_IR35, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_I35);
 
   app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE);
   app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_WHERE_WORK_DONE);
@@ -338,11 +357,9 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_OFFLINE_JOURNEY_PAGE,
   );
 
-  app.post(REQUIREMENT_PATHS.RFP_POST_IR35, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_I35);
-
-  //@POST '/ca/team-scale'
-  app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
-
   //@POST '/ca/team-scale'
   app.post(REQUIREMENT_PATHS.DA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.DA_POST_TEAM_SCALE);
+
+    //@POST "rfp/suppliers"
+    app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
 }

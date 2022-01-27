@@ -25,12 +25,11 @@
 
                 <div class="govuk-inset-text">
                     <p class="govuk-body">If you'd like to look at the details for each
-              suppliers please visit the <a target="_blank" href="{{lotSuppliers}}">Search suppliers</a>
-                        <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website. 
+              suppliers please visit the <a target="_blank" href="{{lotSuppliers}}">Search suppliers</a> <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website. 
               The page will open on a new tab</p>
                 </div>
 
-                <form id="ccs-eoi-suppliers-form" class="ccs-eoi-suppliers-form" action="/eoi/suppliers" method="POST">
+                <form id="ccs-eoi-suppliers-form" class="ccs-eoi-suppliers-form" action="/rfp/suppliers" method="POST">
 
                     <br>
                     <h2 class="govuk-heading-m">
@@ -67,14 +66,13 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <br>
+                                        <br>
                     <div class="govuk-button-group">
                         {{ CCSButton({
                 text: "Save and continue"
                 }) }}
                         <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
                     </div>
-
                 </form>
 
             </div>
