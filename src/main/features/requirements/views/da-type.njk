@@ -32,9 +32,9 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
   <p class="govuk-body govuk-inset-text">{{data.subtitle}}</p>  
-    <form id="" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/ca/type" method="POST">
+    <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form ccs_rfp_type_form" action="/da/type" method="POST">
 {% for form in data.form %}
-<fieldset id="{{form.id}}">
+<fieldset id={{form.id}}>
 <p class="govuk-body">{{ form.question }}</p>
         {% set formOptions = form.radioOptions.items %}
 
@@ -57,7 +57,7 @@
 {% if(error) %}
 
             {{ CCSRadios({
-                idPrefix: "fc_ca_type",
+                idPrefix: "fc_rfp_type",
                 name: form.id,
                 items: form_Options_Altered,
                 errorMessage: error,
@@ -68,15 +68,15 @@
     {% else %}
 
         {{ CCSRadios({
-                idPrefix: "fc_ca_type",
+                idPrefix: "fc_rfp_type",
                 name: form.id,
                 items: form_Options_Altered        
               }) }}
 {%endif %}
 
         {{ CCSInput({
-                id: "choose_fc_ca_type",
-                name: "choose_fc_ca_type",
+                id: "choose_fc_rfp_type",
+                name: "choose_fc_rfp_type",
                 type: "hidden",
                 value: true
               }) }}

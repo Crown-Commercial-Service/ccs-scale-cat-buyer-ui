@@ -33,9 +33,17 @@ import { CA_GET_NAME_PROJECT, CA_POST_NAME_PROJECT } from './ca-nameAProject';
 import { CA_OFFLINE_JOURNEY_PAGE } from './ca-offline';
 import { CA_GET_UPLOAD_DOC, CA_POST_UPLOAD_DOC, CA_GET_REMOVE_FILES, CA_POST_UPLOAD_PROCEED } from './ca-upload';
 import { CA_GET_LEARN, CA_POST_LEARN } from './ca-learnAboutCapabilityAssessment';
+import { GET_LEARN, POST_LEARN } from './learnAboutCapabilityAssessment';
 import { CA_GET_WEIGHTINGS } from './ca-enterYourWeightings';
+import { CA_GET_NEXTSTEPS, CA_POST_NEXTSTEPS } from './ca-nextSteps';
+
+import { DA_GET_TEAM_SCALE, DA_POST_TEAM_SCALE } from './ca-teamScale';
 
 import { RFP_GET_I35, RFP_POST_I35 } from './rfp-Ir35';
+
+import { DA_REQUIREMENT_TYPE, DA_POST_TYPE } from './da-type';
+import { DA_OFFLINE_JOURNEY_PAGE } from './da-offline';
+import { DA_REQUIREMENT_TASK_LIST } from './da-taskList';
 
 /**
  * @BaseController
@@ -70,7 +78,6 @@ export const REQUIREMENT_CONTROLLER = {
   RFP_POST_QUESTION,
   RFP_GET_I35,
   RFP_POST_I35,
-  //
   CA_REQUIREMENT_TYPE,
   CA_POST_TYPE,
   CA_REQUIREMENT_TASK_LIST,
@@ -91,8 +98,18 @@ export const REQUIREMENT_CONTROLLER = {
   CA_POST_UPLOAD_PROCEED,
   CA_GET_LEARN,
   CA_POST_LEARN,
+  GET_LEARN,
+  POST_LEARN,
   CA_GET_WEIGHTINGS,
+  CA_GET_NEXTSTEPS,
+  CA_POST_NEXTSTEPS,
 
   DA_GET_WHERE_WORK_DONE,
   DA_POST_WHERE_WORK_DONE,
+  DA_REQUIREMENT_TYPE,
+  DA_POST_TYPE,
+  DA_OFFLINE_JOURNEY_PAGE,
+  DA_REQUIREMENT_TASK_LIST,
+  DA_GET_TEAM_SCALE,
+  DA_POST_TEAM_SCALE,
 };

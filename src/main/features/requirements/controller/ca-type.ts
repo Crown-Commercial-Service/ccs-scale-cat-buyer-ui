@@ -28,7 +28,7 @@ export const CA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
   res.render('ca-type', appendData);
 }
 
-//POST 'rfp/type'
+//POST 'ca/type'
 /**
  *
  * @param req
@@ -38,32 +38,63 @@ export const CA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
 
  export const CA_POST_TYPE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  console.log(req.body)
+
  try {
   const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_fc_ca_type');
-  const { ccs_ca_type } = filtered_body_content_removed_fc_key;
+ 
+  const { group1, group2 } = filtered_body_content_removed_fc_key;
 
-  if (ccs_ca_type) {
-  
-    switch (ccs_ca_type) {
-       case 'all_online':
-          // eslint-disable-next-line no-case-declarations
-          const redirect_address = REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST;
-          req.session.caSelectedRoute = ccs_ca_type
-          logger.info(ccs_ca_type + "selected");
-          res.redirect(redirect_address);
-          break;
-  
-       case 'all_offline':
-          // eslint-disable-next-line no-case-declarations
-          const newAddress = REQUIREMENT_PATHS.RFP_OFFLINE_JOURNEY_PAGE;
-          req.session.caSelectedRoute = ccs_ca_type
-          logger.info(ccs_ca_type + "selected");
-          res.redirect(newAddress);
-          break;
-  
-       default: res.redirect('/404');
-  } 
+  if (group1 && group2) {
+    let choice = '';
+    if (group1 === 'online_attachment_3' && group2 === 'online_attachment_2') {
+      choice = 'both_online';
+    }
+    if (group1 === 'offline_attachment_3' && group2 === 'offline_attachment_2') {
+     choice = 'both_offline';
+    }
+    if (group1 === 'online_attachment_3' && group2 === 'offline_attachment_2') {
+     choice = 'part_online';
+    }
+    if (group1 === 'offline_attachment_3' && group2 === 'online_attachment_2') {
+      choice = 'part_offline';
+    }
+
+
+     switch (choice) {
+       case 'both_online':
+         // eslint-disable-next-line no-case-declarations
+         const redirect_address =  `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A1`
+         req.session.fcSelectedRoute = choice;
+         logger.info(choice + 'selected');
+         res.redirect(redirect_address);
+         break;
+
+       case 'both_offline':
+        
+         // eslint-disable-next-line no-case-declarations
+         const bothOfflineAddress =  `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A2`;
+         req.session.fcSelectedRoute = choice;
+         logger.info(choice + 'selected');
+         res.redirect(bothOfflineAddress);
+         break;
+
+       case 'part_online':
+         // eslint-disable-next-line no-case-declarations
+         const partOnlineAddress =  `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A4`;
+         req.session.fcSelectedRoute = choice;
+         logger.info(choice + 'selected');
+         res.redirect(partOnlineAddress);
+         break;
+       case 'part_offline':
+         // eslint-disable-next-line no-case-declarations
+         const partOfflineAddress =  `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A3`;
+         req.session.fcSelectedRoute = choice;
+         logger.info(choice + 'selected');
+         res.redirect(partOfflineAddress);
+         break;
+       default:
+         res.redirect('/404');
+     }
 }else {
     req.session['isJaggaerError'] = true;
     res.redirect(REQUIREMENT_PATHS.CA_TYPE);

@@ -73,6 +73,15 @@ const ccsZvalidateRfpSecurity = (event) => {
   else ccsZPresentErrorSummary(errorStore);
 };
 
+const ccsZvalidateCaaAssFCSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Enter your team scale");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_ca_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
 const ccsZvalidateRfiType = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
 

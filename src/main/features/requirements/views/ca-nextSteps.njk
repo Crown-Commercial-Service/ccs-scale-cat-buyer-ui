@@ -1,0 +1,97 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'How to build market event' %}
+
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %}
+
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if(error) %}
+            {{ CCSErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+                {
+                text: "Select an option"
+                }
+            ]
+            }) }}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="govuk-heading-xl">
+                {{ data.title }}
+                </h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %}
+                <p class="govuk-body">{{data.subtitle}}</p>  
+                <form id="ccs_ca_next_steps" name="ccs_ca_next_steps" class="form ccs_ca_next_steps" action="/ca/next-steps" method="POST">
+                    {% for form in data.form %}
+                        <fieldset id="{{form.id}}">
+                            <p class="govuk-body">{{ form.question }}</p>
+                            {% set formOptions = form.radioOptions.items %}
+                            {% set form_Options_Altered = [] %}
+
+                            {% for item in formOptions %}
+                                {% set form_Options_Altered = (form_Options_Altered.push(
+                                {
+                                    value: item.value,
+                                    html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
+                                    hint : {
+                                        text: item.hint.text
+                                    }
+                                }), form_Options_Altered) 
+                                %}
+                            {% endfor %}
+                            {% if(error) %}
+
+                                {{ CCSRadios({
+                                    idPrefix: "ca_next_steps",
+                                    name: form.id,
+                                    items: form_Options_Altered,
+                                    errorMessage: error,
+                                    errorMessage: {
+                                    text: 'Select an option'
+                                    }                  
+                                }) }}
+                            {% else %}
+
+                                {{ CCSRadios({
+                                        idPrefix: "ca_next_steps",
+                                        name: form.id,
+                                        items: form_Options_Altered        
+                                }) }}
+                            {%endif %}
+
+                            {{ CCSInput({
+                                    id: "choose_fc_ca_next_steps",
+                                    name: "choose_fc_ca_next_steps",
+                                    type: "hidden",
+                                    value: true
+                            }) }}
+                        </fieldset>
+                    {% endfor %}
+                    <div class="govuk-button-group">
+                    {{ CCSButton({
+                            text: "Save and continue"
+                            }) }}
+                    <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                    </div>
+                </form>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

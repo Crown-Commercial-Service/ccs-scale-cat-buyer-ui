@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
-import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
-import * as caLearnData from '../../../resources/content/requirements/caLearnAboutCapabilityAssessment.json';
+import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
+import * as caTeamScale from '../../../resources/content/requirements/caTeamScale.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
@@ -11,13 +11,12 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @param res
  * @GETController
  */
-export const CA_GET_LEARN = async (req: express.Request, res: express.Response) => {
+export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
-  const isPathOne = false;
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = {
     agreementName,
@@ -28,8 +27,8 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: caLearnData, lotId, agreementLotName, releatedContent, isPathOne };
-    res.render('ca-learnAboutCapabilityAssessment', windowAppendData);
+    const windowAppendData = { data: caTeamScale, lotId, agreementLotName, releatedContent };
+    res.render('ca-team-scale', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -44,7 +43,7 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
   }
 };
 
-export const CA_POST_LEARN = async (req: express.Request, res: express.Response) => {
+export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   try {

@@ -57,12 +57,20 @@ export enum REQUIREMENT_PATHS {
   // ca type
   CA_TYPE = '/ca/type',
   CA_POST_TYPE = '/ca/type',
-
+  CA_OFFLINE_JOURNEY_PAGE = '/ca/offline',
 
   CA_REQUIREMENT_TASK_LIST = '/ca/task-list',
   CA_GET_LEARN = '/ca/learn-about-capability-assessment',
   CA_POST_LEARN = '/ca/learn-about-capability-assessment',
+  GET_LEARN = '/ca/learnabout-capability-assessment',
+  POST_LEARN = '/ca/learnabout-capability-assessment',
   CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
+  CA_POST_WEIGHTINGS = '/ca/enter-your-weightings',
+  CA_GET_NEXTSTEPS = '/ca/next-steps',
+  CA_POST_NEXTSTEPS = '/ca/next-steps',
+
+  DA_GET_TEAM_SCALE = '/da/team-scale',
+  DA_POST_TEAM_SCALE = '/da/team-scale',
 
   //RFP questions
   RFP_GET_QUESTIONS = '/rfp/questions',
@@ -70,4 +78,10 @@ export enum REQUIREMENT_PATHS {
 
   DA_GET_WHERE_WORK_DONE = '/da/get-work-done',
   DA_POST_WHERE_WORK_DONE = '/da/get-work-done',
+
+  // da type
+  DA_TYPE = '/da/type',
+  DA_POST_TYPE = '/da/type',
+  DA_OFFLINE_JOURNEY_PAGE = '/da/offline',
+  DA_REQUIREMENT_TASK_LIST = '/da/task-list',
 }
