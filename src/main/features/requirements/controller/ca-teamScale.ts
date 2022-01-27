@@ -11,7 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @param res
  * @GETController
  */
-export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
+export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
@@ -27,7 +27,6 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
     error: isJaggaerError,
   };
   try {
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     const windowAppendData = { data: caTeamScale, lotId, agreementLotName, releatedContent };
     res.render('ca-team-scale', windowAppendData);
   } catch (error) {
@@ -44,7 +43,7 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
   }
 };
 
-export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
+export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   try {

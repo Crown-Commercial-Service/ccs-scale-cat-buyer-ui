@@ -34,28 +34,28 @@
                 "value": "scale_1",
                 "text": "1 - 10",
                 "hint": {
-                  "text": "Enter all the information needed to build your one stage further competition online and submit it to your selected suppliers."
+                  "text": "[ Description for this option 1 ]."
                 }
               },
               {
                 "value": "scale_2",
                 "text": "11 - 25",
                 "hint": {
-                  "text": "Use this option to upload attachement and complete the assessment online."
+                  "text": "[ Description for this option 2 ]."
                 }
               },
               {
                 "value": "scale_3",
                 "text": "26 - 99",
                 "hint": {
-                  "text": "Use this option to upload attachement and complete the assessment online."
+                  "text": "[ Description for this option 3 ]."
                 }
               },
               {
                 "value": "scale_4",
                 "text": "100+",
                 "hint": {
-                  "text": "Use this option to upload attachement and complete the assessment online."
+                  "text": "[ Description for this option 4 ]."
                 }
               }
             ]
