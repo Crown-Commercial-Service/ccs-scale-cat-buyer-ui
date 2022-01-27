@@ -51,21 +51,63 @@
     },
     {
       "eventno": 2,
-      "eventTitle": "Upload pricing schedules and any other supporting documents",
+      "eventTitle": "Complete a capability assessment",
       "eventDescription": "[description of this section]",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Upload pricing schedules and any other supporting documents",
+          "title": "Learn about capability assessment",
+          "required": "optional",
+          "link": "#",
+          "status": "Todo"
+        },
+        {
+          "Task": 2,
+          "title": "Enter your weightings",
           "required": "mandatory",
           "link": "#",
           "status": "Todo"
+        },
+        {
+          "Task": 3,
+          "title": "Will you accept sub-contractors?",
+          "required": "mandatory",
+          "link": "#",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 4,
+          "title": "Set your resources and vetting weightings",
+          "required": "mandatory",
+          "link": "#",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 5,
+          "title": "Select your service capabilities",
+          "required": "mandatory",
+          "link": "#",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 6,
+          "title": "How well your team will scale?",
+          "required": "mandatory",
+          "link": "#",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 7,
+          "title": "Where the work will be done",
+          "required": "mandatory",
+          "link": "/da/get-work-done",
+          "status": "Cannot start yet"
         }
       ]
     },
     {
       "eventno": 3,
-      "eventTitle": "Context and requirements to your 1-stage further competition",
+      "eventTitle": "Progress to direct award",
       "eventDescription": "[description of this section]",
       "eventTask": [
         {
@@ -73,56 +115,7 @@
           "title": " Add context and requirements",
           "required": "optional",
           "status": "Todo",
-          "link": "/rfp/add-context"
-        }
-      ]
-    },
-    {
-      "eventno": 4,
-      "eventTitle": "Your assessment bases and evaluation weightings ",
-      "eventDescription": "[description of this section]",
-      "eventTask": [
-        {
-          "Task": 1,
-          "title": "Your assessment bases and evaluation weightings ",
-          "required": "optional",
-          "status": "Cannot start yet",
-          "link": "#"
-        },
-        {
-          "Task": 2,
-          "title": "Set your scoring criteria",
-          "required": "optional",
-          "status": "Cannot start yet",
-          "link": "#"
-        }
-      ]
-    },
-    {
-      "eventno": 5,
-      "eventTitle": "Review and publish your 1-stage RFP ",
-      "eventDescription": "[description of this section]",
-      "eventTask": [
-        {
-          "Task": 1,
-          "title": "Look at the suppliers for this further competition",
-          "required": "optional",
-          "status": "Cannot start yet",
-          "link": "/rfp/upload-doc"
-        },
-        {
-          "Task": 2,
-          "title": "Set response date and time ",
-          "required": "optional",
-          "status": "Cannot start yet",
-          "link": "#"
-        },
-        {
-          "Task": 3,
-          "title": "Review and publish your 1-stage RFP",
-          "required": "mandatory",
-          "status": "Cannot start yet",
-          "link": "#"
+          "link": "/da/add-context"
         }
       ]
     }
