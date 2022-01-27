@@ -85,6 +85,9 @@ export enum REQUIREMENT_PATHS {
   DA_POST_NEXTSTEPS = '/da/next-steps',
   DA_GET_CANCEL = '/da/cancel',
 
+  CA_GET_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
+  CA_POST_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
+
   //RFP questions
   RFP_GET_QUESTIONS = '/rfp/questions',
   RFP_POST_QUESTIONS = '/rfp/questionnaire',
