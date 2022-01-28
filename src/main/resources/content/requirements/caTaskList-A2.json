@@ -103,7 +103,7 @@
           "required": "mandatory",
           "status": "Cannot start yet"
         },
-       
+
         {
           "Task": 8,
           "link": "#",
@@ -113,12 +113,11 @@
         },
         {
           "Task": 9,
-          "link": "#",
+          "link": "/ca/review-ranked-suppliers",
           "title": "[ Review ranked suppliers ]",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
-
 
         {
           "Task": 10,
@@ -146,7 +145,6 @@
           "required": "optional",
           "link": "/ca/learn-about-capability-assessment",
           "status": "Cannot start yet"
-         
         },
 
         {
@@ -170,7 +168,6 @@
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
-         
         },
 
         {
