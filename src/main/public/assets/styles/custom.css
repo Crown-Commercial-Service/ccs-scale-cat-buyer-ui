@@ -149,6 +149,11 @@
     margin-top: -4px;
 }
 
+.ccs_ca_next_steps .govuk-radios__item .govuk-heading-m {
+    margin-bottom: 0;
+    margin-top: -4px;
+}
+
 fieldset {
     border-width: 0;
 }
