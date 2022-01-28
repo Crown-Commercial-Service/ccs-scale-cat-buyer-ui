@@ -55,7 +55,7 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
     if (ca_subContractors !== undefined && ca_subContractors !== '') {
       req.session['CapAss'].SubContractors = ca_subContractors;
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'To-do');
-      res.redirect('/ca/security-vetting');
+      res.redirect(REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
       req.session['isValidationError'] = true;
       res.redirect(REQUIREMENT_PATHS.CA_GET_SUBCONTRACTORS); // Invalid path. needs to updaet
