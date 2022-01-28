@@ -15,6 +15,7 @@ import { HttpStatusCode } from '../../../errors/httpStatusCodes';
  */
 export const CA_GET_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
   const { isEmptyProjectError } = req.session;
+  const {choosenViewPath} = req.session;
   req.session['isEmptyProjectError'] = false;
   const procurements = req.session.procurements;
   const lotId = req.session.lotId;
@@ -30,6 +31,7 @@ export const CA_GET_NAME_PROJECT = async (req: express.Request, res: express.Res
     agreementLotName,
     error: isEmptyProjectError,
     releatedContent: releatedContent,
+    choosenViewPath: choosenViewPath
   };
   res.render('nameAProject-rfp', viewData);
 };

@@ -70,11 +70,11 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       } else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true) {
         return 'ccs_rfp_acronyms_form';
       } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == false) {
-        return 'ccs_rfp_about_proj';
+        return '';
       } else if (aSelector.nonOCDS.questionType === 'MultiSelect' && aSelector.nonOCDS.multiAnswer === true) {
         return 'rfp_location';
       } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == true) {
-        return 'ccs_rfp_splterms_form';
+        return '';
       } else if (aSelector.nonOCDS.questionType === 'Monetary' && aSelector.nonOCDS.multiAnswer === false) {
         return 'rfp_budget_form';
       } else if (
@@ -94,6 +94,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const releatedContent = req.session.releatedContent;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
+    console.log(fetch_dynamic_api_data)
     const { isFieldError } = req.session;
     const data = {
       data: fetch_dynamic_api_data,
