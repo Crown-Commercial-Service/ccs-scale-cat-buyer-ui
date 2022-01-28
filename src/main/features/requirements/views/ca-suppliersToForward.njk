@@ -1,0 +1,56 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% set title = "Suppliers you'ld like to take forward | Contract a Thing" %}
+
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %}
+
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                    {{ data.title }}
+                </h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %}
+                <p class="govuk-body">{{ data.form.question }}</p>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
+
+        <form id="ccs_ca_suppliers_form" name="ccs_ca_suppliers_form" class="form ccs_ca_suppliers" action="/ca/suppliers-to-forward" method="POST">
+            <br>
+            {{ CCSInput({
+                      label: {
+                        text: "You can enter between "+data.suppliers.min + " and "+data.suppliers.max+" suppliers"                        
+                      },
+                      type:"number",
+                      classes:"govuk-input--width-10",
+                      id: "ca-supplier-count",
+                      name: "ca_supplier_count",
+                      value: eventSupplierCount,
+                      pattern:"[0-9]{2}"
+                    })
+            }}
+
+            <div class="govuk-button-group">
+                {{ CCSButton({
+                    text: "Save and continue"
+                }) }}
+                <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+            </div>
+        </form>
+    </main>
+{% endblock %}

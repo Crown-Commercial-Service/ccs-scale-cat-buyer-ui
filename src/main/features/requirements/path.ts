@@ -67,17 +67,17 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_LEARN,
   );
 
-    // @GET '/ca/learnabout-capability-assessment'
-    app.get(
-      REQUIREMENT_PATHS.GET_LEARN,
-      [
-        ContentFetchMiddleware.FetchContents,
-        AUTH,
-        PreMarketEngagementMiddleware.PutPremarket,
-        AgreementDetailsFetchMiddleware.FetchAgreements,
-      ],
-      REQUIREMENT_CONTROLLER.GET_LEARN,
-    );
+  // @GET '/ca/learnabout-capability-assessment'
+  app.get(
+    REQUIREMENT_PATHS.GET_LEARN,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.GET_LEARN,
+  );
 
   // @GET '/ca/enter-your-weightings'
   app.get(
@@ -89,6 +89,18 @@ export default function (app: Application): void {
       AgreementDetailsFetchMiddleware.FetchAgreements,
     ],
     REQUIREMENT_CONTROLLER.CA_GET_WEIGHTINGS,
+  );
+
+  // @GET '/ca/suppliers-to-forward
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_SUPPLIERS_FORWARD,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.CA_GET_SUPPLIERS_FORWARD,
   );
 
   // @GET '/ca/next-steps'
@@ -213,12 +225,12 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_GET_TEAM_SCALE,
   );
 
-    // @GET "/rfp/suppliers"
-    app.get(
-      REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
-      [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
-    );
+  // @GET "/rfp/suppliers"
+  app.get(
+    REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
+  );
 
   /**
    * @POST Routes
@@ -306,6 +318,9 @@ export default function (app: Application): void {
 
   app.post(REQUIREMENT_PATHS.RFP_POST_QUESTIONS, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_QUESTION);
 
+  //@POST '/ca/suppliers-to-forward'
+  app.post(REQUIREMENT_PATHS.CA_POST_SUPPLIERS_FORWARD, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SUPPLIERS_FORWARD);
+
   //@POST '/ca/next-steps'
   app.post(REQUIREMENT_PATHS.CA_POST_NEXTSTEPS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_NEXTSTEPS);
 
@@ -360,6 +375,6 @@ export default function (app: Application): void {
   //@POST '/ca/team-scale'
   app.post(REQUIREMENT_PATHS.DA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.DA_POST_TEAM_SCALE);
 
-    //@POST "rfp/suppliers"
-    app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
+  //@POST "rfp/suppliers"
+  app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
 }

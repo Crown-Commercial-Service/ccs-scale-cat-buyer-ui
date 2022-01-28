@@ -70,6 +70,9 @@ export enum REQUIREMENT_PATHS {
   POST_LEARN = '/ca/learnabout-capability-assessment',
   CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
   CA_POST_WEIGHTINGS = '/ca/enter-your-weightings',
+  CA_GET_SUPPLIERS_FORWARD = '/ca/suppliers-to-forward',
+  CA_POST_SUPPLIERS_FORWARD = '/ca/suppliers-to-forward',
+
   CA_GET_NEXTSTEPS = '/ca/next-steps',
   CA_POST_NEXTSTEPS = '/ca/next-steps',
   CA_GET_CANCEL = '/ca/cancel',
