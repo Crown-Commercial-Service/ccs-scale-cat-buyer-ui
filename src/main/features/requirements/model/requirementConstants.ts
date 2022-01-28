@@ -103,4 +103,9 @@ export enum REQUIREMENT_PATHS {
   DA_POST_TYPE = '/da/type',
   DA_OFFLINE_JOURNEY_PAGE = '/da/offline',
   DA_REQUIREMENT_TASK_LIST = '/da/task-list',
+
+  //da vetting weighting
+  
+  DA_GET_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
+  DA_POST_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
 }
