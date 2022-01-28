@@ -161,7 +161,23 @@
 
     {
       "eventno": 2,
-      "eventTitle": "[Review and publish your 2-stage RFP ]",
+      "eventTitle": "[Context and requirements to your further competition ]",
+      "eventDescription": "[ Description for this section ]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "[ Add context and requirement ]",
+          "required": "optional",
+          "link": "#",
+          "status": "Cannot start yet"
+         
+        }
+      ]
+    },
+
+    {
+      "eventno": 3,
+      "eventTitle": "[Review and publish your 2-stage RFP  ]",
       "eventDescription": "[ Description for this section ]",
       "eventTask": [
         {
@@ -175,14 +191,15 @@
 
         {
           "Task": 2,
-          "title": "[ Set response date and time ]",
+          "title": "[ Set response date and time  ]",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
         },
+
         {
           "Task": 3,
-          "title": "[ Review and publish your 2-stage RFP]",
+          "title": "[ Review and publish your 2-stage RFP ]",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"

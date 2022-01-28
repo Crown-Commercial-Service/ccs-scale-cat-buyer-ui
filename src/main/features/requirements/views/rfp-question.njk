@@ -24,7 +24,7 @@
         },
         {
           text: "Build your RFP",
-          href: "/rfp/online-task-list?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+          href: "/rfp/add-context?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
       },
       {
         text: bcTitleText
@@ -347,6 +347,7 @@
 
                 {{  CCSTextarea({
                       name: "rfp_prob_statement",
+                      required: requirement.nonOCDS.mandatory,
                       id: "rfp_prob_statement_"+requirement.nonOCDS.order,
                       value: requirement.nonOCDS.options[0].value,
                       label: {
@@ -505,10 +506,10 @@
                               <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
                                 {{requirement.nonOCDS.options[i].text | safe}}
                               </div>
-                          </div>
-                          {% if requirement.nonOCDS.options[i].value === 'Yes'%}
-                            <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation" hidden>
-                              <div class="govuk-form-group yeswho">
+                            </div>
+                            {% if requirement.nonOCDS.options[i].value === 'Yes'%}
+                              <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation" hidden>
+                                <div class="govuk-form-group yeswho">
                                   {{ CCSInput({
                                       label: {
                                         text: "[ How many resources need a lower security and vetting requirement?]",
@@ -642,8 +643,8 @@
 
                         {%- endfor %}
 
-                    <p class="govuk-body">
-                      {{ CCSButton({
+                        <p class="govuk-body">
+                          {{ CCSButton({
                           text: "Add another key",
                           attributes: {
                             id: "ccs_rfpTerm_add"
@@ -753,8 +754,8 @@
                         classes:"save-button"
                       })
                   }}
-                  <a href="/rfp/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Add context</a>
-                </div>
+                      <a href="/rfp/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Add context</a>
+                    </div>
 
                   </form>
 

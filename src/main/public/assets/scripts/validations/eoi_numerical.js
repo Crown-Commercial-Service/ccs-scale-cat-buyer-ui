@@ -70,7 +70,7 @@ function isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date) {
       return false;
   }
 }
-/* const setInputFilter = (textbox, inputFilter) => {
+ const setInputFilter = (textbox, inputFilter) => {
   ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
     textbox.addEventListener(event, function () {
       if (inputFilter(this.value)) {
@@ -85,4 +85,4 @@ function isValidEoiStartDateForSelectedLot(start_date,agreement_expiry_date) {
       }
     });
   });
-} */
+} 

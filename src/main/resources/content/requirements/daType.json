@@ -1,0 +1,77 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "[ How will you build your bid pack? ]",
+      "href": "#"
+    }
+  ],
+
+  "title": "How will you build your bid pack?",
+  "subtitle": "Please note that you’ll be given the option to download a ranked list of suppliers at the end of your capability assessment and run your direct award outside our service if you wish do to so.",
+  "form": [
+    {
+      "id": "group1",
+      "question": "How would you like to include your requirements document (attachment 3)?",
+      "radioOptions": {
+        "idPrefix": "ccs_chose_route",
+        "name": "ccs_ca_type",
+        "items": [
+          {
+            "value": "online_attachment_3",
+            "text": "Provide all information online",
+            "hint": {
+              "text": "Enter all the information needed to build your one stage further competition online and submit it to your selected suppliers."
+            }
+          },
+          {
+            "value": "offline_attachment_3",
+            "text": "Upload only your statement of requirements but finish the bid pack online",
+            "hint": {
+              "text": "Use this option to upload attachement and complete the assessment online."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "group2",
+      "question": "How would you like to include your evaluation document (attachment 2)?",
+      "radioOptions": {
+        "idPrefix": "ccs_chose_route",
+        "name": "ccs_ca_type",
+        "items": [
+          {
+            "value": "online_attachment_2",
+            "text": "Provide all information online",
+            "hint": {
+              "text": "Enter all the information needed to build your one stage further competition online and submit it to your selected suppliers."
+            }
+          },
+          {
+            "value": "offline_attachment_2",
+            "text": "Upload only your statement of requirements but finish the bid pack online",
+            "hint": {
+              "text": "Use this option to upload attachement and complete the assessment online."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "backJump": {
+    "title": "Return to Procurement overview",
+    "href": "/projects/create-or-choose"
+  }
+}

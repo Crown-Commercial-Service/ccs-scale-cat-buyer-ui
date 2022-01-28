@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express'
 const { Logger } = require('@hmcts/nodejs-logging');
-const logger = Logger.getLogger('eoi offline page');
+const logger = Logger.getLogger('rfp offline page');
 
 /**
  * 

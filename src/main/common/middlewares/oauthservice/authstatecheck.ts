@@ -98,7 +98,7 @@ const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Res
   const today = new Date();
   var endDate = new Date(expiryTimestamp * 1000);
   const minutes = parseInt((Math.abs(endDate.getTime() - today.getTime()) / (1000 * 60)) % 60);
-  if (minutes <= 2 && minutes >= 1) {
+  if (minutes <= 2) {
     const Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint');
     //@ Create the authentication credetial to to allow the re-direct
     let auth_credentails: any = {
@@ -123,7 +123,7 @@ const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Res
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
-        state,
+        null,
         'Conclave refresh token flow error',
         true,
       );

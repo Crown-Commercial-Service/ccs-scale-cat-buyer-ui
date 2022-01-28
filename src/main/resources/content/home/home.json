@@ -10,7 +10,7 @@
         }
     ],
     "title_h1": "Contract a Thing (CaT)",
-    "signposting": "You have safely signed out or your session has timed out.",
+    "signposting": "<p class='govuk-body govuk-!-margin-bottom-0'>You can now procure online with CCS.</p> <p class='govuk-body govuk-!-margin-bottom-0'>Please <a href='/oauth/login'>sign in</a> or <a href='/oauth/login'>create an account.</a></p>",
     "title_h2_1": "Buy online using our contract award service",
     "second_title_list": "Contract a Thing (CaT) is scalable solution that will support:<ul><li>Further Competition (FC) - aka Request for Proposal (RFP) or Invitation To Tender (ITT)</li><li>Direct Award (DA)</li><li>Request for Information (RFI)</li><li>Capability Assessment</li></ul>",
     "second_title_line1": "To use this service you will need to sign in to, or create an account for, the Public Procurement Gateway.",

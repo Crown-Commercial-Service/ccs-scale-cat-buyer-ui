@@ -17,6 +17,7 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
     req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
+  const isPathOne = false;
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = {
     agreementName,
@@ -27,7 +28,7 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: caLearnData, lotId, agreementLotName, releatedContent };
+    const windowAppendData = { data: caLearnData, lotId, agreementLotName, releatedContent, isPathOne };
     res.render('ca-learnAboutCapabilityAssessment', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
