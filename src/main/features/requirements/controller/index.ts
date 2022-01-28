@@ -40,6 +40,7 @@ import { DA_REQUIREMENT_TYPE, DA_POST_TYPE } from './da-type';
 import { DA_OFFLINE_JOURNEY_PAGE } from './da-offline';
 import { DA_REQUIREMENT_TASK_LIST } from './da-taskList';
 import { DA_GET_NEXTSTEPS, DA_POST_NEXTSTEPS } from './da-nextSteps';
+import {GET_RESPONSE_DATE, POST_ADD_RESPONSE_DATE, POST_RESPONSE_DATE} from './rfp-responsedate'
 
 /**
  * @BaseController
@@ -51,6 +52,10 @@ export const REQUIREMENT_CONTROLLER = {
   REQUIREMENT_CHOOSE_ROUTE,
   POST_REQUIREMENT_CHOOSE_ROUTE,
 
+  //Response Date 
+  GET_RESPONSE_DATE,
+  POST_RESPONSE_DATE,
+  POST_ADD_RESPONSE_DATE,
   RFP_REQUIREMENT_TYPE,
   RFP_POST_TYPE,
   RFP_REQUIREMENT_TASK_LIST,

@@ -198,6 +198,17 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_ADD_CONTEXT,
   );
 
+
+    // /rfp/response-date
+    app.get(
+      REQUIREMENT_PATHS.RFP_GET_RESPONSE_DATE,
+      [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.GET_RESPONSE_DATE
+    );
+
+
+
+
   // /rfp/questions
   app.get(
     REQUIREMENT_PATHS.RFP_GET_QUESTIONS,
