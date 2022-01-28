@@ -157,7 +157,6 @@ fieldset {
     margin-top: 26px;
 }
 
-
 .no-borders{
     border-bottom: none !important;
 }
@@ -167,7 +166,8 @@ fieldset {
 	 margin-bottom: 2rem;
 	 padding-bottom: 1rem;
 }
- .ons-toc__link-active {
+
+.ons-toc__link-active {
 	 text-decoration: underline solid black 2px;
 }
 .ons-grid__col {
@@ -248,3 +248,66 @@ fieldset {
 	 -moz-osx-font-smoothing: grayscale;
 	 text-decoration: none;
 }
+
+.ons-list {
+	 margin: 0 0 1rem;
+	 padding: 0 0 0 1.5rem;
+}
+ .ons-list__item:last-child {
+	 margin-bottom: 0;
+}
+ .ons-list--spacious .ons-list__item {
+	 margin: 0 0 1.5rem;
+}
+ .ons-list--bare, .ons-list--dashed {
+	 list-style: none;
+	 padding-left: 0;
+}
+ .ons-list--dashed .ons-list__item {
+	 margin-left: 25px;
+	 position: relative;
+}
+ .ons-list--dashed .ons-list__item::before {
+	 border-top: 1px solid black;
+	 content: '';
+	 left: 0;
+	 margin-left: -25px;
+	 position: absolute;
+	 top: 14px;
+	 width: 15px;
+}
+ .ons-list__link {
+	 display: inline-block;
+	 margin-right: 1rem;
+	 vertical-align: top;
+	 white-space: normal;
+}
+ .ons-list__prefix {
+	 margin-right: 0.5rem;
+}
+ .ons-list__suffix {
+	 margin-left: 0.5rem;
+}
+ .ons-list__prefix, .ons-list__suffix {
+	 font-family: 'Verdana';
+}
+ .ons-list--prefix .ons-list__item, .ons-list--suffix .ons-list__item, .ons-list--icons .ons-list__item {
+	 align-items: flex-start;
+	 display: flex;
+}
+ .ons-list--social .ons-list__item {
+	 align-items: center;
+}
+ .ons-list--icons {
+	 margin-bottom: 0;
+}
+ .ons-list--icons .ons-list__item {
+	 margin-bottom: 0.5rem;
+}
+ .ons-list--languages {
+	 margin-bottom: 0;
+}
+ .ons-list--languages .ons-list__link {
+	 margin-right: 0;
+}
+ 
