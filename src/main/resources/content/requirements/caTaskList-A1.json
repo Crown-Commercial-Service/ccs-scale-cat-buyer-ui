@@ -106,7 +106,7 @@
 
         {
           "Task": 8,
-          "link": "#",
+          "link": "/ca/suppliers-to-forward",
           "title": "[ How many suppliers you'd like to take forward? ]",
           "required": "mandatory",
           "status": "Cannot start yet"

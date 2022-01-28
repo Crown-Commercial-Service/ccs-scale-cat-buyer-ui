@@ -57,7 +57,7 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Post failed - CA learn page',
+      'Journey service - Post failed - CA suppliers to forward  page',
       true,
     );
   }

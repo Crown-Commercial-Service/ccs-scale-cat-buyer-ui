@@ -95,10 +95,10 @@ export default function (app: Application): void {
   app.get(
     REQUIREMENT_PATHS.CA_GET_SUPPLIERS_FORWARD,
     [
-      //ContentFetchMiddleware.FetchContents,
+      ContentFetchMiddleware.FetchContents,
       AUTH,
-      // PreMarketEngagementMiddleware.PutPremarket,
-      // AgreementDetailsFetchMiddleware.FetchAgreements,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
     ],
     REQUIREMENT_CONTROLLER.CA_GET_SUPPLIERS_FORWARD,
   );
@@ -225,12 +225,12 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_GET_TEAM_SCALE,
   );
 
-    // @GET "/rfp/suppliers"
-    app.get(
-      REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
-      [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
-    );
+  // @GET "/rfp/suppliers"
+  app.get(
+    REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
+  );
 
   /**
    * @POST Routes
@@ -375,6 +375,6 @@ export default function (app: Application): void {
   //@POST '/ca/team-scale'
   app.post(REQUIREMENT_PATHS.DA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.DA_POST_TEAM_SCALE);
 
-    //@POST "rfp/suppliers"
-    app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
+  //@POST "rfp/suppliers"
+  app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
 }
