@@ -34,8 +34,15 @@ import { GET_LEARN, POST_LEARN } from './learnAboutCapabilityAssessment';
 import { CA_GET_WEIGHTINGS } from './ca-enterYourWeightings';
 import { CA_GET_SUPPLIERS_FORWARD, CA_POST_SUPPLIERS_FORWARD } from './ca-suppliersToForward';
 import { CA_GET_NEXTSTEPS, CA_POST_NEXTSTEPS } from './ca-nextSteps';
-import { DA_GET_TEAM_SCALE, DA_POST_TEAM_SCALE } from './ca-teamScale';
-import { RFP_GET_I35, RFP_POST_I35 } from './rfp-Ir35';
+import {
+  CA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  CA_POST_RESOURCES_VETTING_WEIGHTINGS,
+ } from './ca-resourcesVettingsWeightings';
+
+import { DA_GET_TEAM_SCALE, DA_POST_TEAM_SCALE } from './da-teamScale';
+
+import {RFP_GET_I35, RFP_POST_I35} from './rfp-Ir35'
+
 import { DA_REQUIREMENT_TYPE, DA_POST_TYPE } from './da-type';
 import { DA_OFFLINE_JOURNEY_PAGE } from './da-offline';
 import { DA_REQUIREMENT_TASK_LIST } from './da-taskList';
@@ -103,6 +110,8 @@ export const REQUIREMENT_CONTROLLER = {
   CA_POST_SUPPLIERS_FORWARD,
   CA_GET_NEXTSTEPS,
   CA_POST_NEXTSTEPS,
+  CA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  CA_POST_RESOURCES_VETTING_WEIGHTINGS,
 
   DA_GET_NEXTSTEPS,
   DA_POST_NEXTSTEPS,
