@@ -49,8 +49,9 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     break;
 
     default: res.redirect('error/404')
-
   }
+
+
 
   try {
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Optional'); //todo: remove later
