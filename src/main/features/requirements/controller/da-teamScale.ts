@@ -28,7 +28,7 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
   };
   try {
     const windowAppendData = { data: caTeamScale, lotId, agreementLotName, releatedContent };
-    res.render('ca-team-scale', windowAppendData);
+    res.render('da-team-scale', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(

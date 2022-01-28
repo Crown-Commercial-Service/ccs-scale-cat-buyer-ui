@@ -231,6 +231,18 @@ export default function (app: Application): void {
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
   );
+    // @GET "/rfp/suppliers"
+    app.get(
+      REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
+      [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
+    );
+  // /ca/resources-vetting-weightings
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  );
 
   /**
    * @POST Routes
@@ -377,4 +389,12 @@ export default function (app: Application): void {
 
   //@POST "rfp/suppliers"
   app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
+    //@POST "rfp/suppliers"
+    app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
+  //@POST '/ca/resources-vetting-weightings'
+  app.post(
+    REQUIREMENT_PATHS.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
+    AUTH,
+    REQUIREMENT_CONTROLLER.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
+  );
 }

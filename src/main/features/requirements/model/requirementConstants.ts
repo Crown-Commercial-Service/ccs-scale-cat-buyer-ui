@@ -76,6 +76,8 @@ export enum REQUIREMENT_PATHS {
   CA_GET_NEXTSTEPS = '/ca/next-steps',
   CA_POST_NEXTSTEPS = '/ca/next-steps',
   CA_GET_CANCEL = '/ca/cancel',
+  CA_GET_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
+  CA_POST_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
 
   DA_GET_TEAM_SCALE = '/da/team-scale',
   DA_POST_TEAM_SCALE = '/da/team-scale',
