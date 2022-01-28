@@ -14,6 +14,7 @@ import { RFP_GET_NAME_PROJECT, RFP_POST_NAME_PROJECT } from './rfp-nameAProject'
 import { RFP_OFFLINE_JOURNEY_PAGE } from './rfp-offline';
 import { RFP_GET_UPLOAD_DOC, RFP_POST_UPLOAD_DOC, RFP_GET_REMOVE_FILES, RFP_POST_UPLOAD_PROCEED } from './rfp-upload';
 import { RFP_GET_ADD_CONTEXT } from './rfp-addcontext';
+import { GET_RFP_SUPPLIERS, POST_RFP_SUPPLIERS } from './rfp-suppliers';
 import { RFP_GET_QUESTIONS, RFP_POST_QUESTION } from './rfp-questions';
 import {
   CA_GET_ADD_COLLABORATOR,
@@ -73,6 +74,8 @@ export const REQUIREMENT_CONTROLLER = {
   RFP_POST_QUESTION,
   RFP_GET_I35,
   RFP_POST_I35,
+  GET_RFP_SUPPLIERS, 
+  POST_RFP_SUPPLIERS,
   CA_REQUIREMENT_TYPE,
   CA_POST_TYPE,
   CA_REQUIREMENT_TASK_LIST,

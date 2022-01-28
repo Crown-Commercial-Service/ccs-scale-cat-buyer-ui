@@ -29,7 +29,7 @@ export const DA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: daNextData, lotId, agreementLotName, releatedContent };
+    const windowAppendData = { data: daNextData, releatedContent, error: isJaggaerError };
     res.render('da-nextSteps', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;

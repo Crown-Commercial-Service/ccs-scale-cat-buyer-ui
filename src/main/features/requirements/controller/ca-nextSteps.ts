@@ -29,7 +29,7 @@ export const CA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: caNextData, lotId, agreementLotName, releatedContent };
+    const windowAppendData = { data: caNextData, releatedContent, error: isJaggaerError };
     res.render('ca-nextSteps', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;

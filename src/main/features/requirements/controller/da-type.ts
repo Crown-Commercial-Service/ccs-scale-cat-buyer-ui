@@ -60,7 +60,7 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
       switch (choice) {
         case 'both_online':
           // eslint-disable-next-line no-case-declarations
-          const redirect_address = REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST;
+          const redirect_address = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST}?path=B1`;
           req.session.fcSelectedRoute = choice;
           logger.info(choice + 'selected');
           res.redirect(redirect_address);
@@ -68,7 +68,7 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
 
         case 'both_offline':
           // eslint-disable-next-line no-case-declarations
-          const bothOfflineAddress = REQUIREMENT_PATHS.DA_OFFLINE_JOURNEY_PAGE;
+          const bothOfflineAddress = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST}?path=B2`;
           req.session.fcSelectedRoute = choice;
           logger.info(choice + 'selected');
           res.redirect(bothOfflineAddress);
@@ -76,14 +76,14 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
 
         case 'part_online':
           // eslint-disable-next-line no-case-declarations
-          const partOnlineAddress = REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST;
+          const partOnlineAddress = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST}?path=B3`;
           req.session.fcSelectedRoute = choice;
           logger.info(choice + 'selected');
           res.redirect(partOnlineAddress);
           break;
         case 'part_offline':
           // eslint-disable-next-line no-case-declarations
-          const partOfflineAddress = REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST;
+          const partOfflineAddress = `${REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST}?path=B4`;
           req.session.fcSelectedRoute = choice;
           logger.info(choice + 'selected');
           res.redirect(partOfflineAddress);

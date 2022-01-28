@@ -41,6 +41,10 @@ export enum REQUIREMENT_PATHS {
   CA_POST_ADD_COLLABORATOR_TO_JAGGER = '/ca/add-collaborator-detail',
   CA_POST_PROCEED_COLLABORATORS = '/ca/proceed-collaborators',
 
+  //supplier
+  GET_RFP_SUPPLIERS = '/rfp/suppliers',
+  POST_RFP_SUPPLIER = '/rfp/suppliers',
+
   // Proc lead ca
   CA_GET_NAME_PROJECT = '/ca/name-your-project',
   CA_POST_NAME_PROJECT = '/ca/name',
