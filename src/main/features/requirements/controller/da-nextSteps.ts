@@ -15,6 +15,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  */
 export const DA_GET_NEXTSTEPS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  const { choosenViewPath } = req.session;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
   const agreementId_session = agreement_id;
@@ -29,7 +30,15 @@ export const DA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: daNextData, releatedContent, error: isJaggaerError };
+    const windowAppendData = {
+      data: daNextData,
+      projectLongName: project_name,
+      lotId,
+      agreementLotName,
+      releatedContent: releatedContent,
+      error: isJaggaerError,
+      choosenViewPath: choosenViewPath,
+    };
     res.render('da-nextSteps', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -48,6 +57,7 @@ export const DA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
 export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
+  const { choosenViewPath } = req.session;
 
   try {
     const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(
@@ -60,12 +70,12 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
       switch (da_next_steps) {
         case 'yes':
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
-          res.redirect(REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST);
+          res.redirect(REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
           break;
 
         case 'edit':
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Not started');
-          res.redirect(REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST);
+          res.redirect(REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
           break;
 
         case 'no':
