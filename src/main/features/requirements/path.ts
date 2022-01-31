@@ -103,6 +103,18 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_SUPPLIERS_FORWARD,
   );
 
+  // @GET '/ca/suppliers-to-forward
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_SUBCONTRACTORS,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.CA_GET_SUBCONTRACTORS,
+  );
+
   // @GET '/ca/next-steps'
   app.get(
     REQUIREMENT_PATHS.CA_GET_NEXTSTEPS,
@@ -375,6 +387,9 @@ export default function (app: Application): void {
 
   //@POST '/ca/suppliers-to-forward'
   app.post(REQUIREMENT_PATHS.CA_POST_SUPPLIERS_FORWARD, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SUPPLIERS_FORWARD);
+
+  //@POST '/ca/accept-subcontractors'
+  app.post(REQUIREMENT_PATHS.CA_POST_SUBCONTRACTORS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SUBCONTRACTORS);
 
   //@POST '/ca/next-steps'
   app.post(REQUIREMENT_PATHS.CA_POST_NEXTSTEPS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_NEXTSTEPS);

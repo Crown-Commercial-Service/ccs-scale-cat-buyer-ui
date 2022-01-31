@@ -70,7 +70,7 @@
         },
         {
           "Task": 3,
-          "link": "#",
+          "link": "/ca/accept-subcontractors",
           "title": "[ Will you accept sub-contractors? ]",
           "required": "mandatory",
           "status": "Cannot start yet"

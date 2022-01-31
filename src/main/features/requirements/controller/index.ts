@@ -35,6 +35,7 @@ import { CA_GET_LEARN, CA_POST_LEARN } from './ca-learnAboutCapabilityAssessment
 import { GET_LEARN, POST_LEARN } from './learnAboutCapabilityAssessment';
 import { CA_GET_WEIGHTINGS } from './ca-enterYourWeightings';
 import { CA_GET_SUPPLIERS_FORWARD, CA_POST_SUPPLIERS_FORWARD } from './ca-suppliersToForward';
+import { CA_GET_SUBCONTRACTORS, CA_POST_SUBCONTRACTORS } from './ca-SubContractors';
 import { CA_GET_NEXTSTEPS, CA_POST_NEXTSTEPS } from './ca-nextSteps';
 import {
   CA_GET_RESOURCES_VETTING_WEIGHTINGS,
@@ -121,6 +122,8 @@ export const REQUIREMENT_CONTROLLER = {
   CA_GET_WEIGHTINGS,
   CA_GET_SUPPLIERS_FORWARD,
   CA_POST_SUPPLIERS_FORWARD,
+  CA_GET_SUBCONTRACTORS,
+  CA_POST_SUBCONTRACTORS,
   CA_GET_NEXTSTEPS,
   CA_POST_NEXTSTEPS,
   CA_GET_RESOURCES_VETTING_WEIGHTINGS,

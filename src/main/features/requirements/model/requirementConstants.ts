@@ -72,6 +72,8 @@ export enum REQUIREMENT_PATHS {
   CA_POST_WEIGHTINGS = '/ca/enter-your-weightings',
   CA_GET_SUPPLIERS_FORWARD = '/ca/suppliers-to-forward',
   CA_POST_SUPPLIERS_FORWARD = '/ca/suppliers-to-forward',
+  CA_GET_SUBCONTRACTORS = '/ca/accept-subcontractors',
+  CA_POST_SUBCONTRACTORS = '/ca/accept-subcontractors',
 
   CA_GET_NEXTSTEPS = '/ca/next-steps',
   CA_POST_NEXTSTEPS = '/ca/next-steps',
