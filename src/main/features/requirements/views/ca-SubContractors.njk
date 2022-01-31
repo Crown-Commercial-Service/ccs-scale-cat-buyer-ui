@@ -1,0 +1,78 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% set title = 'Will you accept sub contractors | Contract a Thing' %}
+
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %}
+
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                    {{ data.title }}
+                </h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row govuk-!-padding-bottom-3">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %}
+                <p class="govuk-body">{{ data.subtitle }}</p>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(relatedContent) }}
+            </div>
+        </div>
+
+        <form id="ccs_ca_subContractors" name="ccs_ca_subContractors" class="form ccs_ca_subContractors" action="/ca/accept-subContractors" method="POST">
+
+            {% for form in data.form %}
+                {% set formOptions = form.radioOptions.items %}
+                {% set form_Options_Altered = [] %}
+                {% for item in formOptions %}
+                    {% set form_Options_Altered = (form_Options_Altered.push(
+                                {
+                                    value: item.value,
+                                    html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
+                                    hint : {
+                                        text: item.hint.text
+                                    }
+                                }), form_Options_Altered) 
+                                %}
+                {% endfor %}
+                {% if (error == true) %}
+
+                    {{ CCSRadios({
+                                    idPrefix: "ca_subContractors`",
+                                    name:"ca_subContractors",
+                                    items: form_Options_Altered,
+                                    errorMessage: error,
+                                    errorMessage: {
+                                    text: 'Select an option'
+                                    }                  
+                                }) }}
+                {% else %}
+
+                    {{ CCSRadios({
+                                        idPrefix: "ca_subContractors",
+                                        name: "ca_subContractors",
+                                        items: form_Options_Altered        
+                                }) }}
+                {%endif %}
+            {% endfor %}
+
+            <div class="govuk-button-group">
+                {{ CCSButton({
+                    text: "Save and continue"
+                }) }}
+                <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+            </div>
+        </form>
+    </main>
+{% endblock %}

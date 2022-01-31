@@ -103,6 +103,18 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_SUPPLIERS_FORWARD,
   );
 
+  // @GET '/ca/suppliers-to-forward
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_SUBCONTRACTORS,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.CA_GET_SUBCONTRACTORS,
+  );
+
   // @GET '/ca/next-steps'
   app.get(
     REQUIREMENT_PATHS.CA_GET_NEXTSTEPS,
@@ -204,16 +216,12 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_ADD_CONTEXT,
   );
 
-
-    // /rfp/response-date
-    app.get(
-      REQUIREMENT_PATHS.RFP_GET_RESPONSE_DATE,
-      [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.GET_RESPONSE_DATE
-    );
-
-
-
+  // /rfp/response-date
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_RESPONSE_DATE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_RESPONSE_DATE,
+  );
 
   // /rfp/questions
   app.get(
@@ -248,17 +256,41 @@ export default function (app: Application): void {
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
   );
-    // @GET "/rfp/suppliers"
-    app.get(
-      REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
-      [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
-    );
+  // @GET "/rfp/suppliers"
+  app.get(
+    REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
+  );
   // /ca/resources-vetting-weightings
   app.get(
     REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  );
+  // /da/resources-vetting-weightings
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_RESOURCES_VETTING_WEIGHTINGS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_SERVICE_CAPABILITIES,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_SERVICE_CAPABILITIES,
+  );
+
+  // @GET '/da/cancel'
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_CANCEL,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.DA_GET_CANCEL,
   );
 
   /**
@@ -356,6 +388,9 @@ export default function (app: Application): void {
   //@POST '/ca/suppliers-to-forward'
   app.post(REQUIREMENT_PATHS.CA_POST_SUPPLIERS_FORWARD, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SUPPLIERS_FORWARD);
 
+  //@POST '/ca/accept-subcontractors'
+  app.post(REQUIREMENT_PATHS.CA_POST_SUBCONTRACTORS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SUBCONTRACTORS);
+
   //@POST '/ca/next-steps'
   app.post(REQUIREMENT_PATHS.CA_POST_NEXTSTEPS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_NEXTSTEPS);
 
@@ -412,12 +447,14 @@ export default function (app: Application): void {
 
   //@POST "rfp/suppliers"
   app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
-    //@POST "rfp/suppliers"
-    app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
+  //@POST "rfp/suppliers"
+  app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
   //@POST '/ca/resources-vetting-weightings'
   app.post(
     REQUIREMENT_PATHS.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
     AUTH,
     REQUIREMENT_CONTROLLER.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
   );
+
+  app.post(REQUIREMENT_PATHS.CA_POST_SERVICE_CAPABILITIES, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SERVICE_CAPABILITIES);
 }

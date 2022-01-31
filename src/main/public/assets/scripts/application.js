@@ -162,6 +162,8 @@ if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getEleme
 
 if (document.getElementById("ccs_eoi_date_form") !== null) document.getElementById("ccs_eoi_date_form").addEventListener('submit', ccsZvalidateEoiDate);
 
+if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
+
 setInputFilter(document.getElementById("eoi_resource_start_date-day"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
 setInputFilter(document.getElementById("eoi_resource_start_date-month"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
 setInputFilter(document.getElementById("eoi_resource_start_date-year"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 2023));

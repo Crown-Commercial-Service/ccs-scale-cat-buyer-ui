@@ -27,17 +27,9 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
-    <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/team-scale" method="POST">
-   
-    <div class="ccs-page-section">
-      <div class="sub-section">
-        <p class="govuk-body">{{data.total}} of 100% total weighting for number of staff</p>
-        <p class="govuk-body">{{data.total}} of 100% total weighting for related vetting requirement</p>
-      </div>
-       <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state" title="delete">Clear form</a></div>
-    </div>
-    <section class="ons-page__container ons-container">
-        <div id="vertical_tab_nav" class="ons-grid ons-js-toc-container">
+    <form id="ccs_da_type_form" name="ccs_da_type_form" class="form ccs_da_type_form" action="/da/team-scale" method="POST">
+    <div class="ons-page__container ons-container">
+        <div class="ons-grid ons-js-toc-container">
             <div class="ons-grid__col ons-grid__col--sticky@m ons-col-4@m">
                 {{-
                     onsTableOfContents({
@@ -47,72 +39,72 @@
                             {
                                 "url": '#section1',
                                 "text": 'Data',
-                                "subtext": '0% / 0%'
+                                "subtext": '0/0'
                             },
                             {
                                 "url": '#section2',
                                 "text": 'IT Ops',
-                                "subtext": '0% / 0%'
+                                "subtext": '0/0'
                             },
                             {
                                 "url": '#section3',
                                 "text": 'Product Delivery',
-                                "subtext": '0% / 0%'
+                                "subtext": '0/0'
                             },
                             {
                                 "url": '#section4',
                                 "text": 'QAT',
-                                "subtext": '0% / 0%'
+                                "subtext": '0/0'
                             },
                             {
                                 "url": '#section5',
                                 "text": 'Technical',
-                                "subtext": '0% / 0%'
+                                "subtext": '0/0'
                             },
                             {
                                 "url": '#section6',
                                 "text": 'User Centred Design',
-                                "subtext": '0% / 0%'
+                                "subtext": '0/0'
                             },
                             {
                                 "url": '#section7',
                                 "text": 'Security and Privacy',
-                                "subtext": '0% / 0%'
+                                "subtext": '0/0'
                             }
                         ]
                     })
                 }}
             </div>
             <div class="ons-grid__col ons-col-7@m ons-push-1@m">
-                <article id="section">
+                <section id="section1">
                     <h2>What is the census?</h2>
                     <p>The census is a survey that happens every 10 years and gives us a picture of all the people and households in England and Wales.</p>
 
                     <p>Your answers to the census questions will help organisations make decisions on planning and funding public services in your area, including transport, education and healthcare.</p>
-                </article>
-                <article id="section">
+                </section>
+                <section id="section2">
                     <h2>The online census has now closed</h2>
                     <p>Census Day was on Sunday 21 March 2021.</p>
 
                     <p>If you still have a paper census questionnaire, fill it in as soon as you can and return it to FREEPOST, Census 2021.</p>
-                </article>
-                <article id="section">
+                </section>
+                <section id="section3">
                     <h2>What happens after Census Day</h2>
                     <p>Two follow-up surveys, the <a href="#0">Census Coverage Survey</a> and the <a href="#0">Census Quality Survey</a>, help to improve the quality and accuracy of the census results.</p>
 
                     <p>Over the next year, we work hard to process the answers from all the census questionnaires. This is so that we can publish the initial Census 2021 findings one year after the census and the main releases two years after the census.</p>
 
                     <p>To make sure the Census 2021 statistics we publish meet the needs of those who use them, we also run an outputs consultation.</p>
-                </article>
-                <article id="section">
+                </section>
+                <section id="section4">
                     <h2>The census in Northern Ireland and Scotland</h2>
                     <p>The Office for National Statistics (ONS) runs the census in England and Wales.</p>
 
                     <p>If you live in Northern Ireland, visit the Northern Ireland Statistics Agency (NISRA) census website to find out about the census for Northern Ireland.</p>
 
                     <p>If you live in Scotland, visit the National Records of Scotland census website to find out how to take part in the census for Scotland.</p>
-                </article>
-                <article id="section">
+                </section>
+                <section id="section5">
                     <h2>The last census</h2>
                     <p>The last census took place in 2011. Many people and organisations used information from the 2011 Census in a variety of ways.</p>
 
@@ -124,16 +116,10 @@
                     <p>The CCS helps make sure everyone is counted and our census results are as accurate as possible. It asked similar questions to the main census, just fewer of them, at addresses in a selection of postcodes across England and Wales.</p>
 
                     <p>The CCS has now closed.</p>
-                </article>
-                <article id="section">
-                    <h2>section6</h2>
-                </article>
-                <article id="section">
-                    <h2>section7</h2>
-                </article>
+                </section>
             </div>
         </div>
-    </section>
+    </div>
       <div class="govuk-button-group">
         {{ CCSButton({
               text: "Save and continue",
