@@ -55,6 +55,7 @@ import { DA_OFFLINE_JOURNEY_PAGE } from './da-offline';
 import { DA_REQUIREMENT_TASK_LIST } from './da-taskList';
 import { DA_GET_NEXTSTEPS, DA_POST_NEXTSTEPS } from './da-nextSteps';
 import { GET_RESPONSE_DATE, POST_ADD_RESPONSE_DATE, POST_RESPONSE_DATE } from './rfp-responsedate';
+import { DA_GET_CANCEL, DA_POST_CANCEL } from './da-cancel';
 
 /**
  * @BaseController
@@ -141,4 +142,6 @@ export const REQUIREMENT_CONTROLLER = {
   DA_POST_TEAM_SCALE,
   DA_GET_RESOURCES_VETTING_WEIGHTINGS,
   DA_POST_RESOURCES_VETTING_WEIGHTINGS,
+  DA_GET_CANCEL,
+  DA_POST_CANCEL
 };

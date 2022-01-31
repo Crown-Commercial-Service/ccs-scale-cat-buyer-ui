@@ -269,6 +269,18 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_SERVICE_CAPABILITIES,
   );
 
+  // @GET '/da/cancel'
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_CANCEL,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.DA_GET_CANCEL,
+  );
+
   /**
    * @POST Routes
    */
