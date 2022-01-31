@@ -151,6 +151,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
  */
 // path = '/rfp/questionnaire'
 export const RFP_POST_QUESTION = async (req: express.Request, res: express.Response) => {
+
   try {
     const { proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const agreement_id = req.session.agreement_id;
