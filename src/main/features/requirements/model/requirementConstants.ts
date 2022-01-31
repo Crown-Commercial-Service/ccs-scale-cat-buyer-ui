@@ -88,11 +88,14 @@ export enum REQUIREMENT_PATHS {
   CA_GET_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
   CA_POST_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
 
+  CA_GET_SERVICE_CAPABILITIES = '/ca/service-capabilities',
+  CA_POST_SERVICE_CAPABILITIES = '/ca/service-capabilities',
+
   //RFP questions
   RFP_GET_QUESTIONS = '/rfp/questions',
   RFP_POST_QUESTIONS = '/rfp/questionnaire',
 
-  //RFP Response dates 
+  //RFP Response dates
   RFP_GET_RESPONSE_DATE = '/rfp/response-date',
 
   DA_GET_WHERE_WORK_DONE = '/da/get-work-done',
@@ -105,7 +108,7 @@ export enum REQUIREMENT_PATHS {
   DA_REQUIREMENT_TASK_LIST = '/da/task-list',
 
   //da vetting weighting
-  
+
   DA_GET_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
   DA_POST_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
 }
