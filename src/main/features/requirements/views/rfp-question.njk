@@ -389,7 +389,7 @@
                       id: "rfp_prob_statement_"+requirement.nonOCDS.order,
                       value: requirement.nonOCDS.options[0].value,
                       label: {
-                      text: "Provide details relating to the requirement’s background and the events leading up to the goods/services being required",
+                      text: requirement.OCDS.title,
                       classes: "govuk-label govuk-label--m"
                       }
                     })
@@ -594,6 +594,28 @@
 
                       {% endif %}
                     {% endblock %}
+
+                    {%block singleInputSelect %}
+
+                       {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === false) %}
+                          <h2> {{requirement.OCDS.title}} </h2>
+                         {{ CCSInput({
+                            label: {
+                              text: ""
+                            },
+                            id: "rfp_term_1",
+                            name: "term",
+                            classes: "rfp_term_1",
+                            value: requirement.nonOCDS.options[0].value
+                          })
+                      }}
+
+
+                      {%endif%}
+                    {% endblock %}
+
+
+
                     {% block KeySelect%}
                       {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) %}
 
