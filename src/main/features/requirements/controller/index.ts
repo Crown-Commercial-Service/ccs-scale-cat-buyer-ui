@@ -1,3 +1,4 @@
+import { CA_GET_SERVICE_CAPABILITIES, CA_POST_SERVICE_CAPABILITIES } from './ca-serviceCapabilites';
 import { CA_GET_REVIEW_RANKED_SUPPLIERS, CA_POST_REVIEW_RANKED_SUPPLIERS } from './ca-reviewRankedSuppliers';
 import { DA_GET_WHERE_WORK_DONE, DA_POST_WHERE_WORK_DONE } from './da-whereWorkDone';
 import { REQUIREMENT_CHOOSE_ROUTE, POST_REQUIREMENT_CHOOSE_ROUTE } from './choose-route';
@@ -39,17 +40,23 @@ import { CA_GET_NEXTSTEPS, CA_POST_NEXTSTEPS } from './ca-nextSteps';
 import {
   CA_GET_RESOURCES_VETTING_WEIGHTINGS,
   CA_POST_RESOURCES_VETTING_WEIGHTINGS,
- } from './ca-resourcesVettingsWeightings';
+} from './ca-resourcesVettingsWeightings';
+
+import {
+  DA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  DA_POST_RESOURCES_VETTING_WEIGHTINGS,
+} from './da-resourcesVettingsWeightings';
 
 import { DA_GET_TEAM_SCALE, DA_POST_TEAM_SCALE } from './da-teamScale';
 
-import {RFP_GET_I35, RFP_POST_I35} from './rfp-Ir35'
+import { RFP_GET_I35, RFP_POST_I35 } from './rfp-Ir35';
 
 import { DA_REQUIREMENT_TYPE, DA_POST_TYPE } from './da-type';
 import { DA_OFFLINE_JOURNEY_PAGE } from './da-offline';
 import { DA_REQUIREMENT_TASK_LIST } from './da-taskList';
 import { DA_GET_NEXTSTEPS, DA_POST_NEXTSTEPS } from './da-nextSteps';
-import {GET_RESPONSE_DATE, POST_ADD_RESPONSE_DATE, POST_RESPONSE_DATE} from './rfp-responsedate'
+import { GET_RESPONSE_DATE, POST_ADD_RESPONSE_DATE, POST_RESPONSE_DATE } from './rfp-responsedate';
+import { DA_GET_CANCEL, DA_POST_CANCEL } from './da-cancel';
 
 /**
  * @BaseController
@@ -61,7 +68,7 @@ export const REQUIREMENT_CONTROLLER = {
   REQUIREMENT_CHOOSE_ROUTE,
   POST_REQUIREMENT_CHOOSE_ROUTE,
 
-  //Response Date 
+  //Response Date
   GET_RESPONSE_DATE,
   POST_RESPONSE_DATE,
   POST_ADD_RESPONSE_DATE,
@@ -123,6 +130,8 @@ export const REQUIREMENT_CONTROLLER = {
   CA_POST_RESOURCES_VETTING_WEIGHTINGS,
   CA_GET_REVIEW_RANKED_SUPPLIERS,
   CA_POST_REVIEW_RANKED_SUPPLIERS,
+  CA_GET_SERVICE_CAPABILITIES,
+  CA_POST_SERVICE_CAPABILITIES,
 
   DA_GET_NEXTSTEPS,
   DA_POST_NEXTSTEPS,
@@ -134,4 +143,8 @@ export const REQUIREMENT_CONTROLLER = {
   DA_REQUIREMENT_TASK_LIST,
   DA_GET_TEAM_SCALE,
   DA_POST_TEAM_SCALE,
+  DA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  DA_POST_RESOURCES_VETTING_WEIGHTINGS,
+  DA_GET_CANCEL,
+  DA_POST_CANCEL
 };
