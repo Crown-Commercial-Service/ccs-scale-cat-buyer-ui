@@ -342,6 +342,44 @@
               {% endif %}
             {% endblock %}
 
+             {% block Percentage%}
+                  {% if (requirement.nonOCDS.questionType === 'Percentage') and (requirement.nonOCDS.multiAnswer === false) %}
+                  <p><b>{{ requirement.OCDS.title  }}</b> </p>
+                  <p> [ Range : X - XX %] </p>
+                  {{ CCSInput({
+                        label: {
+                          text: ""
+                        },
+                        classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                        id: requirement.OCDS.id,
+                        value: requirement.nonOCDS.options[0].value,
+                        name: "percentage",
+                        suffix: {
+                          text: "%"
+                        }
+                      }) }}
+
+                      {% if- (requirement.OCDS.title === 'Social value group') %}
+                       <div>
+                      {{ CCSInsetText({
+                      text: "<b> The Total weighting is : 100 % </b> <br> [ Description, you'll be able to add the specific weightings for your quality assessment base in the next screen ]." | safe
+                    }) }}
+
+                      
+                     </div> 
+                      {%endif%}
+                      {{  CCSInput({
+                        id: "question_id",
+                        name: "question_id",
+                        type: "hidden",
+                        value: requirement.OCDS.id
+                      })
+                      }}
+                   {% endif %}
+                {% endblock %}
+
+
+
             {% block TextSelect%}
               {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
 
@@ -739,6 +777,9 @@
                         {% endif %}
                       {% endblock %}
                     {% endfor %}
+
+
+
 
                     {{ CCSInput({
                     id: "rfp_build_started",
