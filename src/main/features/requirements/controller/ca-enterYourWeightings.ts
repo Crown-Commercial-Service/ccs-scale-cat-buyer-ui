@@ -27,7 +27,30 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: caWeightingData, lotId, agreementLotName, releatedContent };
+    const windowAppendData = {
+      data: caWeightingData,
+      dimensions: [
+        {
+          id: 1,
+          title: 'Capacity',
+          description: 'description for this dimenstion',
+          value: 20,
+          minRange: 10,
+          maxRange: 90,
+        },
+        {
+          id: 2,
+          title: 'Scalability',
+          description: 'description for this dimenstion',
+          value: 0,
+          minRange: 5,
+          maxRange: 95,
+        },
+      ],
+      lotId,
+      agreementLotName,
+      releatedContent,
+    };
     res.render('ca-enterYourWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -40,5 +63,17 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       'Journey service - Get failed - CA weighting page',
       true,
     );
+  }
+};
+
+export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies;
+  const { eventId } = req.session;
+  try {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'To-do');
+    res.redirect('/ca/accept-subcontractors');
+  } catch (err) {
+    
   }
 };

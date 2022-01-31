@@ -23,7 +23,7 @@
   ],
 
   "title": "Enter your weightings",
-  "subtitle": null,
+  "insertText": "<p>[Instruction for this page]</p> <p> Please note that in order to progress the total must be 100%.</p> <p> The CAM Tool provides a mechanism to relatively rank all Suppliers on the framework based on the information provided when applying to the framework.</p> <p> It is the Buyer's discretion to determine how many Suppliers it wishes to take forward to the second stage of a further competition. </p>",
   "form": {
     "question": "[instructions for this page]",
     "backJump": {
