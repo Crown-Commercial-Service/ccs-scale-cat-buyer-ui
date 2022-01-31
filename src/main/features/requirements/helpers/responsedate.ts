@@ -43,6 +43,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
     criterianStorage = criterianStorage.flat();
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
+    
     const Criterian_ID = criterianStorage[0].criterianId;
     const prompt = criterianStorage[0].nonOCDS.prompt;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
@@ -141,6 +142,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
     res.render('rfp-responsedate.njk', appendData);
   } catch (error) {
+    console.log(error)
     LoggTracer.errorLogger(
       res,
       error,
