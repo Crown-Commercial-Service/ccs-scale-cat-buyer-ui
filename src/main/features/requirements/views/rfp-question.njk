@@ -342,6 +342,44 @@
               {% endif %}
             {% endblock %}
 
+             {% block Percentage%}
+                  {% if (requirement.nonOCDS.questionType === 'Percentage') and (requirement.nonOCDS.multiAnswer === false) %}
+                  <p><b>{{ requirement.OCDS.title  }}</b> </p>
+                  <p> [ Range : X - XX %] </p>
+                  {{ CCSInput({
+                        label: {
+                          text: ""
+                        },
+                        classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                        id: requirement.OCDS.id,
+                        value: requirement.nonOCDS.options[0].value,
+                        name: "percentage",
+                        suffix: {
+                          text: "%"
+                        }
+                      }) }}
+
+                      {% if- (requirement.OCDS.title === 'Social value group') %}
+                       <div>
+                      {{ CCSInsetText({
+                      text: "<b> The Total weighting is : 100 % </b> <br> [ Description, you'll be able to add the specific weightings for your quality assessment base in the next screen ]." | safe
+                    }) }}
+
+                      
+                     </div> 
+                      {%endif%}
+                      {{  CCSInput({
+                        id: "question_id",
+                        name: "question_id",
+                        type: "hidden",
+                        value: requirement.OCDS.id
+                      })
+                      }}
+                   {% endif %}
+                {% endblock %}
+
+
+
             {% block TextSelect%}
               {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
 
@@ -370,7 +408,7 @@
 
                   {% call CCSFieldset({
                     legend: {
-                              html: "First special term or condition <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                              html: "Enter your first requirement group <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -384,7 +422,7 @@
                     maxlength: 100,
                     rows: "2",
                     label: {
-                      text: "Enter the first special term or condition",
+                      text: "Enter your first requirement group",
                       classes: "govuk-label--m govuk-!-font-weight-regular",
                       isPageHeading: false
                     },
@@ -398,7 +436,7 @@
                     classes:"rfp_splterm_definition_1",
                     rows: "13",
                     label: {
-                      text: "Explain the first special term or condition",
+                      text: "Explain your first requirement group",
                       classes: "govuk-label--m govuk-!-font-weight-regular",
                       isPageHeading: false
                     },
@@ -424,7 +462,7 @@
 
                     {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" special term and condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        html: "Enter your "+ NumberWord[i]+" requirement group <a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -438,7 +476,7 @@
                             classes: "rfp_splterm_"+i,
                             rows: "2",
                             label: {
-                              text: "Enter the "+NumberWord[i]+" special term or condition",
+                              text: "Enter your "+NumberWord[i]+" requirement group",
                               classes: "govuk-label--m govuk-!-font-weight-regular",
                               isPageHeading: false
                             },
@@ -739,6 +777,9 @@
                         {% endif %}
                       {% endblock %}
                     {% endfor %}
+
+
+
 
                     {{ CCSInput({
                     id: "rfp_build_started",

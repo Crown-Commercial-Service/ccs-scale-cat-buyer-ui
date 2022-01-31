@@ -1,0 +1,38 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/ca/task-list"
+    },
+    {
+      "text": "Where the work will be done?",
+      "href": "#"
+    }
+  ],
+
+  "title": "Set your resources and vetting weightings",
+  "subtitle": ["[instructions for this page]"],
+  "data": {
+    "total": 50,
+    "parts": [
+      { "title": "North East England", "value": 20 },
+      { "title": "North West England", "value": 30 }
+    ]
+  },
+  "backJump": {
+    "title": "Return to write and publish your requirements",
+    "href": "/ca/task-list"
+  }
+}

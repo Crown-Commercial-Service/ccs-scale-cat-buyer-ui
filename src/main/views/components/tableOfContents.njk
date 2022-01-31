@@ -1,0 +1,43 @@
+{% macro onsTableOfContents(tableContents) %}
+  {% from "components/lists/_macro.njk" import onsList %}
+
+  <aside class="ons-toc-container" role="complementary">
+    {% if tableContents.skipLink is defined and tableContents.skipLink %}
+      {{
+        onsSkipToContent({
+          "url": tableContents.skipLink.url,
+          "text": tableContents.skipLink.text,
+          "subtext": tableContents.skipLink.subtext
+        })
+      }}
+    {% endif %}
+
+    <nav class="ons-toc" aria-label="{{ tableContents.ariaLabel | default('Table of contents') }}">
+      <h2 class="ons-toc__title ons-u-fs-r--b ons-u-mb-s">{{ tableContents.title }}</h2>
+      {% if tableContents.lists is defined and tableContents.lists %}
+        {% for list in tableContents.lists %}
+          {% if list.listHeading is defined and list.listHeading %}
+            <h3 class="ons-u-fs-r ons-u-mb-xs">{{ list.listHeading }}<span class="ons-u-vh"> {{ list.listHeadingHidden }}</span>:</h3>
+          {% endif %}
+          {{
+              onsList({
+                  "element": 'ol',
+                  "classes": 'ons-u-mb-m',
+                  "variants": 'dashed',
+                  "itemsList": list.itemsList
+              })
+          }}
+        {% endfor %}
+      {% elif tableContents.itemsList is defined and tableContents.itemsList %}
+        {{
+            onsList({
+                "element": 'ol',
+                "classes": 'ons-u-mb-m',
+                "variants": 'dashed',
+                "itemsList": tableContents.itemsList
+            })
+        }}
+      {% endif %}
+    </nav>
+  </aside>
+{% endmacro %}

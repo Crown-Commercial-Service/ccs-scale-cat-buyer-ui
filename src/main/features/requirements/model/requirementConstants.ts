@@ -70,9 +70,14 @@ export enum REQUIREMENT_PATHS {
   POST_LEARN = '/ca/learnabout-capability-assessment',
   CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
   CA_POST_WEIGHTINGS = '/ca/enter-your-weightings',
+  CA_GET_SUPPLIERS_FORWARD = '/ca/suppliers-to-forward',
+  CA_POST_SUPPLIERS_FORWARD = '/ca/suppliers-to-forward',
+
   CA_GET_NEXTSTEPS = '/ca/next-steps',
   CA_POST_NEXTSTEPS = '/ca/next-steps',
   CA_GET_CANCEL = '/ca/cancel',
+  CA_GET_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
+  CA_POST_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
 
   DA_GET_TEAM_SCALE = '/da/team-scale',
   DA_POST_TEAM_SCALE = '/da/team-scale',
@@ -80,9 +85,18 @@ export enum REQUIREMENT_PATHS {
   DA_POST_NEXTSTEPS = '/da/next-steps',
   DA_GET_CANCEL = '/da/cancel',
 
+  CA_GET_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
+  CA_POST_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
+
+  CA_GET_SERVICE_CAPABILITIES = '/ca/service-capabilities',
+  CA_POST_SERVICE_CAPABILITIES = '/ca/service-capabilities',
+
   //RFP questions
   RFP_GET_QUESTIONS = '/rfp/questions',
   RFP_POST_QUESTIONS = '/rfp/questionnaire',
+
+  //RFP Response dates
+  RFP_GET_RESPONSE_DATE = '/rfp/response-date',
 
   DA_GET_WHERE_WORK_DONE = '/da/get-work-done',
   DA_POST_WHERE_WORK_DONE = '/da/get-work-done',
@@ -92,4 +106,9 @@ export enum REQUIREMENT_PATHS {
   DA_POST_TYPE = '/da/type',
   DA_OFFLINE_JOURNEY_PAGE = '/da/offline',
   DA_REQUIREMENT_TASK_LIST = '/da/task-list',
+
+  //da vetting weighting
+
+  DA_GET_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
+  DA_POST_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
 }

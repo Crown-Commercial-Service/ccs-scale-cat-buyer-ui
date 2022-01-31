@@ -5,13 +5,13 @@
 {% set title = 'Route to market' %}
 
 {% block content %}
-{{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-{% if(error) %}
+    {% if (error) %}
 
-    {{ CCSErrorSummary({
+      {{ CCSErrorSummary({
     titleText: "There is a problem",
     errorList: [
         {
@@ -33,78 +33,83 @@
         {% include "includes/project_header.njk" %}
 
         <p class="govuk-body">{{ data.form.question }}</p>
-              <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+        <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
 
-               <ol class="app-task-list capability-assessment">
-    {% for item in data.events %}
-         <li>
-            <h2 class="app-task-list__section">
-            <span class="app-task-list__section-number">{{item.eventno}} </span> {{item.eventTitle}}
-             </h2>
-             <p class="govuk-body">{{item.eventDescription}}</p>
-              <ul class="app-task-list__items">
-               {% for Tasks in item.eventTask %}
-               {% if Tasks.eventSubTask %}
-                <li class="app-task-list__item sub-item">
-                {% else %}
-                 <li class="app-task-list__item">
-                {% endif %}
+        <ol class="app-task-list capability-assessment">
+          {% for item in data.events %}
+            <li>
+              <h2 class="app-task-list__section">
+                {% if (item.eventno !== null) %}
+                  <span class="app-task-list__section-number">{{item.eventno}}. </span>{% endif%}
+                  {{item.eventTitle}}
+                </h2>
+                <p class="govuk-body">{{item.eventDescription}}</p>
+                <ul class="app-task-list__items">
+                  {% for Tasks in item.eventTask %}
+                    {% if Tasks.eventSubTask %}
+                      <li class="app-task-list__item sub-item">
+                      {% else %}
+                        <li class="app-task-list__item">
+                        {% endif %}
                         <span class="app-task-list__task-name">
                           <strong>
                             {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %}
-                                <a href="{{Tasks.link}}" aria-describedby="name-your-project">
-                                    {{Tasks.title}}
-                                </a>
+                              <a href="{{Tasks.link}}" aria-describedby="name-your-project">
+                                {{Tasks.title}}
+                              </a>
                             {% else %}
-                            {{Tasks.title}}
-                            {% endif %} 
+                              {{Tasks.title}}
+                            {% endif %}
                           </strong>
                         </span>
-                        {% if (Tasks.status == "Cannot start yet") or (Tasks.status == "Not started") %}
-                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
+                        {% if (Tasks.status == "Cannot start yet") 
+                          or(Tasks.status == "Not started") %}
+                          <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
                         {% else %}
-                        <strong class="govuk-tag app-task-list__tag" > {{Tasks.status}}</strong>
-                        {% endif %} 
+                          <strong class="govuk-tag app-task-list__tag" >
+                            {{Tasks.status}}</strong>
+                        {% endif %}
 
                         {% if Tasks.eventSubTask %}
-                        <ul class="app-task-list__items">
-                         <p class="govuk-body sub-description">{{Tasks.subDescription}}</p>
-                        {% for eventSubTask in Tasks.eventSubTask %}
-                          <li class="app-task-list__item">
-                              <span class="app-task-list__task-name">
-                                <strong>
-                                  {% if (eventSubTask.link !== undefined) and (eventSubTask.status != "Cannot start yet") %}
+                          <ul class="app-task-list__items">
+                            <p class="govuk-body sub-description">{{Tasks.subDescription}}</p>
+                            {% for eventSubTask in Tasks.eventSubTask %}
+                              <li class="app-task-list__item">
+                                <span class="app-task-list__task-name">
+                                  <strong>
+                                    {% if (eventSubTask.link !== undefined) and (eventSubTask.status != "Cannot start yet") %}
                                       <a href="{{eventSubTask.link}}" aria-describedby="name-your-project">
-                                          {{eventSubTask.subTitle}}
+                                        {{eventSubTask.subTitle}}
                                       </a>
-                                  {% else %}
-                                  {{eventSubTask.subTitle}}
-                                  {% endif %} 
-                                </strong>
-                              </span>
-                            {% if (eventSubTask.status == "Cannot start yet") or (eventSubTask.status == "Not started") %}
-                            <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{eventSubTask.status}}</strong>
-                            {% else %}
-                            <strong class="govuk-tag app-task-list__tag" >{{eventSubTask.status}}</strong>
-                            {% endif %} 
-                            </li>
-                        {% endfor %}
-                         </ul>
+                                    {% else %}
+                                      {{eventSubTask.subTitle}}
+                                    {% endif %}
+                                  </strong>
+                                </span>
+                                {% if (eventSubTask.status == "Cannot start yet") 
+                                  or(eventSubTask.status == "Not started") %}
+                                  <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{eventSubTask.status}}</strong>
+                                {% else %}
+                                  <strong class="govuk-tag app-task-list__tag" >{{eventSubTask.status}}</strong>
+                                {% endif %}
+                              </li>
+                            {% endfor %}
+                          </ul>
                         {% endif %}
-                    </li>
-               {% endfor %}
-                </ul>
-             </li>
-    {% endfor %}
-    </ol>
-      </div>
-      <div class="govuk-grid-column-one-third">
-        {{ CCSReleatedContent(releatedContent) }}
-      </div>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% endfor %}
+            </ol>
+          </div>
+          <div class="govuk-grid-column-one-third">
+            {{ CCSReleatedContent(releatedContent) }}
+          </div>
+        </div>
+
       </div>
 
-    </div>
+    </main>
 
-  </main>
-
-{% endblock %}
+  {% endblock %}

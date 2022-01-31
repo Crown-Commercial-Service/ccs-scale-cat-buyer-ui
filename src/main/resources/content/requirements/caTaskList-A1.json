@@ -50,7 +50,7 @@
       ]
     },
     {
-      "eventno": 2,
+      "eventno": null,
       "eventTitle": "[ Stage 1: Complete a capability assessment ]",
       "eventDescription": "[description of this section]",
       "eventTask": [
@@ -84,7 +84,7 @@
         },
         {
           "Task": 5,
-          "link": "#",
+          "link": "/ca/service-capabilities",
           "title": "[ Select your service capabilities ]",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -103,10 +103,10 @@
           "required": "mandatory",
           "status": "Cannot start yet"
         },
-       
+
         {
           "Task": 8,
-          "link": "#",
+          "link": "/ca/suppliers-to-forward",
           "title": "[ How many suppliers you'd like to take forward? ]",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -118,7 +118,6 @@
           "required": "mandatory",
           "status": "Cannot start yet"
         },
-
 
         {
           "Task": 10,
@@ -146,7 +145,6 @@
           "required": "optional",
           "link": "/ca/learn-about-capability-assessment",
           "status": "Cannot start yet"
-         
         }
       ]
     },
@@ -162,7 +160,6 @@
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
-         
         }
       ]
     },
@@ -178,7 +175,6 @@
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
-         
         },
         {
           "Task": 1,
@@ -186,7 +182,6 @@
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
-         
         }
       ]
     },
@@ -201,7 +196,6 @@
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
-         
         },
         {
           "Task": 2,
@@ -209,7 +203,6 @@
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
-         
         },
         {
           "Task": 3,
@@ -217,7 +210,6 @@
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
-         
         }
       ]
     }
