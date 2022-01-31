@@ -260,6 +260,12 @@ export default function (app: Application): void {
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
   );
+   // /da/resources-vetting-weightings
+   app.get(
+    REQUIREMENT_PATHS.DA_GET_RESOURCES_VETTING_WEIGHTINGS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  );
 
   /**
    * @POST Routes

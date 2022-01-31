@@ -40,6 +40,11 @@ import {
   CA_POST_RESOURCES_VETTING_WEIGHTINGS,
  } from './ca-resourcesVettingsWeightings';
 
+ import {
+  DA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  DA_POST_RESOURCES_VETTING_WEIGHTINGS,
+ } from './da-resourcesVettingsWeightings';
+
 import { DA_GET_TEAM_SCALE, DA_POST_TEAM_SCALE } from './da-teamScale';
 
 import {RFP_GET_I35, RFP_POST_I35} from './rfp-Ir35'
@@ -131,4 +136,6 @@ export const REQUIREMENT_CONTROLLER = {
   DA_REQUIREMENT_TASK_LIST,
   DA_GET_TEAM_SCALE,
   DA_POST_TEAM_SCALE,
+  DA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  DA_POST_RESOURCES_VETTING_WEIGHTINGS,
 };
