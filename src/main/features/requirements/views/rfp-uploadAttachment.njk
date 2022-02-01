@@ -69,9 +69,9 @@
                                 {% if(storage < 1000000000)  %}
                                     <form action="/rfp/upload-attachment" method="post" encType="multipart/form-data">    
                                     {{ CCSFileUpload({
-                                        id: "rfp_upload_attachment",
-                                        name: "rfp_upload_attachment",
-                                        value: data['rfp_upload_attachment'],
+                                        id: "rfp_offline_document",
+                                        name: "rfp_offline_document",
+                                        value: data['rfp_offline_document'],
                                         multiple: true,
                                         label: {
                                             text: "",

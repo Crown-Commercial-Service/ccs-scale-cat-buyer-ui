@@ -51,11 +51,11 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
   const FileFilterArray = [];
 
   if (file_started) {
-    const upload_attachment = req.files[`${selRoute}_upload_attachment`];
+    const offline_document = req.files[`${selRoute}_offline_document`];
 
-    const multipleFileCheck = Array.isArray(upload_attachment);
+    const multipleFileCheck = Array.isArray(offline_document);
     if (multipleFileCheck) {
-      for (const file of upload_attachment) {
+      for (const file of offline_document) {
         const fileName = file.name;
         const fileMimeType = file.mimetype;
         const fileSize = file.size;
@@ -103,20 +103,20 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
         res.redirect(`/${selRoute}/upload-doc`);
       }
     } else {
-      const fileName = upload_attachment.name;
-      const fileMimeType = upload_attachment.mimetype;
-      const fileSize = upload_attachment.size;
+      const fileName = offline_document.name;
+      const fileMimeType = offline_document.mimetype;
+      const fileSize = offline_document.size;
 
       const validateMimeType = FileValidations.formatValidation(fileMimeType);
       const validateFileSize = FileValidations.sizeValidation(fileSize);
 
       if (validateMimeType && validateFileSize) {
         const formData = new FormData();
-        formData.append('data', upload_attachment.data, {
-          contentType: upload_attachment.mimetype,
-          filename: upload_attachment.name,
+        formData.append('data', offline_document.data, {
+          contentType: offline_document.mimetype,
+          filename: offline_document.name,
         });
-        formData.append('description', upload_attachment.name);
+        formData.append('description', offline_document.name);
         formData.append('audience', 'buyer');
         const formHeaders = formData.getHeaders();
         try {
