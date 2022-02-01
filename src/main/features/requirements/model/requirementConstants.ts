@@ -99,6 +99,9 @@ export enum REQUIREMENT_PATHS {
 
   //RFP Response dates
   RFP_GET_RESPONSE_DATE = '/rfp/response-date',
+  RFP_POST_RESPONSE_DATE = '/rfp/response-date',
+  RFP_POST_ADD_RESPONSEDATE = '/rfp/add/response-date',
+
 
   DA_GET_WHERE_WORK_DONE = '/da/get-work-done',
   DA_POST_WHERE_WORK_DONE = '/da/get-work-done',

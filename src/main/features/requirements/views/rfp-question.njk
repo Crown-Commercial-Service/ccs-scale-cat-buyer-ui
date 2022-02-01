@@ -54,9 +54,9 @@
       <p class="govuk-body">{{data.rfpTitle}}</p>
 
       <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
-        <br>
-        <p class="govuk-body">{{prompt[0] | safe}}</p>
-        <p class="govuk-body">{{prompt[1] | safe}}</p>
+      
+        <p class="govuk-body">{{prompt?[0] | safe}}</p>
+        <p class="govuk-body">{{prompt?[1] | safe}}</p>
 
         {% for requirement in data %}
           {% block value %}

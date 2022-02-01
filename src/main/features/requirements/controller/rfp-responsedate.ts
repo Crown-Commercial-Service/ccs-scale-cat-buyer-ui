@@ -180,7 +180,7 @@ export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Respo
     return { isValid, error, errorSelector };
   }
   
-  // @POST "/eoi/add/response-date"
+  // @POST "/rfp/add/response-date"
   export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
     let {
       clarification_date_day,
