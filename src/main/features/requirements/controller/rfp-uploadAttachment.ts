@@ -6,7 +6,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
-import { FILEUPLOADHELPER } from '../helpers/upload';
+import { ATTACHMENTUPLOADHELPER } from '../helpers/uploadAttachment';
 import { FileValidations } from '../util/file/filevalidations';
 
 let tempArray = [];
@@ -19,8 +19,8 @@ let tempArray = [];
  * @GETController
  */
 
-export const RFP_GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: express.Response) => {
-  FILEUPLOADHELPER(req, res, false, null);
+export const RFP_GET_UPLOAD_ATTACHMENT: express.Handler = (req: express.Request, res: express.Response) => {
+  ATTACHMENTUPLOADHELPER(req, res, false, null);
 };
 
 /**
@@ -30,7 +30,7 @@ export const RFP_GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: e
  * @POSTController
  */
 
-export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res: express.Response) => {
+export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.Request, res: express.Response) => {
   let { selectedRoute } = req.session;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
 
@@ -42,7 +42,7 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
   const journeyStatus = req.session['journey_status'];
 
   if (!req.files) {
-    const journey = journeyStatus.find(journey => journey.step === 37)?.state;
+    const journey = journeyStatus.find(journey => journey.step === 37)?.state; // check step number
     const routeRedirect = journey === 'Optional' ? `/${selRoute}/suppliers` : `/${selRoute}/upload-doc`;
     res.redirect(routeRedirect);
   }
@@ -51,11 +51,11 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
   const FileFilterArray = [];
 
   if (file_started) {
-    const offline_document = req.files[`${selRoute}_offline_document`];
+    const upload_attachment = req.files[`${selRoute}_upload_attachment`];
 
-    const multipleFileCheck = Array.isArray(offline_document);
+    const multipleFileCheck = Array.isArray(upload_attachment);
     if (multipleFileCheck) {
-      for (const file of offline_document) {
+      for (const file of upload_attachment) {
         const fileName = file.name;
         const fileMimeType = file.mimetype;
         const fileSize = file.size;
@@ -98,23 +98,25 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
       }
 
       if (FileFilterArray.length > 0) {
-        FILEUPLOADHELPER(req, res, true, FileFilterArray);
-      } else res.redirect(`/${selRoute}/upload-doc`);
+        ATTACHMENTUPLOADHELPER(req, res, true, FileFilterArray);
+      } else {
+        res.redirect(`/${selRoute}/upload-doc`);
+      }
     } else {
-      const fileName = offline_document.name;
-      const fileMimeType = offline_document.mimetype;
-      const fileSize = offline_document.size;
+      const fileName = upload_attachment.name;
+      const fileMimeType = upload_attachment.mimetype;
+      const fileSize = upload_attachment.size;
 
       const validateMimeType = FileValidations.formatValidation(fileMimeType);
       const validateFileSize = FileValidations.sizeValidation(fileSize);
 
       if (validateMimeType && validateFileSize) {
         const formData = new FormData();
-        formData.append('data', offline_document.data, {
-          contentType: offline_document.mimetype,
-          filename: offline_document.name,
+        formData.append('data', upload_attachment.data, {
+          contentType: upload_attachment.mimetype,
+          filename: upload_attachment.name,
         });
-        formData.append('description', offline_document.name);
+        formData.append('description', upload_attachment.name);
         formData.append('audience', 'buyer');
         const formHeaders = formData.getHeaders();
         try {
@@ -123,7 +125,7 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
               ...formHeaders,
             },
           });
-          res.redirect(`/${selRoute}/upload-doc`);
+          res.redirect(`/${selRoute}/upload-attachment`);
         } catch (error) {
           delete error?.config?.['headers'];
           const Logmessage = {
@@ -148,27 +150,30 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
           text: fileName,
         });
 
-        FILEUPLOADHELPER(req, res, true, FileFilterArray);
+        ATTACHMENTUPLOADHELPER(req, res, true, FileFilterArray);
       }
     }
   } else res.render('error/500');
 };
 
-export const RFP_GET_REMOVE_FILES = (express.Handler = (req: express.Request, res: express.Response) => {
+export const RFP_GET_REMOVE_ATTACHMENT_FILES = (express.Handler = (req: express.Request, res: express.Response) => {
   const { file } = req.query;
   let { selectedRoute } = req.session;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
   tempArray = tempArray.filter(afile => afile.name !== file);
-  res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
+  res.redirect(`/rfp/upload-attachment`);
 });
 
-export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
+export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
+  req: express.Request,
+  res: express.Response,
+) => {
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   let { selectedRoute } = req.session;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
-  const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71;
+  const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71; // check step number
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
 
-  res.redirect(`/${selectedRoute.toLowerCase()}/task-list`);
+  res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
 });

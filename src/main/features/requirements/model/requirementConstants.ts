@@ -32,6 +32,10 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_IR35 = '/rfp/IR35',
 
   // Upload doc rfp
+  RFP_UPLOAD = '/rfp/upload',
+  RFP_GET_UPLOAD_ATTACHMENT = '/rfp/upload-attachment',
+  RFP_POST_UPLOAD_ATTACHMENT = '/rfp/upload-attachment',
+  RFP_POST_UPLOAD_ATTACHMENT_PROCEED = '/rfp/upload-attachment/proceed',
   RFP_GET_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_PROCEED = '/rfp/upload-doc/proceed',
@@ -103,7 +107,6 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_RESPONSE_DATE = '/rfp/response-date',
   RFP_POST_RESPONSE_DATE = '/rfp/response-date',
   RFP_POST_ADD_RESPONSEDATE = '/rfp/add/response-date',
-
 
   DA_GET_WHERE_WORK_DONE = '/da/get-work-done',
   DA_POST_WHERE_WORK_DONE = '/da/get-work-done',

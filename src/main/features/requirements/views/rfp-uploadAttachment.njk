@@ -1,0 +1,120 @@
+
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Complete and upload a document | Contract a Thing' %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %}
+
+{% block content %} 
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if (fileError)%}
+            {{ CCSErrorSummary({
+                titleText: "There is a problem with these files",
+                errorList: errorlist
+            }) }}
+        {% endif %}
+
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl">
+                    {{data.title}}
+                </h1>
+                {% include "includes/project_header.njk" %} 
+            </div>
+        </div>
+        
+        <div class="ccs-page-section govuk-!-margin-bottom-9 govuk-!-margin-top-6 ">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+
+                    <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
+                    <div id="upload_doc_form">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full" id="documents_upload">
+                                <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">Upload a file</label>
+                                <span id="rfp_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
+                                <p class="govuk-body-s"> {{data.filedesc}}</p>
+                                {% if (files.length > 0)%}
+                                    <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+                                        <ul class="app-task-list">
+                                            {% for file in files %}
+                                                <li class="app-task-list__item">
+                                                    <div class="govuk-grid-row">
+                                                        <div class="govuk-grid-column-one-third text-overflow ">
+                                                            <span class="app-task-list__task-name">
+                                                                <a href="/rfp/upload-attachment?file_id={{file.id}}">
+                                                                    <strong>{{file.fileName}}</strong>
+                                                                </a>    
+                                                            </span>
+                                                        </div>
+                                                        <div class="govuk-grid-column-one-third">
+                                                            <p>{{file.fileSize | KbtoMb}} MB</p>
+                                                        </div>
+                                                        <div class="govuk-grid-column-one-third">
+                                                            <p>  <a class="app-task-list__tag" href="/rfp/files/remove?file={{file.fileName}}" aria-describedby="rfp-upload">remove</a></p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {%endif%}
+                                {% if(storage < 1000000000)  %}
+                                    <form action="/rfp/upload-attachment" method="post" encType="multipart/form-data">    
+                                    {{ CCSFileUpload({
+                                        id: "rfp_upload_attachment",
+                                        name: "rfp_upload_attachment",
+                                        value: data['rfp_upload_attachment'],
+                                        multiple: true,
+                                        label: {
+                                            text: "",
+                                            classes: "govuk-label--m"
+                                        }
+                                    }) }}
+                            </div>
+                            <div class="govuk-grid-column-full">
+                                {{ CCSButton({
+                                    text: "upload",
+                                    type: "submit",
+                                    classes: "doc_upload_button"
+                                    })
+                                }}
+                            </div>
+                            {{ CCSInput({
+                                id: "rfp_file_started",
+                                name: "rfp_file_started",
+                                type: "hidden",
+                                value: true
+                                })
+                            }}
+                        </div>
+                    </div>
+                                    </form>        
+                                {%endif%}  
+
+                <form action="/rfp/upload-attachment/proceed" method="post">      
+                    <div class="govuk-button-group">
+                            {{ CCSButton({
+                                text: "Save and continue",
+                                type: "submit"
+                                })
+                            }}
+                            <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
+                    </div>
+                </form>
+            </div>
+            <div class="govuk-grid-column-one-third">
+              {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
+          
+    </main>
+{% endblock %}
+
