@@ -15,6 +15,7 @@ export const GET_LEARN = async (req: express.Request, res: express.Response) => 
   const { SESSION_ID } = req.cookies;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   const isPathOne = true;
@@ -24,7 +25,7 @@ export const GET_LEARN = async (req: express.Request, res: express.Response) => 
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
   try {

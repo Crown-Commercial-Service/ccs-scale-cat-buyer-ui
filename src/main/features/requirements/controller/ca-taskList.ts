@@ -16,6 +16,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
 
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -24,7 +25,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
 
