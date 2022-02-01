@@ -66,7 +66,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
   }
 };
 
-export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
+export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   try {
@@ -74,6 +74,14 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'To-do');
     res.redirect('/ca/accept-subcontractors');
   } catch (err) {
-    
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'CA weightings page',
+      true,
+    );
   }
 };

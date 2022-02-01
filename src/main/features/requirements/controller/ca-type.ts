@@ -63,48 +63,57 @@ export const CA_POST_TYPE = async (req: express.Request, res: express.Response) 
         choice = 'part_offline';
       }
 
-     switch (choice) {
-       case 'both_online':
-         // eslint-disable-next-line no-case-declarations
-         const redirect_address =  `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A1`
-         req.session['choosenViewPath'] = "A1";
-         req.session.fcSelectedRoute = choice;
-         logger.info(choice + 'selected');
-         res.redirect(redirect_address);
-         break;
+      switch (choice) {
+        case 'both_online':
+          // eslint-disable-next-line no-case-declarations
+          const redirect_address = `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A1`;
+          req.session['choosenViewPath'] = 'A1';
+          req.session.fcSelectedRoute = choice;
+          logger.info(choice + 'selected');
+          res.redirect(redirect_address);
+          break;
 
-       case 'both_offline':
-        
-         // eslint-disable-next-line no-case-declarations
-         const bothOfflineAddress =  `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A2`;
-         req.session.fcSelectedRoute = choice;
-         req.session['choosenViewPath'] = "A2";
-         logger.info(choice + 'selected');
-         res.redirect(bothOfflineAddress);
-         break;
+        case 'both_offline':
+          // eslint-disable-next-line no-case-declarations
+          const bothOfflineAddress = `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A2`;
+          req.session.fcSelectedRoute = choice;
+          req.session['choosenViewPath'] = 'A2';
+          logger.info(choice + 'selected');
+          res.redirect(bothOfflineAddress);
+          break;
 
-       case 'part_online':
-         // eslint-disable-next-line no-case-declarations
-         const partOnlineAddress =  `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A4`;
-         req.session.fcSelectedRoute = choice;
-         req.session['choosenViewPath'] = "A4";
-         logger.info(choice + 'selected');
-         res.redirect(partOnlineAddress);
-         break;
-       case 'part_offline':
-         // eslint-disable-next-line no-case-declarations
-         const partOfflineAddress =  `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A3`;
-         req.session['choosenViewPath'] = "A3";
-         req.session.fcSelectedRoute = choice;
-         logger.info(choice + 'selected');
-         res.redirect(partOfflineAddress);
-         break;
-       default:
-         res.redirect('/404');
-     }
-}else {
-    req.session['isJaggaerError'] = true;
-    res.redirect(REQUIREMENT_PATHS.CA_TYPE);
-
+        case 'part_online':
+          // eslint-disable-next-line no-case-declarations
+          const partOnlineAddress = `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A4`;
+          req.session.fcSelectedRoute = choice;
+          req.session['choosenViewPath'] = 'A4';
+          logger.info(choice + 'selected');
+          res.redirect(partOnlineAddress);
+          break;
+        case 'part_offline':
+          // eslint-disable-next-line no-case-declarations
+          const partOfflineAddress = `${REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST}?path=A3`;
+          req.session['choosenViewPath'] = 'A3';
+          req.session.fcSelectedRoute = choice;
+          logger.info(choice + 'selected');
+          res.redirect(partOfflineAddress);
+          break;
+        default:
+          res.redirect('/404');
+      }
+    } else {
+      req.session['isJaggaerError'] = true;
+      res.redirect(REQUIREMENT_PATHS.CA_TYPE);
+    }
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'CA type page',
+      true,
+    );
   }
 };
