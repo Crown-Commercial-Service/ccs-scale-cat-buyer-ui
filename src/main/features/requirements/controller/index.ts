@@ -58,6 +58,7 @@ import { DA_GET_NEXTSTEPS, DA_POST_NEXTSTEPS } from './da-nextSteps';
 import { GET_RESPONSE_DATE, POST_ADD_RESPONSE_DATE, POST_RESPONSE_DATE } from './rfp-responsedate';
 import { DA_GET_CANCEL, DA_POST_CANCEL } from './da-cancel';
 import { DA_GET_SUBCONTRACTORS, DA_POST_SUBCONTRACTORS} from './da-SubContractors';
+import { DA_GET_SERVICE_CAPABILITIES, DA_POST_SERVICE_CAPABILITIES } from './da-serviceCapabilities';
 
 /**
  * @BaseController
@@ -150,4 +151,6 @@ export const REQUIREMENT_CONTROLLER = {
   DA_POST_CANCEL,
   DA_GET_SUBCONTRACTORS,
   DA_POST_SUBCONTRACTORS,
+  DA_GET_SERVICE_CAPABILITIES, 
+  DA_POST_SERVICE_CAPABILITIES,
 };
