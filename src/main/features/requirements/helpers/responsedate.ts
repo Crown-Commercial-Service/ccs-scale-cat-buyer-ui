@@ -4,7 +4,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import moment from 'moment-business-days';
-import * as cmsData from '../../../resources/content/eoi/eoi-response-date.json';
+import * as cmsData from '../../../resources/content/requirements/rfp-response-date.json';
 import config from 'config';
 
 const predefinedDays = {
@@ -42,6 +42,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     }
 
     criterianStorage = criterianStorage.flat();
+    console.log(criterianStorage)
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
     
     const Criterian_ID = criterianStorage[0].criterianId;

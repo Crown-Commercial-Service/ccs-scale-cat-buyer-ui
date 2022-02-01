@@ -37,7 +37,7 @@
                     {{prompt | safe}}
 
                     <div class="govuk-form-group ccs-page-section">
-                        <p class="govuk-body-l"><strong>Timeline for your EoI</strong></p> <br>
+                        <p class="govuk-body-l govuk-!-margin-top-3"><strong>Timeline for the 1-stage further competition</strong></p> <br>
                     </div>
 
                     {% block valuewitNoMultiSelect %}
@@ -101,7 +101,7 @@
                             class="govuk-link govuk-link--no-visited-state ">I do not want to change this date and time</a>
                                                     </div>
                                                     <br>
-                                                    <form action="/eoi/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_eoi_response_date_form">
+                                                    <form action="/rfp/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_eoi_response_date_form">
                                                         <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
 
                                                             <div class="govuk-date-input" id="clarification_date">
@@ -216,7 +216,7 @@
                                     {% endblock %}
 
                                     <div class="govuk-button-group">
-                                        <form method="post" action="/eoi/response-date" >
+                                        <form method="post" action="/rfp/response-date" >
                                             {{ CCSInput({
                     id: "timeStamp",
                     name: "eoi_clarification_date",
