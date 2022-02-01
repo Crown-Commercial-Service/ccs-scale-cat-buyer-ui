@@ -292,7 +292,23 @@ export default function (app: Application): void {
     ],
     REQUIREMENT_CONTROLLER.DA_GET_CANCEL,
   );
-
+  //da subcontractors
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_SUBCONTRACTORS,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.DA_GET_SUBCONTRACTORS,
+  );
+  //da service capabilities
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_SERVICE_CAPABILITIES,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_SERVICE_CAPABILITIES,
+  );
   /**
    * @POST Routes
    */
@@ -459,10 +475,12 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.CA_POST_SERVICE_CAPABILITIES, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SERVICE_CAPABILITIES);
 
   app.post(REQUIREMENT_PATHS.DA_POST_SUBCONTRACTORS, AUTH, REQUIREMENT_CONTROLLER.DA_POST_SUBCONTRACTORS);
-  // @Post '/rfp/response-date'
+git  // @Post '/rfp/response-date'
   app.post(REQUIREMENT_PATHS.RFP_POST_RESPONSE_DATE, AUTH, REQUIREMENT_CONTROLLER.POST_RESPONSE_DATE)
 
   
   // @Post /rfp/add/response-date
   app.post(REQUIREMENT_PATHS.RFP_POST_ADD_RESPONSEDATE, AUTH, REQUIREMENT_CONTROLLER.POST_ADD_RESPONSE_DATE)
+
+  app.post(REQUIREMENT_PATHS.DA_POST_SERVICE_CAPABILITIES, AUTH, REQUIREMENT_CONTROLLER.DA_POST_SERVICE_CAPABILITIES);
 }

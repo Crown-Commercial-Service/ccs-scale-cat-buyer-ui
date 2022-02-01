@@ -119,4 +119,7 @@ export enum REQUIREMENT_PATHS {
 
   DA_GET_SUBCONTRACTORS = '/da/accept-subContractors',
   DA_POST_SUBCONTRACTORS = '/da/accept-subContractors',
+
+  DA_GET_SERVICE_CAPABILITIES = '/da/service-capabilities',
+  DA_POST_SERVICE_CAPABILITIES = '/da/service-capabilities',
 }
