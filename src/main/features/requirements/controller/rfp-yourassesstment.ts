@@ -1,26 +1,25 @@
 //@ts-nocheck
 import * as express from 'express';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import fileData from '../../../resources/content/requirements/rfpAddContext.json';
+import fileData from '../../../resources/content/requirements/rfpYourAssesstment.json';
 import { operations } from '../../../utils/operations/operations';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
-import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+
 /**
  *
  * @param req
  * @param res
  * @GETController
  */
-export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Response) => {
-  const { eventId } = req.session;
+export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: express.Response) => {
   if (
     operations.isUndefined(req.query, 'agreement_id') ||
     operations.isUndefined(req.query, 'proc_id') ||
     operations.isUndefined(req.query, 'event_id')
   ) {
-    const RedirectURL = `/rfp/add-context?agreement_id=${req.session.agreement_id}&proc_id=${req.session.projectId}&event_id=${req.session.eventId}`;
+    const RedirectURL = `/rfp/your-assesstment?agreement_id=${req.session.agreement_id}&proc_id=${req.session.projectId}&event_id=${req.session.eventId}`;
     res.redirect(RedirectURL);
   } else {
     const { agreement_id, proc_id, event_id } = req.query;
@@ -42,7 +41,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         });
         criterianStorage.push(rebased_object_with_requirements);
       }
-      criterianStorage = criterianStorage[1];
+      criterianStorage = criterianStorage[0];
       const sorted_ascendingly = criterianStorage
         .map((aCriterian: any) => {
           const object = aCriterian;
@@ -74,8 +73,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         agreementLotName,
         releatedContent: releatedContent,
       };
-       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
-      res.render('rfp-context', display_fetch_data);
+      res.render('rfp-yourassesstment', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(
         res,

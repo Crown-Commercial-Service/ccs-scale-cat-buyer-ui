@@ -84,10 +84,10 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "Your assessment bases and evaluation weightings ",
+          "title": "Your assessment bases and evaluation weightings",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/your-assesstment"
         },
         {
           "Task": 2,

@@ -24,6 +24,8 @@ export enum REQUIREMENT_PATHS {
 
   // Add Context
   RFP_ADD_CONTEXT = '/rfp/add-context',
+  // Your Assesstment bases and evaluation weightings
+  RFP_YOUR_ASSESSMENT = '/rfp/your-assesstment',
 
   //RFP ir35
   RFP_GET_IR35 = '/rfp/IR35',
@@ -72,6 +74,8 @@ export enum REQUIREMENT_PATHS {
   CA_POST_WEIGHTINGS = '/ca/enter-your-weightings',
   CA_GET_SUPPLIERS_FORWARD = '/ca/suppliers-to-forward',
   CA_POST_SUPPLIERS_FORWARD = '/ca/suppliers-to-forward',
+  CA_GET_SUBCONTRACTORS = '/ca/accept-subcontractors',
+  CA_POST_SUBCONTRACTORS = '/ca/accept-subcontractors',
 
   CA_GET_NEXTSTEPS = '/ca/next-steps',
   CA_POST_NEXTSTEPS = '/ca/next-steps',
@@ -97,6 +101,9 @@ export enum REQUIREMENT_PATHS {
 
   //RFP Response dates
   RFP_GET_RESPONSE_DATE = '/rfp/response-date',
+  RFP_POST_RESPONSE_DATE = '/rfp/response-date',
+  RFP_POST_ADD_RESPONSEDATE = '/rfp/add/response-date',
+
 
   DA_GET_WHERE_WORK_DONE = '/da/get-work-done',
   DA_POST_WHERE_WORK_DONE = '/da/get-work-done',
@@ -111,4 +118,10 @@ export enum REQUIREMENT_PATHS {
 
   DA_GET_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
   DA_POST_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
+
+  DA_GET_SUBCONTRACTORS = '/da/accept-subContractors',
+  DA_POST_SUBCONTRACTORS = '/da/accept-subContractors',
+
+  DA_GET_SERVICE_CAPABILITIES = '/da/service-capabilities',
+  DA_POST_SERVICE_CAPABILITIES = '/da/service-capabilities',
 }
