@@ -24,6 +24,8 @@ export enum REQUIREMENT_PATHS {
 
   // Add Context
   RFP_ADD_CONTEXT = '/rfp/add-context',
+  // Your Assesstment bases and evaluation weightings
+  RFP_YOUR_ASSESSMENT = '/rfp/your-assesstment',
 
   //RFP ir35
   RFP_GET_IR35 = '/rfp/IR35',

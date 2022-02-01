@@ -1,0 +1,77 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/"
+    },
+    {
+      "text": "Choose a commericial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/rfp/task-list"
+    },
+    {
+      "text": "Add context and requirements",
+      "href": "#"
+    }
+  ],
+
+  "title": "Your assessment bases and evaluation weightings",
+  "subtitle": null,
+  "taskList": [
+    {
+      "title": "Learn how to add your assessment bases and evaluation weightings (Optional)",
+      "hreftitle": "Understand add context and requirements",
+      "href": "learn_about_adding_context_and_requirements"
+    },
+    {
+      "title": "Set the overall ratio between quality and price",
+      "hreftitle": "Acknowledge IR35 requirements",
+      "href": "rfp_ir35_acknowledgement"
+    },
+    {
+      "title": "Set the specific ratio of quality groups",
+      "hreftitle": "Add terms and acronyms",
+      "href": "rfp_add_terms_acronyms"
+    },
+    {
+      "title": "Add your quality evaluation weightings",
+      "hreftitle": "Add background and context to your requirement",
+      "href": "rfp_add_background_and_context"
+    },
+    {
+      "title": "Add your technical questions",
+      "hreftitle": "Add information about the project",
+      "href": "rfp_problem_to_solve"
+    },
+    {
+      "title": "Add your cultural questions",
+      "hreftitle": "Add key users",
+      "href": "rfp_key_users"
+    },
+    {
+      "title": "Add your social value questions",
+      "hreftitle": "Add work complete so far",
+      "href": "rfp_work_complete"
+    },
+    {
+      "title": "[ Add your price question ]",
+      "hreftitle": "Add current phase of the project",
+      "href": "rfp_current_phase"
+    }
+  ],
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to Write and publish your requirements",
+      "href": "/rfp/task-list"
+    }
+  },
+  "template": []
+}

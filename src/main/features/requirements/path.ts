@@ -216,6 +216,12 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_ADD_CONTEXT,
   );
 
+  // /rfp/your-assesstment
+  app.get(
+    REQUIREMENT_PATHS.RFP_YOUR_ASSESSMENT,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_YOUR_ASSESSTMENT,
+  );
   // /rfp/response-date
   app.get(
     REQUIREMENT_PATHS.RFP_GET_RESPONSE_DATE,
