@@ -22,6 +22,7 @@ export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Respo
       const anEntry = aQuestions.split('*');
       return { Question: anEntry[0], value: anEntry[1] };
     });
+
     const proc_id = req.session.projectId;
     const event_id = req.session.eventId;
     const { SESSION_ID } = req.cookies;
@@ -81,7 +82,7 @@ export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Respo
         await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/24`, 'Not started');
       }
   
-      res.redirect('/eoi/review');
+      res.redirect('/rfp/review');
     } catch (error) {
       LoggTracer.errorLogger(
         res,
@@ -140,8 +141,7 @@ export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Respo
       isValid = false;
       error = 'You can not set a date in weekend';
     }
-  
-    console.log(dayOfWeek);
+
     switch (questionId) {
       case 'Question 1':
         errorSelector = 'clarification_date';
@@ -267,8 +267,9 @@ export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Respo
         const id = Criterian_ID;
         const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
         await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
-        res.redirect('/eoi/response-date');
+        res.redirect('/rfp/response-date');
       } catch (error) {
+
         delete error?.config?.['headers'];
         const Logmessage = {
           Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -298,7 +299,7 @@ export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Respo
       } else {
         switch (selectedErrorCause) {
           case 'Question 1':
-            selector = ' Publish your EoI - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            selector = ' Publish your RFP - You can not set a date and time that is earlier than the previous milestone in the timeline';
             selectorID = 'clarification_date';
             break;
   
@@ -308,12 +309,12 @@ export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Respo
             break;
   
           case 'Question 3':
-            selector = 'Deadline for publishing responses to EoI clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
+            selector = 'Deadline for publishing responses to RFP clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
             selectorID = 'deadline_period_for_clarification_period';
             break;
   
           case 'Question 4':
-            selector = 'Deadline for suppliers to submit their EoI response - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            selector = 'Deadline for suppliers to submit their RFP response - You can not set a date and time that is earlier than the previous milestone in the timeline';
             selectorID = 'supplier_period_for_clarification_period';
             break;
   

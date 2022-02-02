@@ -106,7 +106,6 @@ const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Res
       client_id: process.env.AUTH_SERVER_CLIENT_ID,
       client_secret: process.env.AUTH_SERVER_CLIENT_SECRET,
       grant_type: config.get('authenticationService.refresh_token'),
-      redirect_uri: process.env.CAT_URL + '/receiver',
     };
     auth_credentails = qs.stringify(auth_credentails);
     //@ Grant Authorization with the token to re-direct to the callback page
