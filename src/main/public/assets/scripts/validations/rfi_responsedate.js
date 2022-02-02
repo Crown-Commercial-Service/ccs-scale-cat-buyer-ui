@@ -13,7 +13,11 @@ for(const selector of totalElementSelectors){
 
 for(const selector of totalElementSelectors){
     let elementID = "#change_clarification_date_"+selector;
-    let elementSelector = $(elementID);    
+    let elementCancelID = "#cancel_change_clarification_date_"+selector;
+    let elementSelector = $(elementID);
+    let elementSelectorCancel = $(elementCancelID);
+    elementSelector.fadeIn();  
+    elementSelectorCancel.fadeIn();  
     elementSelector.on('click', ()=> {
         localStorage.removeItem('dateItem');
         localStorage.setItem('dateItem', elementSelector.selector);
