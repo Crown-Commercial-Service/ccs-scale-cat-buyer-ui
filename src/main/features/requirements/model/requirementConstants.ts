@@ -32,6 +32,10 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_IR35 = '/rfp/IR35',
 
   // Upload doc rfp
+  RFP_UPLOAD = '/rfp/upload',
+  RFP_GET_UPLOAD_ATTACHMENT = '/rfp/upload-attachment',
+  RFP_POST_UPLOAD_ATTACHMENT = '/rfp/upload-attachment',
+  RFP_POST_UPLOAD_ATTACHMENT_PROCEED = '/rfp/upload-attachment/proceed',
   RFP_GET_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_PROCEED = '/rfp/upload-doc/proceed',

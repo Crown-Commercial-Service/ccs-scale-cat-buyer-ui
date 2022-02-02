@@ -1,21 +1,21 @@
 //@ts-nocheck
-import * as express from 'express'
-import * as chooseRouteData from '../../../resources/content/requirements/rfpTaskList.json'
+import * as express from 'express';
+import * as chooseRouteData from '../../../resources/content/requirements/rfpTaskList.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
-import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
+// import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 /**
- * 
- * @Rediect 
+ *
+ * @Rediect
  * @endpoint '/oauth/login
- * @param req 
- * @param res 
+ * @param req
+ * @param res
  */
 export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId } = req.session;
-  const releatedContent = req.session.releatedContent
+  const releatedContent = req.session.releatedContent;
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
   const project_name = req.session.project_name;
@@ -25,18 +25,18 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
-  const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError  }
+  const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError };
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/3`, 'In progress');
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-    statusStepsDataFilter(chooseRouteData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
+    // const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+    // statusStepsDataFilter(chooseRouteData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/29`, 'In progress');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'In progress');
-     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'In progress');
 
     res.render('rfp-taskList', appendData);
-  }catch (error) {
+  } catch (error) {
     LoggTracer.errorLogger(
       res,
       error,
@@ -47,6 +47,4 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
       true,
     );
   }
-
-}
-
+};
