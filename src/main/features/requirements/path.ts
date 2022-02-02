@@ -186,6 +186,21 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_LEAD_PROCUREMENT,
   );
 
+  //@GET '/rfp/upload'
+  app.get(
+    REQUIREMENT_PATHS.RFP_UPLOAD,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_UPLOAD,
+  );
+
+  //@GET '/rfp/upload-attachment'
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_UPLOAD_ATTACHMENT,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_UPLOAD_ATTACHMENT,
+  );
+
+  //@GET '/rfp/upload-doc'
   app.get(
     REQUIREMENT_PATHS.RFP_GET_UPLOAD_DOC,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -222,6 +237,7 @@ export default function (app: Application): void {
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_GET_YOUR_ASSESSTMENT,
   );
+
   // /rfp/response-date
   app.get(
     REQUIREMENT_PATHS.RFP_GET_RESPONSE_DATE,
@@ -286,16 +302,16 @@ export default function (app: Application): void {
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.CA_GET_SERVICE_CAPABILITIES,
   );
-app.get(
-  REQUIREMENT_PATHS.CA_GET_CANCEL,
-  [
-    ContentFetchMiddleware.FetchContents,
-    AUTH,
-    PreMarketEngagementMiddleware.PutPremarket,
-    AgreementDetailsFetchMiddleware.FetchAgreements,
-  ],
-  REQUIREMENT_CONTROLLER.CA_GET_CANCEL,
-);
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_CANCEL,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.CA_GET_CANCEL,
+  );
   // @GET '/da/cancel'
   app.get(
     REQUIREMENT_PATHS.DA_GET_CANCEL,
@@ -319,12 +335,18 @@ app.get(
     ],
     REQUIREMENT_CONTROLLER.DA_GET_SUBCONTRACTORS,
   );
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_REVIEW_RANKED_SUPPLIERS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_REVIEW_RANKED_SUPPLIERS,
+  );
   //da service capabilities
   app.get(
     REQUIREMENT_PATHS.DA_GET_SERVICE_CAPABILITIES,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.DA_GET_SERVICE_CAPABILITIES,
   );
+
   /**
    * @POST Routes
    */
@@ -393,6 +415,14 @@ app.get(
     REQUIREMENT_PATHS.CA_POST_ADD_COLLABORATOR_TO_JAGGER,
     AUTH,
     REQUIREMENT_CONTROLLER.CA_POST_ADD_COLLABORATOR_TO_JAGGER,
+  );
+
+  app.post(REQUIREMENT_PATHS.RFP_GET_UPLOAD_ATTACHMENT, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_UPLOAD_ATTACHMENT);
+
+  app.post(
+    REQUIREMENT_PATHS.RFP_POST_UPLOAD_ATTACHMENT_PROCEED,
+    AUTH,
+    REQUIREMENT_CONTROLLER.RFP_POST_UPLOAD_ATTACHMENT_PROCEED,
   );
 
   app.post(REQUIREMENT_PATHS.RFP_POST_UPLOAD_DOC, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_UPLOAD_DOC);
@@ -491,12 +521,16 @@ app.get(
   app.post(REQUIREMENT_PATHS.CA_POST_SERVICE_CAPABILITIES, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SERVICE_CAPABILITIES);
 
   app.post(REQUIREMENT_PATHS.DA_POST_SUBCONTRACTORS, AUTH, REQUIREMENT_CONTROLLER.DA_POST_SUBCONTRACTORS);
- // @Post '/rfp/response-date'
-  app.post(REQUIREMENT_PATHS.RFP_POST_RESPONSE_DATE, AUTH, REQUIREMENT_CONTROLLER.POST_RESPONSE_DATE)
+  // @Post '/rfp/response-date'
+  app.post(REQUIREMENT_PATHS.RFP_POST_RESPONSE_DATE, AUTH, REQUIREMENT_CONTROLLER.POST_RESPONSE_DATE);
 
-  
   // @Post /rfp/add/response-date
-  app.post(REQUIREMENT_PATHS.RFP_POST_ADD_RESPONSEDATE, AUTH, REQUIREMENT_CONTROLLER.POST_ADD_RESPONSE_DATE)
+  app.post(REQUIREMENT_PATHS.RFP_POST_ADD_RESPONSEDATE, AUTH, REQUIREMENT_CONTROLLER.POST_ADD_RESPONSE_DATE);
 
   app.post(REQUIREMENT_PATHS.DA_POST_SERVICE_CAPABILITIES, AUTH, REQUIREMENT_CONTROLLER.DA_POST_SERVICE_CAPABILITIES);
+  app.post(
+    REQUIREMENT_PATHS.DA_POST_REVIEW_RANKED_SUPPLIERS,
+    [AUTH],
+    REQUIREMENT_CONTROLLER.DA_POST_REVIEW_RANKED_SUPPLIERS,
+  );
 }

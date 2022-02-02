@@ -32,6 +32,10 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_IR35 = '/rfp/IR35',
 
   // Upload doc rfp
+  RFP_UPLOAD = '/rfp/upload',
+  RFP_GET_UPLOAD_ATTACHMENT = '/rfp/upload-attachment',
+  RFP_POST_UPLOAD_ATTACHMENT = '/rfp/upload-attachment',
+  RFP_POST_UPLOAD_ATTACHMENT_PROCEED = '/rfp/upload-attachment/proceed',
   RFP_GET_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_PROCEED = '/rfp/upload-doc/proceed',
@@ -120,6 +124,9 @@ export enum REQUIREMENT_PATHS {
 
   DA_GET_SUBCONTRACTORS = '/da/accept-subContractors',
   DA_POST_SUBCONTRACTORS = '/da/accept-subContractors',
+
+  DA_GET_REVIEW_RANKED_SUPPLIERS = '/da/review-ranked-suppliers',
+  DA_POST_REVIEW_RANKED_SUPPLIERS = '/da/review-ranked-suppliers',
 
   DA_GET_SERVICE_CAPABILITIES = '/da/service-capabilities',
   DA_POST_SERVICE_CAPABILITIES = '/da/service-capabilities',

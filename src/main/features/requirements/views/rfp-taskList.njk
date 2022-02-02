@@ -47,20 +47,20 @@
                 <li class="app-task-list__item">
                         <span class="app-task-list__task-name">
                           <strong>
-                            {# {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %} #}
+                            {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %}
                                 <a href="{{Tasks.link}}" aria-describedby="name-your-project">
                                     {{Tasks.title}}
                                 </a>
-{#                             {% else %}
+                            {% else %}
                             {{Tasks.title}}
-                            {% endif %}  #}
+                            {% endif %} 
                           </strong>
                         </span>
-{#                         {% if (Tasks.status == "Cannot start yet") or (Tasks.status == "Not started") %}
+                        {% if (Tasks.status == "Cannot start yet") or (Tasks.status == "Not started") %}
                         <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
-                        {% else %} #}
+                        {% else %}
                         <strong class="govuk-tag app-task-list__tag" > {{Tasks.status}}</strong>
-                       {#  {% endif %}  #}
+                        {% endif %} 
                     </li>
                {% endfor %}
                 </ul>

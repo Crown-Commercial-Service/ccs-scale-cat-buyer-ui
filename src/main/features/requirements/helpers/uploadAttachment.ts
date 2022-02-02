@@ -6,7 +6,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 
-export const FILEUPLOADHELPER: express.Handler = async (
+export const ATTACHMENTUPLOADHELPER: express.Handler = async (
   req: express.Request,
   res: express.Response,
   fileError: boolean,
@@ -44,7 +44,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         Person_id: TokenDecoder.decoder(SESSION_ID),
         error_location: `${req.headers.host}${req.originalUrl}`,
         sessionId: 'null',
-        error_reason: `File uploading Causes Problem in ${selectedRoute}  - Tenders Api throws error`,
+        error_reason: `Attachment uploading Causes Problem in ${selectedRoute}  - Tenders Api throws error`,
         exception: error,
       };
       const Log = new LogMessageFormatter(
@@ -75,14 +75,14 @@ export const FILEUPLOADHELPER: express.Handler = async (
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
       if (selectedRoute === 'FC') selectedRoute = 'RFP';
-      res.render(`${selectedRoute.toLowerCase()}-uploadDocument`, windowAppendData);
+      res.render(`${selectedRoute.toLowerCase()}-uploadAttachment`, windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];
       const Logmessage = {
         Person_id: TokenDecoder.decoder(SESSION_ID),
         error_location: `${req.headers.host}${req.originalUrl}`,
         sessionId: 'null',
-        error_reason: `File uploading Causes Problem in ${selectedRoute}  - Tenders Api throws error`,
+        error_reason: `Attachment uploading Causes Problem in ${selectedRoute}  - Tenders Api throws error`,
         exception: error,
       };
       const Log = new LogMessageFormatter(
