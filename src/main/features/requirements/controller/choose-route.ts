@@ -50,12 +50,15 @@ function updateRadioButtonOptions(
             if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
               // updatedOptions.form.radioOptions.items[i].disabled = "true"
             } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
-              //updatedOptions.form.radioOptions.items[i].remove = 'true';
+              updatedOptions.form.radioOptions.items[i].remove = 'true';
             }
           }
         }
       } else {
         for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
+          if (types.find(element => element == 'FC')) {
+            updatedOptions.form.radioOptions.items[i].remove = 'false';
+          }
           if (types.find(element => element == 'DA')) {
             if (
               updatedOptions.form.radioOptions.items[i].value === '2-stage' ||
