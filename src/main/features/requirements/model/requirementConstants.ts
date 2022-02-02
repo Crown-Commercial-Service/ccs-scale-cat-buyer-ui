@@ -79,7 +79,6 @@ export enum REQUIREMENT_PATHS {
 
   CA_GET_NEXTSTEPS = '/ca/next-steps',
   CA_POST_NEXTSTEPS = '/ca/next-steps',
-  CA_GET_CANCEL = '/ca/cancel',
   CA_GET_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
   CA_POST_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
 
@@ -88,6 +87,7 @@ export enum REQUIREMENT_PATHS {
   DA_GET_NEXTSTEPS = '/da/next-steps',
   DA_POST_NEXTSTEPS = '/da/next-steps',
   DA_GET_CANCEL = '/da/cancel',
+  CA_GET_CANCEL = '/ca/cancel',
 
   CA_GET_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
   CA_POST_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
@@ -103,7 +103,6 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_RESPONSE_DATE = '/rfp/response-date',
   RFP_POST_RESPONSE_DATE = '/rfp/response-date',
   RFP_POST_ADD_RESPONSEDATE = '/rfp/add/response-date',
-
 
   DA_GET_WHERE_WORK_DONE = '/da/get-work-done',
   DA_POST_WHERE_WORK_DONE = '/da/get-work-done',

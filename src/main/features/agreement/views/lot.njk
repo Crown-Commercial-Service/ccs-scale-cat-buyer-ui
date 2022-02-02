@@ -14,7 +14,7 @@
           <a class="govuk-breadcrumbs__link" href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}">{{agreement.name}}</a>
         </li>
         <li class="govuk-breadcrumbs__list-item" aria-current="page">
-            {{lot}}: {{agreement_lot.name}}
+          {{lot}}: {{agreement_lot.name}}
         </li>
       </ol>
     </div>
@@ -22,7 +22,8 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-xl ccs-agrement-pagetitle">
-            {{lot}} {{agreement_lot.name}}
+            {{lot}}
+            {{agreement_lot.name}}
           </h1>
         </div>
       </div>
@@ -63,21 +64,22 @@
           <div class="ccs-page-section">
             <p class="govuk-!-padding-bottom-3">{{data.line7}}
               <a class="govuk-link govuk-link--no-visited-state" target='_blank' href="{{agreement.lotSuppliers}}" onclick="return false;">lot supplier list ({{agreement.suppliersCount}} suppliers) <span class="govuk-visually-hidden">(opens in a new window)</span></a>
-            </p></div>
+            </p>
+          </div>
 
           <div id="sign-in" class="ccs-page-section govuk-!-padding-bottom-3">
             <p class="govuk-body">{{data.line8}}</p>
             <p class="govuk-body">{{data.line9}}</p>
             {% if(isAuth === true)%}
-            <div class="govuk-button-group">
-              {{ CCSButton({
+              <div class="govuk-button-group">
+                {{ CCSButton({
                text: "Start Now",
                type: "a",
                classes: "govuk-button",
                href: "/dashboard"
               }) }}
+              </div>
             </div>
-          </div>
 
             {%else%}
 
@@ -91,7 +93,7 @@
             </div>
           </div>
 
-            {%endif%}
+          {%endif%}
 
           <div class="ccs-page-section" id="buyonline">
             <h1 class="govuk-heading-l">{{data.line10}}
@@ -142,6 +144,13 @@
                   <p class="govuk-body">
                     {{data.line24}}
                   </p>
+                  <!-- description for EoI -->
+                  {% if (agreement_id == 'RM6187') %}
+                    <h2 class="govuk-heading-s">
+                      {{data.line55}}
+                    </h2>
+                    <p class="govuk-body">{{data.line56}}</p>
+                  {% endif %}
                   <!-- description for RFI -->
                   <h2 class="govuk-heading-s">
                     {{data.line25}}
