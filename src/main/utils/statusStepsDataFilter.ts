@@ -66,11 +66,11 @@ function checkSublevels(
           eventTask[
             'link'
           ] = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
-        } else if (stepInfo.step == 30) {
+        }/*  else if (stepInfo.step == 30) {
           eventTask[
             'link'
           ] = `/ca/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
-        }
+        } */
       }
       accumElem.accum = accumElem.accum + 1;
       if (eventTask[nameSublevel[1]]) {
