@@ -81,7 +81,7 @@
                 {%if (requirement.OCDS.id !== "Question 1")%}
 
                     <a href="#rfi_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
-                        class="govuk-link govuk-link--no-visited-state change">change</a>
+                        class="govuk-link govuk-link--no-visited-state change" hidden>change</a>
                 </div>
 
                 <div id="rfi_clarification_date_expanded_{{loop.index}}">
@@ -89,7 +89,7 @@
                         <label class="govuk-label govuk-body"><strong id="lbl-clarification_copy">{{
                                 clarification_date_string }}</strong></label>
                         <br> <a href="#rfi_clarification_date_{{loop.index}}"  id="cancel_change_clarification_date_{{loop.index}}"
-                            class="govuk-link govuk-link--no-visited-state ">I do not want to change this date and time</a>
+                            class="govuk-link govuk-link--no-visited-state " hidden>I do not want to change this date and time</a>
                     </div>
                     <br>
                     <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfi_response_date_form">
