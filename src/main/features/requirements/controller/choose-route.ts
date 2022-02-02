@@ -116,7 +116,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
 
         case '2-stage':
           // eslint-disable-next-line no-case-declarations
-          const newAddress = REQUIREMENT_PATHS.CA_TYPE;
+          const newAddress = REQUIREMENT_PATHS.GET_LEARN;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('two stage further competition selected');
           req.session.selectedRoute = 'CA';
