@@ -15,5 +15,5 @@ export const RFP_OFFLINE_JOURNEY_PAGE = (req: express.Request, res: express.Resp
   const agreementLotName = req.session.agreementLotName;
   const appendData = { lotId, agreementLotName };
   logger.info("WIP page");
-  res.render('offline', appendData);
+  res.render('rfp-offline', appendData);
 }
