@@ -177,7 +177,7 @@ export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, 
 // /rfp/proceed-collaborators
 export const RFP_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/28`, 'Completed');
+  const { projectId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/28`, 'Completed');
   res.redirect('/rfp/task-list');
 };

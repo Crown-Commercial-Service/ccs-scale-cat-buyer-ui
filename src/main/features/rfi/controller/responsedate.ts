@@ -24,6 +24,7 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
   const { SESSION_ID } = req.cookies;
+  const { projectId } = req.session;
   let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
@@ -72,12 +73,12 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
           options: [answerformater],
         },
       };
-      const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+      const answerBaseURL = `/tenders/projects/${proc_id}/events/${projectId}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
     }
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/13`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/14`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/14`, 'Not started');
     }
 
     res.redirect('/rfi/review');

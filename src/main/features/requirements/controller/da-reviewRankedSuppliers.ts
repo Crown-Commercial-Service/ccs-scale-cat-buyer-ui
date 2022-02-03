@@ -7,12 +7,12 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 
 export const DA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { eventId, releatedContent, isError, errorText } = req.session;
+  const { projectId, releatedContent, isError, errorText } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
   const appendData = { ...dataRRS, releatedContent, isError, errorText };
   try {
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('da-reviewRankedSuppliers', appendData);
   } catch (error) {
     console.log(error);
@@ -45,7 +45,7 @@ function checkErrors(ranks, justification) {
 
 export const DA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId, releatedContent } = req.session;
+  const { projectId, releatedContent } = req.session;
   const { additional_ranks: ranks, justification } = req['body'];
   const { isError, errorText } = checkErrors(ranks, justification);
   if (isError) {
@@ -54,7 +54,7 @@ export const DA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
     res.redirect('/da/review-ranked-suppliers');
   } else {
     try {
-      //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Completed');
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
       res.redirect('/da/task-list');
     } catch (error) {
       console.log(error);

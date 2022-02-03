@@ -37,7 +37,7 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Get failed - CA learn page',
+      'Get failed - CA learn page',
       true,
     );
   }
@@ -45,9 +45,9 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
 
 export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
     res.redirect('/ca/enter-your-weightings');
   } catch (error) {
     LoggTracer.errorLogger(
@@ -56,7 +56,7 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Post failed - CA learn page',
+      'Post failed - CA learn page',
       true,
     );
   }

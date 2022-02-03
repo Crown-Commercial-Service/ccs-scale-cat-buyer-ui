@@ -169,11 +169,11 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   res: express.Response,
 ) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   let { selectedRoute } = req.session;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
   const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71; // check step number
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
 
   res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
 });
