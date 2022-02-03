@@ -71,10 +71,7 @@ export default function (app: Application): void {
   app.get(
     REQUIREMENT_PATHS.GET_LEARN,
     [
-      ContentFetchMiddleware.FetchContents,
-      AUTH,
-      PreMarketEngagementMiddleware.PutPremarket,
-      AgreementDetailsFetchMiddleware.FetchAgreements,
+      AUTH
     ],
     REQUIREMENT_CONTROLLER.GET_LEARN,
   );
