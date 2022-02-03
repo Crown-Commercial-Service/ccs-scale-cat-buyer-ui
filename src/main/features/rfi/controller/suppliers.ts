@@ -23,10 +23,10 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
 
 export const POST_RFI_SUPPLIER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { eventId } = req.session;
-  const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/12`, 'Completed');
+  const { projectId } = req.session;
+  const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/12`, 'Completed');
   if (response.status == HttpStatusCode.OK) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/13`, 'Not started');
   }
   res.redirect('/rfi/response-date');
 };

@@ -11,12 +11,12 @@ import config from 'config';
 // DIRECT AWARD cancel
 export const DA_GET_CANCEL = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   const releatedContent = req.session.releatedContent;
   const lotSuppliers =
     config.get('CCS_agreements_url') + req.session.agreement_id + ':' + req.session.lotId + '/lot-suppliers';
   try {
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'In progress');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);
     const appendData = {
@@ -41,11 +41,11 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
 
 export const DA_POST_CANCEL = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   try {
-    // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
+    // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
     // if (response.status == HttpStatusCode.OK) {
-    //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'Not started');
+    //   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Not started');
     // }
     res.redirect('/rfp/response-date');
   } catch (error) {

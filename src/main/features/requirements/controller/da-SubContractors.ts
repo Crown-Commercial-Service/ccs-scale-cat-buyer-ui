@@ -39,7 +39,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Get failed - DA next steps page',
+      'Get failed - DA next steps page',
       true,
     );
   }
@@ -47,14 +47,14 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
 
 export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
 
   try {
     const { da_subContractors } = req.body;
 
     if (da_subContractors !== undefined && da_subContractors !== '') {
       req.session['CapAss'].SubContractors = da_subContractors;
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'To-do');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'To-do');
       res.redirect(REQUIREMENT_PATHS.DA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
       req.session['isValidationError'] = true;
@@ -67,7 +67,7 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Post failed - DA next steps page',
+      'Post failed - DA next steps page',
       true,
     );
   }

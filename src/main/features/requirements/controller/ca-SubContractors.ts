@@ -47,14 +47,14 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
 
 export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
 
   try {
     const { ca_subContractors } = req.body;
 
     if (ca_subContractors !== undefined && ca_subContractors !== '') {
       req.session['CapAss'].SubContractors = ca_subContractors;
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'To-do');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'To-do');
       res.redirect(REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
       req.session['isValidationError'] = true;

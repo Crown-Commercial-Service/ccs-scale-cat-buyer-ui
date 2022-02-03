@@ -14,7 +14,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
  * @GETController
  */
 export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Response) => {
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   if (
     operations.isUndefined(req.query, 'agreement_id') ||
     operations.isUndefined(req.query, 'proc_id') ||
@@ -74,7 +74,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         agreementLotName,
         releatedContent: releatedContent,
       };
-       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
+       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'In progress');
       res.render('rfp-context', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

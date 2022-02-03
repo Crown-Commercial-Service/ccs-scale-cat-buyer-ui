@@ -37,7 +37,7 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Get failed - CA Suppleirs to forward page',
+      'Get failed - CA Suppleirs to forward page',
       true,
     );
   }
@@ -45,10 +45,10 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
 
 export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   const { ca_supplier_count } = req.body;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'To-do'); // status Id not yet defined
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'To-do'); // status Id not yet defined
     res.redirect('/ca/review-ranked-suppliers');
   } catch (error) {
     LoggTracer.errorLogger(
@@ -57,7 +57,7 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Post failed - CA suppliers to forward  page',
+      'Post failed - CA suppliers to forward  page',
       true,
     );
   }

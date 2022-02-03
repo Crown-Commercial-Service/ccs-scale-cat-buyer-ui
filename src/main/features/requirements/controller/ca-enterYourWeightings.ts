@@ -69,10 +69,10 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
 
 export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'To-do');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
     res.redirect('/ca/accept-subcontractors');
   } catch (err) {
     LoggTracer.errorLogger(

@@ -44,7 +44,7 @@ export const RFP_GET_NAME_PROJECT = async (req: express.Request, res: express.Re
 export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   const name = req.body['rfi_projLongName'];
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   try {
@@ -54,7 +54,7 @@ export const RFP_POST_NAME_PROJECT = async (req: express.Request, res: express.R
       };
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
       if (response.status == HttpStatusCode.OK) req.session.project_name = name;
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/26`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/26`, 'Completed');
       res.redirect('/rfp/procurement-lead');
     } else {
       req.session['isEmptyProjectError'] = true;

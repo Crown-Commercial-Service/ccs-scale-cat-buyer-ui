@@ -62,8 +62,8 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
 
   const appendData = { data: ViewLoadedTemplateData, releatedContent, error: isJaggaerError  }
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/3`, 'In progress');
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
+    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
 
     res.render('rfp-taskList', appendData);
