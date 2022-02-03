@@ -19,7 +19,6 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
   const project_name = req.session.project_name;
-  const projectId = req.session.projectId;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const { isJaggaerError } = req.session;

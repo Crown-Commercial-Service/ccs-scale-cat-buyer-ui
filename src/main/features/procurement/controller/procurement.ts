@@ -55,37 +55,43 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.eventType = types[eventType];
     const agreementName = req.session.agreementName; //udefined
     try {
-      const JourneyStatus  = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
+      const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.projectId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
     } catch (journeyError) {
       const _body = {
-        'journey-id': req.session.eventId,
+        'journey-id': req.session.projectId,
         states: journyData.states,
       };
       if (journeyError.response.status == 404) {
         await TenderApi.Instance(SESSION_ID).post(`journeys`, _body);
-        const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
+        const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.projectId}/steps`);
         req.session['journey_status'] = JourneyStatus?.data;
       }
     }
 
     data.events.forEach(event => {
       if (event.eventno == 1) {
-        const lot = lotId.length > 2 ? lotId.split(" ")[1] : 1 
-        event.href = "https://www.crowncommercial.gov.uk/agreements/"+agreementId_session+":"+lot+"/lot-suppliers";
+        const lot = lotId.length > 2 ? lotId.split(' ')[1] : 1;
+        event.href =
+          'https://www.crowncommercial.gov.uk/agreements/' + agreementId_session + ':' + lot + '/lot-suppliers';
       }
-      const step = req.session['journey_status'] ? req.session['journey_status'].find(item => item.step === event.eventno) : journyData.states.find(item => item.step === event.eventno);
-      if (step){
-        if(step.state === 'Not started') {
+      const step = req.session['journey_status']
+        ? req.session['journey_status'].find(item => item.step === event.eventno)
+        : journyData.states.find(item => item.step === event.eventno);
+      if (step) {
+        if (step.state === 'Not started') {
           event.status = 'TODO';
-        } else if(step.state === 'Completed') {
+        } else if (step.state === 'Completed') {
           event.status = 'DONE';
         } else {
           event.status = step.state;
         }
       }
       if (step.step == 2) {
-        if (req.session['journey_status'][2].state == 'In progress' || req.session['journey_status'][1].state == 'Completed') {
+        if (
+          req.session['journey_status'][2].state == 'In progress' ||
+          req.session['journey_status'][1].state == 'Completed'
+        ) {
           event.buttonDisable = true;
         } else {
           event.buttonDisable = false;
@@ -98,7 +104,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
           event.buttonDisable = false;
         }
       }
-    })
+    });
 
     const lotid = req.session?.lotId;
     const project_name = req.session.project_name;

@@ -94,7 +94,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const releatedContent = req.session.releatedContent;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
-    console.log(fetch_dynamic_api_data)
+    console.log(fetch_dynamic_api_data);
     const { isFieldError } = req.session;
     const data = {
       data: fetch_dynamic_api_data,
@@ -151,12 +151,12 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
  */
 // path = '/rfp/questionnaire'
 export const RFP_POST_QUESTION = async (req: express.Request, res: express.Response) => {
-
   try {
     const { proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
+    const { projectId } = req.session;
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
