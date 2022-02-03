@@ -45,7 +45,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
   const name = req.body['eoi_projLongName'];
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   try {
     if (name) {
@@ -54,7 +54,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
       };
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
       if (response.status == HttpStatusCode.OK) req.session.project_name = name;
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/16`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/16`, 'Completed');
       res.redirect('/eoi/procurement-lead');
     } else {
       req.session['isEmptyProjectError'] = true;

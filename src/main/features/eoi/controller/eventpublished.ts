@@ -18,10 +18,10 @@ export const GET_EVENT_PUBLISHED = async (req: express.Request, res: express.Res
     const agreementLotName = req.session.agreementLotName;
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
     const { SESSION_ID } = req.cookies; //jwt
-    const { eventId } = req.session;
+    const { projectId } = req.session;
     
     try {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/2`, 'Completed');
     
         res.render('eventPublishedEoi.njk', appendData)
       }catch (error) {

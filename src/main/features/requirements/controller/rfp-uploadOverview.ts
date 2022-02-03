@@ -14,12 +14,11 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  */
 export const RFP_UPLOAD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   const releatedContent = req.session.releatedContent;
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
   const project_name = req.session.project_name;
-  const projectId = req.session.projectId;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const { isJaggaerError } = req.session;
@@ -27,7 +26,7 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   const appendData = { data: uploadData, releatedContent, error: isJaggaerError };
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/37`, 'In progress');
     res.render('rfp-uploadOverview', appendData);
   } catch (error) {
     LoggTracer.errorLogger(

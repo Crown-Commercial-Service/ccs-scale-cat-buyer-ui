@@ -17,7 +17,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     lotId,
     agreementLotName,
     agreementName,
-    eventId,
+    projectId,
     agreement_id,
     releatedContent,
     project_name,
@@ -37,7 +37,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
   };
   try {
     const windowAppendData = { ...caResourcesVetting, lotId, agreementLotName, releatedContent, isError, errorText };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -55,9 +55,9 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
 export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
     res.redirect('/ca/enter-your-weightings');
   } catch (error) {
     LoggTracer.errorLogger(

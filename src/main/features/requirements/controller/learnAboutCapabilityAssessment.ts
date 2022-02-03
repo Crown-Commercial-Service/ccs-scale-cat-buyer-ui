@@ -47,9 +47,9 @@ export const GET_LEARN = async (req: express.Request, res: express.Response) => 
 
 export const POST_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
     res.redirect('/ca/type');
   } catch (error) {
     LoggTracer.errorLogger(

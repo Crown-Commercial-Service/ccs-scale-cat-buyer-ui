@@ -57,7 +57,7 @@ export const DA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
 
 export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   const { choosenViewPath } = req.session;
 
   try {
@@ -70,17 +70,17 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
     if (da_next_steps) {
       switch (da_next_steps) {
         case 'yes':
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Completed');
           res.redirect(REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
           break;
 
         case 'edit':
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Not started');
           res.redirect(REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
           break;
 
         case 'no':
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Completed');
           res.redirect(REQUIREMENT_PATHS.DA_GET_CANCEL);
           break;
 

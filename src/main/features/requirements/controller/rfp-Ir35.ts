@@ -10,10 +10,10 @@ export const RFP_GET_I35: express.Handler = (req: express.Request, res: express.
 
   export const RFP_POST_I35: express.Handler = async (req: express.Request, res: express.Response) => {
       const {SESSION_ID} = req.cookies;
-      const { eventId } = req.session;
+      const { projectId } = req.session;
 
     try {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/29`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/29`, 'Completed');
         res.redirect('/rfp/task-list')
         
     } catch (error) {

@@ -40,7 +40,7 @@ export const GET_CHOOSE_ROUTE = (req: express.Request, res: express.Response) =>
 
 export const POST_CHOOSE_ROUTE = async (req: express.Request, res: express.Response) => {
    const { SESSION_ID } = req.cookies;
-   const eventId = req.session.eventId;
+   const projectId = req.session.projectId;
    try {
       if (req.body['choose_eoi_type'].length == 2) {
          const choose_eoi_type = req.body['choose_eoi_type'][0]
@@ -49,7 +49,7 @@ export const POST_CHOOSE_ROUTE = async (req: express.Request, res: express.Respo
                // eslint-disable-next-line no-case-declarations
                const redirect_address = EOI_PATHS.GET_TASKLIST;
                req.session.selectedRoute = 'EOI'
-               await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'In progress');
+               await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/2`, 'In progress');
                logger.info("EOI Route selected");
                res.redirect(redirect_address);
                break;
@@ -58,7 +58,7 @@ export const POST_CHOOSE_ROUTE = async (req: express.Request, res: express.Respo
                // eslint-disable-next-line no-case-declarations
                const newAddress = RFI_PATHS.GET_TASKLIST;
                req.session.selectedRoute = 'RFI'
-               await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'In progress');
+               await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/2`, 'In progress');
                logger.info("RFI Route selected");
                res.redirect(newAddress);
                break;
