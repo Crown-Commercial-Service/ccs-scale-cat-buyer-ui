@@ -58,7 +58,7 @@ export const POST_LEARN = async (req: express.Request, res: express.Response) =>
   const { projectId } = req.session;
   const { selectedRoute } = req.session;
   let fca_route = '';
-  if (selectedRoute === 'FCA') fca_route = 'CA';
+  selectedRoute === 'FCA' ? (fca_route = 'CA') : (fca_route = 'DA');
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
     res.redirect(`/${fca_route.toLowerCase()}/type`);
