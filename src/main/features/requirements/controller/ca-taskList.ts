@@ -12,7 +12,7 @@ import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
 
 export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const {path} = req.query;
+  const { path } = req.query;
 
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
@@ -29,35 +29,33 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     error: isJaggaerError,
   };
 
-  let ViewLoadedTemplateData ;
+  let ViewLoadedTemplateData;
 
-  switch(path){
-
+  switch (path) {
     case 'A1':
       ViewLoadedTemplateData = A1_Template;
-    break;
+      break;
 
     case 'A2':
       ViewLoadedTemplateData = A2_Template;
-    break;
+      break;
 
     case 'A3':
       ViewLoadedTemplateData = A3_Template;
-    break;
+      break;
 
     case 'A4':
       ViewLoadedTemplateData = A4_Template;
-    break;
+      break;
 
-    default: res.redirect('error/404')
+    default:
+      res.redirect('error/404');
   }
-
-
 
   try {
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/71`, 'Optional'); //todo: remove later
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
-    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'CA', agreement_id, projectId, eventId);
+    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'FCA', agreement_id, projectId, eventId);
     const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
 

@@ -25,7 +25,9 @@
                <p class="govuk-body">{{line1}}</p>
                <p class="govuk-body">{{line2}}</p>
                <p class="govuk-body">{{line3}}</p>
-               <p class="govuk-body">{{line4}}<a class='govuk-link govuk-link--no-visited-state' target='_blank' href='{{ releatedContent.lotUrl }}'>{{line5}}</a></p>
+               <p class="govuk-body">{{line4}}
+                  <a class='govuk-link govuk-link--no-visited-state' target='_blank' href='{{ releatedContent.lotUrl }}'>{{line5}}</a>
+               </p>
             </div>
             <ol class="proc-task-list">
                {% for event in events %}
@@ -48,8 +50,8 @@
                            or((event.eventno === 2) and (loop.index0 === 1) and ('RFI' in types))
                         or((event.eventno === 3) and (loop.index0 === 0) and ('FC' in types))
                         or((event.eventno === 3) and (loop.index0 === 1) and ('FC' in types))
-                        or((event.eventno === 3) and (loop.index0 === 1) and ('CA' in types))
-                        or((event.eventno === 3) and (loop.index0 === 2) and ('DA' in types))
+                        or((event.eventno === 3) and (loop.index0 === 1) and (('FCA' in types)or('CA' in types)))
+                        or((event.eventno === 3) and (loop.index0 === 2) and ('DAA' in types)or('DA' in types))
  %}
                            {% for subSection in subSections %}
                               <p class="govuk-body">{{subSection | safe }}</p>
@@ -76,22 +78,22 @@
                               <a hidden={{event.buttonText}} target="_blank" href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
                                  {{event.buttonText}}
                               </a>
-                              {% else %}
-                                 <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
-                                    {{event.buttonText}}
-                                 </a>
-                              {% endif %}
+                           {% else %}
+                              <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                 {{event.buttonText}}
+                              </a>
                            {% endif %}
                         {% endif %}
-                     </li>
-                  {% else %}
-                     <li>There are no events to display</li>
-                  {% endfor %}
-               </ol>
-            </div>
-            <div class="govuk-grid-column-one-third">
-               {{ CCSReleatedContent(releatedContent) }}
-            </div>
+                     {% endif %}
+                  </li>
+               {% else %}
+                  <li>There are no events to display</li>
+               {% endfor %}
+            </ol>
          </div>
-      </main>
-   {% endblock %}
+         <div class="govuk-grid-column-one-third">
+            {{ CCSReleatedContent(releatedContent) }}
+         </div>
+      </div>
+   </main>
+{% endblock %}
