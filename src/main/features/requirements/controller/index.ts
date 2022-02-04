@@ -69,6 +69,7 @@ import { DA_GET_SUBCONTRACTORS, DA_POST_SUBCONTRACTORS } from './da-SubContracto
 import { DA_GET_SERVICE_CAPABILITIES, DA_POST_SERVICE_CAPABILITIES } from './da-serviceCapabilities';
 import { RFP_GET_YOUR_ASSESSTMENT } from './rfp-yourassesstment';
 import { DA_GET_REVIEW_RANKED_SUPPLIERS, DA_POST_REVIEW_RANKED_SUPPLIERS } from './da-reviewRankedSuppliers';
+import { DA_GET_LEARN, DA_POST_LEARN } from './da-learnAboutCapabilityAssessment';
 
 /**
  * @BaseController
@@ -161,6 +162,8 @@ export const REQUIREMENT_CONTROLLER = {
   DA_REQUIREMENT_TASK_LIST,
   DA_GET_TEAM_SCALE,
   DA_POST_TEAM_SCALE,
+  DA_GET_LEARN,
+  DA_POST_LEARN,
   DA_GET_RESOURCES_VETTING_WEIGHTINGS,
   DA_POST_RESOURCES_VETTING_WEIGHTINGS,
   DA_GET_CANCEL,
