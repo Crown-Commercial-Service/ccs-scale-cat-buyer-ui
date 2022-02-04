@@ -1,5 +1,4 @@
-
-export const FileMimeType = {
+export   const FileMimeType = {
         "csv": "text/csv",
         "doc": "application/msword",
         "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -16,7 +15,6 @@ export const FileMimeType = {
         "txt": "text/plain",
         "xls": "application/vnd.ms-excel",
         "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-        "xml": "application/xml", 
-        "zip": "application/zip"
-}
-
+        "xml": "text/xml", 
+        "zip": "application/x-zip-compressed"
+    } 
