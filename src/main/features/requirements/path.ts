@@ -67,14 +67,20 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_LEARN,
   );
 
-  // @GET '/ca/learnabout-capability-assessment'
+  // @GET '/da/learn-about-capability-assessment'
   app.get(
-    REQUIREMENT_PATHS.GET_LEARN,
+    REQUIREMENT_PATHS.DA_GET_LEARN,
     [
-      AUTH
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
     ],
-    REQUIREMENT_CONTROLLER.GET_LEARN,
+    REQUIREMENT_CONTROLLER.DA_GET_LEARN,
   );
+
+  // @GET '/ca/learnabout-capability-assessment'
+  app.get(REQUIREMENT_PATHS.GET_LEARN, [AUTH], REQUIREMENT_CONTROLLER.GET_LEARN);
 
   // @GET '/ca/enter-your-weightings'
   app.get(
@@ -438,6 +444,9 @@ export default function (app: Application): void {
 
   //@POST '/ca/learn-about-capability-assessment'
   app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
+
+  //@POST '/da/learn-about-capability-assessment'
+  app.post(REQUIREMENT_PATHS.DA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.DA_POST_LEARN);
 
   //@POST '/ca/learnabout-capability-assessment'
   app.post(REQUIREMENT_PATHS.POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.POST_LEARN);

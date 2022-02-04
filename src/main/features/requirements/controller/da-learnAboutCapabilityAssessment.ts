@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
-import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
-import * as caLearnData from '../../../resources/content/requirements/caLearnAboutCapabilityAssessment.json';
+import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
+import * as daLearnData from '../../../resources/content/requirements/daLearnAboutCapabilityAssessment.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
@@ -11,7 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @param res
  * @GETController
  */
-export const CA_GET_LEARN = async (req: express.Request, res: express.Response) => {
+export const DA_GET_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { choosenViewPath } = req.session;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
@@ -31,14 +31,14 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
   };
   try {
     const windowAppendData = {
-      data: caLearnData,
+      data: daLearnData,
       lotId,
       agreementLotName,
       choosenViewPath,
       releatedContent,
       isPathOne,
     };
-    res.render('ca-learnAboutCapabilityAssessment', windowAppendData);
+    res.render('da-learnAboutCapabilityAssessment', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -47,18 +47,18 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Get failed - CA learn page',
+      'Journey service - Get failed - DA learn page',
       true,
     );
   }
 };
 
-export const CA_POST_LEARN = async (req: express.Request, res: express.Response) => {
+export const DA_POST_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-    res.redirect('/ca/enter-your-weightings');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed'); //check step number
+    res.redirect('/da/resources-vetting-weightings');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -66,7 +66,7 @@ export const CA_POST_LEARN = async (req: express.Request, res: express.Response)
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Post failed - CA learn page',
+      'Journey service - Post failed - DA learn page',
       true,
     );
   }

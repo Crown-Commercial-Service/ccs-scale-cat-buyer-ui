@@ -18,7 +18,7 @@ export const CA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
   const { choosenViewPath } = req.session;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
-  const lotid = req.session?.lotId;  
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -31,6 +31,7 @@ export const CA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
     error: isJaggaerError,
   };
   try {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Not started');
     const windowAppendData = {
       data: caNextData,
       projectLongName: project_name,

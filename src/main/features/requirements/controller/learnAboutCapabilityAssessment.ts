@@ -13,6 +13,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  */
 export const GET_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  const { choosenViewPath } = req.session;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
   const lotid = req.session?.lotId;
@@ -29,7 +30,14 @@ export const GET_LEARN = async (req: express.Request, res: express.Response) => 
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: caLearnData, lotId, agreementLotName, releatedContent, isPathOne };
+    const windowAppendData = {
+      data: caLearnData,
+      lotId,
+      agreementLotName,
+      choosenViewPath,
+      releatedContent,
+      isPathOne,
+    };
     res.render('ca-learnAboutCapabilityAssessment', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -48,9 +56,10 @@ export const GET_LEARN = async (req: express.Request, res: express.Response) => 
 export const POST_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
+  const { selectedRoute } = req.session;
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-    res.redirect('/ca/type');
+    res.redirect(`/${selectedRoute.toLowerCase()}/type`);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -58,7 +67,7 @@ export const POST_LEARN = async (req: express.Request, res: express.Response) =>
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Post failed - CA learn page',
+      'Journey service - Post failed - learn page',
       true,
     );
   }

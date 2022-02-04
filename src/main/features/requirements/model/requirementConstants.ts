@@ -72,6 +72,8 @@ export enum REQUIREMENT_PATHS {
   CA_REQUIREMENT_TASK_LIST = '/ca/task-list',
   CA_GET_LEARN = '/ca/learn-about-capability-assessment',
   CA_POST_LEARN = '/ca/learn-about-capability-assessment',
+  DA_GET_LEARN = '/da/learn-about-capability-assessment',
+  DA_POST_LEARN = '/da/learn-about-capability-assessment',
   GET_LEARN = '/ca/learnabout-capability-assessment',
   POST_LEARN = '/ca/learnabout-capability-assessment',
   CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
