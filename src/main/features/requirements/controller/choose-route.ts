@@ -59,7 +59,7 @@ function updateRadioButtonOptions(
           if (types.find(element => element == 'FC')) {
             updatedOptions.form.radioOptions.items[i].remove = 'false';
           }
-          if (types.find(element => element == 'DA')) {
+          if (types.find(element => element == 'DAA')) {
             if (
               updatedOptions.form.radioOptions.items[i].value === '2-stage' ||
               updatedOptions.form.radioOptions.items[i].value === 'award'
