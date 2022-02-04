@@ -28,8 +28,8 @@ $(document).ready(function () {
         "txt": "text/plain",
         "xls": "application/vnd.ms-excel",
         "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-        "xml": "application/xml", 
-        "zip": "application/zip"
+        "xml": "text/xml", 
+        "zip": "application/x-zip-compressed"
     } 
     
 
@@ -49,6 +49,7 @@ $(document).ready(function () {
         const ErrorCheckArray = [];
 
         for(const file of FileList){
+            console.log(file)
 
             const checkFileValidMimeType = allValidMimeTypes.filter(mimeType => mimeType === file.type).length > 0;
 
