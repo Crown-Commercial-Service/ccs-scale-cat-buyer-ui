@@ -57,9 +57,11 @@ export const POST_LEARN = async (req: express.Request, res: express.Response) =>
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
   const { selectedRoute } = req.session;
+  let fca_route = '';
+  if (selectedRoute === 'FCA') fca_route = 'CA';
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-    res.redirect(`/${selectedRoute.toLowerCase()}/type`);
+    res.redirect(`/${fca_route.toLowerCase()}/type`);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
