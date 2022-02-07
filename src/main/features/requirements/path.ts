@@ -161,6 +161,17 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_NAME_PROJECT,
   );
 
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_LEARN_ASSESSMENT_BASES,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.CA_GET_LEARN_ASSESSMENT_BASES,
+  );
+
   //@GET '/rfp/add-collaborators'
   app.get(
     REQUIREMENT_PATHS.RFP_GET_ADD_COLLABORATOR,
@@ -444,6 +455,12 @@ export default function (app: Application): void {
 
   //@POST '/ca/learn-about-capability-assessment'
   app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
+
+  app.post(
+    REQUIREMENT_PATHS.CA_POST_LEARN_ASSESSMENT_BASES,
+    AUTH,
+    REQUIREMENT_CONTROLLER.CA_POST_LEARN_ASSESSMENT_BASES,
+  );
 
   //@POST '/da/learn-about-capability-assessment'
   app.post(REQUIREMENT_PATHS.DA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.DA_POST_LEARN);
