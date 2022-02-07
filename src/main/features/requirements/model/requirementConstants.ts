@@ -100,6 +100,7 @@ export enum REQUIREMENT_PATHS {
   CA_GET_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
   CA_POST_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
 
+
   CA_GET_SERVICE_CAPABILITIES = '/ca/service-capabilities',
   CA_POST_SERVICE_CAPABILITIES = '/ca/service-capabilities',
 
