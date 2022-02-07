@@ -30,6 +30,7 @@ export class PreMarketEngagementMiddleware {
       const retrievePreMarketPromise = TenderApi.Instance(SESSION_ID).put(baseURL, _body);
       retrievePreMarketPromise
         .then(data => {
+          req.session.currentEvent = data.data;
           const currentProcNum = procurements.findIndex(
             (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,
           );
