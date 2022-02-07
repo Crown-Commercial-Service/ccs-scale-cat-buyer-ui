@@ -23,7 +23,9 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     project_name,
     isError,
     errorText,
+    currentEvent
   } = req.session;
+  const {assessmentId} = currentEvent;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -36,7 +38,35 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { ...caResourcesVetting, lotId, agreementLotName, releatedContent, isError, errorText };
+  
+
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+    const ALL_ASSESSTMENTS  = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+    const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
+    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id']
+
+    const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
+    const CAPACITY_DATA  = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+    const CAPACITY_DATASET = CAPACITY_DATA.data;
+
+    const UNIQUEJOBSOPTIONS = CAPACITY_DATASET.map(aField => aField.options).flat().map(JOBDESGINATION => {
+      const {name, groups} = JOBDESGINATION;
+      const REFORMEDDATA = groups.map(data => {
+        const REFORMEDOBJECT = {...data, GroupName: name};
+        return REFORMEDOBJECT;
+      })
+      return REFORMEDDATA;
+    }).flat();
+    const UNIQUEFIELDNAME = [...new Set(UNIQUEJOBSOPTIONS.map(designation => designation.name))];
+    const UNIQUESORTEDDESINGATIONS = UNIQUEFIELDNAME.map(designation => {
+      const JOB_RELATED_TO_DESIGNATION = UNIQUEJOBSOPTIONS.filter(jobRole => jobRole.name === designation);
+      return JOB_RELATED_TO_DESIGNATION
+    }) 
+  
+    const windowAppendData = { ...caResourcesVetting, lotId, agreementLotName, releatedContent, isError, errorText ,
+    designations: UNIQUESORTEDDESINGATIONS
+    };
+
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
