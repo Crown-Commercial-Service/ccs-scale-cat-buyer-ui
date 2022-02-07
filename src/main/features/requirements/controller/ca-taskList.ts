@@ -65,6 +65,9 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'FCA', agreement_id, projectId, eventId);
     const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
+    const assessmentURL = '/assessments';
+    const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
+    req.session.dimensions.push(...assessments);
     const externalToolIdURL = `/assessments/${currentEvent.assessmentId}`;
     const externalToolId = await TenderApi.Instance(SESSION_ID).get(externalToolIdURL);
     const dimensionsURL = `/assessments/tools/${externalToolId.data['external-tool-id']}/dimensions`;

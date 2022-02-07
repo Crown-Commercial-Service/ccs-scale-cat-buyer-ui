@@ -81,6 +81,8 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         req.session['caSelectedRoute'] = '';
         req.session['fcSelectedRoute'] = '';
         req.session['dimensions'] = [];
+        req.session['assessments'] = [];
+
         next();
       } else {
         logger.info('User redirected to logout');
