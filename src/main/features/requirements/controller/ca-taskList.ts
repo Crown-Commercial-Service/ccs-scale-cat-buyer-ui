@@ -68,9 +68,8 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     const externalToolIdURL = `/assessments/${currentEvent.assessmentId}`;
     const externalToolId = await TenderApi.Instance(SESSION_ID).get(externalToolIdURL);
     const dimensionsURL = `/assessments/tools/${externalToolId.data['external-tool-id']}/dimensions`;
-    const { data } = await TenderApi.Instance(SESSION_ID).get(dimensionsURL);
-    const dimensions = data;
-    req.session.dimensions.push(dimensions);
+    const { data: dimensions } = await TenderApi.Instance(SESSION_ID).get(dimensionsURL);
+    req.session.dimensions.push(...dimensions);
     res.render('ca-taskList', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
