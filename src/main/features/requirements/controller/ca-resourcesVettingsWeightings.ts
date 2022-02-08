@@ -70,10 +70,10 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       }
     })
     
-    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(c => {
-      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter(item => item.name === c);
+    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(cursor => {
+      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter(item => item.name === cursor);
       return {
-        "job-category": c,
+        "job-category": cursor,
         data : ELEMENT_IN_UNIQUEFIELDNAME
       }
     })
@@ -88,14 +88,38 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       }
     })
 
+    const UNIQUEJOBDESIGNATIONS = UNIQUEELEMENTS_FIELDNAME.map(designation => {
+      const jobCategory = designation['job-category'];
+      const {data} = designation;
+      const uniqueElements = [...new Set(data.map(designation => designation.designation))]
+      return uniqueElements;
+    }).flat();
+
+    const UNIQUE_JOB_IDENTIFIER = UNIQUEELEMENTS_FIELDNAME.map(element => {
+      const {data} = element;
+      const JobCategory = element['job-category'];
+      let JOBSTORAGE = [];
+      for(const JOB of UNIQUEJOBDESIGNATIONS){
+      const ElementFinder = data.filter(data => data.designation === JOB)[0];
+        JOBSTORAGE.push(ElementFinder)
+      }
+      JOBSTORAGE = JOBSTORAGE.filter(items => items != null)
+      return {
+        "job-category": JobCategory,
+        data : JOBSTORAGE
+      };
+    }) 
+
+    
+
    
     const windowAppendData = { ...caResourcesVetting, lotId, agreementLotName, releatedContent, isError, errorText ,
-    designations: UNIQUEELEMENTS_FIELDNAME,
+    designations: UNIQUE_JOB_IDENTIFIER,
     TableItems : ITEMLIST
     };
 
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-   // res.json(UNIQUEELEMENTS_FIELDNAME)
+   // res.json(UNIQUE_JOB_IDENTIFIER)
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
