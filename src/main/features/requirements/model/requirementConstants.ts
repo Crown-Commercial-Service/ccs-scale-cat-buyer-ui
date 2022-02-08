@@ -85,6 +85,10 @@ export enum REQUIREMENT_PATHS {
 
   CA_GET_NEXTSTEPS = '/ca/next-steps',
   CA_POST_NEXTSTEPS = '/ca/next-steps',
+  CA_GET_TEAM_SCALE = '/ca/team-scale',
+  CA_POST_TEAM_SCALE = '/ca/team-scale',
+  CA_GET_WHERE_WORK_DONE = '/ca/get-work-done',
+  CA_POST_WHERE_WORK_DONE = '/ca/get-work-done',
   CA_GET_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
   CA_POST_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
   CA_GET_LEARN_ASSESSMENT_BASES = '/ca/learn-assessments-bases',
@@ -99,7 +103,6 @@ export enum REQUIREMENT_PATHS {
 
   CA_GET_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
   CA_POST_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
-
 
   CA_GET_SERVICE_CAPABILITIES = '/ca/service-capabilities',
   CA_POST_SERVICE_CAPABILITIES = '/ca/service-capabilities',
