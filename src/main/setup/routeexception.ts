@@ -21,8 +21,19 @@ const routeExceptionHandler = (app: express.Express, NotFoundError: any, logger:
             captureUnhandledRejections: true,
             environment: process.env.ROLLBAR_ENVIRONMENT,
           })
-          const LogMessage = { AppName: 'CaT frontend', baseURL: req.hostname,type: 'info', path: req.url, statusCode: '404', message: "User accessed page '"+ req.url +"' which is not exist" };
-          rollbar.info("User accessed page which is not exist", LogMessage)
+          const LogMessage = { 
+            AppName: 'CaT frontend', 
+            host: req.headers.host, 
+            browser: req.headers["sec-ch-ua"],
+            mobile: req.headers["sec-ch-ua-mobile"],
+            platform: req.headers["sec-ch-ua-platform"],
+            baseURL: req.hostname,
+            type: 'info', 
+            path: req.url, 
+            statusCode: '404', 
+            message: "User accessed page '"+ req.url +"' which is not exist" 
+          };
+          rollbar.info("User accessed page which is not exist", LogMessage, req)
         }
 
         res.redirect('/404')
