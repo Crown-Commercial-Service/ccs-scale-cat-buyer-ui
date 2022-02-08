@@ -1,4 +1,5 @@
 import * as express from 'express';
+import Rollbar from 'rollbar';
 
 /**
  * @ErrorHandler
@@ -12,6 +13,17 @@ const routeExceptionHandler = (app: express.Express, NotFoundError: any, logger:
     app.use((req, res) => {
         const notFoundError = new NotFoundError;
         res.status(notFoundError.statusCode);
+        
+        if (process.env.ROLLBAR_ACCESS_TOKEN) {
+          const rollbar = new Rollbar({
+            accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+            captureUncaught: true,
+            captureUnhandledRejections: true,
+            environment: process.env.ROLLBAR_HOST,
+          })
+          rollbar.info("User accessed page which is not exist", req.originalUrl)
+        }
+
         res.redirect('/404')
       });
 
