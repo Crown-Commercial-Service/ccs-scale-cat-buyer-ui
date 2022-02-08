@@ -1,6 +1,6 @@
 //@ts-nocheck
-import * as express from 'express'
-import * as chooseRouteData from '../../../resources/content/requirements/daTaskList-B1.json'
+import * as express from 'express';
+import * as chooseRouteData from '../../../resources/content/requirements/daTaskList-B1.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -10,19 +10,18 @@ import * as B2_Template from '../../../resources/content/requirements/daTaskList
 import * as B3_Template from '../../../resources/content/requirements/daTaskList-B3.json';
 import * as B4_Template from '../../../resources/content/requirements/daTaskList-B4.json';
 
-
 /**
- * 
- * @Rediect 
+ *
+ * @Rediect
  * @endpoint '/oauth/login
- * @param req 
- * @param res 
+ * @param req
+ * @param res
  */
 export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const {path} = req.query;
-  const { eventId } = req.session;
-  const releatedContent = req.session.releatedContent
+  const { path } = req.query;
+  const { eventId, currentEvent } = req.session;
+  const releatedContent = req.session.releatedContent;
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
   const project_name = req.session.project_name;
@@ -30,44 +29,113 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const { isJaggaerError } = req.session;
+  const { assessmentId } = currentEvent;
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
-  let ViewLoadedTemplateData ;
+  let ViewLoadedTemplateData;
 
-
-  switch(path){
-
+  switch (path) {
     case 'B1':
       ViewLoadedTemplateData = B1_Template;
-    break;
+      break;
 
     case 'B2':
       ViewLoadedTemplateData = B2_Template;
-    break;
+      break;
 
     case 'B3':
       ViewLoadedTemplateData = B3_Template;
-    break;
+      break;
 
     case 'B4':
       ViewLoadedTemplateData = B4_Template;
-    break;
+      break;
 
-    default: res.redirect('error/404')
-
+    default:
+      res.redirect('error/404');
   }
 
-
-
-  const appendData = { data: ViewLoadedTemplateData, releatedContent, error: isJaggaerError  }
+  const appendData = { data: ViewLoadedTemplateData, releatedContent, error: isJaggaerError };
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
 
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+    const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+    const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
+    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
+
+    const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
+    const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+    const CAPACITY_DATASET = CAPACITY_DATA.data;
+
+    const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
+      const { name, weightingRange, options } = acapacity;
+      const AddedPropsToOptions = options.map(anOpt => {
+        return {
+          ...anOpt,
+          Weightagename: name,
+          Weightage: weightingRange,
+        };
+      });
+      return AddedPropsToOptions;
+    }).flat();
+
+    const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity.map(capacity => {
+      return {
+        designation: capacity.name,
+        ...capacity?.groups?.[0],
+        Weightagename: capacity.Weightagename,
+        Weightage: capacity.Weightage,
+      };
+    });
+
+    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(cursor => {
+      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter(item => item.name === cursor);
+      return {
+        'job-category': cursor,
+        data: ELEMENT_IN_UNIQUEFIELDNAME,
+      };
+    });
+
+    const ITEMLIST = UNIQUEELEMENTS_FIELDNAME.map((designation, index) => {
+      const weightage = designation.data?.[0]?.Weightage;
+      return {
+        url: `#section${index + 1}`,
+        text: designation['job-category'],
+        subtext: `${weightage.min}% / ${weightage.max}%`,
+      };
+    });
+
+    const UNIQUEJOBDESIGNATIONS = UNIQUEELEMENTS_FIELDNAME.map(designation => {
+      const jobCategory = designation['job-category'];
+      const { data } = designation;
+      const uniqueElements = [...new Set(data.map(designation => designation.designation))];
+      return uniqueElements;
+    }).flat();
+
+    const UNIQUE_JOB_IDENTIFIER = UNIQUEELEMENTS_FIELDNAME.map(element => {
+      const { data } = element;
+      const JobCategory = element['job-category'];
+      let JOBSTORAGE = [];
+      for (const JOB of UNIQUEJOBDESIGNATIONS) {
+        const ElementFinder = data.filter(data => data.designation === JOB)[0];
+        JOBSTORAGE.push(ElementFinder);
+      }
+      JOBSTORAGE = JOBSTORAGE.filter(items => items != null);
+      return {
+        'job-category': JobCategory,
+        data: JOBSTORAGE,
+      };
+    });
+    req.session.designations.push(...UNIQUE_JOB_IDENTIFIER);
+    req.session.tableItems.push(...ITEMLIST);
+    req.session.dimensions.push(...CAPACITY_DATASET);
+
     res.render('rfp-taskList', appendData);
-  }catch (error) {
+  } catch (error) {
     LoggTracer.errorLogger(
       res,
       error,
@@ -78,6 +146,4 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
       true,
     );
   }
-
-}
-
+};

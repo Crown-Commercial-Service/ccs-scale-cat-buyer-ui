@@ -80,8 +80,9 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         req.session['selectedRoute'] = '';
         req.session['caSelectedRoute'] = '';
         req.session['fcSelectedRoute'] = '';
+        req.session['designations'] = [];
+        req.session['tableItems'] = [];
         req.session['dimensions'] = [];
-        req.session['assessments'] = [];
 
         next();
       } else {
