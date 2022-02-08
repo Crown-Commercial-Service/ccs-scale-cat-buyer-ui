@@ -91,7 +91,7 @@
         },
         {
           "Task": 6,
-          "link": "#",
+          "link": "/ca/team-scale",
           "title": "[ How well your team will scale ]",
           "required": "mandatory",
           "status": "Cannot start yet"

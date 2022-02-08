@@ -41,7 +41,7 @@ for(const selector of totalElementSelectors){
             elementSelectorClicked.hide();
             elementSelector.fadeIn();
         }
-        ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'this milestone needs to be set after the previous milestone date');
+        ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
     });
 }
 

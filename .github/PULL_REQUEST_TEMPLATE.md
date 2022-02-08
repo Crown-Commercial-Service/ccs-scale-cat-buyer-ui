@@ -11,7 +11,7 @@
 - [ ] Unit tests added where applicable
 - [ ] Route tests added for new pages
 - [ ] New pages included in a11y tests
-- [ ] Check and send page updated
+- [ ] Review and publish page updated
 - [ ] UI changes look good on mobile
 
 ### Developer self-QA run statement

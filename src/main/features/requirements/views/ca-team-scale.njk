@@ -27,7 +27,7 @@
                 },
                 {
                 "text": "Write and publish your requirements",
-                "href": "/da/task-list?path="+ choosenViewPath
+                "href": "/ca/task-list?path="+ choosenViewPath
                 },
                 {
                 "text": "How well can the team scale?",
@@ -56,14 +56,14 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-                <p class="govuk-body">{{data.subtitle}}</p>
+                <p class="govuk-body">{{data.subtitle}}</p>  
                 <p class="govuk-body">{{ data.form.question }}</p>
-                <form id="ccs_ca_type_form" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/da/team-scale" method="POST">
+                <form id="ccs_ca_type_form" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/ca/team-scale" method="POST">
                     <div class="govuk-form-group">
                         <div class="govuk-radios">
                             <br>
                             {% set radioArray = [] %}
-                            {% for i in range(0, data.form.radioOptions.items | length) -%}
+                            {% for i in range(0, data.form.radioOptions.items | length) %}
                             {% if i == 0%}
                                 <div class="govuk-radios__item">
                                     {%if data.form.radioOptions.items[i].selected === true %}
@@ -109,7 +109,7 @@
                         {{ CCSButton({
                             text: "Save and continue"
                         }) }}
-                        {% set returnLink = "/da/task-list?path="+choosenViewPath %}
+                        {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
                         <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
                     </div>
                 </form>

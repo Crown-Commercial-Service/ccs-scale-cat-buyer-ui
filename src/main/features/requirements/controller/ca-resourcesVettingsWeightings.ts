@@ -23,7 +23,9 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     project_name,
     isError,
     errorText,
+    currentEvent
   } = req.session;
+  const {assessmentId} = currentEvent;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -36,8 +38,64 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { ...caResourcesVetting, lotId, agreementLotName, releatedContent, isError, errorText };
+  
+
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+    const ALL_ASSESSTMENTS  = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+    const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
+    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
+
+    const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
+    const CAPACITY_DATA  = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+    const CAPACITY_DATASET = CAPACITY_DATA.data;
+
+    const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
+      const {name, weightingRange, options} = acapacity;
+      const AddedPropsToOptions = options.map(anOpt => {
+        return {
+          ...anOpt,
+          Weightagename: name,
+          Weightage : weightingRange
+        }
+      })
+      return AddedPropsToOptions;
+    }).flat();
+
+    const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity.map(capacity => {
+      return {
+        "designation": capacity.name,
+        ... capacity?.groups?.[0],
+        "Weightagename": capacity.Weightagename,
+        "Weightage": capacity.Weightage
+      }
+    })
+    
+    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(c => {
+      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter(item => item.name === c);
+      return {
+        "job-category": c,
+        data : ELEMENT_IN_UNIQUEFIELDNAME
+      }
+    })
+
+
+    const ITEMLIST = UNIQUEELEMENTS_FIELDNAME.map((designation, index) => {
+      const weightage = designation.data?.[0]?.Weightage;
+      return {
+        "url": `#section${index+1}`,
+        "text": designation['job-category'],
+        "subtext": `${weightage.min}% / ${weightage.max}%`
+      }
+    })
+
+   
+    const windowAppendData = { ...caResourcesVetting, lotId, agreementLotName, releatedContent, isError, errorText ,
+    designations: UNIQUEELEMENTS_FIELDNAME,
+    TableItems : ITEMLIST
+    };
+
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+   // res.json(UNIQUEELEMENTS_FIELDNAME)
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;

@@ -85,8 +85,14 @@ export enum REQUIREMENT_PATHS {
 
   CA_GET_NEXTSTEPS = '/ca/next-steps',
   CA_POST_NEXTSTEPS = '/ca/next-steps',
+  CA_GET_TEAM_SCALE = '/ca/team-scale',
+  CA_POST_TEAM_SCALE = '/ca/team-scale',
+  CA_GET_WHERE_WORK_DONE = '/ca/get-work-done',
+  CA_POST_WHERE_WORK_DONE = '/ca/get-work-done',
   CA_GET_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
   CA_POST_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
+  CA_GET_LEARN_ASSESSMENT_BASES = '/ca/learn-assessments-bases',
+  CA_POST_LEARN_ASSESSMENT_BASES = '/ca/learn-assessments-bases',
 
   DA_GET_TEAM_SCALE = '/da/team-scale',
   DA_POST_TEAM_SCALE = '/da/team-scale',

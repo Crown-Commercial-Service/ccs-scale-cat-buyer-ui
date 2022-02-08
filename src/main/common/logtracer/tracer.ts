@@ -3,8 +3,10 @@ import { LogMessageFormatter } from '../logtracer/logmessageformatter';
 import * as express from 'express';
 import { cookies } from '../cookies/cookies';
 import { ErrorView } from '../../common/shared/error/errorView';
+import Rollbar from 'rollbar';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('logit helper');
+const rollbar_access_token = process.env.ROLLBAR_ACCESS_TOKEN
 
 /**
  * @LogTracer for distribution tracing
@@ -18,7 +20,16 @@ export class LoggTracer {
    * @param res
    */
   static errorTracer = async (errorLog: LogMessageFormatter, res: express.Response): Promise<void> => {
-    let LogMessage = { AppName: 'CaT frontend', type: 'error', errordetails: errorLog };
+    const LogMessage = { AppName: 'CaT frontend', type: 'error', errordetails: errorLog };
+    if (rollbar_access_token) {
+      const rollbar = new Rollbar({
+        accessToken: rollbar_access_token,
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+        environment: process.env.ROLLBAR_HOST,
+      })
+      rollbar.error(LogMessage, LogMessage.type + " : " + LogMessage.errordetails.errorRoot)
+    }
     await LoggerInstance.Instance.post('', LogMessage);
     if (!isNaN(errorLog.statusCode) && errorLog.statusCode == 401) {
       res.clearCookie(cookies.sessionID);
@@ -32,7 +43,16 @@ export class LoggTracer {
    * @param errorLog
    */
   static errorTracerWithoutRedirect = async (errorLog: any): Promise<void> => {
-    let LogMessage = { AppName: 'CaT frontend', type: 'error', errordetails: errorLog };
+    const LogMessage = { AppName: 'CaT frontend', type: 'error', errordetails: errorLog };
+    if (rollbar_access_token) {
+      const rollbar = new Rollbar({
+        accessToken: rollbar_access_token,
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+        environment: process.env.ROLLBAR_HOST,
+      })
+      rollbar.error(LogMessage, LogMessage.type + " : " + LogMessage.errordetails.errorRoot)
+    }
     await LoggerInstance.Instance.post('', LogMessage);
   };
 

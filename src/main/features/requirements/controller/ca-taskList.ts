@@ -14,8 +14,17 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   const { SESSION_ID } = req.cookies;
   const { path } = req.query;
 
-  const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
-    req.session;
+  const {
+    lotId,
+    agreementLotName,
+    agreementName,
+    eventId,
+    projectId,
+    agreement_id,
+    releatedContent,
+    project_name,
+    currentEvent,
+  } = req.session;
   const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -53,12 +62,17 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   }
 
   try {
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/71`, 'Optional'); //todo: remove later
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'FCA', agreement_id, projectId, eventId);
     const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
-
+    const assessmentURL = '/assessments';
+    const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
+    req.session.dimensions.push(...assessments);
+    const externalToolIdURL = `/assessments/${currentEvent.assessmentId}`;
+    const externalToolId = await TenderApi.Instance(SESSION_ID).get(externalToolIdURL);
+    const dimensionsURL = `/assessments/tools/${externalToolId.data['external-tool-id']}/dimensions`;
+    const { data: dimensions } = await TenderApi.Instance(SESSION_ID).get(dimensionsURL);
+    req.session.dimensions.push(...dimensions);
     res.render('ca-taskList', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
