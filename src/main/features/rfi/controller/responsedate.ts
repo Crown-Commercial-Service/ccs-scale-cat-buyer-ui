@@ -113,28 +113,28 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
     case 'Question 2':
       if (questionNewDate < timeline.publish) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'clarification_period_end';
       break;
     case 'Question 3':
       if (questionNewDate < timeline.clarificationPeriodEnd) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'deadline_period_for_clarification_period';
       break;
     case 'Question 4':
       if (questionNewDate < timeline.publishResponsesClarificationQuestions) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
       break;
     case 'Question 5':
       if (questionNewDate < timeline.supplierSubmitResponse) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'supplier_dealine_for_clarification_period';
       break;

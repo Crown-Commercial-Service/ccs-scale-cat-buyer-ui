@@ -164,12 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   if(isError){
-      $('#event-name-error-date').html('This milestone needs to be set after the previous milestone date');
+      $('#event-name-error-date').html('You can not set a date and time that is earlier than the previous milestone in the timeline');
       DaySelector.addClass('govuk-form-group--error');
       MonthSelector.addClass('govuk-form-group--error');
       YearSelector.addClass('govuk-form-group--error');
       $('.durations').addClass('govuk-form-group--error');
-      const errorStore = [["eoi_clarification_date", "This milestone needs to be set after the previous milestone date"]]
+      const errorStore = [["eoi_clarification_date", "You can not set a date and time that is earlier than the previous milestone in the timeline"]]
 
       ccsZPresentErrorSummary(errorStore);
   }
