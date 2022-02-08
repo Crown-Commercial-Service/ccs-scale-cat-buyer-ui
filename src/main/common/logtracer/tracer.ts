@@ -26,6 +26,7 @@ export class LoggTracer {
         accessToken: rollbar_access_token,
         captureUncaught: true,
         captureUnhandledRejections: true,
+        environment: process.env.ROLLBAR_HOST,
       })
       rollbar.error(LogMessage, LogMessage.type + " : " + LogMessage.errordetails.errorRoot)
     }
@@ -48,6 +49,7 @@ export class LoggTracer {
         accessToken: rollbar_access_token,
         captureUncaught: true,
         captureUnhandledRejections: true,
+        environment: process.env.ROLLBAR_HOST,
       })
       rollbar.error(LogMessage, LogMessage.type + " : " + LogMessage.errordetails.errorRoot)
     }

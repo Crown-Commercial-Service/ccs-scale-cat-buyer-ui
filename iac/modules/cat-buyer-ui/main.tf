@@ -98,6 +98,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     CONCLAVE_WRAPPER_API_KEY : data.aws_ssm_parameter.conclave_wrapper_api_key.value
     GOOGLE_TAG_MANAGER_ID : data.aws_ssm_parameter.google_tag_manager_id.value
     GOOGLE_SITE_TAG_ID : data.aws_ssm_parameter.google_site_tag_id.value
+    ROLLBAR_HOST : var.environment
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
