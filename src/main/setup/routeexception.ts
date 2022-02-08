@@ -19,7 +19,7 @@ const routeExceptionHandler = (app: express.Express, NotFoundError: any, logger:
             accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
             captureUncaught: true,
             captureUnhandledRejections: true,
-            environment: process.env.ROLLBAR_HOST,
+            environment: process.env.ROLLBAR_ENVIRONMENT,
           })
           rollbar.info("User accessed page which is not exist", req.originalUrl)
         }
