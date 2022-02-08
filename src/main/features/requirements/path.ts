@@ -274,12 +274,25 @@ export default function (app: Application): void {
   );
 
   app.get(
+    REQUIREMENT_PATHS.CA_GET_WHERE_WORK_DONE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_WHERE_WORK_DONE,
+  );
+
+  app.get(
     REQUIREMENT_PATHS.DA_GET_WHERE_WORK_DONE,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.DA_GET_WHERE_WORK_DONE,
   );
 
-  // /ca/team-scale
+  // @GET /ca/team-scale
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_TEAM_SCALE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_TEAM_SCALE,
+  );
+
+  // @GET /da/team-scale
   app.get(
     REQUIREMENT_PATHS.DA_GET_TEAM_SCALE,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -488,9 +501,12 @@ export default function (app: Application): void {
   // /ca/type
   app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE);
   //@POST '/ca/team-scale'
-  app.post(REQUIREMENT_PATHS.DA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.DA_POST_TEAM_SCALE);
+  app.post(REQUIREMENT_PATHS.CA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.CA_POST_TEAM_SCALE);
 
   app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE);
+
+  app.post(REQUIREMENT_PATHS.CA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_WHERE_WORK_DONE);
+
   app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_WHERE_WORK_DONE);
 
   app.post(
@@ -527,7 +543,7 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_OFFLINE_JOURNEY_PAGE,
   );
 
-  //@POST '/ca/team-scale'
+  //@POST '/da/team-scale'
   app.post(REQUIREMENT_PATHS.DA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.DA_POST_TEAM_SCALE);
 
   //@POST "rfp/suppliers"
