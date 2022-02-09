@@ -15,6 +15,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
   const { SESSION_ID } = req.cookies;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -23,11 +24,34 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: caWeightingData, lotId, agreementLotName, releatedContent };
+    const windowAppendData = {
+      data: caWeightingData,
+      dimensions: [
+        {
+          id: 1,
+          title: 'Capacity',
+          description: 'description for this dimenstion',
+          value: 20,
+          minRange: 10,
+          maxRange: 90,
+        },
+        {
+          id: 2,
+          title: 'Scalability',
+          description: 'description for this dimenstion',
+          value: 0,
+          minRange: 5,
+          maxRange: 95,
+        },
+      ],
+      lotId,
+      agreementLotName,
+      releatedContent,
+    };
     res.render('ca-enterYourWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -38,6 +62,26 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       null,
       TokenDecoder.decoder(SESSION_ID),
       'Journey service - Get failed - CA weighting page',
+      true,
+    );
+  }
+};
+
+export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies;
+  const { projectId } = req.session;
+  try {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
+    res.redirect('/ca/accept-subcontractors');
+  } catch (err) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'CA weightings page',
       true,
     );
   }

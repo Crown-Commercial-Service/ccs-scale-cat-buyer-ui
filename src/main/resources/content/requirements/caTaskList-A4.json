@@ -84,14 +84,14 @@
         },
         {
           "Task": 5,
-          "link": "#",
+          "link": "/ca/service-capabilities",
           "title": "[ Select your service capabilities ]",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
           "Task": 6,
-          "link": "#",
+          "link": "/ca/team-scale",
           "title": "[ How well your team will scale ]",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -103,7 +103,7 @@
           "required": "mandatory",
           "status": "Cannot start yet"
         },
-       
+
         {
           "Task": 8,
           "link": "#",
@@ -119,10 +119,9 @@
           "status": "Cannot start yet"
         },
 
-
         {
           "Task": 10,
-          "link": "#",
+          "link": "/ca/next-steps",
           "title": "[ Next steps ]",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -146,7 +145,6 @@
           "required": "optional",
           "link": "/ca/learn-about-capability-assessment",
           "status": "Cannot start yet"
-         
         },
 
         {
@@ -170,7 +168,6 @@
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
-         
         }
       ]
     },
@@ -186,7 +183,6 @@
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
-         
         },
 
         {

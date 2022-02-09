@@ -7,12 +7,12 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 
 export const DA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { eventId, releatedContent, isError, errorText } = req.session;
+  const { projectId, releatedContent, isError, errorText } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
   const appendData = { ...dataWWD, releatedContent, isError, errorText };
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('da-whereWorkDone', appendData);
   } catch (error) {
     console.log(error);
@@ -23,7 +23,7 @@ export const DA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - update the status failed - RFP TaskList Page',
+      'update the status failed - RFP TaskList Page',
       true,
     );
   }
@@ -46,7 +46,7 @@ function checkErrors(total) {
 
 export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId, releatedContent } = req.session;
+  const { projectId, releatedContent } = req.session;
   const { da_weight: weights } = req['body'];
   const total = weights.reduce((accum, elem) => (accum += parseInt(elem)), 0);
   const { isError, errorText } = checkErrors(total);
@@ -56,7 +56,7 @@ export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
     res.redirect('/da/get-work-done');
   } else {
     try {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
       res.redirect('/da/task-list');
     } catch (error) {
       console.log(error);

@@ -67,7 +67,8 @@
                     {{ CCSButton({
                     text: "Save and continue"
                 }) }}
-                    <a href="{{data.form.backJump2.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump2.title}}</a>
+                {% set returnLink = "/ca/task-list?path=" + choosenViewPath %}
+                <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump2.title}}</a>
                 </div>
             </form>
         {% endif %}

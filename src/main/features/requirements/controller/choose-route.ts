@@ -50,13 +50,16 @@ function updateRadioButtonOptions(
             if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
               // updatedOptions.form.radioOptions.items[i].disabled = "true"
             } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
-              //updatedOptions.form.radioOptions.items[i].remove = 'true';
+              updatedOptions.form.radioOptions.items[i].remove = 'true';
             }
           }
         }
       } else {
         for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
-          if (types.find(element => element == 'DA')) {
+          if (types.find(element => element == 'FC')) {
+            updatedOptions.form.radioOptions.items[i].remove = 'false';
+          }
+          if (types.find(element => element == 'DAA')) {
             if (
               updatedOptions.form.radioOptions.items[i].value === '2-stage' ||
               updatedOptions.form.radioOptions.items[i].value === 'award'
@@ -116,13 +119,13 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           const newAddress = REQUIREMENT_PATHS.GET_LEARN;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('two stage further competition selected');
-          req.session.selectedRoute = 'CA';
+          req.session.selectedRoute = 'FCA';
           res.redirect(newAddress);
           break;
 
         case 'award':
           // eslint-disable-next-line no-case-declarations
-          const nextAddress = REQUIREMENT_PATHS.DA_TYPE;
+          const nextAddress = REQUIREMENT_PATHS.GET_LEARN;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('DA selected');
           req.session.selectedRoute = 'DA';

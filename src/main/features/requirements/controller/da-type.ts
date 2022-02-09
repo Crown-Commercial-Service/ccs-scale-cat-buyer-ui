@@ -21,14 +21,20 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
   const project_name = req.session.project_name;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
-  const { isJaggaerError } = req.session;
-  req.session['isJaggaerError'] = false;
+  const { isError } = req.session;
+    let errorText = "Select an option";
+  if( req.session['isOnlyOneSelected'] == true)
+  {
+      errorText = "Please select an option from each section";
+  }
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
-  const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError  }
+  const appendData = { data: chooseRouteData, releatedContent, error: isError, errorText: errorText  }
+  req.session['isError'] = false;
+  req.session['isOnlyOneSelected'] = false;
   res.render('da-type', appendData);
 }
 
-//POST 'rfp/type'
+//POST 'da/type'
 /**
  *
  * @param req
@@ -38,7 +44,7 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
 
  export const DA_POST_TYPE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
- try {
+  try {
   const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_fc_rfp_type');
 
    const { group1, group2 } = filtered_body_content_removed_fc_key;
@@ -91,8 +97,15 @@ export const DA_REQUIREMENT_TYPE = (req: express.Request, res: express.Response)
         default:
           res.redirect('/404');
       }
-  } else {
-    req.session['isJaggaerError'] = true;
+  } 
+  else if(group1 || group2){
+    req.session['isOnlyOneSelected'] = true;
+    req.session['isError'] = true;
+    res.redirect(REQUIREMENT_PATHS.DA_TYPE);
+  }
+ else
+  {
+    req.session['isError'] = true;
     res.redirect(REQUIREMENT_PATHS.DA_TYPE);
   }
 

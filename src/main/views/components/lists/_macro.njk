@@ -31,6 +31,7 @@
                 <li class="ons-list__item{% if item.listClasses is defined and item.listClasses %} {{ item.listClasses }}{% endif %}"{% if item.current is defined and item.current %} aria-current="true"{% endif %}>
 
                     {% set itemText = item.text %}
+                     {% set itemSubText = item.subtext %}
 
                     {% if params.itemsList[0] is defined and item.iconType is defined and item.iconType %}
                         {% set iconType = item.iconType if item.iconType else '' %}
@@ -42,7 +43,9 @@
                     {% elif item.title is defined and item.title %}
                         {% set itemText = item.title %}
                     {% endif %}
-
+                    {% if item.navigationSubTitle is defined and item.navigationSubTitle %}
+                        {% set itemSubText = item.navigationSubTitle %}
+                    {% endif %}
                     {%- if item.index is defined and item.index or item.prefix is defined and item.prefix or (params.iconPosition is defined and params.iconPosition == 'before') -%}
                         <span class="ons-list__prefix"{% if listEl != 'ol' %} aria-hidden="true"{% endif %}>
                         {%- if item.prefix is defined and item.prefix -%}
@@ -66,17 +69,20 @@
                             {{
                                 onsExternalLink({
                                     "url": item.url,
-                                    "linkText": itemText
+                                    "linkText": itemText,
+                                    "linkSubText": itemSubText
                                 })
                             }}
                         {%- else -%}
                             <a href="{{ item.url }}" class="ons-list__link {% if item.variant == 'inPageLink' %}ons-js-inpagelink {% endif %} {{ item.classes }}"{% if item.index is defined and item.index %} data-qa="list-item-{{ loop.index }}"{% endif %}{% if item.target is defined and item.target %} target="{{ item.target }}"{% endif %}{% if item.rel is defined and item.rel %} rel="{{ item.rel }}"{% endif %}>
                                 {%- if item.prefix is defined and item.prefix -%}<span class="ons-u-vh">{{- item.prefix -}}</span>{%- endif -%} {{- itemText | safe -}}
                                 {%- if item.target is defined and item.target == "_blank" -%}<span class="ons-u-vh">{{- item.screenreaderMessage | default("this link will open in a new tab") -}}</span>{%- endif -%}
+                           <div class="table-item-subtext">{{- itemSubText | safe -}}</div>
                             </a>
+                            
                         {%- endif -%}
                     {%- else -%}
-                        {{- itemText | safe -}}
+                        {{- itemText | safe -}}{{- itemSubText | safe -}}
                     {%- endif -%}
                     {%- if item.suffix is defined and item.suffix or (params.iconPosition is defined and params.iconPosition == 'after') -%}
                         <span class="ons-list__suffix"{% if listEl != 'ol' %} aria-hidden="true"{% endif %}>

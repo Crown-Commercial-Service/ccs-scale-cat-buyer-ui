@@ -49,7 +49,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
-    const promptSplit = promptData.split(splitOn);
+    const promptSplit = promptData?.split(splitOn);
     const nonOCDSList = [];
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
       const questionNonOCDS = {
@@ -68,15 +68,15 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       } else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer == false) {
         return 'ccs_rfp_who_form';
       } else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true) {
-        return 'ccs_rfp_acronyms_form';
+        return 'ccs_rfp_acronyms_for';
       } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == false) {
-        return 'ccs_rfp_about_proj';
+        return '';
       } else if (aSelector.nonOCDS.questionType === 'MultiSelect' && aSelector.nonOCDS.multiAnswer === true) {
         return 'rfp_location';
       } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == true) {
-        return 'ccs_rfp_splterms_form';
+        return '';
       } else if (aSelector.nonOCDS.questionType === 'Monetary' && aSelector.nonOCDS.multiAnswer === false) {
-        return 'rfp_budget_form';
+        return 'rfp_budget_for';
       } else if (
         aSelector.nonOCDS.questionType === 'Duration' ||
         (aSelector.nonOCDS.questionType === 'Date' && aSelector.nonOCDS.multiAnswer == false)
@@ -94,6 +94,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const releatedContent = req.session.releatedContent;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
+    console.log(fetch_dynamic_api_data);
     const { isFieldError } = req.session;
     const data = {
       data: fetch_dynamic_api_data,
@@ -154,7 +155,8 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const { proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'In progress');
+    const { projectId } = req.session;
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);

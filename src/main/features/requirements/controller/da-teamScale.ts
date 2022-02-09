@@ -13,6 +13,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  */
 export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  const { choosenViewPath } = req.session;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
   const agreementId_session = agreement_id;
@@ -27,7 +28,7 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: caTeamScale, lotId, agreementLotName, releatedContent };
+    const windowAppendData = { data: caTeamScale, lotId, agreementLotName, choosenViewPath, releatedContent };
     res.render('da-team-scale', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -37,7 +38,7 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Get failed - CA learn page',
+      'Get failed - DA team scale page',
       true,
     );
   }
@@ -45,10 +46,10 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
 
 export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
-    res.redirect('/ca/enter-your-weightings');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Completed');
+    res.redirect('/da/get-work-done');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -56,7 +57,7 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Post failed - CA learn page',
+      'Post failed - DA team scale page',
       true,
     );
   }

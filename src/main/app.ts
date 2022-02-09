@@ -18,6 +18,8 @@ import { routeExceptionHandler } from './setup/routeexception'
 import { RedisInstanceSetup } from './setup/redis'
 import { fileUploadSetup } from './setup/fileUpload'
 import { URL } from "url";
+var Rollbar = require('rollbar');
+const rollbar = new Rollbar('75b8c889f0fc46a088e5c717bea6aa3c');
 
 app.locals.ENV = env;
 
@@ -44,6 +46,9 @@ new Nunjucks(developmentMode, i18next).enableFor(app);
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
 
+// Use the rollbar error handler to send exceptions to your rollbar account
+app.use(rollbar.errorHandler());
+
 app.use(Express.accessLogger());
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(express.json())
@@ -57,7 +62,35 @@ app.use((req, res, next) => {
   );
   res.locals.GOOGLE_TAG_MANAGER_ID = process.env.GOOGLE_TAG_MANAGER_ID;
   res.locals.GLOBAL_SITE_TAG_ID = process.env.GOOGLE_SITE_TAG_ID;
-  
+
+
+  switch (process.env.ROLLBAR_HOST) {
+    case 'local': {
+      process.env.ROLLBAR_ENVIRONMENT = 'local'
+      break;
+    }
+    case 'dev': {
+      process.env.ROLLBAR_ENVIRONMENT = 'development'
+      break;
+    }
+    case 'int': {
+      process.env.ROLLBAR_ENVIRONMENT = 'integration'
+      break;
+    }
+    case 'uat': {
+      process.env.ROLLBAR_ENVIRONMENT = 'integration'
+      break;
+    }
+    case 'nft': {
+      process.env.ROLLBAR_ENVIRONMENT = 'sandbox'
+      break;
+    }
+    default: {
+      process.env.ROLLBAR_ENVIRONMENT = 'production'
+      break;
+    }
+  }
+
   // Health check URL values.
   const url = new URL(process.env.CAT_URL);
   process.env.PACKAGES_ENVIRONMENT = url.host;

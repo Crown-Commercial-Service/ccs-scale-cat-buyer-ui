@@ -54,9 +54,9 @@
       <p class="govuk-body">{{data.rfpTitle}}</p>
 
       <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
-        <br>
-        <p class="govuk-body">{{prompt[0] | safe}}</p>
-        <p class="govuk-body">{{prompt[1] | safe}}</p>
+      
+        <p class="govuk-body">{{prompt?[0] | safe}}</p>
+        <p class="govuk-body">{{prompt?[1] | safe}}</p>
 
         {% for requirement in data %}
           {% block value %}
@@ -342,6 +342,44 @@
               {% endif %}
             {% endblock %}
 
+             {% block Percentage%}
+                  {% if (requirement.nonOCDS.questionType === 'Percentage') and (requirement.nonOCDS.multiAnswer === false) %}
+                  <p><b>{{ requirement.OCDS.title  }}</b> </p>
+                  <p> [ Range : X - XX %] </p>
+                  {{ CCSInput({
+                        label: {
+                          text: ""
+                        },
+                        classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                        id: requirement.OCDS.id,
+                        value: requirement.nonOCDS.options[0].value,
+                        name: "percentage",
+                        suffix: {
+                          text: "%"
+                        }
+                      }) }}
+
+                      {% if- (requirement.OCDS.title === 'Social value group') %}
+                       <div>
+                      {{ CCSInsetText({
+                      text: "<b> The Total weighting is : 100 % </b> <br> [ Description, you'll be able to add the specific weightings for your quality assessment base in the next screen ]." | safe
+                    }) }}
+
+                      
+                     </div> 
+                      {%endif%}
+                      {{  CCSInput({
+                        id: "question_id",
+                        name: "question_id",
+                        type: "hidden",
+                        value: requirement.OCDS.id
+                      })
+                      }}
+                   {% endif %}
+                {% endblock %}
+
+
+
             {% block TextSelect%}
               {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
 
@@ -351,7 +389,7 @@
                       id: "rfp_prob_statement_"+requirement.nonOCDS.order,
                       value: requirement.nonOCDS.options[0].value,
                       label: {
-                      text: "Provide details relating to the requirement’s background and the events leading up to the goods/services being required",
+                      text: requirement.OCDS.title,
                       classes: "govuk-label govuk-label--m"
                       }
                     })
@@ -370,7 +408,7 @@
 
                   {% call CCSFieldset({
                     legend: {
-                              html: "First special term or condition <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                              html: "Enter your first requirement group <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -384,7 +422,7 @@
                     maxlength: 100,
                     rows: "2",
                     label: {
-                      text: "Enter the first special term or condition",
+                      text: "Enter your first requirement group",
                       classes: "govuk-label--m govuk-!-font-weight-regular",
                       isPageHeading: false
                     },
@@ -398,7 +436,7 @@
                     classes:"rfp_splterm_definition_1",
                     rows: "13",
                     label: {
-                      text: "Explain the first special term or condition",
+                      text: "Explain your first requirement group",
                       classes: "govuk-label--m govuk-!-font-weight-regular",
                       isPageHeading: false
                     },
@@ -424,7 +462,7 @@
 
                     {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" special term and condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        html: "Enter your "+ NumberWord[i]+" requirement group <a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -438,7 +476,7 @@
                             classes: "rfp_splterm_"+i,
                             rows: "2",
                             label: {
-                              text: "Enter the "+NumberWord[i]+" special term or condition",
+                              text: "Enter your "+NumberWord[i]+" requirement group",
                               classes: "govuk-label--m govuk-!-font-weight-regular",
                               isPageHeading: false
                             },
@@ -556,6 +594,28 @@
 
                       {% endif %}
                     {% endblock %}
+
+                    {%block singleInputSelect %}
+
+                       {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === false) %}
+                          <h2> {{requirement.OCDS.title}} </h2>
+                         {{ CCSInput({
+                            label: {
+                              text: ""
+                            },
+                            id: "rfp_term_1",
+                            name: "term",
+                            classes: "rfp_term_1",
+                            value: requirement.nonOCDS.options[0].value
+                          })
+                      }}
+
+
+                      {%endif%}
+                    {% endblock %}
+
+
+
                     {% block KeySelect%}
                       {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) %}
 
@@ -739,6 +799,9 @@
                         {% endif %}
                       {% endblock %}
                     {% endfor %}
+
+
+
 
                     {{ CCSInput({
                     id: "rfp_build_started",

@@ -4,7 +4,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import moment from 'moment-business-days';
-import * as cmsData from '../../../resources/content/eoi/eoi-response-date.json';
+import * as cmsData from '../../../resources/content/requirements/rfp-response-date.json';
 import config from 'config';
 
 const predefinedDays = {
@@ -43,26 +43,25 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
     criterianStorage = criterianStorage.flat();
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
+    
     const Criterian_ID = criterianStorage[0].criterianId;
     const prompt = criterianStorage[0].nonOCDS.prompt;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
-    const eoi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
-
-    console.log({ eoi_clarification_date });
+    const rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
 
     const clarification_period_end_date = new Date();
     const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${
       clarification_period_end_date.getMonth() + 1
     }-${clarification_period_end_date.getFullYear()}`;
-    const eoi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD-MM-YYYY').businessAdd(
+    const rfp_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD-MM-YYYY').businessAdd(
       predefinedDays.clarification_days,
     )._d;
-    eoi_clarification_period_end.setHours(predefinedDays.defaultEndingHour);
-    eoi_clarification_period_end.setMinutes(predefinedDays.defaultEndingMinutes);
+    rfp_clarification_period_end.setHours(predefinedDays.defaultEndingHour);
+    rfp_clarification_period_end.setMinutes(predefinedDays.defaultEndingMinutes);
 
-    const DeadlinePeriodDate = eoi_clarification_period_end;
+    const DeadlinePeriodDate = rfp_clarification_period_end;
 
     const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${
       DeadlinePeriodDate.getMonth() + 1
@@ -105,12 +104,13 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const project_name = req.session.project_name;
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
+
     let appendData = {
       data: cmsData,
       prompt: prompt,
       framework: fetchQuestionsData,
-      eoi_clarification_date,
-      eoi_clarification_period_end: moment(eoi_clarification_period_end, 'DD/MM/YYYY, hh:mm a').format(
+      rfp_clarification_date,
+      rfp_clarification_period_end: moment(rfp_clarification_period_end, 'DD/MM/YYYY, hh:mm a').format(
         'DD MMMM YYYY, hh:mm a',
       ),
       deadline_period_for_clarification_period: moment(
@@ -133,7 +133,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     } else {
       req.session.timeline = {};
       req.session.timeline.publish = new Date();
-      req.session.timeline.clarificationPeriodEnd = eoi_clarification_period_end;
+      req.session.timeline.clarificationPeriodEnd = rfp_clarification_period_end;
       req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
       req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
       req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;

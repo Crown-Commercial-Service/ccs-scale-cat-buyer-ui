@@ -1,0 +1,147 @@
+
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Complete and upload a document | Contract a Thing' %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %}
+
+{% block content %} 
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if (fileError)%}
+            {{ CCSErrorSummary({
+                titleText: "There is a problem with these files",
+                errorList: errorlist
+            }) }}
+        {% endif %}
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl">
+                    {{data.title}}
+                </h1>
+                {% include "includes/project_header.njk" %} 
+            </div>
+        </div>
+        
+        <div class="ccs-page-section govuk-!-margin-bottom-9 govuk-!-margin-top-6 ">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+
+                    <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
+                    <div id="upload_doc_form">
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full" id="documents_upload">
+                                <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">Upload a file</label>
+                                <span id="rfp_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
+                                <p class="govuk-body-s"> {{data.filedesc}}</p>
+                                {% if (files.length > 0)%}
+                                    <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+                                        <ul class="app-task-list">
+                                            {% for file in files %}
+                                                <li class="app-task-list__item">
+                                                    <div class="govuk-grid-row">
+                                                        <div class="govuk-grid-column-one-third text-overflow ">
+                                                            <span class="app-task-list__task-name">
+                                                                <a href="/rfp/upload-attachment?file_id={{file.id}}">
+                                                                    <strong>{{file.fileName}}</strong>
+                                                                </a>    
+                                                            </span>
+                                                        </div>
+                                                        <div class="govuk-grid-column-one-third">
+                                                            <p>{{file.fileSize | KbtoMb}} MB</p>
+                                                        </div>
+                                                        <div class="govuk-grid-column-one-third">
+                                                            <p>  <a class="app-task-list__tag" href="/rfp/files/remove?file={{file.fileName}}" aria-describedby="rfp-upload">remove</a></p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {%endif%}
+                                {% if(storage < 1000000000)  %}
+                                    <form action="/rfp/upload-attachment" method="post" encType="multipart/form-data">    
+                                    {{ CCSFileUpload({
+                                        id: "rfp_offline_document",
+                                        name: "rfp_offline_document",
+                                        value: data['rfp_offline_document'],
+                                        multiple: true,
+                                        label: {
+                                            text: "",
+                                            classes: "govuk-label--m"
+                                        }
+                                    }) }}
+                            </div>
+                            <div class="govuk-grid-column-full">
+                                {{ CCSButton({
+                                    text: "upload",
+                                    type: "submit",
+                                    classes: "doc_upload_button"
+                                    })
+                                }}
+                            </div>
+                            {{ CCSInput({
+                                id: "rfp_file_started",
+                                name: "rfp_file_started",
+                                type: "hidden",
+                                value: true
+                                })
+                            }}
+                        </div>
+                    </div>
+                                    </form>        
+                                {%endif%}
+
+                {{ CCSWarningText({
+                    text: "By uploading this 1-stage further competition to all suppliers in your list, you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                    iconFallbackText: "Warning"
+                }) }}
+
+                <div class="ccs-link-group">
+                    <span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M0 1.77778C0 1.34823 0.335786 1 0.75 1H5.00286C6.23012 1 7.31979 1.61142 8.00393 2.55666C8.68803 1.61146 9.77766 1 11.005 1H15.25C15.6642 1 16 1.34823 16 1.77778V12.6667C16 13.0962 15.6642 13.4445 15.25 13.4445H10.7426C10.1459 13.4445 9.57361 13.6903 9.15165 14.1279L8.53033 14.7722C8.23744 15.0759 7.76256 15.0759 7.46967 14.7722L6.84835 14.1279C6.42639 13.6903 5.8541 13.4445 5.25736 13.4445H0.75C0.335786 13.4445 0 13.0962 0 12.6667V1.77778ZM8.755 4.8889C8.755 3.60023 9.76236 2.55556 11.005 2.55556H14.5V11.8889H10.7426C10.0326 11.8889 9.34339 12.0978 8.75124 12.4825L8.755 4.8889ZM7.25124 12.4842L7.255 7.22297L7.25285 4.88668C7.25167 3.59887 6.24466 2.55556 5.00286 2.55556H1.5V11.8889H5.25736C5.96836 11.8889 6.65854 12.0983 7.25124 12.4842Z"
+                            fill="#505A5F"/>
+                        </svg>&nbsp;&nbsp;<a href="#" onclick="return false;"  class="govuk-link govuk-link--no-visited-state"> link 1</a>
+                    </span>
+                    <br>
+                </div>
+
+                {{ CCSCheckboxes({
+                    idPrefix: "rfp_confirm_upload",
+                    name: "rfp_confirm_upload",
+                    classes: "govuk-checkboxes--small",
+                    items: [
+                        {
+                        value: "confirm",
+                        text: "By checking this box, I confirm that I have read and confirm the statements available above"
+                        }
+                    ]
+                }) }}
+
+                <form action="/rfp/upload-attachment/proceed" method="post">      
+                    <div class="govuk-button-group">
+                            {{ CCSButton({
+                                text: "Save and continue",
+                                type: "submit"
+                                })
+                            }}
+                            <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
+                    </div>
+                </form>
+            </div>
+            <div class="govuk-grid-column-one-third">
+              {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
+          
+    </main>
+{% endblock %}
+

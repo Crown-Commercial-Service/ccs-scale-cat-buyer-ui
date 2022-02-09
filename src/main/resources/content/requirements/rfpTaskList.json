@@ -51,14 +51,14 @@
     },
     {
       "eventno": 2,
-      "eventTitle": "Upload pricing schedules and any other supporting documents",
+      "eventTitle": "Upload pricing schedules and any other supporting documentation",
       "eventDescription": "[description of this section]",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Upload pricing schedules and any other supporting documents",
+          "title": "Upload pricing schedules and any other supporting documentation",
           "required": "mandatory",
-          "link": "#",
+          "link": "/rfp/offline",
           "status": "Todo"
         }
       ]
@@ -84,10 +84,10 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "Your assessment bases and evaluation weightings ",
+          "title": "Your assessment bases and evaluation weightings",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/your-assesstment"
         },
         {
           "Task": 2,

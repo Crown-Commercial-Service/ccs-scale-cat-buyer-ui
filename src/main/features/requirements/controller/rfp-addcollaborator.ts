@@ -98,6 +98,11 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
 export const RFP_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
+  if(rfi_collaborators === ""){
+    req.session['isJaggaerError'] = true;
+    res.redirect('/rfp/add-collaborators');
+  }
+  else{
   try {
     const user_profile = rfi_collaborators;
     const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
@@ -121,11 +126,18 @@ export const RFP_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, 
       true,
     );
   }
+}
 };
 
 export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
+  if(rfi_collaborators === ""){
+    req.session['isJaggaerError'] = true;
+    res.redirect('/rfi/add-collaborators');
+  }
+  else{
+ 
   try {
     const user_profile = rfi_collaborators;
     const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
@@ -144,6 +156,8 @@ export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: expre
       true,
     );
   }
+  
+}
 };
 
 export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
@@ -172,12 +186,14 @@ export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, 
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/rfp/add-collaborators');
   }
+
+
 };
 
 // /rfp/proceed-collaborators
 export const RFP_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/28`, 'Completed');
+  const { projectId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/28`, 'Completed');
   res.redirect('/rfp/task-list');
 };

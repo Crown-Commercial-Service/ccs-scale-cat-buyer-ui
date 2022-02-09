@@ -66,7 +66,7 @@
                           <p>{{file.fileSize | KbtoMb}} MB</p>
                         </div>
                         <div class="govuk-grid-column-one-third">
-                          <p>  <a class="app-task-list__tag" href="/rfp/files/remove?file={{file.name}}" aria-describedby="rfp-questions">remove</a></p>
+                          <p>  <a class="app-task-list__tag" href="/rfp/files/remove?file={{file.name}}" aria-describedby="rfp-upload">remove</a></p>
                         </div>
                         </div>
                           {% set hreflink  = items.OCDS.description | replace(" ", "_" ) %}
@@ -120,7 +120,7 @@
                               type: "submit"
                             })
                         }}
-                        <a href="/rfp/rfp-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
+                        <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
                 </div>
               </form>
 

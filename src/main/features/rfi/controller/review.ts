@@ -40,9 +40,9 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   if (finished_pre_engage && rfi_publish_confirmation === '1') {
     try {
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/14`, 'Completed');
       }
 
       res.redirect('/rfi/event-sent');

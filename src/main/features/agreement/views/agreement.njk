@@ -27,7 +27,7 @@
               </h2>
               <p class="govuk-body">{{selectedAgreement.description | safe}}</p>
               <p class="govuk-body">
-                <a target="_blank" href="{{selectedAgreement.detailUrl}}" class="govuk-link govuk-link--no-visited-state">{{data.line5}}
+                <a target="_blank" href="{{selectedAgreement.detailUrl}}" class="govuk-link govuk-link--no-visited-state" rel="noopener noreferrer">{{data.line5}}
                   <span class="visuallyhidden">{{selectedAgreement.name}}</span></a>
               </p>
             </div>
@@ -68,7 +68,7 @@
                     <div class="ccs-page-section">
                         <p class="govuk-body">{{agreement.description | safe}}</p>
                         <p class="govuk-body">
-                          <a target="_blank" href="{{agreement.detailUrl}}" class="govuk-link govuk-link--no-visited-state">{{data.line5}}
+                          <a target="_blank" href="{{agreement.detailUrl}}" class="govuk-link govuk-link--no-visited-state" rel="noopener noreferrer">{{data.line5}}
                             <span class="visuallyhidden">{{agreement.name}}</span></a>
                         </p>
                       </div>

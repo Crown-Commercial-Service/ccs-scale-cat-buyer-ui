@@ -6,7 +6,7 @@ import { operations } from '../../../utils/operations/operations';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
-
+import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 /**
  *
  * @param req
@@ -14,6 +14,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  * @GETController
  */
 export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Response) => {
+  const { projectId } = req.session;
   if (
     operations.isUndefined(req.query, 'agreement_id') ||
     operations.isUndefined(req.query, 'proc_id') ||
@@ -41,7 +42,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         });
         criterianStorage.push(rebased_object_with_requirements);
       }
-      criterianStorage = criterianStorage.flat();
+      criterianStorage = criterianStorage[1];
       const sorted_ascendingly = criterianStorage
         .map((aCriterian: any) => {
           const object = aCriterian;
@@ -73,6 +74,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         agreementLotName,
         releatedContent: releatedContent,
       };
+       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'In progress');
       res.render('rfp-context', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

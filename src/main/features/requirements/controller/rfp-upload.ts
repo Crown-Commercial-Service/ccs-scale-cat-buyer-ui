@@ -31,7 +31,9 @@ export const RFP_GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: e
  */
 
 export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res: express.Response) => {
-  const { selectedRoute } = req.session;
+  let { selectedRoute } = req.session;
+  if (selectedRoute === 'FC') selectedRoute = 'RFP';
+
   const selRoute = selectedRoute.toLowerCase();
   const file_started = req.body[`${selRoute}_file_started`];
   const { SESSION_ID } = req.cookies;
@@ -154,16 +156,19 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
 
 export const RFP_GET_REMOVE_FILES = (express.Handler = (req: express.Request, res: express.Response) => {
   const { file } = req.query;
-  const { selectedRoute } = req.session;
+  let { selectedRoute } = req.session;
+  if (selectedRoute === 'FC') selectedRoute = 'RFP';
   tempArray = tempArray.filter(afile => afile.name !== file);
   res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
 });
 
 export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId, selectedRoute } = req.session;
+  const { projectId } = req.session;
+  let { selectedRoute } = req.session;
+  if (selectedRoute === 'FC') selectedRoute = 'RFP';
   const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
 
   res.redirect(`/${selectedRoute.toLowerCase()}/task-list`);
 });

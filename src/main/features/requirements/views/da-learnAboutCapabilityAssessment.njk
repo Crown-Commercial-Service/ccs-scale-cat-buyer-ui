@@ -1,0 +1,79 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% set title = 'Learn about capability assessment | Contract a Thing' %}
+
+{# {% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %} #}
+
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+            },
+            {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+            },
+            {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+            },
+            {
+                "text": "Write and publish your requirements",
+                "href": "/da/task-list?path="+ choosenViewPath
+            },
+            {
+                "text": "Learn about capability assessment",
+                "href": "#"
+            }
+        ]
+    }) }}
+{% endblock %}
+
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                    {{ data.title }}
+                </h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %}
+                <p class="govuk-body">{{ data.form.question }}</p>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
+
+        <form id="ccs_da_learn" name="ccs_da_learn" class="form ccs_da_learn" action="/da/learn-about-capability-assessment" method="POST">
+
+            {{ CCSInput({
+                id: "da_learn_input",
+                name: "da_learn_input",
+                type: "hidden",
+                value: true
+            }) }}
+
+            <div class="govuk-button-group">
+                {{ CCSButton({
+                text: "Save and continue"
+            }) }}
+            {% set returnLink = "/da/task-list?path=" + choosenViewPath %}
+            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+            </div>
+        </form>
+
+    </main>
+{% endblock %}

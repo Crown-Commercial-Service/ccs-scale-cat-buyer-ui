@@ -15,7 +15,7 @@ export default function (app: Application): void {
   //@GET '/401'
   app.get(ERROR_PATHS.ROUTE_401, [ContentFetchMiddleware.FetchContents], NO_AUTH, ERROR_CONTROLLER.Error_401)
 
-    //@GET '/500'
-    app.get(ERROR_PATHS.ROUTE_500, [ContentFetchMiddleware.FetchContents], NO_AUTH, ERROR_CONTROLLER.Error_500)
+  //@GET '/500'
+  app.get(ERROR_PATHS.ROUTE_500, [ContentFetchMiddleware.FetchContents], NO_AUTH, ERROR_CONTROLLER.Error_500)
 
 }

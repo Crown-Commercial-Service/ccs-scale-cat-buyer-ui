@@ -67,17 +67,20 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_LEARN,
   );
 
-  // @GET '/ca/learnabout-capability-assessment'
+  // @GET '/da/learn-about-capability-assessment'
   app.get(
-    REQUIREMENT_PATHS.GET_LEARN,
+    REQUIREMENT_PATHS.DA_GET_LEARN,
     [
       ContentFetchMiddleware.FetchContents,
       AUTH,
       PreMarketEngagementMiddleware.PutPremarket,
       AgreementDetailsFetchMiddleware.FetchAgreements,
     ],
-    REQUIREMENT_CONTROLLER.GET_LEARN,
+    REQUIREMENT_CONTROLLER.DA_GET_LEARN,
   );
+
+  // @GET '/ca/learnabout-capability-assessment'
+  app.get(REQUIREMENT_PATHS.GET_LEARN, [AUTH], REQUIREMENT_CONTROLLER.GET_LEARN);
 
   // @GET '/ca/enter-your-weightings'
   app.get(
@@ -101,6 +104,18 @@ export default function (app: Application): void {
       AgreementDetailsFetchMiddleware.FetchAgreements,
     ],
     REQUIREMENT_CONTROLLER.CA_GET_SUPPLIERS_FORWARD,
+  );
+
+  // @GET '/ca/suppliers-to-forward
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_SUBCONTRACTORS,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.CA_GET_SUBCONTRACTORS,
   );
 
   // @GET '/ca/next-steps'
@@ -146,6 +161,17 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_NAME_PROJECT,
   );
 
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_LEARN_ASSESSMENT_BASES,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.CA_GET_LEARN_ASSESSMENT_BASES,
+  );
+
   //@GET '/rfp/add-collaborators'
   app.get(
     REQUIREMENT_PATHS.RFP_GET_ADD_COLLABORATOR,
@@ -174,6 +200,21 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_LEAD_PROCUREMENT,
   );
 
+  //@GET '/rfp/upload'
+  app.get(
+    REQUIREMENT_PATHS.RFP_UPLOAD,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_UPLOAD,
+  );
+
+  //@GET '/rfp/upload-attachment'
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_UPLOAD_ATTACHMENT,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_UPLOAD_ATTACHMENT,
+  );
+
+  //@GET '/rfp/upload-doc'
   app.get(
     REQUIREMENT_PATHS.RFP_GET_UPLOAD_DOC,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -204,16 +245,19 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_ADD_CONTEXT,
   );
 
+  // /rfp/your-assesstment
+  app.get(
+    REQUIREMENT_PATHS.RFP_YOUR_ASSESSMENT,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_YOUR_ASSESSTMENT,
+  );
 
-    // /rfp/response-date
-    app.get(
-      REQUIREMENT_PATHS.RFP_GET_RESPONSE_DATE,
-      [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.GET_RESPONSE_DATE
-    );
-
-
-
+  // /rfp/response-date
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_RESPONSE_DATE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_RESPONSE_DATE,
+  );
 
   // /rfp/questions
   app.get(
@@ -230,12 +274,25 @@ export default function (app: Application): void {
   );
 
   app.get(
+    REQUIREMENT_PATHS.CA_GET_WHERE_WORK_DONE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_WHERE_WORK_DONE,
+  );
+
+  app.get(
     REQUIREMENT_PATHS.DA_GET_WHERE_WORK_DONE,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.DA_GET_WHERE_WORK_DONE,
   );
 
-  // /ca/team-scale
+  // @GET /ca/team-scale
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_TEAM_SCALE,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_TEAM_SCALE,
+  );
+
+  // @GET /da/team-scale
   app.get(
     REQUIREMENT_PATHS.DA_GET_TEAM_SCALE,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -248,17 +305,73 @@ export default function (app: Application): void {
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
   );
-    // @GET "/rfp/suppliers"
-    app.get(
-      REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
-      [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
-    );
+  // @GET "/rfp/suppliers"
+  app.get(
+    REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
+  );
   // /ca/resources-vetting-weightings
   app.get(
     REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  );
+  // /da/resources-vetting-weightings
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_RESOURCES_VETTING_WEIGHTINGS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_SERVICE_CAPABILITIES,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_SERVICE_CAPABILITIES,
+  );
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_CANCEL,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.CA_GET_CANCEL,
+  );
+  // @GET '/da/cancel'
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_CANCEL,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.DA_GET_CANCEL,
+  );
+
+  //da subcontractors
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_SUBCONTRACTORS,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.DA_GET_SUBCONTRACTORS,
+  );
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_REVIEW_RANKED_SUPPLIERS,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_REVIEW_RANKED_SUPPLIERS,
+  );
+  //da service capabilities
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_SERVICE_CAPABILITIES,
+    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_SERVICE_CAPABILITIES,
   );
 
   /**
@@ -331,6 +444,14 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_POST_ADD_COLLABORATOR_TO_JAGGER,
   );
 
+  app.post(REQUIREMENT_PATHS.RFP_GET_UPLOAD_ATTACHMENT, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_UPLOAD_ATTACHMENT);
+
+  app.post(
+    REQUIREMENT_PATHS.RFP_POST_UPLOAD_ATTACHMENT_PROCEED,
+    AUTH,
+    REQUIREMENT_CONTROLLER.RFP_POST_UPLOAD_ATTACHMENT_PROCEED,
+  );
+
   app.post(REQUIREMENT_PATHS.RFP_POST_UPLOAD_DOC, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_UPLOAD_DOC);
 
   app.post(REQUIREMENT_PATHS.CA_POST_UPLOAD_DOC, AUTH, REQUIREMENT_CONTROLLER.CA_POST_UPLOAD_DOC);
@@ -346,7 +467,16 @@ export default function (app: Application): void {
   );
 
   //@POST '/ca/learn-about-capability-assessment'
-  app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.POST_LEARN);
+  app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
+
+  app.post(
+    REQUIREMENT_PATHS.CA_POST_LEARN_ASSESSMENT_BASES,
+    AUTH,
+    REQUIREMENT_CONTROLLER.CA_POST_LEARN_ASSESSMENT_BASES,
+  );
+
+  //@POST '/da/learn-about-capability-assessment'
+  app.post(REQUIREMENT_PATHS.DA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.DA_POST_LEARN);
 
   //@POST '/ca/learnabout-capability-assessment'
   app.post(REQUIREMENT_PATHS.POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.POST_LEARN);
@@ -355,6 +485,9 @@ export default function (app: Application): void {
 
   //@POST '/ca/suppliers-to-forward'
   app.post(REQUIREMENT_PATHS.CA_POST_SUPPLIERS_FORWARD, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SUPPLIERS_FORWARD);
+
+  //@POST '/ca/accept-subcontractors'
+  app.post(REQUIREMENT_PATHS.CA_POST_SUBCONTRACTORS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SUBCONTRACTORS);
 
   //@POST '/ca/next-steps'
   app.post(REQUIREMENT_PATHS.CA_POST_NEXTSTEPS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_NEXTSTEPS);
@@ -368,9 +501,12 @@ export default function (app: Application): void {
   // /ca/type
   app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE);
   //@POST '/ca/team-scale'
-  app.post(REQUIREMENT_PATHS.DA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.DA_POST_TEAM_SCALE);
+  app.post(REQUIREMENT_PATHS.CA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.CA_POST_TEAM_SCALE);
 
   app.post(REQUIREMENT_PATHS.CA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_TYPE);
+
+  app.post(REQUIREMENT_PATHS.CA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.CA_POST_WHERE_WORK_DONE);
+
   app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_WHERE_WORK_DONE);
 
   app.post(
@@ -407,17 +543,33 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_OFFLINE_JOURNEY_PAGE,
   );
 
-  //@POST '/ca/team-scale'
+  //@POST '/da/team-scale'
   app.post(REQUIREMENT_PATHS.DA_POST_TEAM_SCALE, AUTH, REQUIREMENT_CONTROLLER.DA_POST_TEAM_SCALE);
 
   //@POST "rfp/suppliers"
   app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
-    //@POST "rfp/suppliers"
-    app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
+  //@POST "rfp/suppliers"
+  app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
   //@POST '/ca/resources-vetting-weightings'
   app.post(
     REQUIREMENT_PATHS.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
     AUTH,
     REQUIREMENT_CONTROLLER.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
+  );
+
+  app.post(REQUIREMENT_PATHS.CA_POST_SERVICE_CAPABILITIES, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SERVICE_CAPABILITIES);
+
+  app.post(REQUIREMENT_PATHS.DA_POST_SUBCONTRACTORS, AUTH, REQUIREMENT_CONTROLLER.DA_POST_SUBCONTRACTORS);
+  // @Post '/rfp/response-date'
+  app.post(REQUIREMENT_PATHS.RFP_POST_RESPONSE_DATE, AUTH, REQUIREMENT_CONTROLLER.POST_RESPONSE_DATE);
+
+  // @Post /rfp/add/response-date
+  app.post(REQUIREMENT_PATHS.RFP_POST_ADD_RESPONSEDATE, AUTH, REQUIREMENT_CONTROLLER.POST_ADD_RESPONSE_DATE);
+
+  app.post(REQUIREMENT_PATHS.DA_POST_SERVICE_CAPABILITIES, AUTH, REQUIREMENT_CONTROLLER.DA_POST_SERVICE_CAPABILITIES);
+  app.post(
+    REQUIREMENT_PATHS.DA_POST_REVIEW_RANKED_SUPPLIERS,
+    [AUTH],
+    REQUIREMENT_CONTROLLER.DA_POST_REVIEW_RANKED_SUPPLIERS,
   );
 }
