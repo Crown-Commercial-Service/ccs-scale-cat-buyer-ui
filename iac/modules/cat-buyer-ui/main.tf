@@ -80,6 +80,10 @@ data "aws_ssm_parameter" "google_site_tag_id" {
   name = "/cat/${var.environment}/google-site-tag-id"
 }
 
+data "aws_ssm_parameter" "rollbar_access_token" {
+  name = "/cat/${var.environment}/rollbar-access-token"
+}
+
 resource "cloudfoundry_app" "cat_buyer_ui" {
   annotations = {}
   buildpack   = var.buildpack
@@ -99,6 +103,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     GOOGLE_TAG_MANAGER_ID : data.aws_ssm_parameter.google_tag_manager_id.value
     GOOGLE_SITE_TAG_ID : data.aws_ssm_parameter.google_site_tag_id.value
     ROLLBAR_HOST : var.environment
+    ROLLBAR_ACCESS_TOKEN : data.aws_ssm_parameter.rollbar_access_token.value
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
