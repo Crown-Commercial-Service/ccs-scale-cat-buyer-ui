@@ -127,7 +127,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const POSITIONEDELEMENTS = [...new Set(TemporaryObjStorage.map(JSON.stringify))].map(JSON.parse).filter(item => !item.nonOCDS.dependant)
 
     console.log(fetch_dynamic_api_data)
-    res.json(POSITIONEDELEMENTS)
+   // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
       data: POSITIONEDELEMENTS,
@@ -154,7 +154,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-   //res.render('rfp-question', data);
+   res.render('rfp-question', data);
   } catch (error) {
     delete error?.config?.['headers'];
     const Logmessage = {
