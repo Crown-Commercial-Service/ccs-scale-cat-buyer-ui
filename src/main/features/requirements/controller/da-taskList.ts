@@ -31,6 +31,15 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   const { isJaggaerError } = req.session;
   const { assessmentId } = currentEvent;
   req.session['isJaggaerError'] = false;
+  const itemList = [
+    'Data',
+    'Technical',
+    'IT Ops',
+    'Product Delivery',
+    'QAT',
+    'User Centred Design',
+    'No DDaT Cluster Mapping',
+  ];
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
   let ViewLoadedTemplateData;
@@ -56,11 +65,10 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
       res.redirect('error/404');
   }
 
-  const appendData = { data: ViewLoadedTemplateData, releatedContent, error: isJaggaerError };
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
-    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
+    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'DAA', agreementId_session, projectId, eventId);
 
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
@@ -99,8 +107,9 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
         data: ELEMENT_IN_UNIQUEFIELDNAME,
       };
     });
+    const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME.filter(item => itemList.includes(item['job-category']));
 
-    const ITEMLIST = UNIQUEELEMENTS_FIELDNAME.map((designation, index) => {
+    const ITEMLIST = filteredMenuItem.map((designation, index) => {
       const weightage = designation.data?.[0]?.Weightage;
       return {
         url: `#section${index + 1}`,
@@ -133,7 +142,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     req.session.designations.push(...UNIQUE_JOB_IDENTIFIER);
     req.session.tableItems.push(...ITEMLIST);
     req.session.dimensions.push(...CAPACITY_DATASET);
-
+    const appendData = { data: ViewLoadedTemplateData, releatedContent, error: isJaggaerError };
     res.render('rfp-taskList', appendData);
   } catch (error) {
     LoggTracer.errorLogger(

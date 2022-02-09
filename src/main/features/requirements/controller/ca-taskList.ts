@@ -38,7 +38,15 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     lotid,
     error: isJaggaerError,
   };
-
+  const itemList = [
+    'Data',
+    'Technical',
+    'IT Ops',
+    'Product Delivery',
+    'QAT',
+    'User Centred Design',
+    'No DDaT Cluster Mapping',
+  ];
   let ViewLoadedTemplateData;
 
   switch (path) {
@@ -104,8 +112,9 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
         data: ELEMENT_IN_UNIQUEFIELDNAME,
       };
     });
+    const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME.filter(item => itemList.includes(item['job-category']));
 
-    const ITEMLIST = UNIQUEELEMENTS_FIELDNAME.map((designation, index) => {
+    const ITEMLIST = filteredMenuItem.map((designation, index) => {
       const weightage = designation.data?.[0]?.Weightage;
       return {
         url: `#section${index + 1}`,
