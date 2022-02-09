@@ -104,7 +104,7 @@ export function statusStepsDataFilter(
     case 'FCA':
       stepsByType = steps.slice(41, 58);
       break;
-    case 'DA':
+    case 'DAA':
       stepsByType = steps.slice(59, 74);
       break;
   }

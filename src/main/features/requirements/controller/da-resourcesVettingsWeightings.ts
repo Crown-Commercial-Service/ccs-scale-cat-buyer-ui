@@ -23,6 +23,8 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     project_name,
     isError,
     errorText,
+    designations,
+    tableItems,
   } = req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -36,7 +38,16 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { ...daResourcesVetting, lotId, agreementLotName, releatedContent, isError, errorText };
+    const windowAppendData = {
+      ...daResourcesVetting,
+      lotId,
+      agreementLotName,
+      releatedContent,
+      isError,
+      errorText,
+      designations: designations,
+      TableItems: tableItems,
+    };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {

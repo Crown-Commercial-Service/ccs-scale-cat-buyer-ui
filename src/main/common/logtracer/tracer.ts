@@ -21,15 +21,6 @@ export class LoggTracer {
    */
   static errorTracer = async (errorLog: LogMessageFormatter, res: express.Response): Promise<void> => {
     const LogMessage = { AppName: 'CaT frontend', type: 'error', errordetails: errorLog };
-    if (rollbar_access_token) {
-      const rollbar = new Rollbar({
-        accessToken: rollbar_access_token,
-        captureUncaught: true,
-        captureUnhandledRejections: true,
-        environment: process.env.ROLLBAR_ENVIRONMENT,
-      })
-      rollbar.error(LogMessage, LogMessage.type + " : " + LogMessage.errordetails.errorRoot)
-    }
     await LoggerInstance.Instance.post('', LogMessage);
     if (!isNaN(errorLog.statusCode) && errorLog.statusCode == 401) {
       res.clearCookie(cookies.sessionID);
@@ -44,15 +35,6 @@ export class LoggTracer {
    */
   static errorTracerWithoutRedirect = async (errorLog: any): Promise<void> => {
     const LogMessage = { AppName: 'CaT frontend', type: 'error', errordetails: errorLog };
-    if (rollbar_access_token) {
-      const rollbar = new Rollbar({
-        accessToken: rollbar_access_token,
-        captureUncaught: true,
-        captureUnhandledRejections: true,
-        environment: process.env.ROLLBAR_ENVIRONMENT,
-      })
-      rollbar.error(LogMessage, LogMessage.type + " : " + LogMessage.errordetails.errorRoot)
-    }
     await LoggerInstance.Instance.post('', LogMessage);
   };
 
@@ -82,6 +64,24 @@ export class LoggTracer {
       errorLog?.response?.status,
     );
     logger.error('Exception logged in Logit: ' + error_reason);
+    const LogMessage = {
+      AppName: 'CaT frontend',
+      type: 'error',
+      errordetails: Log,
+      browser: res.req.headers["sec-ch-ua"],
+      mobile: res.req.headers["sec-ch-ua-mobile"],
+      platform: res.req.headers["sec-ch-ua-platform"],
+      userAgent: res.req.headers["user-agent"]
+    };
+    if (rollbar_access_token) {
+      const rollbar = new Rollbar({
+        accessToken: rollbar_access_token,
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+        environment: process.env.ROLLBAR_ENVIRONMENT,
+      })
+      rollbar.error(LogMessage, LogMessage.type + " : " + LogMessage.errordetails.errorRoot, res.req)
+    }
     if (redirect) {
       LoggTracer.errorTracer(Log, res);
     } else {

@@ -14,7 +14,7 @@ import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
  */
 export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { eventId } = req.session;
+  const { eventId, currentEvent } = req.session;
   const releatedContent = req.session.releatedContent;
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
@@ -23,7 +23,17 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const { isJaggaerError } = req.session;
+  const { assessmentId } = currentEvent;
   req.session['isJaggaerError'] = false;
+  const itemList = [
+    'Data',
+    'Technical',
+    'IT Ops',
+    'Product Delivery',
+    'QAT',
+    'User Centred Design',
+    'No DDaT Cluster Mapping',
+  ];
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError };
   try {
@@ -43,7 +53,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - update the status failed - RFP TaskList Page',
+      'Service - status failed - RFP TaskList Page',
       true,
     );
   }
