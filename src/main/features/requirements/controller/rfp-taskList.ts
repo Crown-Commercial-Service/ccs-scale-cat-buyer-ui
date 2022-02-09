@@ -116,7 +116,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - update the status failed - RFP TaskList Page',
+      'Service - status failed - RFP TaskList Page',
       true,
     );
   }
