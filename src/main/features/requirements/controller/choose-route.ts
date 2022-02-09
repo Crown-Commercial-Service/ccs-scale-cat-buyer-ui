@@ -128,7 +128,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           const nextAddress = REQUIREMENT_PATHS.GET_LEARN;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('DA selected');
-          req.session.selectedRoute = 'DA';
+          req.session.selectedRoute = 'DAA';
           res.redirect(nextAddress);
           break;
 
