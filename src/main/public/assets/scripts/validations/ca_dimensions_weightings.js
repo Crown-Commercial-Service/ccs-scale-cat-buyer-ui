@@ -7,8 +7,6 @@ updateTotal(dimensions);
 dimensions.on("blur",()=>{
   updateTotal(dimensions);
 });
-
-
 }
 });
 
@@ -24,23 +22,30 @@ const ccsZvalidateCAWeightings = (event) => {
     event.preventDefault();
     var dimensions = $(".dimensions")
     let fieldCheck = "",
-    errorStore = [], errMsg = "";
+    errorStore = [], total = 0;
  dimensions.each(function(){
      var element = document.getElementById($(this).attr('id'));
      ccsZremoveErrorMessage(element)
-    if($(this).val() === '' )
+     let  errMsg = "";
+    if(element.value === '' )
         errMsg = "Entry box must contain a value"     
      else if (isNaN($(this).val()))
       errMsg = "Dimension value entered must be an integer"
-     else if (Number($(this).val()) < $(this).attr('min') || Number($(this).val()) > $(this).attr('max'))
+     else if (Number(element.value) < Number($(this).attr('min')) || Number(element.value) > Number($(this).attr('max')))
         errMsg = "Dimension value entered is outside the permitted range"
+    else
+        total +=Number(element.value);
     if(errMsg !== "")
     {        
         ccsZaddErrorMessage(element, errMsg);
         fieldCheck =[$(this).attr('id'),errMsg]
         errorStore.push(fieldCheck);
-    }
+    }    
  });
+ if(total > 100){        
+        fieldCheck =["totalPercentage","Dimension value entered exceeds total of 100%"]
+        errorStore.push(fieldCheck);
+    }
  if (errorStore.length === 0) document.forms["ccs_ca_weighting"].submit();
   else ccsZPresentErrorSummary(errorStore);
 }

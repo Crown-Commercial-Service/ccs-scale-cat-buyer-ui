@@ -1,0 +1,34 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/da/task-list"
+    },
+    {
+      "text": "Enter your weightings",
+      "href": "#"
+    }
+  ],
+
+  "title": "Enter your weightings",
+  "insertText": "<p>[Instruction for this page]</p> <p> Please note that in order to progress the total must be 100%.</p> <p> The CAM Tool provides a mechanism to relatively rank all Suppliers on the framework based on the information provided when applying to the framework.</p> <p> It is the Buyer's discretion to determine how many Suppliers it wishes to take forward to the second stage of a further competition. </p>",
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to write and publish your requirements",
+      "href": "/da/task-list"
+    }
+  }
+}

@@ -141,7 +141,17 @@ export default function (app: Application): void {
     ],
     REQUIREMENT_CONTROLLER.DA_GET_NEXTSTEPS,
   );
-
+  // @GET '/ca/enter-your-weightings'
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_WEIGHTINGS,
+    [
+      ContentFetchMiddleware.FetchContents,
+      AUTH,
+      PreMarketEngagementMiddleware.PutPremarket,
+      AgreementDetailsFetchMiddleware.FetchAgreements,
+    ],
+    REQUIREMENT_CONTROLLER.DA_GET_WEIGHTINGS,
+  );
   app.get(
     REQUIREMENT_PATHS.RFP_GET_NAME_PROJECT,
     [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -474,6 +484,8 @@ export default function (app: Application): void {
     AUTH,
     REQUIREMENT_CONTROLLER.CA_POST_LEARN_ASSESSMENT_BASES,
   );
+  //@POST '/da/enter-your-weightings'
+  app.post(REQUIREMENT_PATHS.DA_POST_WEIGHTINGS, AUTH, REQUIREMENT_CONTROLLER.DA_POST_WEIGHTINGS);
 
   //@POST '/da/learn-about-capability-assessment'
   app.post(REQUIREMENT_PATHS.DA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.DA_POST_LEARN);
@@ -556,6 +568,7 @@ export default function (app: Application): void {
     AUTH,
     REQUIREMENT_CONTROLLER.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
   );
+  app.post(REQUIREMENT_PATHS.CA_POST_WEIGHTINGS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_WEIGHTINGS);
 
   app.post(REQUIREMENT_PATHS.CA_POST_SERVICE_CAPABILITIES, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SERVICE_CAPABILITIES);
 
