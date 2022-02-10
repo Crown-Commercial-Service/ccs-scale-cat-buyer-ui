@@ -94,6 +94,8 @@ export enum REQUIREMENT_PATHS {
   CA_GET_LEARN_ASSESSMENT_BASES = '/ca/learn-assessments-bases',
   CA_POST_LEARN_ASSESSMENT_BASES = '/ca/learn-assessments-bases',
 
+  DA_GET_WEIGHTINGS = '/da/enter-your-weightings',
+  DA_POST_WEIGHTINGS = '/da/enter-your-weightings',
   DA_GET_TEAM_SCALE = '/da/team-scale',
   DA_POST_TEAM_SCALE = '/da/team-scale',
   DA_GET_NEXTSTEPS = '/da/next-steps',
