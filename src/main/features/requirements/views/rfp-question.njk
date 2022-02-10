@@ -404,6 +404,17 @@
                 }}
 
                 {%endif%}
+
+                 {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == true) %}
+                  
+
+                 {%endif%}
+
+
+
+
+
+
                 {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (requirement.nonOCDS.order === 1) %}
 
                   {% call CCSFieldset({
@@ -518,6 +529,13 @@
                           }) }}
                   <div id="rfp_splterm"></div>
                 {% endif %}
+
+
+
+
+
+
+
 
               {% endblock %}
               {% block singleSelect%}

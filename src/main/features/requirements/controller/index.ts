@@ -41,7 +41,7 @@ import { CA_OFFLINE_JOURNEY_PAGE } from './ca-offline';
 import { CA_GET_UPLOAD_DOC, CA_POST_UPLOAD_DOC, CA_GET_REMOVE_FILES, CA_POST_UPLOAD_PROCEED } from './ca-upload';
 import { CA_GET_LEARN, CA_POST_LEARN } from './ca-learnAboutCapabilityAssessment';
 import { GET_LEARN, POST_LEARN } from './learnAboutCapabilityAssessment';
-import { CA_GET_WEIGHTINGS } from './ca-enterYourWeightings';
+import { CA_GET_WEIGHTINGS, CA_POST_WEIGHTINGS } from './ca-enterYourWeightings';
 import { CA_GET_CANCEL } from './ca-cancel';
 import { CA_GET_SUPPLIERS_FORWARD, CA_POST_SUPPLIERS_FORWARD } from './ca-suppliersToForward';
 import { CA_GET_SUBCONTRACTORS, CA_POST_SUBCONTRACTORS } from './ca-SubContractors';
@@ -73,7 +73,7 @@ import { DA_GET_SERVICE_CAPABILITIES, DA_POST_SERVICE_CAPABILITIES } from './da-
 import { RFP_GET_YOUR_ASSESSTMENT } from './rfp-yourassesstment';
 import { DA_GET_REVIEW_RANKED_SUPPLIERS, DA_POST_REVIEW_RANKED_SUPPLIERS } from './da-reviewRankedSuppliers';
 import { DA_GET_LEARN, DA_POST_LEARN } from './da-learnAboutCapabilityAssessment';
-
+import { DA_GET_WEIGHTINGS, DA_POST_WEIGHTINGS } from './da-enterYourWeightings';
 /**
  * @BaseController
  * @Provider
@@ -146,6 +146,7 @@ export const REQUIREMENT_CONTROLLER = {
   CA_GET_SUBCONTRACTORS,
   CA_POST_SUBCONTRACTORS,
   CA_GET_NEXTSTEPS,
+  CA_POST_WEIGHTINGS,
   CA_POST_NEXTSTEPS,
   CA_GET_RESOURCES_VETTING_WEIGHTINGS,
   CA_POST_RESOURCES_VETTING_WEIGHTINGS,
@@ -173,6 +174,8 @@ export const REQUIREMENT_CONTROLLER = {
   DA_POST_TEAM_SCALE,
   DA_GET_LEARN,
   DA_POST_LEARN,
+  DA_GET_WEIGHTINGS,
+  DA_POST_WEIGHTINGS,
   DA_GET_RESOURCES_VETTING_WEIGHTINGS,
   DA_POST_RESOURCES_VETTING_WEIGHTINGS,
   DA_GET_CANCEL,
