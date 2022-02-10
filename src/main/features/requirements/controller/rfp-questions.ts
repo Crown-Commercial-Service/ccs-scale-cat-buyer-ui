@@ -126,7 +126,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     } 
     const POSITIONEDELEMENTS = [...new Set(TemporaryObjStorage.map(JSON.stringify))].map(JSON.parse).filter(item => !item.nonOCDS.dependant)
 
-    console.log(fetch_dynamic_api_data)
+    console.log(POSITIONEDELEMENTS)
    // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {

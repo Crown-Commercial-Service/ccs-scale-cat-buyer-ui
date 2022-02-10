@@ -58,9 +58,20 @@
         <p class="govuk-body">{{prompt?[0] | safe}}</p>
         <p class="govuk-body">{{prompt?[1] | safe}}</p>
 
-        {% for requirement in data %}
-          {{CCSQUESTIONS(requirement)}}
-        {% endfor %}
+
+
+          {% macro recurseRequirements(requirement) -%}
+          {%if (requirement.nonOCDS.childern.length > 0)%}
+                           {{CCSQUESTIONS(requirement)}}
+                          {{recurseRequirements(requirement.nonOCDS.childern[0])}}
+            {%else%}
+                      {{CCSQUESTIONS(requirement)}}
+          {%endif%}
+          {%- endmacro %}
+
+                  {% for requirement in data %}
+                      {{recurseRequirements(requirement)}}
+                  {% endfor %}
 
 
 
