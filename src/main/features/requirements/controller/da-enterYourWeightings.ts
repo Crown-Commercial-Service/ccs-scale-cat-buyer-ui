@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
-import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
-import * as caWeightingData from '../../../resources/content/requirements/caEnterYourWeightings.json';
+import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
+import * as daWeightingData from '../../../resources/content/requirements/daEnterYourWeightings.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
@@ -11,7 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @param res
  * @GETController
  */
-export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
+export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
@@ -48,13 +48,13 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       return { id: arr.id, name: arr.title };
     });
     const windowAppendData = {
-      data: caWeightingData,
+      data: daWeightingData,
       dimensions: weightingsArray,
       lotId,
       agreementLotName,
       releatedContent,
     };
-    res.render('ca-enterYourWeightings', windowAppendData);
+    res.render('da-enterYourWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -63,7 +63,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Get failed - CA weighting page',
+      'Journey service - Get failed - DA weighting page',
       true,
     );
   }
@@ -81,7 +81,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
   return dimensionsApi.data;
 };
 
-export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
+export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
@@ -92,14 +92,13 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       const body = {
         name: dimension.name,
         weighting: req.body[dimension.id],
-        requirements: [],
       };
       await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/${dimension.id}`, body);
     }
 
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
-    res.redirect('/ca/accept-subcontractors');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
+    res.redirect('/da/accept-subcontractors');
   } catch (err) {
     LoggTracer.errorLogger(
       res,
@@ -107,7 +106,7 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'CA weightings page',
+      'DA weightings page',
       true,
     );
   }
