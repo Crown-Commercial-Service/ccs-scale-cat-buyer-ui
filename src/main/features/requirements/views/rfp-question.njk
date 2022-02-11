@@ -58,21 +58,22 @@
         <p class="govuk-body">{{prompt?[0] | safe}}</p>
         <p class="govuk-body">{{prompt?[1] | safe}}</p>
 
-
-
-          {% macro recurseRequirements(requirement) -%}
-          {%if (requirement.nonOCDS.childern.length > 0)%}
-                           {{CCSQUESTIONS(requirement)}}
-                          {{recurseRequirements(requirement.nonOCDS.childern[0])}}
+          {% macro recurseRequirements(requirement,form_name) -%}
+            {%if (requirement.nonOCDS.childern.length > 0)%}  
+                      {{CCSQUESTIONS(requirement,form_name)}}
+                      {{recurseRequirements(requirement.nonOCDS.childern[0],form_name)}}
             {%else%}
-                      {{CCSQUESTIONS(requirement)}}
+                      {{CCSQUESTIONS(requirement,form_name)}}
           {%endif%}
           {%- endmacro %}
 
-                  {% for requirement in data %}
-                      {{recurseRequirements(requirement)}}
-                  {% endfor %}
-
+          {%if (form_name !== 'ccs_rfp_acronyms_form')%}  
+                {% for requirement in data %}
+                    {{recurseRequirements(requirement,form_name)}}
+                {% endfor %}
+          {%else%}
+              {{recurseRequirements(data[0],form_name)}}
+          {%endif%}
 
 
 
