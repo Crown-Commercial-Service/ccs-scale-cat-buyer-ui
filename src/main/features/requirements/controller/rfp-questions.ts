@@ -69,7 +69,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       } else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer == false) {
         return 'ccs_rfp_who_form';
       } else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true) {
-        return 'ccs_rfp_acronyms_for';
+        return 'ccs_rfp_acronyms_form';
       } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == false) {
         return 'ccs_rfp_exit_strategy_form';
       } else if (aSelector.nonOCDS.questionType === 'MultiSelect' && aSelector.nonOCDS.multiAnswer === true) {
@@ -127,6 +127,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       .filter(item => !item.nonOCDS.dependant);
 
     console.log(fetch_dynamic_api_data);
+    const formNameValue = form_name.find(fn => fn !== '');
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
@@ -137,7 +138,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       event_id: event_id,
       group_id: group_id,
       criterian_id: id,
-      form_name: form_name?.[0],
+      form_name: formNameValue,
       rfpTitle: titleText,
       bcTitleText,
       prompt: promptSplit,
