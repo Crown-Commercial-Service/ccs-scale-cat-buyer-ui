@@ -31,12 +31,14 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
  */
 const ccsZvalidateTextArea = (elementName, errMsg) => {
   const element = document.getElementById(elementName);
-
+  console.log("GETTING HERE validateTextArea 1");
   if (element.value.trim().length > 0) {
+    console.log("GETTING HERE validateTextArea 2", element);
     ccsZremoveErrorMessage(element);
     return true;
   } else {
     ccsZaddErrorMessage(element, errMsg);
+    console.log("GETTING HERE validateTextArea 3 ", element);
     return [element.id, errMsg];
   }
 };
@@ -185,7 +187,8 @@ const ccsZremoveErrorMessage = (element) => {
   if (document.getElementById(element.id + "-error") !== null) {
     element.closest('.govuk-form-group').classList.remove('govuk-form-group--error');
 
-    if (element.tagName === "INPUT") {
+    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+      element.closest('.govuk-textarea').classList.remove('govuk-textarea--error');
       element.classList.remove("govuk-input--error");
     } else {
       let childInputs = element.querySelectorAll('input');
