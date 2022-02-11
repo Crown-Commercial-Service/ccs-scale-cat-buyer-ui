@@ -26,6 +26,15 @@
     "subsection4_table_th_1": "Event",
     "subsection4_table_th_2": "Agreement and Lot",
     "subsection4_table_th_3": "Status",
-    "buttonText": "Start a new Project"
-
+    "buttonText": "Start a new Project",
+    "related_content": [
+        {
+            "text": "Digital Specialists and Programmes",
+            "href": "https://www.crowncommercial.gov.uk/agreements/RM6263"
+        },
+        {
+            "text": "Management Consultancy Framework Three (MCF3)",
+            "href": "https://www.crowncommercial.gov.uk/agreements/RM6187"
+        }
+    ]
 }

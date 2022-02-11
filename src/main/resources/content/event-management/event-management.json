@@ -1,0 +1,21 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Event Management",
+            "href": "#"
+        }
+    ],
+    "title": "Event Management",
+    "subtitle": "Instructions for this page",
+    "subsection2_title":"Open Project ID/ Name",
+    "subsection3_title":"3. Supplier Response Summary",
+    "subsection4_title":"4. Supplier of Interest"
+}

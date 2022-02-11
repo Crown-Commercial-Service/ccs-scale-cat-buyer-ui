@@ -1,0 +1,49 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Welcome to the Contract a Thing beta' %}
+{% block content %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title}}
+        </h1>
+        {% include "includes/event_header.njk" %}
+      </div>
+    </div>
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <p class="govuk-!-padding-bottom-9">
+          {{data.subtitle}}
+        </p>
+        <div>
+          <h2 class="govuk-heading-m">
+            {{data.subsection2_title}}</h2>
+          <p class="govuk-body">{{ data.line1 }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">
+          {{data.subsection3_title}}</h2>
+        <p class="govuk-body">{{ data.line1 }}</p>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">
+          {{data.subsection4_title}}</h2>
+        <p class="govuk-body">{{ data.line1 }}</p>
+      </div>
+    </div>
+  </main>
+{% endblock %}

@@ -9,6 +9,6 @@ import * as dashboarData from '../../../resources/content/dashboard/ccs-dashboar
  * @param res 
  */
 export const DASHBOARD = (req: express.Request, res: express.Response) => {
-  var appendData = { data: dashboarData }
+  const appendData = { data: dashboarData, events: req.session.openProjectActiveEvents }
   res.render('dashboard', appendData);
 }
