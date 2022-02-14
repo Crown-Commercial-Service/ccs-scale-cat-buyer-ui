@@ -30,7 +30,7 @@
                         classes: "govuk-label govuk-label--m"
                       },
                       id: "rfp_question_1",
-                      name: "rfp_question_1",
+                      name: "term",
                       value: requirement.nonOCDS.options[0].value
                     })
                 }}    
@@ -46,9 +46,9 @@
 
            {% if requirement.nonOCDS.questionType === 'Text' and requirement.nonOCDS.multiAnswer === true and  requirement.nonOCDS.childern.length === 0 %}
                      {{  CCSTextarea({
-                      name: "rfp_question_1",
+                      name: "value",
                       required: requirement.nonOCDS.mandatory,
-                      id: "rfp_question_1",
+                      id: "value",
                       value: requirement.nonOCDS.options[0].value,
                       label: {
                       text: requirement.OCDS.title,

@@ -51,8 +51,10 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       TableItems: tableItems,
     };
 
+   
+
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    // res.json(UNIQUE_JOB_IDENTIFIER)
+    // res.json(tableItems)
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;

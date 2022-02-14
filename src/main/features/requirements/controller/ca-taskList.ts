@@ -78,11 +78,13 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
-    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
+    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id']; 
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
+
+
 
     const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
       const { name, weightingRange, options } = acapacity;
@@ -144,9 +146,9 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
         data: JOBSTORAGE,
       };
     });
-    req.session.designations.push(...UNIQUE_JOB_IDENTIFIER);
-    req.session.tableItems.push(...ITEMLIST);
-    req.session.dimensions.push(...CAPACITY_DATASET);
+    req.session.designations= [...UNIQUE_JOB_IDENTIFIER];
+    req.session.tableItems   = [...ITEMLIST];
+    req.session.dimensions= [...CAPACITY_DATASET];
 
     res.render('ca-taskList', windowAppendData);
   } catch (error) {
