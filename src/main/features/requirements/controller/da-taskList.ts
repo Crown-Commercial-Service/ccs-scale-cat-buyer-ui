@@ -139,9 +139,11 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
         data: JOBSTORAGE,
       };
     });
-    req.session.designations.push(...UNIQUE_JOB_IDENTIFIER);
-    req.session.tableItems.push(...ITEMLIST);
-    req.session.dimensions.push(...CAPACITY_DATASET);
+    req.session.designations= [...UNIQUE_JOB_IDENTIFIER];
+    req.session.tableItems   = [...ITEMLIST];
+    req.session.dimensions= [...CAPACITY_DATASET];
+
+    
     const appendData = { data: ViewLoadedTemplateData, releatedContent, error: isJaggaerError };
     res.render('rfp-taskList', appendData);
   } catch (error) {
