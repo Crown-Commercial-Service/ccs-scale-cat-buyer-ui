@@ -711,7 +711,7 @@
                                 isPageHeading: false
                               },
                               classes: "term_acronym_fieldset acronym_"+i,
-                              id:"term_acronym_fieldset_acronym_"+i
+                              id:"term_acronym_fieldset"
                             })
                           %}
 
@@ -722,7 +722,7 @@
                                 id: "rfp_term_"+i,
                                 name: "term",
                                 classes: "rfp_term_"+i,
-                                value: requirement.nonOCDS.options[0].value
+                                value: requirement.nonOCDS.options[i-1].value
                               })
                             }}
 
@@ -733,7 +733,7 @@
                                   text: "Enter the service area / KPI description"
                                 },
                                 classes: "rfp_term_definition_"+i,
-                                value: requirement.nonOCDS.options[0].text
+                                value: requirement.nonOCDS.options[i-1].text
                               })
                             }}
                             {{ CCSInput({
@@ -741,7 +741,7 @@
                                     text: "Insert the required target "
                                   },
                                   classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
-                                  id: "rfp_term_target_1"+i,
+                                  id: "rfp_term_target_"+i,
                                   value: requirement.nonOCDS.options[0].value2,
                                   name: "percentage",
                                   suffix: {
