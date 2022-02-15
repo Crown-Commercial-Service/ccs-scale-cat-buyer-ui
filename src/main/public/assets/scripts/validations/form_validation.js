@@ -183,9 +183,10 @@ const ccsZremoveErrorMessage = (element) => {
 
   if (document.getElementById(element.id + "-error") !== null) {
     element.closest('.govuk-form-group').classList.remove('govuk-form-group--error');
-
-    if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+    if (element.tagName === "TEXTAREA") {
       element.closest('.govuk-textarea').classList.remove('govuk-textarea--error');
+    }
+    if (element.tagName === "INPUT") {
       element.classList.remove("govuk-input--error");
     } else {
       let childInputs = element.querySelectorAll('input');
