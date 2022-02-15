@@ -42,94 +42,63 @@
                     onsTableOfContents({
                         "title": null,
                         "ariaLabel": 'Sections in this page',
-                        "itemsList": [
-                            {
-                                "url": '#section1',
-                                "text": 'Performance analysis and data',
-                                "subtext": '0% / 0%'
-                            },
-                            {
-                                "url": '#section2',
-                                "text": 'Security',
-                                "subtext": '0% / 0%'
-                            },
-                            {
-                                "url": '#section3',
-                                "text": 'Service delivery',
-                                "subtext": '0% / 0%'
-                            },
-                            {
-                                "url": '#section4',
-                                "text": 'Software development',
-                                "subtext": '0% / 0%'
-                            },
-                            {
-                                "url": '#section5',
-                                "text": 'Support and operations',
-                                "subtext": '0% / 0%'
-                            },
-                            {
-                                "url": '#section6',
-                                "text": 'Testing and auditing',
-                                "subtext": '0% / 0%'
-                            },
-                            {
-                                "url": '#section7',
-                                "text": 'User experience and design',
-                                "subtext": '0% / 0%'
-                            }
-                        ]
+                        "itemsList": TABLE_HEADING
                     })
                 }}
             </div>
             <div class="ons-grid__col ons-col-7@m ons-push-1@m">
-                <article id="section">
-                    <h2>Performance analysis and data</h2>
-                    <p>Enter a weighting for the whole cluster</p>
 
-                    <p>Enter a weighting for specific capabilities</p>
-                </article>
-                <article id="section">
-                    <h2>The online census has now closed</h2>
-                    <p>Census Day was on Sunday 21 March 2021.</p>
+            {% for item in TABLE_BODY -%}
+                    <article id="section" class="govuk-!-margin-top-6">
+                    <h2 class="govuk-heading-l govuk-!-font-weight-bold" >{{item['category']}}</h2>
+                    <h4> {{item['category']}} description </h4>
 
-                    <p>If you still have a paper census questionnaire, fill it in as soon as you can and return it to FREEPOST, Census 2021.</p>
-                </article>
-                <article id="section">
-                    <h2>What happens after Census Day</h2>
-                    <p>Two follow-up surveys, the <a href="#0">Census Coverage Survey</a> and the <a href="#0">Census Quality Survey</a>, help to improve the quality and accuracy of the census results.</p>
+                     <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                          <div class="govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item govuk-!-margin-top-9">
+                              <input class="govuk-radios__input" id="where-do-you-live" name="where-do-you-live" type="radio" value="england" checked>
+                              <label class="govuk-label govuk-radios__label govuk-heading-s" for="where-do-you-live">
+                                Enter a weighting for the whole cluster 
+                              </label>
+                            </div>
+                            <div class="govuk-radios__item govuk-!-margin-top-9">
+                              <input class="govuk-radios__input" id="where-do-you-live-2" name="where-do-you-live" type="radio" value="scotland">
+                              <label class="govuk-label govuk-radios__label govuk-heading-s" for="where-do-you-live-2">
+                                Enter a weighting for specific capabilities
+                              </label>
+                            </div>
+                        </fieldset>
+                      </div>
 
-                    <p>Over the next year, we work hard to process the answers from all the census questionnaires. This is so that we can publish the initial Census 2021 findings one year after the census and the main releases two years after the census.</p>
 
-                    <p>To make sure the Census 2021 statistics we publish meet the needs of those who use them, we also run an outputs consultation.</p>
-                </article>
-                <article id="section">
-                    <h2>The census in Northern Ireland and Scotland</h2>
-                    <p>The Office for National Statistics (ONS) runs the census in England and Wales.</p>
 
-                    <p>If you live in Northern Ireland, visit the Northern Ireland Statistics Agency (NISRA) census website to find out about the census for Northern Ireland.</p>
+    
+                              {% for subItems in item['data'] -%}
+                              <h4> {{subItems['groupname']}} </h4>
+                              <div class="govuk-!-margin-top-6">
+                               {{ CCSInput({
+                                    label: {
+                                      text: ""
+                                    },
+                                    classes: "govuk-input--width-2 ",
+                                    id: "weight_vetting",
+                                    name: "weight_vetting",
+                                    suffix: {
+                                      text: "%"
+                                    },
+                                    spellcheck: false
+                                  }) }}
+                                </div>  
+                                {%- endfor %}
 
-                    <p>If you live in Scotland, visit the National Records of Scotland census website to find out how to take part in the census for Scotland.</p>
-                </article>
-                <article id="section">
-                    <h2>The last census</h2>
-                    <p>The last census took place in 2011. Many people and organisations used information from the 2011 Census in a variety of ways.</p>
 
-                    <p>For example, Bristol City Council used it to inform decisions on how to fund local housing improvements. It was also essential for the charity Redbridge Council for Voluntary Services to help people from ethnic minority groups learn more about dementia.</p>
-
-                    <p>To read more about the benefits that information from the 2011 Census helped to create, visit the Office for National Statistics (ONS) website.</p>
-                    <p>The Census Coverage Survey (CCS) was a short, separate survey that we at the Office for National Statistics (ONS) started six to eight weeks after Census Day.</p>
-
-                    <p>The CCS helps make sure everyone is counted and our census results are as accurate as possible. It asked similar questions to the main census, just fewer of them, at addresses in a selection of postcodes across England and Wales.</p>
-
-                    <p>The CCS has now closed.</p>
-                </article>
-                <article id="section">
-                    <h2>section6</h2>
-                </article>
-                <article id="section">
-                    <h2>section7</h2>
-                </article>
+                     
+                    </article>
+            {%- endfor %}
+           
+              
+               
             </div>
         </div>
     </section>
