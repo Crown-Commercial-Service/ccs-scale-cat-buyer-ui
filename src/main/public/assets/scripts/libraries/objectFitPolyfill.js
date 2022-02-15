@@ -10,11 +10,8 @@
 (function() {
     'use strict';
 
-    // if the page is being rendered on the server, don't continue
     if (typeof window === 'undefined') return;
 
-    // Workaround for Edge 16+, which only implemented object-fit for <img> tags
-    // TODO: Keep an eye on Edge to determine which version has full final support
     var edgeVersion = window.navigator.userAgent.match(/Edge\/(\d{2})\./);
     var edgePartialSupport = edgeVersion
         ? parseInt(edgeVersion[1], 10) >= 16

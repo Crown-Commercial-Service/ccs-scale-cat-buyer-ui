@@ -4,11 +4,6 @@
 	(factory((global.GOVUKFrontend = {})));
 }(this, (function (exports) { 'use strict';
 
-/**
- * TODO: Ideally this would be a NodeList.prototype.forEach polyfill
- * This seems to fail in IE8, requires more investigation.
- * See: https://github.com/imagitama/nodelist-foreach-polyfill
- */
 function nodeListForEach (nodes, callback) {
   if (window.NodeList.prototype.forEach) {
     return nodes.forEach(callback)
@@ -250,28 +245,6 @@ if (detect) return
               // Clean up dangling references.
               Empty.prototype = null;
           }
-
-          // TODO
-          // 18. Set the [[Extensible]] internal property of F to true.
-
-          // TODO
-          // 19. Let thrower be the [[ThrowTypeError]] function Object (13.2.3).
-          // 20. Call the [[DefineOwnProperty]] internal method of F with
-          //   arguments "caller", PropertyDescriptor {[[Get]]: thrower, [[Set]]:
-          //   thrower, [[Enumerable]]: false, [[Configurable]]: false}, and
-          //   false.
-          // 21. Call the [[DefineOwnProperty]] internal method of F with
-          //   arguments "arguments", PropertyDescriptor {[[Get]]: thrower,
-          //   [[Set]]: thrower, [[Enumerable]]: false, [[Configurable]]: false},
-          //   and false.
-
-          // TODO
-          // NOTE Function objects created using Function.prototype.bind do not
-          // have a prototype property or the [[Code]], [[FormalParameters]], and
-          // [[Scope]] internal properties.
-          // XXX can't delete prototype in pure-js.
-
-          // 22. Return F.
           return bound;
       }
   });
