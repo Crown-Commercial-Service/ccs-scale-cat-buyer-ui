@@ -129,6 +129,9 @@ if (document.getElementById("ccs_rfi_docs_form") !== null) document.getElementBy
 if (document.getElementById("ccs_rfi_questions_form") !== null) document.getElementById("ccs_rfi_questions_form").addEventListener('submit', ccsZvalidateRfIQuestions);
 
 if (document.getElementById("ccs_eoi_questions_form") !== null) document.getElementById("ccs_eoi_questions_form").addEventListener('submit', ccsZvalidateEoIQuestions);
+
+if (document.getElementById("ccs_rfp_exit_strategy_form") !== null) document.getElementById("ccs_rfp_exit_strategy_form").addEventListener('submit', ccsZvalidateRfPStrategy);
+
 if (document.getElementById("ccs_rfp_about_proj") !== null) document.getElementById("ccs_rfp_about_proj").addEventListener('submit', ccsZvalidateRfPAboutBG);
 
 if (document.getElementById("ccs_eoi_purpose_form") !== null) document.getElementById("ccs_eoi_purpose_form").addEventListener('submit', ccsZvalidateEoiPurpose);
@@ -152,7 +155,7 @@ if (document.getElementById("ccs-rfi-suppliers-form") !== null) document.getElem
 
 if (document.getElementById("ccs_eoi_acronyms_form") !== null) document.getElementById("ccs_eoi_acronyms_form").addEventListener('submit', ccsZvalidateEoiAcronyms);
 
-if (document.getElementById("ccs_rfp_splterms_form") !== null) document.getElementById("ccs_rfp_splterms_form").addEventListener('submit', ccsZvalidateRfpAcronyms);
+if (document.getElementById("ccs_rfp_acronyms_form") !== null) document.getElementById("ccs_rfp_acronyms_form").addEventListener('submit', ccsZvalidateRfpAcronyms);
 
 if (document.getElementById("rfp_location") !== null) document.getElementById("rfp_location").addEventListener('submit', ccsZvalidateRfpLocation);
 
@@ -163,6 +166,7 @@ if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getEleme
 if (document.getElementById("ccs_eoi_date_form") !== null) document.getElementById("ccs_eoi_date_form").addEventListener('submit', ccsZvalidateEoiDate);
 
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
+
 
 setInputFilter(document.getElementById("eoi_resource_start_date-day"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
 setInputFilter(document.getElementById("eoi_resource_start_date-month"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));
