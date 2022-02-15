@@ -72,7 +72,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
 
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
-    statusStepsDataFilter(ViewLoadedTemplateData, eventType, agreement_id, projectId, eventId);
+    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreement_id, projectId, eventId);
 
     const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
