@@ -210,7 +210,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 return;
               }
             } catch (error) {
-              console.log('Something went wrong, please review the logit error log for more information');
               delete error?.config?.['headers'];
               const Logmessage = {
                 Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -265,7 +264,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 return;
               }
             } catch (error) {
-              console.log('Something went wrong, please review the logit error log for more information');
+
               delete error?.config?.['headers'];
               const Logmessage = {
                 Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -317,7 +316,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     res,
                   );
                 } catch (error) {
-                  console.log('Something went wrong, please review the logit error log for more information');
+
                   delete error?.config?.['headers'];
                   const Logmessage = {
                     Person_id: TokenDecoder.decoder(SESSION_ID),

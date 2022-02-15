@@ -24,8 +24,6 @@ export class EventEngagementMiddleware {
           next();
         })
         .catch(err => {
-          console.log(err);
-
           LoggTracer.errorLogger(
             res,
             err,

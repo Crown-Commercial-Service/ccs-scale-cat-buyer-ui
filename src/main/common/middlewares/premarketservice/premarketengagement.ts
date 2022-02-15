@@ -33,7 +33,6 @@ export class PreMarketEngagementMiddleware {
         let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
         const getEventTypes = await TenderApi.Instance(SESSION_ID).get(eventTypesURL);
         getEventType = getEventType.data[0].eventType;
-        console.log(getEventTypes);
         if (getEventType === 'TBD') {
           const { data } = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
           req.session.currentEvent = data;
@@ -52,8 +51,6 @@ export class PreMarketEngagementMiddleware {
           next();
         }
       } catch (err) {
-        console.log(err);
-
         LoggTracer.errorLogger(
           res,
           err,

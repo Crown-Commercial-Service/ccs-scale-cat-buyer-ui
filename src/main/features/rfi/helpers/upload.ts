@@ -42,7 +42,6 @@ export const FILEUPLOADHELPER: express.Handler = async (
       });
       res.send(fileData);
     } catch (error) {
-      console.log(error);
       delete error?.config?.['headers'];
       const Logmessage = {
         Person_id: TokenDecoder.decoder(SESSION_ID),

@@ -101,10 +101,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       }
     })
 
-    console.log(TableHeadings)
-
-
-
+    
     const windowAppendData = { ...caService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: CATEGORIZED_ACCORDING_DESIGNATION };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
 

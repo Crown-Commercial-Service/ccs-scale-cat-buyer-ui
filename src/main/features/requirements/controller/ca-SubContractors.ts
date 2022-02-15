@@ -104,7 +104,6 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
               };
           }),
         };
-        // console.log(body);
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,

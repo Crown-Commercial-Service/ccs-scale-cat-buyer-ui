@@ -146,7 +146,6 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
 
     res.render('review', appendData);
   } catch (error) {
-    console.log('Something went wrong, please review the logit error log for more information');
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),

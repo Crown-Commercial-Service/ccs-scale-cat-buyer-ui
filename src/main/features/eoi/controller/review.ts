@@ -22,8 +22,7 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
   CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
-  console.log(CurrentTimeStamp);
-
+  
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
@@ -38,8 +37,7 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
 
       res.redirect('/eoi/event-sent');
     } catch (error) {
-      console.log('Something went wrong, please review the logit error log for more information');
-
+      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
         TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
       EOI_REVIEW_RENDER(req, res, true, true);
@@ -186,7 +184,6 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
 
     res.render('reviewEoi', appendData);
   } catch (error) {
-    console.log('Something went wrong, please review the logit error log for more information');
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
