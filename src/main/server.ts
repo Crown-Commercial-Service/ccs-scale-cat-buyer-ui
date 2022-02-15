@@ -8,7 +8,6 @@ import config from 'config';
 
 const logger = Logger.getLogger('server');
 const Server_PORT = config.get('PORT');
-// TODO: set the right port for your application
 const port: any = parseInt(process.env.PORT, 10) || Server_PORT;
 
 if (app.locals.ENV === 'development') {

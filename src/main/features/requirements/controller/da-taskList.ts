@@ -29,7 +29,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const { isJaggaerError } = req.session;
-  const { assessmentId } = currentEvent;
+  const { assessmentId, eventType } = currentEvent;
   req.session['isJaggaerError'] = false;
   const itemList = [
     'Data',
@@ -68,7 +68,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
-    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'DAA', agreementId_session, projectId, eventId);
+    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreementId_session, projectId, eventId);
 
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
@@ -139,13 +139,12 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
         data: JOBSTORAGE,
       };
     });
-    req.session.designations= [...UNIQUE_JOB_IDENTIFIER];
-    req.session.tableItems   = [...ITEMLIST];
-    req.session.dimensions= [...CAPACITY_DATASET];
+    req.session.designations = [...UNIQUE_JOB_IDENTIFIER];
+    req.session.tableItems = [...ITEMLIST];
+    req.session.dimensions = [...CAPACITY_DATASET];
 
-    
     const appendData = { data: ViewLoadedTemplateData, releatedContent, error: isJaggaerError };
-    res.render('rfp-taskList', appendData);
+    res.render('da-taskList', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
