@@ -32,14 +32,17 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   };
   try {
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-    if (assessmentDetail.scores.length > 0) {
+    if (assessmentDetail.dimensionRequirements.length > 0) {
       // Need refactoring
-      isSubContractorAccepted = assessmentDetail.scores.find(asst => asst.name == 'Sub Contractors');
+      const SubContractor = assessmentDetail.dimensionRequirements.find(dmns =>
+        dmns.includedCriteria.find(crt => crt.name == 'Sub Contractor'),
+      );
+      isSubContractorAccepted = SubContractor !== undefined && SubContractor !== null ? true : false;
     } else {
       isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
     }
     caSubContractors.form[0].radioOptions.items = caSubContractors.form[0].radioOptions.items.map(opt => {
-      opt.checked = opt.value == 'Yes' && isSubContractorAccepted ? true : false;
+      opt.checked = opt.value == 'yes' && isSubContractorAccepted ? true : false;
       return opt;
     });
     const windowAppendData = {
@@ -68,15 +71,46 @@ const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string) => {
   return assessmentApi.data;
 };
 
+const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
+  const baseUrl = `assessments/tools/${toolId}/dimensions`;
+  const dimensionsApi = await TenderApi.Instance(sessionId).get(baseUrl);
+  return dimensionsApi.data;
+};
+
 export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
+  const assessmentId = req.session.currentEvent.assessmentId;
+  const toolId = req.session['CapAss']?.toolId;
 
   try {
     const { ca_subContractors } = req.body;
 
     if (ca_subContractors !== undefined && ca_subContractors !== '') {
       req.session['CapAss'].isSubContractorAccepted = ca_subContractors == 'yes' ? true : false;
+
+      const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
+
+      for (var dimension of assessmentDetail.dimensionRequirements) {
+        const body = {
+          name: dimension.name,
+          weighting: dimension.weighting,
+          requirements: dimension.requirements,
+          includedCriteria: dimension.includedCriteria.map(criteria => {
+            if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
+            } else
+              return {
+                'criterion-id': criteria['criterion-id'],
+              };
+          }),
+        };
+        // console.log(body);
+        await TenderApi.Instance(SESSION_ID).put(
+          `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+          body,
+        );
+      }
+
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Not started');
 
       res.redirect(REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS);
