@@ -59,6 +59,7 @@ const RedisInstanceSetup = (app: express.Express): void => {
 
    if (operations.notEquals(runner_environment, 'development')) {
    Session.cookie['secure'] = true
+   Session.cookie['httpOnly'] = true
     }
    
 
