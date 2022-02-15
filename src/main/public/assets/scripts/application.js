@@ -1,23 +1,7 @@
 /* global $ */
 
-// Warn about using the kit in production
-if (window.console && window.console.info) {
-  window.console.info('GOV.UK Prototype Kit - do not use for production')
-}
-
 $(document).ready(function () {
   window.GOVUKFrontend.initAll();
-
-  // const thisLocation = window.location.href;
-  // const journeyPagesURL = ['name','procurement-lead','add-collaborators','type','offline-doc','online-task-list',
-  // 'questions','who','vetting','upload','suppliers',
-  // 'review','response-date','project','project-status','address','address-manual','acronyms'];
-  // $.each(journeyPagesURL,function() {
-  //   if(thisLocation.indexOf(this) != -1) {
-  //      ccsScrollToJourney();
-  //      return false;   
-  //   }       
-  // });
 
   if (matchMedia) {
     const mq = window.matchMedia("(min-width: 40.0625em)");
