@@ -18,6 +18,7 @@ import { routeExceptionHandler } from './setup/routeexception'
 import { RedisInstanceSetup } from './setup/redis'
 import { fileUploadSetup } from './setup/fileUpload'
 import { URL } from "url";
+import {RequestSecurity} from './setup/requestSecurity'
 
 app.locals.ENV = env;
 
@@ -49,6 +50,9 @@ app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//Implementation of secure Request Methods 
+RequestSecurity(app);
 
 app.use(express.static('src/main/public'));
 app.use((req, res, next) => {
