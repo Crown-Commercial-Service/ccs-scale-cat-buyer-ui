@@ -1,5 +1,5 @@
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'How to build market event' %}
@@ -62,6 +62,7 @@
                 {% include "includes/project_header.njk" %}
                 <p class="govuk-body">{{data.subtitle}}</p>  
                 <form id="ccs_da_next_steps" name="ccs_da_next_steps" class="form ccs_da_next_steps" action="/da/next-steps" method="POST">
+                {{ csrfProtection(csrf) }}
                     {% for form in data.form %}
                         <fieldset id="{{form.id}}">
                             <p class="govuk-body">{{ form.question }}</p>

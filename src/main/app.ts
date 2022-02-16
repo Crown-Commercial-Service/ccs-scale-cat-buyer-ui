@@ -17,6 +17,7 @@ import glob from 'glob'
 import { routeExceptionHandler } from './setup/routeexception'
 import { RedisInstanceSetup } from './setup/redis'
 import { fileUploadSetup } from './setup/fileUpload'
+import { CsrfProtection } from './modules/csrf'
 import { URL } from "url";
 import {RequestSecurity} from './setup/requestSecurity'
 
@@ -50,6 +51,9 @@ app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+if (env !== 'mocha') {
+  new CsrfProtection().enableFor(app)
+}
 
 //Implementation of secure Request Methods 
 RequestSecurity(app);

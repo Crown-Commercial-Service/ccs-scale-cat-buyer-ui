@@ -1,5 +1,6 @@
 
 {% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
@@ -81,6 +82,7 @@
             {%endif%}
             {% if(storage < 1000000000)  %}
             <form action="/eoi/upload-doc" method="post" encType="multipart/form-data">    
+            {{ csrfProtection(csrf) }}
               {{ CCSFileUpload({
               id: "eoi_offline_document",
               name: "eoi_offline_document",
@@ -114,6 +116,7 @@
          {%endif%}  
 
                 <form action="/eoi/upload-doc/proceed" method="post">      
+                {{ csrfProtection(csrf) }}
                 <div class="govuk-button-group">
                         {{ CCSButton({
                               text: "Save and continue",

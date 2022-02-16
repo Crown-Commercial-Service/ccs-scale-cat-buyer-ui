@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'Enter your weightings | Contract a Thing' %}
 
@@ -28,6 +29,7 @@
                 }) }}
 
                 <form id="ccs_ca_weighting" name="ccs_ca_weighting" class="form ccs_ca_weighting" action="/ca/enter-your-weightings" method="POST">
+                {{ csrfProtection(csrf) }}
                     <div class="ccs-page-section">
                         <p class="govuk-body">
                             <h2>Total : <span id="totalPercentage">{{totalPercentage    }}</span> of 100%</h2>
