@@ -19,6 +19,7 @@ import { RedisInstanceSetup } from './setup/redis'
 import { fileUploadSetup } from './setup/fileUpload'
 import { CsrfProtection } from './modules/csrf'
 import { URL } from "url";
+import {RequestSecurity} from './setup/requestSecurity'
 
 app.locals.ENV = env;
 
@@ -53,6 +54,10 @@ app.use(cookieParser());
 if (env !== 'mocha') {
   new CsrfProtection().enableFor(app)
 }
+
+//Implementation of secure Request Methods 
+RequestSecurity(app);
+
 app.use(express.static('src/main/public'));
 app.use((req, res, next) => {
   res.setHeader(
