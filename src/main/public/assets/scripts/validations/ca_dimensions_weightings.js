@@ -31,7 +31,7 @@ const ccsZvalidateCAWeightings = (event) => {
         errMsg = "Entry box must contain a value"     
      else if (isNaN($(this).val()))
       errMsg = "Dimension value entered must be an integer"
-     else if (Number(element.value) < Number($(this).attr('min')) || Number(element.value) > Number($(this).attr('max')))
+     else if ((Number(element.value) < Number($(this).attr('min')) && Number($(this).attr('min')) !== 0) || (Number(element.value) > Number($(this).attr('max')) && Number($(this).attr('max')) !==0))
         errMsg = "Dimension value entered is outside the permitted range"
     else
         total +=Number(element.value);
@@ -42,8 +42,8 @@ const ccsZvalidateCAWeightings = (event) => {
         errorStore.push(fieldCheck);
     }    
  });
- if(total > 100){        
-        fieldCheck =["totalPercentage","Dimension value entered exceeds total of 100%"]
+ if(total !== 100){        
+        fieldCheck =["totalPercentage","Dimension value entered does not total to 100%"]
         errorStore.push(fieldCheck);
     }
  if (errorStore.length === 0) document.forms["ccs_ca_weighting"].submit();
