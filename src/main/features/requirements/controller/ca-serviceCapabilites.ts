@@ -100,12 +100,25 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
           "subtext": `${item.Weightage.min}% / ${item.Weightage.max}%`
       }
     })
+  
 
-    
-    const windowAppendData = { ...caService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: CATEGORIZED_ACCORDING_DESIGNATION };
+  
+    const REMOVED_DUPLICATED_JOB = CATEGORIZED_ACCORDING_DESIGNATION.map(item => {
+      const {Weightage, data, category} = item;
+      const UNIQUESET = [...new Set(data.map(item => item.groupname))]; 
+      const JOBSTORAGE = [];
+      for(const uniqueItem of UNIQUESET){
+        const filteredContents = data.filter(designation => designation.groupname === uniqueItem)[0];
+        JOBSTORAGE.push(filteredContents);
+      }
+      return {Weightage, data: JOBSTORAGE.flat(), category};
+    })
+
+
+
+    const windowAppendData = { ...caService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: REMOVED_DUPLICATED_JOB };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
 
-   // res.json(CATEGORIZED_ACCORDING_DESIGNATION)
    res.render('ca-serviceCapabilities', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
