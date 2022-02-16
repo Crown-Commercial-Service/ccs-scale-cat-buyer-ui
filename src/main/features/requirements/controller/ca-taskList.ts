@@ -69,10 +69,6 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     default:
       res.redirect('error/404');
   }
-
-  console.log(ViewLoadedTemplateData)
-  console.log()
-
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreement_id, projectId, eventId);
