@@ -1,9 +1,7 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% set title = 'RfI - response date | Crown Commercial Service' %}
-
-
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -93,6 +91,7 @@
                     </div>
                     <br>
                     <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfi_response_date_form">
+                    {{ csrfProtection(csrf) }}
                     <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
 
                         <div class="govuk-date-input" id="clarification_date">
@@ -213,6 +212,7 @@
 
 <div class="govuk-button-group">
 <form method="post" action="/rfi/response-date" >   
+{{ csrfProtection(csrf) }}
                 {{ CCSInput({
                     id: "timeStamp",
                     name: "rfi_clarification_date",

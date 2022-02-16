@@ -1,5 +1,5 @@
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% set title = 'How will you publish your RfI? | Contract a Thing' %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 
@@ -31,7 +31,7 @@
       </div>
       </div>
       <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/rfi/type?agreement_id={{agreement_id}}" method="POST">
-
+        {{ csrfProtection(csrf) }}
         {% set formOptions = data.form.radioOptions.items %}
 
         {% set form_Options_Altered = [] %}

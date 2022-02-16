@@ -1,5 +1,5 @@
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% set title = 'RFI review | Crown Commercial Service' %}
 
 {% block breadCrumb %}
@@ -301,7 +301,7 @@
                           </div>
                           <form id="ccs_rfi_publish_form" name="ccs_rfi_publish_form" class="form ccs_rfi_publish_form"
       action="/rfi/review" method="post">
-
+{{ csrfProtection(csrf) }}
                             {{ CCSCheckboxes({
       idPrefix: "rfi_publish_confirmation",
       name: "rfi_publish_confirmation",

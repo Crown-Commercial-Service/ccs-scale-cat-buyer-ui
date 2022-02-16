@@ -1,6 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
     items: breadCrumbs
@@ -30,6 +30,7 @@
         <br>
       </div>
       <form id="da_where_work_done" name="da_where_work_done" class="form da_form" action="/da/get-work-done" method="post">
+      {{ csrfProtection(csrf) }}
         <div class="ccs-page-section">
           <p class="govuk-body">{{data.total}} of 100% total weighting for locations<a href="2" class="del govuk-link govuk-link--no-visited-state" title="delete">Clear form</a></p>
         </div>

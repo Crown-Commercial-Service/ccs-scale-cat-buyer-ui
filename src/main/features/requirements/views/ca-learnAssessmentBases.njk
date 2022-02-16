@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% block breadCrumb %}
     {{ CCSBreadcrumbs({
@@ -29,7 +30,7 @@
         </div>
 
         <form id="ccs_ca_learn_assessment_bases" name="ccs_ca_learn_assessment_bases" class="form ccs_ca_learn_assessment_bases" action="/ca/learn-assessments-bases" method="POST">
-
+        {{ csrfProtection(csrf) }}
             {{ CCSInput({
             id: "ca_learn_assessment_bases_input",
             name: "ca_learn_assessment_bases_input",

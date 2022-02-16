@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'How will you publish your EoI? | Contract a Thing' %}
 
@@ -31,7 +32,7 @@
       </div>
       </div>
       <form id="ccs_eoi_type_form" name="ccs_eoi_type_form" class="form ccs_eoi_type_form" action="/eoi/type?agreement_id={{agreement_id}}" method="POST">
-
+        {{ csrfProtection(csrf) }}
         {% set formOptions = data.form.radioOptions.items %}
 
         {% set form_Options_Altered = [] %}
