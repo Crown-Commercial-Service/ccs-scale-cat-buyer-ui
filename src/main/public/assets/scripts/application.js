@@ -3,6 +3,14 @@
 $(document).ready(function () {
   window.GOVUKFrontend.initAll();
 
+  // Read the CSRF token from the <meta> tag
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  $.ajaxSetup({
+    beforeSend: function(xhr) {
+        xhr.setRequestHeader('CSRF-Token', token);
+    }
+  });
+
   if (matchMedia) {
     const mq = window.matchMedia("(min-width: 40.0625em)");
     mq.addListener(WidthChange);

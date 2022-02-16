@@ -1,6 +1,6 @@
 
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Complete and upload a document | Contract a Thing' %}
@@ -67,6 +67,7 @@
                                 {%endif%}
                                 {% if(storage < 1000000000)  %}
                                     <form action="/rfp/upload-attachment" method="post" encType="multipart/form-data">    
+                                    {{ csrfProtection(csrf) }}
                                     {{ CCSFileUpload({
                                         id: "rfp_offline_document",
                                         name: "rfp_offline_document",
@@ -126,7 +127,8 @@
                     ]
                 }) }}
 
-                <form action="/rfp/upload-attachment/proceed" method="post">      
+                <form action="/rfp/upload-attachment/proceed" method="post">  
+                {{ csrfProtection(csrf) }}    
                     <div class="govuk-button-group">
                             {{ CCSButton({
                                 text: "Save and continue",

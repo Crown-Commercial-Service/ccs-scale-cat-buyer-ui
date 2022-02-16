@@ -1,5 +1,5 @@
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Route to market' %}
@@ -34,7 +34,7 @@
 
         <p class="govuk-body">{{ data.form.question }}</p>
         <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form ccs_rfp_type_form" action="/requirements/choose-route" method="POST">
-
+        {{ csrfProtection(csrf) }}
           {% set formOptions = data.form.radioOptions.items %}
 
           {% set form_Options_Altered = [] %}

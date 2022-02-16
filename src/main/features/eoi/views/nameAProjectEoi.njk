@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'Name project | Contract a Thing' %}
 {% set url -%}
@@ -63,7 +64,8 @@
         <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
       </div>
       <p class="govuk-body">{{data.caption}}</p>
-      <form id="ccs_eoi_project_name_form" name="ccs_eoi_project_name_form" action="/eoi/name?procid={{procId}}" method="POST">       
+      <form id="ccs_eoi_project_name_form" name="ccs_eoi_project_name_form" action="/eoi/name?procid={{procId}}" method="POST">      
+        {{ csrfProtection(csrf) }} 
           
         {{ CCSInput({           
             id: data.form.input.id,

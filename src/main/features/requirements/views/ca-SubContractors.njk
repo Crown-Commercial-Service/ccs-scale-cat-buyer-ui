@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'Will you accept sub contractors | Contract a Thing' %}
 
@@ -31,7 +32,7 @@
         </div>
 
         <form id="ccs_ca_subContractors" name="ccs_ca_subContractors" class="form ccs_ca_subContractors" action="/ca/accept-subContractors" method="POST">
-
+        {{ csrfProtection(csrf) }}
             {% for form in data.form %}
                 {% set formOptions = form.radioOptions.items %}
                 {% set form_Options_Altered = [] %}

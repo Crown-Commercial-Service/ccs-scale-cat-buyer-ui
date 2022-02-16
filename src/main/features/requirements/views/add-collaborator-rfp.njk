@@ -1,4 +1,5 @@
 {% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
@@ -95,6 +96,7 @@
       <div class="ccs-page-section">
         <p class="govuk-body">Select and add colleagues</p>
         <form method="POST" action="/rfp/get-collaborator-detail">
+        {{ csrfProtection(csrf) }}
           <div class="govuk-button-group">
           {{ CCSSelect({
           id: "rfi_collaborators",
@@ -115,6 +117,7 @@
       </div>
 
       <form method="POST" action="/rfp/add-collaborator-detail" >
+      {{ csrfProtection(csrf) }}
         <div class="ccs-page-section" id="potential-collaborator">
           <div id="potential-collaborator-detail">
             <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
@@ -167,6 +170,7 @@
       <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
       <br>
 <form  class="form ccs_add_rfi_collab" method="POST" action="/rfp/proceed-collaborators" method="post">
+{{ csrfProtection(csrf) }}
 
       {{ CCSInput({
       id: "rfi_collaborators_added",

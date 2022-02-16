@@ -2,7 +2,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set lead = lead.OCDS.contact.email %}
 
@@ -88,6 +88,7 @@
          <div class="ccs-page-section">
         <p class="govuk-body">Select and add colleagues</p>
         <form method="POST" action="/eoi/get-collaborator-detail">
+        {{ csrfProtection(csrf) }}
          <div class="govuk-button-group">
         {{ CCSSelect({
         id: "eoi_collaborators",
@@ -108,6 +109,7 @@
       </div>
 
       <form method="POST" action="/eoi/add-collaborator-detail" >
+      {{ csrfProtection(csrf) }}
       <div class="ccs-page-section" id="potential-collaborator">
         <div id="potential-collaborator-detail">
           <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="eoi_show_collab_name" > {{collaborator['fullName']}}</span>
@@ -161,6 +163,7 @@
       <!-- <p class="govuk-body"><a href="#" id="ccs_collab_add" class="govuk-link govuk-link--no-visited-state">Add another collaborator</a> </p>  -->
       <br>
 <form  class="form ccs_add_eoi_collab" method="POST" action="/eoi/proceed-collaborators" method="post">
+{{ csrfProtection(csrf) }}
 
       {{ CCSInput({
       id: "eoi_collaborators_added",
