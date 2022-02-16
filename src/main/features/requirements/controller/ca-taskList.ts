@@ -70,6 +70,9 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
       res.redirect('error/404');
   }
 
+  console.log(ViewLoadedTemplateData)
+  console.log()
+
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreement_id, projectId, eventId);
@@ -144,6 +147,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
         data: JOBSTORAGE,
       };
     });
+
     req.session.designations = [...UNIQUE_JOB_IDENTIFIER];
     req.session.tableItems = [...ITEMLIST];
     req.session.dimensions = [...CAPACITY_DATASET];
