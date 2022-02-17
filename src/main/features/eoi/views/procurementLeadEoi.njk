@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'Lead Procurement | Contract a Thing' %}
 {% set url -%}
@@ -98,6 +99,7 @@
 
             <form class="form ccs_eoi_procurement_lead" action="/eoi/procurement-lead"
             method="post">
+            {{ csrfProtection(csrf) }}
                <div id='selected_user_detail'>
                   <p class="govuk-body">
                      <strong>Email address: </strong>

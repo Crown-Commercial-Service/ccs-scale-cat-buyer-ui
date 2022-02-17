@@ -61,11 +61,13 @@ export const AUTH: express.Handler = async (
                 maxAge: Number(config.get('Session.time')) * 60 * 1000,
                 httpOnly: true,
                 secure: true,
+                sameSite: 'lax',
               });
               res.cookie(cookies.state, state, {
                 maxAge: Number(config.get('Session.time')) * 60 * 1000,
                 httpOnly: true,
                 secure: true,
+                sameSite: 'lax',
               });
               req.session.cookie.expires = sessionExtendedTime;
               next();

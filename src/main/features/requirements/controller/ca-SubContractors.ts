@@ -32,17 +32,12 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   };
   try {
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-    if (assessmentDetail.dimensionRequirements.length > 0) {
-      // Need refactoring
-      const SubContractor = assessmentDetail.dimensionRequirements.find(dmns =>
-        dmns.includedCriteria.find(crt => crt.name == 'Sub Contractor'),
-      );
-      isSubContractorAccepted = SubContractor !== undefined && SubContractor !== null ? true : false;
-    } else {
-      isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
-    }
+
+    isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
+
     caSubContractors.form[0].radioOptions.items = caSubContractors.form[0].radioOptions.items.map(opt => {
-      opt.checked = opt.value == 'yes' && isSubContractorAccepted ? true : false;
+      if (opt.value == 'yes' && isSubContractorAccepted) opt.checked = true;
+      else if (opt.value == 'no' && isSubContractorAccepted == false) opt.checked = true;
       return opt;
     });
     const windowAppendData = {
@@ -96,15 +91,17 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           name: dimension.name,
           weighting: dimension.weighting,
           requirements: dimension.requirements,
-          includedCriteria: dimension.includedCriteria.map(criteria => {
-            if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
-            } else
-              return {
-                'criterion-id': criteria['criterion-id'],
-              };
-          }),
+          includedCriteria: dimension.includedCriteria
+            .map(criteria => {
+              if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
+                return null;
+              } else
+                return {
+                  'criterion-id': criteria['criterion-id'],
+                };
+            })
+            .filter(criteria => criteria !== null),
         };
-        // console.log(body);
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,

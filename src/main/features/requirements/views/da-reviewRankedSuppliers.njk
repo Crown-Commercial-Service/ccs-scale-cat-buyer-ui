@@ -1,6 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -51,6 +51,7 @@
           <p class="govuk-body">{{p2}}</p>
         </div>
         <form id="da_review_ranked_suppliers" name="da_review_ranked_suppliers" class="form da_form" action="/da/review-ranked-suppliers" method="post">
+        {{ csrfProtection(csrf) }}
             {{ CCSCheckboxes({
               idPrefix: "additional_ranks",
               name: "additional_ranks",

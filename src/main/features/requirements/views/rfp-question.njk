@@ -1,6 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% set title =  rfpTitle + '- Create a Request for Information (rfp)' %}
 
 {% block breadCrumb %}
@@ -54,7 +54,7 @@
       <p class="govuk-body">{{data.rfpTitle}}</p>
 
       <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
-      
+      {{ csrfProtection(csrf) }}
         <p class="govuk-body">{{prompt?[0] | safe}}</p>
         <p class="govuk-body">{{prompt?[1] | safe}}</p>
 

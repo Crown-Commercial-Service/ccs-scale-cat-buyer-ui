@@ -1,5 +1,5 @@
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'How well can the team scale' %}
@@ -59,6 +59,7 @@
                 <p class="govuk-body">{{data.subtitle}}</p>  
                 <p class="govuk-body">{{ data.form.question }}</p>
                 <form id="ccs_ca_type_form" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/ca/team-scale" method="POST">
+                {{ csrfProtection(csrf) }}
                     <div class="govuk-form-group">
                         <div class="govuk-radios">
                             <br>

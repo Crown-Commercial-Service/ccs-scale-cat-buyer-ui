@@ -53,8 +53,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let fetchQuestionsData = fetchQuestions.data;
     const rfi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
 
-    console.log({ rfi_clarification_date });
-
+    
     const clarification_period_end_date = new Date();
     const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${
       clarification_period_end_date.getMonth() + 1

@@ -60,7 +60,6 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         multiAnswer: aSelector.nonOCDS.multiAnswer,
         length: aSelector.nonOCDS.length,
       };
-      console.log(aSelector.nonOCDS.order);
       nonOCDSList.push(questionNonOCDS);
       if (aSelector.nonOCDS.questionType === 'SingleSelect' && aSelector.nonOCDS.multiAnswer === false) {
         return 'rfp_singleselect';
@@ -126,7 +125,6 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       .map(JSON.parse)
       .filter(item => !item.nonOCDS.dependant);
 
-    console.log(fetch_dynamic_api_data);
     const formNameValue = form_name.find(fn => fn !== '');
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
@@ -185,7 +183,6 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
  */
 // path = '/rfp/questionnaire'
 export const RFP_POST_QUESTION = async (req: express.Request, res: express.Response) => {
-  console.log(req.body);
   try {
     const { proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const agreement_id = req.session.agreement_id;

@@ -40,12 +40,14 @@ export class AgreementLotMiddleware {
                 res.cookie(cookies.lotNum, lotNum, {
                     maxAge: Number(config.get('Session.time')) * 60 * 1000,
                     httpOnly: true,
-                    secure: true
+                    secure: true,
+                    sameSite: 'lax'
                 });
                 res.cookie(cookies.agreement_id, agreement_id, {
                     maxAge: Number(config.get('Session.time')) * 60 * 1000,
                     httpOnly: true,
-                    secure: true
+                    secure: true,
+                    sameSite: 'lax'
                 });
             }
             next();
