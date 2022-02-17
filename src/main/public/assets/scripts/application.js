@@ -95,6 +95,8 @@ if (document.getElementById("ccs_eoi_vetting_form") !== null) document.getElemen
 
 if (document.getElementById("ccs_ca_type_form") !== null) document.getElementById("ccs_ca_type_form").addEventListener('submit', ccsZvalidateCaaAssFCSecurity);
 if (document.getElementById("ccs_ca_weighting") !== null) document.getElementById("ccs_ca_weighting").addEventListener('submit', ccsZvalidateCAWeightings);
+
+if (document.getElementById("ccs_daa_weighting") !== null) document.getElementById("ccs_daa_weighting").addEventListener('submit', ccsZvalidateDAAWeightings);
 if (document.getElementById("ccs_ca_suppliers_form") !== null) document.getElementById("ccs_ca_suppliers_form").addEventListener('submit', ccsZvalidateCASupplier);
 
 // if (document.getElementById("ccs_rfi_dates_form") !== null) document.getElementById("ccs_rfi_dates_form").addEventListener('submit', ccsZvalidateRfiDates);
