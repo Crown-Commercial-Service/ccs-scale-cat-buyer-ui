@@ -58,7 +58,7 @@
                 {% include "includes/project_header.njk" %}
                 <p class="govuk-body">{{data.subtitle}}</p>
                 <p class="govuk-body">{{ data.form.question }}</p>
-                <form id="ccs_ca_type_form" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/da/team-scale" method="POST">
+                <form id="ccs_da_team_scale_form" name="ccs_da_team_scale_form" class="form ccs_da_team_scale_form" action="/da/team-scale" method="POST">
                 {{ csrfProtection(csrf) }}
                     <div class="govuk-form-group">
                         <div class="govuk-radios">
@@ -68,14 +68,14 @@
                             {% if i == 0%}
                                 <div class="govuk-radios__item">
                                     {%if data.form.radioOptions.items[i].selected === true %}
-                                        <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{data.form.radioOptions.items[i].text}}" aria-describedby="ccs_vetting_type-item-hint" checked>
+                                        <input class="govuk-radios__input ccs_vetting" id="ccs_da_team_scale" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_da_team_scale-item-hint" checked>
                                     {%else%}
-                                        <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{data.form.radioOptions.items[i].text}}" aria-describedby="ccs_vetting_type-item-hint" >
+                                        <input class="govuk-radios__input ccs_vetting" id="ccs_da_team_scale" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_da_team_scale-item-hint" >
                                     {%endif%}
-                                    <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
+                                    <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_da_team_scale">
                                         <h3 class="govuk-heading-m">{{data.form.radioOptions.items[i].text}}</h3>
                                     </label>
-                                    <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
+                                    <div id="ccs_da_team_scale-item-hint" class="govuk-hint govuk-radios__hint">
                                         {{data.form.radioOptions.items[i].hint.text | safe}}
                                     </div>
                                 </div>
@@ -83,14 +83,14 @@
 
                                 <div class="govuk-radios__item">
                                     {%if data.form.radioOptions.items[i].selected === true %}
-                                        <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{data.form.radioOptions.items[i].text}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
+                                        <input class="govuk-radios__input ccs_vetting" id="ccs_da_team_scale-{{i+1}}" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_da_team_scale-{{i}}-item-hint" checked>
                                     {%else%}
-                                        <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{data.form.radioOptions.items[i].text}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
+                                        <input class="govuk-radios__input ccs_vetting" id="ccs_da_team_scale-{{i+1}}" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_da_team_scale-{{i}}-item-hint" >
                                     {% endif %}
-                                    <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
+                                    <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_da_team_scale-{{i}}">
                                         <h3 class="govuk-heading-m">{{data.form.radioOptions.items[i].text}}</h3>
                                     </label>
-                                    <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
+                                    <div id="ccs_da_team_scale-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
                                         {{data.form.radioOptions.items[i].hint.text |safe}}
                                     </div>
                                 </div>
