@@ -93,16 +93,35 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       CATEGORIZED_ACCORDING_DESIGNATION.push(MAPPEDACCORDINGTOCATEGORY)
     }
 
-    const TableHeadings = CATEGORIZED_ACCORDING_DESIGNATION.map((item, index) => {
+
+    let Level1DesignationStorageForHeadings = [];
+
+    for(const desgination of CATEGORIZED_ACCORDING_DESIGNATION){
+      const {Weightage, data, category} = desgination;
+      const filteredLevel1Content = data.filter(role => role.level === 1);
+      const ReformedObject = {
+        Weightage,
+        data: filteredLevel1Content,
+        category
+      }
+      Level1DesignationStorageForHeadings.push(ReformedObject);
+    }
+
+    Level1DesignationStorageForHeadings = Level1DesignationStorageForHeadings.filter(designation => designation.data.length !== 0);
+
+
+
+    const TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
       return {
           "url": `#section${index}`,
           "text": item.category,
           "subtext": `${item.Weightage.min}% / ${item.Weightage.max}%`
       }
     })
-  
 
-  
+    /**
+     * Removing duplicated designations
+     */  
     const REMOVED_DUPLICATED_JOB = CATEGORIZED_ACCORDING_DESIGNATION.map(item => {
       const {Weightage, data, category} = item;
       const UNIQUESET = [...new Set(data.map(item => item.groupname))]; 
@@ -114,11 +133,29 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       return {Weightage, data: JOBSTORAGE.flat(), category};
     })
 
+      /**
+     * Levels 1 designaitons
+     */
+    
+      let Level1DesignationStorage = [];
 
+      for(const desgination of REMOVED_DUPLICATED_JOB){
+        const {Weightage, data, category} = desgination;
+        const filteredLevel1Content = data.filter(role => role.level === 1);
+        const ReformedObject = {
+          Weightage,
+          data: filteredLevel1Content,
+          category
+        }
+        Level1DesignationStorage.push(ReformedObject);
+      }
 
-    const windowAppendData = { ...caService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: REMOVED_DUPLICATED_JOB };
+      Level1DesignationStorage = Level1DesignationStorage.filter(designation => designation.data.length !== 0);
+
+    const windowAppendData = { ...caService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: Level1DesignationStorage };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
 
+   // res.json(Level1DesignationStorage)
    res.render('ca-serviceCapabilities', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -137,7 +174,11 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-  try {
+
+  console.log(req.body)
+
+  /***
+   *  try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
     res.redirect('/ca/service-capabilities');
   } catch (error) {
@@ -151,4 +192,7 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       true,
     );
   }
+   * 
+   */
+ 
 };
