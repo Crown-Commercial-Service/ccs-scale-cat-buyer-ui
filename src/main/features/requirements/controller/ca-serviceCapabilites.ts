@@ -48,8 +48,9 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
-    const CAPACITY_DATASET = CAPACITY_DATA.data;
+    let CAPACITY_DATASET = CAPACITY_DATA.data;
 
+    CAPACITY_DATASET = CAPACITY_DATASET.filter(levels =>  levels['name'] === 'Service Capability')
 
     const CAPACITY_CONCAT_OPTIONS = CAPACITY_DATASET.map(item => {
       const {weightingRange, options} = item;
@@ -155,7 +156,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     const windowAppendData = { ...caService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: Level1DesignationStorage };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
 
-   // res.json(Level1DesignationStorage)
+ // res.json(CAPACITY_DATASET)
    res.render('ca-serviceCapabilities', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -171,11 +172,45 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
   }
 };
 
+
+
+/**
+ * 
+ * @param req 
+ * @param res 
+ * 
+ * @POST
+ */
 export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
+  const {ca_service_started} = req.body;
 
-  console.log(req.body)
+  const {ca_partial_weightage, weight_vetting_partial, weight_vetting_whole} = req.body;
+  console.log({ca_service_started, ca_partial_weightage, weight_vetting_partial});
+
+  const POSITIONSTORAGE = [];
+  for(const element =0; element < weight_vetting_partial.length; element++ ){
+    if(weight_vetting_partial[element] != ""){
+      POSITIONSTORAGE.push(element);
+    }
+  }
+
+  const JOBDESIGNATIONS = POSITIONSTORAGE.map(item => {
+    let element_in_ca_partial_weightage = ca_partial_weightage[item];
+    let element_in_weight_vetting_partial = weight_vetting_partial[item];
+    return {
+      designation: element_in_ca_partial_weightage,
+      weightage: element_in_weight_vetting_partial
+    }
+  })
+
+  console.log(JOBDESIGNATIONS)
+
+
+
+
+
 
   /***
    *  try {
