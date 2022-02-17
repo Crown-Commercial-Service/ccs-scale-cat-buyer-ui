@@ -93,13 +93,16 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
         name: dimension.name,
         weighting: req.body[dimension['dimension-id']],
         requirements: [],
-        includedCriteria: dimension.evaluationCriteria.map(criteria => {
-          if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') return {};
-          else
-            return {
-              'criterion-id': criteria['criterion-id'],
-            };
-        }),
+        includedCriteria: dimension.evaluationCriteria
+          .map(criteria => {
+            if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
+              return null;
+            } else
+              return {
+                'criterion-id': criteria['criterion-id'],
+              };
+          })
+          .filter(criteria => criteria !== null),
       };
       await TenderApi.Instance(SESSION_ID).put(
         `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
