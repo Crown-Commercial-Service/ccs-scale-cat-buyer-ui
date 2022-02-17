@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
+
 {% set title = 'Enter your weightings | Contract a Thing' %}
 
 {% block breadCrumb %}
@@ -27,8 +28,8 @@
                         html: data.insertText
                 }) }}
 
-                <form id="ccs_ca_weighting" name="ccs_ca_weighting" class="form ccs_ca_weighting" action="/da/enter-your-weightings" method="POST">
-                {{ csrfProtection(csrf) }}
+                <form id="ccs_daa_weighting" name="ccs_daa_weighting" class="form ccs_daa_weighting" action="/da/enter-your-weightings" method="POST">
+                    {{ csrfProtection(csrf) }}
                     <div class="ccs-page-section">
                         <p class="govuk-body">
                             <h2>Total : <span id="totalPercentage">{{totalPercentage    }}</span> of 100%</h2>
@@ -63,6 +64,13 @@
                             </div>
                         </div>
                     {% endfor %}
+
+                    {{ CCSInput({
+                        id: "ca_weighting_input",
+                        name: "ca_weighting_input",
+                        type: "hidden",
+                        value: true
+                    }) }}
 
                     <div class="govuk-button-group">
                         {{ CCSButton({
