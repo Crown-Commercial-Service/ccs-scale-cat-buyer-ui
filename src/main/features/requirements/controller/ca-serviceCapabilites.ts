@@ -324,15 +324,6 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     Level1DesignationStorageForHeadings = Level1DesignationStorageForHeadings.filter(designation => designation.data.length !== 0);
 
 
-
-    const TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
-      return {
-          "url": `#section${index}`,
-          "text": item.category,
-          "subtext": `${item.Weightage.min}% / ${item.Weightage.max}%`
-      }
-    })
-
     /**
      * Removing duplicated designations
      */  
