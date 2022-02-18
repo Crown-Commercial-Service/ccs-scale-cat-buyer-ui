@@ -25,7 +25,7 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid: lotId,
     error: isJaggaerError,
   };
   try {
@@ -35,6 +35,7 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
     if (assessmentDetail.dimensionRequirements.length > 0) {
       const optionId = assessmentDetail.dimensionRequirements[0].requirements[0]['requirement-id'];
       const objIndex = caTeamScale.form.radioOptions.items.findIndex(obj => obj.value === optionId);
+
       caTeamScale.form.radioOptions.items[objIndex].selected = true;
     }
     const windowAppendData = { data: caTeamScale, lotId, agreementLotName, choosenViewPath, releatedContent };
