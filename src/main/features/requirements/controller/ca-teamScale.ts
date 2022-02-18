@@ -25,7 +25,7 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
     project_name,
     agreementId_session,
     agreementLotName,
-    lotid,
+    lotid: lotId,
     error: isJaggaerError,
   };
   try {
