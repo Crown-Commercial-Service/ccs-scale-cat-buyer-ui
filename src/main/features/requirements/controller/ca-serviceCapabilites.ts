@@ -12,6 +12,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @GETController
  */
 export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
+ 
   const { SESSION_ID } = req.cookies;
   const {
     lotId,
@@ -52,7 +53,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
     CAPACITY_DATASET = CAPACITY_DATASET.filter(levels =>  levels['name'] === 'Service Capability')
 
-    const CAPACITY_CONCAT_OPTIONS = CAPACITY_DATASET.map(item => {
+    let CAPACITY_CONCAT_OPTIONS = CAPACITY_DATASET.map(item => {
       const {weightingRange, options} = item;
       return options.map(subItem => {
         return {
@@ -61,6 +62,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       })
     }).flat();
 
+    CAPACITY_CONCAT_OPTIONS = CAPACITY_CONCAT_OPTIONS.filter(designation => designation.groupRequirement != true)
     const UNIQUE_GROUPPED_ITEMS = CAPACITY_CONCAT_OPTIONS.map(item => {
       const optionID = item['option-id'];
       const {name, groups, weightingRange} = item;
@@ -155,8 +157,8 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     const windowAppendData = { ...caService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: Level1DesignationStorage };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
 
-  //res.json(Level1DesignationStorage)
-   res.render('ca-serviceCapabilities', windowAppendData);
+  //res.json(CAPACITY_CONCAT_OPTIONS)
+  res.render('ca-serviceCapabilities', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -359,31 +361,52 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
 
 
       //RespectiveWholeElements
+
+      /**
+       * 
+       */
       const FOUNDITEMSOFWHOLECLUSTER = RespectiveWholeElements.map(item => {
         const FIND_ITEM_IN_API = Level1DesignationStorage.filter(designation => designation['category'] == item.ClusterName);
-        const DATA_IN_ITEM_IN_API = FIND_ITEM_IN_API[0].data;
-        let totalItemLen = DATA_IN_ITEM_IN_API.length;
-        let totalCLusterValue = item.weightage;
-        let calculatedValue = totalCLusterValue / totalItemLen;
-        let toPrecisionWeightage = calculatedValue.toFixed(2);
-        return DATA_IN_ITEM_IN_API.map(subItems => {
+        const MappedArrays = FIND_ITEM_IN_API.map(nestItem => {
           return {
-            designation: subItems.groupname,
-            weightage : toPrecisionWeightage,
-            groupRequirement:true
+            ...nestItem,
+            weightage: item.weightage
           }
         })
+
+        return MappedArrays;
+      
       }).flat()
 
 
+      const FindRespectiveRequirementID = FOUNDITEMSOFWHOLECLUSTER.map(item => {
+        const { category, weightage } = item;
+        const CapacityData = CAPACITY_DATASET[0].options;
+        const ToggledTrue = CapacityData.filter(nestedItem => nestedItem.groupRequirement == true);
+        const FoundElement = ToggledTrue.filter(nestedItem => nestedItem.name == category)[0];
+          return {
+          Weightage: weightage,
+          ...FoundElement
+        }
+      });
 
-    const MAPPED_WHOLE_AND_PARTIAL_CLUSTER =  [...FOUNDITEMSOFWHOLECLUSTER].concat(RespectivePartialElements)
+
+      const FindIndividualItemsID = RespectivePartialElements.map(item => {
+        const { designation, weightage } = item;
+        const CapacityData = CAPACITY_DATASET[0].options;
+        const ToggledTrue = CapacityData.filter(nestedItem => nestedItem.groupRequirement == false);
+        const FoundElement = ToggledTrue.filter(nestedItem => nestedItem.name == designation)[0];
+        return {
+          Weightage: weightage,
+          ...FoundElement
+        }
+      })
+
+    
+     const MAPPED_WHOLE_AND_PARTIAL_CLUSTER =  FindRespectiveRequirementID.concat(FindIndividualItemsID)
     
     
 
-
-
-      console.log(MAPPED_WHOLE_AND_PARTIAL_CLUSTER)
 
      res.json(MAPPED_WHOLE_AND_PARTIAL_CLUSTER)
 
