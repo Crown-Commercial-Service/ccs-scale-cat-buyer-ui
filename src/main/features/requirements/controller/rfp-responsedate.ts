@@ -47,8 +47,8 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       criterianStorage.push(rebased_object_with_requirements);
     }
     criterianStorage = criterianStorage.flat();
-    const Criterian_ID = criterianStorage[0].criterianId;
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
+    const Criterian_ID = criterianStorage[0].criterianId;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
@@ -74,7 +74,7 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
           options: [answerformater],
         },
       };
-      const answerBaseURL = `/tenders/projects/${proc_id}/events/${projectId}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+      const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
     }
     const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/23`, 'Completed');
@@ -82,7 +82,7 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/24`, 'Not started');
     }
 
-    res.redirect('/rfp/review');
+    res.redirect('/rfp/task-list');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
