@@ -130,7 +130,7 @@
     "mocha-parallel-tests": "^2.2.2",
     "mochawesome": "^4.1.0",
     "nock": "^13.0.4",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "nodemon": "^2.0.2",
     "pa11y": "^6.1.1",
     "prettier": "^2.4.1",
