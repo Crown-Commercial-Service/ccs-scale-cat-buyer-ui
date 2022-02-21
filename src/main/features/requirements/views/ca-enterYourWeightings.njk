@@ -29,7 +29,7 @@
                 }) }}
 
                 <form id="ccs_ca_weighting" name="ccs_ca_weighting" class="form ccs_ca_weighting" action="/ca/enter-your-weightings" method="POST">
-                {{ csrfProtection(csrf) }}
+                    {{ csrfProtection(csrf) }}
                     <div class="ccs-page-section">
                         <p class="govuk-body">
                             <h2>Total : <span id="totalPercentage">{{totalPercentage    }}</span> of 100%</h2>
@@ -76,7 +76,8 @@
                         {{ CCSButton({
                             text: "Save and continue"
                         }) }}
-                        <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+                        {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
                     </div>
                 </form>
             </div>
