@@ -45,6 +45,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
+    console.log(ALL_ASSESSTMENTS_DATA)
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
@@ -62,7 +63,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       })
     }).flat();
 
-    CAPACITY_CONCAT_OPTIONS = CAPACITY_CONCAT_OPTIONS.filter(designation => designation.groupRequirement != true)
+   // CAPACITY_CONCAT_OPTIONS = CAPACITY_CONCAT_OPTIONS.filter(designation => designation.groupRequirement != true)
     const UNIQUE_GROUPPED_ITEMS = CAPACITY_CONCAT_OPTIONS.map(item => {
       const optionID = item['option-id'];
       const {name, groups, weightingRange} = item;
@@ -154,12 +155,58 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       }
 
       Level1DesignationStorage = Level1DesignationStorage.filter(designation => designation.data.length !== 0);
+
+      /**
+       * @ASSESSMENT_API_REQUEST
+       * @DIMENSION_REQUIREMENT
+       */
+    let {dimensionRequirements} = ALL_ASSESSTMENTS_DATA;
+    const DRequirements = dimensionRequirements?.[0]?.requirements;
+
+
+    var TABLEBODY = [];
+
+ 
+
+    if( dimensionRequirements?.[0]?.requirements != undefined){
+      
+     const reformedDataSet = Level1DesignationStorage.map(items => {
+       const refObj = items;
+       let {data} = items;
+       data = data.map(nestedItem => {
+        
+         for(const i of DRequirements){
+           if(nestedItem.groupname == i.name){
+             return {...nestedItem, value: i.weighting};
+           }
+           else{
+            return {...nestedItem, value: ''};
+           }
+         }
+       })
+       refObj.data = data;
+       return refObj;
+
+     })
+
+      TABLEBODY = reformedDataSet;
+
+    }
+    else{
+      TABLEBODY = Level1DesignationStorage;
+    }
+
+
+
+
+
     const windowAppendData = { ...caService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: Level1DesignationStorage };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
 
-  //res.json(CAPACITY_CONCAT_OPTIONS)
-  res.render('ca-serviceCapabilities', windowAppendData);
+// res.json(Level1DesignationStorage)
+res.render('ca-serviceCapabilities', windowAppendData);
   } catch (error) {
+    console.log(error)
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
@@ -403,12 +450,59 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       })
 
     
-     const MAPPED_WHOLE_AND_PARTIAL_CLUSTER =  FindRespectiveRequirementID.concat(FindIndividualItemsID)
+     let MappedWholeAndPartialCluster =  FindRespectiveRequirementID.concat(FindIndividualItemsID);
+     MappedWholeAndPartialCluster = MappedWholeAndPartialCluster.map(item => {
+       const {Weightage} = item;
+       const requirementId = item['requirement-id'];
+       const PostedFormElement = {};
+       PostedFormElement['requirement-id'] = requirementId,
+       PostedFormElement['weighting'] = Weightage;
+       PostedFormElement['values'] = [];
+       return PostedFormElement;
+     })
     
     
+     const PUT_BODY = {
+      "weighting": 30, 
+      "includedCriteria": [],
+      "requirements": MappedWholeAndPartialCluster
+    }
 
 
-     res.json(MAPPED_WHOLE_AND_PARTIAL_CLUSTER)
+    /**
+     * @DATA_POST
+     */
+
+     try {
+      const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
+      const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
+      const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
+      res.redirect('/ca/service-capabilities');
+      
+      } catch (error) {
+        req.session['isJaggaerError'] = true;
+        LoggTracer.errorLogger(
+          res,
+          error,
+          `${req.headers.host}${req.originalUrl}`,
+          null,
+          TokenDecoder.decoder(SESSION_ID),
+          `Error occured in Tender Service while adding Requirements for the assessment`,
+          true,
+        );
+      }
+
+
+  
+
+
+    /**
+     *  
+     */
+
+        
+
+    
 
 
 
@@ -428,22 +522,5 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     );
   }
 
-  /***
-   *  try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
-    res.redirect('/ca/service-capabilities');
-  } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Post failed - CA learn page',
-      true,
-    );
-  }
-   * 
-   */
  
 };
