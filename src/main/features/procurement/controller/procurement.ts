@@ -51,9 +51,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.eventId = procurement['eventId'];
     req.session.types = types;
     req.session.agreementLotName = agreementLotName;
-    const eventType = req.session.lotId;
-    req.session.eventType = types[eventType];
-    const agreementName = req.session.agreementName; //udefined
+    const agreementName = req.session.agreementName;
     try {
       const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.projectId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
@@ -105,6 +103,17 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         }
       }
     });
+
+    if (req.session.selectedRoute !== undefined && req.session.choosenViewPath !== undefined) {
+      let path;
+      if (req.session.selectedRoute === 'FCA') {
+        path = 'ca';
+      } else if (req.session.selectedRoute === 'DAA') {
+        path = 'da';
+      }
+      const objIndex = appendData.events.findIndex(obj => obj.eventno === 3);
+      appendData.events[objIndex].href = `/${path}/task-list?path=${req.session.choosenViewPath}`;
+    }
 
     const lotid = req.session?.lotId;
     const project_name = req.session.project_name;
