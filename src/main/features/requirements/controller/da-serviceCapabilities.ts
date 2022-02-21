@@ -165,35 +165,29 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     var TABLEBODY = [];
 
  
-
     if( dimensionRequirements?.[0]?.requirements != undefined){
       
-     const reformedDataSet = Level1DesignationStorage.map(items => {
-       const refObj = items;
-       let {data} = items;
-       data = data.map(nestedItem => {
-        
-         for(const i of DRequirements){
-           if(nestedItem.groupname == i.name){
-             return {...nestedItem, value: i.weighting};
-           }
-           else{
-            return {...nestedItem, value: ''};
-           }
+      const reformedDataSet = DesignationStorage.map(items => {
+       const {data} = items;
+       const dataStorage =[];
+       for(const subItems of data ){
+         for(const nestedItems of DRequirements){
+             if(subItems.groupname == nestedItems.name){
+                 dataStorage.push({...subItems, value: nestedItems.weighting})
+             }
+             else{
+               dataStorage.push({...subItems, value: ''})
+             }
          }
-       })
-       refObj.data = data;
-       return refObj;
-
-     })
-
-      TABLEBODY = reformedDataSet;
-
-    }
-    else{
-      TABLEBODY = Level1DesignationStorage;
-    }
-
+       }
+       items.data = dataStorage;
+       return items;
+      })
+       TABLEBODY = reformedDataSet;
+     }
+     else{
+       TABLEBODY = DesignationStorage;
+     }
 
 
 

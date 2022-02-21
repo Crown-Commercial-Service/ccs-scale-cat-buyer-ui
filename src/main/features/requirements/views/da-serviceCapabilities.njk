@@ -47,7 +47,7 @@
                     })
                 }}
             </div>
-            <div class="ons-grid__col ons-col-7@m ons-push-1@m">
+              <div class="ons-grid__col ons-col-7@m ons-push-1@m">
             {% for item in TABLE_BODY -%}
                     <article id="section" class="govuk-!-margin-top-6">
                     <h2 class="govuk-heading-l govuk-!-font-weight-bold" >{{item['category']}}</h2>
@@ -57,18 +57,19 @@
                               <fieldset class="govuk-fieldset">
                                 <div class="govuk-radios" data-module="govuk-radios">
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
-                                    <input class="govuk-radios__input" id="weightage" name="weightage" type="radio" value="whole" >
-                                    <label class="govuk-label govuk-radios__label govuk-heading-s" for="weightage">
+                                    <input class="govuk-radios__input" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" >
+                                    <label class="govuk-label govuk-radios__label govuk-heading-s" for="whole_weightage_{{loop.index}}">
                                       Enter a weighting for the whole cluster 
                                     </label>
                                   </div>
-                                    <div class="govuk-!-margin-top-9">
+
+                                    <div class="govuk-!-margin-top-9" id="whole_cluster_{{loop.index}}">
                                     {{ CCSInput({
                                     label: {
                                       text: ""
                                     },
                                     classes: "govuk-input--width-2 ",
-                                    id: "weight_vetting_whole",
+                                    id: "weight_vetting_whole"+loop.index,
                                     name: "weight_vetting_whole",
                                     suffix: {
                                       text: "%"
@@ -83,18 +84,17 @@
                                     value: item['category']
                                   }) }}
 
-
-                                  <div>
-
+                                  </div>
+                                <div>
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
-                                    <input class="govuk-radios__input" id="weightage-2" name="weightage" type="radio" value="partial" >
-                                    <label class="govuk-label govuk-radios__label govuk-heading-s" for="weightage-2">
+                                    <input class="govuk-radios__input" id="partial_weightage_{{loop.index}}" name="weightage" type="radio" value="partial" >
+                                    <label class="govuk-label govuk-radios__label govuk-heading-s" for="partial_weightage_{{loop.index}}">
                                       Enter a weighting for specific capabilities
                                     </label>
                                   </div>
                               </fieldset>
                             </div>
-
+                              <div id="partial_cluster_{{loop.index}}">
                               {% for subItems in item['data'] -%}
                               <h4> {{subItems['groupname']}} </h4>
                               <div class="govuk-!-margin-top-6">
@@ -120,7 +120,7 @@
                                   }) }}
                                 </div>  
                                 {%- endfor %}
-
+                                </div>
                             
                      
                     </article>
