@@ -93,7 +93,6 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
 
 function isValidQuestion(questionId: number, questionNewDate: string, timeline: any) {
   const dayOfWeek = new Date(questionNewDate).getDay();
-  console.log(dayOfWeek);
 
   let isValid = true,
     error,

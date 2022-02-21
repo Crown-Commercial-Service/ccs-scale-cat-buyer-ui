@@ -25,7 +25,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     project_name,
     currentEvent,
   } = req.session;
-  const { assessmentId } = currentEvent;
+  const { assessmentId, eventType } = currentEvent;
   const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -69,10 +69,9 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     default:
       res.redirect('error/404');
   }
-
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
-    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'FCA', agreement_id, projectId, eventId);
+    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreement_id, projectId, eventId);
 
     const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
@@ -144,9 +143,10 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
         data: JOBSTORAGE,
       };
     });
-    req.session.designations.push(...UNIQUE_JOB_IDENTIFIER);
-    req.session.tableItems.push(...ITEMLIST);
-    req.session.dimensions.push(...CAPACITY_DATASET);
+
+    req.session.designations = [...UNIQUE_JOB_IDENTIFIER];
+    req.session.tableItems = [...ITEMLIST];
+    req.session.dimensions = [...CAPACITY_DATASET];
 
     res.render('ca-taskList', windowAppendData);
   } catch (error) {

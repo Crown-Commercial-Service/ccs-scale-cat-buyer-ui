@@ -31,7 +31,6 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
  */
 const ccsZvalidateTextArea = (elementName, errMsg) => {
   const element = document.getElementById(elementName);
-
   if (element.value.trim().length > 0) {
     ccsZremoveErrorMessage(element);
     return true;
@@ -184,7 +183,9 @@ const ccsZremoveErrorMessage = (element) => {
 
   if (document.getElementById(element.id + "-error") !== null) {
     element.closest('.govuk-form-group').classList.remove('govuk-form-group--error');
-
+    if (element.tagName === "TEXTAREA") {
+      element.closest('.govuk-textarea').classList.remove('govuk-textarea--error');
+    }
     if (element.tagName === "INPUT") {
       element.classList.remove("govuk-input--error");
     } else {

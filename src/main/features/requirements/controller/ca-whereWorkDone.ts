@@ -7,15 +7,24 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 
 export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId, releatedContent, isError, errorText } = req.session;
+  const { projectId, releatedContent, isError, errorText, dimensions } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
-  const appendData = { ...dataWWD, releatedContent, isError, errorText };
-  try {
+  var locationArray;
+    try {
+    let assessmentAPIData = dimensions;
+    for(let apiData of assessmentAPIData)
+    { 
+      if(apiData["dimension-id"] == 5)
+      {
+          locationArray = apiData["options"];
+
+      }
+    }
+    const appendData = { ...dataWWD, releatedContent, isError, errorText, locationArray };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    res.render('da-whereWorkDone', appendData);
+    res.render('ca-whereWorkDone', appendData);
   } catch (error) {
-    console.log(error);
 
     LoggTracer.errorLogger(
       res,
@@ -46,20 +55,30 @@ function checkErrors(total) {
 
 export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, releatedContent } = req.session;
-  const { da_weight: weights } = req['body'];
+  const { projectId, releatedContent, dimensions } = req.session;
+  const { ca_locationweight: weights } = req['body'];
   const total = weights.reduce((accum, elem) => (accum += parseInt(elem)), 0);
   const { isError, errorText } = checkErrors(total);
+  const assessmentId = req.session.currentEvent.assessmentId;
+
   if (isError) {
     req.session.errorText = errorText;
     req.session.isError = isError;
     res.redirect('/ca/get-work-done');
   } else {
     try {
+      const weightingDimensions = dimensions;
+      for (var dimension of weightingDimensions) {
+        const body = {
+          name: dimension.name,
+          weighting: req.body[dimension.id],
+          requirements: [],
+        };
+      await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/${dimension.id}`, body);
+      }
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
-      res.redirect('/da/task-list');
+      res.redirect('/ca/task-list');
     } catch (error) {
-      console.log(error);
 
       LoggTracer.errorLogger(
         res,

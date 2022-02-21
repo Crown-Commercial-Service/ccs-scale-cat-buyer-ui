@@ -1,6 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% set title =  rfpTitle + '- Create a Request for Information (rfp)' %}
 
 {% block breadCrumb %}
@@ -19,11 +19,11 @@
             href: "/projects/create-or-choose"
         },
         {
-          text: "Do pre-market engagement",
+          text: "Write and publish your requirements",
           href: "/rfp/rfp-tasklist"
         },
         {
-          text: "Build your RFP",
+          text: "Add context and requirements",
           href: "/rfp/add-context?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
       },
       {
@@ -54,25 +54,26 @@
       <p class="govuk-body">{{data.rfpTitle}}</p>
 
       <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
-      
+      {{ csrfProtection(csrf) }}
         <p class="govuk-body">{{prompt?[0] | safe}}</p>
         <p class="govuk-body">{{prompt?[1] | safe}}</p>
 
-
-
-          {% macro recurseRequirements(requirement) -%}
-          {%if (requirement.nonOCDS.childern.length > 0)%}
-                           {{CCSQUESTIONS(requirement)}}
-                          {{recurseRequirements(requirement.nonOCDS.childern[0])}}
+          {% macro recurseRequirements(requirement,form_name) -%}
+            {%if (requirement.nonOCDS.childern.length > 0)%}  
+                      {{CCSQUESTIONS(requirement,form_name)}}
+                      {{recurseRequirements(requirement.nonOCDS.childern[0],form_name)}}
             {%else%}
-                      {{CCSQUESTIONS(requirement)}}
+                      {{CCSQUESTIONS(requirement,form_name)}}
           {%endif%}
           {%- endmacro %}
 
-                  {% for requirement in data %}
-                      {{recurseRequirements(requirement)}}
-                  {% endfor %}
-
+          {%if (form_name !== 'ccs_rfp_acronyms_form')%}  
+                {% for requirement in data %}
+                    {{recurseRequirements(requirement,form_name)}}
+                {% endfor %}
+          {%else%}
+              {{recurseRequirements(data[0],form_name)}}
+          {%endif%}
 
 
 
@@ -90,7 +91,7 @@
                         classes:"save-button"
                       })
                   }}
-                      <a href="/rfp/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Add context</a>
+                      <a href="/rfp/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Add context and requirements</a>
                     </div>
 
                   </form>

@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'Name project | Contract a Thing' %}
 {% set url -%}
@@ -64,7 +65,7 @@
       </div>
       <p class="govuk-body">{{data.caption}}</p>
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfi/name?procid={{procId}}" method="POST">       
-          
+          {{ csrfProtection(csrf) }}
         {{ CCSInput({           
             id: data.form.input.id,
             name: data.form.input.name,

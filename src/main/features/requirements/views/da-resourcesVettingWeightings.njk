@@ -1,4 +1,5 @@
 {% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% block breadCrumb %}
@@ -28,7 +29,7 @@
       </div>
     </div>
     <form id="ccs_da_menu_tabs_form" name="ccs_da_menu_tabs_form" class="form ccs_da_menu_tabs_form" action="/da/team-scale" method="POST">
-   
+   {{ csrfProtection(csrf) }}
     <div class="ccs-page-section">
       <div class="sub-section">
         <p class="govuk-body">{{data.total}} of 100% total weighting for number of staff</p>

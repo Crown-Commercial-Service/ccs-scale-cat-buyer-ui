@@ -143,8 +143,6 @@ function isValidQuestion(
     isValid = false;
     error = 'You can not set a date in weekend';
   }
-
-  console.log(dayOfWeek);
   switch (questionId) {
     case 'Question 1':
       errorSelector = 'clarification_date';

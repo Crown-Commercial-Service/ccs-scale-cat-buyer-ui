@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = "Suppliers you'ld like to take forward | Contract a Thing" %}
 
@@ -31,6 +32,7 @@
         </div>
 
         <form id="ccs_ca_suppliers_form" name="ccs_ca_suppliers_form" class="form ccs_ca_suppliers" action="/ca/suppliers-to-forward" method="POST">
+        {{ csrfProtection(csrf) }}
             <br>
             {{ CCSInput({
                       label: {

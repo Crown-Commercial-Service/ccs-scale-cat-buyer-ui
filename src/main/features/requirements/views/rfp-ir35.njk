@@ -1,5 +1,5 @@
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Complete and upload the whole bid pack | Contract a Thing' %}
@@ -49,6 +49,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
     <form action="/rfp/IR35" method="POST" >
+    {{ csrfProtection(csrf) }}
     <div class="govuk-!-margin-top-9">
       {{ CCSRadios({
   idPrefix: "",

@@ -17,9 +17,9 @@ import glob from 'glob'
 import { routeExceptionHandler } from './setup/routeexception'
 import { RedisInstanceSetup } from './setup/redis'
 import { fileUploadSetup } from './setup/fileUpload'
+import { CsrfProtection } from './modules/csrf'
 import { URL } from "url";
-var Rollbar = require('rollbar');
-const rollbar = new Rollbar('75b8c889f0fc46a088e5c717bea6aa3c');
+import {RequestSecurity} from './setup/requestSecurity'
 
 app.locals.ENV = env;
 
@@ -46,14 +46,18 @@ new Nunjucks(developmentMode, i18next).enableFor(app);
 // secure the application by adding various HTTP headers to its responses
 new Helmet(config.get('security')).enableFor(app);
 
-// Use the rollbar error handler to send exceptions to your rollbar account
-app.use(rollbar.errorHandler());
-
 app.use(Express.accessLogger());
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({limit: '500mb'}))
+app.use(express.urlencoded({limit: '500mb', extended: true, parameterLimit: 1000000}));
 app.use(cookieParser());
+if (env !== 'mocha') {
+  new CsrfProtection().enableFor(app)
+}
+
+//Implementation of secure Request Methods 
+RequestSecurity(app);
+
 app.use(express.static('src/main/public'));
 app.use((req, res, next) => {
   res.setHeader(
@@ -129,4 +133,3 @@ routeExceptionHandler(
   logger,
   env
 )
-

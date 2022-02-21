@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'Learn about capability assessment | Contract a Thing' %}
 
@@ -38,7 +39,7 @@
 
         {% if isPathOne %}
             <form id="ccs_ca_learn" name="ccs_ca_learn" class="form ccs_ca_learn" action="/ca/learnabout-capability-assessment" method="POST">
-
+                {{ csrfProtection(csrf) }}
                 {{ CCSInput({
                 id: "ca_learn_input",
                 name: "ca_learn_input",
@@ -55,7 +56,7 @@
             </form>
         {% else %}
             <form id="ccs_ca_learn" name="ccs_ca_learn" class="form ccs_ca_learn" action="/ca/learn-about-capability-assessment" method="POST">
-
+                {{ csrfProtection(csrf) }}
                 {{ CCSInput({
                 id: "ca_learn_input",
                 name: "ca_learn_input",

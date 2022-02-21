@@ -27,41 +27,44 @@
   "form": {
     "question": "This needs to relate to the potential size of the supplier team that needs to fulfil the buyer’s requirements",
     "radioOptions": {
-      "idPrefix": "ccs_chose_route",
-      "name": "ccs_ca_type",
+      "name": "ccs_ca_team_scale",
       "items": [
         {
-          "value": "scale_1",
-          "text": "1 - 10",
+          "value": 291,
+          "text": "1-10",
           "hint": {
             "text": "[ Description for this option 1 ]."
-          }
+          },
+          "selected": false
         },
         {
-          "value": "scale_2",
-          "text": "11 - 25",
+          "value": 292,
+          "text": "11-25",
           "hint": {
             "text": "[ Description for this option 2 ]."
-          }
+          },
+          "selected": false
         },
         {
-          "value": "scale_3",
-          "text": "26 - 99",
+          "value": 293,
+          "text": "26-99",
           "hint": {
             "text": "[ Description for this option 3 ]."
-          }
+          },
+          "selected": false
         },
         {
-          "value": "scale_4",
+          "value": 294,
           "text": "100+",
           "hint": {
             "text": "[ Description for this option 4 ]."
-          }
+          },
+          "selected": false
         }
       ]
     },
     "backJump": {
-      "title": "Return to Procurement overview",
+      "title": "Return to Write and publish your requirements",
       "href": "/ca/task-list"
     }
   }

@@ -1,139 +1,142 @@
 if (document.getElementById('rfp_date') !== null) {
-const rfpProjectYears = $('#rfp_duration-years');
-const rfpProjectMonths = $('#rfp_duration-months');
-const rfpProjectDays = $('#rfp_duration-days');
+    const rfpProjectYears = $('#rfp_duration-years');
+    const rfpProjectMonths = $('#rfp_duration-months');
+    const rfpProjectDays = $('#rfp_duration-days');
 
-const rfpDaySelector = $('#rfp_resource_start_date-day');
-const rfpMonthSelector = $('#rfp_resource_start_date-month');
-const rfpYearSelector = $('#rfp_resource_start_date-year');
+    const rfpDaySelector = $('#rfp_resource_start_date-day');
+    const rfpMonthSelector = $('#rfp_resource_start_date-month');
+    const rfpYearSelector = $('#rfp_resource_start_date-year');
 
-const rfpagreementData = $('.agreement_no').attr('id').split("-");
-
-const expiryYears = Number(rfpagreementData[0]);
-const expiryMonth = Number(rfpagreementData[1]);
-const expiryDate = Number(rfpagreementData[2])
-
-const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
-const getMSOfExpiryDate = ExpiryDates.getTime()
-
-
-
-rfpDaySelector.on('blur', ()=> {
-  DateCheck();
-  MonthCheck();
-
-})
-
-rfpMonthSelector.on('blur', ()=> {
-    DateCheck();
-    MonthCheck();
-
-})
-rfpYearSelector.on('blur', ()=> {
-    DateCheck();
-    MonthCheck();
-    YearCheck();
-})
-
-
-const DateCheck = ()=> {
-  
-    const dayValue = rfpDaySelector.val();
-    console.log(dayValue)
-    if(dayValue > 31 || dayValue < 0 ){
-        rfpDaySelector.addClass('govuk-form-group--error');
-        $('.durations').addClass('govuk-form-group--error');
-        $('#event-name-error-date').html('Enter a valid date')
+    let rfpagreementData;
+    if ($('.agreement_no').attr('id')) {
+        rfpagreementData = $('.agreement_no').attr('id').split("-");
     }
-    else{
-     rfpDaySelector.removeClass('govuk-form-group--error');
-     $('.durations').removeClass('govuk-form-group--error');
-     $('#event-name-error-date').html('')
-    }
-}
 
-const MonthCheck = ()=> {
-    const MonthValue = rfpMonthSelector.val();
-    if(MonthValue > 12 || MonthValue < 0 ){
-     rfpMonthSelector.addClass('govuk-form-group--error');
-     $('.durations').addClass('govuk-form-group--error');
-     $('#event-name-error-month').html('Enter a valid month');
- 
-    }
-    else{
-     rfpMonthSelector.removeClass('govuk-form-group--error');
-     $('.durations').removeClass('govuk-form-group--error');
-     $('#event-name-error-month').html('');
-    }
-}
+    const expiryYears = Number(rfpagreementData[0]);
+    const expiryMonth = Number(rfpagreementData[1]);
+    const expiryDate = Number(rfpagreementData[2])
 
-const currentYearDate = new Date();
-const currentYear = currentYearDate.getFullYear()
+    const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
+    const getMSOfExpiryDate = ExpiryDates.getTime()
 
 
-const YearCheck = ()=> {
-    const YearValues = rfpYearSelector.val();
-    if(YearValues < currentYear){
-        rfpYearSelector.addClass('govuk-form-group--error');
-    $('.durations').addClass('govuk-form-group--error');
-    $('#event-name-error-year').html('Enter a valid year');
-    } 
-    else if(YearValues == ""){
-        rfpYearSelector.removeClass('govuk-form-group--error');
-        $('.durations').removeClass('govuk-form-group--error');
-        $('#event-name-error-year').html('');s
-    }
-    else{
-        rfpYearSelector.removeClass('govuk-form-group--error');
-        $('.durations').removeClass('govuk-form-group--error');
-        $('#event-name-error-year').html('');
-    }
-}
+
+    rfpDaySelector.on('blur', () => {
+        DateCheck();
+        MonthCheck();
+
+    })
+
+    rfpMonthSelector.on('blur', () => {
+        DateCheck();
+        MonthCheck();
+
+    })
+    rfpYearSelector.on('blur', () => {
+        DateCheck();
+        MonthCheck();
+        YearCheck();
+    })
 
 
-rfpProjectYears.on('blur', ()=> {
-    if(rfpProjectYears.val() < 0){
-        rfpProjectYears.addClass('govuk-form-group--error');
-        $('.p_durations').addClass('govuk-form-group--error');
-        $('#event-name-error-pdate').html('Enter a valid Year')
-    }
-    else{
-        rfpProjectYears.removeClass('govuk-form-group--error');
-        $('.p_durations').removeClass('govuk-form-group--error');
-        $('#event-name-error-pdate').html('')
-    }
-})
+    const DateCheck = () => {
 
-rfpProjectMonths.on('blur', ()=> {
-    if(rfpProjectMonths.val() < 0){
-        rfpProjectMonths.addClass('govuk-form-group--error');
-        $('.p_durations').addClass('govuk-form-group--error');
-        $('#event-name-error-pdate').html('Enter a valid Month')
+        const dayValue = rfpDaySelector.val();
+        console.log(dayValue)
+        if (dayValue > 31 || dayValue < 0) {
+            rfpDaySelector.addClass('govuk-form-group--error');
+            $('.durations').addClass('govuk-form-group--error');
+            $('#event-name-error-date').html('Enter a valid date')
+        }
+        else {
+            rfpDaySelector.removeClass('govuk-form-group--error');
+            $('.durations').removeClass('govuk-form-group--error');
+            $('#event-name-error-date').html('')
+        }
     }
-    else{
-        rfpProjectMonths.removeClass('govuk-form-group--error');
-        $('.p_durations').removeClass('govuk-form-group--error');
-        $('#event-name-error-pdate').html('')
-    }
-})
 
+    const MonthCheck = () => {
+        const MonthValue = rfpMonthSelector.val();
+        if (MonthValue > 12 || MonthValue < 0) {
+            rfpMonthSelector.addClass('govuk-form-group--error');
+            $('.durations').addClass('govuk-form-group--error');
+            $('#event-name-error-month').html('Enter a valid month');
 
-rfpProjectDays.on('blur', ()=> {
-    if(rfpProjectDays.val() < 0){
-        rfpProjectDays.addClass('govuk-form-group--error');
-        $('.p_durations').addClass('govuk-form-group--error');
-        $('#event-name-error-pdate').html('Enter a valid date')
+        }
+        else {
+            rfpMonthSelector.removeClass('govuk-form-group--error');
+            $('.durations').removeClass('govuk-form-group--error');
+            $('#event-name-error-month').html('');
+        }
     }
-    else{
-        rfpProjectDays.removeClass('govuk-form-group--error');
-        $('.p_durations').removeClass('govuk-form-group--error');
-        $('#event-name-error-pdate').html('')
-    }
-})
+
+    const currentYearDate = new Date();
+    const currentYear = currentYearDate.getFullYear()
 
 
-$('#rfp_date').on('submit', (e)=> {
-    e.preventDefault();
+    const YearCheck = () => {
+        const YearValues = rfpYearSelector.val();
+        if (YearValues < currentYear) {
+            rfpYearSelector.addClass('govuk-form-group--error');
+            $('.durations').addClass('govuk-form-group--error');
+            $('#event-name-error-year').html('Enter a valid year');
+        }
+        else if (YearValues == "") {
+            rfpYearSelector.removeClass('govuk-form-group--error');
+            $('.durations').removeClass('govuk-form-group--error');
+            $('#event-name-error-year').html(''); s
+        }
+        else {
+            rfpYearSelector.removeClass('govuk-form-group--error');
+            $('.durations').removeClass('govuk-form-group--error');
+            $('#event-name-error-year').html('');
+        }
+    }
+
+
+    rfpProjectYears.on('blur', () => {
+        if (rfpProjectYears.val() < 0) {
+            rfpProjectYears.addClass('govuk-form-group--error');
+            $('.p_durations').addClass('govuk-form-group--error');
+            $('#event-name-error-pdate').html('Enter a valid Year')
+        }
+        else {
+            rfpProjectYears.removeClass('govuk-form-group--error');
+            $('.p_durations').removeClass('govuk-form-group--error');
+            $('#event-name-error-pdate').html('')
+        }
+    })
+
+    rfpProjectMonths.on('blur', () => {
+        if (rfpProjectMonths.val() < 0) {
+            rfpProjectMonths.addClass('govuk-form-group--error');
+            $('.p_durations').addClass('govuk-form-group--error');
+            $('#event-name-error-pdate').html('Enter a valid Month')
+        }
+        else {
+            rfpProjectMonths.removeClass('govuk-form-group--error');
+            $('.p_durations').removeClass('govuk-form-group--error');
+            $('#event-name-error-pdate').html('')
+        }
+    })
+
+
+    rfpProjectDays.on('blur', () => {
+        if (rfpProjectDays.val() < 0) {
+            rfpProjectDays.addClass('govuk-form-group--error');
+            $('.p_durations').addClass('govuk-form-group--error');
+            $('#event-name-error-pdate').html('Enter a valid date')
+        }
+        else {
+            rfpProjectDays.removeClass('govuk-form-group--error');
+            $('.p_durations').removeClass('govuk-form-group--error');
+            $('#event-name-error-pdate').html('')
+        }
+    })
+
+
+    $('#rfp_date').on('submit', (e) => {
+        e.preventDefault();
         const Day = $('#rfp_resource_start_date-day').val()
         const Month = $('#rfp_resource_start_date-month').val()
         const Year = $('#rfp_resource_start_date-year').val()
@@ -143,7 +146,7 @@ $('#rfp_date').on('submit', (e)=> {
         const todayDate = new Date();
 
 
-        if(Day == ""){
+        if (Day == "") {
             const errorStore = [["rfp_resource_start_date", "Project start day cannot be Empty"]]
             rfpDaySelector.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
@@ -151,8 +154,8 @@ $('#rfp_date').on('submit', (e)=> {
             ccsZPresentErrorSummary(errorStore);
             e.preventDefault()
         }
-        
-        if (Month == ""){
+
+        if (Month == "") {
             const errorStore = [["rfp_resource_start_date", "Project start Month cannot be Empty"]]
             rfpMonthSelector.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
@@ -160,8 +163,8 @@ $('#rfp_date').on('submit', (e)=> {
             ccsZPresentErrorSummary(errorStore);
             e.preventDefault()
         }
-        
-        if(Year == ""){
+
+        if (Year == "") {
             const errorStore = [["rfp_resource_start_date", "Porject start Year cannot be Empty"]]
             rfpYearSelector.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
@@ -171,7 +174,7 @@ $('#rfp_date').on('submit', (e)=> {
 
 
 
-        if(projectYears.val() < 0 || projectMonths.val() < 0 || projectDays.val() < 0){
+        if (projectYears.val() < 0 || projectMonths.val() < 0 || projectDays.val() < 0) {
             const errorStore = [["rfp_resource_start_date", "Project time's format is not valid"]]
             $('#event-name-error-year').html('Enter a valid year');
             ccsZPresentErrorSummary(errorStore);
@@ -179,9 +182,9 @@ $('#rfp_date').on('submit', (e)=> {
         }
 
 
-        
 
-        if(getTimeOfFormDate > getMSOfExpiryDate){
+
+        if (getTimeOfFormDate > getMSOfExpiryDate) {
             e.preventDefault();
             $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
             rfpDaySelector.addClass('govuk-form-group--error');
@@ -195,7 +198,7 @@ $('#rfp_date').on('submit', (e)=> {
 
 
         }
-        else if(getTimeOfFormDate < todayDate.getTime()){
+        else if (getTimeOfFormDate < todayDate.getTime()) {
             e.preventDefault();
             $('#event-name-error-date').html('Start date must be a valid future date');
             rfpDaySelector.addClass('govuk-form-group--error');
@@ -205,8 +208,8 @@ $('#rfp_date').on('submit', (e)=> {
             const errorStore = [["rfp_resource_start_date", "Start date must be a valid future date"]];
             ccsZPresentErrorSummary(errorStore);
         }
-        else{
+        else {
             document.forms['rfp_date'].submit();
         }
-})
+    })
 }
