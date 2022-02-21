@@ -45,7 +45,6 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
-    console.log(ALL_ASSESSTMENTS_DATA)
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
@@ -206,7 +205,6 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 // res.json(Level1DesignationStorage)
 res.render('ca-serviceCapabilities', windowAppendData);
   } catch (error) {
-    console.log(error)
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
