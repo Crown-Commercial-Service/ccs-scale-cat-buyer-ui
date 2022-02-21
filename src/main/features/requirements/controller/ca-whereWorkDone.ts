@@ -68,17 +68,14 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
   } else {
     try {
       const weightingDimensions = dimensions;
-     
-      for(let apiData of assessmentAPIData)
-    { 
-      if(apiData["dimension-id"] == 5)
-      {
-          locationArray = apiData["options"];
-
-      }
-    }
+      for (var dimension of weightingDimensions) {
+        const body = {
+          name: dimension.name,
+          weighting: req.body[dimension.id],
+          requirements: [],
+        };
       await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/${dimension.id}`, body);
-      
+      }
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
       res.redirect('/ca/task-list');
     } catch (error) {

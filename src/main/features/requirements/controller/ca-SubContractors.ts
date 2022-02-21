@@ -18,6 +18,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
   const agreementId_session = agreement_id;
+  const { choosenViewPath } = req.session;
   const { isValidationError } = req.session;
   const { assessmentId } = req.session.currentEvent;
   let isSubContractorAccepted = false;
@@ -45,6 +46,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       releatedContent,
       error: isValidationError,
       SubContractorAccepted: isSubContractorAccepted,
+      choosenViewPath,
     };
     res.render('ca-SubContractors', windowAppendData);
   } catch (error) {

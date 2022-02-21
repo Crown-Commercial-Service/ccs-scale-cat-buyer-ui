@@ -4,9 +4,36 @@
 
 {% set title = 'Will you accept sub contractors | Contract a Thing' %}
 
-{% block breadCrumb %}
+{# {% block breadCrumb %}
     {{ CCSBreadcrumbs({
         items: data.breadCrumbs
+    }) }}
+{% endblock %} #}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/ca/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "How well can the team scale?",
+                "href": "#"
+            }
+        ]
     }) }}
 {% endblock %}
 
@@ -73,7 +100,8 @@
                 {{ CCSButton({
                     text: "Save and continue"
                 }) }}
-                <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+                {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+                <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
             </div>
         </form>
     </main>

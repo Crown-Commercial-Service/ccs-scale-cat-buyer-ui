@@ -48,8 +48,8 @@ new Helmet(config.get('security')).enableFor(app);
 
 app.use(Express.accessLogger());
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({limit: '500mb'}))
+app.use(express.urlencoded({limit: '500mb', extended: true, parameterLimit: 1000000}));
 app.use(cookieParser());
 if (env !== 'mocha') {
   new CsrfProtection().enableFor(app)
@@ -133,4 +133,3 @@ routeExceptionHandler(
   logger,
   env
 )
-
