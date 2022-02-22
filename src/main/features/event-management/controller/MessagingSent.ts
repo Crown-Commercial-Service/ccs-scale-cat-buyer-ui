@@ -8,11 +8,11 @@ import * as localTableData from '../../../resources/content/event-management/loc
 /**
  * 
  * @Rediect 
- * @endpoint /message/inbox
+ * @endpoint /message/sent
  * @param req 
  * @param res 
  */
-export const EVENT_MANAGEMENT_MESSAGING = (req: express.Request, res: express.Response) => {
+export const EVENT_MANAGEMENT_MESSAGING_SENT = (req: express.Request, res: express.Response) => {
     const { id } = req.query
     const events = req.session.openProjectActiveEvents
     const { SESSION_ID } = req.cookies
@@ -36,7 +36,7 @@ export const EVENT_MANAGEMENT_MESSAGING = (req: express.Request, res: express.Re
 
         const appendData = { data: inboxData, status, projectName, eventId, messageData: localTableData }
         res.locals.event_header = { agreementName, agreementLotName, agreementId_session }
-        res.render('MessagingInbox', appendData)
+        res.render('MessagingSent', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
             res,

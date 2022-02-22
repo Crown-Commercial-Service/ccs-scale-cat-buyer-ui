@@ -18,16 +18,20 @@
         }
     ],
     "title": "Messaging Inbox",
+    "subsection2_table_th_1": "From",
+    "subsection2_table_th_2": "Date",
+    "subsection2_table_th_3": "Subject",
+    "subsection2_table_th_4": "Status",
     "backJump": {
         "title": "Return to Event Management",
         "href": "#"
     },
     "tabs": {
         "text1": "Create Message",
-        "href1": "#",
+        "href1": "/message/create",
         "text2": "Received",
         "hre2": "#",
         "text3": "Sent",
-        "href3": "#"
+        "href3": "/message/sent"
     }
 }

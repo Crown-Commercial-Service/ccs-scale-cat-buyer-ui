@@ -3,8 +3,8 @@ import { TokenDecoder } from '../../tokendecoder/tokendecoder';
 import * as express from 'express';
 import { TenderApi } from '../../util/fetch/procurementService/TenderApiInstance';
 import { LoggTracer } from '../../logtracer/tracer';
-import * as localActiveEventData from './local-active-events.json'
-import * as localHistoricEventData from './local-hestoric-events.json'
+import * as localActiveEventData from '../../../resources/content/event-management/local-active-events.json'
+import * as localHistoricEventData from '../../../resources/content/event-management/local-hestoric-events.json'
 
 /**
  *
