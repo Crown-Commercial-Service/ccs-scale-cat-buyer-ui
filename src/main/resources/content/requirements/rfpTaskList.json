@@ -101,7 +101,7 @@
           "title": "Choose highest security and vetting requirements",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/choose-security-requirements"
         },
         {
           "Task": 3,

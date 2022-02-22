@@ -46,6 +46,9 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_PROCEED = '/rfp/upload-doc/proceed',
 
+  RFP_GET_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
+  RFP_POST_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
+
   // Add collaborator ca
   CA_GET_ADD_COLLABORATOR = '/ca/add-collaborators',
   CA_POST_ADD_COLLABORATOR_JSENABLED = '/ca/get-collaborator-detail/js-enabled',
