@@ -82,6 +82,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
+    
 
     const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
       const { name, weightingRange, options } = acapacity;
@@ -148,7 +149,8 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     req.session.tableItems = [...ITEMLIST];
     req.session.dimensions = [...CAPACITY_DATASET];
 
-    res.render('ca-taskList', windowAppendData);
+  //  res.json(CAPACITY_DATASET)
+   res.render('ca-taskList', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
