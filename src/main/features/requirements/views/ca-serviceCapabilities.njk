@@ -74,7 +74,7 @@
                                       label: {
                                         text: ""
                                       },
-                                      classes: "govuk-input--width-2 ",
+                                      classes: "govuk-input--width-2 weight",
                                       id: "weight_vetting_whole"+loop.index,
                                       name: "weight_vetting_whole",
                                       value: wholeCells.value,
@@ -91,6 +91,7 @@
 
                                     {{ CCSInput({
                                     id: "weight_vetting_whole_group",
+            
                                     name: "weight_vetting_whole_group",
                                     type: "hidden",
                                     value: item['category']
@@ -114,7 +115,7 @@
                                     label: {
                                       text: ""
                                     },
-                                    classes: "govuk-input--width-2 ",
+                                    classes: "govuk-input--width-2 weight ",
                                     id: "weight_vetting_partial"+loop.index,
                                     value: subItems['value'],
                                     name: "weight_vetting_partial",
@@ -154,7 +155,8 @@
       <div class="govuk-button-group">
         {{ CCSButton({
               text: "Save and continue",
-              classes:"save-button"
+              classes:"save-button",
+              id: "form_submit"
             })
         }}
         <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
