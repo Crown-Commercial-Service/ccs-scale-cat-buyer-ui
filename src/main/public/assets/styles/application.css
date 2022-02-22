@@ -1636,6 +1636,19 @@ p + .govuk-heading-s,
   display: block;
   clear: both;
 }
+.messaging-navigation {
+  padding: 0px 20px 10px 0;
+  border-bottom: 1px solid #b1b4b6;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #b1b4b6;
+  margin-bottom: 2rem;
+  border-top: 1px solid #b1b4b6;
+}
+.messaging-navigation .selected{
+  /* background: #D8D8D8; */
+  color: #000000;
+}
 
 .govuk-breadcrumbs__list-item {
   display: inline-block;

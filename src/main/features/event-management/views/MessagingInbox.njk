@@ -1,0 +1,44 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Message Inbox ' %}
+{% block content %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+        <div class="govuk-grid-row govuk-!-padding-bottom-7">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                    {{data.title}}
+                </h1>
+                {% include "includes/event_header.njk" %}
+            </div>
+        </div>
+
+        <div class="govuk-grid-row messaging-navigation">
+            <div class="govuk-grid-column-full">
+                <nav class="global-navigation global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
+
+                    <ul class="nav-list nav-list--primary">
+                        <li class="nav-list__item">
+                            <a class="nav-list__link " href="{{data.tabs.href1}}">{{data.tabs.text1}}</a>
+                        </li>
+                        <li class="nav-list__item">
+                            <a class="nav-list__link selected" disabled="disabled" aria-disabled="true" href="{{data.tabs.href2}}">{{data.tabs.text2}}</a>
+                        </li>
+                        <li class="nav-list__item">
+                            <a class="nav-list__link " href="{{data.tabs.href3}}">{{data.tabs.text3}}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <p class="govuk-body">
+            <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+        </p>
+    </main>
+{% endblock %}

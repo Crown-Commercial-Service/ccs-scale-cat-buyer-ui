@@ -14,8 +14,21 @@
         }
     ],
     "title": "Event Management",
-    "subtitle": "Instructions for this page",
+    "subtitle": "[ Instructions for this page ]",
     "subsection2_title":"Open Project ID/ Name",
-    "subsection3_title":"3. Supplier Response Summary",
-    "subsection4_title":"4. Supplier of Interest"
+    "subsection2_content": "Close project",
+    "subsection3_title":"Messaging Inbox",
+    "subsection3_linkText":"Access my inbox",
+    "subsection3_linkURL":"/message/inbox",
+    "subsection3_title2":"Q&A",
+    "subsection3_linkText2":"View Q&A",
+    "subsection3_linkURL2":"#",
+    "subsection4_title1":"[ Project and collaborators ]",
+    "subsection4_title1_descriiption": "[ Description for this section ]",
+    "subsection4_title2":"[ Your Request for Information (RFI) ]",
+    "subsection4_title2_descriiption": "[ Description for this section ]",
+    "subsection4_title3":"Supplier Response Summary",
+    "subsection4_title3_descriiption": "[ Description for this section ]",
+    "subsection4_title4":"Supplier of Interest",
+    "subsection4_title4_descriiption": "[ Description for this section ]"
 }

@@ -7,4 +7,6 @@ import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreem
 export default function (app: Application): void {
     // This is the reciever callback after getting the token
     app.get(EVENT_MANAGEMENT_PATHS.EVENT_MANAGEMENT, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], EVENT_MANAGEMENT_CONTROLLER.EVENT_MANAGEMENT);
+
+    app.get(EVENT_MANAGEMENT_PATHS.EVENT_MANAGEMENT_MESSAGING, [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], EVENT_MANAGEMENT_CONTROLLER.EVENT_MANAGEMENT_MESSAGING);
 }

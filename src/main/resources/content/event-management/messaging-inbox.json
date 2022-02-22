@@ -1,0 +1,33 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Event Management",
+            "href": "#"
+        },
+        {
+            "text": "Messaging Inbox",
+            "href": "#"
+        }
+    ],
+    "title": "Messaging Inbox",
+    "backJump": {
+        "title": "Return to Event Management",
+        "href": "#"
+    },
+    "tabs": {
+        "text1": "Create Message",
+        "href1": "#",
+        "text2": "Received",
+        "hre2": "#",
+        "text3": "Sent",
+        "href3": "#"
+    }
+}
