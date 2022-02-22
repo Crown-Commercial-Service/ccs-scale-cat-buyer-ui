@@ -4,7 +4,6 @@ import { associatedViews } from './controller/index';
 import * as apisource from '../../resources/content/eoi/template.json';
 import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch';
 import { AUTH } from '../../common/middlewares/oauthservice/authstatecheck';
-import { ContentFetchMiddleware } from '../../common/middlewares/menu-contentservice/contentservice';
 import { PreMarketEngagementMiddleware } from '../../common/middlewares/premarketservice/premarketengagement';
 
 export default function (app: Application): void {
@@ -17,7 +16,6 @@ export default function (app: Application): void {
   app.get(
     EOI_PATHS.GET_TASKLIST,
     [
-      ContentFetchMiddleware.FetchContents,
       AUTH,
       AgreementDetailsFetchMiddleware.FetchAgreements,
       PreMarketEngagementMiddleware.PutPremarket,
@@ -28,34 +26,34 @@ export default function (app: Application): void {
   //  @GET '/eoi/type'
   app.get(
     EOI_PATHS.GET_TYPE,
-    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_TYPE,
   );
 
   //  @GET '/eoi/online-task-list'
   app.get(
     EOI_PATHS.GET_ONLINE_TASKLIST,
-    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_ONLINE_TASKLIST,
   );
 
   //  @GET '/eoi/questions'
   app.get(
     EOI_PATHS.GET_QUESTIONS,
-    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_QUESTIONS,
   );
   //@GET "/eoi/response-date"
   app.get(
     EOI_PATHS.GET_RESPONSE_DATE,
-    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_RESPONSE_DATE,
   );
 
   //  @GET '/eoi/upload-doc'
   app.get(
     EOI_PATHS.GET_UPLOAD_DOC,
-    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_UPLOAD_DOC,
   );
 
@@ -63,21 +61,21 @@ export default function (app: Application): void {
 
   app.get(
     EOI_PATHS.GET_NAME_YOUR_PROJECT,
-    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_NAME_PROJECT,
   );
 
   //@GET '/eoi/add-collaborators'
   app.get(
     EOI_PATHS.GET_ADD_COLLABORATOR,
-    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_ADD_COLLABORATOR,
   );
 
   //@GET '/eoi/procurement-lead'
   app.get(
     EOI_PATHS.GET_LEAD_PROCUEMENT,
-    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_LEAD_PROCUREMENT,
   );
 
@@ -89,14 +87,14 @@ export default function (app: Application): void {
   // @GET "/rfi/suppliers"
   app.get(
     EOI_PATHS.GET_EOI_SUPPLIERS,
-    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_EOI_SUPPLIERS,
   );
 
   //@GET '/eoi/review'
   app.get(
     EOI_PATHS.GET_EOI_REVIEW,
-    [ContentFetchMiddleware.FetchContents, AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_EOI_REVIEW,
   );
 

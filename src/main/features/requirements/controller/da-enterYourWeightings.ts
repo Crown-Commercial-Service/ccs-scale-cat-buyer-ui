@@ -44,9 +44,8 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
         };
       });
     }
-    req.session.weightingDimensions = weightingsArray.map(arr => {
-      return { id: arr.id, name: arr.title };
-    });
+    req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
+    req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
     const windowAppendData = {
       data: daWeightingData,
       dimensions: weightingsArray,
@@ -63,7 +62,7 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Get failed - DA weighting page',
+      'Journey service - Get failed - CA weighting page',
       true,
     );
   }
@@ -87,17 +86,33 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
   const assessmentId = req.session.currentEvent.assessmentId;
 
   try {
-    const weightingDimensions = req.session.weightingDimensions;
-    for (var dimension of weightingDimensions) {
+    const toolId = req.session['CapAss']?.toolId;
+    const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
+
+    for (var dimension of dimensions) {
       const body = {
         name: dimension.name,
-        weighting: req.body[dimension.id],
+        weighting: req.body[dimension['dimension-id']],
+        requirements: [],
+        includedCriteria: dimension.evaluationCriteria
+          .map(criteria => {
+            if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
+              return null;
+            } else
+              return {
+                'criterion-id': criteria['criterion-id'],
+              };
+          })
+          .filter(criteria => criteria !== null),
       };
-      await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/${dimension.id}`, body);
+      await TenderApi.Instance(SESSION_ID).put(
+        `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+        body,
+      );
     }
 
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
     res.redirect('/da/accept-subcontractors');
   } catch (err) {
     LoggTracer.errorLogger(

@@ -1,23 +1,15 @@
 /* global $ */
 
-// Warn about using the kit in production
-if (window.console && window.console.info) {
-  window.console.info('GOV.UK Prototype Kit - do not use for production')
-}
-
 $(document).ready(function () {
   window.GOVUKFrontend.initAll();
 
-  // const thisLocation = window.location.href;
-  // const journeyPagesURL = ['name','procurement-lead','add-collaborators','type','offline-doc','online-task-list',
-  // 'questions','who','vetting','upload','suppliers',
-  // 'review','response-date','project','project-status','address','address-manual','acronyms'];
-  // $.each(journeyPagesURL,function() {
-  //   if(thisLocation.indexOf(this) != -1) {
-  //      ccsScrollToJourney();
-  //      return false;   
-  //   }       
-  // });
+  // Read the CSRF token from the <meta> tag
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  $.ajaxSetup({
+    beforeSend: function(xhr) {
+        xhr.setRequestHeader('CSRF-Token', token);
+    }
+  });
 
   if (matchMedia) {
     const mq = window.matchMedia("(min-width: 40.0625em)");
@@ -103,6 +95,8 @@ if (document.getElementById("ccs_eoi_vetting_form") !== null) document.getElemen
 
 if (document.getElementById("ccs_ca_type_form") !== null) document.getElementById("ccs_ca_type_form").addEventListener('submit', ccsZvalidateCaaAssFCSecurity);
 if (document.getElementById("ccs_ca_weighting") !== null) document.getElementById("ccs_ca_weighting").addEventListener('submit', ccsZvalidateCAWeightings);
+
+if (document.getElementById("ccs_daa_weighting") !== null) document.getElementById("ccs_daa_weighting").addEventListener('submit', ccsZvalidateDAAWeightings);
 if (document.getElementById("ccs_ca_suppliers_form") !== null) document.getElementById("ccs_ca_suppliers_form").addEventListener('submit', ccsZvalidateCASupplier);
 
 // if (document.getElementById("ccs_rfi_dates_form") !== null) document.getElementById("ccs_rfi_dates_form").addEventListener('submit', ccsZvalidateRfiDates);
@@ -129,6 +123,9 @@ if (document.getElementById("ccs_rfi_docs_form") !== null) document.getElementBy
 if (document.getElementById("ccs_rfi_questions_form") !== null) document.getElementById("ccs_rfi_questions_form").addEventListener('submit', ccsZvalidateRfIQuestions);
 
 if (document.getElementById("ccs_eoi_questions_form") !== null) document.getElementById("ccs_eoi_questions_form").addEventListener('submit', ccsZvalidateEoIQuestions);
+
+if (document.getElementById("ccs_rfp_exit_strategy_form") !== null) document.getElementById("ccs_rfp_exit_strategy_form").addEventListener('submit', ccsZvalidateRfPStrategy);
+
 if (document.getElementById("ccs_rfp_about_proj") !== null) document.getElementById("ccs_rfp_about_proj").addEventListener('submit', ccsZvalidateRfPAboutBG);
 
 if (document.getElementById("ccs_eoi_purpose_form") !== null) document.getElementById("ccs_eoi_purpose_form").addEventListener('submit', ccsZvalidateEoiPurpose);
@@ -152,7 +149,7 @@ if (document.getElementById("ccs-rfi-suppliers-form") !== null) document.getElem
 
 if (document.getElementById("ccs_eoi_acronyms_form") !== null) document.getElementById("ccs_eoi_acronyms_form").addEventListener('submit', ccsZvalidateEoiAcronyms);
 
-if (document.getElementById("ccs_rfp_splterms_form") !== null) document.getElementById("ccs_rfp_splterms_form").addEventListener('submit', ccsZvalidateRfpAcronyms);
+if (document.getElementById("ccs_rfp_acronyms_form") !== null) document.getElementById("ccs_rfp_acronyms_form").addEventListener('submit', ccsZvalidateRfpAcronyms);
 
 if (document.getElementById("rfp_location") !== null) document.getElementById("rfp_location").addEventListener('submit', ccsZvalidateRfpLocation);
 
@@ -163,6 +160,7 @@ if (document.getElementById("ccs_rfi_acronyms_form") !== null) document.getEleme
 if (document.getElementById("ccs_eoi_date_form") !== null) document.getElementById("ccs_eoi_date_form").addEventListener('submit', ccsZvalidateEoiDate);
 
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
+
 
 setInputFilter(document.getElementById("eoi_resource_start_date-day"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 31));
 setInputFilter(document.getElementById("eoi_resource_start_date-month"), (value) => /^\d*$/.test(value) && (value === "" || parseInt(value) <= 12));

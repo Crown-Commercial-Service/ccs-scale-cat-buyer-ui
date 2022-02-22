@@ -31,8 +31,9 @@
         <div class="ccs-callout-panel">
           <h2 class="govuk-heading-m">Related content</h2>
           <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state" href="https://www.crowncommercial.gov.uk/agreements/RM6263" target="_blank" rel="noopener noreferrer" onclick="return false;">Digital Specialists and Programmes</a>
-            <a class="govuk-link govuk-link--no-visited-state" href="https://www.crowncommercial.gov.uk/agreements/RM6187" target="_blank" rel="noopener noreferrer" onclick="return false;">Management Consultancy Framework Three (MCF3)</a>
+            {% for item in data.related_content %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a>
+            {% endfor %}
           </p>
         </div>
       </div>
@@ -51,16 +52,18 @@
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__cell">
-                <a class="govuk-link" href="#">ocds-b5fd17-1849</a>
-              </th>
-              <td class="govuk-table__cell">Digital Specialists and Programmes, Lot 1: Digital Programmes</td>
-              <td class="govuk-table__cell">2022-01-12</td>
-              <td class="govuk-table__cell">
-                <strong class="govuk-tag govuk-tag--green">Published</strong>
-              </td>
-            </tr>
+            {% for event in events %}
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__cell">
+                  <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                </th>
+                <td class="govuk-table__cell">{{ event.activeEvent.title }}</td> {# This needs to be changed to Agreement anme and Lot name #}
+                <td class="govuk-table__cell">2022-01-12</td> {# This needs to come from API #}
+                <td class="govuk-table__cell">
+                  <strong class="govuk-tag govuk-tag--green">Published</strong> {# This needs to come from API #}
+                </td>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -84,10 +87,14 @@
             </li>
           </ul>
           <div class="govuk-tabs__panel" id="tab-1">
-            <p> {{data.subsection3_tab_1_content}} </p>
+            <p>
+              {{data.subsection3_tab_1_content}}
+            </p>
           </div>
           <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="tab-2">
-            <p> {{data.subsection3_tab_2_content}} </p>
+            <p>
+              {{data.subsection3_tab_2_content}}
+            </p>
           </div>
         </div>
       </div>

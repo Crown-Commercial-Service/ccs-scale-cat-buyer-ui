@@ -1,5 +1,5 @@
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% set title = 'Suppliers you want to approach | Crown Commercial Service' %}
 
 {% block breadCrumb %}
@@ -30,7 +30,7 @@
                 </div>
 
                 <form id="ccs-eoi-suppliers-form" class="ccs-eoi-suppliers-form" action="/rfp/suppliers" method="POST">
-
+                {{ csrfProtection(csrf) }}
                     <br>
                     <h2 class="govuk-heading-m">
                         <span id="added_suppliers_count">

@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -28,6 +29,7 @@
       </div>
     </div>
     <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/team-scale" method="POST">
+    {{ csrfProtection(csrf) }}
    
     <div class="ccs-page-section">
       <div class="sub-section">

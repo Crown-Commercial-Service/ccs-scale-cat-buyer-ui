@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% set title = 'EoI - response date | Crown Commercial Service' %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% block breadCrumb %}
     {{ CCSBreadcrumbs({
@@ -102,6 +103,7 @@
                                                     </div>
                                                     <br>
                                                     <form action="/eoi/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_eoi_response_date_form">
+                                                    {{ csrfProtection(csrf) }}
                                                         <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
 
                                                             <div class="govuk-date-input" id="clarification_date">
@@ -217,6 +219,7 @@
 
                                     <div class="govuk-button-group">
                                         <form method="post" action="/eoi/response-date" >
+                                        {{ csrfProtection(csrf) }}
                                             {{ CCSInput({
                     id: "timeStamp",
                     name: "eoi_clarification_date",

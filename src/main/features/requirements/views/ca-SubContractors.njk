@@ -1,11 +1,39 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'Will you accept sub contractors | Contract a Thing' %}
 
-{% block breadCrumb %}
+{# {% block breadCrumb %}
     {{ CCSBreadcrumbs({
         items: data.breadCrumbs
+    }) }}
+{% endblock %} #}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/ca/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "How well can the team scale?",
+                "href": "#"
+            }
+        ]
     }) }}
 {% endblock %}
 
@@ -31,7 +59,7 @@
         </div>
 
         <form id="ccs_ca_subContractors" name="ccs_ca_subContractors" class="form ccs_ca_subContractors" action="/ca/accept-subContractors" method="POST">
-
+        {{ csrfProtection(csrf) }}
             {% for form in data.form %}
                 {% set formOptions = form.radioOptions.items %}
                 {% set form_Options_Altered = [] %}
@@ -42,7 +70,8 @@
                                     html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
                                     hint : {
                                         text: item.hint.text
-                                    }
+                                    },
+                                    checked: item.checked
                                 }), form_Options_Altered) 
                                 %}
                 {% endfor %}
@@ -71,7 +100,8 @@
                 {{ CCSButton({
                     text: "Save and continue"
                 }) }}
-                <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+                {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+                <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
             </div>
         </form>
     </main>

@@ -196,20 +196,37 @@ const emptyFieldCheckRfp = () => {
   for (var x = 1; x < 11; x++) {
     let term_field = document.getElementById('rfp_term_' + x);
     let definition_field = document.getElementById("rfp_term_definition_" + x);
+    let target_field = document.getElementById("rfp_term_target_" + x);
 
     // console.log(name_field.classList.value);
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsRfp();
-      if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
-        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+      if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
+        fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+        ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+        ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
+        ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
         errorStore.push(fieldCheck);
-      }
-      if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
-        fieldCheck = [term_field.id, 'You must add information in both fields.'];
-        errorStore.push(fieldCheck);
+      } 
+      else { 
+          let isError = false;
+          if (term_field.value.trim() === '') {
+            ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+            isError = true;
+          }
+          if (definition_field.value.trim() === '') {
+            ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
+            isError = true;
+          }
+          if (target_field.value.trim() === '') {
+            ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
+            isError = true;
+          }
+          if (isError) { 
+            fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+            errorStore.push(fieldCheck);
+          }
       }
     }
   }

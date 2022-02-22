@@ -68,9 +68,9 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       } else if (aSelector.nonOCDS.questionType === 'Value' && aSelector.nonOCDS.multiAnswer == false) {
         return 'ccs_rfp_who_form';
       } else if (aSelector.nonOCDS.questionType === 'KeyValuePair' && aSelector.nonOCDS.multiAnswer == true) {
-        return 'ccs_rfp_acronyms_for';
+        return 'ccs_rfp_acronyms_form';
       } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == false) {
-        return '';
+        return 'ccs_rfp_exit_strategy_form';
       } else if (aSelector.nonOCDS.questionType === 'MultiSelect' && aSelector.nonOCDS.multiAnswer === true) {
         return 'rfp_location';
       } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == true) {
@@ -97,37 +97,36 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 
     fetch_dynamic_api_data = fetch_dynamic_api_data.map(item => {
       const newItem = item;
-      if(item.nonOCDS.dependency == undefined) {
-        newItem.nonOCDS.dependant = false
-        newItem.nonOCDS.childern = []
-      }
-      else {
+      if (item.nonOCDS.dependency == undefined) {
+        newItem.nonOCDS.dependant = false;
+        newItem.nonOCDS.childern = [];
+      } else {
         newItem.nonOCDS.dependant = true;
-        newItem.nonOCDS.childern = []
+        newItem.nonOCDS.childern = [];
       }
       return newItem;
     });
 
-
     const TemporaryObjStorage = [];
-    for(const ITEM of fetch_dynamic_api_data){
-          if(ITEM.nonOCDS.dependant){
-            const RelationsShip = ITEM.nonOCDS.dependency.relationships;
-            for(const Relation of RelationsShip){
-              const {dependentOnId} = Relation;
-              const findElementInData = fetch_dynamic_api_data.filter(item => item.OCDS.id === dependentOnId)[0]
-              findElementInData.nonOCDS.childern = [...findElementInData.nonOCDS.childern, ITEM]
-              TemporaryObjStorage.push(findElementInData)
-            }
-          }
-          else{
-            TemporaryObjStorage.push(ITEM);
-          }
-    } 
-    const POSITIONEDELEMENTS = [...new Set(TemporaryObjStorage.map(JSON.stringify))].map(JSON.parse).filter(item => !item.nonOCDS.dependant)
+    for (const ITEM of fetch_dynamic_api_data) {
+      if (ITEM.nonOCDS.dependant) {
+        const RelationsShip = ITEM.nonOCDS.dependency.relationships;
+        for (const Relation of RelationsShip) {
+          const { dependentOnId } = Relation;
+          const findElementInData = fetch_dynamic_api_data.filter(item => item.OCDS.id === dependentOnId)[0];
+          findElementInData.nonOCDS.childern = [...findElementInData.nonOCDS.childern, ITEM];
+          TemporaryObjStorage.push(findElementInData);
+        }
+      } else {
+        TemporaryObjStorage.push(ITEM);
+      }
+    }
+    const POSITIONEDELEMENTS = [...new Set(TemporaryObjStorage.map(JSON.stringify))]
+      .map(JSON.parse)
+      .filter(item => !item.nonOCDS.dependant);
 
-    console.log(fetch_dynamic_api_data)
-   // res.json(POSITIONEDELEMENTS)
+    const formNameValue = form_name.find(fn => fn !== '');
+    // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
       data: POSITIONEDELEMENTS,
@@ -137,7 +136,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       event_id: event_id,
       group_id: group_id,
       criterian_id: id,
-      form_name: form_name?.[0],
+      form_name: formNameValue,
       rfpTitle: titleText,
       bcTitleText,
       prompt: promptSplit,
@@ -154,7 +153,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-   res.render('rfp-question', data);
+    res.render('rfp-question', data);
   } catch (error) {
     delete error?.config?.['headers'];
     const Logmessage = {

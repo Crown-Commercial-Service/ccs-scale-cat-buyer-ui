@@ -4,6 +4,7 @@ import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
+import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
 
@@ -95,12 +96,13 @@ function updateRadioButtonOptions(
 
 export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  const projectId = req.session.projectId;
   try {
     const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(
       req.body,
       'choose_fc_route_to_market',
     );
-
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
     const { fc_route_to_market } = filtered_body_content_removed_fc_key;
 
     if (fc_route_to_market) {
