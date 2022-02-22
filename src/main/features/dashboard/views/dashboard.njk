@@ -42,25 +42,34 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
       <div class="govuk-grid-column-full">
         <table class="govuk-table">
-          <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} (XX)</caption>
+          <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} ({{events.length}})</caption>
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
               <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
               <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
               <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
+              <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_5}}</th>
             </tr>
           </thead>
           <tbody class="govuk-table__body">
             {% for event in events %}
               <tr class="govuk-table__row">
                 <th scope="row" class="govuk-table__cell">
-                  <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                  <p class="govuk-body govuk-!-margin-bottom-0">
+                    <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                  </p>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
                 </th>
-                <td class="govuk-table__cell">{{ event.activeEvent.title }}</td> {# This needs to be changed to Agreement anme and Lot name #}
-                <td class="govuk-table__cell">2022-01-12</td> {# This needs to come from API #}
+                <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
                 <td class="govuk-table__cell">
-                  <strong class="govuk-tag govuk-tag--green">Published</strong> {# This needs to come from API #}
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.activeEvent.lot }}</p> {# This needs to be changed to Agreement anme and Lot name #}
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.activeEvent.agreement }}</p> {# This needs to be changed to Agreement anme and Lot name #}
+                </td>
+                <td class="govuk-table__cell">{{ event.activeEvent.closeDate }}</td> {# This needs to come from API #}
+                <td class="govuk-table__cell">
+                {{ event.activeEvent.status }}{# This needs to come from API #}
+                  {# <strong class="govuk-tag govuk-tag--green">{{ event.activeEvent.status }}</strong>  #}
                 </td>
               </tr>
             {% endfor %}
@@ -103,35 +112,37 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-6">
       <div class="govuk-grid-column-full">
         <table class="govuk-table">
-          <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} (XX)</caption>
+          <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{historicalEvents.length}})</caption>
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
               <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
               <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
+              <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
             </tr>
           </thead>
           <tbody class="govuk-table__body">
+          {% for event in historicalEvents %}
             <tr class="govuk-table__row">
               <th scope="row" class="govuk-table__cell">
-                <a class="govuk-link" href="#">ocds-b5fd17-1848</a>
+                <p class="govuk-body govuk-!-margin-bottom-0">
+                    <a class="govuk-link" href="/event/management?id={{ event.historicEvent.id }}">{{ event.historicEvent.id }}</a>
+                  </p>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p> {# This needs to be feached from correct API response #}
               </th>
-              <td class="govuk-table__cell">Digital Specialists and Programmes, Lot 1: Digital Programmes</td>
+              <td class="govuk-table__cell">{{ event.historicEvent.eventType }}</td> {# This needs to be feached from correct API response #}
               <td class="govuk-table__cell">
-                <strong class="govuk-tag govuk-tag--grey">CLOSED</strong>
+                <p class="govuk-body govuk-!-margin-bottom-0">{{ event.historicEvent.lot }}</p> {# This needs to be changed to Agreement anme and Lot name #}
+                <p class="govuk-body govuk-!-margin-bottom-0">{{ event.historicEvent.agreement }}</p> {# This needs to be changed to Agreement anme and Lot name #}
+              </td>
+              <td class="govuk-table__cell">
+                {{ event.historicEvent.closedDate }}
               </td>
             </tr>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__cell">
-                <a class="govuk-link" href="#">ocds-b5fd17-1850</a>
-              </th>
-              <td class="govuk-table__cell">Management Consultancy Framework Three (MCF3), Lot 1: Business</td>
-              <td class="govuk-table__cell">
-                <strong class="govuk-tag govuk-tag--grey">CLOSED</strong>
-              </td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
+        <p><a class="govuk-link" href="#">{{data.view_Historical}}</a></p>
       </div>
     </div>
 

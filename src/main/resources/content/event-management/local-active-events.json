@@ -1,0 +1,130 @@
+[
+    {
+        "projectId": 19,
+        "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-19",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "EOI",
+            "lot":"Lot 3: Complex and Transformation",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6817]",
+            "status": "Running",
+            "closeDate": "future time / date",
+            "AgreementID": "RM6817"
+        }
+    },
+    {
+        "projectId": 223,
+        "projectName": "RM6263-Lot 2-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-223",
+            "title": "RM6263-Lot 2-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "RFI",
+            "lot":"Lot 2: Digital Specialists",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "To be pubished",
+            "closeDate": "not available yet",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 11,
+        "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-11",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Direct Award",
+            "lot":"Lot 2: Digital Specialists",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "Contracting",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 22,
+        "projectName": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-22",
+            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Further Competition",
+            "lot":"Lot 1: Digital Programmes",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "To be Evaluated",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 119,
+        "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-119",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Further Competition",
+            "lot":"Lot 7: Health, Social Care & Community",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6817]",
+            "status": "Techical Evaluation",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6817"
+        }
+    },
+    {
+        "projectId": 2231,
+        "projectName": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-2231",
+            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Further Competition",
+            "lot":"Lot 1: Digital Programmes",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "Final Evaluation",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 191,
+        "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-191",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Direct Award",
+            "lot":"Lot 2: Strategy and Policy",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6817]",
+            "status": "Pre-Award",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6817"
+        }
+    },
+    {
+        "projectId": 2232,
+        "projectName": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-2232",
+            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Further Competition",
+            "lot":"Lot 9: Enviromental Sustainability & Socio-Economic Developement",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6817]",
+            "status": "Award",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6817"
+        }
+    }
+]

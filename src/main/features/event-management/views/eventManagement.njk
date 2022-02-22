@@ -2,7 +2,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Welcome to the Contract a Thing beta' %}
+{% set title = 'Event management ' %}
 {% block content %}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
@@ -24,8 +24,33 @@
         </p>
         <div>
           <h2 class="govuk-heading-m">
-            {{data.subsection2_title}}</h2>
-          <p class="govuk-body">{{ data.line1 }}</p>
+            {{data.subsection2_title}}
+            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
+          </h2>
+          <p class="govuk-body">
+            <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <div class="govuk-grid-column-one-half">
+          <h2 class="govuk-heading-m">
+            {{data.subsection3_title}}</h2>
+          <p class="govuk-body">You have X unread messages</p>
+          <p class="govuk-body">
+            <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
+          </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <h2 class="govuk-heading-m">
+            {{data.subsection3_title2}}</h2>
+          <p class="govuk-body">There are X clarifications in the Q&A </p>
+          <p class="govuk-body">
+            <a class="govuk-link" href="{{ data.subsection3_linkURL2 }}">{{ data.subsection3_linkText2 }}</a>
+          </p>
         </div>
       </div>
     </div>
@@ -33,16 +58,36 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
-          {{data.subsection3_title}}</h2>
-        <p class="govuk-body">{{ data.line1 }}</p>
+          <span class="proc-task-list__section-number">1.</span>
+          {{data.subsection4_title1}}</h2>
+        <p class="govuk-body">{{ data.subsection4_title1_descriiption }}</p>
       </div>
     </div>
 
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
-          {{data.subsection4_title}}</h2>
-        <p class="govuk-body">{{ data.line1 }}</p>
+          <span class="proc-task-list__section-number">2.</span>
+          {{data.subsection4_title2}}</h2>
+        <p class="govuk-body">{{ data.subsection4_title2_descriiption }}</p>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">3.</span>
+          {{data.subsection4_title3}}</h2>
+        <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">3.</span>
+          {{data.subsection4_title4}}</h2>
+        <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
       </div>
     </div>
   </main>

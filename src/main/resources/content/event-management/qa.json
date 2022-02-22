@@ -1,0 +1,39 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Event Management",
+            "href": "#"
+        },
+        {
+            "text": "Q&A",
+            "href": "#"
+        }
+    ],
+    "title": "Q&A",
+    "subtitle": "Current Q&A Document",
+    "info": "[Content to explain Q&A Document]",
+    "subsection2_table_th_1": "[Subject]",
+    "subsection2_table_th_2": "[Recipient]",
+    "subsection2_table_th_3": "[Date]",
+    "updateDate":"[ Last Updated ]",
+    "backJump": {
+        "title": "Return to Event Management",
+        "href": "#"
+    },
+    "tabs": {
+        "text1": "Create Message",
+        "href1": "/message/create",
+        "text2": "Received",
+        "href2": "/message/inbox",
+        "text3": "Sent",
+        "href3": "/message/sent"
+    }
+}
