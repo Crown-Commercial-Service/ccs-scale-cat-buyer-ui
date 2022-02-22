@@ -35,6 +35,7 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
 
     const appendData = { data: eventManagementData, status, projectName, eventId }
     res.locals.event_header = { agreementName, agreementLotName, agreementId_session }
+    req.session.event_header = res.locals.event_header
     res.render('eventManagement', appendData)
   } catch (err) {
     LoggTracer.errorLogger(

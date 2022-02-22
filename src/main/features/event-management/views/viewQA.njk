@@ -1,0 +1,51 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'QA ' %}
+{% block content %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+        <div class="govuk-grid-row govuk-!-padding-bottom-7">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                    {{data.title}}
+                </h1>
+                {% include "includes/event_header.njk" %}
+            </div>
+        </div>
+
+        <div class="govuk-grid-row ccs-page-section">
+            <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-m">
+                    {{data.subtitle}}
+                </h2>
+                <p class="govuk-body">{{data.info}}</p>
+            </div>
+            <div class="govuk-grid-column-full">
+                <p class="govuk-body">
+                There are {{ QAs.default.length }} clarifications for this Agreement
+                </p>
+            </div>
+        </div>
+        {% for QA in QAs.default %}
+        <div class="govuk-grid-row ccs-page-section">
+            <div class="govuk-grid-column-full">
+                <h3>{{QA.question}}</h3>
+                <p class="govuk-body">
+                    {{QA.response}}
+                </p>
+                <p class="govuk-body">
+                    {{data.updateDate}} : <strong>{{QA.lastUpdated}}</strong>
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+        <p class="govuk-body">
+            <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+        </p>
+    </main>
+{% endblock %}

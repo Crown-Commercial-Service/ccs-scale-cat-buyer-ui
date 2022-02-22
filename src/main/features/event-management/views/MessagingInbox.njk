@@ -3,12 +3,31 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Message Inbox ' %}
+{% set html %}
+<h3 class="govuk-notification-banner__heading">
+    {{data.notification.text}}
+</h3>
+<p class="govuk-body">
+    <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
+</p>
+{% endset %}
 {% block content %}
     {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+      <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-        <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+        {% if created %}
+            <div class="govuk-grid-column-one-half">
+
+                {{ govukNotificationBanner({
+                html: html,
+                type: "success",
+                titleText: data.notification.title
+                }) }}
+
+            </div>
+        {% endif %}
         <div class="govuk-grid-row govuk-!-padding-bottom-7">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
@@ -38,40 +57,40 @@
         </div>
 
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
-      <div class="govuk-grid-column-full">
-        <table class="govuk-table">
-          <caption class="govuk-table__caption govuk-visually-hidden">{{data.title}}</caption>
-          <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
-              <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
-              <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
-              <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
-            </tr>
-          </thead>
-          <tbody class="govuk-table__body">
-            {% for message in messageData.default %}
-              <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__cell">
-                  <p class="govuk-body govuk-!-margin-bottom-0">
-                    <a class="govuk-link" href="/event/management?id={{ message.messageId }}">{{ message.message.from }}</a>
-                  </p>
-                </th>
-                <td class="govuk-table__cell">{{ message.message.date }}</td>
-                <td class="govuk-table__cell">{{ message.message.subject }}</td>
-                <td class="govuk-table__cell">
-                {% if message.message.status == 'Read'%}
-                  <strong class="govuk-tag govuk-tag--green">{{ message.message.status }}</strong>
-                {% else %}  
-                  <strong class="govuk-tag govuk-tag--blue">{{ message.message.status }}</strong>
-                {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
+            <div class="govuk-grid-column-full">
+                <table class="govuk-table">
+                    <caption class="govuk-table__caption govuk-visually-hidden">{{data.title}}</caption>
+                    <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
+                            <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
+                            <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
+                            <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                        {% for message in messageData.default %}
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__cell">
+                                    <p class="govuk-body govuk-!-margin-bottom-0">
+                                        <a class="govuk-link" href="/event/management?id={{ message.messageId }}">{{ message.message.from }}</a>
+                                    </p>
+                                </th>
+                                <td class="govuk-table__cell">{{ message.message.date }}</td>
+                                <td class="govuk-table__cell">{{ message.message.subject }}</td>
+                                <td class="govuk-table__cell">
+                                    {% if message.message.status == 'Read'%}
+                                        <strong class="govuk-tag govuk-tag--green">{{ message.message.status }}</strong>
+                                    {% else %}
+                                        <strong class="govuk-tag govuk-tag--blue">{{ message.message.status }}</strong>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <p class="govuk-body">
             <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
         </p>

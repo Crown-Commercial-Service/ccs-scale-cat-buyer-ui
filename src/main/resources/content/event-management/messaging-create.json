@@ -18,19 +18,24 @@
         }
     ],
     "title": "Messaging Inbox",
-    "subsection2_table_th_1": "From",
-    "subsection2_table_th_2": "Date",
-    "subsection2_table_th_3": "Subject",
-    "subsection2_table_th_4": "Status",
-    "backJump": {
-        "title": "Return to Event Management",
-        "href": "#"
+    "subtitle": "[Create new Message ]",
+    "signposting": {
+        "line1": "[Description to explain what happens in a broadcast]",
+        "line2": "[ See Supplier List ]",
+        "link": "#"
     },
-    "notification": {
-        "text": "Your message was successufly broadcasted to all suppliers.",
-        "linkText": "View sent message",
-        "link": "/message/sent",
-        "title": "Message Sent"
+    "MessageClassification": "[ Message Classification ]",
+    "Subject": "[ Subject ]",
+    "Message": "[ Message ]",
+    "btnText": "[ Broadcast to all suppliers ]",
+    "Cancel": {
+        "text": "[ Cancel ]",
+        "link": "/message/inbox"
+    }, 
+    "backlink" : "/message/inbox",
+    "backJump": {
+        "title": "Return to [ Project Section ]",
+        "href": "#"
     },
     "tabs": {
         "text1": "Create Message",

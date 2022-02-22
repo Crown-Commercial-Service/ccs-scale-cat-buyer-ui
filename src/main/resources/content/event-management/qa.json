@@ -13,24 +13,20 @@
             "href": "#"
         },
         {
-            "text": "Messaging Inbox",
+            "text": "Q&A",
             "href": "#"
         }
     ],
-    "title": "Messaging Inbox",
-    "subsection2_table_th_1": "From",
-    "subsection2_table_th_2": "Date",
-    "subsection2_table_th_3": "Subject",
-    "subsection2_table_th_4": "Status",
+    "title": "Q&A",
+    "subtitle": "Current Q&A Document",
+    "info": "[Content to explain Q&A Document]",
+    "subsection2_table_th_1": "[Subject]",
+    "subsection2_table_th_2": "[Recipient]",
+    "subsection2_table_th_3": "[Date]",
+    "updateDate":"[ Last Updated ]",
     "backJump": {
         "title": "Return to Event Management",
         "href": "#"
-    },
-    "notification": {
-        "text": "Your message was successufly broadcasted to all suppliers.",
-        "linkText": "View sent message",
-        "link": "/message/sent",
-        "title": "Message Sent"
     },
     "tabs": {
         "text1": "Create Message",
