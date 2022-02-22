@@ -28,7 +28,7 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
-    <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/team-scale" method="POST">
+    <form id="ccs_ca_menu_tabs_form_later" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/resources-vetting-weightings" method="POST">
     {{ csrfProtection(csrf) }}
    
     <div class="ccs-page-section">
@@ -63,6 +63,7 @@
                      <p> [DDAT Family description] </p>
                      <div class="govuk-!-margin-top-9">
                       <p> Weighting for number of staff </p>
+
                         {{ CCSInput({
                           label: {
                             text: ""
@@ -90,6 +91,13 @@
                           spellcheck: false
                         }) }}
 
+                           {{ CCSInput({
+                                    id: "weight_vetting_whole_group",
+                                    name: "weigthage_group_name",
+                                    type: "hidden",
+                                    value: subItems.ParentName
+                                  }) }}
+
                      </div>
 
                       <div class="govuk-!-margin-top-9">
@@ -103,12 +111,22 @@
                           },
                           classes: "govuk-input--width-2",
                           id: "weight_vetting",
-                          name: "weight_vetting",
+                          name: "SFIA_weightage",
                           suffix: {
                             text: subNestedItems['SFIA_name']
                           },
                           spellcheck: false
                         }) }}
+
+
+                         {{ CCSInput({
+                                    id: "weight_vetting_whole_group",
+                                    name: "requirement_Id_SFIA_weightage",
+                                    type: "hidden",
+                                    value: subNestedItems['requirement-id']
+                                  }) }}
+
+
                          {%endfor%}
                        <div>
                        <hr>
