@@ -278,8 +278,7 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
 
   })
 
-  console.log(IndexStorage)
-  console.log(IndexStorageForSFIA_LEVELS)
+res.redirect('/ca/resources-vetting-weightings')
 
   /**
    *  try {
