@@ -60,6 +60,13 @@
           "required": "mandatory",
           "link": "/rfp/offline",
           "status": "Todo"
+        },
+        {
+          "Task": 2,
+          "title": "IR35 acknowledgement",
+          "required": "optional",
+          "link": "#",
+          "status": "Cannot start yet"
         }
       ]
     },
@@ -79,6 +86,41 @@
     },
     {
       "eventno": 4,
+      "eventTitle": "Additional requirements",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "Define resource types and quantity",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 2,
+          "title": "Choose highest security and vetting requirements",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 3,
+          "title": "Select your service capabilities",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        },
+        {
+          "Task": 4,
+          "title": "Where the work will be done",
+          "required": "optional",
+          "status": "Cannot start yet",
+          "link": "#"
+        }
+      ]
+    },
+    {
+      "eventno": 5,
       "eventTitle": "Your assessment bases and evaluation weightings ",
       "eventDescription": "[description of this section]",
       "eventTask": [
@@ -99,7 +141,7 @@
       ]
     },
     {
-      "eventno": 5,
+      "eventno": 6,
       "eventTitle": "Review and publish your 1-stage RFP ",
       "eventDescription": "[description of this section]",
       "eventTask": [
