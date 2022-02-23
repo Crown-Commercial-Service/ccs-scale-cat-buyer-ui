@@ -3,10 +3,37 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'Enter your weightings | Contract a Thing' %}
-
+{# 
 {% block breadCrumb %}
     {{ CCSBreadcrumbs({
         items: data.breadCrumbs
+    }) }}
+{% endblock %} #}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/da/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "Enter your weightings",
+                "href": "#"
+            }
+        ]
     }) }}
 {% endblock %}
 
@@ -76,7 +103,8 @@
                         {{ CCSButton({
                             text: "Save and continue"
                         }) }}
-                        <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+                        {% set returnLink = "/da/task-list?path="+choosenViewPath %}
+                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
                     </div>
                 </form>
             </div>
