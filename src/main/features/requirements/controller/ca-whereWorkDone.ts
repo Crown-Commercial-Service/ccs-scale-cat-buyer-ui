@@ -10,18 +10,13 @@ export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
   const { projectId, releatedContent, isError, errorText, dimensions } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
+  var choosenViewPath  = req.session.choosenViewPath;
   var locationArray;
     try {
-    let assessmentAPIData = dimensions;
-    for(let apiData of assessmentAPIData)
-    { 
-      if(apiData["dimension-id"] == 5)
-      {
-          locationArray = apiData["options"];
-
-      }
-    }
-    const appendData = { ...dataWWD, releatedContent, isError, errorText, locationArray };
+    locationArray = dimensions.filter(data => data.name === 'Location')[0]["options"];
+    var uniqueLocations = [...new Set(locationArray)];
+    var stringLocations =JSON.stringify(locationArray);
+    const appendData = { ...dataWWD, releatedContent, isError, errorText, locationArray, choosenViewPath};
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('ca-whereWorkDone', appendData);
   } catch (error) {
@@ -57,9 +52,13 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
   const { SESSION_ID } = req.cookies;
   const { projectId, releatedContent, dimensions } = req.session;
   const { ca_locationweight: weights } = req['body'];
+  const { ca_locationName: names} = req['body'];
+  const { requirement_id : requirementIdList } = req['body'];
   const total = weights.reduce((accum, elem) => (accum += parseInt(elem)), 0);
   const { isError, errorText } = checkErrors(total);
   const assessmentId = req.session.currentEvent.assessmentId;
+  const choosenViewPath = req.session.choosenViewPath;
+  var capAssessement = req.session['CapAss'];
 
   if (isError) {
     req.session.errorText = errorText;
@@ -68,16 +67,49 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
   } else {
     try {
       const weightingDimensions = dimensions;
-      for (var dimension of weightingDimensions) {
-        const body = {
-          name: dimension.name,
-          weighting: req.body[dimension.id],
-          requirements: [],
-        };
-      await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/${dimension.id}`, body);
+      const locationData = dimensions.filter(data => data.name === 'Location')[0];
+      var weightsFiltered = weights.filter(weight => weight.value != '');
+      var indexList =[];
+      var initialDataRequirements =[];
+      let req = {};
+      for (let i = 0; i < weights.length; i++) {
+        if(weights[i] != '')
+        {
+          indexList.push({i});
+        }
       }
+      for (let i = 0; i < indexList.length; i++) {
+       req =
+          {
+            //name: names[i] ,
+            'requirement-id': requirementIdList[indexList[i].i], 
+            weighting: weights[indexList[i].i],
+            values: [{ 'criterion-id': '0', value: '1: Yes' }]
+          }
+        initialDataRequirements.push(req);
+      }
+      
+      const body = {
+        'dimension-id': locationData['dimension-id'],
+        //name: locationData['options']['name'][i],
+        weighting: 20,
+        includedCriteria: [{ 'criterion-id': '0' }],
+        requirements: initialDataRequirements
+      };
+    
+  
+      if (capAssessement?.isSubContractorAccepted) {
+         body.includedCriteria.push({ 'criterion-id': '1' });
+         body.requirements[0].values.push({ 'criterion-id': '1', value: '1: Yes' });
+       }
+  
+      await TenderApi.Instance(SESSION_ID).put(
+        `/assessments/${assessmentId}/dimensions/${locationData['dimension-id']}`,
+        body,
+      );
+      
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
-      res.redirect('/ca/task-list');
+      res.redirect('/ca/suppliers-to-forward');
     } catch (error) {
 
       LoggTracer.errorLogger(
