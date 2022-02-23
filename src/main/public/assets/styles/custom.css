@@ -363,3 +363,8 @@ fieldset {
 .ccs_ca_menu_tabs_form {
   margin-top: 100px;
 }
+
+
+.hide-block{
+  display: none !important;
+}
