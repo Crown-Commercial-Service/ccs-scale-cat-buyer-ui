@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
-import * as daResourcesVetting from '../../../resources/content/requirements/daResourcesVetting.json';
+import * as RFP_WEIGTING_JSON from '../../../resources/content/requirements/rfp-weighting.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
@@ -25,6 +25,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       errorText,
       currentEvent
     } = req.session;
+    
     const { assessmentId } = currentEvent;
     const agreementId_session = agreement_id;
     const { isJaggaerError } = req.session;
@@ -38,79 +39,72 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       error: isJaggaerError,
     };
     try {
-     
-        const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+        /**     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
+         * 
+         */
+     
+   
 
-    const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
+    const CAPACITY_BASEURL = `assessments/tools/1/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
     
-
+    const itemList = [
+        'Data',
+        'Technical',
+        'IT Ops',
+        'Product Delivery',
+        'QAT',
+        'User Centred Design',
+        'No DDaT Cluster Mapping',
+      ];
+      
     const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
-      const { name, weightingRange, options } = acapacity;
-      const AddedPropsToOptions = options.map(anOpt => {
+        const { name, weightingRange, options } = acapacity;
+        const AddedPropsToOptions = options.map(anOpt => {
+          return {
+            ...anOpt,
+            Weightagename: name,
+            Weightage: weightingRange,
+          };
+        });
+        return AddedPropsToOptions;
+      }).flat();
+  
+      const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity.map(capacity => {
         return {
-          ...anOpt,
-          Weightagename: name,
-          Weightage: weightingRange,
+          designation: capacity.name,
+          ...capacity?.groups?.[0],
+          Weightagename: capacity.Weightagename,
+          Weightage: capacity.Weightage,
         };
       });
-      return AddedPropsToOptions;
-    }).flat();
+  
+      const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(cursor => {
+        const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter(item => item.name === cursor);
+        return {
+          'job-category': cursor,
+          data: ELEMENT_IN_UNIQUEFIELDNAME,
+        };
+      });
+      const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME.filter(item => itemList.includes(item['job-category']));
+  
+      const ITEMLIST = filteredMenuItem.map((designation, index) => {
+        const weightage = designation.data?.[0]?.Weightage;
+        return {
+          url: `#section${index + 1}`,
+          text: designation['job-category'],
+          subtext: `${weightage.min}% / ${weightage.max}%`,
+        };
+      });
 
-    const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity.map(capacity => {
-      return {
-        designation: capacity.name,
-        ...capacity?.groups?.[0],
-        Weightagename: capacity.Weightagename,
-        Weightage: capacity.Weightage,
-      };
-    });
 
-    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(cursor => {
-      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter(item => item.name === cursor);
-      return {
-        'job-category': cursor,
-        data: ELEMENT_IN_UNIQUEFIELDNAME,
-      };
-    });
-    const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME.filter(item => itemList.includes(item['job-category']));
-
-    const ITEMLIST = filteredMenuItem.map((designation, index) => {
-      const weightage = designation.data?.[0]?.Weightage;
-      return {
-        url: `#section${index + 1}`,
-        text: designation['job-category'],
-        subtext: `${weightage.min}% / ${weightage.max}%`,
-      };
-    });
-
-    const UNIQUEJOBDESIGNATIONS = UNIQUEELEMENTS_FIELDNAME.map(designation => {
-      const jobCategory = designation['job-category'];
-      const { data } = designation;
-      const uniqueElements = [...new Set(data.map(designation => designation.designation))];
-      return uniqueElements;
-    }).flat();
-
-    const UNIQUE_JOB_IDENTIFIER = UNIQUEELEMENTS_FIELDNAME.map(element => {
-      const { data } = element;
-      const JobCategory = element['job-category'];
-      let JOBSTORAGE = [];
-      for (const JOB of UNIQUEJOBDESIGNATIONS) {
-        const ElementFinder = data.filter(data => data.designation === JOB)[0];
-        JOBSTORAGE.push(ElementFinder);
-      }
-      JOBSTORAGE = JOBSTORAGE.filter(items => items != null);
-      return {
-        'job-category': JobCategory,
-        data: JOBSTORAGE,
-      };
-    });
-
-    var dimension = [...UNIQUE_JOB_IDENTIFIER];
+      const tableItems = [...ITEMLIST];
+  
+    var dimensions = [...CAPACITY_DATASET];
   
   
       const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
@@ -254,7 +248,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
   
   
         const windowAppendData = {
-          ...daResourcesVetting,
+          ...RFP_WEIGTING_JSON,
           lotId,
           agreementLotName,
           releatedContent,
@@ -266,9 +260,10 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
      
   
      // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-     //res.json(REMAPPED_ACCORDING_TO_PARENT_ROLE)
+    //res.json({StorageForSortedItems, REMAPPTED_TABLE_ITEM_STORAGE})
     res.render('rfp-vetting-weighting', windowAppendData);
     } catch (error) {
+        console.log(error)
       req.session['isJaggaerError'] = true;
       LoggTracer.errorLogger(
         res,
