@@ -84,6 +84,8 @@ export enum REQUIREMENT_PATHS {
   DA_GET_LEARN = '/da/learn-about-capability-assessment',
   DA_POST_LEARN = '/da/learn-about-capability-assessment',
   GET_LEARN = '/ca/learnabout-capability-assessment',
+  DA_GET_LEARN_START = '/da/learnabout-CA',
+  DA_POST_LEARN_START = '/da/learnabout-CA',
   POST_LEARN = '/ca/learnabout-capability-assessment',
   CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
   CA_POST_WEIGHTINGS = '/ca/enter-your-weightings',

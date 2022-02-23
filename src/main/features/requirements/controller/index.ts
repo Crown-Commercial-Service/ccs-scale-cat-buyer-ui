@@ -78,6 +78,7 @@ import { RFP_GET_YOUR_ASSESSTMENT } from './rfp-yourassesstment';
 import { DA_GET_REVIEW_RANKED_SUPPLIERS, DA_POST_REVIEW_RANKED_SUPPLIERS } from './da-reviewRankedSuppliers';
 import { DA_GET_LEARN, DA_POST_LEARN } from './da-learnAboutCapabilityAssessment';
 import { DA_GET_WEIGHTINGS, DA_POST_WEIGHTINGS } from './da-enterYourWeightings';
+import {DA_GET_LEARN_START,DA_POST_LEARN_START} from './dalearnAboutCapabilityAssessment'
 
 import { RFP_GET_VETTING_AND_WEIGHTING, RFP_POST_VETTING_AND_WEIGHTING } from './rfp-vetting-and-weighting';
 /**
@@ -89,6 +90,8 @@ import { RFP_GET_VETTING_AND_WEIGHTING, RFP_POST_VETTING_AND_WEIGHTING } from '.
 export const REQUIREMENT_CONTROLLER = {
   REQUIREMENT_CHOOSE_ROUTE,
   POST_REQUIREMENT_CHOOSE_ROUTE,
+  DA_GET_LEARN_START,
+  DA_POST_LEARN_START,
 
   //Response Date
   GET_RESPONSE_DATE,

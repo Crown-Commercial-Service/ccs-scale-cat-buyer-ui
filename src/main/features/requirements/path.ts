@@ -310,6 +310,11 @@ export default function (app: Application): void {
 
 
 
+    app.get(
+      REQUIREMENT_PATHS.DA_GET_LEARN_START,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.DA_GET_LEARN_START,
+    );
 
 
   app.get(
@@ -321,6 +326,8 @@ export default function (app: Application): void {
   /**
    * @POST Routes
    */
+
+   app.post(REQUIREMENT_PATHS.DA_POST_LEARN_START, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_LEARN_START);
 
   app.post(REQUIREMENT_PATHS.POST_ROUTE, [AUTH], REQUIREMENT_CONTROLLER.POST_REQUIREMENT_CHOOSE_ROUTE);
 
