@@ -15,6 +15,12 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_ADD_COLLABORATOR_TO_JAGGER = '/rfp/add-collaborator-detail',
   RFP_POST_PROCEED_COLLABORATORS = '/rfp/proceed-collaborators',
 
+
+  //RFP Resource type and Quantity
+  RFP_GET_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
+  RFP_POST_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
+
+
   // Proc lead rfp
   RFP_GET_NAME_PROJECT = '/rfp/name-your-project',
   RFP_POST_NAME_PROJECT = '/rfp/name',
@@ -39,6 +45,9 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_PROCEED = '/rfp/upload-doc/proceed',
+
+  RFP_GET_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
+  RFP_POST_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
 
   // Add collaborator ca
   CA_GET_ADD_COLLABORATOR = '/ca/add-collaborators',
@@ -75,6 +84,8 @@ export enum REQUIREMENT_PATHS {
   DA_GET_LEARN = '/da/learn-about-capability-assessment',
   DA_POST_LEARN = '/da/learn-about-capability-assessment',
   GET_LEARN = '/ca/learnabout-capability-assessment',
+  DA_GET_LEARN_START = '/da/learnabout-CA',
+  DA_POST_LEARN_START = '/da/learnabout-CA',
   POST_LEARN = '/ca/learnabout-capability-assessment',
   CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
   CA_POST_WEIGHTINGS = '/ca/enter-your-weightings',

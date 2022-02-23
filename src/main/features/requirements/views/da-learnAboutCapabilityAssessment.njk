@@ -10,6 +10,28 @@
 {% endblock %} #}
 
 {% block breadCrumb %}
+    {% if isPathOne %}
+        {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+            },
+            {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+            },
+            {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+            },
+            {
+                "text": "Learn about capability assessment",
+                "href": "#"
+            }
+        ]
+    }) }}
+    {% else %}
     {{ CCSBreadcrumbs({
         items: [
             {
@@ -34,6 +56,7 @@
             }
         ]
     }) }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -56,7 +79,25 @@
                 {{ CCSReleatedContent(releatedContent) }}
             </div>
         </div>
+{% if isPathOne %}
+            <form id="ccs_da_learn" name="ccs_da_learn" class="form ccs_da_learn" action="/da/learnabout-CA" method="POST">
+            {{ csrfProtection(csrf) }}
+            {{ CCSInput({
+                id: "da_learn_input",
+                name: "da_learn_input",
+                type: "hidden",
+                value: true
+            }) }}
 
+            <div class="govuk-button-group">
+                {{ CCSButton({
+                text: "continue"
+            }) }}
+            {% set returnLink = "/da/task-list?path=" + choosenViewPath %}
+            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+            </div>
+        </form>
+ {% else %}
         <form id="ccs_da_learn" name="ccs_da_learn" class="form ccs_da_learn" action="/da/learn-about-capability-assessment" method="POST">
             {{ csrfProtection(csrf) }}
             {{ CCSInput({
@@ -74,6 +115,6 @@
             <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
             </div>
         </form>
-
+{% endif %}
     </main>
 {% endblock %}

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const updateTotal = dimensions => {
   let total = 0;
   dimensions.each(function () {
-    total = total + Number($(this).val());
+    if (!isNaN($(this).val())) total = total + Number($(this).val());
   });
   $('#totalPercentage').text(total);
 };

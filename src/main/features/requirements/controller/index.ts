@@ -1,3 +1,7 @@
+import {
+  RFP_GET_CHOOSE_SECURITY_REQUIREMENTS,
+  RFP_POST_CHOOSE_SECURITY_REQUIREMENTS,
+} from './rfp-chooseSecurityRequirements';
 import { CA_GET_LEARN_ASSESSMENT_BASES, CA_POST_LEARN_ASSESSMENT_BASES } from './ca-learnAssessmentBases';
 import { CA_GET_SERVICE_CAPABILITIES, CA_POST_SERVICE_CAPABILITIES } from './ca-serviceCapabilites';
 import { CA_GET_REVIEW_RANKED_SUPPLIERS, CA_POST_REVIEW_RANKED_SUPPLIERS } from './ca-reviewRankedSuppliers';
@@ -74,6 +78,9 @@ import { RFP_GET_YOUR_ASSESSTMENT } from './rfp-yourassesstment';
 import { DA_GET_REVIEW_RANKED_SUPPLIERS, DA_POST_REVIEW_RANKED_SUPPLIERS } from './da-reviewRankedSuppliers';
 import { DA_GET_LEARN, DA_POST_LEARN } from './da-learnAboutCapabilityAssessment';
 import { DA_GET_WEIGHTINGS, DA_POST_WEIGHTINGS } from './da-enterYourWeightings';
+import {DA_GET_LEARN_START,DA_POST_LEARN_START} from './dalearnAboutCapabilityAssessment'
+
+import { RFP_GET_VETTING_AND_WEIGHTING, RFP_POST_VETTING_AND_WEIGHTING } from './rfp-vetting-and-weighting';
 /**
  * @BaseController
  * @Provider
@@ -83,6 +90,8 @@ import { DA_GET_WEIGHTINGS, DA_POST_WEIGHTINGS } from './da-enterYourWeightings'
 export const REQUIREMENT_CONTROLLER = {
   REQUIREMENT_CHOOSE_ROUTE,
   POST_REQUIREMENT_CHOOSE_ROUTE,
+  DA_GET_LEARN_START,
+  DA_POST_LEARN_START,
 
   //Response Date
   GET_RESPONSE_DATE,
@@ -187,4 +196,8 @@ export const REQUIREMENT_CONTROLLER = {
   DA_GET_REVIEW_RANKED_SUPPLIERS,
   DA_POST_REVIEW_RANKED_SUPPLIERS,
   RFP_GET_YOUR_ASSESSTMENT,
+  RFP_POST_VETTING_AND_WEIGHTING,
+  RFP_GET_VETTING_AND_WEIGHTING,
+  RFP_GET_CHOOSE_SECURITY_REQUIREMENTS,
+  RFP_POST_CHOOSE_SECURITY_REQUIREMENTS,
 };
