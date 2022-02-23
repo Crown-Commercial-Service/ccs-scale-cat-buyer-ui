@@ -11,12 +11,16 @@
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
-    {% if(isError)%}
-      {{ CCSErrorSummary({
-          titleText: "There is a problem",
-          errorList: errorText
-      }) }}
-    {%endif %}
+  <div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="summary_list">
+    </ul>
+  </div>
+</div>
+
  <div class="govuk-grid-row">
     <h1 class="govuk-heading-xl">
         {{title}}
@@ -48,7 +52,7 @@
                 }}
             </div>
               <div class="ons-grid__col ons-col-7@m ons-push-1@m">
-            {% for item in TABLE_BODY -%}
+           {% for item in TABLE_BODY -%}
                     <article id="section" class="govuk-!-margin-top-6">
                     <h2 class="govuk-heading-l govuk-!-font-weight-bold" >{{item['category']}}</h2>
                     <h4> {{item['category']}} description </h4>
@@ -57,22 +61,28 @@
                               <fieldset class="govuk-fieldset">
                                 <div class="govuk-radios" data-module="govuk-radios">
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
-                                    <input class="govuk-radios__input" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" >
+                                    <input class="govuk-radios__input whole_radio" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" >
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="whole_weightage_{{loop.index}}">
                                       Enter a weighting for the whole cluster 
                                     </label>
                                   </div>
 
                                     <div class="govuk-!-margin-top-9" id="whole_cluster_{{loop.index}}">
-                                    {% for wholeCells in WHOLECLUSTER -%}
+                                    
+
+                                      {% for wholeCells in WHOLECLUSTER -%}
 
                                       {% if wholeCells.name == item.category %}
+
+                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message">
+                                        <span class="govuk-visually-hidden"></span> 
+                                      </p>
 
                                          {{ CCSInput({
                                       label: {
                                         text: ""
                                       },
-                                      classes: "govuk-input--width-2 ",
+                                      classes: "govuk-input--width-2 weight weight_vetting_whole",
                                       id: "weight_vetting_whole"+loop.index,
                                       name: "weight_vetting_whole",
                                       value: wholeCells.value,
@@ -85,8 +95,11 @@
                                      
                                     {%- endfor %}
 
+                                  
+
                                     {{ CCSInput({
                                     id: "weight_vetting_whole_group",
+            
                                     name: "weight_vetting_whole_group",
                                     type: "hidden",
                                     value: item['category']
@@ -95,7 +108,7 @@
                                   </div>
                                 <div>
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
-                                    <input class="govuk-radios__input" id="partial_weightage_{{loop.index}}" name="weightage" type="radio" value="partial" >
+                                    <input class="govuk-radios__input" id="partial_weightage_{{loop.index}}" name="weightage" type="radio" value="partial">
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="partial_weightage_{{loop.index}}">
                                       Enter a weighting for specific capabilities
                                     </label>
@@ -106,12 +119,18 @@
                               {% for subItems in item['data'] -%}
                               <h4> {{subItems['groupname']}} </h4>
                               <div class="govuk-!-margin-top-6">
+                              
+                                 <p id="partial-weightage-error-{{loop.index}}" class="govuk-error-message">
+                                        <span class="govuk-visually-hidden"></span> 
+                                      </p>
+
+
                                {{ CCSInput({
                                     label: {
                                       text: ""
                                     },
-                                    classes: "govuk-input--width-2 ",
-                                    id: "weight_vetting_partial",
+                                    classes: "govuk-input--width-2 weight weight_vetting_partial",
+                                    id: "weight_vetting_partial"+loop.index,
                                     value: subItems['value'],
                                     name: "weight_vetting_partial",
                                     suffix: {
@@ -133,7 +152,6 @@
                      
                     </article>
             {%- endfor %}
-           
               
                
             </div>
