@@ -28,7 +28,7 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
-    <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/team-scale" method="POST">
+    <form id="ccs_ca_menu_tabs_form_later" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/resources-vetting-weightings" method="POST">
     {{ csrfProtection(csrf) }}
    
     <div class="ccs-page-section">
@@ -52,16 +52,18 @@
             <div class="ons-grid__col ons-col-7@m ons-push-1@m">
 
             {% for tr in designations %}
-                <article id="section">
-                    <h2 class="govuk-heading-xl govuk-!-font-weight-bold" >{{tr['job-category']}}</h2>
-                    <h4> {{tr['job-category']}} description </h4>
+
+              <article id="section">
+                    <h2 class="govuk-heading-xl govuk-!-font-weight-bold" >{{tr['Parent']}}</h2>
+                    <h4> {{tr['Parent']}} description </h4>
        
-                     {% for subItems in tr.data %}
+                     {% for subItems in tr.category %}
                      <div class="govuk-!-margin-top-5">
-                     <h2 class="govuk-heading-m">{{subItems.designation}}</h2>
+                     <h2 class="govuk-heading-m">{{subItems.ParentName}}</h2>
                      <p> [DDAT Family description] </p>
                      <div class="govuk-!-margin-top-9">
                       <p> Weighting for number of staff </p>
+
                         {{ CCSInput({
                           label: {
                             text: ""
@@ -89,17 +91,50 @@
                           spellcheck: false
                         }) }}
 
+                           {{ CCSInput({
+                                    id: "weight_vetting_whole_group",
+                                    name: "weigthage_group_name",
+                                    type: "hidden",
+                                    value: subItems.ParentName
+                                  }) }}
+
                      </div>
 
                       <div class="govuk-!-margin-top-9">
                       <p> Add quantity for the roles </p>
                       <div>
-                       
+                         {% for subNestedItems in subItems.designations %}
+                            
+                         {{ CCSInput({
+                          label: {
+                            text: ""
+                          },
+                          classes: "govuk-input--width-2",
+                          id: "weight_vetting",
+                          name: "SFIA_weightage",
+                          suffix: {
+                            text: subNestedItems['SFIA_name']
+                          },
+                          spellcheck: false
+                        }) }}
+
+
+                         {{ CCSInput({
+                                    id: "weight_vetting_whole_group",
+                                    name: "requirement_Id_SFIA_weightage",
+                                    type: "hidden",
+                                    value: subNestedItems['requirement-id']
+                                  }) }}
+
+
+                         {%endfor%}
                        <div>
                        <hr>
                      {% endfor %}
                      
                 </article>
+
+              
             {% endfor %}
             </div>
         </div>

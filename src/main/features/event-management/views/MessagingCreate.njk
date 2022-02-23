@@ -1,0 +1,110 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Message Create ' %}
+
+{% set sortedMembers = [
+  {
+    value: "",
+    text: "Please select"
+  }
+] %}
+{% set sortedMembers = (sortedMembers.push({value: classificationData.classification, text: classificationData.classification}), sortedMembers) %}
+{% block content %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+    <div class="govuk-grid-row govuk-!-padding-bottom-7">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title}}
+        </h1>
+        {% include "includes/event_header.njk" %}
+      </div>
+    </div>
+
+    <div class="govuk-grid-row messaging-navigation">
+      <div class="govuk-grid-column-full">
+        <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
+
+          <ul class="nav-list messaging-nav-list--primary">
+            <li class="nav-list__item selected">
+              {{data.tabs.text1}}
+            </li>
+            <li class="nav-list__item">
+              <a class="nav-list__link " href="{{data.tabs.href2}}">{{data.tabs.text2}}</a>
+            </li>
+            <li class="nav-list__item">
+              <a class="nav-list__link " href="{{data.tabs.href3}}">{{data.tabs.text3}}</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  <form id="ccs_message_create_form" name="ccs_message_create_form" action="/message/create" method="POST">
+  {{ csrfProtection(csrf) }}
+    <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-m">
+          {{data.subtitle}}
+        </h1>
+        <a href="{{data.backlink}}" class="govuk-back-link">Back</a>
+        <div class="govuk-inset-text">
+          <p class="govuk-body">{{data.signposting.line1}}</p>
+          <p class="govuk-body">
+            <a class="govuk-link" href="{{data.signposting.link}}">
+              {{data.signposting.line2}}
+            </a>
+          </p>
+        </div>
+        <div class="govuk-grid-column-two-thirds">
+            {{ CCSSelect({
+            id: "create_message",
+            name: "create_message",
+            items: sortedMembers,
+            label: {
+              text: data.MessageClassification,
+              classes: "govuk-label govuk-label--m"
+            }
+            })
+          }}
+
+            {{ CCSInput({           
+            id: "create_subject_input",
+            name: "create_subject_input",
+            value: messageSubject,
+            label: {
+              text: data.Subject,
+              classes: "govuk-label govuk-label--m"
+            }
+            })
+        }}
+          <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
+            <div class="govuk-form-group">
+            <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
+              <textarea class="govuk-textarea govuk-js-character-count" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint">{{messageDescription}}</textarea>
+            </div>
+            <div id="create_message_input-info" class="govuk-hint govuk-character-count__message" aria-live="polite">You can enter up to 200 characters</div>
+          </div>
+
+          <div class="govuk-button-group">
+            {{ CCSButton({
+                text: data.btnText,
+                action:"submit"
+                })
+            }}
+            <a href="{{data.Cancel.link}}" class="govuk-link govuk-link--no-visited-state">{{data.Cancel.text}}</a>             
+          </div>
+
+        </div>
+      </div>
+    </div>
+    </form>
+    <p class="govuk-body">
+      <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+    </p>
+  </main>
+{% endblock %}

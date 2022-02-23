@@ -13,8 +13,17 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  */
 export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
-    req.session;
+  const {
+    lotId,
+    agreementLotName,
+    agreementName,
+    eventId,
+    choosenViewPath,
+    projectId,
+    agreement_id,
+    releatedContent,
+    project_name,
+  } = req.session;
   const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const assessmentId = req.session.currentEvent.assessmentId;
@@ -50,6 +59,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       dimensions: weightingsArray,
       lotId,
       agreementLotName,
+      choosenViewPath,
       releatedContent,
     };
     res.render('ca-enterYourWeightings', windowAppendData);
