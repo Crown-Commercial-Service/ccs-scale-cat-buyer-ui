@@ -9,8 +9,6 @@ import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
-import { categoryFilter } from '../util/data/categoryFilter';
-import { isUndefined } from 'util';
 
 export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
@@ -40,7 +38,15 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     lotid,
     error: isJaggaerError,
   };
-
+  const itemList = [
+    'Data',
+    'Technical',
+    'IT Ops',
+    'Product Delivery',
+    'QAT',
+    'User Centred Design',
+    'No DDaT Cluster Mapping',
+  ];
   let ViewLoadedTemplateData;
 
   switch (path) {
@@ -67,7 +73,12 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreement_id, projectId, eventId);
 
-    const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
+    const windowAppendData = {
+      data: ViewLoadedTemplateData,
+      lotId,
+      agreementLotName,
+      releatedContent,
+    };
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
@@ -76,131 +87,70 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
-    
 
-    const UNIQUE_CAPACITY_DATASET = CAPACITY_DATASET.reduce((acc, current) => {
-      if (current['dimension-id'] === 7) {
-        return acc.concat([current]);
+    const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
+      const { name, weightingRange, options } = acapacity;
+      const AddedPropsToOptions = options.map(anOpt => {
+        return {
+          ...anOpt,
+          Weightagename: name,
+          Weightage: weightingRange,
+        };
+      });
+      return AddedPropsToOptions;
+    }).flat();
+
+    const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity.map(capacity => {
+      return {
+        designation: capacity.name,
+        ...capacity?.groups?.[0],
+        Weightagename: capacity.Weightagename,
+        Weightage: capacity.Weightage,
+      };
+    });
+
+    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(cursor => {
+      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter(item => item.name === cursor);
+      return {
+        'job-category': cursor,
+        data: ELEMENT_IN_UNIQUEFIELDNAME,
+      };
+    });
+    const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME.filter(item => itemList.includes(item['job-category']));
+
+    const ITEMLIST = filteredMenuItem.map((designation, index) => {
+      const weightage = designation.data?.[0]?.Weightage;
+      return {
+        url: `#section${index + 1}`,
+        text: designation['job-category'],
+        subtext: `${weightage.min}% / ${weightage.max}%`,
+      };
+    });
+
+    const UNIQUEJOBDESIGNATIONS = UNIQUEELEMENTS_FIELDNAME.map(designation => {
+      const jobCategory = designation['job-category'];
+      const { data } = designation;
+      const uniqueElements = [...new Set(data.map(designation => designation.designation))];
+      return uniqueElements;
+    }).flat();
+
+    const UNIQUE_JOB_IDENTIFIER = UNIQUEELEMENTS_FIELDNAME.map(element => {
+      const { data } = element;
+      const JobCategory = element['job-category'];
+      let JOBSTORAGE = [];
+      for (const JOB of UNIQUEJOBDESIGNATIONS) {
+        const ElementFinder = data.filter(data => data.designation === JOB)[0];
+        JOBSTORAGE.push(ElementFinder);
       }
-      return acc;
-    }, []);
-
-    const UNIQUE_CAPACITY_DATASET_IN_OPTIONS = UNIQUE_CAPACITY_DATASET.reduce((acc, current) => {
-      if (current['options']) {
-        return acc.concat(current['options']);
-      }
-      return acc;
-    }, []);
-
-    const UNIQUE_CAPACITY_DATASET_IN_OPTIONS_NO_DUPLICATES = Array.from(
-      new Set(UNIQUE_CAPACITY_DATASET_IN_OPTIONS.map(a => a['requirement-id'])),
-    ).map(id => {
-      return UNIQUE_CAPACITY_DATASET_IN_OPTIONS.find(a => a['requirement-id'] === id);
+      JOBSTORAGE = JOBSTORAGE.filter(items => items != null);
+      return {
+        'job-category': JobCategory,
+        data: JOBSTORAGE,
+      };
     });
 
-    let subHeaderName = '';
-    let groupNames = '';
-    let headerName = '';
-    let id = 0;
-    // const CAPACITY_DATASET_BY_CATEGORIES_AND_GROUPS = UNIQUE_CAPACITY_DATASET_IN_OPTIONS_NO_DUPLICATES.reduce(
-    //   (acc, current, index) => {
-    //     headerName = current['groups'][0].name;
-    //     console.log(acc);
-    //     console.log(acc[index - 1]);
-    //     console.log(acc[index - 1]?.header);
-    //     if (acc[index - 1]?.header !== headerName) {
-    //       subHeaderName = current['groups'][1].name;
-    //       groupNames = current.name;
-    //       id = current['requirement-id'];
-    //       const idName = 'requirement-id';
-    //       if (acc[index - 1]?.subHeader !== subHeaderName) {
-    //         return acc.concat({ header: headerName, [`${subHeaderName}`]: { name: groupNames, [`${idName}`]: id } });
-    //       }
-    //       return acc;
-    //     }
-    //     return acc;
-    //   },
-    //   [],
-    // );
-    const CAPACITY_DATASET_BY_CATEGORIES_AND_GROUPS = UNIQUE_CAPACITY_DATASET_IN_OPTIONS_NO_DUPLICATES.reduce(
-      (acc, current, index) => {
-        headerName = current['groups'][0].name;
-
-        if (acc[index - 1]?.header !== headerName) {
-          subHeaderName = current['groups'][1].name;
-          groupNames = current.name;
-          id = current['requirement-id'];
-          const idName = 'requirement-id';
-          if (acc.length === 0) {
-            return acc.concat({
-              header: headerName,
-              [`${subHeaderName}`]: [{ name: groupNames, [`${idName}`]: id }],
-            });
-          } else if (Object.values(Object.keys(Object.values(acc)[0]))[1] !== subHeaderName) {
-            console.log('xxxxxxxxx 11 ', Object.values(Object.keys(Object.values(acc)[0]))[1]);
-            console.log('acc ', acc);
-            return acc.concat({
-              header: headerName,
-              [`${subHeaderName}`]: [{ name: groupNames, [`${idName}`]: id }],
-            });
-          }
-          return acc;
-        }
-        return acc;
-      },
-      [],
-    );
-    obj = Object.assign(...obj, {
-      header: headerName,
-    });
-    obj = Object.assign(...obj, {
-      header: headerName,
-      [`${subHeaderName}`]: [{ name: groupNames, [`${idName}`]: id }],
-    });
-    let groupOb = {};
-    const CAPACITY_DATASET_BY_CATEGORIES_AND_GROUPS_FINAL = CAPACITY_DATASET_BY_CATEGORIES_AND_GROUPS.reduce(
-      (acc, current) => {
-        headerName = current.header;
-        if (acc?.header !== headerName) {
-          console.log(current);
-          subHeaderName = Object.keys(current)[1];
-          groupNames = Object.values(Object.values(current)[1])[0];
-          id = Object.values(Object.values(current)[1])[1];
-          const idName = Object.keys(Object.values(current)[1])[1];
-          if (Object.keys(acc)[0] !== subHeaderName) {
-            groupOb = Object.assign({}, { name: groupNames, [`${idName}`]: id });
-            return acc.concat({ header: headerName, [`${subHeaderName}`]: groupOb });
-          } else {
-            console.log('subHeaderName ', subHeaderName);
-            return acc;
-          }
-        } else {
-          console.log('headerName ', headerName);
-        }
-        return acc;
-      },
-      [],
-    );
-    console.log('CAPACITY_DATASET_BY_CATEGORIES_AND_GROUPS_FINAL ', CAPACITY_DATASET_BY_CATEGORIES_AND_GROUPS_FINAL);
-    console.log('CAPACITY_DATASET_BY_CATEGORIES_AND_GROUPS ', CAPACITY_DATASET_BY_CATEGORIES_AND_GROUPS);
-    console.log('UNIQUE_CAPACITY_DATASET_IN_OPTIONS_NO_DUPLICATES ', UNIQUE_CAPACITY_DATASET_IN_OPTIONS_NO_DUPLICATES);
-    // console.log('UNIQUE_CAPACITY_DATASET_IN_GROUPS ', UNIQUE_CAPACITY_DATASET_IN_GROUPS);
-    console.log('UNIQUE_CAPACITY_DATASET_IN_OPTIONS ', UNIQUE_CAPACITY_DATASET_IN_OPTIONS);
-    console.log('UNIQUE_CAPACITY_DATASET ', UNIQUE_CAPACITY_DATASET);
-    //const category1 = categoryFilter(CAPACITY_DATASET, 'Resource Quantity', 1);
-    const category2 = categoryFilter(UNIQUE_CAPACITY_DATASET, 'Resource Quantities', 2);
-
-    //const tableItems = category1[0];
-    //const LevelDesignationStorage = category1[1];
-    // const LevelDesignationStorage = category2[1];
-
-    //req.session.designations = [...LevelDesignationStorage];
-    //req.session.designationsLevel2 = [...CAPACITY_DATASET];
-    //req.session.tableItems = [...tableItems];
-    //req.session.dimensions = [...CAPACITY_DATASET];
-
-  //  res.json(CAPACITY_DATASET)
-   res.render('ca-taskList', windowAppendData);
+    //  res.json(CAPACITY_DATASET)
+    res.render('ca-taskList', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
