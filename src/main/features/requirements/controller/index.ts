@@ -74,6 +74,8 @@ import { RFP_GET_YOUR_ASSESSTMENT } from './rfp-yourassesstment';
 import { DA_GET_REVIEW_RANKED_SUPPLIERS, DA_POST_REVIEW_RANKED_SUPPLIERS } from './da-reviewRankedSuppliers';
 import { DA_GET_LEARN, DA_POST_LEARN } from './da-learnAboutCapabilityAssessment';
 import { DA_GET_WEIGHTINGS, DA_POST_WEIGHTINGS } from './da-enterYourWeightings';
+
+import {RFP_GET_VETTING_AND_WEIGHTING, RFP_POST_VETTING_AND_WEIGHTING} from './rfp-vetting-and-weighting'
 /**
  * @BaseController
  * @Provider
@@ -187,4 +189,6 @@ export const REQUIREMENT_CONTROLLER = {
   DA_GET_REVIEW_RANKED_SUPPLIERS,
   DA_POST_REVIEW_RANKED_SUPPLIERS,
   RFP_GET_YOUR_ASSESSTMENT,
+  RFP_POST_VETTING_AND_WEIGHTING,
+  RFP_GET_VETTING_AND_WEIGHTING
 };

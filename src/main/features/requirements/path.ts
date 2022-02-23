@@ -383,6 +383,18 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_GET_SERVICE_CAPABILITIES,
   );
 
+
+    // /rfp/vetting-weighting
+    app.get(
+      REQUIREMENT_PATHS.RFP_GET_VETTING_AND_WEIGHTING,
+      [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.RFP_GET_VETTING_AND_WEIGHTING,
+    );
+
+
+
+
+
   /**
    * @POST Routes
    */
@@ -584,4 +596,11 @@ export default function (app: Application): void {
     [AUTH],
     REQUIREMENT_CONTROLLER.DA_POST_REVIEW_RANKED_SUPPLIERS,
   );
+
+      // /rfp/vetting-weighting
+    app.post(
+      REQUIREMENT_PATHS.RFP_POST_VETTING_AND_WEIGHTING,
+      [ AUTH],
+      REQUIREMENT_CONTROLLER.RFP_POST_VETTING_AND_WEIGHTING,
+    );
 }

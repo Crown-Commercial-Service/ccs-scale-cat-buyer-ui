@@ -15,6 +15,12 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_ADD_COLLABORATOR_TO_JAGGER = '/rfp/add-collaborator-detail',
   RFP_POST_PROCEED_COLLABORATORS = '/rfp/proceed-collaborators',
 
+
+  //RFP Resource type and Quantity
+  RFP_GET_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
+  RFP_POST_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
+
+
   // Proc lead rfp
   RFP_GET_NAME_PROJECT = '/rfp/name-your-project',
   RFP_POST_NAME_PROJECT = '/rfp/name',
