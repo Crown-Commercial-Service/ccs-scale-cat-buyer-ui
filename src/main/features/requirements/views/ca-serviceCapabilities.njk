@@ -11,12 +11,18 @@
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
-    {% if(isError)%}
-      {{ CCSErrorSummary({
-          titleText: "There is a problem",
-          errorList: errorText
-      }) }}
-    {%endif %}
+
+<div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="summary_list">
+    </ul>
+  </div>
+</div>
+
+
  <div class="govuk-grid-row">
     <h1 class="govuk-heading-xl">
         {{title}}
@@ -28,6 +34,7 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
+    
     <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/service-capabilities" method="POST">
     {{ csrfProtection(csrf) }}   
     <div class="ccs-page-section">
@@ -57,7 +64,7 @@
                               <fieldset class="govuk-fieldset">
                                 <div class="govuk-radios" data-module="govuk-radios">
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
-                                    <input class="govuk-radios__input" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" >
+                                    <input class="govuk-radios__input whole_radio" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" >
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="whole_weightage_{{loop.index}}">
                                       Enter a weighting for the whole cluster 
                                     </label>
@@ -70,11 +77,15 @@
 
                                       {% if wholeCells.name == item.category %}
 
+                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message">
+                                        <span class="govuk-visually-hidden"></span> 
+                                      </p>
+
                                          {{ CCSInput({
                                       label: {
                                         text: ""
                                       },
-                                      classes: "govuk-input--width-2 weight",
+                                      classes: "govuk-input--width-2 weight weight_vetting_whole",
                                       id: "weight_vetting_whole"+loop.index,
                                       name: "weight_vetting_whole",
                                       value: wholeCells.value,
@@ -100,7 +111,7 @@
                                   </div>
                                 <div>
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
-                                    <input class="govuk-radios__input" id="partial_weightage_{{loop.index}}" name="weightage" type="radio" value="partial" >
+                                    <input class="govuk-radios__input" id="partial_weightage_{{loop.index}}" name="weightage" type="radio" value="partial">
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="partial_weightage_{{loop.index}}">
                                       Enter a weighting for specific capabilities
                                     </label>
@@ -111,11 +122,17 @@
                               {% for subItems in item['data'] -%}
                               <h4> {{subItems['groupname']}} </h4>
                               <div class="govuk-!-margin-top-6">
+                              
+                                 <p id="partial-weightage-error-{{loop.index}}" class="govuk-error-message">
+                                        <span class="govuk-visually-hidden"></span> 
+                                      </p>
+
+
                                {{ CCSInput({
                                     label: {
                                       text: ""
                                     },
-                                    classes: "govuk-input--width-2 weight ",
+                                    classes: "govuk-input--width-2 weight weight_vetting_partial",
                                     id: "weight_vetting_partial"+loop.index,
                                     value: subItems['value'],
                                     name: "weight_vetting_partial",

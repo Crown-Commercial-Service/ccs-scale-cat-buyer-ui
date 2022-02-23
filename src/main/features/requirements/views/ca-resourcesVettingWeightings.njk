@@ -28,6 +28,8 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
+    <div id="error_summary_resources">
+    
     <form id="ccs_ca_menu_tabs_form_later" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/resources-vetting-weightings" method="POST">
     {{ csrfProtection(csrf) }}
    
@@ -68,8 +70,8 @@
                           label: {
                             text: ""
                           },
-                          classes: "govuk-input--width-2",
-                          id: "weight_staff",
+                          classes: "govuk-input--width-2 weight_staff_class",
+                          id: "weight_staff_"+loop.index,
                           name: "weight_staff",
                           suffix: {
                             text: "%"
@@ -109,8 +111,8 @@
                           label: {
                             text: ""
                           },
-                          classes: "govuk-input--width-2",
-                          id: "weight_vetting",
+                          classes: "govuk-input--width-2 weight_vetting_class",
+                          id: "weight_vetting_"+loop.index,
                           name: "SFIA_weightage",
                           suffix: {
                             text: subNestedItems['SFIA_name']
@@ -149,6 +151,7 @@
       </div>
     </div>
       </form>
+      </div>
     <div class="govuk-grid-column-one-third">
       {{ CCSReleatedContent(releatedContent) }}
     </div>
