@@ -1,0 +1,80 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/da/task-list"
+    },
+    {
+      "text": "Choose highest security and vetting requirements",
+      "href": "#"
+    }
+  ],
+
+  "title": "Choose highest security and vetting requirements",
+  "subtitle": "",
+  "form": {
+    "question": "Select the highest level of security clearance that staff supplied to the project will need to have.",
+    "radioOptions": {
+      "idPrefix": "ccs_da_choose_security",
+      "name": "ccs_da_choose_security",
+      "items": [
+        {
+          "value": "1",
+          "text": "No security clearance needed",
+          "hint": {
+            "text": "For individuals who do not need to have a specific level of security clearance because your organisation has it’s own pre-employment checks."
+          },
+          "hasResources": false
+        },
+        {
+          "value": "2",
+          "text": "Baseline Personnel Security Standard (BPSS)",
+          "hint": {
+            "text": "For individuals with any access to government assets. This means all civil servants, members of the armed forces, temporary staff and government contractors generally. Read more about BPSS clearance."
+          },
+          "hasResources": true
+        },
+        {
+          "value": "3",
+          "text": "Counter Terrorist Check (CTC)",
+          "hint": {
+            "text": "For individuals employed in posts which: involve proximity to public figures assessed to be at particular risk from terrorist attack give access to information or material assessed to be of value to terrorists involve unescorted access to certain military, civil, industrial or commercial establishments assessed to be at particular risk from terrorist attack Read more about CTC clearance."
+          },
+          "hasResources": true
+        },
+        {
+          "value": "4",
+          "text": "Security Check (SC)",
+          "hint": {
+            "text": "For individuals employed in posts which require them to have long-term, frequent and uncontrolled access to secret assets and/or occasional, supervised access to top secret assets. Read more about SC clearance."
+          },
+          "hasResources": true
+        },
+        {
+          "value": "5",
+          "text": "Developed Vetting (DV)",
+          "hint": {
+            "text": "For individuals employed in posts which require them to have frequent and uncontrolled access to top secret assets or require any access to top secret codeword material. Read more about Developed Vetting"
+          },
+          "hasResources": true
+        }
+      ]
+    },
+    "backJump": {
+      "title": "Return to Write and publish your requirements",
+      "href": "/da/task-list"
+    }
+  }
+}

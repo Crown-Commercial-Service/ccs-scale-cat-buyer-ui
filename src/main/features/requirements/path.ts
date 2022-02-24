@@ -300,22 +300,18 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_GET_SERVICE_CAPABILITIES,
   );
 
+  // /rfp/vetting-weighting
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_VETTING_AND_WEIGHTING,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_VETTING_AND_WEIGHTING,
+  );
 
-    // /rfp/vetting-weighting
-    app.get(
-      REQUIREMENT_PATHS.RFP_GET_VETTING_AND_WEIGHTING,
-      [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.RFP_GET_VETTING_AND_WEIGHTING,
-    );
-
-
-
-    app.get(
-      REQUIREMENT_PATHS.DA_GET_LEARN_START,
-      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.DA_GET_LEARN_START,
-    );
-
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_LEARN_START,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_LEARN_START,
+  );
 
   app.get(
     REQUIREMENT_PATHS.RFP_GET_CHOOSE_REQUIREMENTS,
@@ -323,11 +319,17 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_CHOOSE_SECURITY_REQUIREMENTS,
   );
 
+  app.get(
+    REQUIREMENT_PATHS.DA_GET_CHOOSE_REQUIREMENTS,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_GET_CHOOSE_SECURITY_REQUIREMENTS,
+  );
+
   /**
    * @POST Routes
    */
 
-   app.post(REQUIREMENT_PATHS.DA_POST_LEARN_START, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_LEARN_START);
+  app.post(REQUIREMENT_PATHS.DA_POST_LEARN_START, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_LEARN_START);
 
   app.post(REQUIREMENT_PATHS.POST_ROUTE, [AUTH], REQUIREMENT_CONTROLLER.POST_REQUIREMENT_CHOOSE_ROUTE);
 
@@ -505,16 +507,22 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_POST_REVIEW_RANKED_SUPPLIERS,
   );
 
-      // /rfp/vetting-weighting
-    app.post(
-      REQUIREMENT_PATHS.RFP_POST_VETTING_AND_WEIGHTING,
-      [ AUTH],
-      REQUIREMENT_CONTROLLER.RFP_POST_VETTING_AND_WEIGHTING,
-    );
+  // /rfp/vetting-weighting
+  app.post(
+    REQUIREMENT_PATHS.RFP_POST_VETTING_AND_WEIGHTING,
+    [AUTH],
+    REQUIREMENT_CONTROLLER.RFP_POST_VETTING_AND_WEIGHTING,
+  );
 
   app.post(
     REQUIREMENT_PATHS.RFP_POST_CHOOSE_REQUIREMENTS,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_POST_CHOOSE_SECURITY_REQUIREMENTS,
+  );
+
+  app.post(
+    REQUIREMENT_PATHS.DA_POST_CHOOSE_REQUIREMENTS,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_POST_CHOOSE_SECURITY_REQUIREMENTS,
   );
 }
