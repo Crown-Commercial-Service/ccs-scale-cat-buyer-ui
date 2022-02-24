@@ -4,21 +4,19 @@ function deselect(e) {
   });
 }
 
-$(function() {
+$(function () {
   var foundin = $('body:contains("Save and continue")');
   if (foundin.length < 1) {
     removeClass();
   }
 });
 
-function removeClass()
-  {
-   var allElements = document.querySelectorAll(".nav-popup");
-   for(i=0; i<allElements.length; i++)
-   { 
+function removeClass() {
+  var allElements = document.querySelectorAll(".nav-popup");
+  for (i = 0; i < allElements.length; i++) {
     allElements[i].classList.remove('nav-popup');
-   }
   }
+}
 
 
 $(function () {
@@ -52,19 +50,28 @@ $(function () {
     $(".backdrop").fadeOut(200);
     var route = this.name;
     if (route == 'Home') {
-      document.location.href="/";
+      document.location.href = "/";
     } else if (route == 'My Projects') {
-      document.location.href="/dashboard";
+      document.location.href = "/dashboard";
     } else if (route == 'CCS website') {
-      document.location.href="https://www.crowncommercial.gov.uk/";
+      document.location.href = "https://www.crowncommercial.gov.uk/";
     } else if (route == 'Guidance') {
-      document.location.href="#";
+      document.location.href = "#";
     } else if (route == 'Get help') {
-      document.location.href="https://www.crowncommercial.gov.uk/contact";
+      document.location.href = "https://www.crowncommercial.gov.uk/contact";
+    } else if (route == 'Clear form') {
+      let inputs;
+      let index;
+      let container;
+      container = document.getElementById('ccs_ca_menu_tabs_form_later');
+      inputs = container.getElementsByTagName('input');
+      for (index = 0; index < inputs.length; ++index) {
+        inputs[index].value = '';
+      }
     } else {
       return false;
     }
-    
+
   });
 
 });

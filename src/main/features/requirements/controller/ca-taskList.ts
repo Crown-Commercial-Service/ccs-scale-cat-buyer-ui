@@ -73,12 +73,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreement_id, projectId, eventId);
 
-    const windowAppendData = {
-      data: ViewLoadedTemplateData,
-      lotId,
-      agreementLotName,
-      releatedContent,
-    };
+    const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
@@ -148,6 +143,10 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
         data: JOBSTORAGE,
       };
     });
+
+    req.session.designations = [...UNIQUE_JOB_IDENTIFIER];
+    req.session.tableItems = [...ITEMLIST];
+    req.session.dimensions = [...CAPACITY_DATASET];
 
     //  res.json(CAPACITY_DATASET)
     res.render('ca-taskList', windowAppendData);

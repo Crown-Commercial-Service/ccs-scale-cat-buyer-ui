@@ -40,6 +40,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     lotId,
     error: isJaggaerError,
   };
+
   try {
     const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
     var { options } = LEVEL7CONTENTS;
@@ -161,6 +162,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
         }
       }
     }
+
     /**
      * Sorting Designation According to the Table Items
      */
@@ -185,6 +187,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       designations: StorageForSortedItems,
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
     };
+
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     //res.json(REMAPPED_ACCORDING_TO_PARENT_ROLE)
     res.render('ca-resourcesVettingWeightings', windowAppendData);
