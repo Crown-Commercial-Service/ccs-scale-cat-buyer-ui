@@ -13,7 +13,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  */
 export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
+  const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name, choosenViewPath } =
     req.session;
   const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
@@ -52,6 +52,7 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       lotId,
       agreementLotName,
       releatedContent,
+      choosenViewPath
     };
     res.render('da-enterYourWeightings', windowAppendData);
   } catch (error) {

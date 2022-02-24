@@ -4,9 +4,36 @@
 
 {% set title = 'Enter your weightings | Contract a Thing' %}
 
-{% block breadCrumb %}
+{# {% block breadCrumb %}
     {{ CCSBreadcrumbs({
         items: data.breadCrumbs
+    }) }}
+{% endblock %} #}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/ca/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "Enter your weightings",
+                "href": "#"
+            }
+        ]
     }) }}
 {% endblock %}
 
