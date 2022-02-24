@@ -3,6 +3,7 @@ import { ParsedQs } from 'qs'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import * as eventManagementData from '../../../resources/content/event-management/event-management.json'
+import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
 
 /**
  * 
@@ -17,9 +18,9 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
   const { SESSION_ID } = req.cookies
   try {
     // Code Block start - Replace this block with API endpoint
-    let agreementName: string, agreementLotName: string, agreementId_session: string, projectName: string, status: string, eventId: string
+    let agreementName: string, agreementLotName: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string
 
-    events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; agreement: string; lot: string; AgreementID: string; status: string }; projectName: string }) => {
+    events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; agreement: string; eventType: string; lot: string; AgreementID: string; status: string }; projectName: string }) => {
       if (element.activeEvent.id == id) {
         agreementName = element.activeEvent.agreement
         agreementLotName = element.activeEvent.lot
@@ -27,13 +28,14 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
         status = element.activeEvent.status
         projectName = element.activeEvent.id + " / " + element.projectName
         eventId = element.activeEvent.id.toString()
+        eventType = element.activeEvent.eventType
       }
     });
 
 
     // Code Block ends
 
-    const appendData = { data: eventManagementData, status, projectName, eventId }
+    const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData }
     res.locals.event_header = { agreementName, agreementLotName, agreementId_session }
     req.session.event_header = res.locals.event_header
     res.render('eventManagement', appendData)

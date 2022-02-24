@@ -22,8 +22,6 @@
 {% from "components/questions/macro.njk" import CCSQUESTIONS %}
 {% from "components/notification-banner/macro.njk" import govukNotificationBanner %}
 
-
-
 <html lang="{{ htmlLang | default('en') }}" class="govuk-template {{ htmlClasses }}">
   <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -103,11 +101,15 @@
       {% include "components/Header.njk" %}
       {% include "components/phase_banner_beta.njk" %}
     {% endblock %}
-    
+
     {# This block has been comented out - This can be un-comment once the SCAT-3516 & SCAT-3517 has been ready for implementation #}
     {#  dialog Section #}
     {% block dialog %}
       {% include "components/dialog.njk" %}
+    {% endblock %}
+
+    {% block dialog2 %}
+      {% include "components/dialog_next_step.njk" %}
     {% endblock %}
 
     {# This is main content section#}
