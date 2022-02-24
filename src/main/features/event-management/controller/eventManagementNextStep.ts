@@ -1,8 +1,10 @@
 import * as express from 'express'
-import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
+import { ObjectModifiers } from '../util/operations/objectremoveEmptyString'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import * as inboxData from '../../../resources/content/event-management/event-management-next-step.json'
+import { Procurement } from '../../procurement/model/project';
+import { ReleatedContent } from '../../agreement/model/related-content'
 
 /**
  * 
@@ -45,18 +47,46 @@ export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: expre
     );
     const { event_management_next_step } = filtered_body_content_removed_event_key;
 
+    const proc: Procurement = {
+        procurementID: "3667",
+        eventId: "ocds-b5fd17-3782",
+        defaultName: {
+            name: "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            components: {
+                agreementId: "RM6263",
+                lotId: "Lot 1",
+                org: "COGNIZANT BUSINESS SERVICES UK LIMITED",
+            }
+        },
+        started: true
+    }
+    req.session.procurements.push(proc);
+    req.session.agreement_id = "RM6263";
+    req.session.agreementLotName = "Digital Programmes"
+    req.session.agreementName = "Digital Specialists and Programmes"
+    req.session.lotId = "Lot 1"
+
+    const releatedContent: ReleatedContent = new ReleatedContent();
+    releatedContent.name = "Digital Specialists and Programmes"
+    releatedContent.lotName = "Lot 1: Digital Programmes"
+    releatedContent.lotUrl = "/agreement/lot?agreement_id=RM6263&lotNum="+req.session.lotId.replace(/ /g,"%20");
+    releatedContent.title = 'Related content'
+    req.session.releatedContent = releatedContent
+
+
+
     try {
         if (event_management_next_step) {
             switch (event_management_next_step) {
                 case 'pre-market':
                     // eslint-disable-next-line no-case-declarations
-                    const redirect_address = "#";
+                    const redirect_address = "/projects/create-or-choose";
                     res.redirect(redirect_address);
                     break;
 
                 case 'write-publish':
                     // eslint-disable-next-line no-case-declarations
-                    const newAddress1 = "#"
+                    const newAddress1 = "/projects/create-or-choose"
                     res.redirect(newAddress1);
                     break;
 

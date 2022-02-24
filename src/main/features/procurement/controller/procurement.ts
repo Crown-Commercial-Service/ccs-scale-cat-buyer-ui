@@ -5,6 +5,7 @@ import * as express from 'express';
 import * as data from '../../../resources/content/procurement/ccs-procurement.json';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { Procurement } from '../model/project';
 
 import * as journyData from '../model/tasklist.json';
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -32,7 +33,8 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     appendData = { types, ...appendData };
 
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
-    let procurement;
+        
+    let procurement: Procurement;
     if (!elementCached) {
       const _body = {
         agreementId: agreementId_session,
