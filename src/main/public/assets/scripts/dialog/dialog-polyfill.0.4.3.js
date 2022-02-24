@@ -1,3 +1,13 @@
+let inputs;
+let index;
+let container;
+let resources = [];
+let weightingStaff = [];
+let weightingVetting = [];
+
+container = document.getElementById('ccs_ca_menu_tabs_form_later');
+inputs = container.getElementsByTagName('input');
+
 function deselect(e) {
   $('.pop').slideFadeToggle(function () {
     e.removeClass('selected');
@@ -60,11 +70,6 @@ $(function () {
     } else if (route == 'Get help') {
       document.location.href = "https://www.crowncommercial.gov.uk/contact";
     } else if (route == 'Clear form') {
-      let inputs;
-      let index;
-      let container;
-      container = document.getElementById('ccs_ca_menu_tabs_form_later');
-      inputs = container.getElementsByTagName('input');
       for (index = 0; index < inputs.length; ++index) {
         inputs[index].value = '';
       }
@@ -75,6 +80,19 @@ $(function () {
   });
 
 });
+for (index = 0; index < inputs.length; ++index) {
+  //inputs[index].value = '';
+  inputs[index].addEventListener('change', function (event) {
+    for (index = 0; index < inputs.length; ++index) {
+      console.log('inputs ', inputs[index].id);
+    }
+    // console.log('inputs[index]', inputs[index]);
+    console.log('currentTarget value', event.currentTarget.value);
+    console.log('currentTarget ', event.currentTarget.id);
+
+  });
+}
+
 
 $.fn.slideFadeToggle = function (easing, callback) {
   return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);

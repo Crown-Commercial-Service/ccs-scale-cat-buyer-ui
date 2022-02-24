@@ -66,6 +66,7 @@
                     <h4> {{tr['Parent']}} description </h4>
        
                      {% for subItems in tr.category %}
+                     {% set newID = subItems.ParentName.split(" ").join("")%}
                      <div class="govuk-!-margin-top-5">
                      <h2 class="govuk-heading-m">{{subItems.ParentName}}</h2>
                      <p> [DDAT Family description] </p>
@@ -76,7 +77,7 @@
                             text: ""
                           },
                           classes: "govuk-input--width-2 weight_staff_class",
-                          id: "weight_staff_"+loop.index,
+                          id: "weight_staff_"+loop.index+newID,
                           name: "weight_staff",
                           suffix: {
                             text: "%"
@@ -90,7 +91,7 @@
                             text: ""
                           },
                           classes: "govuk-input--width-2",
-                          id: "weight_vetting",
+                          id: "weight_vetting_"+loop.index+newID,
                           name: "weight_vetting",
                           suffix: {
                             text: "%"
@@ -98,7 +99,7 @@
                           spellcheck: false
                         }) }}
                            {{ CCSInput({
-                                    id: "weight_vetting_whole_group",
+                                    id: "weight_vetting_whole_group_"+loop.index+newID,
                                     name: "weigthage_group_name",
                                     type: "hidden",
                                     value: subItems.ParentName
@@ -109,13 +110,14 @@
                       <p> Add quantity for the roles </p>
                       <div>
                          {% for subNestedItems in subItems.designations %}
+                          {% set newsubID = subItems.ParentName.split(" ").join("")%}
                             <span  class="sfia-roles">  
                          {{ CCSInput({
                           label: {
                             text: ""
                           },
                           classes: "govuk-input--width-2 weight_vetting_class",
-                          id: "weight_vetting_"+loop.index,
+                          id: "weight_vetting_"+loop.index+newsubID,
                           name: "SFIA_weightage",
                           suffix: {
                             text: subNestedItems['SFIA_name']
@@ -124,7 +126,7 @@
                         }) }}
 </span>
                          {{ CCSInput({
-                                    id: "weight_vetting_whole_group",
+                                    id: "weight_vetting_whole_group_"+loop.index+newID,
                                     name: "requirement_Id_SFIA_weightage",
                                     type: "hidden",
                                     value: subNestedItems['requirement-id']
