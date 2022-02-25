@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/dialog/macro.njk" import CCSDialog %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -10,6 +11,23 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+
+<div class="govuk-error-summary hide-block" id="rfp_vetting_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="summary_list">
+    </ul>
+  </div>
+</div>
+
+{{ CCSDialog({
+  title:'This action cannot be undone, please confirm that you want to progress.',
+  description:'This action will revert the form to its original stated.',
+  redirect:'#',
+  type:'vetting'
+}) }}
 
     {% if(isError)%}
       {{ CCSErrorSummary({
@@ -30,7 +48,7 @@
     </div>
     <div id="error_summary_resources">
     
-    <form id="ccs_ca_menu_tabs_form_later" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/resources-vetting-weightings" method="POST">
+    <form id="ccs_ca_menu_tabs_form_rfp_vetting" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/rfp/vetting-weighting" method="POST">
     {{ csrfProtection(csrf) }}
    
     <div class="ccs-page-section">
@@ -38,7 +56,7 @@
         <p class="govuk-body">{{data.total}} of 100% total weighting for number of staff</p>
         <p class="govuk-body">{{data.total}} of 100% total weighting for related vetting requirement</p>
       </div>
-       <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state" title="delete">Clear form</a></div>
+       <div class="sub-section"><a href="#" class="del govuk-link govuk-link--no-visited-state rfp_vetting-popup" title="delete">Clear form</a></div>
     </div>
     <section class="ons-page__container ons-container">
         <div id="vertical_tab_nav" class="ons-grid ons-js-toc-container">
@@ -68,14 +86,19 @@
                       <p> Add quantity for the roles </p>
                       <div>
                          {% for subNestedItems in subItems.designations %}
-                            
+                           <p id="rfp_weight-error-{{loop.index}}" class="govuk-error-message weight_vetting_class_error">
+                                        <span class="govuk-visually-hidden"></span> 
+                            </p>
+
+
                          {{ CCSInput({
                           label: {
                             text: ""
                           },
-                          classes: "govuk-input--width-2 weight_vetting_class",
-                          id: "weight_vetting_"+loop.index,
+                          classes: "govuk-input--width-2 weight_vetting_class rfp_weight_vetting_class",
+                          id: "rfp_weight_vetting_"+loop.index,
                           name: "SFIA_weightage",
+                          value: subNestedItems.value,
                           suffix: {
                             text: subNestedItems['SFIA_name']
                           },
@@ -84,11 +107,11 @@
 
 
                          {{ CCSInput({
-                                    id: "weight_vetting_whole_group",
+                                    id: "rfp_weight_vetting_whole_group",
                                     name: "requirement_Id_SFIA_weightage",
                                     type: "hidden",
                                     value: subNestedItems['requirement-id']
-                                  }) }}
+                        }) }}
 
 
                          {%endfor%}
@@ -103,6 +126,15 @@
             </div>
         </div>
     </section>
+       <div class="ccs-page-section">
+      <div class="sub-section">
+        <p class="govuk-body govuk-!-font-size-19">
+        <span class="govuk-heading-l govuk-!-display-inline">{{totalResouces}}</span> resources added
+        </p>
+      </div>
+
+    </div>
+
       <div class="govuk-button-group">
         {{ CCSButton({
               text: "Save and continue",
