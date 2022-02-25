@@ -98,9 +98,9 @@ export const AUTH: express.Handler = async (
 };
 
 const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Response, decodedToken: any) => {
-  const expiryTimestamp = decodedToken.payload.exp;
+  const expiryTimestamp = decodedToken?.payload?.exp;
   const today = new Date();
-  var endDate = new Date(expiryTimestamp * 1000);
+  const endDate = new Date(expiryTimestamp * 1000);
   const minutes = parseInt((Math.abs(endDate.getTime() - today.getTime()) / (1000 * 60)) % 60);
   if (minutes <= 2) {
     const Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint');

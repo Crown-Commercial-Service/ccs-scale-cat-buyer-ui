@@ -10,7 +10,7 @@
             "eventType": "EOI",
             "lot":"Lot 3: Complex and Transformation",
             "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6817]",
-            "status": "Running",
+            "status": "Published",
             "closeDate": "future time / date",
             "AgreementID": "RM6817"
         }
@@ -26,7 +26,7 @@
             "eventType": "RFI",
             "lot":"Lot 2: Digital Specialists",
             "agreement":"Digital Specialists and Programme [RM6263]",
-            "status": "To be pubished",
+            "status": "Published",
             "closeDate": "not available yet",
             "AgreementID": "RM6263"
         }

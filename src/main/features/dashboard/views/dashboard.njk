@@ -68,8 +68,11 @@
                 </td>
                 <td class="govuk-table__cell">{{ event.activeEvent.closeDate }}</td> {# This needs to come from API #}
                 <td class="govuk-table__cell">
-                {{ event.activeEvent.status }}{# This needs to come from API #}
-                  {# <strong class="govuk-tag govuk-tag--green">{{ event.activeEvent.status }}</strong>  #}
+                {% if event.activeEvent.status !== 'Published' %}
+                  <strong class="govuk-tag govuk-tag--green">{{ event.activeEvent.status }}</strong> 
+                  {% else %}
+                  <strong class="govuk-tag govuk-tag--blue">{{ event.activeEvent.status }}</strong> 
+                {% endif %}  
                 </td>
               </tr>
             {% endfor %}

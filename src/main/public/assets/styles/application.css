@@ -8904,11 +8904,15 @@ p,
   color: #fff;
 }
 
+.close-dialog-close a {
+  color: #fff;
+}
+
 .popup_image {
   height: inherit;
 }
 
-.backdrop {
+.backdrop-vetting, .backdrop-nav-menu {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -8920,6 +8924,17 @@ p,
 }
 
 .backdrop-timeout-warnings {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+.backdrop-close {
   position: fixed;
   top: 0px;
   left: 0px;

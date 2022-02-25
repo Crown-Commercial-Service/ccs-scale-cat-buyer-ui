@@ -14,9 +14,8 @@ export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
   var locationArray;
     try {
     locationArray = dimensions.filter(data => data.name === 'Location')[0]["options"];
-    var uniqueLocations = [...new Set(locationArray)];
-    var stringLocations =JSON.stringify(locationArray);
-    const appendData = { ...dataWWD, releatedContent, isError, errorText, locationArray, choosenViewPath};
+    var weightingRange =  dimensions.filter(data => data.name === 'Location')[0]["weightingRange"];
+    const appendData = { ...dataWWD, releatedContent, isError, errorText, locationArray, choosenViewPath, weightingRange};
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('ca-whereWorkDone', appendData);
   } catch (error) {
