@@ -101,6 +101,8 @@ if (document.getElementById("ccs_ca_suppliers_form") !== null) document.getEleme
 
 if (document.getElementById("ca_where_work_done") !== null) document.getElementById("ca_where_work_done").addEventListener('submit', ccsZvalidateCAWhereWorkDone);
 
+if (document.getElementById("da_where_work_done") !== null) document.getElementById("da_where_work_done").addEventListener('submit', ccsZvalidateDAWhereWorkDone);
+
 // if (document.getElementById("ccs_rfi_dates_form") !== null) document.getElementById("ccs_rfi_dates_form").addEventListener('submit', ccsZvalidateRfiDates);
 
 if (document.getElementById("ccs_rfi_address_form") !== null) {

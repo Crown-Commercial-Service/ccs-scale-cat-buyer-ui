@@ -82,7 +82,11 @@
                             name: "ca_locationweight",
                             spellcheck: false,
                             classes: "govuk-input--width-2 dimensions",
-                            value: elem.value
+                            value: elem.value,
+                            attributes:{
+                                        min:weightingRange.min,
+                                        max:weightingRange.max
+                                    }
                         })
                       }}
 
