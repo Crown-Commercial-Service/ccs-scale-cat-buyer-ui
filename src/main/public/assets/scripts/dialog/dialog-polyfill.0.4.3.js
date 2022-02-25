@@ -111,22 +111,7 @@ $(function () {
       return false;
     }
   });
-
 });
-
-
-for (index = 0; index < inputs.length; ++index) {
-  //inputs[index].value = '';
-  inputs[index].addEventListener('change', function (event) {
-    for (index = 0; index < inputs.length; ++index) {
-      console.log('inputs ', inputs[index].id);
-    }
-    // console.log('inputs[index]', inputs[index]);
-    //console.log('currentTarget value', event.currentTarget.value);
-    console.log('currentTarget ', event.currentTarget.id);
-
-  });
-}
 
 
 $.fn.slideFadeToggle = function (easing, callback) {
