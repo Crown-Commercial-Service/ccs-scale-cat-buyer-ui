@@ -19,7 +19,7 @@ function removeClass() {
 }
 
 $(function () {
-  $('.prathap').on('click', function () {
+  $('.close-event').on('click', function () {
     var option = document.querySelector('input[name="event_management_next_step"]:checked').value;
     if (option == 'close') {
       if ($(this).hasClass('selected')) {
