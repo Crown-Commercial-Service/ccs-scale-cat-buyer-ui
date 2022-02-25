@@ -8,11 +8,12 @@
 
 {% if Session['session'] %}
 <header class="header-global header-global--home" >
-{# {{ CCSDialog({
+{{ CCSDialog({
   title:'You have unsaved work, are you sure you want to progress?',
   description:'Any work not saved will be lost.',
-  redirect:'/'
-}) }} #}
+  redirect:'/',
+  type:'nav-menu'
+}) }}
    <div class="ccs-width-container">
       <div class="nav-wrapper-secondary">
          <a href="https://www.crowncommercial.gov.uk/" target="_blank" rel="noopener noreferrer" class="logo nav-popup"><img src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
