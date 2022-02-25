@@ -26,7 +26,6 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       currentEvent
     } = req.session;
     
-    const { assessmentId } = currentEvent;
     const agreementId_session = agreement_id;
     const { isJaggaerError } = req.session;
     req.session['isJaggaerError'] = false;
@@ -39,13 +38,11 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       error: isJaggaerError,
     };
     try {
-        /**     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+        
+    const assessmentId =1;    
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
-    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
-         * 
-         */
-     
    
 
     const CAPACITY_BASEURL = `assessments/tools/1/dimensions`;
@@ -60,6 +57,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
         'QAT',
         'User Centred Design',
         'No DDaT Cluster Mapping',
+        'Security and Privacy (Non-DDAT)'
       ];
       
     const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
@@ -103,9 +101,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
 
       const tableItems = [...ITEMLIST];
-  
-    var dimensions = [...CAPACITY_DATASET];
-  
+      const dimensions = [...CAPACITY_DATASET];
   
       const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
       var {options} = LEVEL7CONTENTS;
@@ -238,21 +234,51 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
            * Sorting Designation According to the Table Items 
            */
   
-        const StorageForSortedItems = [];
+        var StorageForSortedItems = [];
   
         for(const items of REMAPPTED_TABLE_ITEM_STORAGE){
           const Text = items.text;
           const findElementInRemapptedParentRole = REMAPPED_ACCORDING_TO_PARENT_ROLE.filter(cursor => cursor.Parent == Text)[0];
           StorageForSortedItems.push(findElementInRemapptedParentRole);
         }
+
+        let {dimensionRequirements} = ALL_ASSESSTMENTS_DATA;
+
+        if(dimensionRequirements.length > 0){
+        dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0].requirements;
+
   
-  
+        const AddedValuesTo_StorageForSortedItems = StorageForSortedItems.map(items => {
+            const {category} = items;
+
+            const mappedCategory = category.map(subItems => {
+                let {designations} = subItems;
+                let formattedDesignationStorage = designations.map(nestedItems => {
+                  let value = '';
+                  const requirementID = nestedItems['requirement-id'];
+                  const findInDimensions = dimensionRequirements.filter(i => i['requirement-id'] == requirementID);
+                  if(findInDimensions.length > 0){
+                        const weigtageOfRequirement = findInDimensions[0].weighting;
+                        value = weigtageOfRequirement;
+                  }
+                  return {...nestedItems, value: value}
+                })
+                return {...subItems, designations: formattedDesignationStorage};
+            })
+
+            return {...items, category: mappedCategory}
+
+        })
+
+        StorageForSortedItems = AddedValuesTo_StorageForSortedItems;
+         }
         const windowAppendData = {
           ...RFP_WEIGTING_JSON,
           lotId,
           agreementLotName,
           releatedContent,
           isError,
+          totalResouces: dimensionRequirements.length,
           errorText,
           designations: StorageForSortedItems,
           TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
@@ -260,8 +286,8 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
      
   
      // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    //res.json({StorageForSortedItems, REMAPPTED_TABLE_ITEM_STORAGE})
-    res.render('rfp-vetting-weighting', windowAppendData);
+    //res.json(StorageForSortedItems)
+ res.render('rfp-vetting-weighting', windowAppendData);
     } catch (error) {
         console.log(error)
       req.session['isJaggaerError'] = true;
@@ -284,5 +310,60 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
 
-    res.json({msg: 'welocme'})
+    const {SFIA_weightage, requirement_Id_SFIA_weightage} = req.body;
+   
+    
+    const AllValuedSFIA_weightage = SFIA_weightage.map(items => items != '');
+    const INDEX_FINDER_OBJ_REMAPPER = [];
+
+    for(let start=0; start < AllValuedSFIA_weightage.length; start++){
+        if(AllValuedSFIA_weightage[start]){
+            INDEX_FINDER_OBJ_REMAPPER.push(
+            {
+                'requirement-id': requirement_Id_SFIA_weightage[start],
+                'weighting': SFIA_weightage[start] ,
+                'values': []
+            }
+            );
+        }
+    }
+
+    const PUT_BODY = {
+        "weighting": 0, 
+        "includedCriteria": [],
+        "requirements": INDEX_FINDER_OBJ_REMAPPER
+      }
+
+   try {
+       const assessmentId = 1;
+       const CAPACITY_BASEURL = `assessments/tools/1/dimensions`;
+        const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+        const CAPACITY_DATASET = CAPACITY_DATA.data;
+        var dimensions = [...CAPACITY_DATASET];
+        const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
+        const DIMENSION_ID = LEVEL7CONTENTS['dimension-id'];
+
+        const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
+         await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
+      res.redirect('/rfp/vetting-weighting');
+      } catch (error) {
+        console.log(error)
+        req.session['isJaggaerError'] = true;
+        LoggTracer.errorLogger(
+          res,
+          error,
+          `${req.headers.host}${req.originalUrl}`,
+          null,
+          TokenDecoder.decoder(SESSION_ID),
+          'Journey service - Get failed - CA learn page',
+          true,
+        );
+      }
+  
+
+  
+
+
+
+   
 }
