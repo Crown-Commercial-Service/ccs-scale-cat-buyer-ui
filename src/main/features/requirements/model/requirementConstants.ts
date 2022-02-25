@@ -15,11 +15,9 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_ADD_COLLABORATOR_TO_JAGGER = '/rfp/add-collaborator-detail',
   RFP_POST_PROCEED_COLLABORATORS = '/rfp/proceed-collaborators',
 
-
   //RFP Resource type and Quantity
   RFP_GET_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
   RFP_POST_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
-
 
   // Proc lead rfp
   RFP_GET_NAME_PROJECT = '/rfp/name-your-project',
@@ -151,4 +149,7 @@ export enum REQUIREMENT_PATHS {
 
   DA_GET_SERVICE_CAPABILITIES = '/da/service-capabilities',
   DA_POST_SERVICE_CAPABILITIES = '/da/service-capabilities',
+
+  DA_GET_CHOOSE_REQUIREMENTS = '/da/choose-security-requirements',
+  DA_POST_CHOOSE_REQUIREMENTS = '/da/choose-security-requirements',
 }
