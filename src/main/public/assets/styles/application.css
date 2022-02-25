@@ -8912,7 +8912,7 @@ p,
   height: inherit;
 }
 
-.backdrop {
+.backdrop-vetting, .backdrop-nav-menu {
   position: fixed;
   top: 0px;
   left: 0px;
