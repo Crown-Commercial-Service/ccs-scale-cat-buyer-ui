@@ -83,9 +83,11 @@
             {% endif %}
 
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/rfi/name-your-project">
+              {% if eventStatus != "published"%}
+                <a class="govuk-link" href="/rfi/name-your-project">
             Change<span class="govuk-visually-hidden">project name</span>
-              </a>
+                </a>
+              {% endif %}
             </dd>
           </div>
           <div class="govuk-summary-list__row">
@@ -103,9 +105,11 @@
               </ul>
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/rfi/procurement-lead">
+              {% if eventStatus != "published"%}
+                <a class="govuk-link" href="/rfi/procurement-lead">
             Change<span class="govuk-visually-hidden"> procurement lead</span>
-              </a>
+                </a>
+              {% endif %}
             </dd>
           </div>
           <div class="govuk-summary-list__row">
@@ -135,9 +139,11 @@
         </dd>
             {% endif %}
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/rfi/add-collaborators">
+              {% if eventStatus != "published"%}
+                <a class="govuk-link" href="/rfi/add-collaborators">
             Change<span class="govuk-visually-hidden"> rfi team members</span>
-              </a>
+                </a>
+              {% endif %}
             </dd>
           </div>
         </dl>
@@ -159,9 +165,11 @@
             {% endif %}
 
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/rfi/type">
+              {% if eventStatus != "published"%}
+                <a class="govuk-link" href="/rfi/type">
             Change<span class="govuk-visually-hidden">RFI type</span>
-              </a>
+                </a>
+              {% endif %}
             </dd>
           </div>
           {# {% if ccs_rfi_type == 'all_online' %}
@@ -200,9 +208,11 @@
                               </dd>
                             {% endif %}
                             <dd class="govuk-summary-list__actions">
-                              <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
+                              {% if eventStatus != "published"%}
+                                <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
             Change<span class="govuk-visually-hidden">RFI type</span>
-                              </a>
+                                </a>
+                              {% endif %}
                             </dd>
                           </div>
                           {%endfor%}
@@ -237,9 +247,11 @@
                               {% endif %}
 
                               <dd class="govuk-summary-list__actions">
-                                <a class="govuk-link" href="/rfi/upload-doc">
+                                {% if eventStatus != "published"%}
+                                  <a class="govuk-link" href="/rfi/upload-doc">
             Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
-                                </a>
+                                  </a>
+                                {% endif %}
                               </dd>
                             </div>
 
@@ -255,9 +267,11 @@
                                     {%endfor%}
                                   </dd>
                                   <dd class="govuk-summary-list__actions">
-                                    <a class="govuk-link" href="/rfi/response-date">
+                                    {% if eventStatus != "published"%}
+                                      <a class="govuk-link" href="/rfi/response-date">
            Change <span class="govuk-visually-hidden"> rfi response dates</span>
-                                    </a>
+                                      </a>
+                                    {% endif %}
                                   </dd>
 
                                 </div>
@@ -299,10 +313,11 @@
                               <br><br>
                             </div>
                           </div>
-                          <form id="ccs_rfi_publish_form" name="ccs_rfi_publish_form" class="form ccs_rfi_publish_form"
+                          {% if eventStatus != "published"%}
+                            <form id="ccs_rfi_publish_form" name="ccs_rfi_publish_form" class="form ccs_rfi_publish_form"
       action="/rfi/review" method="post">
-{{ csrfProtection(csrf) }}
-                            {{ CCSCheckboxes({
+                              {{ csrfProtection(csrf) }}
+                              {{ CCSCheckboxes({
       idPrefix: "rfi_publish_confirmation",
       name: "rfi_publish_confirmation",
       items: [
@@ -313,27 +328,27 @@
       }
       ]
       }) }}
-                            <div class="govuk-button-group">
-                              {{ CCSButton({
+                                <div class="govuk-button-group">
+                                  {{ CCSButton({
         attributes: {
         id: "rfi_btn_publish_now"
         },
         text: "Publish and continue"
         }) }}
-                              <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI) </a>
-                            </div>
-                            {{ CCSInput({
+                                  <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI) </a>
+                                </div>
+                                {{ CCSInput({
       id: "finished_pre_engage",
       name: "finished_pre_engage",
       type: "hidden",
       value: "true"
       }) }}
 
-                          </form>
-
+                              </form>
+                            {% endif %}
+                          </div>
                         </div>
-                      </div>
 
-                    </main>
+                      </main>
 
-                  {% endblock %}
+                    {% endblock %}

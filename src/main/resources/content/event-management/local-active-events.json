@@ -17,14 +17,14 @@
     },
     {
         "projectId": 223,
-        "projectName": "RM6263-Lot 2-MRP BUSINESS SERVICES UK LIMITED",
+        "projectName": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-223",
-            "title": "RM6263-Lot 2-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "RFI",
-            "lot":"Lot 2: Digital Specialists",
+            "lot":"Lot 1: Digital Programmes",
             "agreement":"Digital Specialists and Programme [RM6263]",
             "status": "Published",
             "closeDate": "not available yet",

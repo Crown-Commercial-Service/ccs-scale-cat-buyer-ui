@@ -92,7 +92,7 @@ export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: expre
 
                 case 'move-from-cat':
                     // eslint-disable-next-line no-case-declarations
-                    const nextAddress2 = "#"
+                    const nextAddress2 = "/rf/review"
                     res.redirect(nextAddress2);
                     break;
 
