@@ -59,7 +59,7 @@ export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: expre
 
                 case 'move-from-cat':
                     if (req.session.eventManagement_eventType == "RFI"){
-                        redirect_address = "/rf/review"
+                        redirect_address = "/rfi/review"
                     } else if(req.session.eventManagement_eventType == "EOI"){
                         redirect_address = "/eoi/review"
                     }

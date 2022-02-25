@@ -4,7 +4,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--yellow'>dev</strong> RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-3830",
-            "title": "RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "EOI",
@@ -21,7 +21,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--yellow'>dev</strong> RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-3782",
-            "title": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "RFI",
@@ -38,7 +38,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--yellow'>dev</strong> RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-3812",
-            "title": "RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "EOI",
@@ -55,7 +55,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--yellow'>dev</strong> RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-3811",
-            "title": "RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "RFI",
@@ -72,7 +72,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--red'>sit</strong> RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-2627",
-            "title": "RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "EOI",
@@ -89,7 +89,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--red'>sit</strong> RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-2626",
-            "title": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "RFI",
@@ -106,7 +106,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--red'>sit</strong> RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-3812",
-            "title": "RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "EOI",
@@ -123,7 +123,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--red'>sit</strong> RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-2625",
-            "title": "RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "RFI",
@@ -139,7 +139,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--blue'>uat</strong> RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-265",
-            "title": "RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "EOI",
@@ -156,7 +156,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--blue'>uat</strong> RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-262",
-            "title": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "RFI",
@@ -173,7 +173,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--blue'>uat</strong> RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-264",
-            "title": "RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "EOI",
@@ -190,7 +190,7 @@
         "projectName": "<strong class='govuk-tag govuk-tag--blue'>uat</strong> RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-263",
-            "title": "RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "RFI",
@@ -207,7 +207,7 @@
         "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-11",
-            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "Direct Award",
@@ -224,7 +224,7 @@
         "projectName": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-22",
-            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "Further Competition",
@@ -241,7 +241,7 @@
         "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-119",
-            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "Further Competition",
@@ -258,7 +258,7 @@
         "projectName": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-2231",
-            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "Further Competition",
@@ -275,7 +275,7 @@
         "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-191",
-            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "Direct Award",
@@ -292,7 +292,7 @@
         "projectName": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
         "activeEvent": {
             "id": "ocds-b5fd17-2232",
-            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
             "eventStage": "tender",
             "eventSupportId": "itt_4949",
             "eventType": "Further Competition",
