@@ -50,12 +50,20 @@
             {% set formOptions = data.form.radioOptions.items %}
 
             {% set form_Options_Altered = [] %}
+            {% set option_text = null %}
 
             {% for item in formOptions %}
+                
+                {% if eventType == 'RFI' %} 
+                {% set option_text = item.text %}
+                {% else %} 
+                {% set option_text = item.text2 %}
+                {% endif %} 
+
                 {% set form_Options_Altered = (form_Options_Altered.push(
                 {
                   value: item.value,
-                    html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>"
+                    html: "<h3 class='govuk-heading-m'>" +option_text + "</h3>"
                   }
                 ), form_Options_Altered) 
               %}
