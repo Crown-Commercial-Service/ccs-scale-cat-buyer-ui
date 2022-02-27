@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/dialog/macro.njk" import CCSDialog %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -10,7 +11,12 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-
+{{ CCSDialog({
+  title:'This action cannot be undone, please confirm that you want to progress.',
+  description:'This action will revert the form to its original stated.',
+  redirect:'#',
+  type:'vetting'
+}) }}
 
 <div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
   <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -41,7 +47,7 @@
       <div class="sub-section">
         <p class="govuk-body">{{data.total}} of 100% total weighting for service capabilities</p>
       </div>
-       <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state" title="delete">Clear form</a></div>
+       <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state ca_da_service_cap" title="delete">Clear form</a></div>
     </div>
     <section class="ons-page__container ons-container">
         <div id="vertical_tab_nav" class="ons-grid ons-js-toc-container">
@@ -77,7 +83,7 @@
 
                                       {% if wholeCells.name == item.category %}
 
-                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message">
+                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
 
@@ -123,7 +129,7 @@
                               <h4> {{subItems['groupname']}} </h4>
                               <div class="govuk-!-margin-top-6">
                               
-                                 <p id="partial-weightage-error-{{loop.index}}" class="govuk-error-message">
+                                 <p id="partial-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_partial_t">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
 

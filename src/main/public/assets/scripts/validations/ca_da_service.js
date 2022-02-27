@@ -1,11 +1,12 @@
+
 const weight_whole = $('.weight_vetting_whole');
 const weight_partial = $('.weight_vetting_partial');
 
 const  weight_whole_len = $('.weight_vetting_whole').length + 1;
 const weight_partial_len = $('.weight_vetting_partial').length + 1;
 
-for(var a =1; a < $('.whole_radio').length + 1; a++){
-    $(`#whole_weightage_${a}`).attr('checked', 'checked');
+for(var a =0; a< document.getElementsByClassName('weight_vetting_whole').length; a++){
+    document.getElementsByClassName('weight_vetting_whole')[a].checked = true;
 }
 
 for(var a =1 ; a < weight_whole_len; a++ ){
@@ -51,80 +52,107 @@ for(var a =0; a < TotalFieldOnScreen; a++){
 
 $('#ccs_ca_menu_tabs_form').on('submit', (e)=> {
 
-    
-const weight_whole = $('.weight_vetting_whole');
-const weight_partial = $('.weight_vetting_partial');
+const vetting_partial = document.getElementsByClassName('weight_vetting_partial');
+const vetting_partial_len = vetting_partial.length;
 
 
-const  weight_whole_len = $('.weight_vetting_whole').length + 1;
-const weight_partial_len = $('.weight_vetting_partial').length + 1;
 
+const ErrorMessageStorage = [];
 
-const whole_weightage_errors = [];
+//For vetting_partial
 
-
-    for(var a =1 ; a < weight_whole_len; a++ ){
-        if($(`#weight_vetting_whole${a}`).val() <= 0 && $(`#weight_vetting_whole${a}`).val() !== "" ){
-            $(`#weight_vetting_whole${a}`).addClass('govuk-input--error');
-            $(`#whole-weightage-error-${a}`).html('The weighting value(s) for the service capabilities must be a positive integer')
-            whole_weightage_errors.push(true)
-        }
+for(var a =0; a <  vetting_partial_len; a++){
+    if(vetting_partial[a].value <= 0 && vetting_partial[a].value !== ""){
+        document.getElementsByClassName('weight_vetting_partial')[a].classList.add('govuk-input--error')
+        document.getElementsByClassName('weight_vetting_partial_t')[a].innerHTML = 'The weighting value(s) for the service capabilities must be a positive integer'
+        ErrorMessageStorage.push(true);
     }
+}
 
 
-    const partial_weightage_errors = [];
-    for(var a =1 ; a < weight_partial_len; a++ ){
-        if($(`#weight_vetting_partial${a}`).val() <= 0 && $(`#weight_vetting_partial${a}`).val() != "" ){
-            $(`#weight_vetting_partial${a}`).addClass('govuk-input--error');
-            $(`#partial-weightage-error-${a}`).html('The weighting value(s) for the service capabilities must be a positive integer')
-            partial_weightage_errors.push(true)
-        }
+//Vetting_whole
+
+const vetting_whole = document.getElementsByClassName('weight_vetting_whole');
+const vetting_whole_len = vetting_whole.length;
+
+
+for(var a =0; a <  vetting_whole_len ; a++){
+    if(vetting_whole[a].value <= 0 && vetting_whole[a].value !== ""){
+        document.getElementsByClassName('weight_vetting_whole')[a].classList.add('govuk-input--error')
+        document.getElementsByClassName('weight_vetting_whole_t')[a].innerHTML = 'The weighting value(s) for the service capabilities must be a positive integer'
+        ErrorMessageStorage.push(true);
     }
+}
 
-    if(partial_weightage_errors.length > 0){
-        e.preventDefault();
+
+
+
+
+var total = 0;
+var checkforEmptyBoxes = [];
+const TotalWeightageBox = document.getElementsByClassName('weight');
+
+
+
+
+for(var i = 0; i < TotalWeightageBox.length; i++){
+    if(TotalWeightageBox[i].value != ''){
+        total = total + Number(TotalWeightageBox[i].value);
     }
+}
 
-    if(whole_weightage_errors.length > 0){
-        e.preventDefault();
+for(var i = 0; i < TotalWeightageBox.length; i++){
+    if(TotalWeightageBox[i].value == ''){
+        checkforEmptyBoxes.push(true);
     }
-
-    var total = 0;
-    const TotalWeightageBox = $('.weight');
-    let fieldCheck = "",
-    errorStore = [];
-
-    for(var i = 0; i < TotalWeightageBox.length; i++){
-        const selector = $(TotalWeightageBox[i]);
-        if(selector.val() !== ''){
-            total = total + Number(selector.val());
-        }
-        else{
-            total = total;
-        }
-    }
-
-    if(total < 100){
-        e.preventDefault();
-        $('.govuk-error-summary__title').text('There is a problem');
-
-        $("#summary_list").html('<li><a href="#">The weighting value(s) for the service capabilities must = 100%</a></li>');
-        $([document.documentElement, document.body]).animate({
-            scrollTop: $("#summary_list").offset().top
-        }, 1000);     
-
-
-        $('#service_capability_error_summary').removeClass('hide-block');
-    }
-    else{
-        $('#ccs_ca_menu_tabs_form').submit();
-    }
+}
 
 
 
 
+if(checkforEmptyBoxes.length == TotalWeightageBox.length){
+    e.preventDefault();
+    $('.govuk-error-summary__title').text('There is a problem');
+
+    $("#summary_list").html('<li><a href="#">Atleast one of the service capability must be selected</a></li> ');
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#summary_list").offset().top
+    }, 1000);     
+
+    $('#service_capability_error_summary').removeClass('hide-block');
+}
 
 
+
+else if(total !== 100){
+    e.preventDefault();
+    $('.govuk-error-summary__title').text('There is a problem');
+
+    $("#summary_list").html('<li><a href="#">The weighting value(s) for the service capabilities must be equal to 100%</a></li> ');
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#summary_list").offset().top
+    }, 1000);     
+
+    $('#service_capability_error_summary').removeClass('hide-block');
+}
+else if(ErrorMessageStorage.length > 0){
+    e.preventDefault();
+  $('.govuk-error-summary__title').text('There is a problem');
+
+    $("#summary_list").html('<li><a href="#">There is a problem with the input provided</a></li>');
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#summary_list").offset().top
+    }, 1000);     
+
+    $('#service_capability_error_summary').removeClass('hide-block');
+      
+}
+
+
+
+else{
+    $('#ccs_ca_menu_tabs_form').submit();
+}
 
 
 
