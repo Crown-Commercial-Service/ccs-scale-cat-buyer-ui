@@ -138,12 +138,12 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       proc_id,
       event_id,
       ccs_rfi_type: RFI_ANSWER_STORAGE.length > 0 ? 'all_online' : '',
+      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null // this needs to be revisited to check the mapping of the planned 
     };
 
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
-
     res.render('review', appendData);
   } catch (error) {
     delete error?.config?.['headers'];

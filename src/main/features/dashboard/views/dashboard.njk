@@ -59,7 +59,7 @@
                   <p class="govuk-body govuk-!-margin-bottom-0">
                     <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
                   </p>
-                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                 </th>
                 <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
                 <td class="govuk-table__cell">

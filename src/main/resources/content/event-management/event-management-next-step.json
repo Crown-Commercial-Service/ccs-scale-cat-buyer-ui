@@ -30,6 +30,7 @@
             {
               "value": "pre-market",
               "text": "Continue Pre-market engagement activities",
+              "text2": "Continue Pre-market engagement activities",
               "hint": {
                 "text": ""
               },
@@ -39,6 +40,7 @@
             {
               "value": "write-publish",
               "text": "Go to Write and Publish your requirements",
+              "text2": "Go to Write and Publish your requirements",
               "hint": {
                 "text": ""
               },
@@ -48,6 +50,7 @@
             {
               "value": "move-from-cat",
               "text": "Extract Rfi details and complete on your own platform",
+              "text2": "Extract Eoi details and complete on your own platform",
               "hint": {
                 "text": ""
               },
@@ -57,6 +60,7 @@
             {
               "value": "close",
               "text": "Close Event and stop procurement",
+              "text2": "Close Event and stop procurement",
               "hint": {
                 "text": ""
               },
@@ -66,6 +70,7 @@
             {
               "value": "decide-later",
               "text": "Decide Later",
+              "text2": "Decide Later",
               "hint": {
                 "text": ""
               },

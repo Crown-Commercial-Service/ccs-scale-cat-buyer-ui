@@ -24,7 +24,7 @@
                 <h1 class="govuk-heading-xl">
                     {{data.title}}
                 </h1>
-                {% include "includes/event_header.njk" %}
+                {% include "includes/project_header.njk" %}
             </div>
         </div>
         <div class="govuk-grid-row ccs-page-section">
@@ -38,7 +38,7 @@
                         <strong class="govuk-tag app-task-list__tag govuk-tag--blue" id="suppliers-status">Published</strong>
                     </h2>
                     <p class="govuk-body">
-                        <a class="govuk-link close-event" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
+                        <a class="govuk-link close-event-link" href="#">{{ data.subsection2_content }}</a>
                     </p>
                 </div>
             </div>
@@ -50,12 +50,20 @@
             {% set formOptions = data.form.radioOptions.items %}
 
             {% set form_Options_Altered = [] %}
+            {% set option_text = null %}
 
             {% for item in formOptions %}
+                
+                {% if eventType == 'RFI' %} 
+                {% set option_text = item.text %}
+                {% else %} 
+                {% set option_text = item.text2 %}
+                {% endif %} 
+
                 {% set form_Options_Altered = (form_Options_Altered.push(
                 {
                   value: item.value,
-                    html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>"
+                    html: "<h3 class='govuk-heading-m'>" +option_text + "</h3>"
                   }
                 ), form_Options_Altered) 
               %}
