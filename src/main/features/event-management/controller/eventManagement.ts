@@ -37,9 +37,9 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
       }
     });
 
-
     // Code Block ends
 
+    // Update procurement data into (redis) session
     const proc: Procurement = {
       procurementID: projectId,
       eventId: eventId,
@@ -54,6 +54,7 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
       started: true
     }
     req.session.procurements.push(proc)
+    // Added required session values for accessign the pre-market pages
     req.session.eventManagement_eventType = eventType
     req.session.agreement_id = agreementId_session
     req.session.agreementLotName = agreementLotName
@@ -62,17 +63,19 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
     req.session['projectId'] = projectId
     req.session['eventId'] = eventId
 
+    // Releated content session values
     const releatedContent: ReleatedContent = new ReleatedContent();
-    releatedContent.name = "Digital Specialists and Programmes"
-    releatedContent.lotName = "Lot 1: Digital Programmes"
+    releatedContent.name = agreementName
+    releatedContent.lotName = lotid +" : "+agreementLotName
     releatedContent.lotUrl = "/agreement/lot?agreement_id=RM6263&lotNum=" + req.session.lotId.replace(/ /g, "%20");
     releatedContent.title = 'Related content'
     req.session.releatedContent = releatedContent
 
+    // Event header
+    res.locals.agreement_header = { project_name: title, agreementName, agreementId_session, agreementLotName, lotid }
 
     const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData }
-    res.locals.event_header = { agreementName, agreementLotName, agreementId_session }
-    req.session.event_header = res.locals.event_header
+
     if (status == "Published") {
       res.render('eventManagement', appendData)
     } else {
