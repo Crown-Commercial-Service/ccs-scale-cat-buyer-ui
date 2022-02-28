@@ -14,7 +14,7 @@ import * as localTableData from '../../../resources/content/event-management/loc
 export const EVENT_MANAGEMENT_MESSAGING_SENT = (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     try {
-        res.locals.event_header = req.session.event_header
+        res.locals.agreement_header = req.session.agreement_header
         
         const appendData = { data: inboxData, messageData: localTableData }
         res.render('MessagingSent', appendData)
