@@ -31,7 +31,7 @@
       "name": "ccs_rfp_choose_security",
       "items": [
         {
-          "value": "1",
+          "value": "0: None",
           "text": "No security clearance needed",
           "hint": {
             "text": "For individuals who do not need to have a specific level of security clearance because your organisation has it’s own pre-employment checks."
@@ -39,7 +39,7 @@
           "hasResources": false
         },
         {
-          "value": "2",
+          "value": "1: Baseline Personnel Security Standard (BPSS)",
           "text": "Baseline Personnel Security Standard (BPSS)",
           "hint": {
             "text": "For individuals with any access to government assets. This means all civil servants, members of the armed forces, temporary staff and government contractors generally. Read more about BPSS clearance."
@@ -47,7 +47,7 @@
           "hasResources": true
         },
         {
-          "value": "3",
+          "value": "2: Counter Terrorist Check (CTC)",
           "text": "Counter Terrorist Check (CTC)",
           "hint": {
             "text": "For individuals employed in posts which: involve proximity to public figures assessed to be at particular risk from terrorist attack give access to information or material assessed to be of value to terrorists involve unescorted access to certain military, civil, industrial or commercial establishments assessed to be at particular risk from terrorist attack Read more about CTC clearance."
@@ -55,7 +55,7 @@
           "hasResources": true
         },
         {
-          "value": "4",
+          "value": "3: Security Check (SC)",
           "text": "Security Check (SC)",
           "hint": {
             "text": "For individuals employed in posts which require them to have long-term, frequent and uncontrolled access to secret assets and/or occasional, supervised access to top secret assets. Read more about SC clearance."
@@ -63,7 +63,7 @@
           "hasResources": true
         },
         {
-          "value": "5",
+          "value": "4: Dveloped Vetting (DV)",
           "text": "Developed Vetting (DV)",
           "hint": {
             "text": "For individuals employed in posts which require them to have frequent and uncontrolled access to top secret assets or require any access to top secret codeword material. Read more about Developed Vetting"
