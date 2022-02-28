@@ -40,15 +40,15 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
-    
-    <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/service-capabilities" method="POST">
-    {{ csrfProtection(csrf) }}   
+      <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/service-capabilities" method="POST">
+    {{ csrfProtection(csrf) }}    
     <div class="ccs-page-section">
       <div class="sub-section">
         <p class="govuk-body">{{data.total}} of 100% total weighting for service capabilities</p>
       </div>
        <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state ca_da_service_cap" title="delete">Clear form</a></div>
     </div>
+     
     <section class="ons-page__container ons-container">
         <div id="vertical_tab_nav" class="ons-grid ons-js-toc-container">
             <div class="ons-grid__col ons-grid__col--sticky@m ons-col-4@m">
@@ -70,7 +70,9 @@
                               <fieldset class="govuk-fieldset">
                                 <div class="govuk-radios" data-module="govuk-radios">
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
-                                    <input class="govuk-radios__input whole_radio" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" >
+          
+                                    <input class="govuk-radios__input whole_radio" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" checked="checked"  >
+                      
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="whole_weightage_{{loop.index}}">
                                       Enter a weighting for the whole cluster 
                                     </label>
@@ -182,10 +184,11 @@
               id: "form_submit"
             })
         }}
+         
         <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
       </div>
     </div>
-      </form>
+     </form>
     <div class="govuk-grid-column-one-third">
       {{ CCSReleatedContent(releatedContent) }}
     </div>
