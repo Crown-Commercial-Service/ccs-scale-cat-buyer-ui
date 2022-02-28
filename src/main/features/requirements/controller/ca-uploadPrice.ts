@@ -18,12 +18,12 @@ export const CA_GET_UPLOAD_PRICING = async (req: express.Request, res: express.R
   const project_name = req.session.project_name;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
-  const { isJaggaerError } = req.session;
+  const { isJaggaerError, choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   try {
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
-    const appendData = { data: cmsData, releatedContent, error: isJaggaerError };
+    const appendData = { data: cmsData, releatedContent, error: isJaggaerError, choosenViewPath };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'In progress');
     res.render('ca-uploadPrice', appendData);
   } catch (error) {

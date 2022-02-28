@@ -1,26 +1,4 @@
 {
-  "breadCrumbs": [
-    {
-      "text": "Dashboard",
-      "href": "/dashboard"
-    },
-    {
-      "text": "Choose a commercial agreement",
-      "href": "/projects/choose-agreement"
-    },
-    {
-      "text": "Procurement overview",
-      "href": "/projects/create-or-choose"
-    },
-    {
-      "text": "Write and publish your requirements",
-      "href": "/ca/task-list"
-    },
-    {
-      "text": "Upload pricing schedules and any other supporting documentation",
-      "href": "#"
-    }
-  ],
   "title": "Upload your pricing schedule (attachment 4)",
   "subtitle": "[ Description for this page ]",
   "description": "[instructions for this page]",
