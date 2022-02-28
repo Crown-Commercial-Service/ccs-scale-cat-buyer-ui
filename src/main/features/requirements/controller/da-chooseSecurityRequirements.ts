@@ -99,7 +99,7 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       };
       await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
-      res.redirect('/rfp/task-list');
+      res.redirect('/da/service-capabilities');
     } catch (error) {
       LoggTracer.errorLogger(
         res,
