@@ -71,6 +71,18 @@ export enum REQUIREMENT_PATHS {
   CA_POST_UPLOAD_DOC = '/ca/upload-doc',
   CA_POST_UPLOAD_PROCEED = '/ca/upload-doc/proceed',
 
+  // Upload  pricing supporting doc ca
+  CA_GET_UPLOAD_PRICING_SUPPORTING_DOCUMENT = '/ca/upload-pricing-supporting-doc',
+  CA_POST_UPLOAD_PRICING_SUPPORTING_DOCUMENT = '/ca/upload-pricing-supporting-doc',
+
+  // Upload  pricing supporting doc ca
+  CA_GET_UPLOAD_PRICING = '/ca/upload-pricing',
+  CA_POST_UPLOAD_PRICING = '/ca/upload-pricing',
+
+  // Upload  pricing supporting doc ca
+  CA_GET_UPLOAD_SUPPORTING_DOCUMENT = '/ca/upload-supporting-doc',
+  CA_POST_UPLOAD_SUPPORTING_DOCUMENT = '/ca/upload-supporting-doc',
+
   // ca type
   CA_TYPE = '/ca/type',
   CA_POST_TYPE = '/ca/type',
