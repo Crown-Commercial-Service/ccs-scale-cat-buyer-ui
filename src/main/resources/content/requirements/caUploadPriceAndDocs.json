@@ -1,0 +1,43 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/ca/task-list"
+    },
+    {
+      "text": "Upload pricing schedules and any other supporting documentation",
+      "href": "#"
+    }
+  ],
+  "title": "Upload pricing schedules and any other supporting documentation",
+  "subtitle": "[ Description for this page ]",
+  "description": "[instructions for this page]",
+  "taskList": [
+    {
+      "title": "Upload your pricing schedule (attachment 4)",
+      "hreftitle": "Add / edit link",
+      "href": "/ca/upload-pricing"
+    },
+    {
+      "title": "Upload any additional document (optional)",
+      "hreftitle": "Add / edit link",
+      "href": "/ca/upload-supporting-doc"
+    }
+  ],
+  "backJump": {
+    "title": "Return to Write and publish your requirements",
+    "href": "/ca/task-list"
+  }
+}

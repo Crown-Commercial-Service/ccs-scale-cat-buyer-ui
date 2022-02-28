@@ -324,6 +324,21 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.DA_GET_CHOOSE_SECURITY_REQUIREMENTS,
   );
+  // /ca/upload-pricing
+  app.get(REQUIREMENT_PATHS.CA_GET_UPLOAD_PRICING, [AUTH], REQUIREMENT_CONTROLLER.CA_GET_UPLOAD_PRICING);
+
+  // /ca/upload-supporting-doc
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_UPLOAD_SUPPORTING_DOCUMENT,
+    [AUTH],
+    REQUIREMENT_CONTROLLER.CA_GET_UPLOAD_SUPPORTING_DOCUMENT,
+  );
+  // /ca/upload-pricing-supporting-doc
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_UPLOAD_PRICING_SUPPORTING_DOCUMENT,
+    [AUTH],
+    REQUIREMENT_CONTROLLER.CA_GET_UPLOAD_PRICING_SUPPORTING_DOCUMENT,
+  );
 
   /**
    * @POST Routes
@@ -524,5 +539,11 @@ export default function (app: Application): void {
     REQUIREMENT_PATHS.DA_POST_CHOOSE_REQUIREMENTS,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.DA_POST_CHOOSE_SECURITY_REQUIREMENTS,
+  );
+  // /ca/upload-pricing-supporting-doc
+  app.post(
+    REQUIREMENT_PATHS.CA_GET_UPLOAD_PRICING_SUPPORTING_DOCUMENT,
+    [AUTH],
+    REQUIREMENT_CONTROLLER.CA_GET_UPLOAD_PRICING_SUPPORTING_DOCUMENT,
   );
 }
