@@ -285,7 +285,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
         };
      
   
-     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
     //res.json(StorageForSortedItems)
  res.render('rfp-vetting-weighting', windowAppendData);
     } catch (error) {

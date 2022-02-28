@@ -59,8 +59,19 @@ const RedisInstanceSetup = (app: express.Express): void => {
    }
 
    if (operations.notEquals(runner_environment, 'development')) {
-   Session.cookie['secure'] = true
-    }
+    Session = Object.assign(
+        {},
+        {
+            ...Session,
+            cookie: {
+                secure: true, // if true only transmit cookie over https
+                httpOnly: false, // if true prevent client side JS from reading the cookie 
+                maxAge: sessionExpiryTime, // session max age in miliseconds
+                sameSite: 'lax' as const,
+            }
+        })
+}
+
    
 
     app.use(session({

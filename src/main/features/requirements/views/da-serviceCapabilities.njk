@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/dialog/macro.njk" import CCSDialog %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -10,8 +11,14 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{{ CCSDialog({
+  title:'This action cannot be undone, please confirm that you want to progress.',
+  description:'This action will revert the form to its original stated.',
+  redirect:'#',
+  type:'vetting'
+}) }}
 
-  <div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+<div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
   <h2 class="govuk-error-summary__title" id="error-summary-title">
     
   </h2>
@@ -20,6 +27,7 @@
     </ul>
   </div>
 </div>
+
 
  <div class="govuk-grid-row">
     <h1 class="govuk-heading-xl">
@@ -32,14 +40,15 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
-    <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/service-capabilities" method="POST">
-    {{ csrfProtection(csrf) }}   
+      <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/service-capabilities" method="POST">
+    {{ csrfProtection(csrf) }}    
     <div class="ccs-page-section">
       <div class="sub-section">
         <p class="govuk-body">{{data.total}} of 100% total weighting for service capabilities</p>
       </div>
-       <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state" title="delete">Clear form</a></div>
+       <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state ca_da_service_cap" title="delete">Clear form</a></div>
     </div>
+     
     <section class="ons-page__container ons-container">
         <div id="vertical_tab_nav" class="ons-grid ons-js-toc-container">
             <div class="ons-grid__col ons-grid__col--sticky@m ons-col-4@m">
@@ -51,8 +60,8 @@
                     })
                 }}
             </div>
-              <div class="ons-grid__col ons-col-7@m ons-push-1@m">
-           {% for item in TABLE_BODY -%}
+            <div class="ons-grid__col ons-col-7@m ons-push-1@m">
+            {% for item in TABLE_BODY -%}
                     <article id="section" class="govuk-!-margin-top-6">
                     <h2 class="govuk-heading-l govuk-!-font-weight-bold" >{{item['category']}}</h2>
                     <h4> {{item['category']}} description </h4>
@@ -61,7 +70,9 @@
                               <fieldset class="govuk-fieldset">
                                 <div class="govuk-radios" data-module="govuk-radios">
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
-                                    <input class="govuk-radios__input whole_radio" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" >
+          
+                                    <input class="govuk-radios__input whole_radio" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" checked="checked"  >
+                      
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="whole_weightage_{{loop.index}}">
                                       Enter a weighting for the whole cluster 
                                     </label>
@@ -74,7 +85,7 @@
 
                                       {% if wholeCells.name == item.category %}
 
-                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message">
+                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
 
@@ -120,7 +131,7 @@
                               <h4> {{subItems['groupname']}} </h4>
                               <div class="govuk-!-margin-top-6">
                               
-                                 <p id="partial-weightage-error-{{loop.index}}" class="govuk-error-message">
+                                 <p id="partial-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_partial_t">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
 
@@ -152,6 +163,7 @@
                      
                     </article>
             {%- endfor %}
+           
               
                
             </div>
@@ -168,13 +180,15 @@
       <div class="govuk-button-group">
         {{ CCSButton({
               text: "Save and continue",
-              classes:"save-button"
+              classes:"save-button",
+              id: "form_submit"
             })
         }}
+         
         <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
       </div>
     </div>
-      </form>
+     </form>
     <div class="govuk-grid-column-one-third">
       {{ CCSReleatedContent(releatedContent) }}
     </div>
