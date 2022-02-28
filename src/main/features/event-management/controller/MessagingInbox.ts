@@ -16,7 +16,7 @@ export const EVENT_MANAGEMENT_MESSAGING = (req: express.Request, res: express.Re
     const { created } = req.query
     try {
         const appendData = { data: inboxData, created, messageData: localTableData }
-        res.locals.event_header = req.session.event_header
+        res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingInbox', appendData)
     } catch (err) {
         LoggTracer.errorLogger(

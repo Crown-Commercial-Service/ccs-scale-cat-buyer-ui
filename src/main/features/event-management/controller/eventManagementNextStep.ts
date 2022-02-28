@@ -14,7 +14,7 @@ import * as inboxData from '../../../resources/content/event-management/event-ma
 export const EVENT_MANAGEMENT_NEXT_STEP_GET = (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     try {
-        res.locals.event_header = req.session.event_header
+        res.locals.agreement_header = req.session.agreement_header
 
         const classificationData: any = { classification: "General Classification" } // this value needs to be taken from API or move it to JSON
         const messageDescription: any = "" // this value needs to be taken from API

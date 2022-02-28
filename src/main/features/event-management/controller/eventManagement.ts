@@ -73,7 +73,7 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
 
     // Event header
     res.locals.agreement_header = { project_name: title, agreementName, agreementId_session, agreementLotName, lotid }
-
+    req.session.agreement_header = res.locals.agreement_header
     const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData }
 
     if (status == "Published") {

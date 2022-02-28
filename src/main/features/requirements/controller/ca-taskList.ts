@@ -71,11 +71,11 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   }
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'In progress');
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreement_id, projectId, eventId);
 
     const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
 
-    
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;

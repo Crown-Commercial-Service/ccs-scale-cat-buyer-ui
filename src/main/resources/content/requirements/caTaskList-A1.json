@@ -143,7 +143,7 @@
           "Task": 1,
           "title": "[ Upload pricing schedules and any other supporting documentation ]",
           "required": "optional",
-          "link": "/ca/learn-about-capability-assessment",
+          "link": "/ca/upload-pricing-supporting-doc",
           "status": "Cannot start yet"
         }
       ]
