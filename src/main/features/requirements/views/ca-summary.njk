@@ -98,7 +98,16 @@
       Select your service capabilities
     </dt>
     <dd class="govuk-summary-list__value">
-      <p class="govuk-body">Performance analysis and data</p>
+    {% for items in ServiceStorageWithVal%}
+    <p class="govuk-heading-s">{{items.groupName}}</p>
+
+    {% for subItems in items.data%}
+    <p class="govuk-body-s">{{subItems.weighting}}% &nbsp; &nbsp;    {{subItems.name}}</p>
+    {%endfor%}
+
+
+    {%endfor%}
+     
     </dd>
     <dd class="govuk-summary-list__actions">
       
