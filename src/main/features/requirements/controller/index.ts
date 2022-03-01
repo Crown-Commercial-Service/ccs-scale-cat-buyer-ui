@@ -91,8 +91,10 @@ import { DA_GET_REVIEW_RANKED_SUPPLIERS, DA_POST_REVIEW_RANKED_SUPPLIERS } from 
 import { DA_GET_LEARN, DA_POST_LEARN } from './da-learnAboutCapabilityAssessment';
 import { DA_GET_WEIGHTINGS, DA_POST_WEIGHTINGS } from './da-enterYourWeightings';
 import { DA_GET_LEARN_START, DA_POST_LEARN_START } from './dalearnAboutCapabilityAssessment';
-
 import { RFP_GET_VETTING_AND_WEIGHTING, RFP_POST_VETTING_AND_WEIGHTING } from './rfp-vetting-and-weighting';
+import {CA_GET_SUMMARY, CA_POST_SUMMARY} from './ca-summary'
+
+
 /**
  * @BaseController
  * @Provider
@@ -190,6 +192,8 @@ export const REQUIREMENT_CONTROLLER = {
   CA_GET_UPLOAD_SUPPORTING_DOCUMENT,
   CA_POST_UPLOAD_SUPPORTING_DOCUMENT,
 
+  CA_GET_SUMMARY,
+  CA_POST_SUMMARY,
   DA_GET_NEXTSTEPS,
   DA_POST_NEXTSTEPS,
   DA_GET_WHERE_WORK_DONE,

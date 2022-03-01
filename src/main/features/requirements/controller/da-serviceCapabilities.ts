@@ -492,8 +492,9 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     
     
      const PUT_BODY = {
-      "weighting": 30, 
+      "weighting": 0, 
       "includedCriteria": [],
+      "overwriteRequirements": true,
       "requirements": MappedWholeAndPartialCluster
     }
 

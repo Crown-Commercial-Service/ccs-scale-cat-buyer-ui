@@ -36,8 +36,10 @@
                         <span class="proc-task-list__section-number">{{event.eventno}}.</span>
                         {{event.eventTitle}}
                         {% if (event.status === 'Optional') 
-                           or(event.status === 'TODO')or(event.status === 'DONE')or(event.status === 'In progress') %}
+                           or(event.status === 'TODO')or(event.status === 'DONE') %}
                            <strong class="govuk-tag app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
+                        {% elif (event.status === 'In progress') %}
+                           <strong class="govuk-tag govuk-tag--blue app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
                         {% else %}
                            <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
                         {% endif %}

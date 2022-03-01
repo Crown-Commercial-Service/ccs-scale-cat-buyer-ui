@@ -1,3 +1,20 @@
+var allListOfHeading = new Set();
+
+for(var a =0; a < document.getElementsByClassName('headings').length; a++){
+    allListOfHeading.add(document.getElementsByClassName('headings')[a].innerHTML);
+}
+
+allListOfHeading = [...allListOfHeading].map(items => {
+    return {
+        partial: items.split(" ").join('_').concat('_partial'),
+        whole: items.split(" ").join('_').concat('_whole')
+    }
+})
+
+
+console.log(allListOfHeading)
+
+
 
 const weight_whole = $('.weight_vetting_whole');
 const weight_partial = $('.weight_vetting_partial');
@@ -21,6 +38,7 @@ for(var a =1 ; a < weight_whole_len; a++ ){
 
 document.addEventListener('DOMContentLoaded', () => {
 
+
 const TotalFieldOnScreen= $('.govuk-radios__input').length /2 + 1;
 
 
@@ -31,7 +49,6 @@ for(var a =0; a < TotalFieldOnScreen; a++){
     const WholeclusterDIV ='#whole_cluster_'+a;
     const PartialClusterDIV = '#partial_cluster_'+a;
     const WholeWeightageCluster = "#whole_weightage_"+a
-    $(WholeWeightageCluster).attr('checked', 'checked');
     $(PartialClusterDIV).fadeOut();
     $(WholeclusterDIV).fadeOut();
         $('#whole_weightage_'+a).click(function () {
@@ -46,6 +63,21 @@ for(var a =0; a < TotalFieldOnScreen; a++){
                $(WholeclusterDIV).fadeOut();
             }
         });
+}
+
+
+for(var a =0; a < allListOfHeading.length; a++){
+
+    const InputFieldSelector_partial = document.getElementsByClassName(allListOfHeading[a].whole)[a];
+    const Name = InputFieldSelector_partial?.getAttribute('class');
+    const value = InputFieldSelector_partial?.value;
+    
+    if(Value != ""){
+        $(`.${allListOfHeading[a].whole}_div`)?.fadeIn();
+    }
+
+   // const InputFieldSelector_whole = document.getElementsByClassName(allListOfHeading[a].whole).length;
+
 }
 
 //ccs_ca_menu_tabs_form

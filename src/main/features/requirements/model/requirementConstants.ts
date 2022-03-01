@@ -164,4 +164,9 @@ export enum REQUIREMENT_PATHS {
 
   DA_GET_CHOOSE_REQUIREMENTS = '/da/choose-security-requirements',
   DA_POST_CHOOSE_REQUIREMENTS = '/da/choose-security-requirements',
+
+
+  //Capability assessment summary 
+  CA_GET_SUMMARY = '/ca/summary',
+  CA_POST_SUMMARY = '/ca/summary'
 }
