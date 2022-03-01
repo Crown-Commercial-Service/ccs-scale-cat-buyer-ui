@@ -341,6 +341,17 @@ export default function (app: Application): void {
   );
 
   /**
+   * @GETROUTER '/ca/summary'
+   */
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_SUMMARY,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_SUMMARY,
+  );
+
+
+
+  /**
    * @POST Routes
    */
 
@@ -546,4 +557,13 @@ export default function (app: Application): void {
     [AUTH],
     REQUIREMENT_CONTROLLER.CA_GET_UPLOAD_PRICING_SUPPORTING_DOCUMENT,
   );
+
+    /**
+   * @GETROUTER '/ca/summary'
+   */
+     app.post(
+      REQUIREMENT_PATHS.CA_POST_SUMMARY,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.CA_POST_SUMMARY,
+    );
 }
