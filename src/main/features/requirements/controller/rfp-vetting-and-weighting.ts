@@ -330,6 +330,7 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
 
     const PUT_BODY = {
         "weighting": 0, 
+        "overwriteRequirements": true,
         "includedCriteria": [],
         "requirements": INDEX_FINDER_OBJ_REMAPPER
       }
@@ -347,7 +348,6 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
          await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
       res.redirect('/rfp/vetting-weighting');
       } catch (error) {
-        console.log(error)
         req.session['isJaggaerError'] = true;
         LoggTracer.errorLogger(
           res,
