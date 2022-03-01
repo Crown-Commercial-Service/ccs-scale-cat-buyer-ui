@@ -63,8 +63,8 @@
                 </th>
                 <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
                 <td class="govuk-table__cell">
-                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.activeEvent.lot }}</p> {# This needs to be changed to Agreement anme and Lot name #}
-                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.activeEvent.agreement }}</p> {# This needs to be changed to Agreement anme and Lot name #}
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotName }}</p> 
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p> 
                 </td>
                 <td class="govuk-table__cell">{{ event.activeEvent.closeDate }}</td> {# This needs to come from API #}
                 <td class="govuk-table__cell">
