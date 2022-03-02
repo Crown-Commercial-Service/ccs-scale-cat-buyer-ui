@@ -87,7 +87,15 @@
       Choose highest security and vetting requirements
     </dt>
     <dd class="govuk-summary-list__value">
-    Secuity check (S.c)
+     {% for items in SecurityStorageWithVal%}
+    <p class="govuk-heading-s">{{items.groupName}}</p>
+
+    {% for subItems in items.data%}
+    <p class="govuk-body-s"><span class="govuk-!-padding-right-9">{{subItems.weighting}}% </span>   {{subItems.name}}</p>
+    {%endfor%}
+
+
+    {%endfor%}
     </dd>
     <dd class="govuk-summary-list__actions">
     
@@ -131,7 +139,7 @@
       Where the work will be done?
     </dt>
     <dd class="govuk-summary-list__value">
-       {% for items in ServiceStorageWithVal%}
+       {% for items in LocationStorageWithVal%}
     <p class="govuk-heading-s">{{items.groupName}}</p>
 
     {% for subItems in items.data%}

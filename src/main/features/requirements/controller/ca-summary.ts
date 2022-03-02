@@ -56,12 +56,25 @@ export const CA_GET_SUMMARY = async (req: express.Request, res: express.Response
         let {dimensionRequirements} = ALL_ASSESSTMENTS_DATA;
         const DRequirements = dimensionRequirements?.[0]?.requirements;
 
+        /**
+         * @SERVER_CAPAbility
+         */
         const ServiceCapabilityStorage = CAPACITY_DATASET.filter(item => item.name == 'Service Capability')[0].options;
         var ServiceStorageWithVal = [];
 
+        /**
+         * @Location_Storage
+         */
+
         const LocationStorage = CAPACITY_DATASET.filter(item => item.name == 'Location')[0].options;
         var LocationStorageWithVal = [];
+
+        /**
+         * @Security_Clearance
+         */
        
+        const SecruityStorage = CAPACITY_DATASET.filter(item => item.name == 'Security Clearance')[0].options;
+        var SecurityStorageWithVal = [];
 
         if( dimensionRequirements?.[0]?.requirements != undefined){
             /**
@@ -144,7 +157,45 @@ export const CA_GET_SUMMARY = async (req: express.Request, res: express.Response
             LocationStorageWithVal = UNIQUE_GROUPNAME_Location;
 
 
+             /**
+             * @Security_Clearance
+             */
+              SecurityStorageWithVal = SecruityStorage.map(items => {
+                const FindElement = DRequirements.filter(subItems => subItems['requirement-id'] == items['requirement-id']);
+                if(FindElement.length != 0) return {...items, ...FindElement[0]}
+                else return null
+            }).filter(subItems => subItems != null)
             
+            var UNIQUE_TITLES_Security = new Set();
+            for(const item of LocationStorageWithVal){
+                UNIQUE_TITLES_Security.add(item.name)
+            }
+            /***This is the putting unique items */
+            SecurityStorageWithVal = [...UNIQUE_TITLES_Security].map(item => {
+               const FoundIndex = SecurityStorageWithVal.filter(i => i.name == item)[0];
+               return {
+                   ...FoundIndex
+               }
+            }).map(nestItems => {
+                var {groups} = nestItems;
+                groups = groups[0];
+                const reformRroups = {groupname: groups.name, level: groups.level} 
+                return {
+                    ...nestItems,
+                    ...reformRroups
+                }
+            })
+
+            var UNIQUE_GROUPNAME_Security = [...new Set(SecurityStorageWithVal.map(item => item.groupname))]; 
+            UNIQUE_GROUPNAME_Security = UNIQUE_GROUPNAME_Security.map(item => {
+                const findIteminServiceStorage = ServiceStorageWithVal.filter(subItem => subItem.groupname == item);
+                return {
+                    groupName: item,
+                    data: findIteminServiceStorage
+                }
+            })
+            SecurityStorageWithVal = UNIQUE_GROUPNAME_Security;
+
         }
         
 
@@ -153,10 +204,11 @@ export const CA_GET_SUMMARY = async (req: express.Request, res: express.Response
             releatedContent,
             choosenViewPath,
             ServiceStorageWithVal,
-            LocationStorageWithVal
+            LocationStorageWithVal,
+            SecurityStorageWithVal
         }
-        res.json(CAPACITY_DATASET)
-       // res.render('ca-summary.njk', windowAppendData);
+     //  res.json(CAPACITY_DATASET)
+    res.render('ca-summary.njk', windowAppendData);
         
     } catch (error) {
         
