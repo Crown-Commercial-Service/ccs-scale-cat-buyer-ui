@@ -22,17 +22,17 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
     // Code Block start - Replace this block with API endpoint
     let agreementName: string, agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string
 
-    events.forEach((element: { projectId: string, activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; projectId: string; title: string; lotid: string; agreement: string; eventType: string; lot: string; AgreementID: string; status: string }; projectName: string }) => {
+    events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; }) => {
       if (element.activeEvent.id == id) {
-        agreementName = element.activeEvent.agreement
-        agreementLotName = element.activeEvent.lot
-        agreementId_session = element.activeEvent.AgreementID
+        agreementName = element.agreementName
+        agreementLotName = element.lotName
+        agreementId_session = element.agreementId
         status = element.activeEvent.status
         projectName = element.activeEvent.id + " / " + element.projectName
         eventId = element.activeEvent.id.toString()
         eventType = element.activeEvent.eventType
         projectId = element.projectId
-        lotid = element.activeEvent.lotid
+        lotid = element.lotId
         title = element.activeEvent.title
       }
     });
