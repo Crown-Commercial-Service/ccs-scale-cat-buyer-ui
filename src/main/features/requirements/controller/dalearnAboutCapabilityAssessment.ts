@@ -40,7 +40,6 @@ export const DA_GET_LEARN_START = async (req: express.Request, res: express.Resp
     };
 
     res.render('da-learnAboutCapabilityAssessment', windowAppendData);
-
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -62,7 +61,6 @@ export const DA_POST_LEARN_START = async (req: express.Request, res: express.Res
   let fca_route = '';
   selectedRoute === 'FCA' ? (fca_route = 'CA') : (fca_route = 'DA');
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
     res.redirect(`/${fca_route.toLowerCase()}/type`);
   } catch (error) {
     LoggTracer.errorLogger(

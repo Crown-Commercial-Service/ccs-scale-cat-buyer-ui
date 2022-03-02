@@ -18,18 +18,18 @@
         }
     ],
     "title": "Messaging Inbox",
-    "subtitle": "[Create new Message ]",
+    "subtitle": "Create new Message",
     "signposting": {
-        "line1": "[Description to explain what happens in a broadcast]",
-        "line2": "[ See Supplier List ]",
+        "line1": "Description to explain what happens in a broadcast",
+        "line2": "See Supplier List",
         "link": "#"
     },
-    "MessageClassification": "[ Message Classification ]",
-    "Subject": "[ Subject ]",
-    "Message": "[ Message ]",
-    "btnText": "[ Broadcast to all suppliers ]",
+    "MessageClassification": "Message Classification",
+    "Subject": "Subject",
+    "Message": "Message",
+    "btnText": "Broadcast to all suppliers",
     "Cancel": {
-        "text": "[ Cancel ]",
+        "text": "Cancel",
         "link": "/message/inbox"
     }, 
     "backlink" : "/message/inbox",

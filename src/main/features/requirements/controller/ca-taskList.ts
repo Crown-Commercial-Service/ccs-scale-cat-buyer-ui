@@ -2,6 +2,7 @@
 // import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as A1_Template from '../../../resources/content/requirements/caTaskList-A1.json';
+import * as A1_Template_FCA from '../../../resources/content/requirements/caTaskList-A1-FCA.json';
 import * as A2_Template from '../../../resources/content/requirements/caTaskList-A2.json';
 import * as A3_Template from '../../../resources/content/requirements/caTaskList-A3.json';
 import * as A4_Template from '../../../resources/content/requirements/caTaskList-A4.json';
@@ -24,6 +25,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     releatedContent,
     project_name,
     currentEvent,
+    haveFCA,
   } = req.session;
   const { assessmentId, eventType } = currentEvent;
   const lotid = req.session?.lotId;
@@ -51,9 +53,8 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
 
   switch (path) {
     case 'A1':
-      ViewLoadedTemplateData = A1_Template;
+      ViewLoadedTemplateData = haveFCA ? A1_Template_FCA : A1_Template;
       break;
-
     case 'A2':
       ViewLoadedTemplateData = A2_Template;
       break;
