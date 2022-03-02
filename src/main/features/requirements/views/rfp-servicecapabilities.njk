@@ -1,0 +1,123 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/dialog/macro.njk" import CCSDialog %}
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+    items: breadCrumbs
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{{ CCSDialog({
+  title:'This action cannot be undone, please confirm that you want to progress.',
+  description:'This action will revert the form to its original stated.',
+  redirect:'#',
+  type:'vetting'
+}) }}
+
+<div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="summary_list">
+    </ul>
+  </div>
+</div>
+
+
+ <div class="govuk-grid-row">
+    <h1 class="govuk-heading-xl">
+        {{title}}
+    </h1>
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+
+        {% include "includes/project_header.njk" %}
+      </div>
+    </div>
+      <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/service-capabilities" method="POST">
+    {{ csrfProtection(csrf) }}    
+    <div class="ccs-page-section">
+      <div class="sub-section">
+        <p class="govuk-body">{{data.total}} of 100% total weighting for service capabilities</p>
+      </div>
+       <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state ca_da_service_cap" title="delete">Clear form</a></div>
+    </div>
+     
+    <section class="ons-page__container ons-container">
+        <div id="vertical_tab_nav" class="ons-grid ons-js-toc-container">
+            <div class="ons-grid__col ons-grid__col--sticky@m ons-col-4@m">
+                {{-
+                    onsTableOfContents({
+                        "title": null,
+                        "ariaLabel": 'Sections in this page',
+                        "itemsList": TABLE_HEADING
+                    })
+                }}
+            </div>
+            <div class="ons-grid__col ons-col-7@m ons-push-1@m">
+            {% for item in TABLE_BODY -%}
+                    <article id="section" class="govuk-!-margin-top-6">
+                    <h2 class="govuk-heading-l govuk-!-font-weight-bold heading_capabilities" >{{item['category']}}</h2>
+                    {% for headings in TABLE_BODY -%}
+                    <p class="hide-block headings">{{headings['category']}}</p>
+                    {%endfor%}
+                    <h4> {{item['category']}} description </h4>
+                       
+    
+                      <div class="govuk-checkboxes govuk-!-padding-top-6" data-module="govuk-checkboxes">
+                      {% for subItems in item['data'] -%}
+                      <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="waste" name="waste" type="checkbox" value="carcasses">
+                        <label class="govuk-label govuk-checkboxes__label" for="waste">
+                          {{subItems['groupname']}}
+                        </label>
+                      </div>
+                      {%- endfor %}
+
+                       </div>
+
+                                                 
+                           
+                     
+                     </article>
+            {%- endfor %}
+           </div>
+              
+               
+            </div>
+        </div>
+    </section>
+                                  {{ CCSInput({
+                                    id: "ca_service_started",
+                                    name: "ca_service_started",
+                                    type: "hidden",
+                                    value: true
+                                  }) }}
+
+                            
+      <div class="govuk-button-group">
+        {{ CCSButton({
+              text: "Save and continue",
+              classes:"save-button",
+              id: "form_submit"
+            })
+        }}
+         
+        <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
+      </div>
+    </div>
+     </form>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+    </div>
+
+    </div>
+  </main>
+        {% endblock %}
