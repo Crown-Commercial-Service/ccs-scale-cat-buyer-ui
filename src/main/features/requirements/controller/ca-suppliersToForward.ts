@@ -67,6 +67,8 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
     res.redirect(REQUIREMENT_PATHS.CA_GET_SUPPLIERS_FORWARD);
     return;
   }
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Not started');
   try {
     const body = {
       assessmentSupplierTarget: ca_supplier_count,
