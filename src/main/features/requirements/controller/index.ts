@@ -93,7 +93,7 @@ import { DA_GET_WEIGHTINGS, DA_POST_WEIGHTINGS } from './da-enterYourWeightings'
 import { DA_GET_LEARN_START, DA_POST_LEARN_START } from './dalearnAboutCapabilityAssessment';
 import { RFP_GET_VETTING_AND_WEIGHTING, RFP_POST_VETTING_AND_WEIGHTING } from './rfp-vetting-and-weighting';
 import {CA_GET_SUMMARY, CA_POST_SUMMARY} from './ca-summary'
-
+import {RFP_GET_SERVICE_CAPABILITIES, RFP_POST_SERVICE_CAPABILITIES} from './rfp-serviceCapabilities'
 
 /**
  * @BaseController
@@ -139,6 +139,8 @@ export const REQUIREMENT_CONTROLLER = {
   RFP_POST_QUESTION,
   RFP_GET_I35,
   RFP_POST_I35,
+  RFP_GET_SERVICE_CAPABILITIES,
+  RFP_POST_SERVICE_CAPABILITIES,
   GET_RFP_SUPPLIERS,
   POST_RFP_SUPPLIERS,
   CA_REQUIREMENT_TYPE,

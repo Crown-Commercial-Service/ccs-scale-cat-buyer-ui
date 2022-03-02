@@ -168,5 +168,10 @@ export enum REQUIREMENT_PATHS {
 
   //Capability assessment summary 
   CA_GET_SUMMARY = '/ca/summary',
-  CA_POST_SUMMARY = '/ca/summary'
+  CA_POST_SUMMARY = '/ca/summary',
+
+
+  //RFP Capability service
+  RFP_GET_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
+  RFP_POST_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
 }
