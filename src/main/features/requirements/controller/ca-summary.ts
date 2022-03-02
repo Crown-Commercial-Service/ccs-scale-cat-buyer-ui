@@ -58,10 +58,15 @@ export const CA_GET_SUMMARY = async (req: express.Request, res: express.Response
 
         const ServiceCapabilityStorage = CAPACITY_DATASET.filter(item => item.name == 'Service Capability')[0].options;
         var ServiceStorageWithVal = [];
+
+        const LocationStorage = CAPACITY_DATASET.filter(item => item.name == 'Location')[0].options;
+        var LocationStorageWithVal = [];
        
 
         if( dimensionRequirements?.[0]?.requirements != undefined){
-   
+            /**
+             * @Service_capbility
+             */
             ServiceStorageWithVal = ServiceCapabilityStorage.map(items => {
                 const FindElement = DRequirements.filter(subItems => subItems['requirement-id'] == items['requirement-id']);
                 if(FindElement.length != 0) return {...items, ...FindElement[0]}
@@ -97,6 +102,48 @@ export const CA_GET_SUMMARY = async (req: express.Request, res: express.Response
                 }
             })
             ServiceStorageWithVal = UNIQUE_GROUPNAME;
+
+
+             /**
+             * @Location
+             */
+              LocationStorageWithVal = LocationStorage.map(items => {
+                const FindElement = DRequirements.filter(subItems => subItems['requirement-id'] == items['requirement-id']);
+                if(FindElement.length != 0) return {...items, ...FindElement[0]}
+                else return null
+            }).filter(subItems => subItems != null)
+            
+            var UNIQUE_TITLES_Location = new Set();
+            for(const item of LocationStorageWithVal){
+                UNIQUE_TITLES_Location.add(item.name)
+            }
+            /***This is the putting unique items */
+            LocationStorageWithVal = [...UNIQUE_TITLES_Location].map(item => {
+               const FoundIndex = LocationStorageWithVal.filter(i => i.name == item)[0];
+               return {
+                   ...FoundIndex
+               }
+            }).map(nestItems => {
+                var {groups} = nestItems;
+                groups = groups[0];
+                const reformRroups = {groupname: groups.name, level: groups.level} 
+                return {
+                    ...nestItems,
+                    ...reformRroups
+                }
+            })
+
+            var UNIQUE_GROUPNAME_Location = [...new Set(LocationStorageWithVal.map(item => item.groupname))]; 
+            UNIQUE_GROUPNAME_Location = UNIQUE_GROUPNAME_Location.map(item => {
+                const findIteminServiceStorage = ServiceStorageWithVal.filter(subItem => subItem.groupname == item);
+                return {
+                    groupName: item,
+                    data: findIteminServiceStorage
+                }
+            })
+            LocationStorageWithVal = UNIQUE_GROUPNAME_Location;
+
+
             
         }
         
@@ -105,10 +152,11 @@ export const CA_GET_SUMMARY = async (req: express.Request, res: express.Response
             data: CMSData,
             releatedContent,
             choosenViewPath,
-            ServiceStorageWithVal
+            ServiceStorageWithVal,
+            LocationStorageWithVal
         }
-      //  res.json(ServiceStorageWithVal)
-        res.render('ca-summary.njk', windowAppendData);
+        res.json(CAPACITY_DATASET)
+       // res.render('ca-summary.njk', windowAppendData);
         
     } catch (error) {
         
