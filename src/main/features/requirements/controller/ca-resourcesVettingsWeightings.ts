@@ -208,7 +208,8 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Not started');
   const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage } =
     req.body;
 

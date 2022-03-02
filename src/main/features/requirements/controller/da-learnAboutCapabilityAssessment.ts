@@ -57,7 +57,6 @@ export const DA_POST_LEARN = async (req: express.Request, res: express.Response)
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed'); //check step number
     res.redirect('/da/resources-vetting-weightings');
   } catch (error) {
     LoggTracer.errorLogger(
