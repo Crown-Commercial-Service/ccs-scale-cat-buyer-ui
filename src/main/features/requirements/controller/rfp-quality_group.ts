@@ -52,15 +52,13 @@ export const RFP_POST_QUALITY_GROUP = async (req: express.Request, res: express.
     const {projectId, eventId} = req.session;
     const {SESSION_ID} = req.cookies;
 
-    const CriteranID = 'Criterion 2';
-    const GroupID = 'Group 3';
 
     const {quality_name_questionID, quality_name} = Request;
-    
+    try {
     for(var start =0; start < quality_name_questionID.length; start++){
-        const QuestionID ="Question "+quality_name_questionID[start];
+        const QuestionID =quality_name_questionID[start];
         const value = quality_name[start];
-        const answerBaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${CriteranID}/groups/${GroupID}/questions/${QuestionID}`;
+        const answerBaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/Criterion 2/groups/Group 3/questions/${QuestionID}`;
         const object_values = {
             "value": value
         }
@@ -70,15 +68,15 @@ export const RFP_POST_QUALITY_GROUP = async (req: express.Request, res: express.
               answered: true,
               options: [object_values],
         }}
-        try {
-            await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-        } catch (error) {
-            LoggTracer.errorTracer(error, res);
-        }
+
+            await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+     
     }
     res.redirect('/rfp/ratio-quality-group');
 
-
+} catch (error) {
+    LoggTracer.errorTracer(error, res);
+}
 }
 
 
