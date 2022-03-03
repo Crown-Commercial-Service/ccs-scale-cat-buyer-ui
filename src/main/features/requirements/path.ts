@@ -360,6 +360,16 @@ export default function (app: Application): void {
     );
 
 
+        /**
+   * @GETROUTER '/rfp/ratio-quality-group'
+   */
+         app.get(
+          REQUIREMENT_PATHS.RFP_GET_QUALITY_GROUP,
+          [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+          REQUIREMENT_CONTROLLER.RFP_GET_QUALITY_GROUP
+        );
+    
+
   /**
    * @POST Routes
    */
@@ -583,5 +593,15 @@ export default function (app: Application): void {
           REQUIREMENT_PATHS.RFP_POST_SERVICE_CAPABILITIES ,
           [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
           REQUIREMENT_CONTROLLER.RFP_POST_SERVICE_CAPABILITIES,
+        );
+
+
+              /**
+   * @POSTROUTER '/rfp/ratio-quality-group
+   */
+         app.post(
+          REQUIREMENT_PATHS.RFP_POST_QUALITY_GROUP ,
+          [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+          REQUIREMENT_CONTROLLER.RFP_POST_QUALITY_GROUP,
         );
 }

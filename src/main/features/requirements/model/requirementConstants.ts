@@ -58,6 +58,12 @@ export enum REQUIREMENT_PATHS {
   GET_RFP_SUPPLIERS = '/rfp/suppliers',
   POST_RFP_SUPPLIER = '/rfp/suppliers',
 
+
+    //RFP Quality Group
+    RFP_GET_QUALITY_GROUP = '/rfp/ratio-quality-group',
+    RFP_POST_QUALITY_GROUP = '/rfp/ratio-quality-group',
+  
+
   // Proc lead ca
   CA_GET_NAME_PROJECT = '/ca/name-your-project',
   CA_POST_NAME_PROJECT = '/ca/name',
