@@ -40,11 +40,11 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
-      <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/service-capabilities" method="POST">
+      <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/rfp/service-capabilities" method="POST">
     {{ csrfProtection(csrf) }}    
     <div class="ccs-page-section">
       <div class="sub-section">
-        <p class="govuk-body">{{data.total}} of 100% total weighting for service capabilities</p>
+        <p class="govuk-body"><span class="govuk-heading-l inline">{{totalAdded}}</span> service capabilities added so far</p>
       </div>
        <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state ca_da_service_cap" title="delete">Clear form</a></div>
     </div>
@@ -64,16 +64,31 @@
             {% for item in TABLE_BODY -%}
                     <article id="section" class="govuk-!-margin-top-6">
                     <h2 class="govuk-heading-l govuk-!-font-weight-bold heading_capabilities" >{{item['category']}}</h2>
+                       {% set domSelector = item['category'] | replace(" ", "_") %}
+                    <div class="govuk-grid-row">
+                      <div class="govuk-grid-column-one-half">
+                        <p class="govuk-body-s">Select all the apply.</p>
+                      </div>
+                      <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                        <a href="#" class="underline {{domSelector}}_t">Select all</a>
+                      </div>
+                    </div>
+                    <hr>
                     {% for headings in TABLE_BODY -%}
                     <p class="hide-block headings">{{headings['category']}}</p>
                     {%endfor%}
-                    <h4> {{item['category']}} description </h4>
+                    <h4 id="scrollTo"> {{item['category']}} description </h4>
                        
+                    
     
                       <div class="govuk-checkboxes govuk-!-padding-top-6" data-module="govuk-checkboxes">
                       {% for subItems in item['data'] -%}
                       <div class="govuk-checkboxes__item">
-                        <input class="govuk-checkboxes__input" id="waste" name="waste" type="checkbox" value="carcasses">
+                      {% if subItems.value !== ''%}
+                        <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="requirementId" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}" checked>
+                      {%else%}
+                       <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="requirementId" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}">
+                      {%endif%} 
                         <label class="govuk-label govuk-checkboxes__label" for="waste">
                           {{subItems['groupname']}}
                         </label>

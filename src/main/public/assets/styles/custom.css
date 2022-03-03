@@ -378,3 +378,11 @@ fieldset {
   width: 492px;
   text-align: left;
 }
+
+.inline{
+  display: inline !important;
+}
+
+.underline{
+  text-decoration: underline !important;
+}
