@@ -25,10 +25,43 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-    <form action="/rfp/IR35" method="POST" >
+    <form action="/rfp/ratio-quality-group" method="POST" >
     {{ csrfProtection(csrf) }}
     <div class="govuk-!-margin-top-9">
-      
+
+    {% for requirement in ReponseData%}
+                            <div class="govuk-!-padding-top-1 govuk-!-padding-bottom-2">
+                             {{ CCSInput({
+                          label: {
+                            text: requirement.OCDS.title
+                          },
+                          classes: "govuk-input--width-2 weight_vetting_class",
+                          id: "weight_vetting_",
+                          name: "quality_name",
+                          value: requirement.nonOCDS.options[0].value,
+                          suffix: {
+                            text: "%"
+                          },
+                          spellcheck: false
+                        }) }}
+                        </div>
+
+                          {{ CCSInput({
+                                    id: "",
+                                    name: "quality_name_questionID",
+                                    type: "hidden",
+                                    value: requirement.OCDS.id
+                         }) }}
+
+
+    {%endfor%}
+
+    {{ CCSInsetText({
+  text: "<h4 class='govuk-!-padding-bottom-1'> The total weighting is 100% </h4> You'll be able to add the specific weightings for your quality assessment base in the next screen" | safe
+}) }}
+
+
+
 </div>
  <div class="govuk-button-group">
                   {{ CCSButton({

@@ -17,12 +17,15 @@ export const RFP_GET_QUALITY_GROUP = async (req: express.Request, res: express.R
         
 
     const TENDERS_BASEENDPOINT = `/tenders/projects/${projectId}/events/${eventId}/criteria/${CriteranID}/groups/${GroupID}/questions`
-    const Reponse = await TenderApi.Instance(SESSION_ID).get(TENDERS_BASEENDPOINT);
+    const Response = await TenderApi.Instance(SESSION_ID).get(TENDERS_BASEENDPOINT);
+    const ReponseData = Response.data.filter(items => items.OCDS.title !== 'Price');
 
     const windowAppendData = {
-        ...data
+        ...data,
+        ReponseData
     }
 
+   // res.json(ReponseData)
     res.render('rfp-quality_group.njk', windowAppendData);
 
 
@@ -42,10 +45,40 @@ export const RFP_GET_QUALITY_GROUP = async (req: express.Request, res: express.R
 }
 
 
+// /rfp/ratio-quality-group
 
 export const RFP_POST_QUALITY_GROUP = async (req: express.Request, res: express.Response) => {
+    const Request = req.body;
+    const {projectId, eventId} = req.session;
+    const {SESSION_ID} = req.cookies;
 
-    res.json({msg: 'working all good'})
+    const CriteranID = 'Criterion 2';
+    const GroupID = 'Group 3';
+
+    const {quality_name_questionID, quality_name} = Request;
+    
+    for(var start =0; start < quality_name_questionID.length; start++){
+        const QuestionID ="Question "+quality_name_questionID[start];
+        const value = quality_name[start];
+        const answerBaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${CriteranID}/groups/${GroupID}/questions/${QuestionID}`;
+        const object_values = {
+            "value": value
+        }
+
+        const  answerValueBody = {
+            nonOCDS: {
+              answered: true,
+              options: [object_values],
+        }}
+        try {
+            await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+        } catch (error) {
+            LoggTracer.errorTracer(error, res);
+        }
+    }
+    res.redirect('/rfp/ratio-quality-group');
+
+
 }
 
 
