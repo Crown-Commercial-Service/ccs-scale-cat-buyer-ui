@@ -98,23 +98,47 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
 
         if (weight_staff.includes(event.currentTarget.id)) {
-          if (!staffIDs.includes(Object.keys(staffIDs[0]).find(key => staffIDs[0][key] === event.currentTarget.id))) {
-            staffIDs.concat({ ['event.currentTarget.id']: event.currentTarget.value });
-            //staffs.push(event.currentTarget.value);
-          } else {
-            staffIDs.splice(1);
-          }
+          let repeated = false;
+          if (staffIDs.length !== 0) {
+            // Object.keys(staffIDs[0]).find(key => {
+            //   console.log('xxxx 1 ', staffIDs[0]);
+            //   console.log('xxxx keys ', staffIDs[0][key]);
+            //   return staffIDs[key];
+            // })
+            // for (const [key, value] of Object.entries(staffIDs[0])) {
+            //   //console.log(key, value);
+            //   repeated = key === event.currentTarget.id;
+            //   console.log('repeated ', repeated);
+            // }
+            // for (let key in staffIDs[0]) {
+            //   console.log(key); // Outputs: foo, fiz or fiz, foo
+            // }
+            repeated = Object.keys(staffIDs[0]).find(key => key === event.currentTarget.id);
 
-          staffs.push(event.currentTarget.value);
+          }
+          if (staffIDs.length === 0 || repeated !== event.currentTarget.id) {
+            const idName = event.currentTarget.id;
+            staffIDs.push({ [idName]: event.currentTarget.value });
+            total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
+              let values = Object.values(value);
+              let v = values[0];
+              return (parseInt(acc) + parseInt(v));
+            }, 0);
+          } else {
+            const idName = event.currentTarget.id;
+            staffIDs.splice(-2, 1, { [idName]: event.currentTarget.value });
+            total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
+              let values = Object.values(value);
+              let v = values[0];
+              return (parseInt(acc) + parseInt(v));
+            }, 0);
+          }
         }
         if (weight_vetting.includes(event.currentTarget.id)) {
           vettings.push(event.currentTarget.value);
 
         }
-        total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
 
-          return (parseInt(acc) + parseInt(value['event.currentTarget.id']));
-        }, 0);
         // total_vettings.innerHTML = vettings.reduce((acc, value) => {
         //   return (parseInt(acc) + parseInt(value));
         // }, 0);
