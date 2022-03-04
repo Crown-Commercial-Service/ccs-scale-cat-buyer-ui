@@ -75,7 +75,7 @@ import {
 } from './da-resourcesVettingsWeightings';
 
 import { DA_GET_TEAM_SCALE, DA_POST_TEAM_SCALE } from './da-teamScale';
-
+import { RFP_GET_SCORING_CRITERIA, RFP_POST_SCORING_CRITERIA } from './rfp-scoringCriteria';
 import { RFP_GET_I35, RFP_POST_I35 } from './rfp-Ir35';
 
 import { DA_REQUIREMENT_TYPE, DA_POST_TYPE } from './da-type';
@@ -92,9 +92,9 @@ import { DA_GET_LEARN, DA_POST_LEARN } from './da-learnAboutCapabilityAssessment
 import { DA_GET_WEIGHTINGS, DA_POST_WEIGHTINGS } from './da-enterYourWeightings';
 import { DA_GET_LEARN_START, DA_POST_LEARN_START } from './dalearnAboutCapabilityAssessment';
 import { RFP_GET_VETTING_AND_WEIGHTING, RFP_POST_VETTING_AND_WEIGHTING } from './rfp-vetting-and-weighting';
-import {CA_GET_SUMMARY, CA_POST_SUMMARY} from './ca-summary'
-import {RFP_GET_SERVICE_CAPABILITIES, RFP_POST_SERVICE_CAPABILITIES} from './rfp-serviceCapabilities'
-import {RFP_GET_QUALITY_GROUP, RFP_POST_QUALITY_GROUP} from './rfp-quality_group'
+import { CA_GET_SUMMARY, CA_POST_SUMMARY } from './ca-summary';
+import { RFP_GET_SERVICE_CAPABILITIES, RFP_POST_SERVICE_CAPABILITIES } from './rfp-serviceCapabilities';
+import { RFP_GET_QUALITY_GROUP, RFP_POST_QUALITY_GROUP } from './rfp-quality_group';
 /**
  * @BaseController
  * @Provider
@@ -143,6 +143,8 @@ export const REQUIREMENT_CONTROLLER = {
   RFP_POST_SERVICE_CAPABILITIES,
   GET_RFP_SUPPLIERS,
   POST_RFP_SUPPLIERS,
+  RFP_GET_SCORING_CRITERIA,
+  RFP_POST_SCORING_CRITERIA,
   CA_REQUIREMENT_TYPE,
   CA_POST_TYPE,
   CA_REQUIREMENT_TASK_LIST,
@@ -228,5 +230,5 @@ export const REQUIREMENT_CONTROLLER = {
   DA_GET_CHOOSE_SECURITY_REQUIREMENTS,
   DA_POST_CHOOSE_SECURITY_REQUIREMENTS,
   RFP_POST_QUALITY_GROUP,
-  RFP_GET_QUALITY_GROUP
+  RFP_GET_QUALITY_GROUP,
 };

@@ -1,0 +1,142 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/rfp/task-list"
+    },
+    {
+      "text": "Set your scoring criteria",
+      "href": "#"
+    }
+  ],
+
+  "title": "Set your scoring criteria",
+  "inset1": "[ Instructions for this page ]",
+  "inset2": "You can create your scoring criteria from scratch or use / modify the 4-tier or 5-tier templates below",
+  "subtitle": "Create your scoring criteria",
+  "subInset1": "[ Please fill in the form below, or use the provided options to use or modify a pre-defined set of scoring criteria. ]",
+  "subInset2": "[ Please note that the minimum number of tiers is 2 and the maximum number of tiers is 10 ].",
+  "tables": [
+    {
+      "title": "4-tier scoring template",
+      "head": [{ "text": "Marking scheme" }, { "text": "Points" }, { "text": "Description" }],
+      "rows": [
+        [
+          { "text": "Good", "classes": "govuk-!-width-one-quarter" },
+          { "text": "100", "classes": "govuk-!-width-one-quarter" },
+          {
+            "text": "The response fully meets all requirements with detail provided minimising risks to delivery. The response is comprehensive and unambiguous, demonstrating a thorough understanding of the requirements and provides details of how the requirement will be met in full without additional support from the Contracting Authority, other than that outlined within the Statement of Requirements",
+            "classes": "govuk-!-width-one-half"
+          }
+        ],
+        [
+          { "text": "Acceptable / minor concerns", "classes": "govuk-!-width-one-quarter" },
+          { "text": "66", "classes": "govuk-!-width-one-quarter" },
+          {
+            "text": "The response is acceptable and meets all the basic requirements. However, the response is not sufficiently detailed to minimise risk and / or the proposed approach may require additional support (in addition to that outlined in the Statement of Requirements) from the Contracting Authority to meet its deliverables.",
+            "classes": "govuk-!-width-one-half"
+          }
+        ],
+        [
+          { "text": "Non acceptable / Major concerns", "classes": "govuk-!-width-one-quarter" },
+          { "text": "33", "classes": "govuk-!-width-one-quarter" },
+          {
+            "text": "The response has me some, but not all elements of the requirement, which poses risk that the proposal will not meet the deliverables required. The response does not demonstrate a full understanding of the requirement posing major concerns.",
+            "classes": "govuk-!-width-one-half"
+          }
+        ],
+        [
+          { "text": "Unsuitable", "classes": "govuk-!-width-one-quarter" },
+          { "text": "0", "classes": "govuk-!-width-one-quarter" },
+          {
+            "text": "The response does not meet any of the requirements or no reponse has been provided. An unacceptable and / or non-compliant response with serious reservations, demonstrating no understanding of the requirement.",
+            "classes": "govuk-!-width-one-half"
+          }
+        ]
+      ]
+    },
+    {
+      "title": "5-tier scoring template",
+      "head": [{ "text": "Marking scheme" }, { "text": "Points" }, { "text": "Description" }],
+      "rows": [
+        [
+          { "text": "Excellent", "classes": "govuk-!-width-one-quarter" },
+          { "text": "100", "classes": "govuk-!-width-one-quarter" },
+          {
+            "text": "An excellent comprehensive response that meets the requirements. Indicates an excellent response with detailed supporting evidence and no weaknesses resulting in a high level of confidence.",
+            "classes": "govuk-!-width-one-half"
+          }
+        ],
+        [
+          { "text": "Good", "classes": "govuk-!-width-one-quarter" },
+          { "text": "75", "classes": "govuk-!-width-one-quarter" },
+          {
+            "text": "A good response that meets the requirements with good supporting evidence. Demonstrates good understanding.",
+            "classes": "govuk-!-width-one-half"
+          }
+        ],
+        [
+          { "text": "Met", "classes": "govuk-!-width-one-quarter" },
+          { "text": "50", "classes": "govuk-!-width-one-quarter" },
+          {
+            "text": "Meets the requirements - the response generally meets the requirements, but lacks sufficient detail to warrant a higher mark.",
+            "classes": "govuk-!-width-one-half"
+          }
+        ],
+        [
+          { "text": "Poor", "classes": "govuk-!-width-one-quarter" },
+          { "text": "25", "classes": "govuk-!-width-one-quarter" },
+          {
+            "text": "A poor response with reservations. The response lacks convincing detail with risk that the proposal will not be successful in meeting all the requirements.",
+            "classes": "govuk-!-width-one-half"
+          }
+        ],
+        [
+          { "text": "Failed", "classes": "govuk-!-width-one-quarter" },
+          { "text": "0", "classes": "govuk-!-width-one-quarter" },
+          {
+            "text": "Failed to provide confidence that the proposal will meet the requirements. An uncacceptable response with serious reservations.",
+            "classes": "govuk-!-width-one-half"
+          }
+        ]
+      ]
+    }
+  ],
+  "events": {
+    "name": {
+      "text": "Enter the name for this tier",
+      "description": "[ Description for this option ]",
+      "class": "govuk-label--m",
+      "inputClass": "govuk-input--width-20"
+    },
+    "point": {
+      "text": "Enter the points for this tier",
+      "description": "[ Description for this option ]",
+      "class": "govuk-label--m",
+      "inputClass": "govuk-input--width-3"
+    },
+    "description": {
+      "text": "Enter the description for this tier",
+      "description": "[ Description for this option ]",
+      "class": "govuk-label--m"
+    }
+  },
+  "form": {
+    "backJump": {
+      "title": "Return to Write and publish your requirements",
+      "href": "/rfp/task-list"
+    }
+  }
+}
