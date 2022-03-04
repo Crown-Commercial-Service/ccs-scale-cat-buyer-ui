@@ -25,18 +25,23 @@
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-    <form action="/rfp/ratio-quality-group" method="POST" >
+    <form action="/rfp/ratio-quality-group" method="POST" id="quality_group_form" >
     {{ csrfProtection(csrf) }}
     <div class="govuk-!-margin-top-9">
 
     {% for requirement in ReponseData%}
                             <div class="govuk-!-padding-top-1 govuk-!-padding-bottom-2">
+                            <h2 class="govuk-heading-m">{{requirement.OCDS.title}} </h2>
+                             <p class="govuk-body govuk-!-font-size-19">Range: {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
+                              <p id="event-name-error" class="govuk-error-message quality_group_t">
+                                <span class="govuk-visually-hidden">Error:</span> 
+                            </p>
                              {{ CCSInput({
                           label: {
-                            text: requirement.OCDS.title
+                            text: ""
                           },
-                          classes: "govuk-input--width-2 weight_vetting_class",
-                          id: "weight_vetting_",
+                          classes: "govuk-input--width-2 quality_group",
+                          id: "",
                           name: "quality_name",
                           value: requirement.nonOCDS.options[0].value,
                           suffix: {

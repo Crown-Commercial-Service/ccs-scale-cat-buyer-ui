@@ -25,6 +25,7 @@ export const RFP_GET_QUALITY_GROUP = async (req: express.Request, res: express.R
         ReponseData
     }
 
+  console.log(ReponseData)
    // res.json(ReponseData)
     res.render('rfp-quality_group.njk', windowAppendData);
 
