@@ -8,7 +8,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 export const RFP_GET_QUALITY_GROUP = async (req: express.Request, res: express.Response) => {
     const {projectId, eventId} = req.session;
     const {SESSION_ID} = req.cookies;
-
+    const releatedContent = req.session.releatedContent;
     const CriteranID = 'Criterion 2';
     const GroupID = 'Group 3';
 
@@ -22,7 +22,8 @@ export const RFP_GET_QUALITY_GROUP = async (req: express.Request, res: express.R
 
     const windowAppendData = {
         ...data,
-        ReponseData
+        ReponseData,
+        releatedContent
     }
 
    // res.json(ReponseData)
