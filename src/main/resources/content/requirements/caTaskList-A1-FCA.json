@@ -56,82 +56,10 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "[ Learn about capability assessment ]",
+          "title": "[ Your capability assessment summary ]",
           "required": "optional",
-          "link": "/ca/learn-about-capability-assessment",
+          "link": "/ca/summary",
           "status": "Optional"
-        },
-        {
-          "Task": 2,
-          "link": "/ca/enter-your-weightings",
-          "title": "[ Enter your weightings ]",
-          "required": "mandatory",
-          "status": "To do"
-        },
-        {
-          "Task": 3,
-          "link": "/ca/accept-subcontractors",
-          "title": "[ Will you accept sub-contractors? ]",
-          "required": "mandatory",
-          "status": "Cannot start yet"
-        },
-        {
-          "Task": 4,
-          "link": "#",
-          "title": "[ Set your resources and vetting weightings ]",
-          "required": "mandatory",
-          "status": "Cannot start yet"
-        },
-        {
-          "Task": 5,
-          "link": "#",
-          "title": "[Choose highest security and vetting requirements] ",
-          "required": "mandatory",
-          "status": "Cannot start yet"
-        },
-        {
-          "Task": 6,
-          "link": "/ca/service-capabilities",
-          "title": "[ Select your service capabilities ]",
-          "required": "mandatory",
-          "status": "Cannot start yet"
-        },
-        {
-          "Task": 7,
-          "link": "/ca/team-scale",
-          "title": "[ How well your team will scale ]",
-          "required": "mandatory",
-          "status": "Cannot start yet"
-        },
-        {
-          "Task": 8,
-          "link": "#",
-          "title": "[ Where the work will be done ]",
-          "required": "mandatory",
-          "status": "Cannot start yet"
-        },
-
-        {
-          "Task": 9,
-          "link": "/ca/suppliers-to-forward",
-          "title": "[ How many suppliers you'd like to take forward? ]",
-          "required": "mandatory",
-          "status": "Cannot start yet"
-        },
-        {
-          "Task": 10,
-          "link": "#",
-          "title": "[ Review ranked suppliers ]",
-          "required": "mandatory",
-          "status": "Cannot start yet"
-        },
-
-        {
-          "Task": 11,
-          "link": "/ca/next-steps",
-          "title": "[ Next steps ]",
-          "required": "mandatory",
-          "status": "Cannot start yet"
         }
       ]
     },
@@ -148,6 +76,13 @@
       "eventTask": [
         {
           "Task": 1,
+          "title": "[ Upload pricing schedules and any other supporting documentation ]",
+          "required": "optional",
+          "link": "/ca/upload-pricing-supporting-doc",
+          "status": "Todo"
+        },
+        {
+          "Task": 2,
           "title": "[ Upload pricing schedules and any other supporting documentation ]",
           "required": "optional",
           "link": "/ca/upload-pricing-supporting-doc",

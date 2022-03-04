@@ -350,6 +350,25 @@ export default function (app: Application): void {
   );
 
 
+    /**
+   * @GETROUTER '/rfp/service-capabilities'
+   */
+     app.get(
+      REQUIREMENT_PATHS.RFP_GET_SERVICE_CAPABILITIES,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.RFP_GET_SERVICE_CAPABILITIES
+    );
+
+
+        /**
+   * @GETROUTER '/rfp/ratio-quality-group'
+   */
+         app.get(
+          REQUIREMENT_PATHS.RFP_GET_QUALITY_GROUP,
+          [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+          REQUIREMENT_CONTROLLER.RFP_GET_QUALITY_GROUP
+        );
+    
 
   /**
    * @POST Routes
@@ -559,11 +578,30 @@ export default function (app: Application): void {
   );
 
     /**
-   * @GETROUTER '/ca/summary'
+   * @POSTROUTER '/ca/summary'
    */
      app.post(
       REQUIREMENT_PATHS.CA_POST_SUMMARY,
       [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
       REQUIREMENT_CONTROLLER.CA_POST_SUMMARY,
     );
+
+        /**
+   * @POSTROUTER ''/rfp/service-capabilities''
+   */
+         app.post(
+          REQUIREMENT_PATHS.RFP_POST_SERVICE_CAPABILITIES ,
+          [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+          REQUIREMENT_CONTROLLER.RFP_POST_SERVICE_CAPABILITIES,
+        );
+
+
+              /**
+   * @POSTROUTER '/rfp/ratio-quality-group
+   */
+         app.post(
+          REQUIREMENT_PATHS.RFP_POST_QUALITY_GROUP ,
+          [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+          REQUIREMENT_CONTROLLER.RFP_POST_QUALITY_GROUP,
+        );
 }
