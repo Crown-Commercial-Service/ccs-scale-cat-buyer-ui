@@ -12,8 +12,8 @@ const ccsZvalidateRfPStrategy = (event) => {
     if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   }
-  if ($("#rfp_prob_statement_d").val().length > 1000) {
-    fieldCheck = ccsZvalidateTextArea("rfp_prob_statement_d", "You must enter less than 1000 characters");
+  if ($("#rfp_prob_statement_d").val().length > 500) {
+    fieldCheck = ccsZvalidateTextArea("rfp_prob_statement_d", "You must enter less than 500 characters");
     errorStore.push(fieldCheck);
 
   }
