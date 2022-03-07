@@ -193,6 +193,13 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_YOUR_ASSESSTMENT,
   );
 
+  // /rfp/set-scoring-criteria
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_SCORING_CRITERIA,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_SCORING_CRITERIA,
+  );
+
   // /rfp/response-date
   app.get(
     REQUIREMENT_PATHS.RFP_GET_RESPONSE_DATE,
@@ -226,6 +233,11 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_GET_WHERE_WORK_DONE,
   );
 
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_WHERE_WORK_DONE,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_WHERE_WORK_DONE,
+  );
   // @GET /ca/team-scale
   app.get(
     REQUIREMENT_PATHS.CA_GET_TEAM_SCALE,
@@ -349,16 +361,23 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_SUMMARY,
   );
 
-
-    /**
+  /**
    * @GETROUTER '/rfp/service-capabilities'
    */
-     app.get(
-      REQUIREMENT_PATHS.RFP_GET_SERVICE_CAPABILITIES,
-      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.RFP_GET_SERVICE_CAPABILITIES
-    );
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_SERVICE_CAPABILITIES,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_SERVICE_CAPABILITIES,
+  );
 
+  /**
+   * @GETROUTER '/rfp/ratio-quality-group'
+   */
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_QUALITY_GROUP,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_QUALITY_GROUP,
+  );
 
   /**
    * @POST Routes
@@ -381,6 +400,9 @@ export default function (app: Application): void {
 
   //@POST '/ca/get-collaborator-detail'
   app.post(REQUIREMENT_PATHS.CA_POST_ADD_COLLABORATOR, AUTH, REQUIREMENT_CONTROLLER.CA_POST_ADD_COLLABORATOR);
+
+  //@POST '/rfp/set-scoring-criteria'
+  app.post(REQUIREMENT_PATHS.RFP_POST_SCORING_CRITERIA, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_SCORING_CRITERIA);
 
   app.post(REQUIREMENT_PATHS.CA_PUT_LEAD_PROCUREMENT, AUTH, REQUIREMENT_CONTROLLER.CA_PUT_LEAD_PROCUREMENT);
 
@@ -491,6 +513,8 @@ export default function (app: Application): void {
 
   app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_WHERE_WORK_DONE);
 
+  app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_WHERE_WORK_DONE);
+
   app.post(REQUIREMENT_PATHS.DA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_TYPE);
 
   app.get(
@@ -567,21 +591,30 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_UPLOAD_PRICING_SUPPORTING_DOCUMENT,
   );
 
-    /**
+  /**
    * @POSTROUTER '/ca/summary'
    */
-     app.post(
-      REQUIREMENT_PATHS.CA_POST_SUMMARY,
-      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.CA_POST_SUMMARY,
-    );
+  app.post(
+    REQUIREMENT_PATHS.CA_POST_SUMMARY,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_POST_SUMMARY,
+  );
 
-        /**
+  /**
    * @POSTROUTER ''/rfp/service-capabilities''
    */
-         app.post(
-          REQUIREMENT_PATHS.RFP_POST_SERVICE_CAPABILITIES ,
-          [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-          REQUIREMENT_CONTROLLER.RFP_POST_SERVICE_CAPABILITIES,
-        );
+  app.post(
+    REQUIREMENT_PATHS.RFP_POST_SERVICE_CAPABILITIES,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_POST_SERVICE_CAPABILITIES,
+  );
+
+  /**
+   * @POSTROUTER '/rfp/ratio-quality-group
+   */
+  app.post(
+    REQUIREMENT_PATHS.RFP_POST_QUALITY_GROUP,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_POST_QUALITY_GROUP,
+  );
 }

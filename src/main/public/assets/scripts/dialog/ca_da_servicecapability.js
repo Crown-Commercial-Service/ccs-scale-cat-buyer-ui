@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     
       $('#redirect-button-vetting').on('click', function () {
+        $('.rfp_cap').attr('checked', false);
         deselect($('.dialog-close-vetting'));
         $(".backdrop-vetting").fadeOut(200);
         var route = this.name;

@@ -1,0 +1,113 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+    {% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+
+{% set title = 'Select your service capabilities | Contract a Thing' %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+    items:breadCrumbs
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+<div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="summary_list">
+    </ul>
+  </div>
+</div>
+
+
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">
+           {{heading}}
+
+          </h1>
+          {% include "includes/project_header.njk" %}
+      </div>  
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    <form action="/rfp/ratio-quality-group" method="POST" id="quality_group_form" >
+    {{ csrfProtection(csrf) }}
+    <div class="govuk-!-margin-top-9">
+
+    {% for requirement in ReponseData%}
+                            <div class="govuk-!-padding-top-1 govuk-!-padding-bottom-2">
+                            <h2 class="govuk-heading-m">{{requirement.OCDS.title}} </h2>
+                             <p class="govuk-body govuk-!-font-size-19">Range: {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
+                              <p id="event-name-error" class="govuk-error-message quality_group_t">
+                                <span class="govuk-visually-hidden">Error:</span> 
+                            </p>
+                             {{ CCSInput({
+                          label: {
+                            text: ""
+                          },
+                          classes: "govuk-input--width-2 quality_group",
+                          id: "",
+                          name: "quality_name",
+                          value: requirement.nonOCDS.options[0].value,
+                          suffix: {
+                            text: "%"
+                          },
+                          spellcheck: false
+                        }) }}
+                        </div>
+
+                          {{ CCSInput({
+                                    id: "",
+                                    name: "quality_name_questionID",
+                                    type: "hidden",
+                                    value: requirement.OCDS.id
+                         }) }}
+
+
+    {%endfor%}
+
+    {{ CCSInsetText({
+  text: "<h4 class='govuk-!-padding-bottom-1'> The total weighting is 100% </h4> You'll be able to add the specific weightings for your quality assessment base in the next screen" | safe
+}) }}
+
+
+
+</div>
+ <div class="govuk-button-group">
+                  {{ CCSButton({
+                        text: "Save and continue",
+                        classes:"save-button"
+                      })
+                  }}
+                  <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to your assessment bases and evaluation weightings</a>
+</div>
+
+ </form>
+               
+
+  </div>
+
+
+    <div class="govuk-grid-row">
+              <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+              </div>
+            </div>
+    
+  </div>
+
+
+ 
+  
+  </main>
+{% endblock %}
+

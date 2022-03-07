@@ -8875,8 +8875,8 @@ p,
   position: absolute;
   left: 0;
   right: 0;
-  top: 30%;
-  width: 40%;
+  top: 10%;
+  width: 50%;
   height: -moz-fit-content;
   height: -webkit-fit-content;
   height: fit-content;
@@ -8913,7 +8913,7 @@ p,
   height: inherit;
 }
 
-.backdrop-vetting, .backdrop-nav-menu {
+.backdrop-vetting, .backdrop-nav-menu, .backdrop-tier-4, .backdrop-tier-5 {
   position: fixed;
   top: 0px;
   left: 0px;

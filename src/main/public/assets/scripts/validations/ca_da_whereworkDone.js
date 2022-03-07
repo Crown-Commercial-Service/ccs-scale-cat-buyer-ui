@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     {
     var total = 0;
     var dimensions = $(".dimensions");
-    updateTotal(dimensions);
+    updateLocationTotal(dimensions);
     dimensions.on("blur",()=>{
-      updateTotal(dimensions);
+        updateLocationTotal(dimensions);
     });
     }
     });
     
-    const updateTotal = dimensions => {
+    const updateLocationTotal = dimensions => {
       let total = 0;
       dimensions.each(function () {
         if (!isNaN($(this).val())) total = total + Number($(this).val());
