@@ -180,4 +180,7 @@ export enum REQUIREMENT_PATHS {
   //RFP Capability service
   RFP_GET_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
   RFP_POST_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
+  //RFP Location
+  RFP_GET_WHERE_WORK_DONE = '/rfp/get-work-done',
+  RFP_POST_WHERE_WORK_DONE = '/rfp/get-work-done',
 }
