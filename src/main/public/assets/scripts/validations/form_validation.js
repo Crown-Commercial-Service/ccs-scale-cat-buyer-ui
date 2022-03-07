@@ -31,7 +31,10 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
  */
 const ccsZvalidateTextArea = (elementName, errMsg) => {
   const element = document.getElementById(elementName);
-  if (element.value.trim().length > 0 && element.value.length < 1001) {
+  if (element.value.trim().length > 0 || element.value.trim().length < 500) {
+    ccsZremoveErrorMessage(element);
+  }
+  if (element.value.trim().length > 0 && element.value.trim().length < 500) {
     ccsZremoveErrorMessage(element);
     return true;
   } else {

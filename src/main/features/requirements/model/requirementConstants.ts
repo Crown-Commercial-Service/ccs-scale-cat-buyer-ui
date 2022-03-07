@@ -15,6 +15,10 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_ADD_COLLABORATOR_TO_JAGGER = '/rfp/add-collaborator-detail',
   RFP_POST_PROCEED_COLLABORATORS = '/rfp/proceed-collaborators',
 
+  // RFP Scoring Criteria
+  RFP_GET_SCORING_CRITERIA = '/rfp/set-scoring-criteria',
+  RFP_POST_SCORING_CRITERIA = '/rfp/set-scoring-criteria',
+
   //RFP Resource type and Quantity
   RFP_GET_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
   RFP_POST_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
@@ -58,11 +62,9 @@ export enum REQUIREMENT_PATHS {
   GET_RFP_SUPPLIERS = '/rfp/suppliers',
   POST_RFP_SUPPLIER = '/rfp/suppliers',
 
-
-    //RFP Quality Group
-    RFP_GET_QUALITY_GROUP = '/rfp/ratio-quality-group',
-    RFP_POST_QUALITY_GROUP = '/rfp/ratio-quality-group',
-  
+  //RFP Quality Group
+  RFP_GET_QUALITY_GROUP = '/rfp/ratio-quality-group',
+  RFP_POST_QUALITY_GROUP = '/rfp/ratio-quality-group',
 
   // Proc lead ca
   CA_GET_NAME_PROJECT = '/ca/name-your-project',
@@ -171,11 +173,9 @@ export enum REQUIREMENT_PATHS {
   DA_GET_CHOOSE_REQUIREMENTS = '/da/choose-security-requirements',
   DA_POST_CHOOSE_REQUIREMENTS = '/da/choose-security-requirements',
 
-
-  //Capability assessment summary 
+  //Capability assessment summary
   CA_GET_SUMMARY = '/ca/summary',
   CA_POST_SUMMARY = '/ca/summary',
-
 
   //RFP Capability service
   RFP_GET_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
