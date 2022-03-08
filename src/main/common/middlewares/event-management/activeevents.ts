@@ -55,9 +55,9 @@ export class EventEngagementMiddleware {
                 draftActiveEvent.activeEvent.status = 'Published'
                 activeEvents.push(draftActiveEvent)
               } else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isSameOrBefore(today)) {
-                // Today >= "tenderPeriod": "endDate" -- To be Evaluated
+                // Today >= "tenderPeriod": "endDate" -- Response period closed
                 draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'To be Evaluated'
+                draftActiveEvent.activeEvent.status = 'Response period closed'
                 activeEvents.push(draftActiveEvent)
               } else {
                 activeEvents.push(events[i])
@@ -84,9 +84,9 @@ export class EventEngagementMiddleware {
                 draftActiveEvent.activeEvent.status = 'Published'
                 activeEvents.push(draftActiveEvent)
               } else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isSameOrBefore(today) && events[i].activeEvent.eventType == 'active') {
-                // Today >= "tenderPeriod": "endDate" -- To be Evaluated
+                // Today >= "tenderPeriod": "endDate" -- Response period closed
                 draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'To be Evaluated'
+                draftActiveEvent.activeEvent.status = 'Response period closed'
                 activeEvents.push(draftActiveEvent)
               } else if (events[i].activeEvent.eventType == 'complete') {
                 // Event Status - Complete -- Final Evaluation
