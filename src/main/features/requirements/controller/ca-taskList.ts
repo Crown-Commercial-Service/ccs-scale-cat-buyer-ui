@@ -51,28 +51,29 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   ];
   let ViewLoadedTemplateData;
 
-  switch (path) {
-    case 'A1':
-      ViewLoadedTemplateData = haveFCA ? A1_Template_FCA : A1_Template;
-      break;
-    case 'A2':
-      ViewLoadedTemplateData = A2_Template;
-      break;
-
-    case 'A3':
-      ViewLoadedTemplateData = A3_Template;
-      break;
-
-    case 'A4':
-      ViewLoadedTemplateData = A4_Template;
-      break;
-
-    default:
-      res.redirect('error/404');
-  }
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    const isSummaryDone = journeySteps.find(stp => stp.step === 54 && stp.state === 'Completed');
+    switch (path) {
+      case 'A1':
+        ViewLoadedTemplateData = haveFCA && isSummaryDone ? A1_Template_FCA : A1_Template;
+        break;
+      case 'A2':
+        ViewLoadedTemplateData = A2_Template;
+        break;
+
+      case 'A3':
+        ViewLoadedTemplateData = A3_Template;
+        break;
+
+      case 'A4':
+        ViewLoadedTemplateData = A4_Template;
+        break;
+
+      default:
+        res.redirect('error/404');
+    }
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreement_id, projectId, eventId);
 
     const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
