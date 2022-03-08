@@ -66,7 +66,7 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
     // Releated content session values
     const releatedContent: ReleatedContent = new ReleatedContent();
     releatedContent.name = agreementName
-    releatedContent.lotName = lotid +" : "+agreementLotName
+    releatedContent.lotName = lotid + " : " + agreementLotName
     releatedContent.lotUrl = "/agreement/lot?agreement_id=RM6263&lotNum=" + req.session.lotId.replace(/ /g, "%20");
     releatedContent.title = 'Related content'
     req.session.releatedContent = releatedContent
@@ -79,14 +79,36 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
     if (status == "Published") {
       res.render('eventManagement', appendData)
     } else {
-      if (eventType == "RFI")
-      {
-        res.redirect("/rfi/rfi-tasklist");
-      } else if (eventType == "EOI") {
-        res.redirect("/eoi/eoi-tasklist"); 
+      let redirectUrl: string
+      switch (eventType) {
+        case "RFI":
+          redirectUrl = '/rfi/rfi-tasklist'
+          break
+        case "EOI":
+          redirectUrl = '/eoi/eoi-tasklist'
+          break
+        case "TBD":
+          redirectUrl = '/projects/create-or-choose'
+          break
+        case "DA":
+          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+          break
+        case "FC":
+          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+          break
+        case "DAA":
+          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+          break
+        case "FCA":
+          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+          break
+        default:
+          redirectUrl = '/event/management'
+          break
       }
+      res.redirect(redirectUrl)
     }
-    
+
   } catch (err) {
     LoggTracer.errorLogger(
       res,

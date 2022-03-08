@@ -48,7 +48,6 @@ export class EventEngagementMiddleware {
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Unpublished'
                 activeEvents.push(draftActiveEvent)
-                historicalEvents.push(events[i])
               } else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today)) {
                 // Today < "tenderPeriod": "endDate" -- Published
                 draftActiveEvent = events[i]
@@ -63,18 +62,18 @@ export class EventEngagementMiddleware {
                 activeEvents.push(events[i])
               }
             }
-          } else if (events[i].activeEvent.eventType == 'TBD') {
+          } else if (events[i].activeEvent.eventType == 'TBD' || events[i].activeEvent.eventType == 'FCA') {
             draftActiveEvent = events[i]
-            draftActiveEvent.activeEvent.status = 'Draft - TBD'
+            draftActiveEvent.activeEvent.status = 'Unpublished'
             activeEvents.push(draftActiveEvent)
           }
           // eventType = FC & DA (Active and historic events)
           else if (events[i].activeEvent.status != undefined && (events[i].activeEvent.eventType == 'FC' || events[i].activeEvent.eventType == 'DA')) {
             if (events[i].activeEvent.status == 'withdrawn' || events[i].activeEvent.status == 'cancelled') {
               historicalEvents.push(events[i])
-            } else if (events[i].activeEvent.status == 'planned' || events[i].activeEvent.status == 'complete' || events[i].activeEvent.status == 'active') {
+            } else if (events[i].activeEvent.status == 'planning' || events[i].activeEvent.status == 'complete' || events[i].activeEvent.status == 'active') {
               // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-              if (events[i].activeEvent.tenderPeriod?.endDate == undefined && events[i].activeEvent.eventType == 'planned') {
+              if (events[i].activeEvent.tenderPeriod?.endDate == undefined && events[i].activeEvent.eventType == 'planning') {
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Unpublished'
                 activeEvents.push(draftActiveEvent)

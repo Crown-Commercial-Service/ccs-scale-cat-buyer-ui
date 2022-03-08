@@ -67,7 +67,11 @@
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
                   </td>
-                  <td class="govuk-table__cell">{% if event.activeEvent.tenderPeriod.endDate %} {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY') }} {% else %} not available yet {% endif %}</td> 
+                  <td class="govuk-table__cell">
+                    {% if event.activeEvent.tenderPeriod.endDate %}
+                      {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY') }}
+                    {% else %} not available yet {% endif %}
+                  </td>
                   <td class="govuk-table__cell">
                     {{ event.activeEvent.status }}
                   </td>
@@ -139,42 +143,68 @@
 
     <div class="govuk-grid-row govuk-!-margin-bottom-6">
       <div class="govuk-grid-column-full">
-        <table class="govuk-table">
-          {% if events.length > 0 %}
+        {% if historicalEvents.length > 0 %}
+          <table class="govuk-table" id="historical-data">
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{historicalEvents.length}})</caption>
-          {% else %}
-            <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} (0)</caption>
-          {% endif %}
-          <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
-              <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
-              <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
-              <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
-            </tr>
-          </thead>
-          <tbody class="govuk-table__body">
-            {% for event in historicalEvents %}
+            <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__cell">
-                  <p class="govuk-body govuk-!-margin-bottom-0">
-                    <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
-                  </p>
-                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
-                </th>
-                <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
-                <td class="govuk-table__cell">
-                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
-                  <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
-                </td>
-                <td class="govuk-table__cell">{% if event.activeEvent.tenderPeriod.endDate %} {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY') }} {% else %} not available yet {% endif %}</td> 
+                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
               </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        <p>
-          <a class="govuk-link" href="#">{{data.view_Historical}}</a>
-        </p>
+            </thead>
+            <tbody class="govuk-table__body">
+              {% for event in historicalEvents %}
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__cell">
+                    <p class="govuk-body govuk-!-margin-bottom-0">
+                      <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                    </p>
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
+                  </th>
+                  <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
+                  <td class="govuk-table__cell">
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
+                  </td>
+                  <td class="govuk-table__cell">
+                    {% if event.activeEvent.tenderPeriod.endDate %}
+                      {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY') }}
+                    {% else %} not available yet {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <p>
+            <a class="govuk-link" href="#">{{data.view_Historical}}</a>
+          </p>
+        {% else %}
+          <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} (0)</caption>
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <tr>
+                <td class="govuk-table__cell">
+                  <strong class="govuk-tag govuk-tag--blue">
+                    You don't have any Historical Closed events
+                  </strong>
+                </td>
+                <td class="govuk-table__cell"></td>
+                <td class="govuk-table__cell"></td>
+                <td class="govuk-table__cell"></td>
+              </tr>
+            </tbody>
+          </table>
+        {% endif %}
       </div>
     </div>
   </main>
