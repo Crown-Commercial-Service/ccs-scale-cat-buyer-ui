@@ -1,14 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-if($('#ccs_ca_weighting').length > 0 || $('#ccs_daa_weighting').length > 0 || $('#ca_where_work_done').length > 0 )
-{
-var total = 0;
-var dimensions = $(".dimensions");
-updateTotal(dimensions);
-dimensions.on("blur",()=>{
-  updateTotal(dimensions);
-});
-}
+  if ($('#ccs_ca_weighting').length > 0 || $('#ccs_daa_weighting').length > 0 || $('#ca_where_work_done').length > 0) {
+    var total = 0;
+    var dimensions = $(".dimensions");
+    updateTotal(dimensions);
+    dimensions.on("blur", () => {
+      updateTotal(dimensions);
+    });
+  }
 });
 
 const updateTotal = dimensions => {
@@ -79,7 +78,8 @@ const ccsZvalidateDAAWeightings = event => {
     fieldCheck = ['totalPercentage', 'Dimension value entered does not total to 100%'];
     errorStore.push(fieldCheck);
   }
-  if (errorStore.length === 0) document.forms['ccs_daa_weighting'].submit();
-  else ccsZPresentErrorSummary(errorStore);
+  document.forms['ccs_daa_weighting'].submit();
+  //if (errorStore.length === 0) document.forms['ccs_daa_weighting'].submit();
+  // else ccsZPresentErrorSummary(errorStore);
 };
 
