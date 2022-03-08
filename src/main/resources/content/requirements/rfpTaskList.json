@@ -58,7 +58,7 @@
           "Task": 1,
           "title": "Upload pricing schedules and any other supporting documentation",
           "required": "mandatory",
-          "link": "/rfp/offline",
+          "link": "/rfp/upload",
           "status": "Todo"
         },
         {
