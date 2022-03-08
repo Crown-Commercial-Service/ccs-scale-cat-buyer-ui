@@ -75,6 +75,14 @@
               {{recurseRequirements(data[0],form_name)}}
           {%endif%}
 
+          {% if (form_name === 'read_me') %}
+            {{ CCSInput({
+              id: "rfp_read_me",
+              name: "rfp_read_me",
+              type: "hidden",
+              value: true
+            }) }}
+          {% endif %}
 
 
                     {{ CCSInput({
