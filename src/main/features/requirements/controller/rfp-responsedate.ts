@@ -261,7 +261,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
       baseURL = baseURL + '/criteria';
       const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(baseURL);
       const fetch_dynamic_api_data = fetch_dynamic_api?.data;
-      const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
+      const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id).sort();
       let criterianStorage = [];
       for (const aURI of extracted_criterion_based) {
         const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
