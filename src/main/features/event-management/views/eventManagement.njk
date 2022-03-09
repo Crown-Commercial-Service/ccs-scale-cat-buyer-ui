@@ -3,10 +3,21 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Event management ' %}
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
 {% block content %}
-  {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
-      }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <div class="govuk-grid-row">

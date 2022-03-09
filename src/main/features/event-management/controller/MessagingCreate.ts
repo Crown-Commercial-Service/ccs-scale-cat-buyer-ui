@@ -46,7 +46,7 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
             messageErrorMessage: ValidationErrors.MESSAGE_REQUIRED
         }
 
-        const appendData = { data: inboxData, message: message, validationError: false }
+        const appendData = { data: inboxData, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.render('MessagingCreate', appendData)
     } catch (err) {
         LoggTracer.errorLogger(

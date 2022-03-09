@@ -19,7 +19,7 @@ export const EVENT_MANAGEMENT_NEXT_STEP_GET = (req: express.Request, res: expres
         const classificationData: any = { classification: "General Classification" } // this value needs to be taken from API or move it to JSON
         const messageDescription: any = "" // this value needs to be taken from API
         const messageSubject = "" // this value needs to be taken from API
-        const appendData = { data: inboxData, classificationData, messageSubject, messageDescription, error: req.session['isJaggaerError'], eventType: req.session.eventManagement_eventType }
+        const appendData = { data: inboxData, classificationData, messageSubject, messageDescription, error: req.session['isJaggaerError'], eventType: req.session.eventManagement_eventType, eventId: req.session['eventId'] }
         req.session['isJaggaerError'] = false;
         res.render('eventManagementNextStep', appendData)
     } catch (err) {

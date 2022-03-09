@@ -3,10 +3,25 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Next step ' %}
-{% block content %}
+{% block breadCrumb %}
     {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
-      }) }}
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Next step",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
+{% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if (error) %}
             {{ CCSErrorSummary({

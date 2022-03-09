@@ -22,20 +22,19 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
   const { SESSION_ID } = req.cookies
   try {
     // Code Block start - Replace this block with API endpoint
-    let agreementName: string, agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string
+    let agreementName: string, agreementLotName: string, projectId: string, lotid: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string
 
-    events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; }) => {
+    events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; }) => {
       if (element.activeEvent.id == id) {
         agreementName = element.agreementName
         agreementLotName = element.lotName
         agreementId_session = element.agreementId
         status = element.activeEvent.status
-        projectName = element.activeEvent.id + " / " + element.projectName
+        projectName = element.projectName
         eventId = element.activeEvent.id.toString()
         eventType = element.activeEvent.eventType
         projectId = element.projectId
         lotid = element.lotId
-        title = element.activeEvent.title
       }
     });
 
@@ -46,7 +45,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       procurementID: projectId,
       eventId: eventId,
       defaultName: {
-        name: title,
+        name: projectName,
         components: {
           agreementId: agreementId_session,
           lotId: lotid,
@@ -74,7 +73,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     req.session.releatedContent = releatedContent
 
     // Event header
-    res.locals.agreement_header = { project_name: title, agreementName, agreementId_session, agreementLotName, lotid }
+    res.locals.agreement_header = { project_name: projectName, agreementName, agreementId_session, agreementLotName, lotid }
     req.session.agreement_header = res.locals.agreement_header
 
     // Get unread Message count
