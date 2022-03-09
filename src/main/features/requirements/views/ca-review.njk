@@ -1,0 +1,545 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'How to build market event' %}
+
+{# {% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %} #}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %}
+
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if(error) %}
+            {{ CCSErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+                {
+                text: "Select an option"
+                }
+            ]
+            }) }}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="govuk-heading-xl">
+                {{ data.title }}
+                </h1>
+            </div>
+        </div>
+
+
+                {% include "includes/project_header.njk" %}
+                <p class="govuk-body">{{data.subtitle}}</p>  
+                <div class="govuk-!-margin-top-9">
+                {{ CCSButton({
+                text: "Export this 2-stage further competition",
+                classes: " govuk-body-s govuk-button--secondary"
+                }) }}
+                </div>
+
+                <form id="ccs_ca_next_steps" name="ccs_ca_next_steps" class="form ccs_ca_next_steps" action="/ca/next-steps" method="POST">
+                {{ csrfProtection(csrf) }}
+
+                <h1>1. Project and collaborators</h1>
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                        Name your project
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                        {{project_name}}
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> name</span>
+                        </a>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                        Change who is going to lead the procurement
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                        {% for element in projectLead %}
+                            <div> <p class="govuk-body-s "><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Name</span><span>{{element.OCDS.contact.name}}</span> </p> </div>
+                            <div>  <p class="govuk-body-s"><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Email Address </span> <span>{{element.OCDS.id}}</span> </p> </div>
+                            <div><p class="govuk-body-s"><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Phone Number</span> <span> </span> </p></div>
+                            {% endfor %}
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                        Add members to your project
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                       {% for element in projectTeam %}
+                             <div> <p class="govuk-body-s "><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Name</span><span>{{element.OCDS.contact.name}}</span> </p> </div>
+                            <div>  <p class="govuk-body-s"><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Email Address </span> <span>{{element.OCDS.id}}</span> </p> </div>
+                            <div><p class="govuk-body-s"><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Phone Number</span> <span> </span> </p></div>
+                            {% endfor %}
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> address</span>
+                        </a>
+                        </dd>
+                    </div>
+                  
+                    </dl>
+
+
+
+
+                <h1>Stage 1: Complete a capability assessment </h1>
+                {{ CCSInsetText({
+                text: "<p>Please note that an additional attachment including some of the information you previously added in the capability assessment will be added to your bid pack. This information cannot be changed unless you decide to cancel and restart your event. It includes the DDAT roles, the service capabilities and the location that are relevant to your requirements.<br><br> Please see your capability assessment summart for more details </p>" | safe
+                }) }}
+
+                      <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                         Your capability assessment summary
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                        XX- suppliers carried forward from your capability assessment
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            View details
+                        </a>
+                        </dd>
+                    </div>
+                    </dl>
+
+                <h1>Stage 2: Progress to further competition </h1>
+
+
+                
+
+
+                <h2>1. Upload pricing schedules and any other supporting documentation</h2>
+                 <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                        Upload your pricing schedule (Attachement 4)
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                        No document uploaded
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> name</span>
+                        </a>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                       Upload any addtion document (optional)
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                       No document uploaded
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                        </dd>
+                    </div>
+                                   
+                    </dl>
+
+
+                <h2>2. Context and requirements to your 2-stage futher competition </h2>
+
+                  <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                        Terms and acronyms (Optional)
+                      </dt>
+                        <dd class="govuk-summary-list__value">
+                       
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> name</span>
+                        </a>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                      Background and context to your requirement  
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                      
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                        </dd>
+                    </div>
+
+                        <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                        Key users (Optional)
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                      
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                        </dd>
+                    </div>
+                      <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+
+                            Duration of work / Resource required from / to 
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                      
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                        </dd>
+                    </div>
+
+
+                     <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+
+                           The buying organisation (Optional)
+
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                      
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                        </dd>
+                    </div>
+
+
+                     <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+
+                           Service levels and performance 
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                      
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                        </dd>
+                    </div>
+
+                     <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+
+                           Incentives and exit strategy
+
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                      
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                        </dd>
+                    </div>
+
+                     <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+
+                            How the supplier will deliver within the budgetary constraints (Optional)
+
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                      
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                        </dd>
+                    </div>
+
+                     <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+
+                           Add your requirements
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                      
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change<span class="govuk-visually-hidden"> date of birth</span>
+                        </a>
+                        </dd>
+                    </div>
+                                   
+                    </dl>
+
+
+
+                <h2>3. Your assessment bases and evalution weightings </h2>
+                        
+                 <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                               Set the overall ratio between quality and price
+
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                        
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                <a class="govuk-link" href="#">
+                                    Change
+                                </a>
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                              Set the specific ratio of quality groups
+
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                               
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                <a class="govuk-link" href="#">
+                                    Change
+                                </a>
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                Add your technical questions
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                <a class="govuk-link" href="#">
+                                    Change
+                                </a>
+                                </dd>
+                            </div>
+                            <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                Add your cultural questions
+
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                               
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                <a class="govuk-link" href="#">
+                                    Change
+                                </a>
+                                </dd>
+                            </div>
+
+                             <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                Add your social value questions
+
+
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                               
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                <a class="govuk-link" href="#">
+                                    Change
+                                </a>
+                                </dd>
+                            </div>
+
+                             <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                               Select the pricing model
+
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                               
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                <a class="govuk-link" href="#">
+                                    Change
+                                </a>
+                                </dd>
+                            </div>
+
+                             <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                               Set your scoring criteria
+
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                               
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                <a class="govuk-link" href="#">
+                                    Change
+                                </a>
+                                </dd>
+                            </div>
+                            </dl>
+
+
+                <h2>4. Review and publish your 2-stage RFP</h2>
+
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                        Look at the suppliers to contact
+
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                        
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change
+                        </a>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                        Set response date and time
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+
+                        </dd>
+                        <dd class="govuk-summary-list__actions">
+                        <a class="govuk-link" href="#">
+                            Change
+                        </a>
+                        </dd>
+                    </div>
+                  
+                    </dl>
+
+                <h1>Publish your 2-stage further competition </h1>
+                <div class="govuk-!-margin-top-2">
+                <p>
+                After publishing this event, you'll be able to cancel all or part of this Request for Information at any stage/ any time or amend, clarify, add to or withdraw all or any part of the Request for Infromation at any time.
+                </p>
+                </div>
+                <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-4">
+                  {{ CCSWarningText({
+    text: "By publishing this 2-stage further competition to all suppliers in your list, you are stating that, to the best of your knowledge, the infromation you have provided is correct.",
+    iconFallbackText: "Warning"
+    }) }}
+</div>
+                 <div class="ccs-link-group">
+                                <span>
+                                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M0 1.77778C0 1.34823 0.335786 1 0.75 1H5.00286C6.23012 1 7.31979 1.61142 8.00393 2.55666C8.68803 1.61146 9.77766 1 11.005 1H15.25C15.6642 1 16 1.34823 16 1.77778V12.6667C16 13.0962 15.6642 13.4445 15.25 13.4445H10.7426C10.1459 13.4445 9.57361 13.6903 9.15165 14.1279L8.53033 14.7722C8.23744 15.0759 7.76256 15.0759 7.46967 14.7722L6.84835 14.1279C6.42639 13.6903 5.8541 13.4445 5.25736 13.4445H0.75C0.335786 13.4445 0 13.0962 0 12.6667V1.77778ZM8.755 4.8889C8.755 3.60023 9.76236 2.55556 11.005 2.55556H14.5V11.8889H10.7426C10.0326 11.8889 9.34339 12.0978 8.75124 12.4825L8.755 4.8889ZM7.25124 12.4842L7.255 7.22297L7.25285 4.88668C7.25167 3.59887 6.24466 2.55556 5.00286 2.55556H1.5V11.8889H5.25736C5.96836 11.8889 6.65854 12.0983 7.25124 12.4842Z"
+            fill="#505A5F"/>
+                                  </svg>&nbsp;&nbsp;<a href="#" onclick="return false;"  class="govuk-link govuk-link--no-visited-state"> link 1</a>
+                                </span>
+                                <br>
+
+                              </div>
+
+
+
+                 {{ CCSCheckboxes({
+      idPrefix: "eoi_publish_confirmation",
+      name: "eoi_publish_confirmation",
+      items: [
+      {
+      "value": 1,
+      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above</strong></label>",
+      Checked: ""
+      }
+      ]
+      }) }}
+
+
+
+                    {% for form in data.form %}
+                        <fieldset id="{{form.id}}">
+                            <p class="govuk-body">{{ form.question }}</p>
+                            {% set formOptions = form.radioOptions.items %}
+                            {% set form_Options_Altered = [] %}
+
+                            {% for item in formOptions %}
+                                {% set form_Options_Altered = (form_Options_Altered.push(
+                                {
+                                    value: item.value,
+                                    html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
+                                    hint : {
+                                        text: item.hint.text
+                                    }
+                                }), form_Options_Altered) 
+                                %}
+                            {% endfor %}
+                            {% if(error) %}
+
+                                {{ CCSRadios({
+                                    idPrefix: "ca_next_steps",
+                                    name: form.id,
+                                    items: form_Options_Altered,
+                                    errorMessage: error,
+                                    errorMessage: {
+                                    text: 'Select an option'
+                                    }                  
+                                }) }}
+                            {% else %}
+
+                                {{ CCSRadios({
+                                        idPrefix: "ca_next_steps",
+                                        name: form.id,
+                                        items: form_Options_Altered        
+                                }) }}
+                            {%endif %}
+
+                            {{ CCSInput({
+                                    id: "choose_fc_ca_next_steps",
+                                    name: "choose_fc_ca_next_steps",
+                                    type: "hidden",
+                                    value: true
+                            }) }}
+                        </fieldset>
+                    {% endfor %}
+                    <div class="govuk-button-group">
+                    {{ CCSButton({
+                            text: "Save and continue"
+                            }) }}
+                    {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+                    <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                    </div>
+                </form>
+            </div>
+         
+    </main>
+
+{% endblock %}
