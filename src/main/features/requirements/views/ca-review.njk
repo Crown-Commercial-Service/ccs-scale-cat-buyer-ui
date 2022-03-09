@@ -56,7 +56,7 @@
                         Name your project
                         </dt>
                         <dd class="govuk-summary-list__value">
-                        
+                        {{project_name}}
                         </dd>
                         <dd class="govuk-summary-list__actions">
                         <a class="govuk-link" href="#">
@@ -69,7 +69,11 @@
                         Change who is going to lead the procurement
                         </dt>
                         <dd class="govuk-summary-list__value">
-                       
+                        {% for element in projectLead %}
+                            <div> <p class="govuk-body-s "><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Name</span><span>{{element.OCDS.contact.name}}</span> </p> </div>
+                            <div>  <p class="govuk-body-s"><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Email Address </span> <span>{{element.OCDS.id}}</span> </p> </div>
+                            <div><p class="govuk-body-s"><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Phone Number</span> <span> </span> </p></div>
+                            {% endfor %}
                         </dd>
                         <dd class="govuk-summary-list__actions">
                         <a class="govuk-link" href="#">
@@ -82,7 +86,11 @@
                         Add members to your project
                         </dt>
                         <dd class="govuk-summary-list__value">
-                       
+                       {% for element in projectTeam %}
+                             <div> <p class="govuk-body-s "><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Name</span><span>{{element.OCDS.contact.name}}</span> </p> </div>
+                            <div>  <p class="govuk-body-s"><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Email Address </span> <span>{{element.OCDS.id}}</span> </p> </div>
+                            <div><p class="govuk-body-s"><span class="govuk-!-font-weight-bold govuk-!-padding-right-6">Phone Number</span> <span> </span> </p></div>
+                            {% endfor %}
                         </dd>
                         <dd class="govuk-summary-list__actions">
                         <a class="govuk-link" href="#">
