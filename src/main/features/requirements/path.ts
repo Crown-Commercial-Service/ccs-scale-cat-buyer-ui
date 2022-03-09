@@ -379,6 +379,19 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_QUALITY_GROUP,
   );
 
+
+    /**
+   * @GETROUTER '/ca/review'
+   */
+     app.get(
+      REQUIREMENT_PATHS.CA_GET_REVIEW,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.CA_GET_review,
+    );
+
+
+
+
   /**
    * @POST Routes
    */
@@ -617,4 +630,16 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_POST_QUALITY_GROUP,
   );
+
+
+    /**
+   * @POSTROUTER '/ca/review
+   */
+     app.post(
+      REQUIREMENT_PATHS.CA_POST_REVIEW,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.CA_POST_review,
+    );
+
+
 }
