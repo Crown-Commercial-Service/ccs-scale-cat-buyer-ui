@@ -183,4 +183,7 @@ export enum REQUIREMENT_PATHS {
   //RFP Location
   RFP_GET_WHERE_WORK_DONE = '/rfp/get-work-done',
   RFP_POST_WHERE_WORK_DONE = '/rfp/get-work-done',
+
+  CA_GET_REVIEW = '/ca/review',
+  CA_POST_REVIEW = '/ca/review'
 }
