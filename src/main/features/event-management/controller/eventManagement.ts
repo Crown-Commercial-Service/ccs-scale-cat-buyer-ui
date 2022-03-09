@@ -2,9 +2,11 @@ import * as express from 'express'
 import { ParsedQs } from 'qs'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
+import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import { Procurement } from '../../procurement/model/project';
 import { ReleatedContent } from '../../agreement/model/related-content'
 import * as eventManagementData from '../../../resources/content/event-management/event-management.json'
+import { Message } from '../model/messages'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
 
 /**
@@ -14,7 +16,7 @@ import * as localData from '../../../resources/content/event-management/local-SO
  * @param req 
  * @param res 
  */
-export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) => {
+export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
   const { id } = req.query
   const events = req.session.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
@@ -74,9 +76,22 @@ export const EVENT_MANAGEMENT = (req: express.Request, res: express.Response) =>
     // Event header
     res.locals.agreement_header = { project_name: title, agreementName, agreementId_session, agreementLotName, lotid }
     req.session.agreement_header = res.locals.agreement_header
-    const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData }
+
+    // Get unread Message count
+    const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages?message-direction=RECEIVED`
+    const message = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+    let unreadMessage = 0
+    const msg: Message[] = message.data.messages
+    if (message.data.counts != undefined) {
+      msg.forEach(element => {
+        if (!element.nonOCDS.read) {
+          unreadMessage = unreadMessage + 1
+        }
+      });
+    }
 
     if (status == "Published") {
+      const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
       res.render('eventManagement', appendData)
     } else {
       let redirectUrl: string
