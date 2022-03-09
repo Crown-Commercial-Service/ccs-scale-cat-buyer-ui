@@ -52,7 +52,7 @@
     "ccs-frontend-kit": "^1.1.3",
     "chai-http": "^4.3.0",
     "config": "^3.3.6",
-    "connect-redis": "^6.0.0",
+    "connect-redis": "^6.1.1",
     "cookie-encrypter": "^1.0.1",
     "cookie-parser": "^1.4.5",
     "cookies": "^0.8.0",
