@@ -5,6 +5,7 @@ import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 
+
 export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const organization_id = req.session.user.payload.ciiOrgId;
   req.session['organizationId'] = organization_id;
