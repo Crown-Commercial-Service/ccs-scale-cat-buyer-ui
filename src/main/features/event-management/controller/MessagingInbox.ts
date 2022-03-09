@@ -15,7 +15,7 @@ export const EVENT_MANAGEMENT_MESSAGING = (req: express.Request, res: express.Re
     const { SESSION_ID } = req.cookies
     const { created } = req.query
     try {
-        const appendData = { data: inboxData, created, messageData: localTableData }
+        const appendData = { data: inboxData, created, messageData: localTableData, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingInbox', appendData)
     } catch (err) {

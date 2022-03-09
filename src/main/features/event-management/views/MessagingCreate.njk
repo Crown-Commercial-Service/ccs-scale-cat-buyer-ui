@@ -10,11 +10,27 @@
     text: "Please select"
   }
 ] %}
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Messaging Inbox",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
+
 {% set sortedMembers = (sortedMembers.push({value: message.create_message, text: message.create_message}), sortedMembers) %}
 {% block content %}
-  {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
-      }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
 {% if(validationError) %}

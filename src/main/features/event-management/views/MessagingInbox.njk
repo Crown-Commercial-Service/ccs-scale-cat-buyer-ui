@@ -11,11 +11,27 @@
     <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
 </p>
 {% endset %}
-{% block content %}
+{% block breadCrumb %}
     {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
-      }) }}
-      <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Messaging Inbox",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
+
+{% block content %}
+    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if created %}
             <div class="govuk-grid-column-one-half">

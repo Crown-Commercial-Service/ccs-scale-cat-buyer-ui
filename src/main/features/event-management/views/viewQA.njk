@@ -3,10 +3,25 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'QA ' %}
-{% block content %}
+{% block breadCrumb %}
     {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
-      }) }}
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Q&A",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
+{% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
         <div class="govuk-grid-row govuk-!-padding-bottom-7">
