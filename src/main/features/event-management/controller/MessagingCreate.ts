@@ -35,7 +35,9 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
             default: res.locals.supplier_link = "#"
         }
         const message: CreateMessage = {
-            create_message: ["General Classification"], // this value needs to be taken from API or move it to JSON
+            create_message: ["(unclassified)", "Qualification Clarification", 
+            "Technical Clarification", "Commercial Clarification", "System Query", "General Clarification", 
+            "Compliance Clarification", "Procurement Outcome"], // this value needs to be taken from API or move it to JSON
             create_message_input: null, // this value needs to be taken from API
             create_subject_input: null, // this value needs to be taken from API
             IsClassificationNotDefined: false,

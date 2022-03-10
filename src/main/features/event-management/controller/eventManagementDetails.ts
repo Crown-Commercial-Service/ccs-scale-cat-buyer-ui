@@ -2,26 +2,31 @@ import * as express from 'express'
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
-import * as inboxData from '../../../resources/content/event-management/event-management-next-step.json'
+import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
+import { MessageDetails } from '../model/messgeDetails'
+import * as inboxData from '../../../resources/content/event-management/event-management-message-details.json'
 
 /**
  * 
  * @Rediect 
- * @endpoint /event/next
+ * @endpoint '/message/details'
  * @param req 
  * @param res 
  */
-export const EVENT_MANAGEMENT_NEXT_STEP_GET = (req: express.Request, res: express.Response) => {
+export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
+    const { id } = req.query
+    const projectId = req.session['projectId']
+    const eventId = req.session['eventId']
     try {
         res.locals.agreement_header = req.session.agreement_header
+        const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
+        const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
 
-        const classificationData: unknown = { classification: "General Classification" } // this value needs to be taken from API or move it to JSON
-        const messageDescription: unknown = "" // this value needs to be taken from API
-        const messageSubject = "" // this value needs to be taken from API
-        const appendData = { data: inboxData, classificationData, messageSubject, messageDescription, error: req.session['isJaggaerError'], eventType: req.session.eventManagement_eventType, eventId: req.session['eventId'] }
-        req.session['isJaggaerError'] = false;
-        res.render('eventManagementNextStep', appendData)
+        const message: MessageDetails = draftMessage.data
+
+        const appendData = { data: inboxData, messageDetails: message }
+        res.render('eventManagementDetails', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
             res,
@@ -35,8 +40,8 @@ export const EVENT_MANAGEMENT_NEXT_STEP_GET = (req: express.Request, res: expres
     }
 }
 
-// /event/next
-export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: express.Response) => {
+// '/message/details'
+export const POST_EVENT_MANAGEMENT_MESSAGE_DETAILS = (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     const filtered_body_content_removed_event_key = ObjectModifiers._deleteKeyofEntryinObject(
         req.body,

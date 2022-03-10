@@ -94,11 +94,19 @@
                 }}
 
                     <div class="govuk-button-group">
-                      {{ CCSButton({
-                        text: "Save and continue",
-                        classes:"save-button"
-                      })
-                  }}
+
+                      {% if (form_name === 'read_me') %}
+                        {{ CCSButton({
+                          text: "Continue",
+                          classes:"save-button"
+                        }) }}
+                      {% else %}
+                        {{ CCSButton({
+                          text: "Save and continue",
+                          classes:"save-button"
+                        }) }}
+                      {% endif %}
+
                       <a href="/rfp/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Add context and requirements</a>
                     </div>
 

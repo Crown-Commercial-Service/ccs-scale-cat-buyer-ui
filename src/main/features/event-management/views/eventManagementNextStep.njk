@@ -4,7 +4,7 @@
 
 {% set title = 'Next step ' %}
 {% block breadCrumb %}
-    {{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
         items:[
     {
       "text": "Dashboard",
@@ -22,9 +22,9 @@
     }) }}
 {% endblock %}
 {% block content %}
-    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-        {% if (error) %}
-            {{ CCSErrorSummary({
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if (error) %}
+      {{ CCSErrorSummary({
     titleText: "There is a problem",
     errorList: [
         {
@@ -32,61 +32,62 @@
         }
     ]
     }) }}
-        {%endif %}
-        <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-                <h1 class="govuk-heading-xl">
-                    {{data.title}}
-                </h1>
-                {% include "includes/project_header.njk" %}
-            </div>
+    {%endif %}
+    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title}}
+        </h1>
+        <p class="govuk-body"><strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong></p>
+        {% include "includes/project_header.njk" %}
+      </div>
+    </div>
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <p class="govuk-!-padding-bottom-9">
+          {{data.subtitle}}
+        </p>
+        <div>
+          <h2 class="govuk-heading-m">
+            {{data.subsection2_title}}
+            <strong class="govuk-tag app-task-list__tag govuk-tag--blue" id="suppliers-status">Published</strong>
+          </h2>
+          <p class="govuk-body">
+            <a class="govuk-link close-event-link" href="#">{{ data.subsection2_content }}</a>
+          </p>
         </div>
-        <div class="govuk-grid-row ccs-page-section">
-            <div class="govuk-grid-column-full">
-                <p class="govuk-!-padding-bottom-9">
-                    {{data.subtitle}}
-                </p>
-                <div>
-                    <h2 class="govuk-heading-m">
-                        {{data.subsection2_title}}
-                        <strong class="govuk-tag app-task-list__tag govuk-tag--blue" id="suppliers-status">Published</strong>
-                    </h2>
-                    <p class="govuk-body">
-                        <a class="govuk-link close-event-link" href="#">{{ data.subsection2_content }}</a>
-                    </p>
-                </div>
-            </div>
-        </div>
+      </div>
+    </div>
 
-        <p class="govuk-body">{{ data.form.question }}</p>
-        <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form event_next_step_form" action="/event/next" method="POST">
-            {{ csrfProtection(csrf) }}
-            {% set formOptions = data.form.radioOptions.items %}
+    <p class="govuk-body">{{ data.form.question }}</p>
+    <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form event_next_step_form" action="/event/next" method="POST">
+      {{ csrfProtection(csrf) }}
+      {% set formOptions = data.form.radioOptions.items %}
 
-            {% set form_Options_Altered = [] %}
-            {% set option_text = null %}
+      {% set form_Options_Altered = [] %}
+      {% set option_text = null %}
 
-            {% for item in formOptions %}
-                
-                {% if eventType == 'RFI' %} 
-                {% set option_text = item.text %}
-                {% else %} 
-                {% set option_text = item.text2 %}
-                {% endif %} 
+      {% for item in formOptions %}
 
-                {% set form_Options_Altered = (form_Options_Altered.push(
+        {% if eventType == 'RFI' %}
+          {% set option_text = item.text %}
+        {% else %}
+          {% set option_text = item.text2 %}
+        {% endif %}
+
+        {% set form_Options_Altered = (form_Options_Altered.push(
                 {
                   value: item.value,
                     html: "<h3 class='govuk-heading-m'>" +option_text + "</h3>"
                   }
                 ), form_Options_Altered) 
               %}
-            {% endfor %}
+      {% endfor %}
 
-            {% if (error) %}
+      {% if (error) %}
 
-                {{ CCSRadios({
+        {{ CCSRadios({
                 idPrefix: "event_management_next_step",
                 name: "event_management_next_step",
                 items: form_Options_Altered,
@@ -95,28 +96,28 @@
                 text: 'Select an option'
                   }                  
               }) }}
-            {% else %}
+      {% else %}
 
-                {{ CCSRadios({
+        {{ CCSRadios({
                 idPrefix: "event_management_next_step",
                 name: "event_management_next_step",
                 items: form_Options_Altered        
               }) }}
-            {%endif %}
-            {{ CCSInput({
+      {%endif %}
+      {{ CCSInput({
                 id: "choose_event_management_next_step",
                 name: "choose_event_management_next_step",
                 type: "hidden",
                 value: true
               }) }}
 
-            <div class="govuk-button-group">
-                {{ CCSButton({
+      <div class="govuk-button-group">
+        {{ CCSButton({
                 text: "Save and continue",
                 classes: "close-event"
                 }) }}
-                <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
-            </div>
-        </form>
-    </main>
+        <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+      </div>
+    </form>
+  </main>
 {% endblock %}
