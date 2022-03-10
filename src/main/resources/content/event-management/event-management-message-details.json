@@ -1,0 +1,42 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Home",
+      "href": "/"
+    },
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Event Management",
+      "href": "#"
+    },
+    {
+      "text": "Next step",
+      "href": "#"
+    }
+  ],
+  "backlink" : "/message/inbox",
+  "tabs": {
+    "text1": "Create Message",
+    "href1": "/message/create",
+    "text2": "Received",
+    "href2": "/message/inbox",
+    "text3": "Sent",
+    "href3": "/message/sent"
+  },
+  "title": "Messaging Inbox",
+  "subtitle": "[ Description for what to expect for Broadcast, and Q&A ]",
+  "line1": "Message classification",
+  "line2": "Date",
+  "line3": "[ AttachementName.format.size ]",
+  "backJump": {
+    "title": "ADD RESPONSE TO Q&A",
+    "href": "#"
+  },
+  "backJump2": {
+    "title": "RETURN TO MESSAGING INBOX",
+    "href": "/message/inbox"
+  }
+}
