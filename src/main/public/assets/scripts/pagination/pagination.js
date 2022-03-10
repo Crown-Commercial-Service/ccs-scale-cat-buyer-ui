@@ -175,28 +175,28 @@ $(document).ready(function () {
   // Received message
   $(document).ready(function () {
     // Active event 
- $('#received-message').after('<div class="ccs-pagination" id="nav"><p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination navigation</p></div>');
+ $('#received-message').after('<div class="ccs-pagination" id="nav-received"><p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination nav-receivedigation</p></div>');
     var rowsShown = 10;
  var rowsTotal = $('#received-message tbody tr').length;
     var numPages = rowsTotal / rowsShown;
     var pageNum = 0;
- $('#nav').append('<a id="received-message-previous" rel="0" class="ccs-pagination__link" href="#">Previous<span class="govuk-visually-hidden"> set of pages</span></a>');
+ $('#nav-received').append('<a id="received-message-previous" rel="0" class="ccs-pagination__link" href="#">Previous<span class="govuk-visually-hidden"> set of pages</span></a>');
     for (i = 0; i < numPages; i++) {
       pageNum = i + 1;
-      $('#nav').append('<a class="ccs-pagination__link" id="pageId_'+i+'" href="#" rel="' + i + '">' + pageNum + '</a> ');
+ $('#nav-received').append('<a class="ccs-pagination__link" id="pageId_'+i+'" href="#" rel="' + i + '">' + pageNum + '</a> ');
     }
- $('#nav').append('<a id="received-message-next" rel="1" class="ccs-pagination__link" href="#">Next<span class="govuk-visually-hidden"> set of pages</span></a>');
+ $('#nav-received').append('<a id="received-message-next" rel="1" class="ccs-pagination__link" href="#">Next<span class="govuk-visually-hidden"> set of pages</span></a>');
  $('#received-message-previous').addClass("govuk-visually-hidden");
-    $('#nav').append('<span class="govuk-visually-hidden" id="total_page_active_event">' + pageNum + '</span> ');
+ $('#nav-received').append('<span class="govuk-visually-hidden" id="total_page_active_event">' + pageNum + '</span> ');
   
-    $('#nav').append('<p class="ccs-pagination__results">Showing <b><label id="start_count">1</label></b> to <b><label id="end_count">' + rowsShown + '</label></b> of <b><label id="total_count">' + rowsTotal + '</label></b> results</p>');
+ $('#nav-received').append('<p class="ccs-pagination__results">Showing <b><label id="start_count">1</label></b> to <b><label id="end_count">' + rowsShown + '</label></b> of <b><label id="total_count">' + rowsTotal + '</label></b> results</p>');
  $('#received-message tbody tr').hide();
  $('#received-message tbody tr').slice(0, rowsShown).show();
-    $('#nav a:nth-child(3)').addClass('ccs-pagination__item--active');
-    $('#nav a').bind('click', function () {
+ $('#nav-received a:nth-child(3)').addClass('ccs-pagination__item--active');
+ $('#nav-received a').bind('click', function () {
       var currPage = $(this).attr('rel');
       var activePage = "#pageId_"+currPage;
-      $('#nav a').removeClass('ccs-pagination__item--active');
+ $('#nav-received a').removeClass('ccs-pagination__item--active');
       $(activePage).addClass('ccs-pagination__item--active');
       
       if (currPage != 0) {
