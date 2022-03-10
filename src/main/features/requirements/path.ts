@@ -386,8 +386,21 @@ export default function (app: Application): void {
      app.get(
       REQUIREMENT_PATHS.CA_GET_REVIEW,
       [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.CA_GET_review,
+      REQUIREMENT_CONTROLLER.CA_GET_review
     );
+
+
+    
+    /**
+   * @GETROUTER '/rfp/get-work-completed'
+   */
+     app.get(
+      REQUIREMENT_PATHS.RFP_GET_WORK_COMPLETED,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.RFP_GET_WORK_COMPLETED
+    );
+
+
 
 
 
@@ -641,5 +654,14 @@ export default function (app: Application): void {
       REQUIREMENT_CONTROLLER.CA_POST_review,
     );
 
+
+    /**
+     * @POSTROUTER '/rfp/get-work-completed'
+     */
+     app.post(
+      REQUIREMENT_PATHS.RFP_POST_WORK_COMPLETED,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.RFP_POST_WORK_COMPLETED
+    );
 
 }
