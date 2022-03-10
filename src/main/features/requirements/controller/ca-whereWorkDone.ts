@@ -27,7 +27,6 @@ export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('ca-whereWorkDone', appendData);
   } catch (error) {
-    console.log(error)
     LoggTracer.errorLogger(
       res,
       error,
