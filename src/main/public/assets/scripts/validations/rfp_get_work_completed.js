@@ -7,8 +7,6 @@ $('#completed_work').on('keypress focus mouseleave', ()=> {
     allWords = $('#completed_work').val();
     wordCount = allWords.split(' ').length;
 
-    console.log({allWords, wordCount})
-
     if(wordCount > MaxWordLimits){
         $('.govuk-error-summary__title').text('There is a problem');
         $('#work_location_word_error').text('Total Words: '+ wordCount + ' out of 500')

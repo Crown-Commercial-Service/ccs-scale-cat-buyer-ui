@@ -28,15 +28,9 @@ export const RFP_GET_WORK_COMPLETED = async (req: express.Request, res: express.
     try {
         const CriterianId = 'Criterion 3'
         const GroupId = 'Group 7';
-    
-        
         const BaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${CriterianId}/groups/${GroupId}/questions`
         const Response = await TenderApi.Instance(SESSION_ID).get(BaseURL);
         const ocdData = Response.data[0];
-
-        console.log(ocdData)
-    
-    
         const windowAppendData = {
             data: cmsData,
             releatedContent,
