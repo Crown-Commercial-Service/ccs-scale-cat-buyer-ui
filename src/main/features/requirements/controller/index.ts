@@ -97,6 +97,7 @@ import { RFP_GET_SERVICE_CAPABILITIES, RFP_POST_SERVICE_CAPABILITIES } from './r
 import { RFP_GET_QUALITY_GROUP, RFP_POST_QUALITY_GROUP } from './rfp-quality_group';
 import { RFP_GET_WHERE_WORK_DONE, RFP_POST_WHERE_WORK_DONE } from './rfp-whereWorkDone';
 import {CA_GET_review, CA_POST_review} from './ca-review'
+import {RFP_GET_WORK_COMPLETED, RFP_POST_WORK_COMPLETED} from './rfp-work-completed'
 
 
 
@@ -239,8 +240,8 @@ export const REQUIREMENT_CONTROLLER = {
   RFP_GET_QUALITY_GROUP,
   RFP_GET_WHERE_WORK_DONE,
   RFP_POST_WHERE_WORK_DONE,
-
-
+  RFP_GET_WORK_COMPLETED,
+  RFP_POST_WORK_COMPLETED,
   CA_POST_review,
   CA_GET_review
 };
