@@ -5,7 +5,7 @@
 {% set title = 'Message Sent ' %}
 
 {% block breadCrumb %}
-    {{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
         items:[
     {
       "text": "Dashboard",
@@ -31,7 +31,9 @@
         <h1 class="govuk-heading-xl">
           {{data.title}}
         </h1>
-        <p class="govuk-body"><strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong></p>
+        <p class="govuk-body">
+          <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
+        </p>
         {% include "includes/project_header.njk" %}
       </div>
     </div>
@@ -56,46 +58,50 @@
     </div>
 
     <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
-            <div class="govuk-grid-column-full">
-                <table class="govuk-table" id="sent-message">
-                    <caption class="govuk-table__caption govuk-visually-hidden">{{data.title}}</caption>
-                    <thead class="govuk-table__head">
-                        <tr class="govuk-table__row">
-                            <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
-                            <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
-                            <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
-                        </tr>
-                    </thead>
-                    <tbody class="govuk-table__body">
-                    {% if messages.length > 0 %}
-                        {% for message in messages %}
-                            <tr class="govuk-table__row">
-                                <th scope="row" class="govuk-table__cell">
-                                    <p class="govuk-body govuk-!-margin-bottom-0">
-                                      <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}">{{ message.OCDS.title }}</a>
-                                    </p>
-                                </th>
-                                <td class="govuk-table__cell">{{ message.OCDS.author }}</td>
-                                <td class="govuk-table__cell">{{ message.OCDS.date }}</td>
-                            </tr>
-                        {% endfor %}
-                        {% else %}
-                            <tr class="govuk-table__row">
-                                <td scope="row" class="govuk-table__cell">
-                                    <strong class="govuk-tag govuk-tag--blue">
+      <div class="govuk-grid-column-full">
+        {% if messages.length > 0 %}
+          <table class="govuk-table" id="sent-message">
+          {% else %}
+            <table class="govuk-table">
+            {% endif %}
+            <caption class="govuk-table__caption govuk-visually-hidden">{{data.title}}</caption>
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              {% if messages.length > 0 %}
+                {% for message in messages %}
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}">{{ message.OCDS.title }}</a>
+                      </p>
+                    </th>
+                    <td class="govuk-table__cell">{{ message.OCDS.author }}</td>
+                    <td class="govuk-table__cell">{{ message.OCDS.date }}</td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr class="govuk-table__row">
+                  <td scope="row" class="govuk-table__cell">
+                    <strong class="govuk-tag govuk-tag--blue">
                                         You don't have any Sent messages
                                     </strong>
-                                </td>
-                                <td class="govuk-table__cell"></td>
-                                <td class="govuk-table__cell"></td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
-    </div>
-    <p class="govuk-body">
-      <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-    </p>
-  </main>
-{% endblock %}
+                  </td>
+                  <td class="govuk-table__cell"></td>
+                  <td class="govuk-table__cell"></td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="govuk-body">
+        <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+      </p>
+    </main>
+  {% endblock %}
