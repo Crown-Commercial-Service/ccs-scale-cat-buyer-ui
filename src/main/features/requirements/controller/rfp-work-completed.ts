@@ -41,6 +41,6 @@ export const RFP_GET_WORK_COMPLETED = async (req: express.Request, res: express.
 
 export const RFP_POST_WORK_COMPLETED = async (req: express.Request, res: express.Response) => {
     const {completed_text} = req.body;
-    console.log(completed_text)
+
 
 }
