@@ -77,7 +77,7 @@
 
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
             <div class="govuk-grid-column-full">
-                <table class="govuk-table">
+                <table class="govuk-table" id="received-message">
                     <caption class="govuk-table__caption govuk-visually-hidden">{{data.title}}</caption>
                     <thead class="govuk-table__head">
                         <tr class="govuk-table__row">
@@ -87,7 +87,7 @@
                             <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>
                         </tr>
                     </thead>
-                    <tbody class="govuk-table__body" id="received-message">
+                    <tbody class="govuk-table__body">
                         {% if messages.length > 0 %}
                             {% for message in messages %}
                                 <tr class="govuk-table__row">
