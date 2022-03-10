@@ -7,11 +7,11 @@ import * as inboxData from '../../../resources/content/event-management/event-ma
 /**
  * 
  * @Rediect 
- * @endpoint /event/next
+ * @endpoint '/message/details'
  * @param req 
  * @param res 
  */
-export const EVENT_MANAGEMENT_NEXT_STEP_GET = (req: express.Request, res: express.Response) => {
+export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     try {
         res.locals.agreement_header = req.session.agreement_header
@@ -21,7 +21,7 @@ export const EVENT_MANAGEMENT_NEXT_STEP_GET = (req: express.Request, res: expres
         const messageSubject = "" // this value needs to be taken from API
         const appendData = { data: inboxData, classificationData, messageSubject, messageDescription, error: req.session['isJaggaerError'], eventType: req.session.eventManagement_eventType, eventId: req.session['eventId'] }
         req.session['isJaggaerError'] = false;
-        res.render('eventManagementNextStep', appendData)
+        res.render('eventManagementDetails', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
             res,
@@ -35,8 +35,8 @@ export const EVENT_MANAGEMENT_NEXT_STEP_GET = (req: express.Request, res: expres
     }
 }
 
-// /event/next
-export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: express.Response) => {
+// '/message/details'
+export const POST_EVENT_MANAGEMENT_MESSAGE_DETAILS = (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     const filtered_body_content_removed_event_key = ObjectModifiers._deleteKeyofEntryinObject(
         req.body,

@@ -29,7 +29,10 @@
     }) }}
 {% endblock %}
 
-{% set sortedMembers = (sortedMembers.push({value: message.create_message, text: message.create_message}), sortedMembers) %}
+{% for msg in message.create_message %}
+    {% set sortedMembers = (sortedMembers.push({value: msg, text: msg}), sortedMembers) %}
+{% endfor %}
+
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
@@ -40,13 +43,13 @@
   errorList: errorText
 }) }}
 {%endif %}
-
     <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
           {{data.title}}
         </h1>
+        <p class="govuk-body"><strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong></p>
         {% include "includes/project_header.njk" %}
       </div>
     </div>
@@ -169,7 +172,7 @@
       </div>
     </form>
     <p class="govuk-body">
-      <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+      <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
     </p>
   </main>
 {% endblock %}
