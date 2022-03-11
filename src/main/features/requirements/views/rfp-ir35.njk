@@ -45,39 +45,56 @@
       </div>  
   </div>
 
-  <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
     <form action="/rfp/IR35" method="POST" >
     {{ csrfProtection(csrf) }}
     <div class="govuk-!-margin-top-9">
-      {{ CCSRadios({
-  idPrefix: "",
-  name: "ir35_acknowledgement",
-  fieldset: {
-    legend: {
-      text: "",
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
-    }
-  },
-  items: [
-    {
-      value: "[Contracted out service: the off-payroll rules do not apply]",
-       html: "<h3 class='govuk-heading-m' >" + "[Contracted out service: the off-payroll rules do not apply]" + "</h3>",
-         hint : {
-                text: "[Description for this option]"
-              }
-    },   
-    {
-      value: "[Contracted out service: the off-payroll rules do not apply]",
-       html: "<h3 class='govuk-heading-m'>" + "[Supply of resource]" + "</h3>",
-        hint : {
-                text: "[Description for this option]"
-              }
-    }
-  ]
-}) }}
+          {% for requirement in apiData%}
+         {% block singleSelect%}
+              {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
+                <div class="govuk-form-group">
+                  <div class="govuk-radios">
+                    <br>
+                    {% set radioArray = [] %}
+                    {% for i in range(0, requirement.nonOCDS.options | length) -%}
+                      {% if i == 0%}
+                        <div class="govuk-radios__item">
+                          {%if requirement.nonOCDS.options[i].selected === true %}
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
+                            {%else%}
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
+                            {%endif%}
+                            <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
+                              <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                            </label>
+                            <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
+                              {{requirement.nonOCDS.options[i].text | safe}}
+                            </div>
+                          </div>
+                        {% else %}
+
+                          <div class="govuk-radios__item">
+                            {%if requirement.nonOCDS.options[i].selected === true %}
+                              <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
+                              {%else%}
+                              <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
+                            {% endif %}
+                            <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
+                              <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                            </label>
+                            <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
+                              {{requirement.nonOCDS.options[i].text |safe}}
+                            </div>
+                          </div>
+                          {%endif%}
+                        {%- endfor %}
+                      </div>
+                    </div>
+                    
+                  {% endif %}
+                {% endblock %}
+                {%- endfor %}
 </div>
  <div class="govuk-button-group">
                   {{ CCSButton({
@@ -85,7 +102,7 @@
                         classes:"save-button"
                       })
                   }}
-                  <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to RFP Tasklist</a>
+                  <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
 </div>
 
  </form>
