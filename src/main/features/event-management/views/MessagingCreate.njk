@@ -11,7 +11,7 @@
   }
 ] %}
 {% block breadCrumb %}
-    {{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
         items:[
     {
       "text": "Dashboard",
@@ -30,26 +30,32 @@
 {% endblock %}
 
 {% for msg in message.create_message %}
+  {% if selected_message == msg %}
+    {% set sortedMembers = (sortedMembers.push({value: msg, text: msg, selected: msg}), sortedMembers) %}
+  {% else %}
     {% set sortedMembers = (sortedMembers.push({value: msg, text: msg}), sortedMembers) %}
+  {% endif %}
 {% endfor %}
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
-{% if(validationError) %}
+    {% if (validationError) %}
 
-{{ CCSErrorSummary({
+      {{ CCSErrorSummary({
   titleText: "Broadcast cannot be completed",
   errorList: errorText
 }) }}
-{%endif %}
+    {%endif %}
     <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
           {{data.title}}
         </h1>
-        <p class="govuk-body"><strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong></p>
+        <p class="govuk-body">
+          <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
+        </p>
         {% include "includes/project_header.njk" %}
       </div>
     </div>
@@ -142,19 +148,20 @@
 
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
               {% if message.IsSubjectNotDefined %}
-              <div class="govuk-form-group govuk-form-group--error">
-                <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
+                <div class="govuk-form-group govuk-form-group--error">
+                  <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
                   <p id="more-detail-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> {{message.messageErrorMessage}}
-                </p>
+                    <span class="govuk-visually-hidden">Error:</span>
+                    {{message.messageErrorMessage}}
+                  </p>
                   <textarea class="govuk-textarea govuk-textarea--error govuk-js-character-count" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
-              </div>
-          {% else %}
-            <div class="govuk-form-group">
-                <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
+                </div>
+              {% else %}
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
                   <textarea class="govuk-textarea govuk-js-character-count" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint">{{message.create_message_input}}</textarea>
-              </div>
-            {% endif %}
+                </div>
+              {% endif %}
               <div id="create_message_input-info" class="govuk-hint govuk-character-count__message" aria-live="polite">You can enter up to 200 characters</div>
             </div>
 
