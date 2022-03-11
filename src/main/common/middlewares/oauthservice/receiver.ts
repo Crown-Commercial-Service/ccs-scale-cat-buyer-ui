@@ -84,6 +84,8 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         req.session['designationsLevel2'] = [];
         req.session['tableItems'] = [];
         req.session['dimensions'] = [];
+        req.session['weightingRange'] = {};
+        req.session['errorTextSumary'] = [];
 
         next();
       } else {

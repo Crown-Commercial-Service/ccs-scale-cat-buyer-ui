@@ -39,7 +39,12 @@
 
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-
+    {% if(error)%}
+      {{ CCSErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorText[0]
+      }) }}
+    {%endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
