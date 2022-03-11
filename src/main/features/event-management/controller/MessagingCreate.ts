@@ -2,8 +2,8 @@ import * as express from 'express'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import { CreateMessage } from '../model/createMessage'
+import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import * as inboxData from '../../../resources/content/event-management/messaging-create.json'
-
 
 export class ValidationErrors {
     static readonly CLASSIFICATION_REQUIRED: string = 'Message cannot be broadcast unless a Classification has been defined'
@@ -35,17 +35,17 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
             default: res.locals.supplier_link = "#"
         }
         const message: CreateMessage = {
-            create_message: ["(unclassified)", "Qualification Clarification", 
-            "Technical Clarification", "Commercial Clarification", "System Query", "General Clarification", 
-            "Compliance Clarification", "Procurement Outcome"], // this value needs to be taken from API or move it to JSON
-            create_message_input: null, // this value needs to be taken from API
-            create_subject_input: null, // this value needs to be taken from API
+            create_message: ["unclassified", "Technical Clarification",
+                "System Query", "General Clarification", "Procurement Outcome"],
+            create_message_input: null,
+            create_subject_input: null,
             IsClassificationNotDefined: false,
             IsSubjectNotDefined: false,
             IsMessageNotDefined: false,
             classificationErrorMessage: ValidationErrors.CLASSIFICATION_REQUIRED,
             subjectErrorMessage: ValidationErrors.SUBJECT_REQUIRED,
-            messageErrorMessage: ValidationErrors.MESSAGE_REQUIRED
+            messageErrorMessage: ValidationErrors.MESSAGE_REQUIRED,
+            selected_message: ''
         }
 
         const appendData = { data: inboxData, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
@@ -64,8 +64,10 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
 }
 
 // /message/create
-export const POST_MESSAGING_CREATE = (req: express.Request, res: express.Response) => {
+export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
+    const projectId = req.session['projectId']
+    const eventId = req.session['eventId']
     try {
         const _body = req.body
         let IsClassificationNotDefined, IsSubjectNotDefined, IsMessageNotDefined, validationError = false
@@ -76,7 +78,7 @@ export const POST_MESSAGING_CREATE = (req: express.Request, res: express.Respons
             errorText.push({
                 text: ValidationErrors.CLASSIFICATION_REQUIRED,
                 href: '#create_message'
-              });
+            });
         } else {
             IsClassificationNotDefined = false
         }
@@ -87,7 +89,7 @@ export const POST_MESSAGING_CREATE = (req: express.Request, res: express.Respons
             errorText.push({
                 text: ValidationErrors.MESSAGE_REQUIRED,
                 href: '#create_subject_input'
-              });
+            });
         } else {
             IsMessageNotDefined = false
         }
@@ -98,13 +100,15 @@ export const POST_MESSAGING_CREATE = (req: express.Request, res: express.Respons
             errorText.push({
                 text: ValidationErrors.SUBJECT_REQUIRED,
                 href: '#create_message_input'
-              });
+            });
         } else {
             IsSubjectNotDefined = false
         }
 
         const message: CreateMessage = {
-            create_message: [_body.create_message ? _body.create_message : "General Classification"], // This needs to be revisited
+            create_message: ["unclassified", "Technical Clarification",
+                "System Query", "General Clarification", "Procurement Outcome"],
+            selected_message: _body.create_message,
             create_message_input: _body.create_message_input,
             create_subject_input: _body.create_subject_input,
             IsClassificationNotDefined: IsClassificationNotDefined,
@@ -114,12 +118,28 @@ export const POST_MESSAGING_CREATE = (req: express.Request, res: express.Respons
             subjectErrorMessage: ValidationErrors.SUBJECT_REQUIRED,
             messageErrorMessage: ValidationErrors.MESSAGE_REQUIRED
         }
-
         if (validationError) {
             const appendData = { data: inboxData, message: message, validationError: validationError, errorText: errorText }
             res.render('MessagingCreate', appendData)
         } else {
-            res.redirect('/message/inbox?created=true')
+            const _requestBody = {
+                "OCDS": {
+                    "title": _body.create_subject_input,
+                    "description": _body.create_message_input
+                },
+                "nonOCDS": {
+                    "isBroadcast": true,
+                    "classification": _body.create_message.toString()
+                }
+            };
+            const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
+            const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+            if (response.status == 200) {
+                res.redirect('/message/inbox?created=true')
+            } else {
+                res.redirect('/message/inbox?created=false')
+            }
+
         }
     } catch (err) {
         LoggTracer.errorLogger(
@@ -129,7 +149,8 @@ export const POST_MESSAGING_CREATE = (req: express.Request, res: express.Respons
             null,
             TokenDecoder.decoder(SESSION_ID),
             'Event management page',
-            true,
+            false,
         );
+        res.redirect('/message/inbox?created=false')
     }
 }

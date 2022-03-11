@@ -1,7 +1,7 @@
+let errorStore = [];
 const ccsZvalidateRfPStrategy = event => {
   event.preventDefault();
-  let fieldCheck = '',
-    errorStore = [];
+  let fieldCheck = '';
   if ($('#rfp_prob_statement_t')) {
     if ($('#rfp_prob_statement_t').data('mandatory') == true) {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', 'You must enter information here');
@@ -49,6 +49,14 @@ const ccsZvalidateRfPStrategy = event => {
     }
   }
 
+  ccsZOnChange();
   if (errorStore.length === 0) document.forms['ccs_rfp_exit_strategy_form'].submit();
   else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZOnChange = event => {
+  event.preventDefault();
+  let id = event.path[0].id;
+  let fieldCheck = ccsZvalidateTextArea(id, 'You must enter information here');
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
 };
