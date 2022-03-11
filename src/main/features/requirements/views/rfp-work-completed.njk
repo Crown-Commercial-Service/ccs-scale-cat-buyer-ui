@@ -1,0 +1,80 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title = "Work completed to date | Crown Commercial Services"%}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+  <div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="summary_list">
+    </ul>
+  </div>
+</div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 id="page-heading" class="govuk-heading-xl">
+          {{data.heading}}
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
+      <div class="ccs-page-section">
+        <p class="govuk-body">{{subtitle}}</p>
+        <br>
+      </div>
+      <div class="govuk-!-margin-top-4">
+      <p>Provide details of any work completed so far </p>
+      </div>
+      <form id="rfp_work_completed" name="rfp_where_work_done" class="form da_form" action="/rfp/get-work-completed" method="post">
+      {{ csrfProtection(csrf) }}
+
+      <p id="work_location_word_error" class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span>
+    </p>
+       
+            {{ CCSTextarea({
+            name: "completed_text",
+            id: "completed_work",
+            rows: "8",
+            value: response.nonOCDS.options[0].value,
+            label: {
+                text: "",
+                classes: "govuk-label--l",
+                isPageHeading: true
+            },
+            hint: {
+                text: ""
+            }
+            }) }}
+
+            <div class="govuk-button-group">
+              {{ CCSButton({
+                    text: "Save and continue",
+                    classes:"save-button"
+                  })
+              }}
+              {% set returnLink = "/rfp/task-list?path="+choosenViewPath %}
+              <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+            </div>
+
+      </form>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </main>
+        {% endblock %}

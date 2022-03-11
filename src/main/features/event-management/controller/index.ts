@@ -1,4 +1,10 @@
-import { EVENT_MANAGEMENT } from './eventManagement';
+import { EVENT_MANAGEMENT } from './eventManagement'
+import { EVENT_MANAGEMENT_MESSAGING } from './MessagingInbox'
+import { EVENT_MANAGEMENT_MESSAGING_CREATE, POST_MESSAGING_CREATE } from './MessagingCreate'
+import { EVENT_MANAGEMENT_MESSAGING_SENT } from './MessagingSent'
+import { EVENT_MANAGEMENT_QA } from './viewQA'
+import { EVENT_MANAGEMENT_NEXT_STEP_GET,POST_EVENT_MANAGEMENT_NEXT_STEP } from './eventManagementNextStep'
+import { EVENT_MANAGEMENT_MESSAGE_DETAILS_GET, POST_EVENT_MANAGEMENT_MESSAGE_DETAILS } from './eventManagementDetails'
 /**
  * @BaseController
  * @Provider
@@ -6,5 +12,14 @@ import { EVENT_MANAGEMENT } from './eventManagement';
  * @description Provides as Base for all Controller
  */
 export const EVENT_MANAGEMENT_CONTROLLER = {
-    EVENT_MANAGEMENT
+    EVENT_MANAGEMENT,
+    EVENT_MANAGEMENT_MESSAGING,
+    EVENT_MANAGEMENT_MESSAGING_CREATE,
+    POST_MESSAGING_CREATE,
+    EVENT_MANAGEMENT_MESSAGING_SENT,
+    EVENT_MANAGEMENT_QA,
+    EVENT_MANAGEMENT_NEXT_STEP_GET,
+    POST_EVENT_MANAGEMENT_NEXT_STEP,
+    EVENT_MANAGEMENT_MESSAGE_DETAILS_GET,
+    POST_EVENT_MANAGEMENT_MESSAGE_DETAILS
 }

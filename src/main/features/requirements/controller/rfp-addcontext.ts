@@ -43,20 +43,11 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         criterianStorage.push(rebased_object_with_requirements);
       }
       criterianStorage = criterianStorage[1];
-      const sorted_ascendingly = criterianStorage
-        .map((aCriterian: any) => {
-          const object = aCriterian;
-          object.OCDS['id'] = aCriterian.OCDS['id']?.split('Group ').join('');
-          return object;
-        })
-        .sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1))
-        .map((aCriterian: any) => {
-          const object = aCriterian;
-          object.OCDS['id'] = `Group ${aCriterian.OCDS['id']}`;
-          if (object.nonOCDS['mandatory'] === false)
-            object.OCDS['description'] = object.OCDS['description'] + ' (Optional)';
-          return object;
-        });
+      const sorted_ascendingly = [];
+      criterianStorage.map(obj => {
+        sorted_ascendingly[obj.OCDS.id.split(' ')[1]] = obj;
+      });
+
       const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
@@ -74,7 +65,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         agreementLotName,
         releatedContent: releatedContent,
       };
-       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'In progress');
       res.render('rfp-context', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

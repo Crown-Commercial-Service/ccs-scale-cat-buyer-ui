@@ -1,0 +1,22 @@
+<div class="backdrop-{{params.type}}">
+  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog">
+    <div class="pop_logo govuk-grid-column-full">
+      <hidden id = "redirect-dialog" class="govuk-visually-hidden"></hidden>
+      <p class="pop_logo_image govuk-grid-column-one-half"
+      <a class="govuk-footer__link logo" href={{params.redirect}}>
+        <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
+      </a>
+      </p>
+      <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-{{params.type}} govuk-!-padding-top-6">
+      <a href={{params.redirect}} class="dialog-close-{{params.type}} nav-list__link_secondary">X</a></p>
+    </div>
+    <div class="govuk-grid-column-full">
+      <h1 id="dialog-title">{{params.title}}</p>
+      <p id="dialog-description">{{params.description}}</p>
+      <div class="govuk-button-group">
+        <button id="redirect-button-{{params.type}}" class="button dialog-button govuk-button">Continue</button>
+        <a href={{params.redirect}} class="dialog-close-{{params.type}} govuk-link govuk-link--no-visited-state">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@
 // import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as A1_Template from '../../../resources/content/requirements/caTaskList-A1.json';
+import * as A1_Template_FCA from '../../../resources/content/requirements/caTaskList-A1-FCA.json';
 import * as A2_Template from '../../../resources/content/requirements/caTaskList-A2.json';
 import * as A3_Template from '../../../resources/content/requirements/caTaskList-A3.json';
 import * as A4_Template from '../../../resources/content/requirements/caTaskList-A4.json';
@@ -24,6 +25,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     releatedContent,
     project_name,
     currentEvent,
+    haveFCA,
   } = req.session;
   const { assessmentId, eventType } = currentEvent;
   const lotid = req.session?.lotId;
@@ -49,31 +51,33 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   ];
   let ViewLoadedTemplateData;
 
-  switch (path) {
-    case 'A1':
-      ViewLoadedTemplateData = A1_Template;
-      break;
-
-    case 'A2':
-      ViewLoadedTemplateData = A2_Template;
-      break;
-
-    case 'A3':
-      ViewLoadedTemplateData = A3_Template;
-      break;
-
-    case 'A4':
-      ViewLoadedTemplateData = A4_Template;
-      break;
-
-    default:
-      res.redirect('error/404');
-  }
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    const isSummaryDone = journeySteps.find(stp => stp.step === 54 && stp.state === 'Completed');
+    switch (path) {
+      case 'A1':
+        ViewLoadedTemplateData = haveFCA && isSummaryDone ? A1_Template_FCA : A1_Template;
+        break;
+      case 'A2':
+        ViewLoadedTemplateData = A2_Template;
+        break;
+
+      case 'A3':
+        ViewLoadedTemplateData = A3_Template;
+        break;
+
+      case 'A4':
+        ViewLoadedTemplateData = A4_Template;
+        break;
+
+      default:
+        res.redirect('error/404');
+    }
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreement_id, projectId, eventId);
 
     const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
+
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
@@ -148,6 +152,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     req.session.tableItems = [...ITEMLIST];
     req.session.dimensions = [...CAPACITY_DATASET];
 
+    //  res.json(CAPACITY_DATASET)
     res.render('ca-taskList', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;

@@ -60,10 +60,10 @@
 
           {% macro recurseRequirements(requirement,form_name) -%}
             {%if (requirement.nonOCDS.childern.length > 0)%}  
-                      {{CCSQUESTIONS(requirement,form_name)}}
+                      {{CCSQUESTIONS(organizationName, requirement,form_name)}}
                       {{recurseRequirements(requirement.nonOCDS.childern[0],form_name)}}
             {%else%}
-                      {{CCSQUESTIONS(requirement,form_name)}}
+                      {{CCSQUESTIONS(organizationName, requirement,form_name)}}
           {%endif%}
           {%- endmacro %}
 
@@ -75,6 +75,14 @@
               {{recurseRequirements(data[0],form_name)}}
           {%endif%}
 
+          {% if (form_name === 'read_me') %}
+            {{ CCSInput({
+              id: "rfp_read_me",
+              name: "rfp_read_me",
+              type: "hidden",
+              value: true
+            }) }}
+          {% endif %}
 
 
                     {{ CCSInput({
@@ -86,11 +94,19 @@
                 }}
 
                     <div class="govuk-button-group">
-                      {{ CCSButton({
-                        text: "Save and continue",
-                        classes:"save-button"
-                      })
-                  }}
+
+                      {% if (form_name === 'read_me') %}
+                        {{ CCSButton({
+                          text: "Continue",
+                          classes:"save-button"
+                        }) }}
+                      {% else %}
+                        {{ CCSButton({
+                          text: "Save and continue",
+                          classes:"save-button"
+                        }) }}
+                      {% endif %}
+
                       <a href="/rfp/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Add context and requirements</a>
                     </div>
 

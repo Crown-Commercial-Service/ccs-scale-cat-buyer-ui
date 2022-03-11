@@ -3,6 +3,7 @@ import * as express from 'express';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as CMSData from '../../../resources/content/requirements/caSuppliersToForward.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
 /**
@@ -13,8 +14,17 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  */
 export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
-    req.session;
+  const {
+    lotId,
+    agreementLotName,
+    agreementName,
+    choosenViewPath,
+    eventId,
+    projectId,
+    agreement_id,
+    releatedContent,
+    project_name,
+  } = req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -27,8 +37,14 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: CMSData, eventSupplierCount: 0 };
-    res.render('ca-suppliersToForward', windowAppendData);
+    const eventResponse = await TenderApi.Instance(SESSION_ID).get(`/tenders/projects/${projectId}/events/${eventId}`);
+    const windowAppendData = {
+      data: CMSData,
+      eventSupplierCount: eventResponse?.data.nonOCDS.assessmentSupplierTarget ?? 0,
+      choosenViewPath,
+      releatedContent,
+    };
+    res.render(`ca-suppliersToForward`, windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -45,10 +61,21 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
 
 export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId, eventId, currentEvent } = req.session;
   const { ca_supplier_count } = req.body;
+  if (ca_supplier_count < 0) {
+    res.redirect(REQUIREMENT_PATHS.CA_GET_SUPPLIERS_FORWARD);
+    return;
+  }
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Not started');
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'To-do'); // status Id not yet defined
+    const body = {
+      assessmentSupplierTarget: ca_supplier_count,
+      assessmentId: currentEvent.assessmentId,
+    };
+    await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}`, body);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started'); // status Id not yet defined
     res.redirect('/ca/review-ranked-suppliers');
   } catch (error) {
     LoggTracer.errorLogger(

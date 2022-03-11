@@ -39,11 +39,8 @@ First when we load the procurement page we have to issue the `POST` method to in
 
     curl --location --request GET 'https://dev-ccs-scale-cat-service.london.cloudapps.digital/journeys/ocds-abc-457/steps' \ 2--header 'Authorization: Bearer ...'
 
-> Journey ID should be the event ID - e.g. `ocds-b5fd17-####`
+> Journey ID should be the projectID - e.g. `1234`
 
-## Create files and folders
-
-The file explorer is accessible using the button in left corner of the navigation bar. You can create a new file by clicking the **New file** button in the file explorer. You can also create folders by clicking the **New folder** button.
 
 ## Current initial step and journey mapping
 

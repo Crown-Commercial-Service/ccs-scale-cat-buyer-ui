@@ -1,0 +1,35 @@
+[
+    {
+        "messageId": 19,
+        "message": {
+            "from": "Cognizant UK",
+            "date": "10-January-2022",
+            "subject": "Message subject description",
+            "status": "Unread",
+            "MessageClassification": "General Classification",
+            "recipient": "Broadcasted all suppliers"
+        }
+    },
+    {
+        "messageId": 20,
+        "message": {
+            "from": "Cognizant US",
+            "date": "01-January-2022",
+            "subject": "Message subject description",
+            "status": "Read",
+            "MessageClassification": "General Classification",
+            "recipient": "Suplier Company Name"
+        }
+    },
+    {
+        "messageId": 20,
+        "message": {
+            "from": "Cognizant INDIA",
+            "date": "10-January-2022",
+            "subject": "Message subject description",
+            "status": "Read",
+            "MessageClassification": "General Classification",
+            "recipient": "Broadcasted all suppliers"
+        }
+    }
+]

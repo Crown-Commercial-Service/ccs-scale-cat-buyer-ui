@@ -15,6 +15,14 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_ADD_COLLABORATOR_TO_JAGGER = '/rfp/add-collaborator-detail',
   RFP_POST_PROCEED_COLLABORATORS = '/rfp/proceed-collaborators',
 
+  // RFP Scoring Criteria
+  RFP_GET_SCORING_CRITERIA = '/rfp/set-scoring-criteria',
+  RFP_POST_SCORING_CRITERIA = '/rfp/set-scoring-criteria',
+
+  //RFP Resource type and Quantity
+  RFP_GET_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
+  RFP_POST_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
+
   // Proc lead rfp
   RFP_GET_NAME_PROJECT = '/rfp/name-your-project',
   RFP_POST_NAME_PROJECT = '/rfp/name',
@@ -40,6 +48,9 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_PROCEED = '/rfp/upload-doc/proceed',
 
+  RFP_GET_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
+  RFP_POST_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
+
   // Add collaborator ca
   CA_GET_ADD_COLLABORATOR = '/ca/add-collaborators',
   CA_POST_ADD_COLLABORATOR_JSENABLED = '/ca/get-collaborator-detail/js-enabled',
@@ -50,6 +61,10 @@ export enum REQUIREMENT_PATHS {
   //supplier
   GET_RFP_SUPPLIERS = '/rfp/suppliers',
   POST_RFP_SUPPLIER = '/rfp/suppliers',
+
+  //RFP Quality Group
+  RFP_GET_QUALITY_GROUP = '/rfp/ratio-quality-group',
+  RFP_POST_QUALITY_GROUP = '/rfp/ratio-quality-group',
 
   // Proc lead ca
   CA_GET_NAME_PROJECT = '/ca/name-your-project',
@@ -64,6 +79,18 @@ export enum REQUIREMENT_PATHS {
   CA_POST_UPLOAD_DOC = '/ca/upload-doc',
   CA_POST_UPLOAD_PROCEED = '/ca/upload-doc/proceed',
 
+  // Upload  pricing supporting doc ca
+  CA_GET_UPLOAD_PRICING_SUPPORTING_DOCUMENT = '/ca/upload-pricing-supporting-doc',
+  CA_POST_UPLOAD_PRICING_SUPPORTING_DOCUMENT = '/ca/upload-pricing-supporting-doc',
+
+  // Upload  pricing supporting doc ca
+  CA_GET_UPLOAD_PRICING = '/ca/upload-pricing',
+  CA_POST_UPLOAD_PRICING = '/ca/upload-pricing',
+
+  // Upload  pricing supporting doc ca
+  CA_GET_UPLOAD_SUPPORTING_DOCUMENT = '/ca/upload-supporting-doc',
+  CA_POST_UPLOAD_SUPPORTING_DOCUMENT = '/ca/upload-supporting-doc',
+
   // ca type
   CA_TYPE = '/ca/type',
   CA_POST_TYPE = '/ca/type',
@@ -75,6 +102,8 @@ export enum REQUIREMENT_PATHS {
   DA_GET_LEARN = '/da/learn-about-capability-assessment',
   DA_POST_LEARN = '/da/learn-about-capability-assessment',
   GET_LEARN = '/ca/learnabout-capability-assessment',
+  DA_GET_LEARN_START = '/da/learnabout-CA',
+  DA_POST_LEARN_START = '/da/learnabout-CA',
   POST_LEARN = '/ca/learnabout-capability-assessment',
   CA_GET_WEIGHTINGS = '/ca/enter-your-weightings',
   CA_POST_WEIGHTINGS = '/ca/enter-your-weightings',
@@ -140,4 +169,27 @@ export enum REQUIREMENT_PATHS {
 
   DA_GET_SERVICE_CAPABILITIES = '/da/service-capabilities',
   DA_POST_SERVICE_CAPABILITIES = '/da/service-capabilities',
+
+  DA_GET_CHOOSE_REQUIREMENTS = '/da/choose-security-requirements',
+  DA_POST_CHOOSE_REQUIREMENTS = '/da/choose-security-requirements',
+
+  //Capability assessment summary
+  CA_GET_SUMMARY = '/ca/summary',
+  CA_POST_SUMMARY = '/ca/summary',
+
+  //RFP Capability service
+  RFP_GET_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
+  RFP_POST_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
+  //RFP Location
+  RFP_GET_WHERE_WORK_DONE = '/rfp/get-work-done',
+  RFP_POST_WHERE_WORK_DONE = '/rfp/get-work-done',
+
+
+  RFP_GET_WORK_COMPLETED= '/rfp/get-work-completed',
+  RFP_POST_WORK_COMPLETED = '/rfp/get-work-completed',
+
+
+
+  CA_GET_REVIEW = '/ca/review',
+  CA_POST_REVIEW = '/ca/review'
 }

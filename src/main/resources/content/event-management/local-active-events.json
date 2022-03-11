@@ -1,0 +1,307 @@
+[
+    {
+        "projectId": 3716,
+        "projectName": "<strong class='govuk-tag govuk-tag--yellow'>dev</strong> RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-3830",
+            "title": "RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "EOI",
+            "lot":"Finance",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6187]",
+            "status": "Published",
+            "closeDate": "future time / date",
+            "AgreementID": "RM6187",
+            "lotid":"Lot 4"
+        }
+    },
+    {
+        "projectId": 3667,
+        "projectName": "<strong class='govuk-tag govuk-tag--yellow'>dev</strong> RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-3782",
+            "title": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "RFI",
+            "lot":"Digital Programmes",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "Published",
+            "closeDate": "not available yet",
+            "AgreementID": "RM6263",
+            "lotid":"Lot 1"
+        }
+    },
+    {
+        "projectId": 3698,
+        "projectName": "<strong class='govuk-tag govuk-tag--yellow'>dev</strong> RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-3812",
+            "title": "RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "EOI",
+            "lot":"Business",
+            "lotid":"Lot 1",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6187]",
+            "status": "unPublished",
+            "closeDate": "future time / date",
+            "AgreementID": "RM6187"
+        }
+    },
+    {
+        "projectId": 3697,
+        "projectName": "<strong class='govuk-tag govuk-tag--yellow'>dev</strong> RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-3811",
+            "title": "RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "RFI",
+            "lot":"Digital Specialists",
+            "lotid":"Lot 2",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "unPublished",
+            "closeDate": "not available yet",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 2914,
+        "projectName": "<strong class='govuk-tag govuk-tag--red'>sit</strong> RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-2627",
+            "title": "RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "EOI",
+            "lot":"Finance",
+            "lotid":"Lot 4",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6187]",
+            "status": "unPublished",
+            "closeDate": "future time / date",
+            "AgreementID": "RM6187"
+        }
+    },
+    {
+        "projectId": 2913,
+        "projectName": "<strong class='govuk-tag govuk-tag--red'>sit</strong> RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-2626",
+            "title": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "RFI",
+            "lot":"Digital Programmes",
+            "lotid":"Lot 1",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "unPublished",
+            "closeDate": "not available yet",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 3698,
+        "projectName": "<strong class='govuk-tag govuk-tag--red'>sit</strong> RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-2628",
+            "title": "RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "EOI",
+            "lot":"Business",
+            "lotid":"Lot 1",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6187]",
+            "status": "Published",
+            "closeDate": "future time / date",
+            "AgreementID": "RM6187"
+        }
+    },
+    {
+        "projectId": 2912,
+        "projectName": "<strong class='govuk-tag govuk-tag--red'>sit</strong> RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-2625",
+            "title": "RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "RFI",
+            "lot":"Digital Specialists",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "Published",
+            "closeDate": "not available yet",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 351,
+        "projectName": "<strong class='govuk-tag govuk-tag--blue'>uat</strong> RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-265",
+            "title": "RM6187-Lot 4-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "EOI",
+            "lot":"Finance",
+            "lotid":"Lot 4",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6187]",
+            "status": "unPublished",
+            "closeDate": "future time / date",
+            "AgreementID": "RM6187"
+        }
+    },
+    {
+        "projectId": 348,
+        "projectName": "<strong class='govuk-tag govuk-tag--blue'>uat</strong> RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-262",
+            "title": "RM6263-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "RFI",
+            "lot":"Digital Programmes",
+            "lotid":"Lot 1",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "unPublished",
+            "closeDate": "not available yet",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 350,
+        "projectName": "<strong class='govuk-tag govuk-tag--blue'>uat</strong> RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-264",
+            "title": "RM6187-Lot 1-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "EOI",
+            "lot":"Business",
+            "lotid":"Lot 1",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6187]",
+            "status": "Published",
+            "closeDate": "future time / date",
+            "AgreementID": "RM6187"
+        }
+    },
+    {
+        "projectId": 349,
+        "projectName": "<strong class='govuk-tag govuk-tag--blue'>uat</strong> RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-263",
+            "title": "RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "RFI",
+            "lot":"Digital Specialists",
+            "lotid":"Lot 2",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "Published",
+            "closeDate": "not available yet",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 11,
+        "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-11",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Direct Award",
+            "lot":"Digital Specialists",
+            "lotid":"Lot 2",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "Contracting",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 22,
+        "projectName": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-22",
+            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Further Competition",
+            "lot":"Digital Programmes",
+            "lotid":"Lot 1",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "To be Evaluated",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 119,
+        "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-119",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Further Competition",
+            "lot":"Health, Social Care & Community",
+            "lotid":"Lot 7",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6187]",
+            "status": "Techical Evaluation",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6187"
+        }
+    },
+    {
+        "projectId": 2231,
+        "projectName": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-2231",
+            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Further Competition",
+            "lot":"Digital Programmes",
+            "lotid":"Lot 1",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "status": "Final Evaluation",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6263"
+        }
+    },
+    {
+        "projectId": 191,
+        "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-191",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Direct Award",
+            "lot":"Strategy and Policy",
+            "lotid":"Lot 2",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6187]",
+            "status": "Pre-Award",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6187"
+        }
+    },
+    {
+        "projectId": 2232,
+        "projectName": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
+        "activeEvent": {
+            "id": "ocds-b5fd17-2232",
+            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "Further Competition",
+            "lot":"Enviromental Sustainability & Socio-Economic Developement",
+            "lotid":"Lot 9",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6187]",
+            "status": "Award",
+            "closeDate": "Past time / date",
+            "AgreementID": "RM6187"
+        }
+    }
+]

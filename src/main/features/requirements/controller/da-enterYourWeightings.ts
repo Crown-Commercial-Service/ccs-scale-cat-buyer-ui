@@ -13,13 +13,22 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  */
 export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
-    req.session;
+  const {
+    lotId,
+    agreementLotName,
+    agreementName,
+    eventId,
+    projectId,
+    agreement_id,
+    releatedContent,
+    project_name,
+    choosenViewPath,
+  } = req.session;
   const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const assessmentId = req.session.currentEvent.assessmentId;
   const { isJaggaerError } = req.session;
-  req.session['isJaggaerError'] = false;
+  //req.session['isJaggaerError'] = false;
   res.locals.agreement_header = {
     agreementName,
     project_name,
@@ -46,12 +55,18 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     }
     req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
     req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
+    req.session['weightingRange'] = weightingsArray[0].weightingRange;
+    console.log('xxxxxxx ', weightingsArray);
+    console.log(' zzzzzzz', weightingsArray[0]);
     const windowAppendData = {
       data: daWeightingData,
       dimensions: weightingsArray,
       lotId,
       agreementLotName,
       releatedContent,
+      choosenViewPath,
+      error: isJaggaerError,
+      errorText: 'Enter a number in the fields',
     };
     res.render('da-enterYourWeightings', windowAppendData);
   } catch (error) {
@@ -105,16 +120,21 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
           })
           .filter(criteria => criteria !== null),
       };
-      await TenderApi.Instance(SESSION_ID).put(
-        `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
-        body,
-      );
+      const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5, 6: field6 } = req.body;
+      if (field1 === '' || field2 === '' || field3 === '' || field4 === '' || field5 === '' || field6 === '') {
+        req.session['isJaggaerError'] = true;
+        res.redirect('/da/enter-your-weightings');
+      } else {
+        await TenderApi.Instance(SESSION_ID).put(
+          `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+          body,
+        );
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
+        //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
+        res.redirect('/da/accept-subcontractors');
+      }
     }
-
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
-    res.redirect('/da/accept-subcontractors');
-  } catch (err) {
+  } catch (error) {
     LoggTracer.errorLogger(
       res,
       error,

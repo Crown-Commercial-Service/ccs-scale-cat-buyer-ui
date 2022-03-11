@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
-import * as caService from '../../../resources/content/requirements/caService.json';
+import * as daService from '../../../resources/content/requirements/daService.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
@@ -61,17 +61,23 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       })
     }).flat();
 
-   // CAPACITY_CONCAT_OPTIONS = CAPACITY_CONCAT_OPTIONS.filter(designation => designation.groupRequirement != true)
+    //Setting the data that have groupRequirement = true;
+    const CAPACITY_CONCAT_Heading = CAPACITY_CONCAT_OPTIONS.filter(designation => designation.groupRequirement === true);
+
+   // 
     const UNIQUE_GROUPPED_ITEMS = CAPACITY_CONCAT_OPTIONS.map(item => {
       const optionID = item['option-id'];
-      const {name, groups, weightingRange} = item;
+      const {name, groups, groupRequirement, weightingRange} = item;
+      const requirementId = item['requirement-id']
       const groupname = name;
       return groups.map(group => {
         return {
           ...group,
           groupname,
           weightingRange,
-          optionID
+          groupRequirement,
+          optionID,
+          'requirement-id': requirementId
         }
       })
     }).flat()
@@ -164,39 +170,89 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
     var TABLEBODY = [];
 
+    /**
+     *
+
+     */
+
  
-    if( dimensionRequirements?.[0]?.requirements != undefined){
-      
-      const reformedDataSet = DesignationStorage.map(items => {
-       const {data} = items;
-       const dataStorage =[];
-       for(const subItems of data ){
-         for(const nestedItems of DRequirements){
-             if(subItems.groupname == nestedItems.name){
-                 dataStorage.push({...subItems, value: nestedItems.weighting})
-             }
-             else{
-               dataStorage.push({...subItems, value: ''})
-             }
-         }
-       }
-       items.data = dataStorage;
-       return items;
+     if( dimensionRequirements?.[0]?.requirements != undefined){
+    const FilledDATASTORGE = Level1DesignationStorage.map(items => {
+      const {category, data, Weightage} = items;
+      const allignedItems = items;
+      const newlyFormedData = data.map(nestedItems => {
+        var ReformedObj = {};
+        const findInDRequirement = DRequirements.filter(x => x.name == nestedItems.groupname);
+        if(findInDRequirement.length > 0){
+          const weigtage = findInDRequirement[0].weighting;
+          ReformedObj = {...nestedItems, value: weigtage}
+        }
+        else ReformedObj = {...nestedItems, value: ''}
+        return ReformedObj;
       })
-       TABLEBODY = reformedDataSet;
+      return {
+        category,
+        data: newlyFormedData,
+        Weightage
+      }
+    })
+    
+       TABLEBODY = FilledDATASTORGE;
      }
      else{
-       TABLEBODY = DesignationStorage;
+       TABLEBODY = Level1DesignationStorage;
      }
 
 
 
+      /**
+       *@UNIQUE_HEADINGS
+       */
 
-    const windowAppendData = { ...caService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: Level1DesignationStorage };
+       const UNIQUE_DESIGNATION_HEADINGS = [...new Set(CAPACITY_CONCAT_Heading.map(item => item.name))]; 
+
+       const UNIQUE_DESIGNATION_HEADINGS_ARR = UNIQUE_DESIGNATION_HEADINGS.map(designation => {
+         const findDesgination = CAPACITY_CONCAT_Heading.filter(item => item.name == designation)[0];
+         return findDesgination;
+       })
+
+
+     /***
+      * 
+      * @WHOLECLUSTER_HEADINGS
+    
+      */
+
+     var WHOLECLUSTERCELLS = [];
+
+     if( dimensionRequirements?.[0]?.requirements != undefined){
+
+
+      const reformedWholeClusterArr = UNIQUE_DESIGNATION_HEADINGS_ARR.map(items => {
+        const findInDRequirement = DRequirements.filter(x => x.name == items.name);
+        var ReformedObj = {};
+        if(findInDRequirement.length > 0){
+          const weigtage = findInDRequirement[0].weighting;
+          ReformedObj = {...items, value: weigtage}
+        }
+        else ReformedObj = {...items, value: ''};
+        return ReformedObj;
+      })
+     WHOLECLUSTERCELLS = reformedWholeClusterArr;
+
+
+   }
+   else{
+     WHOLECLUSTERCELLS = UNIQUE_DESIGNATION_HEADINGS_ARR;
+   }
+     
+
+
+    const windowAppendData = { ...daService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: TABLEBODY, WHOLECLUSTER: WHOLECLUSTERCELLS };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
 
-// res.json(Level1DesignationStorage)
-res.render('ca-serviceCapabilities', windowAppendData);
+ //res.json(UNIQUE_DESIGNATION_HEADINGS_ARR)
+res.render('da-serviceCapabilities', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -436,8 +492,9 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     
     
      const PUT_BODY = {
-      "weighting": 30, 
+      "weighting": 0, 
       "includedCriteria": [],
+      "overwriteRequirements": true,
       "requirements": MappedWholeAndPartialCluster
     }
 
@@ -450,7 +507,7 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-      res.redirect('/ca/service-capabilities');
+      res.redirect('/da/service-capabilities');
       
       } catch (error) {
         req.session['isJaggaerError'] = true;

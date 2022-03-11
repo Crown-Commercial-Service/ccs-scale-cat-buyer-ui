@@ -1,13 +1,12 @@
 /* global $ */
-
 $(document).ready(function () {
   window.GOVUKFrontend.initAll();
 
   // Read the CSRF token from the <meta> tag
   var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   $.ajaxSetup({
-    beforeSend: function(xhr) {
-        xhr.setRequestHeader('CSRF-Token', token);
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('CSRF-Token', token);
     }
   });
 
@@ -99,6 +98,11 @@ if (document.getElementById("ccs_ca_weighting") !== null) document.getElementByI
 if (document.getElementById("ccs_daa_weighting") !== null) document.getElementById("ccs_daa_weighting").addEventListener('submit', ccsZvalidateDAAWeightings);
 if (document.getElementById("ccs_ca_suppliers_form") !== null) document.getElementById("ccs_ca_suppliers_form").addEventListener('submit', ccsZvalidateCASupplier);
 
+if (document.getElementById("ca_where_work_done") !== null) document.getElementById("ca_where_work_done").addEventListener('submit', ccsZvalidateCAWhereWorkDone);
+
+if (document.getElementById("da_where_work_done") !== null) document.getElementById("da_where_work_done").addEventListener('submit', ccsZvalidateDAWhereWorkDone);
+
+if (document.getElementById('ccs_rfp_scoring_criteria') !== null) document.getElementById('ccs_rfp_scoring_criteria').addEventListener('submit', ccsZvalidateScoringCriteria);
 // if (document.getElementById("ccs_rfi_dates_form") !== null) document.getElementById("ccs_rfi_dates_form").addEventListener('submit', ccsZvalidateRfiDates);
 
 if (document.getElementById("ccs_rfi_address_form") !== null) {

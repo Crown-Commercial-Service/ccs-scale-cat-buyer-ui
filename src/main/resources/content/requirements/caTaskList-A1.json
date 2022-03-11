@@ -84,20 +84,27 @@
         },
         {
           "Task": 5,
+          "link": "#",
+          "title": "[Choose highest security and vetting requirements] ",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 6,
           "link": "/ca/service-capabilities",
           "title": "[ Select your service capabilities ]",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
-          "Task": 6,
+          "Task": 7,
           "link": "/ca/team-scale",
           "title": "[ How well your team will scale ]",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
-          "Task": 7,
+          "Task": 8,
           "link": "#",
           "title": "[ Where the work will be done ]",
           "required": "mandatory",
@@ -105,14 +112,14 @@
         },
 
         {
-          "Task": 8,
+          "Task": 9,
           "link": "/ca/suppliers-to-forward",
           "title": "[ How many suppliers you'd like to take forward? ]",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
-          "Task": 9,
+          "Task": 10,
           "link": "#",
           "title": "[ Review ranked suppliers ]",
           "required": "mandatory",
@@ -120,7 +127,7 @@
         },
 
         {
-          "Task": 10,
+          "Task": 11,
           "link": "/ca/next-steps",
           "title": "[ Next steps ]",
           "required": "mandatory",
@@ -143,7 +150,7 @@
           "Task": 1,
           "title": "[ Upload pricing schedules and any other supporting documentation ]",
           "required": "optional",
-          "link": "/ca/learn-about-capability-assessment",
+          "link": "/ca/upload-pricing-supporting-doc",
           "status": "Cannot start yet"
         }
       ]
