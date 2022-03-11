@@ -55,6 +55,9 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     }
     req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
     req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
+    req.session['weightingRange'] = weightingsArray[0].weightingRange;
+    console.log('xxxxxxx ', weightingsArray);
+    console.log(' zzzzzzz', weightingsArray[0]);
     const windowAppendData = {
       data: daWeightingData,
       dimensions: weightingsArray,

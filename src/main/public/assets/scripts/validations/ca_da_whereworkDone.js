@@ -29,7 +29,7 @@ const ccsZvalidateDAWhereWorkDone = event => {
     var element = document.getElementById($(this).attr('id'));
     ccsZremoveErrorMessage(element);
     let errMsg = '';
-    if (element.value === '') errMsg = 'All entry boxes must contain a value';
+    if (element.value === '') errMsg = 'All entry boxes must contain a value 1';
     else if (isNaN($(this).val()) || element.value.includes('.')) errMsg = 'Dimension value entered must be an integer';
     else if (
       (Number(element.value) < Number($(this).attr('min')) && Number($(this).attr('min')) !== 0) ||
