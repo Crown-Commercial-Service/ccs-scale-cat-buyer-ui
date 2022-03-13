@@ -28,7 +28,7 @@
 {% if params.errorMessage %}
   {% set errorId = params.id + '-error' %}
   {% set describedBy = describedBy + ' ' + errorId if describedBy else errorId %}
-  {{ govukErrorMessage({
+  {{ CCSErrorMessage({
     id: errorId,
     classes: params.errorMessage.classes,
     attributes: params.errorMessage.attributes,

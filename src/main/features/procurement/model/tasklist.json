@@ -186,15 +186,15 @@
     },
     {
       "step": 47,
-      "state": "Not started"
+      "state": "Cannot start yet"
     },
     {
       "step": 48,
-      "state": "Optional"
+      "state": "Cannot start yet"
     },
     {
       "step": 49,
-      "state": "Not started"
+      "state": "Cannot start yet"
     },
     {
       "step": 50,

@@ -364,7 +364,25 @@ fieldset {
   margin-top: 100px;
 }
 
-
-.hide-block{
+.hide-block {
   display: none !important;
+}
+.sfia-roles .govuk-input__prefix {
+  width: 492px;
+  text-align: left;
+}
+.sfia-roles .govuk-input {
+  min-width: 50px;
+}
+.sfia-roles .govuk-input__suffix {
+  width: 492px;
+  text-align: left;
+}
+
+.inline{
+  display: inline !important;
+}
+
+.underline{
+  text-decoration: underline !important;
 }

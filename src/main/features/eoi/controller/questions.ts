@@ -117,7 +117,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-    res.render('questionsEoi', data);
+   
+   res.render('questionsEoi', data);
   } catch (error) {
     delete error?.config?.['headers'];
     const Logmessage = {

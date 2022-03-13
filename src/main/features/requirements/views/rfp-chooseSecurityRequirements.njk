@@ -58,7 +58,8 @@
                 },
                 conditional: {
                   html: condResources
-                }
+                },
+                checked: item.checked
                 }
               ), form_Options_Altered) 
               
@@ -70,7 +71,8 @@
                     html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
                     hint : {
                       text: item.hint.text
-                    }
+                    },
+                    checked: item.checked
                   }
                 ), form_Options_Altered) 
               

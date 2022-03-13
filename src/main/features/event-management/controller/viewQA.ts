@@ -14,9 +14,9 @@ import * as localTableData from '../../../resources/content/event-management/loc
 export const EVENT_MANAGEMENT_QA = (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     try {
-        res.locals.event_header = req.session.event_header
+        res.locals.agreement_header = req.session.agreement_header
         
-        const appendData = { data: inboxData, QAs: localTableData }
+        const appendData = { data: inboxData, QAs: localTableData, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.render('viewQA', appendData)
     } catch (err) {
         LoggTracer.errorLogger(

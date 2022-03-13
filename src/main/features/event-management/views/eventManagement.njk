@@ -3,10 +3,21 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Event management ' %}
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
 {% block content %}
-  {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
-      }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <div class="govuk-grid-row">
@@ -14,7 +25,7 @@
         <h1 class="govuk-heading-xl">
           {{data.title}}
         </h1>
-        {% include "includes/event_header.njk" %}
+        {% include "includes/project_header.njk" %}
       </div>
     </div>
     <div class="govuk-grid-row ccs-page-section">
@@ -39,7 +50,7 @@
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">
             {{data.subsection3_title}}</h2>
-          <p class="govuk-body">You have X unread messages</p>
+          <p class="govuk-body">You have {{unreadMessage}} unread messages</p>
           <p class="govuk-body">
             <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
           </p>
@@ -59,17 +70,40 @@
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">1.</span>
-          {{data.subsection4_title1}}</h2>
+          {{data.subsection4_title1}}
+          <p class="app-task-list__tag">
+            <a class="govuk-link" href="{{data.subsection4_title1_task[0].line_1_link}}">{{data.subsection4_title1_task[0].line_1_text}}</a>
+          </p>
+        </h2>
         <p class="govuk-body">{{ data.subsection4_title1_descriiption }}</p>
       </div>
     </div>
 
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">
-          <span class="proc-task-list__section-number">2.</span>
-          {{data.subsection4_title2}}</h2>
-        <p class="govuk-body">{{ data.subsection4_title2_descriiption }}</p>
+        {% if eventType == 'RFI' %}
+          <h2 class="govuk-heading-m">
+            <span class="proc-task-list__section-number">2.</span>
+            {{data.subsection4_title2_1}}
+            <p class="app-task-list__tag">
+              <a class="govuk-link" href="{{data.subsection4_title2_1_task[0].line_1_link}}">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
+            </p>
+          </h2>
+          <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_1_task[1].line_1_link}}">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
+          </p>
+        {% elseif eventType == 'EOI' %}
+          <h2 class="govuk-heading-m">
+            <span class="proc-task-list__section-number">2.</span>
+            {{data.subsection4_title2_2}}
+            <p class="app-task-list__tag">
+              <a class="govuk-link" href="{{data.subsection4_title2_2_task[0].line_1_link}}">{{data.subsection4_title2_2_task[0].line_1_text}}</a>
+            </p>
+            </h2>
+          <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
+          <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_2_task[1].line_1_link}}">{{data.subsection4_title2_2_task[1].line_1_text}}</a>
+          </p>
+        {% endif %}
       </div>
     </div>
 
@@ -79,16 +113,53 @@
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3}}</h2>
         <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
+        {% for data in data.subsection4_title3_task %}
+          <p class="govuk-body govuk-grid-column-one-half">{{ data.line_1_text }}</p>
+          <p class="govuk-body govuk-grid-column-one-half">{{ data.line_1_count | safe }}</p>
+        {% endfor %}
       </div>
     </div>
 
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
-          <span class="proc-task-list__section-number">3.</span>
+          <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
         <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
+        <h3 class="govuk-heading-m">
+          {{data.subsection4_title4_1}}</h3>
+        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
+                </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                {% for supplier in suppliers.default %}
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        <a class="govuk-link" href="#">{{ supplier.SupplierName }}</a>
+                      </p>
+                    </th>
+                    <td class="govuk-table__cell">{{ supplier.ResponseDate }}</td>
+                    <td class="govuk-table__cell"><a class="govuk-link" href="{{ data.Downloadresponse[0].link }}">{{ data.Downloadresponse[0].text }}</a></td> 
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
+    </div>
+    <div class="govuk-inset-text">
+      <h4 class="govuk-heading-s">Next Steps on the procurement</h4>
+      <p class="govuk-body">You can now <a class="govuk-link" href="/event/next">choose your next steps</a> to continue in this procurement.</p>
     </div>
   </main>
 {% endblock %}

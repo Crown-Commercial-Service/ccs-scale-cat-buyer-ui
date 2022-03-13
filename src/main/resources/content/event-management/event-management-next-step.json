@@ -1,0 +1,87 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Event Management",
+            "href": "#"
+        },
+        {
+            "text": "Next step",
+            "href": "#"
+        }
+    ],
+    "title": "Event Management",
+    "subtitle": "[ Instructions for this page ]",
+    "subsection2_title": "Open Project ID/ Name",
+    "subsection2_content": "Close event",
+    "form": {
+        "question": "[ Description for this section, including that a pause can be taken now ]",
+        "radioOptions": {
+          "idPrefix": "ccs_event_next_step",
+          "name": "ccs_event_next_step",
+          "items": [
+            {
+              "value": "pre-market",
+              "text": "Continue Pre-market engagement activities",
+              "text2": "Continue Pre-market engagement activities",
+              "hint": {
+                "text": ""
+              },
+              "disabled": "false",
+              "remove": "false"
+            },
+            {
+              "value": "write-publish",
+              "text": "Go to Write and Publish your requirements",
+              "text2": "Go to Write and Publish your requirements",
+              "hint": {
+                "text": ""
+              },
+              "disabled": "false",
+              "remove": "false"
+            },
+            {
+              "value": "move-from-cat",
+              "text": "Extract Rfi details and complete on your own platform",
+              "text2": "Extract Eoi details and complete on your own platform",
+              "hint": {
+                "text": ""
+              },
+              "disabled": "false",
+              "remove": "false"
+            },
+            {
+              "value": "close",
+              "text": "Close Event and stop procurement",
+              "text2": "Close Event and stop procurement",
+              "hint": {
+                "text": ""
+              },
+              "disabled": "false",
+              "remove": "false"
+            },
+            {
+              "value": "decide-later",
+              "text": "Decide Later",
+              "text2": "Decide Later",
+              "hint": {
+                "text": ""
+              },
+              "disabled": "false",
+              "remove": "false"
+            }
+          ]
+        },
+        "backJump": {
+          "title": "Return to Dashboard",
+          "href": "/dashboard"
+        }
+      }
+}

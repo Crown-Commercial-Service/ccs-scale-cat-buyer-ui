@@ -170,6 +170,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       proc_id,
       event_id,
       ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
+      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null // this needs to be revisited to check the mapping of the planned 
     };
     //Fix for SCAT-3440 
     const agreementName = req.session.agreementName;
