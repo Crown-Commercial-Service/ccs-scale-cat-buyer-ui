@@ -214,6 +214,8 @@ if (document.getElementById('ccs_rfi_acronyms_form') !== null)
 if (document.getElementById('ccs_eoi_date_form') !== null)
   document.getElementById('ccs_eoi_date_form').addEventListener('submit', ccsZvalidateEoiDate);
 
+if (document.getElementById("rfp_multianswer_question_form") !== null) document.getElementById("rfp_multianswer_question_form").addEventListener('submit', ccsZvalidateRfpQuestions);
+
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
 setInputFilter(
