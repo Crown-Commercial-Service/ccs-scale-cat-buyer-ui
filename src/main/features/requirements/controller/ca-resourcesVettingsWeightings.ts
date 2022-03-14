@@ -177,6 +177,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       StorageForSortedItems.push(findElementInRemapptedParentRole);
     }
 
+
     const windowAppendData = {
       ...caResourcesVetting,
       lotId,

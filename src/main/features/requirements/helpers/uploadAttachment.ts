@@ -1,6 +1,6 @@
 //@ts-nocheck
 import * as express from 'express';
-import * as cmsData from '../../../resources/content/requirements/offline-doc.json';
+import * as cmsData from '../../../resources/content/requirements/rfp-upload-attachment.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
