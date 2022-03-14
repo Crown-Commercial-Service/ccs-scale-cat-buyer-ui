@@ -193,13 +193,11 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
     };
 
-    console.log(REMAPPED_ACCORDING_TO_PARENT_ROLE)
 
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     //res.json(REMAPPED_ACCORDING_TO_PARENT_ROLE)
     res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
-    console.log(error)
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
