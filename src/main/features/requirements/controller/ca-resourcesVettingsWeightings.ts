@@ -45,6 +45,12 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
     var { options } = LEVEL7CONTENTS;
 
+
+      console.log(LEVEL7CONTENTS)
+
+      //Resource Quantities
+
+
     /**
      * @Removing_duplications
      */
@@ -176,6 +182,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       )[0];
       StorageForSortedItems.push(findElementInRemapptedParentRole);
     }
+
 
     const windowAppendData = {
       ...caResourcesVetting,
