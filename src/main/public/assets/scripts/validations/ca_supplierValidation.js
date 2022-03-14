@@ -9,5 +9,14 @@ const ccsZvalidateCASupplier = (event) => {
   }
   
    if (errorStore.length === 0) document.forms["ccs_ca_suppliers_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
+  else{
+    $('.govuk-error-summary__title').text('There is a problem');
+
+    $("#summary_list").html('<li><a href="#">There is a problem with the value below</a></li> ');
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#summary_list").offset().top
+    }, 1000);     
+
+    $('#service_capability_error_summary').removeClass('hide-block');
+  }
 };

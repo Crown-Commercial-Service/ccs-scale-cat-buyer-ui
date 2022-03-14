@@ -12,8 +12,6 @@ allListOfHeading = [...allListOfHeading].map(items => {
 })
 
 
-console.log(allListOfHeading)
-
 
 
 const weight_whole = $('.weight_vetting_whole');
