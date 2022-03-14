@@ -35,6 +35,7 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
     agreementLotName,
     lotId,
     error: isJaggaerError,
+    choosenViewPath: req.session['choosenViewPath']
   };
   try {
     const eventResponse = await TenderApi.Instance(SESSION_ID).get(`/tenders/projects/${projectId}/events/${eventId}`);
