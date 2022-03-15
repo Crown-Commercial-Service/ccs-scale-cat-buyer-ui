@@ -28,7 +28,7 @@
             "lot":"Digital Programmes",
             "agreement":"Digital Specialists and Programme [RM6263]",
             "status": "Published",
-            "closeDate": "not available yet",
+            "closeDate": "N/A",
             "AgreementID": "RM6263",
             "lotid":"Lot 1"
         }
@@ -63,7 +63,7 @@
             "lotid":"Lot 2",
             "agreement":"Digital Specialists and Programme [RM6263]",
             "status": "unPublished",
-            "closeDate": "not available yet",
+            "closeDate": "N/A",
             "AgreementID": "RM6263"
         }
     },
@@ -97,7 +97,7 @@
             "lotid":"Lot 1",
             "agreement":"Digital Specialists and Programme [RM6263]",
             "status": "unPublished",
-            "closeDate": "not available yet",
+            "closeDate": "N/A",
             "AgreementID": "RM6263"
         }
     },
@@ -130,7 +130,7 @@
             "lot":"Digital Specialists",
             "agreement":"Digital Specialists and Programme [RM6263]",
             "status": "Published",
-            "closeDate": "not available yet",
+            "closeDate": "N/A",
             "AgreementID": "RM6263"
         }
     },
@@ -164,7 +164,7 @@
             "lotid":"Lot 1",
             "agreement":"Digital Specialists and Programme [RM6263]",
             "status": "unPublished",
-            "closeDate": "not available yet",
+            "closeDate": "N/A",
             "AgreementID": "RM6263"
         }
     },
@@ -198,7 +198,7 @@
             "lotid":"Lot 2",
             "agreement":"Digital Specialists and Programme [RM6263]",
             "status": "Published",
-            "closeDate": "not available yet",
+            "closeDate": "N/A",
             "AgreementID": "RM6263"
         }
     },
