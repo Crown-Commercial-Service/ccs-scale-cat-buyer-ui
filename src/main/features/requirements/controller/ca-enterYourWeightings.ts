@@ -44,6 +44,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
     let weightingsArray = [];
+    dimensions.pop();
     if (dimensions.length > 0) {
       weightingsArray = dimensions.map(anItem => {
         return {
