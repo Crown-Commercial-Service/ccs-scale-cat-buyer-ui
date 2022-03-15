@@ -117,28 +117,28 @@ $(document).ready(function () {
   // Messaging pagination starts
   // Sent message
   $(document).ready(function () {
-    $('#sent-message').after('<div class="ccs-pagination" id="historical-nav"><p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination historical-navigation</p></div>');
+    $('#sent-message').after('<div class="ccs-pagination" id="historical-nav2"><p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination historical-navigation</p></div>');
        var rowsShown = 10;
     var rowsTotal = $('#sent-message tbody tr').length;
        var numPages = rowsTotal / rowsShown;
        var pageNum = 0;
-    $('#historical-nav').append('<a id="sent-message-previous" rel="0" class="ccs-pagination__link" href="#">Previous<span class="govuk-visually-hidden"> set of pages</span></a>');
+    $('#historical-nav2').append('<a id="sent-message-previous" rel="0" class="ccs-pagination__link" href="#">Previous<span class="govuk-visually-hidden"> set of pages</span></a>');
        for (i = 0; i < numPages; i++) {
          pageNum = i + 1;
-         $('#historical-nav').append('<a class="ccs-pagination__link" id="pageId_'+i+'" href="#" rel="' + i + '">' + pageNum + '</a> ');
+         $('#historical-nav2').append('<a class="ccs-pagination__link" id="pageId_'+i+'" href="#" rel="' + i + '">' + pageNum + '</a> ');
        }
-    $('#historical-nav').append('<a id="sent-message-next" rel="1" class="ccs-pagination__link" href="#">Next<span class="govuk-visually-hidden"> set of pages</span></a>');
+    $('#historical-nav2').append('<a id="sent-message-next" rel="1" class="ccs-pagination__link" href="#">Next<span class="govuk-visually-hidden"> set of pages</span></a>');
     $('#sent-message-previous').addClass("govuk-visually-hidden");
-       $('#historical-nav').append('<span class="govuk-visually-hidden" id="total_page_active_event">' + pageNum + '</span> ');
+       $('#historical-nav2').append('<span class="govuk-visually-hidden" id="total_page_active_event">' + pageNum + '</span> ');
      
-       $('#historical-nav').append('<p class="ccs-pagination__results">Showing <b><label id="start_count">1</label></b> to <b><label id="end_count">' + rowsShown + '</label></b> of <b><label id="total_count">' + rowsTotal + '</label></b> results</p>');
+       $('#historical-nav2').append('<p class="ccs-pagination__results">Showing <b><label id="start_count">1</label></b> to <b><label id="end_count">' + rowsShown + '</label></b> of <b><label id="total_count">' + rowsTotal + '</label></b> results</p>');
     $('#sent-message tbody tr').hide();
     $('#sent-message tbody tr').slice(0, rowsShown).show();
-       $('#historical-nav a:nth-child(3)').addClass('ccs-pagination__item--active');
-       $('#historical-nav a').bind('click', function () {
+       $('#historical-nav2 a:nth-child(3)').addClass('ccs-pagination__item--active');
+       $('#historical-nav2 a').bind('click', function () {
          var currPage = $(this).attr('rel');
          var activePage = "#pageId_"+currPage;
-         $('#historical-nav a').removeClass('ccs-pagination__item--active');
+         $('#historical-nav2 a').removeClass('ccs-pagination__item--active');
          $(activePage).addClass('ccs-pagination__item--active');
          
          if (currPage != 0) {

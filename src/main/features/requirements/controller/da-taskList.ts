@@ -42,33 +42,36 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   ];
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
-  let ViewLoadedTemplateData;
-
-  switch (path) {
-    case 'B1':
-      ViewLoadedTemplateData = B1_Template;
-      break;
-
-    case 'B2':
-      ViewLoadedTemplateData = B2_Template;
-      break;
-
-    case 'B3':
-      ViewLoadedTemplateData = B3_Template;
-      break;
-
-    case 'B4':
-      ViewLoadedTemplateData = B4_Template;
-      break;
-
-    default:
-      res.redirect('error/404');
-  }
-
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
-    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreementId_session, projectId, eventId);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    const isSummaryDone = journeySteps.find(stp => stp.step === 54 && stp.state === 'Completed');
+   
+
+    let ViewLoadedTemplateData;
+  
+    switch (path) {
+      case 'B1':
+        ViewLoadedTemplateData = isSummaryDone ? B1_Template : B1_Template ;
+        break;
+  
+      case 'B2':
+        ViewLoadedTemplateData = B2_Template;
+        break;
+  
+      case 'B3':
+        ViewLoadedTemplateData = B3_Template;
+        break;
+  
+      case 'B4':
+        ViewLoadedTemplateData = B4_Template;
+        break;
+  
+      default:
+        res.redirect('error/404');
+    }
+
+
 
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
