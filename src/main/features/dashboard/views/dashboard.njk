@@ -70,7 +70,7 @@
                   <td class="govuk-table__cell">
                     {% if event.activeEvent.tenderPeriod.endDate %}
                       {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY') }}
-                    {% else %} not available yet {% endif %}
+                    {% else %} N/A {% endif %}
                   </td>
                   <td class="govuk-table__cell">
                     {{ event.activeEvent.status }}
@@ -171,7 +171,7 @@
                   <td class="govuk-table__cell">
                     {% if event.activeEvent.tenderPeriod.endDate %}
                       {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY') }}
-                    {% else %} not available yet {% endif %}
+                    {% else %} N/A {% endif %}
                   </td>
                 </tr>
               {% endfor %}
