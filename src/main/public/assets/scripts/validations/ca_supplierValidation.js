@@ -12,7 +12,7 @@ const ccsZvalidateCASupplier = (event) => {
   else{
     $('.govuk-error-summary__title').text('There is a problem');
 
-    $("#summary_list").html('<li><a href="#">There is a problem with the value below</a></li> ');
+    $("#summary_list").html('<li><a href="#summary">There is a problem with the value below</a></li> ');
     $([document.documentElement, document.body]).animate({
         scrollTop: $("#summary_list").offset().top
     }, 1000);     

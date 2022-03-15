@@ -24,7 +24,7 @@
       "href": "/ca/task-list?path="+choosenViewPath
     },
     {
-      "text": "How many suppliers you'd like to take forward",
+      "text": "How many suppliers you'd like to take forward?",
       "href": "#"
     }
   ]
@@ -67,6 +67,7 @@
                 <form id="ccs_ca_suppliers_form" name="ccs_ca_suppliers_form" class="form ccs_ca_suppliers" action="/ca/suppliers-to-forward" method="POST">
                     {{ csrfProtection(csrf) }}
                     <br>
+                    <div id="summary">
                     {{ CCSInput({
                       label: {
                         text: "You can enter between "+data.suppliers.min + " and "+data.suppliers.max+" suppliers"                        
@@ -79,8 +80,8 @@
                       pattern:"[0-9]{2}"
                     })
                 }}
-
-                    <div class="govuk-button-group">
+                    </div>
+                    <div class="govuk-button-group" >
                         {{ CCSButton({
                     text: "Save and continue"
                 }) }}
