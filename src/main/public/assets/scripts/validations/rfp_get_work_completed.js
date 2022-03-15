@@ -11,7 +11,7 @@ $('#completed_work').on('keypress focus mouseleave', ()=> {
         $('.govuk-error-summary__title').text('There is a problem');
         $('#work_location_word_error').text('Total Words: '+ wordCount + ' out of 500')
 
-        $("#summary_list").html('<li><a href="#">Words exceeded limits exceeded</a></li> ');
+        $("#summary_list").html('<li><a href="#">Words limit exceeded</a></li> ');
         $([document.documentElement, document.body]).animate({
             scrollTop: $("#summary_list").offset().top
         }, 1000);     
