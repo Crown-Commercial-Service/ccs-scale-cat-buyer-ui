@@ -78,7 +78,6 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         req.session['agreementDescription'] = '';
         req.session['nonOCDSList'] = '';
         req.session['selectedRoute'] = '';
-        req.session['selected_Route'] = '';
         req.session['caSelectedRoute'] = '';
         req.session['fcSelectedRoute'] = '';
         req.session['designations'] = [];
