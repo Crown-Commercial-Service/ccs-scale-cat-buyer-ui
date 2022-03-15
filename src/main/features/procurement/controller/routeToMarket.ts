@@ -18,7 +18,7 @@ export const ROUTE_TO_MARKET = async (req: express.Request, res: express.Respons
     if (eoiRoute == 'EOI') {
       res.redirect('/projects/events/choose-route')
     } else {
-      req.session.selectedRoute = 'RFI'
+      req.session.selected_Route = 'RFI'
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/2`, 'In progress');
       res.redirect('/rfi/rfi-tasklist')
     }

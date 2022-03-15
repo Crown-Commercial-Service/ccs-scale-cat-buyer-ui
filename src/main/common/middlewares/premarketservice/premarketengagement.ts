@@ -24,7 +24,7 @@ export class PreMarketEngagementMiddleware {
       const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
       const eventTypeURL = `tenders/projects/${projectId}/events`;
       const eventTypesURL = `tenders/projects/${projectId}/event-types`;
-      const eventType = req.session.selectedRoute;
+      const eventType = req.session.selected_Route;
       const _body = {
         eventType: eventType,
       };

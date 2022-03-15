@@ -48,7 +48,7 @@ export const POST_CHOOSE_ROUTE = async (req: express.Request, res: express.Respo
             case 'EOI':
                // eslint-disable-next-line no-case-declarations
                const redirect_address = EOI_PATHS.GET_TASKLIST;
-               req.session.selectedRoute = 'EOI'
+               req.session.selected_Route = 'EOI'
                await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/2`, 'In progress');
                logger.info("EOI Route selected");
                res.redirect(redirect_address);
@@ -57,7 +57,7 @@ export const POST_CHOOSE_ROUTE = async (req: express.Request, res: express.Respo
             case 'RFI':
                // eslint-disable-next-line no-case-declarations
                const newAddress = RFI_PATHS.GET_TASKLIST;
-               req.session.selectedRoute = 'RFI'
+               req.session.selected_Route = 'RFI'
                await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/2`, 'In progress');
                logger.info("RFI Route selected");
                res.redirect(newAddress);
