@@ -1,4 +1,4 @@
-# CCS Scale CaT Buyer UI
+# CCS Scale CaT Buyer UI.  
 
 CCS Scale CaT Buyer UI - ‘Contract a Thing’ (CaT)/'Create and award a contract'.
 
