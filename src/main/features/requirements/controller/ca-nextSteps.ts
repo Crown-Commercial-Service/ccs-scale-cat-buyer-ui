@@ -90,6 +90,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
       }
     } else {
       req.session['isJaggaerError'] = true;
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Completed');
       res.redirect(REQUIREMENT_PATHS.CA_GET_NEXTSTEPS);
     }
   } catch (error) {

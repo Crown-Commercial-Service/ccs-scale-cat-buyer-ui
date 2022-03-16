@@ -111,8 +111,8 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
         body,
       );
 
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');
       res.redirect('/ca/suppliers-to-forward');
     } catch (error) {
       LoggTracer.errorLogger(
