@@ -28,21 +28,21 @@
       "eventTask": [
         {
           "Task": 1,
-          "link": "/ca/name-your-project",
+          "link": "/da/name-your-project",
           "title": "Name your project",
           "required": "mandatory",
           "status": "Optional"
         },
         {
           "Task": 2,
-          "link": "/ca/procurement-lead",
+          "link": "/da/procurement-lead",
           "title": "Change who is going to lead the procurement",
           "required": "optional",
           "status": "Optional"
         },
         {
           "Task": 3,
-          "link": "/ca/add-collaborators",
+          "link": "/da/add-collaborators",
           "title": "Add members to your project",
           "required": "optional",
           "status": "Optional"
@@ -58,19 +58,19 @@
           "Task": 1,
           "title": "Learn about capability assessment",
           "required": "optional",
-          "link": "/ca/learn-about-capability-assessment",
+          "link": "/da/learn-about-capability-assessment",
           "status": "Optional"
         },
         {
           "Task": 2,
-          "link": "/ca/enter-your-weightings",
+          "link": "/da/enter-your-weightings",
           "title": " Enter your weightings ",
           "required": "mandatory",
           "status": "To do"
         },
         {
           "Task": 3,
-          "link": "/ca/accept-subcontractors",
+          "link": "/da/accept-subcontractors",
           "title": " Will you accept sub-contractors? ",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -91,14 +91,14 @@
         },
         {
           "Task": 6,
-          "link": "/ca/service-capabilities",
+          "link": "/da/service-capabilities",
           "title": " Select your service capabilities ",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
           "Task": 7,
-          "link": "/ca/team-scale",
+          "link": "/da/team-scale",
           "title": "How well your team will scale ",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -113,7 +113,7 @@
 
         {
           "Task": 9,
-          "link": "/ca/suppliers-to-forward",
+          "link": "/da/suppliers-to-forward",
           "title": "How many suppliers you'd like to take forward? ",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -128,7 +128,7 @@
 
         {
           "Task": 11,
-          "link": "/ca/next-steps",
+          "link": "/da/next-steps",
           "title": "Next steps ",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -150,14 +150,14 @@
           "Task": 1,
           "title": "Upload pricing schedules and any other supporting documentation",
           "required": "optional",
-          "link": "/ca/upload-pricing-supporting-doc",
+          "link": "/da/upload-pricing-supporting-doc",
           "status": "Cannot start yet"
         },
         {
           "Task": 2,
           "title": "IR35 acknowledgement",
           "required": "optional",
-          "link": "/ca/upload-pricing-supporting-doc",
+          "link": "/da/upload-pricing-supporting-doc",
           "status": "Cannot start yet"
         }
       ]
