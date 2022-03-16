@@ -129,7 +129,7 @@ export const CA_POST_ADD_COLLABORATOR = async (req: express.Request, res: expres
 
   if(rfi_collaborators == ""){
     req.session['isJaggaerError'] = true;
-    res.redirect('/eoi/add-collaborators');
+    res.redirect('/ca/add-collaborators');
   }
   else{
   try {
@@ -138,7 +138,7 @@ export const CA_POST_ADD_COLLABORATOR = async (req: express.Request, res: expres
     const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
     const userData = organisation_user_data?.data;
     req.session['searched_user'] = userData;
-    res.redirect('/ca/ca-add-collaborators');
+    res.redirect('/ca/add-collaborators');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -164,7 +164,7 @@ export const CA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
     };
     await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
     req.session['searched_user'] = [];
-    res.redirect('/rfp/add-collaborators');
+    res.redirect('/ca/add-collaborators');
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
@@ -187,6 +187,6 @@ export const CA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
 export const CA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/28`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
   res.redirect('/ca/ca-tasklist');
 };

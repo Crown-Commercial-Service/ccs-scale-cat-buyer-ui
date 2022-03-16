@@ -209,9 +209,15 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
-  const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage } =
+
+
+  try {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Not started');
+    
+
+
+    const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage } =
     req.body;
 
   const Mapped_weight_staff = weight_staff.map(item => item !== '');
@@ -255,10 +261,8 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
 
   res.redirect('/ca/resources-vetting-weightings');
 
-  /**
-   *  try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-    //res.redirect('/ca/enter-your-weightings');
+
+
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -270,6 +274,5 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       true,
     );
   }
-   * 
-   */
+
 };
