@@ -121,6 +121,9 @@ let staffs = [];
 let vettings = [];
 let staffIDs = [];
 let vettingIDs = [];
+$('#redirect-button-vetting').on('click', function () {
+  staffIDs.length = 0;
+});
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("ccs_ca_menu_tabs_form_later") !== null) {
     let inputs;
@@ -149,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (weight_staff.includes(event.currentTarget.id)) {
           let repeated = false;
           if (staffIDs.length !== 0) {
-            repeated = Object.keys(staffIDs[0]).find(key => key === event.currentTarget.id);
+            repeated = Object.keys(staffIDs).find(key => key === event.currentTarget.id);
 
           }
           if (staffIDs.length === 0 || repeated !== event.currentTarget.id) {
@@ -169,8 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
               let values = Object.values(value);
               let v = values[0];
               console.log(event.currentTarget);
-              return ((parseInt(acc) + parseInt(v)) - Number(oldIdValue));
-            }, 0);
+              return ((parseInt(acc) - Number(oldIdValue)) + parseInt(v));
+            }, Number(oldIdValue));
           }
         }
         if (weight_vetting.includes(event.currentTarget.id)) {
