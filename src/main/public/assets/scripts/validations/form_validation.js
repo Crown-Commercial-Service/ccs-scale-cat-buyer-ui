@@ -14,13 +14,14 @@
  * Works with text, number and file inputs (make sure the
  * 'accepts' attribute is set for files).
  */
-const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
+const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => {
   const element = document.getElementById(elementName);
 
-  if (element.value.trim().match(typeRegex)) {
+  if (element.value.trim().match(typeRegex) && valid) {
     ccsZremoveErrorMessage(element);
     return true;
   } else {
+    ccsZremoveErrorMessage(element);
     ccsZaddErrorMessage(element, errMsg);
     return [element.id, errMsg];
   }
