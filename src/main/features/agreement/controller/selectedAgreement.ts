@@ -1,34 +1,46 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-nocheck
-import * as express from 'express'
-import { ReleatedContent } from '../model/related-content'
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance'
+import * as express from 'express';
+import { ReleatedContent } from '../model/related-content';
+import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 
 /**
- * 
- * @Rediect 
+ *
+ * @Rediect
  * @endpoint '/oauth/login
- * @param req 
- * @param res 
+ * @param req
+ * @param res
  */
 export const SELECTED_AGREEMENT = async (req: express.Request, res: express.Response) => {
   const { lotId, agreementLotName, agreementId, agreementName } = req.query;
 
-  const BaseUrlAgreement = `/agreements/${agreementId}/lots/${lotId}`
-  const { data: retrieveAgreementLot } = await AgreementAPI.Instance.get(BaseUrlAgreement)
+  const BaseUrlAgreement = `/agreements/${agreementId}/lots/${lotId}`;
+  try {
+    const { data: retrieveAgreementLot } = await AgreementAPI.Instance.get(BaseUrlAgreement);
 
-  req.session.agreement_id = agreementId;
-  req.session.agreementLotName = retrieveAgreementLot.name
-  req.session.agreementName = agreementName
-  req.session.lotId = lotId
+    req.session.agreement_id = agreementId;
+    req.session.agreementLotName = retrieveAgreementLot.name;
+    req.session.agreementName = agreementName;
+    req.session.lotId = lotId;
 
-  const releatedContent: ReleatedContent = new ReleatedContent();
-  releatedContent.name = agreementName
-  releatedContent.lotName = retrieveAgreementLot.name
-  releatedContent.lotUrl = "/agreement/lot?agreement_id="+agreementId+"&lotNum="+lotId.replace(/ /g,"%20");
-  releatedContent.title = 'Related content'
-  req.session.releatedContent = releatedContent
-  req.session.selectedRoute = null
+    const releatedContent: ReleatedContent = new ReleatedContent();
+    releatedContent.name = agreementName;
+    releatedContent.lotName = retrieveAgreementLot.name;
+    releatedContent.lotUrl = '/agreement/lot?agreement_id=' + agreementId + '&lotNum=' + lotId.replace(/ /g, '%20');
+    releatedContent.title = 'Related content';
+    req.session.releatedContent = releatedContent;
+    req.session.selectedRoute = null;
 
-  res.redirect('/projects/create-or-choose')
-}
+    res.redirect('/projects/create-or-choose');
+  } catch (err) {
+    LoggTracer.errorLogger(
+      res,
+      err,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Event management page',
+      true,
+    );
+  }
+};

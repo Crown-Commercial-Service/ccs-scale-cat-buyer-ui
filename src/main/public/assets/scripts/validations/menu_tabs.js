@@ -1,27 +1,67 @@
-const weight_staff = ['weight_staff_1SoftwareDeveloper',
+const weight_staff = [
+  'weight_staff_1SoftwareDeveloper',
   'weight_staff_2DevOps',
   'weight_staff_3SecurityArchitect',
   'weight_staff_4InfrastructureEngineer',
   'weight_staff_5NetworkArchitect',
   'weight_staff_6TechnicalArchitect',
   'weight_staff_7DataArchitect',
+  'weight_staff_1PerformanceAnalyst',
+  'weight_staff_4DataScientist',
+  'weight_staff_2DataEngineer',
+  'weight_staff_3DataAnalyst',
+  'weight_staff_1Delivery',
+  'weight_staff_2BusinessAnalysis',
+  'weight_staff_7ApplicationsOperations',
+  'weight_staff_2BusinessRelationshipManager',
+  'weight_staff_3ITServiceManager',
+  'weight_staff_1ChangeandReleaseManager',
+  'weight_staff_5EngineerInfrastructure',
+  'weight_staff_8ServiceTransitionManager',
+  'weight_staff_4TechnicalWriter',
+  'weight_staff_3ProductManager',
+  'weight_staff_5ContentDesigner',
+  'weight_staff_9ServiceDeskManager',
+  'weight_staff_2Delivery',
+  'weight_staff_1BusinessAnalysis',
+  'weight_staff_10ProblemManager',
+  'weight_staff_11IncidentManager',
+  'weight_staff_1GraphicInteractionDesigner',
+  'weight_staff_2ServiceDesigner',
+  'weight_staff_3UserResearcher',
+  'weight_staff_4EngineerEndUser',
+  'weight_staff_3ProductManager',
+  'weight_staff_6CommandandControl',
+  'weight_staff_1UserResearcher',
+  'weight_staff_3TechnicalWriter',
+  'weight_staff_4ServiceDesigner',
+  'weight_staff_5GraphicInteractionDesigner',
   'weight_staff_1TestEngineer',
   'weight_staff_2TestManager',
   'weight_staff_3QATAnalyst',
-  'weight_staff_1PerformanceAnalyst',
-  'weight_staff_2DataEngineer',
-  'weight_staff_3DataAnalyst',
-  'weight_staff_4DataScientist',
-  'weight_staff_1ChangeandReleaseManager',
-  'weight_staff_2BusinessRelationshipManager',
-  'weight_staff_3ITServiceManager',
-  'weight_staff_4EngineerEndUser',
-  'weight_staff_5EngineerInfrastructure',
-  'weight_staff_6CommandandControl',
-  'weight_staff_7ApplicationsOperations',
-  'weight_staff_9ServiceDeskManager',
-  'weight_staff_10ProblemManager',
-  'weight_staff_11IncidentManager'
+  'weight_staff_1CommandandControl',
+  'weight_staff_2ApplicationsOperations',
+  'weight_staff_3IncidentManager',
+  'weight_staff_4EngineerInfrastructure',
+  'weight_staff_5ServiceDeskManager',
+  'weight_staff_6BusinessRelationshipManager',
+  'weight_staff_7ProblemManager',
+  'weight_staff_8ITServiceManager',
+  'weight_staff_9EngineerEndUser',
+  'weight_staff_10ServiceTransitionManager',
+  'weight_staff_11ChangeandReleaseManager',
+  'weight_staff_1TechnicalArchitect',
+  'weight_staff_2DataArchitect',
+  'weight_staff_3NetworkArchitect',
+  'weight_staff_4SoftwareDeveloper',
+  'weight_staff_5DevOps',
+  'weight_staff_6SecurityArchitect',
+  'weight_staff_7InfrastructureEngineer',
+  'weight_staff_1DataScientist',
+  'weight_staff_2PerformanceAnalyst',
+  'weight_staff_2PerformanceAnalyst',
+  'weight_staff_3DataEngineer',
+  'weight_staff_4DataAnalyst'
 ]
 
 const weight_vetting = ['weight_vetting_1SoftwareDeveloper',
@@ -86,33 +126,29 @@ document.addEventListener('DOMContentLoaded', () => {
     let inputs;
     let index;
     let container;
+    let oldIdName;
+    let oldIdValue;
 
     //const total_resources = document.getElementById('total-resources');
     const total_staffs = document.getElementById('total-staff');
     const total_vettings = document.getElementById('total-vetting');
     container = document.getElementById('ccs_ca_menu_tabs_form_later');
     inputs = container.getElementsByTagName('input');
+
     for (index = 0; index < inputs.length; ++index) {
       inputs[index].value = '';
+      inputs[index].addEventListener('focus', function (e) {
+        oldIdName = e.currentTarget.id;
+        oldIdValue = e.currentTarget.value;
+        console.log(e.currentTarget.value);
+        console.log(e.currentTarget.id);
+      }, true);
       inputs[index].addEventListener('change', function (event) {
         event.preventDefault();
 
         if (weight_staff.includes(event.currentTarget.id)) {
           let repeated = false;
           if (staffIDs.length !== 0) {
-            // Object.keys(staffIDs[0]).find(key => {
-            //   console.log('xxxx 1 ', staffIDs[0]);
-            //   console.log('xxxx keys ', staffIDs[0][key]);
-            //   return staffIDs[key];
-            // })
-            // for (const [key, value] of Object.entries(staffIDs[0])) {
-            //   //console.log(key, value);
-            //   repeated = key === event.currentTarget.id;
-            //   console.log('repeated ', repeated);
-            // }
-            // for (let key in staffIDs[0]) {
-            //   console.log(key); // Outputs: foo, fiz or fiz, foo
-            // }
             repeated = Object.keys(staffIDs[0]).find(key => key === event.currentTarget.id);
 
           }
@@ -122,15 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
             total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
               let values = Object.values(value);
               let v = values[0];
+              console.log(repeated);
               return (parseInt(acc) + parseInt(v));
             }, 0);
           } else {
             const idName = event.currentTarget.id;
+            if (oldIdName !== idName) oldIdValue = 0;
             staffIDs.splice(-2, 1, { [idName]: event.currentTarget.value });
             total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
               let values = Object.values(value);
               let v = values[0];
-              return (parseInt(acc) + parseInt(v));
+              console.log(event.currentTarget);
+              return ((parseInt(acc) + parseInt(v)) - Number(oldIdValue));
             }, 0);
           }
         }
