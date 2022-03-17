@@ -76,6 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+    const countWords = (str) => { return str.trim().split(/\s+/).length };
+
     const emptyQuestionFieldCheckRfp = () => {
       let fieldCheck = "",
         errorStore = [];
@@ -85,26 +87,34 @@ document.addEventListener('DOMContentLoaded', () => {
           if(Number($("#totalPercentage").val) > 100)
           {
             fieldCheck = ccsZvalidateWithRegex("fc_question_"+i+"_4", "You cannot add / submit  question as your weightings exceed 100%", /\w+/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck); 
+          }
+          const condOrd1 = countWords(rootEl.querySelector(".order_1").value) > 50;
+          if(rootEl.querySelector(".order_1").value == "" || condOrd1)
+          { 
+            const msg = (rootEl.querySelector(".order_1").value)? "Entry is limited to 50 words" : "You must enter valid question";
+            fieldCheck = ccsZvalidateWithRegex("fc_question_"+i+"_1",msg , /\w+/, !condOrd1);
             if (fieldCheck !== true) errorStore.push(fieldCheck);
           }
-          if(rootEl.querySelector(".order_1").value == "" )
+          const condOrd2 = countWords(rootEl.querySelector(".order_2").value) > 150;
+          if(rootEl.querySelector(".order_2").value == "" || !condOrd2)
           { 
-            fieldCheck = ccsZvalidateWithRegex("fc_question_"+i+"_1", "You must enter valid question", /\w+/);
+            const msg = (rootEl.querySelector(".order_2").value)? "Entry is limited to 50 words" : "You must enter valid additional information";
+            fieldCheck = ccsZvalidateWithRegex("fc_question_"+i+"_2", msg, /\w+/, !condOrd2);
             if (fieldCheck !== true) errorStore.push(fieldCheck);
           }
-          if(rootEl.querySelector(".order_2").value == "" )
+          const condOrd3 = countWords(rootEl.querySelector(".order_3").value) > 500;
+          if(rootEl.querySelector(".order_3").value == "" || condOrd3)
           { 
-            fieldCheck = ccsZvalidateWithRegex("fc_question_"+i+"_2", "You must enter valid additional information", /\w+/);
+            const msg = (rootEl.querySelector(".order_3").value)? "Entry is limited to 50 words" : "You must enter valid information";
+            fieldCheck = ccsZvalidateWithRegex("fc_question_"+i+"_3", msg, /\w+/, !condOrd3);
             if (fieldCheck !== true) errorStore.push(fieldCheck);
           }
-          if(rootEl.querySelector(".order_3").value == "" )
+          const condWeight = rootEl.querySelector(".weightage").value > 100;
+          if(rootEl.querySelector(".weightage").value ===  "" || condWeight)
           { 
-            fieldCheck = ccsZvalidateWithRegex("fc_question_"+i+"_3", "You must enter valid information", /\w+/);
-            if (fieldCheck !== true) errorStore.push(fieldCheck);
-          }
-          if(rootEl.querySelector(".weightage").value == "" )
-          { 
-            fieldCheck = ccsZvalidateWithRegex("fc_question_"+i+"_4", "You must enter valid weightage", /\w+/);
+            const msg = (rootEl.querySelector(".weightage").value)? "Enter a weighting for this question <= 100%" : "You must enter valid weightage";
+            fieldCheck = ccsZvalidateWithRegex("fc_question_"+i+"_4", msg, /\w+/, !condWeight);
             if (fieldCheck !== true) errorStore.push(fieldCheck);
           }
         }
