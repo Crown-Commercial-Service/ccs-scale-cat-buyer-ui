@@ -99,7 +99,7 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
     // Check 'review ranked suppliers' step number
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
 
-    res.redirect('/ca/get-work-done');
+    res.redirect('/ca/where-work-done');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
