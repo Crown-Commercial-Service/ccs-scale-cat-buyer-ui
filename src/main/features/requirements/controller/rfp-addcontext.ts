@@ -51,12 +51,13 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
-      const ExcludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
+      const excludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
         AField => AField.OCDS.id !== 'Group Key Dates',
       );
+      const excludingIR35 = excludingKeyDates.filter(field => field.OCDS.description !== 'IR35 acknowledgement');
       const releatedContent = req.session.releatedContent;
       const display_fetch_data = {
-        data: ExcludingKeyDates,
+        data: excludingIR35,
         agreement_id: agreement_id,
         file_data: fileData,
         proc_id: proc_id,
