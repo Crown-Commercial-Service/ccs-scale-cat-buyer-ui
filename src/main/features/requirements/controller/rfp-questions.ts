@@ -111,7 +111,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 
     const TemporaryObjStorage = [];
     for (const ITEM of fetch_dynamic_api_data) {
-      if (ITEM.nonOCDS.dependant) {
+      if (ITEM.nonOCDS.dependant && ITEM.nonOCDS.dependency.relationships) {
         const RelationsShip = ITEM.nonOCDS.dependency.relationships;
         for (const Relation of RelationsShip) {
           const { dependentOnId } = Relation;
