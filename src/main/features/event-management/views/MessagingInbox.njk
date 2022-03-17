@@ -39,7 +39,6 @@
 {% endblock %}
 
 {% block content %}
-    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if created == 'true' %}
             <div class="govuk-grid-column-one-half">
@@ -93,7 +92,7 @@
 
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
             <div class="govuk-grid-column-full">
-                {% if messages.length > 0 %}
+                {% if messages.length > 5 %}
                     <table class="govuk-table" id="received-message">
                     {% else %}
                         <table class="govuk-table">

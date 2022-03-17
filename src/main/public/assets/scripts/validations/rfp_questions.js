@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     $(".add-another-btn").on('click', function(){      
         $(".govuk-error-summary").remove();
-        errorStore = emptyQuestionFieldCheck();
+        errorStore = emptyQuestionFieldCheckRfp();
         if (errorStore.length == 0) {
           document.getElementById("fc_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");      
           if (with_value_count > 2) {
@@ -71,7 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
       $('label[for=fc_question_' + prev_input + '] a.del').removeClass("ccs-dynaform-hidden");
     })
 
-    const emptyQuestionFieldCheck = () => {
+
+
+  }
+});
+
+    const emptyQuestionFieldCheckRfp = () => {
       let fieldCheck = "",
         errorStore = [];
       for (var i = 1; i < 11; i++) {
@@ -106,9 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       return errorStore;
     };
+
     const ccsZvalidateRfpQuestions = (event) =>{
       event.preventDefault();
-      const errorStore = emptyQuestionFieldCheck();
+      const errorStore = emptyQuestionFieldCheckRfp();
       if (errorStore.length === 0) {
         document.forms["rfp_multianswer_question_form"].submit();
       }
@@ -116,6 +122,3 @@ document.addEventListener('DOMContentLoaded', () => {
         ccsZPresentErrorSummary(errorStore);
       }
     };
-  }
-});
-
