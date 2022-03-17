@@ -100,7 +100,7 @@
           "Task": 7,
           "title": "Where the work will be done",
           "required": "mandatory",
-          "link": "/da/get-work-done",
+          "link": "/da/where-work-done",
           "status": "Cannot start yet"
         }
       ]

@@ -69,7 +69,7 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
   if (isError) {
     req.session.errorText = errorText;
     req.session.isError = isError;
-    res.redirect('/ca/get-work-done');
+    res.redirect('/ca/where-work-done');
   } else {
     try {
       const weightingDimensions = dimensions;
