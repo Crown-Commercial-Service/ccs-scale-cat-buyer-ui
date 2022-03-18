@@ -152,10 +152,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (weight_staff.includes(event.currentTarget.id)) {
           let repeated = false;
           if (staffIDs.length !== 0) {
-            repeated = Object.keys(staffIDs).find(key => key === event.currentTarget.id);
+            for (const obj of staffIDs) {
+              console.log('object ', obj);
+              const keys = Object.keys(obj);
+              console.log('keys ', keys);
+              repeated = keys.find(key => {
+                console.log('keykeykeykeykeykeykeykeykey1 ', key);
+                console.log('keykeykeykeykeykeykeykeykey2 ', event.currentTarget.id);
+                if (key === event.currentTarget.id) {
+                  console.log('match ', key);
+                  return key;
+                } else {
+                  console.log('no match ', key);
+                }
 
+              });
+            }
           }
-          if (staffIDs.length === 0 || repeated !== event.currentTarget.id) {
+          if (repeated === undefined) repeated = false;
+          // if there is not repeated element
+          if (staffIDs.length === 0 || (repeated !== event.currentTarget.id && !repeated)) {
             const idName = event.currentTarget.id;
             staffIDs.push({ [idName]: event.currentTarget.value });
             total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
@@ -165,13 +181,22 @@ document.addEventListener('DOMContentLoaded', () => {
               return (parseInt(acc) + parseInt(v));
             }, 0);
           } else {
+            // if there is repeated element
             const idName = event.currentTarget.id;
-            if (oldIdName !== idName) oldIdValue = 0;
-            staffIDs.splice(-2, 1, { [idName]: event.currentTarget.value });
+            // if (oldIdName !== idName) oldIdValue = 0;
+            console.log('staffIDs before ', staffIDs);
+            staffIDs.splice(-1, 1, { [idName]: event.currentTarget.value });
+            console.log('staffIDs after ', staffIDs);
             total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
+
               let values = Object.values(value);
+              let keys = Object.keys(value);
+              let k = keys[0];
               let v = values[0];
-              console.log(event.currentTarget);
+              console.log('keys ', keys);
+              console.log('key ', keys[0]);
+              console.log('values ', values);
+              console.log('v ', values[0]);
               return ((parseInt(acc) - Number(oldIdValue)) + parseInt(v));
             }, Number(oldIdValue));
           }
