@@ -245,7 +245,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
         let {dimensionRequirements} = ALL_ASSESSTMENTS_DATA;
 
         if(dimensionRequirements.length > 0){
-        dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0].requirements;
+        dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0]?.requirements;
 
   
         const AddedValuesTo_StorageForSortedItems = StorageForSortedItems.map(items => {

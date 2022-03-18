@@ -36,8 +36,7 @@
     </div>
     <div id="error_summary_resources">
     
-    <form id="ccs_ca_menu_tabs_form_later" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/resources-vetting-weightings" method="POST">
-    {{ csrfProtection(csrf) }}
+
    
     <div class="ccs-page-section">
       <div class="sub-section">
@@ -47,6 +46,8 @@
       </div>
        <div class="sub-section"><a href="#" class="del govuk-link govuk-link--no-visited-state vetting-popup" title="delete">Clear form</a></div>
     </div>
+        <form id="ccs_ca_menu_tabs_form_later" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/resources-vetting-weightings" method="POST">
+    {{ csrfProtection(csrf) }}
     <section class="ons-page__container ons-container">
         <div id="vertical_tab_nav" class="ons-grid ons-js-toc-container">
             <div class="ons-grid__col ons-grid__col--sticky@m ons-col-4@m">
@@ -153,8 +154,8 @@
         }}
         <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
       </div>
-    </div>
       </form>
+       </div>
       </div>
     <div class="govuk-grid-column-one-third">
       {{ CCSReleatedContent(releatedContent) }}
