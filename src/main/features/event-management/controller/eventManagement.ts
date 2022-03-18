@@ -91,7 +91,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       });
     }
 
-    if (status == "Published") {
+    if (status == "Published" || status == "Response period closed" ) {
       const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
       res.render('eventManagement', appendData)
     } else {

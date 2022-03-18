@@ -4,7 +4,7 @@
 
 {% set title = 'Event management ' %}
 {% block breadCrumb %}
-    {{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
         items:[
     {
       "text": "Dashboard",
@@ -99,9 +99,9 @@
             <p class="app-task-list__tag">
               <a class="govuk-link" href="{{data.subsection4_title2_2_task[0].line_1_link}}">{{data.subsection4_title2_2_task[0].line_1_text}}</a>
             </p>
-            </h2>
+          </h2>
           <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
-          <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_2_task[1].line_1_link}}">{{data.subsection4_title2_2_task[1].line_1_text}}</a>
+            <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_2_task[1].line_1_link}}">{{data.subsection4_title2_2_task[1].line_1_text}}</a>
           </p>
         {% endif %}
       </div>
@@ -148,7 +148,9 @@
                       </p>
                     </th>
                     <td class="govuk-table__cell">{{ supplier.ResponseDate }}</td>
-                    <td class="govuk-table__cell"><a class="govuk-link" href="{{ data.Downloadresponse[0].link }}">{{ data.Downloadresponse[0].text }}</a></td> 
+                    <td class="govuk-table__cell">
+                      <a class="govuk-link" href="{{ data.Downloadresponse[0].link }}">{{ data.Downloadresponse[0].text }}</a>
+                    </td>
                   </tr>
                 {% endfor %}
               </tbody>
@@ -157,9 +159,11 @@
         </div>
       </div>
     </div>
-    <div class="govuk-inset-text">
-      <h4 class="govuk-heading-s">Next Steps on the procurement</h4>
-      <p class="govuk-body">You can now <a class="govuk-link" href="/event/next">choose your next steps</a> to continue in this procurement.</p>
-    </div>
+    {% if status != 'Response period closed' %}
+      <div class="govuk-inset-text">
+        <h4 class="govuk-heading-s">Next Steps on the procurement</h4>
+        <p class="govuk-body">You can now <a class="govuk-link" href="/event/next">choose your next steps</a> to continue in this procurement.</p>
+      </div>
+    {% endif %}
   </main>
 {% endblock %}
