@@ -51,11 +51,18 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     const CAPACITY_DATASET = CAPACITY_DATA.data;
     const dimensions = CAPACITY_DATASET;
 
+
+
     
 
     const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantity')[0];
-    var { options } = LEVEL7CONTENTS;
+    const LEVEL2CONTENTS =  dimensions.filter(dimension => dimension['name'] === 'Security Clearance')[0];
 
+      let Level7AndLevel2Contents = [...LEVEL7CONTENTS['options'],...LEVEL2CONTENTS['options'] ];
+      Level7AndLevel2Contents = {options: Level7AndLevel2Contents};
+
+
+    var { options } = Level7AndLevel2Contents;
 
     /**
      * @Removing_duplications
@@ -198,6 +205,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     //res.json(REMAPPED_ACCORDING_TO_PARENT_ROLE)
     res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
+    console.error(error)
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
