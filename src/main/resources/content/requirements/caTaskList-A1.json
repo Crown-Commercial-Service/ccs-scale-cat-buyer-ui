@@ -148,9 +148,16 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "[ Upload pricing schedules and any other supporting documentation ]",
+          "title": "Upload pricing schedules and any other supporting documentation",
           "required": "optional",
           "link": "/ca/upload-pricing-supporting-doc",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 2,
+          "title": "IR35 acknowledgement",
+          "required": "optional",
+          "link": "#",
           "status": "Cannot start yet"
         }
       ]
