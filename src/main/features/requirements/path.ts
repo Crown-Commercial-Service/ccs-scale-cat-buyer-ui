@@ -653,4 +653,14 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_POST_WORK_COMPLETED,
   );
+
+
+   /**
+   * @POSTROUTER '/da/resources-vetting-weightings'
+   */
+    app.post(
+      REQUIREMENT_PATHS.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
+    );
 }
