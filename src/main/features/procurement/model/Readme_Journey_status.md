@@ -179,11 +179,11 @@ First when we load the procurement page we have to issue the `POST` method to in
 >
 > Step 48 - [ Learn about capability assessment ] (Optional)
 >
-> Step 49 - [ Enter your weightings ] (Not started)
+> Step 49 - [ Enter your weightings ] (Not started)  46 is new one
 >
-> Step 50 - [ Choose your resources ] (Cannot start yet)
+> Step 50 - [ Choose your resources ] (Cannot start yet) - 47 is new one
 >
-> Step 51 - [ Select your service capabilities ] (Cannot start yet)
+> Step 51 - [ Select your service capabilities ] (Cannot start yet) - 48 is new one
 >
 > Step 52 - [ Will you accept suppliers working overseas? ] (Cannot start yet)
 >

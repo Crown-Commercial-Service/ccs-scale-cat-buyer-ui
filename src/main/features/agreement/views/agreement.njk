@@ -8,7 +8,6 @@
         items: data.breadCrumbs
       }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
@@ -82,7 +81,7 @@
                           <dd>
                             <p class="govuk-body"></p>
                             <p class="govuk-body">
-                              <a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
+                              <a target="_blank" rel="noopener noreferrer" href="https://www.crowncommercial.gov.uk/agreements/{{agreement.number}}:{{lot.number | replace("Lot ", "")}}/lot-suppliers" class="govuk-link govuk-link--no-visited-state">{{lot.suppliers}}
                                 <span class="visuallyhidden">for {{lot.number}}: {{lot.name}}</span></a>
                             </p>
                           </dd>

@@ -143,18 +143,20 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
             })
             .filter(criteria => criteria !== null),
         };
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Not started');
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,
         );
       }
 
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Not started');
+
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
       res.redirect('/ca/accept-subcontractors');
     }
   } catch (error) {
+    console.log(error)
     LoggTracer.errorLogger(
       res,
       error,
