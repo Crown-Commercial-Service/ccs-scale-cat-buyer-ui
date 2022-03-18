@@ -1,10 +1,17 @@
 let errorStore = [];
+
+const condLength = (text) => {
+    return text.trim().split(/\s+/).length > 500 || text.trim().length > 5000;
+}
+
 const ccsZvalidateRfPStrategy = event => {
   event.preventDefault();
   let fieldCheck = '';
   if ($('#rfp_prob_statement_t')) {
-    if ($('#rfp_prob_statement_t').data('mandatory') == true) {
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', 'You must enter information here');
+    errorStore = [];
+    if ($('#rfp_prob_statement_t').data('mandatory') || condLength($('#rfp_prob_statement_t').val())) {
+      const msg = $('#rfp_prob_statement_t').data('mandatory') ? 'You must enter information here': 'Entry must be <= 500 words or <=5000 characters';
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', msg, !condLength($('#rfp_prob_statement_t').val()));
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
@@ -49,7 +56,6 @@ const ccsZvalidateRfPStrategy = event => {
     }
   }
 
-  ccsZOnChange();
   if (errorStore.length === 0) document.forms['ccs_rfp_exit_strategy_form'].submit();
   else ccsZPresentErrorSummary(errorStore);
 };
