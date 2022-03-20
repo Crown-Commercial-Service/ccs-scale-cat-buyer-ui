@@ -151,66 +151,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (weight_staff.includes(event.currentTarget.id)) {
           let repeated = false;
-          if (staffIDs.length !== 0) {
-            for (const obj of staffIDs) {
-              console.log('object ', obj);
-              const keys = Object.keys(obj);
-              console.log('keys ', keys);
+          if (weight_staff.includes(event.currentTarget.id)) {
+            let repeated = false;
+            if (staffIDs.length !== 0) {
+              for (const obj of staffIDs) {
+                console.log('object ', obj);
+                keys = Object.keys(obj);
+                console.log('keys ', keys);
+              }
               repeated = keys.find(key => {
                 console.log('keykeykeykeykeykeykeykeykey1 ', key);
                 console.log('keykeykeykeykeykeykeykeykey2 ', event.currentTarget.id);
                 if (key === event.currentTarget.id) {
                   console.log('match ', key);
                   return key;
-                } else {
-                  console.log('no match ', key);
                 }
-
+                console.log('no match ', key);
               });
             }
+            if (repeated === undefined) repeated = false;
+            // if there is not repeated element
+            if (staffIDs.length === 0 || (repeated !== event.currentTarget.id && !repeated)) {
+              const idName = event.currentTarget.id;
+              staffIDs.push({ [idName]: event.currentTarget.value });
+              total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
+                let values = Object.values(value);
+                let v = values[0];
+                console.log(repeated);
+                return (parseInt(acc) + parseInt(v));
+              }, 0);
+            } else {
+              // if there is repeated element
+              const idName = event.currentTarget.id;
+              // if (oldIdName !== idName) oldIdValue = 0;
+              console.log('staffIDs before ', staffIDs);
+              staffIDs.splice(-1, 1, { [idName]: event.currentTarget.value });
+              console.log('staffIDs after ', staffIDs);
+              total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
+
+                let values = Object.values(value);
+                let keys = Object.keys(value);
+                let k = keys[0];
+                let v = values[0];
+                console.log('keys ', keys);
+                console.log('key 0 ', keys[0]);
+                console.log('values ', values);
+                console.log('v ', values[0]);
+                console.log('key 1 ', keys[1]);
+                if (oldIdName === k && staffIDs.length >= 2) {
+                  oldIdValue = 0;
+                }
+                return ((parseInt(acc) - Number(oldIdValue)) + parseInt(v));
+              }, Number(oldIdValue));
+            }
           }
-          if (repeated === undefined) repeated = false;
-          // if there is not repeated element
-          if (staffIDs.length === 0 || (repeated !== event.currentTarget.id && !repeated)) {
-            const idName = event.currentTarget.id;
-            staffIDs.push({ [idName]: event.currentTarget.value });
-            total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
-              let values = Object.values(value);
-              let v = values[0];
-              console.log(repeated);
-              return (parseInt(acc) + parseInt(v));
-            }, 0);
-          } else {
-            // if there is repeated element
-            const idName = event.currentTarget.id;
-            // if (oldIdName !== idName) oldIdValue = 0;
-            console.log('staffIDs before ', staffIDs);
-            staffIDs.splice(-1, 1, { [idName]: event.currentTarget.value });
-            console.log('staffIDs after ', staffIDs);
-            total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
+          if (weight_vetting.includes(event.currentTarget.id)) {
+            vettings.push(event.currentTarget.value);
 
-              let values = Object.values(value);
-              let keys = Object.keys(value);
-              let k = keys[0];
-              let v = values[0];
-              console.log('keys ', keys);
-              console.log('key ', keys[0]);
-              console.log('values ', values);
-              console.log('v ', values[0]);
-              return ((parseInt(acc) - Number(oldIdValue)) + parseInt(v));
-            }, Number(oldIdValue));
           }
-        }
-        if (weight_vetting.includes(event.currentTarget.id)) {
-          vettings.push(event.currentTarget.value);
 
-        }
+          // total_vettings.innerHTML = vettings.reduce((acc, value) => {
+          //   return (parseInt(acc) + parseInt(value));
+          // }, 0);
 
-        // total_vettings.innerHTML = vettings.reduce((acc, value) => {
-        //   return (parseInt(acc) + parseInt(value));
-        // }, 0);
-
-      });
+        });
     }
   }
 });
