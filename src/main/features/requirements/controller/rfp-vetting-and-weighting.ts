@@ -146,7 +146,9 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
   
        })
   
-  
+      /**
+       * Formatting with removed items 
+       */
        const FORMATTED_CHILD_REMAPPED_ITEMS = REMAPPED_ITEM.map(anOption => {
         const Parent = anOption.filter(level => level.level == 1);
         const Child = anOption.filter(level => level.level == 2);
@@ -244,10 +246,14 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
         let {dimensionRequirements} = ALL_ASSESSTMENTS_DATA;
 
-        if(dimensionRequirements.length > 0){
-        dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0]?.requirements;
+       
 
-  
+    
+      var AddedResources = 0;
+        
+      if(dimensionRequirements.length > 0){
+        dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantity')[0].requirements;
+        AddedResources = dimensionRequirements.length;
         const AddedValuesTo_StorageForSortedItems = StorageForSortedItems.map(items => {
             const {category} = items;
 
@@ -269,16 +275,23 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
             return {...items, category: mappedCategory}
 
         })
+          // for all Data which is filled
+          
 
         StorageForSortedItems = AddedValuesTo_StorageForSortedItems;
          }
+
+
+      
+
+     
         const windowAppendData = {
           ...RFP_WEIGTING_JSON,
           lotId,
           agreementLotName,
           releatedContent,
           isError,
-          totalResouces: dimensionRequirements.length,
+          totalResouces: AddedResources,
           errorText,
           designations: StorageForSortedItems,
           TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
@@ -286,10 +299,9 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
      
   
      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
-    //res.json(StorageForSortedItems)
- res.render('rfp-vetting-weighting', windowAppendData);
+
+  res.render('rfp-vetting-weighting', windowAppendData);
     } catch (error) {
-        console.log(error)
       req.session['isJaggaerError'] = true;
       LoggTracer.errorLogger(
         res,

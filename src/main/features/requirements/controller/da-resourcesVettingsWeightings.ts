@@ -205,7 +205,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     //res.json(REMAPPED_ACCORDING_TO_PARENT_ROLE)
     res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
-    console.error(error)
+
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
