@@ -560,7 +560,7 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
   //@POST "rfp/suppliers"
   app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
-  //@POST '/ca/resources-vetting-weightings'
+  //@POST '/ca/resources-vetting-weightisngs'
   app.post(
     REQUIREMENT_PATHS.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
     AUTH,

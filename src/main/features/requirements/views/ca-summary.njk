@@ -65,7 +65,9 @@
       Enter your weightings
     </dt>
     <dd class="govuk-summary-list__value">
-     XX %
+     {% for items in Weightings.dimensionRequirements %}
+     <div class="govuk-!-margin-2">{{items.weighting}}% &nbsp; {{items.name}}</div>
+     {%endfor%}
     </dd>
     <dd class="govuk-summary-list__actions">
      
@@ -76,7 +78,7 @@
        Will you accept sub-contractors
     </dt>
     <dd class="govuk-summary-list__value">
-     XX
+     {{subcontractor}}
     </dd>
     <dd class="govuk-summary-list__actions">
       
