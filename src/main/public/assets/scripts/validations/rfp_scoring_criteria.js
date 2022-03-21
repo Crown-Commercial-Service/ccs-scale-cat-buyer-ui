@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
       deleteButtons = document.querySelectorAll('a.clear-fields');
 
     for (var score_criteria_fieldset = 10; score_criteria_fieldset > 1; score_criteria_fieldset--) {
-      console.log(document.querySelector('score_criteria_10'));
       let this_fieldset = document.querySelector('.score_criteria_' + score_criteria_fieldset),
         name_box = document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset);
 
@@ -112,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let formElement = document.getElementById('ccs_rfp_scoring_criteria');
             let action = formElement.getAttribute('action');
             action = action + '&stop_page_navigate=true';
-            // console.log($("#ccs_rfp_scoring_criteria").serialize());
             $.ajax({
               type: 'POST',
               url: action,

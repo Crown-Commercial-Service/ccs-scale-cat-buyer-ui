@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('eoi_term_definition_' + target).value = "";
         removeErrorFieldsEoi();
       });
-     
+
     });
 
 
@@ -136,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let formElement = document.getElementById("ccs_eoi_acronyms_form");
             let action = formElement.getAttribute("action");
             action = action + "&stop_page_navigate=true";
-            // console.log($("#ccs_eoi_acronyms_form").serialize());
             $.ajax({
               type: "POST",
               url: action,
@@ -196,9 +195,6 @@ const emptyFieldCheckEoi = () => {
   for (var x = 1; x < 11; x++) {
     let term_field = document.getElementById('eoi_term_' + x);
     let definition_field = document.getElementById("eoi_term_definition_" + x);
-
-    // console.log(name_field.classList.value);
-
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsEoi();
       if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {

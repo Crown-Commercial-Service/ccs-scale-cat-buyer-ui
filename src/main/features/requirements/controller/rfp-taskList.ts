@@ -44,7 +44,6 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
 
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-    console.log('ALL_ASSESSTMENTS ', ALL_ASSESSTMENTS);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
