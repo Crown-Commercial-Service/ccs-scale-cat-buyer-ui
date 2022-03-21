@@ -88,7 +88,7 @@ export const RFP_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: expres
       userType: 'PROJECT_OWNER',
     };
     await TenderApi.Instance(SESSION_ID).put(url, _body);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/27`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/28`, 'Completed');
 
     res.redirect('/rfp/add-collaborators');
   } catch (error) {

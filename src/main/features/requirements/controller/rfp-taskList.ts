@@ -40,13 +40,11 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     statusStepsDataFilter(chooseRouteData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/29`, 'In progress');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'In progress');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'In progress');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/32`, 'In progress');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
 
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+    console.log('ALL_ASSESSTMENTS ', ALL_ASSESSTMENTS);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
