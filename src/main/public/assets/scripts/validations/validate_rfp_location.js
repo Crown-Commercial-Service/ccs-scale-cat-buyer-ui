@@ -14,6 +14,7 @@ const ccsZvalidateRfpLocation = (event) => {
 };
 
 const ccsZvalidateChangeRfpLocation = (event) => {
+  // validation for these inputs only
   event.preventDefault();
   let inputs;
   let container = document.getElementById('rfp_location');
