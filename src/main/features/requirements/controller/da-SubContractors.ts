@@ -16,54 +16,54 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
-  req.session;
-const agreementId_session = agreement_id;
-const { isValidationError } = req.session;
-const { assessmentId } = req.session.currentEvent;
-let isSubContractorAccepted = false;
-req.session['isValidationError'] = false;
-res.locals.agreement_header = {
-  agreementName,
-  project_name,
-  agreementId_session,
-  agreementLotName,
-  lotId,
-  error: isValidationError,
-};
-try {
-  const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-  if (assessmentDetail.dimensionRequirements.length > 0) {
-    // Need refactoring
-    const SubContractor = assessmentDetail.dimensionRequirements.find(dmns =>
-      dmns.includedCriteria.find(crt => crt.name == 'Sub Contractor'),
-    );
-    isSubContractorAccepted = SubContractor !== undefined && SubContractor !== null ? true : false;
-  } else {
-    isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
-  }
-  daSubContractors.form[0].radioOptions.items = daSubContractors.form[0].radioOptions.items.map(opt => {
-    opt.checked = opt.value == 'yes' && isSubContractorAccepted ? true : false;
-    return opt;
-  });
-  const windowAppendData = {
-    data: daSubContractors,
-    releatedContent,
+    req.session;
+  const agreementId_session = agreement_id;
+  const { isValidationError } = req.session;
+  const { assessmentId } = req.session.currentEvent;
+  let isSubContractorAccepted = false;
+  req.session['isValidationError'] = false;
+  res.locals.agreement_header = {
+    agreementName,
+    project_name,
+    agreementId_session,
+    agreementLotName,
+    lotId,
     error: isValidationError,
-    SubContractorAccepted: isSubContractorAccepted,
   };
-  res.render('da-SubContractors', windowAppendData);
-} catch (error) {
-  req.session['isValidationError'] = true;
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Journey service - Get failed - DA next steps page',
-    true,
-  );
-}
+  try {
+    const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
+    if (assessmentDetail.dimensionRequirements.length > 0) {
+      // Need refactoring
+      const SubContractor = assessmentDetail.dimensionRequirements.find(dmns =>
+        dmns.includedCriteria.find(crt => crt.name == 'Sub Contractor'),
+      );
+      isSubContractorAccepted = SubContractor !== undefined && SubContractor !== null ? true : false;
+    } else {
+      isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
+    }
+    daSubContractors.form[0].radioOptions.items = daSubContractors.form[0].radioOptions.items.map(opt => {
+      opt.checked = opt.value == 'yes' && isSubContractorAccepted ? true : false;
+      return opt;
+    });
+    const windowAppendData = {
+      data: daSubContractors,
+      releatedContent,
+      error: isValidationError,
+      SubContractorAccepted: isSubContractorAccepted,
+    };
+    res.render('da-SubContractors', windowAppendData);
+  } catch (error) {
+    req.session['isValidationError'] = true;
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Journey service - Get failed - DA next steps page',
+      true,
+    );
+  }
 };
 
 const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string) => {
@@ -104,7 +104,6 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
               };
           }),
         };
-        // console.log(body);
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,

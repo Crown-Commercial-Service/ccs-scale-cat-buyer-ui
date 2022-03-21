@@ -55,9 +55,9 @@
                     break;
             }
         }
-      //  const formattedCookie = encodeURIComponent(sKey) + "=" + sValue +  sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
-       // document.cookie = formattedCookie.toString();
-        const FormattedCookies = encodeURIComponent(sKey) + "=" + sValue +  sExpires ;
+        //  const formattedCookie = encodeURIComponent(sKey) + "=" + sValue +  sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
+        // document.cookie = formattedCookie.toString();
+        const FormattedCookies = encodeURIComponent(sKey) + "=" + sValue + sExpires;
         document.cookie = FormattedCookies;
         return true;
     },
@@ -180,7 +180,6 @@
         initial_cookie_preferences.forEach(function (cookieGroup, idx) {
             // Check if the loop cookie type matches the selected cookie_type
             if (cookieGroup.cookie_type === cookie_type && cookieGroup.cookies !== null) {
-                // console.log({cookieGroup});
                 // Loop through each cookie in the selected cookie_type
                 cookieGroup.cookies.forEach(function (cookie, idx) {
                     docCookies.removeItem(cookie.name, cookie.path, cookie.domain); // console.log("delteted: " + cookie.name);

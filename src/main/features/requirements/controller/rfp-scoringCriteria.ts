@@ -56,7 +56,6 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
   try {
-    console.log('req body --- ', req.body);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Completed');
     res.redirect('/rfp/task-list');
   } catch (error) {
