@@ -204,6 +204,7 @@ if (document.getElementById('ccs_rfp_acronyms_form') !== null)
 
 if (document.getElementById('rfp_location') !== null)
   document.getElementById('rfp_location').addEventListener('submit', ccsZvalidateRfpLocation);
+document.getElementById('rfp_location').addEventListener('change', ccsZvalidateChangeRfpLocation);
 
 if (document.getElementById('ccs_eoi_splterms_form') !== null)
   document.getElementById('ccs_eoi_splterms_form').addEventListener('submit', ccsZvalidateEoiSpecialTerms);
