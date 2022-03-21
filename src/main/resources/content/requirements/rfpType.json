@@ -68,7 +68,7 @@
             "hint": {
               "text": "Use this option to upload attachement and complete the assessment online."
             },
-            "disabled": "true"
+            "disabled": "false"
           }
         ]
       }
