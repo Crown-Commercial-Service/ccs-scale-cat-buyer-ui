@@ -1,6 +1,5 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
-{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/dialog/macro.njk" import CCSDialog %}
 
 {% block breadCrumb %}
@@ -47,7 +46,7 @@
        <div class="sub-section"><a href="#" class="del govuk-link govuk-link--no-visited-state vetting-popup" title="delete">Clear form</a></div>
     </div>
         <form id="ccs_ca_menu_tabs_form_later" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/resources-vetting-weightings" method="POST">
-    {{ csrfProtection(csrf) }}
+     <input type="hidden" name="_csrf" value="{{token}}">
     <section class="ons-page__container ons-container">
         <div id="vertical_tab_nav" class="ons-grid ons-js-toc-container">
             <div class="ons-grid__col ons-grid__col--sticky@m ons-col-4@m">

@@ -27,6 +27,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     } = req.session;
     
     const agreementId_session = agreement_id;
+    const {assessmentId} = currentEvent;
     const { isJaggaerError } = req.session;
     req.session['isJaggaerError'] = false;
     res.locals.agreement_header = {
@@ -38,8 +39,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       error: isJaggaerError,
     };
     try {
-        
-    const assessmentId =1;    
+         
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
@@ -105,6 +105,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
   
       const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
       var {options} = LEVEL7CONTENTS;
+
   
       /**
        * @Removing_duplications
@@ -324,6 +325,8 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
 
     const {SFIA_weightage, requirement_Id_SFIA_weightage} = req.body;
    
+    const {currentEvent} = req.session;
+    const {assessmentId} = currentEvent;
     
     const AllValuedSFIA_weightage = SFIA_weightage.map(items => items != '');
     const INDEX_FINDER_OBJ_REMAPPER = [];
@@ -348,7 +351,6 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
       }
 
    try {
-       const assessmentId = 1;
        const CAPACITY_BASEURL = `assessments/tools/1/dimensions`;
         const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
         const CAPACITY_DATASET = CAPACITY_DATA.data;
@@ -360,6 +362,7 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
          await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
       res.redirect('/rfp/vetting-weighting');
       } catch (error) {
+        console.error(error);
         req.session['isJaggaerError'] = true;
         LoggTracer.errorLogger(
           res,

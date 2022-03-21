@@ -47,11 +47,15 @@ export const CA_GET_SUMMARY = async (req: express.Request, res: express.Response
         const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
         const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
         const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
+        const Weightings = ALL_ASSESSTMENTS_DATA;
         const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
+
+       
     
         const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
         const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
-        let CAPACITY_DATASET = CAPACITY_DATA.data;
+        let CAPACITY_DATASET = CAPACITY_DATA.data;        
+        
 
         let {dimensionRequirements} = ALL_ASSESSTMENTS_DATA;
         const DRequirements = dimensionRequirements?.[0]?.requirements;
@@ -198,6 +202,16 @@ export const CA_GET_SUMMARY = async (req: express.Request, res: express.Response
 
         }
         
+        /**
+         * @Sub-contractor
+         */
+         let isSubContractorAccepted = '';
+
+         if(req.session['CapAss'].isSubContractorAccepted !== undefined){
+             if(req.session['CapAss'].isSubContractorAccepted) isSubContractorAccepted = 'yes'
+             else isSubContractorAccepted = 'no'
+         }
+
 
         const windowAppendData = {
             data: CMSData,
@@ -205,7 +219,9 @@ export const CA_GET_SUMMARY = async (req: express.Request, res: express.Response
             choosenViewPath,
             ServiceStorageWithVal,
             LocationStorageWithVal,
-            SecurityStorageWithVal
+            SecurityStorageWithVal,
+            Weightings,
+            subcontractor: isSubContractorAccepted
         }
      //  res.json(CAPACITY_DATASET)
     res.render('ca-summary.njk', windowAppendData);
