@@ -12,7 +12,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @GETController
  */
 export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
-  const { SESSION_ID } = req.cookies;
+  const { SESSION_ID, _csrf } = req.cookies;
   const {
     lotId,
     agreementLotName,
@@ -189,9 +189,11 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       StorageForSortedItems.push(findElementInRemapptedParentRole);
     }
 
+
     const windowAppendData = {
       ...daResourcesVetting,
       lotId,
+      token: _csrf,
       agreementLotName,
       releatedContent,
       isError,
@@ -205,7 +207,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     //res.json(REMAPPED_ACCORDING_TO_PARENT_ROLE)
     res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
-    console.error(error)
+
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,

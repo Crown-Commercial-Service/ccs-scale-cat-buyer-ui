@@ -31,6 +31,7 @@ async function getAgreements(agreements: string[], req: express.Request, res: ex
   try {
     for (let i = 0; i < agreements.length; i++) {
       const agreement = agreements[i]
+      // POST MVP this base URL needs to be changed to GET /agreements to retrieve active agreements applicable for the CAS
       const BaseURL = `agreements/${agreement}`
       const LotBaseURL = `agreements/${agreement}/lots`
       const retrieveAgreementPromise = await AgreementAPI.Instance.get(BaseURL);
