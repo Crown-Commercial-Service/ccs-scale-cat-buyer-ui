@@ -30,15 +30,12 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => 
 /**
  * Validate that a textarea cointains a value
  */
-const ccsZvalidateTextArea = (elementName, errMsg) => {
+const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
   const element = document.getElementById(elementName);
-  if (element.value.trim().length > 0 || element.value.trim().length < 500) {
+  if (element.value.trim().length > 0 && valid) {
     ccsZremoveErrorMessage(element);
   }
-  if (element.value.trim().length > 0 && element.value.trim().length < 500) {
-    ccsZremoveErrorMessage(element);
-    return true;
-  } else {
+  else {
     ccsZaddErrorMessage(element, errMsg);
     return [element.id, errMsg];
   }
