@@ -2,7 +2,7 @@
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
 
-{% set title = 'How will you publish your EoI? | Contract a Thing' %}
+{% set title = 'How will you publish your EoI? | Contract Award Service' %}
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
@@ -30,14 +30,15 @@
       <div class="govuk-grid-column-one-third">
         {{ CCSReleatedContent(releatedContent) }}
       </div>
-      </div>
-      <form id="ccs_eoi_type_form" name="ccs_eoi_type_form" class="form ccs_eoi_type_form" action="/eoi/type?agreement_id={{agreement_id}}" method="POST">
-        {{ csrfProtection(csrf) }}
-        {% set formOptions = data.form.radioOptions.items %}
+    </div>
+    <form id="ccs_eoi_type_form" name="ccs_eoi_type_form" class="form ccs_eoi_type_form" action="/eoi/type?agreement_id={{agreement_id}}" method="POST">
+      {{ csrfProtection(csrf) }}
+      {% set formOptions = data.form.radioOptions.items %}
 
-        {% set form_Options_Altered = [] %}
+      {% set form_Options_Altered = [] %}
 
-        {% for item in formOptions %}
+      {% for item in formOptions %}
+        {% if item.disabled != 'true' %}
           {% set form_Options_Altered = (form_Options_Altered.push(
              {
                value: item.value,
@@ -49,31 +50,45 @@
              ), form_Options_Altered) 
              
              %}
+        {% else %}
+          {% set form_Options_Altered = (form_Options_Altered.push(
+             {
+               value: item.value,
+              html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+              disabled: 'true',
+              hint : {
+                text: item.hint.text
+              }
+              }
+             ), form_Options_Altered) 
+             
+             %}
+        {% endif %}
 
-        {% endfor %}
+      {% endfor %}
 
-        {{ CCSRadios({
+      {{ CCSRadios({
                 idPrefix: "ccs_eoi_type",
                 name: "ccs_eoi_type",
                 items: form_Options_Altered               
               }) }}
 
-        {{ CCSInput({
+      {{ CCSInput({
                 id: "choose_eoi_type",
                 name: "choose_eoi_type",
                 type: "hidden",
                 value: true
               }) }}
 
-        <div class="govuk-button-group">
-          {{ CCSButton({
+      <div class="govuk-button-group">
+        {{ CCSButton({
                 text: "Save and continue"
                 }) }}
-          <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
-        </div>
-      </form>
-    </div>
+        <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+      </div>
+    </form>
+  </div>
 
-  </main>
+</main>
 
 {% endblock %}
