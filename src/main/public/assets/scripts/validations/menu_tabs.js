@@ -124,6 +124,7 @@ let vettingIDs = [];
 $('#redirect-button-vetting').on('click', function () {
   staffIDs.length = 0;
 });
+
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("ccs_ca_menu_tabs_form_later") !== null) {
     let inputs;
@@ -138,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     container = document.getElementById('ccs_ca_menu_tabs_form_later');
     inputs = container.getElementsByTagName('input');
 
-    for (index = 0; index < inputs.length; ++index) {
+    for (let index = 0; index < inputs.length; ++index) {
       inputs[index].value = '';
       inputs[index].addEventListener('focus', function (e) {
         oldIdName = e.currentTarget.id;
@@ -148,73 +149,62 @@ document.addEventListener('DOMContentLoaded', () => {
       }, true);
       inputs[index].addEventListener('change', function (event) {
         event.preventDefault();
-
+        let repeated = false;
         if (weight_staff.includes(event.currentTarget.id)) {
           let repeated = false;
-          if (weight_staff.includes(event.currentTarget.id)) {
-            let repeated = false;
-            if (staffIDs.length !== 0) {
-              for (const obj of staffIDs) {
-                console.log('object ', obj);
-                keys = Object.keys(obj);
-                console.log('keys ', keys);
+          if (staffIDs.length !== 0) {
+            for (const obj of staffIDs) {
+              console.log('object ', obj);
+              keys = Object.keys(obj);
+              console.log('keys ', keys);
+            }
+            repeated = keys.find(key => {
+              console.log('keykeykeykeykeykeykeykeykey1 ', key);
+              console.log('keykeykeykeykeykeykeykeykey2 ', event.currentTarget.id);
+              if (key === event.currentTarget.id) {
+                console.log('match ', key);
+                return key;
               }
-              repeated = keys.find(key => {
-                console.log('keykeykeykeykeykeykeykeykey1 ', key);
-                console.log('keykeykeykeykeykeykeykeykey2 ', event.currentTarget.id);
-                if (key === event.currentTarget.id) {
-                  console.log('match ', key);
-                  return key;
-                }
-                console.log('no match ', key);
-              });
-            }
-            if (repeated === undefined) repeated = false;
-            // if there is not repeated element
-            if (staffIDs.length === 0 || (repeated !== event.currentTarget.id && !repeated)) {
-              const idName = event.currentTarget.id;
-              staffIDs.push({ [idName]: event.currentTarget.value });
-              total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
-                let values = Object.values(value);
-                let v = values[0];
-                console.log(repeated);
-                return (parseInt(acc) + parseInt(v));
-              }, 0);
-            } else {
-              // if there is repeated element
-              const idName = event.currentTarget.id;
-              // if (oldIdName !== idName) oldIdValue = 0;
-              console.log('staffIDs before ', staffIDs);
-              staffIDs.splice(-1, 1, { [idName]: event.currentTarget.value });
-              console.log('staffIDs after ', staffIDs);
-              total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
-
-                let values = Object.values(value);
-                let keys = Object.keys(value);
-                let k = keys[0];
-                let v = values[0];
-                console.log('keys ', keys);
-                console.log('key 0 ', keys[0]);
-                console.log('values ', values);
-                console.log('v ', values[0]);
-                console.log('key 1 ', keys[1]);
-                if (oldIdName === k && staffIDs.length >= 2) {
-                  oldIdValue = 0;
-                }
-                return ((parseInt(acc) - Number(oldIdValue)) + parseInt(v));
-              }, Number(oldIdValue));
-            }
+              console.log('no match ', key);
+            });
           }
-          if (weight_vetting.includes(event.currentTarget.id)) {
-            vettings.push(event.currentTarget.value);
+          if (repeated === undefined) repeated = false;
+          // if there is not repeated element
+          if (staffIDs.length === 0 || (repeated !== event.currentTarget.id && !repeated)) {
+            const idName = event.currentTarget.id;
+            staffIDs.push({ [idName]: event.currentTarget.value });
+            total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
+              let values = Object.values(value);
+              let v = values[0];
+              console.log(repeated);
+              return (parseInt(acc) + parseInt(v));
+            }, 0);
+          } else {
+            //  if there is repeated element
+            const idName = event.currentTarget.id;
+            // if (oldIdName !== idName) oldIdValue = 0;
+            console.log('staffIDs before ', staffIDs);
+            staffIDs.splice(-1, 1, { [idName]: event.currentTarget.value });
+            console.log('staffIDs after ', staffIDs);
+            total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
 
+              let values = Object.values(value);
+              let keys = Object.keys(value);
+              let k = keys[0];
+              let v = values[0];
+              console.log('keys ', keys);
+              console.log('key 0 ', keys[0]);
+              console.log('values ', values);
+              console.log('v ', values[0]);
+              console.log('key 1 ', keys[1]);
+              if (oldIdName === k && staffIDs.length >= 2) {
+                oldIdValue = 0;
+              }
+              return ((parseInt(acc) - Number(oldIdValue)) + parseInt(v));
+            }, Number(oldIdValue));
           }
-
-          // total_vettings.innerHTML = vettings.reduce((acc, value) => {
-          //   return (parseInt(acc) + parseInt(value));
-          // }, 0);
-
-        });
+        }
+      })
     }
   }
 });
