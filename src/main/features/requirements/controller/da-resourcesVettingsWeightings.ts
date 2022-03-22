@@ -202,6 +202,9 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
     };
 
+    
+
+   // console.log(StorageForSortedItems[0].category[0].designations)
 
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     //res.json(REMAPPED_ACCORDING_TO_PARENT_ROLE)
@@ -229,6 +232,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage } =
     req.body;
 
+
   const Mapped_weight_staff = weight_staff.map(item => item !== '');
   let IndexStorage = [];
 
@@ -254,37 +258,81 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   let IndexStorageForSFIA_LEVELS = [];
 
   for (var i = 0; i < SFIA_WEIGHTAGE_MAP.length; i++) {
-    if (Mapped_weight_staff[i] == true) {
+    if (SFIA_WEIGHTAGE_MAP[i] == true) {
       IndexStorageForSFIA_LEVELS.push(i);
     }
   }
 
-  IndexStorageForSFIA_LEVELS = IndexStorageForSFIA_LEVELS.map(Index => {
-    const requirement_id = requirement_Id_SFIA_weightage[Index];
-    const SFIA_WEIGHTAGE = SFIA_weightage[Index];
+  const WeigtagewithRequirementId = IndexStorageForSFIA_LEVELS.map((item)=> {
     return {
-      weigthage: SFIA_WEIGHTAGE,
-      requirement_id: requirement_id,
-    };
-  });
+      'requirement-id': Number(requirement_Id_SFIA_weightage[item]),
+      'weighting': SFIA_weightage[item],
+      "values":[]
+    }
+  })
 
-  res.redirect('/da/resources-vetting-weightings');
+  const WeigtageName = weigthage_group_name.map((item, index)=> {
+    return {
+      "staff-weigtage": weight_staff[index],
+      "vetting-weigtage": weight_vetting[index],
+      "group": item
+    }
+  }).filter(item => item['staff-weigtage'] !== '');
+
+  const {
+    currentEvent,
+  } = req.session;
+  const { assessmentId } = currentEvent;
+
+ try {
 
   /**
-   *  try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-    //res.redirect('/ca/enter-your-weightings');
+   * 
+   */
+  const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+  const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+  const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
+
+  const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
+  const vetting_weightage = 20;
+  // Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
+
+  const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
+
+
+  const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
+  const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+  let CAPACITY_DATASET = CAPACITY_DATA.data;
+
+
+
+  const _RequestBody = {
+    "weighting":vetting_weightage,
+    "includedCriteria":[],
+    "overwriteRequirements":true,
+    "requirements": WeigtagewithRequirementId
+ }
+    const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
+    const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
+   await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, _RequestBody);
+
+
+ // console.log({WeigtagewithRequirementId, WeigtageName, _RequestBody})
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
+  res.redirect('/da/resources-vetting-weightings');
+
+
   } catch (error) {
+    console.log(error)
     LoggTracer.errorLogger(
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Journey service - Post failed - CA learn page',
+      'Cannot Add requirements for Capability assessment',
       true,
     );
   }
-   * 
-   */
+
 };
