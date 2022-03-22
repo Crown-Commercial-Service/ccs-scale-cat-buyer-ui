@@ -148,8 +148,27 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   }
 };
 
-export const GET_REMOVE_FILES = (express.Handler = (req: express.Request, res: express.Response) => {
-  res.redirect('/rfi/upload-doc');
+export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies //jwt
+  const { projectId } = req.session
+  const EventId = req.session['eventId']
+  const { file_id } = req.query
+  const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
+  try {
+    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    res.redirect('/rfi/upload-doc')
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Remove document failed',
+      true,
+    );
+  }
+
 });
 
 ///rfi/upload-doc/procceed

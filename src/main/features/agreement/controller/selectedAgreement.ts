@@ -28,6 +28,7 @@ export const SELECTED_AGREEMENT = async (req: express.Request, res: express.Resp
   releatedContent.lotUrl = "/agreement/lot?agreement_id="+agreementId+"&lotNum="+lotId.replace(/ /g,"%20");
   releatedContent.title = 'Related content'
   req.session.releatedContent = releatedContent
+  req.session.selectedRoute = null
 
   res.redirect('/projects/create-or-choose')
 }
