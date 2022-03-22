@@ -150,7 +150,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   } else res.render('error/500');
 };
 
-export const GET_REMOVE_FILES = (express.Handler = (req: express.Request, res: express.Response) => {
+export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies //jwt
   const { projectId } = req.session
   const EventId = req.session['eventId']
