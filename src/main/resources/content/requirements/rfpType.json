@@ -38,11 +38,11 @@
           },
           {
             "value": "offline_attachment_3",
-            "text": "Upload only your statement of requirements but finish the bid pack online",
+            "text": "Upload only your statement of requirements but finish the bid pack online (Coming soon)",
             "hint": {
               "text": "Use this option to upload attachement and complete the assessment online."
             },
-            "disabled": "false"
+            "disabled": "true"
           }
         ]
       }
@@ -64,11 +64,11 @@
           },
           {
             "value": "offline_attachment_2",
-            "text": "Upload only your statement of requirements but finish the bid pack online",
+            "text": "Upload only your statement of requirements but finish the bid pack online (Coming soon)",
             "hint": {
               "text": "Use this option to upload attachement and complete the assessment online."
             },
-            "disabled": "false"
+            "disabled": "true"
           }
         ]
       }
