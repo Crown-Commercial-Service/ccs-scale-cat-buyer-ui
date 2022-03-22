@@ -5,6 +5,9 @@ import * as daResourcesVetting from '../../../resources/content/requirements/daR
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
+//pricing 
+
+
 /**
  *
  * @param req
@@ -46,25 +49,24 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
+
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
     const dimensions = CAPACITY_DATASET;
 
+  
+
 
 
     
 
-    const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantity')[0];
-    const LEVEL2CONTENTS =  dimensions.filter(dimension => dimension['name'] === 'Security Clearance')[0];
-
-      let Level7AndLevel2Contents = [...LEVEL7CONTENTS['options'],...LEVEL2CONTENTS['options'] ];
-      Level7AndLevel2Contents = {options: Level7AndLevel2Contents};
+    const LEVEL6CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Pricing')[0];
 
 
-    var { options } = Level7AndLevel2Contents;
+    var { options } = LEVEL6CONTENTS;
 
-    /**
+   /**
      * @Removing_duplications
      */
     const UNIQUE_DESIGNATION_CATEGORY = [...new Set(options.map(item => item.name))];
@@ -82,7 +84,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     UNIQUE_DESIG_STORAGE = UNIQUE_DESIG_STORAGE.flat();
 
     const REFORMED_DESIGNATION_OBJECT = {
-      ...LEVEL7CONTENTS,
+      ...LEVEL6CONTENTS,
       options: UNIQUE_DESIG_STORAGE,
     };
 
@@ -136,7 +138,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     const REMAPPED_LEVEL1_CONTENTS = DESIGNATION_MERGED_WITH_CHILD_STORAGE.map(items => {
       return {
         Parent: items.Parent,
-        category: items.category,
+        category: items.category.map(subItems => subItems.child).flat(),
       };
     });
 
@@ -161,6 +163,11 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       };
     });
 
+    /**   
+ 
+
+       * 
+       */
 
     const REMAPPTED_TABLE_ITEM_STORAGE = [];
 
@@ -177,7 +184,9 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       }
     }
 
-
+    /**
+     * Sorting Designation According to the Table Items
+     */
 
     const StorageForSortedItems = [];
 
@@ -193,7 +202,6 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     const windowAppendData = {
       ...daResourcesVetting,
       lotId,
-      token: _csrf,
       agreementLotName,
       releatedContent,
       isError,
@@ -202,12 +210,13 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
     };
 
+
     
 
    // console.log(StorageForSortedItems[0].category[0].designations)
 
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    //res.json(REMAPPED_ACCORDING_TO_PARENT_ROLE)
+   //res.json(LEVEL6CONTENTS)
     res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
 
@@ -286,9 +295,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
 
  try {
 
-  /**
-   * 
-   */
+
   const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
   const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
   const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
