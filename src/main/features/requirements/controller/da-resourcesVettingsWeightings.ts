@@ -304,15 +304,6 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     }
   })
 
-  //  staff weightings is dimension 1, vetting is dimension 2
-
-  console.log({
-    findRequirementIdForWeigtageName,
-    WeigtagewithRequirementId,
-    toolId: EXTERNAL_ID
-  })
-
-
 
  let DimensionForRequirements = 6;
 
