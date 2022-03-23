@@ -108,7 +108,7 @@ export class QuestionHelper {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/21`, 'Optional');
           await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/22`, 'Not started');
         }
-        res.redirect('/rfp/rfp-tasklist');
+        res.redirect('/rfp/task-list');
       }
     } catch (error) {
       logger.log('Something went wrong in the RFP Journey, please review the logit error log for more information');

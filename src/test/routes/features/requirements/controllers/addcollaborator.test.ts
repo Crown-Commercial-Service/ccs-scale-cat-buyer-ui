@@ -201,7 +201,7 @@ describe('Add collaborator', () => {
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .expect(res => {
         expect(res.status).to.equal(302);
-        expect(res.header.location).to.be.equal('/rfp/rfp-tasklist');
+        expect(res.header.location).to.be.equal('/rfp/task-list');
       });
   });
 });
