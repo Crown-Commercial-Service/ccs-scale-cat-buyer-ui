@@ -161,8 +161,8 @@ export enum REQUIREMENT_PATHS {
   DA_GET_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
   DA_POST_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
 
-  DA_GET_SUBCONTRACTORS = '/da/accept-subContractors',
-  DA_POST_SUBCONTRACTORS = '/da/accept-subContractors',
+  DA_GET_SUBCONTRACTORS = '/da/accept-subcontractors',
+  DA_POST_SUBCONTRACTORS = '/da/accept-subcontractors',
 
   DA_GET_REVIEW_RANKED_SUPPLIERS = '/da/review-ranked-suppliers',
   DA_POST_REVIEW_RANKED_SUPPLIERS = '/da/review-ranked-suppliers',
