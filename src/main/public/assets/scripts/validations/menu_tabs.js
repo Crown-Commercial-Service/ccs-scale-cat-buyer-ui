@@ -132,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let container;
     let oldIdName;
     let oldIdValue;
-
     //const total_resources = document.getElementById('total-resources');
     const total_staffs = document.getElementById('total-staff');
     const total_vettings = document.getElementById('total-vetting');
@@ -144,8 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
       inputs[index].addEventListener('focus', function (e) {
         oldIdName = e.currentTarget.id;
         oldIdValue = e.currentTarget.value;
-        console.log(e.currentTarget.value);
-        console.log(e.currentTarget.id);
       }, true);
       inputs[index].addEventListener('change', function (event) {
         event.preventDefault();
@@ -155,15 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (staffIDs.length !== 0) {
             const keys = Object.keys(staffIDs[0]);
-            console.log('keys ', keys);
             repeated = keys.find(key => {
-              console.log('keykeykeykeykeykeykeykeykey1 ', key);
-              console.log('keykeykeykeykeykeykeykeykey2 ', event.currentTarget.id);
               if (key === event.currentTarget.id) {
-                console.log('match ', key);
                 return key;
               }
-              console.log('no match ', key);
             });
           }
           if (repeated === undefined) repeated = false;
@@ -174,28 +166,18 @@ document.addEventListener('DOMContentLoaded', () => {
             total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
               let values = Object.values(value);
               let v = values[0];
-              console.log(repeated);
               return (parseInt(acc) + parseInt(v));
             }, 0);
           } else {
             //  if there is repeated element
             const idName = event.currentTarget.id;
-            // if (oldIdName !== idName) oldIdValue = 0;
-            console.log('staffIDs before ', staffIDs);
             staffIDs.splice(-1, 1, { [idName]: event.currentTarget.value });
-            console.log('staffIDs after ', staffIDs);
             total_staffs.innerHTML = staffIDs.reduce((acc, value) => {
 
               let values = Object.values(value);
               let keys = Object.keys(value);
               let k = keys[0];
               let v = values[0];
-              console.log('valueeeeeeeeeeeeeeeeeeeeeee ', value);
-              console.log('keys ', keys);
-              console.log('key 0 ', keys[0]);
-              console.log('values ', values);
-              console.log('v ', values[0]);
-              console.log('key 1 ', keys[1]);
               if (oldIdName === idName && staffIDs.length >= 2) {
                 oldIdValue = 0;
               }
