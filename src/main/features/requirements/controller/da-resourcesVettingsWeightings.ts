@@ -163,12 +163,6 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       };
     });
 
-    /**   
- 
-
-       * 
-       */
-
     const REMAPPTED_TABLE_ITEM_STORAGE = [];
 
     for (const i of tableItems) {
@@ -216,7 +210,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
    // console.log(StorageForSortedItems[0].category[0].designations)
 
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-   //res.json(LEVEL6CONTENTS)
+ 
     res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
 
@@ -242,25 +236,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     req.body;
 
 
-  const Mapped_weight_staff = weight_staff.map(item => item !== '');
-  let IndexStorage = [];
-
-  for (var i = 0; i < Mapped_weight_staff.length; i++) {
-    if (Mapped_weight_staff[i] == true) {
-      IndexStorage.push(i);
-    }
-  }
-
-  IndexStorage = IndexStorage.map(Index => {
-    const StaffWeightage = weight_staff[Index];
-    const StaffVetting = weight_vetting[Index];
-    const GroupName = weigthage_group_name[Index];
-    return {
-      weigthage: StaffWeightage,
-      Vetting_weight: StaffVetting,
-      group_name: GroupName,
-    };
-  });
+ 
 
   const SFIA_WEIGHTAGE_MAP = SFIA_weightage.map(item => item !== '');
 
@@ -288,6 +264,9 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     }
   }).filter(item => item['staff-weigtage'] !== '');
 
+
+
+
   const {
     currentEvent,
   } = req.session;
@@ -311,18 +290,54 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
   let CAPACITY_DATASET = CAPACITY_DATA.data;
 
+  const LEVEL6CONTENTS = CAPACITY_DATASET.filter(dimension => dimension['name'] === 'Resource Quantity')[0];
+  var { options } = LEVEL6CONTENTS;
 
 
-  const _RequestBody = {
-    "weighting":vetting_weightage,
-    "includedCriteria":[],
-    "overwriteRequirements":true,
-    "requirements": WeigtagewithRequirementId
+  const findRequirementIdForWeigtageName = WeigtageName.map(group => {
+    const groupName = group.group;
+    const findReqId = options.filter(items => items['name'] == groupName)[0];
+    const ReqId = findReqId['requirement-id'];
+    return {
+      ...group,
+      'requirement-id': ReqId
+    }
+  })
+
+  //  staff weightings is dimension 1, vetting is dimension 2
+
+  console.log({
+    findRequirementIdForWeigtageName,
+    WeigtagewithRequirementId,
+    toolId: EXTERNAL_ID
+  })
+
+
+
+ let DimensionForRequirements = 6;
+
+ if(Number(EXTERNAL_ID) == 1) DimensionForRequirements = 7
+ else DimensionForRequirements = 7;
+
+
+ for(const item of findRequirementIdForWeigtageName){
+   const reqId = item['requirement-id'];
+    const D1_data = {"weighting": Number(item['staff-weigtage'])}
+    const D2_data = {"weighting": Number(item['vetting-weigtage'])};
+    //staff weightings is dimension 1, vetting is dimension 2
+    const D1_BaseURL = `/assessments/168/dimensions/1/requirements/${reqId}`;
+    const D2_BaseURL= `/assessments/168/dimensions/2/requirements/${reqId}`;
+    await TenderApi.Instance(SESSION_ID).put(D1_BaseURL, D1_data);
+    await TenderApi.Instance(SESSION_ID).put(D2_BaseURL, D2_data);
  }
-    const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
-    const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
-   await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, _RequestBody);
 
+ for(const item of WeigtagewithRequirementId){
+  const reqId = item['requirement-id'];
+  const weighting = item['weighting'];
+  const BaseURL = `/assessments/168/dimensions/${DimensionForRequirements}/requirements/${reqId}`;
+  let _RequestBody = {"weighting": Number(weighting)};
+  await TenderApi.Instance(SESSION_ID).put(BaseURL, _RequestBody);
+ }
 
  // console.log({WeigtagewithRequirementId, WeigtageName, _RequestBody})
   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
