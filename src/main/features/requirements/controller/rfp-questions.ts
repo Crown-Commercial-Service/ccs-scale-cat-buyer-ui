@@ -84,6 +84,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         (aSelector.nonOCDS.questionType === 'Date' && aSelector.nonOCDS.multiAnswer == false)
       ) {
         return 'rfp_date';
+      } else if (aSelector.nonOCDS.questionType === 'Percentage') {
+        return 'rfp_percentage_form';
       } else {
         return '';
       }
@@ -395,7 +397,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [{ value: object_values[0].value[i], selected: true }],
+                    options: [{ value: object_values[1].value[i], selected: true }],
                   },
                 };
               } else {
