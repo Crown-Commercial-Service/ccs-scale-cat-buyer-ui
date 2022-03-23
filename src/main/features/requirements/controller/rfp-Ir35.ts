@@ -66,6 +66,7 @@ export const RFP_POST_I35: express.Handler = async (req: express.Request, res: e
 
     await TenderApi.Instance(SESSION_ID).put(BaseURL, REQUESTBODY);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/32`, 'Not started');
     res.redirect('/rfp/task-list');
   } catch (error) {
     LoggTracer.errorLogger(
