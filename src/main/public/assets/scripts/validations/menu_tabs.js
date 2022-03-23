@@ -152,12 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let repeated = false;
         if (weight_staff.includes(event.currentTarget.id)) {
           let repeated = false;
+
           if (staffIDs.length !== 0) {
-            for (const obj of staffIDs) {
-              console.log('object ', obj);
-              keys = Object.keys(obj);
-              console.log('keys ', keys);
-            }
+            const keys = Object.keys(staffIDs[0]);
+            console.log('keys ', keys);
             repeated = keys.find(key => {
               console.log('keykeykeykeykeykeykeykeykey1 ', key);
               console.log('keykeykeykeykeykeykeykeykey2 ', event.currentTarget.id);
@@ -192,12 +190,13 @@ document.addEventListener('DOMContentLoaded', () => {
               let keys = Object.keys(value);
               let k = keys[0];
               let v = values[0];
+              console.log('valueeeeeeeeeeeeeeeeeeeeeee ', value);
               console.log('keys ', keys);
               console.log('key 0 ', keys[0]);
               console.log('values ', values);
               console.log('v ', values[0]);
               console.log('key 1 ', keys[1]);
-              if (oldIdName === k && staffIDs.length >= 2) {
+              if (oldIdName === idName && staffIDs.length >= 2) {
                 oldIdValue = 0;
               }
               return ((parseInt(acc) - Number(oldIdValue)) + parseInt(v));
