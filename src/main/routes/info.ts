@@ -13,7 +13,7 @@ export default function(app: Router): void {
         uptime: process.uptime(),
       },
       info: {
-        'CaT-Buyer-UI': new InfoContributor(process.env.CAT_URL+'/info')
+        'CAS-Buyer-UI': new InfoContributor(process.env.CAT_URL+'/info')
       },
     }),
   );

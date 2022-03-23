@@ -22,7 +22,7 @@ const routeExceptionHandler = (app: express.Express, NotFoundError: any, logger:
             environment: process.env.ROLLBAR_ENVIRONMENT,
           })
           const LogMessage = { 
-            AppName: 'CaT frontend', 
+            AppName: 'Contract Award Service (CAS) frontend', 
             host: req.headers.host, 
             browser: req.headers["sec-ch-ua"],
             mobile: req.headers["sec-ch-ua-mobile"],

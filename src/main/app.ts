@@ -98,8 +98,8 @@ app.use((req, res, next) => {
   // Health check URL values.
   const url = new URL(process.env.CAT_URL);
   process.env.PACKAGES_ENVIRONMENT = url.host;
-  process.env.PACKAGES_NAME = "CCS Scale CaT Buyer UI";
-  process.env.PACKAGES_PROJECT = "cat-buyer-frontend";
+  process.env.PACKAGES_NAME = "CCS Scale CAS Buyer UI";
+  process.env.PACKAGES_PROJECT = "cas-buyer-frontend";
   next();
 });
 

@@ -20,7 +20,7 @@ export class LoggTracer {
    * @param res
    */
   static errorTracer = async (errorLog: LogMessageFormatter, res: express.Response): Promise<void> => {
-    const LogMessage = { AppName: 'CaT frontend', type: 'error', errordetails: errorLog };
+    const LogMessage = { AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog };
     await LoggerInstance.Instance.post('', LogMessage);
     if (!isNaN(errorLog.statusCode) && errorLog.statusCode == 401) {
       res.clearCookie(cookies.sessionID);
@@ -34,7 +34,7 @@ export class LoggTracer {
    * @param errorLog
    */
   static errorTracerWithoutRedirect = async (errorLog: any): Promise<void> => {
-    const LogMessage = { AppName: 'CaT frontend', type: 'error', errordetails: errorLog };
+    const LogMessage = { AppName: 'Contract Award Service (CAS) frontend', type: 'error', errordetails: errorLog };
     await LoggerInstance.Instance.post('', LogMessage);
   };
 
@@ -65,7 +65,7 @@ export class LoggTracer {
     );
     logger.error('Exception logged in Logit: ' + error_reason);
     const LogMessage = {
-      AppName: 'CaT frontend',
+      AppName: 'Contract Award Service (CAS) frontend',
       type: 'error',
       errordetails: Log,
       browser: res.req.headers["sec-ch-ua"],
