@@ -39,7 +39,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       );
       isSubContractorAccepted = SubContractor !== undefined && SubContractor !== null ? true : false;
     } else {
-      isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
+      isSubContractorAccepted = req.session['CapAss']?.isSubContractorAccepted;
     }
     daSubContractors.form[0].radioOptions.items = daSubContractors.form[0].radioOptions.items.map(opt => {
       opt.checked = opt.value == 'yes' && isSubContractorAccepted ? true : false;
@@ -88,7 +88,7 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
     const { da_subContractors } = req.body;
 
     if (da_subContractors !== undefined && da_subContractors !== '') {
-      req.session['CapAss'].isSubContractorAccepted = da_subContractors == 'yes' ? true : false;
+      req.session['CapAss']?.isSubContractorAccepted = da_subContractors == 'yes' ? true : false;
       const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
       for (var dimension of assessmentDetail.dimensionRequirements) {

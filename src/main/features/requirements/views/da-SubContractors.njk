@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <form id="ccs_da_subContractors" name="ccs_da_subContractors" class="form ccs_da_subContractors" action="/da/accept-subContractors" method="POST">
+        <form id="ccs_da_subContractors" name="ccs_da_subContractors" class="form ccs_da_subContractors" action="/da/accept-subcontractors" method="POST">
         {{ csrfProtection(csrf) }}
             {% for form in data.form %}
                 {% set formOptions = form.radioOptions.items %}
