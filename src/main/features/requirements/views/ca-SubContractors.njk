@@ -53,7 +53,7 @@
                 {% include "includes/project_header.njk" %}
                 <p class="govuk-body">{{ data.subtitle }}</p>
 
-                <form id="ccs_ca_subContractors" name="ccs_ca_subContractors" class="form ccs_ca_subContractors" action="/ca/accept-subContractors" method="POST">
+                <form id="ccs_ca_subContractors" name="ccs_ca_subContractors" class="form ccs_ca_subContractors" action="/ca/accept-subcontractors" method="POST">
                     {{ csrfProtection(csrf) }}
                     {% for form in data.form %}
                         {% set formOptions = form.radioOptions.items %}
