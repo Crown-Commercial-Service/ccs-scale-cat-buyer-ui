@@ -51,7 +51,7 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
   const FileFilterArray = [];
 
   if (file_started) {
-    const offline_document = req.files[`${selRoute}_offline_document`];
+    const offline_document = req.files[`${selRoute}_offline_document`] || req.files[`${selRoute}_attachment_document`];
 
     const multipleFileCheck = Array.isArray(offline_document);
     if (multipleFileCheck) {
@@ -165,10 +165,9 @@ export const RFP_GET_REMOVE_FILES = (express.Handler = (req: express.Request, re
 export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-  let { selectedRoute } = req.session;
-  if (selectedRoute === 'FC') selectedRoute = 'RFP';
-  const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
 
-  res.redirect(`/${selectedRoute.toLowerCase()}/task-list`);
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Not started');
+
+  res.redirect(`/rfp/IR35`);
 });
