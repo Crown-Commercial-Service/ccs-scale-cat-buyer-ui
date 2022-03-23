@@ -112,7 +112,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
     for (const parent of UNIQUE_DESIGNATION_OF_PARENT) {
       const findElements = FORMATTED_CHILD_REMAPPED_ITEMS.filter(designation => designation.name == parent);
-      let refactoredObject = {
+      const refactoredObject = {
         Parent: parent,
         category: findElements,
       };
@@ -133,8 +133,8 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       const UNIQUE_ROLES = [...new Set(category.map(subitem => subitem.name))];
 
       for (const role of UNIQUE_ROLES) {
-        let findBaseOnRoles = category.filter(i => i.name == role);
-        let contructedObject = {
+        const findBaseOnRoles = category.filter(i => i.name == role);
+        const contructedObject = {
           ParentName: role,
           designations: findBaseOnRoles,
         };

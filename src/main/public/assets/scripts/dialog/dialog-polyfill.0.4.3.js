@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 let inputs;
 let index;
 let container;
@@ -161,6 +162,12 @@ $(function () {
   });
 
   $('#redirect-button-vetting').on('click', function () {
+    const total_staffs = document.getElementById('total-staff');
+    const total_vettings = document.getElementById('total-vetting');
+    total_staffs.innerHTML = 0;
+    total_vettings.innerHTML = 0;
+    staffs = [];
+    vettings = [];
     deselect($('.dialog-close-vetting'));
     $('.backdrop-vetting').fadeOut(200);
     var route = this.name;
