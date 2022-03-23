@@ -205,9 +205,10 @@ if (document.getElementById('ccs_eoi_acronyms_form') !== null)
 if (document.getElementById('ccs_rfp_acronyms_form') !== null)
   document.getElementById('ccs_rfp_acronyms_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
 
-if (document.getElementById('rfp_location') !== null)
+if (document.getElementById('rfp_location') !== null) {
   document.getElementById('rfp_location').addEventListener('submit', ccsZvalidateRfpLocation);
-document.getElementById('rfp_location').addEventListener('change', ccsZvalidateChangeRfpLocation);
+  document.getElementById('rfp_location').addEventListener('change', ccsZvalidateChangeRfpLocation);
+}
 
 if (document.getElementById('ccs_eoi_splterms_form') !== null)
   document.getElementById('ccs_eoi_splterms_form').addEventListener('submit', ccsZvalidateEoiSpecialTerms);
@@ -220,6 +221,10 @@ if (document.getElementById('ccs_eoi_date_form') !== null)
 
 if (document.getElementById("rfp_multianswer_question_form") !== null) {
   document.getElementById("rfp_multianswer_question_form").addEventListener('submit', ccsZvalidateRfpQuestions);
+}
+
+if (document.getElementById("rfp_percentage_form") !== null) {
+  document.getElementById("rfp_percentage_form").addEventListener('submit', ccsZvalidateRfpPercentages);
 }
 
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
