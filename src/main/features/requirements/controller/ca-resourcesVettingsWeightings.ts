@@ -43,7 +43,12 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
   try {
     const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
-    var { options } = LEVEL7CONTENTS;
+    const LEVEL2CONTENTS =  dimensions.filter(dimension => dimension['name'] === 'Security Clearance')[0];
+
+    let Level7AndLevel2Contents = [...LEVEL7CONTENTS['options'],...LEVEL2CONTENTS['options'] ];
+    Level7AndLevel2Contents = {options: Level7AndLevel2Contents};
+  
+    var { options } = Level7AndLevel2Contents;
 
     /**
      * @Removing_duplications
@@ -190,7 +195,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     };
 
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    //res.json(REMAPPED_ACCORDING_TO_PARENT_ROLE)
+    //res.json(dimensions)
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;

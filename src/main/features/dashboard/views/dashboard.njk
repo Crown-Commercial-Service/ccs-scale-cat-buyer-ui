@@ -2,7 +2,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Welcome to the Contract a Thing beta' %}
+{% set title = 'Welcome to the Contract Award Service beta' %}
 {% block content %}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
@@ -40,8 +40,8 @@
 
     <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
       <div class="govuk-grid-column-full">
-        {% if events.length > 0 %}
-          <table class="govuk-table" id="active-data">
+        {% if events.length < 6 %}
+          <table class="govuk-table">
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} ({{events.length}})</caption>
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
@@ -78,7 +78,7 @@
               {% endfor %}
             </tbody>
           </table>
-          {% elseif events.length < 6 %}
+          {% elseif events.length > 5 %}
           <table class="govuk-table" id="active-data">
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} ({{events.length}})</caption>
             <thead class="govuk-table__head">
@@ -217,7 +217,7 @@
           <p>
             <a class="govuk-link" href="#">{{data.view_Historical}}</a>
           </p>
-          {% elseif historicalEvents.length < 6 %}
+          {% elseif historicalEvents.length < 6 and historicalEvents.length > 0 %}
           <table class="govuk-table">
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{historicalEvents.length}})</caption>
             <thead class="govuk-table__head">
