@@ -18,7 +18,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
   const agreementId_session = agreement_id;
-  const { isValidationError } = req.session;
+  const { isValidationError, choosenViewPath } = req.session;
   const { assessmentId } = req.session.currentEvent;
   let isSubContractorAccepted = false;
   req.session['isValidationError'] = false;
@@ -50,6 +50,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       releatedContent,
       error: isValidationError,
       SubContractorAccepted: isSubContractorAccepted,
+      choosenViewPath,
     };
     res.render('da-SubContractors', windowAppendData);
   } catch (error) {

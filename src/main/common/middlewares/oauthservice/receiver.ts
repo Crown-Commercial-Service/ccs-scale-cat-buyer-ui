@@ -86,7 +86,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         req.session['dimensions'] = [];
         req.session['weightingRange'] = {};
         req.session['errorTextSumary'] = [];
-        req.session['CapAss'] = [];
+        req.session['CapAss'] = {};
 
         next();
       } else {
