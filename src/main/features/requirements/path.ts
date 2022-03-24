@@ -55,6 +55,14 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_WEIGHTINGS,
   );
 
+    // @GET '/rfp/enter-your-weightings'
+    app.get(
+      REQUIREMENT_PATHS.RFP_GET_WEIGHTINGS,
+      [AUTH, PreMarketEngagementMiddleware.PutPremarket, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.RFP_GET_WEIGHTINGS,
+    );
+
+
   // @GET '/ca/suppliers-to-forward
   app.get(
     REQUIREMENT_PATHS.CA_GET_SUPPLIERS_FORWARD,
@@ -626,6 +634,17 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_POST_SERVICE_CAPABILITIES,
   );
+
+    /**
+   * @POSTROUTER '/rfp/enter-your-weightings'
+   */
+     app.post(
+      REQUIREMENT_PATHS.RFP_POST_WEIGHTINGS,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.RFP_POST_WEIGHTINGS,
+    );
+
+
 
   /**
    * @POSTROUTER '/rfp/ratio-quality-group

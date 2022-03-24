@@ -177,6 +177,12 @@ export enum REQUIREMENT_PATHS {
   CA_GET_SUMMARY = '/ca/summary',
   CA_POST_SUMMARY = '/ca/summary',
 
+  //RFP Enter Your weighting
+
+  RFP_GET_WEIGHTINGS = '/rfp/enter-your-weightings',
+  RFP_POST_WEIGHTINGS = '/rfp/enter-your-weightings',
+
+
   //RFP Capability service
   RFP_GET_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
   RFP_POST_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
