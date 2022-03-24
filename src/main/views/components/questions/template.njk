@@ -24,59 +24,57 @@
   {% if requirement.nonOCDS.questionType === 'Text' and requirement.nonOCDS.multiAnswer === true and form_name == 'rfp_multianswer_question_form' %}
 
     {{  CCSTextarea({
-                      name:  requirement.OCDS.id,
-                      required: requirement.nonOCDS.mandatory,
-                      id: "fc_question_"+index+"_"+requirement.nonOCDS.order,
-                      value: requirement.nonOCDS.options[index-1].value,
-                      label: {
-                      text:requirement.OCDS.title,
-                      classes: "govuk-label govuk-label--m"
-                      },
-                      classes:"order_"+requirement.nonOCDS.order,
-                      rows:2
-                    })
-                }}
+      name:  requirement.OCDS.id,
+      required: requirement.nonOCDS.mandatory,
+      id: "fc_question_"+index+"_"+requirement.nonOCDS.order,
+      value: requirement.nonOCDS.options[index-1].value,
+      label: {
+      text:requirement.OCDS.title,
+      classes: "govuk-label govuk-label--m"
+      },
+      classes:"order_"+requirement.nonOCDS.order,
+      rows:2
+    }) }}
 
-    {%endif%}
-    {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'rfp_multianswer_question_form'%}
+  {%endif%}
+  {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'rfp_multianswer_question_form'%}
 
-      {{ CCSInput({
-                        label: {
-                          text: requirement.OCDS.title 
-                        },
-                        classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage",
-                        id: "fc_question_"+index+"_"+requirement.nonOCDS.order,
-                        value: requirement.nonOCDS.options[index-1].value,
-                        name: requirement.OCDS.id,
-                        suffix: {
-                          text: "%"
-                        }
-                      }) }}
+    {{ CCSInput({
+      label: {
+        text: requirement.OCDS.title
+      },
+      classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage",
+      id: "fc_question_"+index+"_"+requirement.nonOCDS.order,
+      value: requirement.nonOCDS.options[index-1].value,
+      name: requirement.OCDS.id,
+      suffix: {
+        text: "%"
+      }
+    }) }}
 
-      {%endif%}
-      {% if requirement.nonOCDS.questionType === 'Text' and requirement.nonOCDS.multiAnswer === true and requirement.nonOCDS.childern.length === 0 %}
-        {{  CCSTextarea({
-                      name: "value",
-                      required: requirement.nonOCDS.mandatory,
-                      id: "value",
-                      value: requirement.nonOCDS.options[0].value,
-                      label: {
-                      text: requirement.OCDS.title,
-                      classes: "govuk-label govuk-label--m"
-                      }
-                    })
-                }}
+  {%endif%}
+  {# {% if requirement.nonOCDS.questionType === 'Text' and requirement.nonOCDS.multiAnswer === true and requirement.nonOCDS.childern.length === 0 %}
+    {{  CCSTextarea({
+                  name: "value",
+                  required: requirement.nonOCDS.mandatory,
+                  id: "value",
+                  value: requirement.nonOCDS.options[0].value,
+                  label: {
+                  text: requirement.OCDS.title,
+                  classes: "govuk-label govuk-label--m"
+                  }
+                })
+            }}
+  {%endif%} #}
 
-        {{  CCSInput({
-                      id: "question_id",
-                      name: "question_id",
-                      type: "hidden",
-                      value: requirement.OCDS.id
-                    })
-                }}
+  {{  CCSInput({
+    id: "question_id",
+    name: "question_id",
+    type: "hidden",
+    value: requirement.OCDS.id
+  }) }}
 
-        {%endif%}
-        {%endblock%}
+{%endblock%}
 
         {% block value %}
           {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
