@@ -5,7 +5,6 @@ import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 
-
 export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const organization_id = req.session.user.payload.ciiOrgId;
   req.session['organizationId'] = organization_id;
@@ -62,10 +61,10 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
       selectedUser,
       lotId,
       agreementLotName,
-      error: isJaggaerError,
+      error: false,
       releatedContent,
     };
-    res.render('procurementLead-rfp', windowAppendData);
+    res.render('ca-procurementLead', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -82,7 +81,7 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
 export const CA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-  const { rfp_procurement_lead_input: userMail } = req.body;
+  const { ca_procurement_lead_input: userMail } = req.body;
   const url = `/tenders/projects/${projectId}/users/${userMail}`;
   try {
     const _body = {
@@ -91,7 +90,7 @@ export const CA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
     await TenderApi.Instance(SESSION_ID).put(url, _body);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/45`, 'Completed');
 
-    res.redirect('/rfp/add-collaborators');
+    res.redirect('/ca/add-collaborators');
   } catch (error) {
     const isJaggaerError = error.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
@@ -107,7 +106,7 @@ export const CA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
     );
 
     req.session['isJaggaerError'] = isJaggaerError;
-    res.redirect('/rfp/procurement-lead');
+    res.redirect('/ca/procurement-lead');
   }
 };
 

@@ -75,7 +75,7 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       error: isJaggaerError,
       releatedContent: releatedContent,
     };
-    res.render('add-collaborator-rfp', windowAppendData);
+    res.render('ca-add-collaborator', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -127,31 +127,29 @@ export const CA_POST_ADD_COLLABORATOR = async (req: express.Request, res: expres
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
 
-  if(rfi_collaborators == ""){
+  if (rfi_collaborators == '') {
     req.session['isJaggaerError'] = true;
     res.redirect('/ca/add-collaborators');
+  } else {
+    try {
+      const user_profile = rfi_collaborators;
+      const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+      const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+      const userData = organisation_user_data?.data;
+      req.session['searched_user'] = userData;
+      res.redirect('/ca/add-collaborators');
+    } catch (error) {
+      LoggTracer.errorLogger(
+        res,
+        error,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'Tender agreement failed to be added',
+        true,
+      );
+    }
   }
-  else{
-  try {
-    const user_profile = rfi_collaborators;
-    const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-    const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-    const userData = organisation_user_data?.data;
-    req.session['searched_user'] = userData;
-    res.redirect('/ca/add-collaborators');
-  } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Tender agreement failed to be added',
-      true,
-    );
-  }
-
-}
 };
 
 export const CA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
@@ -188,5 +186,5 @@ export const CA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: e
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
-  res.redirect('/ca/ca-tasklist');
+  res.redirect(`/ca/task-list?path=${req.session['choosenViewPath']}`);
 };
