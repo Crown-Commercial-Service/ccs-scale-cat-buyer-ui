@@ -167,14 +167,13 @@ if (document.getElementById('ccs_eoi_questions_form') !== null)
 if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateRfPStrategy);
 
-  if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
-  document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);  
+if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
+  document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);
 if (document.getElementById('ccs_rfp_about_proj') !== null)
   document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
 
 if (document.getElementById('ccs_eoi_purpose_form') !== null)
   document.getElementById('ccs_eoi_purpose_form').addEventListener('submit', ccsZvalidateEoiPurpose);
-
 
 //if (document.getElementById("ccs_eoi_scope_form") !== null) document.getElementById("ccs_eoi_scope_form").addEventListener('submit', ccsZvalidateEoiScope);
 
@@ -219,12 +218,16 @@ if (document.getElementById('ccs_rfi_acronyms_form') !== null)
 if (document.getElementById('ccs_eoi_date_form') !== null)
   document.getElementById('ccs_eoi_date_form').addEventListener('submit', ccsZvalidateEoiDate);
 
-if (document.getElementById("rfp_multianswer_question_form") !== null) {
-  document.getElementById("rfp_multianswer_question_form").addEventListener('submit', ccsZvalidateRfpQuestions);
+if (document.getElementById('rfp_multianswer_question_form') !== null) {
+  document.getElementById('rfp_multianswer_question_form').addEventListener('submit', ccsZvalidateRfpQuestions);
 }
 
-if (document.getElementById("rfp_percentage_form") !== null) {
-  document.getElementById("rfp_percentage_form").addEventListener('submit', ccsZvalidateRfpPercentages);
+if (document.getElementById('rfp_budget_for') !== null) {
+  document.getElementById('rfp_budget_for').addEventListener('submit', ccsZvalidateBudgetQuestions);
+}
+
+if (document.getElementById('rfp_percentage_form') !== null) {
+  document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
 }
 
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
