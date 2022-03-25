@@ -88,7 +88,7 @@ export const CA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
       userType: 'PROJECT_OWNER',
     };
     await TenderApi.Instance(SESSION_ID).put(url, _body);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/45`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/43`, 'Completed');
 
     res.redirect('/ca/add-collaborators');
   } catch (error) {
