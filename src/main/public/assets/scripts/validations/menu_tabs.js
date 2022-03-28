@@ -129,8 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("ccs_ca_menu_tabs_form_later") !== null) {
     let inputs;
     let container;
-    let oldIdName;
-    let oldIdValue;
+    let oldIdName = '';
+    let oldIdValue = '';
     let repeated = false;
     //const total_resources = document.getElementById('total-resources');
     const total_staffs = document.getElementById('total-staff');
@@ -183,11 +183,12 @@ document.addEventListener('DOMContentLoaded', () => {
               //if (staffIDs.length === 1) indx = i + 1;
 
               let v = Object.values(staffIDs.slice(-1)[0])[0];
-              if (oldIdName === idName && staffIDs.length >= 2) {
-                oldIdValue = 0;
-              }
+              // if (oldIdName === idName && staffIDs.length >= 2) {
+              //   oldIdValue = 0;
+              // }
+              if (i > 1) oldIdValue = 0;
               return ((parseInt(acc) - Number(oldIdValue)) + parseInt(v));
-            }, Number(oldIdValue));
+            }, 0);
           }
         }
       })
