@@ -70,7 +70,6 @@ export enum REQUIREMENT_PATHS {
   CA_GET_NAME_PROJECT = '/ca/name-your-project',
   CA_POST_NAME_PROJECT = '/ca/name',
   CA_GET_LEAD_PROCUREMENT = '/ca/procurement-lead',
-  CA_POST_PROJECT_NAME = '/ca/name',
   CA_PUT_LEAD_PROCUREMENT = '/ca/procurement-lead',
   CA_GET_USER_PROCUREMENT = '/ca/users-procurement-lead',
 
