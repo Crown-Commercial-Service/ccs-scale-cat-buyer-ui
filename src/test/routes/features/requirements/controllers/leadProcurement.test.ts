@@ -233,7 +233,7 @@ describe('Lead procurement', () => {
     nock(envs.TENDERS_SERVICE_API_URL)
       .put(`/tenders/projects/${projectId}/users/${dummyUsers[1].userName}`)
       .reply(500, dummyUsers);
-    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${projectId}/steps/27`).reply(200, true);
+    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${projectId}/steps/28`).reply(200, true);
 
     await request(parentApp)
       .post(`/rfp/procurement-lead`)

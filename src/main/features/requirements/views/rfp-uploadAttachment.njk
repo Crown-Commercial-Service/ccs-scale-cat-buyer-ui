@@ -3,7 +3,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Complete and upload a document | Contract a Thing' %}
+{% set title = 'Complete and upload a document | Contract Award Service' %}
 
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
@@ -21,18 +21,17 @@
         {% endif %}
 
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
+            <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
                     {{data.title}}
                 </h1>
-                {% include "includes/project_header.njk" %} 
             </div>
         </div>
         
         <div class="ccs-page-section govuk-!-margin-bottom-9 govuk-!-margin-top-6 ">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-
+                    {% include "includes/project_header.njk" %} 
                     <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
                     <div id="upload_doc_form">
                         <div class="govuk-grid-row">

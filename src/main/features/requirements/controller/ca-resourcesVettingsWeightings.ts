@@ -27,6 +27,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     designations,
     tableItems,
     dimensions,
+    choosenViewPath,
   } = req.session;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;
@@ -43,7 +44,12 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
   try {
     const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
-    var { options } = LEVEL7CONTENTS;
+    const LEVEL2CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Security Clearance')[0];
+
+    let Level7AndLevel2Contents = [...LEVEL7CONTENTS['options'], ...LEVEL2CONTENTS['options']];
+    Level7AndLevel2Contents = { options: Level7AndLevel2Contents };
+
+    var { options } = Level7AndLevel2Contents;
 
     /**
      * @Removing_duplications
@@ -107,7 +113,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
     for (const parent of UNIQUE_DESIGNATION_OF_PARENT) {
       const findElements = FORMATTED_CHILD_REMAPPED_ITEMS.filter(designation => designation.name == parent);
-      let refactoredObject = {
+      const refactoredObject = {
         Parent: parent,
         category: findElements,
       };
@@ -128,8 +134,8 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       const UNIQUE_ROLES = [...new Set(category.map(subitem => subitem.name))];
 
       for (const role of UNIQUE_ROLES) {
-        let findBaseOnRoles = category.filter(i => i.name == role);
-        let contructedObject = {
+        const findBaseOnRoles = category.filter(i => i.name == role);
+        const contructedObject = {
           ParentName: role,
           designations: findBaseOnRoles,
         };
@@ -185,11 +191,12 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       isError,
       errorText,
       designations: StorageForSortedItems,
+      choosenViewPath,
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
     };
 
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    //res.json(REMAPPED_ACCORDING_TO_PARENT_ROLE)
+    //res.json(dimensions)
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -208,56 +215,54 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
-  const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage } =
-    req.body;
 
-  const Mapped_weight_staff = weight_staff.map(item => item !== '');
-  let IndexStorage = [];
-
-  for (var i = 0; i < Mapped_weight_staff.length; i++) {
-    if (Mapped_weight_staff[i] == true) {
-      IndexStorage.push(i);
-    }
-  }
-
-  IndexStorage = IndexStorage.map(Index => {
-    const StaffWeightage = weight_staff[Index];
-    const StaffVetting = weight_vetting[Index];
-    const GroupName = weigthage_group_name[Index];
-    return {
-      weigthage: StaffWeightage,
-      Vetting_weight: StaffVetting,
-      group_name: GroupName,
-    };
-  });
-
-  const SFIA_WEIGHTAGE_MAP = SFIA_weightage.map(item => item !== '');
-
-  let IndexStorageForSFIA_LEVELS = [];
-
-  for (var i = 0; i < SFIA_WEIGHTAGE_MAP.length; i++) {
-    if (Mapped_weight_staff[i] == true) {
-      IndexStorageForSFIA_LEVELS.push(i);
-    }
-  }
-
-  IndexStorageForSFIA_LEVELS = IndexStorageForSFIA_LEVELS.map(Index => {
-    const requirement_id = requirement_Id_SFIA_weightage[Index];
-    const SFIA_WEIGHTAGE = SFIA_weightage[Index];
-    return {
-      weigthage: SFIA_WEIGHTAGE,
-      requirement_id: requirement_id,
-    };
-  });
-
-  res.redirect('/ca/resources-vetting-weightings');
-
-  /**
-   *  try {
+  try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-    //res.redirect('/ca/enter-your-weightings');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
+
+    const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage } =
+      req.body;
+
+    const Mapped_weight_staff = weight_staff.map(item => item !== '');
+    let IndexStorage = [];
+
+    for (var i = 0; i < Mapped_weight_staff.length; i++) {
+      if (Mapped_weight_staff[i] == true) {
+        IndexStorage.push(i);
+      }
+    }
+
+    IndexStorage = IndexStorage.map(Index => {
+      const StaffWeightage = weight_staff[Index];
+      const StaffVetting = weight_vetting[Index];
+      const GroupName = weigthage_group_name[Index];
+      return {
+        weigthage: StaffWeightage,
+        Vetting_weight: StaffVetting,
+        group_name: GroupName,
+      };
+    });
+
+    const SFIA_WEIGHTAGE_MAP = SFIA_weightage.map(item => item !== '');
+
+    let IndexStorageForSFIA_LEVELS = [];
+
+    for (var i = 0; i < SFIA_WEIGHTAGE_MAP.length; i++) {
+      if (Mapped_weight_staff[i] == true) {
+        IndexStorageForSFIA_LEVELS.push(i);
+      }
+    }
+
+    IndexStorageForSFIA_LEVELS = IndexStorageForSFIA_LEVELS.map(Index => {
+      const requirement_id = requirement_Id_SFIA_weightage[Index];
+      const SFIA_WEIGHTAGE = SFIA_weightage[Index];
+      return {
+        weigthage: SFIA_WEIGHTAGE,
+        requirement_id: requirement_id,
+      };
+    });
+
+    res.redirect('/ca/resources-vetting-weightings');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -269,6 +274,4 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       true,
     );
   }
-   * 
-   */
 };

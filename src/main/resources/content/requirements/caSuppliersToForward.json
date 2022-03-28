@@ -1,28 +1,7 @@
 {
-  "breadCrumbs": [
-    {
-      "text": "Dashboard",
-      "href": "/dashboard"
-    },
-    {
-      "text": "Choose a commercial agreement",
-      "href": "/projects/choose-agreement"
-    },
-    {
-      "text": "Procurement overview",
-      "href": "/projects/create-or-choose"
-    },
-    {
-      "text": "Write and publish your requirements",
-      "href": "/ca/task-list"
-    },
-    {
-      "text": "How many suppliers you'ld like to take forward",
-      "href": "#"
-    }
-  ],
+  "breadCrumbs": [],
 
-  "title": "How many suppliers you'ld like to take forward",
+  "title": "How many suppliers you'd like to take forward?",
   "suppliers": {
     "min": 3,
     "max": 49

@@ -5,13 +5,13 @@
 {% set title = 'How to build market event' %}
 
 {% block content %}
-{{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-{% if(error) %}
+    {% if (error) %}
 
-    {{ CCSErrorSummary({
+      {{ CCSErrorSummary({
     titleText: "There is a problem",
     errorList: [
         {
@@ -31,18 +31,19 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
-  <p class="govuk-body">{{data.subtitle}}</p>  
-    <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form ccs_rfp_type_form" action="/rfp/type" method="POST">
-    {{ csrfProtection(csrf) }}
-{% for form in data.form %}
-<fieldset id={{form.id}}>
-<p class="govuk-body">{{ form.question }}</p>
-        {% set formOptions = form.radioOptions.items %}
+        <p class="govuk-body">{{data.subtitle}}</p>
+        <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form ccs_rfp_type_form" action="/rfp/type" method="POST">
+          {{ csrfProtection(csrf) }}
+          {% for form in data.form %}
+            <fieldset id={{form.id}}>
+              <p class="govuk-body">{{ form.question }}</p>
+              {% set formOptions = form.radioOptions.items %}
 
-        {% set form_Options_Altered = [] %}
+              {% set form_Options_Altered = [] %}
 
-        {% for item in formOptions %}
-          {% set form_Options_Altered = (form_Options_Altered.push(
+              {% for item in formOptions %}
+                {% if item.disabled != 'true' %}
+                  {% set form_Options_Altered = (form_Options_Altered.push(
              {
                value: item.value,
               html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
@@ -53,11 +54,25 @@
              ), form_Options_Altered) 
              
              %}
+                {% else %}
+                  {% set form_Options_Altered = (form_Options_Altered.push(
+             {
+               value: item.value,
+              html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+              disabled: 'true',
+              hint : {
+                text: item.hint.text
+              }
+              }
+             ), form_Options_Altered) 
+             
+             %}
+                {% endif %}
 
-        {% endfor %}
-{% if(error) %}
+              {% endfor %}
+              {% if (error) %}
 
-            {{ CCSRadios({
+                {{ CCSRadios({
                 idPrefix: "fc_rfp_type",
                 name: form.id,
                 items: form_Options_Altered,
@@ -66,39 +81,39 @@
                 text: 'Select an option'
                   }                  
               }) }}
-    {% else %}
+              {% else %}
 
-        {{ CCSRadios({
+                {{ CCSRadios({
                 idPrefix: "fc_rfp_type",
                 name: form.id,
                 items: form_Options_Altered        
               }) }}
-{%endif %}
+              {%endif %}
 
-        {{ CCSInput({
+              {{ CCSInput({
                 id: "choose_fc_rfp_type",
                 name: "choose_fc_rfp_type",
                 type: "hidden",
                 value: true
               }) }}
-              </fieldset>
-      {% endfor %}
-        <div class="govuk-button-group">
-          {{ CCSButton({
+            </fieldset>
+          {% endfor %}
+          <div class="govuk-button-group">
+            {{ CCSButton({
                 text: "Save and continue"
                 }) }}
-          <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-        </div>
-      </form>
+            <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+          </div>
+        </form>
 
       </div>
       <div class="govuk-grid-column-one-third">
         {{ CCSReleatedContent(releatedContent) }}
       </div>
-      </div>
-
     </div>
 
-  </main>
+  </div>
+
+</main>
 
 {% endblock %}

@@ -74,7 +74,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       } else if (aSelector.nonOCDS.questionType === 'MultiSelect' && aSelector.nonOCDS.multiAnswer === true) {
         return 'rfp_location';
       } else if (aSelector.nonOCDS.questionType === 'Text' && aSelector.nonOCDS.multiAnswer == true) {
-        return '';
+        return 'rfp_multianswer_question_form';
       } else if (aSelector.nonOCDS.questionType === 'Monetary' && aSelector.nonOCDS.multiAnswer === false) {
         return 'rfp_budget_for';
       } else if (aSelector.nonOCDS.questionType === 'ReadMe') {
@@ -84,6 +84,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         (aSelector.nonOCDS.questionType === 'Date' && aSelector.nonOCDS.multiAnswer == false)
       ) {
         return 'rfp_date';
+      } else if (aSelector.nonOCDS.questionType === 'Percentage') {
+        return 'rfp_percentage_form';
       } else {
         return '';
       }
@@ -111,7 +113,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 
     const TemporaryObjStorage = [];
     for (const ITEM of fetch_dynamic_api_data) {
-      if (ITEM.nonOCDS.dependant) {
+      if (ITEM.nonOCDS.dependant && ITEM.nonOCDS.dependency.relationships) {
         const RelationsShip = ITEM.nonOCDS.dependency.relationships;
         for (const Relation of RelationsShip) {
           const { dependentOnId } = Relation;
@@ -140,6 +142,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       criterian_id: id,
       form_name: formNameValue,
       rfpTitle: titleText,
+      shortTitle: mapTitle(group_id),
       bcTitleText,
       prompt: promptSplit,
       organizationName: organizationName,
@@ -196,6 +199,9 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
     let { rfp_build_started, question_id } = req.body;
+    if (question_id === undefined) {
+      question_id = Object.keys(req.body).filter(x => x.includes('Question'));
+    }
     let question_ids = [];
     //Added for SCAT-3315- Agreement expiry date
     const BaseUrlAgreement = `/agreements/${agreement_id}`;
@@ -342,6 +348,17 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   },
                 };
               }
+            } else if (question_ids.length == 4 && questionNonOCDS.multiAnswer === true) {
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: req.body[question_ids[i]]
+                    .filter(val => val !== '')
+                    .map(val => {
+                      return { value: val, selected: true };
+                    }),
+                },
+              };
             } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
@@ -380,7 +397,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [{ value: object_values[0].value[i], selected: true }],
+                    options: [{ value: object_values[1].value[i], selected: true }],
                   },
                 };
               } else {
@@ -529,4 +546,22 @@ const isDateOlder = (date1: any, date2: any) => {
     date1.getMonth() >= date2.getMonth() ||
     date1.getDate() >= date2.getDate()
   );
+};
+
+const mapTitle = groupId => {
+  let title = '';
+  switch (groupId) {
+    case 'Group 4':
+      title = 'techinical';
+      break;
+    case 'Group 5':
+      title = 'cultural';
+      break;
+    case 'Group 6':
+      title = 'social value';
+      break;
+    default:
+      return '';
+  }
+  return title;
 };

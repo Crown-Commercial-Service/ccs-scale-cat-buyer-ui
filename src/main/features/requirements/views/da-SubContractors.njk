@@ -1,11 +1,39 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
-{% set title = 'Will you accept sub contractors | Contract a Thing' %}
 
-{% block breadCrumb %}
+{% set title = 'Will you accept sub contractors | Contract Award Service' %}
+
+{# {% block breadCrumb %}
     {{ CCSBreadcrumbs({
         items: data.breadCrumbs
+    }) }}
+{% endblock %} #}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/da/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "Will you accept sub-contractors?",
+                "href": "#"
+            }
+        ]
     }) }}
 {% endblock %}
 
@@ -24,31 +52,27 @@
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
                 <p class="govuk-body">{{ data.subtitle }}</p>
-            </div>
-            <div class="govuk-grid-column-one-third">
-                {{ CCSReleatedContent(relatedContent) }}
-            </div>
-        </div>
 
-        <form id="ccs_da_subContractors" name="ccs_da_subContractors" class="form ccs_da_subContractors" action="/da/accept-subContractors" method="POST">
-        {{ csrfProtection(csrf) }}
-            {% for form in data.form %}
-                {% set formOptions = form.radioOptions.items %}
-                {% set form_Options_Altered = [] %}
-                {% for item in formOptions %}
-                    {% set form_Options_Altered = (form_Options_Altered.push(
+                <form id="ccs_da_subContractors" name="ccs_da_subContractors" class="form ccs_da_subContractors" action="/da/accept-subcontractors" method="POST">
+                    {{ csrfProtection(csrf) }}
+                    {% for form in data.form %}
+                        {% set formOptions = form.radioOptions.items %}
+                        {% set form_Options_Altered = [] %}
+                        {% for item in formOptions %}
+                            {% set form_Options_Altered = (form_Options_Altered.push(
                                 {
                                     value: item.value,
                                     html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
                                     hint : {
                                         text: item.hint.text
-                                    }
+                                    },
+                                    checked: item.checked
                                 }), form_Options_Altered) 
                                 %}
-                {% endfor %}
-                {% if (error == true) %}
+                        {% endfor %}
+                        {% if (error == true) %}
 
-                    {{ CCSRadios({
+                            {{ CCSRadios({
                                     idPrefix: "da_subContractors`",
                                     name:"da_subContractors",
                                     items: form_Options_Altered,
@@ -57,22 +81,28 @@
                                     text: 'Select an option'
                                     }                  
                                 }) }}
-                {% else %}
+                        {% else %}
 
-                    {{ CCSRadios({
+                            {{ CCSRadios({
                                         idPrefix: "da_subContractors",
                                         name: "da_subContractors",
                                         items: form_Options_Altered        
                                 }) }}
-                {%endif %}
-            {% endfor %}
+                        {%endif %}
+                    {% endfor %}
 
-            <div class="govuk-button-group">
-                {{ CCSButton({
+                    <div class="govuk-button-group">
+                        {{ CCSButton({
                     text: "Save and continue"
                 }) }}
-                <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+                        {% set returnLink = "/da/task-list?path="+choosenViewPath %}
+                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
+                    </div>
+                </form>
             </div>
-        </form>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
     </main>
 {% endblock %}

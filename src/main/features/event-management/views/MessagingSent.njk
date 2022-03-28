@@ -25,7 +25,6 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
@@ -59,7 +58,7 @@
 
     <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
       <div class="govuk-grid-column-full">
-        {% if messages.length > 0 %}
+        {% if messages.length > 5 %}
           <table class="govuk-table" id="sent-message">
           {% else %}
             <table class="govuk-table">
@@ -81,7 +80,7 @@
                         <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}">{{ message.OCDS.title }}</a>
                       </p>
                     </th>
-                    <td class="govuk-table__cell">{{ message.OCDS.author }}</td>
+                    <td class="govuk-table__cell">{{ message.OCDS.author.name }}</td>
                     <td class="govuk-table__cell">{{ message.OCDS.date }}</td>
                   </tr>
                 {% endfor %}

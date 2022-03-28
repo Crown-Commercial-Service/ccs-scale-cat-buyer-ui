@@ -33,16 +33,17 @@
               "text": "Provide all information online",
               "hint": {
                 "text": "Enter all the information needed to build your two stage further competition online and submit it to your selected suppliers."
-              }
+              },
+              "disabled": "false"
             },
             {
               "value": "offline_attachment_3",
-              "text": "Upload only your statement of requirements but finish the bid pack online",
+              "text": "Upload only your statement of requirements but finish the bid pack online (Coming soon)",
               "hint": {
                 "text": "Use this option to upload attachement and complete the assessment online."
-              }
+              },
+              "disabled": "true"
             }
-        
           ]
         }
       },
@@ -59,14 +60,16 @@
               "text": "Provide all information online",
               "hint": {
                 "text": "Enter all the information needed to build your two stage further competition online and submit it to your selected suppliers."
-              }
+              },
+              "disabled": "false"
             },
             {
               "value": "offline_attachment_2",
-              "text": "Upload only your statement of requirements but finish the bid pack online",
+              "text": "Upload only your statement of requirements but finish the bid pack online (Coming soon)",
               "hint": {
                 "text": "Use this option to upload attachement and complete the assessment online."
-              }
+              },
+              "disabled": "true"
             }
           ]
         }

@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       document.querySelector(".collab_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
-      if (with_value_count > 2 ) {
+      if (with_value_count > 2) {
         prev_input = with_value_count - 1;
-        document.querySelector(".collab_"  + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+        document.querySelector(".collab_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
       }
 
       with_value_count++;
@@ -84,13 +84,11 @@ const ccsZvalidateTeamMems = (event) => {
   for (var x = 1; x < 6; x++) {
     let name_field = document.getElementById('proj_collab_name_' + x);
 
-    // console.log(name_field.classList.value);
-
     if (name_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
-      fieldCheck = ccsZvalidateWithRegex( "proj_collab_name_" + x, "Provide the name of team member " + longNum[x], /^[a-z| ]{3,}$/i );
+      fieldCheck = ccsZvalidateWithRegex("proj_collab_name_" + x, "Provide the name of team member " + longNum[x], /^[a-z| ]{3,}$/i);
       if (fieldCheck !== true) errorStore.push(fieldCheck);
 
-      fieldCheck = ccsZvalidateWithRegex( "proj_collab_email_" + x, "Provide the email of team member " + longNum[x], /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ );
+      fieldCheck = ccsZvalidateWithRegex("proj_collab_email_" + x, "Provide the email of team member " + longNum[x], /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }

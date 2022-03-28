@@ -93,13 +93,13 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       body,
     );
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Not started');
 
     // Check 'review ranked suppliers' step number
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
 
-    res.redirect('/ca/get-work-done');
+    res.redirect('/ca/where-work-done');
   } catch (error) {
     LoggTracer.errorLogger(
       res,

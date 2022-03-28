@@ -65,7 +65,7 @@
           "Task": 2,
           "title": "IR35 acknowledgement",
           "required": "optional",
-          "link": "#",
+          "link": "/rfp/IR35",
           "status": "Cannot start yet"
         }
       ]
@@ -115,7 +115,7 @@
           "title": "Where the work will be done",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/where-work-done"
         }
       ]
     },

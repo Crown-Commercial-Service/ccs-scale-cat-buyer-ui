@@ -14,13 +14,14 @@
  * Works with text, number and file inputs (make sure the
  * 'accepts' attribute is set for files).
  */
-const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
+const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => {
   const element = document.getElementById(elementName);
 
-  if (element.value.trim().match(typeRegex)) {
+  if (element.value.trim().match(typeRegex) && valid) {
     ccsZremoveErrorMessage(element);
     return true;
   } else {
+    ccsZremoveErrorMessage(element);
     ccsZaddErrorMessage(element, errMsg);
     return [element.id, errMsg];
   }
@@ -29,15 +30,12 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
 /**
  * Validate that a textarea cointains a value
  */
-const ccsZvalidateTextArea = (elementName, errMsg) => {
+const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
   const element = document.getElementById(elementName);
-  if (element.value.trim().length > 0 || element.value.trim().length < 500) {
+  if (element.value.trim().length > 0 && valid) {
     ccsZremoveErrorMessage(element);
   }
-  if (element.value.trim().length > 0 && element.value.trim().length < 500) {
-    ccsZremoveErrorMessage(element);
-    return true;
-  } else {
+  else {
     ccsZaddErrorMessage(element, errMsg);
     return [element.id, errMsg];
   }

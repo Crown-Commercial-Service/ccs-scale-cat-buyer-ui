@@ -71,7 +71,7 @@ export const CA_POST_UPLOAD_PRICING_SUPPORTING_DOCUMENT = async (req: express.Re
     );
 
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Cannot start yet');
-
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'In progress');
     // Check 'review ranked suppliers' step number
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
 

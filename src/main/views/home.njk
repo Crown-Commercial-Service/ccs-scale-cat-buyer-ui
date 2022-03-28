@@ -3,14 +3,13 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 {% from "components/notification-banner.njk" import notificationBanner %}
 
-{% set title = 'home | Contract a Thing' %}
+{% set title = 'home | Contract Award Service' %}
 
 {% block content %}
   {{ CCSBreadcrumbs({
         items: breadCrumbs
       }) }}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-  <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     {% if(isAuth !== true)%}
       {{ notificationBanner() }}
       {%endif%}

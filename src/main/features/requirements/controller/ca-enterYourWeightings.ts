@@ -44,6 +44,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
     let weightingsArray = [];
+    dimensions.pop();
     if (dimensions.length > 0) {
       weightingsArray = dimensions.map(anItem => {
         return {
@@ -56,6 +57,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
         };
       });
     }
+    req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
     req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
     req.session['weightingRange'] = weightingsArray[0].weightingRange;
     const windowAppendData = {
@@ -102,12 +104,12 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
-    const toolId = req.session['CapAss']?.toolId;
+    const toolId = req.session['CapAss'].toolId;
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
 
     const range = req.session['weightingRange'];
-    const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5, 7: field7 } = req.body;
-    const arr = [{ field1, field2, field3, field4, field5, field7 }];
+    const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5 } = req.body;
+    const arr = [{ field1, field2, field3, field4, field5 }];
 
     const { isError, errorText } = checkErrors(arr, range);
     const { errorTextSumary } = checkErrorsSmary(arr, range);
@@ -127,33 +129,36 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       res.redirect('/ca/enter-your-weightings');
     } else {
       for (var dimension of dimensions) {
-        const body = {
-          name: dimension.name,
-          weighting: req.body[dimension['dimension-id']],
-          requirements: [],
-          includedCriteria: dimension.evaluationCriteria
-            .map(criteria => {
-              if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
-                return null;
-              } else
-                return {
-                  'criterion-id': criteria['criterion-id'],
-                };
-            })
-            .filter(criteria => criteria !== null),
-        };
-        await TenderApi.Instance(SESSION_ID).put(
-          `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
-          body,
-        );
+        if (dimensions.length < 6) {
+          const body = {
+            name: dimension.name,
+            weighting: req.body[dimension['dimension-id']],
+            requirements: [],
+            includedCriteria: dimension.evaluationCriteria
+              .map(criteria => {
+                if (!req.session['CapAss'].isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
+                  return null;
+                } else
+                  return {
+                    'criterion-id': criteria['criterion-id'],
+                  };
+              })
+              .filter(criteria => criteria !== null),
+          };
+          await TenderApi.Instance(SESSION_ID).put(
+            `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+            body,
+          );
+        }
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Not started');
       }
 
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Not started');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
       res.redirect('/ca/accept-subcontractors');
     }
   } catch (error) {
+    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,

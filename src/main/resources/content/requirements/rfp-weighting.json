@@ -14,7 +14,7 @@
       },
       {
         "text": "Write and publish your requirements",
-        "href": "/da/task-list"
+        "href": "/rfp/task-list"
       },
       {
         "text": "Set your resources and vetting weightings",
@@ -33,7 +33,7 @@
     },
     "backJump": {
       "title": "Return to write and publish your requirements",
-      "href": "/da/task-list"
+      "href": "/rfp/task-list"
     }
   }
   

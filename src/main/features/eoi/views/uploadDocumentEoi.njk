@@ -4,7 +4,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Complete and upload a document | Contract a Thing' %}
+{% set title = 'Complete and upload a document | Contract Award Service' %}
 {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
@@ -67,7 +67,7 @@
                           <p>{{file.fileSize | KbtoMb}} MB</p>
                         </div>
                         <div class="govuk-grid-column-one-third">
-                          <p>  <a class="app-task-list__tag" href="/eoi/files/remove?file={{file.name}}" aria-describedby="eoi-questions">remove</a></p>
+                          <p>  <a class="app-task-list__tag" href="/eoi/files/remove?file_id={{file.id}}" aria-describedby="eoi-questions">remove</a></p>
                         </div>
                         </div>
                           {% set hreflink  = items.OCDS.description | replace(" ", "_" ) %}

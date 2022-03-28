@@ -12,7 +12,6 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @GETController
  */
 export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
- 
   const { SESSION_ID } = req.cookies;
   const {
     lotId,
@@ -24,7 +23,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     project_name,
     isError,
     errorText,
-    currentEvent
+    currentEvent,
   } = req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -38,10 +37,8 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     error: isJaggaerError,
   };
 
-  const  assessmentId   = 1;
+  const assessmentId = 1;
   try {
-
-
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
@@ -51,25 +48,28 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     let CAPACITY_DATASET = CAPACITY_DATA.data;
 
-    CAPACITY_DATASET = CAPACITY_DATASET.filter(levels =>  levels['name'] === 'Service Capability')
+    CAPACITY_DATASET = CAPACITY_DATASET.filter(levels => levels['name'] === 'Service Capability');
 
     let CAPACITY_CONCAT_OPTIONS = CAPACITY_DATASET.map(item => {
-      const {weightingRange, options} = item;
+      const { weightingRange, options } = item;
       return options.map(subItem => {
         return {
-          ...subItem, weightingRange
-        }
-      })
+          ...subItem,
+          weightingRange,
+        };
+      });
     }).flat();
 
     //Setting the data that have groupRequirement = true;
-    const CAPACITY_CONCAT_Heading = CAPACITY_CONCAT_OPTIONS.filter(designation => designation.groupRequirement === true);
+    const CAPACITY_CONCAT_Heading = CAPACITY_CONCAT_OPTIONS.filter(
+      designation => designation.groupRequirement === true,
+    );
 
-   // 
+    //
     const UNIQUE_GROUPPED_ITEMS = CAPACITY_CONCAT_OPTIONS.map(item => {
       const optionID = item['option-id'];
-      const {name, groups, groupRequirement, weightingRange} = item;
-      const requirementId = item['requirement-id']
+      const { name, groups, groupRequirement, weightingRange } = item;
+      const requirementId = item['requirement-id'];
       const groupname = name;
       return groups.map(group => {
         return {
@@ -78,97 +78,93 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
           weightingRange,
           groupRequirement,
           optionID,
-          'requirement-id': requirementId
-        }
-      })
-    }).flat()
-   
-    const UNIQUE_DESIGNATION_CATEGORY = [...new Set(UNIQUE_GROUPPED_ITEMS.map(item => item.name))]; 
+          'requirement-id': requirementId,
+        };
+      });
+    }).flat();
+
+    const UNIQUE_DESIGNATION_CATEGORY = [...new Set(UNIQUE_GROUPPED_ITEMS.map(item => item.name))];
 
     const CATEGORIZED_ACCORDING_DESIGNATION = [];
 
-
-    for(const category of UNIQUE_DESIGNATION_CATEGORY){
-
+    for (const category of UNIQUE_DESIGNATION_CATEGORY) {
       const FINDRELEVANTCATEGORY = UNIQUE_GROUPPED_ITEMS.filter(item => {
-        return item.name == category
+        return item.name == category;
       });
       const Weightage = FINDRELEVANTCATEGORY?.[0]?.weightingRange;
       const MAPPEDACCORDINGTOCATEGORY = {
         category,
         data: FINDRELEVANTCATEGORY,
-        Weightage: Weightage
-      }
-      CATEGORIZED_ACCORDING_DESIGNATION.push(MAPPEDACCORDINGTOCATEGORY)
+        Weightage: Weightage,
+      };
+      CATEGORIZED_ACCORDING_DESIGNATION.push(MAPPEDACCORDINGTOCATEGORY);
     }
-
 
     let Level1DesignationStorageForHeadings = [];
 
-    for(const desgination of CATEGORIZED_ACCORDING_DESIGNATION){
-      const {Weightage, data, category} = desgination;
+    for (const desgination of CATEGORIZED_ACCORDING_DESIGNATION) {
+      const { Weightage, data, category } = desgination;
       const filteredLevel1Content = data.filter(role => role.level === 1);
       const ReformedObject = {
         Weightage,
         data: filteredLevel1Content,
-        category
-      }
+        category,
+      };
       Level1DesignationStorageForHeadings.push(ReformedObject);
     }
 
-    Level1DesignationStorageForHeadings = Level1DesignationStorageForHeadings.filter(designation => designation.data.length !== 0);
-
-
+    Level1DesignationStorageForHeadings = Level1DesignationStorageForHeadings.filter(
+      designation => designation.data.length !== 0,
+    );
 
     const TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
       return {
-          "url": `#section${index}`,
-          "text": item.category,
-          "subtext": `${item.Weightage.min}% / ${item.Weightage.max}%`
-      }
-    })
+        url: `#section${index}`,
+        text: item.category,
+        subtext: `${item.Weightage.min}% / ${item.Weightage.max}%`,
+      };
+    });
 
     /**
      * Removing duplicated designations
-     */  
+     */
     const REMOVED_DUPLICATED_JOB = CATEGORIZED_ACCORDING_DESIGNATION.map(item => {
-      const {Weightage, data, category} = item;
-      const UNIQUESET = [...new Set(data.map(item => item.groupname))]; 
+      const { Weightage, data, category } = item;
+      const UNIQUESET = [...new Set(data.map(item => item.groupname))];
       const JOBSTORAGE = [];
-      for(const uniqueItem of UNIQUESET){
+      for (const uniqueItem of UNIQUESET) {
         const filteredContents = data.filter(designation => designation.groupname === uniqueItem)[0];
         JOBSTORAGE.push(filteredContents);
       }
-      return {Weightage, data: JOBSTORAGE.flat(), category};
-    })
+      return { Weightage, data: JOBSTORAGE.flat(), category };
+    });
 
-      /**
+    /**
      * Levels 1 designaitons
      */
-    
-      let Level1DesignationStorage = [];
 
-      for(const desgination of REMOVED_DUPLICATED_JOB){
-        const {Weightage, data, category} = desgination;
-        const filteredLevel1Content = data.filter(role => role.level === 1);
-        const ReformedObject = {
-          Weightage,
-          data: filteredLevel1Content,
-          category
-        }
-        Level1DesignationStorage.push(ReformedObject);
-      }
+    let Level1DesignationStorage = [];
 
-      Level1DesignationStorage = Level1DesignationStorage.filter(designation => designation.data.length !== 0);
+    for (const desgination of REMOVED_DUPLICATED_JOB) {
+      const { Weightage, data, category } = desgination;
+      const filteredLevel1Content = data.filter(role => role.level === 1);
+      const ReformedObject = {
+        Weightage,
+        data: filteredLevel1Content,
+        category,
+      };
+      Level1DesignationStorage.push(ReformedObject);
+    }
 
-      /**
-       * @ASSESSMENT_API_REQUEST
-       * @DIMENSION_REQUIREMENT
-       */
-    let {dimensionRequirements} = ALL_ASSESSTMENTS_DATA;
+    Level1DesignationStorage = Level1DesignationStorage.filter(designation => designation.data.length !== 0);
+
+    /**
+     * @ASSESSMENT_API_REQUEST
+     * @DIMENSION_REQUIREMENT
+     */
+    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
     dimensionRequirements = dimensionRequirements.filter(item => item.name == 'Resource Quantity');
     const DRequirements = dimensionRequirements?.[0]?.requirements;
-
 
     var TABLEBODY = [];
 
@@ -177,86 +173,85 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
 
      */
 
- 
-     if( dimensionRequirements?.[0]?.requirements != undefined){
-    const FilledDATASTORGE = Level1DesignationStorage.map(items => {
-      const {category, data, Weightage} = items;
-      const allignedItems = items;
-      const newlyFormedData = data.map(nestedItems => {
-        var ReformedObj = {};
-        const findInDRequirement = DRequirements.filter(x => x.name == nestedItems.groupname);
-        if(findInDRequirement.length > 0){
-          const weigtage = findInDRequirement[0].weighting;
-          ReformedObj = {...nestedItems, value: weigtage}
-        }
-        else ReformedObj = {...nestedItems, value: ''}
-        return ReformedObj;
-      })
-      return {
-        category,
-        data: newlyFormedData,
-        Weightage
-      }
-    })
-    
-       TABLEBODY = FilledDATASTORGE;
-     }
-     else{
-       TABLEBODY = Level1DesignationStorage;
-     }
+    if (dimensionRequirements?.[0]?.requirements != undefined) {
+      const FilledDATASTORGE = Level1DesignationStorage.map(items => {
+        const { category, data, Weightage } = items;
+        const allignedItems = items;
+        const newlyFormedData = data.map(nestedItems => {
+          var ReformedObj = {};
+          const findInDRequirement = DRequirements.filter(x => x.name == nestedItems.groupname);
+          if (findInDRequirement.length > 0) {
+            const weigtage = findInDRequirement[0].weighting;
+            ReformedObj = { ...nestedItems, value: weigtage };
+          } else ReformedObj = { ...nestedItems, value: '' };
+          return ReformedObj;
+        });
+        return {
+          category,
+          data: newlyFormedData,
+          Weightage,
+        };
+      });
 
+      TABLEBODY = FilledDATASTORGE;
+    } else {
+      TABLEBODY = Level1DesignationStorage;
+    }
 
+    /**
+     *@UNIQUE_HEADINGS
+     */
 
-      /**
-       *@UNIQUE_HEADINGS
-       */
+    const UNIQUE_DESIGNATION_HEADINGS = [...new Set(CAPACITY_CONCAT_Heading.map(item => item.name))];
 
-       const UNIQUE_DESIGNATION_HEADINGS = [...new Set(CAPACITY_CONCAT_Heading.map(item => item.name))]; 
+    const UNIQUE_DESIGNATION_HEADINGS_ARR = UNIQUE_DESIGNATION_HEADINGS.map(designation => {
+      const findDesgination = CAPACITY_CONCAT_Heading.filter(item => item.name == designation)[0];
+      return findDesgination;
+    });
 
-       const UNIQUE_DESIGNATION_HEADINGS_ARR = UNIQUE_DESIGNATION_HEADINGS.map(designation => {
-         const findDesgination = CAPACITY_CONCAT_Heading.filter(item => item.name == designation)[0];
-         return findDesgination;
-       })
-
-
-     /***
+    /***
       * 
       * @WHOLECLUSTER_HEADINGS
     
       */
 
-     var WHOLECLUSTERCELLS = [];
+    var WHOLECLUSTERCELLS = [];
 
-     if( dimensionRequirements?.[0]?.requirements != undefined){
-
-
+    if (dimensionRequirements?.[0]?.requirements != undefined) {
       const reformedWholeClusterArr = UNIQUE_DESIGNATION_HEADINGS_ARR.map(items => {
         const findInDRequirement = DRequirements.filter(x => x.name == items.name);
         var ReformedObj = {};
-        if(findInDRequirement.length > 0){
+        if (findInDRequirement.length > 0) {
           const weigtage = findInDRequirement[0].weighting;
-          ReformedObj = {...items, value: weigtage}
-        }
-        else ReformedObj = {...items, value: ''};
+          ReformedObj = { ...items, value: weigtage };
+        } else ReformedObj = { ...items, value: '' };
         return ReformedObj;
-      })
-     WHOLECLUSTERCELLS = reformedWholeClusterArr;
+      });
+      WHOLECLUSTERCELLS = reformedWholeClusterArr;
+    } else {
+      WHOLECLUSTERCELLS = UNIQUE_DESIGNATION_HEADINGS_ARR;
+    }
 
+    req.session.serviceCapabilityData = Level1DesignationStorage;
+    const TotalAdded = DRequirements.length;
 
-   }
-   else{
-     WHOLECLUSTERCELLS = UNIQUE_DESIGNATION_HEADINGS_ARR;
-   }
-     
-   req.session.serviceCapabilityData = Level1DesignationStorage;
-   const TotalAdded = DRequirements.length;
-
-    const windowAppendData = { ...RFPService, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING:TableHeadings, TABLE_BODY: TABLEBODY, WHOLECLUSTER: WHOLECLUSTERCELLS, totalAdded: TotalAdded  };
+    const windowAppendData = {
+      ...RFPService,
+      lotId,
+      agreementLotName,
+      releatedContent,
+      isError,
+      errorText,
+      TABLE_HEADING: TableHeadings,
+      TABLE_BODY: TABLEBODY,
+      WHOLECLUSTER: WHOLECLUSTERCELLS,
+      totalAdded: TotalAdded,
+    };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
-//res.json(dataset);
-res.render('rfp-servicecapabilities.njk', windowAppendData);
+    //res.json(dataset);
+    res.render('rfp-servicecapabilities.njk', windowAppendData);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
@@ -270,63 +265,50 @@ res.render('rfp-servicecapabilities.njk', windowAppendData);
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-
 /**
- * 
- * @param req 
- * @param res 
- * 
+ *
+ * @param req
+ * @param res
+ *
  * @POST
  */
 export const RFP_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,serviceCapabilityData } = req.session;
-  const {requirementId} = req.body;
+  const { projectId, serviceCapabilityData } = req.session;
+  const { requirementId } = req.body;
 
   const MappedServiceCapData = serviceCapabilityData.map(items => items.data).flat();
-  var  MappedRequestContainingID = [];
+  var MappedRequestContainingID = [];
   var individualWeigtage = 0;
 
-
-  if(Array.isArray(requirementId)){
-  MappedRequestContainingID = requirementId.map(item => {
-    const findElement = MappedServiceCapData.filter(x => x['requirement-id'] == item)[0];
-    return findElement;
-  })
-  individualWeigtage = (100 / MappedRequestContainingID.length ).toFixed(1);
-  }
-  else{
-  MappedRequestContainingID = MappedServiceCapData.filter(x => x['requirement-id'] == requirementId);
-  individualWeigtage = 100;
+  if (Array.isArray(requirementId)) {
+    MappedRequestContainingID = requirementId.map(item => {
+      const findElement = MappedServiceCapData.filter(x => x['requirement-id'] == item)[0];
+      return findElement;
+    });
+    individualWeigtage = (100 / MappedRequestContainingID.length).toFixed(1);
+  } else {
+    MappedRequestContainingID = MappedServiceCapData.filter(x => x['requirement-id'] == requirementId);
+    individualWeigtage = 100;
   }
 
   MappedRequestContainingID = MappedRequestContainingID.map(item => {
     return {
       'requirement-id': item['requirement-id'],
-      "weighting": Math.floor(individualWeigtage) +1,
-      'values': []
-    }
-  })
+      weighting: Math.floor(individualWeigtage) + 1,
+      values: [],
+    };
+  });
 
   const PUT_BODY = {
-    "weighting": 0, 
-    "includedCriteria": [],
-    "overwriteRequirements": true,
-    "requirements": MappedRequestContainingID
-  }
-  
+    weighting: 0,
+    includedCriteria: [],
+    overwriteRequirements: true,
+    requirements: MappedRequestContainingID,
+  };
+
   try {
-    const  assessmentId   = 1;
+    const assessmentId = 1;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
@@ -336,28 +318,21 @@ export const RFP_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: e
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     let CAPACITY_DATASET = CAPACITY_DATA.data;
 
-
     const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-    console.log(POST_CHOOSEN_VALUES)
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Completed');
     res.redirect('/rfp/service-capabilities');
-    
-    } catch (error) {
-      console.log(error)
-      LoggTracer.errorLogger(
-        res,
-        error,
-        `${req.headers.host}${req.originalUrl}`,
-        null,
-        TokenDecoder.decoder(SESSION_ID),
-        `Error occured in Tender Service while adding Requirements for the assessment`,
-        true,
-      );
-    }
-
-
-  
-
- 
+  } catch (error) {
+    console.log(error);
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      `Error occured in Tender Service while adding Requirements for the assessment`,
+      true,
+    );
+  }
 };

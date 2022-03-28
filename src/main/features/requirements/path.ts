@@ -55,6 +55,14 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_WEIGHTINGS,
   );
 
+    // @GET '/rfp/enter-your-weightings'
+    app.get(
+      REQUIREMENT_PATHS.RFP_GET_WEIGHTINGS,
+      [AUTH, PreMarketEngagementMiddleware.PutPremarket, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.RFP_GET_WEIGHTINGS,
+    );
+
+
   // @GET '/ca/suppliers-to-forward
   app.get(
     REQUIREMENT_PATHS.CA_GET_SUPPLIERS_FORWARD,
@@ -379,31 +387,23 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_QUALITY_GROUP,
   );
 
-
-    /**
+  /**
    * @GETROUTER '/ca/review'
    */
-     app.get(
-      REQUIREMENT_PATHS.CA_GET_REVIEW,
-      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.CA_GET_review
-    );
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_REVIEW,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_review,
+  );
 
-
-    
-    /**
+  /**
    * @GETROUTER '/rfp/get-work-completed'
    */
-     app.get(
-      REQUIREMENT_PATHS.RFP_GET_WORK_COMPLETED,
-      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.RFP_GET_WORK_COMPLETED
-    );
-
-
-
-
-
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_WORK_COMPLETED,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_WORK_COMPLETED,
+  );
 
   /**
    * @POST Routes
@@ -419,7 +419,7 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.RFP_POST_NAME_PROJECT, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_NAME_PROJECT);
 
   //@POST '/ca/name'
-  app.post(REQUIREMENT_PATHS.CA_POST_PROJECT_NAME, AUTH, REQUIREMENT_CONTROLLER.CA_POST_NAME_PROJECT);
+  app.post(REQUIREMENT_PATHS.CA_POST_NAME_PROJECT, AUTH, REQUIREMENT_CONTROLLER.CA_POST_NAME_PROJECT);
 
   //@POST '/rfp/get-collaborator-detail'
   app.post(REQUIREMENT_PATHS.RFP_POST_ADD_COLLABORATOR, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_ADD_COLLABORATOR);
@@ -539,7 +539,7 @@ export default function (app: Application): void {
 
   app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_WHERE_WORK_DONE);
 
-  app.post(REQUIREMENT_PATHS.DA_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_WHERE_WORK_DONE);
+  app.post(REQUIREMENT_PATHS.RFP_POST_WHERE_WORK_DONE, [AUTH], REQUIREMENT_CONTROLLER.RFP_POST_WHERE_WORK_DONE);
 
   app.post(REQUIREMENT_PATHS.DA_POST_TYPE, [AUTH], REQUIREMENT_CONTROLLER.DA_POST_TYPE);
 
@@ -568,7 +568,7 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
   //@POST "rfp/suppliers"
   app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
-  //@POST '/ca/resources-vetting-weightings'
+  //@POST '/ca/resources-vetting-weightisngs'
   app.post(
     REQUIREMENT_PATHS.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
     AUTH,
@@ -635,6 +635,17 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_POST_SERVICE_CAPABILITIES,
   );
 
+    /**
+   * @POSTROUTER '/rfp/enter-your-weightings'
+   */
+     app.post(
+      REQUIREMENT_PATHS.RFP_POST_WEIGHTINGS,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.RFP_POST_WEIGHTINGS,
+    );
+
+
+
   /**
    * @POSTROUTER '/rfp/ratio-quality-group
    */
@@ -644,24 +655,30 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_POST_QUALITY_GROUP,
   );
 
-
-    /**
+  /**
    * @POSTROUTER '/ca/review
    */
-     app.post(
-      REQUIREMENT_PATHS.CA_POST_REVIEW,
-      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.CA_POST_review,
-    );
+  app.post(
+    REQUIREMENT_PATHS.CA_POST_REVIEW,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_POST_review,
+  );
 
+  /**
+   * @POSTROUTER '/rfp/get-work-completed'
+   */
+  app.post(
+    REQUIREMENT_PATHS.RFP_POST_WORK_COMPLETED,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_POST_WORK_COMPLETED,
+  );
 
-    /**
-     * @POSTROUTER '/rfp/get-work-completed'
-     */
-     app.post(
-      REQUIREMENT_PATHS.RFP_POST_WORK_COMPLETED,
-      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.RFP_POST_WORK_COMPLETED
-    );
-
+  /**
+   * @POSTROUTER '/da/resources-vetting-weightings'
+   */
+  app.post(
+    REQUIREMENT_PATHS.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
+  );
 }

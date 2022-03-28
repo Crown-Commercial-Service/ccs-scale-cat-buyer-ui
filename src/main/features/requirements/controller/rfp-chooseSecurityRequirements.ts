@@ -96,6 +96,7 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
         includedCriteria: [{ 'criterion-id': '0' }],
         requirements: requirementsData,
       };
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'Completed');
       await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
       res.redirect('/rfp/task-list');
     } catch (error) {

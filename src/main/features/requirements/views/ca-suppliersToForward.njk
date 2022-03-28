@@ -2,11 +2,32 @@
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
 
-{% set title = "Suppliers you'ld like to take forward | Contract a Thing" %}
+{% set title = "Suppliers you'ld like to take forward | Contract Award Service" %}
 
 {% block breadCrumb %}
     {{ CCSBreadcrumbs({
-        items: data.breadCrumbs
+        items: [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/ca/task-list?path="+choosenViewPath
+    },
+    {
+      "text": "How many suppliers you'd like to take forward?",
+      "href": "#"
+    }
+  ]
     }) }}
 {% endblock %}
 
@@ -20,6 +41,16 @@
                 }]
             }) }}
         {%endif %}
+
+        <div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+        </h2>
+        <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list" id="summary_list">
+            </ul>
+        </div>
+        </div>
+
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
@@ -36,6 +67,7 @@
                 <form id="ccs_ca_suppliers_form" name="ccs_ca_suppliers_form" class="form ccs_ca_suppliers" action="/ca/suppliers-to-forward" method="POST">
                     {{ csrfProtection(csrf) }}
                     <br>
+                    <div id="summary">
                     {{ CCSInput({
                       label: {
                         text: "You can enter between "+data.suppliers.min + " and "+data.suppliers.max+" suppliers"                        
@@ -48,8 +80,8 @@
                       pattern:"[0-9]{2}"
                     })
                 }}
-
-                    <div class="govuk-button-group">
+                    </div>
+                    <div class="govuk-button-group" >
                         {{ CCSButton({
                     text: "Save and continue"
                 }) }}

@@ -32,6 +32,12 @@
         "link": "/message/sent",
         "title": "Message Sent"
     },
+    "notification2": {
+        "text": "Your message was not delivered.  Please re-try and if the issue persists, please Contact CCS Customer Service Centre.",
+        "linkText": "View sent message",
+        "link": "/message/sent",
+        "title": "Message Not Delivered"
+    },
     "tabs": {
         "text1": "Create Message",
         "href1": "/message/create",

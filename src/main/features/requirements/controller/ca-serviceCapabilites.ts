@@ -42,6 +42,12 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
+
+    const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
+    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
+
+
+
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
@@ -269,8 +275,10 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
  */
 export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId} = req.session;
   const { ca_service_started } = req.body;
+
+
   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Not started');
   let { ca_partial_weightage, weight_vetting_partial, weight_vetting_whole, weight_vetting_whole_group } = req.body;
@@ -329,7 +337,14 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
+
+
+    const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
+    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
+
+
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
+
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
@@ -480,7 +495,7 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     });
 
     const PUT_BODY = {
-      weighting: 0,
+      weighting: Service_capbility_weightage,
       includedCriteria: [],
       overwriteRequirements: true,
       requirements: MappedWholeAndPartialCluster,
@@ -494,6 +509,8 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
+
       res.redirect('/ca/service-capabilities');
     } catch (error) {
       req.session['isJaggaerError'] = true;
@@ -512,6 +529,8 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
      *
      */
   } catch (error) {
+
+
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,

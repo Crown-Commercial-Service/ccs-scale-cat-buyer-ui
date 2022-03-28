@@ -11,6 +11,14 @@
     <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
 </p>
 {% endset %}
+{% set errHtml %}
+<h3 class="govuk-notification-banner__heading">
+    {{data.notification2.text}}
+</h3>
+<p class="govuk-body">
+    <a class="govuk-notification-banner__link" href="{{data.notification2.link}}">{{data.notification2.linkText}}</a>
+</p>
+{% endset %}
 {% block breadCrumb %}
     {{ CCSBreadcrumbs({
         items:[
@@ -31,9 +39,8 @@
 {% endblock %}
 
 {% block content %}
-    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-        {% if created %}
+        {% if created == 'true' %}
             <div class="govuk-grid-column-one-half">
 
                 {{ govukNotificationBanner({
@@ -42,6 +49,14 @@
                 titleText: data.notification.title
                 }) }}
 
+            </div>
+        {% elseif created == 'false' %}
+            <div class="govuk-grid-column-one-half">
+                {{ govukNotificationBanner({
+                html: errHtml,
+                type: "Important",
+                titleText: data.notification2.title
+                }) }}
             </div>
         {% endif %}
         <div class="govuk-grid-row govuk-!-padding-bottom-7">
@@ -77,7 +92,7 @@
 
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
             <div class="govuk-grid-column-full">
-                {% if messages.length > 0 %}
+                {% if messages.length > 5 %}
                     <table class="govuk-table" id="received-message">
                     {% else %}
                         <table class="govuk-table">
@@ -97,7 +112,7 @@
                                     <tr class="govuk-table__row">
                                         <th scope="row" class="govuk-table__cell">
                                             <p class="govuk-body govuk-!-margin-bottom-0">
-                                                <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}">{{ message.OCDS.author }}</a>
+                                                <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}">{{ message.OCDS.author.name }}</a>
                                             </p>
                                         </th>
                                         <td class="govuk-table__cell">{{ message.OCDS.date }}</td>

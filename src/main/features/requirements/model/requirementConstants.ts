@@ -70,7 +70,6 @@ export enum REQUIREMENT_PATHS {
   CA_GET_NAME_PROJECT = '/ca/name-your-project',
   CA_POST_NAME_PROJECT = '/ca/name',
   CA_GET_LEAD_PROCUREMENT = '/ca/procurement-lead',
-  CA_POST_PROJECT_NAME = '/ca/name',
   CA_PUT_LEAD_PROCUREMENT = '/ca/procurement-lead',
   CA_GET_USER_PROCUREMENT = '/ca/users-procurement-lead',
 
@@ -116,8 +115,8 @@ export enum REQUIREMENT_PATHS {
   CA_POST_NEXTSTEPS = '/ca/next-steps',
   CA_GET_TEAM_SCALE = '/ca/team-scale',
   CA_POST_TEAM_SCALE = '/ca/team-scale',
-  CA_GET_WHERE_WORK_DONE = '/ca/get-work-done',
-  CA_POST_WHERE_WORK_DONE = '/ca/get-work-done',
+  CA_GET_WHERE_WORK_DONE = '/ca/where-work-done',
+  CA_POST_WHERE_WORK_DONE = '/ca/where-work-done',
   CA_GET_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
   CA_POST_RESOURCES_VETTING_WEIGHTINGS = '/ca/resources-vetting-weightings',
   CA_GET_LEARN_ASSESSMENT_BASES = '/ca/learn-assessments-bases',
@@ -147,8 +146,8 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_RESPONSE_DATE = '/rfp/response-date',
   RFP_POST_ADD_RESPONSEDATE = '/rfp/add/response-date',
 
-  DA_GET_WHERE_WORK_DONE = '/da/get-work-done',
-  DA_POST_WHERE_WORK_DONE = '/da/get-work-done',
+  DA_GET_WHERE_WORK_DONE = '/da/where-work-done',
+  DA_POST_WHERE_WORK_DONE = '/da/where-work-done',
 
   // da type
   DA_TYPE = '/da/type',
@@ -161,8 +160,8 @@ export enum REQUIREMENT_PATHS {
   DA_GET_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
   DA_POST_RESOURCES_VETTING_WEIGHTINGS = '/da/resources-vetting-weightings',
 
-  DA_GET_SUBCONTRACTORS = '/da/accept-subContractors',
-  DA_POST_SUBCONTRACTORS = '/da/accept-subContractors',
+  DA_GET_SUBCONTRACTORS = '/da/accept-subcontractors',
+  DA_POST_SUBCONTRACTORS = '/da/accept-subcontractors',
 
   DA_GET_REVIEW_RANKED_SUPPLIERS = '/da/review-ranked-suppliers',
   DA_POST_REVIEW_RANKED_SUPPLIERS = '/da/review-ranked-suppliers',
@@ -177,19 +176,22 @@ export enum REQUIREMENT_PATHS {
   CA_GET_SUMMARY = '/ca/summary',
   CA_POST_SUMMARY = '/ca/summary',
 
+  //RFP Enter Your weighting
+
+  RFP_GET_WEIGHTINGS = '/rfp/enter-your-weightings',
+  RFP_POST_WEIGHTINGS = '/rfp/enter-your-weightings',
+
+
   //RFP Capability service
   RFP_GET_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
   RFP_POST_SERVICE_CAPABILITIES = '/rfp/service-capabilities',
   //RFP Location
-  RFP_GET_WHERE_WORK_DONE = '/rfp/get-work-done',
-  RFP_POST_WHERE_WORK_DONE = '/rfp/get-work-done',
+  RFP_GET_WHERE_WORK_DONE = '/rfp/where-work-done',
+  RFP_POST_WHERE_WORK_DONE = '/rfp/where-work-done',
 
-
-  RFP_GET_WORK_COMPLETED= '/rfp/get-work-completed',
+  RFP_GET_WORK_COMPLETED = '/rfp/get-work-completed',
   RFP_POST_WORK_COMPLETED = '/rfp/get-work-completed',
 
-
-
   CA_GET_REVIEW = '/ca/review',
-  CA_POST_REVIEW = '/ca/review'
+  CA_POST_REVIEW = '/ca/review',
 }

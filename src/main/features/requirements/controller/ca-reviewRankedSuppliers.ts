@@ -4,18 +4,31 @@ import * as dataRRS from '../../../resources/content/requirements/caReviewRanked
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import config from 'config';
 
 export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId, releatedContent, isError, errorText } = req.session;
+  const { projectId, releatedContent, isError, errorText, eventId, currentEvent } = req.session;
+  const { data: eventData } = await TenderApi.Instance(SESSION_ID).get(
+    `/tenders/projects/${projectId}/events/${eventId}`,
+  );
+  const lotSuppliers =
+    config.get('CCS_agreements_url') + req.session.agreement_id + ':' + req.session.lotId + '/lot-suppliers';
+  const { assessmentSupplierTarget: numSuppliers } = eventData.nonOCDS;
+  let dataRRSMod = { ...dataRRS };
+  dataRRSMod.p1 = dataRRSMod.p1.replace(new RegExp('X', 'g'), numSuppliers);
+  const ASSESSTMENT_BASEURL = `/assessments/${currentEvent.assessmentId}`;
+  const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+  const suppliersResponse = await TenderApi.Instance(SESSION_ID).get(
+    `/tenders/projects/${projectId}/events/${eventId}/suppliers`,
+  );
   req.session.isError = false;
   req.session.errorText = '';
-  const appendData = { ...dataRRS, releatedContent, isError, errorText };
+  const appendData = { ...dataRRSMod, numSuppliers, lotSuppliers: lotSuppliers, releatedContent, isError, errorText };
   try {
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('ca-reviewRankedSuppliers', appendData);
   } catch (error) {
-    
     LoggTracer.errorLogger(
       res,
       error,
@@ -56,7 +69,6 @@ export const CA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
       res.redirect('/ca/task-list');
     } catch (error) {
-      
       LoggTracer.errorLogger(
         res,
         error,

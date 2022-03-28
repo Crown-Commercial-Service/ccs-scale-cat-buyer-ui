@@ -1,6 +1,6 @@
 //@ts-nocheck
 import * as express from 'express';
-import * as cmsData from '../../../resources/content/requirements/offline-doc.json';
+import * as cmsData from '../../../resources/content/requirements/rfp-upload-attachment.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -75,6 +75,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
       if (selectedRoute === 'FC') selectedRoute = 'RFP';
+      if (selectedRoute === 'FCA') selectedRoute = 'CA';
       res.render(`${selectedRoute.toLowerCase()}-uploadAttachment`, windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];

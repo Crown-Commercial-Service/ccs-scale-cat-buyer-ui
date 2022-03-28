@@ -17,7 +17,7 @@ export class ReleatedContent {
      */
     title?: any;
     /**
-     * URL of the Lot detail page on the CaT buyer frontend
+     * URL of the Lot detail page on the Contract Award Service (CAS) buyer frontend
      * @type {string}
 
      */

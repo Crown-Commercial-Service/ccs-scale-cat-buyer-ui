@@ -35,15 +35,16 @@
                 "text": "Enter all the information online",
                 "hint": {
                   "text": "Enter all the information needed to build your RfI and submit to your selected suppliers."
-                }
-
+                },
+                "disabled": "false"
               },
               {
                 "value": "all_offline",
-                "text": "Complete and upload a document",
+                "text": "Complete and upload a document (Coming soon)",
                 "hint": {
                   "text": "Use this option to prepare your RfI offline and then upload it."
-                }
+                },
+                "disabled": "true"
               }
             ]
           },

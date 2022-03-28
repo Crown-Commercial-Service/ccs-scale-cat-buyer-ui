@@ -38,7 +38,7 @@
                         {% if (event.status === 'Optional') 
                            or(event.status === 'TODO')or(event.status === 'DONE') %}
                            <strong class="govuk-tag app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
-                        {% elif (event.status === 'In progress') %}
+                        {% elif(event.status === 'In progress') %}
                            <strong class="govuk-tag govuk-tag--blue app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
                         {% else %}
                            <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
@@ -53,8 +53,7 @@
                         or((event.eventno === 3) and (loop.index0 === 0) and ('FC' in types))
                         or((event.eventno === 3) and (loop.index0 === 1) and ('FC' in types))
                         or((event.eventno === 3) and (loop.index0 === 1) and (('FCA' in types)or('CA' in types)))
-                        or((event.eventno === 3) and (loop.index0 === 2) and ('DAA' in types)or('DA' in types))
- %}
+                        or((event.eventno === 3) and (loop.index0 === 2) and (('DAA' in types)or('DA' in types)))%}
                            {% for subSection in subSections %}
                               <p class="govuk-body">{{subSection | safe }}</p>
                            {% endfor %}

@@ -8,4 +8,5 @@ export interface CreateMessage {
     classificationErrorMessage:     string;
     subjectErrorMessage:            string;
     messageErrorMessage:            string;
+    selected_message:               string;
 }

@@ -19,7 +19,8 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 export const CHOOSE_AGREEMENT = async (req: express.Request, res: express.Response) => {
   const agreement_id = req.session.agreement_id
   
-  const agreements = await getAgreements(['RM6263', 'RM6187'], req, res)
+  // If we need to get MCF agreement include the id in below line : getAgreements(['RM6263', 'RM6187'], req, res)
+  const agreements = await getAgreements(['RM6263'], req, res)
   const appendData = { data: agreementScreenContent, agreement_id, agreements }
   res.render('agreement', appendData)
 }
@@ -30,6 +31,7 @@ async function getAgreements(agreements: string[], req: express.Request, res: ex
   try {
     for (let i = 0; i < agreements.length; i++) {
       const agreement = agreements[i]
+      // POST MVP this base URL needs to be changed to GET /agreements to retrieve active agreements applicable for the CAS
       const BaseURL = `agreements/${agreement}`
       const LotBaseURL = `agreements/${agreement}/lots`
       const retrieveAgreementPromise = await AgreementAPI.Instance.get(BaseURL);

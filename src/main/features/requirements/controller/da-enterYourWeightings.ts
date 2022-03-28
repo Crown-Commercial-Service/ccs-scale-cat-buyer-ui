@@ -23,6 +23,9 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     releatedContent,
     project_name,
     choosenViewPath,
+    isError,
+    errorText,
+    errorTextSumary,
   } = req.session;
   const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
@@ -56,8 +59,6 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
     req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
     req.session['weightingRange'] = weightingsArray[0].weightingRange;
-    console.log('xxxxxxx ', weightingsArray);
-    console.log(' zzzzzzz', weightingsArray[0]);
     const windowAppendData = {
       data: daWeightingData,
       dimensions: weightingsArray,
@@ -66,7 +67,9 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       releatedContent,
       choosenViewPath,
       error: isJaggaerError,
-      errorText: 'Enter a number in the fields',
+      isError,
+      errorText,
+      errorTextSumary: errorTextSumary,
     };
     res.render('da-enterYourWeightings', windowAppendData);
   } catch (error) {
@@ -99,32 +102,49 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
-
+  req.session.errorText = [];
   try {
-    const toolId = req.session['CapAss']?.toolId;
+    const toolId = req.session['CapAss'].toolId;
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
 
-    for (var dimension of dimensions) {
-      const body = {
-        name: dimension.name,
-        weighting: req.body[dimension['dimension-id']],
-        requirements: [],
-        includedCriteria: dimension.evaluationCriteria
-          .map(criteria => {
-            if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
-              return null;
-            } else
-              return {
-                'criterion-id': criteria['criterion-id'],
-              };
-          })
-          .filter(criteria => criteria !== null),
-      };
-      const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5, 6: field6 } = req.body;
-      if (field1 === '' || field2 === '' || field3 === '' || field4 === '' || field5 === '' || field6 === '') {
-        req.session['isJaggaerError'] = true;
-        res.redirect('/da/enter-your-weightings');
-      } else {
+    const range = req.session['weightingRange'];
+    const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5, 6: field6 } = req.body;
+    const arr = [{ field1, field2, field3, field4, field5, field6 }];
+
+    const { isError, errorText } = checkErrors(arr, range);
+    const { errorTextSumary } = checkErrorsSmary(arr, range);
+
+    if (isError) {
+      req.session.errorTextSumary = errorTextSumary.reduce((acc, curr) => {
+        if (!acc?.find(ob => ob.text === curr.text)) return acc?.concat(curr);
+        return acc;
+      }, []);
+      if (errorText.length !== 6) {
+        errorText.push({ id: 'field', text: '' });
+      }
+
+      req.session.errorText = errorText;
+      req.session.isError = isError;
+      req.session['isJaggaerError'] = true;
+      res.redirect('/da/enter-your-weightings');
+    } else {
+      for (var dimension of dimensions) {
+        const body = {
+          name: dimension.name,
+          weighting: req.body[dimension['dimension-id']],
+          requirements: [],
+          includedCriteria: dimension.evaluationCriteria
+            .map(criteria => {
+              if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
+                return null;
+              } else
+                return {
+                  'criterion-id': criteria['criterion-id'],
+                };
+            })
+            .filter(criteria => criteria !== null),
+        };
+
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,
@@ -146,3 +166,45 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
     );
   }
 };
+
+function checkErrors(arr, range) {
+  let isError = false;
+  const errorText = [];
+  const keys = Object.keys(...arr).map(key => key);
+  for (const obj of arr) {
+    for (const k of keys) {
+      if ((range.max < Number(obj[k]) || range.min > Number(obj[k])) && Number(obj[k]) !== 0) {
+        isError = true;
+        errorText.push({ id: k, text: 'Dimension value entered is outside the permitted range' });
+      }
+      if (Number(obj[k]) === 0) {
+        isError = true;
+        errorText.push({ id: k, text: 'All entry boxes must contain a value' });
+      }
+    }
+  }
+
+  return { isError, errorText };
+}
+
+function checkErrorsSmary(arr, range) {
+  const errorTextSumary = [];
+  const fieldsValues = Object.values(...arr).map(value => Number(value));
+  const keys = Object.keys(...arr).map(key => key);
+  const total = fieldsValues.reduce((acc, curr) => acc + curr, 0);
+  for (const obj of arr) {
+    for (const k of keys) {
+      if ((range.max < Number(obj[k]) || range.min > Number(obj[k])) && Number(obj[k]) !== 0) {
+        errorTextSumary.push({ id: k, text: 'Dimension value entered is outside the permitted range' });
+      }
+      if (Number(obj[k]) === 0) {
+        errorTextSumary.push({ id: k, text: 'All entry boxes must contain a value' });
+      }
+      if (total !== 100) {
+        errorTextSumary.push({ id: k, text: 'Dimension value entered does not total to 100%' });
+      }
+    }
+  }
+
+  return { errorTextSumary };
+}
