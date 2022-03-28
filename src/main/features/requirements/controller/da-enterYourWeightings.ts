@@ -104,7 +104,7 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
-    const toolId = req.session['CapAss']?.toolId;
+    const toolId = req.session['CapAss'].toolId;
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
 
     const range = req.session['weightingRange'];

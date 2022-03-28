@@ -1,6 +1,6 @@
 //@ts-nocheck
 import * as express from 'express';
-import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as caWeightingData from '../../../resources/content/requirements/caEnterYourWeightings.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -11,7 +11,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @param res
  * @GETController
  */
-export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
+export const RFP_GET_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const {
     lotId,
@@ -57,7 +57,6 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
         };
       });
     }
-    req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
     req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
     req.session['weightingRange'] = weightingsArray[0].weightingRange;
     const windowAppendData = {
@@ -71,7 +70,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       errorText,
       errorTextSumary: errorTextSumary,
     };
-    res.render('ca-enterYourWeightings', windowAppendData);
+    res.render('rfp-enterYourWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -98,18 +97,18 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
   return dimensionsApi.data;
 };
 
-export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
+export const RFP_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
-    const toolId = req.session['CapAss'].toolId;
+    const toolId = req.session['CapAss']?.toolId;
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
 
     const range = req.session['weightingRange'];
-    const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5 } = req.body;
-    const arr = [{ field1, field2, field3, field4, field5 }];
+    const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5, 7: field7 } = req.body;
+    const arr = [{ field1, field2, field3, field4, field5, field7 }];
 
     const { isError, errorText } = checkErrors(arr, range);
     const { errorTextSumary } = checkErrorsSmary(arr, range);
@@ -126,39 +125,38 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       req.session.errorText = errorText;
       req.session.isError = isError;
       req.session['isJaggaerError'] = true;
-      res.redirect('/ca/enter-your-weightings');
+      res.redirect('/rfp/enter-your-weightings');
     } else {
       for (var dimension of dimensions) {
-        if (dimensions.length < 6) {
-          const body = {
-            name: dimension.name,
-            weighting: req.body[dimension['dimension-id']],
-            requirements: [],
-            includedCriteria: dimension.evaluationCriteria
-              .map(criteria => {
-                if (!req.session['CapAss'].isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
-                  return null;
-                } else
-                  return {
-                    'criterion-id': criteria['criterion-id'],
-                  };
-              })
-              .filter(criteria => criteria !== null),
-          };
-          await TenderApi.Instance(SESSION_ID).put(
-            `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
-            body,
-          );
-        }
+        const body = {
+          name: dimension.name,
+          weighting: req.body[dimension['dimension-id']],
+          requirements: [],
+          includedCriteria: dimension.evaluationCriteria
+            .map(criteria => {
+              if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
+                return null;
+              } else
+                return {
+                  'criterion-id': criteria['criterion-id'],
+                };
+            })
+            .filter(criteria => criteria !== null),
+        };
         await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(
+          `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+          body,
+        );
       }
 
+
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
-      res.redirect('/ca/accept-subcontractors');
+      res.redirect('/rfp/enter-your-weightings');
     }
   } catch (error) {
-    console.log(error);
+    console.log(error)
     LoggTracer.errorLogger(
       res,
       error,

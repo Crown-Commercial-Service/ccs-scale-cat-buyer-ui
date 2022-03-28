@@ -73,6 +73,7 @@
                      <p> [DDAT Family description] </p>
                      <div class="govuk-!-margin-top-9">
                       <p> Weighting for number of staff </p>
+
                         {{ CCSInput({
                           label: {
                             text: ""
@@ -80,6 +81,7 @@
                           classes: "govuk-input--width-2 weight_staff_class",
                           id: "weight_staff_"+loop.index+newID,
                           name: "weight_staff",
+                           value: subItems.weigthing ,
                           suffix: {
                             text: "%"
                           },
@@ -94,6 +96,7 @@
                           classes: "govuk-input--width-2",
                           id: "weight_vetting_"+loop.index+newID,
                           name: "weight_vetting",
+                           value: subItems.weigthing ,
                           suffix: {
                             text: "%"
                           },
@@ -113,18 +116,21 @@
                          {% for subNestedItems in subItems.designations %}
                           {% set newsubID = subItems.ParentName.split(" ").join("")%}
                             <span  class="sfia-roles">  
-                         {{ CCSInput({
+
+                              {{ CCSInput({
                           label: {
                             text: ""
                           },
                           classes: "govuk-input--width-2 weight_vetting_class",
                           id: "weight_vetting_"+loop.index+newsubID,
                           name: "SFIA_weightage",
+                          value: subNestedItems['weighting'] ,
                           suffix: {
                             text: subNestedItems['SFIA_name']
                           },
                           spellcheck: false
                         }) }}
+                        
 </span>
                          {{ CCSInput({
                                     id: "weight_vetting_whole_group_"+loop.index+newID,

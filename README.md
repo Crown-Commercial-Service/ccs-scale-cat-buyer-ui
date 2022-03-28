@@ -1,6 +1,6 @@
 # CCS Scale CAS Buyer UI
 
-CCS Scale CaT Buyer UI - ‘Contract Award Service’ (CAS).
+CCS Scale CAS Buyer UI - ‘Contract Award Service’ (CAS).
 
 ## Getting Started
 

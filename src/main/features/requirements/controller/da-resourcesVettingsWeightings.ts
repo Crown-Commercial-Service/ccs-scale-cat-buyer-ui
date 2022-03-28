@@ -57,14 +57,24 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
   
 
+  
+    
+    let DesignationLevelDimension = '';
 
+    if(Number(EXTERNAL_ID) == 1) DesignationLevelDimension = 'Resource Quantities'
+    else DesignationLevelDimension = 'Pricing';
+
+    const DESIGNATIONCONTENTS = dimensions.filter(dimension => dimension['name'] === DesignationLevelDimension)[0];
+    const STAFFWEIGHTAGECONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantity')[0];
+    const VETTINGWEIGTAGECONTENTS = dimensions.filter(dimension => dimension['name'] === 'Security Clearance')[0];
+
+    const FormatedData = {
+      options: [...DESIGNATIONCONTENTS['options'], ...STAFFWEIGHTAGECONTENTS['options'], ...VETTINGWEIGTAGECONTENTS['options']]
+    }
 
     
 
-    const LEVEL6CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Pricing')[0];
-
-
-    var { options } = LEVEL6CONTENTS;
+    var { options } = FormatedData;
 
    /**
      * @Removing_duplications
@@ -84,7 +94,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     UNIQUE_DESIG_STORAGE = UNIQUE_DESIG_STORAGE.flat();
 
     const REFORMED_DESIGNATION_OBJECT = {
-      ...LEVEL6CONTENTS,
+      ...DESIGNATIONCONTENTS,
       options: UNIQUE_DESIG_STORAGE,
     };
 
@@ -182,7 +192,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
      * Sorting Designation According to the Table Items
      */
 
-    const StorageForSortedItems = [];
+    var StorageForSortedItems = [];
 
     for (const items of REMAPPTED_TABLE_ITEM_STORAGE) {
       const Text = items.text;
@@ -193,6 +203,108 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     }
 
 
+
+
+
+    //Resource Quantities values
+    let ResouceQuantitiesDimensionVal = [];
+
+
+    if(ALL_ASSESSTMENTS_DATA.dimensionRequirements != undefined){
+    
+      if(ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Resource Quantities').length > 0){
+        ResouceQuantitiesDimensionVal = ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(d => d['name']=='Resource Quantities')[0].requirements;
+        let newStorageForSortedItems = [];
+        for(const items of StorageForSortedItems ){
+          const {Parent, category} = items;
+          const mappedSection = category.map(subItems => {
+            let {designations, ParentName} = subItems;
+            designations = designations.map(nestedItems => {
+              const findInRequirement = ResouceQuantitiesDimensionVal.filter(i => i['requirement-id'] == nestedItems['requirement-id']);
+              if(findInRequirement.length > 0) return {...nestedItems, weighting: findInRequirement[0].weighting}
+              else return nestedItems;
+            })
+            return {
+              designations,
+              ParentName
+            }
+          })
+          newStorageForSortedItems.push({Parent, category: mappedSection})
+        }
+        StorageForSortedItems = newStorageForSortedItems;
+      }
+
+
+
+      if(ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Security Clearance').length > 0){
+        const SecurityGroup = ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Security Clearance')[0];
+        const requirements = SecurityGroup['requirements'];
+        const weighting = SecurityGroup['weighting'];
+
+        let newStorageForSortedItems = [];
+        for(const items of StorageForSortedItems ){
+          const {Parent, category} = items;
+          const mappedSection = category.map(subItems => {
+            let {designations, ParentName} = subItems;
+            const findRespectiveParent = requirements.filter(i => i['name'] == ParentName);
+            if(findRespectiveParent.length > 0){
+              return {
+                designations,
+                ParentName,
+                weigthing : findRespectiveParent[0].weighting
+              }
+            }
+            else  return {
+              designations,
+              ParentName
+            }
+           
+          })
+          newStorageForSortedItems.push({Parent, category: mappedSection})
+        }
+        StorageForSortedItems = newStorageForSortedItems;
+
+
+      }
+
+
+
+      if(ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Resource Quantity').length > 0){
+        const ResourceGroup = ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Resource Quantity')[0];
+        const weighting = ResourceGroup['weighting'];
+        const requirements = ResourceGroup['requirements'];
+
+       
+        let newStorageForSortedItems = [];
+        for(const items of StorageForSortedItems ){
+          const {Parent, category} = items;
+          const mappedSection = category.map(subItems => {
+            let {designations, ParentName} = subItems;
+            const findRespectiveParent = requirements.filter(i => i['name'] == ParentName);
+            if(findRespectiveParent.length > 0){
+              return {
+                designations,
+                ParentName,
+                weigthing : findRespectiveParent[0].weighting
+              }
+            }
+            else  return {
+              designations,
+              ParentName
+            }
+           
+          })
+          newStorageForSortedItems.push({Parent, category: mappedSection})
+        }
+        StorageForSortedItems = newStorageForSortedItems;
+      }
+
+    }
+ 
+
+
+
+    
     const windowAppendData = {
       ...daResourcesVetting,
       lotId,
@@ -202,18 +314,15 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       errorText,
       designations: StorageForSortedItems,
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
+
     };
 
 
-    
-
-   // console.log(StorageForSortedItems[0].category[0].designations)
-
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
- 
-    res.render('da-resourcesVettingWeightings', windowAppendData);
+    res.json(ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Resource Quantity')[0])
+  // res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
-
+    console.log(error)
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
@@ -316,8 +425,8 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     const D1_data = {"weighting": Number(item['staff-weigtage'])}
     const D2_data = {"weighting": Number(item['vetting-weigtage'])};
     //staff weightings is dimension 1, vetting is dimension 2
-    const D1_BaseURL = `/assessments/168/dimensions/1/requirements/${reqId}`;
-    const D2_BaseURL= `/assessments/168/dimensions/2/requirements/${reqId}`;
+    const D1_BaseURL = `/assessments/${assessmentId}/dimensions/1/requirements/${reqId}`;
+    const D2_BaseURL= `/assessments/${assessmentId}/dimensions/2/requirements/${reqId}`;
     await TenderApi.Instance(SESSION_ID).put(D1_BaseURL, D1_data);
     await TenderApi.Instance(SESSION_ID).put(D2_BaseURL, D2_data);
  }
@@ -325,18 +434,16 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
  for(const item of WeigtagewithRequirementId){
   const reqId = item['requirement-id'];
   const weighting = item['weighting'];
-  const BaseURL = `/assessments/168/dimensions/${DimensionForRequirements}/requirements/${reqId}`;
+  const BaseURL = `/assessments/${assessmentId}/dimensions/${DimensionForRequirements}/requirements/${reqId}`;
   let _RequestBody = {"weighting": Number(weighting)};
   await TenderApi.Instance(SESSION_ID).put(BaseURL, _RequestBody);
  }
 
- // console.log({WeigtagewithRequirementId, WeigtageName, _RequestBody})
   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
   res.redirect('/da/resources-vetting-weightings');
 
 
   } catch (error) {
-    console.log(error)
     LoggTracer.errorLogger(
       res,
       error,

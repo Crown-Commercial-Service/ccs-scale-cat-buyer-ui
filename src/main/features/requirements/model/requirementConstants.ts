@@ -70,7 +70,6 @@ export enum REQUIREMENT_PATHS {
   CA_GET_NAME_PROJECT = '/ca/name-your-project',
   CA_POST_NAME_PROJECT = '/ca/name',
   CA_GET_LEAD_PROCUREMENT = '/ca/procurement-lead',
-  CA_POST_PROJECT_NAME = '/ca/name',
   CA_PUT_LEAD_PROCUREMENT = '/ca/procurement-lead',
   CA_GET_USER_PROCUREMENT = '/ca/users-procurement-lead',
 
@@ -176,6 +175,12 @@ export enum REQUIREMENT_PATHS {
   //Capability assessment summary
   CA_GET_SUMMARY = '/ca/summary',
   CA_POST_SUMMARY = '/ca/summary',
+
+  //RFP Enter Your weighting
+
+  RFP_GET_WEIGHTINGS = '/rfp/enter-your-weightings',
+  RFP_POST_WEIGHTINGS = '/rfp/enter-your-weightings',
+
 
   //RFP Capability service
   RFP_GET_SERVICE_CAPABILITIES = '/rfp/service-capabilities',

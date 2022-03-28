@@ -15,7 +15,7 @@ const condLength = (text) => {
 const ccsZvalidateRfPStrategy = event => {
   event.preventDefault();
   let fieldCheck = '';
-  if ($('#rfp_prob_statement_t')) {
+  if ($('#rfp_prob_statement_t').length) {
     errorStore = [];
     if (condLength($('#rfp_prob_statement_t').val())) {
       const msg = char ? 'Entry must be <= 5000': 'Entry must be <= 500 words';
@@ -24,7 +24,7 @@ const ccsZvalidateRfPStrategy = event => {
     }
   }
 
-  if ($('#rfp_prob_statement_s')) {
+  if ($('#rfp_prob_statement_s').length) {
     errorStore = [];
     if (condLength($('#rfp_prob_statement_s').val())) {
       const msg = char ? 'Entry must be <= 5000': 'Entry must be <= 500 words';

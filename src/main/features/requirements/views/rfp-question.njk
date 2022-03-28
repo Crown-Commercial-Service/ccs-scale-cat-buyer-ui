@@ -114,7 +114,7 @@
                 </div>
               {%elif (form_name !== 'ccs_rfp_acronyms_form')%}
                 {% for requirement in data %}
-                  {{recurseRequirements(requirement,form_name)}}
+                  {{recurseRequirements(requirement,form_name,loop.index)}}
                 {% endfor %}
                 {%else%}
                 {{recurseRequirements(data[0],form_name)}}

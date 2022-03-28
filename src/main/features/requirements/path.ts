@@ -55,6 +55,14 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.CA_GET_WEIGHTINGS,
   );
 
+    // @GET '/rfp/enter-your-weightings'
+    app.get(
+      REQUIREMENT_PATHS.RFP_GET_WEIGHTINGS,
+      [AUTH, PreMarketEngagementMiddleware.PutPremarket, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.RFP_GET_WEIGHTINGS,
+    );
+
+
   // @GET '/ca/suppliers-to-forward
   app.get(
     REQUIREMENT_PATHS.CA_GET_SUPPLIERS_FORWARD,
@@ -411,7 +419,7 @@ export default function (app: Application): void {
   app.post(REQUIREMENT_PATHS.RFP_POST_NAME_PROJECT, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_NAME_PROJECT);
 
   //@POST '/ca/name'
-  app.post(REQUIREMENT_PATHS.CA_POST_PROJECT_NAME, AUTH, REQUIREMENT_CONTROLLER.CA_POST_NAME_PROJECT);
+  app.post(REQUIREMENT_PATHS.CA_POST_NAME_PROJECT, AUTH, REQUIREMENT_CONTROLLER.CA_POST_NAME_PROJECT);
 
   //@POST '/rfp/get-collaborator-detail'
   app.post(REQUIREMENT_PATHS.RFP_POST_ADD_COLLABORATOR, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_ADD_COLLABORATOR);
@@ -627,6 +635,17 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_POST_SERVICE_CAPABILITIES,
   );
 
+    /**
+   * @POSTROUTER '/rfp/enter-your-weightings'
+   */
+     app.post(
+      REQUIREMENT_PATHS.RFP_POST_WEIGHTINGS,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      REQUIREMENT_CONTROLLER.RFP_POST_WEIGHTINGS,
+    );
+
+
+
   /**
    * @POSTROUTER '/rfp/ratio-quality-group
    */
@@ -654,13 +673,12 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_POST_WORK_COMPLETED,
   );
 
-
-   /**
+  /**
    * @POSTROUTER '/da/resources-vetting-weightings'
    */
-    app.post(
-      REQUIREMENT_PATHS.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
-      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-      REQUIREMENT_CONTROLLER.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
-    );
+  app.post(
+    REQUIREMENT_PATHS.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
+  );
 }

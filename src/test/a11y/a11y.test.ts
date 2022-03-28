@@ -76,7 +76,7 @@ describe('Accessibility', () => {
   }
 
   // Add all the routes which needs to be tested via pa11y
-  checkPaths('/'); // CaT frontend landing page
+  checkPaths('/'); // Contract Award Service (CAS) frontend landing page
   checkPaths(CHOOSE_AGREEMENT_PATHS.CHOOSE_AGREEMENT);
   checkPaths(CHOOSE_AGREEMENT_PATHS.LOT_BEFORE_START_PAGE);
   checkPaths(CHOOSE_AGREEMENT_PATHS.SELECTED_AGREEMENT);

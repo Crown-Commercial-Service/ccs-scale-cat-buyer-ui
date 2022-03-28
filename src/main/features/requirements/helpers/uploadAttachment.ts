@@ -75,6 +75,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
       if (selectedRoute === 'FC') selectedRoute = 'RFP';
+      if (selectedRoute === 'FCA') selectedRoute = 'CA';
       res.render(`${selectedRoute.toLowerCase()}-uploadAttachment`, windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];
