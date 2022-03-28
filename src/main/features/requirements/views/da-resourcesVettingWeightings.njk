@@ -16,6 +16,17 @@
   redirect:'#',
   type:'vetting'
 }) }}
+
+<div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="summary_list">
+    </ul>
+  </div>
+</div>
+
     {% if(isError)%}
       {{ CCSErrorSummary({
           titleText: "There is a problem",
@@ -40,8 +51,8 @@
     <div class="ccs-page-section">
       <div class="sub-section">
        <p class="govuk-body">{{data.addedResources}} resources added</p>
-        <p class="govuk-body">{{data.totalStaff}} of 100% total weighting for number of staff</p>
-        <p class="govuk-body">{{data.totalVetting}} of 100% total weighting for related vetting requirement</p>
+        <p class="govuk-body"><span id="staff_percentage">0</span> of 100% total weighting for number of staff</p>
+        <p class="govuk-body"><span id="vetting_percentage">0</span> of 100% total weighting for related vetting requirement</p>
       </div>
        <div class="sub-section"><a href="#" class="del govuk-link govuk-link--no-visited-state vetting-popup" title="delete">Clear form</a></div>
     </div>
@@ -72,13 +83,16 @@
                      <h2 class="govuk-heading-m">{{subItems.ParentName}}</h2>
                      <p> [DDAT Family description] </p>
                      <div class="govuk-!-margin-top-9">
+                          <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t">
+                                        <span class="govuk-visually-hidden"></span> 
+                          </p>
                       <p> Weighting for number of staff </p>
 
                         {{ CCSInput({
                           label: {
                             text: ""
                           },
-                          classes: "govuk-input--width-2 weight_staff_class",
+                          classes: "govuk-input--width-2 weight_staff_class p_to",
                           id: "weight_staff_"+loop.index+newID,
                           name: "weight_staff",
                            value: subItems.weigthing ,
@@ -87,13 +101,16 @@
                           },
                           spellcheck: false
                         }) }}
+                         <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t">
+                                        <span class="govuk-visually-hidden"></span> 
+                          </p>
                        <p> Weighting for related vetting requirement </p>
 
                          {{ CCSInput({
                           label: {
                             text: ""
                           },
-                          classes: "govuk-input--width-2",
+                          classes: "govuk-input--width-2 weight_vetting_class_p  p_to",
                           id: "weight_vetting_"+loop.index+newID,
                           name: "weight_vetting",
                            value: subItems.weigthing ,
@@ -116,12 +133,14 @@
                          {% for subNestedItems in subItems.designations %}
                           {% set newsubID = subItems.ParentName.split(" ").join("")%}
                             <span  class="sfia-roles">  
-
+                               <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t">
+                                        <span class="govuk-visually-hidden"></span> 
+                          </p>
                               {{ CCSInput({
                           label: {
                             text: ""
                           },
-                          classes: "govuk-input--width-2 weight_vetting_class",
+                          classes: "govuk-input--width-2 weight_vetting_class  p_to",
                           id: "weight_vetting_"+loop.index+newsubID,
                           name: "SFIA_weightage",
                           value: subNestedItems['weighting'] ,
