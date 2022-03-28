@@ -4,6 +4,7 @@ import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
+import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
 
@@ -50,13 +51,16 @@ function updateRadioButtonOptions(
             if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
               // updatedOptions.form.radioOptions.items[i].disabled = "true"
             } else if (updatedOptions.form.radioOptions.items[i].value === 'award') {
-              //updatedOptions.form.radioOptions.items[i].remove = 'true';
+              updatedOptions.form.radioOptions.items[i].remove = 'true';
             }
           }
         }
       } else {
         for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
-          if (types.find(element => element == 'DA')) {
+          if (types.find(element => element == 'FC')) {
+            updatedOptions.form.radioOptions.items[i].remove = 'false';
+          }
+          if (types.find(element => element == 'DAA')) {
             if (
               updatedOptions.form.radioOptions.items[i].value === '2-stage' ||
               updatedOptions.form.radioOptions.items[i].value === 'award'
@@ -92,12 +96,13 @@ function updateRadioButtonOptions(
 
 export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  const projectId = req.session.projectId;
   try {
     const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(
       req.body,
       'choose_fc_route_to_market',
     );
-
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
     const { fc_route_to_market } = filtered_body_content_removed_fc_key;
 
     if (fc_route_to_market) {
@@ -113,19 +118,19 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
 
         case '2-stage':
           // eslint-disable-next-line no-case-declarations
-          const newAddress = REQUIREMENT_PATHS.CA_TYPE;
+          const newAddress = REQUIREMENT_PATHS.GET_LEARN;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('two stage further competition selected');
-          req.session.selectedRoute = 'CA';
+          req.session.selectedRoute = 'FCA';
           res.redirect(newAddress);
           break;
 
         case 'award':
           // eslint-disable-next-line no-case-declarations
-          const nextAddress = REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST;
+          const nextAddress = REQUIREMENT_PATHS.DA_GET_LEARN_START;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('DA selected');
-          req.session.selectedRoute = 'DA';
+          req.session.selectedRoute = 'DAA';
           res.redirect(nextAddress);
           break;
 

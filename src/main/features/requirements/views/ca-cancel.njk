@@ -1,0 +1,49 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                    {{data.title }}
+                </h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %}
+                    <br><br><br>
+                    <p class="govuk-body">{{data.subtitle}}</p>
+
+                <form id="ccs-eoi-suppliers-form" class="ccs-eoi-suppliers-form" action="/rfp/suppliers" method="POST">
+                {{ csrfProtection(csrf) }}
+                    <div class="govuk-form-group"></div>
+                    <div id="page1" >
+                        <div id="supplier-list">
+                            <div class="govuk-form-group">
+                                <h3>
+                                    <a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download list of ranked suppliers
+                </a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                                        <br>
+                    <div class="govuk-button-group">
+                        
+                        <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                    </div>
+                </form>
+
+            </div>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
+
+    </main>
+
+{% endblock %}

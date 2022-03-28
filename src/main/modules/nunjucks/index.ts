@@ -31,6 +31,7 @@ export class Nunjucks {
       REQUIREMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'requirements', 'views'),
       COOKIESViewDirectory: path.join(__dirname, '..', '..', 'features', 'cookies', 'views'),
       EOIViewDirectory: path.join(__dirname, '..', '..', 'features', 'eoi', 'views'),
+      EVENTMANAGEMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'event-management', 'views'),
     };
 
     const NunjucksEnvironment = nunjucks.configure(
@@ -43,6 +44,7 @@ export class Nunjucks {
         NunjucksPathFolders.REQUIREMENTViewDirectory,
         NunjucksPathFolders.COOKIESViewDirectory,
         NunjucksPathFolders.EOIViewDirectory,
+        NunjucksPathFolders.EVENTMANAGEMENTViewDirectory,
       ],
       {
         autoescape: true,

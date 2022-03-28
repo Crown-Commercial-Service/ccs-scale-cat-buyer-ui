@@ -5,9 +5,6 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
-import util from 'util';
-import stream from 'stream';
-import fileSystem from 'fs';
 
 export const FILEUPLOADHELPER: express.Handler = async (
   req: express.Request,
@@ -20,7 +17,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
   const agreementLotName = req.session.agreementLotName;
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
-  const { selectedRoute } = req.session;
+  let { selectedRoute } = req.session;
   const { file_id } = req.query;
   if (file_id !== undefined) {
     try {
@@ -77,6 +74,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
+      if (selectedRoute === 'FC') selectedRoute = 'RFP';
       res.render(`${selectedRoute.toLowerCase()}-uploadDocument`, windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];

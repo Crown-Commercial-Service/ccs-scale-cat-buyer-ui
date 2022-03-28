@@ -1,0 +1,118 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{# {% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+    items: breadCrumbs
+  }) }}
+{% endblock %} #}
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/ca/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "Where the work will be done?",
+                "href": "#"
+            }
+        ]
+    }) }}
+{% endblock %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    {% if(isError)%}
+      {{ CCSErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorText
+      }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 id="page-heading" class="govuk-heading-xl">
+          {{title}}
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
+      <div class="ccs-page-section">
+        <p class="govuk-body">{{subtitle}}</p>
+        <br>
+      </div>
+      <form id="ca_where_work_done" name="ca_where_work_done" class="form ca_form" action="/ca/where-work-done" method="post">
+      {{ csrfProtection(csrf) }} 
+        <div class="ccs-page-section">
+          <p class="govuk-body">
+                        <h2>Total : <span id="totalPercentage">{{totalPercentage    }}</span> of 100%</h2>
+                        <a href="2" class="del govuk-link govuk-link--no-visited-state" title="delete">Clear form</a></p>
+        </div>
+
+            {% for elem in locationArray %}
+                      {{ CCSInput({
+                            label: {
+                              text: elem.name,
+                              classes: "govuk-label--m",
+                              id: "ca_locationName",
+                              name: "ca_locationName"
+                            },
+                            hint: {
+                              classes: "govuk-hint"
+                            },
+                            suffix: {
+                              text: "%"
+                            },
+                            id: "ca_locationweight",
+                            name: "ca_locationweight",
+                            spellcheck: false,
+                            classes: "govuk-input--width-2 dimensions",
+                            value: elem.value,
+                            attributes:{
+                                        min:weightingRange.min,
+                                        max:weightingRange.max
+                                    }
+                        })
+                      }}
+
+                      {{ CCSInput({
+                          id: "requirement_id",
+                          name: "requirement_id",
+                          type: "hidden",
+                          value: elem["requirement-id"]
+                      })
+                      }}
+            {% endfor %}
+
+            <div class="govuk-button-group">
+              {{ CCSButton({
+                    text: "Save and continue",
+                    classes:"save-button"
+                  })
+              }}
+               {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+                <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+            </div>
+
+      </form>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </main>
+        {% endblock %}

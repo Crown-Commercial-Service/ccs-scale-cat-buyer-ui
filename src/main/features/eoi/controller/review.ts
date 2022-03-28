@@ -22,8 +22,7 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
   CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
-  console.log(CurrentTimeStamp);
-
+  
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
@@ -31,15 +30,14 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   if (finished_pre_engage && eoi_publish_confirmation === '1') {
     try {
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/24`, 'Completed');
       }
 
       res.redirect('/eoi/event-sent');
     } catch (error) {
-      console.log('Something went wrong, please review the logit error log for more information');
-
+      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
         TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
       EOI_REVIEW_RENDER(req, res, true, true);
@@ -172,6 +170,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       proc_id,
       event_id,
       ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
+      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null // this needs to be revisited to check the mapping of the planned 
     };
     //Fix for SCAT-3440 
     const agreementName = req.session.agreementName;
@@ -186,7 +185,6 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
 
     res.render('reviewEoi', appendData);
   } catch (error) {
-    console.log('Something went wrong, please review the logit error log for more information');
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),

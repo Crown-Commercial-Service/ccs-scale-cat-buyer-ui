@@ -1,6 +1,6 @@
 {% extends "template.njk" %}
-
-{% set title = 'How will you publish your RfI? | Contract a Thing' %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% set title = 'How will you publish your RfI? | Contract Award Service' %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% block breadCrumb %}
@@ -27,16 +27,17 @@
         <p class="govuk-body">{{ data.form.question }}</p>
       </div>
       <div class="govuk-grid-column-one-third">
-         {{ CCSReleatedContent(releatedContent) }}
+        {{ CCSReleatedContent(releatedContent) }}
       </div>
-      </div>
-      <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/rfi/type?agreement_id={{agreement_id}}" method="POST">
+    </div>
+    <form id="ccs_rfi_type_form" name="ccs_rfi_type_form" class="form ccs_rfi_type_form" action="/rfi/type?agreement_id={{agreement_id}}" method="POST">
+      {{ csrfProtection(csrf) }}
+      {% set formOptions = data.form.radioOptions.items %}
 
-        {% set formOptions = data.form.radioOptions.items %}
+      {% set form_Options_Altered = [] %}
 
-        {% set form_Options_Altered = [] %}
-
-        {% for item in formOptions %}
+      {% for item in formOptions %}
+        {% if item.disabled != 'true' %}
           {% set form_Options_Altered = (form_Options_Altered.push(
              {
                value: item.value,
@@ -48,31 +49,44 @@
              ), form_Options_Altered) 
              
              %}
+        {% else %}
+          {% set form_Options_Altered = (form_Options_Altered.push(
+             {
+               value: item.value,
+              html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+              disabled: 'true',
+              hint : {
+                text: item.hint.text
+              }
+              }
+             ), form_Options_Altered) 
+             
+             %}
+        {% endif %}
 
-        {% endfor %}
-
-        {{ CCSRadios({
+      {% endfor %}
+      {{ CCSRadios({
                 idPrefix: "ccs_rfi_type",
                 name: "ccs_rfi_type",
                 items: form_Options_Altered               
               }) }}
 
-        {{ CCSInput({
+      {{ CCSInput({
                 id: "choose_rfi_type",
                 name: "choose_rfi_type",
                 type: "hidden",
                 value: true
               }) }}
 
-        <div class="govuk-button-group">
-          {{ CCSButton({
+      <div class="govuk-button-group">
+        {{ CCSButton({
                 text: "Save and continue"
                 }) }}
-          <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
-        </div>
-      </form>
-    </div>
+        <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+      </div>
+    </form>
+  </div>
 
-  </main>
+</main>
 
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title =  eoiTitle + '- Create a Request for Information (EOI)' %}
 
@@ -54,6 +55,7 @@
       <p class="govuk-body">{{data.eoiTitle}}</p>
 
       <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} eoi_form" action="/eoi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
+      {{ csrfProtection(csrf) }}
         <br>
         <p class="govuk-body">{{prompt[0] | safe}}</p>
         <p class="govuk-body">{{prompt[1] | safe}}</p>
@@ -257,7 +259,7 @@
                     <div id="eoi_duration-hint" class="govuk-hint">
                       <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
                     </div>
-                    <p id="event-name-error-pdate" class="govuk-error-message">
+                    <p id="eoi-event-name-error-pdate" class="govuk-error-message">
                       <span class="govuk-visually-hidden">Error:</span>
                     </p>
                     <p id="event-name-error-pmonth" class="govuk-error-message">

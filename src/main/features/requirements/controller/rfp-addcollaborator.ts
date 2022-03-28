@@ -98,51 +98,61 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
 export const RFP_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
-  try {
-    const user_profile = rfi_collaborators;
-    const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-    const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-    const userData = organisation_user_data?.data;
-    const { userName, firstName, lastName, telephone } = userData;
-    let userdetailsData = { userName, firstName, lastName };
+  if (rfi_collaborators === '') {
+    req.session['isJaggaerError'] = true;
+    res.redirect('/rfp/add-collaborators');
+  } else {
+    try {
+      const user_profile = rfi_collaborators;
+      const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+      const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+      const userData = organisation_user_data?.data;
+      const { userName, firstName, lastName, telephone } = userData;
+      let userdetailsData = { userName, firstName, lastName };
 
-    if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
-    else userdetailsData = { ...userdetailsData, tel: telephone };
+      if (telephone === undefined) userdetailsData = { ...userdetailsData, tel: 'N/A' };
+      else userdetailsData = { ...userdetailsData, tel: telephone };
 
-    res.status(200).json(userdetailsData);
-  } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Tender agreement failed to be added',
-      true,
-    );
+      res.status(200).json(userdetailsData);
+    } catch (error) {
+      LoggTracer.errorLogger(
+        res,
+        error,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'Tender agreement failed to be added',
+        true,
+      );
+    }
   }
 };
 
 export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
-  try {
-    const user_profile = rfi_collaborators;
-    const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-    const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-    const userData = organisation_user_data?.data;
-    req.session['searched_user'] = userData;
-    res.redirect('/rfp/add-collaborators');
-  } catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Tender agreement failed to be added',
-      true,
-    );
+  if (rfi_collaborators === '') {
+    req.session['isJaggaerError'] = true;
+    res.redirect('/rfi/add-collaborators');
+  } else {
+    try {
+      const user_profile = rfi_collaborators;
+      const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+      const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+      const userData = organisation_user_data?.data;
+      req.session['searched_user'] = userData;
+      res.redirect('/rfp/add-collaborators');
+    } catch (error) {
+      LoggTracer.errorLogger(
+        res,
+        error,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'Tender agreement failed to be added',
+        true,
+      );
+    }
   }
 };
 
@@ -177,7 +187,7 @@ export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, 
 // /rfp/proceed-collaborators
 export const RFP_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/28`, 'Completed');
+  const { projectId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/29`, 'Completed');
   res.redirect('/rfp/task-list');
 };

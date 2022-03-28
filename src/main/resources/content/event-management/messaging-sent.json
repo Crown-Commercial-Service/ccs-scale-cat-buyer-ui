@@ -1,0 +1,36 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Event Management",
+            "href": "#"
+        },
+        {
+            "text": "Messaging Inbox",
+            "href": "#"
+        }
+    ],
+    "title": "Messaging Inbox",
+    "subsection2_table_th_1": "Subject",
+    "subsection2_table_th_2": "Recipient",
+    "subsection2_table_th_3": "Date",
+    "backJump": {
+        "title": "Return to Event Management",
+        "href": "#"
+    },
+    "tabs": {
+        "text1": "Create Message",
+        "href1": "/message/create",
+        "text2": "Received",
+        "href2": "/message/inbox",
+        "text3": "Sent",
+        "href3": "/message/sent"
+    }
+}

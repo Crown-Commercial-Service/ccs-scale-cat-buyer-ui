@@ -16,6 +16,12 @@
 {% from "components/warning-text/macro.njk" import CCSWarningText %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "components/character-count/macro.njk" import CCSCharacterCount %}
+{% from "components/lists/_macro.njk" import onsList %}
+{% from "components/tableOfContents.njk" import onsTableOfContents %}
+{% from "components/table/macro.njk" import CCSTable %}
+{% from "components/questions/macro.njk" import CCSQUESTIONS %}
+{% from "components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "components/dialog/macro.njk" import CCSDialog %}
 
 <html lang="{{ htmlLang | default('en') }}" class="govuk-template {{ htmlClasses }}">
   <head>
@@ -37,6 +43,7 @@
     {# Hardcoded value of $govuk-black #}
     {# Ensure that older IE versions always render with the correct rendering engine #}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{csrf}}">
 
     {% block headIcons %}
       <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ assetPath | default('/assets') }}/images/favicon.ico" type="image/x-icon">
@@ -95,10 +102,13 @@
       {% include "components/Header.njk" %}
       {% include "components/phase_banner_beta.njk" %}
     {% endblock %}
-    
-    {#  dialog Section #}
+
     {% block dialog %}
       {% include "components/dialog.njk" %}
+    {% endblock %}
+
+    {% block dialog2 %}
+      {% include "components/dialog_next_step.njk" %}
     {% endblock %}
 
     {# This is main content section#}

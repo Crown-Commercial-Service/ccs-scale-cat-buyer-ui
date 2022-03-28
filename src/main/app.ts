@@ -17,7 +17,9 @@ import glob from 'glob'
 import { routeExceptionHandler } from './setup/routeexception'
 import { RedisInstanceSetup } from './setup/redis'
 import { fileUploadSetup } from './setup/fileUpload'
+import { CsrfProtection } from './modules/csrf'
 import { URL } from "url";
+import {RequestSecurity} from './setup/requestSecurity'
 
 app.locals.ENV = env;
 
@@ -46,9 +48,16 @@ new Helmet(config.get('security')).enableFor(app);
 
 app.use(Express.accessLogger());
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({limit: '500mb'}))
+app.use(express.urlencoded({limit: '500mb', extended: true, parameterLimit: 1000000}));
 app.use(cookieParser());
+if (env !== 'mocha') {
+  new CsrfProtection().enableFor(app)
+}
+
+//Implementation of secure Request Methods 
+RequestSecurity(app);
+
 app.use(express.static('src/main/public'));
 app.use((req, res, next) => {
   res.setHeader(
@@ -57,12 +66,40 @@ app.use((req, res, next) => {
   );
   res.locals.GOOGLE_TAG_MANAGER_ID = process.env.GOOGLE_TAG_MANAGER_ID;
   res.locals.GLOBAL_SITE_TAG_ID = process.env.GOOGLE_SITE_TAG_ID;
-  
+
+
+  switch (process.env.ROLLBAR_HOST) {
+    case 'local': {
+      process.env.ROLLBAR_ENVIRONMENT = 'local'
+      break;
+    }
+    case 'dev': {
+      process.env.ROLLBAR_ENVIRONMENT = 'development'
+      break;
+    }
+    case 'int': {
+      process.env.ROLLBAR_ENVIRONMENT = 'integration'
+      break;
+    }
+    case 'uat': {
+      process.env.ROLLBAR_ENVIRONMENT = 'integration'
+      break;
+    }
+    case 'nft': {
+      process.env.ROLLBAR_ENVIRONMENT = 'sandbox'
+      break;
+    }
+    default: {
+      process.env.ROLLBAR_ENVIRONMENT = 'production'
+      break;
+    }
+  }
+
   // Health check URL values.
   const url = new URL(process.env.CAT_URL);
   process.env.PACKAGES_ENVIRONMENT = url.host;
-  process.env.PACKAGES_NAME = "CCS Scale CaT Buyer UI";
-  process.env.PACKAGES_PROJECT = "cat-buyer-frontend";
+  process.env.PACKAGES_NAME = "CCS Scale CAS Buyer UI";
+  process.env.PACKAGES_PROJECT = "cas-buyer-frontend";
   next();
 });
 
@@ -96,4 +133,3 @@ routeExceptionHandler(
   logger,
   env
 )
-

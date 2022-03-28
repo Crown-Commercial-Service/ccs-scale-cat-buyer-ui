@@ -1,6 +1,6 @@
-# CCS Scale CaT Buyer UI
+# CCS Scale CAS Buyer UI
 
-CCS Scale CaT Buyer UI - ‘Contract a Thing’ (CaT)/'Create and award a contract'.
+CCS Scale CAS Buyer UI - ‘Contract Award Service’ (CAS).
 
 ## Getting Started
 
@@ -34,7 +34,7 @@ Or for windows PC
 $ npm start:win
 ```
 
-The applications's home page will be available at https://localhost:3000
+The applications's home page will be available at http://localhost:3000
 
 ## Developing
 
@@ -55,7 +55,7 @@ $ npm run test:routes
 ```
 ### Running the tests
 
-This template app uses [Jest](https://jestjs.io//) as the test engine. You can run unit tests by executing
+This template app uses [Mocha](https://mochajs.org/) as the test engine. You can run unit tests by executing
 the following command:
 
 Running accessibility tests:

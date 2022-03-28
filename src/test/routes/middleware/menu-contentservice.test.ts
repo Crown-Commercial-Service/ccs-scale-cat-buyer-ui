@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import request from 'supertest';
 import { app } from '../../../main/app';
 
-// TODO: replace this sample test with proper route tests for your application
 describe('Primary Navigation', () => {
     describe('on GET', () => {
       it('should return Primary Navigation-Header', async () => {

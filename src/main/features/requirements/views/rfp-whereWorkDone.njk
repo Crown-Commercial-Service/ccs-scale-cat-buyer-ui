@@ -1,0 +1,67 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+    items: breadCrumbs
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    {% if(isError)%}
+      {{ CCSErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorText
+      }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 id="page-heading" class="govuk-heading-xl">
+          {{title}}
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
+      <div class="ccs-page-section">
+        <p class="govuk-body">{{subtitle}}</p>
+        <br>
+      </div>
+      <form id="rfp_where_work_done" name="rfp_where_work_done" class="form rfp_form" action="/rfp/where-work-done" method="post">
+        {{ csrfProtection(csrf) }}
+        {% set countryArray = [] %}
+
+        {% for elem in locationArray %}
+          {% if (elem.name === "Remote (Supplier's own site)") %}
+            {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name, behaviour: "exclusive"}), countryArray) %}
+          {% else %}
+            {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name}), countryArray) %}
+          {% endif %}
+        {% endfor %}
+
+        {{ CCSCheckboxes({
+          name: "rfp_location",
+          items: countryArray,
+          hint: {
+            text: "Select all that apply"
+          }
+        }) }}
+
+        <div class="govuk-button-group">
+          {{ CCSButton({
+                text: "Save and continue",
+                classes:"save-button"
+              })
+          }}
+          <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
+        </div>
+      </form>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </main>
+{% endblock %}

@@ -60,10 +60,14 @@ export const AUTH: express.Handler = async (
               res.cookie(cookies.sessionID, access_token, {
                 maxAge: Number(config.get('Session.time')) * 60 * 1000,
                 httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
               });
               res.cookie(cookies.state, state, {
                 maxAge: Number(config.get('Session.time')) * 60 * 1000,
                 httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
               });
               req.session.cookie.expires = sessionExtendedTime;
               next();
@@ -94,9 +98,9 @@ export const AUTH: express.Handler = async (
 };
 
 const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Response, decodedToken: any) => {
-  const expiryTimestamp = decodedToken.payload.exp;
+  const expiryTimestamp = decodedToken?.payload?.exp;
   const today = new Date();
-  var endDate = new Date(expiryTimestamp * 1000);
+  const endDate = new Date(expiryTimestamp * 1000);
   const minutes = parseInt((Math.abs(endDate.getTime() - today.getTime()) / (1000 * 60)) % 60);
   if (minutes <= 2) {
     const Oauth_check_endpoint: string = config.get('authenticationService.token-endpoint');
@@ -106,7 +110,6 @@ const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Res
       client_id: process.env.AUTH_SERVER_CLIENT_ID,
       client_secret: process.env.AUTH_SERVER_CLIENT_SECRET,
       grant_type: config.get('authenticationService.refresh_token'),
-      redirect_uri: process.env.CAT_URL + '/receiver',
     };
     auth_credentails = qs.stringify(auth_credentails);
     //@ Grant Authorization with the token to re-direct to the callback page
@@ -123,7 +126,7 @@ const PERFORM_REFRESH_TOKEN: any = async (req: express.Request, res: express.Res
         res,
         error,
         `${req.headers.host}${req.originalUrl}`,
-        state,
+        null,
         'Conclave refresh token flow error',
         true,
       );

@@ -1,7 +1,8 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
-{% set title = 'Lead Procurement | Contract a Thing' %}
+{% set title = 'Lead Procurement | Contract Award Service' %}
 {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
@@ -92,6 +93,7 @@
 
          <form class="form ccs_rfi_procurement_lead" action="/rfi/procurement-lead"
             method="post">
+            {{ csrfProtection(csrf) }}
             <div id='selected_user_detail'>
                <p class="govuk-body"><strong>Email address: </strong><span id="lead-email">{{selectedUser.email}}</span></p>
                <p class="govuk-body"><strong>Phone number: </strong><span id="lead-telephone">{{selectedUser.telephone}}</span></p>

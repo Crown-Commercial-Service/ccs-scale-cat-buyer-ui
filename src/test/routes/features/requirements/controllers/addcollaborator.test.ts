@@ -195,13 +195,13 @@ describe('Add collaborator', () => {
   });
 
   it('should be able to proceed to tasklist', async () => {
-    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${eventId}/steps/28`).reply(200, true);
+    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${projectId}/steps/28`).reply(200, true);
     await request(parentApp)
       .post('/rfp/proceed-collaborators')
       .set('Cookie', [`SESSION_ID=${jwt}`, 'state=blah'])
       .expect(res => {
         expect(res.status).to.equal(302);
-        expect(res.header.location).to.be.equal('/rfp/rfp-tasklist');
+        expect(res.header.location).to.be.equal('/rfp/task-list');
       });
   });
 });

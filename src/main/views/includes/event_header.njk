@@ -1,0 +1,7 @@
+<div class="project-overview">
+  <p class="govuk-body">Selected agreement: {{ event_header['agreementName'] }}{% if(event_header.agreementLotName !== undefined)%}, {% if event_header['lotid'] !== undefined %} {% if 'Lot' not in event_header['lotid'] %}Lot{% endif %} {% endif %} {{ event_header['lotid'] }}: {{ event_header['agreementLotName'] }}  
+  </p>
+  {%endif %}
+  <p class="govuk-body">Agreement ID: {{ event_header['agreementId_session'] }}</p>
+  </p>
+</div>

@@ -132,7 +132,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
   try {
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const { SESSION_ID } = req.cookies;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'In progress');
+    const { projectId } = req.session;
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/10`, 'In progress');
     req.session['isLocationError'] = false;
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfi_build_started');
     if (operations.equals(started_progress_check, false)) {
@@ -209,7 +210,6 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 return;
               }
             } catch (error) {
-              console.log('Something went wrong, please review the logit error log for more information');
               delete error?.config?.['headers'];
               const Logmessage = {
                 Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -264,7 +264,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 return;
               }
             } catch (error) {
-              console.log('Something went wrong, please review the logit error log for more information');
+
               delete error?.config?.['headers'];
               const Logmessage = {
                 Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -316,7 +316,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     res,
                   );
                 } catch (error) {
-                  console.log('Something went wrong, please review the logit error log for more information');
+
                   delete error?.config?.['headers'];
                   const Logmessage = {
                     Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -440,10 +440,19 @@ const findErrorText = (data: any, req: express.Request) => {
       errorText = 'You must provide the organization name';
     else if (requirement.nonOCDS.questionType == 'Text' && requirement.nonOCDS.multiAnswer === false)
       errorText = 'You must enter information here';
-        else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == false)
+    else if (
+      requirement.nonOCDS.questionType == 'MultiSelect' &&
+      req.session['isLocationError'] == true &&
+      req.session['isLocationMandatoryError'] == false
+    )
       errorText = 'Select regions where your staff will be working, or select "No specific location...."';
-    else if (requirement.nonOCDS.questionType == 'MultiSelect' && req.session['isLocationError'] == true &&  req.session['isLocationMandatoryError'] == true)
-      errorText = 'You must select at least one region where your staff will be working, or select "No specific location...."';
+    else if (
+      requirement.nonOCDS.questionType == 'MultiSelect' &&
+      req.session['isLocationError'] == true &&
+      req.session['isLocationMandatoryError'] == true
+    )
+      errorText =
+        'You must select at least one region where your staff will be working, or select "No specific location...."';
   });
   return errorText;
 };

@@ -21,10 +21,9 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     const anEntry = aQuestions.split('*');
     return { Question: anEntry[0], value: anEntry[1] };
   });
-  const proc_id = req.session.projectId;
-  const event_id = req.session.eventId;
   const { SESSION_ID } = req.cookies;
-  let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
+  const { projectId, eventId } = req.session;
+  let baseURL = `/tenders/projects/${projectId}/events/${eventId}`;
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
 
@@ -34,7 +33,7 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     const extracted_criterion_based = fetch_dynamic_api_data?.map(criterian => criterian?.id);
     let criterianStorage = [];
     for (const aURI of extracted_criterion_based) {
-      const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+      const criterian_bas_url = `/tenders/projects/${projectId}/events/${eventId}/criteria/${aURI}/groups`;
       const fetch_criterian_group_data = await TenderApi.Instance(SESSION_ID).get(criterian_bas_url);
       const criterian_array = fetch_criterian_group_data?.data;
       const rebased_object_with_requirements = criterian_array?.map(anItem => {
@@ -47,15 +46,13 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     criterianStorage = criterianStorage.flat();
     const Criterian_ID = criterianStorage[0].criterianId;
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
-    const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
+    const apiData_baseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await TenderApi.Instance(SESSION_ID).get(apiData_baseURL);
     const fetchQuestionsData = fetchQuestions.data;
     const allunfilledAnswer = fetchQuestionsData
       .filter(anAswer => anAswer.nonOCDS.options.length == 0)
       .map(aQuestion => aQuestion.OCDS.id);
     for (const answers of allunfilledAnswer) {
-      const proc_id = req.session.projectId;
-      const event_id = req.session.eventId;
       const id = Criterian_ID;
       const group_id = 'Key Dates';
       const question_id = answers;
@@ -72,12 +69,12 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
           options: [answerformater],
         },
       };
-      const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+      const answerBaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
     }
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/13`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/13`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/14`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/14`, 'Not started');
     }
 
     res.redirect('/rfi/review');
@@ -96,7 +93,6 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
 
 function isValidQuestion(questionId: number, questionNewDate: string, timeline: any) {
   const dayOfWeek = new Date(questionNewDate).getDay();
-  console.log(dayOfWeek);
 
   let isValid = true,
     error,
@@ -112,28 +108,28 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
     case 'Question 2':
       if (questionNewDate < timeline.publish) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'clarification_period_end';
       break;
     case 'Question 3':
       if (questionNewDate < timeline.clarificationPeriodEnd) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'deadline_period_for_clarification_period';
       break;
     case 'Question 4':
       if (questionNewDate < timeline.publishResponsesClarificationQuestions) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
       break;
     case 'Question 5':
       if (questionNewDate < timeline.supplierSubmitResponse) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'supplier_dealine_for_clarification_period';
       break;

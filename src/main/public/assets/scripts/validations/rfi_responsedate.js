@@ -13,7 +13,11 @@ for(const selector of totalElementSelectors){
 
 for(const selector of totalElementSelectors){
     let elementID = "#change_clarification_date_"+selector;
-    let elementSelector = $(elementID);    
+    let elementCancelID = "#cancel_change_clarification_date_"+selector;
+    let elementSelector = $(elementID);
+    let elementSelectorCancel = $(elementCancelID);
+    elementSelector.fadeIn();  
+    elementSelectorCancel.fadeIn();  
     elementSelector.on('click', ()=> {
         localStorage.removeItem('dateItem');
         localStorage.setItem('dateItem', elementSelector.selector);
@@ -37,7 +41,7 @@ for(const selector of totalElementSelectors){
             elementSelectorClicked.hide();
             elementSelector.fadeIn();
         }
-        ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'this milestone needs to be set after the previous milestone date');
+        ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
     });
 }
 

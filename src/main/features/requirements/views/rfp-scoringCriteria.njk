@@ -1,0 +1,224 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title = 'Set your scoring criteria | Contract Award Service' %}
+
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %}
+
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h1 class="govuk-heading-xl">
+                    {{ data.title }}
+                </h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %}
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">{{ data.inset1 }}
+                    <br>{{ data.inset2 }}</p>
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {% for table in data.tables %}
+                    {{ CCSTable({
+                        caption: table.title,
+                        captionClasses: "govuk-table__caption--m",
+                        firstCellIsHeader: true,
+                        head: table.head,
+                        rows: table.rows
+                    }) }}
+                    <br>
+                {% endfor %}
+            </div>
+        </div>
+
+        {{ CCSDialog({
+            title:'This action will replace what you’ve entered so far and cannot be undone',
+            description:'If your progress with this action, the details that you’ve entered below will be replaced by the chosen CCS default set. This action cannot be undone.',
+            redirect:'#',
+            type:'tier-4'
+        }) }}
+
+        {{ CCSDialog({
+            title:'This action will replace what you’ve entered so far and cannot be undone',
+            description:'If your progress with this action, the details that you’ve entered below will be replaced by the chosen CCS default set. This action cannot be undone.',
+            redirect:'#',
+            type:'tier-5'
+        }) }}
+
+        <div class="govuk-grid-row">
+            <h2> Create your scoring criteria </h2>
+            <div class="govuk-inset-text">
+                <p class="govuk-body">{{ data.subInset1 }}
+                <br>{{ data.subInset2 }}</p>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <p class="govuk-label--l"> <strong> {{tierNo}} tiers added so far </strong> </h2>
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <a href="#" class="del govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-5-popup" title="Tier5">Use a 5-tier scoring criteria</a>
+                <a href="#" class="del govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-4-popup" title="Tier4">Use a 4-tier scoring criteria</a>
+            </div>
+        </div>
+
+
+        <form id="ccs_rfp_scoring_criteria" name="ccs_rfp_scoring_criteria" class="form ccs_rfp_scoring_criteria" action="/rfp/set-scoring-criteria" method="POST">
+            {{ csrfProtection(csrf) }}
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    {% call CCSFieldset({
+                        legend: {
+                        classes: "govuk-fieldset__legend--m",
+                        isPageHeading: false
+                        },
+                        classes: "score_criteria_fieldset score_criteria_1",
+                        id:"score_criteria_fieldset"
+                    })
+                    %}
+
+                    {{ CCSInput({
+                        id: "rfp_score_criteria_name_1",
+                        name: "rfp_score_criteria_name_1",
+                        classes: data.events.name.inputClass,
+                        hint: {
+                            text: data.events.name.description
+                        },
+                        label: {
+                            text: data.events.name.text,
+                            classes: data.events.name.class
+                        }
+                    }) }}
+
+                    {{ CCSInput({
+                        id: "rfp_score_criteria_point_1",
+                        name: "rfp_score_criteria_point_1",
+                        classes: data.events.point.inputClass,
+                        hint: {
+                            text: data.events.point.description
+                        },
+                        label: {
+                            text: data.events.point.text,
+                            classes: data.events.point.class
+                        }
+                    }) }}
+
+                    {{  CCSTextarea({
+                        id: "rfp_score_criteria_desc_1",
+                        name: "rfp_score_criteria_desc_1",
+                        classes: data.events.description.class,
+                        label: {
+                            text: data.events.description.text,
+                            classes: data.events.description.class
+                        },
+                        hint: {
+                            text: data.events.description.description
+                        }
+                        })
+                    }}
+
+                    {% endcall %}
+
+                    {% for i in range(2, 11) -%}
+
+                        {% call CCSFieldset({
+                            legend: {
+                                classes: "govuk-fieldset__legend--m",
+                                isPageHeading: false
+                            },
+                            classes: "score_criteria_fieldset score_criteria_"+i,
+                            id:"score_criteria_fieldset"
+                        })
+                        %}
+                        
+                        {{ CCSInput({
+                            id: "rfp_score_criteria_name_"+i,
+                            name: "rfp_score_criteria_name_"+i,
+                            classes: data.events.name.inputClass,
+                            hint: {
+                                text: data.events.name.description
+                            },
+                            label: {
+                                html: "Enter the name for this tier <a href='"+i+"' class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> Remove this tier </a>",
+                                text: data.events.name.text,
+                                classes: data.events.name.class
+                            }
+                        }) }}
+
+                        {{ CCSInput({
+                            id: "rfp_score_criteria_point_"+i,
+                            name: "rfp_score_criteria_point_"+i,
+                            classes: data.events.point.inputClass,
+                            hint: {
+                                text: data.events.point.description
+                            },
+                            label: {
+                                text: data.events.point.text,
+                                classes: data.events.point.class
+                            }
+                        }) }}
+
+                        {{  CCSTextarea({
+                            id: "rfp_score_criteria_desc_"+i,
+                            name: "rfp_score_criteria_desc_"+i,
+                            classes: data.events.description.class,
+                            label: {
+                                text: data.events.description.text,
+                                classes: data.events.description.class
+                            },
+                            hint: {
+                                text: data.events.description.description
+                            }
+                        }) }}
+                        {% endcall %}
+                    {%- endfor %}
+                    <p class="govuk-body">
+                        {{ CCSButton({
+                        text: "Add another tier",
+                        attributes: {
+                        id: "ccs_rfp_score_criteria_add"
+                        },
+                        classes: "govuk-button--secondary ccs-dynaform-hidden"
+                    }) }}
+                    </p>
+                </div>
+            </div>
+
+            {{ CCSInput({
+                id: "rfp_set_score",
+                name: "rfp_set_score",
+                type: "hidden",
+                value: true
+            }) }}
+
+            <div class="govuk-button-group">
+                {{ CCSButton({
+                    text: "Save and continue"
+                }) }}
+                <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>                
+            </div>
+        </form>
+
+    </main>
+{% endblock %}

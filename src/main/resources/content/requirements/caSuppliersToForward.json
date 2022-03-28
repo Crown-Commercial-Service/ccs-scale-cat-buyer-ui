@@ -1,0 +1,17 @@
+{
+  "breadCrumbs": [],
+
+  "title": "How many suppliers you'd like to take forward?",
+  "suppliers": {
+    "min": 3,
+    "max": 49
+  },
+  "subtitle": null,
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to write and publish your requirements",
+      "href": "/ca/task-list"
+    }
+  }
+}

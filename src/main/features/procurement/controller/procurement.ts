@@ -5,6 +5,7 @@ import * as express from 'express';
 import * as data from '../../../resources/content/procurement/ccs-procurement.json';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { Procurement } from '../model/project';
 
 import * as journyData from '../model/tasklist.json';
 const { Logger } = require('@hmcts/nodejs-logging');
@@ -32,7 +33,8 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     appendData = { types, ...appendData };
 
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
-    let procurement;
+        
+    let procurement: Procurement;
     if (!elementCached) {
       const _body = {
         agreementId: agreementId_session,
@@ -51,41 +53,45 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.eventId = procurement['eventId'];
     req.session.types = types;
     req.session.agreementLotName = agreementLotName;
-    const eventType = req.session.lotId;
-    req.session.eventType = types[eventType];
-    const agreementName = req.session.agreementName; //udefined
+    const agreementName = req.session.agreementName;
     try {
-      const JourneyStatus  = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
+      const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.projectId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
     } catch (journeyError) {
       const _body = {
-        'journey-id': req.session.eventId,
+        'journey-id': req.session.projectId,
         states: journyData.states,
       };
       if (journeyError.response.status == 404) {
         await TenderApi.Instance(SESSION_ID).post(`journeys`, _body);
-        const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
+        const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.projectId}/steps`);
         req.session['journey_status'] = JourneyStatus?.data;
       }
     }
 
     data.events.forEach(event => {
       if (event.eventno == 1) {
-        const lot = lotId.length > 2 ? lotId.split(" ")[1] : 1 
-        event.href = "https://www.crowncommercial.gov.uk/agreements/"+agreementId_session+":"+lot+"/lot-suppliers";
+        const lot = lotId.length > 2 ? lotId.split(' ')[1] : 1;
+        event.href =
+          'https://www.crowncommercial.gov.uk/agreements/' + agreementId_session + ':' + lot + '/lot-suppliers';
       }
-      const step = req.session['journey_status'] ? req.session['journey_status'].find(item => item.step === event.eventno) : journyData.states.find(item => item.step === event.eventno);
-      if (step){
-        if(step.state === 'Not started') {
+      const step = req.session['journey_status']
+        ? req.session['journey_status'].find(item => item.step === event.eventno)
+        : journyData.states.find(item => item.step === event.eventno);
+      if (step) {
+        if (step.state === 'Not started') {
           event.status = 'TODO';
-        } else if(step.state === 'Completed') {
+        } else if (step.state === 'Completed') {
           event.status = 'DONE';
         } else {
           event.status = step.state;
         }
       }
       if (step.step == 2) {
-        if (req.session['journey_status'][2].state == 'In progress' || req.session['journey_status'][1].state == 'Completed') {
+        if (
+          req.session['journey_status'][2].state == 'In progress' ||
+          req.session['journey_status'][1].state == 'Completed'
+        ) {
           event.buttonDisable = true;
         } else {
           event.buttonDisable = false;
@@ -98,7 +104,18 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
           event.buttonDisable = false;
         }
       }
-    })
+    });
+
+    if (req.session.selectedRoute !== undefined && req.session.choosenViewPath !== undefined) {
+      let path;
+      if (req.session.selectedRoute === 'FCA') {
+        path = 'ca';
+      } else if (req.session.selectedRoute === 'DAA') {
+        path = 'da';
+      }
+      const objIndex = appendData.events.findIndex(obj => obj.eventno === 3);
+      appendData.events[objIndex].href = `/${path}/task-list?path=${req.session.choosenViewPath}`;
+    }
 
     const lotid = req.session?.lotId;
     const project_name = req.session.project_name;

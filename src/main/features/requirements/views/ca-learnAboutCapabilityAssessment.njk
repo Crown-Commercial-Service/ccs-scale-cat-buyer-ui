@@ -1,12 +1,19 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
-{% set title = 'Learn about capability assessment | Contract a Thing' %}
+{% set title = 'Learn about capability assessment | Contract Award Service' %}
 
 {% block breadCrumb %}
-    {{ CCSBreadcrumbs({
+    {% if isPathOne %}
+        {{ CCSBreadcrumbs({
+        items: data.breadCrumbs1
+    }) }}
+    {% else %}
+        {{ CCSBreadcrumbs({
         items: data.breadCrumbs2
     }) }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -30,21 +37,42 @@
             </div>
         </div>
 
-        <form id="ccs_ca_learn" name="ccs_ca_learn" class="form ccs_ca_learn" action="/ca/learn-about-capability-assessment" method="POST">
-
-            {{ CCSInput({
+        {% if isPathOne %}
+            <form id="ccs_ca_learn" name="ccs_ca_learn" class="form ccs_ca_learn" action="/ca/learnabout-capability-assessment" method="POST">
+                {{ csrfProtection(csrf) }}
+                {{ CCSInput({
                 id: "ca_learn_input",
                 name: "ca_learn_input",
                 type: "hidden",
                 value: true
             }) }}
 
-            <div class="govuk-button-group">
-                {{ CCSButton({
-                    text: "Save and continue"
+                <div class="govuk-button-group">
+                    {{ CCSButton({
+                    text: "continue"
                 }) }}
-                <a href="{{data.form.backJump2.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump2.title}}</a>
-            </div>
-        </form>
+                    <a href="{{data.form.backJump1.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump1.title}}</a>
+                </div>
+            </form>
+        {% else %}
+            <form id="ccs_ca_learn" name="ccs_ca_learn" class="form ccs_ca_learn" action="/ca/learn-about-capability-assessment" method="POST">
+                {{ csrfProtection(csrf) }}
+                {{ CCSInput({
+                id: "ca_learn_input",
+                name: "ca_learn_input",
+                type: "hidden",
+                value: true
+            }) }}
+
+                <div class="govuk-button-group">
+                    {{ CCSButton({
+                    text: "Continue"
+                }) }}
+                {% set returnLink = "/ca/task-list?path=" + choosenViewPath %}
+                <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump2.title}}</a>
+                </div>
+            </form>
+        {% endif %}
+
     </main>
 {% endblock %}

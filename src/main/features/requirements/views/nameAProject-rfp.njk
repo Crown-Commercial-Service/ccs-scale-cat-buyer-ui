@@ -1,7 +1,7 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
-
-{% set title = 'Name project | Contract a Thing' %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% set title = 'Name project | Contract Award Service' %}
 {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
@@ -23,7 +23,7 @@
         },
         {
         "text": "Write and publish your requirements",
-        "href": "/rfp/task-list"
+        "href": "/rfp/task-list?path="+ choosenViewPath 
         },
         {
           "text": "Name your project",
@@ -64,7 +64,7 @@
       </div>
       <p class="govuk-body">{{data.caption}}</p>
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfp/name?procid={{procId}}" method="POST">       
-          
+          {{ csrfProtection(csrf) }}
         {{ CCSInput({           
             id: data.form.input.id,
             name: data.form.input.name,

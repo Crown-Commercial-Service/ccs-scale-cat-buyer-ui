@@ -15,17 +15,17 @@ const RedisInstanceSetup = (app: express.Express): void => {
 
     let redis_localenv_access: string | any = process.env['VCAP_SERVICES'];
     redis_localenv_access = JSON.parse(redis_localenv_access);
-    let redisHost = redis_localenv_access?.redis?.[0]?.['credentials']?.['host']
-    let redisPort = Number(redis_localenv_access?.redis?.[0]?.['credentials']?.['port']) || 6379;
-    let redisPassword = redis_localenv_access?.redis?.[0]?.['credentials']?.['password'];
+    const redisHost = redis_localenv_access?.redis?.[0]?.['credentials']?.['host']
+    const redisPort = Number(redis_localenv_access?.redis?.[0]?.['credentials']?.['port']) || 6379;
+    const redisPassword = redis_localenv_access?.redis?.[0]?.['credentials']?.['password'];
 
-    var redisProperties: Object = {
+    let redisProperties: Object = {
         host: redisHost,
         port: redisPort,
         password: redisPassword
     }
 
-    let runner_environment = process.env['NODE_ENV']?.replace(/\s+/g, "");
+    const runner_environment = process.env['NODE_ENV']?.replace(/\s+/g, "");
     if (operations.notEquals(runner_environment, 'development')) {
         redisProperties = Object.assign(
             {},
@@ -44,7 +44,7 @@ const RedisInstanceSetup = (app: express.Express): void => {
     let sessionExpiryTime = Number(config.get('Session.time'));
     sessionExpiryTime = sessionExpiryTime * 60 * 1000;
 
-   var Session = {
+   let Session = {
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: false,
@@ -54,12 +54,24 @@ const RedisInstanceSetup = (app: express.Express): void => {
         secure: false, // if true only transmit cookie over https
         httpOnly: false, // if true prevent client side JS from reading the cookie 
         maxAge: sessionExpiryTime, // session max age in miliseconds
+        sameSite: 'lax' as const,
     }
    }
 
    if (operations.notEquals(runner_environment, 'development')) {
-   Session.cookie['secure'] = true
-    }
+    Session = Object.assign(
+        {},
+        {
+            ...Session,
+            cookie: {
+                secure: true, // if true only transmit cookie over https
+                httpOnly: false, // if true prevent client side JS from reading the cookie 
+                maxAge: sessionExpiryTime, // session max age in miliseconds
+                sameSite: 'lax' as const,
+            }
+        })
+}
+
    
 
     app.use(session({

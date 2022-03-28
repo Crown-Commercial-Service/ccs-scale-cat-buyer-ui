@@ -1,5 +1,5 @@
 <div class="backdrop">
-  <div class="messagepop pop">
+  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog">
     <div class="pop_logo govuk-grid-column-full">
       <hidden id = "redirect-dialog" class="govuk-visually-hidden"></hidden>
       <p class="pop_logo_image govuk-grid-column-one-half"
@@ -14,7 +14,7 @@
       <h1 id="dialog-title">You have unsaved work, are you sure you want to progress?</h1>
       <p>Any work not saved will be lost.</p>
       <div class="govuk-button-group">
-        <button id="redirect-dutton" class="button dialog-button govuk-button">Continue</button>
+        <button id="redirect-button" class="button dialog-button govuk-button">Continue</button>
         <a href="/" class="dialog-close govuk-link govuk-link--no-visited-state">Cancel</a>
       </div>
     </div>

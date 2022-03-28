@@ -1,0 +1,49 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Event Management",
+            "href": "#"
+        },
+        {
+            "text": "Messaging Inbox",
+            "href": "#"
+        }
+    ],
+    "title": "Messaging Inbox",
+    "subsection2_table_th_1": "From",
+    "subsection2_table_th_2": "Date",
+    "subsection2_table_th_3": "Subject",
+    "subsection2_table_th_4": "Status",
+    "backJump": {
+        "title": "Return to Event Management",
+        "href": "#"
+    },
+    "notification": {
+        "text": "Your message was successufly broadcasted to all suppliers.",
+        "linkText": "View sent message",
+        "link": "/message/sent",
+        "title": "Message Sent"
+    },
+    "notification2": {
+        "text": "Your message was not delivered.  Please re-try and if the issue persists, please Contact CCS Customer Service Centre.",
+        "linkText": "View sent message",
+        "link": "/message/sent",
+        "title": "Message Not Delivered"
+    },
+    "tabs": {
+        "text1": "Create Message",
+        "href1": "/message/create",
+        "text2": "Received",
+        "href2": "/message/inbox",
+        "text3": "Sent",
+        "href3": "/message/sent"
+    }
+}

@@ -13,21 +13,31 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  */
 export const CA_GET_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  const { choosenViewPath } = req.session;
   const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
     req.session;
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
+  const isPathOne = false;
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = {
     agreementName,
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
   try {
-    const windowAppendData = { data: caLearnData, lotId, agreementLotName, releatedContent };
+    const windowAppendData = {
+      data: caLearnData,
+      lotId,
+      agreementLotName,
+      choosenViewPath,
+      releatedContent,
+      isPathOne,
+    };
     res.render('ca-learnAboutCapabilityAssessment', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -45,9 +55,9 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
 
 export const CA_POST_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { projectId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
     res.redirect('/ca/enter-your-weightings');
   } catch (error) {
     LoggTracer.errorLogger(

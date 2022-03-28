@@ -1,0 +1,130 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "#"
+    }
+  ],
+
+  "title": "[ Write and publish your requirements ]",
+  "subtitle": null,
+  "events": [
+    {
+      "eventno": 1,
+      "eventTitle": "Project and collaborators",
+      "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+      "eventTask": [
+        {
+          "Task": 1,
+          "link": "/rfp/name-your-project",
+          "title": "Name your project",
+          "required": "mandatory",
+          "status": "Optional"
+        },
+        {
+          "Task": 2,
+          "link": "/rfp/procurement-lead",
+          "title": "Change who is going to lead the procurement",
+          "required": "optional",
+          "status": "Optional"
+        },
+        {
+          "Task": 3,
+          "link": "/rfp/add-collaborators",
+          "title": "Add members to your project",
+          "required": "optional",
+          "status": "Optional"
+        }
+      ]
+    },
+    {
+      "eventno": 2,
+      "eventTitle": "Complete a capability assessment",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "Learn about capability assessment",
+          "required": "optional",
+          "link": "#",
+          "status": "Todo"
+        },
+        {
+          "Task": 2,
+          "title": "Enter your weightings",
+          "required": "mandatory",
+          "link": "#",
+          "status": "Todo"
+        },
+        {
+          "Task": 3,
+          "title": "Will you accept sub-contractors?",
+          "required": "mandatory",
+          "link": "#",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 4,
+          "title": "Set your resources and vetting weightings",
+          "required": "mandatory",
+          "link": "/da/resources-vetting-weightings",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 5,
+          "title": "Select your service capabilities",
+          "required": "mandatory",
+          "link": "#",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 6,
+          "title": "How well your team will scale?",
+          "required": "mandatory",
+          "link": "#",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 7,
+          "title": "Where the work will be done",
+          "required": "mandatory",
+          "link": "/da/where-work-done",
+          "status": "Cannot start yet"
+        }
+      ]
+    },
+    {
+      "eventno": 3,
+      "eventTitle": "Progress to direct award",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": " Add context and requirements",
+          "required": "optional",
+          "status": "Todo",
+          "link": "/da/add-context"
+        }
+      ]
+    }
+  ],
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to procurement overview",
+      "href": "/projects/create-or-choose"
+    }
+  }
+}

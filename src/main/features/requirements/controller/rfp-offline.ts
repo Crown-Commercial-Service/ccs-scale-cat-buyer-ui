@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as express from 'express'
 const { Logger } = require('@hmcts/nodejs-logging');
-const logger = Logger.getLogger('eoi offline page');
+const logger = Logger.getLogger('rfp offline page');
 
 /**
  * 
@@ -15,5 +15,5 @@ export const RFP_OFFLINE_JOURNEY_PAGE = (req: express.Request, res: express.Resp
   const agreementLotName = req.session.agreementLotName;
   const appendData = { lotId, agreementLotName };
   logger.info("WIP page");
-  res.render('offline', appendData);
+  res.render('rfp-offline', appendData);
 }

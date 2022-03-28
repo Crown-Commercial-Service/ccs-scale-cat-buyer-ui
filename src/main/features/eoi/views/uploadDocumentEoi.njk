@@ -1,9 +1,10 @@
 
 {% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Complete and upload a document | Contract a Thing' %}
+{% set title = 'Complete and upload a document | Contract Award Service' %}
 {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
@@ -66,7 +67,7 @@
                           <p>{{file.fileSize | KbtoMb}} MB</p>
                         </div>
                         <div class="govuk-grid-column-one-third">
-                          <p>  <a class="app-task-list__tag" href="/eoi/files/remove?file={{file.name}}" aria-describedby="eoi-questions">remove</a></p>
+                          <p>  <a class="app-task-list__tag" href="/eoi/files/remove?file_id={{file.id}}" aria-describedby="eoi-questions">remove</a></p>
                         </div>
                         </div>
                           {% set hreflink  = items.OCDS.description | replace(" ", "_" ) %}
@@ -81,6 +82,7 @@
             {%endif%}
             {% if(storage < 1000000000)  %}
             <form action="/eoi/upload-doc" method="post" encType="multipart/form-data">    
+            {{ csrfProtection(csrf) }}
               {{ CCSFileUpload({
               id: "eoi_offline_document",
               name: "eoi_offline_document",
@@ -114,6 +116,7 @@
          {%endif%}  
 
                 <form action="/eoi/upload-doc/proceed" method="post">      
+                {{ csrfProtection(csrf) }}
                 <div class="govuk-button-group">
                         {{ CCSButton({
                               text: "Save and continue",

@@ -2,7 +2,7 @@ if ($('#rfp_keyterm').length > 0) {
   $('.rfp_form').attr('id', 'ccs_rfp_acronyms_form');
   $('.rfp_form').attr('name', 'ccs_rfp_acronyms_form');
 }
-
+const countWords = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rfp_term_definition_' + target).value = "";
         removeErrorFieldsRfp();
       });
-     
+
     });
 
 
@@ -136,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let formElement = document.getElementById("ccs_rfp_acronyms_form");
             let action = formElement.getAttribute("action");
             action = action + "&stop_page_navigate=true";
-            // console.log($("#ccs_rfp_acronyms_form").serialize());
             $.ajax({
               type: "POST",
               url: action,
@@ -153,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
 const checkFieldsRfp = () => {
   const start = 1;
   const end = 10;
@@ -161,8 +161,9 @@ const checkFieldsRfp = () => {
     let input = $(`#rfp_term_${a}`)
     let textbox = $(`#rfp_term_definition_${a}`);
 
-
-    if (input.val() !== "") {
+    const field1 = countWords(input.val()) < 50;
+    const field2 = countWords(textbox.val()) < 150;
+    if (input.val() !== "" || field1) {
 
       $(`#rfp_term_${a}-error`).remove();
       $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
@@ -170,7 +171,7 @@ const checkFieldsRfp = () => {
 
 
     }
-    if (textbox.val() !== "") {
+    if (textbox.val() !== "" || field2) {
 
       $(`#rfp_term_definition_${a}-error`).remove();
       $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
@@ -196,20 +197,46 @@ const emptyFieldCheckRfp = () => {
   for (var x = 1; x < 11; x++) {
     let term_field = document.getElementById('rfp_term_' + x);
     let definition_field = document.getElementById("rfp_term_definition_" + x);
+    let target_field = document.getElementById("rfp_term_target_" + x);
 
-    // console.log(name_field.classList.value);
+    const field1 = countWords(term_field.value) > 50;
+    const field2 = countWords(definition_field.value) > 150;
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsRfp();
-      if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
-        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+      if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
+        fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+        ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+        ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
+        ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
         errorStore.push(fieldCheck);
       }
-      if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
-        fieldCheck = [term_field.id, 'You must add information in both fields.'];
-        errorStore.push(fieldCheck);
+      else {
+        let isError = false;
+        if (term_field.value.trim() === '') {
+          ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+          isError = true;
+        }
+        if (definition_field.value.trim() === '') {
+          ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
+          isError = true;
+        }
+        if (target_field.value.trim() === '') {
+          ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
+          isError = true;
+        }
+        if (field1) {
+          ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+          isError = true;
+        }
+        if (field2) {
+          ccsZaddErrorMessage(definition_field, 'No more than 250 words are allowed.');
+          isError = true;
+        }
+        if (isError) {
+          fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+          errorStore.push(fieldCheck);
+        }
       }
     }
   }

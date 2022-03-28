@@ -1,0 +1,63 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/da/task-list"
+    },
+    {
+      "text": "Next Steps",
+      "href": "#"
+    }
+  ],
+
+  "title": "Next Steps",
+  "subtitle": "[ Instructions for this page ]",
+  "form": [
+    {
+      "id": "da_next_steps",
+      "question": "Would you like to progress to the 2nd stage?",
+      "radioOptions": {
+        "name": "da_next_steps",
+        "items": [
+          {
+            "value": "yes",
+            "text": "Yes",
+            "hint": {
+              "text": "Please note that if you wish to do so, you’ll not be able to edit your capability assessment, unless you delete the whole event and start again from the beginning."
+            }
+          },
+          {
+            "value": "edit",
+            "text": "I'm not ready yet, I need to edit my capability assessment",
+            "hint": {
+              "text": "You’ll be taken back to your capability assessment where you’ll be able to edit anything you’ve done previously. When you edit a screen, you’ll have to view the new ranked supplier list in order to progress with the next steps."
+            }
+          },
+          {
+            "value": "no",
+            "text": "No",
+            "hint": {
+              "text": "Please note that if you wish to do so, you’ll be taken to a confirmation screen where you’ll be able to download the ranked list of suppliers and progress to the next stage outside our service if needed."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "backJump": {
+    "title": "Return to Write and publish your requirements",
+    "href": "/da/task-list"
+  }
+}

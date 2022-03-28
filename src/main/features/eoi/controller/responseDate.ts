@@ -24,6 +24,7 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
   const { SESSION_ID } = req.cookies;
+  const { projectId } = req.session;
   let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
@@ -75,9 +76,9 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
     }
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/23`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/23`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/24`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/24`, 'Not started');
     }
 
     res.redirect('/eoi/review');
@@ -94,12 +95,21 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
   }
 };
 
-function isValidQuestion(questionId: number, day: number, month: number, year: number, hour: number, minute: number, timeinHoursBased : number, timeline: any) {
-    let isValid = true,
+function isValidQuestion(
+  questionId: number,
+  day: number,
+  month: number,
+  year: number,
+  hour: number,
+  minute: number,
+  timeinHoursBased: number,
+  timeline: any,
+) {
+  let isValid = true,
     error,
     errorSelector;
 
-  if(day > 31 || day < 1) {
+  if (day > 31 || day < 1) {
     isValid = false;
     error = 'Enter a valid date';
   }
@@ -109,38 +119,30 @@ function isValidQuestion(questionId: number, day: number, month: number, year: n
     error = 'Enter valid minutes';
   }
 
-  if(hour > 12 || hour <= 0) {
+  if (hour > 12 || hour <= 0) {
     isValid = false;
     error = 'Enter a valid hour';
   }
 
-  if(month > 12 || month < 0) {
-    isValid =  false;
+  if (month > 12 || month < 0) {
+    isValid = false;
     error = 'Enter a valid month';
   }
   const currentYear = new Date().getFullYear();
-  
-  if(year > 2121 || year < currentYear) {
+
+  if (year > 2121 || year < currentYear) {
     isValid = false;
     error = 'Enter a valid year';
   }
 
-  const questionNewDate = new Date(
-    year,
-    month,
-    day,
-    timeinHoursBased,
-    minute,
-  );
+  const questionNewDate = new Date(year, month, day, timeinHoursBased, minute);
 
   const dayOfWeek = new Date(questionNewDate).getDay();
-  
+
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     isValid = false;
     error = 'You can not set a date in weekend';
   }
-
-  console.log(dayOfWeek);
   switch (questionId) {
     case 'Question 1':
       errorSelector = 'clarification_date';
@@ -148,28 +150,28 @@ function isValidQuestion(questionId: number, day: number, month: number, year: n
     case 'Question 2':
       if (questionNewDate < timeline.publish) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'clarification_period_end';
       break;
     case 'Question 3':
       if (questionNewDate < timeline.clarificationPeriodEnd) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'deadline_period_for_clarification_period';
       break;
     case 'Question 4':
       if (questionNewDate < timeline.publishResponsesClarificationQuestions) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
       break;
     case 'Question 5':
       if (questionNewDate < timeline.supplierSubmitResponse) {
         isValid = false;
-        error = 'this milestone needs to be set after the previous milestone date';
+        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'supplier_dealine_for_clarification_period';
       break;
@@ -207,7 +209,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   } else {
     timeinHoursBased = Number(clarification_date_hour) + 12;
   }
-  
+
   let date = new Date(
     clarification_date_year,
     clarification_date_month,
@@ -218,7 +220,16 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
   const nowDate = new Date();
 
-  const { isValid, error, errorSelector } = isValidQuestion(selected_question_id, clarification_date_day, clarification_date_month, clarification_date_year, clarification_date_hour, clarification_date_minute, timeinHoursBased, timeline);
+  const { isValid, error, errorSelector } = isValidQuestion(
+    selected_question_id,
+    clarification_date_day,
+    clarification_date_month,
+    clarification_date_year,
+    clarification_date_hour,
+    clarification_date_minute,
+    timeinHoursBased,
+    timeline,
+  );
 
   if (date.getTime() >= nowDate.getTime() && isValid) {
     date = moment(date).format('DD MMMM YYYY, hh:mm a');
@@ -297,27 +308,32 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     } else {
       switch (selectedErrorCause) {
         case 'Question 1':
-          selector = ' Publish your EoI - You can not set a date and time that is earlier than the previous milestone in the timeline';
+          selector =
+            ' Publish your EoI - You can not set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'clarification_date';
           break;
 
         case 'Question 2':
-          selector = 'Clarification period ends - You can not set a date and time that is earlier than the previous milestone in the timeline';
+          selector =
+            'Clarification period ends - You can not set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'clarification_period_end';
           break;
 
         case 'Question 3':
-          selector = 'Deadline for publishing responses to EoI clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
+          selector =
+            'Deadline for publishing responses to EoI clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'deadline_period_for_clarification_period';
           break;
 
         case 'Question 4':
-          selector = 'Deadline for suppliers to submit their EoI response - You can not set a date and time that is earlier than the previous milestone in the timeline';
+          selector =
+            'Deadline for suppliers to submit their EoI response - You can not set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'supplier_period_for_clarification_period';
           break;
 
         case 'Question 5':
-          selector = 'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
+          selector =
+            'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'supplier_dealine_for_clarification_period';
           break;
 

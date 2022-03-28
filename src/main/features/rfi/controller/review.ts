@@ -24,7 +24,6 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
   CurrentTimeStamp = new Date(CurrentTimeStamp.split('*')[1]).toISOString();
-  console.log(CurrentTimeStamp);
 
   const _bodyData = {
     endDate: CurrentTimeStamp,
@@ -40,14 +39,13 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   if (finished_pre_engage && rfi_publish_confirmation === '1') {
     try {
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/14`, 'Completed');
       }
 
       res.redirect('/rfi/event-sent');
     } catch (error) {
-      console.log('Something went wrong, please review the logit error log for more information');
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
         TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
       RFI_REVIEW_HELPER(req, res, true, true);

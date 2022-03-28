@@ -1,0 +1,31 @@
+[
+    {
+        "projectId": 20,
+        "projectName": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED",
+        "historicEvent": {
+            "id": "ocds-b5fd17-20",
+            "title": "RM6187-Lot 3-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "EOI",
+            "closedDate": "20/January/2022",
+            "lot":"Lot 3: Complex and Transformation",
+            "agreement":"Managemewnt Consultation Framework 3 (MCF3) [RM6187]"
+        }
+    },
+    {
+        "projectId": 22,
+        "projectName": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED",
+        "historicEvent": {
+            "id": "ocds-b5fd17-22",
+            "title": "RM6263-Lot 1-MRP BUSINESS SERVICES UK LIMITED-TBD",
+            "eventStage": "tender",
+            "eventSupportId": "itt_4949",
+            "eventType": "RFI",
+            "closedDate": "18/January/2022",
+            "lot":"Lot 2: Digital Specialists",
+            "agreement":"Digital Specialists and Programme [RM6263]",
+            "AgreementID": "RM6262"
+        }
+    }
+]

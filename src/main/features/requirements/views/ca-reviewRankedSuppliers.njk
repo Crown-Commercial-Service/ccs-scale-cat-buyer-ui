@@ -1,0 +1,91 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+    items: breadCrumbs
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    {% if(isError)%}
+      {{ CCSErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorText
+      }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 id="page-heading" class="govuk-heading-xl">
+          {{title}}
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
+      <div class="govuk-inset-text">
+        {# {% for subtitle in subtitles %}
+          <p class="govuk-body">{{subtitle}}</p>
+        {% endfor %} #}
+        <p>[instructions for this page]</p>
+        <p class="govuk-body">If you'd like to look at the details for each suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers</a><span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website.</p>
+      </div>
+      <div class="ccs-page-section">
+        <p class="govuk-body">{{p1}}</p>
+      </div>
+          {{ CCSTable({
+            captionClasses: "govuk-table__caption--m",
+            firstCellIsHeader: true,
+            head: [
+              {
+                text: table.head[0]
+              },
+              {
+                text: table.head[1]
+              }
+            ],
+            rows: table.rows
+          }) }}
+        <div class="ccs-page-section">
+          <p class="govuk-body">{{p2}}</p>
+        </div>
+        <form id="ca_review_ranked_suppliers" name="ca_review_ranked_suppliers" class="form ca_form" action="/ca/review-ranked-suppliers" method="post">
+        {{ csrfProtection(csrf) }}
+            {{ CCSCheckboxes({
+              idPrefix: "additional_ranks",
+              name: "additional_ranks",
+              items: rows
+            }) }}
+            {{ CCSTextarea({
+              name: "justification",
+              id: "justification",
+              label: {
+                text: p3,
+                classes: "govuk-label--m",
+                isPageHeading: true
+              },
+              hint: {
+                text: p4
+              }
+            }) }}
+
+            <div class="govuk-button-group">
+              {{ CCSButton({
+                    text: "Save and continue",
+                    classes:"save-button"
+                  })
+              }}
+              <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
+            </div>
+
+        </form>
+
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </main>
+        {% endblock %}

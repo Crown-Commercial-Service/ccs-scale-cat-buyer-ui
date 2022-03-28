@@ -1,6 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% set title =  rfiTitle + '- Create a Request for Information (RFI)' %}
 
 {% block breadCrumb %}
@@ -68,6 +68,7 @@
       <p class="govuk-body">{{data.rfiTitle}}</p>
 
       <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} rfi_form" action="/rfi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
+        {{ csrfProtection(csrf) }}
         <p class="govuk-body govuk-!-margin-bottom-7">{{prompt | safe}}</p>
         {% for requirement in data %}
           {% block value %}
@@ -373,6 +374,10 @@
                           <div id="rfi_keyterm"> </div>
                   {% endif %}
                 {% endblock %}
+
+
+                 
+
 
                 {% block Address%}
                   {% if (requirement.nonOCDS.questionType === 'MultiSelect') and (requirement.nonOCDS.multiAnswer === true) %}

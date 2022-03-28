@@ -111,7 +111,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
           filename: eoi_offline_document.name,
         });
         formData.append('description', eoi_offline_document.name);
-        formData.append('audience', 'buyer');
+        formData.append('audience', 'supplier');
         const formHeaders = formData.getHeaders();
         try {
           await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
@@ -121,7 +121,6 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
           });
           res.redirect('/eoi/upload-doc');
         } catch (error) {
-          console.log(error)
           delete error?.config?.['headers'];
           const Logmessage = {
             Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -151,16 +150,32 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
   } else res.render('error/500');
 };
 
-export const GET_REMOVE_FILES = (express.Handler = (req: express.Request, res: express.Response) => {
-  const { file } = req.query;
-  tempArray = tempArray.filter(afile => afile.name !== file);
-  res.redirect('/eoi/upload-doc');
+export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies //jwt
+  const { projectId } = req.session
+  const EventId = req.session['eventId']
+  const { file_id } = req.query
+  const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
+  try {
+    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    res.redirect('/eoi/upload-doc')
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Remove document failed',
+      true,
+    );
+  }
 });
 
 export const POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/21`, 'Completed');
+  const { projectId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/21`, 'Completed');
 
   res.redirect('/eoi/suppliers');
 });

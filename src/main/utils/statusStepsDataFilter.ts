@@ -66,11 +66,11 @@ function checkSublevels(
           eventTask[
             'link'
           ] = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
-        } else if (stepInfo.step == 30) {
+        } /*  else if (stepInfo.step == 30) {
           eventTask[
             'link'
           ] = `/ca/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
-        }
+        } */
       }
       accumElem.accum = accumElem.accum + 1;
       if (eventTask[nameSublevel[1]]) {
@@ -101,10 +101,13 @@ export function statusStepsDataFilter(
     case 'rfp':
       stepsByType = steps.slice(26, 40);
       break;
-    case 'CA':
+    case 'FCA':
       stepsByType = steps.slice(41, 58);
       break;
-    case 'DA':
+    case 'TBD':
+      stepsByType = steps.slice(41, 58);
+      break;
+    case 'DAA':
       stepsByType = steps.slice(59, 74);
       break;
   }

@@ -1,4 +1,5 @@
 {% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'EOI review | Crown Commercial Service' %}
 
@@ -83,9 +84,11 @@
             {% endif %}
 
             <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
               <a class="govuk-link" href="/eoi/name-your-project">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
+              {% endif %}
             </dd>
           </div>
           <div class="govuk-summary-list__row">
@@ -103,9 +106,11 @@
               </ul>
             </dd>
             <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
               <a class="govuk-link" href="/eoi/procurement-lead">
             Change<span class="govuk-visually-hidden"> procurement lead</span>
               </a>
+              {% endif %}
             </dd>
           </div>
           <div class="govuk-summary-list__row">
@@ -135,9 +140,11 @@
         </dd>
             {% endif %}
             <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
               <a class="govuk-link" href="/eoi/add-collaborators">
             Change<span class="govuk-visually-hidden"> eoi team members</span>
               </a>
+              {% endif %}
             </dd>
           </div>
         </dl>
@@ -159,9 +166,11 @@
             {% endif %}
 
             <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
               <a class="govuk-link" href="/eoi/type">
             Change<span class="govuk-visually-hidden">EoI type</span>
               </a>
+              {% endif %}
             </dd>
           </div>
 
@@ -192,9 +201,11 @@
                               </dd>
                             {% endif %}
                             <dd class="govuk-summary-list__actions">
+                            {% if eventStatus != "published"%}
                               <a class="govuk-link" href="/eoi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
             Change<span class="govuk-visually-hidden">EoI type</span>
                               </a>
+                              {% endif %}
                             </dd>
                           </div>
                           {%endfor%}
@@ -229,9 +240,11 @@
                               {% endif %}
 
                               <dd class="govuk-summary-list__actions">
+                              {% if eventStatus != "published"%}
                                 <a class="govuk-link" href="/eoi/upload-doc">
             Change<span class="govuk-visually-hidden">eoi additional link and documents</span>
                                 </a>
+                                {% endif %}
                               </dd>
                             </div>
 
@@ -247,9 +260,11 @@
                                     {%endfor%}
                                   </dd>
                                   <dd class="govuk-summary-list__actions">
+                                  {% if eventStatus != "published"%}
                                     <a class="govuk-link" href="/eoi/response-date">
            Change <span class="govuk-visually-hidden"> eoi response dates</span>
                                     </a>
+                                    {% endif %}
                                   </dd>
 
                                 </div>
@@ -293,6 +308,7 @@
                           </div>
                           <form id="ccs_eoi_publish_form" name="ccs_eoi_publish_form" class="form ccs_eoi_publish_form"
       action="/eoi/review" method="post">
+      {{ csrfProtection(csrf) }}
 
                             {{ CCSCheckboxes({
       idPrefix: "eoi_publish_confirmation",

@@ -14,13 +14,14 @@
  * Works with text, number and file inputs (make sure the
  * 'accepts' attribute is set for files).
  */
-const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
+const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => {
   const element = document.getElementById(elementName);
 
-  if (element.value.trim().match(typeRegex)) {
+  if (element.value.trim().match(typeRegex) && valid) {
     ccsZremoveErrorMessage(element);
     return true;
   } else {
+    ccsZremoveErrorMessage(element);
     ccsZaddErrorMessage(element, errMsg);
     return [element.id, errMsg];
   }
@@ -29,13 +30,12 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex) => {
 /**
  * Validate that a textarea cointains a value
  */
-const ccsZvalidateTextArea = (elementName, errMsg) => {
+const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
   const element = document.getElementById(elementName);
-
-  if (element.value.trim().length > 0) {
+  if (element.value.trim().length > 0 && valid) {
     ccsZremoveErrorMessage(element);
-    return true;
-  } else {
+  }
+  else {
     ccsZaddErrorMessage(element, errMsg);
     return [element.id, errMsg];
   }
@@ -184,7 +184,9 @@ const ccsZremoveErrorMessage = (element) => {
 
   if (document.getElementById(element.id + "-error") !== null) {
     element.closest('.govuk-form-group').classList.remove('govuk-form-group--error');
-
+    if (element.tagName === "TEXTAREA") {
+      element.closest('.govuk-textarea').classList.remove('govuk-textarea--error');
+    }
     if (element.tagName === "INPUT") {
       element.classList.remove("govuk-input--error");
     } else {

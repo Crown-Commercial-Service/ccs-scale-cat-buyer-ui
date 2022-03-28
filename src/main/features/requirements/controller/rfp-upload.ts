@@ -31,7 +31,9 @@ export const RFP_GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: e
  */
 
 export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res: express.Response) => {
-  const { selectedRoute } = req.session;
+  let { selectedRoute } = req.session;
+  if (selectedRoute === 'FC') selectedRoute = 'RFP';
+
   const selRoute = selectedRoute.toLowerCase();
   const file_started = req.body[`${selRoute}_file_started`];
   const { SESSION_ID } = req.cookies;
@@ -49,7 +51,7 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
   const FileFilterArray = [];
 
   if (file_started) {
-    const offline_document = req.files[`${selRoute}_offline_document`];
+    const offline_document = req.files[`${selRoute}_offline_document`] || req.files[`${selRoute}_attachment_document`];
 
     const multipleFileCheck = Array.isArray(offline_document);
     if (multipleFileCheck) {
@@ -154,16 +156,18 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
 
 export const RFP_GET_REMOVE_FILES = (express.Handler = (req: express.Request, res: express.Response) => {
   const { file } = req.query;
-  const { selectedRoute } = req.session;
+  let { selectedRoute } = req.session;
+  if (selectedRoute === 'FC') selectedRoute = 'RFP';
   tempArray = tempArray.filter(afile => afile.name !== file);
   res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
 });
 
 export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId, selectedRoute } = req.session;
-  const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+  const { projectId } = req.session;
 
-  res.redirect(`/${selectedRoute.toLowerCase()}/task-list`);
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Not started');
+
+  res.redirect(`/rfp/IR35`);
 });

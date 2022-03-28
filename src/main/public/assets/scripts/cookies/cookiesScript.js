@@ -55,9 +55,9 @@
                     break;
             }
         }
-      //  const formattedCookie = encodeURIComponent(sKey) + "=" + sValue +  sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
-       // document.cookie = formattedCookie.toString();
-        const FormattedCookies = encodeURIComponent(sKey) + "=" + sValue +  sExpires ;
+        //  const formattedCookie = encodeURIComponent(sKey) + "=" + sValue +  sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
+        // document.cookie = formattedCookie.toString();
+        const FormattedCookies = encodeURIComponent(sKey) + "=" + sValue + sExpires;
         document.cookie = FormattedCookies;
         return true;
     },
@@ -100,7 +100,7 @@
         },
         {
             title: "Cookies that help with our communications and marketing",
-            description: "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS) - CaT.",
+            description: "These cookies may be set by third party websites and do things like measure how you view YouTube videos that are on Crown Commercial Service (CCS) - Contract Award Service (CAS).",
             cookie_type: "marketing",
             enabled: null,
             adjustable: true,
@@ -180,7 +180,6 @@
         initial_cookie_preferences.forEach(function (cookieGroup, idx) {
             // Check if the loop cookie type matches the selected cookie_type
             if (cookieGroup.cookie_type === cookie_type && cookieGroup.cookies !== null) {
-                // console.log({cookieGroup});
                 // Loop through each cookie in the selected cookie_type
                 cookieGroup.cookies.forEach(function (cookie, idx) {
                     docCookies.removeItem(cookie.name, cookie.path, cookie.domain); // console.log("delteted: " + cookie.name);
@@ -279,7 +278,7 @@
         cookieMessageInner.classList.add("cookie-message__inner", "govuk-width-container");
         cookieMessageInner.classList.add("site-container");
         cookieMessageInner.innerHTML =
-            '<h2 class="govuk-heading-m">Cookies on CaT / crowncommercial.gov.uk</h2><div class="cookie-message__intro"><p>We use cookies to collect information about how you use crowncommercial.gov.uk.<br><br> We use this information to make the website work as well as possible and improve government services.</p></div>';
+            '<h2 class="govuk-heading-m">Cookies on Contract Award Service (CAS) / crowncommercial.gov.uk</h2><div class="cookie-message__intro"><p>We use cookies to collect information about how you use crowncommercial.gov.uk.<br><br> We use this information to make the website work as well as possible and improve government services.</p></div>';
         var optInButton = document.createElement("button");
         optInButton.classList.add("govuk-!-font-size-18", "govuk-!-font-weight-bold", "govuk-button", "gtm--accept-cookies-in-banner");
         optInButton.innerHTML = "Accept all cookies";

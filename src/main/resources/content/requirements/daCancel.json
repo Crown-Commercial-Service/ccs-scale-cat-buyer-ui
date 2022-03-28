@@ -1,0 +1,15 @@
+{
+
+  "title": "Your 2-stage direct award has been cancelled",
+  "subtitle": "[ Description for this page ]",
+  "form": [
+    {
+      "id": "da_cancel",
+      "question": "Would you like to progress to the 2nd stage?"
+    }
+  ],
+  "backJump": {
+    "title": "Go to your project dashboard",
+    "href": "/da/task-list"
+  }
+}

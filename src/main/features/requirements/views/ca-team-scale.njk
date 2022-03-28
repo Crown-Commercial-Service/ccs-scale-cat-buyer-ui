@@ -1,0 +1,126 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'How well can the team scale' %}
+
+{# {% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %} #}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/ca/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "How well can the team scale?",
+                "href": "#"
+            }
+        ]
+    }) }}
+{% endblock %}
+
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if(error) %}
+            {{ CCSErrorSummary({
+                titleText: "There is a problem",
+                errorList: [{
+                    text: "Select an option"
+                }]
+            }) }}
+        {%endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="govuk-heading-xl"> {{data.title }} </h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %}
+                <p class="govuk-body">{{data.subtitle}}</p>  
+                <p class="govuk-body">{{ data.form.question }}</p>
+                <form id="ccs_ca_team_scale_form" name="ccs_ca_team_scale_form" class="form ccs_ca_team_scale_form" action="/ca/team-scale" method="POST">
+                {{ csrfProtection(csrf) }}
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios">
+                            <br>
+                            {% set radioArray = [] %}
+                            {% for i in range(0, data.form.radioOptions.items | length) %}
+                            {% if i == 0%}
+                                <div class="govuk-radios__item">
+                                    {%if data.form.radioOptions.items[i].selected === true %}
+                                        <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_ca_team_scale-item-hint" checked>
+                                    {%else%}
+                                        <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_ca_team_scale-item-hint" >
+                                    {%endif%}
+                                    <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_ca_team_scale">
+                                        <h3 class="govuk-heading-m">{{data.form.radioOptions.items[i].text}}</h3>
+                                    </label>
+                                    <div id="ccs_ca_team_scale-item-hint" class="govuk-hint govuk-radios__hint">
+                                        {{data.form.radioOptions.items[i].hint.text | safe}}
+                                    </div>
+                                </div>
+                            {% else %}
+
+                                <div class="govuk-radios__item">
+                                    {%if data.form.radioOptions.items[i].selected === true %}
+                                        <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale-{{i+1}}" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_ca_team_scale-{{i}}-item-hint" checked>
+                                    {%else%}
+                                        <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale-{{i+1}}" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_ca_team_scale-{{i}}-item-hint" >
+                                    {% endif %}
+                                    <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_ca_team_scale-{{i}}">
+                                        <h3 class="govuk-heading-m">{{data.form.radioOptions.items[i].text}}</h3>
+                                    </label>
+                                    <div id="ccs_ca_team_scale-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
+                                        {{data.form.radioOptions.items[i].hint.text |safe}}
+                                    </div>
+                                </div>
+                            {%endif%}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <br>
+                    {# {{ CCSInput({
+                            id: "question_id",
+                            name: "question_id",
+                            type: "hidden",
+                            value: requirement.OCDS.id
+                            })
+                        }} #}
+                    <div class="govuk-button-group">
+                        {{ CCSButton({
+                            text: "Save and continue"
+                        }) }}
+                        {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+                    </div>
+                </form>
+
+            </div>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
+
+    </main>
+
+{% endblock %}

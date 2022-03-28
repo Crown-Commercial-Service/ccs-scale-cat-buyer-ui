@@ -1,13 +1,12 @@
 import { Application } from 'express';
-import {NO_AUTH} from '../common/middlewares/oauthservice/openroutecheck'
-import {ContentFetchMiddleware} from '../common/middlewares/menu-contentservice/contentservice'
+import {NO_AUTH} from '../common/middlewares/oauthservice/openroutecheck';
 import express from 'express'
 
 import * as data from '../resources/content/home/home.json';
 
 export default function(app: Application): void {
   
-  app.get('/', [ContentFetchMiddleware.FetchContents,NO_AUTH],  (req : express.Request, res: express.Response)=> {
+  app.get('/', [NO_AUTH],  (req : express.Request, res: express.Response)=> {
     const { isAuthenticated } = req.session;
     let appendData = data 
     if (isAuthenticated) {

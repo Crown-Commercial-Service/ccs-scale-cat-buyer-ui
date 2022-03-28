@@ -1,0 +1,44 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/rfp/task-list"
+    },
+    {
+      "text": "Upload pricing schedules and any other supporting documentation",
+      "href": "#"
+    }
+  ],
+
+  "title": "2. Upload pricing schedules and any other supporting documentation",
+  "subtitle": null,
+  "description": "[instructions for this page]",
+  "taskList": [
+    {
+      "title": "Upload your pricing schedule (attachment 4)",
+      "hreftitle": "Add / edit link",
+      "href": "/rfp/upload-attachment"
+    },
+    {
+      "title": "Upload any additional document (optional)",
+      "hreftitle": "Add / edit link",
+      "href": "/rfp/upload-doc"
+    }
+  ],
+  "backJump": {
+    "title": "Return to Write and publish your requirements",
+    "href": "/rfp/task-list"
+  }
+}

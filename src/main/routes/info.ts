@@ -1,6 +1,6 @@
 import * as os from 'os';
 
-import { infoRequestHandler } from '@hmcts/info-provider';
+import { infoRequestHandler, InfoContributor } from '@hmcts/info-provider';
 import { Router } from 'express';
 
 export default function(app: Router): void {
@@ -13,7 +13,7 @@ export default function(app: Router): void {
         uptime: process.uptime(),
       },
       info: {
-        // TODO: add downstream info endpoints if your app has any
+        'CAS-Buyer-UI': new InfoContributor(process.env.CAT_URL+'/info')
       },
     }),
   );

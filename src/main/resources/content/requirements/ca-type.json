@@ -13,36 +13,64 @@
         "href": "/projects/create-or-choose"
       },
       {
-        "text": "How will you build 1-stage further competition",
+        "text": "How will you build 2-stage further competition",
         "href": "#"
       }
     ],
   
-    "title": "How will you build 1-stage further competition?",
-    "subtitle": "[ Instructions for this page ]",
+    "title": "How will you build your bid pack?",
+    "subtitle": "Please note that you'll be given the option to download a ranked list of suppliers at the end of your capability assessment and run your further competition outside our service if you wish to do so.",
     "form": [
       {
-        "id": "ccs_ca_type",
+        "id": "group1",
         "question": "How would you like to include your requirements document (attachment 3)?",
         "radioOptions": {
           "idPrefix": "ccs_chose_route",
-          "name": "ccs_ca_type",
+          "name": "group1",
           "items": [
             {
-              "value": "all_online",
+              "value": "online_attachment_3",
               "text": "Provide all information online",
               "hint": {
-                "text": "Enter all the information needed to build your one stage further competition online and submit it to your selected suppliers."
-              }
+                "text": "Enter all the information needed to build your two stage further competition online and submit it to your selected suppliers."
+              },
+              "disabled": "false"
             },
             {
-              "value": "all_offline",
-              "text": "Upload only your statement of requirements but finish the bid pack online",
+              "value": "offline_attachment_3",
+              "text": "Upload only your statement of requirements but finish the bid pack online (Coming soon)",
               "hint": {
                 "text": "Use this option to upload attachement and complete the assessment online."
-              }
+              },
+              "disabled": "true"
             }
-        
+          ]
+        }
+      },
+
+      {
+        "id": "group2",
+        "question": "How would you like to include your evaluation document (attachment 2)?",
+        "radioOptions": {
+          "idPrefix": "ccs_chose_route",
+          "name": "group2",
+          "items": [
+            {
+              "value": "online_attachment_2",
+              "text": "Provide all information online",
+              "hint": {
+                "text": "Enter all the information needed to build your two stage further competition online and submit it to your selected suppliers."
+              },
+              "disabled": "false"
+            },
+            {
+              "value": "offline_attachment_2",
+              "text": "Upload only your statement of requirements but finish the bid pack online (Coming soon)",
+              "hint": {
+                "text": "Use this option to upload attachement and complete the assessment online."
+              },
+              "disabled": "true"
+            }
           ]
         }
       }
