@@ -168,6 +168,10 @@ if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateRfPStrategy);
 
   if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
+  document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateTextArea);
+
+
+  if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);  
 if (document.getElementById('ccs_rfp_about_proj') !== null)
   document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);

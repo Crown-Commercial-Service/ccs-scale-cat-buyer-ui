@@ -23,7 +23,8 @@ const wordLength = (text) => {
 const ccsZvalidateRfPStrategy = event => {
   event.preventDefault();
   let fieldCheck = '';
-  if ($('#rfp_prob_statement_t').length) {
+  if ($('#rfp_prob_statement_t')) {
+    
     if (condLength($('#rfp_prob_statement_t').val())) {
       const msg = char ? 'Entry must be <= 5000 characters': 'Entry must be <= 500 words';
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', msg, !condLength($('#rfp_prob_statement_t').val()));
