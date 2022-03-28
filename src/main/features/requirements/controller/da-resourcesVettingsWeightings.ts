@@ -319,8 +319,8 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
 
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    res.json(ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Resource Quantity')[0])
-  // res.render('da-resourcesVettingWeightings', windowAppendData);
+    //res.json(ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Resource Quantity')[0])
+   res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     console.log(error)
     req.session['isJaggaerError'] = true;
