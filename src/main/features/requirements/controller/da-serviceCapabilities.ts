@@ -526,7 +526,6 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       }
 
   } catch (error) {
-    console.log(error)
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
