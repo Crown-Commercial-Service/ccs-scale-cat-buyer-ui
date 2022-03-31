@@ -1,4 +1,4 @@
-# CCS Scale CAS Buyer UI
+# CCS Scale CAS buyer application
 
 CCS Scale CAS Buyer UI - ‘Contract Award Service’ (CAS).
 
