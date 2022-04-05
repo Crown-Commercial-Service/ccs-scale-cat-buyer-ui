@@ -106,7 +106,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       }
     });
 
-    if (req.session.selectedRoute !== undefined && req.session.choosenViewPath !== undefined) {
+    if ((req.session.selectedRoute !== undefined && req.session.selectedRoute !== null )|| (req.session.choosenViewPath !== undefined && req.session.choosenViewPath !== null)) {
       let path;
       if (req.session.selectedRoute === 'FCA') {
         path = 'ca';
