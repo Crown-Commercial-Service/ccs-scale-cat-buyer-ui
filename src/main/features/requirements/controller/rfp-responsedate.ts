@@ -9,12 +9,15 @@ import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
 
-export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+  
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'In progress');
   RESPONSEDATEHELPER(req, res);
 };
 
-export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const RequestBodyValues = Object.values(req.body);
+  
   const { supplier_period_for_clarification_period } = req.body;
   req.session['endDate'] = supplier_period_for_clarification_period;
   const filterWithQuestions = RequestBodyValues.map(aQuestions => {
@@ -81,8 +84,9 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     if (response.status == HttpStatusCode.OK) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/24`, 'Not started');
     }
-
-    res.redirect('/rfp/task-list');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'Not started');
+    res.redirect('/rfp/rfp-eventpublished');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -184,7 +188,7 @@ function isValidQuestion(
 }
 
 // @POST "/rfp/add/response-date"
-export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   let {
     clarification_date_day,
     clarification_date_month,

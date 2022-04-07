@@ -19,7 +19,7 @@ export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express
       errorText,
       locationArray,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
     res.render('rfp-whereWorkDone', appendData);
   } catch (error) {
     console.log(error);
@@ -76,6 +76,7 @@ export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: expres
       );
 
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/37`, 'Not started');
       res.redirect('/rfp/task-list');
     } catch (error) {
       LoggTracer.errorLogger(
