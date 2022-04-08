@@ -11,10 +11,7 @@ export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express
   req.session.isError = false;
   req.session.errorText = '';
   try {
-    
     const locationArray = dimensions.filter(ele => ele.name === 'Location')[0]['options'];
-   
-  
     const appendData = {
       ...data,
       releatedContent,
@@ -53,7 +50,6 @@ export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: expres
       const locationData = dimensions.filter(data => data.name === 'Location')[0];
       const initialDataRequirements = [];
       if (!Array.isArray(locationIds)) locationIds = [locationIds];
-     if (locationIds.length>1){
       for (let i = 0; i < locationIds.length; i++) {
         const requirements = {
           'requirement-id': locationIds[i],
@@ -62,17 +58,6 @@ export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: expres
         };
         initialDataRequirements.push(requirements);
       }
-
-     }
-     else{
-      const requirements = {
-        'requirement-id': locationIds[0],
-        weighting: 100 ,
-        values: [{ 'criterion-id': '0', value: '1: Yes' }],
-      };
-      initialDataRequirements.push(requirements);
-     }
-      
       const body = {
         'dimension-id': locationData['dimension-id'],
         weighting: 20,
