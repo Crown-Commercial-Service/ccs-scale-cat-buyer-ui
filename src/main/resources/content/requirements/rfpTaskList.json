@@ -94,7 +94,7 @@
           "title": "Define resource types and quantity",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/vetting-weighting"
         },
         {
           "Task": 2,
@@ -108,7 +108,7 @@
           "title": "Select your service capabilities",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/service-capabilities"
         },
         {
           "Task": 4,
@@ -150,21 +150,21 @@
           "title": "Look at the suppliers for this further competition",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "/rfp/upload-doc"
+          "link": "/rfp/suppliers"
         },
         {
           "Task": 2,
           "title": "Set response date and time ",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/response-date"
         },
         {
           "Task": 3,
           "title": "Review and publish your 1-stage RFP",
           "required": "mandatory",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/rfp-eventpublished"
         }
       ]
     }

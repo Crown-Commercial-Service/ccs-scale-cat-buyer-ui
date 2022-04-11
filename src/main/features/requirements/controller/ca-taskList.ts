@@ -57,7 +57,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     const isSummaryDone = journeySteps.find(stp => stp.step === 54 && stp.state === 'Completed');
     switch (path) {
       case 'A1':
-        ViewLoadedTemplateData = haveFCA && isSummaryDone ? A1_Template_FCA : A1_Template;
+        ViewLoadedTemplateData = haveFCA && isSummaryDone !=undefined && isSummaryDone ? A1_Template_FCA : A1_Template;
         break;
       case 'A2':
         ViewLoadedTemplateData = A2_Template;
