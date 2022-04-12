@@ -15,7 +15,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Supplier message",
+      "text": "Message",
       "href": "#"
     }
   ]
@@ -33,22 +33,30 @@
     ]
     }) }}
     {%endif %}
-    <strong class="govuk-tag govuk-tag--yellow govuk-!-margin-top-4 govuk-!-margin-bottom-2">Page Work in progress</strong>
+    
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {{data.title}}
+          <strong>{{data.title}}</strong>
         </h1>
         <p class="govuk-body">
           <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
         </p>
-        {% include "includes/project_header.njk" %}
+       <p class="govuk-body">Selected agreement: {{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %} {% if 'Lot' not in agreement_header['lotid'] %}Lot{% endif %} {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+  </p>
+  {%endif %}
+  <p class="govuk-body">Agreement ID: {{ agreement_header['agreementId_session'] }}</p>
       </div>
-    </div>
+    </div></br></br>
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
-        <p class="govuk-!-padding-bottom-9">
+        <p>
           {{data.subtitle}}
+          <ul>
+        <li>{{data.subtitleLine1}}</li>
+        <li>{{data.subtitleLine2}}</li>
+        <li>{{data.subtitleLine3}}</li>
+        </ul>
         </p>
         <div>
           <div class="govuk-grid-row messaging-navigation">
@@ -59,7 +67,7 @@
                   <li class="nav-list__item">
                     <a class="nav-list__link" href="{{data.tabs.href1}}">{{data.tabs.text1}}</a>
                   </li>
-                  <li class="nav-list__item">
+                  <li class="nav-list__item selected">
                     <a class="nav-list__link" href="{{data.tabs.href2}}">{{data.tabs.text2}}</a>
                   </li>
                   <li class="nav-list__item">
@@ -71,28 +79,36 @@
           </div>
           <form id="event_supplier_message_form" name="event_supplier_message_form" class="form event_supplier_message_form" action="/message/details" method="POST">
             {{ csrfProtection(csrf) }}
-            <a href="{{data.backlink}}" class="govuk-back-link">Back</a>
+            <a href="{{data.backlink}}">back</a></br></br></br>
             <label class="govuk-label govuk-label govuk-label--m">{{messageDetails.OCDS.title}}</label>
+            <label class="govuk-label govuk-label govuk-label--m">{{data.line4}}{{messageDetails.OCDS.author.name}}</label>
             <p class="govuk-body">{{data.line1}} : {{messageDetails.nonOCDS.classification}}</p>
-            <p class="govuk-body">{{data.line2}} : {{messageDetails.OCDS.date | date}}</p>
+            <p class="govuk-body">{{data.line2}} : {{messageDetails.OCDS.date | dateddmmyyyy}}</p>
             <p class="govuk-body">
               {% for attachemnt in messageDetails.nonOCDS.attachments%}
-                <a class="nav-list__link " href="/message/details?attachmentId={{attachemnt.id}}">{{attachemnt.name}}</a>
+                <a class="nav-list__link " href="/message/details?attachmentId={{attachemnt.id}}&id={{id}}">{{attachemnt.name}}</a>
               {% endfor %}
             </p>
             <p class="govuk-body">{{messageDetails.OCDS.description }}</p>
             <div class="govuk-button-group">
               {{ CCSButton({
-                text: "Save and continue",
-                classes: "close-event"
+                text: "Reply",
+                attributes: {
+                id: "ccs_reply_to_supplier"
+                },
+                classes: "close-event",
+                href: "#"
                 }) }}
+              <a href="{{data.backJump3.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump3.title}}</a>
               <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-              <a href="{{data.backJump2.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump2.title}}</a>
             </div>
+            
           </form>
         </div>
       </div>
     </div>
-
+        <p>
+            <a href="{{data.backJump2.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump2.title}}</a>
+            </p>
   </main>
 {% endblock %}
