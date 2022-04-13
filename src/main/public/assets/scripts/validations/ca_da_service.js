@@ -89,13 +89,18 @@ const vetting_partial_len = vetting_partial.length;
 
 const ErrorMessageStorage = [];
 
+var reg = /^\d+$/;
 //For vetting_partial
 
 for(var a =0; a <  vetting_partial_len; a++){
-    if(vetting_partial[a].value <= 0 && vetting_partial[a].value !== ""){
+    if((vetting_partial[a].value <= 0 || !vetting_partial[a].value.match(reg)) && vetting_partial[a].value !== ""){
         document.getElementsByClassName('weight_vetting_partial')[a].classList.add('govuk-input--error')
         document.getElementsByClassName('weight_vetting_partial_t')[a].innerHTML = 'The weighting value(s) for the service capabilities must be a positive integer'
         ErrorMessageStorage.push(true);
+    }
+    else{
+        document.getElementsByClassName('weight_vetting_partial')[a].classList.remove('govuk-input--error')
+        document.getElementsByClassName('weight_vetting_partial_t')[a].innerHTML = ''      
     }
 }
 
@@ -107,10 +112,14 @@ const vetting_whole_len = vetting_whole.length;
 
 
 for(var a =0; a <  vetting_whole_len ; a++){
-    if(vetting_whole[a].value <= 0 && vetting_whole[a].value !== ""){
+    if((vetting_whole[a].value <= 0 || !vetting_whole[a].value.match(reg)) && vetting_whole[a].value !== ""){
         document.getElementsByClassName('weight_vetting_whole')[a].classList.add('govuk-input--error')
         document.getElementsByClassName('weight_vetting_whole_t')[a].innerHTML = 'The weighting value(s) for the service capabilities must be a positive integer'
         ErrorMessageStorage.push(true);
+    }
+    else {
+        document.getElementsByClassName('weight_vetting_whole')[a].classList.remove('govuk-input--error')
+        document.getElementsByClassName('weight_vetting_whole_t')[a].innerHTML = ''     
     }
 }
 
@@ -152,19 +161,23 @@ if(checkforEmptyBoxes.length == TotalWeightageBox.length){
     $('#service_capability_error_summary').removeClass('hide-block');
 }
 
+else if(Number.isInteger(total) && total >0)
+{
+    document.getElementById('total_weighting').innerHTML = total.toString() +' of 100% total weighting for service capabilities'
 
-
-else if(total !== 100){
-    e.preventDefault();
-    $('.govuk-error-summary__title').text('There is a problem');
-
-    $("#summary_list").html('<li><a href="#">The weighting value(s) for the service capabilities must be equal to 100%</a></li> ');
-    $([document.documentElement, document.body]).animate({
-        scrollTop: $("#summary_list").offset().top
-    }, 1000);     
-
-    $('#service_capability_error_summary').removeClass('hide-block');
+     if(total !== 100){
+        e.preventDefault();
+        $('.govuk-error-summary__title').text('There is a problem');
+    
+        $("#summary_list").html('<li><a href="#">The weighting value(s) for the service capabilities must be equal to 100%</a></li> ');
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $("#summary_list").offset().top
+        }, 1000);     
+    
+        $('#service_capability_error_summary').removeClass('hide-block');
+    }
 }
+
 else if(ErrorMessageStorage.length > 0){
     e.preventDefault();
   $('.govuk-error-summary__title').text('There is a problem');

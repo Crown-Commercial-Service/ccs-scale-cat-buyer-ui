@@ -510,6 +510,7 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
       res.redirect('/da/service-capabilities');
       
       } catch (error) {
