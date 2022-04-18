@@ -1,6 +1,8 @@
 let errorStore = [];
 let words = '';
 let char = '';
+const textPattern = /^[a-zA-Z]+$/;
+
 const condLength = (text) => {
   words = text?.trim().split(/\s+/)?.length > 500;
   char = text?.trim()?.length > 5000;
@@ -23,6 +25,10 @@ const ccsZvalidateRfpChangeStrategy = event => {
 const ccsZvalidateRfPStrategy = event => {
   event.preventDefault();
   let fieldCheck = '';
+
+  fieldCheck = ccsZisOptionChecked( "ccs_vetting_type", "Select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
   if ($('#rfp_prob_statement_t')) {
 
     if (condLength($('#rfp_prob_statement_t').val())) {
@@ -88,21 +94,25 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
-
+  
   if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined) {
+       errorStore.length = 0;
     if ($('#rfp_security_confirmation').val().length === 0) {
 
       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You must enter information here');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
-  }
-
-  if ($('#rfp_security_confirmation')) {
-
-    if (wordLength($('#rfp_security_confirmation').val())) {
-      const msg = char ? 'Entry must be <= 250 characters' : 'Entry must be <= 25 words';
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', msg, !wordLength($('#rfp_security_confirmation').val()));
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    else if(textPattern.test($('#rfp_security_confirmation').val()))
+    {
+      if (wordLength($('#rfp_security_confirmation').val())) {
+        const msg = char ? 'Entry must be <= 250 characters' : 'Entry must be <= 25 words';
+        fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', msg, !wordLength($('#rfp_security_confirmation').val()));
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }   
+    }
+    else{
+      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You must enter characters here',false);
+      if (fieldCheck !== true) errorStore.push(fieldCheck);    
     }
   }
   console.log('errorrr ', errorStore[0])
