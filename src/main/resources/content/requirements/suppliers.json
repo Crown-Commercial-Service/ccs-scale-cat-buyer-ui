@@ -21,7 +21,7 @@
     }
   ],
 
-  "title": "Look at the suppliers who will be contacted",
+  "title": "Look at the available suppliers ",
   "subtitle": "Take a look at the suppliers available on this agreement.Your oppurtunity will be sent ot all the suppliers.If they do not respond they will be not allowed to bid for your project.",
   "data": {
     "supplier": {

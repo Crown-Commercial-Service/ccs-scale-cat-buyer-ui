@@ -54,6 +54,11 @@
                    </ul>
                  {% endfor %}
                {% endif %}
+               {%  if(item.eventno==5) %}
+               <p class="govuk-body">{{item.eventDescription1}}</p>
+                <p class="govuk-body">{{item.eventDescription2}}</p>
+               {% endif %}
+
               <ul class="app-task-list__items">
                {% for Tasks in item.eventTask %}
                 <li class="app-task-list__item">
