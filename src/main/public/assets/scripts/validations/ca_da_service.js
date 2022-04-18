@@ -12,7 +12,7 @@ allListOfHeading = [...allListOfHeading].map(items => {
 })
 
 
-
+if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
 const weight_whole = $('.weight_vetting_whole');
 const weight_partial = $('.weight_vetting_partial');
