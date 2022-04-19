@@ -8,6 +8,7 @@ import {
   monthIncrementFilter,
   addDaysFilter,
   dateFilterDDMMYYYY,
+  dateFilterDD_MM_YYYY,
 } from './filters/dateFilter';
 import { stringFilter } from './filters/stringFilter';
 import { jsonFilter, jsontoStringFilter } from './filters/jsonFilter';
@@ -66,6 +67,7 @@ export class Nunjucks {
     NunjucksEnvironment.addFilter('string', stringFilter);
     NunjucksEnvironment.addFilter('KbtoMb', MemoryFormatter);
     NunjucksEnvironment.addFilter('dateddmmyyyy',dateFilterDDMMYYYY);
+    NunjucksEnvironment.addFilter('datedd_mm_yyyy',dateFilterDD_MM_YYYY);
     app.use((req, res, next) => {
       res.locals.pagePath = req.path;
       next();
