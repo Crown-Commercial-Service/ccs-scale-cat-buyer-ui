@@ -37,7 +37,6 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
           await  getChildMethod(messageReply.nonOCDS.parentId,projectId,eventId,SESSION_ID);
         }
         const appendData = {msgThreadList:messageThreadingList, data: replyData, message: messageReply, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
-        console.log(appendData);
         res.render('MessagingReply', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
