@@ -47,8 +47,7 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
             const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
             const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
 
-            const message: MessageDetails = draftMessage.data
-            req.session['msgClassification']=draftMessage.data.nonOCDS.classification;
+            const message: MessageDetails = draftMessage.data          
             const appendData = { data: inboxData, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id }
             res.render('eventManagementDetails', appendData)
         }
