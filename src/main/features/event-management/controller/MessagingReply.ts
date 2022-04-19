@@ -4,6 +4,7 @@ import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import { MessageReply } from '../model/messageReply'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import * as replyData from '../../../resources/content/event-management/messaging-reply.json'
+import { MessageDetails } from '../model/messgeDetails'
 
 export class ValidationErrors {
    
@@ -18,6 +19,7 @@ export class ValidationErrors {
  * @param req 
  * @param res 
  */
+ let messageThreadingList: MessageDetails[];
 export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     const { id } = req.session['messageID']
@@ -30,8 +32,11 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
 
         const messageReply: MessageReply = draftMessage.data
 
-
-        const appendData = { data: replyData, message: messageReply, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        if (messageReply != undefined && messageReply != null && messageReply.nonOCDS != null && messageReply.nonOCDS.parentId != null && messageReply.nonOCDS.parentId != 'null') {
+            messageThreadingList= [];
+          await  getChildMethod(messageReply.nonOCDS.parentId,projectId,eventId,SESSION_ID);
+        }
+        const appendData = {msgThreadList:messageThreadingList, data: replyData, message: messageReply, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.render('MessagingReply', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -121,4 +126,17 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
     );
     res.redirect('/message/inbox?created=false')
 }
+}
+
+//'Private Method
+async function getChildMethod(parentMessageId: string,projectId :string,eventId:string,SESSION_ID:string) {
+    const baseMessageChildURL = `/tenders/projects/${projectId}/events/${eventId}/messages/` + parentMessageId
+    const childMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageChildURL);
+    if (messageThreadingList ==undefined || messageThreadingList ==null) {
+        messageThreadingList= [];
+    }
+    messageThreadingList.push(childMessage.data);
+    if (childMessage != undefined && childMessage != null && childMessage.data.nonOCDS != null && childMessage.data.nonOCDS.parentId != 'null') {
+        getChildMethod(childMessage.data.nonOCDS.parentId,projectId,eventId,SESSION_ID);
+    }
 }
