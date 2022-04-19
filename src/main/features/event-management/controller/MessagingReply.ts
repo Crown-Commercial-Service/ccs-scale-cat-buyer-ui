@@ -9,7 +9,7 @@ import { MessageDetails } from '../model/messgeDetails'
 export class ValidationErrors {
    
     static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Subject Line has been defined'
-    static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Message Body has been defined'
+    static readonly SUBJECT_REQUIRED: string = 'Message cannot be broadcast unless a Message Body has been defined'
 }
 
 /**
@@ -57,8 +57,37 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
     const { SESSION_ID } = req.cookies
     const projectId = req.session['projectId']
     const eventId = req.session['eventId']
+    const { id } = req.session['messageID']
     try {
         const _body = req.body
+        let validationError = false
+        const errorText = [];
+
+        if (!_body.reply_subject_input) {         
+            validationError = true;
+            errorText.push({
+                text: ValidationErrors.MESSAGE_REQUIRED,
+                href: '#reply_subject_input'
+            });
+        } 
+
+        if (!_body.reply_message_input) {       
+            validationError = true
+            errorText.push({
+                text: ValidationErrors.SUBJECT_REQUIRED,
+                href: '#reply_message_input'
+            });
+        }
+        if (validationError) {
+        const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
+        const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+
+        const messageReply: MessageReply = draftMessage.data
+            const appendData = { data: replyData, message: messageReply, validationError: validationError,errorText: errorText, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+            res.render('MessagingReply', appendData)
+        }
+        else {
+
         const _requestBody = {
             "OCDS": {
                 "title": _body.reply_subject_input,
@@ -85,6 +114,7 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
                 res.redirect('/message/inbox?created=false')
             }
     }
+}
  catch (err) {
     LoggTracer.errorLogger(
         res,
