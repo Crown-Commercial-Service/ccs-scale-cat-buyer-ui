@@ -14,7 +14,7 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
   supplierList = await GetLotSuppliers(req);
   const appendData = {
     data: cmsData,
-    suppliers_list: supplierList,
+    suppliers_list: supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0),
     lotSuppliers: lotSuppliers,
     releatedContent: releatedContent,
   };
