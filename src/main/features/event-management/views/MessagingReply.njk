@@ -86,6 +86,27 @@
           
           <div class="govuk-grid-column-two-thirds">
           <a href="{{data.backlink}}">back</a></br></br></br>
+          {%if msgThreadList.length >0%}
+          {%for msgItem in msgThreadList%}
+          <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                Subject: {{msgItem.OCDS.title}}
+              </span>
+            </summary>
+            <div class="govuk-details__text">
+             <span class="govuk-details__summary-text">
+                Date: {{msgItem.OCDS.date | datedd_mm_yyyy}}
+              </span>
+            </div>
+            <div class="govuk-details__text">
+              <span class="govuk-details__summary-text">
+               Message: {{msgItem.OCDS.description}}
+              </span>
+            </div>
+        </details>
+         {% endfor %}
+        {%endif%}
        <label class="govuk-label govuk-label govuk-label--m">{{data.line1}} {{message.OCDS.author.name}}</label></br>
          
 <p class="govuk-body govuk-label govuk-label--m">{{data.MessageClassification}} : {{message.nonOCDS.classification}}</p></br>
