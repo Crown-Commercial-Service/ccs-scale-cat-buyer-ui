@@ -32,7 +32,7 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
 
         const messageReply: MessageReply = draftMessage.data
 
-        if (messageReply != undefined && messageReply != null && messageReply.nonOCDS != null && messageReply.nonOCDS.parentId != null) {
+        if (messageReply != undefined && messageReply != null && messageReply.nonOCDS != null && messageReply.nonOCDS.parentId != null && messageReply.nonOCDS.parentId != 'null') {
             messageThreadingList= [];
           await  getChildMethod(messageReply.nonOCDS.parentId,projectId,eventId,SESSION_ID);
         }
