@@ -78,11 +78,12 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
                 href: '#reply_message_input'
             });
         }
-        if (validationError) {
         const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
         const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
 
         const messageReply: MessageReply = draftMessage.data
+        if (validationError) {
+        
             const appendData = { data: replyData, message: messageReply, validationError: validationError,errorText: errorText, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
             res.render('MessagingReply', appendData)
         }
@@ -94,15 +95,14 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
                 "description": _body.reply_message_input
             },
             "nonOCDS": {
-                "isBroadcast": true,
-                "classification":  req.session['msgClassification'],
-                "parentId": "172769",
-               
-
-                "receiverList":[
-            
-                {}
-            
+                "isBroadcast": false,
+                "classification":  draftMessage.data.nonOCDS.classification,
+                "parentId": id,
+                "receiverList":[           
+                {
+                    "id":draftMessage.data.OCDS.author.id,
+                    "name":draftMessage.data.OCDS.author.name
+                }            
               ]
             
             }};
