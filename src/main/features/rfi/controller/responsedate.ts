@@ -99,7 +99,7 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
     errorSelector;
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     isValid = false;
-    error = 'You can not set a date in weekend';
+    error = 'You cannot set a date in weekend';
   }
   switch (questionId) {
     case 'Question 1':
