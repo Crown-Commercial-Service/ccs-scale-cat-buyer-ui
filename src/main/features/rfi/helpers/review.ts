@@ -119,12 +119,32 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
     for (const dataOFRFI of RFI_DATA_WITHOUT_KEYDATES) {
       for (const dataOFCRITERIAN of GROUPINCLUDING_CRITERIANID) {
         if (dataOFRFI.id === dataOFCRITERIAN.id) {
-          const formattedData = { ...dataOFRFI, criterian: dataOFCRITERIAN.criterian };
-          RFI_ANSWER_STORAGE.push(formattedData);
+          if(dataOFRFI.id=='Group 2')
+          {
+          const tempGroup2=RFI_DATA_WITHOUT_KEYDATES[1]
+          const answer_=tempGroup2.answer[1]
+          tempGroup2.answer=[];       
+          tempGroup2.answer.push(answer_)
+            const formattedData = { ...tempGroup2, criterian: dataOFCRITERIAN.criterian };
+            RFI_ANSWER_STORAGE.push(formattedData);
+          }
+          else if(dataOFRFI.id=='Group 4')
+          {
+          const tempGroup4=RFI_DATA_WITHOUT_KEYDATES[3]
+          const answer_group4=tempGroup4.answer[1]
+          tempGroup4.answer=[];       
+          tempGroup4.answer.push(answer_group4)
+            const formattedData = { ...tempGroup4, criterian: dataOFCRITERIAN.criterian };
+            RFI_ANSWER_STORAGE.push(formattedData);
+          }
+          else{
+            const formattedData = { ...dataOFRFI, criterian: dataOFCRITERIAN.criterian };
+            RFI_ANSWER_STORAGE.push(formattedData);
+          }
+         
         }
       }
     }
-
 
     let appendData = {
       rfi_data: RFI_ANSWER_STORAGE,
