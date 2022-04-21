@@ -101,6 +101,7 @@ import {RFP_GET_WORK_COMPLETED, RFP_POST_WORK_COMPLETED} from './rfp-work-comple
 
 import {RFP_GET_WEIGHTINGS, RFP_POST_WEIGHTINGS} from './rfp-enterYourWeightings'
 import {GET_EVENT_PUBLISHED} from './rfp-eventpublished'
+import {GET_RFP_REVIEW, POST_RFP_REVIEW} from './rfp-review'
 
 
 /**
@@ -248,4 +249,6 @@ export const REQUIREMENT_CONTROLLER = {
   RFP_POST_WEIGHTINGS,
   RFP_GET_WEIGHTINGS,
   GET_EVENT_PUBLISHED,
+  GET_RFP_REVIEW,
+  POST_RFP_REVIEW
 };
