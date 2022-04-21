@@ -197,4 +197,5 @@ export enum REQUIREMENT_PATHS {
 
   //RFP event publish
   GET_EVENT_PUBLISHED='/rfp/rfp-eventpublished',
+  GET_UNPUBLISHED_EVENT_MANAGEMENT='/rfp/rfp-unpublishedeventmanagement',
 }

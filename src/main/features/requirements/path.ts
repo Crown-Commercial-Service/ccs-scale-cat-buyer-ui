@@ -687,4 +687,10 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.GET_EVENT_PUBLISHED,
   );
+
+  app.get(
+    REQUIREMENT_PATHS.GET_UNPUBLISHED_EVENT_MANAGEMENT,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_UNPUBLISHED_EVENT_MANAGEMENT,
+  );
 }
