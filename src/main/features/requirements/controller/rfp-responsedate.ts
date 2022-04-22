@@ -10,8 +10,9 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
 
 export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
-  
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'In progress');
+  const { SESSION_ID } = req.cookies;
+  const proj_Id = req.session.projectId;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${proj_Id}/steps/40`, 'In progress');
   RESPONSEDATEHELPER(req, res);
 };
 
