@@ -98,9 +98,8 @@ import { RFP_GET_QUALITY_GROUP, RFP_POST_QUALITY_GROUP } from './rfp-quality_gro
 import { RFP_GET_WHERE_WORK_DONE, RFP_POST_WHERE_WORK_DONE } from './rfp-whereWorkDone';
 import {CA_GET_review, CA_POST_review} from './ca-review'
 import {RFP_GET_WORK_COMPLETED, RFP_POST_WORK_COMPLETED} from './rfp-work-completed'
-
-import {RFP_GET_WEIGHTINGS, RFP_POST_WEIGHTINGS} from './rfp-enterYourWeightings'
-
+import {RFP_GET_EVENT_PUBLISHED} from './rfp-eventpublished'
+import {RFP_GET_WEIGHTINGS, RFP_POST_WEIGHTINGS} from './rfp-enterYourWeightings';
 
 /**
  * @BaseController
@@ -245,5 +244,6 @@ export const REQUIREMENT_CONTROLLER = {
   CA_POST_review,
   CA_GET_review,
   RFP_POST_WEIGHTINGS,
-  RFP_GET_WEIGHTINGS
+  RFP_GET_WEIGHTINGS,
+  RFP_GET_EVENT_PUBLISHED
 };
