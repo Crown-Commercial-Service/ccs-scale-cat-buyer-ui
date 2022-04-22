@@ -175,6 +175,7 @@ function checkErrors(arr, range) {
   let isError = false;
   const errorText = [];
   const keys = Object.keys(...arr).map(key => key);
+  let isTotalOutOfHundred = 0;
   for (const obj of arr) {
     for (const k of keys) {
       if ((range.max < Number(obj[k]) || range.min > Number(obj[k])) && Number(obj[k]) !== 0) {
@@ -185,9 +186,12 @@ function checkErrors(arr, range) {
         isError = true;
         errorText.push({ id: k, text: 'All entry boxes must contain a value' });
       }
+      isTotalOutOfHundred += Number(obj[k]);
     }
   }
-
+  if (isTotalOutOfHundred < 100  || isTotalOutOfHundred >100) {
+    isError = true;
+  }
   return { isError, errorText };
 }
 

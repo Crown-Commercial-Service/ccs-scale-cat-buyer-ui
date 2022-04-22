@@ -247,7 +247,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       WHOLECLUSTER: WHOLECLUSTERCELLS,
       totalAdded: TotalAdded,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'In progress');
     //res.json(dataset);
     res.render('rfp-servicecapabilities.njk', windowAppendData);
   } catch (error) {
@@ -322,7 +322,8 @@ export const RFP_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: e
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Completed');
-    res.redirect('/rfp/service-capabilities');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Not started');
+    res.redirect('/rfp/where-work-done');
   } catch (error) {
     console.log(error);
     LoggTracer.errorLogger(

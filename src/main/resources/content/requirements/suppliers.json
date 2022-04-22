@@ -21,8 +21,8 @@
     }
   ],
 
-  "title": "Look at the suppliers who will be contacted",
-  "subtitle": "If you’d like to look at the details for each suppliers please visit the Search suppliers page on the main CCS website. The page will open on a new tab.",
+  "title": "Look at the available suppliers ",
+  "subtitle": "Take a look at the suppliers available on this agreement.Your oppurtunity will be sent ot all the suppliers.If they do not respond they will be not allowed to bid for your project.",
   "data": {
     "supplier": {
       "text": "suppliers can be contracted to supply products and services for this lot. Some suppliers are ",
