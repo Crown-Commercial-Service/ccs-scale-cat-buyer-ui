@@ -172,6 +172,13 @@
               {% endif %}
             </dd>
           </div>
+
+
+
+            <div class="ccs-summary-list-heading">
+              <strong> Build your Rfi <br><br></strong>
+            </div>
+
           {# {% if ccs_rfi_type == 'all_online' %}
 
             <div class="ccs-summary-list-heading">
@@ -184,7 +191,16 @@
           {%for item in rfi_data%}
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                {{item.title}}
+              {{item.title}}
+              {% if item.title=="The buying organisation" %}
+                <br/>
+                
+                {% for i in item.answer %}
+                <p class="govuk-body-s" style="font-style:normal !important;">{{i.question}}</p>
+                
+                {% endfor %}
+               
+              {% endif %}
               </dt>
               {% if data['rfi_offline_document'] | length > 0 %}
                 <dd class="govuk-summary-list__value">
@@ -192,14 +208,18 @@
         </dd>
               {% else %}
                 <dd class="govuk-summary-list__value">
+                
+                </br>
+                
                   {% for i in item.answer %}
+                  
                     {% if i.values | length > 0 %}
                       {% for answer in i.values%}
                         <p class="govuk-body-s">{{answer.value}}
                           <p>
                             <p class="govuk-body-s">{{answer.text | safe}}
                             </p>
-
+                            <br/>
                             {%endfor%}
                             {%else%}
                             <p class="govuk-body-s">You have not answered this question<p>
@@ -255,6 +275,32 @@
                               </dd>
                             </div>
 
+
+
+<div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+          Confirm which suppliers you want to approach
+        </dt>
+                          
+                                <dd class="govuk-summary-list__value">
+                                  <p class="govuk-body-s">{{suppliers_list.length}} &nbsp suppliers selected</p>
+                                </dd>
+                              
+
+                              <dd class="govuk-summary-list__actions">
+                                {% if eventStatus != "published"%}
+                                  <a class="govuk-link" href="/rfi/suppliers">
+                                    View<span class="govuk-visually-hidden">rfi additional link and documents</span>
+                                  </a>
+                                {% endif %}
+                              </dd>
+                            </div>
+
+
+            <div class="ccs-summary-list-heading">
+              <strong> Your Rfi timeline <br><br></strong>
+            </div>
+
                             {% for dates in rfi_keydates.answer%}
                               <div class="govuk-summary-list__row no-borders">
                                 <dt class="govuk-summary-list__key">
@@ -276,7 +322,6 @@
 
                                 </div>
                                 {%endfor%}
-
                               </dl>
                             </div>
                           </div>
