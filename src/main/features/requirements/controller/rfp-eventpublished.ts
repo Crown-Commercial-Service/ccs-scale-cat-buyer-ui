@@ -12,7 +12,7 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
         data: cmsData,
         projPersistID: req.session['project_name'],
         rfi_ref_no : req.session.eventId
-    }
+     }
     const { SESSION_ID } = req.cookies; //jwt
     const { projectId } = req.session;
     const {eventId} =req.session;
@@ -44,22 +44,22 @@ try {
     else{
       res.render('rfp-eventpublished.njk', appendData)
     }
-    
-  }catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Journey service - update the status failed - RFP Publish Page',
-      true,
-    );
-  }
-
+}catch (error) {
+  LoggTracer.errorLogger(
+    res,
+    error,
+    `${req.headers.host}${req.originalUrl}`,
+    null,
+    TokenDecoder.decoder(SESSION_ID),
+    'Journey service - update the status failed - RFP Publish Page',
+    true,
+  );
 }
 
+}
+    
 
+ 
 
 
 
