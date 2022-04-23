@@ -9,9 +9,13 @@ import config from 'config';
 export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId, releatedContent, isError, errorText, eventId, currentEvent } = req.session;
+  const assessmentId = req.session.currentEvent.assessmentId;
   const { data: eventData } = await TenderApi.Instance(SESSION_ID).get(
     `/tenders/projects/${projectId}/events/${eventId}`,
   );
+  const assessmentBaseUrl = `/assessments/507`;
+  const assessmentApi = await TenderApi.Instance(SESSION_ID).get(assessmentBaseUrl);
+  console.log(assessmentApi);
   const lotSuppliers =
     config.get('CCS_agreements_url') + req.session.agreement_id + ':' + req.session.lotId + '/lot-suppliers';
   const { assessmentSupplierTarget: numSuppliers } = eventData.nonOCDS;

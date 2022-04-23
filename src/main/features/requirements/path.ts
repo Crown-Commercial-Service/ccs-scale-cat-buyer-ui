@@ -212,7 +212,7 @@ export default function (app: Application): void {
   app.get(
     REQUIREMENT_PATHS.RFP_GET_RESPONSE_DATE,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    REQUIREMENT_CONTROLLER.RFP_GET_RESPONSE_DATE,//test
+    REQUIREMENT_CONTROLLER.GET_RESPONSE_DATE,
   );
 
   // /rfp/questions
@@ -406,15 +406,6 @@ export default function (app: Application): void {
   );
 
   /**
-   * @GETROUTER '/rfp/rfp-eventpublished'
-   */
-   app.get(
-    REQUIREMENT_PATHS.RFP_GET_EVENT_PUBLISHED,
-    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    REQUIREMENT_CONTROLLER.RFP_GET_EVENT_PUBLISHED,
-  );
-
-  /**
    * @POST Routes
    */
 
@@ -589,10 +580,10 @@ export default function (app: Application): void {
 
   app.post(REQUIREMENT_PATHS.DA_POST_SUBCONTRACTORS, AUTH, REQUIREMENT_CONTROLLER.DA_POST_SUBCONTRACTORS);
   // @Post '/rfp/response-date'
-  app.post(REQUIREMENT_PATHS.RFP_POST_RESPONSE_DATE, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_RESPONSE_DATE);//test
+  app.post(REQUIREMENT_PATHS.RFP_POST_RESPONSE_DATE, AUTH, REQUIREMENT_CONTROLLER.POST_RESPONSE_DATE);
 
   // @Post /rfp/add/response-date
-  app.post(REQUIREMENT_PATHS.RFP_POST_ADD_RESPONSEDATE, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_ADD_RESPONSE_DATE);//test
+  app.post(REQUIREMENT_PATHS.RFP_POST_ADD_RESPONSEDATE, AUTH, REQUIREMENT_CONTROLLER.POST_ADD_RESPONSE_DATE);
 
   app.post(REQUIREMENT_PATHS.DA_POST_SERVICE_CAPABILITIES, AUTH, REQUIREMENT_CONTROLLER.DA_POST_SERVICE_CAPABILITIES);
   app.post(
@@ -690,6 +681,4 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
   );
-
- 
 }

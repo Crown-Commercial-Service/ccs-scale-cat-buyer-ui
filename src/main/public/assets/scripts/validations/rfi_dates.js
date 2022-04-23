@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         elementSelector = `eoi_clarification_date_expanded_${element}`;
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 59;
-     let startmonthCheck = Number(value.val()) < 0;
+     let startmonthCheck = Number(value.val()) <= 0;
      if (matchValue || endmonthCheck || startmonthCheck || value == '' ) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter valid minutes");

@@ -12,8 +12,8 @@
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 {{ CCSDialog({
-  title:'If you clear the form you will lose the information that you have already entered.',
-  description:'Are you sure you want to clear the form?.',
+  title:'This action cannot be undone, please confirm that you want to progress.',
+  description:'This action will revert the form to its original stated.',
   redirect:'#',
   type:'vetting'
 }) }}
@@ -40,7 +40,6 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
-    <p class="govuk-body govuk-!-margin-bottom-7">{{subtitle}}</p>
       <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/rfp/service-capabilities" method="POST">
     {{ csrfProtection(csrf) }}    
     <div class="ccs-page-section">

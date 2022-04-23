@@ -270,8 +270,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
     };
 
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
     //res.json(StorageForSortedItems)
     res.render('rfp-vetting-weighting', windowAppendData);
   } catch (error) {
@@ -326,9 +325,7 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
 
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'Not started');
-    res.redirect('/rfp/choose-security-requirements');
+    res.redirect('/rfp/vetting-weighting');
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(

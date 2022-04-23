@@ -5,7 +5,6 @@ import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import { MessageDetails } from '../model/messgeDetails'
 import * as inboxData from '../../../resources/content/event-management/event-management-message-details.json'
-import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 /**
  * 
@@ -16,41 +15,18 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
  */
 export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
-    const { id,attachmentId } = req.query
+    const { id } = req.query
     const projectId = req.session['projectId']
     const eventId = req.session['eventId']
-    req.session['messageID']=req.query
     try {
         res.locals.agreement_header = req.session.agreement_header
-        if(attachmentId !== undefined)
-        {
-            const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/messages/${id}/attachments/${attachmentId}`;
-      
-            const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
-                responseType: 'arraybuffer',
-            });
-            const file = FetchDocuments;
-            const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
-            const fileData = file.data;
-            const type = file.headers['content-type'];
-            const ContentLength = file.headers['content-length'];
-            res.status(200);
-            res.set({
-                'Cache-Control': 'no-cache',
-                'Content-Type': type,
-                'Content-Length': ContentLength,
-                'Content-Disposition': 'attachment; filename=' + fileName,
-            });
-            res.send(fileData);
-        }
-        else{
-            const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
-            const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
+        const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
+        const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
 
-            const message: MessageDetails = draftMessage.data          
-            const appendData = { data: inboxData, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id }
-            res.render('eventManagementDetails', appendData)
-        }
+        const message: MessageDetails = draftMessage.data
+
+        const appendData = { data: inboxData, messageDetails: message }
+        res.render('eventManagementDetails', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
             res,
