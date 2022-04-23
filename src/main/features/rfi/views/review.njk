@@ -148,7 +148,7 @@
           </div>
         </dl>
 
-        <h2 class="govuk-heading-m">2. Build your Request for Information (RfI) </h2>
+        <h2 class="govuk-heading-m">2. Build your Rfi </h2>
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
@@ -172,10 +172,17 @@
               {% endif %}
             </dd>
           </div>
+
+
+
+            <div class="ccs-summary-list-heading">
+              <strong> Build your Rfi <br><br></strong>
+            </div>
+
           {# {% if ccs_rfi_type == 'all_online' %}
 
             <div class="ccs-summary-list-heading">
-              <strong> The buying organisation (Optional)</strong>
+              <strong> Buying organisation (Optional)</strong>
             </div>
 
           {% else %} #}
@@ -184,7 +191,16 @@
           {%for item in rfi_data%}
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                {{item.title}}
+              {{item.title}}
+              {% if item.title=="The buying organisation" %}
+                <br/>
+                
+                {% for i in item.answer %}
+                <p class="govuk-body-s" style="font-style:normal !important;">{{i.question}}</p>
+                
+                {% endfor %}
+               
+              {% endif %}
               </dt>
               {% if data['rfi_offline_document'] | length > 0 %}
                 <dd class="govuk-summary-list__value">
@@ -192,14 +208,18 @@
         </dd>
               {% else %}
                 <dd class="govuk-summary-list__value">
+                
+                </br>
+                
                   {% for i in item.answer %}
+                  
                     {% if i.values | length > 0 %}
                       {% for answer in i.values%}
                         <p class="govuk-body-s">{{answer.value}}
                           <p>
                             <p class="govuk-body-s">{{answer.text | safe}}
                             </p>
-
+                            <br/>
                             {%endfor%}
                             {%else%}
                             <p class="govuk-body-s">You have not answered this question<p>
@@ -255,6 +275,32 @@
                               </dd>
                             </div>
 
+
+
+<div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+          Confirm which suppliers you want to approach
+        </dt>
+                          
+                                <dd class="govuk-summary-list__value">
+                                  <p class="govuk-body-s">{{suppliers_list.length}} &nbsp suppliers selected</p>
+                                </dd>
+                              
+
+                              <dd class="govuk-summary-list__actions">
+                                {% if eventStatus != "published"%}
+                                  <a class="govuk-link" href="/rfi/suppliers">
+                                    View<span class="govuk-visually-hidden">rfi additional link and documents</span>
+                                  </a>
+                                {% endif %}
+                              </dd>
+                            </div>
+
+
+            <div class="ccs-summary-list-heading">
+              <strong> Your Rfi timeline <br><br></strong>
+            </div>
+
                             {% for dates in rfi_keydates.answer%}
                               <div class="govuk-summary-list__row no-borders">
                                 <dt class="govuk-summary-list__key">
@@ -269,14 +315,13 @@
                                   <dd class="govuk-summary-list__actions">
                                     {% if eventStatus != "published"%}
                                       <a class="govuk-link" href="/rfi/response-date">
-           Change <span class="govuk-visually-hidden"> rfi response dates</span>
+           Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                                       </a>
                                     {% endif %}
                                   </dd>
 
                                 </div>
                                 {%endfor%}
-
                               </dl>
                             </div>
                           </div>
@@ -305,7 +350,7 @@
                                     <path fill-rule="evenodd" clip-rule="evenodd"
             d="M0 1.77778C0 1.34823 0.335786 1 0.75 1H5.00286C6.23012 1 7.31979 1.61142 8.00393 2.55666C8.68803 1.61146 9.77766 1 11.005 1H15.25C15.6642 1 16 1.34823 16 1.77778V12.6667C16 13.0962 15.6642 13.4445 15.25 13.4445H10.7426C10.1459 13.4445 9.57361 13.6903 9.15165 14.1279L8.53033 14.7722C8.23744 15.0759 7.76256 15.0759 7.46967 14.7722L6.84835 14.1279C6.42639 13.6903 5.8541 13.4445 5.25736 13.4445H0.75C0.335786 13.4445 0 13.0962 0 12.6667V1.77778ZM8.755 4.8889C8.755 3.60023 9.76236 2.55556 11.005 2.55556H14.5V11.8889H10.7426C10.0326 11.8889 9.34339 12.0978 8.75124 12.4825L8.755 4.8889ZM7.25124 12.4842L7.255 7.22297L7.25285 4.88668C7.25167 3.59887 6.24466 2.55556 5.00286 2.55556H1.5V11.8889H5.25736C5.96836 11.8889 6.65854 12.0983 7.25124 12.4842Z"
             fill="#505A5F"/>
-                                  </svg>&nbsp;&nbsp;<a href="#" onclick="return false;"  class="govuk-link govuk-link--no-visited-state"> link 1</a>
+                                  </svg>&nbsp;&nbsp;<a target="_blank" href="https://www.crowncommercial.gov.uk/terms-and-conditions" onclick="return false;"  class="govuk-link govuk-link--no-visited-state">Terms and Conditions</a>
                                 </span>
                                 <br>
 

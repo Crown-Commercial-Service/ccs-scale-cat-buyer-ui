@@ -368,10 +368,10 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               let splterm = req.body.term;
               let splTermvalue = req.body.value;
               const TAStorage = [];
-              splterm = splterm.filter((akeyTerm: any) => akeyTerm !== '');
-              splTermvalue = splTermvalue.filter((aKeyValue: any) => aKeyValue !== '');
+              splterm = splterm?.filter((akeyTerm: any) => akeyTerm !== '');
+              splTermvalue = splTermvalue?.filter((aKeyValue: any) => aKeyValue !== '');
 
-              for (let item = 0; item < splterm.length; item++) {
+              for (let item = 0; item < splterm?.length; item++) {
                 const spltermObject = { value: splterm[item], text: splTermvalue[item], selected: true };
                 TAStorage.push(spltermObject);
               }

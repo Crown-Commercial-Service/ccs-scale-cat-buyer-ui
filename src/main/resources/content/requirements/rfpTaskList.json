@@ -23,7 +23,7 @@
   "events": [
     {
       "eventno": 1,
-      "eventTitle": "Project and collaborators",
+      "eventTitle": "Project and colleagues",
       "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
       "eventTask": [
         {
@@ -51,19 +51,19 @@
     },
     {
       "eventno": 2,
-      "eventTitle": "Upload pricing schedules and any other supporting documentation",
-      "eventDescription": "[description of this section]",
+      "eventTitle": "Upload pricing schedules and any other supporting documents",
+      "eventDescription": "In this section you can upload pricing schedule and other ssupporting documents.You will also need to confirm if the IR35 payrollworking rules apply to your contracts.",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Upload pricing schedules and any other supporting documentation",
+          "title": "Upload your pricing schedules ",
           "required": "mandatory",
           "link": "/rfp/upload",
           "status": "Todo"
         },
         {
           "Task": 2,
-          "title": "IR35 acknowledgement",
+          "title": "Confirm if the IR35 payroll working rules apply to your contractors",
           "required": "optional",
           "link": "/rfp/IR35",
           "status": "Cannot start yet"
@@ -72,8 +72,15 @@
     },
     {
       "eventno": 3,
-      "eventTitle": "Context and requirements to your 1-stage further competition",
-      "eventDescription": "[description of this section]",
+      "eventTitle": "Add context to your one-stage further competition",
+      "eventDescription": "You may also  consider including the following",
+      "eventdescriptionlist":[{
+              "description1":"product road-maps and the expected life cycle of the project",
+              "description2":"total cost of ownership including running cost",
+              "description3":"compatability with the other in-house system",
+              "description4":"your budget",
+              "description5":"current and possible future scale of the requirement"
+      }],
       "eventTask": [
         {
           "Task": 1,
@@ -86,29 +93,29 @@
     },
     {
       "eventno": 4,
-      "eventTitle": "Additional requirements",
-      "eventDescription": "[description of this section]",
+      "eventTitle": "People,skills,security and location",
+      "eventDescription": "Specify the roles and skills you need, and where you need these people to be based.You will also be asked to set out your security and vetting requirements",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Define resource types and quantity",
+          "title": "Choose the roles you need",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/vetting-weighting"
         },
         {
           "Task": 2,
-          "title": "Choose highest security and vetting requirements",
+          "title": "Set your highest security and vetting requirements",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfp/choose-security-requirements"
         },
         {
           "Task": 3,
-          "title": "Select your service capabilities",
+          "title": "Select essential skills and capabilities",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/service-capabilities"
         },
         {
           "Task": 4,
@@ -121,12 +128,13 @@
     },
     {
       "eventno": 5,
-      "eventTitle": "Your assessment bases and evaluation weightings ",
-      "eventDescription": "[description of this section]",
+      "eventTitle": "Your assessment criteria ",
+      "eventDescription1": "Decide and explain how will you assess and evaluate application.",
+      "eventDescription2":"When running a futher competition,you must award the contract on the basis of the most economically advantageous tender(MEAT) and make it clear to suppliers how their bids will be evaluated.",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Your assessment bases and evaluation weightings",
+          "title": "Set your assessment criteria and evaluation weightings",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfp/your-assesstment"
@@ -136,41 +144,42 @@
           "title": "Set your scoring criteria",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/scoring-criteria"
         }
       ]
     },
     {
       "eventno": 6,
-      "eventTitle": "Review and publish your 1-stage RFP ",
-      "eventDescription": "[description of this section]",
+      "eventTitle": "Review and publish your one-stage further competition ",
+      "eventDescription": "Review your one stage further competition,ensuring that you have included all relevant context,requirements,evaluation criteria and weightings. ",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Look at the suppliers for this further competition",
+          "title": "See the available suppliers",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "/rfp/upload-doc"
+          "link": "/rfp/suppliers"
         },
         {
           "Task": 2,
-          "title": "Set response date and time ",
+          "title": "Your timeline ",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/response-date"
         },
         {
           "Task": 3,
-          "title": "Review and publish your 1-stage RFP",
+          "title": "Review and publish your one-stage further competition",
           "required": "mandatory",
           "status": "Cannot start yet",
-          "link": "#"
+          "link": "/rfp/rfp-eventpublished"
         }
       ]
     }
   ],
   "form": {
-    "question": "[instructions for this page]",
+    "question1": "Write and publish your bid pack for suppliers, who can then submit your responses and complete any other evaluation task.",
+    "question2":"You will need to provide a clear set of criteria and explain how you will score responses",
     "backJump": {
       "title": "Return to procurement overview",
       "href": "/projects/create-or-choose"
