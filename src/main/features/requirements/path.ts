@@ -406,6 +406,15 @@ export default function (app: Application): void {
   );
 
   /**
+   * @GETROUTER '/rfp/rfp-eventpublished'
+   */
+   app.get(
+    REQUIREMENT_PATHS.RFP_GET_EVENT_PUBLISHED,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_EVENT_PUBLISHED,
+  );
+
+  /**
    * @POST Routes
    */
 
