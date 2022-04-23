@@ -691,9 +691,5 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
   );
 
-  app.get(
-    REQUIREMENT_PATHS.GET_EVENT_PUBLISHED,
-    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    REQUIREMENT_CONTROLLER.GET_EVENT_PUBLISHED,
-  );
+ 
 }
