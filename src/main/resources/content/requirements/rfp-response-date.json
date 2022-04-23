@@ -17,17 +17,13 @@
         "href": "/rfp/task-list"
         },
         {
-        "text": "Your timeline"
+        "text": "Set Response date and time"
         }
     ],
 
-    "title": "Your timeline",
-    "subtitle": "A suggested timeline of 10 working days is already entered below.This takes the process upto when the suppliers have submitted their responses, and allows a further six working days for you to decide what to do next and confirm that to the suppliers",
-    "subtitle1":"There are:",
-    "subtitle2":"The clarification period is when the suppliers can ask you further questions before submitting their information.You must meet the deadline you set for responding their question.",
-    
-    
-    "backJump": {
+    "title": "Set response date and time",
+    "subtitle": null,
+        "backJump": {
             "title": "Return to Write and publish your requirements",
             "href": "/rfp/task-list"
         },

@@ -32,7 +32,7 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => 
  */
 const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
   const element = document.getElementById(elementName);
-  if (element.value && element.value.trim().length > 0 && valid) {
+  if (element.value.trim().length > 0 && valid) {
     ccsZremoveErrorMessage(element);
   }
   else {
@@ -291,7 +291,7 @@ const ccsZPresentErrorSummary = (errorStore) => {
   errorStore.forEach((errDetail) => {
     let errListItem = document.createElement("li"),
       errAnchorItem = document.createElement("a")
-    let errItemText = document.createTextNode(errDetail[1]);
+    errItemText = document.createTextNode(errDetail[1]);
 
     errAnchorItem.setAttribute("href", "#" + errDetail[0]);
     errAnchorItem.appendChild(errItemText);

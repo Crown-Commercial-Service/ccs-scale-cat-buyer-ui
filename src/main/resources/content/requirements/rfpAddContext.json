@@ -147,8 +147,7 @@
     }
   ],
   "form": {
-    "question1": "Click on the section below to enter details about your procurement.The more detailed information you give the more you will help suppliers understand what you need",
-    "question2":"Some sections are optional",
+    "question": "[instructions for this page]",
     "backJump": {
       "title": "Return to Write and publish your requirements",
       "href": "/rfp/task-list"

@@ -23,18 +23,6 @@
       }) }}
     {% endif %}
 
-    {% if (error)%}
-      {{ CCSErrorSummary({
-        titleText: "There is a problem",
-        errorList: [
-          {
-            text: "At least a T&Cs is required to be uploaded",
-            href: "#rfp_offline_document"
-          }
-        ]
-      }) }}
-    {% endif %}
-
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">
@@ -49,11 +37,6 @@
           {% include "includes/project_header.njk" %}
 
           <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
-          <ul type="disc">
-          <li>{{data.subtitle1}}</li>
-          <li>{{data.subtitle2}}</li>
-          <li>{{data.subtitle3}}</li>
-          </ul>
           <div id="upload_doc_form">
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full" id="documents_upload">
@@ -81,7 +64,7 @@
                             </div>
                             <div class="govuk-grid-column-one-third">
                               <p>
-                                <a class="app-task-list__tag" href="/rfp/files/remove?file_id={{file.id}}" aria-describedby="rfp-upload">remove</a>
+                                <a class="app-task-list__tag" href="/rfp/files/remove?file={{file.name}}" aria-describedby="rfp-upload">remove</a>
                               </p>
                             </div>
                           </div>

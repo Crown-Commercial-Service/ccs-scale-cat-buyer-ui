@@ -7,68 +7,21 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 
 export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { releatedContent, isError, errorText, dimensions,currentEvent,projectId } = req.session;
-  // const { projectId } = req.session;
-  const { assessmentId } = currentEvent;
-  //const assessmentId = 13;
-  const extToolId=2;
+  const { releatedContent, isError, errorText, currentEvent } = req.session;
 
- 
+  //const { assessmentId } = currentEvent;
+  const assessmentId = 13;
+
   const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
   try {
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
 
-    const { dimensionRequirements } = assessments;
+    const { 'external-tool-id': extToolId, dimensionRequirements } = assessments;
 
     let selectedOption;
     if (dimensionRequirements.length > 0) {
-      if(dimensionRequirements[0].requirements.length>0)
-      {
       selectedOption = dimensionRequirements[0].requirements[0].values[0].value;
       data.form.radioOptions.items.find(item => item.value === selectedOption).checked = true;
-      if(dimensionRequirements[0].requirements[0].weighting>0)
-      {
-        data.form.question=dimensionRequirements[0].requirements[0].weighting;
-      }
-     }
-    }
-    //if no dimensionRequirements available in current assignment, update the same 
-    else{
-      try {    
-          const Dimensionreqbody = {
-            name: "Security Clearance",
-            weighting: 40,
-            "dimension-id": 2,
-            requirements: [ ],
-            includedCriteria: [
-              { 
-                'criterion-id': '0',
-            	  name: "Supplier",
-                type: "select",
-                options: [
-                        "4: Dveloped Vetting (DV)",
-                        "1: Baseline Personnel Security Standard (BPSS)",
-                        "3: Security Check (SC)",
-                        "0: None",
-                        "2: Counter Terrorist Check (CTC)" 
-            ]
-          }]
-          };
-         await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`,
-            Dimensionreqbody,
-          );
-        
-      }  catch (error) {
-        LoggTracer.errorLogger(
-          res,
-          error,
-          `${req.headers.host}${req.originalUrl}`,
-          null,
-          TokenDecoder.decoder(SESSION_ID),
-          'update the status failed - RFP choose security requirement Page',
-          true,
-        );
-      }
     }
 
     const DIMENSION_BASEURL = `assessments/tools/${extToolId}/dimensions`;
@@ -82,7 +35,6 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
     const appendData = { ...data, releatedContent, isError, errorText };
 
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
     res.render('rfp-chooseSecurityRequirements', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -97,30 +49,26 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
   }
 };
 
-function checkErrors(selectedNumber, resources) {
+function checkErrors(selectedNumber) {
+  let isError = false;
   let errorText = [];
- // const selectedNumber = selected ? selected.replace(/[^0-9.]/g, '') : null;
 
   if (!selectedNumber) {
+    isError = true;
     errorText.push({ text: 'You must provide a security clearance level before proceeding' });
-  } else if (selectedNumber && ['1','2', '3', '4'].includes(selectedNumber) && !resources) {
-    errorText.push({ text: 'A Quantity must be specified' });
-  } else if (selectedNumber && ['1','2', '3', '4'].includes(selectedNumber) && resources < 0) {
-    errorText.push({ text: 'A Quantity must be between 0 to [Quantity] - 1' });
   }
-  const isError = errorText.length > 0;
+
   return { isError, errorText };
 }
 
 export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId, releatedContent, currentEvent } = req.session;
-  const { assessmentId } = currentEvent;
-  //const assessmentId = 13;
+  //const { assessmentId } = currentEvent;
+  const assessmentId = 13;
   const { ccs_rfp_choose_security: selectedValue, ccs_rfp_resources } = req.body;
-  const selectedresourceNumber = selectedValue ? selectedValue.replace(/[^0-9.]/g, '') : null;
-  const resources= ccs_rfp_resources[selectedresourceNumber-1];
-  const { isError, errorText } = checkErrors(selectedresourceNumber,resources);
+  const resources = ccs_rfp_resources.filter(elem => elem != '')[0];
+  const { isError, errorText } = checkErrors(selectedValue);
   if (isError) {
     req.session.errorText = errorText;
     req.session.isError = isError;
@@ -130,8 +78,8 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
       const requirementsData = [
         {
           name: 'Performance analysis and data',
-          'requirement-id': 101,
-          weighting: resources,
+          'requirement-id': 1,
+          weighting: 100,
           values: [
             {
               'criterion-id': '0',
@@ -143,15 +91,14 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
 
       const body = {
         name: 'Security Clearance',
-        'dimension-id': 2,
-        weighting: 40,
+        'requirement-id': 1,
+        weighting: 100,
         includedCriteria: [{ 'criterion-id': '0' }],
         requirements: requirementsData,
       };
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Not started');
       await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
-      res.redirect('/rfp/service-capabilities');
+      res.redirect('/rfp/task-list');
     } catch (error) {
       LoggTracer.errorLogger(
         res,
