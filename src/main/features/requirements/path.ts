@@ -406,6 +406,15 @@ export default function (app: Application): void {
   );
 
   /**
+   * @GETROUTER '/rfp/rfp-eventpublished'
+   */
+   app.get(
+    REQUIREMENT_PATHS.RFP_GET_EVENT_PUBLISHED,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_EVENT_PUBLISHED,
+  );
+
+  /**
    * @POST Routes
    */
 
@@ -681,13 +690,7 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.DA_POST_RESOURCES_VETTING_WEIGHTINGS,
   );
-
-  app.get(
-    REQUIREMENT_PATHS.GET_EVENT_PUBLISHED,
-    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    REQUIREMENT_CONTROLLER.GET_EVENT_PUBLISHED,
-  );
-
   app.get(REQUIREMENT_PATHS.RFP_GET_REMOVE_FILES, AUTH, REQUIREMENT_CONTROLLER.RFP_GET_REMOVE_FILES);
   app.get(REQUIREMENT_PATHS.RFP_GET_REMOVE_FILES_ATTACHMENT, AUTH, REQUIREMENT_CONTROLLER.RFP_GET_REMOVE_FILES_ATTACHMENT);
+ 
 }
