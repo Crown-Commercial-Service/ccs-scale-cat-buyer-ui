@@ -164,7 +164,7 @@
           "title": "Review and publish your 1-stage RFP",
           "required": "mandatory",
           "status": "Cannot start yet",
-          "link": "/rfp/rfp-eventpublished"
+          "link": "#"
         }
       ]
     }
