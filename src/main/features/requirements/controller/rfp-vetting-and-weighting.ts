@@ -38,7 +38,8 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     error: isJaggaerError,
   };
   try {
-    const assessmentId = 1;
+   // const assessmentId = 1;
+   const { assessmentId } = currentEvent;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
@@ -291,7 +292,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
 export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,currentEvent } = req.session;
 
   const { SFIA_weightage, requirement_Id_SFIA_weightage } = req.body;
 
@@ -316,7 +317,8 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
   };
 
   try {
-    const assessmentId = 1;
+    //const assessmentId = 1;
+    const { assessmentId } = currentEvent;
     const CAPACITY_BASEURL = `assessments/tools/1/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
