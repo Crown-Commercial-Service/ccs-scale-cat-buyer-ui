@@ -30,7 +30,7 @@ export const SELECTED_AGREEMENT = async (req: express.Request, res: express.Resp
     releatedContent.title = 'Related content';
     req.session.releatedContent = releatedContent;
     req.session.selectedRoute = null;
-
+    req.session.choosenViewPath=null;
     res.redirect('/projects/create-or-choose');
   } catch (err) {
     LoggTracer.errorLogger(

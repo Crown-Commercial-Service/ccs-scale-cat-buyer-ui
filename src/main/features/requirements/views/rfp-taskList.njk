@@ -32,7 +32,9 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
 
-        <p class="govuk-body">{{ data.form.question }}</p>
+        <p class="govuk-body">{{ data.form.question1 }}</p>
+        <br>
+         <p class="govuk-body">{{ data.form.question2 }}</p>
 
                <ol class="app-task-list">
     {% for item in data.events %}
@@ -41,6 +43,22 @@
             <span class="app-task-list__section-number">{{item.eventno}} </span> {{item.eventTitle}}
              </h2>
              <p class="govuk-body">{{item.eventDescription}}</p>
+               {% if (item.eventno==3) %}
+                 {% for description in item.eventdescriptionlist %}
+                   <ul type="disc">
+                      <li>{{description.description1}}</li>
+                      <li>{{description.description2}}</li>
+                      <li>{{description.description3}}</li>
+                      <li>{{description.description4}}</li>
+                      <li>{{description.description5}}</li><br>
+                   </ul>
+                 {% endfor %}
+               {% endif %}
+               {%  if(item.eventno==5) %}
+               <p class="govuk-body">{{item.eventDescription1}}</p>
+                <p class="govuk-body">{{item.eventDescription2}}</p>
+               {% endif %}
+
               <ul class="app-task-list__items">
                {% for Tasks in item.eventTask %}
                 <li class="app-task-list__item">
