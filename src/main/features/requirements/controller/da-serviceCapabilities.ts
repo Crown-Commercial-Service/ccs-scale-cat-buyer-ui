@@ -337,6 +337,9 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
+    const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
+    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
+
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     let CAPACITY_DATASET = CAPACITY_DATA.data;
@@ -492,7 +495,7 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     
     
      const PUT_BODY = {
-      "weighting": 0, 
+      "weighting": Service_capbility_weightage, 
       "includedCriteria": [],
       "overwriteRequirements": true,
       "requirements": MappedWholeAndPartialCluster

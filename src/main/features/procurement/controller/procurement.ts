@@ -106,7 +106,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
       }
     });
 
-    if (req.session.selectedRoute !== undefined && req.session.choosenViewPath !== undefined) {
+    if ((req.session.selectedRoute !== undefined && req.session.selectedRoute !== null )|| (req.session.choosenViewPath !== undefined && req.session.choosenViewPath !== null)) {
       let path;
       if (req.session.selectedRoute === 'FCA') {
         path = 'ca';
@@ -114,7 +114,11 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         path = 'da';
       }
       const objIndex = appendData.events.findIndex(obj => obj.eventno === 3);
-      appendData.events[objIndex].href = `/${path}/task-list?path=${req.session.choosenViewPath}`;
+      if (path == undefined) {
+        appendData.events[objIndex].href = "/requirements/choose-route";
+      } else {
+        appendData.events[objIndex].href = `/${path}/task-list?path=${req.session.choosenViewPath}`;
+      }
     }
 
     const lotid = req.session?.lotId;

@@ -453,15 +453,15 @@
                               <div class="govuk-form-group yeswho">
                                 {{ CCSInput({
                                       label: {
-                                        text: "[ How many resources need a lower security and vetting requirement?]",
+                                        text: "[ Please enter the name of the incumbent supplier]",
                                         classes: "govuk-label govuk-date-input__label",
                                         for: "rfp_security_confirmation"
                                       },
                                       id: "rfp_security_confirmation",
                                       name: "rfp_security_confirmation",
                                       classes: "govuk-input govuk-!-width-one-third",
-                                      type: "number", 
-                                      inputmode:"numeric",
+                                      type: "text", 
+                                      
                                       min: "0"
                                   }) }}
                               </div>
@@ -798,7 +798,6 @@
                           {% else %}
                             {% set titleText = requirement.OCDS.title %}
                           {% endif %}
-                                ]
                         {{ CCSInput({
                             label: {
                               text: titleText,
