@@ -22,40 +22,6 @@ export function dateFilter (value: moment.Moment | string): string {
       throw err
     }
   }
-
-  export function dateFilterDDMMYYYY (value: moment.Moment | string): string {
-    try {
-      if (!value || !(typeof value === 'string' || value instanceof moment)) {
-        throw new Error('Input should be moment or string, cannot be empty')
-      }
-  
-      const date: moment.Moment = typeof value === 'string' ? moment(value) : value
-      if (!date.isValid()) {
-        throw new Error('Invalid date')
-      }
-      return DateFormater.formatDateDDMMYYYY(date)
-    } catch (err) {
-      logger.console.error(err);      
-      throw err
-    }
-  }
-
-  export function dateFilterDD_MM_YYYY (value: moment.Moment | string): string {
-    try {
-      if (!value || !(typeof value === 'string' || value instanceof moment)) {
-        throw new Error('Input should be moment or string, cannot be empty')
-      }
-  
-      const date: moment.Moment = typeof value === 'string' ? moment(value) : value
-      if (!date.isValid()) {
-        throw new Error('Invalid date')
-      }
-      return DateFormater.formatDateDD_MM_YYYY(date)
-    } catch (err) {
-      logger.console.error(err);      
-      throw err
-    }
-  }
   
   export function dateInputFilter (value: moment.Moment | string): string {
     try {

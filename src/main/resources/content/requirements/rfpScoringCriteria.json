@@ -23,15 +23,15 @@
   ],
 
   "title": "Set your scoring criteria",
-  "inset1": "You must tell suppliers what scoring criteria you are using to evaluate their responses.You must also use this scoring criteria for all suppliers,to make sure you have evaluated them fairly.",
-  "inset2": "You can select one of the two scoring criteria below or use one of the existingscoring criteria to create your own.",
+  "inset1": "[ Instructions for this page ]",
+  "inset2": "You can create your scoring criteria from scratch or use / modify the 4-tier or 5-tier templates below",
   "subtitle": "Create your scoring criteria",
-  "subInset1": "Select one of the two options below orenter the details for your own scoring criteria",
-  "subInset2": "If you wnat to use the 4 or 5 level scoring criteria,select the option you want and then click 'save and continue'.",
+  "subInset1": "[ Please fill in the form below, or use the provided options to use or modify a pre-defined set of scoring criteria. ]",
+  "subInset2": "[ Please note that the minimum number of tiers is 2 and the maximum number of tiers is 10 ].",
   "tables": [
     {
-      "title": "4-tier scoring criteria",
-      "head": [{ "text": "Level" }, { "text": "Score" }, { "text": "Description" }],
+      "title": "4-tier scoring template",
+      "head": [{ "text": "Marking scheme" }, { "text": "Points" }, { "text": "Description" }],
       "rows": [
         [
           { "text": "Good", "classes": "govuk-!-width-one-quarter" },
@@ -68,8 +68,8 @@
       ]
     },
     {
-      "title": "5-tier scoring criteria",
-      "head": [{ "text": "Level" }, { "text": "Score" }, { "text": "Description" }],
+      "title": "5-tier scoring template",
+      "head": [{ "text": "Marking scheme" }, { "text": "Points" }, { "text": "Description" }],
       "rows": [
         [
           { "text": "Excellent", "classes": "govuk-!-width-one-quarter" },
@@ -116,20 +116,20 @@
   ],
   "events": {
     "name": {
-      "text": "Enter the name for this level",
-      "description": "Use the words that best reflect the scoring level,and that can be used alongside other criteria.For example 'pass' or 'fail',or 'excellent','good','poor'",
+      "text": "Enter the name for this tier",
+      "description": "[ Description for this option ]",
       "class": "govuk-label--m",
       "inputClass": "govuk-input--width-20"
     },
     "point": {
-      "text": "Enter the points for this level",
-      "description": "Make sure your scoring system dosen;t overlap or cause confusion.Uss whole numbers.",
+      "text": "Enter the points for this tier",
+      "description": "[ Description for this option ]",
       "class": "govuk-label--m",
       "inputClass": "govuk-input--width-3"
     },
     "description": {
-      "text": "Enter the description for this level",
-      "description": "Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed",
+      "text": "Enter the description for this tier",
+      "description": "[ Description for this option ]",
       "class": "govuk-label--m"
     }
   },

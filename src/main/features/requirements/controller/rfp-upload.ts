@@ -21,7 +21,7 @@ let tempArray = [];
 
 export const RFP_GET_UPLOAD_DOC: express.Handler = (req: express.Request, res: express.Response) => {
   FILEUPLOADHELPER(req, res, false, null);
-  };
+};
 
 /**
  *
