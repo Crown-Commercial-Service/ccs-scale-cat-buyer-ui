@@ -74,6 +74,8 @@ export const FILEUPLOADHELPER: express.Handler = async (
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
+      if (windowAppendData.files['length'] ==0)
+        req.session['isTcUploaded'] = false;
       if (selectedRoute === 'FC') selectedRoute = 'RFP';
       res.render(`${selectedRoute.toLowerCase()}-uploadDocument`, windowAppendData);
     } catch (error) {

@@ -47,7 +47,8 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_DOC = '/rfp/upload-doc',
   RFP_POST_UPLOAD_PROCEED = '/rfp/upload-doc/proceed',
-
+  RFP_GET_REMOVE_FILES = '/rfp/files/remove',
+  RFP_GET_REMOVE_FILES_ATTACHMENT = '/rfp/files-att/remove',
   RFP_GET_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
   RFP_POST_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
 
@@ -194,7 +195,6 @@ export enum REQUIREMENT_PATHS {
 
   CA_GET_REVIEW = '/ca/review',
   CA_POST_REVIEW = '/ca/review',
-
-  //RFP event publish
-  GET_EVENT_PUBLISHED='/rfp/rfp-eventpublished',
+ 
+  RFP_GET_EVENT_PUBLISHED='/rfp/rfp-eventpublished',
 }

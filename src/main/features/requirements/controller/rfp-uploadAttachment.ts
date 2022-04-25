@@ -125,6 +125,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
               ...formHeaders,
             },
           });
+          req.session['isTcUploaded'] = true
           res.redirect(`/${selRoute}/upload-attachment`);
         } catch (error) {
           delete error?.config?.['headers'];
@@ -156,12 +157,26 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
   } else res.render('error/500');
 };
 
-export const RFP_GET_REMOVE_ATTACHMENT_FILES = (express.Handler = (req: express.Request, res: express.Response) => {
-  const { file } = req.query;
-  let { selectedRoute } = req.session;
-  if (selectedRoute === 'FC') selectedRoute = 'RFP';
-  tempArray = tempArray.filter(afile => afile.name !== file);
-  res.redirect(`/rfp/upload-attachment`);
+export const RFP_GET_REMOVE_FILES_ATTACHMENT = (express.Handler = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies //jwt
+  const { projectId } = req.session
+  const EventId = req.session['eventId']
+  const { file_id } = req.query
+  const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
+  try {
+    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    res.redirect(`/rfp/upload-attachment`)
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Remove document failed',
+      true,
+    );
+  }
 });
 
 export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
