@@ -10,4 +10,6 @@ export enum EVENT_MANAGEMENT_PATHS {
     POST_EVENT_MANAGEMENT_NEXT_STEP = '/event/next',
     EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = '/message/details',
     POST_EVENT_MANAGEMENT_MESSAGE_DETAILS = '/message/details',
+    EVENT_MANAGEMENT_MESSAGE_REPLY='/message/reply',
+    POST_EVENT_MANAGEMENT_MESSAGE_REPLY='/message/reply',
 }

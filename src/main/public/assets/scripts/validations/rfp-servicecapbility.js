@@ -1,6 +1,6 @@
 
 const totalElement = $('.ons-list__link').length;
-
+if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 var arrayOfHeadings = [];
 for(var a =0; a < totalElement; a++){
 
