@@ -167,9 +167,12 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   let timeinHoursBased = 0;
   if (clarification_date_hourFormat == 'AM') {
     timeinHoursBased = Number(clarification_date_hour);
-  } else {
-    timeinHoursBased = Number(clarification_date_hour) + 12;
+  } else if (clarification_date_hourFormat == 'PM' && clarification_date_hour == 12) {
+    timeinHoursBased = Number(clarification_date_hour) ;
   }
+else {
+  timeinHoursBased = Number(clarification_date_hour) + 12;
+}
 
   let date = new Date(
     clarification_date_year,
