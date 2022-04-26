@@ -37,7 +37,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     error: isJaggaerError,
   };
 
-  const assessmentId = 1;
+  const assessmentId = req.session.currentEvent.assessmentId;
   try {
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
@@ -308,7 +308,7 @@ export const RFP_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: e
   };
 
   try {
-    const assessmentId = 1;
+    const assessmentId = req.session.currentEvent.assessmentId;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
