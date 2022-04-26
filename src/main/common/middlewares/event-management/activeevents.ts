@@ -38,7 +38,7 @@ export class EventEngagementMiddleware {
         const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) => (a.projectId < b.projectId) ? 1 : -1)
         for (let i = 0; i < events.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
-          if (events[i].activeEvent.status != undefined && (events[i].activeEvent.eventType == 'RFI' || events[i].activeEvent.eventType == 'EOI')) {
+          if (events[i].activeEvent != undefined && events[i].activeEvent?.status != undefined && (events[i].activeEvent.eventType == 'RFI' || events[i].activeEvent.eventType == 'EOI')) {
             if (events[i].activeEvent.status == 'withdrawn' || events[i].activeEvent.status == 'cancelled') {
               // Historical Events
               historicalEvents.push(events[i])
