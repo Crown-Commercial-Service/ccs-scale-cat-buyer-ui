@@ -87,6 +87,7 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         req.session['weightingRange'] = {};
         req.session['errorTextSumary'] = [];
         req.session['CapAss'] = {};
+        req.session['isTcUploaded'] = true;
 
         next();
       } else {

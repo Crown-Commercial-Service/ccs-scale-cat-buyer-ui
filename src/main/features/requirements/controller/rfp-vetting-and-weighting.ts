@@ -38,7 +38,8 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     error: isJaggaerError,
   };
   try {
-    const assessmentId = 1;
+   // const assessmentId = 1;
+   const { assessmentId } = currentEvent;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
@@ -270,7 +271,8 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
     };
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'In progress');
     //res.json(StorageForSortedItems)
     res.render('rfp-vetting-weighting', windowAppendData);
   } catch (error) {
@@ -290,7 +292,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
 export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,currentEvent } = req.session;
 
   const { SFIA_weightage, requirement_Id_SFIA_weightage } = req.body;
 
@@ -309,13 +311,13 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
 
   const PUT_BODY = {
     weighting: 0,
-    overwriteRequirements: true,
     includedCriteria: [],
     requirements: INDEX_FINDER_OBJ_REMAPPER,
   };
 
   try {
-    const assessmentId = 1;
+    //const assessmentId = 1;
+    const { assessmentId } = currentEvent;
     const CAPACITY_BASEURL = `assessments/tools/1/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
@@ -325,7 +327,9 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
 
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-    res.redirect('/rfp/vetting-weighting');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'Not started');
+    res.redirect('/rfp/choose-security-requirements');
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(

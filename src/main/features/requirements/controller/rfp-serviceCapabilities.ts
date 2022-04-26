@@ -37,12 +37,13 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     error: isJaggaerError,
   };
 
-  const assessmentId = 1;
+  //const assessmentId = 1;
+  const { assessmentId } = currentEvent;
   try {
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
-    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
+    const EXTERNAL_ID = 1;
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
@@ -233,7 +234,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     }
 
     req.session.serviceCapabilityData = Level1DesignationStorage;
-    const TotalAdded = DRequirements.length;
+    const TotalAdded = DRequirements?DRequirements.length:0;
 
     const windowAppendData = {
       ...RFPService,
@@ -245,9 +246,9 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       TABLE_HEADING: TableHeadings,
       TABLE_BODY: TABLEBODY,
       WHOLECLUSTER: WHOLECLUSTERCELLS,
-      totalAdded: TotalAdded,
+      //totalAdded: TotalAdded,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'In progress');
     //res.json(dataset);
     res.render('rfp-servicecapabilities.njk', windowAppendData);
   } catch (error) {
@@ -272,9 +273,9 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
  *
  * @POST
  */
-export const RFP_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
+ export const RFP_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, serviceCapabilityData } = req.session;
+  const { projectId, serviceCapabilityData,currentEvent } = req.session;
   const { requirementId } = req.body;
 
   const MappedServiceCapData = serviceCapabilityData.map(items => items.data).flat();
@@ -301,28 +302,30 @@ export const RFP_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: e
   });
 
   const PUT_BODY = {
-    weighting: 0,
+    weighting: 10,
     includedCriteria: [],
-    overwriteRequirements: true,
+   
     requirements: MappedRequestContainingID,
   };
 
   try {
-    const assessmentId = 1;
+    //const assessmentId = 1;
+    const { assessmentId } = currentEvent;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
-    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
+    const EXTERNAL_ID = 1;
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     let CAPACITY_DATASET = CAPACITY_DATA.data;
 
-    const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
+    const DIMENSION_ID = CAPACITY_DATASET[2]['dimension-id'];
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Completed');
-    res.redirect('/rfp/service-capabilities');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Not started');
+    res.redirect('/rfp/where-work-done');
   } catch (error) {
     console.log(error);
     LoggTracer.errorLogger(
@@ -336,3 +339,5 @@ export const RFP_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: e
     );
   }
 };
+
+

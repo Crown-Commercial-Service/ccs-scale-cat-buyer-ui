@@ -15,7 +15,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
   const releatedContent = req.session.releatedContent
   const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ":" + req.session.lotId + "/lot-suppliers";
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);
     const appendData = {
@@ -42,11 +42,11 @@ export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Resp
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   try {
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Not started');
     }
-    res.redirect('/rfp/response-date');
+     res.redirect('/rfp/response-date');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
