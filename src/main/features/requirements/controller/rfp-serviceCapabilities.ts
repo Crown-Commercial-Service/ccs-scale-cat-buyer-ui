@@ -304,7 +304,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
   const PUT_BODY = {
     weighting: 10,
     includedCriteria: [],
-    overwriteRequirements: true,
+   
     requirements: MappedRequestContainingID,
   };
 
