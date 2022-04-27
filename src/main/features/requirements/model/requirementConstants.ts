@@ -197,4 +197,7 @@ export enum REQUIREMENT_PATHS {
   CA_POST_REVIEW = '/ca/review',
  
   RFP_GET_EVENT_PUBLISHED='/rfp/rfp-eventpublished',
+
+  GET_RFP_REVIEW='/rfp/review',
+  POST_RFP_REVIEW='/rfp/review',
 }
