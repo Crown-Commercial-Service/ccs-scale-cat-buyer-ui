@@ -261,14 +261,216 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     const assessmentId = req.session.currentEvent.assessmentId;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-    const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
+    const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data; 
     let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
+    let resourceQuantity=[];
+    let highestSecurityCount=0, highestSecuritySelected="";
+    let serviceCapabilitesCount=0;
+    let whereWorkDone=[];
 
     if (dimensionRequirements.length > 0) {
-      dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0]
+      resourceQuantity = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0]
         .requirements;
+        highestSecurityCount=dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting;
+        highestSecuritySelected=dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].values[0].value;
+      serviceCapabilitesCount=dimensionRequirements.filter(dimension => dimension.name === 'Service Capability')[0]
+      .requirements.length;
+      whereWorkDone=dimensionRequirements.filter(dimension => dimension.name === 'Location')[0].requirements.map(n=>n.name);
     }
-    let resourceQuntityCount=dimensionRequirements.length;
+    let resourceQuntityCount=resourceQuantity.length;
+
+    //section 5 
+    //question 2
+    let sectionbaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 2/questions`;
+    let sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    let sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let overallratioQuestion1=sectionbaseURLfetch_dynamic_api_data[1].nonOCDS.options[0]?.value;
+    let overallratioQuestion2=sectionbaseURLfetch_dynamic_api_data[0].nonOCDS.options[0]?.value;
+
+    //question 3
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 3/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let technicalgroupquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let culturalgroupquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let socialvaluegroupquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
+    
+    //question 4
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 4/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let technicalquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let technicalquestion2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let technicalquestion3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let technicalquestion4=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==4).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    //question 5
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 5/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let culturalquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let culturalquestion2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let culturalquestion3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let culturalquestion4=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==4)?.map(o=>o.nonOCDS)[0]?.options[0]?.value;
+
+    //question 6
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 6/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let socialquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let socialquestion2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let socialquestion3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let socialquestion4=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==4).map(o=>o.nonOCDS)[0].options[0]?.value;
+    
+    //question 7
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 7/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let pricingModel=sectionbaseURLfetch_dynamic_api_data[0].nonOCDS.options.filter(o=>o.selected==true)[0]?.value;
+    
+    //question 8
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 8/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let tier1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let tier2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let tier3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
+    
+    //section 5
+    //section 3
+    //question 2
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 3/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let term1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let term2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    //question 3
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 4/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let background1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let background2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    //question 5
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 6/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let keyuser1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    //work completed so far
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 7/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let workcompletedsofar=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    
+     //current phase of project
+     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 8/questions`;
+     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+    
+     let currentphaseofproject=sectionbaseURLfetch_dynamic_api_data[0].nonOCDS.options.filter(o=>o.selected==true)[0]?.value;
+
+     //phase resource is required for
+     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 9/questions`;
+     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+    
+     let phaseresisreq=sectionbaseURLfetch_dynamic_api_data[0].nonOCDS.options.filter(o=>o.selected==true)[0]?.value;
+
+    //indicative start date
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 10/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let startdate=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let indicativeduration=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    //buying organisation
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 11/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let buyingorg1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let buyingorg2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    //summarize
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 14/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let summarize=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    
+    //new replacement
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 15/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let newreplace=sectionbaseURLfetch_dynamic_api_data[0].nonOCDS.options.filter(o=>o.selected==true)[0]?.value;
+
+    //incumbemt supplier
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 16/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let incumbentoption=sectionbaseURLfetch_dynamic_api_data[1].nonOCDS.options.filter(o=>o.selected==true)[0]?.value;
+    let suppliername=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    //management info
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 17/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let managementinfo=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    //service level
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 19/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let servicelevel1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let servicelevel2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2 && o.nonOCDS.questionType!="Percentage").map(o=>o.nonOCDS)[0].options[0]?.value;
+    let servicelevel3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2 && o.nonOCDS.questionType=="Percentage").map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    //incentives
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 20/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let incentive1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let incentive2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0]?.options[0]?.value;
+    
+
+    //budget constraints
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 21/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let bc1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let bc2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    //add your req
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 24/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+
+    let reqgroup=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let reqtitle=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0]?.options[0]?.value;
+    let reqdesc=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0]?.options[0]?.value;
+
+    //section 3
+    
 
       req.session['endDate']=moment(
         supplier_period_for_clarification_period,
@@ -307,6 +509,58 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       ).format('DD MMMM YYYY, hh:mm a'),
       resourceQuntityCount:resourceQuntityCount,
       checkboxerror:checkboxerror,
+      highestSecurityCount:highestSecurityCount,
+      highestSecuritySelected:highestSecuritySelected,
+      serviceCapabilitesCount:serviceCapabilitesCount,
+      whereWorkDone:whereWorkDone,
+      overallratioQuestion1:overallratioQuestion1,
+      overallratioQuestion2:overallratioQuestion2,
+      technicalgroupquestion1:technicalgroupquestion1,
+      culturalgroupquestion1:culturalgroupquestion1,
+      socialvaluegroupquestion1:socialvaluegroupquestion1,
+      pricingModel:pricingModel,
+      technicalquestion1:technicalquestion1,
+      technicalquestion2:technicalquestion2,
+      technicalquestion3:technicalquestion3,
+      technicalquestion4:technicalquestion4,
+      culturalquestion1:culturalquestion1,
+      culturalquestion2:culturalquestion2,
+      culturalquestion3:culturalquestion3,
+      culturalquestion4:culturalquestion4,
+      socialquestion1:socialquestion1,
+      socialquestion2:socialquestion2,
+      socialquestion3:socialquestion3,
+      socialquestion4:socialquestion4,
+      tier1:tier1,
+      tier2:tier2,
+      tier3:tier3,
+      term1:term1,
+      term2:term2,
+      background1:background1,
+      background2:background2,
+      keyuser1:keyuser1,
+      workcompletedsofar:workcompletedsofar,
+      currentphaseofproject:currentphaseofproject,
+      phaseresisreq:phaseresisreq,
+      indicativeduration:indicativeduration,
+      startdate:startdate,
+      buyingorg1:buyingorg1,
+      buyingorg2:buyingorg2,
+      summarize:summarize,
+      newreplace:newreplace,
+      incumbentoption:incumbentoption,
+      suppliername:suppliername,
+      managementinfo:managementinfo,
+      servicelevel1:servicelevel1,
+      servicelevel2:servicelevel2,
+      servicelevel3:servicelevel3,
+      incentive1:incentive1,
+      incentive2:incentive2,
+      bc1:bc1,
+      bc2:bc2,
+      reqgroup:reqgroup,
+      reqtitle:reqtitle,
+      reqdesc:reqdesc,
         //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
         eventStatus: 'active' // this needs to be revisited to check the mapping of the planned 
       };

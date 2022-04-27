@@ -236,18 +236,18 @@
          <strong>Terms and acronyms (Optional) </strong>
          <br/><br/>
           <p>Expression or acronym</p><p>Definition answer</p><br/>
-          <p>Expression or acronym</p><p>Definition answer</p><br/>
-          <p>Expression or acronym</p><p>Definition answer</p><br/>
+          {#<p>Expression or acronym</p><p>Definition answer</p><br/>
+          <p>Expression or acronym</p><p>Definition answer</p><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/>
-          <p>Expression or acronym answer</p><p>Definition answer</p><br/>
-          <p>Expression or acronym answer</p><p>Definition answer</p><br/>
-          <p>Expression or acronym answer</p><p>Definition answer</p><br/>
+          <p>{{term1}}</p><p>{{term2}}</p><br/>
+          {#<p>Expression or acronym answer</p><p>Definition answer</p><br/>
+          <p>Expression or acronym answer</p><p>Definition answer</p><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_add_terms_acronyms">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 3">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -261,12 +261,12 @@
         </dt>
         <dd class="govuk-summary-list__value">
         <br/>
-          <p> Answer</p><br/><br/>
-          <p> Answer</p>
+          <p> {{background1}}</p><br/><br/>
+          <p> {{background2}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_add_background_and_context">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 4">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -291,16 +291,16 @@
             <dt class="govuk-summary-list__key">
           Key Users (optional)<br/>
           <p> Key user</p><p>definition</p><br/>
-          <p> Key user</p><p>definition</p><br/>
+          {#<p> Key user</p><p>definition</p><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/>
-          <p> Key user answer</p><p>definition answer</p><br/>
-          <p> Key user answer</p><p>definition answer</p><br/>
+          <p> {{keyuser1}}</p><p>{{keyuser1}}</p><br/>
+          {#<p> Key user answer</p><p>definition answer</p><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_key_users">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 6">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -311,11 +311,11 @@
           <p>Provide details of any work completed so far</p>
         </dt>
         <dd class="govuk-summary-list__value">
-          <p>Answer</p>
+          <p>{{workcompletedsofar}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_work_complete">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 7">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -326,11 +326,11 @@
           <p>Current phase of the project</p>
         </dt>
         <dd class="govuk-summary-list__value">
-          <p>Selected option</p>
+          <p>{{currentphaseofproject}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_current_phase">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 8">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -341,11 +341,11 @@
           <p>Phase resource is required for</p>
         </dt>
         <dd class="govuk-summary-list__value">
-          <p>Sected options</p>
+          <p>{{phaseresisreq}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_phase_resource_required">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 9">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -358,11 +358,11 @@
         </dt>
         <dd class="govuk-summary-list__value">
         <br/><br/><br/>
-          <p>DD MM YYYY</p><br/><p>X years X months X days</p><br/>
+          <p>{{startdate}}</p><br/><p>{{indicativeduration}}</p><br/>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_duration_of_work">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 10">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -375,11 +375,11 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>Current user organisation</p><br/><p>Answer</p>
+          <p>{{buyingorg1}}</p><br/><p>{{buyingorg2}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_buying_organisation">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 11">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -390,11 +390,11 @@
           <p>Summarize the outcome of any relevant pre-market engagement (optional)</p>
         </dt>
         <dd class="govuk-summary-list__value">
-          <p> Answer</p>
+          <p> {{summarize}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="#">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 14">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -405,11 +405,11 @@
           <p>New, replacement or expanded services or products</p>
         </dt>
         <dd class="govuk-summary-list__value">
-          <p> Selected option</p>
+          <p> {{newreplace}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_services">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 15">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -420,11 +420,11 @@
           <p>Is there an incumbent supplier?</p>
         </dt>
         <dd class="govuk-summary-list__value">
-          <p> Selected option</p><p>Supplier name answer</p>
+          <p> {{incumbentoption}}</p><p>{{suppliername}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_incumbent_supplier">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 16">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -435,11 +435,11 @@
           <p>Please insert any specific details relating to the provision of management information or reporting by the supplier</p>
         </dt>
         <dd class="govuk-summary-list__value">
-          <p> Answer</p>
+          <p> {{managementinfo}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="#">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 17">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -451,22 +451,22 @@
           <p>Enter the service area</p><br/>
           <p>Enter the service area/ KPI description</p><br/>
           <p>Insert the required target</p><br/><br/>
-          <p>Enter the service area</p><br/>
+          {#<p>Enter the service area</p><br/>
           <p>Enter the service area/ KPI description</p><br/>
-          <p>Insert the required target</p><br/>
+          <p>Insert the required target</p><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>Service area answer</p><br/>
+          <p>{{servicelevel1}}</p><br/>
+          <p>{{servicelevel2}}</p><br/>
+          <p>{{servicelevel3}}% required target</p><br/><br/>
+          {#<p>Service area answer</p><br/>
           <p>Enter the service area/ KPI description</p><br/>
-          <p>XX% required target</p><br/><br/>
-          <p>Service area answer</p><br/>
-          <p>Enter the service area/ KPI description</p><br/>
-          <p>XX% required target</p><br/><br/>
+          <p>XX% required target</p><br/><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="#">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 19">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -480,12 +480,12 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
+          <p>{{incentive1}}</p><br/>
+          <p>{{incentive2}}</p><br/>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_incentives">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 20">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -502,15 +502,15 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
+          <p>{{bc1}}</p><br/>
+          <p>{{bc2}}</p><br/>
           <p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>Answer</p><br/>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="#">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 21">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -522,32 +522,32 @@
           <p>Requirement group</p>
           <p>Requirement title</p>
           <p>Requirement description</p>
-          <p>Requirement title</p>
+          {#<p>Requirement title</p>
           <p>Requirement description</p><br/><br/>
           <p>Requirement group</p>
           <p>Requirement title</p>
           <p>Requirement description</p><br/><br/>
           <p>Requirement group</p>
           <p>Requirement title</p>
-          <p>Requirement description</p><br/><br/>
+          <p>Requirement description</p><br/><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>Answer</p>
-          <p>Answer</p>
-          <p>Answer</p>
-          <p>Answer</p>
+          <p>{{reqgroup}}</p>
+          <p>{{reqtitle}}</p>
+          <p>{{reqdesc}}</p>
+          {#<p>Answer</p>
           <p>Answer</p><br/><br/>
           <p>Answer</p>
           <p>Answer</p>
           <p>Answer</p><br/><br/>
           <p>Answer</p>
           <p>Answer</p>
-          <p>Answer</p><br/><br/>
+          <p>Answer</p><br/><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_add_requirements">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 24">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -588,8 +588,8 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p>
+          <p>{{highestSecurityCount}}</p><br/>
+          <p>{{highestSecuritySelected}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
@@ -606,7 +606,7 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          XX Total number of added capabilities
+          {{serviceCapabilitesCount}} Total number of added capabilities
           <br/><br/>
           <strong>Performance analysis and data</strong><br/><br/>
           A/B and multivariate testing<br/>
@@ -632,10 +632,13 @@
           Where the work will be done
         </dt>
         <dd class="govuk-summary-list__value">
-          North East England<br/>
+        {% for elem in whereWorkDone %}
+        <p>{{elem}}</p>
+         {% endfor %}
+          {# North East England<br/>
           Yorkshire and the Humber<br/>
           Channel islands<br/>
-          No specific location, for example they can work remotely
+          No specific location, for example they can work remotely #}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
@@ -657,12 +660,12 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>XX%</p><br/>
-          <p>XX%</p><br/>
+          <p>{{overallratioQuestion1}}%</p><br/>
+          <p>{{overallratioQuestion2}}%</p><br/>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_ir35_acknowledgement">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 2">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -677,13 +680,13 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>XX%</p><br/>
-          <p>XX%</p><br/>
-          <p>XX%</p><br/>
+          <p>{{technicalgroupquestion1}}%</p><br/>
+          <p>{{culturalgroupquestion1}}%</p><br/>
+          <p>{{socialvaluegroupquestion1}}%</p><br/>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_add_terms_acronyms">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 3">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -697,7 +700,7 @@
           <p>Explain how good looks like</p><br/>
           <p>Enter a weighting for this question</p><br/><br/>
 
-          <p>Your question</p><br/>
+          {#<p>Your question</p><br/>
           <p>Provide additional detail for your question</p><br/>
           <p>Explain how good looks like</p><br/>
           <p>Enter a weighting for this question</p><br/><br/>
@@ -705,11 +708,16 @@
           <p>Your question</p><br/>
           <p>Provide additional detail for your question</p><br/>
           <p>Explain how good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/>
+          <p>Enter a weighting for this question</p><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>Answer</p><br/>
+          <p>{{technicalquestion1}}</p><br/>
+          <p>{{technicalquestion2}}</p><br/>
+          <p>{{technicalquestion3}}</p><br/>
+          <p>{{technicalquestion4}}%</p><br/><br/>
+
+          {#<p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>XX%</p><br/><br/>
@@ -717,16 +725,11 @@
           <p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>
-
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>
+          <p>XX%</p><br/><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_problem_to_solve">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 4">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -740,7 +743,7 @@
           <p>Explain how good looks like</p><br/>
           <p>Enter a weighting for this question</p><br/><br/>
 
-          <p>Your question</p><br/>
+          {#<p>Your question</p><br/>
           <p>Provide additional detail for your question</p><br/>
           <p>Explain how good looks like</p><br/>
           <p>Enter a weighting for this question</p><br/><br/>
@@ -748,11 +751,16 @@
           <p>Your question</p><br/>
           <p>Provide additional detail for your question</p><br/>
           <p>Explain how good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/>
+          <p>Enter a weighting for this question</p><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>Answer</p><br/>
+          <p>{{culturalquestion1}}</p><br/>
+          <p>{{culturalquestion2}}</p><br/>
+          <p>{{culturalquestion3}}</p><br/>
+          <p>{{culturalquestion4}}%</p><br/><br/>
+
+          {#<p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>XX%</p><br/><br/>
@@ -760,16 +768,11 @@
           <p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>
-
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>
+          <p>XX%</p><br/><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_key_users">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 5">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -783,7 +786,7 @@
           <p>Explain how good looks like</p><br/>
           <p>Enter a weighting for this question</p><br/><br/>
 
-          <p>Your question</p><br/>
+          {#<p>Your question</p><br/>
           <p>Provide additional detail for your question</p><br/>
           <p>Explain how good looks like</p><br/>
           <p>Enter a weighting for this question</p><br/><br/>
@@ -791,11 +794,16 @@
           <p>Your question</p><br/>
           <p>Provide additional detail for your question</p><br/>
           <p>Explain how good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/>
+          <p>Enter a weighting for this question</p><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
-          <p>Answer</p><br/>
+          <p>{{socialquestion1}}</p><br/>
+          <p>{{socialquestion2}}</p><br/>
+          <p>{{socialquestion3}}</p><br/>
+          <p>{{socialquestion4}}%</p><br/><br/>
+
+          {#<p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>XX%</p><br/><br/>
@@ -803,16 +811,11 @@
           <p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>
-
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>
+          <p>XX%</p><br/><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_work_complete">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 6">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -823,11 +826,11 @@
          <p> Select the pricing model</p>
         </dt>
         <dd class="govuk-summary-list__value">
-          <p>Selected option</p>
+          <p>{{pricingModel}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_current_phase">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 7">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -839,28 +842,28 @@
           <p>Enter the name for this tier</p><br/>
           <p>Enter the points for this tier</p><br/>
           <p>Enter the points for this tier</p><br/><br/>
-          <p>Enter the name for this tier</p><br/>
+          {#<p>Enter the name for this tier</p><br/>
           <p>Enter the points for this tier</p><br/>
           <p>Enter the points for this tier</p><br/><br/>
           <p>Enter the name for this tier</p><br/>
           <p>Enter the points for this tier</p><br/>
-          <p>Enter the points for this tier</p><br/><br/>
+          <p>Enter the points for this tier</p><br/><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
         <br/><br/><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/><br/>
-          <p>Answer</p><br/>
+          <p>{{tier1}}</p><br/>
+          <p>{{tier2}}</p><br/>
+          <p>{{tier3}}</p><br/><br/>
+          {# <p>Answer</p><br/>
           <p>Answer</p><br/>
           <p>Answer</p><br/><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/set-scoring-criteria">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 8">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}

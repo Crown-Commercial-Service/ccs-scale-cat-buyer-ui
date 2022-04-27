@@ -27,7 +27,7 @@ import { RFP_UPLOAD } from './rfp-uploadOverview';
 import {
   RFP_GET_UPLOAD_ATTACHMENT,
   RFP_POST_UPLOAD_ATTACHMENT,
-  RFP_POST_UPLOAD_ATTACHMENT_PROCEED,RFP_GET_REMOVE_FILES_ATTACHMENT,
+  RFP_POST_UPLOAD_ATTACHMENT_PROCEED,RFP_GET_REMOVE_FILES_ATTACHMENT
 } from './rfp-uploadAttachment';
 import { RFP_GET_UPLOAD_DOC, RFP_POST_UPLOAD_DOC, RFP_GET_REMOVE_FILES, RFP_POST_UPLOAD_PROCEED } from './rfp-upload';
 import { RFP_GET_ADD_CONTEXT } from './rfp-addcontext';
@@ -99,6 +99,7 @@ import {CA_GET_review, CA_POST_review} from './ca-review'
 import {RFP_GET_WORK_COMPLETED, RFP_POST_WORK_COMPLETED} from './rfp-work-completed'
 import {RFP_GET_EVENT_PUBLISHED} from './rfp-eventpublished'
 import {RFP_GET_WEIGHTINGS, RFP_POST_WEIGHTINGS} from './rfp-enterYourWeightings';
+import {GET_RFP_REVIEW,POST_RFP_REVIEW} from './rfp-review';
 
 
 
@@ -246,5 +247,6 @@ export const REQUIREMENT_CONTROLLER = {
   CA_GET_review,
   RFP_POST_WEIGHTINGS,
   RFP_GET_WEIGHTINGS,
-  RFP_GET_EVENT_PUBLISHED
+  RFP_GET_EVENT_PUBLISHED,
+  GET_RFP_REVIEW,POST_RFP_REVIEW
 };
