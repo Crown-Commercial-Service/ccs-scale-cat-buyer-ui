@@ -148,7 +148,7 @@
           </div>
         </dl>
 
-        <h2 class="govuk-heading-m">2. Build your Rfi </h2>
+        <h2 class="govuk-heading-m">2. Build your Request for Information (RfI) </h2>
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
@@ -191,15 +191,15 @@
           {%for item in rfi_data%}
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-              {{item.title}}
               {% if item.title=="The buying organisation" %}
+                <strong>{{item.title}}</strong>
                 <br/>
-                
                 {% for i in item.answer %}
-                <p class="govuk-body-s" style="font-style:normal !important;">{{i.question}}</p>
-                
+                {{i.question}}
                 {% endfor %}
-               
+                
+                {% else %}
+              {{item.title}}
               {% endif %}
               </dt>
               {% if data['rfi_offline_document'] | length > 0 %}
@@ -238,8 +238,7 @@
                           {%endfor%}
                           {# {% endif %} #}
                         </dl>
-
-                        <h2 class="govuk-heading-m"> 3. Review and publish your RfI </h2>
+              <h2 class="govuk-heading-m"> 3. Review and publish your RfI </h2>
                         <dl class="govuk-summary-list">
 
                           <div class="govuk-summary-list__row">
@@ -296,35 +295,58 @@
                               </dd>
                             </div>
 
-
+            
+            <dt>
             <div class="ccs-summary-list-heading">
               <strong> Your Rfi timeline <br><br></strong>
             </div>
-
-                            {% for dates in rfi_keydates.answer%}
-                              <div class="govuk-summary-list__row no-borders">
-                                <dt class="govuk-summary-list__key">
-                                  {{dates.question}}
-                                </dt>
-                                <dd class="govuk-summary-list__value">
-                                  {%for value in dates.values%}
-                                    <p class="govuk-body-s">
-                                      {{value.value}}</p>
-                                    {%endfor%}
-                                  </dd>
-                                  <dd class="govuk-summary-list__actions">
+            </dt>
+            &nbsp;&nbsp;
+            <dd class="govuk-summary-list__value no-borders">
+                </dd>
+            <dd class="govuk-summary-list__actions no-borders">
                                     {% if eventStatus != "published"%}
                                       <a class="govuk-link" href="/rfi/response-date">
            Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                                       </a>
                                     {% endif %}
                                   </dd>
+                                  
+                            {% for dates in rfi_keydates.answer%}
+                              <div class="govuk-summary-list__row no-borders">
+                                <dt class="govuk-summary-list__row no borders">
+                                  {{dates.question}}
+                                </dt>
+                                <dd class="govuk-summary-list__value no-borders">
+                                  {%for value in dates.values%}
+                                    <p class="govuk-body-s">
+                                      {{value.value}}</p>
+                                    {%endfor%}
+                                  </dd>
+                                  {#<dd class="govuk-summary-list__actions no-borders">
+                                    {% if eventStatus != "published"%}
+                                      <a class="govuk-link" href="/rfi/response-date">
+           Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
+                                      </a>
+                                    {% endif %}
+                                  </dd>#}
 
                                 </div>
                                 {%endfor%}
                               </dl>
                             </div>
                           </div>
+            <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+            </dt>
+            <dd class="govuk-summary-list__value">
+            </dd>
+            <dd class="govuk-summary-list__actions">
+            </dd>
+            </div>
+            </dl>
+            
                           <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                               <p class="govuk-body">
@@ -380,7 +402,7 @@
         },
         text: "Publish and continue"
         }) }}
-                                  <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI) </a>
+                                  <a href="/rfi/rfi-tasklist?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement  </a>
                                 </div>
                                 {{ CCSInput({
       id: "finished_pre_engage",
