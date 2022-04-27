@@ -191,7 +191,7 @@
           {%for item in rfi_data%}
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-              {% if item.title=="The buying organisation" %}
+              {% if (item.title=="The buying organisation") or (item.title=="The buying organisation (Optional)") %}
                 <strong>{{item.title}}</strong>
                 <br/>
                 {% for i in item.answer %}
