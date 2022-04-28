@@ -185,6 +185,30 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
   if (date.getTime() >= nowDate.getTime() && isValid) {
     date = moment(date).format('DD MMMM YYYY, hh:mm a');
+    req.session.questionID=selected_question_id;
+
+    if(selected_question_id=='Question 2')
+    {req.session.rfipublishdate=timeline.publish;
+    req.session.UIDate=date;
+  }
+    else if (selected_question_id=='Question 3')
+{ req.session.rfipublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+    req.session.UIDate=date;
+  }
+    else if(selected_question_id=='Question 4')
+{  req.session.rfipublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+    req.session.UIDate=date;
+  }
+  else if(selected_question_id=='Question 5')
+{ req.session.rfipublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+  req.session.supplierresponse=timeline.supplierSubmitResponse;
+    req.session.UIDate=date;
+  }
 
     const answerformater = {
       value: date,
