@@ -12,6 +12,7 @@ export const GET_UNPUBLISHED_EVENT_MANAGEMENT  = async (req: express.Request, re
     const { SESSION_ID } = req.cookies; //jwt
     const projectId = req.session.projectId;
     const agreementLotName = req.session.agreementLotName;
+    req.session.unpublishedeventmanagement="true";
     const lotid = req.session?.lotId;
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     chooseRouteData.events[0].eventTask[0].status=getValue(journeySteps.filter((d:any) => d.step==28)?.[0]?.state);//procurement lead
