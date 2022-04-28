@@ -7,10 +7,14 @@
       {
         "text": "Event Management",
         "href": "/rfp/rfp-unpublishedeventmanagement"
+      },
+      {
+        "text": "Close Project",
+        "href": "/rfp/rfp-closeproject"
       }
     ],
   
-    "title": "Event Management",
+    "title": "Close Project",
     "subtitle": "Open Project ID/Name",
     "events": [
       {
@@ -150,7 +154,7 @@
       },
       "closeProject":{
         "title":"Close Project",
-        "href":"/rfp/rfp-closeproject"
+        "href":"#"
       }
     }
   }
