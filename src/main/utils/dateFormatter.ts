@@ -5,6 +5,7 @@ export const LONG_DATE_DAY_FORMAT = 'dddd D MMMM YYYY'
 export const TIME_FORMAT = 'h:mma'
 export const INPUT_DATE_FORMAT = 'D M YYYY'
 export const DATE_FORMAT_DDMMYYYY = 'DD/MM/YYYY'
+export const DATE_FORMAT_DD_MM_YYYY = 'DD-MM-YYYY'
 
 export class DateFormater {
 
@@ -22,6 +23,10 @@ export class DateFormater {
 
   static formatDateDDMMYYYY (value: Moment): string {
     return value.format(DATE_FORMAT_DDMMYYYY)
+  }
+
+  static formatDateDD_MM_YYYY (value: Moment): string {
+    return value.format(DATE_FORMAT_DD_MM_YYYY)
   }
 
   static formatDayDate (value: Moment): string {
