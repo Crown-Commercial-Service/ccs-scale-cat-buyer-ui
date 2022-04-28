@@ -74,6 +74,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     releatedContent.title = 'Related content'
     req.session.releatedContent = releatedContent
 
+     //Related to AssessmentID
+     const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
+     const data = await TenderApi.Instance(SESSION_ID).get(baseURL)
+     const assessmentId=data.data.nonOCDS.assessmentId
+     req.session.currentEvent={assessmentId}
+
     // Event header
     res.locals.agreement_header = { project_name: projectName, agreementName, agreementId_session, agreementLotName, lotid }
     req.session.agreement_header = res.locals.agreement_header
@@ -107,10 +113,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           redirectUrl = '/projects/create-or-choose'
           break
         case "DA":
-          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+          redirectUrl = '/da/task-list?path=B1' // Path needs to be updated as per the AC
           break
         case "FC":
-          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+          redirectUrl = '/rfp/task-list' // Path needs to be updated as per the AC
           break
         case "DAA":
           redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
