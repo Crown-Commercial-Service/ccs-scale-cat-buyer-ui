@@ -50,10 +50,14 @@
                      {% for subSections in event.subsections %}
                         {% if ((event.eventno === 2) and (loop.index0 === 0) and ('EOI' in types)) 
                            or((event.eventno === 2) and (loop.index0 === 1) and ('RFI' in types))
-                        or((event.eventno === 3) and (loop.index0 === 0) and ('FC' in types))
-                        or((event.eventno === 3) and (loop.index0 === 1) and ('FC' in types))
+                        or((event.eventno === 3) and (loop.index0 === 0) and ('FC' in types))%}
+
+                        <!--Commenting as per SCAT 4804-->
+                        <!--PLEASE UN-COMMENT WHILE RUNNING FOR FCA/CA AND DA-->
+                       <!-- or((event.eventno === 3) and (loop.index0 === 1) and ('FC' in types))
                         or((event.eventno === 3) and (loop.index0 === 1) and (('FCA' in types)or('CA' in types)))
-                        or((event.eventno === 3) and (loop.index0 === 2) and (('DAA' in types)or('DA' in types)))%}
+                        or((event.eventno === 3) and (loop.index0 === 2) and (('DAA' in types)or('DA' in types)))-->
+                           
                            {% for subSection in subSections %}
                               <p class="govuk-body">{{subSection | safe }}</p>
                            {% endfor %}

@@ -8,6 +8,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 import { FILEUPLOADHELPER } from '../helpers/upload';
 import { FileValidations } from '../util/file/filevalidations';
+import * as cmsData from '../../../resources/content/requirements/offline-doc.json';
 
 let tempArray = [];
 
@@ -78,6 +79,7 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
                 ...formHeaders,
               },
             });
+            req.session['isTcUploaded'] = true
           } catch (error) {
             LoggTracer.errorLogger(
               res,
@@ -154,20 +156,51 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
   } else res.render('error/500');
 };
 
-export const RFP_GET_REMOVE_FILES = (express.Handler = (req: express.Request, res: express.Response) => {
-  const { file } = req.query;
-  let { selectedRoute } = req.session;
-  if (selectedRoute === 'FC') selectedRoute = 'RFP';
-  tempArray = tempArray.filter(afile => afile.name !== file);
-  res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
+export const RFP_GET_REMOVE_FILES = (express.Handler = async (req: express.Request, res: express.Response) => {
+  let { selectedRoute } = req.session
+  if (selectedRoute === 'FC') selectedRoute = 'RFP'
+  const { SESSION_ID } = req.cookies //jwt
+  const { projectId } = req.session
+  const EventId = req.session['eventId']
+  const { file_id } = req.query
+  const baseURL = `/tenders/projects/${projectId}/events/${EventId}/documents/${file_id}`
+  try {
+    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL)
+    res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`)
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Remove document failed',
+      true,
+    );
+  }
 });
 
 export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'Completed');
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Not started');
-
-  res.redirect(`/rfp/IR35`);
+  if (req.session['isTcUploaded']){
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Not started');
+    res.redirect(`/rfp/IR35`);
+  } else {
+    const lotId = req.session?.lotId;
+    const agreementLotName = req.session.agreementLotName;
+    const releatedContent = req.session.releatedContent;
+    let windowAppendData = {
+      lotId,
+      agreementLotName,
+      data: cmsData,
+      files: null,
+      releatedContent: releatedContent,
+      storage: 0,
+    }
+    windowAppendData = Object.assign({}, { ...windowAppendData, error: 'true'});
+    res.render('rfp-uploadDocument.njk', windowAppendData)
+  }
+  
 });

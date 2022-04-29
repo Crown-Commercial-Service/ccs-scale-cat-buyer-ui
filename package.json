@@ -29,7 +29,7 @@
   "dependencies": {
     "@hmcts/info-provider": "^1.0.0",
     "@hmcts/nodejs-healthcheck": "^1.7.0",
-    "@hmcts/nodejs-logging": "^3.0.4",
+    "@hmcts/nodejs-logging": "^4.0.0",
     "@types/config": "^0.0.41",
     "@types/connect-redis": "^0.0.17",
     "@types/cookie-parser": "^1.4.2",

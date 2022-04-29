@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let weightingVetting = [];
 
   inputs = $("#ccs_ca_menu_tabs_form_rfp_vetting .weight_vetting_class")
-
+  if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
   function deselect(e) {
     $('.pop').slideFadeToggle(function () {
