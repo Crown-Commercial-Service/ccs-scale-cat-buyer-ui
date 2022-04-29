@@ -1,0 +1,987 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title = 'FC review | Crown Commercial Service' %}
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+{% endblock %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    {% if (viewError == true) and (apiError == false) %}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem with publishing RFP",
+        errorList: [
+          {
+            text: "You must check this box to confirm that I have read and confirm the statements above",
+            href: "#ccs_rfp_publish_form"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    {% if (checkboxerror==1) %}
+      {{ CCSErrorSummary({
+        titleText: "There has been an error publishing your FC",
+        errorList: [
+          {
+            text: "Confirmation checkbox must be checked before progressing",
+            href: "#ccs_rfp_publish_form"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title }}
+        </h1>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        {% include "includes/project_header.njk" %}
+
+        <p class="govuk-body">{{data.subtitle}}
+        </p>
+        {{ CCSButton({
+    text: "Export your 1-stage further competition",
+    classes: "govuk-button--secondary",
+    href: "/rfp/review?download=1"
+    }) }}
+
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full"></div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">1. Project and colleagues</h2>
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+         <p> Name your project</p>
+        </dt>
+            {% if project_name | length > 0 %}
+              <dd class="govuk-summary-list__value">
+                <p class="govuk-body-s">
+                   {{ project_name | safe }} 
+                </p>
+              </dd>
+            {% else %}
+              <dd class="govuk-summary-list__value">
+          You have not given a custom name to your project
+        </dd>
+            {% endif %}
+
+            <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/name-your-project">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>Change who is going to lead the procurement</p>
+        </dt>
+            <dd class="govuk-summary-list__value">
+              <ul class="govuk-list govuk-list--none">
+                <li>
+                  <span class="govuk-body-s">{{procurementLead.name }}</span></li>
+                <li>
+                  <span class="govuk-body-s">{{procurementLead.email }}</span></li>
+                <li>
+                  <span class="govuk-body-s">{{procurementLead.telephone }}</span></li>
+              </ul> 
+            </dd>
+            <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/procurement-lead">
+            Change<span class="govuk-visually-hidden"> procurement lead</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>Add members to your project</p>
+        </dt>
+            {% if procurementColleagues | length > 0 %}
+              <dd class="govuk-summary-list__value">
+                <ul class="govuk-list govuk-list--none">
+                  {% for collaborator in procurementColleagues %}
+                    <li>
+                      <ul class="govuk-list govuk-list--none">
+                        <li>
+                          <span class="govuk-body-s">{{collaborator.name}}</span></li>
+                        <li>
+                          <span class="govuk-body-s">{{collaborator.email}}</span></li>
+                        <li>
+                          <span class="govuk-body-s">{{collaborator.telephone}}</span></li>
+                      </ul>
+                    </li>
+                  {%- endfor %}
+                </ul>
+              </dd>
+            {% else %}
+              <dd class="govuk-summary-list__value">
+          You have not added anyone so far in your team
+        </dd>
+            {% endif %}
+            <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/add-collaborators">
+            Change<span class="govuk-visually-hidden"> eoi team members</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+        </dl>
+         <h2 class="govuk-heading-m">2. Upload pricing schedules and any other supporting documentation </h2>
+         <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>Upload your pricing schedule [attachment 4]</p>
+        </dt>
+            {% if document | length > 0 %}
+              <dd class="govuk-summary-list__value">
+                <p class="govuk-body-s">
+                  {{ document | safe }}
+                </p>
+              </dd>
+            {% else %}
+              <dd class="govuk-summary-list__value">
+          Custom message
+        </dd>
+            {% endif %}
+
+            <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/upload">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>Upload any additional document (optional)</p>
+        </dt>
+            {# <dd class="govuk-summary-list__value"> #}
+              {% if documents | length > 0 %}
+              <dd class="govuk-summary-list__value">
+                <ul class="govuk-list govuk-list--none">
+                  {% for doc in documents %}
+                    <li>
+                       <span class="govuk-body-s">{{doc}}</span>
+                       </li>
+                  {%- endfor %}
+                </ul>
+              </dd>
+            {% else %}
+              <dd class="govuk-summary-list__value">
+          Custom message
+        </dd>
+            {% endif %}
+            {# </dd> #}
+            <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/upload-doc">
+            Change<span class="govuk-visually-hidden"> procurement lead</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>IR35 acknowledgement</p>
+        </dt>
+            {% if ir35 | length > 0 %}
+              <dd class="govuk-summary-list__value">
+                <p class="govuk-body-s">
+                  {{ ir35 | safe }}
+                </p>
+              </dd>
+            {% else %}
+              <dd class="govuk-summary-list__value">
+          Custom message
+        </dd>
+            {% endif %}
+            <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/IR35">
+            Change<span class="govuk-visually-hidden"> eoi team members</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+        </dl>
+        <h2 class="govuk-heading-m">3. Context and requirements to your 1-stage further competition </h2>
+        <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+         <strong>Terms and acronyms (Optional) </strong>
+         <br/><br/>
+          <p>Expression or acronym</p><p>Definition answer</p><br/>
+          {#<p>Expression or acronym</p><p>Definition answer</p><br/>
+          <p>Expression or acronym</p><p>Definition answer</p><br/>#}
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/>
+          <p>{{term1}}</p><p>{{term2}}</p><br/>
+          {#<p>Expression or acronym answer</p><p>Definition answer</p><br/>
+          <p>Expression or acronym answer</p><p>Definition answer</p><br/>#}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 3">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Background and context to your requirement<br/>
+          <p> Provide details relating to the requirement's backgroundand the events leading up to the goods /services being required</p></br>
+          <p> Include any details relationg to the 'Public services [Social Value] Act 2012' which will be applied to secure wider Social, economic and enviornmental benefits</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+        <br/>
+          <p> {{background1}}</p><br/><br/>
+          <p> {{background2}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 4">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p> Provide details relating to the requirement's backgroundand the events leading up to the goods /services being required</p></br>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p> Answer </p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="#">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Key Users (optional)<br/>
+          <p> Key user</p><p>definition</p><br/>
+          {#<p> Key user</p><p>definition</p><br/>#}
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/>
+          <p> {{keyuser1}}</p><p>{{keyuser1}}</p><br/>
+          {#<p> Key user answer</p><p>definition answer</p><br/>#}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 6">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>Provide details of any work completed so far</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p>{{workcompletedsofar}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 7">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>Current phase of the project</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p>{{currentphaseofproject}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 8">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>Phase resource is required for</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p>{{phaseresisreq}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 9">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Duration of work/Resource required from / to<br/><br/>
+          <p>Enter indicative start date</p><br/><p>Enter indicative duration</p><br/>
+        </dt>
+        <dd class="govuk-summary-list__value">
+        <br/><br/><br/>
+          <p>{{startdate}}</p><br/><p>{{indicativeduration}}</p><br/>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 10">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          The buying organisation (optional)<br/><br/>
+          <p>Name of the Contracting Authority</p><br/><p>organisation you are buying on behalf of (optional)</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{buyingorg1}}</p><br/><p>{{buyingorg2}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 11">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>Summarize the outcome of any relevant pre-market engagement (optional)</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p> {{summarize}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 14">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>New, replacement or expanded services or products</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p> {{newreplace}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 15">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>Is there an incumbent supplier?</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p> {{incumbentoption}}</p><p>{{suppliername}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 16">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          <p>Please insert any specific details relating to the provision of management information or reporting by the supplier</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p> {{managementinfo}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 17">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Service levels and performance<br/><br/>
+          <p>Enter the service area</p><br/>
+          <p>Enter the service area/ KPI description</p><br/>
+          <p>Insert the required target</p><br/><br/>
+          {#<p>Enter the service area</p><br/>
+          <p>Enter the service area/ KPI description</p><br/>
+          <p>Insert the required target</p><br/>#}
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{servicelevel1}}</p><br/>
+          <p>{{servicelevel2}}</p><br/>
+          <p>{{servicelevel3}}% required target</p><br/><br/>
+          {#<p>Service area answer</p><br/>
+          <p>Enter the service area/ KPI description</p><br/>
+          <p>XX% required target</p><br/><br/>#}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 19">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Incentives and exit strategy<br/><br/>
+          <p>Insert the details of any mechanisms to incentive deliveryand / or compensate for poor supplier performance such as service credits</p><br/>
+          <p>Insert details of any exit strategy to be applied where poor supplier performance requires early termination of the contract</p><br/>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{incentive1}}</p><br/>
+          <p>{{incentive2}}</p><br/>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 20">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          How the supplier will deliver the within the budgetary constraints (optional)<br/><br/>
+          <p>Maximum estimated contract value (optional)</p><br/>
+          <p>Minimum estimated contract value (optional)</p><br/>
+          <p>Your question (optional)</p><br/>
+          <p>Provide additional details for your question (optional)</p><br/>
+          <p>Explain how good looks like (optional)</p><br/>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{bc1}}</p><br/>
+          <p>{{bc2}}</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 21">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Add your requirements<br/><br/>
+          <p>Requirement group</p>
+          <p>Requirement title</p>
+          <p>Requirement description</p>
+          {#<p>Requirement title</p>
+          <p>Requirement description</p><br/><br/>
+          <p>Requirement group</p>
+          <p>Requirement title</p>
+          <p>Requirement description</p><br/><br/>
+          <p>Requirement group</p>
+          <p>Requirement title</p>
+          <p>Requirement description</p><br/><br/>#}
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{reqgroup}}</p>
+          <p>{{reqtitle}}</p>
+          <p>{{reqdesc}}</p>
+          {#<p>Answer</p>
+          <p>Answer</p><br/><br/>
+          <p>Answer</p>
+          <p>Answer</p>
+          <p>Answer</p><br/><br/>
+          <p>Answer</p>
+          <p>Answer</p>
+          <p>Answer</p><br/><br/>#}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 24">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          </dl>
+        <h2 class="govuk-heading-m">4. Additional requirements </h2>
+        <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+         <strong> Define resource types and quantity </strong><br/><br/>
+         <p>Add quantity for required roles</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+        <br/><br/><br/>
+          {{resourceQuntityCount}} | Total number of added resources
+          <br/><br/>
+          IT Ops
+          <br/>
+          Business relationship manager<br/>
+          3 Lead Business relationship manager, SFIA level 6 <br/>
+          1 Lead Business relationship manager, SFIA level 7
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/rfp_resource_types">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Choose highest security and vetting requirements <br/><br/>
+          <p>Select the highest level of security clearance that staff supplied to the project will need to have</p><br/>
+          <p>How many resources need a lower security and vetting requirement?</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{highestSecurityCount}}</p><br/>
+          <p>{{highestSecuritySelected}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/choose-security-requirements">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+            <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Select your service capabilities<br/><br/>
+          <p>Select all that apply</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          {{serviceCapabilitesCount}} Total number of added capabilities
+          <br/><br/>
+          <strong>Performance analysis and data</strong><br/><br/>
+          A/B and multivariate testing<br/>
+          Data analysis<br/>
+          Data cleaning<br/>
+          Data visualization<br/>
+          Performance frameworks<br/>
+          Performance reporting<br/>
+          Statistical modelling<br/>
+          Web analytics
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/service-capabilities">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Where the work will be done
+        </dt>
+        <dd class="govuk-summary-list__value">
+        {% for elem in whereWorkDone %}
+        <p>{{elem}}</p>
+         {% endfor %}
+          {# North East England<br/>
+          Yorkshire and the Humber<br/>
+          Channel islands<br/>
+          No specific location, for example they can work remotely #}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/where-work-done">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          
+        </dl>
+        <h2 class="govuk-heading-m">5. Your assessment bases and evaluation weightings </h2>
+        <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Set overall ratio between quality and price<br/><br/>
+          <p>Quality</p><br/>
+          <p>Price</p><br/>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{overallratioQuestion1}}%</p><br/>
+          <p>{{overallratioQuestion2}}%</p><br/>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 2">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Set the specific ratio of quality groups<br/><br/>
+          <p>Technical group</p><br/>
+          <p>Cultural group</p><br/>
+          <p>Social value group</p><br/>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{technicalgroupquestion1}}%</p><br/>
+          <p>{{culturalgroupquestion1}}%</p><br/>
+          <p>{{socialvaluegroupquestion1}}%</p><br/>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 3">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Add your technical question<br/><br/>
+          <p>Your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
+          <p>Explain how good looks like</p><br/>
+          <p>Enter a weighting for this question</p><br/><br/>
+
+          {#<p>Your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
+          <p>Explain how good looks like</p><br/>
+          <p>Enter a weighting for this question</p><br/><br/>
+
+          <p>Your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
+          <p>Explain how good looks like</p><br/>
+          <p>Enter a weighting for this question</p><br/>#}
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{technicalquestion1}}</p><br/>
+          <p>{{technicalquestion2}}</p><br/>
+          <p>{{technicalquestion3}}</p><br/>
+          <p>{{technicalquestion4}}%</p><br/><br/>
+
+          {#<p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>XX%</p><br/><br/>
+
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>XX%</p><br/><br/>#}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 4">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Add your cultural question<br/><br/>
+          <p>Your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
+          <p>Explain how good looks like</p><br/>
+          <p>Enter a weighting for this question</p><br/><br/>
+
+          {#<p>Your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
+          <p>Explain how good looks like</p><br/>
+          <p>Enter a weighting for this question</p><br/><br/>
+
+          <p>Your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
+          <p>Explain how good looks like</p><br/>
+          <p>Enter a weighting for this question</p><br/>#}
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{culturalquestion1}}</p><br/>
+          <p>{{culturalquestion2}}</p><br/>
+          <p>{{culturalquestion3}}</p><br/>
+          <p>{{culturalquestion4}}%</p><br/><br/>
+
+          {#<p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>XX%</p><br/><br/>
+
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>XX%</p><br/><br/>#}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 5">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Add your social value question<br/><br/>
+          <p>Your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
+          <p>Explain how good looks like</p><br/>
+          <p>Enter a weighting for this question</p><br/><br/>
+
+          {#<p>Your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
+          <p>Explain how good looks like</p><br/>
+          <p>Enter a weighting for this question</p><br/><br/>
+
+          <p>Your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
+          <p>Explain how good looks like</p><br/>
+          <p>Enter a weighting for this question</p><br/>#}
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+          <p>{{socialquestion1}}</p><br/>
+          <p>{{socialquestion2}}</p><br/>
+          <p>{{socialquestion3}}</p><br/>
+          <p>{{socialquestion4}}%</p><br/><br/>
+
+          {#<p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>XX%</p><br/><br/>
+
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>XX%</p><br/><br/>#}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 6">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+         <p> Select the pricing model</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <p>{{pricingModel}}</p>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 7">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Set your scoring criteria<br/><br/>
+          <p>Enter the name for this tier</p><br/>
+          <p>Enter the points for this tier</p><br/>
+          <p>Enter the points for this tier</p><br/><br/>
+          {#<p>Enter the name for this tier</p><br/>
+          <p>Enter the points for this tier</p><br/>
+          <p>Enter the points for this tier</p><br/><br/>
+          <p>Enter the name for this tier</p><br/>
+          <p>Enter the points for this tier</p><br/>
+          <p>Enter the points for this tier</p><br/><br/>#}
+        </dt>
+        <dd class="govuk-summary-list__value">
+        <br/><br/><br/>
+          <p>{{tier1}}</p><br/>
+          <p>{{tier2}}</p><br/>
+          <p>{{tier3}}</p><br/><br/>
+          {# <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/>
+          <p>Answer</p><br/><br/>#}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 8">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+        </dl>
+        
+        <h2 class="govuk-heading-m">6. Review and publish your 1-stage Rfp </h2>
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+         <p> Look at the suppliers to contact</p>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{supplierList.length}} suppliers on this lot
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/suppliers">
+            View<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+          Set response date and time<br/><br/>
+          <p>Clarification period closes</p><br/>
+          <p>Deadline for the publication of responses to FC clarification questions</p><br/>
+          <p>Set response date and time</p><br/>
+          <p>Deadline for submission of a FC response</p><br/>
+          <p>Confirm next steps to FC respondents</p><br/>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <br/><br/><br/>
+         <p> {{rfp_clarification_period_end}}</p><br/>
+         <p> {{deadline_period_for_clarification_period}}</p><br/>
+         <p> Answer</p><br/>
+         <p> {{supplier_period_for_clarification_period}}</p><br/>
+         <p> {{ supplier_dealine_for_clarification_period}}</p><br/>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+            {% if eventStatus != "published"%}
+              <a class="govuk-link" href="/rfp/response-date">
+            Change<span class="govuk-visually-hidden">project name</span>
+              </a>
+              {% endif %}
+            </dd>
+         </div>   
+          </dl>
+          
+         <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                              <p class="govuk-body">
+                                <h2 class="govuk-heading-m"> Publish your 1-stage further competition</h2>
+                              </p>
+                              <p class="govuk-body">
+      After publishing this event, you'll be able to cancel all or part of this Request for Information at any stage/any time or amend, clarify, add to or withdraw all or any part of the Request for Information at any time.
+    </p>
+
+      
+                              <br><br>
+
+                              {{ CCSWarningText({
+    text: "By publishing this 1-stage further competition to all the suppliers in your list, you are stating that, to the best of your knowledge, the information you have provided is correct.",
+    iconFallbackText: "Warning"
+    }) }}
+
+                              <div class="ccs-link-group">
+                                <span>
+                                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M0 1.77778C0 1.34823 0.335786 1 0.75 1H5.00286C6.23012 1 7.31979 1.61142 8.00393 2.55666C8.68803 1.61146 9.77766 1 11.005 1H15.25C15.6642 1 16 1.34823 16 1.77778V12.6667C16 13.0962 15.6642 13.4445 15.25 13.4445H10.7426C10.1459 13.4445 9.57361 13.6903 9.15165 14.1279L8.53033 14.7722C8.23744 15.0759 7.76256 15.0759 7.46967 14.7722L6.84835 14.1279C6.42639 13.6903 5.8541 13.4445 5.25736 13.4445H0.75C0.335786 13.4445 0 13.0962 0 12.6667V1.77778ZM8.755 4.8889C8.755 3.60023 9.76236 2.55556 11.005 2.55556H14.5V11.8889H10.7426C10.0326 11.8889 9.34339 12.0978 8.75124 12.4825L8.755 4.8889ZM7.25124 12.4842L7.255 7.22297L7.25285 4.88668C7.25167 3.59887 6.24466 2.55556 5.00286 2.55556H1.5V11.8889H5.25736C5.96836 11.8889 6.65854 12.0983 7.25124 12.4842Z"
+            fill="#505A5F"/>
+                                  </svg>&nbsp;&nbsp;<a href="#" onclick="return false;"  class="govuk-link govuk-link--no-visited-state"> link 1</a>
+                                </span>
+                                <br>
+
+                              </div>
+                              <br><br>
+                            </div>
+                          </div>
+                          <form id="ccs_rfp_publish_form" name="ccs_rfp_publish_form" class="form ccs_rfp_publish_form"
+      action="/rfp/review" method="post">
+      {{ csrfProtection(csrf) }}
+
+                            {{ CCSCheckboxes({
+      idPrefix: "rfp_publish_confirmation",
+      name: "rfp_publish_confirmation",
+      items: [
+      {
+      "value": 1,
+      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements available above</strong></label>",
+      Checked: ""
+      }
+      ]
+      }) }}
+                            <div class="govuk-button-group">
+                              {{ CCSButton({
+        attributes: {
+        id: "rfp_btn_publish_now"
+        },
+        text: "Publish and continue"
+        }) }}
+                              <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements </a>
+                            </div>
+                            {{ CCSInput({
+      id: "finished_pre_engage",
+      name: "finished_pre_engage",
+      type: "hidden",
+      value: "true"
+      }) }}
+
+                          </form>
+
+                        </div>
+                      </div>
+
+                    </main>
+
+                  {% endblock %}

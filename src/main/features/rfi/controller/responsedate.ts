@@ -106,28 +106,31 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
       errorSelector = 'clarification_date';
       break;
     case 'Question 2':
-      if (questionNewDate < timeline.publish) {
+      let publishDate = new Date(timeline.publish);
+      let newDate = new Date(questionNewDate);
+      
+      if (newDate.setHours(0, 0, 0, 0) <= publishDate.setHours(0, 0, 0, 0)) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'clarification_period_end';
       break;
     case 'Question 3':
-      if (questionNewDate < timeline.clarificationPeriodEnd) {
+      if (questionNewDate <= timeline.clarificationPeriodEnd) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'deadline_period_for_clarification_period';
       break;
     case 'Question 4':
-      if (questionNewDate < timeline.publishResponsesClarificationQuestions) {
+      if (questionNewDate <= timeline.publishResponsesClarificationQuestions) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
       break;
     case 'Question 5':
-      if (questionNewDate < timeline.supplierSubmitResponse) {
+      if (questionNewDate <= timeline.supplierSubmitResponse) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
@@ -164,9 +167,12 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   let timeinHoursBased = 0;
   if (clarification_date_hourFormat == 'AM') {
     timeinHoursBased = Number(clarification_date_hour);
-  } else {
-    timeinHoursBased = Number(clarification_date_hour) + 12;
+  } else if (clarification_date_hourFormat == 'PM' && clarification_date_hour == 12) {
+    timeinHoursBased = Number(clarification_date_hour) ;
   }
+else {
+  timeinHoursBased = Number(clarification_date_hour) + 12;
+}
 
   let date = new Date(
     clarification_date_year,

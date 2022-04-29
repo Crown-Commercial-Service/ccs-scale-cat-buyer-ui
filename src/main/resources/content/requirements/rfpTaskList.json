@@ -112,7 +112,7 @@
         },
         {
           "Task": 3,
-          "title": "Select essential skills and capabilities",
+          "title": "Select your service capabilities",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfp/service-capabilities"

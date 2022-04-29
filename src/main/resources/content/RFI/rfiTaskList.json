@@ -64,7 +64,7 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "Upload documents or add links",
+          "title": "Upload documents",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfi/upload-doc"

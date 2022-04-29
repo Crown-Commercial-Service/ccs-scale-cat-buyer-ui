@@ -86,9 +86,9 @@
                       {% for subItems in item['data'] -%}
                       <div class="govuk-checkboxes__item">
                       {% if subItems.value !== ''%}
-                        <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="requirementId" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}" checked>
+                        <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="requirementId" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}" >
                       {%else%}
-                       <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="requirementId" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}">
+                       <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="requirementId" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}"checked>
                       {%endif%} 
                         <label class="govuk-label govuk-checkboxes__label" for="waste">
                           {{subItems['groupname']}}
