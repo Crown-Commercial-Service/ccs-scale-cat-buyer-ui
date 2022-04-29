@@ -150,7 +150,7 @@
       },
       "closeProject":{
         "title":"Close Project",
-        "href":"/rfp/rfp-closeproject"
+        "href":"#"
       }
     }
   }
