@@ -9,8 +9,8 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { title } from 'process';
 import { GetLotSuppliers } from '../../shared/supplierService';
-// import moment from 'moment';
-import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+
+
 
 export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Response, viewError: boolean, apiError: boolean) => {
   const { SESSION_ID } = req.cookies;
@@ -20,28 +20,24 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
   const { download } = req.query;
   if(download!=undefined)
     {
-      const _body = {
-        startDate: new Date(),
-        endDate:new Date()
-      };
-      const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
-      const { data } = await TenderApi.Instance(SESSION_ID).put(FileDownloadURL, _body);
-      // const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
-      //   responseType: 'arraybuffer',
-      // });
-      // const file = FetchDocuments;
-      // const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
-      // const fileData = file.data;
-      // const type = file.headers['content-type'];
-      // const ContentLength = file.headers['content-length'];
-      // res.status(200);
-      // res.set({
-      //   'Cache-Control': 'no-cache',
-      //   'Content-Type': type,
-      //   'Content-Length': ContentLength,
-      //   'Content-Disposition': 'attachment; filename=' + fileName,
-      // });
-      // res.send(fileData);
+      const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
+      
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
     }
     else{
   try {
