@@ -46,6 +46,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
     const routeRedirect = journey === 'Optional' ? `/${selRoute}/suppliers` : `/${selRoute}/upload-doc`;
     res.redirect(routeRedirect);
   }
+  
 
   const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
   const FileFilterArray = [];
@@ -188,7 +189,11 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   let { selectedRoute } = req.session;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
   const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71; // check step number
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
-
-  res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
+  if (req.session['isTcUploaded']) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
+    res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
+  }else{
+    res.redirect(`/rfp/upload-attachment`);
+  }
+  
 });

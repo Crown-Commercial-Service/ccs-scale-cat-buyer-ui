@@ -37,6 +37,11 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         'Content-Length': ContentLength,
         'Content-Disposition': 'attachment; filename=' + fileName,
       });
+      if (FetchDocuments !=undefined && FetchDocuments !=null && FetchDocuments.length >0) {
+        req.session['isTcUploaded']=true;
+      }else{
+        req.session['isTcUploaded']=false;
+      }
       res.send(fileData);
     } catch (error) {
       delete error?.config?.['headers'];
@@ -73,6 +78,12 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       };
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
+      }
+      if(FETCH_FILEDATA !=undefined && FETCH_FILEDATA !=null && FETCH_FILEDATA.length >0){
+        req.session['isTcUploaded'] = true;
+      }
+      else{
+        req.session['isTcUploaded'] = false;
       }
       if (selectedRoute === 'FC') selectedRoute = 'RFP';
       if (selectedRoute === 'FCA') selectedRoute = 'CA';
