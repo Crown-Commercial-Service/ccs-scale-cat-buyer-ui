@@ -15,6 +15,28 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
   const ProjectID = req.session['projectId'];
   const EventID = req.session['eventId'];
   const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
+  const { download } = req.query;
+  if(download!=undefined)
+    {
+      const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
+    }
+    else{
   try {
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
@@ -209,4 +231,5 @@ console.log(FilteredSetWithTrue)
     );
     LoggTracer.errorTracer(Log, res);
   }
+}
 };
