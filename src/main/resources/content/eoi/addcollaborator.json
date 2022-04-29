@@ -6,7 +6,7 @@
     "p2": "Use the drop-down box below to add colleagues. They will need to be registered with CCS. If they’re not registered, send them this link to our",
     "a1": {
       "text": "self-registration service.",
-      "href": "#"
+      "href": "https://www.crowncommercial.gov.uk/"
     },
     "p3": "If you need to wait for them to register, you can return to the pre-market engagement section and complete this step later, or you can continue to the next step.",
     "p4": "You cannot remove yourself from this procurement project. If you need to change the lead colleague, you can do this on the previous step.",
@@ -29,3 +29,4 @@
     }
   }
 }
+
