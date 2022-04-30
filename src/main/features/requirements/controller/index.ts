@@ -101,11 +101,8 @@ import {RFP_GET_EVENT_PUBLISHED} from './rfp-eventpublished'
 import {RFP_GET_WEIGHTINGS, RFP_POST_WEIGHTINGS} from './rfp-enterYourWeightings';
 import {GET_RFP_REVIEW,POST_RFP_REVIEW} from './rfp-review';
 
-
-import {RFP_GET_WEIGHTINGS, RFP_POST_WEIGHTINGS} from './rfp-enterYourWeightings'
-
-import {GET_UNPUBLISHED_EVENT_MANAGEMENT} from './rfp-unpublishedeventmanagement'
-import {GET_RFP_CLOSE_PROJECT} from './rfp-closeproject'
+import {GET_UNPUBLISHED_EVENT_MANAGEMENT} from './rfp-unpublishedeventmanagement';
+import {GET_RFP_CLOSE_PROJECT} from './rfp-closeproject';
 
 /**
  * @BaseController
