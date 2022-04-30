@@ -56,7 +56,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
     const filteredUser = userData.map(user => {
       return { name: `${user.OCDS.contact.name}`, userName: user.OCDS.id };
     });
-
+console.log(collaboratorData)
     filteredListofOrganisationUser = RemoveDuplicatedList(filteredListofOrganisationUser, filteredUser);
 
     const lotId = req.session?.lotId;
@@ -75,6 +75,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       error: isJaggaerError,
       releatedContent: releatedContent,
     };
+    console.log(JSON.stringify(windowAppendData))
     res.render('add-collaborator-rfi', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(

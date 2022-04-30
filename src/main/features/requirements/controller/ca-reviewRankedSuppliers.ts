@@ -26,7 +26,7 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
   req.session.errorText = '';
   const appendData = { ...dataRRSMod, numSuppliers, lotSuppliers: lotSuppliers, releatedContent, isError, errorText };
   try {
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('ca-reviewRankedSuppliers', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -66,7 +66,7 @@ export const CA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
     res.redirect('/ca/review-ranked-suppliers');
   } else {
     try {
-      //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
       res.redirect('/ca/task-list');
     } catch (error) {
       LoggTracer.errorLogger(
