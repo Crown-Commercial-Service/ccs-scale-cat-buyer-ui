@@ -103,8 +103,7 @@
                                                 {%endif%}
                                                 {%if (requirement.OCDS.id !== "Question 1")%}
                                                     <a href="#rfp_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
-                        class="govuk-link govuk-link--no-visited-state change govuk-!-padding-bottom-5 ">change</a>
-                                                </div>
+                        class="govuk-link govuk-link--no-visited-state change" >change</a>
                                                 <div id="rfp_clarification_date_expanded_{{loop.index}}">
                                                     <div>
                                                         <label class="govuk-label govuk-body">
@@ -112,7 +111,7 @@
                                 clarification_date_string }}</strong>
                                                         </label>
                                                         <a href="#rfp_clarification_date_{{loop.index}}"  id="rfp_cancel_change_clarification_date_{{loop.index}}"
-                            class="govuk-link govuk-link--no-visited-state ">I do not want to change this date and time</a>
+                            class="govuk-link govuk-link--no-visited-state " hidden>I do not want to change this date and time</a>
                                                     </div>
                                                     <br>
                                                     <form action="/rfp/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form">
@@ -256,6 +255,7 @@
                                                                 {{ CCSInput({
                     id: "timeStamp",
                     name: "deadline_for_submission_of_stage_one",
+                    type: "hidden",
                     value: "Question 6*"+deadline_for_submission_of_stage_one
                     }) }}
                                                                 {{ CCSInput({
