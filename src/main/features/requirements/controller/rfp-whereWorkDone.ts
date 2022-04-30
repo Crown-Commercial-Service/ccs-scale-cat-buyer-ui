@@ -7,17 +7,41 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 
 export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId, releatedContent, isError, errorText, dimensions } = req.session;
+  const { projectId, releatedContent, isError, errorText, dimensions,currentEvent  } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
+  const { assessmentId } = currentEvent;
+
   try {
     const locationArray = dimensions.filter(ele => ele.name === 'Location')[0]['options'];
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+    const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+    const { dimensionRequirements } = assessments;
+    let selectedopt=[];
+    if (dimensionRequirements.length > 0) {
+      const dimensionReq=dimensionRequirements.filter(dimension => dimension.name === 'Location');
+     if(dimensionReq.length>0)
+      {
+        for(let i=0;i<dimensionReq[0].requirements.length;i++)
+       selectedopt.push(dimensionReq[0].requirements[i].name);
+      }
+    }
+    if(selectedopt.length>0)
+    {
+    locationArray.map(location => {
+      selectedopt.map(item => {
+        if(item === location.name) location.checked = true;
+        else location.checked = false;
+      });
+    });
+  }
     const appendData = {
       ...data,
       releatedContent,
       isError,
       errorText,
       locationArray,
+      
     };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
     res.render('rfp-whereWorkDone', appendData);
