@@ -28,12 +28,17 @@ export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express
     }
     if(selectedopt.length>0)
     {
-    locationArray.map(location => {
-      selectedopt.map(item => {
-        if(item === location.name) location.checked = true;
-        else location.checked = false;
+      selectedopt.forEach((item)=>
+      {
+        let selectedLocIndex=locationArray.findIndex((loc: any) => loc.name === item);
+        locationArray[selectedLocIndex].checked=true;
       });
-    });
+    // locationArray.map(location => {
+    //   selectedopt.map(item => {
+    //     if(item === location.name) location.checked = true;
+    //     else location.checked = false;
+    //   });
+    // });
   }
     const appendData = {
       ...data,
