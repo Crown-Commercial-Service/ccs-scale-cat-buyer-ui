@@ -80,6 +80,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
           groupRequirement,
           optionID,
           'requirement-id': requirementId,
+          value:''
         };
       });
     }).flat();
@@ -122,7 +123,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       return {
         url: `#section${index}`,
         text: item.category,
-        subtext: `${item.Weightage.min}% / ${item.Weightage.max}%`,
+        subtext: `[0 selected]`,
       };
     });
 
@@ -148,14 +149,23 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
 
     for (const desgination of REMOVED_DUPLICATED_JOB) {
       const { Weightage, data, category } = desgination;
-      const filteredLevel1Content = data.filter(role => role.level === 1);
+      const filteredLevel1Content = data.filter(role => role.level === 1);    
       const ReformedObject = {
         Weightage,
         data: filteredLevel1Content,
-        category,
+        category,      
       };
       Level1DesignationStorage.push(ReformedObject);
     }
+
+    // Level1DesignationStorage.map(items => {
+    //   const { category, data, Weightage } = items;      
+    //   const newlyFormedData = data.map(nestedItems => {
+    //     var ReformedObj = {};     
+    //       ReformedObj = { ...nestedItems, value: '' };     
+    //     return ReformedObj;
+    //   });
+    // })
 
     Level1DesignationStorage = Level1DesignationStorage.filter(designation => designation.data.length !== 0);
 
@@ -163,9 +173,9 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
      * @ASSESSMENT_API_REQUEST
      * @DIMENSION_REQUIREMENT
      */
-    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
-    dimensionRequirements = dimensionRequirements.filter(item => item.name == 'Resource Quantity');
-    const DRequirements = dimensionRequirements?.[0]?.requirements;
+   const { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
+    const DR = dimensionRequirements.filter(dimension => dimension.name === 'Service Capability');
+    const DRequirements = DR?.[0]?.requirements;
 
     var TABLEBODY = [];
 
@@ -174,7 +184,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
 
      */
 
-    if (dimensionRequirements?.[0]?.requirements != undefined) {
+    if (DR?.[0]?.requirements != undefined) {
       const FilledDATASTORGE = Level1DesignationStorage.map(items => {
         const { category, data, Weightage } = items;
         const allignedItems = items;
@@ -210,31 +220,41 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       return findDesgination;
     });
 
-    /***
-      * 
-      * @WHOLECLUSTER_HEADINGS
+    // /***
+    //   * 
+    //   * @WHOLECLUSTER_HEADINGS
     
-      */
+    //   */
 
-    var WHOLECLUSTERCELLS = [];
+    // var WHOLECLUSTERCELLS = [];
 
-    if (dimensionRequirements?.[0]?.requirements != undefined) {
-      const reformedWholeClusterArr = UNIQUE_DESIGNATION_HEADINGS_ARR.map(items => {
-        const findInDRequirement = DRequirements.filter(x => x.name == items.name);
-        var ReformedObj = {};
-        if (findInDRequirement.length > 0) {
-          const weigtage = findInDRequirement[0].weighting;
-          ReformedObj = { ...items, value: weigtage };
-        } else ReformedObj = { ...items, value: '' };
-        return ReformedObj;
-      });
-      WHOLECLUSTERCELLS = reformedWholeClusterArr;
-    } else {
-      WHOLECLUSTERCELLS = UNIQUE_DESIGNATION_HEADINGS_ARR;
-    }
+    // if (dimensionRequirements?.[0]?.requirements != undefined) {
+    //   const reformedWholeClusterArr = UNIQUE_DESIGNATION_HEADINGS_ARR.map(items => {
+    //     const findInDRequirement = DRequirements.filter(x => x.name == items.name);
+    //     var ReformedObj = {};
+    //     if (findInDRequirement.length > 0) {
+    //       const weigtage = findInDRequirement[0].weighting;
+    //       ReformedObj = { ...items, value: weigtage };
+    //     } else ReformedObj = { ...items, value: '' };
+    //     return ReformedObj;
+    //   });
+    //   WHOLECLUSTERCELLS = reformedWholeClusterArr;
+    // } else {
+    //   WHOLECLUSTERCELLS = UNIQUE_DESIGNATION_HEADINGS_ARR;
+    // }
 
     req.session.serviceCapabilityData = Level1DesignationStorage;
     const TotalAdded = DRequirements?DRequirements.length:0;
+   
+    TableHeadings.sort((a, b) => a.text < b.text ? -1 : a.text > b.text ? 1 : 0)
+    if(TABLEBODY.length>0)
+    {
+      for(let i=0;i<TABLEBODY.length;i++)
+      {
+        TABLEBODY[i].data.sort((a, b) => a.groupname< b.groupname? -1 : a.groupname> b.groupname? 1 : 0)
+      }
+    }
+    TABLEBODY.sort((a, b) => a.category< b.category? -1 : a.category> b.category? 1 : 0)
 
     const windowAppendData = {
       ...RFPService,
@@ -245,7 +265,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       errorText,
       TABLE_HEADING: TableHeadings,
       TABLE_BODY: TABLEBODY,
-      WHOLECLUSTER: WHOLECLUSTERCELLS,
+      //WHOLECLUSTER: WHOLECLUSTERCELLS,
       //totalAdded: TotalAdded,
     };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'In progress');
