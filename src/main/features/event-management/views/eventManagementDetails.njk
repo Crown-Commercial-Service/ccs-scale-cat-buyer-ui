@@ -42,7 +42,7 @@
         <p class="govuk-body">
           <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
         </p>
-       <p class="govuk-body">Selected agreement: {{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %} {% if 'Lot' not in agreement_header['lotid'] %}Lot{% endif %} {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+       <p class="govuk-body">Selected agreement: {{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %} {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
   </p>
   {%endif %}
   <p class="govuk-body">Agreement ID: {{ agreement_header['agreementId_session'] }}</p>
