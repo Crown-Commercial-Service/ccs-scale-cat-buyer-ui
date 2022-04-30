@@ -116,7 +116,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           redirectUrl = '/da/task-list?path=B1' // Path needs to be updated as per the AC
           break
         case "FC":
-          redirectUrl = '/rfp/task-list' // Path needs to be updated as per the AC
+
+          if(status=="Unpublished")
+          {
+            redirectUrl="/rfp/rfp-unpublishedeventmanagement"
+          }
+          else
+          {
+          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+          }
+
           break
         case "DAA":
           redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC

@@ -702,4 +702,16 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.POST_RFP_REVIEW,
   );
+
+  app.get(
+    REQUIREMENT_PATHS.GET_UNPUBLISHED_EVENT_MANAGEMENT,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_UNPUBLISHED_EVENT_MANAGEMENT,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.GET_RFP_CLOSE_PROJECT,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_RFP_CLOSE_PROJECT,
+  );
 }

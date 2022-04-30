@@ -102,6 +102,10 @@ import {RFP_GET_WEIGHTINGS, RFP_POST_WEIGHTINGS} from './rfp-enterYourWeightings
 import {GET_RFP_REVIEW,POST_RFP_REVIEW} from './rfp-review';
 
 
+import {RFP_GET_WEIGHTINGS, RFP_POST_WEIGHTINGS} from './rfp-enterYourWeightings'
+
+import {GET_UNPUBLISHED_EVENT_MANAGEMENT} from './rfp-unpublishedeventmanagement'
+import {GET_RFP_CLOSE_PROJECT} from './rfp-closeproject'
 
 /**
  * @BaseController
@@ -247,6 +251,11 @@ export const REQUIREMENT_CONTROLLER = {
   CA_GET_review,
   RFP_POST_WEIGHTINGS,
   RFP_GET_WEIGHTINGS,
+
+  GET_UNPUBLISHED_EVENT_MANAGEMENT,
+  GET_RFP_CLOSE_PROJECT,
+
   RFP_GET_EVENT_PUBLISHED,
   GET_RFP_REVIEW,POST_RFP_REVIEW
+
 };
