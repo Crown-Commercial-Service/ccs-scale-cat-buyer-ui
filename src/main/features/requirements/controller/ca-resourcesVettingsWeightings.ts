@@ -22,12 +22,13 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     releatedContent,
     project_name,
     isError,
-    errorText,
+    errorTextSumary,
     currentEvent,
     designations,
     tableItems,
     dimensions,
     choosenViewPath,
+    isJaggaerError,
   } = req.session;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;
@@ -41,7 +42,6 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     lotId,
     error: isJaggaerError,
   };
-
   try {
 
     const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
@@ -151,7 +151,6 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
     /**   
  
-
        * 
        */
 
@@ -184,13 +183,15 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       StorageForSortedItems.push(findElementInRemapptedParentRole);
     }
 
+    req.session["StorageForSortedItems"]=StorageForSortedItems;
+
     const windowAppendData = {
       ...caResourcesVetting,
       lotId,
       agreementLotName,
       releatedContent,
       isError,
-      errorText,
+      errorTextSumary:errorTextSumary,
       designations: StorageForSortedItems,
       choosenViewPath,
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
@@ -217,7 +218,8 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
 export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,StorageForSortedItems } = req.session;
+  const errorTextSumary = [];
 
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
@@ -226,6 +228,82 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage } =
       req.body;
 
+    let isError=false;
+
+    let isWeightStaffArrayEmpty=weight_staff.every(value=>value==='');
+    let isWeightVettingArrayEmpty=weight_vetting.every(value=>value==='');
+    let isSFIAweightageArrayEmpty=SFIA_weightage.every(value=>value==='');
+
+    if(isWeightStaffArrayEmpty && isWeightVettingArrayEmpty && isSFIAweightageArrayEmpty)
+    {
+       isError=true;
+       errorTextSumary.push({ id: 1, text: 'At least 1 resources and vetting weightings ' });  
+    } 
+    else{
+    
+    let total_weight_staff=0;
+    let total_weight_vetting=0;
+     
+    let first=0;let end=0;
+   
+    StorageForSortedItems.forEach(element => {
+      //first=0;end=0;
+      element.category.forEach(category => {
+        end=first+category.designations.length;
+        let SFIA_weightage_subarray=SFIA_weightage.slice(first,end);
+        if(SFIA_weightage_subarray.some(value=>value!='') && SFIA_weightage_subarray.some(value=>value==''))
+        {
+          isError=true; errorTextSumary.push({ id: 1, text: 'All boxes in the Role Family must either be  empty or fully populated' });
+          throw new Error("Break loop");
+        }
+        first=end;
+      });
+    });
+ 
+    for (var i=0; i<weight_staff.length;i++){
+      let data=parseInt(weight_staff[i]);
+      if(isNaN(data) && weight_staff[i]!="")
+      {isError=true; errorTextSumary.push({ id: 1, text: 'All entry boxes are integer numeric' });}
+      if(!isNaN(data)){
+        total_weight_staff=total_weight_staff+data;
+        if(data>100)
+        {isError=true; errorTextSumary.push({ id: 1, text: 'Value entered in any [Weighting for number of staff] entry box <= 100' });}
+      }
+    }
+
+    for (var i=0; i<weight_vetting.length;i++){
+      let data=parseInt(weight_vetting[i]);
+      if(isNaN(data) && weight_vetting[i]!="")
+      {isError=true; errorTextSumary.push({ id: 1, text: 'All entry boxes are integer numeric' });}
+      if(!isNaN(data)){
+      total_weight_vetting=total_weight_vetting+data;
+      if(data>100)
+        {isError=true; errorTextSumary.push({ id: 1, text: 'Value entered in any [Weighting for related vetting requirement] entry box <= 100' });}
+      }
+    }
+
+    if(total_weight_staff!=100)
+    {
+       isError=true;
+       errorTextSumary.push({ id: 1, text: 'The number of staff weightings for all Role Family entries must = 100%' });
+    }
+
+    if(total_weight_vetting!=100)
+    {
+       isError=true;
+       errorTextSumary.push({ id: 1, text: 'The vetting requirement weightings for all Role Family entries must = 100%' });
+    }
+  }
+  if(isError){
+    req.session.errorTextSumary = errorTextSumary;
+      req.session.isError = isError;
+      req.session['isJaggaerError'] = true;
+      res.redirect('/ca/resources-vetting-weightings');
+    }
+    else{
+      req.session.errorTextSumary = [];
+      req.session.isError = false;
+      req.session['isJaggaerError'] = false;
     const Mapped_weight_staff = weight_staff.map(item => item !== '');
     let IndexStorage = [];
 
@@ -265,7 +343,8 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       };
     });
 
-    res.redirect('/ca/resources-vetting-weightings');
+    res.redirect('/ca/service-capabilities');
+  }
   } catch (error) {
     LoggTracer.errorLogger(
       res,
