@@ -56,13 +56,14 @@ export const GET_RFP_REVIEW = async (req: express.Request, res: express.Response
 
 const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response, viewError: boolean, apiError: boolean) => {
     
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'In progress');
+    
     const { SESSION_ID } = req.cookies;
     const ProjectID = req.session['projectId'];
     const EventID = req.session['eventId'];
     const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
     const {checkboxerror}=req.session;
     try {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/41`, 'In progress');
       const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
       const ReviewData = FetchReviewData.data;
     //   //Buyer Questions
