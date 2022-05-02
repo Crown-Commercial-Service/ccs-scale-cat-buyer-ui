@@ -27,8 +27,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     designations,
     tableItems,
     dimensions,
-    choosenViewPath,
-    isJaggaerError,
+    choosenViewPath,    
   } = req.session;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;
@@ -237,7 +236,7 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     if(isWeightStaffArrayEmpty && isWeightVettingArrayEmpty && isSFIAweightageArrayEmpty)
     {
        isError=true;
-       errorTextSumary.push({ id: 1, text: 'At least 1 resources and vetting weightings ' });  
+       errorTextSumary.push({ id: 1, text: 'At least 1 resources and vetting weightings must be selected ' });  
     } 
     else{
     
