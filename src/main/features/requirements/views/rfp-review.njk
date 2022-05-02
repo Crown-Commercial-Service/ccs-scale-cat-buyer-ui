@@ -281,7 +281,7 @@
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="#">
+              <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 5">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -504,9 +504,9 @@
           <br/><br/><br/>
           <p>{{bc1}}</p><br/>
           <p>{{bc2}}</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
+          <p></p><br/>
+          <p></p><br/>
+          <p></p><br/>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
@@ -573,7 +573,7 @@
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
-              <a class="govuk-link" href="/rfp/rfp_resource_types">
+              <a class="govuk-link" href="/rfp/vetting-weighting">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
               {% endif %}
@@ -893,17 +893,29 @@
           Set response date and time<br/><br/>
           <p>Clarification period closes</p><br/>
           <p>Deadline for the publication of responses to FC clarification questions</p><br/>
-          <p>Set response date and time</p><br/>
+          {#<p>Set response date and time</p><br/>#}
           <p>Deadline for submission of a FC response</p><br/>
           <p>Confirm next steps to FC respondents</p><br/>
+          <p>Date when you expect the evaluation to start</p><br/>
+          <p>Date when you expect the bidders to make a presentation to you</p><br/>
+          <p>Date when you expect to pre-award and the standstill period to start</p><br/>
+          <p>Date when you expect to award or confirm pre-award at the end of the standstill period</p><br/>
+          <p>Date when you expect to sign any contract agreed</p><br/>
+          <p>Date when you expect the work to commence</p><br/>
         </dt>
         <dd class="govuk-summary-list__value">
-          <br/><br/><br/>
-         <p> {{rfp_clarification_period_end}}</p><br/>
-         <p> {{deadline_period_for_clarification_period}}</p><br/>
-         <p> </p><br/>
-         <p> {{supplier_period_for_clarification_period}}</p><br/>
+          <br/><br/>
+         <p> {{rfp_clarification_period_end}}</p><br/><br/>
+         <p> {{deadline_period_for_clarification_period}}</p><br/><br/>
+         {#<p> </p><br/><br/>#}
+         <p> {{supplier_period_for_clarification_period}}</p><br/><br/>
          <p> {{ supplier_dealine_for_clarification_period}}</p><br/>
+         <p> {{supplier_dealine_evaluation_to_start}}</p></br><br/>
+         <p> {{supplier_dealine_expect_the_bidders}}</p></br><br/>
+         <p> {{supplier_dealine_for_pre_award}}</p></br><br/></br>
+         <p> {{supplier_dealine_for_expect_to_award}}</p></br><br/>
+         <p> {{supplier_dealine_sign_contract}}</p></br><br/><br/>
+         <p> {{supplier_dealine_for_work_to_commence}}</p></br><br/>
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}

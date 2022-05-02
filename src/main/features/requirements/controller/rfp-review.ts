@@ -55,6 +55,8 @@ export const GET_RFP_REVIEW = async (req: express.Request, res: express.Response
 };
 
 const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response, viewError: boolean, apiError: boolean) => {
+    
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'In progress');
     const { SESSION_ID } = req.cookies;
     const ProjectID = req.session['projectId'];
     const EventID = req.session['eventId'];
@@ -220,6 +222,13 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     
     const supplier_dealine_for_clarification_period = fetchQuestionsData.filter(item => item.OCDS.id=="Question 5").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
 
+    const supplier_dealine_evaluation_to_start = fetchQuestionsData.filter(item => item.OCDS.id=="Question 6").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
+    const supplier_dealine_expect_the_bidders = fetchQuestionsData.filter(item => item.OCDS.id=="Question 7").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
+    const supplier_dealine_for_pre_award = fetchQuestionsData.filter(item => item.OCDS.id=="Question 8").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
+    const supplier_dealine_for_expect_to_award = fetchQuestionsData.filter(item => item.OCDS.id=="Question 9").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
+    const supplier_dealine_sign_contract = fetchQuestionsData.filter(item => item.OCDS.id=="Question 10").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
+    const supplier_dealine_for_work_to_commence = fetchQuestionsData.filter(item => item.OCDS.id=="Question 11").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
+    
     const assessmentId = req.session.currentEvent.assessmentId;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
@@ -455,6 +464,12 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       deadline_period_for_clarification_period,
       supplier_period_for_clarification_period,
       supplier_dealine_for_clarification_period,
+      supplier_dealine_evaluation_to_start,
+      supplier_dealine_expect_the_bidders,
+      supplier_dealine_for_pre_award,
+      supplier_dealine_for_expect_to_award,
+      supplier_dealine_sign_contract,
+      supplier_dealine_for_work_to_commence,
       resourceQuntityCount:resourceQuntityCount,
       checkboxerror:checkboxerror,
       highestSecurityCount:highestSecurityCount,
