@@ -140,7 +140,19 @@
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
+              {% if status=='Publish' %}
                 {% for supplier in suppliers.default %}
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        <a class="govuk-link" href="#">{{ supplier.SupplierName }}</a>
+                      </p>
+                    </th>
+                    <td class="govuk-table__cell">{{ supplier.ResponseDate }}</td>
+                  </tr>
+                {% endfor %}
+              {% elseif status=='Response period open' %} 
+              {% for supplier in suppliers.default %}
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell">
                       <p class="govuk-body govuk-!-margin-bottom-0">
@@ -153,6 +165,21 @@
                     </td>
                   </tr>
                 {% endfor %}
+              {% elseif status=='Response period closed' %}
+              {% for supplier in suppliers.default %}
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        <a class="govuk-link" href="#">{{ supplier.SupplierName }}</a>
+                      </p>
+                    </th>
+                    <td class="govuk-table__cell">{{ supplier.ResponseDate }}</td>
+                    <td class="govuk-table__cell">
+                      <a class="govuk-link" href="{{ data.Downloadresponse[0].link }}">{{ data.Downloadresponse[0].text }}</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% endif %}
               </tbody>
             </table>
           </div>
@@ -162,8 +189,13 @@
     {% if status != 'Response period closed' %}
       <div class="govuk-inset-text">
         <h4 class="govuk-heading-s">Next Steps on the procurement</h4>
-        <p class="govuk-body">You can now <a class="govuk-link" href="/event/next">choose your next steps</a> to continue in this procurement.</p>
+        <p class="govuk-body">You can now <a>choose your next steps</a> to continue in this procurement.</p>
       </div>
+     {% elseif status == 'Response period closed' %}
+     <div class="govuk-inset-text">
+        <h4 class="govuk-heading-s">Next Steps on the procurement</h4>
+        <p class="govuk-body">You can now <a class="govuk-link" href="/event/next">choose your next steps</a> to continue in this procurement.</p>
+      </div> 
     {% endif %}
   </main>
 {% endblock %}
