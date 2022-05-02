@@ -7,9 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         const preventDefaultState = [];
+        const inputtedtext=[];
 
         for (var a = 1; a < totalInputFields.length; a++) {
             const classTarget = document.getElementsByClassName("rfp_weight_vetting_class")[a - 1];
+           if(classTarget.value!='')
+           {
+            inputtedtext.push(true)
+           }
             if (classTarget.value > 99 && classTarget.value != '') {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("weight_vetting_class_error")[a - 1].innerHTML = 'There is a problem with this field';
@@ -41,10 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
             $('.govuk-error-summary__title').text('There is a problem');
             $("#summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>');
             $('html, body').animate({ scrollTop: 0 }, 'fast');
-
-
         }
-
+        if(!inputtedtext.length>0)
+{
+   
+    e.preventDefault();
+    $('#rfp_vetting_error_summary').removeClass('hide-block');
+    $('.govuk-error-summary__title').text('There is a problem');
+    $("#summary_list").html('You must enter atleast on value');
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+}
 
     });
 
