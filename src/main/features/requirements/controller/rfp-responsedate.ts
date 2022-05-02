@@ -81,7 +81,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
     }
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'Not started');
-    res.redirect('/rfp/rfp-eventpublished');
+    res.redirect('/rfp/review');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -104,6 +104,15 @@ function isValidQuestion(
   timeinHoursBased: number,
   timeline: any,
 ) {
+  let date1 = new Date(
+    day,
+    month,
+    year,
+    hour,
+    minute,
+    timeinHoursBased
+  );
+  let todaydate=new Date();
   let isValid = true,
     error,
     errorSelector;
@@ -134,6 +143,12 @@ function isValidQuestion(
     isValid = false;
     error = 'You can not set a date in weekend';
   }
+  
+  //if(todaydate>date1)
+  //{
+    //isValid = false;
+    //error = 'You can not set a date earlier that the previous date';
+  //}
   switch (questionId) {
     case 'Question 1':
       errorSelector = 'clarification_date';

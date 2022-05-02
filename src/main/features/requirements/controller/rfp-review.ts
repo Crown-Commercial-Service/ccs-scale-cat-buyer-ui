@@ -61,8 +61,8 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
     const {checkboxerror}=req.session;
     try {
-    //   const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
-    //   const ReviewData = FetchReviewData.data;
+      const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
+      const ReviewData = FetchReviewData.data;
     //   //Buyer Questions
     //   const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions.sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
     //   const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -208,55 +208,17 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
-    const rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
+    //const rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
 
-    const clarification_period_end_date = new Date();
-    const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${
-      clarification_period_end_date.getMonth() + 1
-    }-${clarification_period_end_date.getFullYear()}`;
-    const rfp_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD-MM-YYYY').businessAdd(
-      predefinedDays.clarification_days,
-    )._d;
-    rfp_clarification_period_end.setHours(predefinedDays.defaultEndingHour);
-    rfp_clarification_period_end.setMinutes(predefinedDays.defaultEndingMinutes);
+    const rfp_clarification_period_end = fetchQuestionsData.filter(item => item.OCDS.id=="Question 2").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
 
-    const DeadlinePeriodDate = rfp_clarification_period_end;
-
-    const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${
-      DeadlinePeriodDate.getMonth() + 1
-    }-${DeadlinePeriodDate.getFullYear()}`;
-    const deadline_period_for_clarification_period = moment(DeadlinePeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
-      predefinedDays.clarification_period_end,
-    )._d;
-    deadline_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-    deadline_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
-
-    const SupplierPeriodDate = deadline_period_for_clarification_period;
-    const SupplierPeriodDate_Parsed = `${SupplierPeriodDate.getDate()}-${
-      SupplierPeriodDate.getMonth() + 1
-    }-${SupplierPeriodDate.getFullYear()}`;
-    const supplier_period_for_clarification_period = moment(SupplierPeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
-      predefinedDays.supplier_period,
-    )._d;
-    supplier_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-    supplier_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
-
-    const SupplierPeriodDeadLine = supplier_period_for_clarification_period;
-    const SupplierPeriodDeadLine_Parsed = `${SupplierPeriodDeadLine.getDate()}-${
-      SupplierPeriodDeadLine.getMonth() + 1
-    }-${SupplierPeriodDeadLine.getFullYear()}`;
-    const supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(
-      predefinedDays.supplier_deadline,
-    )._d;
-    supplier_dealine_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-    supplier_dealine_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
-
-    fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
-      const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
-      const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
-      return currentElementID - nextElementID;
-    });
     
+    const deadline_period_for_clarification_period =fetchQuestionsData.filter(item => item.OCDS.id=="Question 3").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
+    
+    const supplier_period_for_clarification_period = fetchQuestionsData.filter(item => item.OCDS.id=="Question 4").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
+
+    
+    const supplier_dealine_for_clarification_period = fetchQuestionsData.filter(item => item.OCDS.id=="Question 5").map(item=>item.nonOCDS.options)[0].find(i=>i.value).value;
 
     const assessmentId = req.session.currentEvent.assessmentId;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
@@ -472,10 +434,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     //section 3
     
 
-      req.session['endDate']=moment(
-        supplier_period_for_clarification_period,
-        'DD/MM/YYYY, hh:mm a',
-      ).format('DD MMMM YYYY, hh:mm a');
+      req.session['endDate']=supplier_period_for_clarification_period;
 
       let appendData = {
         //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
@@ -491,22 +450,11 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
         proc_id,
         event_id,
         supplierList:supplierList,
-        rfp_clarification_date,
-      rfp_clarification_period_end: moment(rfp_clarification_period_end, 'DD/MM/YYYY, hh:mm a').format(
-        'DD MMMM YYYY, hh:mm a',
-      ),
-      deadline_period_for_clarification_period: moment(
-        deadline_period_for_clarification_period,
-        'DD/MM/YYYY, hh:mm a',
-      ).format('DD MMMM YYYY, hh:mm a'),
-      supplier_period_for_clarification_period: moment(
-        supplier_period_for_clarification_period,
-        'DD/MM/YYYY, hh:mm a',
-      ).format('DD MMMM YYYY, hh:mm a'),
-      supplier_dealine_for_clarification_period: moment(
-        supplier_dealine_for_clarification_period,
-        'DD/MM/YYYY, hh:mm a',
-      ).format('DD MMMM YYYY, hh:mm a'),
+        //rfp_clarification_date,
+      rfp_clarification_period_end,
+      deadline_period_for_clarification_period,
+      supplier_period_for_clarification_period,
+      supplier_dealine_for_clarification_period,
       resourceQuntityCount:resourceQuntityCount,
       checkboxerror:checkboxerror,
       highestSecurityCount:highestSecurityCount,
@@ -562,7 +510,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       reqtitle:reqtitle,
       reqdesc:reqdesc,
         //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
-        eventStatus: 'active' // this needs to be revisited to check the mapping of the planned 
+        eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       };
       req.session['checkboxerror']=0;
       //Fix for SCAT-3440 
