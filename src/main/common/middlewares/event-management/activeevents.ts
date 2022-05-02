@@ -73,11 +73,17 @@ export class EventEngagementMiddleware {
               historicalEvents.push(events[i])
             } else if (events[i].activeEvent?.status == 'planning' || events[i].activeEvent?.status == 'complete' || events[i].activeEvent?.status == 'active') {
               // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-             if (events[i].activeEvent?.tenderPeriod?.endDate == undefined && events[i].activeEvent?.eventType == 'planning') {
+             if (events[i].activeEvent?.tenderPeriod?.endDate == undefined && events[i].activeEvent?.status == 'planning' && events[i].activeEvent?.eventType == 'FC') {
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Unpublished'
                 activeEvents.push(draftActiveEvent)
-              } else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today) && events[i].activeEvent.eventType == 'active') {
+              }
+              else if (events[i].activeEvent?.tenderPeriod?.endDate == undefined && events[i].activeEvent?.eventType == 'planning' && events[i].activeEvent?.eventType == 'DA') {
+                draftActiveEvent = events[i]
+                draftActiveEvent.activeEvent.status = 'Unpublished'
+                activeEvents.push(draftActiveEvent)
+              }
+              else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today) && events[i].activeEvent.eventType == 'active') {
                 // Today < "tenderPeriod": "endDate" -- Published
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Published'

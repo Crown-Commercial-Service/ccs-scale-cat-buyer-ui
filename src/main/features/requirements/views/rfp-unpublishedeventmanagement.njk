@@ -1,0 +1,99 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Event Management' %}
+
+{% block content %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
+
+    {{ CCSErrorSummary({
+    titleText: "There is a problem",
+    errorList: [
+        {
+        text: "Select an option"
+        }
+    ]
+    }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="govuk-heading-xl">
+          {{data.title }}
+        </h1>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <p class="govuk-body">Selected agreement: {{ agreementName }}{% if(agreementLotName !== undefined)%}, {% if lotid !== undefined %} {% if 'Lot' not in lotid %}Lot{% endif %} {% endif %} {{ lotid }}: {{ agreementLotName }}  
+        </p>
+        {%endif %}
+        <p class="govuk-body">Agreement ID: {{ agreementId_session }}</p>
+        <br/><br/>
+        <p>[instructions for this page]</p>
+        <br/><br/>
+        <p class="govuk-body"><strong>{{data.subtitle }}</strong> <strong class="govuk-tag govuk-tag--grey app-task-list__tag">TO BE PUBLISHED</strong></p>
+        <p class="govuk-body">
+          <a href="{{data.form.closeProject.href}}">
+              {{data.form.closeProject.title}}
+          </a>
+        </p>
+     
+      <p class="app-task-list__item"></p>
+      <br/>
+       <ol class="app-task-list">
+    {% for item in data.events %}
+         <li>
+            <h2 class="app-task-list__section">
+            <span class="app-task-list__section-number">{{item.eventno}} </span> {{item.eventTitle}}
+             </h2>
+             <p class="govuk-body">{{item.eventDescription}}</p>
+               {%  if(item.eventno==4) %}
+               <p class="govuk-body">{{item.eventDescription1}}</p>
+                <p class="govuk-body">{{item.eventDescription2}}</p>
+               {% endif %}
+
+              <ul class="app-task-list__items">
+               {% for Tasks in item.eventTask %}
+                <li class="app-task-list__item">
+                        <span class="app-task-list__task-name">
+                          <strong>
+                            {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %}
+                                <a href="{{Tasks.link}}" aria-describedby="name-your-project">
+                                    {{Tasks.title}}
+                                </a>
+                            {% else %}
+                            {{Tasks.title}}
+                            {% endif %} 
+                          </strong>
+                        </span>
+                        {% if (Tasks.status == "Cannot start yet") or (Tasks.status == "Not started") %}
+                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
+                        {% else %}
+                        <strong class="govuk-tag app-task-list__tag" > {{Tasks.status}}</strong>
+                        {% endif %} 
+                    </li>
+               {% endfor %}
+                </ul>
+             </li>
+    {% endfor %}
+    </ol>
+    <p class="govuk-body">
+          <a href="{{data.form.backJump.href}}">
+              {{data.form.backJump.title}}
+          </a>
+        </p>
+      </div>
+      
+      </div>
+
+    </div>
+
+  </main>
+
+{% endblock %}

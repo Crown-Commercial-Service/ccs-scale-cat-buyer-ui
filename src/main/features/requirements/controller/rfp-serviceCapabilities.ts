@@ -28,6 +28,8 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
+  req.session.isError = false;
+  req.session.errorText = '';
   res.locals.agreement_header = {
     agreementName,
     project_name,
@@ -80,6 +82,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
           groupRequirement,
           optionID,
           'requirement-id': requirementId,
+          value:''
         };
       });
     }).flat();
@@ -118,11 +121,11 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       designation => designation.data.length !== 0,
     );
 
-    const TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
+    let TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
       return {
         url: `#section${index}`,
         text: item.category,
-        subtext: `${item.Weightage.min}% / ${item.Weightage.max}%`,
+        subtext: `[0 selected]`,
       };
     });
 
@@ -148,33 +151,29 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
 
     for (const desgination of REMOVED_DUPLICATED_JOB) {
       const { Weightage, data, category } = desgination;
-      const filteredLevel1Content = data.filter(role => role.level === 1);
+      const filteredLevel1Content = data.filter(role => role.level === 1);    
       const ReformedObject = {
         Weightage,
         data: filteredLevel1Content,
-        category,
+        category,      
       };
       Level1DesignationStorage.push(ReformedObject);
     }
 
+   
     Level1DesignationStorage = Level1DesignationStorage.filter(designation => designation.data.length !== 0);
 
     /**
      * @ASSESSMENT_API_REQUEST
      * @DIMENSION_REQUIREMENT
      */
-    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
-    dimensionRequirements = dimensionRequirements.filter(item => item.name == 'Resource Quantity');
-    const DRequirements = dimensionRequirements?.[0]?.requirements;
+   const { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
+    const DR = dimensionRequirements.filter(dimension => dimension.name === 'Service Capability');
+    const DRequirements = DR?.[0]?.requirements;
 
     var TABLEBODY = [];
 
-    /**
-     *
-
-     */
-
-    if (dimensionRequirements?.[0]?.requirements != undefined) {
+    if (DR?.[0]?.requirements != undefined) {
       const FilledDATASTORGE = Level1DesignationStorage.map(items => {
         const { category, data, Weightage } = items;
         const allignedItems = items;
@@ -195,6 +194,24 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       });
 
       TABLEBODY = FilledDATASTORGE;
+    TableHeadings = TABLEBODY.map((items, index) => {
+      const {data}=items;
+      const temp=data.filter(x=>x.value>0);
+      let  newsubtext;
+      if(temp.length>0)
+      {
+        newsubtext='['+temp.length+' selected]';       
+      }
+    else{
+        newsubtext=`[0 selected]`
+        }
+     return {
+          url: `#section${index}`,
+          text: items.category,
+          subtext: newsubtext,
+        };
+     });
+
     } else {
       TABLEBODY = Level1DesignationStorage;
     }
@@ -210,31 +227,20 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       return findDesgination;
     });
 
-    /***
-      * 
-      * @WHOLECLUSTER_HEADINGS
     
-      */
-
-    var WHOLECLUSTERCELLS = [];
-
-    if (dimensionRequirements?.[0]?.requirements != undefined) {
-      const reformedWholeClusterArr = UNIQUE_DESIGNATION_HEADINGS_ARR.map(items => {
-        const findInDRequirement = DRequirements.filter(x => x.name == items.name);
-        var ReformedObj = {};
-        if (findInDRequirement.length > 0) {
-          const weigtage = findInDRequirement[0].weighting;
-          ReformedObj = { ...items, value: weigtage };
-        } else ReformedObj = { ...items, value: '' };
-        return ReformedObj;
-      });
-      WHOLECLUSTERCELLS = reformedWholeClusterArr;
-    } else {
-      WHOLECLUSTERCELLS = UNIQUE_DESIGNATION_HEADINGS_ARR;
-    }
 
     req.session.serviceCapabilityData = Level1DesignationStorage;
     const TotalAdded = DRequirements?DRequirements.length:0;
+   
+    TableHeadings.sort((a, b) => a.text < b.text ? -1 : a.text > b.text ? 1 : 0)
+    if(TABLEBODY.length>0)
+    {
+      for(let i=0;i<TABLEBODY.length;i++)
+      {
+        TABLEBODY[i].data.sort((a, b) => a.groupname< b.groupname? -1 : a.groupname> b.groupname? 1 : 0)
+      }
+    }
+    TABLEBODY.sort((a, b) => a.category< b.category? -1 : a.category> b.category? 1 : 0)
 
     const windowAppendData = {
       ...RFPService,
@@ -245,8 +251,8 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       errorText,
       TABLE_HEADING: TableHeadings,
       TABLE_BODY: TABLEBODY,
-      WHOLECLUSTER: WHOLECLUSTERCELLS,
-      //totalAdded: TotalAdded,
+      //WHOLECLUSTER: WHOLECLUSTERCELLS,
+      totalAdded: TotalAdded,
     };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'In progress');
     //res.json(dataset);
@@ -277,7 +283,11 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
   const { SESSION_ID } = req.cookies;
   const { projectId, serviceCapabilityData,currentEvent } = req.session;
   const { requirementId } = req.body;
-
+  if (!req.body.requirementId) {
+    req.session.errorText = [{ text: 'Select atleast one service capability.' }];
+    req.session.isError = true;
+    res.redirect('/rfp/service-capabilities');
+  } else {
   const MappedServiceCapData = serviceCapabilityData.map(items => items.data).flat();
   var MappedRequestContainingID = [];
   var individualWeigtage = 0;
@@ -326,7 +336,8 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Not started');
     res.redirect('/rfp/where-work-done');
-  } catch (error) {
+  }
+   catch (error) {
     console.log(error);
     LoggTracer.errorLogger(
       res,
@@ -338,6 +349,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       true,
     );
   }
+}
 };
 
 

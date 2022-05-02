@@ -34,13 +34,35 @@
         {{ csrfProtection(csrf) }}
         {% set countryArray = [] %}
 
-        {% for elem in locationArray %}
+         {% for elem in locationArray %}
           {% if (elem.name === "Remote (Supplier's own site)") %}
-            {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name, behaviour: "exclusive"}), countryArray) %}
+            {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name, checked:elem.checked, behaviour: "exclusive"}), countryArray) %}
           {% else %}
-            {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name}), countryArray) %}
+            {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name, checked:elem.checked}), countryArray) %}
+            {% endif %}
+            {% endfor %}
+            
+      <!-- {% for elem in locationArray %}
+          {% if selectedopt.length === 0 %}
+            {% if (elem.name === "Remote (Supplier's own site)") %}
+              {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name, behaviour: "exclusive"}), countryArray) %}
+            {% else %}
+              {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name}), countryArray) %}
+            {% endif %}
+          {% else %} 
+            {% for item in selectedopt %}
+              {% if (elem.name === "Remote (Supplier's own site)") and elem['requirement-id'] === item %}
+                {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name, behaviour: "exclusive", checked: true}), countryArray) %}
+              {% elif (elem.name === "Remote (Supplier's own site)") %}
+                {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name, behaviour: "exclusive"}), countryArray) %}
+              {%elif elem['requirement-id'] === item %}
+                {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name, checked: true}), countryArray) %}
+              {%else %}
+                {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name}), countryArray) %}
+              {% endif %}
+            {% endfor %}
           {% endif %}
-        {% endfor %}
+        {% endfor %}-->
 
         {{ CCSCheckboxes({
           name: "rfp_location",

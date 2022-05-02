@@ -2,6 +2,7 @@ import * as express from 'express'
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
+import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import * as inboxData from '../../../resources/content/event-management/event-management-next-step.json'
 
 /**
@@ -47,17 +48,33 @@ export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: expre
     try {
         if (event_management_next_step) {
             switch (event_management_next_step) {
-                case 'pre-market':
+                case 'pre-market':    
+                const successPreMar= GetStatus(req);
+                if (successPreMar)  
+                {
                     redirect_address = "/projects/create-or-choose";
                     res.redirect(redirect_address);
                     break;
+                }          
+                   else{
+                    res.redirect('/404');
+                   }
 
                 case 'write-publish':
+                    const successWnP= GetStatus(req);
+                if (successWnP)  
+                {              
                     redirect_address = "/projects/create-or-choose"
                     res.redirect(redirect_address);
                     break;
-
+                }          
+                else{
+                 res.redirect('/404');
+                }
                 case 'move-from-cat':
+                    const statusMfCat= GetStatus(req);
+                    if (statusMfCat)  
+                    {                                   
                     if (req.session.eventManagement_eventType == "RFI"){
                         redirect_address = "/rfi/review"
                     } else if(req.session.eventManagement_eventType == "EOI"){
@@ -65,7 +82,10 @@ export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: expre
                     }
                     res.redirect(redirect_address);
                     break;
-
+                }          
+                else{
+                 res.redirect('/404');
+                }
                 case 'close':
                     redirect_address= "#"
                     res.redirect(redirect_address);
@@ -95,4 +115,27 @@ export const POST_EVENT_MANAGEMENT_NEXT_STEP = (req: express.Request, res: expre
             true,
         );
     }
+
+}
+
+const GetStatus =async(req: express.Request)=>    
+{
+    const { SESSION_ID } = req.cookies;
+    const projectId=req.session['projectId']
+    const body = {
+        "id": req.session['eventId'],
+        "title": req.session['evetTitle'],
+        "eventStage": "tender",
+        "status": "complete",
+        "eventSupportId": "itt_15298",
+        "eventType": req.session.eventManagement_eventType,
+        "offline": false,
+      };
+      let success=false;
+      const response =await TenderApi.Instance(SESSION_ID).post(`tenders/projects/${projectId}/events`, body);
+     if (response.status==200)
+     {
+        success=true;
+     }
+      return success;
 }

@@ -198,6 +198,11 @@ export enum REQUIREMENT_PATHS {
  
   RFP_GET_EVENT_PUBLISHED='/rfp/rfp-eventpublished',
 
+
+  GET_UNPUBLISHED_EVENT_MANAGEMENT='/rfp/rfp-unpublishedeventmanagement',
+  GET_RFP_CLOSE_PROJECT='/rfp/rfp-closeproject',
+
   GET_RFP_REVIEW='/rfp/review',
   POST_RFP_REVIEW='/rfp/review',
+
 }

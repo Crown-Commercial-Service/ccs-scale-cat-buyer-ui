@@ -98,9 +98,23 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     }
 
     if (status == "Published" || status == "Response period closed" ) {
-      const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
-      res.render('eventManagement', appendData)
-    } else {
+      let redirectUrl_: string
+      switch (eventType) {
+       
+        case "RFI":
+          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
+          res.render('eventManagement', appendData)
+          break
+          case "FC":
+            redirectUrl_="/rfp/rfp-unpublishedeventmanagement"    
+            res.redirect(redirectUrl_)     
+            break
+          default:
+            redirectUrl_ = '/event/management'
+            break
+        }
+       
+  } else {
       let redirectUrl: string
       switch (eventType) {
         case "RFI":
@@ -113,11 +127,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           redirectUrl = '/projects/create-or-choose'
           break
         case "DA":
-          redirectUrl = '/da/task-list?path=B1' // Path needs to be updated as per the AC
+          redirectUrl = '/da/task-list?path=B1' 
           break
         case "FC":
-          redirectUrl = '/rfp/task-list' // Path needs to be updated as per the AC
-          break
+          redirectUrl = '/rfp/task-list'
+         break
         case "DAA":
           redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
           break

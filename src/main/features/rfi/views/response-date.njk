@@ -92,6 +92,7 @@
                     <br>
                     <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfi_response_date_form">
                     {{ csrfProtection(csrf) }}
+
                     <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
 
                         <div class="govuk-date-input" id="clarification_date">
@@ -103,8 +104,8 @@
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-day_{{loop.index}}" name="clarification_date_day" type="text"
-                                        pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-day'] }}" required>
+                                         inputmode="numeric"
+                                        value="{{ data['clarification_date-day'] }}" >
                                 </div>
                             </div>
 
@@ -115,8 +116,8 @@
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-month_{{loop.index}}" name="clarification_date_month" type="text"
-                                        pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-month'] }}" required>
+                                         inputmode="numeric"
+                                        value="{{ data['clarification_date-month'] }}" >
                                 </div>
                             </div>
 
@@ -127,8 +128,8 @@
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-4"
                                         id="clarification_date-year_{{loop.index}}" name="clarification_date_year" type="text"
-                                        pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-year'] }}" required>
+                                         inputmode="numeric"
+                                        value="{{ data['clarification_date-year'] }}" >
                                 </div>
                             </div>
                         </div>
@@ -144,8 +145,8 @@
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-hour_{{loop.index}}" name="clarification_date_hour" type="text"
-                                        pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-hour'] }}" required>
+                                         inputmode="numeric"
+                                        value="{{ data['clarification_date-hour'] }}" >
                                 </div>
                             </div>
 
@@ -156,7 +157,7 @@
                                     </label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-minute_{{loop.index}}" name="clarification_date_minute" type="text"
-                                        pattern="[0-9]*" inputmode="numeric"
+                                        inputmode="numeric"
                                         value="{{ data['clarification_date-minute'] }}">
                                 </div>
                             </div>
@@ -165,7 +166,7 @@
                                 {{ CCSSelect({
                                 id: "clarification_date-hourFormat",
                                 name: "clarification_date_hourFormat",
-                                required: true,
+                              
                                 classes: "",
                                 items: [
                                 { value:"",
@@ -183,9 +184,8 @@
                             </div>
                         </div>
                     </fieldset>
-                    
-
-                    {{ CCSInput({
+                  
+                {{ CCSInput({
                     id: "selected_question_id",
                     name: "selected_question_id",
                     type: "hidden",

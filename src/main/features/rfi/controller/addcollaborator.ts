@@ -157,6 +157,34 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
 }
 };
 
+export const POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies;
+  const {id}=req.query;
+  try {
+    const baseURL = `/tenders/projects/${req.session.projectId}/users/${id}`;
+    
+    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
+    req.session['searched_user'] = [];
+    res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
+  } catch (err) {
+    const isJaggaerError = err.response.data.errors.some(
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+    );
+    LoggTracer.errorLogger(
+      res,
+      err,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tender agreement failed to be added',
+      !isJaggaerError,
+    );
+    req.session['isJaggaerError'] = isJaggaerError;
+    res.redirect('/rfi/add-collaborators');
+  }
+};
+
+
 export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborator } = req['body'];
