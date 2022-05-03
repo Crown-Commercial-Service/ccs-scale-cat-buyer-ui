@@ -1,8 +1,8 @@
 import * as express from 'express'
+import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import * as inboxData from '../../../resources/content/event-management/qa.json'
-import * as localTableData from '../../../resources/content/event-management/local-QA.json' // Replace this with API endpoint
 
 /**
  * 
@@ -11,12 +11,16 @@ import * as localTableData from '../../../resources/content/event-management/loc
  * @param req 
  * @param res 
  */
-export const EVENT_MANAGEMENT_QA = (req: express.Request, res: express.Response) => {
+export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
-    try {
-        res.locals.agreement_header = req.session.agreement_header
-        
-        const appendData = { data: inboxData, QAs: localTableData, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+  
+    try {    
+        res.locals.agreement_header = req.session.agreement_header 
+             
+        const baseURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
+        const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
+
+        const appendData = {data: inboxData, QAs: fetchData.data, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.render('viewQA', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -25,7 +29,7 @@ export const EVENT_MANAGEMENT_QA = (req: express.Request, res: express.Response)
             `${req.headers.host}${req.originalUrl}`,
             null,
             TokenDecoder.decoder(SESSION_ID),
-            'Event management page',
+            'Tenders Service Api cannot be connected',
             true,
         );
     }
