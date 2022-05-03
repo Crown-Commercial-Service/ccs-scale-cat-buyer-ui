@@ -174,8 +174,11 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   clarification_date_month = Number(clarification_date_month) - 1;
 
   let timeinHoursBased = 0;
-  if (clarification_date_hourFormat == 'AM') {
+  if (clarification_date_hourFormat == 'AM'&& clarification_date_hour != 12) {
     timeinHoursBased = Number(clarification_date_hour);
+  }
+ else if (clarification_date_hourFormat == 'AM' && clarification_date_hour == 12) {
+    timeinHoursBased = Number(clarification_date_hour)-12;
   } else if (clarification_date_hourFormat == 'PM' && clarification_date_hour == 12) {
     timeinHoursBased = Number(clarification_date_hour) ;
   }
