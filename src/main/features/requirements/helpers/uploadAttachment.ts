@@ -18,7 +18,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   let { selectedRoute } = req.session;
-  const {pricingSchedule}=req.session;
+  const { pricingSchedule } = req.session;
   const { file_id } = req.query;
   if (file_id !== undefined) {
     try {
@@ -38,10 +38,10 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         'Content-Length': ContentLength,
         'Content-Disposition': 'attachment; filename=' + fileName,
       });
-      if (FetchDocuments !=undefined && FetchDocuments !=null && FetchDocuments.length >0) {
-        req.session['isTcUploaded']=true;
-      }else{
-        req.session['isTcUploaded']=false;
+      if (FetchDocuments != undefined && FetchDocuments != null && FetchDocuments.length > 0) {
+        req.session['isTcUploaded'] = true;
+      } else {
+        req.session['isTcUploaded'] = false;
       }
       res.send(fileData);
     } catch (error) {
@@ -76,25 +76,32 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         files: FETCH_FILEDATA,
         releatedContent: releatedContent,
         storage: TOTALSUM,
-        IsDocumentError:false,
-        Rfp_confirm_upload:false,
-        IsFileErro:false,
+        IsDocumentError: false,
+        Rfp_confirm_upload: false,
+        IsFileError: false,
       };
+      
+      if (pricingSchedule != undefined) {
+       delete req.session["pricingSchedule"];
+        if (errorList==null) {
+          errorList=[];
+        }
+        if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
+          errorList.push({ text: "The buyer must confirm they understand the statement by ticking the box", href: "#" })
+          fileError=true;
+        }
+        if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
+          errorList.push({ text: "Pricing schedule must be uploaded", href: "#" });
+          fileError=true;
+        }
+      }
       if (fileError && errorList !== null) {
-        windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
+        windowAppendData = Object.assign({}, { ...windowAppendData, fileError: true, errorlist: errorList });
       }
-      if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
-        windowAppendData.Rfp_confirm_upload = true;
-        windowAppendData = Object.assign({}, { ...windowAppendData, errorlist: errorList });
-      }
-      if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
-        windowAppendData.IsFileErro = true;
-        windowAppendData = Object.assign({}, { ...windowAppendData, errorlist: errorList });
-      }
-      if(FETCH_FILEDATA !=undefined && FETCH_FILEDATA !=null && FETCH_FILEDATA.length >0){
+      if (FETCH_FILEDATA != undefined && FETCH_FILEDATA != null && FETCH_FILEDATA.length > 0) {
         req.session['isTcUploaded'] = true;
       }
-      else{
+      else {
         req.session['isTcUploaded'] = false;
       }
       if (selectedRoute === 'FC') selectedRoute = 'RFP';

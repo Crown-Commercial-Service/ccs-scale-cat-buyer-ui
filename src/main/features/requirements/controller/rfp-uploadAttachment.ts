@@ -194,7 +194,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
     res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
   }else{
-    req.session["pricingSchedule"]={"IsDocumentError":true,"IsFile":req.session['isTcUploaded'],"rfp_confirm_upload":rfp_confirm_upload ==undefined ?false:true};
+    req.session["pricingSchedule"]={"IsDocumentError":true,"IsFile":!req.session['isTcUploaded'] ?true:false,"rfp_confirm_upload":rfp_confirm_upload ==undefined ?true:false};
     res.redirect(`/rfp/upload-attachment`);
   }
   
