@@ -18,6 +18,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   let { selectedRoute } = req.session;
+  const {pricingSchedule}=req.session;
   const { file_id } = req.query;
   if (file_id !== undefined) {
     try {
@@ -75,9 +76,20 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         files: FETCH_FILEDATA,
         releatedContent: releatedContent,
         storage: TOTALSUM,
+        IsDocumentError:false,
+        Rfp_confirm_upload:false,
+        IsFileErro:false,
       };
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
+      }
+      if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
+        windowAppendData.Rfp_confirm_upload = true;
+        windowAppendData = Object.assign({}, { ...windowAppendData, errorlist: errorList });
+      }
+      if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
+        windowAppendData.IsFileErro = true;
+        windowAppendData = Object.assign({}, { ...windowAppendData, errorlist: errorList });
       }
       if(FETCH_FILEDATA !=undefined && FETCH_FILEDATA !=null && FETCH_FILEDATA.length >0){
         req.session['isTcUploaded'] = true;

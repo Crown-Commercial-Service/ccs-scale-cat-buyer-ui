@@ -2,7 +2,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Edit a question and clerification' %}
+{% set title = 'Message Reply ' %}
 
 {% set sortedMembers = [
   {
@@ -77,9 +77,8 @@
         </nav>
       </div>
     </div>
-    <form id="ccs_message_qa_Add_ClerificationQs_form" name="ccs_message_qa_Add_ClerificationQs_form" action="/event/qa-edit" method="POST">
+    <form id="ccs_message_qa_Add_ClerificationQs_form" name="ccs_message_qa_Add_ClerificationQs_form" action="/event/qa-add" method="POST">
      {{ csrfProtection(csrf) }}
-     <input type="hidden" name="qa_edit_id" id="qa_edit_id" value="{{QA.id}}">
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
@@ -89,28 +88,29 @@
           <p class="govuk-body ">Date: {{message.OCDS.date | datedd_mm_yyyy}}</p>
            </br>
           <label class="govuk-label"></label></br>
-          <p class="govuk-body ">Subject: {{message.OCDS.title}}</p>
-          <p class="govuk-body ">Message : {{message.OCDS.description }}</p>
+          <p class="govuk-body ">{{data.Subject}}: {{message.OCDS.title}}</p>
+          <p class="govuk-body ">{{data.Message}}: {{message.OCDS.description }}</p>
         
-
-            <h2 class="govuk-heading-m">Edit and publish the question and clerification</h2>
-              
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-             Question
-             <textarea value="{{QA.question}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Question_input" name="message_QA_Edit_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{QA.question}}</textarea>
-              </div>
-            
+        <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+         Add to clerifications
+        </button>
+        <h2 class="govuk-heading-m">{{data.lable1}}</h2>
+        <p class="govuk-body">{{data.lable2}} </p></br>
+              Question
+              <textarea class="govuk-textarea govuk-js-character-count" id="message_input_QA_Question_input" name="message_input_QA_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
              Clerification
-             <textarea value="{{QA.answer}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Answer_input" name="message_QA_Edit_Answer_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{QA.answer}}</textarea>
+             <textarea class="govuk-textarea govuk-js-character-count" id="message_Add_Clerification_input" name="message_Add_Clerification_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
+                
               </div>
+
             <div class="govuk-button-group">
               {{ CCSButton({
-                text: "Publish Changes",
+                text: data.btnText1,
                 action:"submit"
                 })
                 }}
-              <a href="{{data.Cancel.link}}" class="govuk-link govuk-link--no-visited-state">Cancel</a>
+              <a href="{{data.Cancel.link}}" class="govuk-link govuk-link--no-visited-state">{{data.Cancel.text}}</a>
             </div>
 
           </div>

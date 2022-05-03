@@ -19,7 +19,18 @@
                 errorList: errorlist
             }) }}
         {% endif %}
-
+        {% if (IsFileErro)%}
+            {{ CCSErrorSummary({
+                titleText: "There is a problem with these files",
+                errorList: "Pricing schedule must be uploaded"
+            }) }}
+        {% endif %}
+        {% if (Rfp_confirm_upload)%}
+            {{ CCSErrorSummary({
+                titleText: "There is a problem with these files",
+                errorList: [{"The buyer must confirm they understand the statement by ticking the box"}]
+            }) }}
+        {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
@@ -115,8 +126,8 @@
                     </span>
                     <br>
                 </div>
-
-                {{ CCSCheckboxes({
+ <form action="/rfp/upload-attachment/proceed" method="post">  
+               {{ CCSCheckboxes({
                     idPrefix: "rfp_confirm_upload",
                     name: "rfp_confirm_upload",
                     classes: "govuk-checkboxes--small",
@@ -128,7 +139,7 @@
                     ]
                 }) }}
 
-                <form action="/rfp/upload-attachment/proceed" method="post">  
+               
                 {{ csrfProtection(csrf) }}    
                     <div class="govuk-button-group">
                             {{ CCSButton({

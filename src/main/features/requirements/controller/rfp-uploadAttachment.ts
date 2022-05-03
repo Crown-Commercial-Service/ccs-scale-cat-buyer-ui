@@ -187,12 +187,14 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
   let { selectedRoute } = req.session;
+  const rfp_confirm_upload =req.body.rfp_confirm_upload;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
   const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71; // check step number
-  if (req.session['isTcUploaded']) {
+  if (req.session['isTcUploaded'] && rfp_confirm_upload ==="confirm") {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
     res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
   }else{
+    req.session["pricingSchedule"]={"IsDocumentError":true,"IsFile":req.session['isTcUploaded'],"rfp_confirm_upload":rfp_confirm_upload ==undefined ?false:true};
     res.redirect(`/rfp/upload-attachment`);
   }
   

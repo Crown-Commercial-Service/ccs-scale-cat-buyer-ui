@@ -2,7 +2,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Edit a question and clerification' %}
+{% set title = 'Message Reply ' %}
 
 {% set sortedMembers = [
   {
@@ -77,9 +77,8 @@
         </nav>
       </div>
     </div>
-    <form id="ccs_message_qa_Add_ClerificationQs_form" name="ccs_message_qa_Add_ClerificationQs_form" action="/event/qa-edit" method="POST">
+    <form id="ccs_message_qa_Add_ClerificationQs_View_form" name="ccs_message_qa_Add_ClerificationQs_View_form" >
      {{ csrfProtection(csrf) }}
-     <input type="hidden" name="qa_edit_id" id="qa_edit_id" value="{{QA.id}}">
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
@@ -89,29 +88,35 @@
           <p class="govuk-body ">Date: {{message.OCDS.date | datedd_mm_yyyy}}</p>
            </br>
           <label class="govuk-label"></label></br>
-          <p class="govuk-body ">Subject: {{message.OCDS.title}}</p>
-          <p class="govuk-body ">Message : {{message.OCDS.description }}</p>
+          <p class="govuk-body ">{{data.Subject}}: {{message.OCDS.title}}</p>
+          <p class="govuk-body ">{{data.Message}}: {{message.OCDS.description }}</p>
         
+         <div class="govuk-button-group">
+           <a class="govuk-button govuk-button--secondary" href="/event/qa-add-2nd-step?id={{message.OCDS.id}}">{{data.btnText}}</a>
+        </div>
 
-            <h2 class="govuk-heading-m">Edit and publish the question and clerification</h2>
-              
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-             Question
-             <textarea value="{{QA.question}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Question_input" name="message_QA_Edit_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{QA.question}}</textarea>
-              </div>
-            
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-             Clerification
-             <textarea value="{{QA.answer}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Answer_input" name="message_QA_Edit_Answer_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{QA.answer}}</textarea>
-              </div>
-            <div class="govuk-button-group">
-              {{ CCSButton({
-                text: "Publish Changes",
-                action:"submit"
-                })
-                }}
-              <a href="{{data.Cancel.link}}" class="govuk-link govuk-link--no-visited-state">Cancel</a>
+            <h2 class="govuk-heading-m">Clarification question and your answers</h2>
+            <p>You can edit this document to add clarification to any questions raised by suppliers.</p>
+            <p>All suppliers in the list will be notified of any edits you make</p>
+            <p>There are {{ QAs.length }} clarification for this agreement</p>
+
+          {% for QA in QAs %}
+        <div class="govuk-grid-row ccs-page-section" id="-add-qa-data-table">
+            <div class="govuk-grid-column-two-thirds">
+                <h3>{{QA.question}}  </h3>
+                <p class="govuk-body">
+                    {{QA.answer}}
+                </p>
+                <p class="govuk-body">
+                    Last updated : <strong>{{QA.created | datedd_mm_yyyy}}</strong>
+                </p>
             </div>
+            <div class="govuk-grid-column-one-third">
+            <a href="/event/qa-edit?qaid={{QA.id}}&id={{message.OCDS.id}}">Edit</a>
+          </div>
+        </div>
+        {% endfor %}
+        
 
           </div>
         </div>

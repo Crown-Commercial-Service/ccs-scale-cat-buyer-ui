@@ -19,6 +19,40 @@
     <a class="govuk-notification-banner__link" href="{{data.notification2.link}}">{{data.notification2.linkText}}</a>
 </p>
 {% endset %}
+
+{% set htmlQA %}
+<h3 class="govuk-notification-banner__heading">
+    You successfully updated your clerifications
+</h3>
+<p class="govuk-body">
+    <a class="govuk-notification-banner__link" href="#">View your clerifications</a>
+</p>
+{% endset %}
+{% set errHtmlQA %}
+<h3 class="govuk-notification-banner__heading">
+    Your clerifications not updated
+</h3>
+<p class="govuk-body">
+    <a class="govuk-notification-banner__link" href="#">View your clerifications</a>
+</p>
+{% endset %}
+
+{% set htmlQAEdit %}
+<h3 class="govuk-notification-banner__heading">
+  The  Question and clerifications have been edited
+</h3>
+<p class="govuk-body">
+    <a class="govuk-notification-banner__link" href="#">View your clerifications</a>
+</p>
+{% endset %}
+{% set errHtmlQAEdit %}
+<h3 class="govuk-notification-banner__heading">
+    The Question and clerifications have not edited
+</h3>
+<p class="govuk-body">
+    <a class="govuk-notification-banner__link" href="#">View your clerifications</a>
+</p>
+{% endset %}
 {% block breadCrumb %}
     {{ CCSBreadcrumbs({
         items:[
@@ -59,6 +93,44 @@
                 }) }}
             </div>
         {% endif %}
+        {% if createdQA == true %}
+            <div class="govuk-grid-column-one-half">
+
+                {{ govukNotificationBanner({
+                html: htmlQA,
+                type: "success",
+                titleText: "Clerification Added"
+                }) }}
+
+            </div>
+        {% elseif createdQA == false %}
+            <div class="govuk-grid-column-one-half">
+                {{ govukNotificationBanner({
+                html: errHtmlQA,
+                type: "Important",
+                titleText: "Clerification Added"
+                }) }}
+            </div>
+        {% endif %}
+        {% if createdQAEdit == true %}
+            <div class="govuk-grid-column-one-half">
+
+                {{ govukNotificationBanner({
+                html: htmlQA,
+                type: "success",
+                titleText: "Question and clerification updated"
+                }) }}
+
+            </div>
+        {% elseif createdQAEdit == false %}
+            <div class="govuk-grid-column-one-half">
+                {{ govukNotificationBanner({
+                html: errHtmlQA,
+                type: "Important",
+                titleText: "Question and clerification updated"
+                }) }}
+            </div>
+        {% endif %}
         <div class="govuk-grid-row govuk-!-padding-bottom-7">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
@@ -77,13 +149,13 @@
 
                     <ul class="nav-list messaging-nav-list--primary">
                         <li class="nav-list__item">
-                            <a class="nav-list__link " href="{{data.tabs.href1}}">{{data.tabs.text1}}</a>
+                            <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{data.tabs.text1}}</a>
                         </li>
                         <li class="nav-list__item selected">
                             {{data.tabs.text2}}
                         </li>
                         <li class="nav-list__item">
-                            <a class="nav-list__link " href="{{data.tabs.href3}}">{{data.tabs.text3}}</a>
+                            <a class="nav-list__link " href="{{data.tabs.href3}}?type=sent">{{data.tabs.text3}}</a>
                         </li>
                     </ul>
                 </nav>

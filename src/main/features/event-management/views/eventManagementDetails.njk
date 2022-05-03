@@ -65,13 +65,13 @@
 
                 <ul class="nav-list messaging-nav-list--primary">
                   <li class="nav-list__item">
-                    <a class="nav-list__link" href="{{data.tabs.href1}}">{{data.tabs.text1}}</a>
+                    <a class="nav-list__link" href="{{data.tabs.href1}}?type=create">{{data.tabs.text1}}</a>
                   </li>
                   <li class="nav-list__item selected">
-                    <a class="nav-list__link" href="{{data.tabs.href2}}">{{data.tabs.text2}}</a>
+                    <a class="nav-list__link" href="{{data.tabs.href2}}?type=received">{{data.tabs.text2}}</a>
                   </li>
-                  <li class="nav-list__item">
-                    <a class="nav-list__link " href="{{data.tabs.href3}}">{{data.tabs.text3}}</a>
+                  <li class="nav-list__item ">
+                    <a class="nav-list__link " href="{{data.tabs.href3}}?type=sent">{{data.tabs.text3}}</a>
                   </li>
                 </ul>
               </nav>
@@ -101,7 +101,7 @@
                 }) }}
                
               <a href="{{data.backJump3.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump3.title}}</a>
-              <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+              <a href="{{data.backJump.href}}?id={{messageDetails.OCDS.id}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
             </div>
             
           </form>
