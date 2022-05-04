@@ -104,14 +104,7 @@ function isValidQuestion(
   timeinHoursBased: number,
   timeline: any,
 ) {
-  let date1 = new Date(
-    day,
-    month,
-    year,
-    hour,
-    minute,
-    timeinHoursBased
-  );
+  const date1 = new Date(year, month, day, timeinHoursBased, minute);
   let todaydate=new Date();
   let isValid = true,
     error,
