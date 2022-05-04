@@ -31,7 +31,7 @@ export const EVENT_MANAGEMENT_MESSAGING_SENT = async (req: express.Request, res:
                 sentMessage[i].OCDS.date = (moment(sentMessage[i].OCDS.date)).format('DD-MMM-YYYY hh:mm')
             }
         }
-        const appendData = { data: inboxData, messages: sentMessage, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        const appendData = {selectedReceived:"",selectedSent:"selected", data: inboxData, messages: sentMessage, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.render('MessagingSent', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
