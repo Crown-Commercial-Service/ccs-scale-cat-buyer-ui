@@ -19,7 +19,7 @@
                 errorList: errorlist
             }) }}
         {% endif %}
-
+        
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
@@ -115,8 +115,8 @@
                     </span>
                     <br>
                 </div>
-
-                {{ CCSCheckboxes({
+ <form action="/rfp/upload-attachment/proceed" method="post">  
+               {{ CCSCheckboxes({
                     idPrefix: "rfp_confirm_upload",
                     name: "rfp_confirm_upload",
                     classes: "govuk-checkboxes--small",
@@ -128,7 +128,7 @@
                     ]
                 }) }}
 
-                <form action="/rfp/upload-attachment/proceed" method="post">  
+               
                 {{ csrfProtection(csrf) }}    
                     <div class="govuk-button-group">
                             {{ CCSButton({

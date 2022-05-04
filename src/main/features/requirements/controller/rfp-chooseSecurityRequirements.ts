@@ -30,7 +30,7 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       data.form.radioOptions.items.find(item => item.value === selectedOption).checked = true;
       if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting>0)
       {
-        data.form.question=dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting;
+        data.form.selectedValue=dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting;
       }
      }
     }

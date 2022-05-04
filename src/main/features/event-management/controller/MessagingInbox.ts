@@ -16,10 +16,15 @@ import * as inboxData from '../../../resources/content/event-management/messagin
 export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     const { created } = req.query
+    const { createdqa } = req.session
+    const { createdqaedit } = req.session
     const projectId = req.session['projectId']
     const eventId = req.session['eventId']
     try {
-
+        if (createdqa !=undefined || createdqaedit !=undefined) {
+            delete req.session["createdqa"];
+            delete req.session["createdqaedit"];
+        }
         const baseReceivedMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages?message-direction=RECEIVED`
         const draftReceivedMessage = await TenderApi.Instance(SESSION_ID).get(baseReceivedMessageURL)
 
@@ -31,7 +36,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
                 receivedMessages[i].OCDS.date = (moment(receivedMessages[i].OCDS.date)).format('DD-MMM-YYYY hh:mm')
             }
         }
-        const appendData = { data: inboxData, created, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        const appendData = { data: inboxData,createdQA:createdqa,createdQAEdit:createdqaedit, created, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingInbox', appendData)
     } catch (err) {
