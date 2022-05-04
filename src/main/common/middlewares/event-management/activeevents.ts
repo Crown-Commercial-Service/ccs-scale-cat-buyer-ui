@@ -38,13 +38,13 @@ export class EventEngagementMiddleware {
         const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) => (a.projectId < b.projectId) ? 1 : -1)
         for (let i = 0; i < events.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
-          if (events[i].activeEvent.status != undefined && (events[i].activeEvent.eventType == 'RFI' || events[i].activeEvent.eventType == 'EOI')) {
+          if (events[i].activeEvent !=undefined && events[i].activeEvent?.status != undefined && (events[i].activeEvent.eventType == 'RFI' || events[i].activeEvent.eventType == 'EOI')) {
             if (events[i].activeEvent.status == 'withdrawn' || events[i].activeEvent.status == 'cancelled') {
               // Historical Events
               historicalEvents.push(events[i])
-            } else if (events[i].activeEvent.status == 'planning') {
+            } else if (events[i].activeEvent?.status == 'planning') {
               // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-              if (events[i].activeEvent.tenderPeriod?.endDate == undefined) {
+              if (events[i].activeEvent?.tenderPeriod?.endDate == undefined) {
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Unpublished'
                 activeEvents.push(draftActiveEvent)
@@ -53,7 +53,7 @@ export class EventEngagementMiddleware {
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Published'
                 activeEvents.push(draftActiveEvent)
-              } else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isSameOrBefore(today)) {
+              } else if (moment(events[i].activeEvent?.tenderPeriod?.endDate).isSameOrBefore(today)) {
                 // Today >= "tenderPeriod": "endDate" -- Response period closed
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Response period closed'
@@ -62,22 +62,28 @@ export class EventEngagementMiddleware {
                 activeEvents.push(events[i])
               }
             }
-          } else if (events[i].activeEvent.eventType == 'TBD' || events[i].activeEvent.eventType == 'FCA') {
+          } else if (events[i].activeEvent?.eventType == 'TBD' || events[i].activeEvent?.eventType == 'FCA') {
             draftActiveEvent = events[i]
             draftActiveEvent.activeEvent.status = 'Unpublished'
             activeEvents.push(draftActiveEvent)
           }
           // eventType = FC & DA (Active and historic events)
-          else if (events[i].activeEvent.status != undefined && (events[i].activeEvent.eventType == 'FC' || events[i].activeEvent.eventType == 'DA')) {
-            if (events[i].activeEvent.status == 'withdrawn' || events[i].activeEvent.status == 'cancelled') {
+          else if (events[i].activeEvent?.status != undefined && (events[i].activeEvent?.eventType == 'FC' || events[i].activeEvent?.eventType == 'DA')) {
+            if (events[i].activeEvent?.status == 'withdrawn' || events[i].activeEvent?.status == 'cancelled') {
               historicalEvents.push(events[i])
-            } else if (events[i].activeEvent.status == 'planning' || events[i].activeEvent.status == 'complete' || events[i].activeEvent.status == 'active') {
+            } else if (events[i].activeEvent?.status == 'planning' || events[i].activeEvent?.status == 'complete' || events[i].activeEvent?.status == 'active') {
               // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-              if (events[i].activeEvent.tenderPeriod?.endDate == undefined && events[i].activeEvent.eventType == 'planning') {
+             if (events[i].activeEvent?.tenderPeriod?.endDate == undefined && events[i].activeEvent?.status == 'planning' && events[i].activeEvent?.eventType == 'FC') {
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Unpublished'
                 activeEvents.push(draftActiveEvent)
-              } else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today) && events[i].activeEvent.eventType == 'active') {
+              }
+              else if (events[i].activeEvent?.tenderPeriod?.endDate == undefined && events[i].activeEvent?.eventType == 'planning' && events[i].activeEvent?.eventType == 'DA') {
+                draftActiveEvent = events[i]
+                draftActiveEvent.activeEvent.status = 'Unpublished'
+                activeEvents.push(draftActiveEvent)
+              }
+              else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today) && events[i].activeEvent.eventType == 'active') {
                 // Today < "tenderPeriod": "endDate" -- Published
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Published'

@@ -1,0 +1,157 @@
+{
+    "breadCrumbs": [
+      {
+        "text": "Dashboard",
+        "href": "/dashboard"
+      },
+      {
+        "text": "Event Management",
+        "href": "/rfp/rfp-unpublishedeventmanagement"
+      }
+    ],
+  
+    "title": "Event Management",
+    "subtitle": "Open Project ID/Name",
+    "events": [
+      {
+        "eventno": 1,
+        "eventTitle": "Project and collaborators",
+        "eventDescription": "Description for this section",
+        "eventTask": [
+          {
+            "Task": 1,
+            "link": "/rfp/procurement-lead",
+            "title": "Change who is going to lead the procurement",
+            "required": "optional",
+            "status": "Optional"
+          },
+          {
+            "Task": 2,
+            "link": "/rfp/add-collaborators",
+            "title": "Add members to your project",
+            "required": "optional",
+            "status": "Optional"
+          }
+        ]
+      },
+      {
+        "eventno": 2,
+        "eventTitle": "Context your 1-stage further competition",
+        "eventDescription": "Description for this section",
+        "eventTask": [
+          {
+            "Task": 1,
+            "title": "IR35 acknowledgement",
+            "required": "optional",
+            "link": "/rfp/IR35",
+            "status": "Todo"
+          },
+          {
+            "Task": 2,
+            "title": "Add context",
+            "required": "optional",
+            "link": "/rfp/add-context",
+            "status": "Todo"
+          }
+        ]
+      },
+      {
+        "eventno": 3,
+        "eventTitle": "Your requirements",
+        "eventDescription": "Description for this section",
+        "eventTask": [
+          {
+            "Task": 1,
+            "title": "Your requirements",
+            "required": "optional",
+            "status": "Cannot start yet",
+            "link": "#"
+          }
+        ]
+      },
+      {
+        "eventno": 4,
+        "eventTitle": "Your assessment bases and evaluation weightings",
+        "eventDescription1": "Description for this section",
+        "eventDescription2":"When you build your 1-stage further competition online, you'll be able to define your requirements and evaluation weightings as well.",
+        "eventTask": [
+          {
+            "Task": 1,
+            "title": "Define your assessment team",
+            "required": "optional",
+            "status": "Cannot start yet",
+            "link": "#"
+          },
+          {
+            "Task": 2,
+            "title": "Add your evaluation weightings",
+            "required": "optional",
+            "status": "Cannot start yet",
+            "link": "#"
+          },
+          {
+            "Task": 3,
+            "title": "How would you like to set your scoring criteria?",
+            "required": "optional",
+            "status": "Cannot start yet",
+            "link": "#"
+          },
+          {
+            "Task": 4,
+            "title": "Set your scoring criteria",
+            "required": "optional",
+            "status": "Cannot start yet",
+            "link": "/rfp/scoring-criteria"
+          }
+        ]
+      },
+      {
+        "eventno": 5,
+        "eventTitle": "Review and publish your 1-stage Rfp",
+        "eventDescription": "Description for this section",
+        "eventTask": [
+          {
+            "Task": 1,
+            "title": "Upload any additional documentation",
+            "required": "optional",
+            "status": "Cannot start yet",
+            "link": "#"
+          },
+          {
+            "Task": 2,
+            "title": "Look at the suppliers for this further competition",
+            "required": "optional",
+            "status": "Cannot start yet",
+            "link": "#"
+          },
+          {
+            "Task": 3,
+            "title": "Set response date and time",
+            "required": "optional",
+            "status": "Cannot start yet",
+            "link": "#"
+          }
+          ,
+          {
+            "Task": 4,
+            "title": "Review and publish your 1-stage Rfp",
+            "required": "optional",
+            "status": "Cannot start yet",
+            "link": "#"
+          }
+        ]
+      }
+    ],
+    "form": {
+      
+      "backJump": {
+        "title": "Return to Dashboard",
+        "href": "/dashboard"
+      },
+      "closeProject":{
+        "title":"Close Project",
+        "href":"#"
+      }
+    }
+  }
+  

@@ -18,25 +18,34 @@
     }
   ],
   "backlink" : "/message/inbox",
+  "backlinkDetailPageHref" : "/message/sent",
   "tabs": {
-    "text1": "Create Message",
+    "text1": "Write message",
     "href1": "/message/create",
     "text2": "Received",
     "href2": "/message/inbox",
     "text3": "Sent",
     "href3": "/message/sent"
   },
-  "title": "Messaging Inbox",
-  "subtitle": "[ Description for what to expect for Broadcast, and Q&A ]",
-  "line1": "Message classification",
+  "title": "Inbox",
+  "subtitle": "When responding to your message, you can select from three options:",
+  "subtitleLine1":"'Reply' will send your message only to the supplier who messaged you",
+  "subtitleLine2":"'Send to all' will send your message to all the suppliers",
+  "subtitleLine3":"'Add to clarifications' will allow you to update your clarifications and all suppliers will get a notification",
+  "line1": "Classification",
   "line2": "Date",
   "line3": "[ AttachementName.format.size ]",
+  "line4": "Sent by ",
   "backJump": {
-    "title": "ADD RESPONSE TO Q&A",
-    "href": "#"
+    "title": "Add to clarifications",
+    "href": "/event/qa-add"
   },
   "backJump2": {
-    "title": "RETURN TO MESSAGING INBOX",
+    "title": "Return to inbox",
     "href": "/message/inbox"
+  },
+  "backJump3": {
+    "title": "Send to all",
+    "href": "/message/create"
   }
 }

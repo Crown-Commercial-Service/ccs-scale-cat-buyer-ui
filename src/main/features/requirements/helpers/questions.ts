@@ -56,7 +56,8 @@ export class QuestionHelper {
           if (!isNaN(object.OCDS['sortId'])) return object;
         })
         .sort((a: any, b: any) => (a.OCDS.sortId < b.OCDS.sortId ? -1 : 1))
-        .filter((obj: any) => obj != undefined);
+        .filter((obj: any) => obj != undefined)
+        .filter((obj: any) => obj.OCDS.description !== 'IR35 acknowledgement');
       let current_cursor = sorted_ascendingly?.findIndex(
         (pointer: any) => pointer.OCDS['id'] === group_id && pointer.criterianId === id,
       );
@@ -71,7 +72,7 @@ export class QuestionHelper {
       } else {
         let mandatoryNum = 0;
         const maxNum = 8;
-        let status = '';
+        //let status = 'In progress';
         for (let i = 0; i < criterian_array.length; i++) {
           const groupId = criterian_array[i].OCDS['id'];
           const mandatory = criterian_array[i].nonOCDS['mandatory'];
@@ -103,10 +104,10 @@ export class QuestionHelper {
             mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
           }
         }
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/20`, status);
+        
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/21`, 'Optional');
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/22`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/33`, 'Not started');
         }
         res.redirect('/rfp/task-list');
       }

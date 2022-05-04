@@ -19,7 +19,7 @@
                 errorList: errorlist
             }) }}
         {% endif %}
-
+        
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
@@ -32,7 +32,9 @@
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                     {% include "includes/project_header.njk" %} 
-                    <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle1}}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle2}}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle3}}</p>
                     <div id="upload_doc_form">
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full" id="documents_upload">
@@ -56,7 +58,7 @@
                                                             <p>{{file.fileSize | KbtoMb}} MB</p>
                                                         </div>
                                                         <div class="govuk-grid-column-one-third">
-                                                            <p>  <a class="app-task-list__tag" href="/rfp/files/remove?file={{file.fileName}}" aria-describedby="rfp-upload">remove</a></p>
+                                                            <p>  <a class="app-task-list__tag" href="/rfp/files-att/remove?file_id={{file.id}}" aria-describedby="rfp-upload">remove</a></p>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -113,8 +115,8 @@
                     </span>
                     <br>
                 </div>
-
-                {{ CCSCheckboxes({
+ <form action="/rfp/upload-attachment/proceed" method="post">  
+               {{ CCSCheckboxes({
                     idPrefix: "rfp_confirm_upload",
                     name: "rfp_confirm_upload",
                     classes: "govuk-checkboxes--small",
@@ -126,7 +128,7 @@
                     ]
                 }) }}
 
-                <form action="/rfp/upload-attachment/proceed" method="post">  
+               
                 {{ csrfProtection(csrf) }}    
                     <div class="govuk-button-group">
                             {{ CCSButton({

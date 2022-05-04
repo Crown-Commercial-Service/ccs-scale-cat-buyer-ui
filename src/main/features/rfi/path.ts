@@ -137,6 +137,8 @@ export default function (app: Application): void {
   //@POST '/rfi/add-collaborator-detail'
   app.post(RFI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER);
 
+  app.get(RFI_PATHS.POST_DELETE_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_DELETE_COLLABORATOR_TO_JAGGER);
+
   //@POST "rfi/upload-doc"
   app.post(
     RFI_PATHS.POST_UPLOAD_DOC,

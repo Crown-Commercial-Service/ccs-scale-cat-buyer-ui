@@ -10,9 +10,7 @@
 {% endblock %}
 
 {% block content %}
-  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-
-
+ 
 <div class="govuk-error-summary hide-block" id="rfp_vetting_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
   <h2 class="govuk-error-summary__title" id="error-summary-title">
   </h2>
@@ -21,6 +19,7 @@
     </ul>
   </div>
 </div>
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
 {{ CCSDialog({
   title:'This action cannot be undone, please confirm that you want to progress.',
@@ -46,6 +45,11 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
+    <p class="govuk-body">{{subtitle}}</p>
+    <p class="govuk-body">{{subtitle1}}</p>
+    <p class="govuk-body">{{subtitle2}}</p>
+    <p class="govuk-body">{{subtitle3}}</p>
+    <p class="govuk-body">{{subtitle4}}</p>
     <div id="error_summary_resources">
     
     <form id="ccs_ca_menu_tabs_form_rfp_vetting" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/rfp/vetting-weighting" method="POST">

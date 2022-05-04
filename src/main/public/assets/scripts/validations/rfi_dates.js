@@ -19,12 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 31;
      let startmonthCheck = Number(value.val()) < 1;
-     if (matchValue || endmonthCheck || startmonthCheck) {
+     if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter a valid date");
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
      } else {
       value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(elementSelector));
+       ccsZremoveErrorMessage(document.getElementById(parentID));
      }
  
    });
@@ -39,12 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 12;
      let startmonthCheck = Number(value.val()) <= 0;
-     if (matchValue || endmonthCheck || startmonthCheck) {
+     if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter a valid month");
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid month");
      } else {
       value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(elementSelector));
+       ccsZremoveErrorMessage(document.getElementById(parentID));
      }
  
    });
@@ -60,12 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
      let endyearCheck = Number(value.val()) > 2121;
      let currentYear =  new Date().getFullYear();
      let startyearCheck = Number(value.val()) < currentYear;
-     if (matchValue || endyearCheck || startyearCheck) {
+     if (matchValue || endyearCheck || startyearCheck|| value == '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter a valid year");
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
      } else {
       value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(elementSelector));
+       ccsZremoveErrorMessage(document.getElementById(parentID));
      }
  
    });
@@ -80,12 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 12;
      let startmonthCheck = Number(value.val()) <= 0;
-     if (matchValue || endmonthCheck || startmonthCheck) {
+     if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter a valid hour");
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hour");
      } else {
       value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(elementSelector));
+       ccsZremoveErrorMessage(document.getElementById(parentID));
      }
  
    });
@@ -99,13 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
         elementSelector = `eoi_clarification_date_expanded_${element}`;
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 59;
-     let startmonthCheck = Number(value.val()) <= 0;
+     let startmonthCheck = Number(value.val()) < 0;
      if (matchValue || endmonthCheck || startmonthCheck || value == '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter valid minutes");
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
      } else {
       value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(elementSelector));
+       ccsZremoveErrorMessage(document.getElementById(parentID));
      }
  
    });
