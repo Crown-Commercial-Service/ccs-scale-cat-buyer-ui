@@ -46,7 +46,7 @@ export class EventEngagementMiddleware {
               // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
               if (events[i].activeEvent?.tenderPeriod?.endDate == undefined) {
                 draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Unpublished'
+                draftActiveEvent.activeEvent.status = 'In Progress'
                 activeEvents.push(draftActiveEvent)
               } else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today)) {
                 // Today < "tenderPeriod": "endDate" -- Published
@@ -64,7 +64,7 @@ export class EventEngagementMiddleware {
             }
           } else if (events[i].activeEvent?.eventType == 'TBD' || events[i].activeEvent?.eventType == 'FCA') {
             draftActiveEvent = events[i]
-            draftActiveEvent.activeEvent.status = 'Unpublished'
+            draftActiveEvent.activeEvent.status = 'In Progress'
             activeEvents.push(draftActiveEvent)
           }
           // eventType = FC & DA (Active and historic events)
@@ -75,12 +75,12 @@ export class EventEngagementMiddleware {
               // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
              if (events[i].activeEvent?.tenderPeriod?.endDate == undefined && events[i].activeEvent?.status == 'planning' && events[i].activeEvent?.eventType == 'FC') {
                 draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Unpublished'
+                draftActiveEvent.activeEvent.status = 'In Progress'
                 activeEvents.push(draftActiveEvent)
               }
               else if (events[i].activeEvent?.tenderPeriod?.endDate == undefined && events[i].activeEvent?.eventType == 'planning' && events[i].activeEvent?.eventType == 'DA') {
                 draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Unpublished'
+                draftActiveEvent.activeEvent.status = 'In Progress'
                 activeEvents.push(draftActiveEvent)
               }
               else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today) && events[i].activeEvent.eventType == 'active') {
