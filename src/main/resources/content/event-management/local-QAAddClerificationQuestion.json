@@ -37,7 +37,7 @@
         "text": "Cancel",
         "link": "/message/details"
     }, 
-    "backlink" : "/message/details",
+    "backlink" : "/message/inbox",
     "tabs": {
         "text1": "Create Message",
         "href1": "/message/create",
