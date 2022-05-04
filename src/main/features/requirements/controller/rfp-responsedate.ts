@@ -226,8 +226,7 @@ function isValidQuestion(
 // @POST "/rfp/add/response-date"
 export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   let {
-    
-    ,
+    clarification_date_day,
     clarification_date_month,
     clarification_date_year,
     clarification_date_hour,
