@@ -239,6 +239,17 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
   clarification_date_month = Number(clarification_date_month);
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
+  
+  if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
+  {
+    const errorItem = {     
+      text: 'Date invalid or empty. Plese enter the valid date', 
+      href:  'clarification_date',
+    };
+    await RESPONSEDATEHELPER(req, res, true, errorItem);
+  }
+  else
+  {
   clarification_date_minute = Number(clarification_date_minute);
   clarification_date_month = clarification_date_month - 1;
   let timeinHoursBased = 0;
@@ -530,4 +541,5 @@ req.session.awarddate=timeline.proposedAwardDate;
     };
     await RESPONSEDATEHELPER(req, res, true, errorItem);
   }
+}
 };
