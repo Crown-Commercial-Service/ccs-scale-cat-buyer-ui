@@ -160,8 +160,17 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   clarification_date_month = Number(clarification_date_month);
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
-  clarification_date_minute = Number(clarification_date_minute);
 
+  if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute =='')
+  {
+    const errorItem = {     
+      text: 'Date invalid or empty. Plese enter the valid date', 
+      href:  'clarification_date',
+    };
+    await RESPONSEDATEHELPER(req, res, true, errorItem);
+  }
+  else{
+  clarification_date_minute = Number(clarification_date_minute);
   clarification_date_month = Number(clarification_date_month) - 1;
 
   let timeinHoursBased = 0;
@@ -188,6 +197,30 @@ else {
 
   if (date.getTime() >= nowDate.getTime() && isValid) {
     date = moment(date).format('DD MMMM YYYY, hh:mm a');
+    req.session.questionID=selected_question_id;
+
+    if(selected_question_id=='Question 2')
+    {req.session.rfipublishdate=timeline.publish;
+    req.session.UIDate=date;
+  }
+    else if (selected_question_id=='Question 3')
+{ req.session.rfipublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+    req.session.UIDate=date;
+  }
+    else if(selected_question_id=='Question 4')
+{  req.session.rfipublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+    req.session.UIDate=date;
+  }
+  else if(selected_question_id=='Question 5')
+{ req.session.rfipublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+  req.session.supplierresponse=timeline.supplierSubmitResponse;
+    req.session.UIDate=date;
+  }
 
     const answerformater = {
       value: date,
@@ -297,4 +330,5 @@ else {
     };
     await RESPONSEDATEHELPER(req, res, true, errorItem);
   }
+}
 };

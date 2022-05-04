@@ -183,6 +183,7 @@ export const RFP_GET_REMOVE_FILES = (express.Handler = async (req: express.Reque
 export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
+  
   if (req.session['isTcUploaded']){
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Not started');

@@ -1,0 +1,49 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Event Management",
+            "href": "/event/management"
+        },
+        {
+            "text": "Messaging",
+            "href": "/message/details"
+        }
+        
+    ],
+    "title": "Add your answer to the clerification questions",
+    "signposting": {
+        "line1": "Description to explain what happens in a broadcast",
+        "line2": "See Supplier List",
+        "link": "#"
+    },
+    "MessageClassification": "Message Classification",
+    "Subject": "Subject",
+    "Message": "Message",
+    "Question": "Question",
+    "Clerification": "Subject",
+    "btnText": "Add to clerification",
+    "lable1":"Publish question and clarification",
+    "lable2":"When entering the supplier question into the field below,please bear in mind that this will be viewable to all supplier. Any details that could identify the supplier who asked the question should be removed, along with any senstive information.",
+    "btnText1": "Publish",
+    "Cancel": {
+        "text": "Cancel",
+        "link": "/message/details"
+    }, 
+    "backlink" : "/message/inbox",
+    "tabs": {
+        "text1": "Create Message",
+        "href1": "/message/create",
+        "text2": "Received",
+        "href2": "/message/inbox",
+        "text3": "Sent",
+        "href3": "/message/sent"
+    }
+}

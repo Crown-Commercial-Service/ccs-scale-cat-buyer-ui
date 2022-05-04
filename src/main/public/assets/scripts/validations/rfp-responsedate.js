@@ -1,4 +1,4 @@
-const rfp_totalElementSelectors = Array.from(Array(5+1).keys()).slice(1);
+const rfp_totalElementSelectors = Array.from(Array(11+1).keys()).slice(1);
 
 
 for(const selector of rfp_totalElementSelectors){
@@ -13,8 +13,12 @@ for(const selector of rfp_totalElementSelectors){
 
 for(const selector of rfp_totalElementSelectors){
     let elementID = "#change_clarification_date_"+selector;
-    let elementSelector = $(elementID);   
-    elementSelector.on('click', (event) => {
+    let elementCancelID = "#rfp_cancel_change_clarification_date_"+selector;
+    let elementSelector = $(elementID); 
+    let elementSelectorCancel = $(elementCancelID); 
+    elementSelector.fadeIn(); 
+    elementSelectorCancel.fadeIn(); 
+    elementSelector.on('click', () => {
         localStorage.removeItem('dateItem');
         localStorage.setItem('dateItem', elementSelector.selector);
         let ClickedID = "#rfp_clarification_date_expanded_" + selector;
@@ -49,10 +53,17 @@ for(const selector of rfp_totalElementSelectors){
 for(const selector of rfp_totalElementSelectors){
     let elementID = "#rfp_cancel_change_clarification_date_"+selector;
     let elementSelector = $(elementID);
-
-    elementSelector.on('click', ()=> {
-        $('#rfp_clarification_date_expanded_'+selector).fadeOut();
-        $('#change_clarification_date_'+selector).fadeIn();
-    })
+    elementSelector.on('click', () => {
+        let ClickedID = "#rfp_clarification_date_expanded_" + selector;
+        let elementSelectorClicked = $(ClickedID);
+        if (elementSelectorClicked.length === 0) {
+            ClickedID = "#rfp_clarification_date_expanded_" + selector;
+            elementSelectorClicked = $(ClickedID);
+        }
+        elementSelectorClicked.fadeOut();
+        ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
+        const elementIDChange = $("#change_clarification_date_" + selector);
+        elementIDChange.show();
+    });
 }
 
