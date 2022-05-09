@@ -14,7 +14,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { choosenViewPath } = req.session;
-  const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name } =
+  const { lotId, agreementLotName, agreementName, eventId, projectId, agreement_id, releatedContent, project_name,caTeamScaleerror } =
     req.session;
   const agreementId_session = agreement_id;
   const assessmentId = req.session.currentEvent.assessmentId;
@@ -26,19 +26,19 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
     agreementId_session,
     agreementLotName,
     lotid: lotId,
-    error: isJaggaerError,
+    error: caTeamScaleerror,
   };
+  req.session.caTeamScaleerror=false;
   try {
     // get the stored value from session. If not found, call api
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-
     if (assessmentDetail.dimensionRequirements.length > 0) {
       const optionId = assessmentDetail.dimensionRequirements[0].requirements[0]['requirement-id'];
       const objIndex = caTeamScale.form.radioOptions.items.findIndex(obj => obj.value === optionId);
 
       caTeamScale.form.radioOptions.items[objIndex].selected = true;
     }
-    const windowAppendData = { data: caTeamScale, lotId, agreementLotName, choosenViewPath, releatedContent };
+    const windowAppendData = { data: caTeamScale, lotId, agreementLotName, choosenViewPath, releatedContent,error: caTeamScaleerror };
     res.render('ca-team-scale', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -66,7 +66,7 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
   const assessmentId = req.session.currentEvent.assessmentId;
   const dimension = req.session.dimensions;
   const scalabilityData = dimension.filter(data => data.name === 'Scalability')[0];
-
+ if(req.body.team_option!=undefined){
   try {
     const body = {
       'dimension-id': scalabilityData['dimension-id'],
@@ -82,6 +82,7 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
         },
       ],
     };
+    
 
     if (req.session['CapAss']?.isSubContractorAccepted) {
       body.includedCriteria.push({ 'criterion-id': '1' });
@@ -98,8 +99,9 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
 
     // Check 'review ranked suppliers' step number
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
-
+    req.session.caTeamScaleerror=false;
     res.redirect('/ca/where-work-done');
+   
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -111,4 +113,9 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       true,
     );
   }
+}
+else{
+  req.session.caTeamScaleerror=true;
+  res.redirect('/ca/team-scale');
+  } 
 };
