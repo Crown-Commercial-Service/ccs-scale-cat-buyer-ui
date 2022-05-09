@@ -9,6 +9,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { title } from 'process';
 import { GetLotSuppliers } from '../../shared/supplierService';
+import { reverse } from 'dns';
 
 
 
@@ -183,25 +184,10 @@ console.log(FilteredSetWithTrue)
   
 //Fix for SCAT-4146 - arranging the questions order
    let expected_rfi_keydates=RFI_DATA_TIMELINE_DATES;
-   let temp=expected_rfi_keydates[0].answer[0];
-   expected_rfi_keydates[0].answer[0]=expected_rfi_keydates[0].answer[3];
-   expected_rfi_keydates[0].answer[3]=temp;
-   
-   
-   let temp1=expected_rfi_keydates[0].answer[1];
-   expected_rfi_keydates[0].answer[1]=expected_rfi_keydates[0].answer[2];
-   expected_rfi_keydates[0].answer[2]=temp1;
+   expected_rfi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
 
-
-   let temp2=expected_rfi_keydates[0].answer[2];
-   expected_rfi_keydates[0].answer[2]=expected_rfi_keydates[0].answer[3];
-   expected_rfi_keydates[0].answer[3]=temp2;
-   //let temp=expected_rfi_keydates.answer[0].question;
-   //expected_rfi_keydates.answer[0].question=expected_rfi_keydates.answer[1].question;
-   //expected_rfi_keydates.answer[1].question=temp;
-
-
-console.log(expected_rfi_keydates)
+      RFI_ANSWER_STORAGE[3].answer.reverse()
+//console.log(expected_rfi_answer_storage)
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);
 
