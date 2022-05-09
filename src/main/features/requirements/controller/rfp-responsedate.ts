@@ -113,7 +113,7 @@ function isValidQuestion(
     isValid = false;
     error = 'Enter a valid date';
   }
-  if (minute > 59 || minute <= 0) {
+  if (minute > 59 || minute < 0) {
     isValid = false;
     error = 'Enter valid minutes';
   }
