@@ -18,7 +18,7 @@
         }
         
     ],
-    "title": "Add your answer to the clerification questions",
+    "title": "Add your answer to the clarification questions",
     "signposting": {
         "line1": "Description to explain what happens in a broadcast",
         "line2": "See Supplier List",
@@ -29,7 +29,7 @@
     "Message": "Message",
     "Question": "Question",
     "Clerification": "Subject",
-    "btnText": "Add to clerification",
+    "btnText": "Add to clarification",
     "lable1":"Publish question and clarification",
     "lable2":"When entering the supplier question into the field below,please bear in mind that this will be viewable to all supplier. Any details that could identify the supplier who asked the question should be removed, along with any senstive information.",
     "btnText1": "Publish",
