@@ -153,7 +153,7 @@ console.log(FilteredSetWithTrue)
     const RFI_ANSWER_STORAGE = [];
 
     for (const dataOFRFI of RFI_DATA_WITHOUT_KEYDATES) {
-      for (const dataOFCRITERIAN of RFI_DATA_WITHOUT_KEYDATES) {
+      for (const dataOFCRITERIAN of GROUPINCLUDING_CRITERIANID) {
         if (dataOFRFI.id === dataOFCRITERIAN.id) {
           if(dataOFRFI.id=='Group 2')
           {
@@ -167,9 +167,9 @@ console.log(FilteredSetWithTrue)
           else if(dataOFRFI.id=='Group 4')
           {
           const tempGroup4=RFI_DATA_WITHOUT_KEYDATES[3]
-          const answer_group4=tempGroup4.answer
-          tempGroup4.answer=answer_group4;       
-         // tempGroup4.answer.push(answer_group4)
+          const answer_group4=tempGroup4.answer[1]
+          tempGroup4.answer=[];       
+          tempGroup4.answer.push(answer_group4)
             const formattedData = { ...tempGroup4, criterian: dataOFCRITERIAN.criterian };
             RFI_ANSWER_STORAGE.push(formattedData);
           }

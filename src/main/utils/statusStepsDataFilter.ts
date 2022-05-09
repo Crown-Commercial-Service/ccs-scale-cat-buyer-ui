@@ -61,7 +61,7 @@ function checkSublevels(
         if (stepInfo.step == 10) {
           eventTask[
             'link'
-          ] = `/rfi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
+          ] = `/rfi/online-task-list`;
         } else if (stepInfo.step == 20) {
           eventTask[
             'link'
@@ -93,7 +93,7 @@ export function statusStepsDataFilter(
   let stepsByType: any = [];
   switch (type) {
     case 'rfi':
-      stepsByType = steps.slice(5, 15);
+      stepsByType = steps.slice(5, 14);
       break;
     case 'eoi':
       stepsByType = steps.slice(15, 25);
