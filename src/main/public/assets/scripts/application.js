@@ -112,8 +112,8 @@ if (document.getElementById('ccs_rfi_type_form') !== null)
 if (document.getElementById('ccs_rfi_vetting_form') !== null)
   document.getElementById('ccs_rfi_vetting_form').addEventListener('submit', ccsZvalidateRfiSecurity);
 
-if (document.getElementById('ccs_eoi_vetting_form') !== null)
-  document.getElementById('ccs_eoi_vetting_form').addEventListener('submit', ccsZvalidateEoiSecurity);
+// if (document.getElementById('ccs_eoi_vetting_form') !== null)
+//   document.getElementById('ccs_eoi_vetting_form').addEventListener('submit', ccsZvalidateEoiSecurity);
 
 if (document.getElementById('ccs_ca_type_form') !== null)
   document.getElementById('ccs_ca_type_form').addEventListener('submit', ccsZvalidateCaaAssFCSecurity);
