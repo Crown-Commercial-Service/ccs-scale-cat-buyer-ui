@@ -167,9 +167,18 @@ console.log(FilteredSetWithTrue)
           else if(dataOFRFI.id=='Group 4')
           {
           const tempGroup4=RFI_DATA_WITHOUT_KEYDATES[3]
-          const answer_group4=tempGroup4.answer[1]
-          tempGroup4.answer=[];       
-          tempGroup4.answer.push(answer_group4)
+         for(let i=0;i<tempGroup4.answer.length;i++)
+         {
+           if(tempGroup4.answer[i].question==='Name of the organisation doing the procurement')
+           {
+            tempGroup4.answer[i].values=[
+              {
+                value: "COGNIZANT BUSINESS SERVICES UK LIMITED",
+                selected: true,
+              },
+            ]
+           }
+         }        
             const formattedData = { ...tempGroup4, criterian: dataOFCRITERIAN.criterian };
             RFI_ANSWER_STORAGE.push(formattedData);
           }
@@ -186,15 +195,15 @@ console.log(FilteredSetWithTrue)
    let expected_rfi_keydates=RFI_DATA_TIMELINE_DATES;
    expected_rfi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
 
-      RFI_ANSWER_STORAGE[3].answer.reverse()
-//console.log(expected_rfi_answer_storage)
+      //RFI_ANSWER_STORAGE[3].answer.reverse()
+
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);
 
     let appendData = {
       rfi_data: RFI_ANSWER_STORAGE,
       rfi_keydates: expected_rfi_keydates[0],
-      //rfi_keydates: RFI_DATA_TIMELINE_DATES[0],
+     
       data: cmsData,
       project_name: project_name,
       procurementLead,
@@ -211,10 +220,7 @@ console.log(FilteredSetWithTrue)
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
-    console.log(JSON.stringify(appendData))
-    //console.log(rfi_keydates)
-    //console.log(JSON.stringify(RFI_DATA_TIMELINE_DATES[0].title.answer.question))
-//    console.log(JSON.stringify("rfi keydates:"+ rfi_keydates))
+   
     res.render('review', appendData);
   } catch (error) {
     delete error?.config?.['headers'];
