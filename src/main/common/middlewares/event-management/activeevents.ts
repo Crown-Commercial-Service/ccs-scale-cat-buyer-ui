@@ -88,33 +88,38 @@ export class EventEngagementMiddleware {
               historicalEvents.push(events[i])
             } else if (events[i].activeEvent?.status == 'planning' || events[i].activeEvent?.status == 'complete' || events[i].activeEvent?.status == 'active') {
               // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-             if (events[i].activeEvent?.tenderPeriod?.endDate == undefined && events[i].activeEvent?.status == 'planning' && events[i].activeEvent?.eventType == 'FC') {
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'In Progress'
-                activeEvents.push(draftActiveEvent)
-              }
-              else if (events[i].activeEvent?.tenderPeriod?.endDate == undefined && events[i].activeEvent?.eventType == 'planning' && events[i].activeEvent?.eventType == 'DA') {
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'In Progress'
-                activeEvents.push(draftActiveEvent)
-              }
-              else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today) && events[i].activeEvent.eventType == 'active') {
-                // Today < "tenderPeriod": "endDate" -- Published
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Published'
-                activeEvents.push(draftActiveEvent)
-              } else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isSameOrBefore(today) && events[i].activeEvent.eventType == 'active') {
-                // Today >= "tenderPeriod": "endDate" -- Response period closed
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Response period closed'
-                activeEvents.push(draftActiveEvent)
-              } else if (events[i].activeEvent.eventType == 'complete') {
-                // Event Status - Complete -- Final Evaluation
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Final Evaluation'
-                activeEvents.push(draftActiveEvent)
-              } else {
-                activeEvents.push(events[i])
+if(events[i].activeEvent?.status == 'planning')
+{
+  draftActiveEvent = events[i]
+  draftActiveEvent.activeEvent.status = 'IN PROGRESS'
+  activeEvents.push(draftActiveEvent)
+}
+else if(events[i].activeEvent?.status == 'active' && moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today))
+{
+  draftActiveEvent = events[i]
+  draftActiveEvent.activeEvent.status = 'PUBLISHED'
+  activeEvents.push(draftActiveEvent)
+}
+else if(events[i].activeEvent?.status == 'active' && moment(events[i].activeEvent.tenderPeriod?.endDate).isSameOrBefore(today))
+{
+  draftActiveEvent = events[i]
+  draftActiveEvent.activeEvent.status = 'EVALUATE RESPONSES'
+  activeEvents.push(draftActiveEvent)
+}
+else if(events[i].activeEvent?.status == 'complete')
+{
+  draftActiveEvent = events[i]
+  draftActiveEvent.activeEvent.status = 'EVALUATION COMPLETE'
+  activeEvents.push(draftActiveEvent)
+}
+else if(events[i].activeEvent?.status == 'awarded')
+{
+  draftActiveEvent = events[i]
+  draftActiveEvent.activeEvent.status = 'AWARDED'
+  activeEvents.push(draftActiveEvent)
+}
+else {
+ activeEvents.push(events[i])
               }
             }
           } 
