@@ -53,8 +53,10 @@
       <div class="govuk-grid-column-two-thirds">
         {% include "includes/project_header.njk" %}
 
-        <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
+        <form id="{{form_name}}"  name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
           {{ csrfProtection(csrf) }}
+         <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
+        
           {% if (form_name === 'rfp_multianswer_question_form')%}
             {{ CCSInsetText({
                         html: '<p> Instruction for this page</p><p>Plese add up to 10 questions</p>'
@@ -96,8 +98,8 @@
                 ] %}
                 {% for i in range(1, 11) -%}
                   <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
-                    <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" > Enter your {{numberWord[i]}}
-                      {{shortTitle}} question <a href="#" id="del_fc_question_{{i}}" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
+                    <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}" >Enter your {{numberWord[i]}}
+                      {{shortTitle}} question <a href="javascript.void()" id="del_fc_question_{{i}}" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>
                     </label>
                   </br>
                   {% for requirement in data %}

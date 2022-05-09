@@ -116,14 +116,17 @@ document.addEventListener('DOMContentLoaded', () => {
       let length = fieldSets.length;
       while (length--) {
         let id = length + 1;
+       
         let eleTerm = fieldSets[length].querySelector("#rfp_term_" + id);
+        if (eleTerm !=undefined && eleTerm !=null) {
         eleTerm.addEventListener('focusout', (event) => {
           let ele1 = event.target;
           let definitionElementId = "rfp_term_definition_" + id;
           let ele2 = document.getElementById(definitionElementId);
           performSubmitAction(ele1, ele2);
 
-        });
+          });
+        }
         let eleTermDefinition = fieldSets[length].querySelector("#rfp_term_definition_" + id);
         eleTermDefinition.addEventListener('focusout', (event) => {
           let ele2 = event.target;
@@ -197,18 +200,19 @@ const emptyFieldCheckRfp = () => {
   for (var x = 1; x < 11; x++) {
     let term_field = document.getElementById('rfp_term_' + x);
     let definition_field = document.getElementById("rfp_term_definition_" + x);
-    let target_field = document.getElementById("rfp_term_target_" + x);
+   //let target_field = document.getElementById("rfp_term_target_" + x);
 
     const field1 = countWords(term_field.value) > 50;
     const field2 = countWords(definition_field.value) > 150;
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsRfp();
-      if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
+      if (term_field.value.trim() === '' && definition_field.value.trim() === '' ) {
+        //&& target_field.value.trim() === ''
         fieldCheck = [definition_field.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
         ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
-        ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
+        //ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
         errorStore.push(fieldCheck);
       }
       else {
@@ -221,10 +225,10 @@ const emptyFieldCheckRfp = () => {
           ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
           isError = true;
         }
-        if (target_field.value.trim() === '') {
-          ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
-          isError = true;
-        }
+        // if (target_field.value.trim() === '') {
+        //   ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
+        //   isError = true;
+        // }
         if (field1) {
           ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
           isError = true;
