@@ -144,7 +144,7 @@
           "title": "Set your scoring criteria",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "/rfp/scoring-criteria"
+          "link": "/rfp/set-scoring-criteria"
         }
       ]
     },
