@@ -22,27 +22,27 @@
 
 {% set htmlQA %}
 <h3 class="govuk-notification-banner__heading">
-    You successfully updated your clerifications
+    You successfully updated your clarifications
 </h3>
 <p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="#">View your clerifications</a>
+    <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
 </p>
 {% endset %}
 {% set errHtmlQA %}
 <h3 class="govuk-notification-banner__heading">
-    Your clerifications not updated
+    Your clarifications not updated
 </h3>
 <p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="#">View your clerifications</a>
+    <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
 </p>
 {% endset %}
 
 {% set htmlQAEdit %}
 <h3 class="govuk-notification-banner__heading">
-  The  Question and clerifications have been edited
+  The  Question and clarifications have been edited
 </h3>
 <p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="#">View your clerifications</a>
+    <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
 </p>
 {% endset %}
 {% set errHtmlQAEdit %}
@@ -50,7 +50,7 @@
     The Question and clerifications have not edited
 </h3>
 <p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="#">View your clerifications</a>
+    <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
 </p>
 {% endset %}
 {% block breadCrumb %}
@@ -99,7 +99,7 @@
                 {{ govukNotificationBanner({
                 html: htmlQA,
                 type: "success",
-                titleText: "Clerification Added"
+                titleText: "Clarification Added"
                 }) }}
 
             </div>
@@ -108,7 +108,7 @@
                 {{ govukNotificationBanner({
                 html: errHtmlQA,
                 type: "Important",
-                titleText: "Clerification Added"
+                titleText: "Clarification Added"
                 }) }}
             </div>
         {% endif %}
