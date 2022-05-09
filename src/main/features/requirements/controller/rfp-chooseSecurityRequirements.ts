@@ -22,55 +22,20 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
 
     let selectedOption;
     if (dimensionRequirements.length > 0) {
-      if(dimensionRequirements[0].requirements.length>0)
+     if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance').length>0)
       {
-      selectedOption = dimensionRequirements[0].requirements[0].values[0].value;
+
+      selectedOption = dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0]
+      .requirements[0].values[0].value;
       data.form.radioOptions.items.find(item => item.value === selectedOption).checked = true;
-      if(dimensionRequirements[0].requirements[0].weighting>0)
+      if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting>0)
       {
-        data.form.question=dimensionRequirements[0].requirements[0].weighting;
+        data.form.selectedValue=dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting;
       }
      }
     }
-    //if no dimensionRequirements available in current assignment, update the same 
-    else{
-      try {    
-          const Dimensionreqbody = {
-            name: "Security Clearance",
-            weighting: 40,
-            "dimension-id": 2,
-            requirements: [ ],
-            includedCriteria: [
-              { 
-                'criterion-id': '0',
-            	  name: "Supplier",
-                type: "select",
-                options: [
-                        "4: Dveloped Vetting (DV)",
-                        "1: Baseline Personnel Security Standard (BPSS)",
-                        "3: Security Check (SC)",
-                        "0: None",
-                        "2: Counter Terrorist Check (CTC)" 
-            ]
-          }]
-          };
-         await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`,
-            Dimensionreqbody,
-          );
-        
-      }  catch (error) {
-        LoggTracer.errorLogger(
-          res,
-          error,
-          `${req.headers.host}${req.originalUrl}`,
-          null,
-          TokenDecoder.decoder(SESSION_ID),
-          'update the status failed - RFP choose security requirement Page',
-          true,
-        );
-      }
-    }
-
+   
+  
     const DIMENSION_BASEURL = `assessments/tools/${extToolId}/dimensions`;
     const { data: dimensions } = await TenderApi.Instance(SESSION_ID).get(DIMENSION_BASEURL);
 
@@ -119,7 +84,8 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
   //const assessmentId = 13;
   const { ccs_rfp_choose_security: selectedValue, ccs_rfp_resources } = req.body;
   const selectedresourceNumber = selectedValue ? selectedValue.replace(/[^0-9.]/g, '') : null;
-  const resources= ccs_rfp_resources[selectedresourceNumber-1];
+
+  const resources= selectedresourceNumber>0?ccs_rfp_resources[selectedresourceNumber-1]:0;
   const { isError, errorText } = checkErrors(selectedresourceNumber,resources);
   if (isError) {
     req.session.errorText = errorText;

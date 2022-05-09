@@ -9,12 +9,38 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { title } from 'process';
 import { GetLotSuppliers } from '../../shared/supplierService';
+import { reverse } from 'dns';
+
+
 
 export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Response, viewError: boolean, apiError: boolean) => {
   const { SESSION_ID } = req.cookies;
   const ProjectID = req.session['projectId'];
   const EventID = req.session['eventId'];
   const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
+  const { download } = req.query;
+  if(download!=undefined)
+    {
+      const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
+      
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
+    }
+    else{
   try {
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
@@ -38,14 +64,10 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
     const selectedToggled = ToggledTrue.nonOCDS.options.map(op => {
       return { value: op.value, selected: true };
     });
-    console.log("GROUP1_Toggle:" +GROUP1_Toggle)
-    console.log("ToggledTrue: " +ToggledTrue)
-    console.log("selectedToggled: "+selectedToggled)
     ToggledTrue.nonOCDS.options = selectedToggled;
     GROUP1_Toggle.OCDS.requirements.map(group => {
       if (group.OCDS.id === 'Question 1') return ToggledTrue;
       else {
-        console.log("Group:" +group)
         return group;
       }
     });
@@ -53,7 +75,6 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       if (question.OCDS.id === 'Group 1') return GROUP1_Toggle;
       
       else {
-        console.log("Questions:" +question)
         return question;
       }
     });
@@ -64,6 +85,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       return {
         title: question.OCDS.description,
         id: question.OCDS.id,
+        mandatory: question.nonOCDS.mandatory, //to append "(optional)"
         answers: question.OCDS.requirements.map(o => {
           return { question: o.OCDS?.title, values: o.nonOCDS.options };
         }),
@@ -74,6 +96,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       return {
         title: questions.title,
         id: questions.id,
+        mandatory : questions.mandatory,//to append "(optional)"
         answer: questions.answers.map(answer => {
           return {
             question: answer.question,
@@ -81,9 +104,6 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
           };
         }),
       };
-      console.log(title)
-      console.log(id)
-      console.log(answer)
     });
 
     const RFI_DATA_WITHOUT_KEYDATES = FilteredSetWithTrue.filter(obj => obj.id !== 'Key Dates');
@@ -126,13 +146,14 @@ console.log(FilteredSetWithTrue)
       return {
         criterian: data.nonOCDS.criterian,
         id: data.OCDS.id,
+        mandatory : data.nonOCDS.mandatory, //to append "(optional)"
       };
     });
 
     const RFI_ANSWER_STORAGE = [];
 
     for (const dataOFRFI of RFI_DATA_WITHOUT_KEYDATES) {
-      for (const dataOFCRITERIAN of GROUPINCLUDING_CRITERIANID) {
+      for (const dataOFCRITERIAN of RFI_DATA_WITHOUT_KEYDATES) {
         if (dataOFRFI.id === dataOFCRITERIAN.id) {
           if(dataOFRFI.id=='Group 2')
           {
@@ -146,9 +167,9 @@ console.log(FilteredSetWithTrue)
           else if(dataOFRFI.id=='Group 4')
           {
           const tempGroup4=RFI_DATA_WITHOUT_KEYDATES[3]
-          const answer_group4=tempGroup4.answer[1]
-          tempGroup4.answer=[];       
-          tempGroup4.answer.push(answer_group4)
+          const answer_group4=tempGroup4.answer
+          tempGroup4.answer=answer_group4;       
+         // tempGroup4.answer.push(answer_group4)
             const formattedData = { ...tempGroup4, criterian: dataOFCRITERIAN.criterian };
             RFI_ANSWER_STORAGE.push(formattedData);
           }
@@ -160,18 +181,19 @@ console.log(FilteredSetWithTrue)
         }
       }
     }
+  
 //Fix for SCAT-4146 - arranging the questions order
-    let expected_rfi_keydates=RFI_DATA_TIMELINE_DATES[0];
-    let temp=expected_rfi_keydates.answer[0].question;
-    expected_rfi_keydates.answer[0].question=expected_rfi_keydates.answer[1].question;
-    expected_rfi_keydates.answer[1].question=temp;
+   let expected_rfi_keydates=RFI_DATA_TIMELINE_DATES;
+   expected_rfi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
 
+      RFI_ANSWER_STORAGE[3].answer.reverse()
+//console.log(expected_rfi_answer_storage)
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);
 
     let appendData = {
       rfi_data: RFI_ANSWER_STORAGE,
-      rfi_keydates: expected_rfi_keydates,
+      rfi_keydates: expected_rfi_keydates[0],
       //rfi_keydates: RFI_DATA_TIMELINE_DATES[0],
       data: cmsData,
       project_name: project_name,
@@ -189,7 +211,10 @@ console.log(FilteredSetWithTrue)
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
-    console.log(appendData)
+    console.log(JSON.stringify(appendData))
+    //console.log(rfi_keydates)
+    //console.log(JSON.stringify(RFI_DATA_TIMELINE_DATES[0].title.answer.question))
+//    console.log(JSON.stringify("rfi keydates:"+ rfi_keydates))
     res.render('review', appendData);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -209,4 +234,5 @@ console.log(FilteredSetWithTrue)
     );
     LoggTracer.errorTracer(Log, res);
   }
+}
 };

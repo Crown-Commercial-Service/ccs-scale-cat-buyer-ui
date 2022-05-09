@@ -1,24 +1,143 @@
+document.addEventListener('DOMContentLoaded', () => {
 
-const totalElement = $('.ons-list__link').length;
+var tabLinks = document.querySelectorAll('.ons-list__item');
+var allCheckBox = document.getElementsByClassName('rfp_cap');
+var checkBoxByGroup = [];
 
-var arrayOfHeadings = [];
-for(var a =0; a < totalElement; a++){
+var itemSubText ='';
+var itemText = '';
 
-    arrayOfHeadings.push(document.getElementsByClassName('ons-list__link')[a].innerHTML.split('<div ')[0].split(' ').join('_'))
 
+if(tabLinks !==null)
+{
+ccsTabMenuNaviation();
+
+if(tabLinks.length >0)
+{
+   itemSubText =document.getElementsByClassName('table-item-subtext')[0];;
+   itemText = document.getElementsByClassName('ons-list__link')[0].childNodes[0].data;
+   if(itemText != null && itemText !='')
+{
+  itemText = itemText.replaceAll(" ", "_");
+  checkBoxByGroup = document.getElementsByClassName(itemText);
+  checkBoxSelection(itemText)
+}
+Array.from(tabLinks).forEach(link => {
+  link.addEventListener('click', function (e) {
+   let currentTarget = e.currentTarget; 
+
+   itemSubText =currentTarget.getElementsByClassName('table-item-subtext')[0];
+   itemText  =currentTarget.getElementsByClassName('ons-list__link')[0].childNodes[0].data; 
+   itemText = itemText.replaceAll(" ", "_");
+   checkBoxByGroup = document.getElementsByClassName(itemText);
+     checkBoxSelection(itemText)
+    return false;
+  });
+});
+}
 }
 
 
-for(var a =0; a < arrayOfHeadings.length; a++){
+  function checkBoxSelection(itemText){
+      
+      updateGroupCheckBox();
+      updateTotalAddedValue();
 
-    const classTarget = arrayOfHeadings[a]+'_t';
-    const classFiller = arrayOfHeadings[a];
+    for(var a =1; a < checkBoxByGroup.length+1; a++){
+  
+       let checkBoxIdConcat = itemText+'_'+a;
+        
+       let checkBox = $(`#${checkBoxIdConcat}`);
+       checkBox.on('click', ()=>{
 
-    $(`.${classTarget}`).on('click', ()=> {
-        $(`.${classFiller}`).attr('checked', true);
-        $('html,body').animate({
-            scrollTop: $("#scrollTo").offset().top - $(window).height()/2
-         }, 1000);
-    })
+        updateGroupCheckBox();
+        updateTotalAddedValue();
 
+       }
+       );    
+     }
+  }
+
+
+  $('.select_all').on('click',()=>{
+      
+    for(var a =0; a < checkBoxByGroup.length; a++){
+      if(!checkBoxByGroup[a].checked)
+      checkBoxByGroup[a].checked = true
+    }
+
+      updateGroupCheckBox();
+      updateTotalAddedValue();
+    
+  }); 
+  
+function updateTotalAddedValue()
+{
+  let count = 0;
+  for(var a =0; a < allCheckBox.length; a++){
+    if(allCheckBox[a].checked)
+    count = count+1;
+  }
+  $('#total_added').text(count); 
 }
+
+function updateGroupCheckBox()
+{
+  let checkedCount = 0;
+  for(var a =0; a < checkBoxByGroup.length; a++){
+    if(checkBoxByGroup[a].checked)
+    checkedCount = checkedCount+1;
+  }
+  itemSubText.innerHTML ='['+checkedCount +' Selected ]'; 
+}
+
+function clearAllCheckBox()
+{
+  for(var a =0; a < allCheckBox.length; a++){
+    allCheckBox[a].checked = false  
+  }
+  clearSubHeadingText();
+}
+
+function clearSubHeadingText()
+{
+  for(var a =0; a < tabLinks.length; a++){
+    document.getElementsByClassName('table-item-subtext')[a].innerHTML = '[ 0 Selected ]'
+  }
+  updateTotalAddedValue();
+}
+
+$('.ca_da_service_cap').on('click', function () {
+  if ($(this).hasClass('selected')) {
+    deselect($(this));
+    $(".backdrop-vetting").fadeOut(200);
+    $('.pop').slideFadeToggle();
+  }
+  return false;
+});
+
+$('#redirect-button-vetting').on('click', function () {
+  deselect($('.dialog-close-vetting'));
+  $(".backdrop-vetting").fadeOut(200);
+  var route = this.name;
+  if (route == 'Clear form') {
+    clearAllCheckBox();
+  } else {
+    return false;
+  }
+});
+
+$('.dialog-close-vetting').on('click', function () {
+  $(".backdrop-vetting").fadeOut(200);
+  deselect($('.dialog-close-vetting'));
+  return false;
+});
+
+
+function deselect(e) {
+  $('.pop').slideFadeToggle(function () {
+    e.removeClass('selected');
+  });
+}
+
+});

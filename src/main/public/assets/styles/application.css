@@ -2966,7 +2966,7 @@ p + .govuk-heading-s,
 
 .govuk-summary-list__key {
   margin-bottom: 5px;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 @media (min-width: 40.0625em) {

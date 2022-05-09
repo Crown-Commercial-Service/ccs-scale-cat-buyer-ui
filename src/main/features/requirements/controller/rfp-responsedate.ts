@@ -81,7 +81,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
     }
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'Not started');
-    res.redirect('/rfp/rfp-eventpublished');
+    res.redirect('/rfp/review');
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -104,6 +104,8 @@ function isValidQuestion(
   timeinHoursBased: number,
   timeline: any,
 ) {
+  //const date1 = new Date(year, month, day, timeinHoursBased, minute);
+  //let todaydate=new Date();
   let isValid = true,
     error,
     errorSelector;
@@ -111,7 +113,7 @@ function isValidQuestion(
     isValid = false;
     error = 'Enter a valid date';
   }
-  if (minute > 59 || minute <= 0) {
+  if (minute > 59 || minute < 0) {
     isValid = false;
     error = 'Enter valid minutes';
   }
@@ -134,6 +136,8 @@ function isValidQuestion(
     isValid = false;
     error = 'You can not set a date in weekend';
   }
+  
+
   switch (questionId) {
     case 'Question 1':
       errorSelector = 'clarification_date';
@@ -229,6 +233,17 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
   clarification_date_month = Number(clarification_date_month);
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
+  
+  if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
+  {
+    const errorItem = {     
+      text: 'Date invalid or empty. Plese enter the valid date', 
+      href:  'clarification_date',
+    };
+    await RESPONSEDATEHELPER(req, res, true, errorItem);
+  }
+  else
+  {
   clarification_date_minute = Number(clarification_date_minute);
   clarification_date_month = clarification_date_month - 1;
   let timeinHoursBased = 0;
@@ -257,6 +272,137 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
   );
   if (date.getTime() >= nowDate.getTime() && isValid) {
     date = moment(date).format('DD MMMM YYYY, hh:mm a');
+    req.session.questionID=selected_question_id;
+
+    if(selected_question_id=='Question 2')
+    {req.session.rfppublishdate=timeline.publish;
+      req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+      req.session.supplierresponse=timeline.supplierSubmitResponse;
+      req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
+      req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+      req.session.processstart=timeline.evaluationProcessStartDate;
+      req.session.bidder=timeline.bidderPresentationsDate;
+      req.session.standstill=timeline.standstillPeriodStartsDate;
+      req.session.awarddate=timeline.proposedAwardDate;
+    req.session.signaturedate=timeline.expectedSignatureDate;
+    req.session.UIDate=date;
+  }
+    else if (selected_question_id=='Question 3')
+{ req.session.rfppublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.supplierresponse=timeline.supplierSubmitResponse;
+      req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
+      req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+      req.session.processstart=timeline.evaluationProcessStartDate;
+      req.session.bidder=timeline.bidderPresentationsDate;
+      req.session.standstill=timeline.standstillPeriodStartsDate;
+      req.session.awarddate=timeline.proposedAwardDate;
+    req.session.signaturedate=timeline.expectedSignatureDate;
+    req.session.UIDate=date;
+  }
+    else if(selected_question_id=='Question 4')
+{  req.session.rfppublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+  req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
+      req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+      req.session.processstart=timeline.evaluationProcessStartDate;
+      req.session.bidder=timeline.bidderPresentationsDate;
+      req.session.standstill=timeline.standstillPeriodStartsDate;
+      req.session.awarddate=timeline.proposedAwardDate;
+    req.session.signaturedate=timeline.expectedSignatureDate;
+    req.session.UIDate=date;
+  }
+  else if(selected_question_id=='Question 5')
+{ req.session.rfppublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+  req.session.supplierresponse=timeline.supplierSubmitResponse;
+  req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+      req.session.processstart=timeline.evaluationProcessStartDate;
+      req.session.bidder=timeline.bidderPresentationsDate;
+      req.session.standstill=timeline.standstillPeriodStartsDate;
+      req.session.awarddate=timeline.proposedAwardDate;
+    req.session.signaturedate=timeline.expectedSignatureDate;
+    req.session.UIDate=date;
+  }
+  else if(selected_question_id=='Question 6')
+  {req.session.rfppublishdate=timeline.publish;
+    req.session.clarificationend=timeline.clarificationPeriodEnd;
+    req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+    req.session.supplierresponse=timeline.supplierSubmitResponse;
+    req.session.processstart=timeline.evaluationProcessStartDate;
+      req.session.bidder=timeline.bidderPresentationsDate;
+      req.session.standstill=timeline.standstillPeriodStartsDate;
+      req.session.awarddate=timeline.proposedAwardDate;
+    req.session.signaturedate=timeline.expectedSignatureDate;
+  req.session.UIDate=date;
+}
+  else if (selected_question_id=='Question 7')
+{ 
+req.session.rfppublishdate=timeline.publish;
+req.session.clarificationend=timeline.clarificationPeriodEnd;
+req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+req.session.supplierresponse=timeline.supplierSubmitResponse;
+req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
+req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+req.session.bidder=timeline.bidderPresentationsDate;
+req.session.standstill=timeline.standstillPeriodStartsDate;
+req.session.awarddate=timeline.proposedAwardDate;
+req.session.signaturedate=timeline.expectedSignatureDate;
+  req.session.UIDate=date;
+}
+  else if(selected_question_id=='Question 8')
+{  req.session.rfppublishdate=timeline.publish;
+req.session.clarificationend=timeline.clarificationPeriodEnd;
+req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+req.session.supplierresponse=timeline.supplierSubmitResponse;
+req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
+req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+req.session.standstill=timeline.evaluationProcessStartDate;
+req.session.awarddate=timeline.proposedAwardDate;
+req.session.signaturedate=timeline.expectedSignatureDate;
+  req.session.UIDate=date;
+}
+else if(selected_question_id=='Question 9')
+{ req.session.rfppublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+  req.session.supplierresponse=timeline.supplierSubmitResponse;
+  req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
+  req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+  req.session.processstart=timeline.evaluationProcessStartDate;
+  req.session.bidder=timeline.bidderPresentationsDate;
+req.session.awarddate=timeline.proposedAwardDate;
+req.session.signaturedate=timeline.expectedSignatureDate;
+  req.session.UIDate=date;
+}
+else if(selected_question_id=='Question 10')
+{  req.session.rfppublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+  req.session.supplierresponse=timeline.supplierSubmitResponse;
+  req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
+  req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+  req.session.processstart=timeline.evaluationProcessStartDate;
+  req.session.bidder=timeline.bidderPresentationsDate;
+req.session.standstill=timeline.standstillPeriodStartsDate;
+req.session.signaturedate=timeline.expectedSignatureDate;
+  req.session.UIDate=date;
+}
+else if(selected_question_id=='Question 11')
+{ req.session.rfppublishdate=timeline.publish;
+req.session.clarificationend=timeline.clarificationPeriodEnd;
+req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+req.session.supplierresponse=timeline.supplierSubmitResponse;
+req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
+req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+req.session.processstart=timeline.evaluationProcessStartDate;
+req.session.bidder=timeline.bidderPresentationsDate;
+req.session.standstill=timeline.standstillPeriodStartsDate;
+req.session.awarddate=timeline.proposedAwardDate;
+  req.session.UIDate=date;
+}
     const answerformater = {
       value: date,
       selected: true,
@@ -389,4 +535,5 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     };
     await RESPONSEDATEHELPER(req, res, true, errorItem);
   }
+}
 };

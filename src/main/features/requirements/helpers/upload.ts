@@ -18,7 +18,9 @@ export const FILEUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   let { selectedRoute } = req.session;
+  const {fileObjectIsEmpty}=req.session;
   const { file_id } = req.query;
+  errorList=errorList ==undefined ||errorList==null?[]:errorList;
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -63,6 +65,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
       const FETCH_FILEDATA = FetchDocuments.data;
       const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
+      
       let windowAppendData = {
         lotId,
         agreementLotName,
@@ -71,11 +74,19 @@ export const FILEUPLOADHELPER: express.Handler = async (
         releatedContent: releatedContent,
         storage: TOTALSUM,
       };
+      if (fileObjectIsEmpty) {
+        fileError=true;
+        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        delete req.session["fileObjectIsEmpty"]
+      }
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
-      if (windowAppendData.files['length'] ==0)
+
+      if (FETCH_FILEDATA !=undefined && FETCH_FILEDATA.length <=0) {
         req.session['isTcUploaded'] = false;
+      }else{req.session['isTcUploaded'] =true;}
+     
       if (selectedRoute === 'FC') selectedRoute = 'RFP';
       res.render(`${selectedRoute.toLowerCase()}-uploadDocument`, windowAppendData);
     } catch (error) {

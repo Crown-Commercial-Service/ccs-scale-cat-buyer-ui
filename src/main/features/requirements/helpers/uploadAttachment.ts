@@ -18,7 +18,10 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   let { selectedRoute } = req.session;
+  const { pricingSchedule } = req.session;
   const { file_id } = req.query;
+  const {fileObjectIsEmpty}=req.session;
+  errorList=errorList ==undefined ||errorList==null?[]:errorList;
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -37,6 +40,11 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         'Content-Length': ContentLength,
         'Content-Disposition': 'attachment; filename=' + fileName,
       });
+      if (FetchDocuments != undefined && FetchDocuments != null && FetchDocuments.length > 0) {
+        req.session['isTcUploaded'] = true;
+      } else {
+        req.session['isTcUploaded'] = false;
+      }
       res.send(fileData);
     } catch (error) {
       delete error?.config?.['headers'];
@@ -70,12 +78,41 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         files: FETCH_FILEDATA,
         releatedContent: releatedContent,
         storage: TOTALSUM,
+        IsDocumentError: false,
+        Rfp_confirm_upload: false,
+        IsFileError: false,
       };
-      if (fileError && errorList !== null) {
-        windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
+      
+      if (pricingSchedule != undefined) {
+       delete req.session["pricingSchedule"];
+        if (errorList==null) {
+          errorList=[];
+        }
+        if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
+          errorList.push({ text: "The buyer must confirm they understand the statement by ticking the box", href: "#" })
+          fileError=true;
+        }
+        if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
+          errorList.push({ text: "Pricing schedule must be uploaded", href: "#" });
+          fileError=true;
+        }
       }
-      if (selectedRoute === 'FC') selectedRoute = 'RFP';
-      if (selectedRoute === 'FCA') selectedRoute = 'CA';
+      if (fileObjectIsEmpty) {
+        fileError=true;
+        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        delete req.session["fileObjectIsEmpty"];
+      }
+      if (fileError && errorList !== null) {
+        windowAppendData = Object.assign({}, { ...windowAppendData, fileError: true, errorlist: errorList });
+      }
+      if (FETCH_FILEDATA != undefined && FETCH_FILEDATA != null && FETCH_FILEDATA.length > 0) {
+        req.session['isTcUploaded'] = true;
+      }
+      else {
+        req.session['isTcUploaded'] = false;
+      }
+      if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute.toUpperCase() === 'FC') selectedRoute.toUpperCase() = 'RFP';
+      if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !=""&& selectedRoute.toUpperCase() === 'FCA') selectedRoute.toUpperCase() = 'CA';
       res.render(`${selectedRoute.toLowerCase()}-uploadAttachment`, windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];

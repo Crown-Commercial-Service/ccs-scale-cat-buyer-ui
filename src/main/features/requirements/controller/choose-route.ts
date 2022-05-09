@@ -42,7 +42,7 @@ function updateRadioButtonOptions(
   types: string[],
 ): object {
   let updatedOptions = chooseRouteOptions;
-  const updateLotId = lotId.length > 1 ? lotId : 'Lot ' + lotId;
+  const updateLotId = lotId.length > 1 ? lotId :  lotId;
   switch (agreementId) {
     case 'RM6263':
       if (updateLotId == 'Lot 1') {

@@ -32,10 +32,10 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => 
  */
 const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
   const element = document.getElementById(elementName);
-  if (element.value && element.value.trim().length > 0 && valid) {
+  if (element != undefined && element != null && element.value && element.value.trim().length > 0 && valid) {
     ccsZremoveErrorMessage(element);
   }
-  else {
+  else if (element != undefined && element != null) {
     ccsZaddErrorMessage(element, errMsg);
     return [element.id, errMsg];
   }
@@ -60,14 +60,15 @@ const ccsZisOptionCheckedForVetting = (elementName, errMsg) => {
   else {
     gotACheck = true;
   }
+  if (element != undefined && element != null) {
+    if (element.type === "radio") containingDiv = ".govuk-radios";
 
-  if (element.type === "radio") containingDiv = ".govuk-radios";
+    if (gotACheck) ccsZremoveErrorMessage(element);
+    else ccsZaddErrorMessage(element, errMsg)
 
-  if (gotACheck) ccsZremoveErrorMessage(element);
-  else ccsZaddErrorMessage(element, errMsg)
-
-  if (gotACheck) return true;
-  else return [element.id, errMsg];
+    if (gotACheck) return true;
+    else return [element.id, errMsg];
+  }
 }
 
 
@@ -80,19 +81,23 @@ const ccsZisOptionChecked = (elementName, errMsg) => {
   let gotACheck = false,
     containingDiv = ".govuk-checkboxes";
 
-  if (element.type === "radio") containingDiv = ".govuk-radios";
+  if (element != undefined && element != null) {
+    if (element.type === "radio") containingDiv = ".govuk-radios";
 
-  let theOptions = element.closest(containingDiv).querySelectorAll('input');
+    let theOptions = element.closest(containingDiv).querySelectorAll('input');
 
-  theOptions.forEach((opt) => {
-    if (opt.checked) gotACheck = true;
-  });
+    theOptions.forEach((opt) => {
+      if (opt.checked) gotACheck = true;
+    });
 
-  if (gotACheck) ccsZremoveErrorMessage(element);
-  else ccsZaddErrorMessage(element, errMsg)
+    if (gotACheck) ccsZremoveErrorMessage(element);
+    else ccsZaddErrorMessage(element, errMsg)
 
-  if (gotACheck) return true;
-  else return [element.id, errMsg];
+    if (gotACheck) return true;
+    else return [element.id, errMsg];
+
+  }
+
 }
 
 /**
@@ -210,7 +215,7 @@ const ccsZremoveErrorMessage = (element) => {
  */
 const ccsZaddErrorMessage = (element, message) => {
 
-  if (document.getElementById(element.id + "-error") === null) {
+  if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
 
     if (element.tagName === "INPUT" && (element.type !== "radio" || element.type !== "checkbox")) {

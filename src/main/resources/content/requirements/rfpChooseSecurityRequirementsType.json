@@ -25,6 +25,7 @@
   "title": "Set your security and vetting requirements",
   "subtitle": "",
   "form": {
+    "selectedValue":"",
     "question": "Select the highest level of security clearance that staff supplied to the project will need to have.",
     "radioOptions": {
       "idPrefix": "ccs_rfp_choose_security",

@@ -106,28 +106,31 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
       errorSelector = 'clarification_date';
       break;
     case 'Question 2':
-      if (questionNewDate < timeline.publish) {
+      let publishDate = new Date(timeline.publish);
+      let newDate = new Date(questionNewDate);
+      
+      if (newDate.setHours(0, 0, 0, 0) <= publishDate.setHours(0, 0, 0, 0)) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'clarification_period_end';
       break;
     case 'Question 3':
-      if (questionNewDate < timeline.clarificationPeriodEnd) {
+      if (questionNewDate <= timeline.clarificationPeriodEnd) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'deadline_period_for_clarification_period';
       break;
     case 'Question 4':
-      if (questionNewDate < timeline.publishResponsesClarificationQuestions) {
+      if (questionNewDate <= timeline.publishResponsesClarificationQuestions) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
       break;
     case 'Question 5':
-      if (questionNewDate < timeline.supplierSubmitResponse) {
+      if (questionNewDate <= timeline.supplierSubmitResponse) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
@@ -157,16 +160,31 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   clarification_date_month = Number(clarification_date_month);
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
-  clarification_date_minute = Number(clarification_date_minute);
 
+  if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute =='')
+  {
+    const errorItem = {     
+      text: 'Date invalid or empty. Plese enter the valid date', 
+      href:  'clarification_date',
+    };
+    await RESPONSEDATEHELPER(req, res, true, errorItem);
+  }
+  else{
+  clarification_date_minute = Number(clarification_date_minute);
   clarification_date_month = Number(clarification_date_month) - 1;
 
   let timeinHoursBased = 0;
-  if (clarification_date_hourFormat == 'AM') {
+  if (clarification_date_hourFormat == 'AM'&& clarification_date_hour != 12) {
     timeinHoursBased = Number(clarification_date_hour);
-  } else {
-    timeinHoursBased = Number(clarification_date_hour) + 12;
   }
+ else if (clarification_date_hourFormat == 'AM' && clarification_date_hour == 12) {
+    timeinHoursBased = Number(clarification_date_hour)-12;
+  } else if (clarification_date_hourFormat == 'PM' && clarification_date_hour == 12) {
+    timeinHoursBased = Number(clarification_date_hour) ;
+  }
+else {
+  timeinHoursBased = Number(clarification_date_hour) + 12;
+}
 
   let date = new Date(
     clarification_date_year,
@@ -182,6 +200,30 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
   if (date.getTime() >= nowDate.getTime() && isValid) {
     date = moment(date).format('DD MMMM YYYY, hh:mm a');
+    req.session.questionID=selected_question_id;
+
+    if(selected_question_id=='Question 2')
+    {req.session.rfipublishdate=timeline.publish;
+    req.session.UIDate=date;
+  }
+    else if (selected_question_id=='Question 3')
+{ req.session.rfipublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+    req.session.UIDate=date;
+  }
+    else if(selected_question_id=='Question 4')
+{  req.session.rfipublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+    req.session.UIDate=date;
+  }
+  else if(selected_question_id=='Question 5')
+{ req.session.rfipublishdate=timeline.publish;
+  req.session.clarificationend=timeline.clarificationPeriodEnd;
+  req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+  req.session.supplierresponse=timeline.supplierSubmitResponse;
+    req.session.UIDate=date;
+  }
 
     const answerformater = {
       value: date,
@@ -291,4 +333,5 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     };
     await RESPONSEDATEHELPER(req, res, true, errorItem);
   }
+}
 };

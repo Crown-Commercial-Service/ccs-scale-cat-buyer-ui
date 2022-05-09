@@ -25,6 +25,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   const { isJaggaerError } = req.session;
   const { assessmentId } = currentEvent;
   req.session['isJaggaerError'] = false;
+  req.session["selectedRoute"]=req.url?.split('/')[1];
   const itemList = [
     'Data',
     'Technical',

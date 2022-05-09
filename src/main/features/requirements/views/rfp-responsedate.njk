@@ -103,8 +103,7 @@
                                                 {%endif%}
                                                 {%if (requirement.OCDS.id !== "Question 1")%}
                                                     <a href="#rfp_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
-                        class="govuk-link govuk-link--no-visited-state change govuk-!-padding-bottom-5 ">change</a>
-                                                </div>
+                        class="govuk-link govuk-link--no-visited-state change" >change</a>
                                                 <div id="rfp_clarification_date_expanded_{{loop.index}}">
                                                     <div>
                                                         <label class="govuk-label govuk-body">
@@ -112,7 +111,7 @@
                                 clarification_date_string }}</strong>
                                                         </label>
                                                         <a href="#rfp_clarification_date_{{loop.index}}"  id="rfp_cancel_change_clarification_date_{{loop.index}}"
-                            class="govuk-link govuk-link--no-visited-state ">I do not want to change this date and time</a>
+                            class="govuk-link govuk-link--no-visited-state " hidden>I do not want to change this date and time</a>
                                                     </div>
                                                     <br>
                                                     <form action="/rfp/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form">
@@ -126,8 +125,8 @@
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-day_{{loop.index}}" name="clarification_date_day" type="text"
-                                        pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-day'] }}" required>
+                                       inputmode="numeric"
+                                        value="{{ data['clarification_date-day'] }}" >
                                                                     </div>
                                                                 </div>
                                                                 <div class="govuk-date-input__item">
@@ -137,8 +136,8 @@
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-month_{{loop.index}}" name="clarification_date_month" type="text"
-                                        pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-month'] }}" required>
+                                         inputmode="numeric"
+                                        value="{{ data['clarification_date-month'] }}" >
                                                                     </div>
                                                                 </div>
                                                                 <div class="govuk-date-input__item">
@@ -148,8 +147,8 @@
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-4"
                                         id="clarification_date-year_{{loop.index}}" name="clarification_date_year" type="text"
-                                        pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-year'] }}" required>
+                                         inputmode="numeric"
+                                        value="{{ data['clarification_date-year'] }}" >
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -163,8 +162,8 @@
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-hour_{{loop.index}}" name="clarification_date_hour" type="text"
-                                        pattern="[0-9]*" inputmode="numeric"
-                                        value="{{ data['clarification_date-hour'] }}" required>
+                                         inputmode="numeric"
+                                        value="{{ data['clarification_date-hour'] }}" >
                                                                     </div>
                                                                 </div>
                                                                 <div class="govuk-date-input__item">
@@ -174,15 +173,14 @@
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
                                         id="clarification_date-minute_{{loop.index}}" name="clarification_date_minute" type="text"
-                                        pattern="[0-9]*" inputmode="numeric"
+                                         inputmode="numeric"
                                         value="{{ data['clarification_date-minute'] }}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="govuk-date-input__item">
                                                                     {{ CCSSelect({
                                 id: "clarification_date-hourFormat",
-                                name: "clarification_date_hourFormat",
-                                required: true,
+                                name: "clarification_date_hourFormat",                      
                                 classes: "",
                                 items: [
                                 { value:"",
@@ -256,6 +254,7 @@
                                                                 {{ CCSInput({
                     id: "timeStamp",
                     name: "deadline_for_submission_of_stage_one",
+                    type: "hidden",
                     value: "Question 6*"+deadline_for_submission_of_stage_one
                     }) }}
                                                                 {{ CCSInput({

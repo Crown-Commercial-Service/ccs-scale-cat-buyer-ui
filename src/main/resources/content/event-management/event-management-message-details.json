@@ -18,6 +18,7 @@
     }
   ],
   "backlink" : "/message/inbox",
+  "backlinkDetailPageHref" : "/message/sent",
   "tabs": {
     "text1": "Write message",
     "href1": "/message/create",
@@ -37,7 +38,7 @@
   "line4": "Sent by ",
   "backJump": {
     "title": "Add to clarifications",
-    "href": "#"
+    "href": "/event/qa-add"
   },
   "backJump2": {
     "title": "Return to inbox",
@@ -45,6 +46,6 @@
   },
   "backJump3": {
     "title": "Send to all",
-    "href": "#"
+    "href": "/message/create"
   }
 }
