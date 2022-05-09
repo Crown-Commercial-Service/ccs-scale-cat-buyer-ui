@@ -18,15 +18,16 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
   const { lotId, agreementLotName, eventId, projectId, agreement_id } = req.session;
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
-   
-    journeySteps.forEach((element,index)=>{  
-      if(element.step==9) journeySteps.splice(index,1);
+    if(journeySteps[9].state=="Cannot start yet")
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/10`, 'Not started');
+    }
+    const { data: journeyrfi } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
+    journeyrfi.forEach((element,index)=>{  
+      if(element.step==9) journeyrfi.splice(index,1);
    });
-if(journeySteps[8].state=="Cannot start yet")
-{
-  journeySteps[8].state=="Not started"
-}
-    statusStepsDataFilter(cmsData, journeySteps, 'rfi', agreement_id, projectId, eventId);
+
+    statusStepsDataFilter(cmsData, journeyrfi, 'rfi', agreement_id, projectId, eventId);
     const releatedContent = req.session.releatedContent;
     const windowAppendData = { data: cmsData, lotId, agreementLotName, releatedContent };
     res.render('Tasklist', windowAppendData);
