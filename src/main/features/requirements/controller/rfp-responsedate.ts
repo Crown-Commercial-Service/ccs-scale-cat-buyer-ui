@@ -104,8 +104,8 @@ function isValidQuestion(
   timeinHoursBased: number,
   timeline: any,
 ) {
-  const date1 = new Date(year, month, day, timeinHoursBased, minute);
-  let todaydate=new Date();
+  //const date1 = new Date(year, month, day, timeinHoursBased, minute);
+  //let todaydate=new Date();
   let isValid = true,
     error,
     errorSelector;
@@ -137,12 +137,6 @@ function isValidQuestion(
     error = 'You can not set a date in weekend';
   }
   
-
-  if(todaydate>date1)
-  {
-    isValid = false;
-    error = 'You can not set a date earlier that the previous date';
-  }
 
   switch (questionId) {
     case 'Question 1':
