@@ -51,6 +51,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const splitOn = ' <br> ';
     const promptSplit = promptData?.split(splitOn);
     const nonOCDSList = [];
+    fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
       const questionNonOCDS = {
         groupId: group_id,
@@ -135,6 +136,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const data = {
       data: POSITIONEDELEMENTS,
       agreement: AgreementEndDate,
+      agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
       proc_id: proc_id,
       event_id: event_id,
@@ -209,7 +211,19 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const agreementExpiryDate = retrieveAgreement.endDate;
     if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
     else question_ids = question_id;
+    let question_idsFilrtedList = [];
 
+    question_ids.forEach(x => {
+      if (question_idsFilrtedList.length > 0) {
+        let existing = question_idsFilrtedList.filter(xx => xx.trim() == x.trim())
+        if (existing == undefined || existing == null || existing.length <= 0) {
+          question_idsFilrtedList.push(x);
+        }
+      } else {
+        question_idsFilrtedList.push(x);
+      }
+    });
+    question_ids = question_idsFilrtedList;
     if (operations.equals(started_progress_check, false)) {
       if (rfp_build_started === 'true' && nonOCDS.length > 0) {
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfp_build_started');
@@ -239,7 +253,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
           let validationError = false;
           let answerValueBody = {};
           for (let i = 0; i < question_ids.length; i++) {
-            const questionNonOCDS = nonOCDS.find(item => item.questionId == question_ids[i]);
+            const questionNonOCDS = nonOCDS.find(item => item.questionId?.trim() == question_ids[i]?.trim());
             if (questionNonOCDS.questionType === 'Value' && questionNonOCDS.multiAnswer === true) {
               if (questionNonOCDS.mandatory == true && object_values.length == 0) {
                 validationError = true;
@@ -258,8 +272,8 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
 
               let { term, value } = req.body;
               const TAStorage = [];
-              term = term.filter((akeyTerm: any) => akeyTerm !== '');
-              value = value.filter((aKeyValue: any) => aKeyValue !== '');
+              term = term?.filter((akeyTerm: any) => akeyTerm !== '');
+              value = value?.filter((aKeyValue: any) => aKeyValue !== '');
 
               for (let item = 0; item < term.length; item++) {
                 const termObject = { value: term[item], text: value[item], selected: true };
@@ -316,7 +330,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               }
               await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
             } else if (questionNonOCDS.questionType === 'Date') {
-              const slideObj = object_values.slice(0, 3);
+              const slideObj = object_values.slice(1, 4);
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
@@ -325,7 +339,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               };
             } else if (questionNonOCDS.questionType === 'Duration') {
               let currentDate = moment(new Date(), 'DD/MM/YYYY').format('DD-MM-YYYY');
-              let inputDate = object_values[0].value + '-' + object_values[1].value + '-' + object_values[2].value;
+              let inputDate = req.body["rfp_duration-years_" + question_ids[i]] + '-' + req.body["rfp_duration_months_" + question_ids[i]] + '-' + req.body["rfp_duration_days_" + question_ids[i]];
               let agreementExpiryDateFormated = moment(agreementExpiryDate, 'DD/MM/YYYY').format('DD-MM-YYYY');
               let isInputDateLess = moment(inputDate).isBefore(currentDate);
               let isExpiryDateLess = moment(inputDate).isAfter(agreementExpiryDate);
@@ -344,11 +358,55 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [...slideObj],
+                    options: [
+                      { value: req.body["rfp_duration-years_" + question_ids[i]], select: true },
+                      { value: req.body["rfp_duration_months_" + question_ids[i]], select: true },
+                      { value: req.body["rfp_duration_days_" + question_ids[i]], select: true },
+                    ],
                   },
                 };
               }
-            } else if (question_ids.length == 4 && questionNonOCDS.multiAnswer === true) {
+            }
+            else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
+              if (KeyValuePairValidation(object_values, req)) {
+                validationError = true;
+                break;
+              }
+              let splterm = req.body;
+              let splTermvalue = req.body;
+              const TAStorage = [];
+              const questionDataList = splterm[question_ids[i]];
+              splTermvalue = questionDataList?.filter((aKeyValue: any) => aKeyValue !== '');
+
+              for (let item = 0; item < splTermvalue?.length; item++) {
+                const spltermObject = { value: splTermvalue[item], selected: true };
+                TAStorage.push(spltermObject);
+              }
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [...TAStorage],
+                },
+              };
+            }
+            else if (questionNonOCDS.questionType === 'Percentage') {
+              const dataList = req.body[question_ids[i]];
+              if (dataList != undefined) {
+                var optins=dataList?.filter(val => val !== '')
+                .map(val => {
+                  return { value: val, selected: true };
+                });
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    multiAnswer:true,
+                    options: optins
+                  }
+                };
+              }
+
+            }
+            else if (questionNonOCDS.questionType != 'Percentage' && question_ids.length == 4 && questionNonOCDS.multiAnswer === true) {
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
@@ -359,20 +417,28 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                     }),
                 },
               };
-            } else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
+            }
+            else if (questionNonOCDS.questionType === 'SingleSelect') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
                 break;
               }
-
-              let splterm = req.body.term;
-              let splTermvalue = req.body.value;
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
+                },
+              };
+            }
+            else if (questionNonOCDS.questionType === 'Monetary') {
+              if (KeyValuePairValidation(object_values, req)) {
+                validationError = true;
+                break;
+              }
               const TAStorage = [];
-              splterm = splterm?.filter((akeyTerm: any) => akeyTerm !== '');
-              splTermvalue = splTermvalue?.filter((aKeyValue: any) => aKeyValue !== '');
-
-              for (let item = 0; item < splterm?.length; item++) {
-                const spltermObject = { value: splterm[item], text: splTermvalue[item], selected: true };
+              const monetaryData = object_values[1];
+              for (let item = 0; item < monetaryData?.value?.length; item++) {
+                const spltermObject = { value: monetaryData.value[i], selected: true };
                 TAStorage.push(spltermObject);
               }
               answerValueBody = {
@@ -413,7 +479,9 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-              } catch (error) {}
+              } catch (error) {
+                LoggTracer.errorTracer(error, res);
+              }
             }
           }
           if (validationError) {
