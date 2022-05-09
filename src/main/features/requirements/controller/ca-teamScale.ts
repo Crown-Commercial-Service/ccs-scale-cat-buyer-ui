@@ -32,8 +32,6 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
   try {
     // get the stored value from session. If not found, call api
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-    //remove this line before raising a PR
-    caTeamScale.form.radioOptions.items[0].selected = false;
     if (assessmentDetail.dimensionRequirements.length > 0) {
       const optionId = assessmentDetail.dimensionRequirements[0].requirements[0]['requirement-id'];
       const objIndex = caTeamScale.form.radioOptions.items.findIndex(obj => obj.value === optionId);
