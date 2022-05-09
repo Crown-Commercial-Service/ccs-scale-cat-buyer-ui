@@ -8,16 +8,18 @@ if (document.getElementById('rfp_date') !== null) {
     const rfpYearSelector = $('#rfp_resource_start_date-year');
 
     let rfpagreementData;
-    if ($('.agreement_no').attr('id')) {
-        rfpagreementData = $('.agreement_no').attr('id').split("-");
+    // if ($('.agreement_no').attr('id')) {
+    //     rfpagreementData = $('.agreement_no').attr('id').split("-");
+    // }
+    if ($('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate')) {
+        rfpagreementData = $('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate').split("-");
     }
+    const expiryYears =rfpagreementData !=undefined && rfpagreementData !=null? Number(rfpagreementData[0]):null;
+    const expiryMonth = rfpagreementData !=undefined && rfpagreementData !=null? Number(rfpagreementData[1]):null;
+    const expiryDate = rfpagreementData !=undefined && rfpagreementData !=null? Number(rfpagreementData[2]):null;
 
-    const expiryYears = Number(rfpagreementData[0]);
-    const expiryMonth = Number(rfpagreementData[1]);
-    const expiryDate = Number(rfpagreementData[2])
-
-    const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
-    const getMSOfExpiryDate = ExpiryDates.getTime()
+    const ExpiryDates =expiryYears !=null &&expiryMonth !=null && expiryDate !=null? new Date(expiryYears, expiryMonth, expiryDate):null;
+    const getMSOfExpiryDate =ExpiryDates !=null? ExpiryDates.getTime():null;
 
 
 
@@ -174,7 +176,7 @@ if (document.getElementById('rfp_date') !== null) {
 
 
 
-        if (projectYears.val() < 0 || projectMonths.val() < 0 || projectDays.val() < 0) {
+        if (rfpProjectYears.val() < 0 || rfpProjectMonths.val() < 0 || rfpProjectDays.val() < 0) {
             const errorStore = [["rfp_resource_start_date", "Project time's format is not valid"]]
             $('#event-name-error-year').html('Enter a valid year');
             ccsZPresentErrorSummary(errorStore);

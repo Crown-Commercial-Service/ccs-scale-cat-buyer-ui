@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let selectors = [1,2,3,4,5];
   for(let element of selectors){
- 
- 
    let day = $(`#clarification_date-day_${element}`);
    let month = $(`#clarification_date-month_${element}`);
    let year = $(`#clarification_date-year_${element}`);
@@ -12,13 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
    day.on('blur', ()=>{
      let value  = day;
-     let parentID = `rfi_clarification_date_expanded_${element}`;
-     let elementSelector = $(parentID);
-     if(elementSelector.length === 0)
-        elementSelector = `eoi_clarification_date_expanded_${element}`;
+     let parentID = getParentId(element);  
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 31;
-     let startmonthCheck = Number(value.val()) < 1;
+     let startmonthCheck = Number(value.val()) < 1;     
      if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
@@ -29,13 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
  
    });
  
- 
    month.on('blur', ()=>{
      let value  = month;
-     let parentID = `rfi_clarification_date_expanded_${element}`;
-     let elementSelector = $(parentID);
-     if(elementSelector.length === 0)
-        elementSelector = `eoi_clarification_date_expanded_${element}`;
+     let parentID = getParentId(element);  
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 12;
      let startmonthCheck = Number(value.val()) <= 0;
@@ -49,13 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
  
    });
  
- 
    year.on('blur', ()=>{
      let value  = year;
-     let parentID = `rfi_clarification_date_expanded_${element}`;
-     let elementSelector = $(parentID);
-     if(elementSelector.length === 0)
-        elementSelector = `eoi_clarification_date_expanded_${element}`;
+     let parentID = getParentId(element);
      let matchValue = !value.val().match(/^\d{4}$/);
      let endyearCheck = Number(value.val()) > 2121;
      let currentYear =  new Date().getFullYear();
@@ -70,13 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
  
    });
  
- 
    hour.on('blur', ()=>{
      let value  = hour;
-     let parentID = `rfi_clarification_date_expanded_${element}`;
-     let elementSelector = $(parentID);
-     if(elementSelector.length === 0)
-        elementSelector = `eoi_clarification_date_expanded_${element}`;
+     let parentID = getParentId(element);
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 12;
      let startmonthCheck = Number(value.val()) <= 0;
@@ -90,13 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
  
    });
  
- 
    minutes.on('blur', ()=>{
      let value  = minutes;
-     let parentID = `rfi_clarification_date_expanded_${element}`;
-     let elementSelector = $(parentID);
-     if(elementSelector.length === 0)
-        elementSelector = `eoi_clarification_date_expanded_${element}`;
+     let parentID = getParentId(element);
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 59;
      let startmonthCheck = Number(value.val()) < 0;
@@ -109,10 +88,26 @@ document.addEventListener('DOMContentLoaded', () => {
      }
  
    });
- 
+
+   function getParentId(element)
+   {
+      let parentID ='';
+    if (document.getElementById(`rfi_clarification_date_expanded_${element}`) !== null)
+      {
+       parentID = `rfi_clarification_date_expanded_${element}`;
+      }
+    else if (document.getElementById(`rfp_clarification_date_expanded_${element}`) !== null)
+      {
+       parentID = `rfp_clarification_date_expanded_${element}`;
+      }
+    else if(document.getElementById(`eoi_clarification_date_expanded_${element}`) !== null)
+      {
+      parentID = `eoi_clarification_date_expanded_${element}`;
+      }
+      return parentID;
+    }
   } 
- 
- });
+  });
 
  $('.save-button').on('click', (e)=> {
   let publication_date = new Date(document.getElementsByClassName("clarification_1")[0].innerText);

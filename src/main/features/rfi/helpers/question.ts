@@ -75,8 +75,6 @@ export class QuestionHelper {
         res.redirect(base_url);
       } else {
         let mandatoryNum = 0;
-        const maxNum = 4;
-        let status = '';
         for (let i = 0; i < criterian_array.length; i++) {
           const groupId = criterian_array[i].OCDS['id'];
           const mandatory = criterian_array[i].nonOCDS['mandatory'];
@@ -98,11 +96,10 @@ export class QuestionHelper {
                   if (selectedLocation) mandatoryNum += 1;
                 }
               }
-            }
-            mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
+            }        
           }
         }
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/10`, status);
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/10`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/11`, 'Optional');
           await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/12`, 'Not started');
