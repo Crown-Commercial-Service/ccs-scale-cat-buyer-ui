@@ -118,7 +118,7 @@ $(document).ready(function () {
   // Sent message
   $(document).ready(function () {
     $('#sent-message').after('<div class="ccs-pagination" id="historical-nav2"><p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination historical-navigation</p></div>');
-       var rowsShown = 10;
+       var rowsShown = 20;
     var rowsTotal = $('#sent-message tbody tr').length;
        var numPages = rowsTotal / rowsShown;
        var pageNum = 0;
@@ -176,7 +176,7 @@ $(document).ready(function () {
   $(document).ready(function () {
     // Active event 
  $('#received-message').after('<div class="ccs-pagination" id="nav-received"><p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination nav-receivedigation</p></div>');
-    var rowsShown = 10;
+    var rowsShown = 20;
  var rowsTotal = $('#received-message tbody tr').length;
     var numPages = rowsTotal / rowsShown;
     var pageNum = 0;
