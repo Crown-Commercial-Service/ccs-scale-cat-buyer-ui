@@ -35,8 +35,8 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
             default: res.locals.supplier_link = "#"
         }
         const message: CreateMessage = {
-            create_message: ["unclassified", "Technical Clarification",
-                "System Query", "General Clarification", "Procurement Outcome"],
+            create_message: ["unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
+                "System Query", "General Clarification","Compliance Clarification", "Procurement Outcome"],
             create_message_input: null,
             create_subject_input: null,
             IsClassificationNotDefined: false,
@@ -106,8 +106,8 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
         }
 
         const message: CreateMessage = {
-            create_message: ["unclassified", "Technical Clarification",
-                "System Query", "General Clarification", "Procurement Outcome"],
+            create_message: ["unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
+                "System Query", "General Clarification","Compliance Clarification", "Procurement Outcome"],
             selected_message: _body.create_message,
             create_message_input: _body.create_message_input,
             create_subject_input: _body.create_subject_input,
