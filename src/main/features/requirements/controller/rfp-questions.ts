@@ -225,7 +225,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     });
     question_ids = question_idsFilrtedList;
     if (operations.equals(started_progress_check, false)) {
-      if (rfp_build_started === 'true' && nonOCDS.length > 0) {
+      if (rfp_build_started === 'true' && nonOCDS !==null && nonOCDS.length > 0) {
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfp_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
