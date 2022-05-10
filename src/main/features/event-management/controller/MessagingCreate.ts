@@ -6,9 +6,9 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as inboxData from '../../../resources/content/event-management/messaging-create.json'
 
 export class ValidationErrors {
-    static readonly CLASSIFICATION_REQUIRED: string = 'Message cannot be broadcast unless a Classification has been defined'
-    static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Subject Line has been defined'
-    static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Message Body has been defined'
+    static readonly CLASSIFICATION_REQUIRED: string = 'Message cannot be broadcast unless a Classification has been defined - broadcast cannot be completed'
+    static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Message Body has been defined - broadcast cannot be completed'
+    static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Subject Line has been defined - broadcast cannot be completed'
 }
 
 /**
@@ -88,7 +88,7 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
             validationError = true
             errorText.push({
                 text: ValidationErrors.MESSAGE_REQUIRED,
-                href: '#create_subject_input'
+                href: '#create_message_input'
             });
         } else {
             IsMessageNotDefined = false
@@ -99,7 +99,7 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
             validationError = true
             errorText.push({
                 text: ValidationErrors.SUBJECT_REQUIRED,
-                href: '#create_message_input'
+                href: '#create_subject_input'
             });
         } else {
             IsSubjectNotDefined = false
@@ -119,7 +119,20 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
             messageErrorMessage: ValidationErrors.MESSAGE_REQUIRED
         }
         if (validationError) {
-            const appendData = { data: inboxData, message: message, validationError: validationError, errorText: errorText }
+            res.locals.agreement_header = req.session.agreement_header
+
+            switch (req.session.eventManagement_eventType) {
+                case 'EOI':
+                    res.locals.supplier_link = "/eoi/suppliers"
+                    break;
+
+                case 'RFI':
+                    res.locals.supplier_link = "/rfi/suppliers"
+                    break;
+
+                default: res.locals.supplier_link = "#"
+            }
+            const appendData = { data: inboxData, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
             res.render('MessagingCreate', appendData)
         } else {
             const _requestBody = {

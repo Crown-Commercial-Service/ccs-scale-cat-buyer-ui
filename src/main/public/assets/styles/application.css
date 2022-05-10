@@ -2767,6 +2767,14 @@ p + .govuk-heading-s,
   border-color: #0b0c0c;
 }
 
+.govuk-textarea--error1 {
+  border: 2px solid #b10e1e;
+}
+
+.govuk-textarea--error1:focus {
+  border-color: #0b0c0c;
+}
+
 .govuk-character-count {
   margin-bottom: 20px;
 }
