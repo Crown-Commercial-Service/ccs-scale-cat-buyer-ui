@@ -1,6 +1,6 @@
 // Dashboard pagination starts
 $(document).ready(function () {
-    // Active event 
+    // Active event
     $('#active-data').after('<div class="ccs-pagination" id="nav"><p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination navigation</p></div>');
     var rowsShown = 5;
     var rowsTotal = $('#active-data tbody tr').length;
@@ -117,20 +117,27 @@ $(document).ready(function () {
   // Messaging pagination starts
   // Sent message
   $(document).ready(function () {
+    // debugger;
     $('#sent-message').after('<div class="ccs-pagination" id="historical-nav2"><p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination historical-navigation</p></div>');
        var rowsShown = 20;
     var rowsTotal = $('#sent-message tbody tr').length;
        var numPages = rowsTotal / rowsShown;
        var pageNum = 0;
+       if(rowsTotal<=rowsShown)
+       {
+         rowsShown=rowsTotal;
+       }
     $('#historical-nav2').append('<a id="sent-message-previous" rel="0" class="ccs-pagination__link" href="#">Previous<span class="govuk-visually-hidden"> set of pages</span></a>');
        for (i = 0; i < numPages; i++) {
          pageNum = i + 1;
          $('#historical-nav2').append('<a class="ccs-pagination__link" id="pageId_'+i+'" href="#" rel="' + i + '">' + pageNum + '</a> ');
        }
-    $('#historical-nav2').append('<a id="sent-message-next" rel="1" class="ccs-pagination__link" href="#">Next<span class="govuk-visually-hidden"> set of pages</span></a>');
+       if(rowsTotal!=rowsShown){
+        $('#historical-nav2').append('<a id="sent-message-next" rel="1" class="ccs-pagination__link" href="#">Next<span class="govuk-visually-hidden"> set of pages</span></a>');
+        }
     $('#sent-message-previous').addClass("govuk-visually-hidden");
        $('#historical-nav2').append('<span class="govuk-visually-hidden" id="total_page_active_event">' + pageNum + '</span> ');
-     
+       
        $('#historical-nav2').append('<p class="ccs-pagination__results">Showing <b><label id="start_count">1</label></b> to <b><label id="end_count">' + rowsShown + '</label></b> of <b><label id="total_count">' + rowsTotal + '</label></b> results</p>');
     $('#sent-message tbody tr').hide();
     $('#sent-message tbody tr').slice(0, rowsShown).show();

@@ -81,7 +81,7 @@
                       </p>
                     </th>
                     <td class="govuk-table__cell">{{ message.OCDS.author.name }}</td>
-                    <td class="govuk-table__cell">{{ message.OCDS.date }}</td>
+                    <td class="govuk-table__cell">{{ message.OCDS.date | dateddmmyyyy}}</td>
                   </tr>
                 {% endfor %}
               {% else %}
