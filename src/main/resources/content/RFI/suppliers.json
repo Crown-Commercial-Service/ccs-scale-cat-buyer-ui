@@ -17,11 +17,11 @@
         "href": "/rfi/rfi-tasklist"
         },
         {
-        "text": "See the suppliers who will receive your RFI"
+        "text": "Look at the suppliers to contact"
         }
     ],
 
-    "title": "See the suppliers who will receive your RFI",
+    "title": "Look at the suppliers to contact",
     "subtitle": null,
     "data": {
       "supplier": {
