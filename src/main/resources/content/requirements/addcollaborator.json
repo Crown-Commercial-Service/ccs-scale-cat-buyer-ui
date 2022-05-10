@@ -1,5 +1,5 @@
 {
-  "title": "Add colleagues to your project",
+  "title": "Add colleagues",
   "subtitle": null,
   "content": {
     "p1": "You can add colleagues to help you write your requirements and review and evaluate suppliers.",
@@ -8,7 +8,7 @@
       "text": "self-registration service.",
       "href": "#"
     },
-    "p3": "If you need to wait for them to register, you can return to the pre-market engagement section and complete this step later, or you can continue to the next step.",
+    "p3": "If you need to wait for them to register, you can complete this step later and either return to Write and publish your requirements or continue to the next step.",
     "p4": "You cannot remove yourself from this procurement project. If you need to change the lead colleague, you can do this on the previous step.",
     "collegue": {
       "name": "Colleague :",
