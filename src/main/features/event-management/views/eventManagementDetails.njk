@@ -67,12 +67,25 @@
                   <li class="nav-list__item">
                     <a class="nav-list__link" href="{{data.tabs.href1}}?type=create">{{data.tabs.text1}}</a>
                   </li>
+                  {%if(type==='received')%}
                   <li class="nav-list__item selected">
                     <a class="nav-list__link" href="{{data.tabs.href2}}?type=received">{{data.tabs.text2}}</a>
                   </li>
-                  <li class="nav-list__item ">
+                  {%else%}
+                   <li class="nav-list__item">
+                    <a class="nav-list__link" href="{{data.tabs.href2}}?type=received">{{data.tabs.text2}}</a>
+                  </li>
+                  {%endif%}
+                  {%if(type==='sent')%}
+                  <li class="nav-list__item selected">
                     <a class="nav-list__link " href="{{data.tabs.href3}}?type=sent">{{data.tabs.text3}}</a>
                   </li>
+                  {%else%}
+                    <li class="nav-list__item">
+                      <a class="nav-list__link " href="{{data.tabs.href3}}?type=sent">{{data.tabs.text3}}</a>
+                    </li>
+                  {%endif%}
+                  
                 </ul>
               </nav>
             </div>
