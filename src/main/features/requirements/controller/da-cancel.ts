@@ -13,8 +13,10 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const releatedContent = req.session.releatedContent;
+  let lotid=req.session.lotId;
+  lotid=lotid.replace('Lot ','')
   const lotSuppliers =
-    config.get('CCS_agreements_url') + req.session.agreement_id + ':' + req.session.lotId + '/lot-suppliers';
+    config.get('CCS_agreements_url') + req.session.agreement_id + ':' + lotid + '/lot-suppliers';
   try {
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
     let supplierList = [];

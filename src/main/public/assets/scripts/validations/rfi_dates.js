@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let selectors = [1,2,3,4,5];
   for(let element of selectors){
- 
- 
    let day = $(`#clarification_date-day_${element}`);
    let month = $(`#clarification_date-month_${element}`);
    let year = $(`#clarification_date-year_${element}`);
@@ -12,107 +10,135 @@ document.addEventListener('DOMContentLoaded', () => {
 
    day.on('blur', ()=>{
      let value  = day;
-     let parentID = `rfi_clarification_date_expanded_${element}`;
-     let elementSelector = $(parentID);
-     if(elementSelector.length === 0)
-        elementSelector = `eoi_clarification_date_expanded_${element}`;
+     let parentID = getParentId(element);  
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 31;
-     let startmonthCheck = Number(value.val()) < 1;
-     if (matchValue || endmonthCheck || startmonthCheck) {
+     let startmonthCheck = Number(value.val()) < 1;     
+     if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter a valid date");
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
      } else {
-      value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(elementSelector));
+      if (month.val() !== '' && year.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
+      {
+        value.addClass("govuk-input--error")
+        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+      }
+      else
+      {
+        value.removeClass("govuk-input--error");
+        ccsZremoveErrorMessage(document.getElementById(parentID));
+      }
+      
      }
  
    });
- 
  
    month.on('blur', ()=>{
      let value  = month;
-     let parentID = `rfi_clarification_date_expanded_${element}`;
-     let elementSelector = $(parentID);
-     if(elementSelector.length === 0)
-        elementSelector = `eoi_clarification_date_expanded_${element}`;
+     let parentID = getParentId(element);  
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 12;
      let startmonthCheck = Number(value.val()) <= 0;
-     if (matchValue || endmonthCheck || startmonthCheck) {
+     if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter a valid month");
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid month");
      } else {
+      if (year.val() !== '' && day.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
+      {
+        value.addClass("govuk-input--error")
+        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+      }
+      else{
       value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(elementSelector));
+       ccsZremoveErrorMessage(document.getElementById(parentID));
+      }
      }
  
    });
  
- 
    year.on('blur', ()=>{
      let value  = year;
-     let parentID = `rfi_clarification_date_expanded_${element}`;
-     let elementSelector = $(parentID);
-     if(elementSelector.length === 0)
-        elementSelector = `eoi_clarification_date_expanded_${element}`;
+     let parentID = getParentId(element);
      let matchValue = !value.val().match(/^\d{4}$/);
      let endyearCheck = Number(value.val()) > 2121;
      let currentYear =  new Date().getFullYear();
      let startyearCheck = Number(value.val()) < currentYear;
-     if (matchValue || endyearCheck || startyearCheck) {
+     if (matchValue || endyearCheck || startyearCheck|| value == '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter a valid year");
-     } else {
-      value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(elementSelector));
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
+     } else { 
+        if (month.val() !== '' && day.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
+        {
+          value.addClass("govuk-input--error")
+          ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+        }
+        else{
+        value.removeClass("govuk-input--error");
+         ccsZremoveErrorMessage(document.getElementById(parentID));
+        }
      }
- 
    });
- 
  
    hour.on('blur', ()=>{
      let value  = hour;
-     let parentID = `rfi_clarification_date_expanded_${element}`;
-     let elementSelector = $(parentID);
-     if(elementSelector.length === 0)
-        elementSelector = `eoi_clarification_date_expanded_${element}`;
+     let parentID = getParentId(element);
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 12;
      let startmonthCheck = Number(value.val()) <= 0;
-     if (matchValue || endmonthCheck || startmonthCheck) {
+     if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter a valid hour");
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hour");
      } else {
       value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(elementSelector));
+       ccsZremoveErrorMessage(document.getElementById(parentID));
      }
  
    });
- 
  
    minutes.on('blur', ()=>{
      let value  = minutes;
-     let parentID = `rfi_clarification_date_expanded_${element}`;
-     let elementSelector = $(parentID);
-     if(elementSelector.length === 0)
-        elementSelector = `eoi_clarification_date_expanded_${element}`;
+     let parentID = getParentId(element);
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 59;
-     let startmonthCheck = Number(value.val()) <= 0;
+     let startmonthCheck = Number(value.val()) < 0;
      if (matchValue || endmonthCheck || startmonthCheck || value == '' ) {
        value.addClass("govuk-input--error")
-       ccsZaddErrorMessage(document.getElementById(elementSelector), "Enter valid minutes");
+       ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
      } else {
       value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(elementSelector));
+       ccsZremoveErrorMessage(document.getElementById(parentID));
      }
  
    });
- 
+
+   function getParentId(element)
+   {
+      let parentID ='';
+    if (document.getElementById(`rfi_clarification_date_expanded_${element}`) !== null)
+      {
+       parentID = `rfi_clarification_date_expanded_${element}`;
+      }
+    else if (document.getElementById(`rfp_clarification_date_expanded_${element}`) !== null)
+      {
+       parentID = `rfp_clarification_date_expanded_${element}`;
+      }
+    else if(document.getElementById(`eoi_clarification_date_expanded_${element}`) !== null)
+      {
+      parentID = `eoi_clarification_date_expanded_${element}`;
+      }
+      return parentID;
+    }
+
+    function isValidDate(year, month, day) {
+      month = month-1;
+        var d = new Date(year, month, day);
+        if (d.getFullYear() == year && d.getMonth() == month && d.getDate() == day) {
+            return true;
+        }
+      return false;
+    }
   } 
- 
- });
+  });
 
  $('.save-button').on('click', (e)=> {
   let publication_date = new Date(document.getElementsByClassName("clarification_1")[0].innerText);
@@ -163,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
+
   if(isError){
       $('#event-name-error-date').html('You can not set a date and time that is earlier than the previous milestone in the timeline');
       DaySelector.addClass('govuk-form-group--error');
@@ -176,8 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
   else{
     document.forms['ccs_eoi_response_date_form'].submit();
 }
-
-
 })
  
  

@@ -24,7 +24,7 @@
         },
         {
           text: " Build your request for information",
-          href: "/rfi/online-task-list?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+          href: "/rfi/online-task-list"
       },
       {
         text: bcTitleText
@@ -263,7 +263,7 @@
 
                     {% call CCSFieldset({
                             legend: {
-                               html: "First term or acronym <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                               html: "First term or acronym",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -314,7 +314,7 @@
 
                       {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon delextremeright' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -442,7 +442,7 @@
                         classes:"save-button"
                       })
                   }}
-                  <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI)</a>
+                  <a href="/rfi/online-task-list" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI)</a>
                 </div>
 
               </form>

@@ -74,6 +74,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     releatedContent.title = 'Related content'
     req.session.releatedContent = releatedContent
 
+     //Related to AssessmentID
+     const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
+     const data = await TenderApi.Instance(SESSION_ID).get(baseURL)
+     const assessmentId=data.data.nonOCDS.assessmentId
+     req.session.currentEvent={assessmentId}
+
     // Event header
     res.locals.agreement_header = { project_name: projectName, agreementName, agreementId_session, agreementLotName, lotid }
     req.session.agreement_header = res.locals.agreement_header
@@ -92,9 +98,23 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     }
 
     if (status == "Published" || status == "Response period closed" ) {
-      const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
-      res.render('eventManagement', appendData)
-    } else {
+      let redirectUrl_: string
+      switch (eventType) {
+       
+        case "RFI":
+          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
+          res.render('eventManagement', appendData)
+          break
+          case "FC":
+            redirectUrl_="/rfp/rfp-unpublishedeventmanagement"    
+            res.redirect(redirectUrl_)     
+            break
+          default:
+            redirectUrl_ = '/event/management'
+            break
+        }
+       
+  } else {
       let redirectUrl: string
       switch (eventType) {
         case "RFI":
@@ -107,11 +127,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           redirectUrl = '/projects/create-or-choose'
           break
         case "DA":
-          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+          redirectUrl = '/da/task-list?path=B1' 
           break
         case "FC":
-          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
-          break
+          redirectUrl = '/rfp/task-list'
+         break
         case "DAA":
           redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
           break

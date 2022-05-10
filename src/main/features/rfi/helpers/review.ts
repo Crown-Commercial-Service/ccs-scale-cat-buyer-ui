@@ -7,12 +7,40 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
+import { title } from 'process';
+import { GetLotSuppliers } from '../../shared/supplierService';
+import { reverse } from 'dns';
+
+
 
 export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Response, viewError: boolean, apiError: boolean) => {
   const { SESSION_ID } = req.cookies;
   const ProjectID = req.session['projectId'];
   const EventID = req.session['eventId'];
   const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
+  const { download } = req.query;
+  if(download!=undefined)
+    {
+      const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
+      
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
+    }
+    else{
   try {
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
@@ -39,11 +67,16 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
     ToggledTrue.nonOCDS.options = selectedToggled;
     GROUP1_Toggle.OCDS.requirements.map(group => {
       if (group.OCDS.id === 'Question 1') return ToggledTrue;
-      else return group;
+      else {
+        return group;
+      }
     });
     Rfi_answered_questions = Rfi_answered_questions.map(question => {
       if (question.OCDS.id === 'Group 1') return GROUP1_Toggle;
-      else return question;
+      
+      else {
+        return question;
+      }
     });
 
     const ExtractedRFI_Answers = Rfi_answered_questions.sort((a: any, b: any) =>
@@ -52,6 +85,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       return {
         title: question.OCDS.description,
         id: question.OCDS.id,
+        mandatory: question.nonOCDS.mandatory, //to append "(optional)"
         answers: question.OCDS.requirements.map(o => {
           return { question: o.OCDS?.title, values: o.nonOCDS.options };
         }),
@@ -62,6 +96,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       return {
         title: questions.title,
         id: questions.id,
+        mandatory : questions.mandatory,//to append "(optional)"
         answer: questions.answers.map(answer => {
           return {
             question: answer.question,
@@ -74,7 +109,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
     const RFI_DATA_WITHOUT_KEYDATES = FilteredSetWithTrue.filter(obj => obj.id !== 'Key Dates');
     const RFI_DATA_TIMELINE_DATES = FilteredSetWithTrue.filter(obj => obj.id === 'Key Dates');
     const project_name = req.session.project_name;
-
+console.log(FilteredSetWithTrue)
     const projectId = req.session.projectId;
     /**
      * @ProcurementLead
@@ -111,6 +146,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       return {
         criterian: data.nonOCDS.criterian,
         id: data.OCDS.id,
+        mandatory : data.nonOCDS.mandatory, //to append "(optional)"
       };
     });
 
@@ -119,16 +155,55 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
     for (const dataOFRFI of RFI_DATA_WITHOUT_KEYDATES) {
       for (const dataOFCRITERIAN of GROUPINCLUDING_CRITERIANID) {
         if (dataOFRFI.id === dataOFCRITERIAN.id) {
-          const formattedData = { ...dataOFRFI, criterian: dataOFCRITERIAN.criterian };
-          RFI_ANSWER_STORAGE.push(formattedData);
+          if(dataOFRFI.id=='Group 2')
+          {
+          const tempGroup2=RFI_DATA_WITHOUT_KEYDATES[1]
+          const answer_=tempGroup2.answer[1]
+          tempGroup2.answer=[];       
+          tempGroup2.answer.push(answer_)
+            const formattedData = { ...tempGroup2, criterian: dataOFCRITERIAN.criterian };
+            RFI_ANSWER_STORAGE.push(formattedData);
+          }
+          else if(dataOFRFI.id=='Group 4')
+          {
+          const tempGroup4=RFI_DATA_WITHOUT_KEYDATES[3]
+         for(let i=0;i<tempGroup4.answer.length;i++)
+         {
+           if(tempGroup4.answer[i].question==='Name of the organisation doing the procurement')
+           {
+            tempGroup4.answer[i].values=[
+              {
+                value: "COGNIZANT BUSINESS SERVICES UK LIMITED",
+                selected: true,
+              },
+            ]
+           }
+         }        
+            const formattedData = { ...tempGroup4, criterian: dataOFCRITERIAN.criterian };
+            RFI_ANSWER_STORAGE.push(formattedData);
+          }
+          else{
+            const formattedData = { ...dataOFRFI, criterian: dataOFCRITERIAN.criterian };
+            RFI_ANSWER_STORAGE.push(formattedData);
+          }
+         
         }
       }
     }
+  
+//Fix for SCAT-4146 - arranging the questions order
+   let expected_rfi_keydates=RFI_DATA_TIMELINE_DATES;
+   expected_rfi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
 
+      //RFI_ANSWER_STORAGE[3].answer.reverse()
+
+    let supplierList = [];
+    supplierList = await GetLotSuppliers(req);
 
     let appendData = {
       rfi_data: RFI_ANSWER_STORAGE,
-      rfi_keydates: RFI_DATA_TIMELINE_DATES[0],
+      rfi_keydates: expected_rfi_keydates[0],
+     
       data: cmsData,
       project_name: project_name,
       procurementLead,
@@ -138,12 +213,14 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
       proc_id,
       event_id,
       ccs_rfi_type: RFI_ANSWER_STORAGE.length > 0 ? 'all_online' : '',
-      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null // this needs to be revisited to check the mapping of the planned 
+      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
+      suppliers_list:supplierList
     };
 
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
+   
     res.render('review', appendData);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -163,4 +240,5 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
     );
     LoggTracer.errorTracer(Log, res);
   }
+}
 };

@@ -92,6 +92,13 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
     const { isFieldError } = req.session;
+    if(group_id=='Group 7')
+    {
+      form_name[0]='ccs_eoi_vetting_form';
+      form_name[1]='ccs_eoi_vetting_form';
+
+      fetch_dynamic_api_data[1].nonOCDS.multiAnswer=false;
+    }
     const data = {
       data: fetch_dynamic_api_data,
       agreement: AgreementEndDate,
@@ -172,7 +179,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'eoi_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
-          'question_id',
+          'question_id'
+        );
+        remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
+          remove_objectWithKeyIdentifier,
+          '_csrf'
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
         const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);

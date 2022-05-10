@@ -26,7 +26,7 @@
     <div class="govuk-grid-column-two-thirds">
       {% include "includes/project_header.njk" %}
       <div class="ccs-page-section">
-        <p class="govuk-body">{{form.question}}</p>
+      <p class="govuk-body">{{form.question}}</p>
         <br>
       </div>
       <form id="rfp_choose_security_form" name="rfp_choose_security_form" class="form" action="/rfp/choose-security-requirements" method="post">
@@ -41,9 +41,11 @@
             name: "ccs_rfp_resources",
             type: "number",
             classes: "govuk-!-width-one-third",
+            value: form.selectedValue,
             label: {
               text: "How many staff will need a lower security and vetting requirement?"
             }
+            
           }) }}
         {% endset -%}
 

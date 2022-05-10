@@ -33,8 +33,8 @@
             <dl class="ccs-desc-list">
               {% for item in sortedItems %}
                 <dt>
-                  <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{item.number}}: {{item.name}}</a>
-                  <span>Expires: <time>{{item.endDate}}</time>
+                  <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state"> {{item.number}}: {{item.name}}</a>
+                  <span>Expires: <time>{{item.endDate | dateddmmyyyy}}</time>
                   </span>
                 </dt>
                 <dd>
@@ -74,8 +74,8 @@
                       <dl class="ccs-desc-list">
                         {% for lot in agreement.lotDetails %}
                           <dt>
-                            <a href="/projects/selected-agreement?agreementName={{agreement.name}}&agreementId={{agreement.number}}&lotId={{lot.number}}&agreementLotName={{lot.name}}" class=" govuk-link govuk-link--no-visited-state">{% if 'Lot' not in lot.number %}Lot{%  endif %} {{lot.number}}: {{lot.name}}</a>
-                            <span>Expires: <time>{{lot.endDate}}</time>
+                            <a href="/projects/selected-agreement?agreementName={{agreement.name}}&agreementId={{agreement.number}}&lotId={{lot.number}}&agreementLotName={{lot.name}}" class=" govuk-link govuk-link--no-visited-state">{{lot.number}}: {{lot.name}}</a>
+                            <span>Expires: <time>{{lot.endDate | dateddmmyyyy}}</time>
                             </span>
                           </dt>
                           <dd>

@@ -177,7 +177,7 @@
             or(requirement.nonOCDS.questionType === 'Duration') and (requirement.nonOCDS.multiAnswer === false) %}
             {% if requirement.OCDS.id == "Question 11"%}
               <div class="govuk-form-group durations">
-                <div class="govuk-fieldset" role="group" aria-describedby="rfp_resource_start_date-hint">
+                <div class="govuk-fieldset" role="group"  aria-describedby="rfp_resource_start_date-hint">
                   <legend class="govuk-fieldset__legend govuk-label--m">
                     {{requirement.OCDS.title}}
                   </legend>
@@ -197,15 +197,15 @@
                     <div class="govuk-date-input" id="rfp_resource_start_date">
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
-
+                          {%set rfp_resource_start_date_day='rfp_resource_start_date_day_'+requirement.OCDS.id%}
                           {{ CCSInput({
                             label: {
                               text: "Day",
                               classes: "govuk-label govuk-date-input__label",
                               for: "rfp_resource_start_date-day"
                             },
-                            id: "rfp_resource_start_date-day",
-                            name: "rfp_resource_start_date-day",
+                            id: rfp_resource_start_date_day,
+                            name: rfp_resource_start_date_day,
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
                             type: "number", 
                             inputmode:"numeric",
@@ -217,14 +217,15 @@
                       </div>
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
+                          {%set rfp_resource_start_date_month='rfp_resource_start_date_month_'+requirement.OCDS.id%}
                           {{ CCSInput({
                             label: {
                               text: "Month",
                               classes: "govuk-label govuk-date-input__label",
                               for: "rfp_resource_start_date-month"
                             },
-                            id: "rfp_resource_start_date-month",
-                            name: "rfp_resource_start_date-month",
+                            id: rfp_resource_start_date_month,
+                            name: rfp_resource_start_date_month,
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
                             type: "number", 
                             inputmode:"numeric",
@@ -237,14 +238,16 @@
                       </div>
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
+                          {%set rfp_resource_start_date_year='rfp_resource_start_date_year_'+requirement.OCDS.id%}
+
                           {{ CCSInput({
                             label: {
                               text: "Year",
                               classes: "govuk-label govuk-date-input__label",
                               for: "rfp_resource_start_date-year"
                             },
-                            id: "rfp_resource_start_date-year",
-                            name: "rfp_resource_start_date-year",
+                            id: rfp_resource_start_date_year,
+                            name: rfp_resource_start_date_year,
                             classes: "govuk-input govuk-date-input__input govuk-input--width-4",
                             type: "number", 
                             inputmode:"numeric",
@@ -287,15 +290,16 @@
                     <div class="govuk-date-input" id="rfp_duration">
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
+                          {%set rfp_duration_years='rfp_duration-years_'+requirement.OCDS.id%}
                           {{ CCSInput({
                             label: {
                               text: "Years",
                               classes: "govuk-label govuk-date-input__label",
                               for: "rfp_duration-years"
                             },
-                            id: "rfp_duration-years",
-                            name: "rfp_duration-years",
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-2",
+                            id: rfp_duration_years,
+                            name: rfp_duration_years,
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-4",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[0].value,
@@ -307,14 +311,15 @@
                       </div>
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
+                         {%set rfp_duration_months='rfp_duration_months_'+requirement.OCDS.id%}
                           {{ CCSInput({
                             label: {
                               text: "Month",
                               classes: "govuk-label govuk-date-input__label",
                               for: "rfp_duration-months"
                             },
-                            id: "rfp_duration-months",
-                            name: "rfp_duration-months",
+                            id: rfp_duration_months,
+                            name: rfp_duration_months,
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
                             type: "number", 
                             inputmode:"numeric",
@@ -327,14 +332,15 @@
                       </div>
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
+                            {%set rfp_duration_days='rfp_duration_days_'+requirement.OCDS.id%}
                           {{ CCSInput({
                             label: {
                               text: "Days",
                               classes: "govuk-label govuk-date-input__label",
                               for: "rfp_duration-days"
                             },
-                            id: "rfp_duration-days",
-                            name: "rfp_duration-days",
+                            id: rfp_duration_days,
+                            name: rfp_duration_days,
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
                             type: "number", 
                             inputmode:"numeric",
@@ -461,7 +467,7 @@
                                       name: "rfp_security_confirmation",
                                       classes: "govuk-input govuk-!-width-one-third",
                                       type: "text", 
-                                      inputmode:"numeric",
+                                      
                                       min: "0"
                                   }) }}
                               </div>
@@ -634,7 +640,6 @@
                             id:"term_acronym_fieldset_acronym_1"
                           })
                         %}
-
                         {{ CCSInput({
                               label: {
                                 text: "Instructions / examples for this input field "
@@ -645,7 +650,6 @@
                               value: requirement.nonOCDS.options[0].value
                             })
                           }}
-
                         {{ CCSTextarea({
                               name: "value",
                               id: "rfp_term_definition_1",
@@ -814,7 +818,8 @@
                             name: "rfp_budget",
                             spellcheck: false,
                             classes: "govuk-input--width-5",
-                            value: requirement.nonOCDS.options[0].value
+                            value: requirement.nonOCDS.options[0].value,
+                            type:"number"
                         })
                       }}
 

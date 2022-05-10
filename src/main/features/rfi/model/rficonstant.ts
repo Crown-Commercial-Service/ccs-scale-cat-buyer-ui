@@ -18,6 +18,7 @@ export enum RFI_PATHS {
   GET_RFI_REVIEW = '/rfi/review',
   GET_EVENT_PUBLISHED = '/rfi/event-sent',
   GET_OFFLINE = '/eoi/offline',
+  POST_DELETE_COLLABORATOR_TO_JAGGER='/rfi/delete-collaborators',
 
   /**
    * @POSTROUTES

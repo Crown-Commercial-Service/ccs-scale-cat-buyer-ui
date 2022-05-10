@@ -3,6 +3,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/dialog/macro.njk" import CCSDialog %}
 
+
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
     items: breadCrumbs
@@ -11,6 +12,13 @@
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if(isError)%}
+      {{ CCSErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorText
+      }) }}
+    {%endif %}
+
 {{ CCSDialog({
   title:'If you clear the form you will lose the information that you have already entered.',
   description:'Are you sure you want to clear the form?.',
@@ -41,13 +49,13 @@
       </div>
     </div>
     <p class="govuk-body govuk-!-margin-bottom-7">{{subtitle}}</p>
-      <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/rfp/service-capabilities" method="POST">
+      <form id="ccs_rfp_menu_tabs_form" name="ccs_rfp_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/rfp/service-capabilities" method="POST">
     {{ csrfProtection(csrf) }}    
     <div class="ccs-page-section">
       <div class="sub-section">
-        <p class="govuk-body"><span class="govuk-heading-l inline">{{totalAdded}}</span> service capabilities added so far</p>
+        <p class="govuk-body"><span class="govuk-heading-l inline" id ="total_added">{{totalAdded}}</span> service capabilities added so far</p>
       </div>
-       <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state ca_da_service_cap" title="delete">Clear form</a></div>
+       <div class="sub-section"><a href="#" class="del govuk-link govuk-link--no-visited-state ca_da_service_cap" title="delete">Clear form</a></div>
     </div>
      
     <section class="ons-page__container ons-container">
@@ -71,7 +79,8 @@
                         <p class="govuk-body-s">Select all the apply.</p>
                       </div>
                       <div class="govuk-grid-column-one-half govuk-!-text-align-right">
-                        <a href="#" class="underline {{domSelector}}_t">Select all</a>
+               
+                        <a href="#" class="underline select_all {{domSelector}}_t">Select all</a>
                       </div>
                     </div>
                     <hr>
@@ -86,9 +95,9 @@
                       {% for subItems in item['data'] -%}
                       <div class="govuk-checkboxes__item">
                       {% if subItems.value !== ''%}
-                        <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="requirementId" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}" checked>
+                        <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="{{domSelector}}_{{loop.index}}" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}"checked>
                       {%else%}
-                       <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="requirementId" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}">
+                       <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="{{domSelector}}_{{loop.index}}" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}">
                       {%endif%} 
                         <label class="govuk-label govuk-checkboxes__label" for="waste">
                           {{subItems['groupname']}}
@@ -97,10 +106,6 @@
                       {%- endfor %}
 
                        </div>
-
-                                                 
-                           
-                     
                      </article>
             {%- endfor %}
            </div>

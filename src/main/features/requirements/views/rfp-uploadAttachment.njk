@@ -15,11 +15,11 @@
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if (fileError)%}
             {{ CCSErrorSummary({
-                titleText: "There is a problem with these files",
+                titleText: "There is a problem with",
                 errorList: errorlist
             }) }}
         {% endif %}
-
+        
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
@@ -58,7 +58,7 @@
                                                             <p>{{file.fileSize | KbtoMb}} MB</p>
                                                         </div>
                                                         <div class="govuk-grid-column-one-third">
-                                                            <p>  <a class="app-task-list__tag" href="/rfp/files/remove?file={{file.fileName}}" aria-describedby="rfp-upload">remove</a></p>
+                                                            <p>  <a class="app-task-list__tag" href="/rfp/files-att/remove?file_id={{file.id}}" aria-describedby="rfp-upload">remove</a></p>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -115,8 +115,8 @@
                     </span>
                     <br>
                 </div>
-
-                {{ CCSCheckboxes({
+ <form action="/rfp/upload-attachment/proceed" method="post">  
+               {{ CCSCheckboxes({
                     idPrefix: "rfp_confirm_upload",
                     name: "rfp_confirm_upload",
                     classes: "govuk-checkboxes--small",
@@ -128,7 +128,7 @@
                     ]
                 }) }}
 
-                <form action="/rfp/upload-attachment/proceed" method="post">  
+               
                 {{ csrfProtection(csrf) }}    
                     <div class="govuk-button-group">
                             {{ CCSButton({

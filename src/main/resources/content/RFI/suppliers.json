@@ -17,11 +17,11 @@
         "href": "/rfi/rfi-tasklist"
         },
         {
-        "text": "Confirm which suppliers you want to approach"
+        "text": "See the suppliers who will receive your RFI"
         }
     ],
 
-    "title": "Confirm which suppliers you want to approach",
+    "title": "See the suppliers who will receive your RFI",
     "subtitle": null,
     "data": {
       "supplier": {
@@ -33,7 +33,7 @@
     },
         "backJump": {
             "title": " Return to Run pre-market engagement",
-            "href": "#"
+            "href": "rfi/rfi-tasklist"
         }
 
     }

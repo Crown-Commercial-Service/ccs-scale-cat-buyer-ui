@@ -1,0 +1,124 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Message Reply ' %}
+
+{% set sortedMembers = [
+  {
+    value: "",
+    text: "Please select"
+  }
+] %}
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Message",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
+
+{% for msg in message.create_message %}
+  {% if selected_message == msg %}
+    {% set sortedMembers = (sortedMembers.push({value: msg, text: msg, selected: msg}), sortedMembers) %}
+  {% else %}
+    {% set sortedMembers = (sortedMembers.push({value: msg, text: msg}), sortedMembers) %}
+  {% endif %}
+{% endfor %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    {% if (validationError) %}
+
+      {{ CCSErrorSummary({
+  titleText: "Broadcast cannot be completed",
+  errorList: errorText
+}) }}
+    {%endif %}
+    <div class="govuk-grid-row govuk-!-padding-bottom-7">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title}}
+        </h1>
+        <p class="govuk-body">
+          <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
+        </p>
+        {% include "includes/project_header.njk" %}
+      </div>
+    </div>
+
+    <div class="govuk-grid-row messaging-navigation">
+      <div class="govuk-grid-column-full">
+        <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
+
+            <ul class="nav-list messaging-nav-list--primary">
+                        <li class="nav-list__item">
+                            <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{data.tabs.text1}}</a>
+                        </li>
+                        <li class="nav-list__item selected">
+                            {{data.tabs.text2}}
+                        </li>
+                        <li class="nav-list__item">
+                            <a class="nav-list__link " href="{{data.tabs.href3}}?type=sent">{{data.tabs.text3}}</a>
+                        </li>
+                    </ul>
+        </nav>
+      </div>
+    </div>
+    <form id="ccs_message_qa_Add_ClerificationQs_form" name="ccs_message_qa_Add_ClerificationQs_form" action="/event/qa-add" method="POST">
+     {{ csrfProtection(csrf) }}
+      <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
+        <div class="govuk-grid-column-full">
+          <div class="govuk-grid-column-two-thirds">
+          <a href="{{data.backlink}}">back</a></br></br></br>
+          <h2 class="govuk-heading-m">Message from {{message.OCDS.author.name}}</h2>
+          <p class="govuk-body ">Classification: {{message.nonOCDS.classification}}</p>
+          <p class="govuk-body ">Date: {{message.OCDS.date | datedd_mm_yyyy}}</p>
+           </br>
+          <label class="govuk-label"></label></br>
+          <p class="govuk-body ">{{data.Subject}}: {{message.OCDS.title}}</p>
+          <p class="govuk-body ">{{data.Message}}: {{message.OCDS.description }}</p>
+        
+        <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+         Add to clarifications
+        </button>
+        <h2 class="govuk-heading-m">{{data.lable1}}</h2>
+        <p class="govuk-body">{{data.lable2}} </p></br>
+              Question
+              <textarea class="govuk-textarea govuk-js-character-count" id="message_input_QA_Question_input" name="message_input_QA_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
+            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
+             Clarification
+             <textarea class="govuk-textarea govuk-js-character-count" id="message_Add_Clerification_input" name="message_Add_Clerification_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
+                
+              </div>
+
+            <div class="govuk-button-group">
+              {{ CCSButton({
+                text: data.btnText1,
+                action:"submit"
+                })
+                }}
+              <a href="/event/qa-add?id={{message.OCDS.id}}" class="govuk-link govuk-link--no-visited-state">{{data.Cancel.text}}</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </form>
+    <p class="govuk-body">
+      <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+    </p>
+  </main>
+{% endblock %}
