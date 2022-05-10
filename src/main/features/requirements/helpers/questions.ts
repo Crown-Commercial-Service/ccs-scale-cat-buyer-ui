@@ -67,7 +67,7 @@ export class QuestionHelper {
         let next_cursor_object = sorted_ascendingly[next_cursor];
         let next_group_id = next_cursor_object.OCDS['id'];
         let next_criterian_id = next_cursor_object['criterianId'];
-        let base_url = `/rfp/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`;
+        let base_url = `/rfp/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}`;
         res.redirect(base_url);
       } else {
         let mandatoryNum = 0;

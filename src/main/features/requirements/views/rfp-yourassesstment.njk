@@ -34,7 +34,7 @@
                         </span>
                         {% set hreflink = items.OCDS.description | replace(" ", "_") %}
                         {% set criterion_id = items.id | replace(" ", "_") %}
-                        <a class="app-task-list__tag" href="/rfp/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}" aria-describedby="rfp-questions">{{items.nonOCDS.task}}</a>
+                        <a class="app-task-list__tag" href="/rfp/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5" aria-describedby="rfp-questions">{{items.nonOCDS.task}}</a>
                     </li>
 
                 {% endfor %}
