@@ -65,7 +65,7 @@
         },
         {
           "Task": 2,
-          "title": "Look at the available suppliers",
+          "title": "See the suppliers who will receive your RfI",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfi/suppliers"

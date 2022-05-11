@@ -73,10 +73,14 @@
         {% for requirement in data %}
           {% block value %}
             {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
-
+            {% if form_name==='ccs_rfi_questions_form' %}
+            {% set t='You must ask at least 1 question' %}
+            {% else %}
+            {% set t='Enter your first question' %}
+            {% endif %}
               {{ CCSInput({
                       label: {
-                        text: "Enter your first question",
+                        text: t,
                         classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_1",
