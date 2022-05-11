@@ -404,7 +404,7 @@
                                 <dd class="govuk-summary-list__value no-borders">
                                   {%for value in dates.values%}
                                     <p class="govuk-body-s">
-                                      {{value.value}}</p>
+                                      {{value.value | dateddmmyyyy}}</p>
                                     {%endfor%}
                                   </dd>
                                 </div>
