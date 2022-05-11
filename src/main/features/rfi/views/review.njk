@@ -158,7 +158,7 @@
           </div>
         </dl>
 
-        <h2 class="govuk-heading-m">2. Build your Request for Information (RfI) </h2>
+        <h2 class="govuk-heading-m">2. Build your RfI </h2>
         <dl class="govuk-summary-list">
 
 <div class="govuk-summary-list__row">
@@ -203,7 +203,7 @@
           {# {% if ccs_rfi_type == 'all_online' %}
 
             <div class="ccs-summary-list-heading">
-              <strong> Buying organisation (Optional)</strong>
+              <strong> Buying organisation (optional)</strong>
             </div>
 
           {% else %} #}
@@ -213,7 +213,7 @@
               {% if (item.title=="Who the buying organization is") or (item.title=="Who the buying organization is (Optional)") %}
                  <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                <strong>{{item.title}} (Optional)</strong>
+                <strong>{{item.title}} (optional)</strong>
                 <br/><br/>
                 {%for i in item.answer%}
                 {{i.question}}
@@ -269,7 +269,7 @@
                 <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
                 {% if item.mandatory == false %}
-              {{item.title}} (Optional)
+              {{item.title}} (optional)
               {% else %}
               {{item.title}} 
               {% endif %}
@@ -363,7 +363,7 @@
 
 <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
-          Confirm which suppliers you want to approach
+          See the suppliers who will receive your RfI
         </dt>
                           
                                 <dd class="govuk-summary-list__value">
@@ -468,7 +468,7 @@
       items: [
       {
       "value": 1,
-      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above</strong></label>",
+      html: "<label><strong>By checking this box I confirm the statements above.</strong></label>",
       Checked: ""
       }
       ]

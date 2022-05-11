@@ -54,7 +54,24 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
          const select_default_data_from_fetch_dynamic_api = sorted_ascendingly;
          const lotId = req.session?.lotId;
          const agreementLotName = req.session.agreementLotName;
-         const ExcludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(AField => AField.OCDS.id !== "Group Key Dates");
+         let ExcludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(AField => AField.OCDS.id !== "Group Key Dates");
+         let text="";
+         for (var i=0;i<ExcludingKeyDates.length;i++)
+         {
+            text=ExcludingKeyDates[i].OCDS.description;
+            switch(text)
+            {
+               case "Who the buying organization is (Optional)":
+                  ExcludingKeyDates[i].OCDS.description="The buying organisation (optional)";
+                  break;
+               case "Where the supplied staff will work":
+                  ExcludingKeyDates[i].nonOCDS.task="Select location";
+                  break;
+               case "Terms and acronyms (Optional)":
+                  ExcludingKeyDates[i].OCDS.description="Terms and acronyms (optional)";
+                  break;
+            }
+         }
          const releatedContent = req.session.releatedContent;
          const display_fetch_data = {
             data: ExcludingKeyDates,

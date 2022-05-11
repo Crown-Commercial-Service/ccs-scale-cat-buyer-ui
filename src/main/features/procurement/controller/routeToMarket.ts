@@ -12,9 +12,11 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 export const ROUTE_TO_MARKET = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const projectId = req.session.projectId;
+  const {isrfi}=req.query;
   try {
     const eventTypes = req.session.types
-    const eoiRoute = eventTypes.find(((element: string) => element == 'EOI'))
+    let eoiRoute = eventTypes.find(((element: string) => element == 'EOI'))
+    if(isrfi!=undefined){eoiRoute='RFI';}
     if (eoiRoute == 'EOI') {
       res.redirect('/projects/events/choose-route')
     } else {
