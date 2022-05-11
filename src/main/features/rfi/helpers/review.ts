@@ -195,7 +195,7 @@ console.log(FilteredSetWithTrue)
    let expected_rfi_keydates=RFI_DATA_TIMELINE_DATES;
    expected_rfi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
 
-      //RFI_ANSWER_STORAGE[3].answer.reverse()
+      RFI_ANSWER_STORAGE[3].answer.reverse()
 
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);
