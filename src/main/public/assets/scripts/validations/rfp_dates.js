@@ -163,19 +163,22 @@ $('.rfp_date').on('submit', (e) => {
     if (Day.val() !== null && Day.val() !== "" && Month.val() !== null && Month.val() !== "" && Year.val() !== null && Year.val() !== "" )
     {
       let rfpagreementData;
-      if ($('.agreement_no').attr('id')) {
-          rfpagreementData = $('.agreement_no').attr('id').split("-");
+      // if ($('.agreement_no').attr('id')) {
+      //     rfpagreementData = $('.agreement_no').attr('id').split("-");
+      // }
+      if ($('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate')) {
+         rfpagreementData = $('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate').split("-");
       }
   
       if(rfpagreementData !==null && rfpagreementData !== undefined && rfpagreementData.length > 0)
       {
-          const expiryYears = Number(rfpagreementData[0]);
-          const expiryMonth = Number(rfpagreementData[1]);
-          const expiryDate = Number(rfpagreementData[2])
-      
-          const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
-          const getMSOfExpiryDate = ExpiryDates.getTime();
-          const FormDate = new Date(Year, Month, Day);
+         const expiryYears =rfpagreementData !=undefined && rfpagreementData !=null? Number(rfpagreementData[0]):null;
+         const expiryMonth = rfpagreementData !=undefined && rfpagreementData !=null? Number(rfpagreementData[1]):null;
+         const expiryDate = rfpagreementData !=undefined && rfpagreementData !=null? Number(rfpagreementData[2]):null;
+     
+         const ExpiryDates =expiryYears !=null &&expiryMonth !=null && expiryDate !=null? new Date(expiryYears, expiryMonth, expiryDate):null;
+         const getMSOfExpiryDate =ExpiryDates !=null? ExpiryDates.getTime():null;
+          const FormDate = new Date(Year.val(), Month.val(), Day.val());
 
       const getTimeOfFormDate = FormDate.getTime();
       const todayDate = new Date();
@@ -209,7 +212,7 @@ $('.rfp_date').on('submit', (e) => {
         $('.durations').addClass('govuk-form-group--error');
             $('.resource_start_date').html('Enter a valid project start date');   
 }
-else if(startDate > new Date(2024,00,29))
+else if(startDate > new Date(2024,00,19))
 { 
  $('.durations').addClass('govuk-form-group--error');
 $('.resource_start_date').html('project cannot start after: 19 January 2024');
