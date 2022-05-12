@@ -158,7 +158,7 @@
           </div>
         </dl>
 
-        <h2 class="govuk-heading-m">2. Build your Request for Information (RfI) </h2>
+        <h2 class="govuk-heading-m">2. Build your RfI </h2>
         <dl class="govuk-summary-list">
 
 <div class="govuk-summary-list__row">
@@ -171,7 +171,7 @@
             </dd>
           </div>
 
-          <div class="govuk-summary-list__row">
+          <!--<div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
           Choose how to build your RfI
         </dt>
@@ -192,7 +192,7 @@
                 </a>
               {% endif %}
             </dd>
-          </div>
+          </div>-->
 
 
 
@@ -203,58 +203,64 @@
           {# {% if ccs_rfi_type == 'all_online' %}
 
             <div class="ccs-summary-list-heading">
-              <strong> Buying organisation (Optional)</strong>
+              <strong> Buying organisation (optional)</strong>
             </div>
 
           {% else %} #}
 
           {#rfi_data#}
           {%for item in rfi_data%}
-              {% if (item.title=="The buying organisation") or (item.title=="The buying organisation (Optional)") %}
+              {% if (item.title=="Who the buying organization is") or (item.title=="Who the buying organization is (Optional)") %}
                  <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-                <strong>{{item.title}} (Optional)</strong>
+                <strong>{{item.title}} (optional)</strong>
                 <br/><br/>
                 {%for i in item.answer%}
                 {{i.question}}
+                <br/>
                 <br/>
                 {% endfor %}
                </dt>
                 {% if data['rfi_offline_document'] | length > 0 %}
                 <dd class="govuk-summary-list__value">
-          data['rfi_offline_document']
-        </dd>
+                  data['rfi_offline_document']
+                 </dd>
+    
               {% else %}
                 <dd class="govuk-summary-list__value">
-                
                 </br>
                 </br>
                   {% for i in item.answer %}
                   
                     {% if i.values | length > 0 %}
                       {% for answer in i.values%}
-                        <p class="govuk-body-s">{{answer.value}}
-                          <p>
-                            <p class="govuk-body-s">{{answer.text | safe}}
-                            </p>
-                            <br/>
+                        {{answer.value}}
+                          <br/><br/>
                             {%endfor%}
                             {%else%}
                             <p class="govuk-body-s">You have not answered this question<p>
+                                </dd>
                                 {%endif%}
-                                {%endfor%}
-                              </dd>
-                            {% endif %}
-                            <dd class="govuk-summary-list__actions">
-                              {% if eventStatus != "published"%}
+                              {% endfor %}
+        
+              <dd class="govuk-summary-list__actions">
+                
+                </br>
+                </br>
+                  {% for i in item.answer %}
+                      {% for answer in i.values%}
+                        {% if eventStatus != "published"%}
                                 <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
             Change<span class="govuk-visually-hidden">RFI type</span>
                                 </a>
+                                <br/><br/>
                               {% endif %}
+                            {% endfor %}
+                            {% endfor %}
+                            {% endif %}
                             </dd>
                           </div>
                           
-                          {# {% endif %} #}
                         
 
 
@@ -263,7 +269,7 @@
                 <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
                 {% if item.mandatory == false %}
-              {{item.title}} (Optional)
+              {{item.title}} (optional)
               {% else %}
               {{item.title}} 
               {% endif %}
@@ -357,7 +363,7 @@
 
 <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">
-          Confirm which suppliers you want to approach
+          See the suppliers who will receive your RfI
         </dt>
                           
                                 <dd class="govuk-summary-list__value">
@@ -398,7 +404,7 @@
                                 <dd class="govuk-summary-list__value no-borders">
                                   {%for value in dates.values%}
                                     <p class="govuk-body-s">
-                                      {{value.value}}</p>
+                                      {{value.value | dateddmmyyyy}}</p>
                                     {%endfor%}
                                   </dd>
                                 </div>
@@ -462,7 +468,7 @@
       items: [
       {
       "value": 1,
-      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above</strong></label>",
+      html: "<label><strong>By checking this box I confirm the statements above.</strong></label>",
       Checked: ""
       }
       ]

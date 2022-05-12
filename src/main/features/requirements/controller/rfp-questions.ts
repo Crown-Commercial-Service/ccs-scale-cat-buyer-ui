@@ -24,7 +24,7 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
  */
 export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { agreement_id, proc_id, event_id, id, group_id } = req.query;
+  const { agreement_id, proc_id, event_id, id, group_id,section } = req.query;
 
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
@@ -151,6 +151,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,
       releatedContent: releatedContent,
+      section:section
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
@@ -191,11 +192,16 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 // path = '/rfp/questionnaire'
 export const RFP_POST_QUESTION = async (req: express.Request, res: express.Response) => {
   try {
-    const { proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
+    const { proc_id, event_id, id, group_id, stop_page_navigate,section } = req.query;
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
+    if (section !=undefined && section =='5') {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
+    }else{
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
+    }
+    
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -225,7 +231,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     });
     question_ids = question_idsFilrtedList;
     if (operations.equals(started_progress_check, false)) {
-      if (rfp_build_started === 'true' && nonOCDS.length > 0) {
+      if (rfp_build_started === 'true' && nonOCDS !==null && nonOCDS.length > 0) {
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfp_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
@@ -274,17 +280,20 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               const TAStorage = [];
               term = term?.filter((akeyTerm: any) => akeyTerm !== '');
               value = value?.filter((aKeyValue: any) => aKeyValue !== '');
-
-              for (let item = 0; item < term.length; item++) {
-                const termObject = { value: term[item], text: value[item], selected: true };
-                TAStorage.push(termObject);
+              if (term != undefined && term != null && value != undefined && value != null) {
+                for (let item = 0; item < term.length; item++) {
+                  const termObject = { value: term[item], text: value[item], selected: true };
+                  TAStorage.push(termObject);
+                }
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    options: [...TAStorage],
+                  },
+                };
               }
-              answerValueBody = {
-                nonOCDS: {
-                  answered: true,
-                  options: [...TAStorage],
-                },
-              };
+              
+              
             } else if (questionNonOCDS.questionType === 'MultiSelect') {
               let selectedOptionToggle = [...object_values].map((anObject: any) => {
                 const check = Array.isArray(anObject?.value);
@@ -391,16 +400,25 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             }
             else if (questionNonOCDS.questionType === 'Percentage') {
               const dataList = req.body[question_ids[i]];
+              const {percentage}=req.body;
               if (dataList != undefined) {
-                var optins=dataList?.filter(val => val !== '')
-                .map(val => {
-                  return { value: val, selected: true };
-                });
+                var optins = dataList?.filter(val => val !== '')
+                  .map(val => {
+                    return { value: val, selected: true };
+                  });
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    multiAnswer:true,
+                    multiAnswer: true,
                     options: optins
+                  }
+                };
+              }else if(percentage !=undefined && percentage !=null){
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
+                    options: [{value: percentage[i],selected: true}]
                   }
                 };
               }
@@ -410,6 +428,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
+                  multiAnswer: questionNonOCDS.multiAnswer,
                   options: req.body[question_ids[i]]
                     .filter(val => val !== '')
                     .map(val => {
@@ -426,6 +445,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
+                  multiAnswer: questionNonOCDS.multiAnswer,
                   options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
                 },
               };
@@ -444,6 +464,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
+                  multiAnswer: questionNonOCDS.multiAnswer,
                   options: [...TAStorage],
                 },
               };
@@ -463,6 +484,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
                     options: [{ value: object_values[1].value[i], selected: true }],
                   },
                 };
@@ -470,6 +492,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
                     options: [...object_values],
                   },
                 };
@@ -478,7 +501,10 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             if (!validationError) {
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-                await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0) {
+                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                }
+
               } catch (error) {
                 LoggTracer.errorTracer(error, res);
               }

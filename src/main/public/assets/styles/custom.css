@@ -133,6 +133,12 @@
   float: right !important;
 }
 
+.delextremeright {
+  float: right !important;
+  position:absolute;
+  right:0;
+}
+
 .hide {
   visibility: hidden !important;
 }

@@ -24,7 +24,7 @@
         },
         {
           text: " Build your request for information",
-          href: "/rfi/online-task-list?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+          href: "/rfi/online-task-list"
       },
       {
         text: bcTitleText
@@ -73,10 +73,14 @@
         {% for requirement in data %}
           {% block value %}
             {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
-
+            {% if form_name==='ccs_rfi_questions_form' %}
+            {% set t='You must ask at least 1 question' %}
+            {% else %}
+            {% set t='Enter your first question' %}
+            {% endif %}
               {{ CCSInput({
                       label: {
-                        text: "Enter your first question",
+                        text: t,
                         classes: "govuk-label govuk-label--m"
                       },
                       id: "rfi_question_1",
@@ -263,7 +267,7 @@
 
                     {% call CCSFieldset({
                             legend: {
-                               html: "First term or acronym",
+                               html: "Term or acronym",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -314,7 +318,7 @@
 
                       {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon delextremeright' title='delete'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -442,7 +446,7 @@
                         classes:"save-button"
                       })
                   }}
-                  <a href="/rfi/online-task-list?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI)</a>
+                  <a href="/rfi/online-task-list" class="govuk-link govuk-link--no-visited-state">Return to Build your Request for Information (RfI)</a>
                 </div>
 
               </form>

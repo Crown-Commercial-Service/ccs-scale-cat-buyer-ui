@@ -4,13 +4,13 @@
 
     "title": "Your RfI is published  ",
     "board": {
-        "header": "Your Request for Information was sent to the suppliers you selected ",
+        "header": "Your RfI was sent to the suppliers you selected ",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",
         "next": [
-            {"li": "the suppliers you selected can read your RfI and ask questions if they need more information"},
-            {"li": "when the clarification period ends you will need to answer the supplier questions by the deadline you set"}
+            {"li": "The suppliers you selected can read your RfI and ask questions if they need more information."},
+            {"li": "When the clarification period ends you will need to answer the supplier questions by the deadline you set."}
         ]
     },
         "dashboard": {

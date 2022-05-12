@@ -8,7 +8,9 @@ import config from 'config';
 
 // RFI Suppliers
 export const GET_EOI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
-  const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+req.session.lotId+"/lot-suppliers";
+  let lotid=req.session.lotId;
+  lotid=lotid.replace('Lot ','')
+  const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+lotid+"/lot-suppliers";
   const releatedContent = req.session.releatedContent
   let supplierList = [];
   supplierList = await GetLotSuppliers(req);
