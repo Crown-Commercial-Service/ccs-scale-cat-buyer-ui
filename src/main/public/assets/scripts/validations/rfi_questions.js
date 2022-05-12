@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
-          document.querySelector('label[for=rfi_question_' + prev_input + '] a.del').classList.add("ccs-dynaform-hidden");
+          //document.querySelector('label[for=rfi_question_' + prev_input + '] a.del').classList.add("ccs-dynaform-hidden");
         }
 
         with_value_count++;
@@ -56,9 +56,24 @@ document.addEventListener('DOMContentLoaded', () => {
       db.addEventListener('click', (e) => {
 
         e.preventDefault();
-
+        //debugger;
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_box = Number(target) - 1;
+        for (var i=target;i<11;i++){
+          var j=Number(i)+1;
+         let nextelmnt= document.getElementById('rfi_question_' + j);
+        //  let prevelmnt= document.getElementById('rfi_question_' + i);
+         if((!nextelmnt.classList.contains('ccs-dynaform-hidden')))
+         {
+          document.getElementById('rfi_question_' + i).value=nextelmnt.value;
+         }
+         else
+         {
+           target=i;
+           break;
+         }
+        }
+
         document.getElementById('rfi_question_' + target).value = "";
         document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
         let parentNode = document.querySelector('label[for=rfi_question_' + target + ']').parentNode;
@@ -71,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
 
         if (prev_box > 1) {
-          document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
+          //document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
         }
         document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
         with_value_count--;

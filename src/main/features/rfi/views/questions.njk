@@ -59,7 +59,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {{rfiTitle}}
+          <strong>{{rfiTitle}}</strong>
         </h1>
       </div>
     </div>
@@ -81,7 +81,7 @@
               {{ CCSInput({
                       label: {
                         text: t,
-                        classes: "govuk-label govuk-label--m"
+                        classes: "govuk-label"
                       },
                       id: "rfi_question_1",
                       name: "rfi_question_1",
@@ -105,8 +105,8 @@
 
                 {{ CCSInput({
                       label: {
-                        html: "Enter your "+numberWord[i]+" question <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
-                        classes: "govuk-label govuk-label--m"
+                        html: "Enter your "+numberWord[i]+" question <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='remove'> X </a>",
+                        classes: "govuk-label"
                       },
                       id: "rfi_question_"+i,
                       name: "rfi_question_"+i,
@@ -158,7 +158,7 @@
                 {{  CCSInput({
                         label: {
                           text: requirement.OCDS.title,
-                          classes: "govuk-label govuk-label--m"
+                          classes: "govuk-label"
                         },
                         hint: {
                           text: requirement.OCDS.description
@@ -189,7 +189,7 @@
                       value: requirement.nonOCDS.options[0].value,
                       label: {
                       text: "Write your key background information here",
-                      classes: "govuk-label govuk-label--m"
+                      classes: "govuk-label"
                       }
                     })
                 }}
@@ -318,7 +318,7 @@
 
                       {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon delextremeright' title='delete'> X </a>",
+                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon delextremeright' title='remove'> X </a>",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
@@ -388,11 +388,11 @@
                     {% set countryArray = [] %}
                     {% set countryList = [] %}
                     {% for countries in requirement.nonOCDS.options %}
-                      {% if countries.value !== "No specific location, for example they can work remotely" %}
+                      {#{% if countries.value !== "No specific location, for example they can work remotely" %}#}
                         {% set countryList = (countryList.push(countries.value),countryList)%}
                         {% set countryArray = (countryArray.push({value: countries.value, text: countries.value, checked: countries.selected}), countryArray)
  %}
-                        {%else%}
+                        {#{%else%}
                         {% set countryList = (countryList.push(countries.value),countryList)%}
                         {% set countryArray = (countryArray.push({
                           divider: "OR"
@@ -403,12 +403,13 @@
                         }), countryArray)
  %}
 
-                        {%endif%}
+                        {%endif%}#}
                       {% endfor %}
 
                       {{ CCSCheckboxes({
                             idPrefix: "required_locations",
                             name: "required_locations",
+                            bold:'true',
                             items: countryArray
                           })
                       }}

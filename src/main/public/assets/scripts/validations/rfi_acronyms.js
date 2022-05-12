@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
-          document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+          //document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
         }
 
         with_value_count++;
@@ -77,19 +77,38 @@ document.addEventListener('DOMContentLoaded', () => {
       db.addEventListener('click', (e) => {
 
         e.preventDefault();
-
+        debugger;
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
 
-        target_fieldset.classList.add("ccs-dynaform-hidden");
+          for (var i=target;i<11;i++){
+            var j=Number(i)+1;
+           //let nextelmnt= document.getElementById('rfi_term_' + j);
+           let nextelmnt=document.getElementsByClassName('term_acronym_fieldset acronym_'+j);
+          //  let prevelmnt= document.getElementById('rfi_question_' + i);
+           if((!nextelmnt[0].classList.contains('ccs-dynaform-hidden')))
+           {
+            document.getElementById('rfi_term_' + i).value=document.getElementById('rfi_term_' + j).value;
+            document.getElementById('rfi_term_definition_' + i).value=document.getElementById('rfi_term_definition_' + j).value;
+           }
+           else
+           {
+             target=i;
+             break;
+           }
+          }
+  
+
+        //target_fieldset.classList.add("ccs-dynaform-hidden");
+        document.getElementsByClassName('term_acronym_fieldset acronym_'+target)[0].classList.add("ccs-dynaform-hidden");
 
         document.getElementById('rfi_term_' + target).value = "";
         document.getElementById('rfi_term_definition_' + target).value = "";
 
 
         if (prev_coll > 1) {
-          document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+          //document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
         }
 
         document.getElementById("ccs_rfiTerm_add").classList.remove('ccs-dynaform-hidden');

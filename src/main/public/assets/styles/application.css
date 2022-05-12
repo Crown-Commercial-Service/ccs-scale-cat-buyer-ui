@@ -2502,6 +2502,15 @@ p + .govuk-heading-s,
   opacity: 0;
 }
 
+.border-header
+{
+  border-bottom:1px solid #b1b4b6;
+}
+
+.anchor-right{
+  float:right;
+}
+
 .govuk-checkboxes__label {
   display: inline-block;
   margin-bottom: 0;
@@ -2509,6 +2518,10 @@ p + .govuk-heading-s,
   cursor: pointer;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
+}
+
+.govuk-bold{
+  font-weight: bold;
 }
 
 .govuk-checkboxes__label:before {
