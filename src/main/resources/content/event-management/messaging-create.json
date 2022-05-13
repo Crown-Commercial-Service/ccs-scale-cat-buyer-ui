@@ -18,7 +18,7 @@
         }
     ],
     "title": "Messaging Inbox",
-    "subtitle": "Create new Message",
+    "subtitle": "Write a new message",
     "signposting": {
         "line1": "Description to explain what happens in a broadcast",
         "line2": "See Supplier List",
@@ -38,7 +38,7 @@
         "href": "#"
     },
     "tabs": {
-        "text1": "Write Message",
+        "text1": "Write message",
         "href1": "/message/create",
         "text2": "Received",
         "href2": "/message/inbox",
