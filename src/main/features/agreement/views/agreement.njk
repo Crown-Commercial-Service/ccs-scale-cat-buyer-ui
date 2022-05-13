@@ -40,7 +40,7 @@
                 <dd>
                   <p class="govuk-body"></p>
                   <p class="govuk-body">
-                    <a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
+                   <a target="_blank" href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}:{{item.number | replace("Lot ", "")}}/lot-suppliers" onclick="return false;" class="govuk-link govuk-link--no-visited-state">{{item.suppliers}}
                       <span class="visuallyhidden">for {{item.number}}: {{item.name}}</span></a>
                   </p>
                 </dd>
