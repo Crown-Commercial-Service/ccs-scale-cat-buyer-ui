@@ -5,11 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
-
-    for (var text_box_num = 10; text_box_num > 1; text_box_num--) {
+      //document.getElementById("rfi_question_1").addEventListener('input', ccsZCountRfiQuestions);
+    for (var text_box_num = 10; text_box_num >= 1; text_box_num--) {
 
       let this_box = document.getElementById("rfi_question_" + text_box_num);
+      this_box.addEventListener('input', ccsZCountRfiQuestions);
 
+      if (text_box_num === 1) {
+        document.getElementById("rfi_question_" + text_box_num).classList.remove('ccs-dynaform-hidden');
+        let the_label = document.querySelector('label[for=rfi_question_' + text_box_num + ']');
+        the_label.classList.remove('ccs-dynaform-hidden');
+      }
+      else{
       if (this_box.value !== "") {
         this_box.classList.remove('ccs-dynaform-hidden');
 
@@ -22,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         the_label.classList.add('ccs-dynaform-hidden');
         with_value_count = text_box_num;
       }
+    }
 
     }
 
@@ -52,6 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // delete buttons
     deleteButtons.forEach((db) => {
+      //debugger;
+      // for(var i=1;i<=10;i++)
+      // {
+      //   document.getElementById("rfi_label_question_"+i).innerText="";
+      // }
       db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
 
@@ -59,19 +72,34 @@ document.addEventListener('DOMContentLoaded', () => {
         //debugger;
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_box = Number(target) - 1;
+          for (var k=1;k<=10;k++)
+          {
+            document.getElementById("rfi_label_question_"+k).innerText="";
+            
+          }
         for (var i=target;i<11;i++){
           var j=Number(i)+1;
          let nextelmnt= document.getElementById('rfi_question_' + j);
         //  let prevelmnt= document.getElementById('rfi_question_' + i);
+        if(nextelmnt!=null){
          if((!nextelmnt.classList.contains('ccs-dynaform-hidden')))
          {
           document.getElementById('rfi_question_' + i).value=nextelmnt.value;
+          document.getElementById("rfi_label_question_"+i).innerText="";
          }
          else
          {
            target=i;
+           document.getElementById("rfi_label_question_"+i).innerText="";
            break;
          }
+        }
+        else
+        {
+          target=i;
+           document.getElementById("rfi_label_question_"+i).innerText="";
+           break;
+        }
         }
 
         document.getElementById('rfi_question_' + target).value = "";
@@ -129,7 +157,7 @@ const emptyQuestionFieldCheck = () => {
   //if (event_typ !== "Request for Information") {
   fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
-  for (var i = 2; i < 11; i++) {
+  for (var i = 1; i < 11; i++) {
     if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
       if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -155,6 +183,29 @@ const ccsZvalidateRfIQuestions = (event) => {
 
   if (errorStore.length === 0) document.forms["ccs_rfi_questions_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZCountRfiQuestions = (event) => {
+  //debugger;
+  event.preventDefault();
+  const inputId=event.srcElement.id;
+  const element = document.getElementById(inputId);
+  const arr=inputId.split("rfi_question_");
+  // if(element.value.length<500)
+  // {
+    for(var i=1;i<=10;i++)
+    {
+      document.getElementById("rfi_label_question_"+i).innerText="";
+    }
+    let labelElement=document.getElementById("rfi_label_question_"+arr[1]);
+    let count=500-element.value.length;
+    labelElement.innerText=count + " remaining of 500";
+    //labelElement.classList.remove('ccs-dynaform-hidden')
+  // }
+  // else
+  // {
+
+  // }
 };
 
 

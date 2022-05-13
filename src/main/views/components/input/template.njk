@@ -53,6 +53,7 @@
   {%- if params.autocomplete %} autocomplete="{{ params.autocomplete}}"{% endif %}
   {%- if params.pattern %} pattern="{{ params.pattern }}"{% endif %}
   {%- if params.inputmode %} inputmode="{{ params.inputmode }}"{% endif %}
+  {%- if params.maxlength %} maxlength="{{ params.maxlength}}"{% endif %}
   {%- for attribute, value in params.attributes %} {{ attribute }}="{{ value }}"{% endfor -%}>
 
   {%- if params.suffix.text or params.suffix.html %}

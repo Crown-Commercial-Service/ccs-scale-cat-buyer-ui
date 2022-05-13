@@ -95,6 +95,9 @@ if (document.getElementById('ccs_rfp_exit_strategy_form') !== null) {
 if (document.getElementById('ccs_rfi_project_name_form') !== null)
   document.getElementById('ccs_rfi_project_name_form').addEventListener('submit', ccsZvalidateRfiProjectName);
 
+if (document.getElementById('rfi_projLongName') !== null)
+  document.getElementById('rfi_projLongName').addEventListener('input', ccsZCountRfiProjectName);
+
 if (document.getElementById('ccs_eoi_project_name_form') !== null)
   document.getElementById('ccs_eoi_project_name_form').addEventListener('submit', ccsZvalidateEoiProjectName);
 
@@ -147,6 +150,12 @@ if (document.getElementById('ccs_rfi_address_manual_form') !== null)
 
 if (document.getElementById('ccs_rfi_about_proj') !== null)
   document.getElementById('ccs_rfi_about_proj').addEventListener('submit', ccsZvalidateRfiProject);
+
+if (document.getElementById('rfi_prob_statement') !== null)
+  document.getElementById('rfi_prob_statement').addEventListener('input', ccsZCountRfiProject);
+
+if (document.getElementById('rfi_contracting_auth') !== null)
+  document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
 
 if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);

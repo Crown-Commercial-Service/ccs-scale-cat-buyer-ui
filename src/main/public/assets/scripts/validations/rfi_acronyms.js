@@ -13,13 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let clearFieldsButtons = document.querySelectorAll("a.clear-fields");
-
-    for (var acronym_fieldset = 10; acronym_fieldset > 1; acronym_fieldset--) {
+    // document.getElementById("rfi_term_1").addEventListener('input', ccsZCountRfiTerms);
+    document.getElementById("rfi_term_definition_1").addEventListener('input', ccsZCountRfiAcronyms);
+    for (var acronym_fieldset = 10; acronym_fieldset >= 1; acronym_fieldset--) {
 
 
       let this_fieldset = document.querySelector(".acronym_" + acronym_fieldset),
         term_box = document.getElementById("rfi_term_" + acronym_fieldset);
+        term_box.addEventListener('input', ccsZCountRfiTerms);
 
+        acronym_box = document.getElementById("rfi_term_definition_" + acronym_fieldset);
+        acronym_box.addEventListener('input', ccsZCountRfiAcronyms);
+
+        if (acronym_fieldset === 1) {
+          this_fieldset.classList.remove('ccs-dynaform-hidden');
+        }
+        else{
       if (term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
 
@@ -32,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         this_fieldset.classList.add('ccs-dynaform-hidden');
         with_value_count = acronym_fieldset;
       }
-
+    }
     }
     document.getElementById("ccs_rfiTerm_add").classList.remove("ccs-dynaform-hidden");
 
@@ -77,26 +86,42 @@ document.addEventListener('DOMContentLoaded', () => {
       db.addEventListener('click', (e) => {
 
         e.preventDefault();
-        debugger;
+       // debugger;
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
 
+          for (var k=1;k<=10;k++)
+          {
+            document.getElementById("rfi_label_term_"+k).innerText="";
+            document.getElementById("rfi_label_acronym_"+k).innerText="";
+          }
           for (var i=target;i<11;i++){
             var j=Number(i)+1;
            //let nextelmnt= document.getElementById('rfi_term_' + j);
            let nextelmnt=document.getElementsByClassName('term_acronym_fieldset acronym_'+j);
           //  let prevelmnt= document.getElementById('rfi_question_' + i);
+          if(nextelmnt.length>0){
            if((!nextelmnt[0].classList.contains('ccs-dynaform-hidden')))
            {
             document.getElementById('rfi_term_' + i).value=document.getElementById('rfi_term_' + j).value;
             document.getElementById('rfi_term_definition_' + i).value=document.getElementById('rfi_term_definition_' + j).value;
-           }
+            document.getElementById("rfi_label_term_"+i).innerText="";
+            document.getElementById("rfi_label_acronym_"+i).innerText="";
+          }
            else
            {
              target=i;
+             document.getElementById("rfi_label_acronym_"+i).innerText="";
              break;
            }
+          }
+          else
+        {
+          target=i;
+           document.getElementById("rfi_label_acronym_"+i).innerText="";
+           break;
+        }
           }
   
 
@@ -235,7 +260,53 @@ const emptyFieldCheck = () => {
   return errorStore;
 }
 
+const ccsZCountRfiTerms = (event) => {
+  //debugger;
+  event.preventDefault();
+  const inputId=event.srcElement.id;
+  const element = document.getElementById(inputId);
+  const arr=inputId.split("rfi_term_");
+  // if(element.value.length<500)
+  // {
+    for(var i=1;i<=10;i++)
+    {
+      document.getElementById("rfi_label_term_"+i).innerText="";
+      document.getElementById("rfi_label_acronym_"+i).innerText="";
+    }
+    let labelElement=document.getElementById("rfi_label_term_"+arr[1]);
+    let count=500-element.value.length;
+    labelElement.innerText=count + " remaining of 500";
+    //labelElement.classList.remove('ccs-dynaform-hidden')
+  // }
+  // else
+  // {
 
+  // }
+};
+
+const ccsZCountRfiAcronyms = (event) => {
+  //debugger;
+  event.preventDefault();
+  const inputId=event.srcElement.id;
+  const element = document.getElementById(inputId);
+  const arr=inputId.split("rfi_term_definition_");
+  // if(element.value.length<500)
+  // {
+    for(var i=1;i<=10;i++)
+    {
+      document.getElementById("rfi_label_acronym_"+i).innerText="";
+      document.getElementById("rfi_label_term_"+i).innerText="";
+    }
+    let labelElement=document.getElementById("rfi_label_acronym_"+arr[1]);
+    let count=5000-element.value.length;
+    labelElement.innerText=count + " remaining of 5000";
+    //labelElement.classList.remove('ccs-dynaform-hidden')
+  // }
+  // else
+  // {
+
+  // }
+};
 
 
 const ccsZvalidateRfiAcronyms = (event) => {
