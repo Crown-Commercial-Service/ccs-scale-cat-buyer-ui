@@ -47,7 +47,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     criterianStorage = criterianStorage.flat();
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
     const Criterian_ID = criterianStorage[0].criterianId;
-    const prompt = criterianStorage[0].nonOCDS.prompt.replace("</strong></p>\n       <br>"," It is recommended you set your times to no later than 4pm on a weekday in case you need to contact CCS about your project.</strong></p>\n       <br>");
+    const prompt = criterianStorage[0].nonOCDS.prompt.replace("</strong></p>\n       <br>"," It is recommended you set your times to no later than 4pm on a weekday in case you need to contact CCS about your project.</strong></p>");
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;

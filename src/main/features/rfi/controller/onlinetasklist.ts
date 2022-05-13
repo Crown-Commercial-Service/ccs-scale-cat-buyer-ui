@@ -63,6 +63,7 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             {
                case "Who the buying organization is (Optional)":
                   ExcludingKeyDates[i].OCDS.description="The buying organisation (optional)";
+                  ExcludingKeyDates[i].nonOCDS.task="Add who the procurement is for";
                   break;
                case "Where the supplied staff will work":
                   ExcludingKeyDates[i].nonOCDS.task="Select location";
@@ -70,6 +71,12 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
                case "Terms and acronyms (Optional)":
                   ExcludingKeyDates[i].OCDS.description="Terms and acronyms (optional)";
                   break;
+               case "Background for your procurement":
+                  ExcludingKeyDates[i].nonOCDS.task="Add more information for suppliers";
+                  break;
+               case "Security and vetting requirements":
+               ExcludingKeyDates[i].nonOCDS.task="Choose the highest level of clearance needed";
+               break;
             }
          }
          const releatedContent = req.session.releatedContent;

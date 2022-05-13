@@ -69,10 +69,11 @@
         {{ CCSInput({           
             id: data.form.input.id,
             name: data.form.input.name,
-            value: projectLongName
+            value: projectLongName,
+            maxlength:"500"
             })
         }}
-
+        <p><label id="rfi_label_name_project"></label></p>
           <div class="govuk-button-group">
             {{ CCSButton({
                 text: "Save and continue",
