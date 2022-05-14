@@ -164,10 +164,18 @@
       </div>
     </div>
     {% if status != 'Response period closed' %}
-      <div class="govuk-inset-text">
-        <h4 class="govuk-heading-s">Next Steps on the procurement</h4>
-        <p class="govuk-body">You can now <a class="govuk-link" href="/event/next">choose your next steps</a> to continue in this procurement.</p>
+
+      <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">[5. Next Steps]</span>         
+          <p class="app-task-list__tag">
+            <a class="govuk-link" href="/projects/create-or-choose">Complete Rfi and start procurement</a>
+          </p>
+        </h2>
+        <p class="govuk-body">[Description for this section]</p>
       </div>
+    </div>
     {% endif %}
   </main>
 {% endblock %}

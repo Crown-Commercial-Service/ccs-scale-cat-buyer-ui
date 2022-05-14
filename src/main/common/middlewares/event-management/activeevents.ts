@@ -17,7 +17,7 @@ export class EventEngagementMiddleware {
     const access_token = req.session['access_token']
     const { state, SESSION_ID } = req.cookies;
     const baseActiveEventsURL = `/tenders/projects`
-
+    
     const activeEvents: ActiveEvents[] = []
     const historicalEvents: ActiveEvents[] = []
     const today = moment(new Date(), 'DD/MM/YYYY');
@@ -30,6 +30,29 @@ export class EventEngagementMiddleware {
       lotName: '',
       activeEvent: undefined
     }
+
+
+        req.session['agreement_id'] = '';
+        req.session['agreementName'] = '';
+        req.session['lotNum'] = '';
+        req.session['releatedContent'] = '';
+        req.session['journey_status'] = '';
+        req.session['procurements'] = [];
+        req.session['searched_user'] = [];
+        req.session['agreementEndDate'] = '';
+        req.session['agreementDescription'] = '';
+        req.session['nonOCDSList'] = '';
+        req.session['selectedRoute'] = '';
+        req.session['caSelectedRoute'] = '';
+        req.session['fcSelectedRoute'] = '';
+        req.session['designations'] = [];
+        req.session['designationsLevel2'] = [];
+        req.session['tableItems'] = [];
+        req.session['dimensions'] = [];
+        req.session['weightingRange'] = {};
+        req.session['errorTextSumary'] = [];
+        req.session['CapAss'] = {};
+        req.session['isTcUploaded'] = true;
 
     // Retrive active events
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)
