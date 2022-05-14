@@ -1,4 +1,4 @@
-let noLocationTag = "No specific location, for example they can work remotely";
+// let noLocationTag = "No specific location, for example they can work remotely";
 
 
 
@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("ccs_select_location") !== null || document.getElementById("rfi_location")!==null || document.getElementById("rfi_location")!==null ) {
 
-    let allCheckbox = document.getElementById("required_locations-14"),
+    let allCheckbox = document.getElementById("required_locations-13"),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
     if (allCheckbox.checked) {
@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    document.getElementById("required_locations-14").addEventListener('change', () => {
-      let allCb = document.getElementById("required_locations-14"),
+    document.getElementById("required_locations-13").addEventListener('change', () => {
+      let allCb = document.getElementById("required_locations-13"),
         locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
       locationCheckboxes.forEach((cb) => {
