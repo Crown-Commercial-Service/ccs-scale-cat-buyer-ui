@@ -4,8 +4,7 @@
 {% set title =  rfpTitle + '- Create a Request for Information (rfp)' %}
 
 {% block breadCrumb %}
-{%if(section==='5')%}
-  {{ CCSBreadcrumbs({
+{{ CCSBreadcrumbs({
     items: [
      {
         text: "Dashboard",
@@ -32,41 +31,11 @@
       }
     ]
   }) }}
-  {%else%}
-{{ CCSBreadcrumbs({
-    items: [
-     {
-        text: "Dashboard",
-        href: "/dashboard"
-      },
-      {
-        text: "Choose a commercial agreement",
-        href: "/projects/choose-agreement"
-      },
-      {
-            text: "Procurement overview",
-            href: "/projects/create-or-choose"
-        },
-        {
-          text: "Write and publish your requirements",
-          href: "/rfp/task-list"
-        },
-        {
-          text: "Add context and requirements",
-          href:  "/rfp/add-context?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
-        },
-      {
-        text: bcTitleText
-      }
-    ]
-  }) }}
-  {%endif%}
-  
+
 {% endblock %}
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-
     {% if(emptyFieldError)%}
       {{ CCSErrorSummary({
           titleText: "There is a problem",
@@ -83,18 +52,23 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         {% include "includes/project_header.njk" %}
+        {%if (form_name === 'ccs_rfp_scoring_criteria')%}
+              <div class="govuk-inset-text">
+                <p class="govuk-body">[Instruction for this page]</p>
+                 <p class="govuk-body">[You can create your scoring criteria from or use/ modify the 4-tier or 5-tier template below]</p>
 
-        <form id="{{form_name}}"  name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}&section={{section}}" method="post">
+              </div>
+          {%endif%}
+          <form id="{{form_name}}"  name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}&section={{section}}&step={{step}}" method="post">
           {{ csrfProtection(csrf) }}
-         <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
-        
-            {% if (form_name === 'rfp_multianswer_question_form') %}
-            {{ CCSInsetText({
-                        html: '<p> Instruction for this page</p><p>Plese add up to 10 questions</p>'
-                }) }}
-            {%endif%}
-            <p class="govuk-body">{{prompt?[0] | safe}}</p>
-            <p class="govuk-body">{{prompt?[1] | safe}}</p>
+          <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
+            {%if(prompt.length>0)%}
+             <p class="govuk-body">{{prompt[0] | safe}}</p>
+             {%endif%}
+             {%if(prompt.length>1)%}
+              <p class="govuk-body">{{prompt[1] | safe}}</p>
+             {%endif%}
+            
 
               {% macro recurseRequirements(requirement,form_name,index = 0) -%}
               {%if (requirement.nonOCDS.childern.length > 0)%}
@@ -104,13 +78,7 @@
                {{CCSQUESTIONS(organizationName,requirement,form_name, index)}}
               {%endif%}
               {%- endmacro %}
-              {%if (form_name === 'ccs_rfp_scoring_criteria')%}
-              <div class="govuk-inset-text">
-                <p class="govuk-body">[Instruction for this page]</p>
-                 <p class="govuk-body">[You can create your scoring criteria from or use/ modify the 4-tier or 5-tier template below]</p>
-
-              </div>
-              {%endif%}
+              
 
               {%if (form_name === 'rfp_multianswer_question_form')%}
                 <div class="ccs-page-section">
@@ -166,11 +134,6 @@
                 {% for requirement in data %}
                   {{recurseRequirements(requirement,form_name,loop.index)}}
                 {% endfor %}
-                {%elif(form_name === 'ccs_rfp_acronyms_form')%}
-                {% for requirement in data %}
-                  {{recurseRequirements(requirement,form_name,loop.index)}}
-                {% endfor %}
-                 
 
               {%endif%}
 

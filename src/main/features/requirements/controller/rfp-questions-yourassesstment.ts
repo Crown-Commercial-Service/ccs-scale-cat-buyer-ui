@@ -22,9 +22,9 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
  * @summary switches query related to specific parameter
  * @validation false
  */
-export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
+export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { agreement_id, proc_id, event_id, id, group_id, section } = req.query;
+  const { agreement_id, proc_id, event_id, id, group_id, section, step } = req.query;
 
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
@@ -101,7 +101,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 
     req.session?.nonOCDSList = nonOCDSList;
     const releatedContent = req.session.releatedContent;
-    fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
+    //fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
 
     fetch_dynamic_api_data = fetch_dynamic_api_data.map(item => {
@@ -116,7 +116,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       return newItem;
     });
 
-    const TemporaryObjStorage = [];
+    let TemporaryObjStorage = [];
     for (const ITEM of fetch_dynamic_api_data) {
       if (ITEM.nonOCDS.dependant && ITEM.nonOCDS.dependency.relationships) {
         const RelationsShip = ITEM.nonOCDS.dependency.relationships;
@@ -135,6 +135,18 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       .filter(item => !item.nonOCDS.dependant);
 
     const formNameValue = form_name.find(fn => fn !== '');
+    if (group_id === 'Group 8' && id === 'Criterion 2') {
+      TemporaryObjStorage.forEach(x => {
+        //x.nonOCDS.childern=[];
+        if (x.nonOCDS.questionType === 'Table') {
+          x.nonOCDS.options.forEach(element => {
+            element.optiontableDefination = mapTableDefinationData(element);
+            element.optiontableDefinationJsonString =JSON.stringify(mapTableDefinationData(element));
+          });
+        }
+      });
+      TemporaryObjStorage=TemporaryObjStorage.slice(0,2);
+    }
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
@@ -155,7 +167,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,
       releatedContent: releatedContent,
-      section: section
+      section: section,
+      step: step
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
@@ -165,7 +178,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-    res.render('rfp-question', data);
+    res.render('rfp-question-assessment', data);
   } catch (error) {
     delete error?.config?.['headers'];
     const Logmessage = {
@@ -194,18 +207,15 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
  * @validation true
  */
 // path = '/rfp/questionnaire'
-export const RFP_POST_QUESTION = async (req: express.Request, res: express.Response) => {
+export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: express.Response) => {
   try {
-    const { proc_id, event_id, id, group_id, stop_page_navigate, section } = req.query;
+    const { proc_id, event_id, id, group_id, stop_page_navigate, section, step } = req.query;
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
     if (section != undefined && section === '5') {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
-    } else {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
     }
-
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -289,7 +299,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [{ value: term[i],selected: true }],
+                    options: [{ value: term[i], selected: true }],
                   },
                 };
               } else {
@@ -527,7 +537,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             req.session['isValidationError'] = true;
             res.redirect(url.replace(regex, 'questions'));
           } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
-            QuestionHelper.AFTER_UPDATINGDATA(
+            QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
               ErrorView,
               DynamicFrameworkInstance,
               proc_id,
@@ -672,3 +682,38 @@ const mapTitle = groupId => {
   }
   return title;
 };
+
+const mapTableDefinationData = (tableData) => {
+  let object = null;
+  var columnsHeaderList = getColumnsHeaderList(tableData.tableDefinition?.titles?.columns);
+  //var rowDataList
+  var tableDefination = tableData.tableDefinition !=undefined&& tableData.tableDefinition.data !=undefined? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data):null
+  
+  return { head: columnsHeaderList?.length >0 && tableDefination?.length >0?columnsHeaderList:[], rows: tableDefination?.length >0?tableDefination:[] };
+}
+
+const getColumnsHeaderList = (columns) => {
+  const list = columns?.map(element => {
+    return {text: element.name};
+  });
+  return list
+}
+const getRowDataList = (rows, data1) => {
+  let dataRowsList = [];
+  rows?.forEach(element => {
+    element.text = element.name;
+    var data = getDataList(element.id, data1);
+    let innerArrObj = [{ text: element.name,"classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter",text: data[0].cols[0] }, {"classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
+    dataRowsList.push(innerArrObj);
+  });
+  return dataRowsList;
+}
+const getDataList = (id, data) => {
+  const obj = data?.filter(element => {
+    if (element.row == id) {
+      return element;
+    }
+  });
+  return obj;
+}
+

@@ -7,6 +7,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
+import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { title } from 'process';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { reverse } from 'dns';
@@ -171,9 +172,14 @@ console.log(FilteredSetWithTrue)
          {
            if(tempGroup4.answer[i].question==='Name of the organisation doing the procurement')
            {
+            const organizationID = req.session.user.payload.ciiOrgId;
+            const organisationBaseURL = `/organisation-profiles/${organizationID}`;
+            const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+            const name = getOrganizationDetails.data.identifier.legalName;
+            const organizationName = name;
             tempGroup4.answer[i].values=[
               {
-                value: "COGNIZANT BUSINESS SERVICES UK LIMITED",
+                value: organizationName,
                 selected: true,
               },
             ]
@@ -195,7 +201,7 @@ console.log(FilteredSetWithTrue)
    let expected_rfi_keydates=RFI_DATA_TIMELINE_DATES;
    expected_rfi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
 
-      RFI_ANSWER_STORAGE[3].answer.reverse()
+      //RFI_ANSWER_STORAGE[3].answer.reverse()
 
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);

@@ -96,25 +96,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }
       });
     }
-
-    if (status == "Published" || status == "Response period closed" ) {
-      let redirectUrl_: string
-      switch (eventType) {
-       
-        case "RFI":
-          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
-          res.render('eventManagement', appendData)
-          break
-          case "FC":
-            redirectUrl_="/rfp/rfp-unpublishedeventmanagement"    
-            res.redirect(redirectUrl_)     
-            break
-          default:
-            redirectUrl_ = '/event/management'
-            break
-        }
-       
-  } else {
+    if(status=='In Progress'||status=='IN PROGRESS') {
       let redirectUrl: string
       switch (eventType) {
         case "RFI":
@@ -144,6 +126,24 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       }
       res.redirect(redirectUrl)
     }
+    else{
+      let redirectUrl_: string
+      switch (eventType) {
+       
+        case "RFI":      
+          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
+          res.render('eventManagement', appendData)
+          break
+          case "FC":
+            redirectUrl_="/rfp/rfp-unpublishedeventmanagement"    
+            res.redirect(redirectUrl_)     
+            break
+          default:
+            redirectUrl_ = '/event/management'
+            break
+        }
+       
+  }
 
   } catch (err) {
     LoggTracer.errorLogger(
