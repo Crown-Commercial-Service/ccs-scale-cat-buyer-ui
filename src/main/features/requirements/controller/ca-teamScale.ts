@@ -65,13 +65,15 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
   const { projectId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const dimension = req.session.dimensions;
+  const scalabledata = req.session.scaledata;
+  //let data=parseInt(scalabledata);
   const scalabilityData = dimension.filter(data => data.name === 'Scalability')[0];
  if(req.body.team_option!=undefined){
   try {
     const body = {
       'dimension-id': scalabilityData['dimension-id'],
       name: scalabilityData['name'],
-      weighting: 20,
+      weighting: Number(scalabledata),
       includedCriteria: [{ 'criterion-id': '0' }],
       requirements: [
         {
