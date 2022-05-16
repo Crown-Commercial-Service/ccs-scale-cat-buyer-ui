@@ -17,9 +17,9 @@
             "href": "#"
         }
     ],
-    "title": "Q&A",
-    "subtitle": "Current Q&A Document",
-    "info": "[Content to explain Q&A Document]",
+    "title": "Clarifications",
+    "subtitle": "Questions and Clarifications",
+    "info": "Below you can find a list of all the supplier questions relating to this agreement, with the clarifications you have provided. ",
     "subsection2_table_th_1": "[Subject]",
     "subsection2_table_th_2": "[Recipient]",
     "subsection2_table_th_3": "[Date]",
