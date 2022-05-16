@@ -51,7 +51,9 @@ function checkErrors(ranks, justification) {
       text: 'A justification must be provided whether or not a supplier from this tie rank is selected to take forward or not',
     });
   }
-
+else {
+  isError= false;
+}
   return { isError, errorText };
 }
 
@@ -66,8 +68,8 @@ export const CA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
     res.redirect('/ca/review-ranked-suppliers');
   } else {
     try {
-      //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
-      res.redirect('/ca/task-list');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+      res.redirect('/ca/next-steps');
     } catch (error) {
       LoggTracer.errorLogger(
         res,
