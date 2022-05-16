@@ -130,11 +130,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       let redirectUrl_: string
       switch (eventType) {
        
-        case "RFI":
-          if(status==='complete')
-          {
-//CALL API TO CREATE ANOTHER EVENT UNDER SAME PROJECTID
-          }
+        case "RFI":      
           const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
           res.render('eventManagement', appendData)
           break
