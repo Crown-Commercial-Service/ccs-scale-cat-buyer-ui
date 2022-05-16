@@ -138,7 +138,7 @@ const emptyQuestionFieldCheckRfp = () => {
 };
 
 
-$('#rfp_multianswer_question_form').on('click',(event) => {
+$('#rfp_multianswer_question_form').on('submit',(event) => {
   event.preventDefault();
   const errorStore = emptyQuestionFieldCheckRfp();
   if (errorStore.length === 0) {

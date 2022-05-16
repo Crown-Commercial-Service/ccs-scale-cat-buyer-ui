@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
     deleteButtons.forEach((db) => {
       db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
-
         e.preventDefault();
 
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
@@ -139,15 +138,16 @@ document.addEventListener('DOMContentLoaded', () => {
             let formElement = document.getElementById("ccs_rfp_acronyms_form");
             let action = formElement.getAttribute("action");
             action = action + "&stop_page_navigate=true";
-            $.ajax({
-              type: "POST",
-              url: action,
-              data: $("#ccs_rfp_acronyms_form").serialize(),
-              success: function () {
 
-                //success message mybe...
-              }
-            });
+            // $.ajax({
+            //   type: "POST",
+            //   url: action,
+            //   data: $("#ccs_rfp_acronyms_form").serialize(),
+            //   success: function () {
+
+            //     //success message mybe...
+            //   }
+            // });
           }
         };
         // break;
