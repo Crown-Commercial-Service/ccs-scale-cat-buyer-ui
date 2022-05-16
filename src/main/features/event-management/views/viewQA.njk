@@ -26,9 +26,12 @@
         <div class="govuk-grid-row govuk-!-padding-bottom-7">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {{data.title}}
+                    <strong>{{data.title}}</strong>
                 </h1>
-                {% include "includes/project_header.njk" %}
+                <p class="govuk-body">
+                <strong>{{eventId}}</strong><br/>
+                Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}</strong>{% endif %}<br/>
+                Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
             </div>
         </div>
 
@@ -41,24 +44,26 @@
             </div>
             <div class="govuk-grid-column-full">
                 <p class="govuk-body">
-                There are {{ QAs.length }} clarifications for this Agreement
+                There are <strong>{{ QAs.length }}</strong> clarifications for this Agreement
                 </p>
             </div>
         </div>
+        {% set q=1 %}
         {% for QA in QAs %}
-        <div class="govuk-grid-row ccs-page-section">
+        <div class="govuk-grid-row ccs-page-section-without-margin">
             <div class="govuk-grid-column-full">
-                <h3>{{QA.question}}</h3>
+                <h3>{{q+" "}}{{QA.question}}</h3>
                 <p class="govuk-body">
                     {{QA.answer}}
                 </p>
                 <p class="govuk-body">
-                    {{data.updateDate}} : <strong>{{QA.created | date("D MMM")}}</strong>
+                    {{data.updateDate}} : <strong>{{QA.created | dateddmmyyyy }}</strong>
                 </p>
             </div>
         </div>
+        {% set q=q+1 %}
         {% endfor %}
-        <p class="govuk-body">
+        <p class="govuk-body-margin-top">
             <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
         </p>
     </main>
