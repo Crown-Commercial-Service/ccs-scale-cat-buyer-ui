@@ -1,4 +1,4 @@
-const ccsZvalidateEoiSecurity = (event) => {
+const ccsZvalidateEoiSecurity1 = (event) => {
   event.preventDefault();
 
   // let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);

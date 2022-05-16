@@ -45,14 +45,18 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
-    const bcTitleText = OCDS?.description;
-    const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
+    //const bcTitleText = OCDS?.description;
+    //const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
+    const newOCDSdescription =changeTitle(OCDS?.description) 
+    const bcTitleText = newOCDSdescription;
+    const titleText = nonOCDS.mandatory === false ? newOCDSdescription + ' (Optional)' : newOCDSdescription;
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
     const promptSplit = promptData?.split(splitOn);
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
+      aSelector.nonOCDS.type=titleText;
       const questionNonOCDS = {
         groupId: group_id,
         questionId: aSelector.OCDS.id,
@@ -146,7 +150,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       event_id: event_id,
       group_id: group_id,
       criterian_id: id,
-      form_name: formNameValue,
+      form_name:bcTitleText !="The people who will use your product or service"? formNameValue:"service_user_type_form",
       rfpTitle: titleText,
       shortTitle: mapTitle(group_id),
       bcTitleText,
@@ -332,12 +336,12 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 req.session['isLocationMandatoryError'] = true;
                 break;
               } else if (
-                selectedOptionToggle[0].find(
+                selectedOptionToggle[1].find(
                   x =>
                     x.value === 'No specific location, for example they can work remotely' ||
                     x.value === 'Not Applicable',
                 ) &&
-                selectedOptionToggle[0].length > 1
+                selectedOptionToggle[1].length > 1
               ) {
                 validationError = true;
                 req.session['isLocationError'] = true;
@@ -346,7 +350,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [...selectedOptionToggle[0]],
+                    options: [...selectedOptionToggle[1]],
                   },
                 };
               }
@@ -514,7 +518,14 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             if (!validationError) {
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
+                const {_csrf}=req.body;
+                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 ) {
+                 var options= answerValueBody?.nonOCDS?.options.filter(x=>{
+                   if (x.value !=_csrf && x.value  !=undefined) {
+                     return x;
+                   }
+                 });
+                 answerValueBody.nonOCDS.options=options;
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
                 }
 
@@ -672,3 +683,67 @@ const mapTitle = groupId => {
   }
   return title;
 };
+
+
+function changeTitle(title)
+  {
+    let text = '';
+    switch(title)
+    {
+      case 'Learn about adding context and requirements':
+        text='Learn more about adding context and requirements';
+        break;
+      case 'Terms and acronyms':
+        text='Terms and acronyms';
+        break;
+      case 'Background and context to your requirement':
+        text='Background to your procurement';
+        break;
+      case 'Problem to solve/impact of not completing deliverables and outcome':
+        text='The business problem you need to solve';
+        break;
+      case 'Key Users':
+        text='The people who will use your product or service';
+        break;
+      case 'Work Completed to date':
+        text='Work done so far';
+        break;
+      case 'Current phase of the project':
+        text='Which phase the project is currently in';
+        break;
+      case 'Phase resource is required for':
+        text='Which phase(s) of the project you need resource for';
+        break;
+      case 'Duration of work/resource required for':
+        text='The expected duration of the project';
+        break;
+      case 'The buying organisation':
+        text='Who the buying organisation is';
+        break;
+      case 'Market engagement to date':
+        text='Describe any market engagement you\'ve done';
+        break;
+      case 'New, replacement or expanded services or products':
+        text='Choose if this a new, replacement or expanded service or product';
+        break;
+      case 'Is there an incumbent supplier?':
+        text='Tell us if there is an existing supplier';
+        break;
+      case 'Management information and reporting':
+        text='Management information and reporting requirements';
+        break;
+      case 'Service levels and performance':
+        text='Define your service levels and KPIs';
+        break;
+      case 'Incentives and exit strategy':
+        text='Detail any performance incentives and exit strategies';
+        break;
+      case 'How the supplier is going to deliver within the budget constraints':
+        text='Contract values and how suppliers will meet the project needs within this budget';
+        break;
+      case 'Add your requirements':
+        text='Enter your project requirements';
+        break;
+    }
+    return text;
+  }
