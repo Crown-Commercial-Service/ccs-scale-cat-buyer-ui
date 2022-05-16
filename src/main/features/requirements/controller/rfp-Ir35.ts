@@ -22,15 +22,15 @@ export const RFP_GET_I35: express.Handler = async (req: express.Request, res: ex
    let text=ResponseData[0].nonOCDS;
     for(let i=0;i<=ResponseData.length;i++)
     {
-     let changecontent=text.options[i].value;
-      switch(changecontent){
-        case 'Contracted out services the off-payroll rules do not apply':
-          text.options[i].value='Yes,the Off-payroll working rules apply';
-        break
-        case 'Supply of resource':
-          text.options[i].value='No,the off-payroll rules do not apply';
-        break
-     }
+    //  let changecontent=text.options[i].value;
+    //   switch(changecontent){
+    //     case 'Contracted out services the off-payroll rules do not apply':
+    //       text.options[i].value='Yes,the Off-payroll working rules apply';
+    //     break
+    //     case 'Supply of resource':
+    //       text.options[i].value='No,the off-payroll rules do not apply';
+    //     break
+    //  }
     }
     const windowAppendData = {
       apiData: ResponseData,
