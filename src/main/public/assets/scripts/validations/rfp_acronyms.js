@@ -1,5 +1,3 @@
-
-debugger;
 const countWords1 = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
   

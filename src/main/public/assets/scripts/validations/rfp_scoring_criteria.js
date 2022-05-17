@@ -113,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
     document.getElementById('ccs_rfp_score_criteria_add').addEventListener('click', e => {
-      alert("addbuon")
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
       checkFieldsRfpScore();
 
@@ -326,7 +325,6 @@ const ccsZvalidateScoringCriteria = event => {
   errorStore = emptyFieldCheckRfpScore();
 
   if (errorStore.length === 0) {
-    alert('called')
     document.forms['ccs_rfp_scoring_criteria'].submit();
   } else {
     ccsZPresentErrorSummary(errorStore);
@@ -334,6 +332,5 @@ const ccsZvalidateScoringCriteria = event => {
 };
 
 const selectedTiers = (tiers) => {
-  alert(tiers);
 
 }
