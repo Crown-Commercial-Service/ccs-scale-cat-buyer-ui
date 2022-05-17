@@ -19,6 +19,7 @@ export enum RFI_PATHS {
   GET_EVENT_PUBLISHED = '/rfi/event-sent',
   GET_OFFLINE = '/eoi/offline',
   RFI_GET_NEXT_STEPS='/rfi/nextsteps',
+  RFI_GET_CLOSE='/rfi/closerfi',
   POST_DELETE_COLLABORATOR_TO_JAGGER='/rfi/delete-collaborators',
 
   /**
