@@ -154,6 +154,9 @@ if (document.getElementById('ccs_rfi_about_proj') !== null)
 if (document.getElementById('rfi_prob_statement') !== null)
   document.getElementById('rfi_prob_statement').addEventListener('input', ccsZCountRfiProject);
 
+if (document.getElementById('ccs_rfi_next_steps') !== null)
+  document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
+
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
 

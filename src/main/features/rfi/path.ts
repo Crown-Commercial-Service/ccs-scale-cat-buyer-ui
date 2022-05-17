@@ -105,6 +105,12 @@ export default function (app: Application): void {
     associatedViews.GET_EVENT_PUBLISHED,
   );
 
+  app.get(
+    RFI_PATHS.RFI_GET_NEXT_STEPS,
+    [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.RFI_GET_NEXT_STEPS,
+  );
+
   //@GET Offline page
   app.get(RFI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);
 
@@ -116,6 +122,8 @@ export default function (app: Application): void {
 
   //@POST '/rfi/type
   app.post(RFI_PATHS.POST_TYPE_TYPE, AUTH, associatedViews.POST_TYPE);
+
+  app.post(RFI_PATHS.RFI_POST_NEXT_STEPS, AUTH, associatedViews.RFI_POST_NEXT_STEPS);
 
   //@POST '/rfi/questionnaire'
   app.post(RFI_PATHS.POST_QUESTIONS_QUESTIONNAIRE, AUTH, associatedViews.POST_QUESTION);
