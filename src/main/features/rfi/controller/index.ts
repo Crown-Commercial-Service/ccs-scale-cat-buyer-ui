@@ -11,6 +11,7 @@ import {GET_RFI_SUPPLIERS, POST_RFI_SUPPLIER} from './suppliers'
 import {GET_RESPONSE_DATE, POST_RESPONSE_DATE, POST_ADD_RESPONSE_DATE} from './responsedate'
 import {GET_EVENT_PUBLISHED} from './eventpublished'
 import { OFFLINE_JOURNEY_PAGE } from './offline'
+import {RFI_GET_NEXT_STEPS, RFI_POST_NEXT_STEPS} from './nextsteps'
 
 export const associatedViews = {
     /**
@@ -30,6 +31,7 @@ export const associatedViews = {
     GET_RFI_SUPPLIERS,
     GET_RFI_REVIEW,
     GET_EVENT_PUBLISHED,
+    RFI_GET_NEXT_STEPS,
     OFFLINE_JOURNEY_PAGE,
 
 
@@ -50,6 +52,6 @@ export const associatedViews = {
     POST_RFI_REVIEW,
     POST_ADD_RESPONSE_DATE,
     POST_UPLOAD_PROCEED,
-    POST_DELETE_COLLABORATOR_TO_JAGGER
-
+    POST_DELETE_COLLABORATOR_TO_JAGGER,
+    RFI_POST_NEXT_STEPS
 }

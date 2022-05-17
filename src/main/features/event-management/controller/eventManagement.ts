@@ -102,12 +102,17 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
 
 
-    if (status == "Published" || status == "Response period closed" ) {
+    if (status == "Published" || status == "Response period closed" || status == "To be Evaluated") {
       let redirectUrl_: string
       switch (eventType) {
        
         case "RFI":
-          const appendData = { data: eventManagementData, status, projectName, eventId, eventType,QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage }
+          let showCloseProject=false;
+          if(status == "Published" || status == "To be Evaluated")
+          {
+            showCloseProject=true;
+          }
+          const appendData = { data: eventManagementData, status, projectName, eventId, eventType,QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage ,showCloseProject}
           res.render('eventManagement', appendData)
           break
           case "FC":
