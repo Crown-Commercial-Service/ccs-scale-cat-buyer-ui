@@ -200,7 +200,18 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_GET_YOUR_ASSESSTMENT,
   );
-
+  //rfp/your-assesstment-question -GET
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_YOUR_ASSESSMENT_QUESTION,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_Assesstment_GET_QUESTIONS,
+  );
+  ///rfp/your-assesstment-question -POST
+  app.post(
+    REQUIREMENT_PATHS.RFP_POST_YOUR_ASSESSMENT_QUESTION,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_Assesstment_POST_QUESTION,
+  );
   // /rfp/set-scoring-criteria
   app.get(
     REQUIREMENT_PATHS.RFP_GET_SCORING_CRITERIA,

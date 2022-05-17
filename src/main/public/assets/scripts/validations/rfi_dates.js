@@ -18,8 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
      } else {
-      value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(parentID));
+      if (month.val() !== '' && year.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
+      {
+        value.addClass("govuk-input--error")
+        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+      }
+      else
+      {
+        value.removeClass("govuk-input--error");
+        ccsZremoveErrorMessage(document.getElementById(parentID));
+      }
+      
      }
  
    });
@@ -34,8 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid month");
      } else {
+      if (year.val() !== '' && day.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
+      {
+        value.addClass("govuk-input--error")
+        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+      }
+      else{
       value.removeClass("govuk-input--error");
        ccsZremoveErrorMessage(document.getElementById(parentID));
+      }
      }
  
    });
@@ -50,11 +66,17 @@ document.addEventListener('DOMContentLoaded', () => {
      if (matchValue || endyearCheck || startyearCheck|| value == '' ) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
-     } else {
-      value.removeClass("govuk-input--error");
-       ccsZremoveErrorMessage(document.getElementById(parentID));
+     } else { 
+        if (month.val() !== '' && day.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
+        {
+          value.addClass("govuk-input--error")
+          ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+        }
+        else{
+        value.removeClass("govuk-input--error");
+         ccsZremoveErrorMessage(document.getElementById(parentID));
+        }
      }
- 
    });
  
    hour.on('blur', ()=>{
@@ -105,6 +127,15 @@ document.addEventListener('DOMContentLoaded', () => {
       parentID = `eoi_clarification_date_expanded_${element}`;
       }
       return parentID;
+    }
+
+    function isValidDate(year, month, day) {
+      month = month-1;
+        var d = new Date(year, month, day);
+        if (d.getFullYear() == year && d.getMonth() == month && d.getDate() == day) {
+            return true;
+        }
+      return false;
     }
   } 
   });
@@ -158,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
+
   if(isError){
       $('#event-name-error-date').html('You can not set a date and time that is earlier than the previous milestone in the timeline');
       DaySelector.addClass('govuk-form-group--error');
@@ -171,8 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
   else{
     document.forms['ccs_eoi_response_date_form'].submit();
 }
-
-
 })
  
  

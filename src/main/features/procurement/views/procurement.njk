@@ -46,8 +46,11 @@
                      </h2>
                      {% for section in event.sections %}
                         <p class="govuk-body">{{section | safe }}</p>
+                       {% if event.eventno == 1 %}
+                        <p class="govuk-body">This section is optional,If you would like to de pre-market engagement you an go to step 2.<br>If you are ready to write and publish your requirements go to step 3</p>
+                        {% endif %}
                      {% endfor %}
-                     {% for subSections in event.subsections %}
+                   {#  {% for subSections in event.subsections %}
                         {% if ((event.eventno === 2) and (loop.index0 === 0) and ('EOI' in types)) 
                            or((event.eventno === 2) and (loop.index0 === 1) and ('RFI' in types))
                         or((event.eventno === 3) and (loop.index0 === 0) and ('FC' in types))%}
@@ -62,7 +65,7 @@
                               <p class="govuk-body">{{subSection | safe }}</p>
                            {% endfor %}
                         {% endif %}
-                     {% endfor %}
+                     {% endfor %} #}
                      {%if event.note != undefined%}
                         <p class="govuk-body">{{ event.note | safe }}</p>
                      {% endif %}

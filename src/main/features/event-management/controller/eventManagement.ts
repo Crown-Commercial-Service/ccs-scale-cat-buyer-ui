@@ -97,12 +97,17 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       });
     }
 
+//Get Q&A Count
+    const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
+        const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
+
+
     if (status == "Published" || status == "Response period closed" ) {
       let redirectUrl_: string
       switch (eventType) {
        
         case "RFI":
-          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
+          const appendData = { data: eventManagementData, status, projectName, eventId, eventType,QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage }
           res.render('eventManagement', appendData)
           break
           case "FC":
@@ -144,6 +149,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       }
       res.redirect(redirectUrl)
     }
+       
+  
 
   } catch (err) {
     LoggTracer.errorLogger(

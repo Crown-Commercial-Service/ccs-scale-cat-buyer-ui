@@ -12,8 +12,10 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
   const { data: eventData } = await TenderApi.Instance(SESSION_ID).get(
     `/tenders/projects/${projectId}/events/${eventId}`,
   );
+  let lotid=req.session.lotId;
+  lotid=lotid.replace('Lot ','')
   const lotSuppliers =
-    config.get('CCS_agreements_url') + req.session.agreement_id + ':' + req.session.lotId + '/lot-suppliers';
+    config.get('CCS_agreements_url') + req.session.agreement_id + ':' + lotid + '/lot-suppliers';
   const { assessmentSupplierTarget: numSuppliers } = eventData.nonOCDS;
   let dataRRSMod = { ...dataRRS };
   dataRRSMod.p1 = dataRRSMod.p1.replace(new RegExp('X', 'g'), numSuppliers);

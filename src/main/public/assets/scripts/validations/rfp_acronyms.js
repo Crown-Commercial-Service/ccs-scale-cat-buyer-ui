@@ -4,7 +4,7 @@ if ($('#rfp_keyterm').length > 0) {
 }
 const countWords = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
-
+  
   if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
 
     let with_value_count = 10,
@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
     deleteButtons.forEach((db) => {
       db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
-
         e.preventDefault();
 
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
@@ -116,14 +115,17 @@ document.addEventListener('DOMContentLoaded', () => {
       let length = fieldSets.length;
       while (length--) {
         let id = length + 1;
+       
         let eleTerm = fieldSets[length].querySelector("#rfp_term_" + id);
+        if (eleTerm !=undefined && eleTerm !=null) {
         eleTerm.addEventListener('focusout', (event) => {
           let ele1 = event.target;
           let definitionElementId = "rfp_term_definition_" + id;
           let ele2 = document.getElementById(definitionElementId);
           performSubmitAction(ele1, ele2);
 
-        });
+          });
+        }
         let eleTermDefinition = fieldSets[length].querySelector("#rfp_term_definition_" + id);
         eleTermDefinition.addEventListener('focusout', (event) => {
           let ele2 = event.target;
@@ -136,15 +138,16 @@ document.addEventListener('DOMContentLoaded', () => {
             let formElement = document.getElementById("ccs_rfp_acronyms_form");
             let action = formElement.getAttribute("action");
             action = action + "&stop_page_navigate=true";
-            $.ajax({
-              type: "POST",
-              url: action,
-              data: $("#ccs_rfp_acronyms_form").serialize(),
-              success: function () {
 
-                //success message mybe...
-              }
-            });
+            // $.ajax({
+            //   type: "POST",
+            //   url: action,
+            //   data: $("#ccs_rfp_acronyms_form").serialize(),
+            //   success: function () {
+
+            //     //success message mybe...
+            //   }
+            // });
           }
         };
         // break;
@@ -156,21 +159,24 @@ document.addEventListener('DOMContentLoaded', () => {
 const checkFieldsRfp = () => {
   const start = 1;
   const end = 10;
-
+  const pageHeading = document.getElementById('page-heading').innerHTML;
   for (var a = start; a <= end; a++) {
     let input = $(`#rfp_term_${a}`)
     let textbox = $(`#rfp_term_definition_${a}`);
 
-    const field1 = countWords(input.val()) < 50;
-    const field2 = countWords(textbox.val()) < 150;
-    if (input.val() !== "" || field1) {
-
-      $(`#rfp_term_${a}-error`).remove();
-      $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
-      $(`.acronym_${a} input`).removeClass('govuk-input--error')
-
-
+    if (!pageHeading.includes("(Optional)"))
+    {
+      const field1 = countWords(input.val()) < 50;
+      const field2 = countWords(textbox.val()) < 150;
+      if (input.val() !== "" || field1) {
+  
+        $(`#rfp_term_${a}-error`).remove();
+        $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
+        $(`.acronym_${a} input`).removeClass('govuk-input--error')
+  
     }
+
+ 
     if (textbox.val() !== "" || field2) {
 
       $(`#rfp_term_definition_${a}-error`).remove();
@@ -178,6 +184,7 @@ const checkFieldsRfp = () => {
       $(`.acronym_${a} textarea`).removeClass('govuk-input--error');
       $(`.acronym_${a} textarea`).removeClass('govuk-textarea--error')
     }
+  }
 
   }
 }
@@ -193,21 +200,26 @@ const removeErrorFieldsRfp = () => {
 const emptyFieldCheckRfp = () => {
   let fieldCheck = "",
     errorStore = [];
-
+    const pageHeading = document.getElementById('page-heading').innerHTML;
   for (var x = 1; x < 11; x++) {
     let term_field = document.getElementById('rfp_term_' + x);
     let definition_field = document.getElementById("rfp_term_definition_" + x);
     let target_field = document.getElementById("rfp_term_target_" + x);
-
-    const field1 = countWords(term_field.value) > 50;
-    const field2 = countWords(definition_field.value) > 150;
+    
+    if(term_field.value !== undefined && definition_field !== undefined)
+    {
+      const field1 = countWords(term_field.value) > 50;
+      const field2 = countWords(definition_field.value) > 150;
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsRfp();
-      if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
+      if (!pageHeading.includes("(Optional)"))
+      {
+      if (term_field.value.trim() === '' && definition_field.value.trim() === '') {
         fieldCheck = [definition_field.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
         ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
+        if(target_field !== undefined  && target_field !==null && target_field.value.trim() === '')
         ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
         errorStore.push(fieldCheck);
       }
@@ -221,7 +233,7 @@ const emptyFieldCheckRfp = () => {
           ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
           isError = true;
         }
-        if (target_field.value.trim() === '') {
+        if (target_field !== undefined && target_field !==null && target_field.value.trim() === '') {
           ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
           isError = true;
         }
@@ -239,11 +251,15 @@ const emptyFieldCheckRfp = () => {
         }
       }
     }
+    }
+    }
+
   }
   return errorStore;
 }
 const ccsZvalidateRfpAcronyms = (event) => {
-  event.preventDefault();
+
+   event.preventDefault();
 
   errorStore = emptyFieldCheckRfp();
 

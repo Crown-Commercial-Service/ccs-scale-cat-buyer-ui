@@ -15,7 +15,7 @@
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         {% if (fileError)%}
             {{ CCSErrorSummary({
-                titleText: "There is a problem with these files",
+                titleText: "There is a problem with",
                 errorList: errorlist
             }) }}
         {% endif %}
@@ -23,7 +23,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {{data.title}}
+                    <strong>{{data.title}}</strong>
                 </h1>
             </div>
         </div>

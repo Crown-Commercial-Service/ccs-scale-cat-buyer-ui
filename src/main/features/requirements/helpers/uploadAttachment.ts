@@ -20,6 +20,8 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
   let { selectedRoute } = req.session;
   const { pricingSchedule } = req.session;
   const { file_id } = req.query;
+  const {fileObjectIsEmpty}=req.session;
+  errorList=errorList ==undefined ||errorList==null?[]:errorList;
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -95,6 +97,11 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
           fileError=true;
         }
       }
+      if (fileObjectIsEmpty) {
+        fileError=true;
+        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        delete req.session["fileObjectIsEmpty"];
+      }
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: true, errorlist: errorList });
       }
@@ -104,8 +111,8 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       else {
         req.session['isTcUploaded'] = false;
       }
-      if (selectedRoute === 'FC') selectedRoute = 'RFP';
-      if (selectedRoute === 'FCA') selectedRoute = 'CA';
+      if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute.toUpperCase() === 'FC') selectedRoute.toUpperCase() = 'RFP';
+      if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !=""&& selectedRoute.toUpperCase() === 'FCA') selectedRoute.toUpperCase() = 'CA';
       res.render(`${selectedRoute.toLowerCase()}-uploadAttachment`, windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];

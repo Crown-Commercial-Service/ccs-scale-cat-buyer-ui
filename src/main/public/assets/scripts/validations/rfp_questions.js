@@ -137,7 +137,8 @@ const emptyQuestionFieldCheckRfp = () => {
   return errorStore;
 };
 
-const ccsZvalidateRfpQuestions = event => {
+
+$('#rfp_multianswer_question_form').on('submit',(event) => {
   event.preventDefault();
   const errorStore = emptyQuestionFieldCheckRfp();
   if (errorStore.length === 0) {
@@ -145,4 +146,4 @@ const ccsZvalidateRfpQuestions = event => {
   } else {
     ccsZPresentErrorSummary(errorStore);
   }
-};
+});

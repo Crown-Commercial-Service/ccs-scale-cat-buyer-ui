@@ -14,7 +14,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {{data.title }}
+          <strong>{{data.title }}<strong>
         </h1>
       </div>
     </div>
@@ -24,10 +24,14 @@
         {% include "includes/project_header.njk" %}
 
         <div class="govuk-inset-text">
-          <p class="govuk-body">If you'd like to look at the details for each
-              suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers</a>
-            <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website. 
-              The page will open on a new tab</p>
+        <p>The suppliers listed below are contracted to provide goods and services under this commercial agreement and lot.</p>
+        <p>Your RfI will be sent to all suppliers on this list but some may not respond.</p>
+         <p class="govuk-body">If you'd like to look at the details for each
+              suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers
+            <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website.</a>
+              (The page will open on a new tab)</p>
+          
+          
         </div>
 
         <form id="ccs-rfi-suppliers-form" class="ccs-rfi-suppliers-form" action="/rfi/suppliers" method="POST">
@@ -35,14 +39,14 @@
           <br>
           <h2 class="govuk-heading-m">
             <span id="added_suppliers_count">
-              {{suppliers_list.length}}
-            </span> suppliers on this lot </h2>
+              {{supplierLength}}
+            </span>  suppliers will receive your RfI </h2>
           <br>
           <div class="govuk-button-group govuk-!-margin-bottom-7">
             {{ CCSButton({
                 text: "Save and continue"
                 }) }}
-            <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+            <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
           </div>
           <div class="govuk-form-group ccs-page-section"></div>
           <div id="page1" >
@@ -55,10 +59,10 @@
               </div>
               {% for supplier in suppliers_list %}
                 <div class="govuk-form-group ccs-page-section">
-                  <h3 class="govuk-heading-m">{{supplier.organization.name}}</h3>
+                  <h3 class="govuk-heading-m">Company name: {{supplier.organization.name}}</h3>
                   <div id="rfi_required_suppliers-item-hint" class="govuk-hint govuk-checkboxes__hint">
                     {% if supplier.organization.identifier.legalName | length > 0 %}
-                      <label>{{supplier.organization.identifier.legalName}}
+                      <label>Trading name: {{supplier.organization.identifier.legalName}}
                       </label>
                       <br>
                     {% endif %}
@@ -68,11 +72,28 @@
             </div>
           </div>
           <br>
+          <div>
+          {% if(showPrevious) %}
+          <a href="suppliers?previous=1" class="govuk-link govuk-link--no-visited-state"><- Previous Page</a>
+          {% endif %}
+          {% if(showNext) %}
+          <a href="suppliers?next=1" class="govuk-link govuk-link--no-visited-state anchor-right">-> Next Page</a>
+          {% endif %}
+          </div><br>
+          <div>
+          {% if(showPrevious) %}
+          <label>{{currentpagenumber-1}} of {{noOfPages}}</label>
+          {% endif %}
+          {% if(showNext) %}
+          <label class="anchor-right">{{currentpagenumber+1}} of {{noOfPages}}</label>
+          {% endif %}
+          </div>
+          <br><br>
           <div class="govuk-button-group">
             {{ CCSButton({
                 text: "Save and continue"
                 }) }}
-            <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+            <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
           </div>
 
         </form>

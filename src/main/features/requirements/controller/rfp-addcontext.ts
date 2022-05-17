@@ -54,10 +54,74 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       const excludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
         AField => AField.OCDS.id !== 'Group Key Dates',
       );
-      const excludingIR35 = excludingKeyDates.filter(field => field.OCDS.description !== 'IR35 acknowledgement');
+      const excludingIR35andSkills = excludingKeyDates.filter(field => (field.OCDS.description !== 'IR35 acknowledgement' && field.OCDS.description !== 'Set essential and preferred skills'));
+      
+      let text='';
+      for(var i=0;i<excludingIR35andSkills.length;i++)
+      {
+        text=excludingIR35andSkills[i].OCDS.description;
+        switch(text)
+        {
+          case 'Learn about adding context and requirements':
+            excludingIR35andSkills[i].OCDS.description='Learn more about adding context and requirements';
+            break;
+          case 'Terms and acronyms':
+            excludingIR35andSkills[i].OCDS.description='Terms and acronyms (optional)';
+            break;
+          case 'Background and context to your requirement':
+            excludingIR35andSkills[i].OCDS.description='Background to your procurement';
+            break;
+          case 'Problem to solve/impact of not completing deliverables and outcome':
+            excludingIR35andSkills[i].OCDS.description='The business problem you need to solve';
+            break;
+          case 'Key Users':
+            excludingIR35andSkills[i].OCDS.description='The people who will use your product or service (optional)';
+            break;
+          case 'Work Completed to date':
+            excludingIR35andSkills[i].OCDS.description='Any work that has been done so far (optional)';
+            break;
+          case 'Current phase of the project':
+            excludingIR35andSkills[i].OCDS.description='Which phase the project is currently in';
+            break;
+          case 'Phase resource is required for':
+            excludingIR35andSkills[i].OCDS.description='Which phase(s) of the project you need resource for';
+            break;
+          case 'Duration of work/resource required for':
+            excludingIR35andSkills[i].OCDS.description='The expected duration of the project';
+            break;
+          case 'The buying organisation':
+            excludingIR35andSkills[i].OCDS.description='Who the buying organisation is (optional)';
+            break;
+          case 'Market engagement to date':
+            excludingIR35andSkills[i].OCDS.description='Describe any market engagement you\'ve done (optional)';
+            break;
+          case 'New, replacement or expanded services or products':
+            excludingIR35andSkills[i].OCDS.description='Choose if this a new, replacement or expanded service or product';
+            break;
+          case 'Is there an incumbent supplier?':
+            excludingIR35andSkills[i].OCDS.description='Tell us if there is an existing supplier';
+            break;
+          case 'Management information and reporting':
+            excludingIR35andSkills[i].OCDS.description='Management information and reporting requirements';
+            break;
+          case 'Service levels and performance':
+            excludingIR35andSkills[i].OCDS.description='Define your service levels and KPIs';
+            break;
+          case 'Incentives and exit strategy':
+            excludingIR35andSkills[i].OCDS.description='Detail any performance incentives and exit strategies';
+            break;
+          case 'How the supplier is going to deliver within the budget constraints':
+            excludingIR35andSkills[i].OCDS.description='Contract values and how suppliers will meet the project needs within this budget (optional)';
+            break;
+          case 'Add your requirements':
+            excludingIR35andSkills[i].OCDS.description='Enter your project requirements';
+            break;
+        }
+      }
+
       const releatedContent = req.session.releatedContent;
       const display_fetch_data = {
-        data: excludingIR35,
+        data: excludingIR35andSkills,
         agreement_id: agreement_id,
         file_data: fileData,
         proc_id: proc_id,

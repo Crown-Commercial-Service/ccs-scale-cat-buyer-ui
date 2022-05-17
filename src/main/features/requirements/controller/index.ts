@@ -86,6 +86,7 @@ import { DA_GET_CANCEL, DA_POST_CANCEL } from './da-cancel';
 import { DA_GET_SUBCONTRACTORS, DA_POST_SUBCONTRACTORS } from './da-SubContractors';
 import { DA_GET_SERVICE_CAPABILITIES, DA_POST_SERVICE_CAPABILITIES } from './da-serviceCapabilities';
 import { RFP_GET_YOUR_ASSESSTMENT } from './rfp-yourassesstment';
+import { RFP_Assesstment_GET_QUESTIONS,RFP_Assesstment_POST_QUESTION } from './rfp-questions-yourassesstment';
 import { DA_GET_REVIEW_RANKED_SUPPLIERS, DA_POST_REVIEW_RANKED_SUPPLIERS } from './da-reviewRankedSuppliers';
 import { DA_GET_LEARN, DA_POST_LEARN } from './da-learnAboutCapabilityAssessment';
 import { DA_GET_WEIGHTINGS, DA_POST_WEIGHTINGS } from './da-enterYourWeightings';
@@ -232,6 +233,10 @@ export const REQUIREMENT_CONTROLLER = {
   DA_GET_REVIEW_RANKED_SUPPLIERS,
   DA_POST_REVIEW_RANKED_SUPPLIERS,
   RFP_GET_YOUR_ASSESSTMENT,
+  //BALWINDER START
+  RFP_Assesstment_GET_QUESTIONS,
+  RFP_Assesstment_POST_QUESTION,
+  //END
   RFP_POST_VETTING_AND_WEIGHTING,
   RFP_GET_VETTING_AND_WEIGHTING,
   RFP_GET_CHOOSE_SECURITY_REQUIREMENTS,

@@ -60,9 +60,11 @@
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
   {% include "includes/project_header.njk" %}
    <div class="govuk-inset-text">
-        <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
+        <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p><p class="govuk-body">Make sure you include this ID everytime you contact CCS. </p>
+     <p class="govuk-body"> </p>
       </div>
       <p class="govuk-body">{{data.caption}}</p>
+      <p class="govuk-body">If you don't want to change the name of  your project you can return to <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">Write and publish your requirements</a></p>
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfp/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}
         {{ CCSInput({           

@@ -18,7 +18,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
     const { created } = req.query
     const { createdqa } = req.session
     const { createdqaedit } = req.session
-    const projectId = req.session['projectId']
+    const projectId = req.session['projectId'] 
     const eventId = req.session['eventId']
     try {
         if (createdqa !=undefined || createdqaedit !=undefined) {

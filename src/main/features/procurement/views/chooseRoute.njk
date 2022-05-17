@@ -53,11 +53,13 @@
                 </h1>
             </div>
         </div>
+        
+         
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-
+          
                 <p class="govuk-body">{{ data.form.question }}</p>
 
                 <form id="ccs_event_type_form" name="ccs_event_type_form" class="form ccs_event_type_form" action="/projects/events/choose-route" method="POST">

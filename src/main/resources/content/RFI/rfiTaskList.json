@@ -38,19 +38,13 @@
     },
     {
       "eventno": 2,
-      "eventTitle": "Build your Request for Information (RFI)",
+      "eventTitle": "Build your RfI",
       "eventDescription": "You can choose to enter information online to build your RfI, or upload a document. If you choose to build your RfI online you can write your own questions, include context about your organisation and your procurement, and get more detailed information about what suppliers can offer.",
       "eventTask": [
-        {
-          "Task": 1,
-          "title": "Choose how to build your RfI",
-          "required": "mandatory",
-          "link": "/rfi/type",
-          "status": "optional"
-        },
+     
         {
           "Task": 2,
-          "link": "/rfi/type",
+          "link": "/rfi/online-task-list",
           "title": "Build your RfI",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -71,7 +65,7 @@
         },
         {
           "Task": 2,
-          "title": "Look at the available suppliers",
+          "title": "See the suppliers who will receive your RfI",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfi/suppliers"
