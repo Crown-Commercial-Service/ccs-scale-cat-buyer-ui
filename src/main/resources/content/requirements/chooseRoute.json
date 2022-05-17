@@ -34,7 +34,7 @@
           },
           "disabled": "false",
           "remove": "false"
-        },
+       <-- },
         {
           "value": "2-stage",
           "text": "Run a 2-stage further competition event",
@@ -51,7 +51,7 @@
             "text": "Based on the supplier responses you receive, if you find a single supplier who can meet your needs you can choose to award your contract directly to them after completing a capability assessement."
           },
           "disabled": "false",
-          "remove": "false"
+          "remove": "false" -->
         }
       ]
     },
