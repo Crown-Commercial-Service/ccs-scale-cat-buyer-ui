@@ -74,7 +74,7 @@ const showPopup = (event) => {
   $('#redirect-button-nextsteps').on('click', function () {
     deselect($('.dialog-close-nextsteps'));
     $(".backdrop-nextsteps").fadeOut(200);
-    document.location.href="#"//scat-5013
+    document.location.href="../rfi/closerfi"//scat-5013
       return false;
     
   });

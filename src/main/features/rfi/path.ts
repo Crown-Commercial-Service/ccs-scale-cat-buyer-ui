@@ -111,6 +111,12 @@ export default function (app: Application): void {
     associatedViews.RFI_GET_NEXT_STEPS,
   );
 
+  app.get(
+    RFI_PATHS.RFI_GET_CLOSE,
+    [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.RFI_GET_CLOSE,
+  );
+
   //@GET Offline page
   app.get(RFI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);
 
