@@ -1,4 +1,3 @@
-debugger
 const countWords = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -15,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let this_fieldset = document.querySelector(".acronym_service_" + acronym_fieldset),
         term_box = document.getElementById("rfp_term_service_group_" + acronym_fieldset);
 
-      if (term_box.value !== "") {
+      if (term_box !=undefined && term_box !=null && term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
 
         if (acronym_fieldset === 10) {
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         this_fieldset.classList.add('ccs-dynaform-hidden');
         with_value_count = acronym_fieldset;
       }
-
     }
     document.getElementById("ccs_rfpService_use_type_add").classList.remove("ccs-dynaform-hidden");
 

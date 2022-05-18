@@ -141,11 +141,11 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
         if (x.nonOCDS.questionType === 'Table') {
           x.nonOCDS.options.forEach(element => {
             element.optiontableDefination = mapTableDefinationData(element);
-            element.optiontableDefinationJsonString =JSON.stringify(mapTableDefinationData(element));
+            element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element));
           });
         }
       });
-      TemporaryObjStorage=TemporaryObjStorage.slice(0,2);
+      TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
     }
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
@@ -285,6 +285,67 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   options: [...object_values],
                 },
               };
+            }
+            else if (questionNonOCDS.questionType === 'Table') {
+              if (KeyValuePairValidation(object_values, req)) {
+                validationError = true;
+              }
+
+              let { score_criteria_level, score_criteria_points, score_criteria_desc } = req.body;
+              const TAStorage = [];
+              score_criteria_level = score_criteria_level?.filter((akeyTerm: any) => akeyTerm !== '');
+              score_criteria_points = score_criteria_points?.filter((aKeyValue: any) => aKeyValue !== '');
+              score_criteria_desc = score_criteria_desc?.filter((aKeyValue: any) => aKeyValue !== '');
+              //Balwinder
+
+              let rows = [];
+              let tableData = [];
+              for (let index = 0; index < score_criteria_level.length; index++) {
+                rows.push({ id: index + 1, name: score_criteria_level[index] });
+              }
+
+              for (let index = 0; index < score_criteria_points.length; index++) {
+                let cols = [];
+                cols.push(score_criteria_points[index]);
+                cols.push(score_criteria_desc[index]);
+                tableData.push({
+                  row: index + 1, cols: cols
+                });
+              }
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [
+                    {
+                      value:3,
+                      tableDefinition: {
+                        titles: {
+                          columns: [
+                            {
+                              "id": 0,
+                              "name": "Marking Scheme"
+                            },
+                            {
+                              "id": 1,
+                              "name": "Points"
+                            },
+                            {
+                              "id": 2,
+                              "name": "Description"
+                            }],
+                          rows: [
+                            ...rows
+                          ]
+                        },
+                        data: [
+                          ...tableData
+                        ]
+                      }
+                    }
+                  ],
+                },
+              };
+
             } else if (questionNonOCDS.questionType === 'KeyValuePair') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
@@ -447,7 +508,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
               }
 
             }
-            else if (questionNonOCDS.questionType != 'Percentage' && question_ids.length == 4 && questionNonOCDS.multiAnswer === true) {
+            else if (questionNonOCDS.questionType != 'Integer' && questionNonOCDS.questionType != 'Percentage' && question_ids.length == 4 && questionNonOCDS.multiAnswer === true) {
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
@@ -687,14 +748,14 @@ const mapTableDefinationData = (tableData) => {
   let object = null;
   var columnsHeaderList = getColumnsHeaderList(tableData.tableDefinition?.titles?.columns);
   //var rowDataList
-  var tableDefination = tableData.tableDefinition !=undefined&& tableData.tableDefinition.data !=undefined? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data):null
-  
-  return { head: columnsHeaderList?.length >0 && tableDefination?.length >0?columnsHeaderList:[], rows: tableDefination?.length >0?tableDefination:[] };
+  var tableDefination = tableData.tableDefinition != undefined && tableData.tableDefinition.data != undefined ? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data) : null
+
+  return { head: columnsHeaderList?.length > 0 && tableDefination?.length > 0 ? columnsHeaderList : [], rows: tableDefination?.length > 0 ? tableDefination : [] };
 }
 
 const getColumnsHeaderList = (columns) => {
   const list = columns?.map(element => {
-    return {text: element.name};
+    return { text: element.name };
   });
   return list
 }
@@ -703,7 +764,7 @@ const getRowDataList = (rows, data1) => {
   rows?.forEach(element => {
     element.text = element.name;
     var data = getDataList(element.id, data1);
-    let innerArrObj = [{ text: element.name,"classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter",text: data[0].cols[0] }, {"classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
+    let innerArrObj = [{ text: element.name, "classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter", text: data[0].cols[0] }, { "classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
     dataRowsList.push(innerArrObj);
   });
   return dataRowsList;

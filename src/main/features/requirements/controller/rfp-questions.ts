@@ -165,6 +165,9 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       delete data.data[0].nonOCDS.options;
       data.data[0].nonOCDS.options = req.session['errorFields'];
     }
+    if (bcTitleText==='Define your service levels and KPIs') {
+      data.form_name='service_levels_kpi_form';
+    }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
@@ -284,7 +287,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 validationError = true;
               }
 
-              let { term, value } = req.body;
+              let { term, value, } = req.body;
               const TAStorage = [];
               term = term?.filter((akeyTerm: any) => akeyTerm !== '');
               value = value?.filter((aKeyValue: any) => aKeyValue !== '');
