@@ -458,7 +458,7 @@
                     <div id="rfp_duration-hint" class="govuk-hint">
                       <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
                     </div>
-                    <p id="event-name-error-pdate" class="govuk-error-message p_durations_pday_{{rfp_duration_days}}">
+                    <p id="event-name-error-pdate" class="govuk-error-message p_durations_pday_25 p_durations_pday_{{rfp_duration_days}}">
                       <span class="govuk-visually-hidden">Error:</span>
                     </p>
                     <p id="event-name-error-pmonth" class="govuk-error-message p_durations_pmonth_{{rfp_duration_months}}">
@@ -479,7 +479,7 @@
                             },
                             id: rfp_duration_years,
                             name: rfp_duration_years,
-                            classes: "govuk-input rfp_duration govuk-date-input__input govuk-input--width-4",
+                            classes: "govuk-input rfp_duration rfp_duration_year_25 govuk-date-input__input govuk-input--width-4",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[0].value,
@@ -499,7 +499,7 @@
                             },
                             id: rfp_duration_months,
                             name: rfp_duration_months,
-                            classes: "govuk-input rfp_duration govuk-date-input__input govuk-input--width-2",
+                            classes: "govuk-input rfp_duration rfp_duration_month_25 govuk-date-input__input govuk-input--width-2",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[1].value,
@@ -520,7 +520,7 @@
                             },
                             id: rfp_duration_days,
                             name: rfp_duration_days,
-                            classes: "govuk-input rfp_duration govuk-date-input__input govuk-input--width-2",
+                            classes: "govuk-input rfp_duration rfp_duration_day_25 govuk-date-input__input govuk-input--width-2",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[2].value,

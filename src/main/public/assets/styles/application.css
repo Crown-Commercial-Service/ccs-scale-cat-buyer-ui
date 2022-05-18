@@ -8691,8 +8691,16 @@ p,
   font-size: 1.18rem;
 }
 
+.govuk-body-margin-top{
+  margin-top:20px;
+}
+
 .css-link-white {
   color: #FFFFFF !important;
+}
+
+.ccs-page-section-without-margin {
+  border-bottom: 1px solid #b1b4b6;
 }
 
 @media (min-width: 40.0625em) {
@@ -8934,7 +8942,7 @@ p,
   height: inherit;
 }
 
-.backdrop-vetting, .backdrop-nav-menu, .backdrop-tier-4, .backdrop-tier-5 {
+.backdrop-vetting, .backdrop-nav-menu, .backdrop-tier-4, .backdrop-tier-5,backdrop-nextsteps {
   position: fixed;
   top: 0px;
   left: 0px;

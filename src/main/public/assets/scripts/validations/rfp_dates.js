@@ -148,6 +148,10 @@ const DateCheckResourceStart = () => {
     }
 }});
 
+function daysInYear(year) {
+   return ((year % 4 === 0 && year % 100 > 0) || year %400 == 0) ? 366 : 365;
+}
+
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
 
@@ -237,19 +241,74 @@ $('.resource_start_date').html('project cannot start after: 19 January 2024');
         }
       return false;
     }
-     let allDurationFieldValue = [];
-    const allDurationField = $('.rfp_duration');
-    for (let i = 0; i < allDurationField.length; i++) {
-       if(allDurationField[i].value !=='' && allDurationField[i].value !==null)
-           
-             allDurationFieldValue.push(true);
-        }
-
-        if(allDurationFieldValue.length !=0 && allDurationFieldValue.length != allDurationField.length)
-        {
-         isValid = false; 
-        }
- 
     if(isValid)
-    document.forms['rfp_date'].submit();
+    {
+      isValid = isProjectExtensionValid();
+    }
+
+    if(isValid)
+   document.forms['rfp_date'].submit();
 });
+
+function isProjectExtensionValid()
+{
+       let isValid = false;
+       const durationYear = document.getElementsByClassName('rfp_duration_year_25');
+       const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
+       const durationDay = document.getElementsByClassName('rfp_duration_day_25');
+       const durationDayError = document.getElementsByClassName('p_durations_pday_25');
+
+       
+        const YearProjectRun = durationYear[0].value;
+        const MonthProjectRun = durationMonth[0].value;
+        const DaysProjectRun = durationDay[0].value;
+
+        const YearExtensionPeriod = durationYear[1].value;
+        const MonthExtensionPeriod = durationMonth[1].value;
+        const DaysExtensionPeriod = durationDay[1].value;
+
+        if(YearProjectRun !== null && MonthProjectRun !== null && DaysProjectRun !== null && YearProjectRun !== "" && MonthProjectRun !== "" && DaysProjectRun !== "" && YearExtensionPeriod !== null && MonthExtensionPeriod !== null && DaysExtensionPeriod !== null && YearExtensionPeriod !== "" && MonthExtensionPeriod !== "" && DaysExtensionPeriod !== "")
+        {
+         const totalDayInYear = daysInYear(Number(YearProjectRun));
+         const ProjectRunDate = new Date(YearProjectRun,MonthProjectRun,DaysProjectRun);
+         const ExtensionPeriodDate = new Date(YearExtensionPeriod,MonthExtensionPeriod,DaysExtensionPeriod);
+         if(ExtensionPeriodDate > ProjectRunDate)
+         {
+            const diffTime = Math.abs(ExtensionPeriodDate - ProjectRunDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+             if((((totalDayInYear*25)/100) <= diffDays))
+            {
+             isValid = false;
+           $(`.${durationDayError[1].classList[2]}`).html('This should not exceed 25% of the length of the original project');
+            }  
+           else {
+             isValid = true;            
+             $(`.${durationDayError[1].classList[2]}`).html('');
+            }
+         }
+         else 
+         {
+            isValid = false;
+            $(`.${durationDayError[1].classList[2]}`).html('Extension period should not be less than project run date'); 
+         }
+        }
+        else {
+
+         let allDurationFieldValue = [];
+         const allDurationField = $('.rfp_duration');
+         for (let i = 0; i < allDurationField.length; i++) {
+            if(allDurationField[i].value !=='' && allDurationField[i].value !==null)
+                  allDurationFieldValue.push(true);
+             }
+     if(allDurationFieldValue.length ==0 || allDurationFieldValue.length == allDurationField.length)
+     {
+      isValid = true; 
+     }
+     else 
+     {
+      isValid = false;
+      $(`.${durationDayError[1].classList[2]}`).html('Please enter the valid date in all fields'); 
+     }
+   }
+        return isValid;
+}
