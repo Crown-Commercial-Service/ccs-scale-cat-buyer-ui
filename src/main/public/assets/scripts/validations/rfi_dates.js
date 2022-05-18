@@ -26,52 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
           value.removeClass("govuk-input--error");
           ccsZremoveErrorMessage(document.getElementById(parentID));
         }
-
-      }
-
-    });
-
-    month.on('blur', () => {
-      let value = month;
-      let parentID = getParentId(element);
-      let matchValue = !value.val().match(/^\d\d?$/);
-      let endmonthCheck = Number(value.val()) > 12;
-      let startmonthCheck = Number(value.val()) <= 0;
-      if (matchValue || endmonthCheck || startmonthCheck || value == '') {
-        value.addClass("govuk-input--error")
-        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid month");
-      } else {
-        if (year.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
-          value.addClass("govuk-input--error")
-          ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
-        }
-        else {
-          value.removeClass("govuk-input--error");
-          ccsZremoveErrorMessage(document.getElementById(parentID));
-        }
-      }
-
-    });
-
-    year.on('blur', () => {
-      let value = year;
-      let parentID = getParentId(element);
-      let matchValue = !value.val().match(/^\d{4}$/);
-      let endyearCheck = Number(value.val()) > 2121;
-      let currentYear = new Date().getFullYear();
-      let startyearCheck = Number(value.val()) < currentYear;
-      if (matchValue || endyearCheck || startyearCheck || value == '') {
-        value.addClass("govuk-input--error")
-        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
-      } else {
-        if (month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
-          value.addClass("govuk-input--error")
-          ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
-        }
-        else {
-          value.removeClass("govuk-input--error");
-          ccsZremoveErrorMessage(document.getElementById(parentID));
-        }
       }
     });
 
@@ -81,14 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
       let matchValue = !value.val().match(/^\d\d?$/);
       let endmonthCheck = Number(value.val()) > 12;
       let startmonthCheck = Number(value.val()) <= 0;
-      if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+      if (day.val() !== '' && month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
         value.addClass("govuk-input--error")
-        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hour");
-      } else {
-        value.removeClass("govuk-input--error");
-        ccsZremoveErrorMessage(document.getElementById(parentID));
+        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
       }
-
+      else {
+        if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+          value.addClass("govuk-input--error")
+          ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hour");
+        } else {
+          value.removeClass("govuk-input--error");
+          ccsZremoveErrorMessage(document.getElementById(parentID));
+        }
+      }
     });
 
     minutes.on('blur', () => {
@@ -97,47 +56,130 @@ document.addEventListener('DOMContentLoaded', () => {
       let matchValue = !value.val().match(/^\d\d?$/);
       let endmonthCheck = Number(value.val()) > 59;
       let startmonthCheck = Number(value.val()) < 0;
-      if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+      if (day.val() !== '' && month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
         value.addClass("govuk-input--error")
-        ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
-      } else {
-        value.removeClass("govuk-input--error");
-        ccsZremoveErrorMessage(document.getElementById(parentID));
+        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
       }
-
+      else {
+        if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+          value.addClass("govuk-input--error")
+          ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
+        } else {
+          value.removeClass("govuk-input--error");
+          ccsZremoveErrorMessage(document.getElementById(parentID));
+        }
+      }
     });
 
-    function getParentId(element) {
-      let parentID = '';
-      if (document.getElementById(`rfi_clarification_date_expanded_${element}`) !== null) {
-        parentID = `rfi_clarification_date_expanded_${element}`;
-      }
-      else if (document.getElementById(`rfp_clarification_date_expanded_${element}`) !== null) {
-        parentID = `rfp_clarification_date_expanded_${element}`;
-      }
-      else if (document.getElementById(`eoi_clarification_date_expanded_${element}`) !== null) {
-        parentID = `eoi_clarification_date_expanded_${element}`;
-      }
-      return parentID;
-    }
+  }
 
-    function isValidDate(year, month, day) {
-      month = month - 1;
-      var d = new Date(year, month, day);
-      if (d.getFullYear() == year && d.getMonth() == month && d.getDate() == day) {
-        return true;
-      }
-      return false;
+});
+
+month.on('blur', () => {
+  let value = month;
+  let parentID = getParentId(element);
+  let matchValue = !value.val().match(/^\d\d?$/);
+  let endmonthCheck = Number(value.val()) > 12;
+  let startmonthCheck = Number(value.val()) <= 0;
+  if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+    value.addClass("govuk-input--error")
+    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid month");
+  } else {
+    if (year.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
+      value.addClass("govuk-input--error")
+      ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+    }
+    else {
+      value.removeClass("govuk-input--error");
+      ccsZremoveErrorMessage(document.getElementById(parentID));
+    }
+  }
+
+});
+
+year.on('blur', () => {
+  let value = year;
+  let parentID = getParentId(element);
+  let matchValue = !value.val().match(/^\d{4}$/);
+  let endyearCheck = Number(value.val()) > 2121;
+  let currentYear = new Date().getFullYear();
+  let startyearCheck = Number(value.val()) < currentYear;
+  if (matchValue || endyearCheck || startyearCheck || value == '') {
+    value.addClass("govuk-input--error")
+    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
+  } else {
+    if (month.val() !== '' && day.val() !== '' && !isValidDate(year.val(), month.val(), day.val())) {
+      value.addClass("govuk-input--error")
+      ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+    }
+    else {
+      value.removeClass("govuk-input--error");
+      ccsZremoveErrorMessage(document.getElementById(parentID));
     }
   }
 });
 
+hour.on('blur', () => {
+  let value = hour;
+  let parentID = getParentId(element);
+  let matchValue = !value.val().match(/^\d\d?$/);
+  let endmonthCheck = Number(value.val()) > 12;
+  let startmonthCheck = Number(value.val()) <= 0;
+  if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+    value.addClass("govuk-input--error")
+    ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hour");
+  } else {
+    value.removeClass("govuk-input--error");
+    ccsZremoveErrorMessage(document.getElementById(parentID));
+  }
+
+});
+
+minutes.on('blur', () => {
+  let value = minutes;
+  let parentID = getParentId(element);
+  let matchValue = !value.val().match(/^\d\d?$/);
+  let endmonthCheck = Number(value.val()) > 59;
+  let startmonthCheck = Number(value.val()) < 0;
+  if (matchValue || endmonthCheck || startmonthCheck || value == '') {
+    value.addClass("govuk-input--error")
+    ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
+  } else {
+    value.removeClass("govuk-input--error");
+    ccsZremoveErrorMessage(document.getElementById(parentID));
+  }
+
+});
+
+function getParentId(element) {
+  let parentID = '';
+  if (document.getElementById(`rfi_clarification_date_expanded_${element}`) !== null) {
+    parentID = `rfi_clarification_date_expanded_${element}`;
+  }
+  else if (document.getElementById(`rfp_clarification_date_expanded_${element}`) !== null) {
+    parentID = `rfp_clarification_date_expanded_${element}`;
+  }
+  else if (document.getElementById(`eoi_clarification_date_expanded_${element}`) !== null) {
+    parentID = `eoi_clarification_date_expanded_${element}`;
+  }
+  return parentID;
+}
+
+function isValidDate(year, month, day) {
+  month = month - 1;
+  var d = new Date(year, month, day);
+  if (d.getFullYear() == year && d.getMonth() == month && d.getDate() == day) {
+    return true;
+  }
+  return false;
+}
+
 $('.save-button').on('click', (e) => {
-  let publication_date = document.getElementsByClassName("clarification_1") != undefined && document.getElementsByClassName("clarification_1") != null && document.getElementsByClassName("clarification_1").length>0 ? new Date(document.getElementsByClassName("clarification_1")[0].innerText) : null;
-  let clarification_date = document.getElementsByClassName("clarification_2") != undefined && document.getElementsByClassName("clarification_2") != null && document.getElementsByClassName("clarification_2").length >0 ? new Date(document.getElementsByClassName("clarification_2")[0].innerText) : null;
-  let deadline_publish_date = document.getElementsByClassName("clarification_3") != undefined && document.getElementsByClassName("clarification_3") != null && document.getElementsByClassName("clarification_3").length >0 ? new Date(document.getElementsByClassName("clarification_3")[0].innerText) : null;
-  let deadline_supplier_date = document.getElementsByClassName("clarification_4") != undefined && document.getElementsByClassName("clarification_4") != null && document.getElementsByClassName("clarification_4").length >0 ? new Date(document.getElementsByClassName("clarification_4")[0].innerText) : null;
-  let confirm_nextsteps_date = document.getElementsByClassName("clarification_5") != undefined && document.getElementsByClassName("clarification_5") != null && document.getElementsByClassName("clarification_5").length >0 ? new Date(document.getElementsByClassName("clarification_5")[0].innerText) : null;
+  let publication_date = document.getElementsByClassName("clarification_1") != undefined && document.getElementsByClassName("clarification_1") != null && document.getElementsByClassName("clarification_1").length > 0 ? new Date(document.getElementsByClassName("clarification_1")[0].innerText) : null;
+  let clarification_date = document.getElementsByClassName("clarification_2") != undefined && document.getElementsByClassName("clarification_2") != null && document.getElementsByClassName("clarification_2").length > 0 ? new Date(document.getElementsByClassName("clarification_2")[0].innerText) : null;
+  let deadline_publish_date = document.getElementsByClassName("clarification_3") != undefined && document.getElementsByClassName("clarification_3") != null && document.getElementsByClassName("clarification_3").length > 0 ? new Date(document.getElementsByClassName("clarification_3")[0].innerText) : null;
+  let deadline_supplier_date = document.getElementsByClassName("clarification_4") != undefined && document.getElementsByClassName("clarification_4") != null && document.getElementsByClassName("clarification_4").length > 0 ? new Date(document.getElementsByClassName("clarification_4")[0].innerText) : null;
+  let confirm_nextsteps_date = document.getElementsByClassName("clarification_5") != undefined && document.getElementsByClassName("clarification_5") != null && document.getElementsByClassName("clarification_5").length > 0 ? new Date(document.getElementsByClassName("clarification_5")[0].innerText) : null;
 
   let isError = false;
 
@@ -192,10 +234,33 @@ $('.save-button').on('click', (e) => {
 
     ccsZPresentErrorSummary(errorStore);
   }
-  else if(document.forms['ccs_eoi_response_date_form'] !=undefined && document.forms['ccs_eoi_response_date_form'] !=null && document.forms['ccs_eoi_response_date_form'].length >0){
+  else if (document.forms['ccs_eoi_response_date_form'] != undefined && document.forms['ccs_eoi_response_date_form'] != null && document.forms['ccs_eoi_response_date_form'].length > 0) {
     document.forms['ccs_eoi_response_date_form'].submit();
   }
 })
+
+
+const ccsZvalidateDate = (event) => {
+  event.preventDefault();
+  let selectors = [1, 2, 3, 4, 5];
+  let flag = false;
+  let errorstore = [];
+  for (let element of selectors) {
+    var e = document.getElementById("rfi_clarification_date_expanded_" + element + "-error");
+    if (e != null) {
+      flag = true;
+      break;
+    }
+  }
+  if (flag) {
+    errorstore.push("Enter a valid date");
+    ccsZPresentErrorSummary(errorstore);
+  }
+  else {
+    document.forms['ccs_rfi_response_date_form'].submit()
+  }
+};
+
 
 
 
