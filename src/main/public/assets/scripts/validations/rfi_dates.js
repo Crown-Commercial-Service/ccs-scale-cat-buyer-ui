@@ -85,6 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 12;
      let startmonthCheck = Number(value.val()) <= 0;
+     if (day.val() !=='' && month.val() !== '' && day.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
+        {
+          value.addClass("govuk-input--error")
+          ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+        }
+        else
+        {
      if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hour");
@@ -92,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
       value.removeClass("govuk-input--error");
        ccsZremoveErrorMessage(document.getElementById(parentID));
      }
- 
+    }
    });
  
    minutes.on('blur', ()=>{
@@ -101,6 +108,13 @@ document.addEventListener('DOMContentLoaded', () => {
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 59;
      let startmonthCheck = Number(value.val()) < 0;
+     if (day.val() !=='' && month.val() !== '' && day.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
+        {
+          value.addClass("govuk-input--error")
+          ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+        }
+        else
+        {
      if (matchValue || endmonthCheck || startmonthCheck || value == '' ) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
@@ -108,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
       value.removeClass("govuk-input--error");
        ccsZremoveErrorMessage(document.getElementById(parentID));
      }
- 
+    }
    });
 
    function getParentId(element)
@@ -205,6 +219,32 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 })
  
+
+const ccsZvalidateDate = (event) => {
+  event.preventDefault();
+  debugger;
+  let selectors = [1,2,3,4,5];
+  let flag=false;
+  let errorstore=[];
+  for(let element of selectors){
+    var e=document.getElementById("rfi_clarification_date_expanded_"+element+"-error");
+    if(e!=null)
+    {
+      flag=true;
+      break;
+    }
+  }
+  if(flag)
+  {
+    errorstore.push("Enter a valid date");
+    ccsZPresentErrorSummary(errorstore);
+  }
+  else
+  {
+    document.forms['ccs_rfi_response_date_form'].submit()
+  }
+};
+
  
  
  

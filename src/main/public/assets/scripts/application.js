@@ -170,6 +170,9 @@ if (document.getElementById('ccs_rfi_docs_form') !== null)
 
 //if (document.getElementById("ccs_rfi_response_date_form") !== null) document.getElementById("ccs_rfi_response_date_form").addEventListener('submit', ccsZvalidateRfiResponseDate);
 
+if (document.getElementById('ccs_rfi_response_date_form') !== null)
+  document.getElementById('ccs_rfi_response_date_form').addEventListener('submit', ccsZvalidateDate);
+
 if (document.getElementById('ccs_rfi_questions_form') !== null)
   document.getElementById('ccs_rfi_questions_form').addEventListener('submit', ccsZvalidateRfIQuestions);
 
