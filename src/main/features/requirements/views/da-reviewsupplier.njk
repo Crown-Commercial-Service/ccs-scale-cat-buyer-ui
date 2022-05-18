@@ -1,0 +1,108 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+{#{% from "components/dialog/macro.njk" import CCSDialog %}#}
+
+{% set title = 'Review Supplier | Crown Commercial Service' %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{#{{ CCSDialog({
+  title:'This action will close your current event and project, without the option to re-open',
+  description:'This action cannot be undone',
+  redirect:'#',
+  type:'nextsteps'
+}) }}#}
+
+
+
+{% if(error) %}
+            {{ CCSErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+                {
+                text: "Select an option"
+                }
+            ]
+            }) }}
+{% endif %}
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">
+            <strong>{{data.title}}</strong>
+
+          </h1>
+         
+      </div>  
+
+  </div>
+    <br>
+
+   <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+    {% include "includes/project_header.njk" %}
+                <br><br><br>
+        <p>{{data.subtitle}}</p>
+        <p class="govuk-body">If you'd like to look at the details for each supplier please visit the <a target="_blank" rel="noopener noreferrer" href="#"><strong>Search suppliers</strong></a> page on the main CCS website. The page will open on a new tab.</p>
+        <br><br><br>
+        <table class="govuk-table">
+  
+  
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+    
+      <th scope="col" class="govuk-table__header"></th>
+    
+      <th scope="col" class="govuk-table__header"></th>
+    
+    </tr>
+  </thead>
+  
+  <tbody class="govuk-table__body">
+    
+      
+        <tr class="govuk-table__row">
+        
+          
+          
+          <th scope="row" class="govuk-table__header"><h3>Rank 1</h3><p>{{capacity_score}} [ Capacity score ]</p><p>{{vetting_score}} [ Vetting score ]</p><p>{{capability_score}} [ Capability score ]</p><p>{{scalability_score}} [ Scalability score ]</p><p>{{location_score}} [ Location  score ]</p></th>
+          
+        
+          
+          
+          <td class="govuk-table__cell"><h3>{{supplier_company_name}}</h3><p>{{supplier_trading_name}}</p><br><br><p><a href="#">Download supplier company price information</a></p></td>
+          
+        
+        </tr>
+      
+    
+  </tbody>
+</table>
+<form id="ccs_da_reviewsupplier" name="ccs_da_reviewsupplier" class="form ccs_ca_next_steps" action="/da/reviewsupplier" method="POST">
+                    <div class="govuk-button-group">
+                    {{ CCSButton({
+                            text: "Continue"
+                            }) }}
+                    
+                    <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                    </div>
+</form>                
+
+    </div>
+    <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+  </div>
+
+
+  </main>
+{% endblock %}
+

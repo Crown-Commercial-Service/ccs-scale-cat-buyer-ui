@@ -207,4 +207,7 @@ export enum REQUIREMENT_PATHS {
   GET_RFP_REVIEW='/rfp/review',
   POST_RFP_REVIEW='/rfp/review',
 
+  GET_DA_REVIEW_SUPPLIER='/da/reviewsupplier',
+  POST_DA_REVIEW_SUPPLIER='/da/reviewsupplier',
+
 }
