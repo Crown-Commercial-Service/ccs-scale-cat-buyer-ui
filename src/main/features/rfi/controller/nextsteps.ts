@@ -63,7 +63,7 @@ export const RFI_POST_NEXT_STEPS = async (req: express.Request, res: express.Res
         switch (rfi_next_steps) {
           case 'I want to close this event, and move to the next stage of the project':
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
-            // res.redirect();//scat-5012
+            res.redirect('/steps-to-continue');//scat-5012
             break;
   
           case 'I also want to close the whole project':
