@@ -11,7 +11,7 @@
   ],
   "PORT": "3000",
   "Session": {
-    "time": "15"
+    "time": "60"
   },
   "settings": {
     "fetch-timelimit": "1500"
