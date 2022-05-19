@@ -38,7 +38,7 @@
           {{ csrfProtection(csrf) }}
           {% for form in data.form %}
             <fieldset id={{form.id}}>
-              <p class="govuk-body">{{ form.question }}</p>
+              <p class="govuk-body"><strong>{{ form.question }}</strong></p>
               {% set formOptions = form.radioOptions.items %}
 
               {% set form_Options_Altered = [] %}

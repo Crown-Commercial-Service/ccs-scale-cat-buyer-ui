@@ -24,7 +24,7 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
  */
 export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { agreement_id, proc_id, event_id, id, group_id } = req.query;
+  const { agreement_id, proc_id, event_id, id, group_id, section } = req.query;
 
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
@@ -45,14 +45,18 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
-    const bcTitleText = OCDS?.description;
-    const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
+    //const bcTitleText = OCDS?.description;
+    //const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
+    const newOCDSdescription =changeTitle(OCDS?.description) 
+    const bcTitleText = newOCDSdescription;
+    const titleText = nonOCDS.mandatory === false ? newOCDSdescription + ' (Optional)' : newOCDSdescription;
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
     const promptSplit = promptData?.split(splitOn);
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
+      aSelector.nonOCDS.type=titleText;
       const questionNonOCDS = {
         groupId: group_id,
         questionId: aSelector.OCDS.id,
@@ -87,7 +91,11 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         return 'rfp_date';
       } else if (aSelector.nonOCDS.questionType === 'Percentage') {
         return 'rfp_percentage_form';
-      } else {
+      }
+      else if (aSelector.nonOCDS.questionType === 'Table' || 'Integer') {
+        return 'ccs_rfp_scoring_criteria';
+      }
+      else {
         return '';
       }
     });
@@ -134,7 +142,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
-      data: POSITIONEDELEMENTS,
+      data: group_id === 'Group 8' && id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
@@ -142,7 +150,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       event_id: event_id,
       group_id: group_id,
       criterian_id: id,
-      form_name: formNameValue,
+      form_name:bcTitleText !="The people who will use your product or service"? formNameValue:"service_user_type_form",
       rfpTitle: titleText,
       shortTitle: mapTitle(group_id),
       bcTitleText,
@@ -151,10 +159,14 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,
       releatedContent: releatedContent,
+      section: section
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
       data.data[0].nonOCDS.options = req.session['errorFields'];
+    }
+    if (bcTitleText==='Define your service levels and KPIs') {
+      data.form_name='service_levels_kpi_form';
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
@@ -191,11 +203,16 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 // path = '/rfp/questionnaire'
 export const RFP_POST_QUESTION = async (req: express.Request, res: express.Response) => {
   try {
-    const { proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
+    const { proc_id, event_id, id, group_id, stop_page_navigate, section } = req.query;
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
+    if (section != undefined && section === '5') {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
+    } else {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
+    }
+
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -225,7 +242,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     });
     question_ids = question_idsFilrtedList;
     if (operations.equals(started_progress_check, false)) {
-      if (rfp_build_started === 'true' && nonOCDS.length > 0) {
+      if (rfp_build_started === 'true' && nonOCDS !== null && nonOCDS.length > 0) {
         let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfp_build_started');
         remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
           remove_objectWithKeyIdentifier,
@@ -270,21 +287,33 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 validationError = true;
               }
 
-              let { term, value } = req.body;
+              let { term, value, } = req.body;
               const TAStorage = [];
               term = term?.filter((akeyTerm: any) => akeyTerm !== '');
               value = value?.filter((aKeyValue: any) => aKeyValue !== '');
-
-              for (let item = 0; item < term.length; item++) {
-                const termObject = { value: term[item], text: value[item], selected: true };
-                TAStorage.push(termObject);
+              //Balwinder
+              if (section != undefined && section != null && section === '5' && value == undefined) {
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    options: [{ value: term[i],selected: true }],
+                  },
+                };
+              } else {
+                if (term != undefined && term != null && value != undefined && value != null) {
+                  for (let item = 0; item < term.length; item++) {
+                    const termObject = { value: term[item], text: value[item], selected: true };
+                    TAStorage.push(termObject);
+                  }
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      options: [...TAStorage],
+                    },
+                  };
+                }
               }
-              answerValueBody = {
-                nonOCDS: {
-                  answered: true,
-                  options: [...TAStorage],
-                },
-              };
+
             } else if (questionNonOCDS.questionType === 'MultiSelect') {
               let selectedOptionToggle = [...object_values].map((anObject: any) => {
                 const check = Array.isArray(anObject?.value);
@@ -310,12 +339,12 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 req.session['isLocationMandatoryError'] = true;
                 break;
               } else if (
-                selectedOptionToggle[0].find(
+                selectedOptionToggle[1].find(
                   x =>
                     x.value === 'No specific location, for example they can work remotely' ||
                     x.value === 'Not Applicable',
                 ) &&
-                selectedOptionToggle[0].length > 1
+                selectedOptionToggle[1].length > 1
               ) {
                 validationError = true;
                 req.session['isLocationError'] = true;
@@ -324,7 +353,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [...selectedOptionToggle[0]],
+                    options: [...selectedOptionToggle[1]],
                   },
                 };
               }
@@ -391,16 +420,25 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             }
             else if (questionNonOCDS.questionType === 'Percentage') {
               const dataList = req.body[question_ids[i]];
+              const { percentage } = req.body;
               if (dataList != undefined) {
-                var optins=dataList?.filter(val => val !== '')
-                .map(val => {
-                  return { value: val, selected: true };
-                });
+                var optins = dataList?.filter(val => val !== '')
+                  .map(val => {
+                    return { value: val, selected: true };
+                  });
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    multiAnswer:true,
+                    multiAnswer: true,
                     options: optins
+                  }
+                };
+              } else if (percentage != undefined && percentage != null) {
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
+                    options: [{ value: percentage[i], selected: true }]
                   }
                 };
               }
@@ -410,6 +448,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
+                  multiAnswer: questionNonOCDS.multiAnswer,
                   options: req.body[question_ids[i]]
                     .filter(val => val !== '')
                     .map(val => {
@@ -426,6 +465,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
+                  multiAnswer: questionNonOCDS.multiAnswer,
                   options: [{ value: req.body["ccs_vetting_type"]?.trim(), selected: true }],
                 },
               };
@@ -444,6 +484,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
+                  multiAnswer: questionNonOCDS.multiAnswer,
                   options: [...TAStorage],
                 },
               };
@@ -463,6 +504,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
                     options: [{ value: object_values[1].value[i], selected: true }],
                   },
                 };
@@ -470,6 +512,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
                     options: [...object_values],
                   },
                 };
@@ -478,7 +521,17 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             if (!validationError) {
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-                await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                const {_csrf}=req.body;
+                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 ) {
+                 var options= answerValueBody?.nonOCDS?.options.filter(x=>{
+                   if (x.value !=_csrf && x.value  !=undefined) {
+                     return x;
+                   }
+                 });
+                 answerValueBody.nonOCDS.options=options;
+                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                }
+
               } catch (error) {
                 LoggTracer.errorTracer(error, res);
               }
@@ -633,3 +686,67 @@ const mapTitle = groupId => {
   }
   return title;
 };
+
+
+function changeTitle(title)
+  {
+    let text = '';
+    switch(title)
+    {
+      case 'Learn about adding context and requirements':
+        text='Learn more about adding context and requirements';
+        break;
+      case 'Terms and acronyms':
+        text='Terms and acronyms';
+        break;
+      case 'Background and context to your requirement':
+        text='Background to your procurement';
+        break;
+      case 'Problem to solve/impact of not completing deliverables and outcome':
+        text='The business problem you need to solve';
+        break;
+      case 'Key Users':
+        text='The people who will use your product or service';
+        break;
+      case 'Work Completed to date':
+        text='Work done so far';
+        break;
+      case 'Current phase of the project':
+        text='Which phase the project is currently in';
+        break;
+      case 'Phase resource is required for':
+        text='Which phase(s) of the project you need resource for';
+        break;
+      case 'Duration of work/resource required for':
+        text='The expected duration of the project';
+        break;
+      case 'The buying organisation':
+        text='Who the buying organisation is';
+        break;
+      case 'Market engagement to date':
+        text='Describe any market engagement you\'ve done';
+        break;
+      case 'New, replacement or expanded services or products':
+        text='Choose if this a new, replacement or expanded service or product';
+        break;
+      case 'Is there an incumbent supplier?':
+        text='Tell us if there is an existing supplier';
+        break;
+      case 'Management information and reporting':
+        text='Management information and reporting requirements';
+        break;
+      case 'Service levels and performance':
+        text='Define your service levels and KPIs';
+        break;
+      case 'Incentives and exit strategy':
+        text='Detail any performance incentives and exit strategies';
+        break;
+      case 'How the supplier is going to deliver within the budget constraints':
+        text='Contract values and how suppliers will meet the project needs within this budget';
+        break;
+      case 'Add your requirements':
+        text='Enter your project requirements';
+        break;
+    }
+    return text;
+  }

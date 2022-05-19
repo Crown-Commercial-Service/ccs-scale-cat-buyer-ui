@@ -2,9 +2,9 @@
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% set title = 'Provide information online | Contract Award Service' %}
-{% set url -%}
+{# {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
-{%- endset %}
+{%- endset %} #}
 {% block breadCrumb %}
     {{ CCSBreadcrumbs({
         items: file_data.breadCrumbs
@@ -34,7 +34,7 @@
                         </span>
                         {% set hreflink = items.OCDS.description | replace(" ", "_") %}
                         {% set criterion_id = items.id | replace(" ", "_") %}
-                        <a class="app-task-list__tag" href="/rfp/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}" aria-describedby="rfp-questions">{{items.nonOCDS.task}}</a>
+                        <a class="app-task-list__tag" href="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">{{items.nonOCDS.task}}</a>
                     </li>
 
                 {% endfor %}

@@ -63,16 +63,17 @@
    <div class="govuk-inset-text">
         <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
       </div>
-      <p class="govuk-body">{{data.caption}}</p>
+      <p class="govuk-body">{{data.caption}} <br/>If you don't want to change the name of your project you can <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">return to do pre-market engagement</a></p>
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfi/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}
         {{ CCSInput({           
             id: data.form.input.id,
             name: data.form.input.name,
-            value: projectLongName
+            value: projectLongName,
+            maxlength:"500"
             })
         }}
-
+        <p><label id="rfi_label_name_project"></label></p>
           <div class="govuk-button-group">
             {{ CCSButton({
                 text: "Save and continue",

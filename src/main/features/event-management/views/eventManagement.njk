@@ -43,7 +43,11 @@
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
           </h2>
           <p class="govuk-body">
+            {% if(showCloseProject) %}
+            <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
+            {% else %}
             <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
+            {% endif %}
           </p>
         </div>
       </div>
@@ -62,7 +66,7 @@
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">
             {{data.subsection3_title2}}</h2>
-          <p class="govuk-body">There are X clarifications in the Q&A </p>
+          <p class="govuk-body">There are {{ QAs.length }} clarifications in the Q&A </p>
           <p class="govuk-body">
             <a class="govuk-link" href="{{ data.subsection3_linkURL2 }}">{{ data.subsection3_linkText2 }}</a>
           </p>
@@ -163,11 +167,19 @@
         </div>
       </div>
     </div>
-    {% if status != 'Response period closed' %}
-      <div class="govuk-inset-text">
-        <h4 class="govuk-heading-s">Next Steps on the procurement</h4>
-        <p class="govuk-body">You can now <a class="govuk-link" href="/event/next">choose your next steps</a> to continue in this procurement.</p>
+    {% if status === 'complete' %}
+
+      <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">[5. Next Steps]</span>         
+          <p class="app-task-list__tag">
+            <a class="govuk-link" href="/projects/create-or-choose">Complete Rfi and start procurement</a>
+          </p>
+        </h2>
+        <p class="govuk-body">[Description for this section]</p>
       </div>
+    </div>
     {% endif %}
   </main>
 {% endblock %}

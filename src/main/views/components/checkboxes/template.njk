@@ -75,6 +75,16 @@
             {%- if item.behaviour %} data-behaviour="{{ item.behaviour }}"{% endif -%}
             {%- if itemDescribedBy %} aria-describedby="{{ itemDescribedBy }}"{% endif -%}
             {%- for attribute, value in item.attributes %} {{ attribute }}="{{ value }}"{% endfor -%}>
+            {% if params.bold=='true' %}
+            {{ CCSLabel({
+              html: item.html,
+              text: item.text,
+              bold:'true',
+              classes: 'govuk-checkboxes__label' + (' ' + item.label.classes if item.label.classes),
+              attributes: item.label.attributes,
+              for: id
+            }) | indent(6) | trim }}
+            {% else %}
             {{ CCSLabel({
               html: item.html,
               text: item.text,
@@ -82,6 +92,8 @@
               attributes: item.label.attributes,
               for: id
             }) | indent(6) | trim }}
+            {% endif %}
+            
             {% if hasHint %}
             {{ CCSHint({
               id: itemHintId,

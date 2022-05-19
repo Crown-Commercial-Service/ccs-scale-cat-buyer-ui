@@ -13,9 +13,9 @@
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
   <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">
-          {{data.title }}
-        </h1>
+        <h2 class="govuk-heading-xl">
+          <strong>{{data.title }}</strong>
+        </h2>
       </div>
     </div>
     {% if(error)%}
@@ -37,10 +37,10 @@
 
         {{prompt | safe}}
        
-        <div class="govuk-form-group ccs-page-section">
-            <p class="govuk-body"><strong>Timeline for your RfI</strong></p> <br>
-        </div>
-
+        
+            <h2><strong>Timeline for your RfI</strong></h2>
+        
+            <p class="border-header"> </p>
         
          {% block valuewitNoMultiSelect %}
          {% for requirement in framework%}

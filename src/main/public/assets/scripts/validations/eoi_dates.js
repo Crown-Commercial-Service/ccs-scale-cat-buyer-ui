@@ -1,3 +1,4 @@
+// const { isNull } = require("util");
 
 const DaySelector = $('#eoi_resource_start_date-day');
 const MonthSelector = $('#eoi_resource_start_date-month');
@@ -9,9 +10,9 @@ if ($('.agreement_no').attr('id')) {
 }
 
 
-const expiryYears = Number(agreementData[0]);
-const expiryMonth = Number(agreementData[1]);
-const expiryDate = Number(agreementData[2])
+const expiryYears =agreementData?.length >0 ? Number(agreementData[0]):null;
+const expiryMonth =agreementData?.length >0 ? Number(agreementData[1]):null;
+const expiryDate =agreementData?.length >0 ? Number(agreementData[2]):null;
 
 
 const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);

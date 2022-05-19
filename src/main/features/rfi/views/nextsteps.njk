@@ -1,0 +1,162 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+{#{% from "components/dialog/macro.njk" import CCSDialog %}#}
+
+{% set title = 'RFI Next Steps | Crown Commercial Service' %}
+
+{#{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+
+{% endblock %}#}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+            "text": "Dashboard",
+            "href": "/dashboard"
+          },
+          {
+            "text": "Event Management",
+            "href": "/event/management?id="+eventId
+          },
+          {
+            "text": "Close/archive"
+          }
+        ]
+    }) }}
+{% endblock %}
+
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{#{{ CCSDialog({
+  title:'This action will close your current event and project, without the option to re-open',
+  description:'This action cannot be undone',
+  redirect:'#',
+  type:'nextsteps'
+}) }}#}
+
+
+
+{% if(error) %}
+            {{ CCSErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+                {
+                text: "Select an option"
+                }
+            ]
+            }) }}
+{% endif %}
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">
+            <strong>{{data.title}}</strong>
+
+          </h1>
+         
+      </div>  
+
+  </div>
+    <br>
+
+   <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+    {% include "includes/project_header.njk" %}
+                
+        <p>{{data.subtitle}}</p>
+        <br><br><br>
+        <div class="backdrop-nextsteps">
+  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
+    <div class="pop_logo govuk-grid-column-full">
+      <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
+      <p class="pop_logo_image govuk-grid-column-one-half" <a="" href="#">
+        <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
+      
+      </p>
+      <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-nextsteps govuk-!-padding-top-6">
+      <a href="#" class="dialog-close-nextsteps nav-list__link_secondary">X</a></p>
+    </div>
+    <div class="govuk-grid-column-full">
+      <h1 id="dialog-title">This action will close your current event and project, without the option to re-open<p></p>
+      <p id="dialog-description">This action cannot be undone</p>
+      <div class="govuk-button-group">
+        <button id="redirect-button-nextsteps" class="button dialog-button govuk-button" name="Next Step">Continue</button>
+        <a href="#" class="dialog-close-nextsteps govuk-link govuk-link--no-visited-state">Cancel</a>
+      </div>
+    </h1></div>
+  </div>
+</div>
+      <form id="ccs_rfi_next_steps" name="ccs_rfi_next_steps" class="form ccs_ca_next_steps" action="/rfi/nextsteps" method="POST">
+                {{ csrfProtection(csrf) }} 
+                    {% for form in data.form %}
+                        <fieldset id="{{form.id}}">
+                            <h2 class="govuk-heading-m">{{ form.question }}</h2>
+                            <br><br><br><br><br><br><br><br><br>
+                            {% set formOptions = form.radioOptions.items %}
+                            {% set form_Options_Altered = [] %}
+
+                            {% for item in formOptions %}
+                                {% set form_Options_Altered = (form_Options_Altered.push(
+                                {
+                                    value: item.value,
+                                    html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
+                                    hint : {
+                                        text: item.hint.text
+                                    }
+                                }), form_Options_Altered) 
+                                %}
+                            {% endfor %}
+                            {% if(error) %}
+
+                                {{ CCSRadios({
+                                    idPrefix: "rfi_next_steps",
+                                    name: form.id,
+                                    items: form_Options_Altered,
+                                    errorMessage: error,
+                                    errorMessage: {
+                                    text: 'Select an option'
+                                    }                  
+                                }) }}
+                            {% else %}
+
+                                {{ CCSRadios({
+                                        idPrefix: "rfi_next_steps",
+                                        name: form.id,
+                                        items: form_Options_Altered        
+                                }) }}
+                            {%endif %}
+
+                            {{ CCSInput({
+                                    id: "choose_fc_rfi_next_steps",
+                                    name: "choose_fc_rfi_next_steps",
+                                    type: "hidden",
+                                    value: true
+                            }) }}
+                        </fieldset>
+                    {% endfor %}
+                    <br><br><br><br><br><br><br><br><br>
+                    <div class="govuk-button-group">
+                    {{ CCSButton({
+                            text: "Save and continue"
+                            }) }}
+                    {% set returnLink = "/event/management?id="+eventId %}
+                    <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                    </div>
+                </form>
+
+    </div>
+    <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+  </div>
+
+
+  </main>
+{% endblock %}
+

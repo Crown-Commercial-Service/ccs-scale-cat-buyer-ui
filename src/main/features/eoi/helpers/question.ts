@@ -99,7 +99,17 @@ export class QuestionHelper {
                   if (selectedLocation) mandatoryNum += 1;
                 }
               }
+              
             }
+            if(questionType === 'KeyValuePair')
+              {
+                if(fetch_dynamic_api_data[1].nonOCDS?.options?.length>0){
+                for (let j = 0; j < fetch_dynamic_api_data[1].nonOCDS.options.length; j++) {
+                  selectedLocation = fetch_dynamic_api_data[1].nonOCDS.options[j]['selected'];
+                  if (selectedLocation) mandatoryNum += 1;
+                }
+              }
+              }
             mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
           }
         }

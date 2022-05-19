@@ -48,7 +48,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
     const bcTitleText = OCDS.description;
-    const titleText = nonOCDS.mandatory === false ? OCDS.description + ' (Optional)' : OCDS.description;
+    let titleText = nonOCDS.mandatory === false ? OCDS.description + ' (optional)' : OCDS.description;
     const promptData = nonOCDS.prompt;
     const nonOCDSList = [];
     const form_name = fetch_dynamic_api_data.map((aSelector: any) => {
@@ -77,6 +77,18 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
     const { isFieldError } = req.session;
+    if(fetch_dynamic_api_data[0].OCDS.id=='Question 5')
+    {
+      fetch_dynamic_api_data[0].OCDS.title="Terms and acronyms (optional)";
+    }
+    if(fetch_dynamic_api_data[0].OCDS.id=='Question 4')
+    {
+      fetch_dynamic_api_data[0].nonOCDS.options[0].text='For individuals who do not need to have a specific level of security clearance because your organisation has its own pre-employment checks.';
+    }
+    if(fetch_dynamic_api_data[0].OCDS.id=='Question 6')
+    {
+      titleText="Where staff will work";
+    }
     const data = {
       data: fetch_dynamic_api_data,
       agreement_id: agreement_id,
