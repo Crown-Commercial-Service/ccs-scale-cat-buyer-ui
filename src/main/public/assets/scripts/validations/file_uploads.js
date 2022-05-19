@@ -33,7 +33,7 @@ $(document).ready(function () {
     } 
     
 
-    uploadField.onchange = function () {
+    uploadField?.onchange = function () {
         const FileList = this.files;
         const totalFiles = FileList.length;
         let totalFileSum = 0;

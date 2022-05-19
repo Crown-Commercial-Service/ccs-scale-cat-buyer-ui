@@ -49,7 +49,7 @@ treat it as an interactive element - without this it will be
 </a>
 
 {%- elseif element == 'button' %}
-<button {%- if params.value %} value="{{ params.value }}"{% endif %}{%- if params.type %} type="{{ params.type }}"{% endif %} {{- buttonAttributes | safe }} {{- commonAttributes | safe }}>
+<button {%- if params.value %} value="{{ params.value }}"{% endif %}{%- if params.type %} type="{{ params.type }}"{% endif %} {{- buttonAttributes | safe }} {{- commonAttributes | safe }} {%- if params.id %} id="{{ params.id }}"{% endif %}>
   {{ params.html | safe if params.html else params.text }}
 {# Indentation is intentional to output HTML nicely #}
 {{- iconHtml | safe | trim | indent(2, true) if iconHtml -}}

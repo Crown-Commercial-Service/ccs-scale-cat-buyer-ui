@@ -33,7 +33,7 @@
         "href": "#"
     },
     "tabs": {
-        "text1": "Create Message",
+        "text1": "Write message",
         "href1": "/message/create",
         "text2": "Received",
         "href2": "/message/inbox",

@@ -66,7 +66,7 @@
 
 <div class="govuk-grid-row">
   <h1 class="govuk-heading-xl">
-    {{data.title}}
+   <strong> {{data.title}} </strong>
   </h1>
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
   <div class="govuk-grid-row">
@@ -100,7 +100,14 @@
         items: sortedMembers
         })
         }}
-        &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp;
+          {{ CCSButton({
+        text: "Add colleague",
+        attributes: {
+        id: "ccs_collab_add"
+        },
+        classes: "govuk-button--secondary"
+        }) }}
          {{ CCSButton({
         text: "Add",
          attributes: {
@@ -128,14 +135,6 @@
             type: "hidden",
             value: collaborator['email']
             }) }}
-
-        {{ CCSButton({
-        text: "Add colleague",
-        attributes: {
-        id: "ccs_collab_add"
-        },
-        classes: "govuk-button--secondary"
-        }) }}
 
       </div>
 

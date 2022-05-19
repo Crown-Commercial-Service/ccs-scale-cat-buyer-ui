@@ -65,6 +65,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     req.session['projectId'] = projectId
     req.session['eventId'] = eventId
     req.session['evetTitle'] = title
+    req.session['Projectname']=projectName
 
     // Releated content session values
     const releatedContent: ReleatedContent = new ReleatedContent();
@@ -97,12 +98,52 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       });
     }
 
-    if (status == "Published" || status == "Response period closed" ) {
+//Get Q&A Count
+    const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
+        const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
+
+if(status=="IN PROGRESS"||status=="In Progress")
+{
+  let redirectUrl: string
+  switch (eventType) {
+    case "RFI":
+      redirectUrl = '/rfi/rfi-tasklist'
+      break
+    case "EOI":
+      redirectUrl = '/eoi/eoi-tasklist'
+      break
+    case "TBD":
+      redirectUrl = '/projects/create-or-choose'
+      break
+    case "DA":
+      redirectUrl = '/da/task-list?path=B1' 
+      break
+    case "FC":
+      redirectUrl = '/rfp/task-list'
+     break
+    case "DAA":
+      redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+      break
+    case "FCA":
+      redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+      break
+    default:
+      redirectUrl = '/event/management'
+      break
+  }
+  res.redirect(redirectUrl)
+}
+   else {
       let redirectUrl_: string
       switch (eventType) {
        
         case "RFI":
-          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
+          let showCloseProject=false;
+          if(status == "Published" || status == "To be Evaluated")
+          {
+            showCloseProject=true;
+          }
+          const appendData = { data: eventManagementData, status, projectName, eventId, eventType,QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage ,showCloseProject}
           res.render('eventManagement', appendData)
           break
           case "FC":
@@ -114,37 +155,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             break
         }
        
-  } else {
-      let redirectUrl: string
-      switch (eventType) {
-        case "RFI":
-          redirectUrl = '/rfi/rfi-tasklist'
-          break
-        case "EOI":
-          redirectUrl = '/eoi/eoi-tasklist'
-          break
-        case "TBD":
-          redirectUrl = '/projects/create-or-choose'
-          break
-        case "DA":
-          redirectUrl = '/da/task-list?path=B1' 
-          break
-        case "FC":
-          redirectUrl = '/rfp/task-list'
-         break
-        case "DAA":
-          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
-          break
-        case "FCA":
-          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
-          break
-        default:
-          redirectUrl = '/event/management'
-          break
-      }
-      res.redirect(redirectUrl)
-    }
-
+  } 
   } catch (err) {
     LoggTracer.errorLogger(
       res,

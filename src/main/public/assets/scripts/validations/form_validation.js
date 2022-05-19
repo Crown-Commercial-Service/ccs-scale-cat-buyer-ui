@@ -14,6 +14,7 @@
  * Works with text, number and file inputs (make sure the
  * 'accepts' attribute is set for files).
  */
+ debugger;
 const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => {
   const element = document.getElementById(elementName);
 

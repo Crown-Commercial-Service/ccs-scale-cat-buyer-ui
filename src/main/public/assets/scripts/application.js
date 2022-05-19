@@ -95,6 +95,9 @@ if (document.getElementById('ccs_rfp_exit_strategy_form') !== null) {
 if (document.getElementById('ccs_rfi_project_name_form') !== null)
   document.getElementById('ccs_rfi_project_name_form').addEventListener('submit', ccsZvalidateRfiProjectName);
 
+if (document.getElementById('rfi_projLongName') !== null)
+  document.getElementById('rfi_projLongName').addEventListener('input', ccsZCountRfiProjectName);
+
 if (document.getElementById('ccs_eoi_project_name_form') !== null)
   document.getElementById('ccs_eoi_project_name_form').addEventListener('submit', ccsZvalidateEoiProjectName);
 
@@ -112,8 +115,8 @@ if (document.getElementById('ccs_rfi_type_form') !== null)
 if (document.getElementById('ccs_rfi_vetting_form') !== null)
   document.getElementById('ccs_rfi_vetting_form').addEventListener('submit', ccsZvalidateRfiSecurity);
 
-if (document.getElementById('ccs_eoi_vetting_form') !== null)
-  document.getElementById('ccs_eoi_vetting_form').addEventListener('submit', ccsZvalidateEoiSecurity);
+// if (document.getElementById('ccs_eoi_vetting_form') !== null)
+//   document.getElementById('ccs_eoi_vetting_form').addEventListener('submit', ccsZvalidateEoiSecurity);
 
 if (document.getElementById('ccs_ca_type_form') !== null)
   document.getElementById('ccs_ca_type_form').addEventListener('submit', ccsZvalidateCaaAssFCSecurity);
@@ -148,6 +151,15 @@ if (document.getElementById('ccs_rfi_address_manual_form') !== null)
 if (document.getElementById('ccs_rfi_about_proj') !== null)
   document.getElementById('ccs_rfi_about_proj').addEventListener('submit', ccsZvalidateRfiProject);
 
+if (document.getElementById('rfi_prob_statement') !== null)
+  document.getElementById('rfi_prob_statement').addEventListener('input', ccsZCountRfiProject);
+
+if (document.getElementById('ccs_rfi_next_steps') !== null)
+  document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
+
+if (document.getElementById('rfi_contracting_auth') !== null)
+  document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
+
 if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
@@ -158,6 +170,9 @@ if (document.getElementById('ccs_rfi_docs_form') !== null)
 
 //if (document.getElementById("ccs_rfi_response_date_form") !== null) document.getElementById("ccs_rfi_response_date_form").addEventListener('submit', ccsZvalidateRfiResponseDate);
 
+if (document.getElementById('ccs_rfi_response_date_form') !== null)
+  document.getElementById('ccs_rfi_response_date_form').addEventListener('submit', ccsZvalidateDate);
+
 if (document.getElementById('ccs_rfi_questions_form') !== null)
   document.getElementById('ccs_rfi_questions_form').addEventListener('submit', ccsZvalidateRfIQuestions);
 
@@ -167,14 +182,18 @@ if (document.getElementById('ccs_eoi_questions_form') !== null)
 if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateRfPStrategy);
 
-  if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
+if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateTextArea);
 
 
-  if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
-  document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);  
+if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
+  document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);
+
 if (document.getElementById('ccs_rfp_about_proj') !== null)
   document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
+
+// if (document.getElementById('ccs_rfp_who_form') !== null)
+// document.getElementById('ccs_rfp_who_form').addEventListener('submit', ccsZvalidateTextRfpChangeStrategy);
 
 if (document.getElementById('ccs_eoi_purpose_form') !== null)
   document.getElementById('ccs_eoi_purpose_form').addEventListener('submit', ccsZvalidateEoiPurpose);
@@ -207,11 +226,13 @@ if (document.getElementById('ccs_eoi_acronyms_form') !== null)
   document.getElementById('ccs_eoi_acronyms_form').addEventListener('submit', ccsZvalidateEoiAcronyms);
 
 if (document.getElementById('ccs_rfp_acronyms_form') !== null)
-  document.getElementById('ccs_rfp_acronyms_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
+  document.getElementById('ccs_rfp_acronyms_form').addEventListener('submit', ccsZvalidateRfpAcronymsRFP);
 
 if (document.getElementById('rfp_location') !== null)
   document.getElementById('rfp_location').addEventListener('submit', ccsZvalidateRfpLocation);
-document.getElementById('rfp_location').addEventListener('change', ccsZvalidateChangeRfpLocation);
+if (document.getElementById('rfp_location') != undefined && document.getElementById('rfp_location') != null)
+  document.getElementById('rfp_location').addEventListener('change', ccsZvalidateChangeRfpLocation);
+
 
 if (document.getElementById('ccs_eoi_splterms_form') !== null)
   document.getElementById('ccs_eoi_splterms_form').addEventListener('submit', ccsZvalidateEoiSpecialTerms);
@@ -222,9 +243,15 @@ if (document.getElementById('ccs_rfi_acronyms_form') !== null)
 if (document.getElementById('ccs_eoi_date_form') !== null)
   document.getElementById('ccs_eoi_date_form').addEventListener('submit', ccsZvalidateEoiDate);
 
-if (document.getElementById("rfp_multianswer_question_form") !== null) {
-  document.getElementById("rfp_multianswer_question_form").addEventListener('submit', ccsZvalidateRfpQuestions);
-}
+
+//Balwider
+if (document.getElementById('rfp_percentage_form') !== null)
+  document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
+
+//if (document.getElementById('rfp_multianswer_question_form') !== null)
+// document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");
+//if (document.getElementById('service_levels_kpi_form') !== null)
+  //document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
 
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 

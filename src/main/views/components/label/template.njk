@@ -10,6 +10,13 @@
 {% if params.isPageHeading %}
 <h1 class="govuk-label-wrapper">{{ labelHtml | safe | indent(2) }}</h1>
 {% else %}
+{% if params.bold=='true' %}
+<label class="govuk-label govuk-checkboxes__label govuk-bold" style="font-weight:bold; !important" for="required_locations">
+        {{params.text}}
+      </label>
+
+{% else %}
 {{ labelHtml | safe }}
+{% endif %}
 {% endif %}
 {% endif %}

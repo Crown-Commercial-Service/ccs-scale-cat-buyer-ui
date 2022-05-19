@@ -110,10 +110,10 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
     const range = req.session['weightingRange'];
     const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5 } = req.body;
     const arr = [{ field1, field2, field3, field4, field5 }];
-
     const { isError, errorText } = checkErrors(arr, range);
     const { errorTextSumary } = checkErrorsSmary(arr, range);
-
+    req.session.scaledata=field4;
+    
     if (isError) {
       req.session.errorTextSumary = errorTextSumary.reduce((acc, curr) => {
         if (!acc?.find(ob => ob.text === curr.text)) return acc?.concat(curr);
@@ -145,11 +145,13 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
               })
               .filter(criteria => criteria !== null),
           };
+          
           await TenderApi.Instance(SESSION_ID).put(
             `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
             body,
           );
         }
+        
         await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Not started');
       }
