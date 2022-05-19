@@ -725,4 +725,16 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.GET_RFP_CLOSE_PROJECT,
   );
+
+  app.post(
+    REQUIREMENT_PATHS.POST_DA_REVIEW_SUPPLIER,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.POST_DA_REVIEW_SUPPLIER,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.GET_DA_REVIEW_SUPPLIER,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_DA_REVIEW_SUPPLIER,
+  );
 }

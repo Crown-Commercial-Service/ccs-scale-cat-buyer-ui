@@ -28,7 +28,7 @@
                {% for table in requirement.nonOCDS.options %}
                <input type="hidden" class="tierLable" tierLable="{{table.text}}" id="tiersTableData" value="{{table.optiontableDefinationJsonString}}" >
                     {{ CCSTable({
-                        caption: table.text,
+                        caption: table.optiontableDefination.rows.length+' tier scoring criteria',
                         captionClasses: "govuk-table__caption--m",
                         firstCellIsHeader: true,
                         head: table.optiontableDefination.head,
@@ -59,13 +59,15 @@
         }) }} #}
          <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
-                <p class="govuk-label--l"> <strong> {{tierNo}} tiers added so far </strong> </h2>
+                <p class="govuk-label--l"> <strong id="tiersAdded"> {{tierNo}}  </strong> tiers added so far</h2>
             </div>
             <div class="govuk-grid-column-one-half">
                 {# <a href="javascript:void(0)" onclick="selectedTiers('5')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-5-popup" title="Tier5">Use a 5-tier scoring criteria</a> #}
-                <a href="javascript:void(0)"  id="tier-5-popup" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state " title="Tier5">Use a 5-tier scoring criteria</a>
-                <a href="javascript:void(0)"  id="tier-4-popup" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state" title="Tier4">Use a 4-tier scoring criteria</a>
+                {% for table in requirement.nonOCDS.options %}
+                <a href="javascript:void(0)"   id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-!-margin-5 govuk-link--no-visited-state " title="Tier {{table.optiontableDefination.rows.length}}">Use a {{table.optiontableDefination.rows.length}}-tier scoring criteria</a>
+                {# <a href="javascript:void(0)"  id="tier-4-popup" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state" title="Tier4">Use a 4-tier scoring criteria</a> #}
                 {# <a href="javascript:void(0)" onclick="selectedTiers('4')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-4-popup" title="Tier4">Use a 4-tier scoring criteria</a> #}
+                {% endfor %}
             </div>
         </div>
 {%endif%}
@@ -85,7 +87,7 @@
                         
                     {{ CCSInput({
                         id: 'rfp_score_criteria_name_1',
-                        name: requirement.OCDS.id,
+                        name: 'score_criteria_level',
                         classes: 'govuk-input govuk-input--width-20',
                         hint: {
                             text: requirement.OCDS.title
@@ -103,7 +105,7 @@
                               classes: "govuk-label govuk-date-input__label"
                             },
                             id: 'rfp_score_criteria_point_1',
-                            name: requirement.OCDS.id,
+                            name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
                             type: "number", 
                             inputmode:"numeric",
@@ -113,7 +115,7 @@
             
                     {{  CCSTextarea({
                         id: 'rfp_score_criteria_desc_1',
-                        name: requirement.OCDS.id,
+                        name: 'score_criteria_desc',
                         classes: 'govuk-textarea govuk-label--m',
                         label: {
                             text: 'Enter the description for this level',
@@ -139,7 +141,7 @@
                         
                         {{ CCSInput({
                             id: 'rfp_score_criteria_name_'+i,
-                            name: 'rfp_score_criteria_name_'+i,
+                            name: 'score_criteria_level',
                             classes: 'govuk-input govuk-input--width-20',
                             hint: {
                                 text: "Use the words that best reflect the scoring level,and that can be used alongside other criteria.For example 'pass' or 'fail',or 'excellent','good','poor'"
@@ -156,7 +158,7 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             id: 'rfp_score_criteria_point_'+i,
-                            name: 'rfp_score_criteria_point_'+i,
+                            name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
                             type: "number",
                             inputmode:"numeric"
@@ -164,7 +166,7 @@
 
                         {{  CCSTextarea({
                             id: "rfp_score_criteria_desc_"+i,
-                            name: "rfp_score_criteria_desc_"+i,
+                            name: "score_criteria_desc",
                             classes: 'govuk-textarea govuk-label--m',
                             label: {
                                 text: 'Enter the description for this level',
@@ -187,13 +189,7 @@
                     }) }}
                     </p>
        
-  {%endif%}
- {{  CCSInput({
-          id: "question_id",
-          name: "question_id",
-          type: "hidden",
-          value: requirement.OCDS.id
-        }) }}   
+  {%endif%}   
 {%endblock%}
 
 {% block TextRFP %}
@@ -595,7 +591,7 @@
                       name: "rfp_prob_statement_"+word | last,
                       required: requirement.nonOCDS.mandatory,
                       id: "rfp_prob_statement_"+word | last,
-                      value: requirement.nonOCDS.options[index].value,
+                      value: requirement.nonOCDS.options[index-1].value,
                       label: {
                       text: requirement.OCDS.title,
                       classes: "govuk-label govuk-label--m"
@@ -709,7 +705,7 @@
                     {% endblock %}
 
                     {% block KeySelect%}
-                      {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true)and form_name !== 'ccs_rfp_acronyms_form' %}
+                      {% if (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true) and form_name !== 'service_levels_kpi_form' and  form_name !== 'ccs_rfp_acronyms_form' and form_name !== 'service_user_type_form' %}
                         {% call CCSFieldset({
                             legend: {
                                html: "First key user <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
@@ -811,7 +807,7 @@
                             value: requirement.OCDS.id
                         }) }}
                         <div id="rfp_keyterm"></div>
-                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true)and form_name === 'ccs_rfp_acronyms_form' %}
+                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type !== 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true) and form_name === 'ccs_rfp_acronyms_form' and form_name !== 'service_user_type_form'  %}
                         <p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p>
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
@@ -938,7 +934,240 @@
                             value: requirement.OCDS.id
                         }) }}
                         <div id="rfp_keyterm"></div>
+                      
+                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.type === 'The people who will use your product or service (Optional)') and (requirement.nonOCDS.multiAnswer === true)and form_name === 'service_user_type_form' %}
+                        <p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p>
+                        {# <h2>X service levels and key performance indicators added so far</h2> #}
+                        {% call CCSFieldset({
+                            legend: {
+                               html: "Service user type",
+                              classes: "govuk-fieldset__legend--m",
+                              isPageHeading: false
+                            },
+                            classes: "term_acronym_fieldset acronym_service_1",
+                            id:"term_acronym_fieldset_acronym_service_1"
+                          })
+                        %}
+                        {{ CCSInput({
+                              label: {
+                                text: 'Give this group a name'
+                              },
+                              id: "rfp_term_service_group_1",
+                              name: "term",
+                              classes: "rfp_term_service_user_type_1",
+                              value: requirement.nonOCDS.options[0].text
+                            })
+                          }}
+                        {{ CCSTextarea({
+                              name: "value",
+                              id: "rfp_term_more_details_1",
+                              label: {
+                                text: 'Enter more details about this user type'
+                              },
+                              classes: "rfp_term_more_details_1",
+                              value: requirement.nonOCDS.options[0].value
+                            })
+                          }}
+
+                        {% endcall %}
+                        {% set NumberWord = [
+                          'zero',
+                          'First',
+                          'Second',
+                          'Third',
+                          'Fourth',
+                          'Fifth',
+                          'Sixth',
+                          'Seventh',
+                          'Eight',
+                          'Ninth',
+                          'Tenth'
+                        ] %}
+                        {% for i in range(2, 11) -%}
+
+                          {% call CCSFieldset({
+                              legend: {
+                                html: NumberWord[i] +" service user type"  +"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                                classes: "govuk-fieldset__legend--m",
+                                isPageHeading: false
+                              },
+                              classes: "term_acronym_fieldset acronym_service_"+i,
+                              id:"term_acronym_fieldset"
+                            })
+                          %}
+
+                          {{ CCSInput({
+                                label: {
+                                  text: 'Give this group a name'
+                                },
+                                id: "rfp_term_service_group_"+i,
+                                name: "term",
+                                classes: "rfp_term__Service_user_type_"+i,
+                                value: requirement.nonOCDS.options[i-1].text
+                              })
+                            }}
+
+                          {{ CCSTextarea({
+                                name: "value",
+                                id: "rfp_term_more_details_"+i,
+                                label: {
+                                  text: 'Enter more details about this user type'
+                                },
+                                classes: "rfp_term_more_details_"+i,
+                                value: requirement.nonOCDS.options[i-1].value
+                              })
+                            }}
+                          {% endcall %}
+
+                        {%- endfor %}
+
+                        <p class="govuk-body">
+                          {{ CCSButton({
+                          text: "Add another service user type",
+                          attributes: {
+                            id: "ccs_rfpService_use_type_add"
+                          },
+                          classes: "govuk-button--secondary ccs-dynaform-hidden"
+                        }) }}
+                        </p>
+
+                        {{ CCSInput({
+                            id: "question_id",
+                            name: "question_id",
+                            type: "hidden",
+                            value: requirement.OCDS.id
+                        }) }}
+                        <div id="rfp_keyterm_service_user_type"></div>
+                      
+                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type === 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true)and form_name === 'service_levels_kpi_form' %}
+                        <p>The Authority will measure the quality of the Supplier’s delivery by: Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be</p>
+                        <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2>
+                        {% call CCSFieldset({
+                            legend: {
+                               html: "Enter your first KPI / SLA",
+                              classes: "govuk-fieldset__legend--m",
+                              isPageHeading: false
+                            },
+                            classes: "term_acronym_fieldset acronym_service_levels_KPI_1",
+                            id:"term_acronym_fieldset_acronym_1"
+                          })
+                        %}
+                        {{ CCSInput({
+                              label: {
+                                text: "Instructions / examples for this input field "
+                              },
+                              id: "rfp_term_service_levels_KPI_1",
+                              name: "term",
+                              classes: "rfp_term_1",
+                              value: requirement.nonOCDS.options[0].value
+                            })
+                          }}
+                        {{ CCSTextarea({
+                              name: "value",
+                              id: "rfp_term_definition_service_levels_KPI_1",
+                              label: {
+                                text: "Instructions / examples for this input field"
+                              },
+                              classes: "rfp_term_definition_1",
+                              value: requirement.nonOCDS.options[1].value
+                            })
+                          }}
+                        {{ CCSInput({
+                                label: {
+                                  text: "Insert the required target "
+                                },
+                                classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                                id: "rfp_term_percentage_KPI_1",
+                                value: requirement.nonOCDS.options[2].value,
+                                name: "percentage",
+                                suffix: {
+                                  text: "%"
+                                }
+                              }) }}
+
+                        {% endcall %}
+                        {% set NumberWord = [
+                          'zero',
+                          'first',
+                          'second',
+                          ' third',
+                          ' fourth',
+                          ' fifth',
+                          ' sixth',
+                          ' seventh',
+                          ' eight',
+                          ' ninth',
+                          ' tenth'
+                        ] %}
+                        {% for i in range(2, 11) -%}
+
+                          {% call CCSFieldset({
+                              legend: {
+                                html: "Enter your "+NumberWord[i]+" KPI / SLA <a href='"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                                classes: "govuk-fieldset__legend--m",
+                                isPageHeading: false
+                              },
+                              classes: "term_acronym_fieldset acronym_service_levels_KPI_"+i,
+                              id:"term_acronym_fieldset"
+                            })
+                          %}
+
+                          {{ CCSInput({
+                                label: {
+                                  text: "Enter the service area"
+                                },
+                                id: "rfp_term_service_levels_KPI_"+i,
+                                name: "term",
+                                classes: "rfp_term_name_requirement_KPI_"+i,
+                                value: requirement.nonOCDS.options[i-1].value
+                              })
+                            }}
+
+                          {{ CCSTextarea({
+                                name: "value",
+                                id: "rfp_term_definition_service_levels_KPI_"+i,
+                                label: {
+                                  text: "Enter the service area / KPI description"
+                                },
+                                classes: "rfp_term_desription_KPI_"+i,
+                                value: requirement.nonOCDS.options[i-1].value
+                              })
+                            }}
+                          {{ CCSInput({
+                                  label: {
+                                    text: "Insert the required target "
+                                  },
+                                  classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                                  id: "rfp_term_percentage_KPI_"+i,
+                                  value: requirement.nonOCDS.options[i-1].value,
+                                  name: "percentage",
+                                  suffix: {
+                                    text: "%"
+                                  }
+                                }) }}
+                          {% endcall %}
+
+                        {%- endfor %}
+
+                        <p class="govuk-body">
+                          {{ CCSButton({
+                          text: "Add another item",
+                          attributes: {
+                            id: "ccs_rfpTerm_add"
+                          },
+                          classes: "govuk-button--secondary ccs-dynaform-hidden"
+                        }) }}
+                        </p>
+
+                        {{ CCSInput({
+                            id: "question_id",
+                            name: "question_id",
+                            type: "hidden",
+                            value: requirement.OCDS.id
+                        }) }}
+                        {# <div id="rfp_keyterm"></div> #}
                       {% endif %}
+                      
                     {% endblock %}
 
                     {% block Address%}

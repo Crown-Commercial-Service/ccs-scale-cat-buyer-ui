@@ -102,8 +102,38 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
         const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
 
-
-    if (status == "Published" || status == "Response period closed" || status == "To be Evaluated") {
+if(status=="IN PROGRESS"||status=="In Progress")
+{
+  let redirectUrl: string
+  switch (eventType) {
+    case "RFI":
+      redirectUrl = '/rfi/rfi-tasklist'
+      break
+    case "EOI":
+      redirectUrl = '/eoi/eoi-tasklist'
+      break
+    case "TBD":
+      redirectUrl = '/projects/create-or-choose'
+      break
+    case "DA":
+      redirectUrl = '/da/task-list?path=B1' 
+      break
+    case "FC":
+      redirectUrl = '/rfp/task-list'
+     break
+    case "DAA":
+      redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+      break
+    case "FCA":
+      redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+      break
+    default:
+      redirectUrl = '/event/management'
+      break
+  }
+  res.redirect(redirectUrl)
+}
+   else {
       let redirectUrl_: string
       switch (eventType) {
        
@@ -125,39 +155,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             break
         }
        
-  } else {
-      let redirectUrl: string
-      switch (eventType) {
-        case "RFI":
-          redirectUrl = '/rfi/rfi-tasklist'
-          break
-        case "EOI":
-          redirectUrl = '/eoi/eoi-tasklist'
-          break
-        case "TBD":
-          redirectUrl = '/projects/create-or-choose'
-          break
-        case "DA":
-          redirectUrl = '/da/task-list?path=B1' 
-          break
-        case "FC":
-          redirectUrl = '/rfp/task-list'
-         break
-        case "DAA":
-          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
-          break
-        case "FCA":
-          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
-          break
-        default:
-          redirectUrl = '/event/management'
-          break
-      }
-      res.redirect(redirectUrl)
-    }
-       
-  
-
+  } 
   } catch (err) {
     LoggTracer.errorLogger(
       res,

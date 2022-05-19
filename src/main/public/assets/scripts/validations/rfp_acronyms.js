@@ -1,8 +1,4 @@
-if ($('#rfp_keyterm').length > 0) {
-  $('.rfp_form').attr('id', 'ccs_rfp_acronyms_form');
-  $('.rfp_form').attr('name', 'ccs_rfp_acronyms_form');
-}
-const countWords = (str) => { return str.trim().split(/\s+/).length };
+const countWords1 = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
   
   if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
@@ -40,13 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-      checkFieldsRfp();
+      checkFieldsRfp1();
 
       e.preventDefault();
-      errorStore = emptyFieldCheckRfp();
+      errorStore = emptyFieldCheckRfp1();
       if (errorStore.length == 0) {
 
-        removeErrorFieldsRfp();
+        removeErrorFieldsRfp1();
 
 
         document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
@@ -104,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('rfp_term_' + target).value = "";
         document.getElementById('rfp_term_definition_' + target).value = "";
-        removeErrorFieldsRfp();
+        removeErrorFieldsRfp1();
       });
 
     });
@@ -156,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-const checkFieldsRfp = () => {
+const checkFieldsRfp1 = () => {
   const start = 1;
   const end = 10;
   const pageHeading = document.getElementById('page-heading').innerHTML;
@@ -166,8 +162,8 @@ const checkFieldsRfp = () => {
 
     if (!pageHeading.includes("(Optional)"))
     {
-      const field1 = countWords(input.val()) < 50;
-      const field2 = countWords(textbox.val()) < 150;
+      const field1 = countWords1(input.val()) < 50;
+      const field2 = countWords1(textbox.val()) < 150;
       if (input.val() !== "" || field1) {
   
         $(`#rfp_term_${a}-error`).remove();
@@ -188,7 +184,7 @@ const checkFieldsRfp = () => {
 
   }
 }
-const removeErrorFieldsRfp = () => {
+const removeErrorFieldsRfp1 = () => {
   $('.govuk-error-message').remove();
   $('.govuk-form-group--error').removeClass('govuk-form-group--error')
   $('.govuk-error-summary').remove();
@@ -197,7 +193,7 @@ const removeErrorFieldsRfp = () => {
 
 }
 
-const emptyFieldCheckRfp = () => {
+const emptyFieldCheckRfp1 = () => {
   let fieldCheck = "",
     errorStore = [];
     const pageHeading = document.getElementById('page-heading').innerHTML;
@@ -208,11 +204,11 @@ const emptyFieldCheckRfp = () => {
     
     if(term_field.value !== undefined && definition_field !== undefined)
     {
-      const field1 = countWords(term_field.value) > 50;
-      const field2 = countWords(definition_field.value) > 150;
+      const field1 = countWords1(term_field.value) > 50;
+      const field2 = countWords1(definition_field.value) > 150;
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
-      checkFieldsRfp();
+      checkFieldsRfp1();
       if (!pageHeading.includes("(Optional)"))
       {
       if (term_field.value.trim() === '' && definition_field.value.trim() === '') {
@@ -257,11 +253,11 @@ const emptyFieldCheckRfp = () => {
   }
   return errorStore;
 }
-const ccsZvalidateRfpAcronyms = (event) => {
+const ccsZvalidateRfpAcronymsRFP = (event) => {
 
    event.preventDefault();
 
-  errorStore = emptyFieldCheckRfp();
+  errorStore = emptyFieldCheckRfp1();
 
   if (errorStore.length === 0) {
 
