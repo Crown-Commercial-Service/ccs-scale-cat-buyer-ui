@@ -20,7 +20,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
   const { id } = req.query
   const events = req.session.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
-  const { download } = req.query;
+ 
  // const projectId = req.session['projectId']
     //const eventId = req.session['eventId']
   try {
@@ -107,7 +107,21 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
       const supplierInterestURL=`tenders/projects/${projectId}/events/${eventId}/responses`
       const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
       let supplierName=[];
-      supplierName=supplierdata.data.responders.map( (a: { supplier: any }) =>a.supplier);
+      //supplierName=supplierdata.data.responders.map( (a: { supplier: any }) =>{a.supplier.id,a.supplier.name});
+      //let supplierState=supplierdata.data.responders.map( (a: { responseState: any }) =>a.responseState);
+      for(let i=0;i<supplierdata.data.responders.length;i++)
+      {
+        let dataPrepared={
+
+          "id":supplierdata.data.responders[i].supplier.id,
+  
+          "name":supplierdata.data.responders[i].supplier.name,
+  
+          "responseState":supplierdata.data.responders[i].responseState
+  
+        }
+        supplierName.push(dataPrepared)
+      }
       const supplierSummary= supplierdata.data;
 
     if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
@@ -115,30 +129,11 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
       switch (eventType) {
        
         case "RFI":
-          if(download!=undefined)
-        {
-           const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
-          const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
-          responseType: 'arraybuffer',
-          });
-          const file = FetchDocuments;
-          const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
-          const fileData = file.data;
-          const type = file.headers['content-type'];
-         const ContentLength = file.headers['content-length'];
-         res.status(200);
-         res.set({
-          'Cache-Control': 'no-cache',
-          'Content-Type': type,
-          'Content-Length': ContentLength,
-          'Content-Disposition': 'attachment; filename=' + fileName,
-                });
-           res.send(fileData);
-        }
-        else{
+        
+        
           const appendData = { data: eventManagementData, status, projectName, eventId, eventType,apidata,supplierName,supplierSummary, suppliers: localData, unreadMessage: unreadMessage }
           res.render('eventManagement', appendData)
-           }
+           
           break
           case "FC":
             redirectUrl_="/rfp/rfp-unpublishedeventmanagement"    

@@ -145,8 +145,8 @@
                 </tr>
               </thead>
               </table>
-              </div>
-              </div>
+            </div>
+          </div>
         {% elseif status == 'Response period open' %}
         <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
@@ -198,40 +198,39 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                 </tr>
               </thead>
-
+              {% for supplier in supplierName %}
+                
               <tbody class="govuk-table__body">
-                {% for supplier in supplierName %}
+                
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell">
+                    
                       <p class="govuk-body govuk-!-margin-bottom-0">
                         {{supplier.name}}
                       </p>
+                      
                     </th>
                     <td class="govuk-table__cell">{{ supplier.ResponseDate }}</td>
-                    <td class="govuk-table__cell">
+                     <td class="govuk-text-align">
                       <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
-                    </td>
+                    </td> 
                   </tr>
-                {% endfor %}
               </tbody>
+            
+          {% endfor %}
             </table>
-            <div class="govuk-grid-row ccs-page-section">
-             <div class="govuk-grid-column-full">
-                <p class="app-task-list__tag">
-                <a href="/eventmanagement" class="govuk-link ">{{data.backJump.title}}</a>  
-                </p>
-              </div>
-            </div>
             </div>
         </div>
-        
+        {% if(showallDownload) %}
+              <a href="/eventmanagement" class="govuk-link app-task-list__tag ">{{data.backJump.title}}</a> 
+        {% endif %}
         {% endif %} 
       </div>
   </div>
     
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
-      {% if status == 'Response period closed' %}
+      {% if status == 'To be evaluated' %}
       <div class="govuk-inset-text">
         <h4 class="govuk-heading-s">Next Steps on the procurement</h4>
          <a class="govuk-link" href="/projects/create-or-choose">Complete RfI and start procurement</a> 

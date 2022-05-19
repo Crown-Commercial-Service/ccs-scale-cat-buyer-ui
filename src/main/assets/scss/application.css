@@ -397,7 +397,12 @@
   margin-top: 0;
   margin-bottom: 15px;
 }
-
+.govuk-text-align{
+  text-align:right;
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #b1b4b6;
+  vertical-align: top;
+}
 @media print {
   .govuk-heading-s {
     color: #000000;
