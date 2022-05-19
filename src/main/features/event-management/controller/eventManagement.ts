@@ -8,7 +8,7 @@ import { ReleatedContent } from '../../agreement/model/related-content'
 import * as eventManagementData from '../../../resources/content/event-management/event-management.json'
 import { Message } from '../model/messages'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
-
+import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 /**
  * 
  * @Rediect 
@@ -16,13 +16,16 @@ import * as localData from '../../../resources/content/event-management/local-SO
  * @param req 
  * @param res 
  */
-export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
+ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
   const { id } = req.query
   const events = req.session.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
+  const { download } = req.query;
+ // const projectId = req.session['projectId']
+    //const eventId = req.session['eventId']
   try {
     // Code Block start - Replace this block with API endpoint
-    let agreementName: string, agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string
+    let agreementName: string , agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string
 
     events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; }) => {
       if (element.activeEvent.id == id) {
@@ -36,8 +39,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         projectId = element.projectId
         lotid = element.lotId
         title = element.activeEvent.title
+      
       }
     });
+    const baseurl = `/tenders/projects/${projectId}/events`
+     const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
+
 
     // Code Block ends
 
@@ -96,14 +103,42 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }
       });
     }
+      //Supplier of interest
+      const supplierInterestURL=`tenders/projects/${projectId}/events/${eventId}/responses`
+      const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
+      let supplierName=[];
+      supplierName=supplierdata.data.responders.map( (a: { supplier: any }) =>a.supplier);
+      const supplierSummary= supplierdata.data;
 
-    if (status == "Published" || status == "Response period closed" ) {
+    if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
       let redirectUrl_: string
       switch (eventType) {
        
         case "RFI":
-          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, suppliers: localData, unreadMessage: unreadMessage }
+          if(download!=undefined)
+        {
+           const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+          const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+          responseType: 'arraybuffer',
+          });
+          const file = FetchDocuments;
+          const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+          const fileData = file.data;
+          const type = file.headers['content-type'];
+         const ContentLength = file.headers['content-length'];
+         res.status(200);
+         res.set({
+          'Cache-Control': 'no-cache',
+          'Content-Type': type,
+          'Content-Length': ContentLength,
+          'Content-Disposition': 'attachment; filename=' + fileName,
+                });
+           res.send(fileData);
+        }
+        else{
+          const appendData = { data: eventManagementData, status, projectName, eventId, eventType,apidata,supplierName,supplierSummary, suppliers: localData, unreadMessage: unreadMessage }
           res.render('eventManagement', appendData)
+           }
           break
           case "FC":
             redirectUrl_="/rfp/rfp-unpublishedeventmanagement"    
@@ -156,4 +191,52 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       true,
     );
   }
+}
+export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const {eventId} =req.session;
+  const { supplierid } = req.query;
+
+
+  if(supplierid!=undefined)
+  {
+    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
+    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+      responseType: 'arraybuffer',
+    });
+    const file = FetchDocuments;
+    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+    const fileData = file.data;
+    const type = file.headers['content-type'];
+    const ContentLength = file.headers['content-length'];
+    res.status(200);
+    res.set({
+      'Cache-Control': 'no-cache',
+      'Content-Type': type,
+      'Content-Length': ContentLength,
+      'Content-Disposition': 'attachment; filename=' + fileName,
+    });
+    res.send(fileData);
+  }
+  else{
+    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+      responseType: 'arraybuffer',
+    });
+    const file = FetchDocuments;
+    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+    const fileData = file.data;
+    const type = file.headers['content-type'];
+    const ContentLength = file.headers['content-length'];
+    res.status(200);
+    res.set({
+      'Cache-Control': 'no-cache',
+      'Content-Type': type,
+      'Content-Length': ContentLength,
+      'Content-Disposition': 'attachment; filename=' + fileName,
+    });
+    res.send(fileData)
+  }
+ 
 }
