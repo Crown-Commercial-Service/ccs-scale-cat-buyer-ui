@@ -109,6 +109,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
       let supplierName=[];
       //supplierName=supplierdata.data.responders.map( (a: { supplier: any }) =>{a.supplier.id,a.supplier.name});
       //let supplierState=supplierdata.data.responders.map( (a: { responseState: any }) =>a.responseState);
+      let showallDownload=false;
       for(let i=0;i<supplierdata.data.responders.length;i++)
       {
         let dataPrepared={
@@ -119,6 +120,10 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
   
           "responseState":supplierdata.data.responders[i].responseState
   
+        }
+        if(supplierdata.data.responders[i].responseState=='Submitted')
+        {
+          showallDownload=true;
         }
         supplierName.push(dataPrepared)
       }
@@ -131,7 +136,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
         case "RFI":
         
         
-          const appendData = { data: eventManagementData, status, projectName, eventId, eventType,apidata,supplierName,supplierSummary, suppliers: localData, unreadMessage: unreadMessage }
+          const appendData = { data: eventManagementData, status, projectName, eventId, eventType,apidata,supplierName,supplierSummary,showallDownload, suppliers: localData, unreadMessage: unreadMessage }
           res.render('eventManagement', appendData)
            
           break
