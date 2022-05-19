@@ -138,7 +138,12 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
       const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
       const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
       const userData = organisation_user_data?.data;
-      req.session['searched_user'] = userData;
+      const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfi_collaborators}`;
+      const userType = {
+        userType: 'TEAM_MEMBER',
+      };
+    await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+      req.session['searched_user'] = [];
       res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
     
   
