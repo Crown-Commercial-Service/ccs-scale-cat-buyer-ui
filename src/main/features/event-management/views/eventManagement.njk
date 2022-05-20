@@ -71,7 +71,7 @@
           <span class="proc-task-list__section-number">1.</span>
           {{data.subsection4_title1}}
           <p class="app-task-list__tag">
-            <a class="govuk-link" href="/rfi/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
+            <a class="govuk-link" href="#">{{data.subsection4_title1_task[0].line_1_text}}</a>
           </p>
         </h2>
         <p class="govuk-body">{{ data.subsection4_title1_descriiption }}</p>
@@ -85,7 +85,7 @@
             <span class="proc-task-list__section-number">2.</span>
             {{data.subsection4_title2_1}}
             <p class="app-task-list__tag">
-              <a class="govuk-link" href="/rfi/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
+              <a class="govuk-link" href="#">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
             </p>
           </h2>
           <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -173,7 +173,7 @@
                         {{supplier.name}}
                       </p>
                     </th>
-                    <td class="govuk-table__cell">{{ supplier.ResponseDate }}</td>
+                    <td class="govuk-table__cell">{{ supplier.responseDate }}</td>
                     </tr>
                     {% endif %}
                     {% endfor %}

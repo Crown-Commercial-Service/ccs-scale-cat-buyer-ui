@@ -107,8 +107,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
       const supplierInterestURL=`tenders/projects/${projectId}/events/${eventId}/responses`
       const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
       let supplierName=[];
-      //supplierName=supplierdata.data.responders.map( (a: { supplier: any }) =>{a.supplier.id,a.supplier.name});
-      //let supplierState=supplierdata.data.responders.map( (a: { responseState: any }) =>a.responseState);
+      
       let showallDownload=false;
       for(let i=0;i<supplierdata.data.responders.length;i++)
       {
@@ -118,7 +117,8 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
   
           "name":supplierdata.data.responders[i].supplier.name,
   
-          "responseState":supplierdata.data.responders[i].responseState
+          "responseState":supplierdata.data.responders[i].responseState,
+          "responseDate":supplierdata.data.responders[i].responseDate
   
         }
         if(supplierdata.data.responders[i].responseState=='Submitted')
