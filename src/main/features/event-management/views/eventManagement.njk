@@ -127,7 +127,7 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
-        {% if status == 'Response period closed' %}
+        {% if status == 'Published' %}
         <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
         <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
@@ -164,9 +164,9 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                 </tr>
               </thead>
-
               <tbody class="govuk-table__body">
                 {% for supplier in supplierName %}
+                {% if supplier.responseState =='Submitted'  %}
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell">
                       <p class="govuk-body govuk-!-margin-bottom-0">
@@ -175,12 +175,13 @@
                     </th>
                     <td class="govuk-table__cell">{{ supplier.ResponseDate }}</td>
                     </tr>
+                    {% endif %}
                     {% endfor %}
               </tbody>
             </table>
           </div>
         </div>
-        {% elseif status == 'Published' %}
+        {% elseif status == 'Response period closed' %}
         
           <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
@@ -210,7 +211,7 @@
                       </p>
                       
                     </th>
-                    <td class="govuk-table__cell">{{ supplier.ResponseDate }}</td>
+                    <td class="govuk-table__cell">{{ supplier.responseDate }}</td>
                      <td class="govuk-text-align">
                       <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
                     </td> 

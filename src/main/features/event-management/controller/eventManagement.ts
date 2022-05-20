@@ -135,7 +135,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
        
         case "RFI":
         
-        
+       
           const appendData = { data: eventManagementData, status, projectName, eventId, eventType,apidata,supplierName,supplierSummary,showallDownload, suppliers: localData, unreadMessage: unreadMessage }
           res.render('eventManagement', appendData)
            
