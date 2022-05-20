@@ -10,6 +10,8 @@ import { POST_EVENT_MANAGEMENT_MESSAGE_REPLY } from './MessagingReply'
 import { EVENT_MANAGEMENT_GET_QA_ADD,EVENT_MANAGEMENT_POST_QA_ADD,EVENT_MANAGEMENT_GET_QA_ADD_TWO_STEP } from './QAAdd'
 import { EVENT_MANAGEMENT_GET_QA_Edit,EVENT_MANAGEMENT_POST_QA_Edit } from './QAEdit'
 import { EVENT_MANAGEMENT_DOWNLOAD } from './eventManagement'
+import { GET_STEPS_TO_CONTINUE } from './steps-to-continue'
+import { POST_STEPS_TO_CONTINUE } from './steps-to-continue'
 /**
  * @BaseController
  * @Provider
@@ -36,4 +38,6 @@ export const EVENT_MANAGEMENT_CONTROLLER = {
     EVENT_MANAGEMENT_GET_QA_Edit,
     EVENT_MANAGEMENT_POST_QA_Edit,
     EVENT_MANAGEMENT_DOWNLOAD,
+    GET_STEPS_TO_CONTINUE,
+    POST_STEPS_TO_CONTINUE
 }

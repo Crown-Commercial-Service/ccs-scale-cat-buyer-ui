@@ -96,17 +96,20 @@
           <div class="govuk-grid-column-two-thirds">
 
             {% if message.IsClassificationNotDefined %}
-              {{ CCSSelect({
-                id: "create_message",
-                name: "create_message",
-                items: sortedMembers,
-                errorMessage: message.classificationErrorMessage,
-                label: {
-                  text: data.MessageClassification,
-                  classes: "govuk-label govuk-label--m"
-                }
-                })
-              }}
+              <div class="govuk-form-group govuk-form-group--error">
+                <label class="govuk-label govuk-label govuk-label--m" for="create_message">
+                  Message Classification
+                </label>
+                <span id="create_message-error" class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span> 
+                  {{message.classificationErrorMessage}}
+                </span>
+                <select class="govuk-select govuk-select--error" id="create_message" name="create_message" aria-describedby="create_message-error">
+                  {% for members in sortedMembers %}
+                  <option value="{{members.value}}">{{members.text}}</option>
+                  {% endfor %}
+                </select>
+              </div>
             {% else %}
               {{ CCSSelect({
                 id: "create_message",
@@ -121,17 +124,17 @@
             {% endif %}
 
             {% if message.IsSubjectNotDefined %}
-              {{ CCSInput({           
-                id: "create_subject_input",
-                name: "create_subject_input",
-                value: message.create_subject_input,
-                errorMessage: message.subjectErrorMessage,
-                label: {
-                  text: data.Subject,
-                  classes: "govuk-label govuk-label--m"
-                }
-                })
-            }}
+            <div class="govuk-form-group govuk-form-group--error">
+              <label class="govuk-label govuk-label govuk-label--m" for="create_subject_input">
+                Subject
+              </label>
+              <span id="create_subject_input-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> 
+                {{message.subjectErrorMessage}}
+              </span>
+              <input class="govuk-input govuk-input--error" id="create_subject_input" name="create_subject_input" type="text" aria-describedby="create_subject_input-error">
+              </div>
+             
             {% else %}
               {{ CCSInput({           
                 id: "create_subject_input",
@@ -146,14 +149,14 @@
             {% endif %}
 
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-              {% if message.IsSubjectNotDefined %}
+              {% if message.IsMessageNotDefined %}
                 <div class="govuk-form-group govuk-form-group--error">
                   <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
                   <p id="more-detail-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{message.messageErrorMessage}}
                   </p>
-                  <textarea class="govuk-textarea govuk-textarea--error govuk-js-character-count" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
+                  <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
                 </div>
               {% else %}
                 <div class="govuk-form-group">

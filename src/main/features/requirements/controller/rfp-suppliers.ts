@@ -17,7 +17,9 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
   const { projectId } = req.session;
   const { download } = req.query
   const releatedContent = req.session.releatedContent
-  const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ":" + req.session.lotId + "/lot-suppliers";
+  let lotid=req.session.lotId;
+  lotid=lotid.replace('Lot ','')
+  const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ":" + lotid + "/lot-suppliers";
   try {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
     let supplierList = [];

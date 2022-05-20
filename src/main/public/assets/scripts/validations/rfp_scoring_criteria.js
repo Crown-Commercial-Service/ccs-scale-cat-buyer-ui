@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('ccs_rfp_scoring_criteria') !== null) {
     let with_value_count = 10,
       prev_input = 0,
-      deleteButtons = document.querySelectorAll('a.clear-fields');
-
+      deleteButtons = document.querySelectorAll('a.del').length > 0 ? document.querySelectorAll('a.del') : document.querySelectorAll('a.clear-fields');
+    selectTierButtons = document.querySelectorAll('.tier-popup');
+    document.getElementById('tiersAdded').textContent='0';
     for (var score_criteria_fieldset = 10; score_criteria_fieldset > 1; score_criteria_fieldset--) {
       let this_fieldset = document.querySelector('.score_criteria_' + score_criteria_fieldset),
         name_box = document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset);
@@ -20,28 +21,85 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+    selectTierButtons.forEach(st => {
+      st.addEventListener('click', e => {
+        const rowsAndHead = JSON.parse(e.currentTarget.attributes[2].value);
+        if (rowsAndHead != undefined && rowsAndHead != null) {
+        document.getElementById('tiersAdded').textContent=rowsAndHead.rows.length;
+          for (let i = 0; i < rowsAndHead.rows.length; i++) {
+            if (i === 0) {
+              const ii = i + 1;
+              //document.getElementsByClassName("score_criteria_1").classList.remove("ccs-dynaform-hidden");
+              document.getElementById("rfp_score_criteria_name_1").value = rowsAndHead.rows[i].at(0).text;
+              document.getElementById("rfp_score_criteria_point_1").value = rowsAndHead.rows[i].at(1).text;
+              document.getElementById("rfp_score_criteria_desc_1").value = rowsAndHead.rows[i].at(2).text;
+
+              $("#rfp_score_criteria_name_1").prop('readonly', true);
+              $("#rfp_score_criteria_point_1").prop('readonly', true);
+              $("#rfp_score_criteria_desc_1").prop('readonly', true);
+
+            } else {
+              const ii = i + 1;
+              var elements = document.getElementsByClassName("score_criteria_" + ii);
+              // elements.classList.removeClass("ccs-dynaform-hidden");
+              //while (elements.length)
+              elements[0].classList.remove("ccs-dynaform-hidden");
+              if (rowsAndHead.rows.length == ii) {
+                $("#deleteButton_" + ii).removeClass("ccs-dynaform-hidden");
+              } else {
+                $("#deleteButton_" + ii).addClass("ccs-dynaform-hidden");
+              }
+
+              document.getElementById("rfp_score_criteria_name_" + ii).value = rowsAndHead.rows[i].at(0).text;
+              document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
+              document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
+
+              $("#rfp_score_criteria_name_" + ii).prop('readonly', true);
+              $("#rfp_score_criteria_point_" + ii).prop('readonly', true);
+              $("#rfp_score_criteria_desc_" + ii).prop('readonly', true);
+
+            }
+
+          }
+
+        }
+      })
+    })
 
     document.getElementById('ccs_rfp_score_criteria_add').addEventListener('click', e => {
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
       checkFieldsRfpScore();
-
       e.preventDefault();
       errorStore = emptyFieldCheckRfpScore();
       if (errorStore.length == 0) {
         removeErrorFieldsRfpScore();
 
-        document.querySelector('.score_criteria_' + with_value_count).classList.remove('ccs-dynaform-hidden');
+        if ($(".score_criteria_" + with_value_count).length > 0 && $(".score_criteria_" + with_value_count).hasClass("ccs-dynaform-hidden")) {
+          document.querySelector('.score_criteria_' + with_value_count).classList.remove('ccs-dynaform-hidden');
+        }
+        if ($("#deleteButton_" + with_value_count).length > 0 && $("#deleteButton_" + with_value_count).hasClass("ccs-dynaform-hidden")) {
+          document.getElementById("deleteButton_" + with_value_count).classList.remove('ccs-dynaform-hidden');
+        }
 
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
-          document
-            .querySelector('.score_criteria_' + prev_input + ' a.clear-fields')
-            .classList.add('ccs-dynaform-hidden');
+          if (document.querySelectorAll('a.del').length > 0) {
+            document
+              .querySelector('.score_criteria_' + prev_input + ' a.del')
+              .classList.add('ccs-dynaform-hidden');
+
+          }
+          else
+            document
+              .querySelector('.score_criteria_' + prev_input + ' a.clear-fields')
+              .classList.add('ccs-dynaform-hidden');
         }
 
         with_value_count++;
-
+        document.getElementById("tiersAdded").textContent=with_value_count;
         if (with_value_count === 11) {
+        document.getElementById("tiersAdded").textContent='10 ';
+         
           document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
         }
       } else ccsZPresentErrorSummary(errorStore);
@@ -64,9 +122,19 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rfp_score_criteria_desc_' + target).value = '';
 
         if (prev_coll > 1) {
-          document
-            .querySelector('.score_criteria_' + prev_coll + ' a.clear-fields')
-            .classList.remove('ccs-dynaform-hidden');
+          // document
+          //   .querySelector('.score_criteria_' + prev_coll + ' a.clear-fields')
+          //   .classList.remove('ccs-dynaform-hidden');
+          if (document.querySelectorAll('a.del').length > 0) {
+            document
+              .querySelector('.score_criteria_' + target + ' a.del')
+              .classList.add('ccs-dynaform-hidden');
+            document.getElementById("deleteButton_" + prev_coll).classList.remove('ccs-dynaform-hidden');
+          }
+          else
+            document
+              .querySelector('.score_criteria_' + prev_input + ' a.clear-fields')
+              .classList.add('ccs-dynaform-hidden');
         }
 
         document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
@@ -86,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
           let eleDescId = 'rfp_score_criteria_desc_' + id;
           let ele2 = document.getElementById(elePointId);
           let ele3 = document.getElementById(eleDescId);
-          performSubmitAction(ele1, ele2, ele3);
+          //performSubmitAction(ele1, ele2, ele3);
         });
         let elePoint = fieldSets[length].querySelector('#rfp_score_criteria_point_' + id);
         elePoint.addEventListener('focusout', event => {
@@ -95,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
           let eleDescId = 'rfp_score_criteria_desc_' + id;
           let ele1 = document.getElementById(eleNameId);
           let ele3 = document.getElementById(eleDescId);
-          performSubmitAction(ele1, ele2, ele3);
+          //performSubmitAction(ele1, ele2, ele3);
         });
         let eleDesc = fieldSets[length].querySelector('#rfp_score_criteria_desc_' + id);
         eleDesc.addEventListener('focusout', event => {
@@ -104,9 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
           let elePointId = 'rfp_score_criteria_point_' + id;
           let ele1 = document.getElementById(eleNameId);
           let ele2 = document.getElementById(elePointId);
-          performSubmitAction(ele1, ele2, ele3);
+          //performSubmitAction(ele1, ele2, ele3);
         });
         var performSubmitAction = function (ele1, ele2, ele3) {
+          console.log('ajax call')
           if (ele1.value !== '' && ele2.value !== '' && ele3.value !== '') {
             let formElement = document.getElementById('ccs_rfp_scoring_criteria');
             let action = formElement.getAttribute('action');
@@ -163,13 +232,13 @@ const removeErrorFieldsRfpScore = () => {
 const emptyFieldCheckRfpScore = () => {
   let fieldCheck = '',
     errorStore = [];
-
+    removeErrorFieldsRfpScore();
   for (var x = 1; x < 11; x++) {
     let name_field = document.getElementById('rfp_score_criteria_name_' + x);
     let point_field = document.getElementById('rfp_score_criteria_point_' + x);
     let desc_field = document.getElementById('rfp_score_criteria_desc_' + x);
 
-    if (name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
+    if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
       checkFieldsRfpScore();
       if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
         fieldCheck = [point_field.id, 'You must add information in all fields.'];
@@ -207,13 +276,18 @@ const emptyFieldCheckRfpScore = () => {
   return errorStore;
 };
 const ccsZvalidateScoringCriteria = event => {
+  debugger
   event.preventDefault();
-
   errorStore = emptyFieldCheckRfpScore();
+  let tierVal= document.getElementById("tiersAdded").textContent;
 
-  if (errorStore.length === 0) {
+  if (errorStore.length === 0 && tierVal.match(/(\d+)/)[0] >=2) {
     document.forms['ccs_rfp_scoring_criteria'].submit();
   } else {
     ccsZPresentErrorSummary(errorStore);
   }
 };
+
+const selectedTiers = (tiers) => {
+
+}

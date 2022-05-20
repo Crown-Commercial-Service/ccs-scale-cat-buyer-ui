@@ -1,0 +1,63 @@
+
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+          },
+          {
+            "text": "Event Management",
+            "href": "/event/management?id="
+          },
+          {
+            "text": "Close/archive"
+          }
+    ],
+
+    "title": "What next step would you like to undertake to continue your project?",
+    "subtitle": "[ Instructions for this page ]",
+    "form": [
+        {
+          "id": "rfi_next_steps_to_continue",
+          "question": "What would you like to do next?",
+          "radioOptions": {
+            "name": "rfi_next_steps_to_continue",
+            "items": [
+              {
+                "value": "[Rfi]",
+                "text": "[Rfi]",
+                "hint": {
+                  "text": "[Description for this route]"
+                }
+              },
+              {
+                "value": "[1-stage FC]",
+                "text": "[1-stage FC]",
+                "hint": {
+                  "text": "[Description for this route]"
+                }
+              },
+              {
+                "value": "[2-stage FC]",
+                "text": "[2-stage FC]",
+                "hint": {
+                  "text": "[Description for this route]"
+                }
+              },
+              {
+                "value": "[DA]",
+                "text": "[DA]",
+                "hint": {
+                  "text": "[Description for this route]"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "backJump": {
+        "title": "Return to [Event Management]",
+        "href": "/event/management?id="
+      }
+
+} 

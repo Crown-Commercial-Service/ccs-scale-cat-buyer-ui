@@ -34,6 +34,8 @@ export enum REQUIREMENT_PATHS {
   RFP_ADD_CONTEXT = '/rfp/add-context',
   // Your Assesstment bases and evaluation weightings
   RFP_YOUR_ASSESSMENT = '/rfp/your-assesstment',
+  RFP_GET_YOUR_ASSESSMENT_QUESTION = '/rfp/assesstment-question',
+  RFP_POST_YOUR_ASSESSMENT_QUESTION = '/rfp/assesstment-question',
 
   //RFP ir35
   RFP_GET_IR35 = '/rfp/IR35',
@@ -204,5 +206,8 @@ export enum REQUIREMENT_PATHS {
 
   GET_RFP_REVIEW='/rfp/review',
   POST_RFP_REVIEW='/rfp/review',
+
+  GET_DA_REVIEW_SUPPLIER='/da/reviewsupplier',
+  POST_DA_REVIEW_SUPPLIER='/da/reviewsupplier',
 
 }

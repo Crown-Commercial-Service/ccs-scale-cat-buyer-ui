@@ -7,8 +7,10 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from '../../../errors/httpStatusCodes';
+import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import { title } from 'process';
 import { GetLotSuppliers } from '../../shared/supplierService';
+import { reverse } from 'dns';
 
 
 
@@ -152,7 +154,7 @@ console.log(FilteredSetWithTrue)
     const RFI_ANSWER_STORAGE = [];
 
     for (const dataOFRFI of RFI_DATA_WITHOUT_KEYDATES) {
-      for (const dataOFCRITERIAN of RFI_DATA_WITHOUT_KEYDATES) {
+      for (const dataOFCRITERIAN of GROUPINCLUDING_CRITERIANID) {
         if (dataOFRFI.id === dataOFCRITERIAN.id) {
           if(dataOFRFI.id=='Group 2')
           {
@@ -166,9 +168,23 @@ console.log(FilteredSetWithTrue)
           else if(dataOFRFI.id=='Group 4')
           {
           const tempGroup4=RFI_DATA_WITHOUT_KEYDATES[3]
-          const answer_group4=tempGroup4.answer
-          tempGroup4.answer=answer_group4;       
-         // tempGroup4.answer.push(answer_group4)
+         for(let i=0;i<tempGroup4.answer.length;i++)
+         {
+           if(tempGroup4.answer[i].question==='Name of the organisation doing the procurement')
+           {
+            const organizationID = req.session.user.payload.ciiOrgId;
+            const organisationBaseURL = `/organisation-profiles/${organizationID}`;
+            const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+            const name = getOrganizationDetails.data.identifier.legalName;
+            const organizationName = name;
+            tempGroup4.answer[i].values=[
+              {
+                value: organizationName,
+                selected: true,
+              },
+            ]
+           }
+         }        
             const formattedData = { ...tempGroup4, criterian: dataOFCRITERIAN.criterian };
             RFI_ANSWER_STORAGE.push(formattedData);
           }
@@ -183,32 +199,17 @@ console.log(FilteredSetWithTrue)
   
 //Fix for SCAT-4146 - arranging the questions order
    let expected_rfi_keydates=RFI_DATA_TIMELINE_DATES;
-   let temp=expected_rfi_keydates[0].answer[0];
-   expected_rfi_keydates[0].answer[0]=expected_rfi_keydates[0].answer[3];
-   expected_rfi_keydates[0].answer[3]=temp;
-   
-   
-   let temp1=expected_rfi_keydates[0].answer[1];
-   expected_rfi_keydates[0].answer[1]=expected_rfi_keydates[0].answer[2];
-   expected_rfi_keydates[0].answer[2]=temp1;
+   expected_rfi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
 
+      //RFI_ANSWER_STORAGE[3].answer.reverse()
 
-   let temp2=expected_rfi_keydates[0].answer[2];
-   expected_rfi_keydates[0].answer[2]=expected_rfi_keydates[0].answer[3];
-   expected_rfi_keydates[0].answer[3]=temp2;
-   //let temp=expected_rfi_keydates.answer[0].question;
-   //expected_rfi_keydates.answer[0].question=expected_rfi_keydates.answer[1].question;
-   //expected_rfi_keydates.answer[1].question=temp;
-
-
-console.log(expected_rfi_keydates)
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);
 
     let appendData = {
       rfi_data: RFI_ANSWER_STORAGE,
       rfi_keydates: expected_rfi_keydates[0],
-      //rfi_keydates: RFI_DATA_TIMELINE_DATES[0],
+     
       data: cmsData,
       project_name: project_name,
       procurementLead,
@@ -225,10 +226,7 @@ console.log(expected_rfi_keydates)
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
-    console.log(JSON.stringify(appendData))
-    //console.log(rfi_keydates)
-    //console.log(JSON.stringify(RFI_DATA_TIMELINE_DATES[0].title.answer.question))
-//    console.log(JSON.stringify("rfi keydates:"+ rfi_keydates))
+   
     res.render('review', appendData);
   } catch (error) {
     delete error?.config?.['headers'];

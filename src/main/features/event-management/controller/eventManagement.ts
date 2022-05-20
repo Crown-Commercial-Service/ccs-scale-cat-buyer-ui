@@ -16,16 +16,16 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
  * @param req 
  * @param res 
  */
- export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
+export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
   const { id } = req.query
   const events = req.session.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
- 
- // const projectId = req.session['projectId']
-    //const eventId = req.session['eventId']
+
+  // const projectId = req.session['projectId']
+  //const eventId = req.session['eventId']
   try {
     // Code Block start - Replace this block with API endpoint
-    let agreementName: string , agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string
+    let agreementName: string, agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string
 
     events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; }) => {
       if (element.activeEvent.id == id) {
@@ -39,11 +39,11 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
         projectId = element.projectId
         lotid = element.lotId
         title = element.activeEvent.title
-      
+
       }
     });
     const baseurl = `/tenders/projects/${projectId}/events`
-     const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
+    const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
 
 
     // Code Block ends
@@ -72,6 +72,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
     req.session['projectId'] = projectId
     req.session['eventId'] = eventId
     req.session['evetTitle'] = title
+    req.session['Projectname'] = projectName
 
     // Releated content session values
     const releatedContent: ReleatedContent = new ReleatedContent();
@@ -81,11 +82,11 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
     releatedContent.title = 'Related content'
     req.session.releatedContent = releatedContent
 
-     //Related to AssessmentID
-     const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
-     const data = await TenderApi.Instance(SESSION_ID).get(baseURL)
-     const assessmentId=data.data.nonOCDS.assessmentId
-     req.session.currentEvent={assessmentId}
+    //Related to AssessmentID
+    const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
+    const data = await TenderApi.Instance(SESSION_ID).get(baseURL)
+    const assessmentId = data.data.nonOCDS.assessmentId
+    req.session.currentEvent = { assessmentId }
 
     // Event header
     res.locals.agreement_header = { project_name: projectName, agreementName, agreementId_session, agreementLotName, lotid }
@@ -103,53 +104,36 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
         }
       });
     }
-      //Supplier of interest
-      const supplierInterestURL=`tenders/projects/${projectId}/events/${eventId}/responses`
-      const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
-      let supplierName=[];
-      
-      let showallDownload=false;
-      for(let i=0;i<supplierdata.data.responders.length;i++)
-      {
-        let dataPrepared={
+    //Supplier of interest
+    const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
+    const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
+    let supplierName = [];
 
-          "id":supplierdata.data.responders[i].supplier.id,
-  
-          "name":supplierdata.data.responders[i].supplier.name,
-  
-          "responseState":supplierdata.data.responders[i].responseState,
-          "responseDate":supplierdata.data.responders[i].responseDate
-  
-        }
-        if(supplierdata.data.responders[i].responseState=='Submitted')
-        {
-          showallDownload=true;
-        }
-        supplierName.push(dataPrepared)
+    let showallDownload = false;
+    for (let i = 0; i < supplierdata.data.responders.length; i++) {
+      let dataPrepared = {
+
+        "id": supplierdata.data.responders[i].supplier.id,
+
+        "name": supplierdata.data.responders[i].supplier.name,
+
+        "responseState": supplierdata.data.responders[i].responseState,
+        "responseDate": supplierdata.data.responders[i].responseDate
+
       }
-      const supplierSummary= supplierdata.data;
+      if (supplierdata.data.responders[i].responseState == 'Submitted') {
+        showallDownload = true;
+      }
+      supplierName.push(dataPrepared)
+    }
+    const supplierSummary = supplierdata.data;
 
-    if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-      let redirectUrl_: string
-      switch (eventType) {
-       
-        case "RFI":
-        
-       
-          const appendData = { data: eventManagementData, status, projectName, eventId, eventType,apidata,supplierName,supplierSummary,showallDownload, suppliers: localData, unreadMessage: unreadMessage }
-          res.render('eventManagement', appendData)
-           
-          break
-          case "FC":
-            redirectUrl_="/rfp/rfp-unpublishedeventmanagement"    
-            res.redirect(redirectUrl_)     
-            break
-          default:
-            redirectUrl_ = '/event/management'
-            break
-        }
-       
-  } else {
+    //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
+    //Get Q&A Count
+    const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
+    const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
+
+    if (status == "IN PROGRESS" || status == "In Progress") {
       let redirectUrl: string
       switch (eventType) {
         case "RFI":
@@ -162,11 +146,11 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
           redirectUrl = '/projects/create-or-choose'
           break
         case "DA":
-          redirectUrl = '/da/task-list?path=B1' 
+          redirectUrl = '/da/task-list?path=B1'
           break
         case "FC":
           redirectUrl = '/rfp/task-list'
-         break
+          break
         case "DAA":
           redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
           break
@@ -179,7 +163,32 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
       }
       res.redirect(redirectUrl)
     }
+    else {
+      let redirectUrl_: string
+      switch (eventType) {
 
+        case "RFI":
+
+
+          //const appendData = { data: eventManagementData, status, projectName, eventId, eventType,apidata,supplierName,supplierSummary,showallDownload, suppliers: localData, unreadMessage: unreadMessage }
+          let showCloseProject = false;
+          if (status == "Published" || status == "To be Evaluated") {
+            showCloseProject = true;
+          }
+          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+          res.render('eventManagement', appendData)
+
+          break
+        case "FC":
+          redirectUrl_ = "/rfp/rfp-unpublishedeventmanagement"
+          res.redirect(redirectUrl_)
+          break
+        default:
+          redirectUrl_ = '/event/management'
+          break
+      }
+
+    }
   } catch (err) {
     LoggTracer.errorLogger(
       res,
@@ -195,12 +204,11 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
-  const {eventId} =req.session;
+  const { eventId } = req.session;
   const { supplierid } = req.query;
 
 
-  if(supplierid!=undefined)
-  {
+  if (supplierid != undefined) {
     const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
@@ -219,7 +227,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
     });
     res.send(fileData);
   }
-  else{
+  else {
     const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
@@ -238,5 +246,5 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
     });
     res.send(fileData)
   }
- 
+
 }

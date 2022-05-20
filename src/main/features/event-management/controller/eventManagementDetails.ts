@@ -20,6 +20,7 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
     const projectId = req.session['projectId']
     const eventId = req.session['eventId']
     req.session['messageID']=req.query
+    const {type}=req.query;
     try {
         res.locals.agreement_header = req.session.agreement_header
         if(attachmentId !== undefined)
@@ -48,7 +49,7 @@ export const EVENT_MANAGEMENT_MESSAGE_DETAILS_GET = async (req: express.Request,
             const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
 
             const message: MessageDetails = draftMessage.data          
-            const appendData = { data: inboxData, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id }
+            const appendData = {type, data: inboxData, messageDetails: message, eventId: eventId, eventType: req.session.eventManagement_eventType,id:id }
             res.render('eventManagementDetails', appendData)
         }
     } catch (err) {

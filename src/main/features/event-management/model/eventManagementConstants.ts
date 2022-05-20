@@ -17,5 +17,6 @@ export enum EVENT_MANAGEMENT_PATHS {
     POST_EVENT_MANAGEMENT_MESSAGE_DETAILS = '/message/details',
     EVENT_MANAGEMENT_MESSAGE_REPLY='/message/reply',
     POST_EVENT_MANAGEMENT_MESSAGE_REPLY='/message/reply',
-    EVENT_MANAGEMENT_DOWNLOAD='/eventmanagement'
+    EVENT_MANAGEMENT_DOWNLOAD='/eventmanagement',
+    STEPS_TO_CONTINUE='/steps-to-continue'
 }

@@ -82,6 +82,7 @@ const emptyQuestionFieldCheckRfp = () => {
   let fieldCheck = '',
     errorStore = [];
   for (var i = 1; i < 11; i++) {
+    removeErrorFieldsRfpScoreQuestion();
     let rootEl = document.getElementById('fc_question_' + i);
     if (!rootEl.classList.contains('ccs-dynaform-hidden')) {
       if (Number($('#totalPercentage').val) > 100) {
@@ -137,7 +138,14 @@ const emptyQuestionFieldCheckRfp = () => {
   return errorStore;
 };
 
-const ccsZvalidateRfpQuestions = event => {
+const removeErrorFieldsRfpScoreQuestion = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+};
+$('#rfp_multianswer_question_form').on('submit',(event) => {
   event.preventDefault();
   const errorStore = emptyQuestionFieldCheckRfp();
   if (errorStore.length === 0) {
@@ -145,4 +153,4 @@ const ccsZvalidateRfpQuestions = event => {
   } else {
     ccsZPresentErrorSummary(errorStore);
   }
-};
+});

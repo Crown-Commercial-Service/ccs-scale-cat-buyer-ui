@@ -25,7 +25,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
   } else {
     const { agreement_id, proc_id, event_id } = req.query;
     const { SESSION_ID } = req.cookies;
-    
+
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
       const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
@@ -38,7 +38,8 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
         const criterian_array = fetch_criterian_group_data?.data;
         const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
           const object = anItem;
-          object['criterianId'] = aURI;
+          object.step =getStepNumberWithGroupId(anItem.OCDS.id)
+            object['criterianId'] = aURI;
           return object;
         });
         criterianStorage.push(rebased_object_with_requirements);
@@ -94,3 +95,35 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
     }
   }
 };
+
+const getStepNumberWithGroupId = (groupId: string) => {
+  switch (groupId) {
+    case "Group 1":
+      return 40;
+      break;
+    case "Group 2":
+      return 41;
+      break;
+    case "Group 3":
+      return 42;
+      break;
+    case "Group 4":
+      return 43;
+      break;
+    case "Group 5":
+      return 44;
+      break;
+    case "Group 6":
+      return 45;
+      break;
+    case "Group 7":
+      return 46;
+      break;
+    case "Group 8":
+      return 48;
+      break;
+    default:
+      break;
+  }
+
+}

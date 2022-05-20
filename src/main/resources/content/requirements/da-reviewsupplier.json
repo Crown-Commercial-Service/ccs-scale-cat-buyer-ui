@@ -1,0 +1,57 @@
+{
+    "breadCrumbs": [
+      {
+        "text": "Dashboard",
+        "href": "/dashboard"
+        },
+        {
+        "text": "Choose a commercial agreement",
+        "href": "/projects/choose-agreement"
+        },
+        {
+        "text": "Procurement overview",
+        "href": "/projects/create-or-choose"
+        },
+        {
+        "text": "Write and publish your requirements",
+        "href": "#"
+        },
+        {
+        "text": "Review the supplier for this direct award",
+        "href": "#"
+    }
+    ],
+
+    "title": "Review the supplier for this direct award",
+    "subtitle": "[ Instructions for this page ]",
+    "form": [
+        {
+          "id": "rfi_next_steps",
+          "question": "What would you like to do next?",
+          "radioOptions": {
+            "name": "rfi_next_steps",
+            "items": [
+              {
+                "value": "I want to close this event, and move to the next stage of the project",
+                "text": "I want to close this event, and move to the next stage of the project",
+                "hint": {
+                  "text": "[Description for this route]"
+                }
+              },
+              {
+                "value": "I also want to close the whole project",
+                "text": "I also want to close the whole project",
+                "hint": {
+                  "text": "[Description for this route]"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "backJump": {
+        "title": "Return to Write and publish your requirements",
+        "href": "#"
+      }
+
+}

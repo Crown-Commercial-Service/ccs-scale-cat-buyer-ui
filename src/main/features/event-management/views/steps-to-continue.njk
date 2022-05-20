@@ -1,0 +1,121 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Event management ' %}
+ {% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Event Management",
+      "href": "/event/management?id="+eventId
+    },
+    {
+        "text":"Next Steps",
+        "href":"#"
+    },
+    {
+        "text":"What next step would you like to undertake to continue your project?"
+        
+    }
+  ]
+    }) }}
+{% endblock %} 
+{% block content %}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if(error) %}
+            {{ CCSErrorSummary({
+                titleText: "There is a problem",
+                errorList: [{
+                    text: "Select an option"
+                }]
+                }) 
+            }}
+        {% endif %}
+<div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          <strong>{{data.title}}</strong>
+        </h1>
+       
+      </div>  
+</div>
+<br>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+    {% include "includes/project_header.njk" %}
+    <p>{{data.subtitle}}</p>
+   {#  </div>
+    </div> #}
+
+<p><strong>[Please choose your next step]</strong></p>
+<form method="post" action="/steps-to-continue" > 
+{{ csrfProtection(csrf) }}
+ {% for form in data.form %}
+                        <fieldset id="{{form.id}}">
+                        
+                            <br><br>
+                            {% set formOptions = form.radioOptions.items %}
+                            {% set form_Options_Altered = [] %}
+
+                            {% for item in formOptions %}
+                                {% set form_Options_Altered = (form_Options_Altered.push(
+                                {
+                                    value: item.value,
+                                    html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
+                                    hint : {
+                                        text: item.hint.text
+                                    }
+                                }), form_Options_Altered) 
+                                %}
+                            {% endfor %}
+                            {% if(error) %}
+
+                                {{ CCSRadios({
+                                    idPrefix: "rfi_next_steps_to_continue",
+                                    name: form.id,
+                                    items: form_Options_Altered,
+                                    errorMessage: error,
+                                    errorMessage: {
+                                    text: 'Select an option'
+                                    }                  
+                                }) }}
+                            {% else %}
+
+                                {{ CCSRadios({
+                                        idPrefix: "rfi_next_steps_to_continue",
+                                        name: form.id,
+                                        items: form_Options_Altered        
+                                }) }}
+                            {%endif %}
+
+                            {{ CCSInput({
+                                    id: "choose_fc_rfi_next_steps_to_continue",
+                                    name: "choose_fc_rfi_next_steps_to_continue",
+                                    type: "hidden",
+                                    value: true
+                            }) }}
+                        </fieldset>
+                    {% endfor %}
+
+ <div class="govuk-button-group">
+                    {{ CCSButton({
+                            text: "Save and continue"
+                            }) }}
+
+ {% set returnLink = "/event/management?id="+eventId %}
+  <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>                         
+  </div>                          
+
+</form>
+</div>
+<div class="govuk-grid-column-one-third">
+ {{ CCSReleatedContent(releatedContent) }}
+            </div> 
+ </div>           
+ </main>
+{% endblock %}
