@@ -209,7 +209,7 @@
                 </tr>
               </thead>
               {% for supplier in supplierName %}
-                
+               {% if supplier.responseState =='Submitted'  %} 
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
@@ -226,7 +226,7 @@
                     </td> 
                   </tr>
               </tbody>
-            
+           {% endif %} 
           {% endfor %}
             </table>
             </div>
@@ -242,7 +242,9 @@
       <div class="govuk-grid-column-full">
       {% if status == 'To be evaluated' %}
       <div class="govuk-inset-text">
-        <h4 class="govuk-heading-s">Next Steps on the procurement</h4>
+        <h4 class="govuk-heading-s">
+        [5.Next Steps]</h4>
+        <p>[description for  this section]</p>
          <a class="govuk-link" href="/projects/create-or-choose">Complete RfI and start procurement</a> 
       </div>
     </div>
