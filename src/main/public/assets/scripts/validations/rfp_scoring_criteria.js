@@ -232,7 +232,7 @@ const removeErrorFieldsRfpScore = () => {
 const emptyFieldCheckRfpScore = () => {
   let fieldCheck = '',
     errorStore = [];
-
+    removeErrorFieldsRfpScore();
   for (var x = 1; x < 11; x++) {
     let name_field = document.getElementById('rfp_score_criteria_name_' + x);
     let point_field = document.getElementById('rfp_score_criteria_point_' + x);
@@ -276,6 +276,7 @@ const emptyFieldCheckRfpScore = () => {
   return errorStore;
 };
 const ccsZvalidateScoringCriteria = event => {
+  debugger
   event.preventDefault();
   errorStore = emptyFieldCheckRfpScore();
   let tierVal= document.getElementById("tiersAdded").textContent;
