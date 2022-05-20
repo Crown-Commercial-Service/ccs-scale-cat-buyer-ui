@@ -827,7 +827,7 @@
                               id: "rfp_term_1",
                               name: "term",
                               classes: "rfp_term_1",
-                              value: requirement.nonOCDS.options[0].value
+                              value: requirement.nonOCDS.options[0].text
                             })
                           }}
                         {{ CCSTextarea({
@@ -837,7 +837,7 @@
                                 text: 'Write a definition for the term or acronym explaining what it means'
                               },
                               classes: "rfp_term_definition_1",
-                              value: requirement.nonOCDS.options[1].text
+                              value: requirement.nonOCDS.options[0].value
                             })
                           }}
                         {# {{ CCSInput({
@@ -887,7 +887,7 @@
                                 id: "rfp_term_"+i,
                                 name: "term",
                                 classes: "rfp_term_"+i,
-                                value: requirement.nonOCDS.options[i-1].value
+                                value: requirement.nonOCDS.options[i-1].text
                               })
                             }}
 
@@ -898,7 +898,7 @@
                                   text: 'Write a definition for the term or acronym explaining what it means'
                                 },
                                 classes: "rfp_term_definition_"+i,
-                                value: requirement.nonOCDS.options[i-1].text
+                                value: requirement.nonOCDS.options[i-1].value
                               })
                             }}
                           {# {{ CCSInput({
