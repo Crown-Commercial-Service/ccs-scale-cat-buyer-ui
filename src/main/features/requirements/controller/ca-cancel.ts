@@ -12,6 +12,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { Blob } from 'buffer';
 import { JSDOM } from 'jsdom';
 import { Parser } from 'json2csv';
+import { CalRankSuppliers } from '../../shared/CalRankSuppliers';
 
 // FC cancel
 export const CA_GET_CANCEL = async (req: express.Request, res: express.Response) => {
@@ -44,32 +45,37 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
       //dummy data start
       SUPPLIER_DATA=[
         {
-          "name": "SAPPHIRE ENERGY RECOVERY LIMITED",
-          "id": "US-DUNS-220250828"
+          "name": "SAPPHIRE COOLING SERVICES LIMITED",
+          "id": "US-DUNS-235375081"
         }
       ]
       //dummy data end
 
-      let supplierList = [];
-      supplierList = await GetLotSuppliers(req);//data of all suppliers
+      let RankedSuppliers = [];const result= await CalRankSuppliers(req);
+
+      RankedSuppliers=result;
+
+      // let supplierList = [];
+      // supplierList = await GetLotSuppliers(req);//data of all suppliers
 
       let finalCSVData=[];
       let dataPrepared:any;
       for (var i=0;i<SUPPLIER_DATA.length;i++)
       {
-        let data=supplierList.filter(s=>s.organization.id==SUPPLIER_DATA[i].id);
+        let data=RankedSuppliers.filter(s=>s.supplier.id==SUPPLIER_DATA[i].id);
         
         if(data.length>0){
+          
           dataPrepared ={
-            "Rank No.":"1",
-            "Supplier Name":data[0].organization.name,
-            "Supplier Trading Name":data[0].organization.identifier.legalName,
-            "Total Score":"1",
-            "Capacity Score":"1",
-            "Security Clearance Score":"1",
-            "Capability Score":"1",
-            "Scalability Score":"1",
-            "Location Score":"1"
+            "Rank No.":data[0].rank,
+            "Supplier Name":data[0].name,
+            "Supplier Trading Name":data[0].name,
+            "Total Score":data[0].total,
+            "Capacity Score":data[0].dimensionScores.filter(d=>d.name=="Capacity")?.[0].score,
+            "Security Clearance Score":data[0].dimensionScores.filter(d=>d.name=="Resource Quantity")?.[0].score,
+            "Capability Score":data[0].dimensionScores.filter(d=>d.name=="Capability")?.[0].score,
+            "Scalability Score":data[0].dimensionScores.filter(d=>d.name=="Scalability")?.[0].score,
+            "Location Score":data[0].dimensionScores.filter(d=>d.name=="Location")?.[0].score
           }
           finalCSVData.push(dataPrepared);
         }
