@@ -218,9 +218,9 @@ export class QuestionHelper {
           }
         }
         
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Completed');
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/66`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-            //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/33`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/70`, 'Not started');
         }
         res.redirect('/rfp/task-list');
       }

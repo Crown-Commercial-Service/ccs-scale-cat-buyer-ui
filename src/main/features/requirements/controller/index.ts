@@ -104,6 +104,7 @@ import {GET_RFP_REVIEW,POST_RFP_REVIEW} from './rfp-review';
 
 import {GET_UNPUBLISHED_EVENT_MANAGEMENT} from './rfp-unpublishedeventmanagement';
 import {GET_RFP_CLOSE_PROJECT} from './rfp-closeproject';
+import {GET_DA_REVIEW_SUPPLIER,POST_DA_REVIEW_SUPPLIER} from './da-reviewsupplier';
 
 /**
  * @BaseController
@@ -258,6 +259,7 @@ export const REQUIREMENT_CONTROLLER = {
   GET_RFP_CLOSE_PROJECT,
 
   RFP_GET_EVENT_PUBLISHED,
-  GET_RFP_REVIEW,POST_RFP_REVIEW
+  GET_RFP_REVIEW,POST_RFP_REVIEW,
+  GET_DA_REVIEW_SUPPLIER,POST_DA_REVIEW_SUPPLIER
 
 };

@@ -972,6 +972,12 @@ p + .govuk-heading-s,
     float: left;
   }
 }
+.govuk-text-align{
+  text-align:right;
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #b1b4b6;
+  vertical-align: top;
+}
 
 .govuk-grid-column-one-third {
   box-sizing: border-box;
@@ -8942,7 +8948,7 @@ p,
   height: inherit;
 }
 
-.backdrop-vetting, .backdrop-nav-menu, .backdrop-tier-4, .backdrop-tier-5 {
+.backdrop-vetting, .backdrop-nav-menu, .backdrop-tier-4, .backdrop-tier-5,backdrop-nextsteps {
   position: fixed;
   top: 0px;
   left: 0px;
