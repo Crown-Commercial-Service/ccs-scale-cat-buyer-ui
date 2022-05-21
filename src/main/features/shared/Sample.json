@@ -1,0 +1,321 @@
+{
+    "scores": [
+        {
+            "supplier": {
+                "id": "US-DUNS-220250828"
+            },
+            "dimensionScores": [
+                {
+                    "dimension-id": 1,
+                    "name": "Resource Quantity",
+                    "score": 18.4,
+                    "requirementScores": [                       
+                    ]
+                },
+                {
+                    "dimension-id": 5,
+                    "name": "Location",
+                    "score": 24.98,
+                    "requirementScores": [                      
+                    ]
+                },
+                {
+                    "dimension-id": 4,
+                    "name": "Scalability",
+                    "score": 0.0,
+                    "requirementScores": [                        
+                    ]
+                },
+				{
+                    "dimension-id": 2,
+                    "name": "Capacity",
+                    "score": 18.4,
+                    "requirementScores": [                        
+                    ]
+                },
+				{
+                    "dimension-id": 3,
+                    "name": "Capability",
+                    "score": 15.4,
+                    "requirementScores": [                        
+                    ]
+                }
+            ],
+            "total": 77.18
+        },
+		{
+            "supplier": {
+                "id": "US-DUNS-555555555"
+            },
+            "dimensionScores": [
+                {
+                    "dimension-id": 1,
+                    "name": "Resource Quantity",
+                    "score": 18.4,
+                    "requirementScores": [                       
+                    ]
+                },
+                {
+                    "dimension-id": 5,
+                    "name": "Location",
+                    "score": 24.98,
+                    "requirementScores": [                      
+                    ]
+                },
+                {
+                    "dimension-id": 4,
+                    "name": "Scalability",
+                    "score": 0.0,
+                    "requirementScores": [                        
+                    ]
+                },
+				{
+                    "dimension-id": 2,
+                    "name": "Capacity",
+                    "score": 18.4,
+                    "requirementScores": [                        
+                    ]
+                },
+				{
+                    "dimension-id": 3,
+                    "name": "Capability",
+                    "score": 15.4,
+                    "requirementScores": [                        
+                    ]
+                }
+            ],
+            "total": 77.18
+        },
+        {
+            "supplier": {
+                "id": "US-DUNS-210305433"
+            },
+            "dimensionScores": [
+                {
+                    "dimension-id": 1,
+                    "name": "Resource Quantity",
+                    "score": 4.6,
+                    "requirementScores": [
+                       
+                    ]
+                },
+                {
+                    "dimension-id": 4,
+                    "name": "Scalability",
+                    "score": 20.0,
+                    "requirementScores": [
+                        
+                    ]
+                },
+                {
+                    "dimension-id": 5,
+                    "name": "Location",
+                    "score": 17.55,
+                    "requirementScores": [
+                        
+                    ]
+                },				
+				{
+                    "dimension-id": 2,
+                    "name": "Capacity",
+                    "score": 6.4,
+                    "requirementScores": [
+                        
+                    ]
+                },
+				{
+                    "dimension-id": 3,
+                    "name": "Capability",
+                    "score": 9.4,
+                    "requirementScores": [
+                        
+                    ]
+                }
+            ],
+            "total": 57.95
+        },
+        {
+            "supplier": {
+                "id": "US-DUNS-235375081"
+            },
+            "dimensionScores": [
+                {
+                    "dimension-id": 5,
+                    "name": "Location",
+                    "score": 13.5,
+                    "requirementScores": [
+                    
+                       
+                    ]
+                },
+                {
+                    "dimension-id": 1,
+                    "name": "Resource Quantity",
+                    "score": 8.05,
+                    "requirementScores": [
+                        
+                    ]
+                },
+                {
+                    "dimension-id": 4,
+                    "name": "Scalability",
+                    "score": 40.0,
+                    "requirementScores": [
+                        
+                    ]
+                },
+				{
+                    "dimension-id": 2,
+                    "name": "Capacity",
+                    "score": 6.4,
+                    "requirementScores": [
+                        
+                    ]
+                },
+				{
+                    "dimension-id": 3,
+                    "name": "Capability",
+                    "score": 10.4,
+                    "requirementScores": [
+                        
+                    ]
+                }
+            ],
+            "total": 78.35
+        },
+		{
+            "supplier": {
+                "id": "US-DUNS-216728373"
+            },
+            "dimensionScores": [
+                {
+                    "dimension-id": 1,
+                    "name": "Resource Quantity",
+                    "score": 17.4,
+                    "requirementScores": [                       
+                    ]
+                },
+                {
+                    "dimension-id": 5,
+                    "name": "Location",
+                    "score": 25.98,
+                    "requirementScores": [                      
+                    ]
+                },
+                {
+                    "dimension-id": 4,
+                    "name": "Scalability",
+                    "score": 0.0,
+                    "requirementScores": [                        
+                    ]
+                },
+				{
+                    "dimension-id": 2,
+                    "name": "Capacity",
+                    "score": 19.4,
+                    "requirementScores": [                        
+                    ]
+                },
+				{
+                    "dimension-id": 3,
+                    "name": "Capability",
+                    "score": 15.4,
+                    "requirementScores": [                        
+                    ]
+                }
+            ],
+            "total": 78.18
+        },
+		{
+            "supplier": {
+                "id": "US-DUNS-733669241"
+            },
+            "dimensionScores": [
+                {
+                    "dimension-id": 1,
+                    "name": "Resource Quantity",
+                    "score": 18.4,
+                    "requirementScores": [                       
+                    ]
+                },
+                {
+                    "dimension-id": 5,
+                    "name": "Location",
+                    "score": 24.98,
+                    "requirementScores": [                      
+                    ]
+                },
+                {
+                    "dimension-id": 4,
+                    "name": "Scalability",
+                    "score": 0.0,
+                    "requirementScores": [                        
+                    ]
+                },
+				{
+                    "dimension-id": 2,
+                    "name": "Capacity",
+                    "score": 19.4,
+                    "requirementScores": [                        
+                    ]
+                },
+				{
+                    "dimension-id": 3,
+                    "name": "Capability",
+                    "score": 15.4,
+                    "requirementScores": [                        
+                    ]
+                }
+            ],
+            "total": 78.18
+        },
+        {
+            "supplier": {
+                "id": "US-DUNS-215577839"
+            },
+            "dimensionScores": [
+                {
+                    "dimension-id": 5,
+                    "name": "Location",
+                    "score": 13.5,
+                    "requirementScores": [
+                        
+                    ]
+                },
+                {
+                    "dimension-id": 4,
+                    "name": "Scalability",
+                    "score": 20.0,
+                    "requirementScores": [
+                        
+                    ]
+                },
+                {
+                    "dimension-id": 1,
+                    "name": "Resource Quantity",
+                    "score": 12.65,
+                    "requirementScores": [
+                        
+                    ]
+                },
+				{
+                    "dimension-id": 2,
+                    "name": "Capacity",
+                    "score": 9.4,
+                    "requirementScores": [
+                        
+                    ]
+                },
+				{
+                    "dimension-id": 3,
+                    "name": "Capability",
+                    "score": 20.4,
+                    "requirementScores": [
+                        
+                    ]
+                }
+            ],
+            "total": 75.95
+        }
+    ]
+}
