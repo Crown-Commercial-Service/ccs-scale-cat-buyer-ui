@@ -312,7 +312,7 @@ const ccsZPresentErrorSummary = (errorStore) => {
   errSummaryBox.appendChild(errSummaryBody);
 
   // and finally, insert the error summary box into the page
-  document.querySelector("h1").parentNode.insertBefore(errSummaryBox, document.querySelector("h1"));
+  document.querySelector(".govuk-heading-xl").parentNode.insertBefore(errSummaryBox, document.querySelector(".govuk-heading-xl"));
   window.scrollTo(0, 0);
 
 };

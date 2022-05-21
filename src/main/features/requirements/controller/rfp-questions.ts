@@ -47,7 +47,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const { OCDS, nonOCDS } = matched_selector;
     //const bcTitleText = OCDS?.description;
     //const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
-    const newOCDSdescription =changeTitle(OCDS?.description) 
+    const newOCDSdescription = changeTitle(OCDS?.description)
     const bcTitleText = newOCDSdescription;
     const titleText = nonOCDS.mandatory === false ? newOCDSdescription + ' (Optional)' : newOCDSdescription;
     const promptData = nonOCDS?.prompt;
@@ -56,7 +56,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
-      aSelector.nonOCDS.type=titleText;
+      aSelector.nonOCDS.type = titleText;
       const questionNonOCDS = {
         groupId: group_id,
         questionId: aSelector.OCDS.id,
@@ -150,7 +150,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       event_id: event_id,
       group_id: group_id,
       criterian_id: id,
-      form_name:bcTitleText !="The people who will use your product or service"? formNameValue:"service_user_type_form",
+      form_name: bcTitleText != "The people who will use your product or service" ? formNameValue : "service_user_type_form",
       rfpTitle: titleText,
       shortTitle: mapTitle(group_id),
       bcTitleText,
@@ -165,8 +165,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       delete data.data[0].nonOCDS.options;
       data.data[0].nonOCDS.options = req.session['errorFields'];
     }
-    if (bcTitleText==='Define your service levels and KPIs') {
-      data.form_name='service_levels_kpi_form';
+    if (bcTitleText === 'Define your service levels and KPIs') {
+      data.form_name = 'service_levels_kpi_form';
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
@@ -249,11 +249,14 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
           'question_id',
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
-        const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
-        const object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
-          return { value: an_answer, selected: true };
+        const  filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
+        const {_csrf}=req.body;
+        let  object_values = Object.values(filtered_object_with_empty_keys).filter(an_answer => {
+          if (_csrf !=an_answer) {
+            return { value: an_answer, selected: true };
+          }
         });
-
+        
         if (req.body.rfp_read_me) {
           QuestionHelper.AFTER_UPDATINGDATA(
             ErrorView,
@@ -296,7 +299,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [{ value: term[i],selected: true }],
+                    options: [{ value: term[i], selected: true }],
                   },
                 };
               } else {
@@ -316,9 +319,9 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
 
             } else if (questionNonOCDS.questionType === 'MultiSelect') {
               let selectedOptionToggle = [...object_values].map((anObject: any) => {
-                const check = Array.isArray(anObject?.value);
+                const check = Array.isArray(anObject);
                 if (check) {
-                  let arrayOFArrayedObjects = anObject?.value.map((anItem: any) => {
+                  let arrayOFArrayedObjects = anObject.map((anItem: any) => {
                     return { value: anItem, selected: true };
                   });
                   arrayOFArrayedObjects = arrayOFArrayedObjects.flat().flat();
@@ -339,12 +342,11 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 req.session['isLocationMandatoryError'] = true;
                 break;
               } else if (
-                selectedOptionToggle[1].find(
+                selectedOptionToggle.length > 0 && selectedOptionToggle[i].find(
                   x =>
                     x.value === 'No specific location, for example they can work remotely' ||
                     x.value === 'Not Applicable',
-                ) &&
-                selectedOptionToggle[1].length > 1
+                )
               ) {
                 validationError = true;
                 req.session['isLocationError'] = true;
@@ -353,7 +355,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [...selectedOptionToggle[1]],
+                    options: [...selectedOptionToggle[i]],
                   },
                 };
               }
@@ -521,14 +523,14 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             if (!validationError) {
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-                const {_csrf}=req.body;
-                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 ) {
-                 var options= answerValueBody?.nonOCDS?.options.filter(x=>{
-                   if (x.value !=_csrf && x.value  !=undefined) {
-                     return x;
-                   }
-                 });
-                 answerValueBody.nonOCDS.options=options;
+                const { _csrf } = req.body;
+                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0) {
+                  var options = answerValueBody?.nonOCDS?.options.filter(x => {
+                    if (x.value != _csrf && x.value != undefined) {
+                      return x;
+                    }
+                  });
+                  answerValueBody.nonOCDS.options = options;
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
                 }
 
@@ -688,65 +690,63 @@ const mapTitle = groupId => {
 };
 
 
-function changeTitle(title)
-  {
-    let text = '';
-    switch(title)
-    {
-      case 'Learn about adding context and requirements':
-        text='Learn more about adding context and requirements';
-        break;
-      case 'Terms and acronyms':
-        text='Terms and acronyms';
-        break;
-      case 'Background and context to your requirement':
-        text='Background to your procurement';
-        break;
-      case 'Problem to solve/impact of not completing deliverables and outcome':
-        text='The business problem you need to solve';
-        break;
-      case 'Key Users':
-        text='The people who will use your product or service';
-        break;
-      case 'Work Completed to date':
-        text='Work done so far';
-        break;
-      case 'Current phase of the project':
-        text='Which phase the project is currently in';
-        break;
-      case 'Phase resource is required for':
-        text='Which phase(s) of the project you need resource for';
-        break;
-      case 'Duration of work/resource required for':
-        text='The expected duration of the project';
-        break;
-      case 'The buying organisation':
-        text='Who the buying organisation is';
-        break;
-      case 'Market engagement to date':
-        text='Describe any market engagement you\'ve done';
-        break;
-      case 'New, replacement or expanded services or products':
-        text='Choose if this a new, replacement or expanded service or product';
-        break;
-      case 'Is there an incumbent supplier?':
-        text='Tell us if there is an existing supplier';
-        break;
-      case 'Management information and reporting':
-        text='Management information and reporting requirements';
-        break;
-      case 'Service levels and performance':
-        text='Define your service levels and KPIs';
-        break;
-      case 'Incentives and exit strategy':
-        text='Detail any performance incentives and exit strategies';
-        break;
-      case 'How the supplier is going to deliver within the budget constraints':
-        text='Contract values and how suppliers will meet the project needs within this budget';
-        break;
-      case 'Add your requirements':
-        text='Enter your project requirements';
-        break;
-    }
-    return text;
+function changeTitle(title) {
+  let text = '';
+  switch (title) {
+    case 'Learn about adding context and requirements':
+      text = 'Learn more about adding context and requirements';
+      break;
+    case 'Terms and acronyms':
+      text = 'Terms and acronyms';
+      break;
+    case 'Background and context to your requirement':
+      text = 'Background to your procurement';
+      break;
+    case 'Problem to solve/impact of not completing deliverables and outcome':
+      text = 'The business problem you need to solve';
+      break;
+    case 'Key Users':
+      text = 'The people who will use your product or service';
+      break;
+    case 'Work Completed to date':
+      text = 'Work done so far';
+      break;
+    case 'Current phase of the project':
+      text = 'Which phase the project is currently in';
+      break;
+    case 'Phase resource is required for':
+      text = 'Which phase(s) of the project you need resource for';
+      break;
+    case 'Duration of work/resource required for':
+      text = 'The expected duration of the project';
+      break;
+    case 'The buying organisation':
+      text = 'Who the buying organisation is';
+      break;
+    case 'Market engagement to date':
+      text = 'Describe any market engagement you\'ve done';
+      break;
+    case 'New, replacement or expanded services or products':
+      text = 'Choose if this a new, replacement or expanded service or product';
+      break;
+    case 'Is there an incumbent supplier?':
+      text = 'Tell us if there is an existing supplier';
+      break;
+    case 'Management information and reporting':
+      text = 'Management information and reporting requirements';
+      break;
+    case 'Service levels and performance':
+      text = 'Define your service levels and KPIs';
+      break;
+    case 'Incentives and exit strategy':
+      text = 'Detail any performance incentives and exit strategies';
+      break;
+    case 'How the supplier is going to deliver within the budget constraints':
+      text = 'Contract values and how suppliers will meet the project needs within this budget';
+      break;
+    case 'Add your requirements':
+      text = 'Enter your project requirements';
+      break;
   }
+  return text;
+}

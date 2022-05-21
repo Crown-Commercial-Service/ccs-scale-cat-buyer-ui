@@ -443,99 +443,96 @@
                 </div>
               {% else %}
                  {%set rfp_duration_years='rfp_duration-years_'+requirement.OCDS.id.trim().replace(' ','')%}
-              
-                     {%set rfp_duration_months='rfp_duration_months_'+requirement.OCDS.id.trim().replace(' ','')%}
-                      {%set rfp_duration_days='rfp_duration_days_'+requirement.OCDS.id.trim().replace(' ','')%}
+                 {%set rfp_duration_months='rfp_duration_months_'+requirement.OCDS.id.trim().replace(' ','')%}
+                 {%set rfp_duration_days='rfp_duration_days_'+requirement.OCDS.id.trim().replace(' ','')%}
                 <div class="govuk-form-group {{rfp_duration_years}} p_durations">
-                  <div class="govuk-fieldset" role="group" aria-describedby="rfp_duration-hint">
-                    <legend class="govuk-fieldset__legend govuk-label--m">
-                      {{requirement.OCDS.title}} (Optional)
-                  </legend>
-                    <div id="rfp_duration-hint" class="govuk-hint">
-                      <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
-                    </div>
-                    <p id="event-name-error-pdate" class="govuk-error-message p_durations_pday_25 p_durations_pday_{{rfp_duration_days}}">
-                      <span class="govuk-visually-hidden">Error:</span>
-                    </p>
-                    <p id="event-name-error-pmonth" class="govuk-error-message p_durations_pmonth_{{rfp_duration_months}}">
-                      <span class="govuk-visually-hidden">Error:</span>
-                    </p>
-                    <p id="event-name-error-pyear" class="govuk-error-message p_durations_pyear_{{rfp_duration_years}}">
-                      <span class="govuk-visually-hidden">Error:</span>
-                    </p>
-
-                    <div class="govuk-date-input" id="rfp_duration">
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                          {{ CCSInput({
-                            label: {
-                              text: "Years",
-                              classes: "govuk-label govuk-date-input__label",
-                              for: "rfp_duration-years"
-                            },
-                            id: rfp_duration_years,
-                            name: rfp_duration_years,
-                            classes: "govuk-input rfp_duration rfp_duration_year_25 govuk-date-input__input govuk-input--width-4",
-                            type: "number", 
-                            inputmode:"numeric",
-                            value: requirement.nonOCDS.options[0].value,
-                            max: "4",
-                            min: "0",
-                            maxlength: "1"
-                          }) }}
-                        </div>
-                      </div>
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                          {{ CCSInput({
-                            label: {
-                              text: "Month",
-                              classes: "govuk-label govuk-date-input__label",
-                              for: "rfp_duration-months"
-                            },
-                            id: rfp_duration_months,
-                            name: rfp_duration_months,
-                            classes: "govuk-input rfp_duration rfp_duration_month_25 govuk-date-input__input govuk-input--width-2",
-                            type: "number", 
-                            inputmode:"numeric",
-                            value: requirement.nonOCDS.options[1].value,
-                            max: "12",
-                            min: "0",
-                            maxlength: "2"
-                          }) }}
-                        </div>
-                      </div>
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                           
-                          {{ CCSInput({
-                            label: {
-                              text: "Days",
-                              classes: "govuk-label govuk-date-input__label",
-                              for: "rfp_duration-days"
-                            },
-                            id: rfp_duration_days,
-                            name: rfp_duration_days,
-                            classes: "govuk-input rfp_duration rfp_duration_day_25 govuk-date-input__input govuk-input--width-2",
-                            type: "number", 
-                            inputmode:"numeric",
-                            value: requirement.nonOCDS.options[2].value,
-                            max: "31",
-                            min: "0",
-                            maxlength: "2"
-                          }) }}
-                          {{ CCSInput({
-                              id: "question_id",
-                              name: "question_id",
-                              type: "hidden",
-                              value: requirement.OCDS.id
-                            })
-                          }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+   <div class="govuk-fieldset" role="group" aria-describedby="rfp_duration-hint">
+      <legend class="govuk-fieldset__legend govuk-label--m">
+         {{requirement.OCDS.title}} (Optional)
+      </legend>
+      <div id="rfp_duration-hint" class="govuk-hint">
+         <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
+      </div>
+      <p id="event-name-error-pdate" class="govuk-error-message p_durations_pday_25 p_durations_pday_{{rfp_duration_days}}">
+         <span class="govuk-visually-hidden">Error:</span>
+      </p>
+      <p id="event-name-error-pmonth" class="govuk-error-message p_durations_pmonth_{{rfp_duration_months}}">
+         <span class="govuk-visually-hidden">Error:</span>
+      </p>
+      <p id="event-name-error-pyear" class="govuk-error-message p_durations_pyear_{{rfp_duration_years}}">
+         <span class="govuk-visually-hidden">Error:</span>
+      </p>
+      <div class="govuk-date-input" id="rfp_duration">
+         <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+               {{ CCSInput({
+               label: {
+               text: "Years",
+               classes: "govuk-label govuk-date-input__label",
+               for: "rfp_duration-years"
+               },
+               id: rfp_duration_years,
+               name: rfp_duration_years,
+               classes: "govuk-input rfp_duration rfp_duration_year_25 govuk-date-input__input govuk-input--width-4",
+               type: "number", 
+               inputmode:"numeric",
+               value: requirement.nonOCDS.options[0].value,
+               max: "4",
+               min: "0",
+               maxlength: "1"
+               }) }}
+            </div>
+         </div>
+         <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+               {{ CCSInput({
+               label: {
+               text: "Month",
+               classes: "govuk-label govuk-date-input__label",
+               for: "rfp_duration-months"
+               },
+               id: rfp_duration_months,
+               name: rfp_duration_months,
+               classes: "govuk-input rfp_duration rfp_duration_month_25 govuk-date-input__input govuk-input--width-2",
+               type: "number", 
+               inputmode:"numeric",
+               value: requirement.nonOCDS.options[1].value,
+               max: "12",
+               min: "0",
+               maxlength: "2"
+               }) }}
+            </div>
+         </div>
+         <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+               {{ CCSInput({
+               label: {
+               text: "Days",
+               classes: "govuk-label govuk-date-input__label",
+               for: "rfp_duration-days"
+               },
+               id: rfp_duration_days,
+               name: rfp_duration_days,
+               classes: "govuk-input rfp_duration rfp_duration_day_25 govuk-date-input__input govuk-input--width-2",
+               type: "number", 
+               inputmode:"numeric",
+               value: requirement.nonOCDS.options[2].value,
+               max: "31",
+               min: "0",
+               maxlength: "2"
+               }) }}
+               {{ CCSInput({
+               id: "question_id",
+               name: "question_id",
+               type: "hidden",
+               value: requirement.OCDS.id
+               })
+               }}
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
               {% endif %}
             {% endif %}
           {% endblock %}
@@ -871,7 +868,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: NumberWord[i] +" terms or acronym"  +"<a href="+i+" id='deleteButton_acronym_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                                html: NumberWord[i] +" terms or acronym"  +"<a href="+i+" id='deleteButton_acronym_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='clear'> X </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
