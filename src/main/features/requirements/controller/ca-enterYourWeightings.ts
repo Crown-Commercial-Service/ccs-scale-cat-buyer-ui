@@ -129,7 +129,7 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       res.redirect('/ca/enter-your-weightings');
     } else {
       for (var dimension of dimensions) {
-        if (dimensions.length < 6) {
+        //if (dimensions.length < 6) {
           const body = {
             name: dimension.name,
             weighting: req.body[dimension['dimension-id']],
@@ -150,7 +150,7 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
             `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
             body,
           );
-        }
+       // }
         
         await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Not started');

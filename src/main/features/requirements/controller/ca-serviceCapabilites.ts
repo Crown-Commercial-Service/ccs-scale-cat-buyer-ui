@@ -43,8 +43,8 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
 
-    const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
-    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
+    // const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
+    // const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
 
 
 
@@ -127,7 +127,9 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       return {
         url: `#section${index}`,
         text: item.category,
-        subtext: `${item.Weightage.min}% / ${item.Weightage.max}%`,
+        subtext: `[ 0 % ]`,
+        className: 'ca-service-capabilities'
+        //subtext: `${item.Weightage.min}% / ${item.Weightage.max}%`,
       };
     });
 
@@ -338,11 +340,14 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
 
+    var Service_capbility_weightage = [];
 
     const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
-    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
 
-
+    if (typeof Weightings !== 'undefined' && Weightings.length > 0) {
+     Service_capbility_weightage = Weightings?.filter(item => item.name == 'Service Capability')[0].weighting;
+    }
+    
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
 
@@ -489,7 +494,8 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const { Weightage } = item;
       const requirementId = item['requirement-id'];
       const PostedFormElement = {};
-      (PostedFormElement['requirement-id'] = requirementId), (PostedFormElement['weighting'] = Weightage);
+      (PostedFormElement['requirement-id'] = requirementId), 
+      (PostedFormElement['weighting'] = Weightage);
       PostedFormElement['values'] = [];
       return PostedFormElement;
     });

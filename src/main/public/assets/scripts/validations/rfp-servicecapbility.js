@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-var tabLinks = document.querySelectorAll('.ons-list__item');
+var tabLinks = document.querySelectorAll('.rfp-service-capabilities');
 var allCheckBox = document.getElementsByClassName('rfp_cap');
 var checkBoxByGroup = [];
 
@@ -15,7 +15,8 @@ ccsTabMenuNaviation();
 if(tabLinks.length >0)
 {
    itemSubText =document.getElementsByClassName('table-item-subtext')[0];;
-   itemText = document.getElementsByClassName('ons-list__link')[0].childNodes[0].data;
+   //itemText = document.getElementsByClassName('rfp-service-capabilities')[0].childNodes[0].data;
+   itemText = tabLinks[0].getElementsByTagName('a')[0].childNodes[0].data;
    if(itemText != null && itemText !='')
 {
   itemText = itemText.replaceAll(" ", "_");
@@ -25,9 +26,11 @@ if(tabLinks.length >0)
 Array.from(tabLinks).forEach(link => {
   link.addEventListener('click', function (e) {
    let currentTarget = e.currentTarget; 
-
+   let clicked_index = $(this).index();
+   
    itemSubText =currentTarget.getElementsByClassName('table-item-subtext')[0];
-   itemText  =currentTarget.getElementsByClassName('ons-list__link')[0].childNodes[0].data; 
+   itemText = tabLinks[clicked_index].getElementsByTagName('a')[0].childNodes[0].data;
+   //itemText  =currentTarget.getElementsByClassName('rfp-service-capabilities')[0].childNodes[0].data; 
    itemText = itemText.replaceAll(" ", "_");
    checkBoxByGroup = document.getElementsByClassName(itemText);
      checkBoxSelection(itemText)
