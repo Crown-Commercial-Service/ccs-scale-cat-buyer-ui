@@ -90,7 +90,7 @@
                             class="govuk-link govuk-link--no-visited-state " hidden>I do not want to change this date and time</a>
                     </div>
                     <br>
-                    <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfi_response_date_form">
+                    <form action="/rfi/add/response-date" method="post" class="ccs_rfi_response_date_form" id="ccs_rfi_response_date_form_{{loop.index}}">
                     {{ csrfProtection(csrf) }}
 
                     <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
