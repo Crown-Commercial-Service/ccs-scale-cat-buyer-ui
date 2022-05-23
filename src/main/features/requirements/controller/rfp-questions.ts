@@ -492,8 +492,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               };
             } else {
               if (
-                (questionNonOCDS.mandatory == true && object_values.length == 0) ||
-                object_values[0]?.value.length == 0
+                (questionNonOCDS.mandatory == true && object_values.length == 0)
               ) {
                 validationError = true;
                 break;
@@ -511,11 +510,15 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   },
                 };
               } else {
+                let optionsData=[];
+                for (let index = 0; index < object_values.length; index++) {
+                  optionsData.push({ value: object_values[index], selected: true });
+                }
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
                     multiAnswer: questionNonOCDS.multiAnswer,
-                    options: [...object_values],
+                    options: [...optionsData],
                   },
                 };
               }
