@@ -279,8 +279,8 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
   const { ca_service_started } = req.body;
 
 
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Not started');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Not started');
   let { ca_partial_weightage, weight_vetting_partial, weight_vetting_whole, weight_vetting_whole_group } = req.body;
 
   /**

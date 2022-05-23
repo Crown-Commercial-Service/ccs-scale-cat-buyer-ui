@@ -70,7 +70,7 @@ export class QuestionHelper {
         res.redirect(base_url);
       } else {
         let mandatoryNum = 0;
-        const maxNum = 8;
+        const maxNum = 4;
         let status = '';
         for (let i = 0; i < criterian_array.length; i++) {
           const groupId = criterian_array[i].OCDS['id'];
