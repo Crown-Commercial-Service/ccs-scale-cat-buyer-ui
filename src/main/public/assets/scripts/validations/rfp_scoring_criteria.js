@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (var score_criteria_fieldset = 10; score_criteria_fieldset > 1; score_criteria_fieldset--) {
       let this_fieldset = document.querySelector('.score_criteria_' + score_criteria_fieldset),
         name_box = document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset);
-
+        //document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset);
       if (name_box.value !== '') {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
 
@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rowsAndHead = JSON.parse(e.currentTarget.attributes[2].value);
         if (rowsAndHead != undefined && rowsAndHead != null) {
         document.getElementById('tiersAdded').textContent=rowsAndHead.rows.length;
+        with_value_count=rowsAndHead.rows.length+1;
           for (let i = 0; i < rowsAndHead.rows.length; i++) {
             if (i === 0) {
               const ii = i + 1;
@@ -94,9 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
               .querySelector('.score_criteria_' + prev_input + ' a.clear-fields')
               .classList.add('ccs-dynaform-hidden');
         }
-
+        document.getElementById("tiersAdded").textContent=Number(document.getElementById('tiersAdded').textContent)-1;
         with_value_count++;
-        document.getElementById("tiersAdded").textContent=with_value_count;
+        
         if (with_value_count === 11) {
         document.getElementById("tiersAdded").textContent='10 ';
          
@@ -121,6 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rfp_score_criteria_point_' + target).value = '';
         document.getElementById('rfp_score_criteria_desc_' + target).value = '';
 
+        document.getElementById('rfp_score_criteria_name_' + target).removeAttribute('readonly');
+        document.getElementById('rfp_score_criteria_point_' + target).removeAttribute('readonly');
+        document.getElementById('rfp_score_criteria_desc_' + target).removeAttribute('readonly');
         if (prev_coll > 1) {
           // document
           //   .querySelector('.score_criteria_' + prev_coll + ' a.clear-fields')
@@ -139,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
         with_value_count--;
+        document.getElementById('tiersAdded').textContent=with_value_count;
       });
     });
 

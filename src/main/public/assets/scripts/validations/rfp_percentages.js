@@ -4,14 +4,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let elements = document.querySelectorAll("[name='percentage']");
     let totalPercentageEvent = () => {
       let percentage = 0
+      let errorList=[];
+      removeErrorFieldsRfpPercentage();
       elements.forEach((el) => {
         percentage += isNaN(el.value) ? 0 : Number(el.value);
       });
+      if (percentage >100) {
+        errorList.push(["There is a problem","The total weighting is exceeded more than 100%"]);
+        ccsZPresentErrorSummary(errorList)
+      }
       $("#totalPercentage").text(percentage);
     };
 
     elements.forEach((ele) => {
       ele.addEventListener('focusout', totalPercentageEvent)
+      ele.addEventListener('keydown', (event) => {
+        if (event.key === '.') { event.preventDefault(); }
+      });
     });
     totalPercentageEvent();
   }
@@ -24,7 +33,7 @@ const checkPercentagesCond = () => {
   let allTextBox = $("form input[type='number']");
   let totalValue = 0;
   if (Number($("#totalPercentage").text()) > 100) {
-    errorStore=['There is a problem','The total weighting cannot exceed 100%']
+    errorStore.push(['There is a problem', 'The total weighting cannot exceed 100%'])
     //ccsZPresentErrorSummary([errorStore]);
     // for (let k = 0; k < allTextBox.length; k++) {
     //   fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "The total weighting cannot exceed 100%", /\w+/, false);
@@ -81,14 +90,13 @@ const checkRange = (s, e, val) => {
   return { start, end };
 }
 const ccsZvalidateRfpPercentages = (event) => {
-  debugger
   event.preventDefault();
   const errorStore = checkPercentagesCond();
   if (errorStore === undefined || errorStore === null || errorStore.length === 0) {
     document.forms["rfp_percentage_form"].submit();
   }
   else {
-    ccsZPresentErrorSummary([errorStore]);
+    ccsZPresentErrorSummary(errorStore);
   }
 }
 
