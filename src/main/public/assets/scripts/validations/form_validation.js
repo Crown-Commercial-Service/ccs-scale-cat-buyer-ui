@@ -14,17 +14,17 @@
  * Works with text, number and file inputs (make sure the
  * 'accepts' attribute is set for files).
  */
- debugger;
+//debugger;
 const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => {
   const element = document.getElementById(elementName);
 
-  if (element.value.trim().match(typeRegex) && valid) {
+  if (element?.value != undefined && element.value != null && element.value.trim().match(typeRegex) && valid) {
     ccsZremoveErrorMessage(element);
     return true;
   } else {
     ccsZremoveErrorMessage(element);
     ccsZaddErrorMessage(element, errMsg);
-    return [element.id, errMsg];
+    return [element?.id, errMsg];
   }
 };
 
@@ -38,7 +38,7 @@ const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
   }
   else if (element != undefined && element != null) {
     ccsZaddErrorMessage(element, errMsg);
-    return [element.id, errMsg];
+    return [element?.id, errMsg];
   }
 };
 
@@ -188,7 +188,7 @@ const ccsZvalidateThisDate = (elementName, errMsg, direction, offset) => {
  */
 const ccsZremoveErrorMessage = (element) => {
 
-  if (document.getElementById(element.id + "-error") !== null) {
+  if (element !=null && document.getElementById(element.id + "-error") !== null) {
     element.closest('.govuk-form-group').classList.remove('govuk-form-group--error');
     if (element.tagName === "TEXTAREA") {
       element.closest('.govuk-textarea').classList.remove('govuk-textarea--error');
@@ -202,7 +202,7 @@ const ccsZremoveErrorMessage = (element) => {
       });
     }
 
-    document.getElementById(element.id + "-error").remove();
+    document.getElementById(element?.id + "-error").remove();
   }
 
 };

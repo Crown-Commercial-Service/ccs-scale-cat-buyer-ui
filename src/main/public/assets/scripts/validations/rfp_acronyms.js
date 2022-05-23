@@ -33,35 +33,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
     document.getElementById("ccs_rfpTerm_add").addEventListener('click', (e) => {
-
-
-
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
       checkFieldsRfp1();
 
       e.preventDefault();
       errorStore = emptyFieldCheckRfp1();
       if (errorStore.length == 0) {
-
         removeErrorFieldsRfp1();
-
-
         document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-
+        $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
+        
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
           document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
         }
-
         with_value_count++;
-
         if (with_value_count === 11) {
           document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
-
         }
-
-
-
       }
       else ccsZPresentErrorSummary(errorStore);
     });
@@ -221,33 +210,33 @@ const emptyFieldCheckRfp1 = () => {
             ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
             errorStore.push(fieldCheck);
           }
-          else if (x != 1) {
-            let isError = false;
-            if (term_field.value.trim() === '') {
-              ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
-              isError = true;
-            }
-            if (definition_field.value.trim() === '') {
-              ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
-              isError = true;
-            }
-            if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
-              ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
-              isError = true;
-            }
-            if (field1) {
-              ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
-              isError = true;
-            }
-            if (field2) {
-              ccsZaddErrorMessage(definition_field, 'No more than 250 words are allowed.');
-              isError = true;
-            }
-            if (isError) {
-              fieldCheck = [definition_field.id, 'You must add information in all fields.'];
-              errorStore.push(fieldCheck);
-            }
-          }
+          // else if (x != 1) {
+          //   let isError = false;
+          //   if (term_field.value.trim() === '') {
+          //     ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+          //     isError = true;
+          //   }
+          //   if (definition_field.value.trim() === '') {
+          //     ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
+          //     isError = true;
+          //   }
+          //   if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
+          //     ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
+          //     isError = true;
+          //   }
+          //   if (field1) {
+          //     ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+          //     isError = true;
+          //   }
+          //   if (field2) {
+          //     ccsZaddErrorMessage(definition_field, 'No more than 250 words are allowed.');
+          //     isError = true;
+          //   }
+          //   if (isError) {
+          //     fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+          //     errorStore.push(fieldCheck);
+          //   }
+          // }
         }
       }
     }
