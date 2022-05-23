@@ -26,26 +26,6 @@
       "idPrefix": "ccs_choose_ca_route",
       "name": "ccs_choose_ca_type",
       "items": [    
-        
-        {
-          "value": "2-stage",
-          "text": "Run a 2-stage further competition event",
-          "hint": {
-            "text": "You can shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool. Only the suppliers on the shortlist will be invited to bid for your opportunity."
-          },
-          "disabled": "false",
-          "remove": "false"
-        },
-        {
-          "value": "award",
-          "text": "Run a 2-stage direct award event",
-          "hint": {
-            "text": "Based on the supplier responses you receive, if you find a single supplier who can meet your needs you can choose to award your contract directly to them after completing a capability assessement."
-          },
-          "disabled": "false",
-          "remove": "false"
-        },
-
         {
           "value": "1-stage",
           "text": "Run a 1-stage further competition event",
