@@ -18,16 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const checkPercentagesCond = () => {
+  removeErrorFieldsRfpPercentage();
   let fieldCheck = "",
     errorStore = [];
-  let allTextBox = $("form input:text");
+  let allTextBox = $("form input[type='number']");
   let totalValue = 0;
   if (Number($("#totalPercentage").text()) > 100) {
-    for (let k = 0; k < allTextBox.length; k++) {
-      fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "The total weighting cannot exceed 100%", /\w+/, false);
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    errorStore=['There is a problem','The total weighting cannot exceed 100%']
+    //ccsZPresentErrorSummary([errorStore]);
+    // for (let k = 0; k < allTextBox.length; k++) {
+    //   fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "The total weighting cannot exceed 100%", /\w+/, false);
+    //   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
-    }
+    // }
   } else
     for (let k = 0; k < allTextBox.length; k++) {
       totalValue += Number(allTextBox[k].value);
@@ -78,12 +81,21 @@ const checkRange = (s, e, val) => {
   return { start, end };
 }
 const ccsZvalidateRfpPercentages = (event) => {
+  debugger
   event.preventDefault();
   const errorStore = checkPercentagesCond();
-  if (errorStore != undefined && errorStore != null && errorStore.length === 0) {
+  if (errorStore === undefined || errorStore === null || errorStore.length === 0) {
     document.forms["rfp_percentage_form"].submit();
   }
   else {
-    ccsZPresentErrorSummary(errorStore);
+    ccsZPresentErrorSummary([errorStore]);
   }
 }
+
+const removeErrorFieldsRfpPercentage = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+};

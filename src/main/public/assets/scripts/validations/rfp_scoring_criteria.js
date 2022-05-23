@@ -283,7 +283,16 @@ const ccsZvalidateScoringCriteria = event => {
 
   if (errorStore.length === 0 && tierVal.match(/(\d+)/)[0] >=2) {
     document.forms['ccs_rfp_scoring_criteria'].submit();
-  } else {
+  } 
+  else if (tierVal.match(/(\d+)/)[0] <2) {
+    errorStore=["", 'You must add min minmun 2 tiers.']
+    ccsZPresentErrorSummary(errorStore);
+  }
+  else if (tierVal.match(/(\d+)/)[0] >10) {
+    errorStore=["", 'You must add min maximum 10 tiers.']
+    ccsZPresentErrorSummary(errorStore);
+  }
+  else {
     ccsZPresentErrorSummary(errorStore);
   }
 };

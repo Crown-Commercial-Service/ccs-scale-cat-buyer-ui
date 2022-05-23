@@ -54,10 +54,14 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     //   agreementLotName,
     //   releatedContent,
     // };
-    const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
+                  
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
+    let group_id='Group 8';
+    let criterion_Id='Criterion 2';
+    const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-    const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
+    const headingBaseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
     const organizationID = req.session.user.payload.ciiOrgId;
@@ -162,7 +166,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       .filter(item => !item.nonOCDS.dependant);
 
     const formNameValue = form_name.find(fn => fn !== '');
-    if (group_id === 'Group 8' && id === 'Criterion 2') {
+    if (group_id === 'Group 8' && criterion_Id === 'Criterion 2') {
       TemporaryObjStorage.forEach(x => {
         //x.nonOCDS.childern=[];
         if (x.nonOCDS.questionType === 'Table') {
@@ -177,14 +181,14 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
-      data: group_id === 'Group 8' && id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
+      data: group_id === 'Group 8' && criterion_Id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
-      proc_id: proc_id,
-      event_id: event_id,
+      proc_id: projectId,
+      event_id: eventId,
       group_id: group_id,
-      criterian_id: id,
+      criterian_id: criterion_Id,
       form_name: formNameValue,
       rfpTitle: titleText,
       shortTitle: mapTitle(group_id),
@@ -194,8 +198,8 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,
       releatedContent: releatedContent,
-      section: section,
-      step: step
+      section: '5',
+      step: '48'
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
@@ -206,7 +210,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
     res.render('rfp-question-assessment', data);
-    res.render('rfp-question-assessment', data);
+    //res.render('rfp-question-assessment', data);
     //res.render('rfp-scoringCriteria', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -458,7 +462,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   },
                 };
               }
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
+             // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
             } else if (questionNonOCDS.questionType === 'Date') {
               const slideObj = object_values.slice(1, 4);
               answerValueBody = {
@@ -624,6 +628,8 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
+                  res.redirect("/rfp/task-list");
                 }
 
               } catch (error) {
