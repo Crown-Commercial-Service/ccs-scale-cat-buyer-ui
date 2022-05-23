@@ -9,10 +9,11 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import config from 'config';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 // import config from 'config';
-import { Blob } from 'buffer';
-import { JSDOM } from 'jsdom';
-import { Parser } from 'json2csv';
+// import { Blob } from 'buffer';
+// import { JSDOM } from 'jsdom';
+// import { Parser } from 'json2csv';
 import { CalRankSuppliers } from '../../shared/CalRankSuppliers';
+const excelJS= require('exceljs');
 
 // FC cancel
 export const CA_GET_CANCEL = async (req: express.Request, res: express.Response) => {
@@ -98,27 +99,85 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
       }
       requirementsTable.push(dataPrepared);
 
-      let supplierFields = ["Rank No.","Supplier Name","Supplier Trading Name","Total Score","Capacity Score","Security Clearance Score"
-    ,"Capability Score","Scalability Score","Location Score"];
-      let json2csv = new Parser({supplierFields});
-      let csv = json2csv.parse(finalCSVData);
+    //   let supplierFields = ["Rank No.","Supplier Name","Supplier Trading Name","Total Score","Capacity Score","Security Clearance Score"
+    // ,"Capability Score","Scalability Score","Location Score"];
+    //   let json2csv = new Parser({supplierFields});
+    //   let csv = json2csv.parse(finalCSVData);
 
-      csv=csv+"\n\n\"Overall Dimension Weightings\"\r\n";
-      let dimensionFields=["Dimension","Weighting"];
-      json2csv=new Parser({dimensionFields});
-      csv=csv+json2csv.parse(dimensionsTable);
+    //   csv=csv+"\n\n\"Overall Dimension Weightings\"\r\n";
+    //   let dimensionFields=["Dimension","Weighting"];
+    //   json2csv=new Parser({dimensionFields});
+    //   csv=csv+json2csv.parse(dimensionsTable);
 
-      csv=csv+"\n\n\"Requirements & Weightings\"\r\n";
-      csv=csv+"Dimension is the group of the requirements that comprises of an overall dimension weighting.\r\n";
-      csv=csv+"Requirement group is the group of the requirements selected by the buyer in each dimension i.e. \"Service Capability - Performance analysis and data\" ; \"Role Family - Data\"\r\n";
-      csv=csv+"Requirement is the buyer selected input in each dimension i.e \"Service Capability - A/B and multivariate testing\"; \"Role Family - Data Analyst SFIA Level\"\r\n";
-      let requirementsFields=["Dimension","Requirement Group","Requirement","Quantity","Relative Weighting"];
-      json2csv=new Parser({requirementsFields});
-      csv=csv+json2csv.parse(requirementsTable); 
+    //   csv=csv+"\n\n\"Requirements & Weightings\"\r\n";
+    //   csv=csv+"Dimension is the group of the requirements that comprises of an overall dimension weighting.\r\n";
+    //   csv=csv+"Requirement group is the group of the requirements selected by the buyer in each dimension i.e. \"Service Capability - Performance analysis and data\" ; \"Role Family - Data\"\r\n";
+    //   csv=csv+"Requirement is the buyer selected input in each dimension i.e \"Service Capability - A/B and multivariate testing\"; \"Role Family - Data Analyst SFIA Level\"\r\n";
+    //   let requirementsFields=["Dimension","Requirement Group","Requirement","Quantity","Relative Weighting"];
+    //   json2csv=new Parser({requirementsFields});
+    //   csv=csv+json2csv.parse(requirementsTable); 
 
-      res.header('Content-Type', 'text/csv');
-      res.attachment("Suppliers_List.csv");         
-      res.send(csv);
+    //   res.header('Content-Type', 'text/csv');
+    //   res.attachment("Suppliers_List.csv");         
+    //   res.send(csv);
+
+    const workbook = new excelJS.Workbook();
+    let worksheet = workbook.addWorksheet("Scores"); // New Worksheet
+    worksheet.columns = [
+      { header: "Rank No.", key: "Rank No.", width: 10 }, 
+      { header: "Supplier Name", key: "Supplier Name", width: 10 },
+      { header: "Supplier Trading Name", key: "Supplier Trading Name", width: 10 },
+      { header: "Total Score", key: "Total Score", width: 10 },
+      { header: "Capacity Score", key: "Capacity Score", width: 10 },
+      { header: "Security Clearance Score", key: "Security Clearance Score", width: 10 },
+      { header: "Capability Score", key: "Capability Score", width: 10 },
+      { header: "Scalability Score", key: "Scalability Score", width: 10 },
+      { header: "Location Score", key: "Location Score", width: 10 },
+  ];
+  finalCSVData.forEach(data=>{
+    worksheet.addRow(data);
+  });
+  worksheet.getRow(1).eachCell((cell) => {
+    cell.font = { bold: true };
+  });
+  worksheet = workbook.addWorksheet("Dimension Weightings"); // New Worksheet
+  worksheet.getRow(1).values=["Overall Dimension Weightings"];
+  worksheet.getRow(2).values=[""];
+  worksheet.getRow(3).values=["Dimension","Weighting"]
+    worksheet.columns = [
+      {  key: "Dimension", width: 10 }, 
+      {  key: "Weighting", width: 10 },
+  ];
+  dimensionsTable.forEach(data=>{
+    worksheet.addRow(data);
+  });
+  worksheet.getRow(3).eachCell((cell) => {
+    cell.font = { bold: true };
+  });
+  worksheet = workbook.addWorksheet("Requirements"); // New Worksheet
+  worksheet.getRow(1).values=["Requirements & Weightings"];
+  worksheet.getRow(2).values=[""];
+  worksheet.getRow(3).values=["Dimesnion is the group of the requirements that comprises of an overall dimension weighting"];
+  worksheet.getRow(4).values=["Requirement Group is the group of the requirements selected by the buyer in each dimension i.e. \"Service Capability - Performance analysis and data\"; \"Role Family - Data\""];
+  worksheet.getRow(5).values=["Requirement is the buyer selected input in each dimension i.e. \"Service Capability - A/B and multivariate testing\", \"Role Family - Data Analyst SFIA Level\""];
+  worksheet.getRow(6).values=[""];
+  worksheet.getRow(7).values=["Dimension","Requirement Group","Requirement","Quantity","Relative Weighting"];
+  worksheet.columns = [
+      {  key: "Dimension", width: 10 }, 
+      {  key: "Requirement Group", width: 10 },
+      {  key: "Requirement", width: 10 },
+      { key: "Quantity", width: 10 },
+      { key: "Relative Weighting", width: 10 },
+  ];
+  requirementsTable.forEach(data=>{
+    worksheet.addRow(data);
+  });
+  worksheet.getRow(7).eachCell((cell) => {
+    cell.font = { bold: true };
+  });
+  const data = await workbook.xlsx.writeFile(`suppliers.xlsx`).then(() => {
+    res.sendFile(`suppliers.xlsx`, { root: '.' });
+  });
     }
     else{
     res.render('ca-cancel', appendData);
