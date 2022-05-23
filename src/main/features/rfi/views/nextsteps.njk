@@ -33,6 +33,28 @@
 
 {% block content %} 
 
+<div class="backdrop-nextsteps" id="nextstepspopup">
+  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
+    <div class="pop_logo govuk-grid-column-full">
+      <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
+      <p class="pop_logo_image govuk-grid-column-one-half" <a="" href="#">
+        <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
+      
+      </p>
+      <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-nextsteps govuk-!-padding-top-6">
+      <a href="#" class="dialog-close-nextsteps nav-list__link_secondary">X</a></p>
+    </div>
+    <div class="govuk-grid-column-full">
+      <h1 id="dialog-title">This action will close your current event and project, without the option to re-open<p></p>
+      <p id="dialog-description">This action cannot be undone</p>
+      <div class="govuk-button-group">
+        <button id="redirect-button-nextsteps" class="button dialog-button govuk-button" name="Next Step">Continue</button>
+        <a href="#" class="dialog-close-nextsteps govuk-link govuk-link--no-visited-state">Cancel</a>
+      </div>
+    </h1></div>
+  </div>
+</div>
+
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 {#{{ CCSDialog({
   title:'This action will close your current event and project, without the option to re-open',
@@ -71,7 +93,7 @@
                 
         <p>{{data.subtitle}}</p>
         <br><br><br>
-        <div class="backdrop-nextsteps">
+       {# <div class="backdrop-nextsteps">
   <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
     <div class="pop_logo govuk-grid-column-full">
       <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
@@ -91,7 +113,7 @@
       </div>
     </h1></div>
   </div>
-</div>
+</div>#}
       <form id="ccs_rfi_next_steps" name="ccs_rfi_next_steps" class="form ccs_ca_next_steps" action="/rfi/nextsteps" method="POST">
                 {{ csrfProtection(csrf) }} 
                     {% for form in data.form %}
