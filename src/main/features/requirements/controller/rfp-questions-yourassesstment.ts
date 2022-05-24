@@ -148,10 +148,6 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
     }
 
-    //Balwinder 1FC step 44
-    if (group_id === 'Group 5' && id === 'Criterion 2') {
-      formNameValue = 'rfp_multianswer_question_form';
-    }
     
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
@@ -179,6 +175,10 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
       data.data[0].nonOCDS.options = req.session['errorFields'];
+    }
+    //Balwinder 1FC step 44
+    if (group_id === 'Group 5' && id === 'Criterion 2') {
+      data.form_name = 'rfp_multianswer_question_form';
     }
     if (group_id === 'Group 1' && id === 'Criterion 2') {
       data.data=[];
