@@ -14,10 +14,10 @@
         }
     ],
     "title": "Procurement overview",
-    "line1": "Follow the steps below to start and complete your procurement. Each step can be saved and continued at any time.",
-    "line2": "You can download what you enter online and save it to your internal systems.",
+    "line1": "Follow the process below to create your procurement. Each stage can be saved and resumed at any time.",
+    "line2": "You can download and save what you enter to your own system.",
     "line3": "You cannot run step 2 and 3 at the same time.",
-    "line4": "You can check the terms and conditions of this lot in the ",
+    "line4": "Check the terms and conditions of this lot in the ",
     "line5": "lot detail page.",
     "events": [
         {
@@ -38,10 +38,10 @@
             "note": "",
             "buttonDisable": false,
             "href": "/projects/routeToMarket?isrfi=1",
-            "sections" : ["You can ask suppliers questions before formally publishing your requirements to find out about products and services, or refine your needs. For the lot you selected, you can use the following documents:<br/><br/><b>Request for Information (RfI)</b><br/>Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.<br/><br/><br/><br/>This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below."],
+            "sections" : ["You can ask suppliers questions before formally publishing your requirements to find out about products and services, or refine your needs. For the lot you selected, you can do pre-market engagement in one of the following ways:<br/><br/><b>Request for Information (RfI)</b><br/>Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.<br/><br/><br/><br/>This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below."],
             "subsections": [["<b>Request for Information (RfI)</b>",
                                 "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
-                                "This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below."
+                                "This section is optional, if you are ready to write and publish your requirements you can go to the next step."
                             ]],
             "list": [],
             "required": "optional",
@@ -50,7 +50,7 @@
         {
             "eventno": 3,
             "eventTitle": "Write and publish your requirements",
-            "buttonText": "Write and publish your requirements",
+            "buttonText": "Start to write and publish your requirements",
             "buttonDisable": false,
             "note": "If you start this step you cannot start step 2 at the same time.",
             "href": "/requirements/choose-route",
