@@ -134,7 +134,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       .map(JSON.parse)
       .filter(item => !item.nonOCDS.dependant);
 
-    const formNameValue = form_name.find(fn => fn !== '');
+    let formNameValue = form_name.find(fn => fn !== '');
     if (group_id === 'Group 8' && id === 'Criterion 2') {
       TemporaryObjStorage.forEach(x => {
         //x.nonOCDS.childern=[];
@@ -147,6 +147,8 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       });
       TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
     }
+
+    
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
@@ -173,6 +175,14 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
       data.data[0].nonOCDS.options = req.session['errorFields'];
+    }
+    //Balwinder 1FC step 44
+    if (group_id === 'Group 5' && id === 'Criterion 2') {
+      data.form_name = 'rfp_multianswer_question_form';
+    }
+    if (group_id === 'Group 1' && id === 'Criterion 2') {
+      data.data=[];
+      data.form_name='read_me';
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
@@ -317,7 +327,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   answered: true,
                   options: [
                     {
-                      value:3,
+                      value: 3,
                       tableDefinition: {
                         titles: {
                           columns: [
