@@ -23,7 +23,6 @@ const ccsZvalidateRfpChangeStrategy = event => {
 
 const ccsZvalidateRfPStrategy = event => {
   event.preventDefault();
-  debugger;
   let fieldCheck = '';
   errorStore.length = 0;
 
