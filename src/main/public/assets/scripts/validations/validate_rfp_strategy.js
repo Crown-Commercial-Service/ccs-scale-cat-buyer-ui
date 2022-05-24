@@ -96,7 +96,7 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
-  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined) {
+  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
        errorStore.length = 0;
     if ($('#rfp_security_confirmation').val().length === 0) {
 
