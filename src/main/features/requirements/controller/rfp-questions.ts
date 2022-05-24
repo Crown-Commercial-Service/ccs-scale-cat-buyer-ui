@@ -165,7 +165,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       delete data.data[0].nonOCDS.options;
       data.data[0].nonOCDS.options = req.session['errorFields'];
     }
-    if (bcTitleText === 'Define your service levels and KPIs') {
+    if (group_id === 'Group 19' && id === 'Criterion 3') {
       data.form_name = 'service_levels_kpi_form';
     }
     req.session['isFieldError'] = false;
@@ -738,7 +738,7 @@ function changeTitle(title) {
     case 'Management information and reporting':
       text = 'Management information and reporting requirements';
       break;
-    case 'Service levels and performance':
+    case 'Define your service levels and KPIs':
       text = 'Define your service levels and KPIs';
       break;
     case 'Incentives and exit strategy':
