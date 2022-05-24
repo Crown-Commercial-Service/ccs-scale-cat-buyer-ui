@@ -104,10 +104,10 @@ export class QuestionHelper {
             mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
           }
         }
-        
+
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/33`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/33`, 'Not started');
         }
         res.redirect('/rfp/task-list');
       }
@@ -181,7 +181,14 @@ export class QuestionHelper {
         let next_group_id = next_cursor_object.OCDS['id'];
         let next_criterian_id = next_cursor_object['criterianId'];
         let base_url = `/rfp/assesstment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}=&step${res.req?.query?.step}`;
-        res.redirect(base_url);
+        if (next_group_id === 'Group 8' && next_criterian_id === 'Criterion 2') {
+          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'Completed');
+          if (response.status == HttpStatusCode.OK) {
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
+          }
+          res.redirect('/rfp/task-list');
+        } else
+          res.redirect(base_url);
       } else {
         let mandatoryNum = 0;
         const maxNum = 8;
@@ -217,10 +224,10 @@ export class QuestionHelper {
             mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
           }
         }
-        
+
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/66`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/70`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/70`, 'Not started');
         }
         res.redirect('/rfp/task-list');
       }
