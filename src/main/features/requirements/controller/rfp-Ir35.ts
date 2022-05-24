@@ -75,11 +75,15 @@ export const RFP_POST_I35: express.Handler = async (req: express.Request, res: e
         ],
       },
     };
-
-    await TenderApi.Instance(SESSION_ID).put(BaseURL, REQUESTBODY);
+    if (REQUESTBODY?.nonOCDS?.options?.length >0 && REQUESTBODY.nonOCDS.options[0].value !==undefined) {
+      await TenderApi.Instance(SESSION_ID).put(BaseURL, REQUESTBODY);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/32`, 'Not started');
     res.redirect('/rfp/task-list');
+    }else{
+      res.redirect("/rfp/IR35");
+    }
+    
   } catch (error) {
     LoggTracer.errorLogger(
       res,

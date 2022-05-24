@@ -10,9 +10,9 @@ if ($('.agreement_no').attr('id')) {
 }
 
 
-const expiryYears =agreementData?.length >0 ? Number(agreementData[0]):null;
-const expiryMonth =agreementData?.length >0 ? Number(agreementData[1]):null;
-const expiryDate =agreementData?.length >0 ? Number(agreementData[2]):null;
+const expiryYears = agreementData?.length > 0 ? Number(agreementData[0]) : null;
+const expiryMonth = agreementData?.length > 0 ? Number(agreementData[1]) : null;
+const expiryDate = agreementData?.length > 0 ? Number(agreementData[2]) : null;
 
 
 const ExpiryDates = new Date(expiryYears, expiryMonth, expiryDate);
@@ -178,12 +178,10 @@ $('.save-button').on('click', (e) => {
 
     const errorStore = [["eoi_resource_start_date", "Project time's format is not valid"]]
     $('#event-name-error-year').html('Enter a valid year');
-    ccsZPresentErrorSummary(errorStore);
-
-
-
-
-
+    //balwinder added if condation
+    if (document.forms['ccs_eoi_date_form'] != undefined && document.forms['ccs_eoi_date_form'] != null) {
+        ccsZPresentErrorSummary(errorStore);
+    }
     if (getTimeOfFormDate > getMSOfExpiryDate) {
         e.preventDefault();
         $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
@@ -192,11 +190,7 @@ $('.save-button').on('click', (e) => {
         YearSelector.addClass('govuk-form-group--error');
         $('.durations').addClass('govuk-form-group--error');
         const errorStore = [["eoi_resource_start_date", "Start date cannot be after agreement expiry date"]]
-
         ccsZPresentErrorSummary(errorStore);
-
-
-
     }
     else if (getTimeOfFormDate < todayDate.getTime()) {
         e.preventDefault();

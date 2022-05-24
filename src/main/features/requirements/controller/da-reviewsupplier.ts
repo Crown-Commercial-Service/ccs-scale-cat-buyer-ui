@@ -4,6 +4,7 @@ import * as cmsData from '../../../resources/content/requirements/da-reviewsuppl
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 // import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
+import {CalRankSuppliers} from '../../shared/CalRankSuppliers';
 
 
 //@GET /rfi/event-sent
@@ -23,7 +24,19 @@ export const GET_DA_REVIEW_SUPPLIER  = async (req: express.Request, res: express
     // const fetch_dynamic_api_data = fetch_dynamic_api?.data;
     //api
 
+    let RankedSuppliers = [];const result= await CalRankSuppliers(req);
+
+    RankedSuppliers=result;
+
+    let SUPPLIER_DATA=[
+      {
+        "name": "SAPPHIRE ENERGY RECOVERY LIMITED",
+        "id": "US-DUNS-220250828"
+      }
+    ]
+
     //dummy data
+
     let supplier_company_name="Supplier company name";
     let supplier_trading_name="Supplier trading name";
     let capacity_score="XX%";
@@ -31,6 +44,21 @@ export const GET_DA_REVIEW_SUPPLIER  = async (req: express.Request, res: express
     let capability_score="XX%";
     let scalability_score="XX%";
     let location_score="XX%";
+
+    for (var i=0;i<SUPPLIER_DATA.length;i++)
+      {
+    let data=RankedSuppliers.filter(s=>s.supplier.id==SUPPLIER_DATA[i].id);
+    if(data.length>0)
+    {
+      supplier_company_name=data[0].name;
+      supplier_trading_name=data[0].name; 
+      capacity_score=data[0].dimensionScores.filter((d:any)=>d.name=="Capacity")?.[0].score;
+      vetting_score=data[0].dimensionScores.filter((d:any)=>d.name=="Resource Quantity")?.[0].score;
+      capability_score=data[0].dimensionScores.filter((d:any)=>d.name=="Capability")?.[0].score;
+      scalability_score=data[0].dimensionScores.filter((d:any)=>d.name=="Scalability")?.[0].score;
+      location_score=data[0].dimensionScores.filter((d:any)=>d.name=="Location")?.[0].score;
+    }
+      }
     //dummy data
 
     const appendData = {

@@ -7,8 +7,12 @@ const showPopup = (event) => {
         if ($(this).hasClass('selected')) {
             deselect($(this));
             $(".backdrop-nextsteps").fadeOut(200);
+            // $(".backdrop-nextsteps").position("relative");
+            document.getElementById("nextstepspopup").style.position="relative";
           } else {
             $(".backdrop-nextsteps").fadeTo(200, 1);
+            // $(".backdrop-nextsteps").position("relative");
+            document.getElementById("nextstepspopup").style.position="relative";
             let btnSend = document.querySelector('#redirect-button-nextsteps');
             if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
               btnSend.setAttribute('name', 'Next Step');

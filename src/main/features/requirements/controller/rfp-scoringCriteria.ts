@@ -54,10 +54,14 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     //   agreementLotName,
     //   releatedContent,
     // };
-    const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
+
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
+    let group_id = 'Group 8';
+    let criterion_Id = 'Criterion 2';
+    const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-    const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
+    const headingBaseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
     const organizationID = req.session.user.payload.ciiOrgId;
@@ -162,7 +166,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       .filter(item => !item.nonOCDS.dependant);
 
     const formNameValue = form_name.find(fn => fn !== '');
-    if (group_id === 'Group 8' && id === 'Criterion 2') {
+    if (group_id === 'Group 8' && criterion_Id === 'Criterion 2') {
       TemporaryObjStorage.forEach(x => {
         //x.nonOCDS.childern=[];
         if (x.nonOCDS.questionType === 'Table') {
@@ -177,14 +181,14 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
-      data: group_id === 'Group 8' && id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
+      data: group_id === 'Group 8' && criterion_Id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
-      proc_id: proc_id,
-      event_id: event_id,
+      proc_id: projectId,
+      event_id: eventId,
       group_id: group_id,
-      criterian_id: id,
+      criterian_id: criterion_Id,
       form_name: formNameValue,
       rfpTitle: titleText,
       shortTitle: mapTitle(group_id),
@@ -194,8 +198,8 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,
       releatedContent: releatedContent,
-      section: section,
-      step: step
+      section: '5',
+      step: '48'
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
@@ -205,9 +209,8 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
-    res.render('rfp-question-assessment', data);
-    res.render('rfp-question-assessment', data);
-    //res.render('rfp-scoringCriteria', windowAppendData);
+    //res.render('rfp-question-assessment', data);
+    res.render('rfp-scoringCriteria', data);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -225,10 +228,174 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
 export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-  try {
+  // try {
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/70`, 'Completed');
-    res.redirect('/rfp/task-list');
+  //   //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/70`, 'Completed');
+  //   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
+  //   //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Completed');
+  //   res.redirect('/rfp/task-list');
+  // }
+  try {
+    const { proc_id, event_id, id, group_id, stop_page_navigate, section, step } = req.query;
+    const agreement_id = req.session.agreement_id;
+    const { SESSION_ID } = req.cookies;
+    const { projectId } = req.session;
+    // if (section != undefined && section === '5') {
+    //   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
+    // }
+    const regex = /questionnaire/gi;
+    const url = req.originalUrl.toString();
+    const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
+    const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
+    let { rfp_build_started, question_id } = req.body;
+    if (question_id === undefined) {
+      question_id = Object.keys(req.body).filter(x => x.includes('Question'));
+    }
+    let question_ids = [];
+    //Added for SCAT-3315- Agreement expiry date
+    const BaseUrlAgreement = `/agreements/${agreement_id}`;
+    const { data: retrieveAgreement } = await AgreementAPI.Instance.get(BaseUrlAgreement);
+    const agreementExpiryDate = retrieveAgreement.endDate;
+    if (!Array.isArray(question_id) && question_id !== undefined) question_ids = [question_id];
+    else question_ids = question_id;
+    let question_idsFilrtedList = [];
+
+    question_ids.forEach(x => {
+      if (question_idsFilrtedList.length > 0) {
+        let existing = question_idsFilrtedList.filter(xx => xx.trim() == x.trim())
+        if (existing == undefined || existing == null || existing.length <= 0) {
+          question_idsFilrtedList.push(x);
+        }
+      } else {
+        question_idsFilrtedList.push(x);
+      }
+    });
+    question_ids = [];
+    question_ids.push(question_idsFilrtedList[0])
+    if (operations.equals(started_progress_check, false)) {
+      if (rfp_build_started === 'true' && nonOCDS !== null && nonOCDS.length > 0) {
+        let remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'rfp_build_started');
+        remove_objectWithKeyIdentifier = ObjectModifiers._deleteKeyofEntryinObject(
+          remove_objectWithKeyIdentifier,
+          'question_id',
+        );
+        const _RequestBody: any = remove_objectWithKeyIdentifier;
+        const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
+        const object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
+          return { value: an_answer, selected: true };
+        });
+
+        if (req.body.rfp_read_me) {
+          QuestionHelper.AFTER_UPDATINGDATA(
+            ErrorView,
+            DynamicFrameworkInstance,
+            proc_id,
+            event_id,
+            SESSION_ID,
+            group_id,
+            agreement_id,
+            id,
+            res,
+          );
+        } else {
+          let validationError = false;
+          let answerValueBody = {};
+          for (let i = 0; i < question_ids.length; i++) {
+
+            if (KeyValuePairValidation(object_values, req)) {
+              validationError = true;
+            }
+
+            let { score_criteria_level, score_criteria_points, score_criteria_desc } = req.body;
+            const TAStorage = [];
+            score_criteria_level = score_criteria_level?.filter((akeyTerm: any) => akeyTerm !== '');
+            score_criteria_points = score_criteria_points?.filter((aKeyValue: any) => aKeyValue !== '');
+            score_criteria_desc = score_criteria_desc?.filter((aKeyValue: any) => aKeyValue !== '');
+            //Balwinder
+
+            let rows = [];
+            let tableData = [];
+            for (let index = 0; index < score_criteria_level.length; index++) {
+              rows.push({ id: index + 1, name: score_criteria_level[index] });
+            }
+
+            for (let index = 0; index < score_criteria_points.length; index++) {
+              let cols = [];
+              cols.push(score_criteria_points[index]);
+              cols.push(score_criteria_desc[index]);
+              tableData.push({
+                row: index + 1, cols: cols
+              });
+            }
+            answerValueBody = {
+              nonOCDS: {
+                answered: true,
+                options: [
+                  {
+                    value: 3,
+                    tableDefinition: {
+                      titles: {
+                        columns: [
+                          {
+                            "id": 0,
+                            "name": "Marking Scheme"
+                          },
+                          {
+                            "id": 1,
+                            "name": "Points"
+                          },
+                          {
+                            "id": 2,
+                            "name": "Description"
+                          }],
+                        rows: [
+                          ...rows
+                        ]
+                      },
+                      data: [
+                        ...tableData
+                      ]
+                    }
+                  }
+                ],
+              },
+            };
+
+            if (!validationError) {
+              try {
+                const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
+                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
+                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+
+                  break;
+                }
+
+              } catch (error) {
+                LoggTracer.errorTracer(error, res);
+              }
+            }
+          }
+          if (validationError) {
+            req.session['isValidationError'] = true;
+            res.redirect(url.replace(regex, 'questions'));
+          } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
+            //SET-SCORING-CRITERIA STATUS UPDATE
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Cannot start yet');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'Cannot start yet');
+            res.redirect("/rfp/task-list");
+          } else {
+            res.send();
+            return;
+          }
+        }
+      } else {
+        res.redirect('/error');
+      }
+    } else {
+      res.redirect('/error');
+    }
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -354,7 +521,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   answered: true,
                   options: [
                     {
-                      value:3,
+                      value: 3,
                       tableDefinition: {
                         titles: {
                           columns: [
@@ -458,7 +625,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   },
                 };
               }
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
+              // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
             } else if (questionNonOCDS.questionType === 'Date') {
               const slideObj = object_values.slice(1, 4);
               answerValueBody = {
@@ -624,6 +791,8 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
+                  res.redirect("/rfp/task-list");
                 }
 
               } catch (error) {
