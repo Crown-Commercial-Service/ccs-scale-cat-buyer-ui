@@ -85,25 +85,16 @@
               %}
       {% endfor %}
 
-      {% if (error) %}
+     
 
-        {{ CCSRadios({
-                idPrefix: "event_management_next_step",
-                name: "event_management_next_step",
-                items: form_Options_Altered,
-                errorMessage: error,
-                errorMessage: {
-                text: 'Select an option'
-                  }                  
-              }) }}
-      {% else %}
+        
 
         {{ CCSRadios({
                 idPrefix: "event_management_next_step",
                 name: "event_management_next_step",
                 items: form_Options_Altered        
               }) }}
-      {%endif %}
+    
       {{ CCSInput({
                 id: "choose_event_management_next_step",
                 name: "choose_event_management_next_step",
