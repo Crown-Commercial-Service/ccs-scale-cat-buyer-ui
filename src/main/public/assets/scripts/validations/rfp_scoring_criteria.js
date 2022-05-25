@@ -6,6 +6,24 @@ document.addEventListener('DOMContentLoaded', () => {
     selectTierButtons = document.querySelectorAll('.tier-popup');
 
     const points_for_this_level = document.querySelectorAll(".govuk-input--width-3");
+    const allinput = document.querySelectorAll(".govuk-input");
+    const alltextarea = document.querySelectorAll(".govuk-textarea");
+
+    allinput.forEach(element => {
+      element.addEventListener("focusout", (event) => {
+        if (event.target.value  !=undefined && event.target.value !== '') {
+          removeErrorFieldsRfpScore();
+        }
+      })
+    })
+    
+    alltextarea.forEach(element => {
+      element.addEventListener("focusout", (event) => {
+        if (event.target.value  !=undefined && event.target.value !== '') {
+          removeErrorFieldsRfpScore();
+        }
+      })
+    })
     document.getElementById('tiersAdded').textContent = '0';
     for (var score_criteria_fieldset = 10; score_criteria_fieldset > 1; score_criteria_fieldset--) {
       let this_fieldset = document.querySelector('.score_criteria_' + score_criteria_fieldset),
@@ -27,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
       st.addEventListener('click', e => {
         const rowsAndHead = JSON.parse(e.currentTarget.attributes[2].value);
         let count = 0;
+        removeErrorFieldsRfpScore();
         document.querySelectorAll(".score_criteria_fieldset").forEach(element => {
           if (count !== 0) {
             element.classList.add("ccs-dynaform-hidden");
@@ -59,8 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
               elements[0].classList.remove("ccs-dynaform-hidden");
               if (rowsAndHead.rows.length == ii) {
                 $("#deleteButton_" + ii).removeClass("ccs-dynaform-hidden");
-                $("#ccs_rfp_score_criteria_add").addClass("ccs-dynaform-hidden");
-              } else {
+                //$("#ccs_rfp_score_criteria_add").addClass("ccs-dynaform-hidden");
+              }
+              else {
                 $("#deleteButton_" + ii).addClass("ccs-dynaform-hidden");
               }
 
@@ -86,6 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
       removeErrorFieldsRfpScore();
       e.preventDefault();
       errorStore = emptyFieldCheckRfpScore();
+      if (with_value_count === 11) {
+        let errlist = [];
+        errlist.push(["There is a problem", 'You must add min maximum 10 tiers.'])
+        ccsZPresentErrorSummary(errlist);
+        return;
+      }
       if (errorStore.length == 0) {
 
         if ($(".score_criteria_" + with_value_count).length > 0 && $(".score_criteria_" + with_value_count).hasClass("ccs-dynaform-hidden")) {
@@ -169,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     points_for_this_level.forEach(element => {
       element.addEventListener("keydown", (event) => {
-        if (event.key === '.') { event.preventDefault(); }
+        if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
       })
     })
     if (document.getElementsByClassName('score_criteria_fieldset').length > 0) {
