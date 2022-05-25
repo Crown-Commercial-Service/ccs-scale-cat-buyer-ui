@@ -5,7 +5,7 @@
       "href": "/"
     },
     {
-      "text": "Choose a commericial agreement",
+      "text": "Choose a commercial agreement",
       "href": "/projects/choose-agreement"
     },
     {
@@ -36,7 +36,7 @@
       "href": "rfp_ir35_acknowledgement"
     },
     {
-      "title": "Terms and acronyms (Optional)",
+      "title": "Terms and acronyms (optional)",
       "hreftitle": "Add terms and acronyms",
       "href": "rfp_add_terms_acronyms"
     },
@@ -51,12 +51,12 @@
       "href": "rfp_problem_to_solve"
     },
     {
-      "title": "Key users (Optional)",
+      "title": "Key users (optional)",
       "hreftitle": "Add key users",
       "href": "rfp_key_users"
     },
     {
-      "title": "Work completed to date (Optional)",
+      "title": "Work completed to date (optional)",
       "hreftitle": "Add work complete so far",
       "href": "rfp_work_complete"
     },
@@ -76,7 +76,7 @@
       "href": "rfp_duration_of_work"
     },
     {
-      "title": "The buying organisation (Optional)",
+      "title": "The buying organisation (optional)",
       "hreftitle": "Add buying organisation",
       "href": "rfp_buying_organisation"
     },
@@ -91,7 +91,7 @@
       "href": "rfp_address"
     },
     {
-      "title": "Market engagement to date (Optional)",
+      "title": "Market engagement to date (optional)",
       "hreftitle": "Add market engagement",
       "href": "rfp_market_engagement"
     },
@@ -126,7 +126,7 @@
       "href": "rfp_incentives"
     },
     {
-      "title": "How the supplier will deliver within the budgetary constraints (Optional)",
+      "title": "How the supplier will deliver within the budgetary constraints (optional)",
       "hreftitle": "Add the budgetary constraints",
       "href": "rfp_budgetary_constraints"
     },
