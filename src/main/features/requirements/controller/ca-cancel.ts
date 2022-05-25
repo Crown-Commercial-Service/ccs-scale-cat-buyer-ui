@@ -14,6 +14,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 // import { Parser } from 'json2csv';
 import { CalRankSuppliers } from '../../shared/CalRankSuppliers';
 const excelJS= require('exceljs');
+import SampleData from '../../shared/SampleData.json';
 
 // FC cancel
 export const CA_GET_CANCEL = async (req: express.Request, res: express.Response) => {
@@ -38,19 +39,13 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
       const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
       const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
       const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;//scores data
+      let assessments = SampleData;//mock data
 
       const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
       const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
 
-      //dummy data start
-      SUPPLIER_DATA=[
-        {
-          "name": "SAPPHIRE COOLING SERVICES LIMITED",
-          "id": "US-DUNS-235375081"
-        }
-      ]
-      //dummy data end
+      
 
       let RankedSuppliers = [];const result= await CalRankSuppliers(req);
 
@@ -61,9 +56,9 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
 
       let finalCSVData=[];
       let dataPrepared:any;
-      for (var i=0;i<SUPPLIER_DATA.length;i++)
+      for (var i=0;i<SUPPLIER_DATA.suppliers.length;i++)
       {
-        let data=RankedSuppliers.filter(s=>s.supplier.id==SUPPLIER_DATA[i].id);
+        let data=RankedSuppliers.filter(s=>s.supplier.id==SUPPLIER_DATA.suppliers[i].id);
         
         if(data.length>0){
           
@@ -72,23 +67,28 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
             "Supplier Name":data[0].name,
             "Supplier Trading Name":data[0].name,
             "Total Score":data[0].total,
-            "Capacity Score":data[0].dimensionScores.filter(d=>d.name=="Capacity")?.[0].score,
-            "Security Clearance Score":data[0].dimensionScores.filter(d=>d.name=="Resource Quantity")?.[0].score,
-            "Capability Score":data[0].dimensionScores.filter(d=>d.name=="Capability")?.[0].score,
-            "Scalability Score":data[0].dimensionScores.filter(d=>d.name=="Scalability")?.[0].score,
-            "Location Score":data[0].dimensionScores.filter(d=>d.name=="Location")?.[0].score
+            "Capacity Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==1)?.[0].score,
+            "Security Clearance Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==2)?.[0].score,
+            "Capability Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==3)?.[0].score,
+            "Scalability Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==4)?.[0].score,
+            "Location Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==5)?.[0].score
           }
           finalCSVData.push(dataPrepared);
         }
       }
-      
+      finalCSVData.sort((a, b) => a["Rank No."] < b["Rank No."]? -1 : a["Rank No."]> b["Rank No."]? 1 : 0);
       let dimensionsTable=[];
-      dataPrepared={
-        "Dimension":"200",
-        "Weighting":"200"
+      let dimensions=[];
+      dimensions.push(...assessments.dimensionRequirements.map(x =>{ return [x.name, x.weighting]}));
+      for (var i=0;i<dimensions.length;i++)
+      {   
+        dataPrepared={
+          "Dimension":dimensions[i][0],
+          "Weighting":dimensions[i][1]
+        }
+        dimensionsTable.push(dataPrepared);
       }
-      dimensionsTable.push(dataPrepared);
-
+      
       let requirementsTable=[];
       dataPrepared={
         "Dimension":"200",
