@@ -4,11 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
       prev_input = 0,
       deleteButtons = document.querySelectorAll('a.del').length > 0 ? document.querySelectorAll('a.del') : document.querySelectorAll('a.clear-fields');
     selectTierButtons = document.querySelectorAll('.tier-popup');
-    document.getElementById('tiersAdded').textContent='0';
+
+    const points_for_this_level = document.querySelectorAll(".govuk-input--width-3");
+    document.getElementById('tiersAdded').textContent = '0';
     for (var score_criteria_fieldset = 10; score_criteria_fieldset > 1; score_criteria_fieldset--) {
       let this_fieldset = document.querySelector('.score_criteria_' + score_criteria_fieldset),
         name_box = document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset);
-
+      //document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset);
       if (name_box.value !== '') {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
 
@@ -24,8 +26,19 @@ document.addEventListener('DOMContentLoaded', () => {
     selectTierButtons.forEach(st => {
       st.addEventListener('click', e => {
         const rowsAndHead = JSON.parse(e.currentTarget.attributes[2].value);
+        let count = 0;
+        document.querySelectorAll(".score_criteria_fieldset").forEach(element => {
+          if (count !== 0) {
+            element.classList.add("ccs-dynaform-hidden");
+            document.getElementById('rfp_score_criteria_name_' + count).value = '';
+            document.getElementById('rfp_score_criteria_point_' + count).value = '';
+            document.getElementById('rfp_score_criteria_desc_' + count).value = '';
+          }
+          count++;
+        });
         if (rowsAndHead != undefined && rowsAndHead != null) {
-        document.getElementById('tiersAdded').textContent=rowsAndHead.rows.length;
+          document.getElementById('tiersAdded').textContent = rowsAndHead.rows.length;
+          with_value_count = rowsAndHead.rows.length + 1;
           for (let i = 0; i < rowsAndHead.rows.length; i++) {
             if (i === 0) {
               const ii = i + 1;
@@ -46,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
               elements[0].classList.remove("ccs-dynaform-hidden");
               if (rowsAndHead.rows.length == ii) {
                 $("#deleteButton_" + ii).removeClass("ccs-dynaform-hidden");
+                $("#ccs_rfp_score_criteria_add").addClass("ccs-dynaform-hidden");
               } else {
                 $("#deleteButton_" + ii).addClass("ccs-dynaform-hidden");
               }
@@ -69,10 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('ccs_rfp_score_criteria_add').addEventListener('click', e => {
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
       checkFieldsRfpScore();
+      removeErrorFieldsRfpScore();
       e.preventDefault();
       errorStore = emptyFieldCheckRfpScore();
       if (errorStore.length == 0) {
-        removeErrorFieldsRfpScore();
 
         if ($(".score_criteria_" + with_value_count).length > 0 && $(".score_criteria_" + with_value_count).hasClass("ccs-dynaform-hidden")) {
           document.querySelector('.score_criteria_' + with_value_count).classList.remove('ccs-dynaform-hidden');
@@ -94,12 +108,12 @@ document.addEventListener('DOMContentLoaded', () => {
               .querySelector('.score_criteria_' + prev_input + ' a.clear-fields')
               .classList.add('ccs-dynaform-hidden');
         }
+        document.getElementById("tiersAdded").textContent = with_value_count;
 
         with_value_count++;
-        document.getElementById("tiersAdded").textContent=with_value_count;
         if (with_value_count === 11) {
-        document.getElementById("tiersAdded").textContent='10 ';
-         
+          document.getElementById("tiersAdded").textContent = '10 ';
+
           document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
         }
       } else ccsZPresentErrorSummary(errorStore);
@@ -110,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       db.classList.remove('ccs-dynaform-hidden');
       db.addEventListener('click', e => {
         e.preventDefault();
-
+        let totalAddedTierSoFar = Number(document.getElementById('tiersAdded').textContent)
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, '$2'),
           prev_coll = Number(target) - 1,
           desc_fieldset = db.closest('fieldset');
@@ -121,6 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rfp_score_criteria_point_' + target).value = '';
         document.getElementById('rfp_score_criteria_desc_' + target).value = '';
 
+        document.getElementById('rfp_score_criteria_name_' + target).removeAttribute('readonly');
+        document.getElementById('rfp_score_criteria_point_' + target).removeAttribute('readonly');
+        document.getElementById('rfp_score_criteria_desc_' + target).removeAttribute('readonly');
         if (prev_coll > 1) {
           // document
           //   .querySelector('.score_criteria_' + prev_coll + ' a.clear-fields')
@@ -139,9 +156,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
         with_value_count--;
+        if (totalAddedTierSoFar === 0) {
+          document.getElementById('tiersAdded').textContent = 0;
+        }
+        if (totalAddedTierSoFar === 1) {
+          document.getElementById('tiersAdded').textContent = 1;
+        }
+        if (totalAddedTierSoFar > 0) {
+          document.getElementById('tiersAdded').textContent = totalAddedTierSoFar - 1;
+        }
       });
     });
-
+    points_for_this_level.forEach(element => {
+      element.addEventListener("keydown", (event) => {
+        if (event.key === '.') { event.preventDefault(); }
+      })
+    })
     if (document.getElementsByClassName('score_criteria_fieldset').length > 0) {
       let fieldSets = document.getElementsByClassName('score_criteria_fieldset');
       let length = fieldSets.length;
@@ -232,7 +262,7 @@ const removeErrorFieldsRfpScore = () => {
 const emptyFieldCheckRfpScore = () => {
   let fieldCheck = '',
     errorStore = [];
-    removeErrorFieldsRfpScore();
+  removeErrorFieldsRfpScore();
   for (var x = 1; x < 11; x++) {
     let name_field = document.getElementById('rfp_score_criteria_name_' + x);
     let point_field = document.getElementById('rfp_score_criteria_point_' + x);
@@ -276,14 +306,23 @@ const emptyFieldCheckRfpScore = () => {
   return errorStore;
 };
 const ccsZvalidateScoringCriteria = event => {
-  debugger
   event.preventDefault();
+  errorStore = [];
   errorStore = emptyFieldCheckRfpScore();
-  let tierVal= document.getElementById("tiersAdded").textContent;
+  let tierVal = document.getElementById("tiersAdded").textContent;
 
-  if (errorStore.length === 0 && tierVal.match(/(\d+)/)[0] >=2) {
+  if (errorStore.length === 0 && tierVal.match(/(\d+)/)[0] >= 2) {
     document.forms['ccs_rfp_scoring_criteria'].submit();
-  } else {
+  }
+  else if (tierVal.match(/(\d+)/)[0] < 2) {
+    errorStore.push(["There is a problem", 'You must add min minmun 2 tiers.'])
+    ccsZPresentErrorSummary(errorStore);
+  }
+  else if (tierVal.match(/(\d+)/)[0] > 10) {
+    errorStore.push(["There is a problem", 'You must add min maximum 10 tiers.'])
+    ccsZPresentErrorSummary(errorStore);
+  }
+  else {
     ccsZPresentErrorSummary(errorStore);
   }
 };

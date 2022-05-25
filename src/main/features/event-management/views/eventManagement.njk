@@ -80,7 +80,10 @@
           <span class="proc-task-list__section-number">1.</span>
           {{data.subsection4_title1}}
           <p class="app-task-list__tag">
-            <a class="govuk-link" href="{{data.subsection4_title1_task[0].line_1_link}}">{{data.subsection4_title1_task[0].line_1_text}}</a>
+
+ 
+            <a class="govuk-link" href="/rfi/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
+
           </p>
         </h2>
         <p class="govuk-body">{{ data.subsection4_title1_descriiption }}</p>
@@ -94,7 +97,9 @@
             <span class="proc-task-list__section-number">2.</span>
             {{data.subsection4_title2_1}}
             <p class="app-task-list__tag">
-              <a class="govuk-link" href="{{data.subsection4_title2_1_task[0].line_1_link}}">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
+
+              <a class="govuk-link" href="/rfi/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
+
             </p>
           </h2>
           <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -121,17 +126,43 @@
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3}}</h2>
         <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
-        {% for data in data.subsection4_title3_task %}
-          <p class="govuk-body govuk-grid-column-one-half">{{ data.line_1_text }}</p>
-          <p class="govuk-body govuk-grid-column-one-half">{{ data.line_1_count | safe }}</p>
-        {% endfor %}
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task1}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task3}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
+        
       </div>
     </div>
 
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
-          <span class="proc-task-list__section-number">4.</span>
+        {% if status == 'Published' %}
+        <span class="proc-task-list__section-number">4.</span>
+          {{data.subsection4_title4}}</h2>
+        <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
+        <h3 class="govuk-heading-m">
+          {{data.subsection4_title4_1}}</h3>
+        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
+                </tr>
+              </thead>
+              </table>
+            </div>
+          </div>
+        {% elseif status == 'Response period open' %}
+        <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
         <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
         <h3 class="govuk-heading-m">
@@ -148,37 +179,80 @@
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
-                {% for supplier in suppliers.default %}
+                {% for supplier in supplierName %}
+                {% if supplier.responseState =='Submitted'  %}
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell">
                       <p class="govuk-body govuk-!-margin-bottom-0">
-                        <a class="govuk-link" href="#">{{ supplier.SupplierName }}</a>
+                        {{supplier.name}}
                       </p>
                     </th>
-                    <td class="govuk-table__cell">{{ supplier.ResponseDate }}</td>
-                    <td class="govuk-table__cell">
-                      <a class="govuk-link" href="{{ data.Downloadresponse[0].link }}">{{ data.Downloadresponse[0].text }}</a>
-                    </td>
-                  </tr>
-                {% endfor %}
+                    <td class="govuk-table__cell">{{ supplier.responseDate }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
               </tbody>
             </table>
           </div>
         </div>
+        {% elseif status == 'Response period closed' %}
+        
+          <span class="proc-task-list__section-number">4.</span>
+          {{data.subsection4_title4}}</h2>
+        <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
+        <h3 class="govuk-heading-m">
+          {{data.subsection4_title4_1}}</h3>
+        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
+                </tr>
+              </thead>
+              {% for supplier in supplierName %}
+               {% if supplier.responseState =='Submitted'  %} 
+              <tbody class="govuk-table__body">
+                
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                    
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        {{supplier.name}}
+                      </p>
+                      
+                    </th>
+                    <td class="govuk-table__cell">{{ supplier.responseDate }}</td>
+                     <td class="govuk-text-align">
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
+                    </td> 
+                  </tr>
+              </tbody>
+           {% endif %} 
+          {% endfor %}
+            </table>
+            </div>
+        </div>
+        {% if(showallDownload) %}
+              <a href="/eventmanagement" class="govuk-link app-task-list__tag ">{{data.backJump.title}}</a> 
+        {% endif %}
+        {% endif %} 
+      </div>
+  </div>
+    
+  <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+      {% if status == 'To be evaluated' %}
+      <div class="govuk-inset-text">
+        <h4 class="govuk-heading-s">
+        [5.Next Steps]</h4>
+        <p>[description for  this section]</p>
+         <a class="govuk-link" href="/projects/create-or-choose">Complete RfI and start procurement</a> 
       </div>
     </div>
-    {% if status === 'complete' %}
-
-      <div class="govuk-grid-row ccs-page-section">
-      <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">
-          <span class="proc-task-list__section-number">[5. Next Steps]</span>         
-          <p class="app-task-list__tag">
-            <a class="govuk-link" href="/projects/create-or-choose">Complete Rfi and start procurement</a>
-          </p>
-        </h2>
-        <p class="govuk-body">[Description for this section]</p>
-      </div>
     </div>
     {% endif %}
   </main>

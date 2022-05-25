@@ -146,7 +146,8 @@ First when we load the procurement page we have to issue the `POST` method to in
 > 
 >
 >*Review and publish your 1-stage RfP*
-> Step 37 - Upload documents or add links (Cannot start yet)
+> Step 37 - Upload documents or add links (Cannot start yet) 
+> Step 30 - Upload documents or add links (Cannot start yet) --37 is wrong one 
 > 
 > Step 38 - Look at the suppliers for this further competition (Cannot start yet)
 > 
