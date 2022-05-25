@@ -192,7 +192,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   let { selectedRoute } = req.session;
   const rfp_confirm_upload = req.body.rfp_confirm_upload;
   if (selectedRoute === 'FC') selectedRoute = 'RFP';
-  const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71; // check step number
+  const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71; // check step number changed step 37 to 30 balwinder
   if (req.session['isTcUploaded'] && rfp_confirm_upload === "confirm") {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
     res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
