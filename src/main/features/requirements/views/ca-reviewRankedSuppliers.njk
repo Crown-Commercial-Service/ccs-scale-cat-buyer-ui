@@ -9,6 +9,15 @@
 {% endblock %}
 
 {% block content %}
+
+<div class="govuk-error-summary hide-block" id="ca_reviewrankedsuppliers_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="ca_rank_summary_list">
+    </ul>
+  </div>
+</div>
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
     {% if(isError)%}
@@ -27,57 +36,109 @@
     <div class="govuk-grid-column-two-thirds">
       {% include "includes/project_header.njk" %}
       <div class="govuk-inset-text">
-        {# {% for subtitle in subtitles %}
-          <p class="govuk-body">{{subtitle}}</p>
-        {% endfor %} #}
-        <p>[instructions for this page]</p>
+        <p>[Instructions for this page]</p>
         <p class="govuk-body">If you'd like to look at the details for each suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers</a><span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website.</p>
       </div>
       <div class="ccs-page-section">
-        <p class="govuk-body">{{p1}}</p>
+        <p class="govuk-body">{{p1}}</p><br>
+        <p class="govuk-body">{{p5}}</p>
       </div>
-          {{ CCSTable({
-            captionClasses: "govuk-table__caption--m",
-            firstCellIsHeader: true,
-            head: [
-              {
-                text: table.head[0]
-              },
-              {
-                text: table.head[1]
-              }
-            ],
-            rows: table.rows
-          }) }}
+      
+        <form id="ca_review_ranked_suppliers" name="ca_review_ranked_suppliers" class="form ca_form" action="/ca/review-ranked-suppliers" method="post">
+          {{ csrfProtection(csrf) }}
+         <table class="govuk-table">
+           
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">[Rank and score]</th>
+                <th scope="col" class="govuk-table__header">[Supplier]</th>
+               </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              {% for score in RankedSuppliers %}
+                <tr class="govuk-table__row">
+                  
+                  <td class="govuk-table__cell">
+                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>Rank {{score.rank}}</strong></p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>{{score.total}}%  total score</strong></p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[0].score}}%  [Capacity score]</p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[1].score}}%  [Vetting score]</p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[2].score}}%  [Capability score]</p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[3].score}}%  [Scalability score]</p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[4].score}}%  [Location score]</p>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <p class="govuk-body govuk-!-margin-bottom-0"><strong>{{score.name}}</strong></p><br>
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{score.name}}</p>
+                  </td>
+                
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <p>
+       
+         {% if(BelowRankScores.length>0)%}
         <div class="ccs-page-section">
           <p class="govuk-body">{{p2}}</p>
         </div>
-        <form id="ca_review_ranked_suppliers" name="ca_review_ranked_suppliers" class="form ca_form" action="/ca/review-ranked-suppliers" method="post">
-        {{ csrfProtection(csrf) }}
-            {{ CCSCheckboxes({
-              idPrefix: "additional_ranks",
-              name: "additional_ranks",
-              items: rows
-            }) }}
+    <table class="govuk-table">
+          
+            <tbody class="govuk-table__body">
+              {% for score in BelowRankScores %}
+                <tr class="govuk-table__row">               
+                  <td class="govuk-table__cell">
+                   
+                   <input type="checkbox" name="supplierID" value="{{score.supplier.id }}" id="supplierID" checked:score.checked/>   
+                 
+                   </td>
+                  <td class="govuk-table__cell">
+                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>Rank {{score.rank}}</strong></p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>{{score.total}}%  total score</strong></p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[0].score}}%  [Capacity score]</p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[1].score}}%  [Vetting score]</p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[2].score}}%  [Capability score]</p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[3].score}}%  [Scalability score]</p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[4].score}}%  [Location score]</p>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <p class="govuk-body govuk-!-margin-bottom-0"><strong>{{score.name}}</strong></p><br>
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{score.name}}</p>
+                  </td>
+                
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
             {{ CCSTextarea({
               name: "justification",
               id: "justification",
+              value:Justification,
               label: {
                 text: p3,
                 classes: "govuk-label--m",
                 isPageHeading: true
               },
+              maxlength:"5000",
               hint: {
                 text: p4
               }
             }) }}
+ {%endif %}
+                                
 
             <div class="govuk-button-group">
               {{ CCSButton({
                     text: "Save and continue",
                     classes:"save-button"
                   })
-              }}
+              }}                  
+                            <div class="govuk-form-group">
+                                <h3>
+                                    <a href="/ca/review-ranked-suppliers?download=2" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list
+                </a>
+                                </h3>
+                            </div>
               <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
             </div>
 
