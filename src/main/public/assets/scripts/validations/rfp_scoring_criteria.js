@@ -4,10 +4,26 @@ document.addEventListener('DOMContentLoaded', () => {
       prev_input = 0,
       deleteButtons = document.querySelectorAll('a.del').length > 0 ? document.querySelectorAll('a.del') : document.querySelectorAll('a.clear-fields');
     selectTierButtons = document.querySelectorAll('.tier-popup');
-    
-    const points_for_this_level = document.querySelectorAll(".govuk-input--width-3");
 
+    const points_for_this_level = document.querySelectorAll(".govuk-input--width-3");
+    const allinput = document.querySelectorAll(".govuk-input");
+    const alltextarea = document.querySelectorAll(".govuk-textarea");
+
+    allinput.forEach(element => {
+      element.addEventListener("focusout", (event) => {
+        if (event.target.value  !=undefined && event.target.value !== '') {
+          removeErrorFieldsRfpScore();
+        }
+      })
+    })
     
+    alltextarea.forEach(element => {
+      element.addEventListener("focusout", (event) => {
+        if (event.target.value  !=undefined && event.target.value !== '') {
+          removeErrorFieldsRfpScore();
+        }
+      })
+    })
     document.getElementById('tiersAdded').textContent = '0';
     for (var score_criteria_fieldset = 10; score_criteria_fieldset > 1; score_criteria_fieldset--) {
       let this_fieldset = document.querySelector('.score_criteria_' + score_criteria_fieldset),
@@ -67,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
               else {
                 $("#deleteButton_" + ii).addClass("ccs-dynaform-hidden");
               }
-              
+
               document.getElementById("rfp_score_criteria_name_" + ii).value = rowsAndHead.rows[i].at(0).text;
               document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
               document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
@@ -90,8 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
       removeErrorFieldsRfpScore();
       e.preventDefault();
       errorStore = emptyFieldCheckRfpScore();
-      if (with_value_count ===11) {
-        let errlist=[];
+      if (with_value_count === 11) {
+        let errlist = [];
         errlist.push(["There is a problem", 'You must add min maximum 10 tiers.'])
         ccsZPresentErrorSummary(errlist);
         return;
@@ -179,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     points_for_this_level.forEach(element => {
       element.addEventListener("keydown", (event) => {
-        if (event.key === '.') { event.preventDefault(); }
+        if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
       })
     })
     if (document.getElementsByClassName('score_criteria_fieldset').length > 0) {
