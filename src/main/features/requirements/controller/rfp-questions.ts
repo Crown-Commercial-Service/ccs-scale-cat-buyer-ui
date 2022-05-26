@@ -24,9 +24,15 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
  */
 export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { agreement_id, proc_id, event_id, id, group_id, section } = req.query;
+  let { agreement_id, proc_id, event_id, id, group_id, section } = req.query;
 
   try {
+    //BALWINDER ADDED THIS CODE FOR SKIP DATA FOR GROUP 18
+    if (group_id ==='Group 18') {
+      group_id ='Group 19';
+      id='Criterion 3';
+    }
+
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -207,11 +213,8 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    if (section != undefined && section === '5') {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
-    } else {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
-    }
+
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
 
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
@@ -249,14 +252,14 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
           'question_id',
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
-        const  filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
-        const {_csrf}=req.body;
-        let  object_values = Object.values(filtered_object_with_empty_keys).filter(an_answer => {
-          if (_csrf !=an_answer) {
+        const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
+        const { _csrf } = req.body;
+        let object_values = Object.values(filtered_object_with_empty_keys).filter(an_answer => {
+          if (_csrf != an_answer) {
             return { value: an_answer, selected: true };
           }
         });
-        
+
         if (req.body.rfp_read_me) {
           QuestionHelper.AFTER_UPDATINGDATA(
             ErrorView,
@@ -510,7 +513,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   },
                 };
               } else {
-                let optionsData=[];
+                let optionsData = [];
                 for (let index = 0; index < object_values.length; index++) {
                   optionsData.push({ value: object_values[index], selected: true });
                 }

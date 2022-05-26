@@ -223,9 +223,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    if (section != undefined && section === '5') {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
-    }
+    
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -268,7 +266,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
         });
 
         if (req.body.rfp_read_me) {
-          QuestionHelper.AFTER_UPDATINGDATA(
+          QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
             ErrorView,
             DynamicFrameworkInstance,
             proc_id,
