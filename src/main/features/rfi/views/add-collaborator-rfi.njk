@@ -144,6 +144,7 @@
         {% if collaborator.OCDS.contact.email !== lead %}
         <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.OCDS.id}}">
           <div id="collaborator-detail">
+
             <a href='/rfi/delete-collaborators?id={{collaborator.OCDS.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
             <p class="govuk-body"><strong>{{data.content.collegue.name}}<span id="collab_no"></span>: </strong><span

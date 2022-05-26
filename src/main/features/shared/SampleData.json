@@ -1,8 +1,179 @@
-{
+{ 
+    "dimensionRequirements": [
+    {
+      "dimension-id": 1,
+      "name": "Resource Quantity",
+      "weighting": 23,
+      "includedCriteria": [
+        {
+          "criterion-id": "1",
+          "name": "Sub Contractor",
+          "includedCriteria": "select",
+          "options": [
+            "1: Less than 3",
+            "0: None",
+            "3: Between 7 and 12",
+            "4: More than 12",
+            "2: Between 3 and 6"
+          ]
+        },
+        {
+          "criterion-id": "0",
+          "name": "Supplier",
+          "includedCriteria": "select",
+          "options": [
+            "1: Less than 3",
+            "0: None",
+            "3: Between 7 and 12",
+            "4: More than 12",
+            "2: Between 3 and 6"
+          ]
+        }
+      ],
+      "requirements": [
+        {
+          "requirement-id": 81,
+          "name": "Data Engineer",
+          "weighting": 40,
+          "values": [
+          ]
+        },
+        {
+          "requirement-id": 80,
+          "name": "Data Analyst",
+          "weighting": 60,
+          "values": [
+          ]
+        }
+      ]
+    },
+    {
+      "dimension-id": 5,
+      "name": "Location",
+      "weighting": 27,
+      "includedCriteria": [
+        {
+          "criterion-id": "0",
+          "name": "Supplier",
+          "includedCriteria": "select",
+          "options": [
+            "0: No",
+            "1: Yes"
+          ]
+        },
+        {
+          "criterion-id": "1",
+          "name": "Sub Contractor",
+          "includedCriteria": "select",
+          "options": [
+            "0: No",
+            "1: Yes"
+          ]
+        }
+      ],
+      "requirements": [
+        {
+          "requirement-id": 300,
+          "name": "South East England",
+          "weighting": 15,
+          "values": [
+            {
+              "criterion-id": "0",
+              "name": "Supplier",
+              "value": "1: Yes"
+            },
+            {
+              "criterion-id": "1",
+              "name": "Sub Contractor",
+              "value": "1: Yes"
+            }
+          ]
+        },
+        {
+          "requirement-id": 301,
+          "name": "South West England",
+          "weighting": 15,
+          "values": [
+            {
+              "criterion-id": "0",
+              "name": "Supplier",
+              "value": "1: Yes"
+            },
+            {
+              "criterion-id": "1",
+              "name": "Sub Contractor",
+              "value": "1: Yes"
+            }
+          ]
+        },
+        {
+          "requirement-id": 298,
+          "name": "North East England",
+          "weighting": 70,
+          "values": [
+            {
+              "criterion-id": "0",
+              "name": "Supplier",
+              "value": "1: Yes"
+            },
+            {
+              "criterion-id": "1",
+              "name": "Sub Contractor",
+              "value": "1: Yes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dimension-id": 4,
+      "name": "Scalability",
+      "weighting": 40,
+      "includedCriteria": [
+        {
+          "criterion-id": "0",
+          "name": "Supplier",
+          "includedCriteria": "select",
+          "options": [
+            "1: Yes",
+            "0: No"
+          ]
+        },
+        {
+          "criterion-id": "1",
+          "name": "Sub Contractor",
+          "includedCriteria": "select",
+          "options": [
+            "1: Yes",
+            "0: No"
+          ]
+        }
+      ],
+      "requirements": [
+        {
+          "requirement-id": 293,
+          "name": "26-99",
+          "weighting": 100,
+          "values": [
+            {
+              "criterion-id": "0",
+              "name": "Supplier",
+              "value": "1: Yes"
+            },
+            {
+              "criterion-id": "1",
+              "name": "Sub Contractor",
+              "value": "1: Yes"
+            }
+          ]
+        }
+      ]
+    }
+  ],
     "scores": [
         {
             "supplier": {
-                "id": "US-DUNS-220250828"
+                "id": "US-DUNS-424197312"
             },
             "dimensionScores": [
                 {
@@ -45,7 +216,7 @@
         },
 		{
             "supplier": {
-                "id": "US-DUNS-555555555"
+                "id": "US-DUNS-515914245"
             },
             "dimensionScores": [
                 {

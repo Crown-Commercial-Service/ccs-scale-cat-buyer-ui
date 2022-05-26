@@ -9,14 +9,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let elements = document.querySelectorAll('.weightage');
     let totalPercentage = () => {
+      let errorStore = [];
       let weightageSum = 0;
+      removeErrorFieldsRfpScoreQuestion();
       elements.forEach(el => {
         weightageSum += isNaN(el.value) ? 0 : Number(el.value);
       });
+      if (weightageSum > 100) {
+        errorStore.push(["There is a problem", "The total weighting is exceeded more than 100%"]);
+        ccsZPresentErrorSummary(errorStore);
+      }
       $('#totalPercentage').html(weightageSum);
     };
     elements.forEach(ele => {
       ele.addEventListener('focusout', totalPercentage);
+      ele.addEventListener('keydown', (event) => {
+        if (event.key === '.' || event.keyCode ===69) { event.preventDefault(); }
+      });
     });
 
     const totalAnswerd = () => {
@@ -47,18 +56,31 @@ document.addEventListener('DOMContentLoaded', () => {
     $('.add-another-btn').on('click', function () {
       $('.govuk-error-summary').remove();
       $('.govuk-form-group--error').remove();
+      removeErrorFieldsRfpScoreQuestion();
       errorStore = emptyQuestionFieldCheckRfp();
+      const pageHeading = document.getElementById('page-heading').innerHTML;
       if (errorStore.length == 0) {
         document.getElementById('fc_question_' + with_value_count).classList.remove('ccs-dynaform-hidden');
+        //Added this condation section 5 (step 43/44/45)
+
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
           document
             .querySelector('label[for=fc_question_' + prev_input + '] a.del')
             .classList.add('ccs-dynaform-hidden');
         }
+        document.getElementById("questionsCount").textContent=with_value_count+' techinical questions entered so far';
         document
           .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
           .classList.remove('ccs-dynaform-hidden');
+        if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
+          if (with_value_count ===5) {
+            errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
+            ccsZPresentErrorSummary(errorStore);
+            return;
+          }
+        }
+        
         with_value_count++;
 
         if (with_value_count === 11) {
@@ -145,7 +167,7 @@ const removeErrorFieldsRfpScoreQuestion = () => {
   $('.govuk-input').removeClass('govuk-input--error');
   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 };
-$('#rfp_multianswer_question_form').on('submit',(event) => {
+$('#rfp_multianswer_question_form').on('submit', (event) => {
   event.preventDefault();
   const errorStore = emptyQuestionFieldCheckRfp();
   if (errorStore.length === 0) {
