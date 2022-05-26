@@ -13,6 +13,7 @@ allListOfHeading = [...allListOfHeading].map(items => {
 
 const weight_whole_len = $('.weight_vetting_whole').length + 1;
 const weight_partial_len = $('.weight_vetting_partial').length + 1;
+const weight = $('.weight');
 
 for (var a = 0; a < document.getElementsByClassName('weight_vetting_whole').length; a++) {
     document.getElementsByClassName('weight_vetting_whole')[a].checked = true;
@@ -79,6 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    weight.on('keydown', (event) => {
+        if (event.key === '.' || event.keyCode ===69)
+          event.preventDefault(); });
 
     function updateTotalWeight() {
 

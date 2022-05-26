@@ -340,8 +340,7 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     var Service_capbility_weightage = [];
 
     const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
-    //const Service_capbility_weightage = Weightings?.filter(item => item.name == 'Service Capability')[0].weighting;
-   
+  
     if (typeof Weightings !== 'undefined' && Weightings.length > 0) {
      Service_capbility_weightage = Weightings?.filter(item => item.name == 'Service Capability')[0].weighting;
     }
@@ -518,8 +517,7 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'To-Do');
-     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'Cannot start yet');
-      res.redirect('/da/service-capabilities');
+       res.redirect('/da/service-capabilities');
       
       } catch (error) {
         req.session['isJaggaerError'] = true;

@@ -43,10 +43,8 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
 
-    // const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
-    // const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
-
-
+    const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
+    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
 
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
@@ -129,7 +127,6 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
         text: item.category,
         subtext: `[ 0 % ]`,
         className: 'ca-service-capabilities'
-        //subtext: `${item.Weightage.min}% / ${item.Weightage.max}%`,
       };
     });
 
