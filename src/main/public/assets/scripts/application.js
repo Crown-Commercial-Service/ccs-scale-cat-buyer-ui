@@ -307,7 +307,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_2'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );
 
 setInputFilter(
@@ -328,7 +328,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_3'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );
 
 setInputFilter(
@@ -349,7 +349,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_4'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );
 
 setInputFilter(
@@ -370,5 +370,5 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_5'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );

@@ -149,10 +149,10 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,
         );
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-        //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
-        res.redirect('/da/accept-subcontractors');
       }
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
+        res.redirect('/da/accept-subcontractors');
     }
   } catch (error) {
     LoggTracer.errorLogger(
