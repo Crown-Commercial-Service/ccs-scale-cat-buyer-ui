@@ -183,7 +183,7 @@
             </table>
           </div>
         </div>
-        {% elseif status == 'Response period closed' %}
+        {% elseif status == 'To be Evaluated' %}
         
           <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
@@ -234,7 +234,7 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-      {% if status == 'Response period closed' %}
+      {% if status == 'To Be Evaluated' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete project</h2>
@@ -248,8 +248,27 @@
      
     </div>
     </div>
-    {% endif %}
-    {% endif %}
+    {% endif %}  
+  {% endif %}
+<div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+      {% if eventType == 'FC' %}
+      {% if status == 'To be Evaluated' %}
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Evaluate suppliers</h2>
+        <p>You will need to download all of the supplier responses to evaluate their answers.You will have to evaluate them using the criteris and the question you set before you published your procurement</p>
+         <div class="govuk-button-group">
+        {{ CCSButton({
+        text: "[Complete evaluation of the supplier response]",
+        href:"#"
+        }) }}
+        </div> 
+     
+      </div>
+      </div>
+      {% endif %}
+      {% endif %}
      <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
