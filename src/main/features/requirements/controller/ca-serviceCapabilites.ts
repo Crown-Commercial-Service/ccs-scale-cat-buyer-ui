@@ -43,10 +43,8 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
 
-    const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
-    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
-
-
+    //const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
+    //const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
 
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
@@ -127,7 +125,8 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       return {
         url: `#section${index}`,
         text: item.category,
-        subtext: `${item.Weightage.min}% / ${item.Weightage.max}%`,
+        subtext: `[ 0 % ]`,
+        className: 'ca-service-capabilities'
       };
     });
 
@@ -338,11 +337,14 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
 
+    var Service_capbility_weightage = [];
 
     const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
-    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
 
-
+    if (typeof Weightings !== 'undefined' && Weightings.length > 0) {
+     Service_capbility_weightage = Weightings?.filter(item => item.name == 'Service Capability')[0].weighting;
+    }
+    
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
 
@@ -489,7 +491,8 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const { Weightage } = item;
       const requirementId = item['requirement-id'];
       const PostedFormElement = {};
-      (PostedFormElement['requirement-id'] = requirementId), (PostedFormElement['weighting'] = Weightage);
+      (PostedFormElement['requirement-id'] = requirementId), 
+      (PostedFormElement['weighting'] = Weightage);
       PostedFormElement['values'] = [];
       return PostedFormElement;
     });
@@ -497,7 +500,7 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const PUT_BODY = {
       weighting: Service_capbility_weightage,
       includedCriteria: [],
-      overwriteRequirements: true,
+      overwriteRequirements: false,
       requirements: MappedWholeAndPartialCluster,
     };
 
@@ -511,7 +514,7 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
 
-      res.redirect('/ca/service-capabilities');
+      res.redirect('/ca/team-scale');
     } catch (error) {
       req.session['isJaggaerError'] = true;
       LoggTracer.errorLogger(
@@ -529,8 +532,6 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
      *
      */
   } catch (error) {
-
-
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,

@@ -185,6 +185,9 @@ export class QuestionHelper {
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
             await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
+            //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
+            //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
           }
           res.redirect('/rfp/task-list');
         } else

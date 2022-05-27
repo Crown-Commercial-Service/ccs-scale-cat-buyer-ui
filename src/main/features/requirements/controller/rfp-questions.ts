@@ -24,9 +24,15 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
  */
 export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { agreement_id, proc_id, event_id, id, group_id, section } = req.query;
+  let { agreement_id, proc_id, event_id, id, group_id, section } = req.query;
 
   try {
+    //BALWINDER ADDED THIS CODE FOR SKIP DATA FOR GROUP 18
+    if (group_id ==='Group 18') {
+      group_id ='Group 19';
+      id='Criterion 3';
+    }
+
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -207,11 +213,8 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    if (section != undefined && section === '5') {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
-    } else {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
-    }
+
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
 
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
@@ -249,14 +252,14 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
           'question_id',
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
-        const  filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
-        const {_csrf}=req.body;
-        let  object_values = Object.values(filtered_object_with_empty_keys).filter(an_answer => {
-          if (_csrf !=an_answer) {
+        const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
+        const { _csrf } = req.body;
+        let object_values = Object.values(filtered_object_with_empty_keys).filter(an_answer => {
+          if (_csrf != an_answer) {
             return { value: an_answer, selected: true };
           }
         });
-        
+
         if (req.body.rfp_read_me) {
           QuestionHelper.AFTER_UPDATINGDATA(
             ErrorView,
@@ -362,10 +365,20 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
             } else if (questionNonOCDS.questionType === 'Date') {
               const slideObj = object_values.slice(1, 4);
+              let newArraryForDate=[];
+              if (slideObj !=null && slideObj.length >0) {
+                slideObj.forEach(x=>{
+                  if (x.value ===undefined) {
+                    newArraryForDate.push({value:x,select: true});
+                  }else if(x.value !==undefined){
+                    newArraryForDate.push({value:x,select: true})
+                  }
+                })
+              }
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
-                  options: [...slideObj],
+                  options: newArraryForDate,
                 },
               };
             } else if (questionNonOCDS.questionType === 'Duration') {
@@ -386,13 +399,14 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 break;
               } else {
                 const slideObj = object_values.slice(3);
+                let dureationValue="P"+req.body["rfp_duration-years_" + question_ids[i].replace(" ","")]+"Y";
+                dureationValue+=req.body["rfp_duration_months_" + question_ids[i].replace(" ","")]+"M";
+                dureationValue+=req.body["rfp_duration_days_" + question_ids[i].replace(" ","")]+"D";
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
                     options: [
-                      { value: req.body["rfp_duration-years_" + question_ids[i]], select: true },
-                      { value: req.body["rfp_duration_months_" + question_ids[i]], select: true },
-                      { value: req.body["rfp_duration_days_" + question_ids[i]], select: true },
+                      { value: dureationValue, select: true },
                     ],
                   },
                 };
@@ -510,7 +524,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   },
                 };
               } else {
-                let optionsData=[];
+                let optionsData = [];
                 for (let index = 0; index < object_values.length; index++) {
                   optionsData.push({ value: object_values[index], selected: true });
                 }
@@ -529,7 +543,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 const { _csrf } = req.body;
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0) {
                   var options = answerValueBody?.nonOCDS?.options.filter(x => {
-                    if (x.value != _csrf && x.value != undefined) {
+                    if (x?.value != _csrf && x?.value != undefined) {
                       return x;
                     }
                   });

@@ -44,7 +44,7 @@
     {{ csrfProtection(csrf) }}    
     <div class="ccs-page-section">
       <div class="sub-section">
-        <p class="govuk-body">{{data.total}} of 100% total weighting for service capabilities</p>
+        <p class="govuk-body" id = "ca_total_weighting" >{{data.total}} of 100% total weighting for service capabilities</p>
       </div>
        <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state ca_da_service_cap" title="delete">Clear form</a></div>
     </div>
@@ -68,7 +68,7 @@
                     <p class="hide-block headings">{{headings['category']}}</p>
                     {%endfor%}
                     <h4> {{item['category']}} description </h4>
-                       
+                        {% set caDomCategory = item['category'].trim().replaceAll(" ", "_") %}
                           <div class="govuk-form-group">
                               <fieldset class="govuk-fieldset">
                                 <div class="govuk-radios" data-module="govuk-radios">
@@ -88,7 +88,7 @@
 
                                       {% if wholeCells.name == item.category %}
 
-                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t">
+                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t {{caDomCategory}}{{loop.index}}">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
                                     
@@ -98,7 +98,7 @@
                                         text: ""
                                       },
                                       classes: "govuk-input--width-2 weight weight_vetting_whole "+ wholeClass,
-                                      id: "weight_vetting_whole"+loop.index,
+                                      id: "weight_vetting_whole_"+caDomCategory+loop.index,
                                       name: "weight_vetting_whole",
                                       value: wholeCells.value,
                                       suffix: {
@@ -136,7 +136,7 @@
                               <h4> {{subItems['groupname']}} </h4>
                               <div class="govuk-!-margin-top-6">
                               
-                                 <p id="partial-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_partial_t">
+                                 <p id="partial-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_partial_t {{caDomCategory}}{{loop.index}}">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
                            
@@ -146,7 +146,7 @@
                                       text: ""
                                     },
                                     classes: "govuk-input--width-2 weight weight_vetting_partial "+ partialClass,
-                                    id: "weight_vetting_partial"+loop.index,
+                                    id: "weight_vetting_partial"+caDomCategory+loop.index,
                                     value: subItems['value'],
                                     name: "weight_vetting_partial",
                                     suffix: {
