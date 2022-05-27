@@ -365,10 +365,20 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
             } else if (questionNonOCDS.questionType === 'Date') {
               const slideObj = object_values.slice(1, 4);
+              let newArraryForDate=[];
+              if (slideObj !=null && slideObj.length >0) {
+                slideObj.forEach(x=>{
+                  if (x.value ===undefined) {
+                    newArraryForDate.push({value:x,select: true});
+                  }else if(x.value !==undefined){
+                    newArraryForDate.push({value:x,select: true})
+                  }
+                })
+              }
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
-                  options: [...slideObj],
+                  options: newArraryForDate,
                 },
               };
             } else if (questionNonOCDS.questionType === 'Duration') {
@@ -389,13 +399,14 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 break;
               } else {
                 const slideObj = object_values.slice(3);
+                let dureationValue="P"+req.body["rfp_duration-years_" + question_ids[i].replace(" ","")]+"Y";
+                dureationValue+=req.body["rfp_duration_months_" + question_ids[i].replace(" ","")]+"M";
+                dureationValue+=req.body["rfp_duration_days_" + question_ids[i].replace(" ","")]+"D";
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
                     options: [
-                      { value: req.body["rfp_duration-years_" + question_ids[i]], select: true },
-                      { value: req.body["rfp_duration_months_" + question_ids[i]], select: true },
-                      { value: req.body["rfp_duration_days_" + question_ids[i]], select: true },
+                      { value: dureationValue, select: true },
                     ],
                   },
                 };
@@ -532,7 +543,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 const { _csrf } = req.body;
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0) {
                   var options = answerValueBody?.nonOCDS?.options.filter(x => {
-                    if (x.value != _csrf && x.value != undefined) {
+                    if (x?.value != _csrf && x?.value != undefined) {
                       return x;
                     }
                   });
