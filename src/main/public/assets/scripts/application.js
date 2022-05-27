@@ -160,6 +160,9 @@ if (document.getElementById('ccs_rfi_next_steps') !== null)
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
 
+  if (document.getElementById('ca_justification') !== null)
+  document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
+
 if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
