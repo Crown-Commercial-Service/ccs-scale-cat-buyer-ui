@@ -123,7 +123,8 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       return {
           "url": `#section${index}`,
           "text": item.category,
-          "subtext": `${item.Weightage.min}% / ${item.Weightage.max}%`
+          "subtext": `[ 0 % ]`,
+          "className": 'da-service-capabilities'
       }
     })
 
@@ -336,11 +337,13 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
+    var Service_capbility_weightage = [];
+
     const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
-    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
-   
-    // if (typeof Weightings !== 'undefined' && Weightings.length > 0) {
-    // }
+  
+    if (typeof Weightings !== 'undefined' && Weightings.length > 0) {
+     Service_capbility_weightage = Weightings?.filter(item => item.name == 'Service Capability')[0].weighting;
+    }
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
@@ -513,8 +516,8 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'Cannot start yet');
-      res.redirect('/da/service-capabilities');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'To-Do');
+       res.redirect('/da/service-capabilities');
       
       } catch (error) {
         req.session['isJaggaerError'] = true;

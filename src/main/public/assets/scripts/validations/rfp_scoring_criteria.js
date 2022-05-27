@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       })
     })
-    
+
     alltextarea.forEach(element => {
       element.addEventListener("focusout", (event) => {
         if (event.target.value  !=undefined && event.target.value !== '') {
@@ -341,11 +341,11 @@ const ccsZvalidateScoringCriteria = event => {
     document.forms['ccs_rfp_scoring_criteria'].submit();
   }
   else if (tierVal.match(/(\d+)/)[0] < 2) {
-    errorStore.push(["There is a problem", 'You must add min minmun 2 tiers.'])
+    errorStore.push(["There is a problem", 'You must add minmum 2 tiers.'])
     ccsZPresentErrorSummary(errorStore);
   }
   else if (tierVal.match(/(\d+)/)[0] > 10) {
-    errorStore.push(["There is a problem", 'You must add min maximum 10 tiers.'])
+    errorStore.push(["There is a problem", 'You must add maximum 10 tiers.'])
     ccsZPresentErrorSummary(errorStore);
   }
   else {

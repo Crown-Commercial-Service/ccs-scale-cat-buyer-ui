@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
    
     $('#ca_review_ranked_suppliers').on('submit', (e) => {
-  
 
-    //e.preventDefault();
     var element =  document.getElementById('supplierID');
-    var justification=document.getElementById('justification');
+    var justification=document.getElementById('ca_justification');
     if (typeof(element) != 'undefined' && element != null &&typeof(justification) != 'undefined' && justification != null)
 {
     
@@ -18,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $("#ca_rank_summary_list").html('<li><a href="#">Please select the suppliers</a></li>');
         $('html, body').animate({ scrollTop: 0 }, 'fast');
     }
-    else if($('input[type=checkbox]:checked').length > 0 && $('#justification').val()==='')
+    else if($('input[type=checkbox]:checked').length > 0 && $('#ca_justification').val()==='')
     {
         
         e.preventDefault();
@@ -30,3 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 });  
 });
+const ccsZCountCAReviewRank = (event) => {
+    event.preventDefault();
+    const element = document.getElementById("ca_justification"); 
+      let labelElement=document.getElementById("ca_textarea_reviewrank");
+      let count=5000-element.value.length;
+      labelElement.innerText=count + " remaining of 5000";
+   
+  };
+  

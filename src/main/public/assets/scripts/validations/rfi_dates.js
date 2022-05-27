@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const ccsZvalidateDate = (event) => {
   let id=event.srcElement.id.split("ccs_rfi_response_date_form_");
   event.preventDefault();
-  debugger;
+  //debugger;
   let selectors = [1,2,3,4,5];
   let flag=false;
   let errorstore=[];
@@ -238,7 +238,7 @@ const ccsZvalidateDate = (event) => {
   }
   if(flag)
   {
-    errorstore.push("Enter a valid date");
+    errorstore.push(["","Enter a valid date"]);
     ccsZPresentErrorSummary(errorstore);
   }
   else

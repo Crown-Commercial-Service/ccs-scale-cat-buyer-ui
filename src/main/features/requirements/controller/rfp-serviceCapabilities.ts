@@ -126,6 +126,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
         url: `#section${index}`,
         text: item.category,
         subtext: `[0 selected]`,
+        className: 'rfp-service-capabilities'
       };
     });
 
@@ -209,6 +210,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
           url: `#section${index}`,
           text: items.category,
           subtext: newsubtext,
+          className : 'rfp-service-capabilities'
         };
      });
 
