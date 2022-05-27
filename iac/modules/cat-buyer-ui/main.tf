@@ -103,7 +103,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     AUTH_SERVER_CLIENT_ID : data.aws_ssm_parameter.env_auth_server_client_id.value
     AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
     AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
-    CAT_URL : "https://${var.environment}-ccs-scale-cat-buyer-ui.${data.cloudfoundry_domain.domain.name}"
+    CAT_URL : "https://${format("%s%s", var.buyer_ui_domain_prefix, data.aws_ssm_parameter.buyer_ui_domain.value)}"
     LOGIT_API_KEY : data.aws_ssm_parameter.env_logit_api_key.value
     SESSION_SECRET : data.aws_ssm_parameter.env_session_secret.value
     CONCLAVE_WRAPPER_API_BASE_URL : data.aws_ssm_parameter.conclave_wrapper_api_base_url.value
