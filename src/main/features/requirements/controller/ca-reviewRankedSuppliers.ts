@@ -55,19 +55,16 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
       BelowRankScores=LeastRankScores.filter(x=>x.rank===Leastscorerank).concat(TopRankScores.filter(x=>x.rank===Leastscorerank))
       if(SuppliersData.suppliers.length>0)
   {
-    let allsupplierslist=[];
-    allsupplierslist=BelowRankScores;
-    BelowRankScores=[];
-    SuppliersData.suppliers.forEach(element => {
-      let result=allsupplierslist.find(x=>x.supplier.id==element.id)
-      BelowRankScores.push(result)     
-    });
-    BelowRankScores.sort((a, b) => a.rank < b.rank? -1 : a.rank> b.rank? 1 : 0);
-    SuppliersData.suppliers.forEach(element => {
-      let selectedLocIndex=BelowRankScores.findIndex(x=>x.supplier.id==element.id);
-    BelowRankScores[selectedLocIndex].checked=true;    
+     SuppliersData.suppliers.forEach(element => {
+      let selectedLocIndex=BelowRankScores.findIndex(x=>x.supplier.id===element.id);
+      if(selectedLocIndex!=-1)
+      {
+        BelowRankScores[selectedLocIndex].checked=true;  
+      }
+     
     Justification=SuppliersData.justification;
     });
+    BelowRankScores.sort((a, b) => a.rank < b.rank? -1 : a.rank> b.rank? 1 : 0);
   }
       
       BelowRankScores.filter(x=>x.dimensionScores.map(y=>y.score=parseFloat(y.score).toFixed(2)))
@@ -251,7 +248,13 @@ export const CA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
         BelowRankScores=req.session.BelowRankScores;
       if(belowrankedSuppliers!=undefined && justification!=undefined)
       {
+        if(Array.isArray(belowrankedSuppliers))
+        {
+          SelectedbelowrankedSuppliers.push(...belowrankedSuppliers);    
+        }
+        else{
         SelectedbelowrankedSuppliers.push(belowrankedSuppliers);    
+        }
         
         SelectedbelowrankedSuppliers.forEach(element => {
     let temp=BelowRankScores.find(x=>x.supplier.id===element)

@@ -88,9 +88,11 @@
               {% for score in BelowRankScores %}
                 <tr class="govuk-table__row">               
                   <td class="govuk-table__cell">
-                   
-                   <input type="checkbox" name="supplierID" value="{{score.supplier.id }}" id="supplierID" checked:score.checked/>   
-                 
+                    {% if(score.checked==true)%}
+                   <input type="checkbox" name="supplierID" value="{{score.supplier.id }}" id="supplierID" checked/>   
+                    {%else%}
+                     <input type="checkbox" name="supplierID" value="{{score.supplier.id }}" id="supplierID"/>   
+                  {%endif %}
                    </td>
                   <td class="govuk-table__cell">
                   <p class="govuk-body govuk-!-margin-bottom-0"><strong>Rank {{score.rank}}</strong></p><br>
@@ -112,7 +114,7 @@
           </table>
             {{ CCSTextarea({
               name: "justification",
-              id: "justification",
+              id: "ca_justification",
               value:Justification,
               label: {
                 text: p3,
@@ -124,6 +126,7 @@
                 text: p4
               }
             }) }}
+             <p><label id="ca_textarea_reviewrank"></label></p>
  {%endif %}
                                 
 
