@@ -108,7 +108,11 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.CA_REQUIREMENT_TYPE,
   );
-
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_CHOOSE_REQUIREMENTS,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_CHOOSE_SECURITY_REQUIREMENTS,
+  );
   app.get(
     REQUIREMENT_PATHS.CA_GET_NAME_PROJECT,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -624,7 +628,11 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_POST_CHOOSE_SECURITY_REQUIREMENTS,
   );
-
+  app.post(
+    REQUIREMENT_PATHS.CA_POST_CHOOSE_REQUIREMENTS,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_POST_CHOOSE_SECURITY_REQUIREMENTS,
+  );
   app.post(
     REQUIREMENT_PATHS.DA_POST_CHOOSE_REQUIREMENTS,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
