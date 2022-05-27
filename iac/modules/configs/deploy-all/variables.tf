@@ -21,3 +21,7 @@ variable "instances" {
 variable "memory" {
   default = 1024
 }
+
+variable "buyer_ui_domain_prefix" {
+  default = ""
+}
