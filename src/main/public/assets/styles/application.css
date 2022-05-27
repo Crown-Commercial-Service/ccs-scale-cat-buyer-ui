@@ -8948,7 +8948,7 @@ p,
   height: inherit;
 }
 
-.backdrop-vetting, .backdrop-nav-menu, .backdrop-tier-4, .backdrop-tier-5,backdrop-nextsteps {
+.backdrop-vetting, .backdrop-nav-menu, .backdrop-tier-4, .backdrop-tier-5 {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -8956,6 +8956,17 @@ p,
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+.backdrop-nextsteps {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
   display: none;
 }
 
