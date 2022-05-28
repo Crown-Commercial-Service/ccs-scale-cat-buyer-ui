@@ -52,9 +52,9 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     const promptSplit = promptData?.split(splitOn);
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
-    //SCAT-5153- To delete "Price" field 
+    //SCAT-5153 - To delete "Price" field 
     fetch_dynamic_api_data.pop();
-    console.log(fetch_dynamic_api_data)
+    console.log(JSON.stringify(fetch_dynamic_api_data))
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
       const questionNonOCDS = {
         groupId: group_id,
