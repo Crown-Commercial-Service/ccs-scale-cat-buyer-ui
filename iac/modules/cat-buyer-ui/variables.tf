@@ -28,3 +28,4 @@ variable "cf_password" {
   sensitive = true
 }
 
+variable "buyer_ui_domain_prefix" {}

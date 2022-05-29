@@ -22,11 +22,13 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const { isJaggaerError } = req.session;
+  let { selectedRoute } = req.session;//BALWINDER
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   const appendData = { data: uploadData, releatedContent, error: isJaggaerError };
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/37`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'In progress');
+    //37 changes to 30 BALWINDER 
     res.render('rfp-uploadOverview', appendData);
   } catch (error) {
     LoggTracer.errorLogger(

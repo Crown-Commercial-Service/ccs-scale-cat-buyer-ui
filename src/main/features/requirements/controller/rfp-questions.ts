@@ -24,9 +24,15 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
  */
 export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { agreement_id, proc_id, event_id, id, group_id, section } = req.query;
+  let { agreement_id, proc_id, event_id, id, group_id, section } = req.query;
 
   try {
+    //BALWINDER ADDED THIS CODE FOR SKIP DATA FOR GROUP 18
+    if (group_id === 'Group 18') {
+      group_id = 'Group 19';
+      id = 'Criterion 3';
+    }
+
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -48,7 +54,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     //const bcTitleText = OCDS?.description;
     //const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
     const newOCDSdescription = changeTitle(OCDS?.description)
-    const bcTitleText = newOCDSdescription;
+    const bcTitleText = newOCDSdescription === '' ? OCDS?.description : newOCDSdescription;
     const titleText = nonOCDS.mandatory === false ? newOCDSdescription + ' (Optional)' : newOCDSdescription;
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
@@ -165,7 +171,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       delete data.data[0].nonOCDS.options;
       data.data[0].nonOCDS.options = req.session['errorFields'];
     }
-    if (bcTitleText === 'Define your service levels and KPIs') {
+    if (group_id === 'Group 19' && id === 'Criterion 3') {
       data.form_name = 'service_levels_kpi_form';
     }
     req.session['isFieldError'] = false;
@@ -207,11 +213,8 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    if (section != undefined && section === '5') {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
-    } else {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
-    }
+
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
 
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
@@ -249,14 +252,14 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
           'question_id',
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
-        const  filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
-        const {_csrf}=req.body;
-        let  object_values = Object.values(filtered_object_with_empty_keys).filter(an_answer => {
-          if (_csrf !=an_answer) {
+        const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
+        const { _csrf } = req.body;
+        let object_values = Object.values(filtered_object_with_empty_keys).filter(an_answer => {
+          if (_csrf != an_answer) {
             return { value: an_answer, selected: true };
           }
         });
-        
+
         if (req.body.rfp_read_me) {
           QuestionHelper.AFTER_UPDATINGDATA(
             ErrorView,
@@ -361,11 +364,22 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               }
               await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
             } else if (questionNonOCDS.questionType === 'Date') {
-              const slideObj = object_values.slice(1, 4);
+
+              const slideObj = object_values.slice(0, 4);
+              let newArraryForDate = [];
+              if (slideObj != null && slideObj.length > 0) {
+                slideObj.forEach(x => {
+                  if (x.value === undefined) {
+                    newArraryForDate.push({ value: x, select: true });
+                  } else if (x.value !== undefined) {
+                    newArraryForDate.push({ value: x, select: true })
+                  }
+                })
+              }
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
-                  options: [...slideObj],
+                  options: newArraryForDate,
                 },
               };
             } else if (questionNonOCDS.questionType === 'Duration') {
@@ -386,13 +400,34 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 break;
               } else {
                 const slideObj = object_values.slice(3);
+                let dureationValue = null;
+                let isFourYear = false;
+                let isMonthValid = false;
+                let isDayValid = false;
+                if (Number(req.body["rfp_duration-years_" + question_ids[i].replace(" ", "")]) > 0) {
+                  dureationValue += "P" + req.body["rfp_duration-years_" + question_ids[i].replace(" ", "")] + "Y";
+                }else{
+                  dureationValue += "P0Y";
+                }
+                if (Number(req.body["rfp_duration_months_" + question_ids[i].replace(" ", "")]) > 0) {
+                  dureationValue += req.body["rfp_duration_months_" + question_ids[i].replace(" ", "")] + "M";
+                }else{
+                  dureationValue += "0M";
+                }
+                if (Number(req.body["rfp_duration_days_" + question_ids[i].replace(" ", "")]) > 0) {
+                  dureationValue +=  req.body["rfp_duration_days_" + question_ids[i].replace(" ", "")] + "D";
+                }
+                else{
+                  dureationValue += "0D";
+                }
+                if (dureationValue === '' || dureationValue == null) {
+                  dureationValue = 'P0Y0M0D'
+                }
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
                     options: [
-                      { value: req.body["rfp_duration-years_" + question_ids[i]], select: true },
-                      { value: req.body["rfp_duration_months_" + question_ids[i]], select: true },
-                      { value: req.body["rfp_duration_days_" + question_ids[i]], select: true },
+                      { value: dureationValue, select: true },
                     ],
                   },
                 };
@@ -478,16 +513,16 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 break;
               }
               const TAStorage = [];
-              const monetaryData = object_values[1];
-              for (let item = 0; item < monetaryData?.value?.length; item++) {
-                const spltermObject = { value: monetaryData.value[i], selected: true };
-                TAStorage.push(spltermObject);
-              }
+              const monetaryData = object_values[0];
+              // for (let item = 0; item < monetaryData?.length; item++) {
+              //   const spltermObject = { value: monetaryData[i], selected: true };
+              //   TAStorage.push(spltermObject);
+              // }
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
                   multiAnswer: questionNonOCDS.multiAnswer,
-                  options: [...TAStorage],
+                  options: [{ value: monetaryData[i], selected: true }],
                 },
               };
             } else {
@@ -510,7 +545,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   },
                 };
               } else {
-                let optionsData=[];
+                let optionsData = [];
                 for (let index = 0; index < object_values.length; index++) {
                   optionsData.push({ value: object_values[index], selected: true });
                 }
@@ -527,13 +562,16 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 const { _csrf } = req.body;
-                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0) {
+                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined) {
                   var options = answerValueBody?.nonOCDS?.options.filter(x => {
-                    if (x.value != _csrf && x.value != undefined) {
+                    if (x?.value != _csrf && x?.value != undefined) {
                       return x;
                     }
                   });
                   answerValueBody.nonOCDS.options = options;
+                  answerValueBody.OCDS = {
+                    id: question_ids[i]
+                  }
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
                 }
 
@@ -738,7 +776,7 @@ function changeTitle(title) {
     case 'Management information and reporting':
       text = 'Management information and reporting requirements';
       break;
-    case 'Service levels and performance':
+    case 'Define your service levels and KPIs':
       text = 'Define your service levels and KPIs';
       break;
     case 'Incentives and exit strategy':
@@ -747,7 +785,10 @@ function changeTitle(title) {
     case 'How the supplier is going to deliver within the budget constraints':
       text = 'Contract values and how suppliers will meet the project needs within this budget';
       break;
-    case 'Add your requirements':
+    case 'Set your project budget':
+      text = 'Set your project budget'
+      break;
+    case 'Enter your project requirements':
       text = 'Enter your project requirements';
       break;
   }
