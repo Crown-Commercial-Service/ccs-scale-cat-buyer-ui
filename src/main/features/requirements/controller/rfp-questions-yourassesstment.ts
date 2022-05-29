@@ -52,6 +52,10 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     const promptSplit = promptData?.split(splitOn);
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
+    
+    if (group_id === 'Group 3' && id === 'Criterion 2'){
+      fetch_dynamic_api_data.pop();
+    }
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
       const questionNonOCDS = {
         groupId: group_id,
@@ -103,7 +107,6 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     const releatedContent = req.session.releatedContent;
     //fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
-
     fetch_dynamic_api_data = fetch_dynamic_api_data.map(item => {
       const newItem = item;
       if (item.nonOCDS.dependency == undefined) {
