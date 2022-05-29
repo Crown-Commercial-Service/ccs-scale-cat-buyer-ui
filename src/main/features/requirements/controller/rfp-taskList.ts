@@ -46,7 +46,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'Cannot start yet');
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Cannot start yet');
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Cannot start yet');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/37`, 'Cannot start yet');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/37`, 'Cannot start yet');
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Cannot start yet');
     
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Cannot start yet');

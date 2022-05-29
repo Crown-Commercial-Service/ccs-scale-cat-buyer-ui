@@ -60,7 +60,8 @@ export enum REQUIREMENT_PATHS {
   CA_POST_ADD_COLLABORATOR = '/ca/get-collaborator-detail',
   CA_POST_ADD_COLLABORATOR_TO_JAGGER = '/ca/add-collaborator-detail',
   CA_POST_PROCEED_COLLABORATORS = '/ca/proceed-collaborators',
-
+  CA_GET_CHOOSE_REQUIREMENTS = '/ca/choose-security-requirements',
+  CA_POST_CHOOSE_REQUIREMENTS = '/ca/choose-security-requirements',
   //supplier
   GET_RFP_SUPPLIERS = '/rfp/suppliers',
   POST_RFP_SUPPLIER = '/rfp/suppliers',

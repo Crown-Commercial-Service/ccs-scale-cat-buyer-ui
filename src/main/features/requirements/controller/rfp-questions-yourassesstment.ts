@@ -52,6 +52,10 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     const promptSplit = promptData?.split(splitOn);
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
+    
+    if (group_id === 'Group 3' && id === 'Criterion 2'){
+      fetch_dynamic_api_data.pop();
+    }
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
       const questionNonOCDS = {
         groupId: group_id,
@@ -103,7 +107,6 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     const releatedContent = req.session.releatedContent;
     //fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
-
     fetch_dynamic_api_data = fetch_dynamic_api_data.map(item => {
       const newItem = item;
       if (item.nonOCDS.dependency == undefined) {
@@ -223,9 +226,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    if (section != undefined && section === '5') {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
-    }
+    
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -268,7 +269,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
         });
 
         if (req.body.rfp_read_me) {
-          QuestionHelper.AFTER_UPDATINGDATA(
+          QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
             ErrorView,
             DynamicFrameworkInstance,
             proc_id,

@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.forEach(ele => {
       ele.addEventListener('focusout', totalPercentage);
       ele.addEventListener('keydown', (event) => {
-        if (event.key === '.') { event.preventDefault(); }
+        if (event.key === '.' || event.keyCode ===69) { event.preventDefault(); }
       });
     });
 

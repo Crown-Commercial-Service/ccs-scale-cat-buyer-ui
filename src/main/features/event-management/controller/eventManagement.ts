@@ -132,7 +132,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     //Get Q&A Count
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
     const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
-
+    let showCloseProject = false;
+          if (status == "Published" || status == "To be Evaluated") {
+            showCloseProject = true;
+          }
+          
+          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
     if (status == "IN PROGRESS" || status == "In Progress") {
       let redirectUrl: string
       switch (eventType) {
@@ -171,20 +176,20 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
 
           //const appendData = { data: eventManagementData, status, projectName, eventId, eventType,apidata,supplierName,supplierSummary,showallDownload, suppliers: localData, unreadMessage: unreadMessage }
-          let showCloseProject = false;
-          if (status == "Published" || status == "To be Evaluated") {
-            showCloseProject = true;
-          }
-          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+          
+          
           res.render('eventManagement', appendData)
 
           break
         case "FC":
-          redirectUrl_ = "/rfp/rfp-unpublishedeventmanagement"
-          res.redirect(redirectUrl_)
+          // redirectUrl_ = "/rfp/rfp-unpublishedeventmanagement"
+          // res.redirect(redirectUrl_)
+          res.render('eventManagement', appendData)
           break
         default:
           redirectUrl_ = '/event/management'
+         res.redirect(redirectUrl_)
+
           break
       }
 
@@ -247,4 +252,31 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
     res.send(fileData)
   }
 
+}
+//publisheddoc?download=1
+export const PUBLISHED_PROJECT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  const { download } = req.query;
+
+  if (download != undefined) {
+    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/documents/export`;
+    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+      responseType: 'arraybuffer',
+    });
+    const file = FetchDocuments;
+    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+    const fileData = file.data;
+    const type = file.headers['content-type'];
+    const ContentLength = file.headers['content-length'];
+    res.status(200);
+    res.set({
+      'Cache-Control': 'no-cache',
+      'Content-Type': type,
+      'Content-Length': ContentLength,
+      'Content-Disposition': 'attachment; filename=' + fileName,
+    });
+    res.send(fileData);
+  }
 }

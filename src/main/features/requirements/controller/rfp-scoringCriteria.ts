@@ -54,8 +54,6 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     //   agreementLotName,
     //   releatedContent,
     // };
-
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
     let group_id = 'Group 8';
     let criterion_Id = 'Criterion 2';
     const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups/${group_id}/questions`;
@@ -382,8 +380,8 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             //SET-SCORING-CRITERIA STATUS UPDATE
             await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
             await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Not started');
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Cannot start yet');
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'Cannot start yet');
+            //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Cannot start yet');
+            //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'Cannot start yet');
             res.redirect("/rfp/task-list");
           } else {
             res.send();
