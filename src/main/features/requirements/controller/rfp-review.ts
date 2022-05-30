@@ -692,7 +692,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
       // if (response.status == Number(HttpStatusCode.OK)) {
       //   await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/24`, 'Completed');
       // }
-
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/41`, 'Completed');
       res.redirect('/rfp/rfp-eventpublished');
     } catch (error) {
       

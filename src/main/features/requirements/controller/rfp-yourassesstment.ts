@@ -78,9 +78,9 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
       };
       await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'In progress');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
       res.render('rfp-yourassesstment', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(
