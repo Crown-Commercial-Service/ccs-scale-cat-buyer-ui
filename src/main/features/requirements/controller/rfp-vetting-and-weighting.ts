@@ -115,7 +115,11 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     var UNIQUE_DESIG_STORAGE = [];
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
-      const FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
+      let FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
+     let findername=FINDER.name;
+      const temp=findername.replace( /^\D+/g, '');
+     const tempname= FINDER.name.replace(/\d+/g, "SFIA level "+temp+"");
+     FINDER.name=tempname;
       UNIQUE_DESIG_STORAGE.push(FINDER);
     }
 
