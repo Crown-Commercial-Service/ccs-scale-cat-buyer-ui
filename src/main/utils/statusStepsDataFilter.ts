@@ -93,7 +93,7 @@ export function statusStepsDataFilter(
   let stepsByType: any = [];
   switch (type) {
     case 'rfi':
-      stepsByType = steps.slice(5, 14);
+      stepsByType = steps.slice(6, 14);
       break;
     case 'eoi':
       stepsByType = steps.slice(15, 25);
