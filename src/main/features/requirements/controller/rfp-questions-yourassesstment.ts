@@ -46,15 +46,41 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
     const bcTitleText = OCDS?.description;
-    const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
+    let titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
     const promptSplit = promptData?.split(splitOn);
     const nonOCDSList = [];
+    if (titleText=="Set the overall weightings for the question categories")
+    {
+      titleText="Set the overall weighting for the question categories";
+    }
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
     
     if (group_id === 'Group 3' && id === 'Criterion 2'){
       fetch_dynamic_api_data.pop();
+
+        for(let i=0;i<fetch_dynamic_api_data.length;i++)
+        {
+          let temp_title=fetch_dynamic_api_data[i].OCDS.title;
+          switch(temp_title)
+          {
+            case 'Technical group':
+              fetch_dynamic_api_data[i].OCDS.title = 'Technical';
+              break;
+              
+            case 'Cultural group':
+              fetch_dynamic_api_data[i].OCDS.title = 'Cultural';
+              break;
+
+            case 'Social value group':
+              fetch_dynamic_api_data[i].OCDS.title = 'Social value';
+              break;
+           }
+
+        }
+
+
     }
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
       const questionNonOCDS = {
@@ -133,6 +159,8 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
         TemporaryObjStorage.push(ITEM);
       }
     }
+
+
     const POSITIONEDELEMENTS = [...new Set(TemporaryObjStorage.map(JSON.stringify))]
       .map(JSON.parse)
       .filter(item => !item.nonOCDS.dependant);
@@ -187,6 +215,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       data.data=[];
       data.form_name='read_me';
     }
+   
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
