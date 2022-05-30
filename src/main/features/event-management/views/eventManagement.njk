@@ -80,11 +80,15 @@
           <span class="proc-task-list__section-number">1.</span>
           {{data.subsection4_title1}}
           <p class="app-task-list__tag">
-
+{% if eventType == 'RFI' %}
  
             <a class="govuk-link" href="/rfi/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
-
-          </p>
+{% endif %} 
+{% if eventType == 'FC' %}
+ <a class="govuk-link" href="/rfp/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
+    {% endif %}   
+ 
+               </p>
         </h2>
         <p class="govuk-body">{{ data.subsection4_title1_descriiption }}</p>
       </div>
