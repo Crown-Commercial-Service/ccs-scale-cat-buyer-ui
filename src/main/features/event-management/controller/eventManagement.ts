@@ -73,6 +73,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     req.session['eventId'] = eventId
     req.session['evetTitle'] = title
     req.session['Projectname'] = projectName
+    req.session['project_name'] = projectName
 
     // Releated content session values
     const releatedContent: ReleatedContent = new ReleatedContent();
