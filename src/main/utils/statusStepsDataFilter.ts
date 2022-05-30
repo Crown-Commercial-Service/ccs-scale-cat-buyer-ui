@@ -99,13 +99,13 @@ export function statusStepsDataFilter(
       stepsByType = steps.slice(15, 25);
       break;
     case 'rfp':
-      stepsByType = steps.slice(26, 40);
+      stepsByType = steps.slice(26, 41);//result: step 27 to 41
       break;
     case 'FCA':
-      stepsByType = steps.slice(41, 58);
+      stepsByType = steps.slice(41, 58);//result: step 42 to 58
       break;
     case 'TBD':
-      stepsByType = steps.slice(41, 58);
+      stepsByType = steps.slice(41, 58);//result: step 42 to 58
       break;
     case 'DAA':
       stepsByType = steps.slice(59, 74);

@@ -172,7 +172,7 @@
           "title": "Review and publish your one-stage further competition",
           "required": "mandatory",
           "status": "Cannot start yet",
-          "link": "/rfp/rfp-eventpublished"
+          "link": "/rfp/review"
         }
       ]
     }
