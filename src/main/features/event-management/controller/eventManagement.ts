@@ -138,7 +138,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           }
           
           const appendData = { data: eventManagementData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
-    if (status == "IN PROGRESS" || status == "In Progress") {
+    if (status == "In-Progress") {
       let redirectUrl: string
       switch (eventType) {
         case "RFI":
