@@ -16,10 +16,6 @@
         "dashboard": {
             "title": "Go to your project dashboard",
             "href": "/dashboard"
-        },
-        "procurement": {
-            "title": "Return to procurement overview",
-            "href": "/projects/create-or-choose"
         }
 
 
