@@ -997,7 +997,10 @@ p + .govuk-heading-s,
   width: 100%;
   padding: 0 15px;
 }
-
+.ccs-eventmanagement
+{
+  margin: 0 -15px !important;
+}
 @media (min-width: 40.0625em) {
   .govuk-grid-column-one-half {
     width: 50%;
