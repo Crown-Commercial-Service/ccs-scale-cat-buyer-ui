@@ -32,7 +32,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         agreementName = element.agreementName
         agreementLotName = element.lotName
         agreementId_session = element.agreementId
-        status = element.activeEvent.status
+        status = element?.activeEvent?.status?.toLowerCase()
         projectName = element.projectName
         eventId = element.activeEvent.id.toString()
         eventType = element.activeEvent.eventType
@@ -134,12 +134,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
     const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
     let showCloseProject = false;
-          if (status == "PUBLISHED" || status == "To Be Evaluated") {
+          if (status == "PUBLISHED".toLowerCase() || status == "To Be Evaluated".toLowerCase()) {
             showCloseProject = true;
           }
           
           const appendData = { data: eventManagementData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
-    if (status == "IN PROGRESS" || status == "In Progress") {
+    if (status == "IN PROGRESS".toLowerCase() || status == "In Progress".toLowerCase()) {
       let redirectUrl: string
       switch (eventType) {
         case "RFI":
