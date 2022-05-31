@@ -10,6 +10,10 @@ import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import config from 'config';
 import moment from 'moment-business-days';
+import {CalVetting} from '../../shared/CalVetting';
+import {CalServiceCapability} from '../../shared/CalServiceCapability';
+import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
+import {CalScoringCriteria} from '../../shared/CalScoringCriteria';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -135,7 +139,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
   
     //   const EOI_DATA_WITHOUT_KEYDATES = FilteredSetWithTrue.filter(obj => obj.id !== 'Key Dates');
     //   const EOI_DATA_TIMELINE_DATES = FilteredSetWithTrue.filter(obj => obj.id === 'Key Dates');
-      const project_name = req.session.project_name;
+      const project_name = (req.session.project_name)?req.session.project_name:req.session.Projectname;
   
       const projectId = req.session.projectId;
       /**
@@ -239,8 +243,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     let highestSecurityCount=0, highestSecuritySelected="";
     let serviceCapabilitesCount=0;
     let whereWorkDone=[];
+    let StorageForSortedItems=[];
 
-    if (dimensionRequirements.length > 0) {
+    if (dimensionRequirements.length > 0) { 
       resourceQuantity = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0]
         .requirements;
         highestSecurityCount=dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting;
@@ -250,7 +255,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       whereWorkDone=dimensionRequirements.filter(dimension => dimension.name === 'Location')[0].requirements.map(n=>n.name);
     }
     let resourceQuntityCount=resourceQuantity.length;
-
+    StorageForSortedItems= await CalVetting(req);
+    let StorageForServiceCapability=[]
+    StorageForServiceCapability=await CalServiceCapability(req);
     //section 5 
     //question 2
     let sectionbaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 2/questions`;
@@ -274,31 +281,79 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let technicalquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let technicalquestion2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let technicalquestion3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let technicalquestion4=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==4).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let technicalquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let technicalquestion2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let technicalquestion3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let technicalquestion4=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==4).map(o=>o.nonOCDS)[0].options[0]?.value;
 
+    let techGroup=[];
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 1')?.[0].nonOCDS.options.forEach(element=>{
+      techGroup.push({tech:element.value, add:'',good:'',weight:''});
+    });
+    let j=0;
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 2')?.[0].nonOCDS.options.forEach(element=>{
+      techGroup[j].add=element.value;j=j+1;
+    });
+    j=0;
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 4')?.[0].nonOCDS.options.forEach(element=>{
+      techGroup[j].weight=element.value;j=j+1;
+    });
+    j=0;
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 3')?.[0].nonOCDS.options.forEach(element=>{
+      techGroup[j].good=element.value;j=j+1;
+    });
     //question 5
     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 5/questions`;
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let culturalquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let culturalquestion2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let culturalquestion3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let culturalquestion4=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==4)?.map(o=>o.nonOCDS)[0]?.options[0]?.value;
+    // let culturalquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let culturalquestion2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let culturalquestion3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let culturalquestion4=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==4)?.map(o=>o.nonOCDS)[0]?.options[0]?.value;
 
+    let culGroup=[];
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 2')?.[0].nonOCDS.options.forEach(element=>{
+      culGroup.push({tech:'', add:element.value,good:'',weight:''});
+    });
+    j=0;
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 1')?.[0].nonOCDS.options.forEach(element=>{
+      culGroup[j].tech=element.value;j=j+1;
+    });
+    j=0;
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 3')?.[0].nonOCDS.options.forEach(element=>{
+      culGroup[j].good=element.value;j=j+1;
+    });
+    j=0;
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 4')?.[0].nonOCDS.options.forEach(element=>{
+      culGroup[j].weight=element.value;j=j+1;
+    });
     //question 6
     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 6/questions`;
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let socialquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let socialquestion2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let socialquestion3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let socialquestion4=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==4).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let socialquestion1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let socialquestion2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let socialquestion3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let socialquestion4=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==4).map(o=>o.nonOCDS)[0].options[0]?.value;
     
+    let socialGroup=[];
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 4')?.[0].nonOCDS.options.forEach(element=>{
+      socialGroup.push({tech:'', add:'',good:'',weight:element.value});
+    });
+    j=0;
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 2')?.[0].nonOCDS.options.forEach(element=>{
+      socialGroup[j].add=element.value;j=j+1;
+    });
+    j=0;
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 1')?.[0].nonOCDS.options.forEach(element=>{
+      socialGroup[j].tech=element.value;j=j+1;
+    });
+    j=0;
+    sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 3')?.[0].nonOCDS.options.forEach(element=>{
+      socialGroup[j].good=element.value;j=j+1;
+    });
     //question 7
     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 7/questions`;
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
@@ -311,10 +366,15 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let tier1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let tier2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let tier3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
-    
+    // let tier1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let tier2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let tier3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let tierInfo=await CalScoringCriteria(req);
+    let tierData=tierInfo.filter(o=>o.OCDS.id=='Question 1')[0].nonOCDS.options[0].tableDefinition.titles.rows;
+    // let tierData=[];
+    // tierRows.forEach(element => {
+    //   tierData.push({id:element.id,name:element.name,text:element.text});
+    // });
     //section 5
     //section 3
     //question 2
@@ -322,23 +382,55 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let term1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let term2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let term1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let term2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    let termAndAcr=[]
+    let data=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1)?.[0]?.nonOCDS?.options;
+    if(data !=undefined)
+    {
+      data.forEach(element => {
+        var info={text:element.text,value:element.value};
+        termAndAcr.push(info);
+      });
+    }
 
     //question 3
     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 4/questions`;
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let background1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let background2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let background1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let background2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    let backgroundArr=[];
+    data=sectionbaseURLfetch_dynamic_api_data?.map(a=>a.nonOCDS)?.map(b=>b.options);
+    if(data!=undefined){
+    //data[0].forEach(element => {
+      backgroundArr.push({v1:data[0][0]?.value,v2:data[0][1]?.value});
+    //});
+  }
+
+    sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 5/questions`;
+    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+    let businessProbAns=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
 
     //question 5
     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 6/questions`;
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let keyuser1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    //let keyuser1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let keyUser=[]
+    data=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1)?.[0]?.nonOCDS?.options;
+    if(data !=undefined)
+    {
+      data.forEach(element => {
+        var info={text:element.text,value:element.value};
+        keyUser.push(info);
+      });
+    }
 
     //work completed so far
     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 7/questions`;
@@ -359,8 +451,10 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
      sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
      sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
     
-     let phaseresisreq=sectionbaseURLfetch_dynamic_api_data[0].nonOCDS.options.filter(o=>o.selected==true)[0]?.value;
+     //let phaseresisreq=sectionbaseURLfetch_dynamic_api_data[0].nonOCDS.options.filter(o=>o.selected==true)[0]?.value;
 
+     let phaseResource=[];
+     phaseResource=sectionbaseURLfetch_dynamic_api_data[0].nonOCDS.options.filter(o=>o.selected==true)?.map(a=>a.value)
     //indicative start date
     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 10/questions`;
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
@@ -374,7 +468,13 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let buyingorg1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    const organizationID = req.session.user.payload.ciiOrgId;
+    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
+    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+    const name = getOrganizationDetails.data.identifier.legalName;
+    let buyingorg1 = name;
+
+    //let buyingorg1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
     let buyingorg2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
 
     //summarize
@@ -396,8 +496,8 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let incumbentoption=sectionbaseURLfetch_dynamic_api_data[1].nonOCDS.options.filter(o=>o.selected==true)[0]?.value;
-    let suppliername=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    let incumbentoption=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.questionType=='SingleSelect')[0]?.nonOCDS.options.filter(o=>o.selected==true)[0]?.value;
+    let suppliername=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.questionType=='Text').map(o=>o.nonOCDS)[0].options[0]?.value;
 
     //management info
     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 17/questions`;
@@ -411,9 +511,19 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let servicelevel1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let servicelevel2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2 && o.nonOCDS.questionType!="Percentage").map(o=>o.nonOCDS)[0].options[0]?.value;
-    let servicelevel3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2 && o.nonOCDS.questionType=="Percentage").map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let servicelevel1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let servicelevel2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2 && o.nonOCDS.questionType!="Percentage").map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let servicelevel3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2 && o.nonOCDS.questionType=="Percentage").map(o=>o.nonOCDS)[0].options[0]?.value;
+
+    let serviceLevel=[];
+    data=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1)?.[0]?.nonOCDS?.options;
+    if(data !=undefined)
+    {
+      data.forEach(element => {
+        var info={text:element.text,value:element.value};
+        serviceLevel.push(info);
+      });
+    }
 
     //incentives
     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 20/questions`;
@@ -421,7 +531,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
     let incentive1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let incentive2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0]?.options[0]?.value;
+    let incentive2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[1]?.value;
     
 
     //budget constraints
@@ -437,10 +547,22 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let reqgroup=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let reqtitle=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0]?.options[0]?.value;
-    let reqdesc=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0]?.options[0]?.value;
+    // let reqgroup=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    // let reqtitle=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0]?.options[0]?.value;
+    // let reqdesc=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0]?.options[0]?.value;
 
+    let reqGroup=[];
+    sectionbaseURLfetch_dynamic_api_data[0].nonOCDS.options.forEach(element=>{
+      reqGroup.push({desc:'', group:element.value,title:''});
+    });
+    let i=0;
+    sectionbaseURLfetch_dynamic_api_data[1].nonOCDS.options.forEach(element=>{
+      reqGroup[i].title=element.value;i=i+1;
+    });
+    i=0;
+    sectionbaseURLfetch_dynamic_api_data[2].nonOCDS.options.forEach(element=>{
+      reqGroup[i].desc=element.value;i=i+1;
+    });
     //section 3
     
 
@@ -453,8 +575,8 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
         project_name: project_name,
         procurementLead,
         procurementColleagues,
-        document: FileNameStorage[0],
-        documents:FileNameStorage.slice(1,FileNameStorage.length),
+        document: FileNameStorage[FileNameStorage.length-1],
+        documents:(FileNameStorage.length>1)?FileNameStorage.slice(0,FileNameStorage.length-1):[],
         ir35:IR35selected,
         agreement_id,
         proc_id,
@@ -472,6 +594,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       supplier_dealine_sign_contract,
       supplier_dealine_for_work_to_commence,
       resourceQuntityCount:resourceQuntityCount,
+      resourceQuantity:resourceQuantity,
+      StorageForSortedItems:StorageForSortedItems,
+      StorageForServiceCapability:StorageForServiceCapability,
       checkboxerror:checkboxerror,
       highestSecurityCount:highestSecurityCount,
       highestSecuritySelected:highestSecuritySelected,
@@ -483,29 +608,17 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       culturalgroupquestion1:culturalgroupquestion1,
       socialvaluegroupquestion1:socialvaluegroupquestion1,
       pricingModel:pricingModel,
-      technicalquestion1:technicalquestion1,
-      technicalquestion2:technicalquestion2,
-      technicalquestion3:technicalquestion3,
-      technicalquestion4:technicalquestion4,
-      culturalquestion1:culturalquestion1,
-      culturalquestion2:culturalquestion2,
-      culturalquestion3:culturalquestion3,
-      culturalquestion4:culturalquestion4,
-      socialquestion1:socialquestion1,
-      socialquestion2:socialquestion2,
-      socialquestion3:socialquestion3,
-      socialquestion4:socialquestion4,
-      tier1:tier1,
-      tier2:tier2,
-      tier3:tier3,
-      term1:term1,
-      term2:term2,
-      background1:background1,
-      background2:background2,
-      keyuser1:keyuser1,
+      techGroup,
+      culGroup,
+      socialGroup,
+      tierData:tierData,
+      termAndAcr:termAndAcr,
+      backgroundArr,
+      businessProbAns,
+      keyUser:keyUser,
       workcompletedsofar:workcompletedsofar,
       currentphaseofproject:currentphaseofproject,
-      phaseresisreq:phaseresisreq,
+      phaseResource:phaseResource,
       indicativeduration:indicativeduration,
       startdate:startdate,
       buyingorg1:buyingorg1,
@@ -515,16 +628,12 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       incumbentoption:incumbentoption,
       suppliername:suppliername,
       managementinfo:managementinfo,
-      servicelevel1:servicelevel1,
-      servicelevel2:servicelevel2,
-      servicelevel3:servicelevel3,
+      serviceLevel:serviceLevel,
       incentive1:incentive1,
       incentive2:incentive2,
       bc1:bc1,
       bc2:bc2,
-      reqgroup:reqgroup,
-      reqtitle:reqtitle,
-      reqdesc:reqdesc,
+      reqGroup:reqGroup,
         //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
         eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       };
@@ -583,7 +692,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
       // if (response.status == Number(HttpStatusCode.OK)) {
       //   await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/24`, 'Completed');
       // }
-
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/41`, 'Completed');
       res.redirect('/rfp/rfp-eventpublished');
     } catch (error) {
       

@@ -80,11 +80,15 @@
           <span class="proc-task-list__section-number">1.</span>
           {{data.subsection4_title1}}
           <p class="app-task-list__tag">
-
+            {% if eventType == 'RFI' %}
  
             <a class="govuk-link" href="/rfi/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
-
-          </p>
+             {% endif %} 
+              {% if eventType == 'FC' %}
+              <a class="govuk-link" href="/rfp/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
+            {% endif %}   
+ 
+               </p>
         </h2>
         <p class="govuk-body">{{ data.subsection4_title1_descriiption }}</p>
       </div>
@@ -105,7 +109,8 @@
           <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
             <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
           </p>
-        {% elseif eventType == 'EOI' %}
+          {% endif %}
+        {% if eventType == 'EOI' %}
           <h2 class="govuk-heading-m">
             <span class="proc-task-list__section-number">2.</span>
             {{data.subsection4_title2_2}}
@@ -115,6 +120,20 @@
           </h2>
           <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
             <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_2_task[1].line_1_link}}">{{data.subsection4_title2_2_task[1].line_1_text}}</a>
+          </p>
+          {% endif %}
+        {% if eventType == 'FC' %}
+          <h2 class="govuk-heading-m">
+            <span class="proc-task-list__section-number">2.</span>
+            {{data.subsection4_title2_1}}
+            <p class="app-task-list__tag">
+
+              <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
+
+            </p>
+          </h2>
+          <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
           </p>
         {% endif %}
       </div>
@@ -143,16 +162,14 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
-        {% if status == 'Published' %}
-        <span class="proc-task-list__section-number">4.</span>
+       
+         <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
         <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
        
+       
+        {% if status == 'PUBLISHED' %}
         
-        {% elseif status == 'Response period open' %}
-        <span class="proc-task-list__section-number">4.</span>
-          {{data.subsection4_title4}}</h2>
-        <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4_1}}</h3>
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -183,11 +200,12 @@
             </table>
           </div>
         </div>
-        {% elseif status == 'To be Evaluated' %}
+        {% endif %}
+        {% if status == 'To Be Evaluated' %}
         
           <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
-        <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
+        <p class="govuk-body">The supplliers below have responded to your published project.You can download individual supplier's answers or all answers</p>
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4_1}}</h3>
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -253,7 +271,7 @@
 <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
       {% if eventType == 'FC' %}
-      {% if status == 'To be Evaluated' %}
+      {% if status == 'To Be Evaluated' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>

@@ -32,7 +32,7 @@
                     <br>
                     <h2 class="govuk-heading-m">
                         <span id="added_suppliers_count">
-                            {{suppliers_list.length}}
+                            {{supplierLength}}
                         </span> suppliers on this lot </h2>
                     <br>
                     <div class="govuk-button-group govuk-!-margin-bottom-7">
@@ -65,6 +65,7 @@
                         </div>
                     </div>
                                        <div>
+                                         </br>
                                          {% if(showPrevious) %}
           <a href="suppliers?previous=1" class="govuk-link govuk-link--no-visited-state"><- Previous Page</a>
           {% endif %}
@@ -74,13 +75,13 @@
           </div><br>
           <div>
           {% if(showPrevious) %}
-          <label>{{currentpagenumber-1}} of {{noOfPages}}</label>
+          <label>{{currentpagenumber}} of {{noOfPages}}</label>
           {% endif %}
           {% if(showNext) %}
-          <label class="anchor-right">{{currentpagenumber+1}} of {{noOfPages}}</label>
+          <label class="anchor-right">{{currentpagenumber}} of {{noOfPages}}</label>
           {% endif %}
           </div>
-          
+          </br>  </br>
                     <div class="govuk-button-group">
                         {{ CCSButton({
                 text: "Save and continue"

@@ -34,11 +34,11 @@
     },
     {
       "step": 9,
-      "state": "Not started"
+      "state": "Optional"
     },
     {
       "step": 10,
-      "state": "Cannot start yet"
+      "state": "Not started"
     },
     {
       "step": 11,
@@ -162,7 +162,7 @@
     },
     {
       "step": 41,
-      "state": "Not started"
+      "state": "Cannot start yet"
     },
     {
       "step": 42,
