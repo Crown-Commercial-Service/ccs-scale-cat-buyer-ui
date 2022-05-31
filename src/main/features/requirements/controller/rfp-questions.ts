@@ -406,23 +406,15 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 let isDayValid = false;
                 if (Number(req.body["rfp_duration-years_" + question_ids[i].replace(" ", "")]) > 0) {
                   dureationValue += "P" + req.body["rfp_duration-years_" + question_ids[i].replace(" ", "")] + "Y";
-                }else{
-                  dureationValue += "P0Y";
                 }
                 if (Number(req.body["rfp_duration_months_" + question_ids[i].replace(" ", "")]) > 0) {
                   dureationValue += req.body["rfp_duration_months_" + question_ids[i].replace(" ", "")] + "M";
-                }else{
-                  dureationValue += "0M";
                 }
                 if (Number(req.body["rfp_duration_days_" + question_ids[i].replace(" ", "")]) > 0) {
                   dureationValue +=  req.body["rfp_duration_days_" + question_ids[i].replace(" ", "")] + "D";
                 }
-                else{
-                  dureationValue += "0D";
-                }
-                if (dureationValue === '' || dureationValue == null) {
-                  dureationValue = 'P0Y0M0D'
-                }
+                
+                
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
