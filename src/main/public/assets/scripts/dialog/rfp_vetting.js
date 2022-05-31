@@ -107,12 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         for (index = 0; index < inputs.length; ++index) {
           inputs[index].value = '';
         }
-        let liItems=document.getElementsByClassName("ons-list__item");//sections
-        for(let j=0;j<liItems.length;j++){
-        liItems[j].getElementsByClassName("table-item-subtext")[0].innerHTML="0 resources added";
-      }
-      document.getElementsByClassName("govuk-!-display-inline")[0].textContent=0;
-      document.getElementsByClassName("govuk-!-display-inline")[1].textContent=0;
       } else {
         return false;
       }

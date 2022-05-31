@@ -50,7 +50,6 @@
     <p class="govuk-body">{{subtitle2}}</p>
     <p class="govuk-body">{{subtitle3}}</p>
     <p class="govuk-body">{{subtitle4}}</p>
-    <input type="hidden" name="rfpSectionSelected" value="" id="rfpSectionSelected>
     <div id="error_summary_resources">
     
     <form id="ccs_ca_menu_tabs_form_rfp_vetting" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/rfp/vetting-weighting" method="POST">
@@ -102,7 +101,7 @@
                             text: ""
                           },
                           classes: "govuk-input--width-2 weight_vetting_class rfp_weight_vetting_class",
-                          id: "rfp_textbox_weight_vetting_"+loop.index,
+                          id: "rfp_weight_vetting_"+loop.index,
                           name: "SFIA_weightage",
                           value: subNestedItems.value,
                           suffix: {
