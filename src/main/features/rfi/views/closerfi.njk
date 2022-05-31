@@ -39,18 +39,20 @@
    <div class="govuk-grid-row">
     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
    
- <br><br><br>
+ </br></br></br>
             <p><strong>[You just closed {{projectID}}/ {{projectName}} ]</strong></p>
            
         <p>{{data.subtitle}}</p>
-        <br><br><br>
+        </br></br></br>
+        <a href="/dashboard" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+
+         </div>
  <div class="govuk-grid-column-one-third">
                 {{ CCSReleatedContent(releatedContent) }}
             </div>
-<a href="/dashboard" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
 
   
-  </div>
-
+ 
+</div>
   </main>
 {% endblock %}
