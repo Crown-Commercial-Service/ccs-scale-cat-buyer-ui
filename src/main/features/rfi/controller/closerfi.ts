@@ -9,11 +9,11 @@ export const RFI_GET_CLOSE  = async (req: express.Request, res: express.Response
 
      const {  releatedContent, eventId, projectId } =req.session;
      const { SESSION_ID } = req.cookies; //jwt
-
+     const projectName=req.session.project_name;
 
     const appendData = {
           data: cmsData,
-          projectName: req.session['Projectname'],
+          projectName ,
           projectID : req.session.projectId,
           releatedContent,        
     }
