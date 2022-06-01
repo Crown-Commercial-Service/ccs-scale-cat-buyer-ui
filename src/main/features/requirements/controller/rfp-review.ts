@@ -14,6 +14,7 @@ import {CalVetting} from '../../shared/CalVetting';
 import {CalServiceCapability} from '../../shared/CalServiceCapability';
 import { OrganizationInstance } from '../util/fetch/organizationuserInstance';
 import {CalScoringCriteria} from '../../shared/CalScoringCriteria';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 const predefinedDays = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
@@ -67,7 +68,11 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
     const {checkboxerror}=req.session;
     try {
+      let flag=await ShouldEventStatusBeUpdated(projectId,41,req);
+            if(flag)
+            {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/41`, 'In progress');
+            }
       const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
       const ReviewData = FetchReviewData.data;
     //   //Buyer Questions
@@ -460,9 +465,20 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let startdate=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-    let indicativeduration=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
-
+    let dateOptions=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options;
+    let startdate=dateOptions[0].value.padStart(2,0)+"  "+dateOptions[1].value.padStart(2,0)+"  "+dateOptions[2].value
+    let optionalDate=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2)?.map(o=>o.nonOCDS)[0]?.options[0]?.value;
+    //let startdate=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
+    
+    let indicativedurationYear=''
+    let indicativedurationMonth=''
+    let indicativedurationDay=''
+    if(optionalDate!=undefined)
+    {
+     indicativedurationYear=optionalDate.substring(1).split("Y")[0]+" years"
+     indicativedurationMonth=optionalDate.substring(1).split("Y")[1].split("M")[0]+" months"
+     indicativedurationDay=optionalDate.substring(1).split("Y")[1].split("M")[1].replace("D", "")+" days"
+    }
     //buying organisation
     sectionbaseURL=`/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 11/questions`;
     sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
@@ -619,7 +635,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       workcompletedsofar:workcompletedsofar,
       currentphaseofproject:currentphaseofproject,
       phaseResource:phaseResource,
-      indicativeduration:indicativeduration,
+      indicativedurationYear,
+      indicativedurationMonth,
+      indicativedurationDay,
       startdate:startdate,
       buyingorg1:buyingorg1,
       buyingorg2:buyingorg2,
