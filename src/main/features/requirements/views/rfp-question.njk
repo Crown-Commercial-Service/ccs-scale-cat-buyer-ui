@@ -89,16 +89,14 @@ text: bcTitleText
                 method="post">
                 {{ csrfProtection(csrf) }}
                 <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
-
+                <div class="ccs-page-section">
+                {#<--! SCAT-5151-->#}
                 {% if (form_name === 'rfp_multianswer_question_form') %}
-                {{ CCSInsetText({
-                html: '<p> Instruction for this page</p>
-                <p>Plese add up to 10 questions</p>'
-                }) }}
+                <p class="govuk-body">{{prompt[0]}}</p>
+                <p class="govuk-body">{{prompt[1]}}</p>
                 {%endif%}
-                <p class="govuk-body">{{prompt?[0] | safe}}</p>
-                <p class="govuk-body">{{prompt?[1] | safe}}</p>
-
+                </div>
+                <h2>Create your first requirement group</p> </h2>
                 {% macro recurseRequirements(requirement,form_name,index = 0) -%}
                 {%if (requirement.nonOCDS.childern.length > 0)%}
                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}}
@@ -115,8 +113,8 @@ text: bcTitleText
 
                 </div>
                 {%endif%}
-
-                {%if (form_name === 'rfp_multianswer_question_form')%}
+                {#<--!Condtns modified according to SCAT-5151-->#}
+                {%if (form_name === 'rfp_multianswer_question_form') and (rfpTitle!='Enter your project requirements')%}
                 <div class="ccs-page-section">
                     <p class="govuk-body">
                     <h2>
