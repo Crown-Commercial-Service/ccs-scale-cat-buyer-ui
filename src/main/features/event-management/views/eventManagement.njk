@@ -181,7 +181,7 @@
         <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
        
        
-        {% if status == 'published' %}
+        {% if status.toLowerCase() == 'published' %}
         
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4_1}}</h3>
@@ -214,7 +214,7 @@
           </div>
         </div>
         {% endif %}
-        {% if status == 'to be evaluated' %}
+        {% if status.toLowerCase() == 'to be evaluated' %}
         
           <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
@@ -265,7 +265,7 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-      {% if status == 'to be evaluated' %}
+      {% if status.toLowerCase() == 'to be evaluated' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete project</h2>
@@ -284,7 +284,7 @@
 <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
       {% if eventType == 'FC' %}
-      {% if status == 'to be evaluated' %}
+      {% if status.toLowerCase() == 'to be evaluated' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>
