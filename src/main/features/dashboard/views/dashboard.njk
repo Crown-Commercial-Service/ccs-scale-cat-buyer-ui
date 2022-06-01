@@ -208,16 +208,16 @@
                   </td>
                   <td class="govuk-table__cell">
                     {% if event.activeEvent.tenderPeriod.endDate %}
-                      {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY') }}
+                      {{ event.activeEvent.tenderPeriod.endDate| dateddmmyyyy }}
                     {% else %} N/A {% endif %}
                   </td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
-          <p>
+         <!-- <p>
             <a class="govuk-link" href="#">{{data.view_Historical}}</a>
-          </p>
+          </p>-->
           {% elseif historicalEvents.length < 6 and historicalEvents.length > 0 %}
           <table class="govuk-table">
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{historicalEvents.length}})</caption>
@@ -245,16 +245,16 @@
                   </td>
                   <td class="govuk-table__cell">
                     {% if event.activeEvent.tenderPeriod.endDate %}
-                      {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY') }}
+                      {{ event.activeEvent.tenderPeriod.endDate| dateddmmyyyy }}
                     {% else %} N/A {% endif %}
                   </td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
-          <p>
+         <!-- <p>
             <a class="govuk-link" href="#">{{data.view_Historical}}</a>
-          </p>
+          </p>-->
         {% else %}
           <table class="govuk-table">
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} (0)</caption>
