@@ -74,12 +74,14 @@
       </div>
     </div>
 
-    <div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">1.</span>
           {{data.subsection4_title1}}
-          <p class="app-task-list__tag">
+
+          <!--COMMENTING FOR RELEASE 1-->
+         <!-- <p class="app-task-list__tag">
             {% if eventType == 'RFI' %}
  
             <a class="govuk-link" href="/rfi/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
@@ -87,10 +89,21 @@
               {% if eventType == 'FC' %}
               <a class="govuk-link" href="/rfp/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
             {% endif %}   
- 
-               </p>
+               </p>-->
         </h2>
-        <p class="govuk-body">{{ data.subsection4_title1_descriiption }}</p>
+       
+         {% for item in Colleagues %}
+          <div class="">
+        <p class="govuk-body  govuk-grid-column-full"><strong>{{item.OCDS.contact.name}}</strong></p>
+         <div class="govuk-body govuk-grid-column-full ccs-page-section">
+  
+          <div class="ccs-eventmanagement govuk-body govuk-grid-column-one-half " >{{item.OCDS.contact.email}}</div>
+           <div class="govuk-body govuk-grid-column-one-half">  {{item.OCDS.contact.telephone}}</div>
+           </div>
+            </div>
+           {% endfor %}
+      
+        <!--<p class="govuk-body">{{ data.subsection4_title1_descriiption }}</p>-->
       </div>
     </div>
 
@@ -168,7 +181,7 @@
         <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
        
        
-        {% if status == 'PUBLISHED' %}
+        {% if status.toLowerCase() == 'published' %}
         
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4_1}}</h3>
@@ -201,7 +214,7 @@
           </div>
         </div>
         {% endif %}
-        {% if status == 'To Be Evaluated' %}
+        {% if status.toLowerCase() == 'to be evaluated' %}
         
           <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
@@ -252,7 +265,7 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-      {% if status == 'To Be Evaluated' %}
+      {% if status.toLowerCase() == 'to be evaluated' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete project</h2>
@@ -271,7 +284,7 @@
 <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
       {% if eventType == 'FC' %}
-      {% if status == 'To Be Evaluated' %}
+      {% if status.toLowerCase() == 'to be evaluated' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>

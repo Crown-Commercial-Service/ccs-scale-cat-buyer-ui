@@ -8903,7 +8903,10 @@ p,
 .ccs-agreement-intro {
   margin-bottom: 3rem;
 }
-
+.ccs-eventmanagement
+{
+  margin: 0 -15px !important;
+}
 .ccs-agreement-intro .govuk-heading-s {
   margin-bottom: 4px;
 }

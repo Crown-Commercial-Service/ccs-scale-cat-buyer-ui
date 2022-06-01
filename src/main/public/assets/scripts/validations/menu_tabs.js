@@ -111,6 +111,7 @@ const ccsTabMenuNaviation = () => {
       link.addEventListener('click', function (e) {
         let currentTarget = e.currentTarget;
         let clicked_index = $(this).index();
+        sessionStorage.setItem("rfpSelectedSection", clicked_index);
         $('#vertical_tab_nav > div > aside > nav > ol > li > a').removeClass("selected");
         currentTarget.getElementsByTagName('a')[0].classList.add('selected')
         $('#vertical_tab_nav > div > article').css('display', 'none');
