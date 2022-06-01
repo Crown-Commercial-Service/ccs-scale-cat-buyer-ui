@@ -272,7 +272,7 @@ const ccsZcreateCcsErrorMsg = (elName, message) => {
  * errorStore and scroll to the top of the page.
  */
 const ccsZPresentErrorSummary = (errorStore) => {
-
+console.log(errorStore)
   // remove the error summary if its there
   const existingSummary = document.querySelector(".govuk-error-summary");
   if (existingSummary !== null) existingSummary.parentNode.removeChild(existingSummary);
