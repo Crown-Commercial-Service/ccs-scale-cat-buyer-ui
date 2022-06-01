@@ -1,6 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const totalInputFields = $('.rfp_weight_vetting_class');
+    sessionStorage.setItem("rfpSelectedSection", 0);
+
+    let total=0;sectionTotal=0;
+    let liItems=document.getElementsByClassName("ons-list__item");//sections
+    for(let j=0;j<liItems.length;j++){
+        let inputs=document.getElementsByTagName("article")[j].querySelectorAll('[id^="rfp_textbox_weight_vetting_"]');
+        sectionTotal=0;
+        inputs.forEach(input=>{
+            if(input.value!='')
+            {
+                sectionTotal=sectionTotal+parseInt(input.value);
+            }
+        });
+        liItems[j].getElementsByClassName("table-item-subtext")[0].innerHTML=sectionTotal+" resources added";
+        total=total+sectionTotal;
+    }
+    document.getElementsByClassName("govuk-!-display-inline")[0].textContent=total;
+    document.getElementsByClassName("govuk-!-display-inline")[1].textContent=total;
+
+
+    //add event listener to textboxes
+    const boxes = Array.from(document.getElementsByClassName('rfp_weight_vetting_class'));
+
+    boxes.forEach(box => {
+      box.addEventListener('focusout', function handleClick(event) {
+        let sectionSelected=sessionStorage.getItem("rfpSelectedSection");
+        let inputs=document.getElementsByTagName("article")[sectionSelected].querySelectorAll('[id^="rfp_textbox_weight_vetting_"]')
+        let total=0;
+        inputs.forEach(input=>{
+            if(input.value!='')
+            {
+                total=total+parseInt(input.value);
+            }
+        });
+        document.getElementsByClassName("ons-list__item")[sectionSelected].getElementsByClassName("table-item-subtext")[0].innerHTML=total+" resources added";
+        total=0;
+        let liItems=document.getElementsByClassName("ons-list__item");
+        for(let j=0;j<liItems.length;j++){
+            let liText=liItems[j].getElementsByClassName("table-item-subtext")[0].innerHTML;
+            let number=liText.split(" resources added")[0];
+            total=total+parseInt(number);
+        }
+        document.getElementsByClassName("govuk-!-display-inline")[0].textContent=total;
+        document.getElementsByClassName("govuk-!-display-inline")[1].textContent=total;
+        // console.log(sectionSelected, event);
+      });
+    });
+
 
 
     $('#ccs_ca_menu_tabs_form_rfp_vetting').on('submit', (e) => {

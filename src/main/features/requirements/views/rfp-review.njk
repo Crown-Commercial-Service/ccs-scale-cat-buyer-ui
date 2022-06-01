@@ -982,17 +982,18 @@
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/>
-         <p> {{rfp_clarification_period_end}}</p><br/><br/>
-         <p> {{deadline_period_for_clarification_period}}</p><br/><br/>
+         <p> {{rfp_clarification_period_end | dateddmmyyyy}}</p><br/><br/>
+         <p> {{deadline_period_for_clarification_period | dateddmmyyyy}}</p><br/><br/>
          {#<p> </p><br/><br/>#}
-         <p> {{supplier_period_for_clarification_period}}</p><br/><br/>
-         <p> {{ supplier_dealine_for_clarification_period}}</p><br/>
-         <p> {{supplier_dealine_evaluation_to_start}}</p><br/><br/>
-         <p> {{supplier_dealine_expect_the_bidders}}</p><br/><br/>
-         <p> {{supplier_dealine_for_pre_award}}</p><br/>
-         <p> {{supplier_dealine_for_expect_to_award}}</p><br/>
-         <p> {{supplier_dealine_sign_contract}}</p><br/>
-         <p> {{supplier_dealine_for_work_to_commence}}</p>
+         <p> {{supplier_period_for_clarification_period | dateddmmyyyy}}</p><br/><br/>
+         <p> {{ supplier_dealine_for_clarification_period | dateddmmyyyy}}</p><br/>
+         <p> {{supplier_dealine_evaluation_to_start | dateddmmyyyy}}</p><br/><br/>
+         <p> {{supplier_dealine_expect_the_bidders | dateddmmyyyy}}</p><br/><br/>
+         <p> {{supplier_dealine_for_pre_award | dateddmmyyyy}}</p><br/>
+         <p> {{supplier_dealine_for_expect_to_award | dateddmmyyyy}}</p><br/>
+         <p> {{supplier_dealine_sign_contract | dateddmmyyyy}}</p><br/>
+         <p> {{supplier_dealine_for_work_to_commence | dateddmmyyyy}}</p>
+         
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
