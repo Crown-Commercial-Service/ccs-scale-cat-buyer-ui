@@ -54,8 +54,9 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     //const bcTitleText = OCDS?.description;
     //const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
     const newOCDSdescription = changeTitle(OCDS?.description)
+    //Balwinder
     const bcTitleText = newOCDSdescription == '' ? OCDS?.description : newOCDSdescription;
-    const titleText = nonOCDS.mandatory===false ? newOCDSdescription:newOCDSdescription + ' (Optional)';
+    const titleText = nonOCDS.mandatory===true ? bcTitleText:bcTitleText + ' (Optional)';
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
     const promptSplit = promptData?.split(splitOn);
