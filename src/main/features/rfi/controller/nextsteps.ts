@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/RFI/nextsteps.json';
-import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+//import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
@@ -62,19 +62,7 @@ export const RFI_POST_NEXT_STEPS = async (req: express.Request, res: express.Res
       if (rfi_next_steps) {
         switch (rfi_next_steps) {
           case 'I want to close this event, and move to the next stage of the project':
-          // let baseUrl = `tenders/projects/${req.session.projectId}/events/${req.session.eventId}/termination`
-          //  let body = {
-          //     "terminationType": "cancelled"
-          //   }
-          //   await TenderApi.Instance(SESSION_ID).put(baseUrl, body);
-            let baseUrlEventCreation = `tenders/projects/${req.session.projectId}/events`
-
-            let createEventBody ={
-                "name":"Further Competition Event",
-                "eventType":req.session.eventManagement_eventType
-            }
-            req.session.currentEvent =  await TenderApi.Instance(SESSION_ID).post(baseUrlEventCreation, createEventBody);
-            //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+           //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
             res.redirect('/steps-to-continue');//scat-5012
             break;
   
