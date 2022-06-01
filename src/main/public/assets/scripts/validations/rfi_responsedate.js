@@ -30,22 +30,47 @@ for(const selector of totalElementSelectors){
     })
     let errorSelector = $("#click-error");
     errorSelector.on('click', () => {
-        let storedClickedID = localStorage.getItem('dateItem');
-        let cleanedClickedID = storedClickedID.slice(1);
-        let elementSelectorClicked = $(storedClickedID);
-        if (elementSelector.selector === elementSelectorClicked.selector) {
-            elementSelectorClicked = $("#rfi_clarification_date_expanded_" + selector);
-            elementSelectorClicked.fadeIn();
-            elementSelector.hide();
-        } else {
-            elementSelectorClicked.hide();
-            elementSelector.fadeIn();
-        }
+
+        let ClickedID = $("#click-error").attr("href");
+        let elementSelectorClicked = $(ClickedID);
+      //  elementSelectorClicked.fadeIn();
+        //elementSelector.hide();
+       // let storedClickedID = localStorage.getItem('dateItem');
+       let cleanedClickedID = ClickedID.slice(1);
+       // let elementSelectorClicked ='';
+       // let ClickedID = "#rfi_clarification_date_expanded_"+selector;
+        //let elementSelectorClicked = $(ClickedID);
+        elementSelectorClicked.fadeIn();
+        elementSelector.hide();
+
+        // if (elementSelector.selector === elementSelectorClicked.selector) {
+        //     let ClickedID = "#rfi_clarification_date_expanded_"+selector;
+        //     elementSelectorClicked = $(ClickedID);
+        //     elementSelectorClicked.fadeIn();
+        //     elementSelector.hide();
+        // } else {
+        //     elementSelectorClicked.hide();
+        //     elementSelector.fadeIn();
+        // }
         ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
-    });
+})
 }
 
+// let errorSelector = $("#click-error");
+//     errorSelector.on('click', () => {
 
+//         let ClickedID = $("#click-error").attr("href");
+//         let elementSelectorClicked = $(ClickedID);
+//         elementSelectorClicked.fadeIn();
+     
+//         //elementSelector.hide();
+        
+// for(let selector of totalElementSelectors){
+//         let elementIDChange = $("#change_clarification_date_" + selector);
+//         elementIDChange.show();
+// }
+// });
+        
 
 for(const selector of totalElementSelectors){
     let elementID = "#cancel_change_clarification_date_"+selector;
