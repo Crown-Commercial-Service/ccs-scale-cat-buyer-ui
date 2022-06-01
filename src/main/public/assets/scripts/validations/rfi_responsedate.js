@@ -29,14 +29,15 @@ for (const selector of totalElementSelectors) {
         elementSelector.hide();
     })
 }
-
+var errorSelectorId ='';
 let errorSelector = $("#click-error");
 errorSelector.on('click', () => {
-
     let ClickedID = $("#click-error").attr("href");
+    let errorText = $("#click-error").text();
+    errorSelectorId = ClickedID;
     let elementSelectorClicked = $(ClickedID);
     elementSelectorClicked.fadeIn();
-    ccsZaddErrorMessage(document.getElementById(ClickedID.slice(1)), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
+    ccsZaddErrorMessage(document.getElementById(ClickedID.slice(1)), errorText);
 });
 
 for (const selector of totalElementSelectors) {
@@ -45,6 +46,7 @@ for (const selector of totalElementSelectors) {
     elementSelector.on('click', () => {
 
         let ClickedID = "#rfi_clarification_date_expanded_" + selector;
+       
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0) {
             ClickedID = "#rfi_clarification_date_expanded_" + selector;
@@ -53,12 +55,19 @@ for (const selector of totalElementSelectors) {
         elementSelectorClicked.fadeOut();
         ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
 
-        for (let selector of totalElementSelectors) {
-            let changeID = "#change_clarification_date_" + selector;
-            $(changeID).show();
+        if(errorSelectorId === ClickedID)
+        {
+            for (let selector of totalElementSelectors) {
+                let changeID = "#change_clarification_date_" + selector;
+                $(changeID).show();
+            }
         }
-        // const elementIDChange = $("#change_clarification_date_" + selector);
-        // elementIDChange.show();
+        else
+        {
+       const elementIDChange = $("#change_clarification_date_" + selector);
+        elementIDChange.show();
+        }
+       
     });
 }
 
