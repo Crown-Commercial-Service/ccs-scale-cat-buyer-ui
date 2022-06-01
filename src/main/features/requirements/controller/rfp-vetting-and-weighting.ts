@@ -94,7 +94,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       return {
         url: `#section${index + 1}`,
         text: designation['job-category'],
-        subtext: `${weightage.min}% / ${weightage.max}%`,
+        subtext: `0 resources added`,
       };
     });
 
@@ -263,6 +263,8 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
       StorageForSortedItems = AddedValuesTo_StorageForSortedItems;
     }
+    REMAPPTED_TABLE_ITEM_STORAGE.sort((a, b) => a.text.localeCompare(b.text))
+    StorageForSortedItems.sort((a, b) => a.Parent.localeCompare(b.Parent))
     const windowAppendData = {
       ...RFP_WEIGTING_JSON,
       lotId,

@@ -134,12 +134,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
     const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
     let showCloseProject = false;
-          if (status == "PUBLISHED".toLowerCase() || status == "To Be Evaluated".toLowerCase()) {
+          if (status == "Published".toLowerCase() || status == "To Be Evaluated".toLowerCase()) {
             showCloseProject = true;
           }
-          
-          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
-    if (status == "IN PROGRESS".toLowerCase() || status == "In Progress".toLowerCase()) {
+          const procurementId =  req.session['projectId'];
+          const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
+          let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
+          collaboratorData = collaboratorData.data;          
+          const appendData = { data: eventManagementData,Colleagues:collaboratorData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+
+    if (status == "In-Progress".toLowerCase()) {
       let redirectUrl: string
       switch (eventType) {
         case "RFI":
@@ -174,17 +178,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       switch (eventType) {
 
         case "RFI":
-
-
-          //const appendData = { data: eventManagementData, status, projectName, eventId, eventType,apidata,supplierName,supplierSummary,showallDownload, suppliers: localData, unreadMessage: unreadMessage }
-          
-          
           res.render('eventManagement', appendData)
-
           break
-        case "FC":
-          // redirectUrl_ = "/rfp/rfp-unpublishedeventmanagement"
-          // res.redirect(redirectUrl_)
+        case "FC":       
           res.render('eventManagement', appendData)
           break
         default:

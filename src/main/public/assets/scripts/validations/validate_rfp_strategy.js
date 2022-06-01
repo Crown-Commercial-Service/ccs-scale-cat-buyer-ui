@@ -25,24 +25,22 @@ const ccsZvalidateRfPStrategy = event => {
   event.preventDefault();
   let fieldCheck = '';
   errorStore.length = 0;
-
   const pageHeading = document.getElementById('page-heading').innerHTML;
 
   if ($('#ccs_vetting_type') !== undefined) {
-  fieldCheck = ccsZisOptionChecked( "ccs_vetting_type", "Select an option");
-  if (fieldCheck !== true &&  fieldCheck !== undefined) errorStore.push(fieldCheck);
+    fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Select an option");
+    if (fieldCheck !== true && fieldCheck !== undefined) errorStore.push(fieldCheck);
   }
 
-  if ($('#rfp_prob_statement_t')  !== undefined && $('#rfp_prob_statement_t').val() !== undefined) {
-    if (!pageHeading.includes("(Optional)"))
-    {
+  if ($('#rfp_prob_statement_t') !== undefined && $('#rfp_prob_statement_t').val() !== undefined) {
+    if (!pageHeading.includes("(Optional)")) {
       if ($('#rfp_prob_statement_t').val().length === 0) {
 
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', 'You must enter information here');
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }
-     if (condLength($('#rfp_prob_statement_t').val())) {
+    if (condLength($('#rfp_prob_statement_t').val())) {
       const msg = char ? 'Entry must be <= 5000 characters' : 'Entry must be <= 500 words';
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', msg, !condLength($('#rfp_prob_statement_t').val()));
       if (fieldCheck !== true) errorStore.push(fieldCheck);
@@ -79,17 +77,15 @@ const ccsZvalidateRfPStrategy = event => {
   }
 
   if ($('#rfp_prob_statement_r') !== undefined && $('#rfp_prob_statement_r').val() !== undefined) {
+    errorStore = [];
+    if (!pageHeading.includes("(Optional)")) {
+      if ($('#rfp_prob_statement_r').val().length === 0) {
 
-    if (!pageHeading.includes("(Optional)"))
-    {
-    if ($('#rfp_prob_statement_r').val().length === 0) {
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_r', 'You must enter information here');
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_r', 'You must enter information here');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
-
-    }
-   
     if ($('#rfp_prob_statement_r').val().length > 500) {
 
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_r', 'You must enter less than 500 characters');
@@ -97,23 +93,35 @@ const ccsZvalidateRfPStrategy = event => {
     }
   }
   if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
-      // errorStore.length = 0;
+    // errorStore.length = 0;
     if ($('#rfp_security_confirmation').val().length === 0) {
 
       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You must enter information here');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
-    else if(textPattern.test($('#rfp_security_confirmation').val()))
-    {
+    else if (textPattern.test($('#rfp_security_confirmation').val())) {
       if (wordLength($('#rfp_security_confirmation').val())) {
         const msg = char ? 'Entry must be <= 250 characters' : 'Entry must be <= 25 words';
         fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', msg, !wordLength($('#rfp_security_confirmation').val()));
         if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }   
+      }
     }
-    else{
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You must enter characters here',false);
-      if (fieldCheck !== true) errorStore.push(fieldCheck);    
+    else {
+      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You must enter characters here', false);
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
+  if ($('#rfp_prob_statement_e') !== undefined && $('#rfp_prob_statement_e').val() !== undefined) {
+
+    if (!pageHeading.includes("(Optional)")) {
+      if ($('#rfp_prob_statement_e').val().length === 0) {
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+    }
+    if ($('#rfp_prob_statement_e').val().length > 5000) {
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter less than 5000 characters');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
   console.log('errorrr ', errorStore[0])
