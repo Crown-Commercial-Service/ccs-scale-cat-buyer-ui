@@ -94,9 +94,9 @@ text: bcTitleText
                 {% if (form_name === 'rfp_multianswer_question_form') %}
                 <p class="govuk-body">{{prompt[0]}}</p>
                 <p class="govuk-body">{{prompt[1]}}</p>
-                {%endif%}
                 </div>
                 <h2>Create your first requirement group</p> </h2>
+                {%endif%}
                 {% macro recurseRequirements(requirement,form_name,index = 0) -%}
                 {%if (requirement.nonOCDS.childern.length > 0)%}
                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}}
