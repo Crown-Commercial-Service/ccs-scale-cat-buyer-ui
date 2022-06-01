@@ -54,8 +54,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     //const bcTitleText = OCDS?.description;
     //const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
     const newOCDSdescription = changeTitle(OCDS?.description)
-    const bcTitleText = newOCDSdescription === '' ? OCDS?.description : newOCDSdescription;
-    const titleText = nonOCDS.mandatory === false ? newOCDSdescription + ' (Optional)' : newOCDSdescription;
+    const bcTitleText = newOCDSdescription == '' ? OCDS?.description : newOCDSdescription;
+    const titleText = nonOCDS.mandatory===false ? newOCDSdescription:newOCDSdescription + ' (Optional)';
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
     const promptSplit = promptData?.split(splitOn);
@@ -147,7 +147,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const formNameValue = form_name.find(fn => fn !== '');
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
-    const data = {
+    let data = {
       data: group_id === 'Group 8' && id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
@@ -173,6 +173,31 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     }
     if (group_id === 'Group 19' && id === 'Criterion 3') {
       data.form_name = 'service_levels_kpi_form';
+    }
+
+    if (group_id === 'Group 10' && id === 'Criterion 3') {
+      let count = 0;
+      data.data.forEach(x => {
+        if (count != 0) {
+          var optionsData = x.nonOCDS.options != null && x.nonOCDS.options.length > 0 ? x.nonOCDS.options[0].value : null;
+          if (optionsData != null) {
+            x.nonOCDS.options = [];
+            x.nonOCDS.options.push({ value: optionsData.substring(1).split("Y")[0] });
+            x.nonOCDS.options.push({ value: optionsData.substring(1).split("Y")[1].split("M")[0] });
+            x.nonOCDS.options.push({ value: optionsData.substring(1).split("Y")[1].split("M")[1].replace("D", "") });;
+          }
+          if (x.nonOCDS.childern != undefined && x.nonOCDS.childern.length > 0) {
+            var optionsData1 = x.nonOCDS.childern[0].nonOCDS?.options != null && x.nonOCDS.childern[0].nonOCDS?.options.length > 0 ? x.nonOCDS.childern[0].nonOCDS?.options[0].value : null;
+            if (optionsData1 != null) {
+              x.nonOCDS.childern[0].nonOCDS.options = [];
+              x.nonOCDS.childern[0].nonOCDS.options.push({ value: optionsData1.substring(1).split("Y")[0] });
+              x.nonOCDS.childern[0].nonOCDS.options.push({ value: optionsData1.substring(1).split("Y")[1].split("M")[0] });
+              x.nonOCDS.childern[0].nonOCDS.options.push({ value: optionsData1.substring(1).split("Y")[1].split("M")[1].replace("D", "") });;
+            }
+          }
+        }
+        count++;
+      });
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
@@ -401,28 +426,20 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               } else {
                 const slideObj = object_values.slice(3);
                 let dureationValue = null;
-                let isFourYear = false;
-                let isMonthValid = false;
-                let isDayValid = false;
-                if (Number(req.body["rfp_duration-years_" + question_ids[i].replace(" ", "")]) > 0) {
-                  dureationValue += "P" + req.body["rfp_duration-years_" + question_ids[i].replace(" ", "")] + "Y";
-                }else{
-                  dureationValue += "P0Y";
+                let year = 0;
+                let month = 0;
+                let day = 0;
+                if (Number(req.body["rfp_duration-years_" + question_ids[i].replace(" ", "")]) >= 0) {
+                  year = Number(req.body["rfp_duration-years_" + question_ids[i].replace(" ", "")]);
                 }
-                if (Number(req.body["rfp_duration_months_" + question_ids[i].replace(" ", "")]) > 0) {
-                  dureationValue += req.body["rfp_duration_months_" + question_ids[i].replace(" ", "")] + "M";
-                }else{
-                  dureationValue += "0M";
+                if (Number(req.body["rfp_duration_months_" + question_ids[i].replace(" ", "")]) >= 0) {
+                  month = Number(req.body["rfp_duration_months_" + question_ids[i].replace(" ", "")]);
                 }
-                if (Number(req.body["rfp_duration_days_" + question_ids[i].replace(" ", "")]) > 0) {
-                  dureationValue +=  req.body["rfp_duration_days_" + question_ids[i].replace(" ", "")] + "D";
+                if (Number(req.body["rfp_duration_days_" + question_ids[i].replace(" ", "")]) >= 0) {
+                  day = Number(req.body["rfp_duration_days_" + question_ids[i].replace(" ", "")]);
                 }
-                else{
-                  dureationValue += "0D";
-                }
-                if (dureationValue === '' || dureationValue == null) {
-                  dureationValue = 'P0Y0M0D'
-                }
+                dureationValue = "P" + year + "Y" + month + "M" + day + "D";
+                dureationValue = dureationValue === 'P0Y0M0D' ? null : dureationValue;
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
