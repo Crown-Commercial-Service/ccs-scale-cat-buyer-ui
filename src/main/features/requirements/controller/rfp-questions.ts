@@ -538,18 +538,22 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 break;
               }
               const TAStorage = [];
-              const monetaryData = object_values[0];
+              let monetaryData = object_values[0];
               // for (let item = 0; item < monetaryData?.length; item++) {
               //   const spltermObject = { value: monetaryData[i], selected: true };
               //   TAStorage.push(spltermObject);
               // }
-              answerValueBody = {
-                nonOCDS: {
-                  answered: true,
-                  multiAnswer: questionNonOCDS.multiAnswer,
-                  options: [{ value: monetaryData[i], selected: true }],
-                },
-              };
+              monetaryData =monetaryData != null && monetaryData.length > 0? monetaryData.filter(x => x != ''):null;
+              if (monetaryData != null && monetaryData.length > 0) {
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
+                    options: [{ value: monetaryData[i], selected: true }],
+                  },
+                };
+              }
+
             } else {
               if (
                 (questionNonOCDS.mandatory == true && object_values.length == 0)
