@@ -467,7 +467,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
 
     let dateOptions=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options;
     let startdate=dateOptions[0].value.padStart(2,0)+"  "+dateOptions[1].value.padStart(2,0)+"  "+dateOptions[2].value
+
     let optionalDate=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2)?.map(o=>o.nonOCDS)[0]?.options[0]?.value;
+
     //let startdate=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
     
     let indicativedurationYear=''
