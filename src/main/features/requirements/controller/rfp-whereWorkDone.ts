@@ -4,6 +4,7 @@ import * as data from '../../../resources/content/requirements/rfpWhereWorkDone.
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
@@ -48,7 +49,11 @@ export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express
       locationArray,
       
     };
+    let flag=await ShouldEventStatusBeUpdated(projectId,36,req);
+    if(flag)
+    {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
+  }
     res.render('rfp-whereWorkDone', appendData);
   } catch (error) {
     console.log(error);
@@ -105,8 +110,12 @@ export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: expres
       );
 
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Completed');
+      let flag=await ShouldEventStatusBeUpdated(projectId,37,req);
+    if(flag)
+    {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/37`, 'Not started');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Cannot start yet');
+    }
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Cannot start yet');
       res.redirect('/rfp/task-list');
     } catch (error) {
       LoggTracer.errorLogger(

@@ -50,7 +50,6 @@
     <p class="govuk-body">{{subtitle2}}</p>
     <p class="govuk-body">{{subtitle3}}</p>
     <p class="govuk-body">{{subtitle4}}</p>
-    <input type="hidden" name="rfpSectionSelected" value="" id="rfpSectionSelected>
     <div id="error_summary_resources">
     
     <form id="ccs_ca_menu_tabs_form_rfp_vetting" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/rfp/vetting-weighting" method="POST">
@@ -59,7 +58,7 @@
     <div class="ccs-page-section">
       <div class="sub-section">
            <p class="govuk-body govuk-!-font-size-19">
-        <span class="govuk-heading-l govuk-!-display-inline">{{totalResouces}}</span> resources added
+        <span class="govuk-heading-l govuk-!-display-inline" id = "rfp_total_resource">{{totalResouces}}</span> resources added
         </p>
       </div>
        <div class="sub-section"><a href="#" class="del govuk-link govuk-link--no-visited-state rfp_vetting-popup" title="delete">Clear form</a></div>
@@ -82,7 +81,7 @@
               <article id="section">
                     <h2 class="govuk-heading-xl govuk-!-font-weight-bold" >{{tr['Parent']}}</h2>
                     <h4> {{tr['Parent']}} description </h4>
-       
+                    {% set domSelector = tr['Parent'] | replace(" ", "_") %}
                      {% for subItems in tr.category %}
                      <div class="govuk-!-margin-top-5">
                      <h2 class="govuk-heading-m">{{subItems.ParentName}}</h2>
@@ -102,7 +101,7 @@
                             text: ""
                           },
                           classes: "govuk-input--width-2 weight_vetting_class rfp_weight_vetting_class",
-                          id: "rfp_textbox_weight_vetting_"+loop.index,
+                          id: "rfp_weight_vetting_"+domSelector+"_"+loop.index,
                           name: "SFIA_weightage",
                           value: subNestedItems.value,
                           suffix: {
@@ -132,15 +131,12 @@
             </div>
         </div>
     </section>
-
-    
-       <div class="ccs-page-section">
+    <div class="ccs-page-section">
       <div class="sub-section">
         <p class="govuk-body govuk-!-font-size-19">
-        <span class="govuk-heading-l govuk-!-display-inline">{{totalResouces}}</span> resources added
+        <span class="govuk-heading-l govuk-!-display-inline" id = "rfp_total_resource" >{{totalResouces}}</span> resources added
         </p>
       </div>
-
     </div>
 
       <div class="govuk-button-group">

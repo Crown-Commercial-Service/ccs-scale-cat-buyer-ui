@@ -123,7 +123,8 @@ text: bcTitleText
                 </div>
                 {%endif%}
                 {#<--!Condtns modified according to SCAT-5151-->#}
-                {%if (form_name === 'rfp_multianswer_question_form') and (rfpTitle!='Enter your project requirements')%}
+                {%if (form_name === 'rfp_multianswer_question_form') %}
+                {%if (rfpTitle!='Enter your project requirements')%}
                 <div class="ccs-page-section">
                     <p class="govuk-body">
                     <h2>
@@ -134,6 +135,7 @@ text: bcTitleText
                         100%</h2>
                     </p>
                 </div>
+                {%endif%}
                 {% set numberWord = [
                 'Zero',
                 'first',

@@ -16,7 +16,6 @@ const removeErrorFieldsRfpIR35 = () => {
   }
 
 $('#rfp_IR35_form').on('submit', (event) => {
-    debugger
     event.preventDefault();
     const radioButtonOne=  document.getElementById("ccs_vetting_type").checked;
     const radioButtonTwo=  document.getElementById("ccs_vetting_type-2").checked;

@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.forEach(ele => {
       ele.addEventListener('focusout', totalPercentage);
       ele.addEventListener('keydown', (event) => {
-        if (event.key === '.' || event.keyCode ===69) { event.preventDefault(); }
+        if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
       });
     });
 
@@ -69,18 +69,20 @@ document.addEventListener('DOMContentLoaded', () => {
             .querySelector('label[for=fc_question_' + prev_input + '] a.del')
             .classList.add('ccs-dynaform-hidden');
         }
-        document.getElementById("questionsCount").textContent=with_value_count+' techinical questions entered so far';
+        if (document.getElementById("questionsCount") != undefined) {
+          document.getElementById("questionsCount").textContent = with_value_count + ' techinical questions entered so far';
+        }
         document
           .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
           .classList.remove('ccs-dynaform-hidden');
         if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
-          if (with_value_count ===5) {
+          if (with_value_count === 5) {
             errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
             ccsZPresentErrorSummary(errorStore);
             return;
           }
         }
-        
+
         with_value_count++;
 
         if (with_value_count === 11) {
