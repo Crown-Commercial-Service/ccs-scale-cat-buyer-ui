@@ -26,7 +26,6 @@ const ccsZvalidateRfPStrategy = event => {
   let fieldCheck = '';
   errorStore.length = 0;
   const pageHeading = document.getElementById('page-heading').innerHTML;
-
   if ($('#ccs_vetting_type') !== undefined) {
     fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Select an option");
     if (fieldCheck !== true && fieldCheck !== undefined) errorStore.push(fieldCheck);
@@ -35,7 +34,6 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_t') !== undefined && $('#rfp_prob_statement_t').val() !== undefined) {
     if (!pageHeading.includes("(Optional)")) {
       if ($('#rfp_prob_statement_t').val().length === 0) {
-
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', 'You must enter information here');
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
@@ -124,7 +122,6 @@ const ccsZvalidateRfPStrategy = event => {
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
-  console.log('errorrr ', errorStore[0])
   if (errorStore.length === 0) document.forms['ccs_rfp_exit_strategy_form'].submit();
   else ccsZPresentErrorSummary(errorStore);
 };
