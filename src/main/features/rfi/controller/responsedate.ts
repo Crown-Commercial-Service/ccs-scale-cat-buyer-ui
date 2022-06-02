@@ -107,7 +107,7 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
   }
   switch (questionId) {
     case 'Question 1':
-      errorSelector = 'clarification_date';
+      errorSelector = 'rfi_clarification_date_expanded_1';
       break;
     case 'Question 2':
       let publishDate = new Date(timeline.publish);
@@ -117,28 +117,28 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
-      errorSelector = 'clarification_period_end';
+      errorSelector = 'rfi_clarification_date_expanded_2';
       break;
     case 'Question 3':
       if (questionNewDate <= timeline.clarificationPeriodEnd) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
-      errorSelector = 'deadline_period_for_clarification_period';
+      errorSelector = 'rfi_clarification_date_expanded_3';
       break;
     case 'Question 4':
       if (questionNewDate <= timeline.publishResponsesClarificationQuestions) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
-      errorSelector = 'supplier_period_for_clarification_period';
+      errorSelector = 'rfi_clarification_date_expanded_4';
       break;
     case 'Question 5':
       if (questionNewDate <= timeline.supplierSubmitResponse) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
-      errorSelector = 'supplier_dealine_for_clarification_period';
+      errorSelector = 'rfi_clarification_date_expanded_5';
       break;
     default:
       isValid = true;
@@ -165,7 +165,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
 
-  if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute =='')
+  if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
   {
     const errorItem = {     
       text: 'Date invalid or empty. Plese enter the valid date', 
@@ -304,27 +304,27 @@ else {
       switch (selectedErrorCause) {
         case 'Question 1':
           selector = ' Publish your RfI - Date should be in the future';
-          selectorID = 'clarification_date';
+          selectorID = 'rfi_clarification_date_expanded_1';
           break;
 
         case 'Question 2':
           selector = 'Clarification period ends - Date should be in the future';
-          selectorID = 'clarification_period_end';
+          selectorID = 'rfi_clarification_date_expanded_2';
           break;
 
         case 'Question 3':
           selector = 'Deadline for publishing responses to RfI clarification questions- Date should be in the future ';
-          selectorID = 'deadline_period_for_clarification_period';
+          selectorID = 'rfi_clarification_date_expanded_3';
           break;
 
         case 'Question 4':
           selector = 'Deadline for suppliers to submit their RfI response - Date should be in the future';
-          selectorID = 'supplier_period_for_clarification_period';
+          selectorID = 'rfi_clarification_date_expanded_4';
           break;
 
         case 'Question 5':
           selector = 'Confirm your next steps to suppliers - Date should be in the future';
-          selectorID = 'supplier_dealine_for_clarification_period';
+          selectorID = 'rfi_clarification_date_expanded_5';
           break;
 
         default:
