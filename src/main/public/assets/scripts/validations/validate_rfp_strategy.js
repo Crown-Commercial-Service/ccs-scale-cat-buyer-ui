@@ -34,7 +34,6 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_t') !== undefined && $('#rfp_prob_statement_t').val() !== undefined) {
     if (!pageHeading.includes("(Optional)")) {
       if ($('#rfp_prob_statement_t').val().length === 0) {
-
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', 'You must enter information here');
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }

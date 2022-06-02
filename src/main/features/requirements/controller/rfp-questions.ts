@@ -571,7 +571,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   optionsData.push({ value: object_values[index], selected: true });
                 }
                 //add incumbent supplier details balwinder
-                if (req.body.rfp_security_confirmation !=undefined) {
+                if (req.body.rfp_security_confirmation !=undefined &&  req.body.rfp_security_confirmation !=null && req.body.rfp_security_confirmation !='') {
                   optionsData=[];
                   optionsData.push({ value: req.body.rfp_security_confirmation, selected: true })
                 }
