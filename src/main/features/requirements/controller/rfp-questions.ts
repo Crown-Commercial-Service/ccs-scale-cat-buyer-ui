@@ -59,8 +59,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const titleText = nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (Optional)';
     const promptData = nonOCDS?.prompt;
 
-    const splitOn = ' <br> ';
-    const promptSplit = group_id =='Group 6' && id=='Criterion 3'?promptData:promptData?.split(splitOn);
+    const splitOn = '<br>';
+    const promptSplit = group_id =='Group 24' && id=='Criterion 3'?promptData.split(splitOn):promptData;
 
 
     const nonOCDSList = [];
@@ -303,6 +303,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             agreement_id,
             id,
             res,
+            req,
           );
         } else {
           let validationError = false;
@@ -537,18 +538,22 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 break;
               }
               const TAStorage = [];
-              const monetaryData = object_values[0];
+              let monetaryData = object_values[0];
               // for (let item = 0; item < monetaryData?.length; item++) {
               //   const spltermObject = { value: monetaryData[i], selected: true };
               //   TAStorage.push(spltermObject);
               // }
-              answerValueBody = {
-                nonOCDS: {
-                  answered: true,
-                  multiAnswer: questionNonOCDS.multiAnswer,
-                  options: [{ value: monetaryData[i], selected: true }],
-                },
-              };
+              monetaryData =monetaryData != null && monetaryData.length > 0? monetaryData.filter(x => x != ''):null;
+              if (monetaryData != null && monetaryData.length > 0) {
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
+                    options: [{ value: monetaryData[i], selected: true }],
+                  },
+                };
+              }
+
             } else {
               if (
                 (questionNonOCDS.mandatory == true && object_values.length == 0)
@@ -623,6 +628,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               agreement_id,
               id,
               res,
+              req,
             );
           } else {
             res.send();
