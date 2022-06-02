@@ -96,6 +96,10 @@ text: bcTitleText
                 <p>Plese add up to 10 questions</p>'
                 }) }}
                 {%endif%}
+               {% if (form_name === 'service_user_type_form') %}
+                <p class="govuk-body">{{prompt}}</p>
+                {%endif%}
+
                 <p class="govuk-body">{{prompt?[0] | safe}}</p>
                 <p class="govuk-body">{{prompt?[1] | safe}}</p>
 

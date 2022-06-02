@@ -59,7 +59,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const titleText = nonOCDS.mandatory===true ? bcTitleText:bcTitleText + ' (Optional)';
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
-    const promptSplit = promptData?.split(splitOn);
+    const promptSplit = group_id =='Group 6' && id=='Criterion 3'?promptData:promptData?.split(splitOn);
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
