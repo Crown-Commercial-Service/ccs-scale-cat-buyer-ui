@@ -300,6 +300,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             agreement_id,
             id,
             res,
+            req,
           );
         } else {
           let validationError = false;
@@ -483,6 +484,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
             agreement_id,
             id,
             res,
+            req,
           );
         } else {
           let validationError = false;
@@ -830,6 +832,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
               agreement_id,
               id,
               res,
+              req,
             );
           } else {
             res.send();

@@ -5,7 +5,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('questions healper');
-import * as journyData from '../../procurement/model/tasklist.json';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  * @Helper
@@ -23,6 +23,7 @@ export class QuestionHelper {
     agreement_id: any,
     id: any,
     res: express.Response,
+    req:express.Request,
   ) => {
     /**
      * @Path
@@ -109,10 +110,8 @@ export class QuestionHelper {
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'Completed');
         
         if (response.status == HttpStatusCode.OK) {
-          const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${proc_id}/steps`);
-  let defaultStatus=journyData.states.find((item:any )=> item.step === 33)?.state;
-  let actualStatus=journeySteps.find((d:any)=>d.step==33)?.state;
-  if(defaultStatus==actualStatus || actualStatus=="Not started"){
+          let flag=await ShouldEventStatusBeUpdated(proc_id,33,req);
+            if(flag){
           await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/33`, 'Not started');
           }
         }
@@ -142,6 +141,7 @@ export class QuestionHelper {
     agreement_id: any,
     id: any,
     res: express.Response,
+    req:express.Request,
   ) => {
     /**
      * @Path
@@ -193,10 +193,8 @@ export class QuestionHelper {
           
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
-            let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${proc_id}/steps`);
-            let defaultStatus=journyData.states.find(item => item.step === 38)?.state;
-            let actualStatus=journeySteps.find((d:any)=>d.step==38)?.state;
-            if(defaultStatus==actualStatus || actualStatus=="Not started")
+            let flag=await ShouldEventStatusBeUpdated(proc_id,38,req);
+            if(flag)
             {
                       await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
             }//await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
