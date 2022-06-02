@@ -303,6 +303,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             agreement_id,
             id,
             res,
+            req,
           );
         } else {
           let validationError = false;
@@ -623,6 +624,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               agreement_id,
               id,
               res,
+              req,
             );
           } else {
             res.send();
