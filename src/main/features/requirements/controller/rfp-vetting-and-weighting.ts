@@ -214,6 +214,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
             url: i.url,
             text: x.Parent,
             subtext: i.subtext,
+            className: 'rfp-vetting-weighting',
           };
           REMAPPTED_TABLE_ITEM_STORAGE.push(ReformedObj);
         }
