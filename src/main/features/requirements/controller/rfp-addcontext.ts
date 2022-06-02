@@ -7,6 +7,7 @@ import { ErrorView } from '../../../common/shared/error/errorView';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -130,7 +131,11 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         agreementLotName,
         releatedContent: releatedContent,
       };
+    let flag=await ShouldEventStatusBeUpdated(projectId,32,req);
+    if(flag)
+    {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/32`, 'In progress');
+    }
       res.render('rfp-context', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

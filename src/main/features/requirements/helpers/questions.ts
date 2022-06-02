@@ -5,6 +5,8 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('questions healper');
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+
 /**
  * @Helper
  * helps with question controller to redirect
@@ -21,6 +23,7 @@ export class QuestionHelper {
     agreement_id: any,
     id: any,
     res: express.Response,
+    req:express.Request,
   ) => {
     /**
      * @Path
@@ -104,14 +107,15 @@ export class QuestionHelper {
             mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
           }
         }
-
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'Completed');
+        
         if (response.status == HttpStatusCode.OK) {
-          const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${proc_id}/steps`);
-          if(journeySteps.filter((d:any) => d.step==33)?.[0]?.state=='Cannot start yet'){
+          let flag=await ShouldEventStatusBeUpdated(proc_id,33,req);
+            if(flag){
           await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/33`, 'Not started');
           }
         }
+      
         res.redirect('/rfp/task-list');
       }
     } catch (error) {
@@ -137,6 +141,7 @@ export class QuestionHelper {
     agreement_id: any,
     id: any,
     res: express.Response,
+    req:express.Request,
   ) => {
     /**
      * @Path
@@ -185,13 +190,18 @@ export class QuestionHelper {
         let next_criterian_id = next_cursor_object['criterianId'];
         let base_url = `/rfp/assesstment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}=&step${res.req?.query?.step}`;
         if (next_group_id === 'Group 8' && next_criterian_id === 'Criterion 2') {
+          
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
+            let flag=await ShouldEventStatusBeUpdated(proc_id,38,req);
+            if(flag)
+            {
+                      await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
+            }//await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
           }
+        
           res.redirect('/rfp/task-list');
         } else
           res.redirect(base_url);

@@ -7,10 +7,15 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment-business-days';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const proj_Id = req.session.projectId;
+  let flag=await ShouldEventStatusBeUpdated(proj_Id,40,req);
+    if(flag)
+    {
   await TenderApi.Instance(SESSION_ID).put(`journeys/${proj_Id}/steps/40`, 'In progress');
+    }
   RESPONSEDATEHELPER(req, res);
 };
 export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -84,7 +89,11 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/24`, 'Not started');
     }
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(projectId,41,req);
+    if(flag)
+    {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'Not started');
+    }
     res.redirect('/rfp/review');
   } catch (error) {
     LoggTracer.errorLogger(
