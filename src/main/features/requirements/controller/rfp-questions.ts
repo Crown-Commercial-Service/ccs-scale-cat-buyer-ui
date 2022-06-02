@@ -56,7 +56,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const newOCDSdescription = changeTitle(OCDS?.description)
     //Balwinder
     const bcTitleText = newOCDSdescription == '' ? OCDS?.description : newOCDSdescription;
-    const titleText = nonOCDS.mandatory===true ? bcTitleText:bcTitleText + ' (Optional)';
+    const titleText = nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (Optional)';
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
     const promptSplit = promptData?.split(splitOn);
@@ -175,12 +175,15 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     if (group_id === 'Group 19' && id === 'Criterion 3') {
       data.form_name = 'service_levels_kpi_form';
     }
-
+    if (group_id === 'Group 16' && id === 'Criterion 3') {
+      data.data[0].nonOCDS.childern.push(TemporaryObjStorage[1]);
+      data.data[0].nonOCDS.childern[0].nonOCDS.questionType='';
+    }
     if (group_id === 'Group 10' && id === 'Criterion 3') {
       let count = 0;
       data.data.forEach(x => {
         if (count != 0) {
-          var optionsData = x.nonOCDS.options != null && x.nonOCDS.options.length > 0 ? x.nonOCDS.options[0].value : null;
+          var optionsData = x.nonOCDS?.options != null && x.nonOCDS?.options?.length > 0 ? x.nonOCDS?.options[0].value : null;
           if (optionsData != null) {
             x.nonOCDS.options = [];
             x.nonOCDS.options.push({ value: optionsData.substring(1).split("Y")[0] });
@@ -188,7 +191,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
             x.nonOCDS.options.push({ value: optionsData.substring(1).split("Y")[1].split("M")[1].replace("D", "") });;
           }
           if (x.nonOCDS.childern != undefined && x.nonOCDS.childern.length > 0) {
-            var optionsData1 = x.nonOCDS.childern[0].nonOCDS?.options != null && x.nonOCDS.childern[0].nonOCDS?.options.length > 0 ? x.nonOCDS.childern[0].nonOCDS?.options[0].value : null;
+            var optionsData1 = x.nonOCDS?.childern[0].nonOCDS?.options != null && x.nonOCDS?.childern[0].nonOCDS?.options?.length > 0 ? x.nonOCDS?.childern[0].nonOCDS?.options[0].value : null;
             if (optionsData1 != null) {
               x.nonOCDS.childern[0].nonOCDS.options = [];
               x.nonOCDS.childern[0].nonOCDS.options.push({ value: optionsData1.substring(1).split("Y")[0] });
@@ -566,6 +569,11 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 let optionsData = [];
                 for (let index = 0; index < object_values.length; index++) {
                   optionsData.push({ value: object_values[index], selected: true });
+                }
+                //add incumbent supplier details balwinder
+                if (req.body.rfp_security_confirmation !=undefined &&  req.body.rfp_security_confirmation !=null && req.body.rfp_security_confirmation !='') {
+                  optionsData=[];
+                  optionsData.push({ value: req.body.rfp_security_confirmation, selected: true })
                 }
                 answerValueBody = {
                   nonOCDS: {
