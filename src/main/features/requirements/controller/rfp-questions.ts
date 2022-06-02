@@ -58,8 +58,9 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const bcTitleText = newOCDSdescription == '' ? OCDS?.description : newOCDSdescription;
     const titleText = nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (Optional)';
     const promptData = nonOCDS?.prompt;
-    const splitOn = ' <br> ';
-    const promptSplit = promptData?.split(splitOn);
+    //SCAT-5151
+    //const splitOn = '<br>';
+    const promptSplit = promptData.split("<br>");
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
