@@ -4,7 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as RFP_WEIGTING_JSON from '../../../resources/content/requirements/rfp-weighting.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -279,7 +279,11 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     };
 
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
+    let flag=await ShouldEventStatusBeUpdated(projectId,33,req);
+    if(flag)
+    {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'In progress');
+    }
     //res.json(StorageForSortedItems)
     res.render('rfp-vetting-weighting', windowAppendData);
   } catch (error) {
@@ -335,7 +339,11 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(projectId,34,req);
+    if(flag)
+    {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'Not started');
+    }
     res.redirect('/rfp/choose-security-requirements');
   } catch (error) {
     req.session['isJaggaerError'] = true;

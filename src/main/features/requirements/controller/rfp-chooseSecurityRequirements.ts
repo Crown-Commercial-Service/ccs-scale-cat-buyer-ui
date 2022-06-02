@@ -4,6 +4,7 @@ import * as data from '../../../resources/content/requirements/rfpChooseSecurity
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
@@ -56,7 +57,11 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
     const appendData = { ...data, releatedContent, isError, errorText };
 
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    let flag=await ShouldEventStatusBeUpdated(projectId,34,req);
+    if(flag)
+    {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
+    }
     res.render('rfp-chooseSecurityRequirements', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -125,7 +130,11 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
         requirements: requirementsData,
       };
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'Completed');
+      let flag=await ShouldEventStatusBeUpdated(projectId,35,req);
+    if(flag)
+    {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Not started');
+    }
       await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
       res.redirect('/rfp/service-capabilities');
     } catch (error) {
