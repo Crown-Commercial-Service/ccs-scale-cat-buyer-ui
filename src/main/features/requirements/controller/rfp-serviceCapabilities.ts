@@ -4,6 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as RFPService from '../../../resources/content/requirements/rfpService.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -256,7 +257,11 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       //WHOLECLUSTER: WHOLECLUSTERCELLS,
       totalAdded: TotalAdded,
     };
+    let flag=await ShouldEventStatusBeUpdated(projectId,35,req);
+    if(flag)
+    {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'In progress');
+    }
     //res.json(dataset);
     res.render('rfp-servicecapabilities.njk', windowAppendData);
   } catch (error) {
@@ -336,7 +341,11 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(projectId,36,req);
+    if(flag)
+    {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Not started');
+    }
     res.redirect('/rfp/where-work-done');
   }
    catch (error) {

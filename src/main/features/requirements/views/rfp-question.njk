@@ -97,6 +97,15 @@ text: bcTitleText
                 </div>
                 <h2>Create your first requirement group</p> </h2>
                 {%endif%}
+
+               {% if (form_name === 'service_user_type_form') %}
+                <p class="govuk-body">{{prompt}}</p>
+                {%endif%}
+
+                <p class="govuk-body">{{prompt?[0] | safe}}</p>
+                <p class="govuk-body">{{prompt?[1] | safe}}</p>
+
+
                 {% macro recurseRequirements(requirement,form_name,index = 0) -%}
                 {%if (requirement.nonOCDS.childern.length > 0)%}
                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}}
@@ -114,7 +123,8 @@ text: bcTitleText
                 </div>
                 {%endif%}
                 {#<--!Condtns modified according to SCAT-5151-->#}
-                {%if (form_name === 'rfp_multianswer_question_form') and (rfpTitle!='Enter your project requirements')%}
+                {%if (form_name === 'rfp_multianswer_question_form') %}
+                {%if (rfpTitle!='Enter your project requirements')%}
                 <div class="ccs-page-section">
                     <p class="govuk-body">
                     <h2>
@@ -125,6 +135,7 @@ text: bcTitleText
                         100%</h2>
                     </p>
                 </div>
+                {%endif%}
                 {% set numberWord = [
                 'Zero',
                 'first',
