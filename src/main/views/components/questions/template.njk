@@ -815,7 +815,7 @@
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
                             legend: {
-                               html: "First terms or acronym ",
+                               html: "Term or acronym ",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -939,7 +939,8 @@
                         <div id="rfp_keyterm"></div>
                       
                       {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.type === 'The people who will use your product or service (Optional)') and (requirement.nonOCDS.multiAnswer === true)and form_name === 'service_user_type_form' %}
-                        <p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p>
+                        
+                        {#<p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p>#}
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
                             legend: {

@@ -13,12 +13,12 @@
       "href": "/projects/create-or-choose"
     },
     {
-      "text": "Choose your route to market",
+      "text": "Choose how to find a supplier",
       "href": "#"
     }
   ],
 
-  "title": "Choose your route to market",
+  "title": "Choose how to find a supplier",
   "subtitle": null,
   
   "form": {
@@ -29,9 +29,9 @@
       "items": [   
         {
           "value": "1-stage",
-          "text": "Run a 1-stage further competition event",
+          "text": "Further competition",
           "hint": {
-            "text": "You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."
+            "text": "If you select this option,you will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."
           },
           "disabled": "false",
           "remove": "false"
