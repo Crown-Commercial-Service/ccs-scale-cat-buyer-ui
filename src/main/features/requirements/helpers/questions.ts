@@ -60,8 +60,14 @@ export class QuestionHelper {
               let selectedLocation;
               if(questionType=='Text' || questionType=='Percentage')
               {
-                answer=question_api_data?.[k]?.nonOCDS?.options?.[0]?.value;
-                if(answer!='' && answer!=undefined){innerMandatoryNum+=1;}
+                let textMandatoryNum=question_api_data?.[k]?.nonOCDS?.options?.length;
+                let textNum=0;
+                if(textMandatoryNum==0){textMandatoryNum=-1;}//no data is entered
+                for(let j=0;j<textMandatoryNum;j++){
+                answer=question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
+                if(answer!='' && answer!=undefined){textNum+=1;}
+                }
+                if(textMandatoryNum==textNum){innerMandatoryNum+=1;}
               }
               else if (questionType === 'SingleSelect')
               {
@@ -83,9 +89,15 @@ export class QuestionHelper {
                 }
               }
               else if(questionType==='KeyValuePair'){
-                let kvText=question_api_data?.[k]?.nonOCDS?.options?.[0]?.text;
-                let kvValue=question_api_data?.[k]?.nonOCDS?.options?.[0]?.value;
-                if(kvText!='' && kvValue!=''  && kvText!=undefined  && kvValue!=undefined){innerMandatoryNum+=1;} 
+                let kvMandatoryNum=question_api_data?.[k]?.nonOCDS?.options?.length;
+                let kvNum=0;
+                if(kvMandatoryNum==0){kvMandatoryNum=-1;}//no data is entered
+                for(let j=0;j<kvMandatoryNum;j++){
+                let kvText=question_api_data?.[k]?.nonOCDS?.options?.[j]?.text;
+                let kvValue=question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
+                if(kvText!='' && kvValue!=''  && kvText!=undefined  && kvValue!=undefined){kvNum+=1;} 
+                }
+                if(kvNum==kvMandatoryNum){innerMandatoryNum+=1;}
               }
               else if(questionType==='ReadMe'){
                 innerMandatoryNum+=1;
