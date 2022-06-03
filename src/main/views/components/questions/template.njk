@@ -219,7 +219,7 @@
         text: requirement.OCDS.title
       },
       classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage",
-      id: "fc_question_"+index+"_"+requirement.nonOCDS.order,
+      id: "fc_question_precenate_"+index,
       value: requirement.nonOCDS.options[index-1].value,
       name: requirement.OCDS.id,
       suffix: {
@@ -1043,8 +1043,8 @@
                         <div id="rfp_keyterm_service_user_type"></div>
                       
                       {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type === 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true)and form_name === 'service_levels_kpi_form' %}
-                        <p>The Authority will measure the quality of the Supplier’s delivery by: Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be</p>
-                        <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2>
+                        {# <p>The Authority will measure the quality of the Supplier’s delivery by: Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be</p>
+                        <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
                             legend: {
                                html: "Enter your first KPI / SLA",
@@ -1085,7 +1085,8 @@
                                 name: "percentage",
                                 suffix: {
                                   text: "%"
-                                }
+                                },
+                                type:"number"
                               }) }}
 
                         {% endcall %}
@@ -1146,7 +1147,8 @@
                                   name: "percentage",
                                   suffix: {
                                     text: "%"
-                                  }
+                                  },
+                                  type:"number"
                                 }) }}
                           {% endcall %}
 

@@ -54,10 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
       $('#del_fc_question_' + with_value_count).removeClass('ccs-dynaform-hidden');
     }
     $('.add-another-btn').on('click', function () {
+      debugger
       $('.govuk-error-summary').remove();
       $('.govuk-form-group--error').remove();
       removeErrorFieldsRfpScoreQuestion();
-      errorStore = emptyQuestionFieldCheckRfp();
+      if (Number($('#totalPercentage').text()) === 100) {
+        errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+      } else
+        errorStore = emptyQuestionFieldCheckRfp();
       const pageHeading = document.getElementById('page-heading').innerHTML;
       if (errorStore.length == 0) {
         document.getElementById('fc_question_' + with_value_count).classList.remove('ccs-dynaform-hidden');
@@ -91,13 +95,41 @@ document.addEventListener('DOMContentLoaded', () => {
         totalAnswerd();
       } else ccsZPresentErrorSummary(errorStore);
     });
-    $('a.del').on('click', function (event) {
-      event.preventDefault();
-      $(this).parent().parent().find('input[type=text], textarea').val('');
-      $(this).parent().parent().addClass('ccs-dynaform-hidden');
-      $(this).addClass('ccs-dynaform-hidden');
-      $('label[for=fc_question_' + prev_input + '] a.del').removeClass('ccs-dynaform-hidden');
+
+    deleteButtons.forEach((db) => {
+      //db.classList.remove('ccs-dynaform-hidden')
+      db.addEventListener('click', (e) => {
+        e.preventDefault();
+        debugger
+        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        prev_input = Number(target) - 1,
+          target_fieldset = db.closest("div");
+
+        target_fieldset.classList.add("ccs-dynaform-hidden");
+
+        document.getElementById('fc_question_' + target+"_1").value = "";
+        document.getElementById('fc_question_' + target+"_2").value = "";
+        document.getElementById('fc_question_' + target+"_3").value = "";
+        document.getElementById('fc_question_precenate_' + target).value = "";
+        if (prev_input > 1) {
+          document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+        }
+
+        //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
+        with_value_count--;
+      });
     });
+    // $('a.del').on('click', function (event) {
+    //   event.preventDefault();
+    //   $(this).parent().parent().find('input[type=text], textarea').val('');
+    //   $(this).parent().parent().addClass('ccs-dynaform-hidden');
+    //   $(this).addClass('ccs-dynaform-hidden');
+    //   let prev_inputNew=prev_input-1;
+    //   document
+    //       .querySelector('label[for=fc_question_' + prev_input + '] a.del')
+    //       .classList.remove('ccs-dynaform-hidden');
+    //   //$('label[for=fc_question_' + prev_input + '] a.del').removeClass('ccs-dynaform-hidden');
+    // });
   }
 });
 
@@ -109,7 +141,7 @@ const emptyQuestionFieldCheckRfp = () => {
     removeErrorFieldsRfpScoreQuestion();
     let rootEl = document.getElementById('fc_question_' + i);
     if (!rootEl.classList.contains('ccs-dynaform-hidden')) {
-      if (Number($('#totalPercentage').val) > 100) {
+      if (Number($('#totalPercentage').text) > 100) {
         fieldCheck = ccsZvalidateWithRegex(
           'fc_question_' + i + '_4',
           'You cannot add / submit  question as your weightings exceed 100%',
