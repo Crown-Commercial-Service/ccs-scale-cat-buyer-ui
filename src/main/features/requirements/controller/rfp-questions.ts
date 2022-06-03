@@ -180,7 +180,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     }
     if (group_id === 'Group 16' && id === 'Criterion 3') {
       data.data[0].nonOCDS.childern.push(TemporaryObjStorage[1]);
-      data.data[0].nonOCDS.childern[0].nonOCDS.questionType='';
+      data.data[0].nonOCDS.childern[0].nonOCDS.questionType = '';
     }
     if (group_id === 'Group 10' && id === 'Criterion 3') {
       let count = 0;
@@ -465,13 +465,22 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               }
               let splterm = req.body;
               let splTermvalue = req.body;
+              let { value } = req.body;
               const TAStorage = [];
               const questionDataList = splterm[question_ids[i]];
               splTermvalue = questionDataList?.filter((aKeyValue: any) => aKeyValue !== '');
+              if (splTermvalue != null && splTermvalue.length > 0) {
+                for (let item = 0; item < splTermvalue?.length; item++) {
+                  const spltermObject = { value: splTermvalue[item], selected: true };
+                  TAStorage.push(spltermObject);
+                }
+              } else if (value != null && value.length > 0) {
+                value = value.filter(x => x != '');
+                for (let item = 0; item < value.length; item++) {
+                  const spltermObject = { value: value[item], selected: true };
+                  TAStorage.push(spltermObject);
+                }
 
-              for (let item = 0; item < splTermvalue?.length; item++) {
-                const spltermObject = { value: splTermvalue[item], selected: true };
-                TAStorage.push(spltermObject);
               }
               answerValueBody = {
                 nonOCDS: {
@@ -482,7 +491,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             }
             else if (questionNonOCDS.questionType === 'Percentage') {
               const dataList = req.body[question_ids[i]];
-              const { percentage } = req.body;
+              let { percentage } = req.body;
               if (dataList != undefined) {
                 var optins = dataList?.filter(val => val !== '')
                   .map(val => {
@@ -496,13 +505,29 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   }
                 };
               } else if (percentage != undefined && percentage != null) {
-                answerValueBody = {
-                  nonOCDS: {
-                    answered: true,
-                    multiAnswer: questionNonOCDS.multiAnswer,
-                    options: [{ value: percentage[i], selected: true }]
+                percentage = percentage.length > 0 ? percentage.filter(x => x != '') : percentage;
+                if (percentage.length > 0) {
+                  let optionsList = [];
+                  for (let index = 0; index < percentage.length; index++) {
+                    optionsList.push({ value: percentage[index], selected: true })
                   }
-                };
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: questionNonOCDS.multiAnswer,
+                      options: [...optionsList]
+                    }
+                  };
+                } else {
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: questionNonOCDS.multiAnswer,
+                      options: [{ value: percentage[i], selected: true }]
+                    }
+                  };
+                }
+
               }
 
             }
@@ -543,7 +568,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               //   const spltermObject = { value: monetaryData[i], selected: true };
               //   TAStorage.push(spltermObject);
               // }
-              monetaryData =monetaryData != null && monetaryData.length > 0? monetaryData.filter(x => x != ''):null;
+              monetaryData = monetaryData != null && monetaryData.length > 0 ? monetaryData.filter(x => x != '') : null;
               if (monetaryData != null && monetaryData.length > 0) {
                 answerValueBody = {
                   nonOCDS: {
@@ -579,8 +604,8 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   optionsData.push({ value: object_values[index], selected: true });
                 }
                 //add incumbent supplier details balwinder
-                if (req.body.rfp_security_confirmation !=undefined &&  req.body.rfp_security_confirmation !=null && req.body.rfp_security_confirmation !='') {
-                  optionsData=[];
+                if (req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation != null && req.body.rfp_security_confirmation != '') {
+                  optionsData = [];
                   optionsData.push({ value: req.body.rfp_security_confirmation, selected: true })
                 }
                 answerValueBody = {
