@@ -71,7 +71,7 @@ export class EventEngagementMiddleware {
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Published'
                 activeEvents.push(draftActiveEvent)
-              } else if (events[i].activeEvent?.dashboardStatus == 'TO BE EVALUATED') {
+              } else if (events[i].activeEvent?.dashboardStatus == 'TO-BE-EVALUATED') {
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'To Be Evaluated'
                 activeEvents.push(draftActiveEvent)
@@ -105,7 +105,7 @@ export class EventEngagementMiddleware {
               draftActiveEvent = events[i]
               draftActiveEvent.activeEvent.status = 'Published'
               activeEvents.push(draftActiveEvent)
-            } else if (events[i].activeEvent?.dashboardStatus == 'TO BE EVALUATED') {
+            } else if (events[i].activeEvent?.dashboardStatus == 'TO-BE-EVALUATED') {
               draftActiveEvent = events[i]
               draftActiveEvent.activeEvent.status = 'To Be Evaluated'
               activeEvents.push(draftActiveEvent)
