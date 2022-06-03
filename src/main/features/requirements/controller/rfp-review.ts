@@ -63,15 +63,15 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     
     
     const { SESSION_ID } = req.cookies;
-    const ProjectID = req.session['projectId'];
-    const EventID = req.session['eventId'];
-    const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
+    const proc_id = req.session['projectId'];
+      const event_id = req.session['eventId'];
+    const BaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
     const {checkboxerror}=req.session;
     try {
-      let flag=await ShouldEventStatusBeUpdated(projectId,41,req);
+      let flag=await ShouldEventStatusBeUpdated(proc_id,41,req);
             if(flag)
             {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/41`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'In progress');
             }
       const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
       const ReviewData = FetchReviewData.data;
@@ -146,11 +146,10 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     //   const EOI_DATA_TIMELINE_DATES = FilteredSetWithTrue.filter(obj => obj.id === 'Key Dates');
       const project_name = (req.session.project_name)?req.session.project_name:req.session.Projectname;
   
-      const projectId = req.session.projectId;
       /**
        * @ProcurementLead
        */
-      const procurementLeadURL = `/tenders/projects/${projectId}/users`;
+      const procurementLeadURL = `/tenders/projects/${proc_id}/users`;
       const procurementUserData = await TenderApi.Instance(SESSION_ID).get(procurementLeadURL);
       const ProcurementUsers = procurementUserData.data;
       const procurementLead = ProcurementUsers.filter(user => user.nonOCDS.projectOwner)[0].OCDS.contact;
@@ -169,7 +168,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
   
       const EventId = req.session['eventId'];
       
-    const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${EventId}/documents`;
+    const FILE_PUBLISHER_BASEURL = `/tenders/projects/${proc_id}/events/${event_id}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
     const FETCH_FILEDATA = FetchDocuments.data;
   
@@ -181,14 +180,13 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       question: 'Question 1',
     };
 
-    const IR35BaseURL = `/tenders/projects/${projectId}/events/${EventId}/criteria/${IR35Dataset.id}/groups/${IR35Dataset.group_id}/questions`;
+    const IR35BaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${IR35Dataset.id}/groups/${IR35Dataset.group_id}/questions`;
 
     const IR35 = await TenderApi.Instance(SESSION_ID).get(IR35BaseURL);
     const IR35Data = IR35.data;
     const IR35selected=IR35Data[0].nonOCDS.options.filter(data=>data.selected==true).map(data=>data.value)?.[0]
       const agreement_id = req.session['agreement_id'];
-      const proc_id = req.session['projectId'];
-      const event_id = req.session['eventId'];
+      
 
       let supplierList = [];
       supplierList = await GetLotSuppliers(req);
@@ -534,13 +532,15 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     // let servicelevel3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2 && o.nonOCDS.questionType=="Percentage").map(o=>o.nonOCDS)[0].options[0]?.value;
 
     let serviceLevel=[];
-    data=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1)?.[0]?.nonOCDS?.options;
-    if(data !=undefined)
+    let data1=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 1')?.[0]?.nonOCDS?.options;
+    let data2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 2')?.[0]?.nonOCDS?.options;
+    let dataPercent=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.OCDS.id=='Question 3')?.[0]?.nonOCDS?.options;
+    if(data1 !=undefined && data2!=undefined && dataPercent!=undefined)
     {
-      data.forEach(element => {
-        var info={text:element.text,value:element.value};
-        serviceLevel.push(info);
-      });
+      for(let i=0;i<data1.length;i++)
+      {
+        serviceLevel.push({text:data1[i]?.value, value:data2[i]?.value, percent:dataPercent[i]?.value});
+      }
     }
 
     //incentives
