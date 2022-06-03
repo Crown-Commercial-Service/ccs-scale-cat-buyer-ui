@@ -97,7 +97,7 @@
         <h2 class="govuk-heading-m">1. Project and colleagues</h2>
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
+            <dt class="govuk-summary-list__value">
          <p> Name your project</p>
         </dt>
             {% if project_name | length > 0 %}
@@ -121,7 +121,7 @@
             </dd>
           </div>
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
+            <dt class="govuk-summary-list__value">
           <p>Change who is going to lead the procurement</p>
         </dt>
             <dd class="govuk-summary-list__value">
@@ -143,7 +143,7 @@
             </dd>
           </div>
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
+            <dt class="govuk-summary-list__value">
           <p>Add colleagues</p>
         </dt>
             {% if procurementColleagues | length > 0 %}
@@ -180,7 +180,7 @@
          <h2 class="govuk-heading-m">2. Upload pricing schedules and any other supporting documents </h2>
          <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
+            <dt class="govuk-summary-list__value">
           <p>Upload your pricing schedule</p>
         </dt>
             {% if document | length > 0 %}
@@ -204,7 +204,7 @@
             </dd>
           </div>
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
+            <dt class="govuk-summary-list__value">
           <p>Upload more documents (optional)</p>
         </dt>
             {# <dd class="govuk-summary-list__value"> #}
@@ -509,7 +509,7 @@
           <br/><br/>
           <p>{{data.text}}</p><br/>
           <p>{{data.value}}</p><br/>
-          <p> % required target</p><br/><br/>
+          <p>{{data.percent}}% required target</p><br/><br/>
           {% endfor %}
           {#<p>Service area answer</p><br/>
           <p>Enter the service area/ KPI description</p><br/>
@@ -615,7 +615,7 @@
         <h2 class="govuk-heading-m">4. People, skills, security and location </h2>
         <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
+            <dt class="govuk-summary-list__value">
          <strong> Choose the roles you need </strong><br/><br/>
          <p>Total number of roles added</p><br/>
          <p>Number of roles by job section, family and individual role</p>
@@ -665,7 +665,7 @@
             </dd>
           </div>
             <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
+            <dt class="govuk-summary-list__value">
          <strong> Select essential skills and capabilities</strong><br/><br/>
           <p>Total number of skills and capabilities added</p>
           <p>Skills and capabilities added for each section</p>
@@ -691,7 +691,7 @@
           </div>
           
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
+            <dt class="govuk-summary-list__value">
           Where the work will be done
         </dt>
         <dd class="govuk-summary-list__value">
@@ -945,7 +945,7 @@
         <h2 class="govuk-heading-m">6. Review and publish your further competition </h2>
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
+            <dt class="govuk-summary-list__value">
          <p> Number of suppliers available</p>
         </dt>
         <dd class="govuk-summary-list__value">

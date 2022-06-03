@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
-    //let clearFieldsButtons = document.querySelectorAll("a.clear-fields");
+    let precentageInputs = document.querySelectorAll(".govuk-input--width-5");
 
     for (var acronym_fieldset = 10; acronym_fieldset > 1; acronym_fieldset--) {
 
@@ -80,6 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
         with_value_count--;
       });
     });
+    precentageInputs.forEach(db => {
+      db.addEventListener("keydown",(event) => {
+        if (event.keyCode == '69') { event.preventDefault(); }
+      })
+    })
+
   }
 });
 
@@ -147,14 +153,14 @@ const emptyFieldCheckRfpKPI = () => {
         if (term_field.value.trim() !== '' && definition_field.value.trim() !== '' && target_field.value.trim() !== '') {
           document.getElementById("kpiKeyLevel").textContent = x;
         }
-        
+
         if (!pageHeading.includes("(Optional)")) {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
             ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
             ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
             ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
-           
+
             errorStore.push(fieldCheck);
           }
           else {
