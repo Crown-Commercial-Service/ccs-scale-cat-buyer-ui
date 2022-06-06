@@ -1044,7 +1044,9 @@
                       
                       {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type === 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true)and form_name === 'service_levels_kpi_form' %}
                         {# <p>The Authority will measure the quality of the Supplier’s delivery by: Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be</p>
-                        <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2> #}
+                        #}
+                        {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
+                        <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2> 
                         {% call CCSFieldset({
                             legend: {
                                html: "Enter your first KPI / SLA",
