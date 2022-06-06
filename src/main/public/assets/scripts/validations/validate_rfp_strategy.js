@@ -20,7 +20,28 @@ const ccsZvalidateRfpChangeStrategy = event => {
   event.preventDefault();
 
 }
+const removeErrorFieldsRfpStar = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+  $('.govuk-error-summary').remove();
+  $(".govuk-input").removeClass("govuk-input--error");
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  if (document.getElementById("ccs_rfp_exit_strategy_form") !== null) {
+    if (document.getElementById("rfp_security_confirmation") !== undefined) {
+      var element = document.getElementById("rfp_security_confirmation");
+      element.addEventListener("keyup", (event) => {
+        removeErrorFieldsRfpStar();
+        let res = /^[a-zA-Z]+$/.test(event.value);
+        if (!res) { event.preventDefault(); }
+      })
+    }
+  }
+})
 const ccsZvalidateRfPStrategy = event => {
   event.preventDefault();
   let fieldCheck = '';
@@ -127,6 +148,7 @@ const ccsZvalidateRfPStrategy = event => {
 };
 
 const ccsZOnChange = event => {
+  removeErrorFieldsRfpStar();
   event.preventDefault();
   let id = event.path[0].id;
   let fieldCheck = ccsZvalidateTextArea(id, 'You must enter information here');
