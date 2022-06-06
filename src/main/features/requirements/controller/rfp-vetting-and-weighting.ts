@@ -323,6 +323,7 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
   const PUT_BODY = {
     weighting: 0,
     includedCriteria: [],
+    overwriteRequirements: true,
     requirements: INDEX_FINDER_OBJ_REMAPPER,
   };
 
