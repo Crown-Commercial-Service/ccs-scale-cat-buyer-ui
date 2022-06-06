@@ -60,7 +60,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const promptData = nonOCDS?.prompt;
 
     const splitOn = '<br>';
-    const promptSplit = group_id =='Group 24' && id=='Criterion 3'?promptData.split(splitOn):promptData;
+    const promptSplit = group_id == 'Group 24' && id == 'Criterion 3' ? promptData.split(splitOn) : promptData;
 
 
     const nonOCDSList = [];
@@ -362,7 +362,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   });
                   arrayOFArrayedObjects = arrayOFArrayedObjects.flat().flat();
                   return arrayOFArrayedObjects;
-                } else return { value: anObject.value, selected: true };
+                } else return { value: anObject.value == undefined ? anObject : anObject.value, selected: true };
               });
               selectedOptionToggle = selectedOptionToggle.map((anItem: any) => {
                 if (Array.isArray(anItem)) {
@@ -372,26 +372,30 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 }
               });
               req.session['isLocationMandatoryError'] = false;
+              selectedOptionToggle = selectedOptionToggle != null && selectedOptionToggle.length > 0 ? selectedOptionToggle.flat().flat() : [];
               if (selectedOptionToggle.length == 0) {
                 validationError = true;
                 req.session['isLocationError'] = true;
                 req.session['isLocationMandatoryError'] = true;
                 break;
-              } else if (
-                selectedOptionToggle.length > 0 && selectedOptionToggle[i].find(
-                  x =>
-                    x.value === 'No specific location, for example they can work remotely' ||
-                    x.value === 'Not Applicable',
-                )
-              ) {
-                validationError = true;
-                req.session['isLocationError'] = true;
-                break;
-              } else if (selectedOptionToggle.length > 0) {
+              }
+              // else if (
+
+              //   selectedOptionToggle.length > 0 && selectedOptionToggle.find(
+              //     x =>
+              //       x.value === 'No specific location, for example they can work remotely' ||
+              //       x.value === 'Not Applicable'
+              //   )
+              // ) {
+              //   validationError = true;
+              //   req.session['isLocationError'] = true;
+              //   break;
+              // } 
+              else if (selectedOptionToggle.length > 0) {
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
-                    options: [...selectedOptionToggle[i]],
+                    options: [...selectedOptionToggle],
                   },
                 };
               }
@@ -564,17 +568,21 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               }
               const TAStorage = [];
               let monetaryData = object_values[0];
-              // for (let item = 0; item < monetaryData?.length; item++) {
-              //   const spltermObject = { value: monetaryData[i], selected: true };
-              //   TAStorage.push(spltermObject);
-              // }
-              monetaryData = monetaryData != null && monetaryData.length > 0 ? monetaryData.filter(x => x != '') : null;
               if (monetaryData != null && monetaryData.length > 0) {
+                monetaryData.flat();
                 answerValueBody = {
                   nonOCDS: {
                     answered: true,
                     multiAnswer: questionNonOCDS.multiAnswer,
-                    options: [{ value: monetaryData[i], selected: true }],
+                    options: [{ value: monetaryData[i] == '' ? null : monetaryData[i], selected: true }],
+                  },
+                };
+              } else {
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
+                    options: [{ value: null, selected: true }],
                   },
                 };
               }
@@ -627,7 +635,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                       return x;
                     }
                   });
-                  answerValueBody.nonOCDS.options = options;
+                  answerValueBody.nonOCDS.options = options != null && options.length > 0 ? options : [{ value: null, selected: true }];
                   answerValueBody.OCDS = {
                     id: question_ids[i]
                   }
