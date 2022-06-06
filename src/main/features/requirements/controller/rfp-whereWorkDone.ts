@@ -92,23 +92,22 @@ export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: expres
         };
         initialDataRequirements.push(requirements);
       }
-      const body = {
+      const PUT_BODY = {
         'dimension-id': locationData['dimension-id'],
         weighting: 20,
         includedCriteria: [{ 'criterion-id': '0' }],
+        overwriteRequirements: true,
         requirements: initialDataRequirements,
       };
 
       if (capAssessement?.isSubContractorAccepted) {
-        body.includedCriteria.push({ 'criterion-id': '1' });
-        body.requirements[0].values.push({ 'criterion-id': '1', value: '1: Yes' });
+        PUT_BODY.includedCriteria.push({ 'criterion-id': '1' });
+        PUT_BODY.requirements[0].values.push({ 'criterion-id': '1', value: '1: Yes' });
       }
-
-      await TenderApi.Instance(SESSION_ID).put(
-        `/assessments/${assessmentId}/dimensions/${locationData['dimension-id']}`,
-        body,
-      );
-
+      const DIMENSION_ID = locationData['dimension-id'];
+      const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
+      await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY,);
+      
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Completed');
       let flag=await ShouldEventStatusBeUpdated(projectId,37,req);
     if(flag)

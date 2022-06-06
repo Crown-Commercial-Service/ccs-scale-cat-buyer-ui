@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     allInputfield.forEach(element => {
       element.addEventListener(event => {
         var isDecimal = event.value.includes(".");
-        if (event.keyCode === '69') { event.preventDefault(); }
+        if (event.keyCode == 69) { event.preventDefault(); }
       })
     })
   }
@@ -23,7 +23,7 @@ const emptyQuestionFieldCheckBudget = () => {
       let msg = '';
       //if (!maxBudget) msg = 'You must enter a value';
       if (Number(maxBudget) < 0) msg = 'You must enter a positive value';
-      if (Number(maxBudget) < Number(minBudget)) {
+      if (Number(maxBudget) > 0 && Number(minBudget) > 0 && Number(maxBudget) < Number(minBudget)) {
         msg = 'Entry should be greater than minimum estimated contract value';
         let element = document.getElementById("rfp_maximum_estimated_contract_value");
         ccsZaddErrorMessage(element, msg);
@@ -39,7 +39,7 @@ const emptyQuestionFieldCheckBudget = () => {
     if (pageHeading.includes("(Optional)")) {
       //if (!minBudget) msg = 'You must enter a value';
       if (Number(minBudget) < 0) msg = 'You must enter a positive value';
-      if (Number(minBudget) > Number(maxBudget)) {
+      if (Number(minBudget) > 0 && Number(maxBudget) > 0 && Number(minBudget) > Number(maxBudget)) {
         msg = 'Entry should be lesser than maximum estimated contract value';
         let element = document.getElementById("rfp_minimum_estimated_contract_value");
         ccsZaddErrorMessage(element, msg);
