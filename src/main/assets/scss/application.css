@@ -8765,6 +8765,12 @@ p,
   }
 }
 
+.css-supplier-checkbox
+{
+  width: 25px !important;
+  height: 25px !important;
+}
+
 .global-navigation .nav-list--primary .nav-list__link {
   font-weight: 600;
 }

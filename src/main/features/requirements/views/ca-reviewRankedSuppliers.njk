@@ -89,9 +89,9 @@
                 <tr class="govuk-table__row">               
                   <td class="govuk-table__cell">
                     {% if(score.checked==true)%}
-                   <input type="checkbox" name="supplierID" value="{{score.supplier.id }}" id="supplierID" checked/>   
+                   <input class="css-supplier-checkbox" type="checkbox" name="supplierID" value="{{score.supplier.id }}" id="supplierID" checked/>   
                     {%else%}
-                     <input type="checkbox" name="supplierID" value="{{score.supplier.id }}" id="supplierID"/>   
+                     <input class="css-supplier-checkbox" type="checkbox" name="supplierID" value="{{score.supplier.id }}" id="supplierID"/>   
                   {%endif %}
                    </td>
                   <td class="govuk-table__cell">
