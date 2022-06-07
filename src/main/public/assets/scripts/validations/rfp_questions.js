@@ -54,14 +54,15 @@ document.addEventListener('DOMContentLoaded', () => {
       $('#del_fc_question_' + with_value_count).removeClass('ccs-dynaform-hidden');
     }
     $('.add-another-btn').on('click', function () {
-      debugger
       $('.govuk-error-summary').remove();
       $('.govuk-form-group--error').remove();
       removeErrorFieldsRfpScoreQuestion();
-      if (Number($('#totalPercentage').text()) === 100) {
+      if (Number($('#totalPercentage').text()) >= 100) {
         errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
-      } else
+      } else {
         errorStore = emptyQuestionFieldCheckRfp();
+      }
+
       const pageHeading = document.getElementById('page-heading').innerHTML;
       if (errorStore.length == 0) {
         document.getElementById('fc_question_' + with_value_count).classList.remove('ccs-dynaform-hidden');
@@ -100,16 +101,17 @@ document.addEventListener('DOMContentLoaded', () => {
       //db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
         e.preventDefault();
-        debugger
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-        prev_input = Number(target) - 1,
+          prev_input = Number(target) - 1,
           target_fieldset = db.closest("div");
 
         target_fieldset.classList.add("ccs-dynaform-hidden");
+        let precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+        document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
 
-        document.getElementById('fc_question_' + target+"_1").value = "";
-        document.getElementById('fc_question_' + target+"_2").value = "";
-        document.getElementById('fc_question_' + target+"_3").value = "";
+        document.getElementById('fc_question_' + target + "_1").value = "";
+        document.getElementById('fc_question_' + target + "_2").value = "";
+        document.getElementById('fc_question_' + target + "_3").value = "";
         document.getElementById('fc_question_precenate_' + target).value = "";
         if (prev_input > 1) {
           document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
