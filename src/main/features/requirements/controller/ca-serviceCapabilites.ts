@@ -257,7 +257,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       TABLE_BODY: TABLEBODY,
       WHOLECLUSTER: WHOLECLUSTERCELLS,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'In progress');
 
     //res.json(UNIQUE_DESIGNATION_HEADINGS_ARR)
     res.render('ca-serviceCapabilities', windowAppendData);
@@ -519,8 +519,8 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
 
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Not started');
 
       res.redirect('/ca/team-scale');
     } catch (error) {
