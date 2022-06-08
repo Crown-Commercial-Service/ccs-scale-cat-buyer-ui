@@ -110,11 +110,23 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
   const weight=Dimensionrequirements.filter(x=>x["dimension-id"]===4)[0].weighting;
  if(req.body.team_option!=undefined && req.body.team_option !=null){
   try {
+    let subcontractorscheck;
+    if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 4).length>0)
+    {
+      subcontractorscheck=(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 4)[0].includedCriteria.
+      find(x=>x["criterion-id"]==1))
+    }
+    let includedSubContractor=[];
+    if(subcontractorscheck!=undefined)
+    {
+      includedSubContractor=[{ 'criterion-id': '1' }]
+    }  
+
     const body = {
       'dimension-id': scalabilityData['dimension-id'],
       name:dimensionName ,
       weighting: weight,
-      includedCriteria: [{ 'criterion-id': '0' }],
+      includedCriteria: includedSubContractor,
       requirements: [
         {
           name: scalabilityData.options.find(data => data['requirement-id'] === Number(req.body.team_option)).name,
@@ -125,12 +137,6 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       ],
     };
     
-
-    if (req.session['CapAss']?.isSubContractorAccepted) {
-      body.includedCriteria.push({ 'criterion-id': '1' });
-      body.requirements[0].values.push({ 'criterion-id': '1', value: '1: Yes' });
-    }
-
     await TenderApi.Instance(SESSION_ID).put(
       `/assessments/${assessmentId}/dimensions/${scalabilityData['dimension-id']}`,
       body,
