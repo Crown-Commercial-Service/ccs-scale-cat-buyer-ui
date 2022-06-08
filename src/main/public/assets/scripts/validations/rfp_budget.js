@@ -1,10 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('rfp_budget_for') !== null) {
     let allInputfield = document.querySelectorAll(".govuk-input");
+    var validNumber = new RegExp(/^\d+$/);
     allInputfield.forEach(element => {
-      element.addEventListener(event => {
-        var isDecimal = event.value.includes(".");
-        if (event.keyCode == 69) { event.preventDefault(); }
+      element.addEventListener('keyup', event => {
+        //var isDecimal = event.value.includes(".");
+        if (!validNumber.test(event.value)) { event.preventDefault(); }
+        if (event.keyCode === 69) { event.preventDefault(); }
+        if (event.keyCode === 187) { event.preventDefault(); }
+        if (event.keyCode === 189) { event.preventDefault(); }
       })
     })
   }
