@@ -36,9 +36,13 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
     const assessmentURL=`assessments/${assessmentId}`;
     const assessmentData = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
     const externalID=assessmentData.data['external-tool-id']
-    const Data=assessmentData.data.dimensionRequirements.filter(x=>x["dimension-id"]===4);
+    let Data;
     const ScaleURL=`/assessments/tools/${externalID}/dimensions`;
     const ScaleData=await TenderApi.Instance(SESSION_ID).get(ScaleURL);
+    if(assessmentData !=null && assessmentData.data != null && assessmentData.data.dimensionRequirements !=null )
+    {
+      Data=assessmentData.data.dimensionRequirements.filter(x=>x["dimension-id"]===4);
+    }
     let Scale_Dataset=ScaleData.data;
     let option;
     let TEAMSCALE_DATASET;
