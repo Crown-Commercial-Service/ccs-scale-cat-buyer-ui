@@ -15,7 +15,8 @@
     titleText: "There is a problem",
     errorList: [
         {
-        text: "Select an option"
+        text: "Select how you want to build your bid pack
+               You cannot upload documents at this time."
         }
     ]
     }) }}
@@ -34,6 +35,8 @@
         <p class="govuk-body">{{data.subtitle1}}</p>
         <br>
          <p class="govuk-body">{{data.subtitle2}}</p>
+         <br>
+         <p class="govuk-body">{{data.subtitle3}}</p>
         <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form ccs_rfp_type_form" action="/rfp/type" method="POST">
           {{ csrfProtection(csrf) }}
           {% for form in data.form %}

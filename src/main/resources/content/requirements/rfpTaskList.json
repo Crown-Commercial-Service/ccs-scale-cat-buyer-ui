@@ -51,19 +51,19 @@
     },
     {
       "eventno": 2,
-      "eventTitle": "Upload pricing schedules and any other supporting documents",
-      "eventDescription": "In this section you can upload pricing schedule and other ssupporting documents.You will also need to confirm if the IR35 payrollworking rules apply to your contracts.",
+      "eventTitle": "Upload pricing schedules and other supporting documents",
+      "eventDescription": "Upload pricing schedules and other supporting documents.You will also need to confirm if you require a contracted out service or supply of resource.",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Upload your pricing schedules ",
+          "title": "Upload your pricing schedule",
           "required": "mandatory",
           "link": "/rfp/upload",
           "status": "Todo"
         },
         {
           "Task": 2,
-          "title": "Confirm if the IR35 payroll working rules apply to your contractors",
+          "title": "Confirm if you require a contracted out service or supply of resource.",
           "required": "optional",
           "link": "/rfp/IR35",
           "status": "Cannot start yet"
@@ -72,7 +72,7 @@
     },
     {
       "eventno": 3,
-      "eventTitle": "Add context to your one-stage further competition",
+      "eventTitle": "Add context to your further competition",
       "eventDescription": "You may also  consider including the following",
       "eventdescriptionlist":[{
               "description1":"product road-maps and the expected life cycle of the project",
@@ -112,7 +112,7 @@
         },
         {
           "Task": 3,
-          "title": "Select your service capabilities",
+          "title": "Select essential skills and capabilities",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfp/service-capabilities"
@@ -141,7 +141,7 @@
         },
         {
           "Task": 2,
-          "title": "Set your scoring criteria",
+          "title": "How you will score suppliers",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfp/set-scoring-criteria"
@@ -150,8 +150,8 @@
     },
     {
       "eventno": 6,
-      "eventTitle": "Review and publish your one-stage further competition ",
-      "eventDescription": "Review your one stage further competition,ensuring that you have included all relevant context,requirements,evaluation criteria and weightings. ",
+      "eventTitle": "Review and publish",
+      "eventDescription": "Review the information you've entered,ensuring that you have included all relevant context,requirements,evaluation criteria and weightings ",
       "eventTask": [
         {
           "Task": 1,
@@ -169,7 +169,7 @@
         },
         {
           "Task": 3,
-          "title": "Review and publish your one-stage further competition",
+          "title": "Review and publish ",
           "required": "mandatory",
           "status": "Cannot start yet",
           "link": "/rfp/review"
