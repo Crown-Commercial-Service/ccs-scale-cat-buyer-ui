@@ -211,7 +211,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     criterianStorage = criterianStorage?.filter(AField => AField?.OCDS?.id === keyDateselector);
 
     const Criterian_ID = criterianStorage?.[0]?.criterianId;
-    const prompt = criterianStorage?.[0].nonOCDS?.prompt;
+    const prompt = criterianStorage?.[0]?.nonOCDS?.prompt;
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions?.data;
@@ -246,13 +246,11 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     let StorageForSortedItems = [];
 
     if (dimensionRequirements?.length > 0) {
-      resourceQuantity = dimensionRequirements?.filter(dimension => dimension.name === 'Resource Quantities')?.[0]
-        .requirements;
-      highestSecurityCount = dimensionRequirements?.filter(dimension => dimension.name === 'Security Clearance')?.[0].requirements?.[0].weighting;
-      highestSecuritySelected = dimensionRequirements?.filter(dimension => dimension.name === 'Security Clearance')?.[0].requirements?.[0].values?.[0].value;
-      serviceCapabilitesCount = dimensionRequirements?.filter(dimension => dimension.name === 'Service Capability')?.[0]
-        .requirements.length;
-      whereWorkDone = dimensionRequirements?.filter(dimension => dimension.name === 'Location')[0].requirements?.map(n => n.name);
+      resourceQuantity = dimensionRequirements?.filter(dimension => dimension.name === 'Resource Quantities')?.[0]?.requirements;
+      highestSecurityCount = dimensionRequirements?.filter(dimension => dimension.name === 'Security Clearance')?.[0]?.requirements?.[0]?.weighting;
+      highestSecuritySelected = dimensionRequirements?.filter(dimension => dimension.name === 'Security Clearance')?.[0]?.requirements?.[0]?.values?.[0]?.value;
+      serviceCapabilitesCount = dimensionRequirements?.filter(dimension => dimension.name === 'Service Capability')?.[0]?.requirements?.length;
+      whereWorkDone = dimensionRequirements?.filter(dimension => dimension.name === 'Location')?.[0]?.requirements?.map(n => n.name);
     }
     let resourceQuntityCount = resourceQuantity?.length;
     StorageForSortedItems = await CalVetting(req);
