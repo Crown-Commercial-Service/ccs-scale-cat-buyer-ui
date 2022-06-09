@@ -17,7 +17,7 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
   const { SESSION_ID } = req.cookies;
   const { lotId, agreementLotName, eventId, projectId, agreement_id } = req.session;
   try {
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
+    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     // if(journeySteps[9].state=="Cannot start yet")
     // {
     //   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/10`, 'Not started');
