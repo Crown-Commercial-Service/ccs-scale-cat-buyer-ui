@@ -5,7 +5,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('questions healper');
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  * @Helper
@@ -23,7 +23,7 @@ export class QuestionHelper {
     agreement_id: any,
     id: any,
     res: express.Response,
-    req:express.Request,
+    req: express.Request,
   ) => {
     /**
      * @Path
@@ -34,97 +34,91 @@ export class QuestionHelper {
     try {
       //update section 3 status start
       const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
-        const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
-        let heading_fetch_dynamic_api_data=heading_fetch_dynamic_api?.data;
-        heading_fetch_dynamic_api_data=heading_fetch_dynamic_api_data.filter((a:any)=>(a?.OCDS?.id!='Group 18' && a?.OCDS?.id!='Group 2'));//exclude group 18 and 2
-        // heading_fetch_dynamic_api_data=heading_fetch_dynamic_api_data.filter((a:any)=>a?.OCDS?.id!='Group 2');//exclude group 2
-        let mandatoryNum = 0;
-        let maxNum = 0;//number of mandatory screens
-        for(let i=0;i<heading_fetch_dynamic_api_data.length;i++)
-        {
-            let isMandatory=heading_fetch_dynamic_api_data[i]?.nonOCDS?.mandatory;
-            if(isMandatory){
-              maxNum=maxNum+1;
-              let gid=heading_fetch_dynamic_api_data[i]?.OCDS?.id;
-              let baseQuestionURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${gid}/questions`;
-              let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
-              let question_api_data = question_api?.data;
-              //let mandatoryMarked=false;//increase mandatory count
-              let innerMandatoryNum=0;
-              let mandatoryNumberinGroup=question_api_data.filter((a:any)=>a?.nonOCDS?.mandatory==true)?.length;//no of questions mandatory in group
-              for(let k=0;k<question_api_data.length;k++){//multiple questions on page
-              let isInnerMandatory=question_api_data?.[k]?.nonOCDS?.mandatory;
-              if(isInnerMandatory){
-                let questionType=question_api_data?.[k]?.nonOCDS?.questionType;
-              let answer=''
+      const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
+      let heading_fetch_dynamic_api_data = heading_fetch_dynamic_api?.data;
+      heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 2'));//exclude group 18 and 2
+      heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.sort((n1: { nonOCDS: { order: number; }; }, n2: { nonOCDS: { order: number; }; }) => n1.nonOCDS.order - n2.nonOCDS.order);
+      const mandatoryGroupList = heading_fetch_dynamic_api_data.filter((n1: { nonOCDS: { mandatory: any; }; }) => n1.nonOCDS?.mandatory);
+      let mandatoryNum = 0;
+      for (let i = 0; i < mandatoryGroupList.length; i++) {
+        let isMandatory = mandatoryGroupList[i]?.nonOCDS?.mandatory;
+        if (isMandatory) {
+          let gid = mandatoryGroupList[i]?.OCDS?.id;
+          let baseQuestionURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${gid}/questions`;
+          let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
+          let question_api_data = question_api?.data;
+          //let mandatoryMarked=false;//increase mandatory count
+          let innerMandatoryNum = 0;
+          let mandatoryNumberinGroup = question_api_data.filter((a: any) => a?.nonOCDS?.mandatory == true)?.length;//no of questions mandatory in group
+          for (let k = 0; k < question_api_data.length; k++) {//multiple questions on page
+            let isInnerMandatory = question_api_data?.[k]?.nonOCDS?.mandatory;
+            if (isInnerMandatory) {
+              let questionType = question_api_data?.[k]?.nonOCDS?.questionType;
+              let answer = ''
               let selectedLocation;
-              if(questionType=='Text' || questionType=='Percentage')
-              {
-                let textMandatoryNum=question_api_data?.[k]?.nonOCDS?.options?.length;
-                let textNum=0;
-                if(textMandatoryNum==0){textMandatoryNum=-1;}//no data is entered
-                for(let j=0;j<textMandatoryNum;j++){
-                answer=question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
-                if(answer!='' && answer!=undefined){textNum+=1;}
+              if (questionType == 'Text' || questionType == 'Percentage') {
+                let textMandatoryNum = question_api_data?.[k]?.nonOCDS?.options?.length;
+                let textNum = 0;
+                if (textMandatoryNum == 0) { textMandatoryNum = -1; }//no data is entered
+                for (let j = 0; j < textMandatoryNum; j++) {
+                  answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
+                  if (answer != '' && answer != undefined) { textNum += 1; }
                 }
-                if(textMandatoryNum==textNum){innerMandatoryNum+=1;}
+                if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
               }
-              else if (questionType === 'SingleSelect')
-              {
+              else if (questionType === 'SingleSelect') {
                 for (let j = 0; j < question_api_data?.[k]?.nonOCDS?.options?.length; j++) {
-                  selectedLocation = question_api_data?.[k]?.nonOCDS?.options[j]['selected'];
-                  if (selectedLocation) {innerMandatoryNum+=1;}
+                  selectedLocation = question_api_data?.[k]?.nonOCDS?.options?.[j]['selected'];
+                  if (selectedLocation) { innerMandatoryNum += 1; }
                 }
               }
-              else if(questionType === 'Date')
-              {
-                let dateValidation=0;
+              else if (questionType === 'Date') {
+                let dateValidation = 0;
                 for (let j = 0; j < question_api_data?.[k]?.nonOCDS?.options?.length; j++) {
-                  let dateValue = question_api_data?.[k]?.nonOCDS?.options[j]?.value;
-                  if (dateValue!=''  && dateValue!=undefined) {dateValidation+=1;}
+                  let dateValue = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
+                  if (dateValue != '' && dateValue != undefined) { dateValidation += 1; }
                 }
-                if(dateValidation==3)//3 for day,month,year
+                if (dateValidation == 3)//3 for day,month,year
                 {
-                  innerMandatoryNum+=1;
+                  innerMandatoryNum += 1;
                 }
               }
-              else if(questionType==='KeyValuePair'){
-                let kvMandatoryNum=question_api_data?.[k]?.nonOCDS?.options?.length;
-                let kvNum=0;
-                if(kvMandatoryNum==0){kvMandatoryNum=-1;}//no data is entered
-                for(let j=0;j<kvMandatoryNum;j++){
-                let kvText=question_api_data?.[k]?.nonOCDS?.options?.[j]?.text;
-                let kvValue=question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
-                if(kvText!='' && kvValue!=''  && kvText!=undefined  && kvValue!=undefined){kvNum+=1;} 
+              else if (questionType === 'KeyValuePair') {
+                let kvMandatoryNum = question_api_data?.[k]?.nonOCDS?.options?.length;
+                let kvNum = 0;
+                if (kvMandatoryNum == 0) { kvMandatoryNum = -1; }//no data is entered
+                for (let j = 0; j < kvMandatoryNum; j++) {
+                  let kvText = question_api_data?.[k]?.nonOCDS?.options?.[j]?.text;
+                  let kvValue = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
+                  if (kvText != '' && kvValue != '' && kvText != undefined && kvValue != undefined) { kvNum += 1; }
                 }
-                if(kvNum==kvMandatoryNum){innerMandatoryNum+=1;}
+                if (kvNum == kvMandatoryNum) { innerMandatoryNum += 1; }
               }
-              else if(questionType==='ReadMe'){
-                innerMandatoryNum+=1;
+              else if (questionType === 'ReadMe') {
+                innerMandatoryNum += 1;
               }
-              }
-              
             }
-            if(mandatoryNumberinGroup==innerMandatoryNum){mandatoryNum+=1;}
-          }
-        }
 
-        if(maxNum==mandatoryNum){//all questions answered
-          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'Completed');
-        
+          }
+          if (mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
+        }
+      }
+
+      if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-          let flag=await ShouldEventStatusBeUpdated(proc_id,33,req);
-            if(flag){
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/33`, 'Not started');
+          let flag = await ShouldEventStatusBeUpdated(proc_id, 33, req);
+          if (flag) {
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/33`, 'Not started');
           }
         }
-        }
-        else{
-          let flag=await ShouldEventStatusBeUpdated(proc_id,32,req);
-            if(flag){
+      }
+      else {
+        let flag = await ShouldEventStatusBeUpdated(proc_id, 32, req);
+        if (flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'In progress');
-            }
         }
+      }
       //update section 3 status end
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       let fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -164,10 +158,9 @@ export class QuestionHelper {
         let next_cursor_object = sorted_ascendingly[next_cursor];
         let next_group_id = next_cursor_object.OCDS['id'];
         let next_criterian_id = next_cursor_object['criterianId'];
-        let base_url = `/rfp/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}`;
+        let base_url = `/rfp/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=''`;
         res.redirect(base_url);
       } else {
-           
         res.redirect('/rfp/task-list');
       }
     } catch (error) {
@@ -193,7 +186,7 @@ export class QuestionHelper {
     agreement_id: any,
     id: any,
     res: express.Response,
-    req:express.Request,
+    req: express.Request,
   ) => {
     /**
      * @Path
@@ -202,7 +195,7 @@ export class QuestionHelper {
      */
     let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
-      
+
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       let fetch_dynamic_api_data = fetch_dynamic_api?.data;
       let extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
@@ -243,18 +236,17 @@ export class QuestionHelper {
         let next_criterian_id = next_cursor_object['criterianId'];
         let base_url = `/rfp/assesstment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}=&step${res.req?.query?.step}`;
         if (next_group_id === 'Group 8' && next_criterian_id === 'Criterion 2') {
-          
+
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
-            let flag=await ShouldEventStatusBeUpdated(proc_id,38,req);
-            if(flag)
-            {
-                      await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
+            let flag = await ShouldEventStatusBeUpdated(proc_id, 38, req);
+            if (flag) {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
             }//await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
           }
-        
+
           res.redirect('/rfp/task-list');
         } else
           res.redirect(base_url);

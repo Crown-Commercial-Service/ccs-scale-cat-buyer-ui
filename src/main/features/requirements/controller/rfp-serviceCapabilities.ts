@@ -46,7 +46,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
-    const EXTERNAL_ID = 1;
+    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
@@ -321,7 +321,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
   const PUT_BODY = {
     weighting: 10,
     includedCriteria: [],
-   
+    overwriteRequirements: true,
     requirements: MappedRequestContainingID,
   };
 

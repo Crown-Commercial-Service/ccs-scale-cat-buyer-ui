@@ -20,7 +20,28 @@ const ccsZvalidateRfpChangeStrategy = event => {
   event.preventDefault();
 
 }
+const removeErrorFieldsRfpStar = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+  $('.govuk-error-summary').remove();
+  $(".govuk-input").removeClass("govuk-input--error");
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  if (document.getElementById("ccs_rfp_exit_strategy_form") !== null) {
+    if (document.getElementById("rfp_security_confirmation") !== undefined) {
+      var element = document.getElementById("rfp_security_confirmation");
+      element.addEventListener("keyup", (event) => {
+        removeErrorFieldsRfpStar();
+        let res = /^[a-zA-Z]+$/.test(event.value);
+        if (!res) { event.preventDefault(); }
+      })
+    }
+  }
+})
 const ccsZvalidateRfPStrategy = event => {
   event.preventDefault();
   let fieldCheck = '';
@@ -56,7 +77,7 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
     if ($('#rfp_prob_statement_s').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter information here');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must add background information about your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
@@ -64,7 +85,7 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_d') !== undefined && $('#rfp_prob_statement_d').val() !== undefined) {
     if ($('#rfp_prob_statement_d').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter information here');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must add background information about your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_d').val().length > 500) {
@@ -127,6 +148,7 @@ const ccsZvalidateRfPStrategy = event => {
 };
 
 const ccsZOnChange = event => {
+  removeErrorFieldsRfpStar();
   event.preventDefault();
   let id = event.path[0].id;
   let fieldCheck = ccsZvalidateTextArea(id, 'You must enter information here');

@@ -1,10 +1,16 @@
 
+let rfp_security_confirmation = null;
 
-
-$('input[type="radio"]').on('click change', function (e) {
+$('input[type="radio"]').on('change', function (e) {
     if (e.currentTarget.value === 'Yes') {
+        if (rfp_security_confirmation != null && rfp_security_confirmation != '' && document.getElementById("rfp_security_confirmation") != undefined)
+            document.getElementById("rfp_security_confirmation").value = rfp_security_confirmation;
         $('#conditional-rfp_radio_security_confirmation').fadeIn();
     } else {
+        if (document.getElementById("rfp_security_confirmation") != undefined) {
+            rfp_security_confirmation = document.getElementById("rfp_security_confirmation").value;
+            document.getElementById("rfp_security_confirmation").value = '';
+        }
         $('#conditional-rfp_radio_security_confirmation').hide();
     }
 });

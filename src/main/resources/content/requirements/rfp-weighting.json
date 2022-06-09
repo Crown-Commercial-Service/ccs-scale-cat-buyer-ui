@@ -23,11 +23,11 @@
     ],
   
     "title": "Choose the roles you need",
-    "subtitle": "This step is divided into section,jobb families and job roles.",
-    "subtitle1":"You will need to tell supplier how many of each job role you need in each job family section.",
-    "subtitle2":"Each section contains job families from the government DDaT(Digital,Data and Technology)profession.Each job family contains more information about the roles and what they do", 
-    "subtitle3":"Enter a number for how many staff you need for each family,If you don't need a specific role,youo do not need to enter a number.",
-    "subtitle4":"Each role has a SFIA level.SFIA defines the skills an dcompetencies required by professionals who design,develop,works and the different level.",
+    "subtitle": "This step is divided into sections,job families and job roles.",
+    "subtitle1":"You will need to tell suppliers how many of each job role you need in each job family and section.",
+    "subtitle2":"Each section contains job families from the government DDaT(Digital,Data and Technology)professions.Each job family contains more information about the roles and what they do", 
+    "subtitle3":"Enter a number for how many staff you need for each family.If you don't need a specific role,you do not need to enter a number.",
+    "subtitle4":"Each role has a SFIA level.SFIA defines the skills and competencies required by professionals who design,develop,works and the different levels.",
     "data": {
       "total": 50,
       "parts": [

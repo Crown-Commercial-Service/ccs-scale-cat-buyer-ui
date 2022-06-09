@@ -24,7 +24,7 @@
             <div class="govuk-inset-text">
                <p class="govuk-body">{{line1}}</p>
                <p class="govuk-body">{{line2}}</p>
-               <p class="govuk-body">{{line3}}</p>
+               
                <p class="govuk-body">{{line4}}
                   <a class='govuk-link govuk-link--no-visited-state' target='_blank' href='{{ releatedContent.lotUrl }}'>{{line5}}</a>
                </p>
@@ -47,7 +47,7 @@
                      {% for section in event.sections %}
                         <p class="govuk-body">{{section | safe }}</p>
                        {% if event.eventno == 1 %}
-                        <p class="govuk-body">This section is optional,If you would like to de pre-market engagement you an go to step 2.<br>If you are ready to write and publish your requirements go to step 3</p>
+                        <p class="govuk-body">This section is optional</p>
                         {% endif %}
                      {% endfor %}
                    {#  {% for subSections in event.subsections %}
@@ -67,9 +67,9 @@
                            {% endfor %}
                         {% endif %}
                      {% endfor %} #}
-                     {%if event.note != undefined%}
+                     {#{%if event.note != undefined%}
                         <p class="govuk-body">{{ event.note | safe }}</p>
-                     {% endif %}
+                     {% endif %}#}
                      {% if event.list.length %}
                         <ul class="govuk-list govuk-list--bullet">
                            {% for elem in event.list %}

@@ -38,9 +38,9 @@ export const CalVetting = async (req: express.Request) => {
       'Security and Privacy (Non-DDAT)',
     ];
 
-    const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
+    const AddedWeigtagedtoCapacity = CAPACITY_DATASET?.map(acapacity => {
       const { name, weightingRange, options } = acapacity;
-      const AddedPropsToOptions = options.map(anOpt => {
+      const AddedPropsToOptions = options?.map(anOpt => {
         return {
           ...anOpt,
           Weightagename: name,
@@ -50,7 +50,7 @@ export const CalVetting = async (req: express.Request) => {
       return AddedPropsToOptions;
     }).flat();
 
-    const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity.map(capacity => {
+    const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity?.map(capacity => {
       return {
         designation: capacity.name,
         ...capacity?.groups?.[0],
@@ -59,16 +59,16 @@ export const CalVetting = async (req: express.Request) => {
       };
     });
 
-    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(cursor => {
-      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter(item => item.name === cursor);
+    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME?.map(designation => designation.name))]?.map(cursor => {
+      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME?.filter(item => item.name === cursor);
       return {
         'job-category': cursor,
         data: ELEMENT_IN_UNIQUEFIELDNAME,
       };
     });
-    const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME.filter(item => itemList.includes(item['job-category']));
+    const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME?.filter(item => itemList.includes(item['job-category']));
 
-    const ITEMLIST = filteredMenuItem.map((designation, index) => {
+    const ITEMLIST = filteredMenuItem?.map((designation, index) => {
       const weightage = designation.data?.[0]?.Weightage;
       return {
         url: `#section${index + 1}`,
@@ -80,7 +80,7 @@ export const CalVetting = async (req: express.Request) => {
     const tableItems = [...ITEMLIST];
     const dimensions = [...CAPACITY_DATASET];
 
-    const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
+    const LEVEL7CONTENTS = dimensions?.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
     var { options } = LEVEL7CONTENTS;
 
     /**
@@ -94,11 +94,11 @@ export const CalVetting = async (req: express.Request) => {
     var UNIQUE_DESIG_STORAGE = [];
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
-      const FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
+      const FINDER = options?.filter(nestedItem => nestedItem.name == Item)[0];
       UNIQUE_DESIG_STORAGE.push(FINDER);
     }
 
-    UNIQUE_DESIG_STORAGE = UNIQUE_DESIG_STORAGE.flat();
+    UNIQUE_DESIG_STORAGE = UNIQUE_DESIG_STORAGE?.flat();
 
     const REFORMED_DESIGNATION_OBJECT = {
       ...LEVEL7CONTENTS,
@@ -109,11 +109,11 @@ export const CalVetting = async (req: express.Request) => {
     var { options, name, type, weightingRange, evaluationCriteria } = REFORMED_DESIGNATION_OBJECT;
     let dimensionID = REFORMED_DESIGNATION_OBJECT['dimension-id'];
 
-    const REMAPPED_ITEM = options.map(anOption => {
+    const REMAPPED_ITEM = options?.map(anOption => {
       const { name, groupRequirement, groups } = anOption;
       const REQ_ID = anOption['requirement-id'];
       const SFIA_NAME = name;
-      return groups.map(nestedItems => {
+      return groups?.map(nestedItems => {
         return {
           ...nestedItems,
           SFIA_name: SFIA_NAME,
@@ -123,10 +123,10 @@ export const CalVetting = async (req: express.Request) => {
       });
     });
 
-    const FORMATTED_CHILD_REMAPPED_ITEMS = REMAPPED_ITEM.map(anOption => {
-      const Parent = anOption.filter(level => level.level == 1);
-      const Child = anOption.filter(level => level.level == 2);
-      return Parent.map(nestedOptions => {
+    const FORMATTED_CHILD_REMAPPED_ITEMS = REMAPPED_ITEM?.map(anOption => {
+      const Parent = anOption?.filter(level => level.level == 1);
+      const Child = anOption?.filter(level => level.level == 2);
+      return Parent?.map(nestedOptions => {
         return { ...nestedOptions, child: Child };
       })[0];
     });
@@ -139,12 +139,12 @@ export const CalVetting = async (req: express.Request) => {
     /**
      * @FIND_UNIQUE_NAME
      */
-    const UNIQUE_DESIGNATION_OF_PARENT = [...new Set(FORMATTED_CHILD_REMAPPED_ITEMS.map(item => item.name))];
+    const UNIQUE_DESIGNATION_OF_PARENT = [...new Set(FORMATTED_CHILD_REMAPPED_ITEMS?.map(item => item?.name))];
 
     const DESIGNATION_MERGED_WITH_CHILD_STORAGE = [];
 
     for (const parent of UNIQUE_DESIGNATION_OF_PARENT) {
-      const findElements = FORMATTED_CHILD_REMAPPED_ITEMS.filter(designation => designation.name == parent);
+      const findElements = FORMATTED_CHILD_REMAPPED_ITEMS?.filter(designation => designation?.name == parent);
       let refactoredObject = {
         Parent: parent,
         category: findElements,
@@ -152,21 +152,21 @@ export const CalVetting = async (req: express.Request) => {
       DESIGNATION_MERGED_WITH_CHILD_STORAGE.push(refactoredObject);
     }
 
-    const REMAPPED_LEVEL1_CONTENTS = DESIGNATION_MERGED_WITH_CHILD_STORAGE.map(items => {
+    const REMAPPED_LEVEL1_CONTENTS = DESIGNATION_MERGED_WITH_CHILD_STORAGE?.map(items => {
       return {
         Parent: items.Parent,
-        category: items.category.map(subItems => subItems.child).flat(),
+        category: items.category?.map(subItems => subItems.child).flat(),
       };
     });
 
-    const REMAPPED_ACCORDING_TO_PARENT_ROLE = REMAPPED_LEVEL1_CONTENTS.map(items => {
+    const REMAPPED_ACCORDING_TO_PARENT_ROLE = REMAPPED_LEVEL1_CONTENTS?.map(items => {
       const { category, Parent } = items;
 
       const UNIQUESTORAGE = [];
-      const UNIQUE_ROLES = [...new Set(category.map(subitem => subitem.name))];
+      const UNIQUE_ROLES = [...new Set(category?.map(subitem => subitem.name))];
 
       for (const role of UNIQUE_ROLES) {
-        let findBaseOnRoles = category.filter(i => i.name == role);
+        let findBaseOnRoles = category?.filter(i => i.name == role);
         let contructedObject = {
           ParentName: role,
           designations: findBaseOnRoles,
@@ -203,7 +203,7 @@ export const CalVetting = async (req: express.Request) => {
 
     for (const items of REMAPPTED_TABLE_ITEM_STORAGE) {
       const Text = items.text;
-      const findElementInRemapptedParentRole = REMAPPED_ACCORDING_TO_PARENT_ROLE.filter(
+      const findElementInRemapptedParentRole = REMAPPED_ACCORDING_TO_PARENT_ROLE?.filter(
         cursor => cursor.Parent == Text,
       )[0];
       StorageForSortedItems.push(findElementInRemapptedParentRole);
@@ -212,20 +212,20 @@ export const CalVetting = async (req: express.Request) => {
     let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
 
     if (dimensionRequirements.length > 0) {
-      dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0]
+      dimensionRequirements = dimensionRequirements?.filter(dimension => dimension.name === 'Resource Quantities')[0]
         .requirements;
 
       const AddedValuesTo_StorageForSortedItems = StorageForSortedItems.map(items => {
         const { category } = items;
 
-        const mappedCategory = category.map(subItems => {
+        const mappedCategory = category?.map(subItems => {
           let { designations } = subItems;
-          let formattedDesignationStorage = designations.map(nestedItems => {
+          let formattedDesignationStorage = designations?.map(nestedItems => {
             let value = '';
             const requirementID = nestedItems['requirement-id'];
-            const findInDimensions = dimensionRequirements.filter(i => i['requirement-id'] == requirementID);
+            const findInDimensions = dimensionRequirements?.filter(i => i['requirement-id'] == requirementID);
             if (findInDimensions.length > 0) {
-              const weigtageOfRequirement = findInDimensions[0].weighting;
+              const weigtageOfRequirement = findInDimensions?.[0].weighting;
               value = weigtageOfRequirement;
             }
             return { ...nestedItems, value: value };
@@ -240,7 +240,7 @@ export const CalVetting = async (req: express.Request) => {
     }
     let finalResult=[];
     let index=0,flagInsert=false;
-    StorageForSortedItems.forEach((item:any)=>{
+    StorageForSortedItems?.forEach((item:any)=>{
         var data={
             parent:item.Parent,
             subParent:[]//{sp:'',items:[]}
@@ -250,7 +250,7 @@ export const CalVetting = async (req: express.Request) => {
             flagInsert=false;
             var arr=[]; 
             
-            ctgry.designations.forEach((element:any) => {
+            ctgry.designations?.forEach((element:any) => {
                 if(element.value!='')
                     {
                         if(flagInsert==false)
@@ -271,5 +271,5 @@ export const CalVetting = async (req: express.Request) => {
         });
         finalResult.push(data);
     });
-    return finalResult.filter(a=>a.subParent.length!=0);
+    return finalResult?.filter(a=>a.subParent.length!=0);
     };

@@ -52,13 +52,13 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         {% include "includes/project_header.njk" %}
-        {%if (form_name === 'ccs_rfp_scoring_criteria')%}
+       {# {%if (form_name === 'ccs_rfp_scoring_criteria')%}
               <div class="govuk-inset-text">
                 <p class="govuk-body">[Instruction for this page]</p>
                  <p class="govuk-body">[You can create your scoring criteria from or use/ modify the 4-tier or 5-tier template below]</p>
 
               </div>
-          {%endif%}
+          {%endif%}#}
           <form id="{{form_name}}"  name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/set-scoring-criteria?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}&section={{section}}" method="post">
           {{ csrfProtection(csrf) }}
           <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">

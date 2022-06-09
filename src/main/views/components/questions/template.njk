@@ -569,7 +569,7 @@
               {% if- (requirement.OCDS.title === 'Price') %}
               <div>
                 {{ CCSInsetText({
-                      text: "<b> The total weighting is : <span id='totalPercentage'>100</span>% </b> <br> [ Description, you'll be able to add the specific weightings for your quality assessment base in the next screen ]." | safe
+                      text: "<b> The total weighting is : <span id='totalPercentage'>100</span>% </b> " | safe
                     }) }}
 
               </div>
@@ -815,7 +815,7 @@
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
                             legend: {
-                               html: "First terms or acronym ",
+                               html: "Term or acronym ",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -939,6 +939,9 @@
                         <div id="rfp_keyterm"></div>
                       
                       {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.type === 'The people who will use your product or service (Optional)') and (requirement.nonOCDS.multiAnswer === true)and form_name === 'service_user_type_form' %}
+
+                        
+
                         {#<p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p>#}
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
@@ -1044,7 +1047,9 @@
                       
                       {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type === 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true)and form_name === 'service_levels_kpi_form' %}
                         {# <p>The Authority will measure the quality of the Supplier’s delivery by: Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be</p>
-                        <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2> #}
+                        #}
+                        {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
+                        <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2> 
                         {% call CCSFieldset({
                             legend: {
                                html: "Enter your first KPI / SLA",
@@ -1237,7 +1242,8 @@
                             spellcheck: false,
                             classes: "govuk-input--width-5",
                             value: requirement.nonOCDS.options[0].value,
-                            type:"number"
+                            type:"number",
+                            min:"0"
                         })
                       }}
 
