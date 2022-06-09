@@ -92,19 +92,24 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
         };
         initialDataRequirements.push(req);
       }
-
+      let subcontractorscheck;
+      if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5).length>0)
+      {
+        subcontractorscheck=dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].includedCriteria.
+        find(x=>x["criterion-id"]==1)
+      }
+      let includedSubContractor=[];
+      if(subcontractorscheck!=undefined)
+      {
+        includedSubContractor=[{ 'criterion-id': '1' }]
+      } 
       const body = {
         'dimension-id': locationData['dimension-id'],
         //name: locationData['options']['name'][i],
         weighting: 20,
-        includedCriteria: [{ 'criterion-id': '0' }],
+        includedCriteria: includedSubContractor,
         requirements: initialDataRequirements,
       };
-
-      if (capAssessement?.isSubContractorAccepted) {
-        body.includedCriteria.push({ 'criterion-id': '1' });
-        body.requirements[0].values.push({ 'criterion-id': '1', value: '1: Yes' });
-      }
 
       await TenderApi.Instance(SESSION_ID).put(
         `/assessments/${assessmentId}/dimensions/${locationData['dimension-id']}`,

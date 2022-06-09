@@ -84,7 +84,7 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
     const { ca_subContractors } = req.body;
 
     if (ca_subContractors !== undefined && ca_subContractors !== '') {
-      req.session['CapAss'].isSubContractorAccepted = ca_subContractors == 'yes' ? true : false;
+     const ca_acceptsubcontractors = ca_subContractors == 'yes' ? true : false;
 
       const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
@@ -95,7 +95,7 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           requirements: dimension.requirements,
           includedCriteria: dimension.includedCriteria
             .map(criteria => {
-              if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
+              if (!ca_acceptsubcontractors && criteria['name'] == 'Sub Contractor') {
                 return null;
               } else
                 return {
@@ -129,3 +129,4 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
     );
   }
 };
+

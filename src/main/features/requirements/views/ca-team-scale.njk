@@ -64,7 +64,7 @@
                         <div class="govuk-radios">
                             <br>
                             {% set radioArray = [] %}
-                            {% for i in range(0, data.form.radioOptions.items | length) %}
+                           {# {% for i in range(0, data.form.radioOptions.items | length) %}
                             {% if i == 0%}
                                 <div class="govuk-radios__item">
                                     {%if data.form.radioOptions.items[i].selected === true %}
@@ -95,6 +95,19 @@
                                     </div>
                                 </div>
                             {%endif%}
+                            {% endfor %} #}
+                            {% for item in RadioData %}
+                            
+                             <div class="govuk-radios__item">
+                             <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale_{{loop.index}}" name="team_option" type="radio" value="{{item.value}}" >
+                             <label class="govuk-label govuk-radios__label ccs_eoi_vetting" >
+                                        <h3 class="govuk-heading-m">{{item.name}}</h3>
+                                    </label>
+                            <div id="ccs_ca_team_scale_desccription" class="govuk-hint govuk-radios__hint">
+                                        descriptiion
+                                    </div>
+                              </div>  
+                               
                             {% endfor %}
                         </div>
                     </div>
