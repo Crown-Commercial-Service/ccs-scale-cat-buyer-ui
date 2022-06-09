@@ -77,7 +77,7 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
     if ($('#rfp_prob_statement_s').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter information here');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must add background information about your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
@@ -85,7 +85,7 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_d') !== undefined && $('#rfp_prob_statement_d').val() !== undefined) {
     if ($('#rfp_prob_statement_d').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter information here');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must add background information about your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_d').val().length > 500) {

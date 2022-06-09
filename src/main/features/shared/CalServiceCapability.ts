@@ -27,11 +27,11 @@ export const CalServiceCapability = async (req: express.Request) => {
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     let CAPACITY_DATASET = CAPACITY_DATA.data;
 
-    CAPACITY_DATASET = CAPACITY_DATASET.filter(levels => levels['name'] === 'Service Capability');
+    CAPACITY_DATASET = CAPACITY_DATASET?.filter(levels => levels['name'] === 'Service Capability');
 
-    let CAPACITY_CONCAT_OPTIONS = CAPACITY_DATASET.map(item => {
+    let CAPACITY_CONCAT_OPTIONS = CAPACITY_DATASET?.map(item => {
       const { weightingRange, options } = item;
-      return options.map(subItem => {
+      return options?.map(subItem => {
         return {
           ...subItem,
           weightingRange,
@@ -40,17 +40,17 @@ export const CalServiceCapability = async (req: express.Request) => {
     }).flat();
 
     //Setting the data that have groupRequirement = true;
-    const CAPACITY_CONCAT_Heading = CAPACITY_CONCAT_OPTIONS.filter(
+    const CAPACITY_CONCAT_Heading = CAPACITY_CONCAT_OPTIONS?.filter(
       designation => designation.groupRequirement === true,
     );
 
     //
-    const UNIQUE_GROUPPED_ITEMS = CAPACITY_CONCAT_OPTIONS.map(item => {
+    const UNIQUE_GROUPPED_ITEMS = CAPACITY_CONCAT_OPTIONS?.map(item => {
       const optionID = item['option-id'];
       const { name, groups, groupRequirement, weightingRange } = item;
       const requirementId = item['requirement-id'];
       const groupname = name;
-      return groups.map(group => {
+      return groups?.map(group => {
         return {
           ...group,
           groupname,
@@ -63,12 +63,12 @@ export const CalServiceCapability = async (req: express.Request) => {
       });
     }).flat();
 
-    const UNIQUE_DESIGNATION_CATEGORY = [...new Set(UNIQUE_GROUPPED_ITEMS.map(item => item.name))];
+    const UNIQUE_DESIGNATION_CATEGORY = [...new Set(UNIQUE_GROUPPED_ITEMS?.map(item => item.name))];
 
     const CATEGORIZED_ACCORDING_DESIGNATION = [];
 
     for (const category of UNIQUE_DESIGNATION_CATEGORY) {
-      const FINDRELEVANTCATEGORY = UNIQUE_GROUPPED_ITEMS.filter(item => {
+      const FINDRELEVANTCATEGORY = UNIQUE_GROUPPED_ITEMS?.filter(item => {
         return item.name == category;
       });
       const Weightage = FINDRELEVANTCATEGORY?.[0]?.weightingRange;
@@ -84,7 +84,7 @@ export const CalServiceCapability = async (req: express.Request) => {
 
     for (const desgination of CATEGORIZED_ACCORDING_DESIGNATION) {
       const { Weightage, data, category } = desgination;
-      const filteredLevel1Content = data.filter(role => role.level === 1);
+      const filteredLevel1Content = data?.filter(role => role.level === 1);
       const ReformedObject = {
         Weightage,
         data: filteredLevel1Content,
@@ -93,11 +93,11 @@ export const CalServiceCapability = async (req: express.Request) => {
       Level1DesignationStorageForHeadings.push(ReformedObject);
     }
 
-    Level1DesignationStorageForHeadings = Level1DesignationStorageForHeadings.filter(
+    Level1DesignationStorageForHeadings = Level1DesignationStorageForHeadings?.filter(
       designation => designation.data.length !== 0,
     );
 
-    let TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
+    let TableHeadings = Level1DesignationStorageForHeadings?.map((item, index) => {
       return {
         url: `#section${index}`,
         text: item.category,
@@ -109,12 +109,12 @@ export const CalServiceCapability = async (req: express.Request) => {
     /**
      * Removing duplicated designations
      */
-    const REMOVED_DUPLICATED_JOB = CATEGORIZED_ACCORDING_DESIGNATION.map(item => {
+    const REMOVED_DUPLICATED_JOB = CATEGORIZED_ACCORDING_DESIGNATION?.map(item => {
       const { Weightage, data, category } = item;
       const UNIQUESET = [...new Set(data.map(item => item.groupname))];
       const JOBSTORAGE = [];
       for (const uniqueItem of UNIQUESET) {
-        const filteredContents = data.filter(designation => designation.groupname === uniqueItem)[0];
+        const filteredContents = data?.filter(designation => designation.groupname === uniqueItem)[0];
         JOBSTORAGE.push(filteredContents);
       }
       return { Weightage, data: JOBSTORAGE.flat(), category };
@@ -128,7 +128,7 @@ export const CalServiceCapability = async (req: express.Request) => {
 
     for (const desgination of REMOVED_DUPLICATED_JOB) {
       const { Weightage, data, category } = desgination;
-      const filteredLevel1Content = data.filter(role => role.level === 1);    
+      const filteredLevel1Content = data?.filter(role => role.level === 1);    
       const ReformedObject = {
         Weightage,
         data: filteredLevel1Content,
@@ -138,25 +138,25 @@ export const CalServiceCapability = async (req: express.Request) => {
     }
 
    
-    Level1DesignationStorage = Level1DesignationStorage.filter(designation => designation.data.length !== 0);
+    Level1DesignationStorage = Level1DesignationStorage?.filter(designation => designation.data.length !== 0);
 
     /**
      * @ASSESSMENT_API_REQUEST
      * @DIMENSION_REQUIREMENT
      */
    const { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
-    const DR = dimensionRequirements.filter(dimension => dimension.name === 'Service Capability');
+    const DR = dimensionRequirements?.filter(dimension => dimension.name === 'Service Capability');
     const DRequirements = DR?.[0]?.requirements;
 
     var TABLEBODY = [];
 
     if (DR?.[0]?.requirements != undefined) {
-      const FilledDATASTORGE = Level1DesignationStorage.map(items => {
+      const FilledDATASTORGE = Level1DesignationStorage?.map(items => {
         const { category, data, Weightage } = items;
         const allignedItems = items;
         const newlyFormedData = data.map(nestedItems => {
           var ReformedObj = {};
-          const findInDRequirement = DRequirements.filter(x => x.name == nestedItems.groupname);
+          const findInDRequirement = DRequirements?.filter(x => x.name == nestedItems.groupname);
           if (findInDRequirement.length > 0) {
             const weigtage = findInDRequirement[0].weighting;
             ReformedObj = { ...nestedItems, value: weigtage };
@@ -171,9 +171,9 @@ export const CalServiceCapability = async (req: express.Request) => {
       });
 
       TABLEBODY = FilledDATASTORGE;
-    TableHeadings = TABLEBODY.map((items, index) => {
+    TableHeadings = TABLEBODY?.map((items, index) => {
       const {data}=items;
-      const temp=data.filter(x=>x.value>0);
+      const temp=data?.filter(x=>x.value>0);
       let  newsubtext;
       if(temp.length>0)
       {
@@ -198,10 +198,10 @@ export const CalServiceCapability = async (req: express.Request) => {
      *@UNIQUE_HEADINGS
      */
 
-    const UNIQUE_DESIGNATION_HEADINGS = [...new Set(CAPACITY_CONCAT_Heading.map(item => item.name))];
+    const UNIQUE_DESIGNATION_HEADINGS = [...new Set(CAPACITY_CONCAT_Heading?.map(item => item.name))];
 
-    const UNIQUE_DESIGNATION_HEADINGS_ARR = UNIQUE_DESIGNATION_HEADINGS.map(designation => {
-      const findDesgination = CAPACITY_CONCAT_Heading.filter(item => item.name == designation)[0];
+    const UNIQUE_DESIGNATION_HEADINGS_ARR = UNIQUE_DESIGNATION_HEADINGS?.map(designation => {
+      const findDesgination = CAPACITY_CONCAT_Heading?.filter(item => item.name == designation)[0];
       return findDesgination;
     });
 
@@ -221,12 +221,12 @@ export const CalServiceCapability = async (req: express.Request) => {
     TABLEBODY.sort((a, b) => a.category< b.category? -1 : a.category> b.category? 1 : 0)
 
     let finalResult=[];
-    TABLEBODY.forEach((item:any)=>{
+    TABLEBODY?.forEach((item:any)=>{
         var data={
             parent:item.category,
             subParent:[]//{sp:'',items:[]}
         };
-        item.data.forEach((dta:any) => {
+        item.data?.forEach((dta:any) => {
             if(dta.value!='')
             {
                 data.subParent.push(dta.groupname)
@@ -234,5 +234,5 @@ export const CalServiceCapability = async (req: express.Request) => {
         });
         finalResult.push(data);
     });
-    return finalResult.filter(a=>a.subParent.length!=0);
+    return finalResult?.filter(a=>a.subParent.length!=0);
     };

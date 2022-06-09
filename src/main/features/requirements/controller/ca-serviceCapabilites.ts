@@ -167,8 +167,17 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
      * @ASSESSMENT_API_REQUEST
      * @DIMENSION_REQUIREMENT
      */
+    let DRequirements;
+    let totalWeighting = 0;
+
     let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
-    const DRequirements = dimensionRequirements?.[0]?.requirements;
+
+    if (dimensionRequirements != null && dimensionRequirements !== undefined && dimensionRequirements.length > 0) {
+      DRequirements = dimensionRequirements?.[0]?.requirements;
+      DRequirements.map(x => {
+        totalWeighting = totalWeighting + x.weighting
+      })
+    }
 
     var TABLEBODY = [];
 
@@ -238,6 +247,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
     const windowAppendData = {
       ...caService,
+      totalWeighting,
       lotId,
       agreementLotName,
       releatedContent,
@@ -247,7 +257,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       TABLE_BODY: TABLEBODY,
       WHOLECLUSTER: WHOLECLUSTERCELLS,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'In progress');
 
     //res.json(UNIQUE_DESIGNATION_HEADINGS_ARR)
     res.render('ca-serviceCapabilities', windowAppendData);
@@ -274,12 +284,8 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
  */
 export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId} = req.session;
-  const { ca_service_started } = req.body;
+  const { projectId } = req.session;
 
-
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Completed');
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Not started');
   let { ca_partial_weightage, weight_vetting_partial, weight_vetting_whole, weight_vetting_whole_group } = req.body;
 
   /**
@@ -337,14 +343,14 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
 
-    var Service_capbility_weightage = [];
+    var Service_capbility_weightage = 10;
 
     const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
 
     if (typeof Weightings !== 'undefined' && Weightings.length > 0) {
-     Service_capbility_weightage = Weightings?.filter(item => item.name == 'Service Capability')[0].weighting;
+      Service_capbility_weightage = Weightings?.filter(item => item.name == 'Service Capability')[0].weighting;
     }
-    
+
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
 
@@ -491,15 +497,25 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const { Weightage } = item;
       const requirementId = item['requirement-id'];
       const PostedFormElement = {};
-      (PostedFormElement['requirement-id'] = requirementId), 
-      (PostedFormElement['weighting'] = Weightage);
+      (PostedFormElement['requirement-id'] = requirementId),
+        (PostedFormElement['weighting'] = Weightage);
       PostedFormElement['values'] = [];
       return PostedFormElement;
     });
-
+    let subcontractorscheck;
+    if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3).length>0)
+    {
+      subcontractorscheck=(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3)[0].includedCriteria.
+      find(x=>x["criterion-id"]==1))
+    }
+    let includedSubContractor=[];
+    if(subcontractorscheck!=undefined)
+    {
+      includedSubContractor=[{ 'criterion-id': '1' }]
+    }  
     const PUT_BODY = {
       weighting: Service_capbility_weightage,
-      includedCriteria: [],
+      includedCriteria: includedSubContractor,
       overwriteRequirements: false,
       requirements: MappedWholeAndPartialCluster,
     };
@@ -512,7 +528,9 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
+
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Not started');
 
       res.redirect('/ca/team-scale');
     } catch (error) {

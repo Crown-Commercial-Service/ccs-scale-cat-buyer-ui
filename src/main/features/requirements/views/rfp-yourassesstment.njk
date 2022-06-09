@@ -15,7 +15,8 @@
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
-            <h1 class="govuk-heading-l">{{file_data.title }}</h1>
+            {#<h1 class="govuk-heading-l">{{file_data.title }}</h1>#}
+             <h1 class="govuk-heading-l">Your assessment criteria</h1>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -35,9 +36,12 @@
                         {% set hreflink = items.OCDS.description | replace(" ", "_") %}
                         {% set criterion_id = items.id | replace(" ", "_") %}
                         {% if(items.step ===48) %}
-                            <a class="app-task-list__tag" href="/rfp/set-scoring-criteria?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">{{items.nonOCDS.task}}</a>
+                            {#<a class="app-task-list__tag" href="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">{{items.nonOCDS.task}}</a>#}
+                            <a class="app-task-list__tag" href="/rfp/set-scoring-criteria?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">[Add/ edit link]</a>
+                        {% elseif(items.step ===40) %}
+                            <a class="app-task-list__tag" href="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">[Review link]</a>
                         {%else%}
-                            <a class="app-task-list__tag" href="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">{{items.nonOCDS.task}}</a>
+                            <a class="app-task-list__tag" href="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">[Add/ edit link]</a>
                         {%endif%}
                     </li>
 
