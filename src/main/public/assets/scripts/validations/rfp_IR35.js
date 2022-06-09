@@ -26,7 +26,7 @@ $('#rfp_IR35_form').on('submit', (event) => {
     }
     else {
         removeErrorFieldsRfpIR35();
-        errorStore=['There is a problem','Please select at least one option to proceed']
+        errorStore=['There is a problem','You must confirm if you need a contracted out service or a supply of resource']
       ccsZPresentErrorSummary([errorStore]);
     }
   
