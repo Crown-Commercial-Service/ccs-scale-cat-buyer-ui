@@ -14,10 +14,9 @@
         }
     ],
     "title": "Procurement overview",
-    "line1": "Follow the steps below to start and complete your procurement. Each step can be saved and continued at any time.",
-    "line2": "You can write your requirements online, using this service, or upload a document instead. You can also download what you enter online and save it to your internal systems.",
-    "line3": "You cannot run step two and three at the same time.",
-    "line4": "If you are not sure about the terms and conditions of this lot, please see the ",
+    "line1": "Follow the steps below to create your procurement. Each stage can be saved and resumed at any time.",
+    "line2": "You can download and save what you enter to your system",
+    "line4": "Check the terms and conditions for this lot in the ",
     "line5": "lot detail page.",
     "events": [
         {
@@ -38,10 +37,11 @@
             "note": "",
             "buttonDisable": false,
             "href": "/projects/routeToMarket?isrfi=1",
-            "sections" : ["You can ask suppliers questions before formally publishing your requirements to find out about products and services, or refine your needs. For the lot you selected, you can use the following documents:<br/><br/><b>Request for Information (RfI)</b><br/>Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.<br/><br/><br/><br/>This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below."],
+            "sections" : ["You can ask suppliers questions, before formally publishing your requirements to find out what products and services, or refine your needs.<br/><br/> For the lot you selected, you can do pre-market engagement in one of the following ways :"],
             "subsections": [["<b>Request for Information (RfI)</b>",
                                 "Gather information for your project from suppliers about the products and services they offer, and the commercial terms needed to buy them.",
-                                "This section is optional, if you are ready to write and publish your requirements you can go to the next step. If you would like to do pre-market engagement you can click the button below."
+                                "This section is optional, if you are ready to write and publish your requirements you can go to the next step.",
+                                "You cannot run stages 2 and 3 at the same time."
                             ]],
             "list": [],
             "required": "optional",
@@ -50,19 +50,20 @@
         {
             "eventno": 3,
             "eventTitle": "Write and publish your requirements",
-            "buttonText": "Write and publish your requirements",
+            "buttonText": "Write and publish requirements",
             "buttonDisable": false,
-            "note": "If you start this step you cannot start step 2 at the same time.",
             "href": "/requirements/choose-route",
             "sections": ["Write and publish your bid-pack for suppliers, who can then submit their responses to your requirements and complete any other evaluation tasks set by you.",
              "You will need a clear set of criteria that suppliers will need to meet, and be evaluated against. You will also need to include how you will score their responses.",
              "For the lot you selected, you can run your procurement in one of the following ways:",
-             "<b>One stage further competition</b>",
-             "You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."],
+             "<b>Further competition</b>",
+             "You will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted.",
+              "This also known as one-stage further competition."],
              "subsections": [
-                ["<b>Two stage further competition</b>",
+                ["<b>Further competition with capability assessment</b>",
                 "You can shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool.",
-                "Only the suppliers on the shortlist will be invited to bid for your opportunity."],["<b>Direct award</b>",
+                "Only the suppliers on the shortlist will be invited to bid for your opportunity.",
+                "This is also known as two-stage further competition"],["<b>Direct award</b>",
                 "Based on the supplier responses you receive, if you find a single supplier who can meet your needs you can choose to award your contract directly to them after completing a capability assessement.",
                 "You need to complete this step before you can award your contract."]],
             "list": [],
@@ -78,7 +79,7 @@
         },
         {
             "eventno": 5,
-            "eventTitle": "Award the contract",
+            "eventTitle": "Award your contract",
             "sections": ["When you have completed your evaluation and found a suitable supplier, you can award your contract.",
                 "You will need to give feedback to any unsuccessful suppliers."],
             "required": "optional",
