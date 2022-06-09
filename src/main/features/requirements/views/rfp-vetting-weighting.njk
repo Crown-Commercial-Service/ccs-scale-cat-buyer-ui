@@ -81,7 +81,8 @@
               <article id="section">
                     <h2 class="govuk-heading-xl govuk-!-font-weight-bold" >{{tr['Parent']}}</h2>
                     <h4> {{tr['Parent']}} description </h4>
-                    {% set domSelector = tr['Parent'] | replace(" ", "_") %}
+                    {% set domSelector = tr['Parent'] | replace(" ", "_") | replace("(", '') | replace(")", '') %}
+                    {% set index = 0 %}
                      {% for subItems in tr.category %}
                      <div class="govuk-!-margin-top-5">
                      <h2 class="govuk-heading-m">{{subItems.ParentName}}</h2>
@@ -91,6 +92,7 @@
                       <p> Add quantity for the roles </p>
                       <div>
                          {% for subNestedItems in subItems.designations %}
+                        {% set index = (index + 1) %}
                            <p id="rfp_weight-error-{{loop.index}}" class="govuk-error-message weight_vetting_class_error">
                                         <span class="govuk-visually-hidden"></span> 
                             </p>
@@ -101,7 +103,7 @@
                             text: ""
                           },
                           classes: "govuk-input--width-2 weight_vetting_class rfp_weight_vetting_class",
-                          id: "rfp_weight_vetting_"+domSelector+"_"+loop.index,
+                          id: "rfp_weight_vetting_"+domSelector+"_"+index,
                           name: "SFIA_weightage",
                           value: subNestedItems.value,
                           suffix: {
@@ -134,7 +136,7 @@
     <div class="ccs-page-section">
       <div class="sub-section">
         <p class="govuk-body govuk-!-font-size-19">
-        <span class="govuk-heading-l govuk-!-display-inline" id = "rfp_total_resource" >{{totalResouces}}</span> resources added
+        <span class="govuk-heading-l govuk-!-display-inline" id = "rfp_total_resource2" >{{totalResouces}}</span> resources added
         </p>
       </div>
     </div>
