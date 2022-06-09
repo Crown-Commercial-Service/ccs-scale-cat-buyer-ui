@@ -99,10 +99,10 @@ export class QuestionHelper {
             }        
           }
         }
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/10`, 'Completed');
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/11`, 'Optional');
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/12`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/11`, 'Optional');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/12`, 'Not started');
         }
         res.redirect('/rfi/rfi-tasklist');
       }

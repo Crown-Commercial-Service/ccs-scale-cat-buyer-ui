@@ -67,19 +67,19 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
     if (rfi_next_steps) {
       switch (rfi_next_steps) {
         case '[DA]':
-          const daResponse = updateEventType("DA",baseURL,SESSION_ID);
+          // const daResponse = updateEventType("DA",baseURL,SESSION_ID);
 
-          if (daResponse != null && daResponse != undefined)
-            req.session.currentEvent = daResponse;
+          // if (daResponse != null && daResponse != undefined)
+          //   req.session.currentEvent = daResponse;
 
            res.redirect('/projects/create-or-choose');
           break;
 
         case '[Rfi]':
-          const rfiResponse = updateEventType("RFI",baseURL,SESSION_ID);
+          // const rfiResponse = updateEventType("RFI",baseURL,SESSION_ID);
 
-          if (rfiResponse != null && rfiResponse != undefined)
-            req.session.currentEvent = rfiResponse;
+          // if (rfiResponse != null && rfiResponse != undefined)
+          //   req.session.currentEvent = rfiResponse;
 
           res.redirect('/projects/create-or-choose');
           break;
