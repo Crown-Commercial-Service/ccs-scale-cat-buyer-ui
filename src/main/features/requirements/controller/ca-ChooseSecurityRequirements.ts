@@ -108,11 +108,22 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
           ],
         },
       ];
-
+      let subcontractorscheck;
+      if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2).length>0)
+      {
+        subcontractorscheck=(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2)[0].includedCriteria.
+        find(x=>x["criterion-id"]==1))
+      }
+      let includedSubContractor=[];
+      if(subcontractorscheck!=undefined)
+      {
+        includedSubContractor=[{ 'criterion-id': '1' }]
+      }  
       const body = {
         name: 'Security Clearance',
         'dimension-id': 2,
         weighting: 40,
+        includedCriteria:includedSubContractor,
         requirements: requirementsData,
       };
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');

@@ -128,22 +128,18 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       req.session['isJaggaerError'] = true;
       res.redirect('/ca/enter-your-weightings');
     } else {
-      for (var dimension of dimensions) {
-        
+      let Weightings=[];
+        for(let i=1;i<=5;i++)
+        {
+            let dim=dimensions.filter(x=>x["dimension-id"] === i)
+            Weightings.push(...dim)
+        }
+      for (var dimension of Weightings) {
           const body = {
             name: dimension.name,
             weighting: req.body[dimension['dimension-id']],
             requirements: [],
             includedCriteria: dimension.evaluationCriteria
-              .map(criteria => {
-                if (!req.session['CapAss'].isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
-                  return null;
-                } else
-                  return {
-                    'criterion-id': criteria['criterion-id'],
-                  };
-              })
-              .filter(criteria => criteria !== null),
           };
           
           await TenderApi.Instance(SESSION_ID).put(
