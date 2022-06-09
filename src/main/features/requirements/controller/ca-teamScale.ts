@@ -111,9 +111,9 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
  if(req.body.team_option!=undefined && req.body.team_option !=null){
   try {
     let subcontractorscheck;
-    if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 4).length>0)
+    if(Dimensionrequirements?.filter(dimension => dimension["dimension-id"] === 4).length>0)
     {
-      subcontractorscheck=(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 4)[0].includedCriteria.
+      subcontractorscheck=(Dimensionrequirements?.filter(dimension => dimension["dimension-id"] === 4)[0].includedCriteria.
       find(x=>x["criterion-id"]==1))
     }
     let includedSubContractor=[];

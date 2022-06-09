@@ -503,9 +503,9 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       return PostedFormElement;
     });
     let subcontractorscheck;
-    if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3).length>0)
+    if(Weightings?.filter(dimension => dimension["dimension-id"] === 3).length>0)
     {
-      subcontractorscheck=(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3)[0].includedCriteria.
+      subcontractorscheck=(Weightings?.filter(dimension => dimension["dimension-id"] === 3)[0].includedCriteria.
       find(x=>x["criterion-id"]==1))
     }
     let includedSubContractor=[];
