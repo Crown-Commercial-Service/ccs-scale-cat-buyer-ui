@@ -810,7 +810,7 @@
                             value: requirement.OCDS.id
                         }) }}
                         <div id="rfp_keyterm"></div>
-                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type !== 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true) and form_name === 'ccs_rfp_acronyms_form' and form_name !== 'service_user_type_form'  %}
+                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type !== 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true) and form_name === 'ccs_rfp_acronyms_form' %}
                         <p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p>
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
@@ -937,8 +937,8 @@
                             value: requirement.OCDS.id
                         }) }}
                         <div id="rfp_keyterm"></div>
-                      
-                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.type === 'The people who will use your product or service (Optional)') and (requirement.nonOCDS.multiAnswer === true)and form_name === 'service_user_type_form' %}
+                    
+                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.type === 'The people who will use your product or service (Optional)') and (requirement.nonOCDS.multiAnswer === true)and (form_name === 'service_user_type_form') %}
 
                         
 
@@ -1044,15 +1044,16 @@
                             value: requirement.OCDS.id
                         }) }}
                         <div id="rfp_keyterm_service_user_type"></div>
-                      
-                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type === 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true)and form_name === 'service_levels_kpi_form' %}
+  
+                  
+                      {% elif (index ===1 ) and (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true)and (form_name === 'service_levels_kpi_form') %}
                         {# <p>The Authority will measure the quality of the Supplier’s delivery by: Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be</p>
                         #}
                         {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
                         <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2> 
                         {% call CCSFieldset({
                             legend: {
-                               html: "Enter your first KPI / SLA",
+                              html: "Enter your first KPI / SLA",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -1062,31 +1063,35 @@
                         %}
                         {{ CCSInput({
                               label: {
-                                text: "Instructions / examples for this input field "
+                                html:requirement.nonOCDS.options[0][0].title,
+                                text: requirement.nonOCDS.options[0][0].text
                               },
                               id: "rfp_term_service_levels_KPI_1",
                               name: "term",
                               classes: "rfp_term_1",
-                              value: requirement.nonOCDS.options[0].value
+                              value: requirement.nonOCDS.options[0][0].value
                             })
                           }}
                         {{ CCSTextarea({
                               name: "value",
                               id: "rfp_term_definition_service_levels_KPI_1",
                               label: {
-                                text: "Instructions / examples for this input field"
+                                html:requirement.nonOCDS.options[0][1].title,
+                               text: requirement.nonOCDS.options[0][1].text
                               },
+                              
                               classes: "rfp_term_definition_1",
-                              value: requirement.nonOCDS.options[1].value
+                              value: requirement.nonOCDS.options[0][1].value
                             })
                           }}
                         {{ CCSInput({
                                 label: {
-                                  text: "Insert the required target "
+                                html:requirement.nonOCDS.options[0][2].title,
+                                text: requirement.nonOCDS.options[0][2].text
                                 },
                                 classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
                                 id: "rfp_term_percentage_KPI_1",
-                                value: requirement.nonOCDS.options[2].value,
+                                value: requirement.nonOCDS.options[0][2].value,
                                 name: "percentage",
                                 suffix: {
                                   text: "%"
@@ -1112,7 +1117,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: "Enter your "+NumberWord[i]+" KPI / SLA <a href='"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                                html: "Enter your "+NumberWord[i]+" KPI / SLA <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -1128,7 +1133,7 @@
                                 id: "rfp_term_service_levels_KPI_"+i,
                                 name: "term",
                                 classes: "rfp_term_name_requirement_KPI_"+i,
-                                value: requirement.nonOCDS.options[i-1].value
+                                value: requirement.nonOCDS.options[i-1][0].value
                               })
                             }}
 
@@ -1139,7 +1144,7 @@
                                   text: "Enter the service area / KPI description"
                                 },
                                 classes: "rfp_term_desription_KPI_"+i,
-                                value: requirement.nonOCDS.options[i-1].value
+                                value: requirement.nonOCDS.options[i-1][1].value
                               })
                             }}
                           {{ CCSInput({
@@ -1148,7 +1153,7 @@
                                   },
                                   classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
                                   id: "rfp_term_percentage_KPI_"+i,
-                                  value: requirement.nonOCDS.options[i-1].value,
+                                  value: requirement.nonOCDS.options[i-1][2].value,
                                   name: "percentage",
                                   suffix: {
                                     text: "%"
@@ -1178,6 +1183,7 @@
                         {# <div id="rfp_keyterm"></div> #}
                       {% endif %}
                       
+
                     {% endblock %}
 
                     {% block Address%}
