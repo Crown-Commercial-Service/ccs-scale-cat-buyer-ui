@@ -13,6 +13,7 @@ const excelJS= require('exceljs');
 export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId, releatedContent, isError, errorText, eventId, currentEvent } = req.session;
+  const { assessmentId } = currentEvent;
   const { data: eventData } = await TenderApi.Instance(SESSION_ID).get(
     `/tenders/projects/${projectId}/events/${eventId}`,
   );
@@ -20,17 +21,11 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
   lotid = lotid.replace('Lot ', '')
   const lotSuppliers =
     config.get('CCS_agreements_url') + req.session.agreement_id + ':' + lotid + '/lot-suppliers';
- // const { assessmentSupplierTarget: numSuppliers } = eventData.nonOCDS;
-  const numSuppliers=4;
+  const { assessmentSupplierTarget: numSuppliers } = eventData.nonOCDS;
   let dataRRSMod = { ...dataRRS };
   dataRRSMod.p1 = dataRRSMod.p1.replace(new RegExp('X', 'g'), numSuppliers);
-  const ASSESSTMENT_BASEURL = `/assessments/507`;
-  //let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
   const {download}=req.query;
   try {
-  let assessments = SampleData;  // remove
-  let assesssort: any = assessments.scores.sort((a, b) => (a.total > b.total ? -1 : 1));
-  const distinctassessments = [... new Set(assesssort.map(x => x.total))]
   let RankedSuppliers = [];
   let TopRankScores=[];
   let supplierList = [];
@@ -40,10 +35,7 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
   const Supplier_BASEURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
   let { data: SuppliersData } = await TenderApi.Instance(SESSION_ID).get(Supplier_BASEURL);
   let Justification=null;
-  
     RankedSuppliers=result;
-
-
   let BelowRankScores=[];
   TopRankScores= [...RankedSuppliers.slice(0,numSuppliers)]
   LeastRankScores=[...RankedSuppliers.slice(numSuppliers)]
@@ -88,7 +80,7 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
   if(download!=undefined){
 
  //uncomment below 
-    //const ASSESSTMENT_BASEURL = `/assessments/assessmentId`;
+    //const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
    // let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
    let assessments = SampleData;  // remove
     let finalCSVData=[];
