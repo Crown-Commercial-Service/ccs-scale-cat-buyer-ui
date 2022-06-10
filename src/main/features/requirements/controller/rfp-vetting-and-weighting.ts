@@ -237,9 +237,14 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
     let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
 
-    if (dimensionRequirements.length > 0) {
+    let totalResouceAdded = 0; 
+    if (dimensionRequirements !=null && dimensionRequirements.length > 0) {
       dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0]
         .requirements;
+
+        dimensionRequirements.map(x => {
+          totalResouceAdded = totalResouceAdded + x.weighting
+        })
 
       const AddedValuesTo_StorageForSortedItems = StorageForSortedItems.map(items => {
         const { category } = items;
@@ -272,7 +277,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       agreementLotName,
       releatedContent,
       isError,
-      totalResouces: dimensionRequirements.length,
+      totalResouces:totalResouceAdded ,
       errorText,
       designations: StorageForSortedItems,
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
