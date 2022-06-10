@@ -533,7 +533,7 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Not started');//review ranked suppliers
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Cannot start yet');//next steps
-    res.redirect('/ca/service-capabilities');
+    res.redirect('/ca/choose-security-requirements');
   }
   else{
     res.redirect('/404');
