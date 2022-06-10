@@ -531,8 +531,8 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   if(response.status==HttpStatusCode.OK){
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Not started');//review ranked suppliers
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Cannot start yet');//next steps
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');//review ranked suppliers
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/56`, 'Cannot start yet');//next steps
     res.redirect('/ca/choose-security-requirements');
   }
   else{
