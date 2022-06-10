@@ -7,22 +7,37 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 
 export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId, releatedContent, isError, errorText, dimensions } = req.session;
+  const { projectId, releatedContent, isError, errorText, dimensions,currentEvent } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
   var choosenViewPath = req.session.choosenViewPath;
-  var locationArray;
+  var locationArray=dimensions.filter(data => data.name === 'Location')[0]['options'];
+  const assessmentId = req.session.currentEvent.assessmentId;
   try {
-    locationArray = dimensions.filter(data => data.name === 'Location')[0]['options'];
-    var weightingRange = dimensions.filter(data => data.name === 'Location')[0]['weightingRange'];
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+    const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+    const { dimensionRequirements } = assessments;
+    if(dimensionRequirements.length>0)
+    {   
+        if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].requirements.length>0){       
+          dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].requirements.forEach(y => {
+            let indexVal = locationArray.findIndex(x => x["requirement-id"] == y["requirement-id"]);
+            locationArray[indexVal].value = dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].requirements.
+            find(s => s["requirement-id"] == locationArray[indexVal]["requirement-id"]).weighting;      
+          });
+        }
+    }
+    else
+    {
+      locationArray = dimensions.filter(data => data.name === 'Location')[0]['options'];
+    }
     const appendData = {
       ...dataWWD,
       releatedContent,
       isError,
       errorText,
       locationArray,
-      choosenViewPath,
-      weightingRange,
+      choosenViewPath,   
     };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('ca-whereWorkDone', appendData);
@@ -58,7 +73,6 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
   const { SESSION_ID } = req.cookies;
   const { projectId, releatedContent, dimensions } = req.session;
   const { ca_locationweight: weights } = req['body'];
-  const { ca_locationName: names } = req['body'];
   const { requirement_id: requirementIdList } = req['body'];
   const total = weights.reduce((accum, elem) => (accum += parseInt(elem)), 0);
   const { isError, errorText } = checkErrors(total);
@@ -72,39 +86,54 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
     res.redirect('/ca/where-work-done');
   } else {
     try {
-      const weightingDimensions = dimensions;
+      let dimension5weighitng;
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+    const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+    const { dimensionRequirements } = assessments;
+    if(dimensionRequirements.length>0)
+    {   
+        dimension5weighitng=dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].weighting;
+    }
+    else
+    {
+      dimension5weighitng=10;
+    } 
       const locationData = dimensions.filter(data => data.name === 'Location')[0];
       var weightsFiltered = weights.filter(weight => weight.value != '');
       var indexList = [];
       var initialDataRequirements = [];
-      let req = {};
+      let requirementsloc = {};
       for (let i = 0; i < weights.length; i++) {
         if (weights[i] != '') {
           indexList.push({ i });
         }
       }
       for (let i = 0; i < indexList.length; i++) {
-        req = {
-          //name: names[i] ,
+        requirementsloc = {
           'requirement-id': requirementIdList[indexList[i].i],
           weighting: weights[indexList[i].i],
           values: [{ 'criterion-id': '0', value: '1: Yes' }],
         };
-        initialDataRequirements.push(req);
+        initialDataRequirements.push(requirementsloc);
       }
-
+      let subcontractorscheck;
+      if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5).length>0)
+      {
+        subcontractorscheck=dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5)[0].includedCriteria.
+        find(x=>x["criterion-id"]==1)
+      }
+      let includedSubContractor=[];
+      if(subcontractorscheck!=undefined)
+      {
+        includedSubContractor=[{ 'criterion-id': '1' }]
+      } 
       const body = {
         'dimension-id': locationData['dimension-id'],
-        //name: locationData['options']['name'][i],
-        weighting: 20,
-        includedCriteria: [{ 'criterion-id': '0' }],
+        name: "Location",
+        weighting: dimension5weighitng,     
+        includedCriteria: includedSubContractor,
         requirements: initialDataRequirements,
       };
-
-      if (capAssessement?.isSubContractorAccepted) {
-        body.includedCriteria.push({ 'criterion-id': '1' });
-        body.requirements[0].values.push({ 'criterion-id': '1', value: '1: Yes' });
-      }
 
       await TenderApi.Instance(SESSION_ID).put(
         `/assessments/${assessmentId}/dimensions/${locationData['dimension-id']}`,

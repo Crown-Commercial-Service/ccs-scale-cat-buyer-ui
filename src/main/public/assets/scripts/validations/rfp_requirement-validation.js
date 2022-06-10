@@ -6,6 +6,7 @@ const inputFieldsLength = totalInputFields.length + 1
 var itemSubText = '';
 var itemText = '';
 var totalResourceAdded = $('#rfp_total_resource');
+var totalResourceAdded2 = $('#rfp_total_resource2');
 
 var tabLinks = document.querySelectorAll('.rfp-vetting-weighting');
 
@@ -30,7 +31,7 @@ var tabLinks = document.querySelectorAll('.rfp-vetting-weighting');
                 itemText = tabLinks[clicked_index].getElementsByTagName('a')[0].childNodes[0].data
 
                 itemText = itemText.replaceAll(" ", "_");    
-                itemText =  itemText.replace(/[\])}[{(]/g, '');
+                itemText =  itemText.replaceAll(/[\])}[{(]/g, '');
                 
                 resourceItemOnClick(itemText);
                 updateTotalResourceAdded();
@@ -83,6 +84,8 @@ var tabLinks = document.querySelectorAll('.rfp-vetting-weighting');
            
         }
         totalResourceAdded.text(resourceCount);
+        totalResourceAdded2.text(resourceCount);
+        
     }
     
 

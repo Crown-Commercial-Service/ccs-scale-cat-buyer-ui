@@ -20,17 +20,21 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     let totalQuantityca;
     let selectedOption;
     if (dimensionRequirements.length > 0) {
-        if(dimensionRequirements.filter(dimension => dimension["dimension-id"] === 7).length>0)
+        if(dimensionRequirements.filter(dimension => dimension["dimension-id"] === 1).length>0)
       {
-        totalQuantityca=dimensionRequirements.filter(x=>x["dimension-id"])[0].requirements.map(a => a.weighting).reduce(function(a, b)
-      {
-         return a + b;
-      });
-      req.session.totalQuantityca=totalQuantityca;
+        if(dimensionRequirements.filter(dimension => dimension["dimension-id"] === 1)[0].requirements.length>0)
+        {
+          totalQuantityca=dimensionRequirements.filter(x=>x["dimension-id"])[0].requirements.map(a => a.weighting).reduce(function(a, b)
+          {
+             return a + b;
+          });
+          req.session.totalQuantityca=totalQuantityca;
+        }      
     }
      if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance').length>0)
       {
-
+        if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements.length>0)
+        {
       selectedOption = dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0]
       .requirements[0].values[0].value;
       data.form.radioOptions.items.find(item => item.value === selectedOption).checked = true;
@@ -39,6 +43,7 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
         data.form.selectedValue=dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting;
       }
      }
+    }
     }
    
   
@@ -96,6 +101,18 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
     res.redirect('/ca/choose-security-requirements');
   } else {
     try {
+      let dimension2weighitng;
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+    const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+    const { dimensionRequirements } = assessments;
+    if(dimensionRequirements.length>0)
+    {
+       dimension2weighitng=dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2)[0].weighting;
+    }
+    else
+    {
+      dimension2weighitng=10;
+    } 
       const requirementsData = [
         {
           'requirement-id': 101,
@@ -108,11 +125,22 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
           ],
         },
       ];
-
+      let subcontractorscheck;
+      if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2).length>0)
+      {
+        subcontractorscheck=(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2)[0].includedCriteria.
+        find(x=>x["criterion-id"]==1))
+      }
+      let includedSubContractor=[];
+      if(subcontractorscheck!=undefined)
+      {
+        includedSubContractor=[{ 'criterion-id': '1' }]
+      }  
       const body = {
         name: 'Security Clearance',
         'dimension-id': 2,
-        weighting: 40,
+        weighting: dimension2weighitng,
+        includedCriteria:includedSubContractor,
         requirements: requirementsData,
       };
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
