@@ -17,12 +17,13 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
 
     const { dimensionRequirements } = assessments;
-    let totalQuantityca;
+    let totalQuantityca=0;
     let selectedOption;
+    let securityQuantity;
     if (dimensionRequirements.length > 0) {
-        if(dimensionRequirements.filter(dimension => dimension["dimension-id"] === 1).length>0)
+        if(dimensionRequirements.filter(dimension => dimension["dimension-id"] === 7).length>0)
       {
-        if(dimensionRequirements.filter(dimension => dimension["dimension-id"] === 1)[0].requirements.length>0)
+        if(dimensionRequirements.filter(dimension => dimension["dimension-id"] === 7)[0].requirements.length>0)
         {
           totalQuantityca=dimensionRequirements.filter(x=>x["dimension-id"])[0].requirements.map(a => a.weighting).reduce(function(a, b)
           {
@@ -31,17 +32,16 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
           req.session.totalQuantityca=totalQuantityca;
         }      
     }
-     if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance').length>0)
+     if(dimensionRequirements.filter(dimension =>dimension["dimension-id"] ===2).length>0)
       {
-        if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements.length>0)
+        if(dimensionRequirements.filter(dimension =>dimension["dimension-id"] ===2)[0].requirements.length>0)
         {
-      selectedOption = dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0]
-      .requirements[0].values[0].value;
+      selectedOption = dimensionRequirements.filter(dimension => dimension["dimension-id"] ===2)[0]
+      .requirements[0].values.find(y=>y["criterion-id"]==0).value;
       data.form.radioOptions.items.find(item => item.value === selectedOption).checked = true;
-      if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting>0)
-      {
-        data.form.selectedValue=dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting;
-      }
+      securityQuantity=dimensionRequirements.filter(dimension => dimension["dimension-id"] ===2)[0]
+      .requirements[0].values.find(y=>y["criterion-id"]==6).value
+      data.form.selectedValue=totalQuantityca-securityQuantity;
      }
     }
     }
@@ -51,7 +51,7 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     const { data: dimensions } = await TenderApi.Instance(SESSION_ID).get(DIMENSION_BASEURL);
 
     const options = dimensions
-      .find(dim => dim.name === 'Security Clearance')
+      .find(dimension => dimension["dimension-id"] ===2)
       .evaluationCriteria.find(criteria => criteria['criterion-id'] === '0').options;
     req.session.isError = false;
     req.session.errorText = '';
@@ -102,29 +102,37 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
   } else {
     try {
       let dimension2weighitng;
+      let SecQuantityrequirements;
+      let requirementsData;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const { dimensionRequirements } = assessments;
     if(dimensionRequirements.length>0)
     {
-       dimension2weighitng=dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2)[0].weighting;
+       dimension2weighitng=dimensionRequirements.filter(dimension => dimension["dimension-id"] === 2)[0]?.weighting;
+       SecQuantityrequirements=dimensionRequirements.filter(dimension => dimension["dimension-id"] === 2)[0]?.requirements;
     }
     else
     {
       dimension2weighitng=10;
     } 
-      const requirementsData = [
-        {
-          'requirement-id': 101,
-          weighting: resources,
-          values: [
-            {
-              'criterion-id': '0',
-              value: selectedValue,
-            },
-          ],
-        },
-      ];
+    const ca_Quantity=totalQuantityca-resources;
+    for (var reqrment of SecQuantityrequirements) {
+       requirementsData = [{
+        'requirement-id': reqrment["requirement-id"],
+        weighting: reqrment.weighting,
+        values: [
+          {
+            'criterion-id': '0',
+            value: selectedValue,
+          },
+          {
+            'criterion-id': '6',
+            value: ca_Quantity,
+          },
+        ],
+      }];
+    }
       let subcontractorscheck;
       if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2).length>0)
       {
@@ -143,10 +151,16 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
         includedCriteria:includedSubContractor,
         requirements: requirementsData,
       };
+      const response= await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
+     if(response.status == 200)
+     {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
-      await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
       res.redirect('/ca/service-capabilities');
+     }
+    else{
+      res.redirect('/400');
+    }
     } catch (error) {
       LoggTracer.errorLogger(
         res,

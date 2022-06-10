@@ -11,7 +11,7 @@ export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
   req.session.isError = false;
   req.session.errorText = '';
   var choosenViewPath = req.session.choosenViewPath;
-  var locationArray=dimensions.filter(data => data.name === 'Location')[0]['options'];
+  var locationArray=dimensions.filter(dimension => dimension["dimension-id"] === 5)[0]['options'];
   const assessmentId = req.session.currentEvent.assessmentId;
   try {
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
@@ -29,7 +29,7 @@ export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
     }
     else
     {
-      locationArray = dimensions.filter(data => data.name === 'Location')[0]['options'];
+      locationArray = dimensions.filter(dimension => dimension["dimension-id"] === 5)[0]['options'];
     }
     const appendData = {
       ...dataWWD,
@@ -98,7 +98,7 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
     {
       dimension5weighitng=10;
     } 
-      const locationData = dimensions.filter(data => data.name === 'Location')[0];
+      const locationData = dimensions.filter(dimension => dimension["dimension-id"] === 5)[0];
       var weightsFiltered = weights.filter(weight => weight.value != '');
       var indexList = [];
       var initialDataRequirements = [];
@@ -135,14 +135,19 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
         requirements: initialDataRequirements,
       };
 
-      await TenderApi.Instance(SESSION_ID).put(
+      const response=await TenderApi.Instance(SESSION_ID).put(
         `/assessments/${assessmentId}/dimensions/${locationData['dimension-id']}`,
         body,
       );
-
+      if(response.status == 200)
+      {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');
       res.redirect('/ca/suppliers-to-forward');
+      }
+      else{
+        res.redirect('/400');
+      }
     } catch (error) {
       LoggTracer.errorLogger(
         res,
