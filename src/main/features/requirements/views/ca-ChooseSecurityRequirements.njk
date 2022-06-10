@@ -30,7 +30,7 @@
         <br>
       </div>
       <form id="ca_choose_security_form" name="ca_choose_security_form" class="form" action="/ca/choose-security-requirements" method="post">
-        {#{{ csrfProtection(csrf) }}#}
+        {{ csrfProtection(csrf) }}
         {% set formOptions = form.radioOptions.items %}
 
         {% set form_Options_Altered = [] %}
