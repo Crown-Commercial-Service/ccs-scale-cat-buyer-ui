@@ -51,12 +51,14 @@
     },
     {
       "eventno": null,
-      "eventTitle": "[ Stage 1: Complete a capability assessment ]",
-      "eventDescription": "[description of this section]",
+      "eventTitle": "2. Do a capability assessment ",
+      "eventDescription1": "In this section you will be able to go into detail about what you require from a supplier, as well as setting a weighting for each requirement.",
+      "eventDescription2": "You will then need to decide how many suppliers you want to take to further competition, before reviewing suitabe suppliers and choosing your next steps.",
+      
       "eventTask": [
         {
           "Task": 1,
-          "title": "[ Learn about capability assessment ]",
+          "title": "Learn about capability assessment",
           "required": "optional",
           "link": "/ca/learn-about-capability-assessment",
           "status": "Optional"
@@ -64,49 +66,49 @@
         {
           "Task": 2,
           "link": "/ca/enter-your-weightings",
-          "title": "[ Enter your weightings ]",
+          "title": "Enter your weightings ",
           "required": "mandatory",
           "status": "To do"
         },
         {
           "Task": 3,
           "link": "/ca/accept-subcontractors",
-          "title": "[ Will you accept sub-contractors? ]",
+          "title": "Will you accept sub-contractors?",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
           "Task": 4,
           "link": "#",
-          "title": "[ Set your resources and vetting weightings ]",
+          "title": "Set your resources and vetting weightings",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
           "Task": 5,
           "link": "#",
-          "title": "[Choose highest security and vetting requirements] ",
+          "title": "Choose highest security and vetting requirements",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
           "Task": 6,
           "link": "/ca/service-capabilities",
-          "title": "[ Select your service capabilities ]",
+          "title": "Select your service capabilities ",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
           "Task": 7,
           "link": "/ca/team-scale",
-          "title": "[ How well your team will scale ]",
+          "title": "How well your team will scale",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
           "Task": 8,
           "link": "#",
-          "title": "[ Where the work will be done ]",
+          "title": "Where the work will be done",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
@@ -114,14 +116,14 @@
         {
           "Task": 9,
           "link": "/ca/suppliers-to-forward",
-          "title": "[ How many suppliers you'd like to take forward? ]",
+          "title": "How many suppliers you'd like to take forward?",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
           "Task": 10,
           "link": "#",
-          "title": "[ Review ranked suppliers ]",
+          "title": "Review ranked suppliers",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
@@ -129,7 +131,7 @@
         {
           "Task": 11,
           "link": "/ca/next-steps",
-          "title": "[ Next steps ]",
+          "title": "Next steps",
           "required": "mandatory",
           "status": "Cannot start yet"
         }
@@ -137,25 +139,26 @@
     },
     {
       "eventno": null,
-      "eventTitle": "[Stage 2: Progress to further competition ]",
-      "eventDescription": "[ In order to progress with the second stage of your further competition, you need to complete the previous “Next steps” screen at the end of stage 1. ]",
+      "eventTitle": "3. Continue to further competition",
+      "eventDescription1": "In this section you will be able to tell suppliers about your business and the problem you need to solve, as well as any work that has already been carried out.",
+      "eventDescription2": "You will also set your evaluation criteria and explain how you will score supplier submissions.",
       "eventTask": []
     },
     {
       "eventno": 1,
-      "eventTitle": "[Upload pricing schedules and any other supporting documentation ]",
-      "eventDescription": "[ Description for this section ]",
+      "eventTitle": "Upload pricing schedules and other supporting documents ",
+      "eventDescription": "Upload pricing schedules and other supporting documents. You will also need to confirm if you require a contracted out service or a supply of resource.",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Upload pricing schedules and any other supporting documentation",
+          "title": "Upload pricing schedule",
           "required": "optional",
           "link": "/ca/upload-pricing-supporting-doc",
           "status": "Cannot start yet"
         },
         {
           "Task": 2,
-          "title": "IR35 acknowledgement",
+          "title": "Confirm if you require a contracted out service or a supply of resource",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
@@ -165,12 +168,18 @@
 
     {
       "eventno": 2,
-      "eventTitle": "[Context and requirements to your 2-stage further competition]",
-      "eventDescription": "[ Description for this section ]",
+      "eventTitle": "Add context to your further competition",
+      "eventDescription1": "You can include the following :",
+      "p1":  "product road-maps and the expected life cycle of the product",
+      "p2":  "total cost of ownership, including running ",
+      "p3":  "total cost of ownership, including running costs",
+      "p4":  "compatibility with other in-house systems",
+      "p5":  "your budget",
+      "p6":  "current and possible future scale of the requirement ",
       "eventTask": [
         {
           "Task": 1,
-          "title": "[ Add context and requirements ]",
+          "title": "Add context and requirements",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
@@ -180,19 +189,20 @@
 
     {
       "eventno": 3,
-      "eventTitle": "[Your assessment bases and evaluation weightings]",
-      "eventDescription": "[ Description for this section ]",
+      "eventTitle": "Your assessment criteria",
+      "eventDescription1": "You can define how you will assess and evaluate applications.",
+      "eventDescription2": "when running a further competition you must award the contract on the basis of the most economically advantageous tender(MEAT) and make it clear to suppliers how their bids will be evaluated.",
       "eventTask": [
         {
           "Task": 1,
-          "title": "[ Your assessment bases and evaluation weightings ]",
+          "title": "Add Your assessment criteria and evaluation weightings ",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
         },
         {
           "Task": 1,
-          "title": "[ Set your scoring criteria  ]",
+          "title": "How you will score suppliers",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
@@ -201,26 +211,26 @@
     },
     {
       "eventno": 4,
-      "eventTitle": "[Review and publish your 2-stage RFP]",
-      "eventDescription": "[ Description for this section ]",
+      "eventTitle": "Review and publish",
+      "eventDescription": "Review the information you've entered, making sure you have included all relevant context, requirements, evalution criteria and weightings.",
       "eventTask": [
         {
           "Task": 1,
-          "title": "[ look at the suppliers for this further competiton]",
+          "title": "See the suppliers",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
         },
         {
           "Task": 2,
-          "title": "[ Set response date and time]",
+          "title": "Your timeline",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
         },
         {
           "Task": 3,
-          "title": "[ Review and publish your 2-stage RFP]",
+          "title": "Review and publish your further competition",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
@@ -229,7 +239,8 @@
     }
   ],
   "form": {
-    "question": "[instructions for this page]",
+    "question1": "Write and publish your bidnpack for suppliers, who can then submit their responses and complete any other eevaluation tasks.",
+    "question2": "You will need to provide a clear set of criteria and explain how you will score responses.",
     "backJump": {
       "title": "Return to procurement overview",
       "href": "/projects/create-or-choose"

@@ -17,13 +17,14 @@
       "href": "/da/task-list"
     },
     {
-      "text": "Where the work will be done?",
+      "text": "Where the work will be done",
       "href": "#"
     }
   ],
 
-  "title": "Where the work will be done?",
-  "subtitle": ["[instructions for this page]"],
+  "title": "Where the work will be done",
+  "subtitle1": "Add a weighting for the locations you think will be most important for the supplied staff to work from.",
+  "subtitle2": "The weighting for staff location must total 100% to continue to the next step.",
   "data": {
     "total": 50,
     "parts": [

@@ -30,7 +30,7 @@
                 "href": "/ca/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "How well can the team scale?",
+                "text": "How much the team can grow (scale)",
                 "href": "#"
             }
         ]
@@ -49,7 +49,7 @@
         {%endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                <h1 class="govuk-heading-xl"> {{data.title }} </h1>
+                <h1 class="govuk-heading-xl"><strong> {{data.title }}</strong> </h1>
             </div>
         </div>
 
@@ -57,7 +57,6 @@
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
                 <p class="govuk-body">{{data.subtitle}}</p>  
-                <p class="govuk-body">{{ data.form.question }}</p>
                 <form id="ccs_ca_team_scale_form" name="ccs_ca_team_scale_form" class="form ccs_ca_team_scale_form" action="/ca/team-scale" method="POST">
                 {{ csrfProtection(csrf) }}
                     <div class="govuk-form-group">

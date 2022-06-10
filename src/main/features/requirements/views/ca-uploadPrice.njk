@@ -23,7 +23,11 @@
       "href": "/ca/task-list?path="+ choosenViewPath
     },
     {
-      "text": "Upload pricing schedules and any other supporting documentation",
+      "text": "Upload pricing schedules and other documents",
+      "href": "#"
+    },
+    {
+      "text": "Upload your pricing schedule (attachment 4)",
       "href": "#"
     }
   ]
@@ -34,7 +38,7 @@
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
-            <h1 class="govuk-heading-xl">{{ data.title }}</h1>
+            <h1 class="govuk-heading-xl"><strong>{{ data.title }}</strong></h1>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -42,7 +46,9 @@
             <div class="govuk-!-margin-bottom-6">
             {% include "includes/project_header.njk" %}
             </div>
-            <p class="govuk-body govuk-!-margin-bottom-7">{{data.description}}</p>
+            <p class="govuk-body govuk-!-margin-bottom-7">{{data.subtitle}}</p>
+            <p class="govuk-body govuk-!-margin-bottom-7">{{data.description1}}</p>
+            <p class="govuk-body govuk-!-margin-bottom-7">{{data.description2}}</p>
             <ul class="app-task-list ccs-rfp-upload">
                 {% for items in data.taskList %}
 

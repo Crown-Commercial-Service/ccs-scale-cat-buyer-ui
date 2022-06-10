@@ -27,17 +27,37 @@
       "idPrefix": "ccs_choose_ca_route",
       "name": "ccs_choose_ca_type",
       "items": [   
+       
+        {
+          "value": "2-stage",
+          "text": "Two-stage further competition ",
+          "hint": {
+            "text": "Shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool. You can then choose to continue your further competition online or upload documents to create your bid pack.<p>Only the suppliers you shortlist using the capability assessment will be invited to bid for your opportunity.</p>"
+          },
+          "disabled": "false",
+          "remove": "false"
+        },
+        {
+          "value": "award",
+          "text": "Two-stage direct award",
+          "hint": {
+            "text": "Shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool.You can then choose to continue your direct award online or use your own organisation's procurement systems."
+          },
+          "disabled": "false",
+          "remove": "false"
+        },
         {
           "value": "1-stage",
-          "text": "Further competition",
+          "text": "One-stage further competition",
           "hint": {
-            "text": "If you select this option,you will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."
+            "text": "If you select this option, you will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."
           },
           "disabled": "false",
           "remove": "false"
         }
       ]
     },
+    
     "backJump": {
       "title": "Return to Procurement overview",
       "href": "/projects/create-or-choose"
