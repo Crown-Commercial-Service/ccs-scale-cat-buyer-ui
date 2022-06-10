@@ -76,10 +76,14 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
           break;
 
         case '[Rfi]':
-          // const rfiResponse = updateEventType("RFI",baseURL,SESSION_ID);
+          //const rfiResponse = updateEventType("RFI",baseURL,SESSION_ID);
+          const body = {
+            eventType: "RFI",
+          };
+          const { data } = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
 
-          // if (rfiResponse != null && rfiResponse != undefined)
-          //   req.session.currentEvent = rfiResponse;
+          if (data != null && data != undefined)
+            req.session.currentEvent = data;
 
           res.redirect('/projects/create-or-choose');
           break;

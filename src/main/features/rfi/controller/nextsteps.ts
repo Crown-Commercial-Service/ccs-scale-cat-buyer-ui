@@ -71,6 +71,7 @@ export const RFI_POST_NEXT_STEPS = async (req: express.Request, res: express.Res
           const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
           if(data != null && data !=undefined)
           {
+            req.session['eventId'] =data.id;
             req.session.procurements[0]['eventId'] = data.id;
             req.session.procurements[0]['eventType'] = data.eventType;
           }
