@@ -173,7 +173,8 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
 
     if (dimensionRequirements != null && dimensionRequirements !== undefined && dimensionRequirements.length > 0) {
-      DRequirements = dimensionRequirements?.[0]?.requirements;
+      let  dimension = dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3);
+      DRequirements = dimension?.[0]?.requirements;
       DRequirements.map(x => {
         totalWeighting = totalWeighting + x.weighting
       })
@@ -503,6 +504,9 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       return PostedFormElement;
     });
     let subcontractorscheck;
+
+    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
+
     if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3).length>0)
     {
       subcontractorscheck=(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3)[0].includedCriteria.
