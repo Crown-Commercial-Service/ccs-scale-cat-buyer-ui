@@ -32,7 +32,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       group_id = 'Group 19';
       id = 'Criterion 3';
     }
-
+    //Call group API-END-POINT
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -179,8 +179,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       data.form_name = 'service_levels_kpi_form';
     }
     if (group_id === 'Group 16' && id === 'Criterion 3') {
-      data.data[0].nonOCDS.childern.push(TemporaryObjStorage[1]);
-      data.data[0].nonOCDS.childern[0].nonOCDS.questionType = '';
+      data?.data?.[0].nonOCDS.childern.push(TemporaryObjStorage?.[1]);
+      data?.data?.[0].nonOCDS.childern?.[0].nonOCDS.questionType = '';
     }
     if (group_id === 'Group 10' && id === 'Criterion 3') {
       let count = 0;
@@ -206,6 +206,30 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         count++;
       });
     }
+    //#region KPI FORM DATA MANIPULATION INTO SINGLE QUESTION
+    if (group_id != undefined && group_id != null && group_id != '' && id != undefined && id != null && id != '' && group_id === 'Group 19' && id === 'Criterion 3') {
+      let count = 0;
+      let kpiQustionDataList = [];
+      if (data?.data?.[0].nonOCDS?.options?.length > 0 && data?.data?.[1].nonOCDS?.options?.length > 0 && data?.data?.[2].nonOCDS?.options?.length > 0) {
+        for (let index = 0; index < data?.data?.[0].nonOCDS?.options.length; index++) {
+          let dataList = [];
+          
+          dataList.push({ value: data?.data?.[0].nonOCDS?.options[index].value,title:data?.data?.[0].OCDS?.title, text: data?.data?.[0].OCDS.description });
+          dataList.push({ value: data?.data?.[1].nonOCDS?.options[index].value,title:data?.data?.[1].OCDS?.title, text: data?.data?.[1].OCDS.description });
+          dataList.push({ value: data?.data?.[2].nonOCDS?.options[index].value,title:data?.data?.[2].OCDS?.title, text: data?.data?.[2].OCDS.description });
+          
+          kpiQustionDataList.push(dataList);
+        }
+      } else {
+        let dataList = [];
+        dataList.push("");
+        dataList.push("");
+        dataList.push("");
+        kpiQustionDataList.push(dataList);
+      }
+      data?.data?.[0].nonOCDS?.options = kpiQustionDataList;
+    }
+    //#endregion KPI FORM DATA MANIPULATION INTO SINGLE QUESTION
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];

@@ -7,26 +7,59 @@ document.addEventListener('DOMContentLoaded', () => {
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let precentageInputs = document.querySelectorAll(".govuk-input--width-5");
+    let deleteButtonCount = [];
+    // delete buttons
+    deleteButtons.forEach((db) => {
+      db.classList.add('ccs-dynaform-hidden')
+      db.addEventListener('click', (e) => {
+        e.preventDefault();
 
-    for (var acronym_fieldset = 10; acronym_fieldset > 1; acronym_fieldset--) {
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+          prev_coll = Number(target) - 1,
+          target_fieldset = db.closest("fieldset");
 
-      let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + acronym_fieldset),
-        term_box = document.getElementById("rfp_term_service_levels_KPI_" + acronym_fieldset),
-        term_box1 = document.getElementById("rfp_term_definition_service_levels_KPI_" + acronym_fieldset),
-        term_box2 = document.getElementById("rfp_term_percentage_KPI_" + acronym_fieldset);
+
+        document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
+        document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
+        document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
+        target_fieldset.classList.add("ccs-dynaform-hidden");
+
+        document.getElementById("remove_icon_"+target).classList.add('ccs-dynaform-hidden');
+
+        document.getElementById("kpiKeyLevel").textContent = prev_coll;
+        if (prev_coll > 1) {
+          document.getElementById("kpiKeyLevel").textContent = prev_coll;
+          document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        }
+
+        document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
+        with_value_count--;
+      });
+    });
+    for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
+
+      let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
+        term_box = document.getElementById("rfp_term_service_levels_KPI_" + kpi_fieldset),
+        term_box1 = document.getElementById("rfp_term_definition_service_levels_KPI_" + kpi_fieldset),
+        term_box2 = document.getElementById("rfp_term_percentage_KPI_" + kpi_fieldset);
+        //deleteButtonKPI = document.getElementById("remove_icon_" + kpi_fieldset);
 
       if (term_box != undefined && term_box != null && term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
-        document.getElementById("kpiKeyLevel").textContent = acronym_fieldset;
-
-        if (acronym_fieldset === 10) {
+        this_fieldset.classList.remove('ccs-dynaform-hidden');
+        document.getElementById("kpiKeyLevel").textContent = kpi_fieldset;
+        deleteButtonCount.push(kpi_fieldset);
+        if (kpi_fieldset === 10) {
           document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
         }
-
       } else {
 
         this_fieldset.classList.add('ccs-dynaform-hidden');
-        with_value_count = acronym_fieldset;
+        with_value_count = kpi_fieldset;
+      }
+
+      if (kpi_fieldset === 2 && deleteButtonCount.length >0) {
+        $("#remove_icon_" + deleteButtonCount[deleteButtonCount.sort().length-1]).removeClass("ccs-dynaform-hidden");
       }
     }
     document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
@@ -43,9 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
           document.querySelector(".acronym_service_levels_KPI_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+          document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
+        
         }
-
+        document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
         with_value_count++;
+        
+
         //document.getElementById("kpiKeyLevel").textContent = with_value_count;
         if (with_value_count === 11) {
           document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
@@ -54,34 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
-    // delete buttons
-    deleteButtons.forEach((db) => {
-      db.classList.remove('ccs-dynaform-hidden')
-      db.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_coll = Number(target) - 1,
-          target_fieldset = db.closest("fieldset");
-
-
-        document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
-        document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
-        document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
-        target_fieldset.classList.add("ccs-dynaform-hidden");
-
-        document.getElementById("kpiKeyLevel").textContent = prev_coll;
-        if (prev_coll > 1) {
-          document.getElementById("kpiKeyLevel").textContent = prev_coll;
-          document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
-        }
-
-        document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
-      });
-    });
+    
     precentageInputs.forEach(db => {
-      db.addEventListener("keydown",(event) => {
+      db.addEventListener("keydown", (event) => {
         if (event.keyCode == '69') { event.preventDefault(); }
       })
     })
