@@ -10,7 +10,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
 
   try {
     //uncomment below 
-    //const ASSESSTMENT_BASEURL = `/assessments/assessmentId`;
+    //const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
    // let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     let assessments = SampleData;  // remove
     let assesssort = assessments.scores.sort((a, b) => (a.total > b.total ? -1 : 1));

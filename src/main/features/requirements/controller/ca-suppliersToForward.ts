@@ -82,7 +82,7 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
   try {
     const body = {
       assessmentSupplierTarget: ca_supplier_count,
-      assessmentID:assessmentId
+      assessmentId:assessmentId
     };
    const response= await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}`, body);
    if(response.status==200)
