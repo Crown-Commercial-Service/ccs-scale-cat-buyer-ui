@@ -7,7 +7,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 
 export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { releatedContent, isError, errorText, dimensions,currentEvent,projectId } = req.session;
+  const { releatedContent, isError, errorText, dimensions,currentEvent,projectId, choosenViewPath, } = req.session;
   const { assessmentId } = currentEvent;
   const extToolId=1;
 
@@ -55,9 +55,9 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
       .evaluationCriteria.find(criteria => criteria['criterion-id'] === '0').options;
     req.session.isError = false;
     req.session.errorText = '';
-    const appendData = { ...data, releatedContent, isError, errorText };
+    const appendData = { ...data, releatedContent, isError, choosenViewPath, errorText };
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'In progress');
     res.render('ca-chooseSecurityRequirements', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -154,12 +154,12 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       const response= await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
      if(response.status == 200)
      {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Not started');
       res.redirect('/ca/service-capabilities');
      }
     else{
-      res.redirect('/400');
+      res.redirect('/404/');
     }
     } catch (error) {
       LoggTracer.errorLogger(

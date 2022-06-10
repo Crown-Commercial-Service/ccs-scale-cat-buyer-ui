@@ -248,10 +248,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       total_res,total_ws,total_wv
     };
 
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
-    //res.json(dimensions)
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'In progress');
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -531,8 +528,6 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   if(response.status==HttpStatusCode.OK){
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');//review ranked suppliers
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/56`, 'Cannot start yet');//next steps
     res.redirect('/ca/choose-security-requirements');
   }
   else{
