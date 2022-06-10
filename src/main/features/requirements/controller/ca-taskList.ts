@@ -125,7 +125,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
       return {
         url: `#section${index + 1}`,
         text: designation['job-category'],
-        subtext: `${weightage.min}% / ${weightage.max}%`,
+        subtext: "0 resources added,0% / 0%",
       };
     });
 
