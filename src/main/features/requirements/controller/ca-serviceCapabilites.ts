@@ -23,7 +23,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     project_name,
     isError,
     errorText,
-    currentEvent,
+    currentEvent,choosenViewPath,
   } = req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -248,6 +248,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
     const windowAppendData = {
       ...caService,
+      choosenViewPath,
       totalWeighting,
       lotId,
       agreementLotName,

@@ -17,17 +17,21 @@
       "href": "/ca/task-list"
     },
     {
-      "text": "Next Steps",
+      "text": "Choose your Next Steps",
       "href": "#"
     }
   ],
 
-  "title": "Next Steps",
-  "subtitle": "[ Instructions for this page ]",
+  "title": "Choose your Next Steps",
+  "subtitle1": "Select an option below to indicate if you would like",
+  "p1": "continue on to further competition, with the suppliers you selected, using the online service",
+  "p2": "go back and edit your capability assessment",
+  "p3": "cancel your further competition",
+  "subtitle2": "If you select Yes or No, you can't edit your capability assessment later.",
   "form": [
     {
       "id": "ca_next_steps",
-      "question": "Would you like to progress to the 2nd stage?",
+      "question": "Would you like to progress to the second stage?",
       "radioOptions": {
         "name": "ca_next_steps",
         "items": [
@@ -35,21 +39,21 @@
             "value": "yes",
             "text": "Yes",
             "hint": {
-              "text": "Please note that if you wish to do so, you’ll not be able to edit your capability assessment, unless you delete the whole event and start again from the beginning."
+              "text": "You will not be able to edit your capability assessment.You will need to delete the whole event and start again from the beginning."
             }
           },
           {
             "value": "edit",
             "text": "I'm not ready yet, I need to edit my capability assessment",
             "hint": {
-              "text": "You’ll be taken back to your capability assessment where you’ll be able to edit anything you’ve done previously. When you edit a screen, you’ll have to view the new ranked supplier list in order to progress with the next steps."
+              "text": "You’ll be taken back to your capability assessment where you’ll be able to edit anything you’ve done previously. When you edit a screen, you’ll have to view the new suitable supplier list in order to progress with the next steps."
             }
           },
           {
             "value": "no",
             "text": "No",
             "hint": {
-              "text": "Please note that if you wish to do so, you’ll be taken to a confirmation screen where you’ll be able to download the ranked list of suppliers and progress to the next stage outside our service if needed."
+              "text": "You’ll be taken to a confirmation screen where you’ll be able to download the suitable list of suppliers and progress to the next stage outside our service."
             }
           }
         ]
