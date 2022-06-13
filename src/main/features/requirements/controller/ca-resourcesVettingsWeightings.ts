@@ -214,7 +214,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
         }
         for(var designation of cat.designations)
       {
-        let res=dimensionResourceQuantities[0].requirements.filter(req=>req["requirement-id"]==designation["requirement-id"])[0]?.["weighting"];
+        let res=dimensionResourceQuantities[0]?.requirements.filter(req=>req["requirement-id"]==designation["requirement-id"])[0]?.["weighting"];
         designation["NumberSFIA"]="";
         if(res!=undefined){
           designation["NumberSFIA"]=res.toString();
