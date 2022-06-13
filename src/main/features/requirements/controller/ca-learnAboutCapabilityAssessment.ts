@@ -36,7 +36,7 @@ export const CA_GET_LEARN = async (req: express.Request, res: express.Response) 
       agreementLotName,
       choosenViewPath,
       releatedContent,
-      isPathOne,
+      isPathOne, 
     };
     res.render('ca-learnAboutCapabilityAssessment', windowAppendData);
   } catch (error) {
