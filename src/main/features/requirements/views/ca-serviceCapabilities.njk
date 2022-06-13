@@ -5,7 +5,28 @@
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
-    items: breadCrumbs
+    items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/ca/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "Select your service capabilities",
+                "href": "#"
+            }
+        ]
   }) }}
 {% endblock %}
 
@@ -197,8 +218,8 @@
               id: "form_submit"
             })
         }}
-         
-        <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
+          {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
       </div>
     </div>
      </form>

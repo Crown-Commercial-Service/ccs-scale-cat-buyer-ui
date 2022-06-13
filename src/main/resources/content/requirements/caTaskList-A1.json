@@ -79,14 +79,14 @@
         },
         {
           "Task": 4,
-          "link": "#",
+          "link": "/ca/resources-vetting-weightings",
           "title": "Set your resources and vetting weightings",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
           "Task": 5,
-          "link": "#",
+          "link": "/ca/choose-security-requirements",
           "title": "Choose highest security and vetting requirements",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -107,7 +107,7 @@
         },
         {
           "Task": 8,
-          "link": "#",
+          "link": "/ca/where-work-done",
           "title": "Where the work will be done",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -122,7 +122,7 @@
         },
         {
           "Task": 10,
-          "link": "#",
+          "link": "/ca/review-ranked-suppliers",
           "title": "Review ranked suppliers",
           "required": "mandatory",
           "status": "Cannot start yet"
