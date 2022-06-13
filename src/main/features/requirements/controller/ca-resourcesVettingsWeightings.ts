@@ -71,6 +71,10 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
       const FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
+      let findername=FINDER.name;
+      const temp=findername.replace( /^\D+/g, '');
+     const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
+     FINDER.name=tempname;
       UNIQUE_DESIG_STORAGE.push(FINDER);
     }
 
@@ -214,7 +218,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
         }
         for(var designation of cat.designations)
       {
-        let res=dimensionResourceQuantities[0].requirements.filter(req=>req["requirement-id"]==designation["requirement-id"])[0]?.["weighting"];
+        let res=dimensionResourceQuantities[0]?.requirements.filter(req=>req["requirement-id"]==designation["requirement-id"])[0]?.["weighting"];
         designation["NumberSFIA"]="";
         if(res!=undefined){
           designation["NumberSFIA"]=res.toString();

@@ -105,15 +105,13 @@
                       }}
             {% endfor %}
 
-            <div class="govuk-button-group">
-              {{ CCSButton({
-                    text: "Save and continue",
-                    classes:"save-button"
-                  })
-              }}
-               {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
-                <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
-            </div>
+              <div class="govuk-button-group">
+                        {{ CCSButton({
+                            text: "Save and continue"
+                        }) }}
+                        {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to write and publish your requirements</a>
+                    </div>
 
       </form>
     </div>

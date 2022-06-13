@@ -19,13 +19,13 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     const { dimensionRequirements } = assessments;
     let totalQuantityca=0;
     let selectedOption;
-    let securityQuantity;
+    let securityQuantity=0;
     if (dimensionRequirements.length > 0) {
         if(dimensionRequirements.filter(dimension => dimension["dimension-id"] === 7).length>0)
       {
         if(dimensionRequirements.filter(dimension => dimension["dimension-id"] === 7)[0].requirements.length>0)
         {
-          totalQuantityca=dimensionRequirements.filter(x=>x["dimension-id"])[0].requirements.map(a => a.weighting).reduce(function(a, b)
+          totalQuantityca=dimensionRequirements.filter(x=>x["dimension-id"]===7)[0].requirements.map(a => a.weighting).reduce(function(a, b)
           {
              return a + b;
           });
@@ -37,10 +37,13 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
         if(dimensionRequirements.filter(dimension =>dimension["dimension-id"] ===2)[0].requirements.length>0)
         {
       selectedOption = dimensionRequirements.filter(dimension => dimension["dimension-id"] ===2)[0]
-      .requirements[0].values.find(y=>y["criterion-id"]==0).value;
-      data.form.radioOptions.items.find(item => item.value === selectedOption).checked = true;
+      .requirements[0].values?.find(y=>y["criterion-id"]==0)?.value;
+      if(selectedOption!=undefined)
+      {
+        data.form.radioOptions.items.find(item => item.value === selectedOption).checked = true;
+      } 
       securityQuantity=dimensionRequirements.filter(dimension => dimension["dimension-id"] ===2)[0]
-      .requirements[0].values.find(y=>y["criterion-id"]==6).value
+      .requirements[0].values?.find(y=>y["criterion-id"]==6)?.value
       data.form.selectedValue=totalQuantityca-securityQuantity;
      }
     }
@@ -94,7 +97,7 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
 
   const resources= selectedresourceNumber>0?ccs_ca_resources[selectedresourceNumber-1]:0;
   const totalQuantityca=req.session.totalQuantityca;
-  const { isError, errorText } = checkErrors(selectedresourceNumber,resources);
+  const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityca);
   if (isError) {
     req.session.errorText = errorText;
     req.session.isError = isError;
@@ -103,7 +106,8 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
     try {
       let dimension2weighitng;
       let SecQuantityrequirements;
-      let requirementsData;
+      let requirementsData=[];
+      let reqrmnt;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const { dimensionRequirements } = assessments;
@@ -118,7 +122,7 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
     } 
     const ca_Quantity=totalQuantityca-resources;
     for (var reqrment of SecQuantityrequirements) {
-       requirementsData = [{
+      reqrmnt = [{
         'requirement-id': reqrment["requirement-id"],
         weighting: reqrment.weighting,
         values: [
@@ -132,6 +136,7 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
           },
         ],
       }];
+      requirementsData.push(...reqrmnt)
     }
       let subcontractorscheck;
       if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 2).length>0)
