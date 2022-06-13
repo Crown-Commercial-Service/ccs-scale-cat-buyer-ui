@@ -97,12 +97,12 @@ export class QuestionHelper {
               else if (questionType === 'ReadMe') {
                 innerMandatoryNum += 1;
               }
+            }else {
+              mandatoryNum += 1;
             }
           }
           if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
-          else if (innerMandatoryNum === 0 || mandatoryNumberinGroup === 0 || mandatoryNumberinGroup > 0 || mandatoryNumberinGroup === null) {
-            mandatoryNum += 1;
-          }
+          
         }
       }
 
@@ -197,82 +197,6 @@ export class QuestionHelper {
      */
     let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
-      //update section 3 status start
-      const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
-      const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
-      let heading_fetch_dynamic_api_data = heading_fetch_dynamic_api?.data;
-      heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 2'));//exclude group 18 and 2
-      heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.sort((n1: { nonOCDS: { order: number; }; }, n2: { nonOCDS: { order: number; }; }) => n1.nonOCDS.order - n2.nonOCDS.order);
-      const mandatoryGroupList = heading_fetch_dynamic_api_data.filter((n1: { nonOCDS: { mandatory: any; }; }) => n1.nonOCDS?.mandatory);
-      let mandatoryNum = 0;
-      for (let i = 0; i < mandatoryGroupList.length; i++) {
-        let isMandatory = mandatoryGroupList[i]?.nonOCDS?.mandatory;
-        if (isMandatory) {
-          let gid = mandatoryGroupList[i]?.OCDS?.id;
-          let baseQuestionURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${gid}/questions`;
-          let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
-          let question_api_data = question_api?.data;
-          //let mandatoryMarked=false;//increase mandatory count
-          let innerMandatoryNum = 0;
-          let mandatoryNumberinGroup = question_api_data.filter((a: any) => a?.nonOCDS?.mandatory == true)?.length;//no of questions mandatory in group
-          for (let k = 0; k < question_api_data.length; k++) {//multiple questions on page
-            let isInnerMandatory = question_api_data?.[k]?.nonOCDS?.mandatory;
-            if (isInnerMandatory) {
-              let questionType = question_api_data?.[k]?.nonOCDS?.questionType;
-              let answer = ''
-              let selectedLocation;
-              if (questionType == 'Text' || questionType == 'Percentage') {
-                let textMandatoryNum = question_api_data?.[k]?.nonOCDS?.options?.length;
-                let textNum = 0;
-                if (textMandatoryNum == 0) { textMandatoryNum = -1; }//no data is entered
-                for (let j = 0; j < textMandatoryNum; j++) {
-                  answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
-                  if (answer != '' && answer != undefined) { textNum += 1; }
-                }
-                if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
-              }
-              else if (questionType === 'SingleSelect') {
-                for (let j = 0; j < question_api_data?.[k]?.nonOCDS?.options?.length; j++) {
-                  selectedLocation = question_api_data?.[k]?.nonOCDS?.options?.[j]['selected'];
-                  if (selectedLocation) { innerMandatoryNum += 1; }
-                }
-              }
-              else if (questionType === 'Date') {
-                let dateValidation = 0;
-                for (let j = 0; j < question_api_data?.[k]?.nonOCDS?.options?.length; j++) {
-                  let dateValue = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
-                  if (dateValue != '' && dateValue != undefined) { dateValidation += 1; }
-                }
-                if (dateValidation == 3)//3 for day,month,year
-                {
-                  innerMandatoryNum += 1;
-                }
-              }
-              else if (questionType === 'KeyValuePair') {
-                let kvMandatoryNum = question_api_data?.[k]?.nonOCDS?.options?.length;
-                let kvNum = 0;
-                if (kvMandatoryNum == 0) { kvMandatoryNum = -1; }//no data is entered
-                for (let j = 0; j < kvMandatoryNum; j++) {
-                  let kvText = question_api_data?.[k]?.nonOCDS?.options?.[j]?.text;
-                  let kvValue = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
-                  if (kvText != '' && kvValue != '' && kvText != undefined && kvValue != undefined) { kvNum += 1; }
-                }
-                if (kvNum == kvMandatoryNum) { innerMandatoryNum += 1; }
-              }
-              else if (questionType === 'ReadMe') {
-                innerMandatoryNum += 1;
-              }
-            }
-            else {
-              mandatoryNum += 1;
-            }
-          }
-          if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
-
-        }
-      }
-
-
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       let fetch_dynamic_api_data = fetch_dynamic_api?.data;
       let extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
