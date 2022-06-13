@@ -17,17 +17,25 @@
       "href": "/ca/task-list"
     },
     {
-      "text": "Review ranked suppliers",
+      "text": "Review suitable suppliers",
       "href": "#"
     }
   ],
 
-  "title": "Review ranked suppliers",
-  "p1": "[You've decided to take forward X suppliers.", 
-    "p5":"The X suppliers below, ranking between 1 and Z, will be automatically taken forward in your further competition event]",
-  "p2": "[ You also have Z suppliers with a lower ranking that can be included. You’ll be asked to enter a justification for the suppliers you can select below. You need to select at least X supplier(s).]",
-  "p3": "[ Enter your justification for the suppliers you’ve selected ]",
-  "p4": "[ Instructions ]",
+  "title": "Review suitable suppliers",
+  "instruction1": "The suppliers listed on this page are in order of most suitable, based on the criteria you have entered.",
+  "instruction2": "Position 1 and 2 are the suppliers that best meet your criteria. Any suppliers listed in position 3 do not meet the criteria as well as the suppliers at position 1 and 2 but could still offer the services you need.",
+  "instruction3": "Position 3 suppliers have not scored as highly as position 1 and 2 suppliers, but could still be considered for the opportunity, based on how they match to some of your criteria.",
+  "instruction4": "If the number of suppliers in position 1 and 2 don't match the number of suppliers you chose to take forward, you can add suppliers from position 3.You will need to add a reason for the specific suppliers you choose.",
+  "instruction5": "To look at the details for each supplier, go to",
+  "instruction6": "You can download this list of suppliers at the bottom of the page",
+  "p1": "You chose to take forward X suppliers to further competition.", 
+    "p5":"The X suppliers below, in position 1 and Z, will be automatically taken forward to further competition if you choose that option on the next step.",
+  "p2": " You have Z suppliers with a lower score that can also be taken through to further competition.",
+  "p6": "You will need to enter a reason for any suppliers you choose in the box below.",
+  "p7":"You need to select at least X supplier(s).",
+  "p3": "Enter the reason why you selected the suppliers from position 3 above.",
+  "p4": "",
   "backJump": {
     "title": "Return to write and publish your requirements",
     "href": "/ca/task-list"

@@ -1,6 +1,6 @@
 //@ts-nocheck
 import * as express from 'express';
-import * as dataWWD from '../../../resources/content/requirements/daWhereWorkDone.json';
+import * as dataWWD from '../../../resources/content/requirements/caWhereWorkDone.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -39,7 +39,7 @@ export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
       locationArray,
       choosenViewPath,   
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'In progress');
     res.render('ca-whereWorkDone', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -141,12 +141,12 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
       );
       if(response.status == 200)
       {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Not started');
       res.redirect('/ca/suppliers-to-forward');
       }
       else{
-        res.redirect('/400');
+        res.redirect('/404/');
       }
     } catch (error) {
       LoggTracer.errorLogger(

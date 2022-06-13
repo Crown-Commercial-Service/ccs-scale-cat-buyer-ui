@@ -5,15 +5,36 @@
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
-    items: breadCrumbs
+    items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/ca/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "Select your service capabilities",
+                "href": "#"
+            }
+        ]
   }) }}
 {% endblock %}
 
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 {{ CCSDialog({
-  title:'This action cannot be undone, please confirm that you want to progress.',
-  description:'This action will revert the form to its original stated.',
+  title:'This action cannot be undone. Confirm that you want to progress.',
+  description:'This action will revert the form to its original state.',
   redirect:'#',
   type:'vetting'
 }) }}
@@ -31,14 +52,22 @@
 
  <div class="govuk-grid-row">
     <h1 class="govuk-heading-xl">
-        {{title}}
+        <strong>{{title}}</strong>
     </h1>
+    
+    
     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
 
         {% include "includes/project_header.njk" %}
       </div>
+    <p classv = "govuk-body">{{subtitle1}}</p>
+    <p classv = "govuk-body">{{subtitle2}}</p>
+    <p classv = "govuk-body">{{subtitle3}}</p>
+     {{ CCSInsetText({
+                        html:subtitle4
+                }) }}
     </div>
       <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/ca/service-capabilities" method="POST">
     {{ csrfProtection(csrf) }}    
@@ -189,8 +218,8 @@
               id: "form_submit"
             })
         }}
-         
-        <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
+          {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
       </div>
     </div>
      </form>
