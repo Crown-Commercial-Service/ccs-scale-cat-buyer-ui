@@ -37,7 +37,7 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
     };
     if(download!=undefined){
       
-      const  assessmentId = currentEvent.assessmentId;//507
+      const  assessmentId = currentEvent.assessmentId;//507 
       const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
       const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
       const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;//scores data
