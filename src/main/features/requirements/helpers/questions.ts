@@ -98,9 +98,11 @@ export class QuestionHelper {
                 innerMandatoryNum += 1;
               }
             }
-
           }
-          if (mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
+          if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
+          else if (innerMandatoryNum ===0 || mandatoryNumberinGroup === 0 || mandatoryNumberinGroup >0 || mandatoryNumberinGroup === null) {
+            mandatoryNum += 1;
+          }
         }
       }
 
@@ -305,6 +307,19 @@ export class QuestionHelper {
       );
     }
   };
+
+  static GET_GROUP_LIST = async (
+    proc_id: any,
+    event_id: any,
+    id: any,
+    SESSION_ID: any,
+    DynamicFrameworkInstance: any
+  ) => {
+    const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
+    const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
+    return heading_fetch_dynamic_api?.data;
+
+  }
 }
 
 
