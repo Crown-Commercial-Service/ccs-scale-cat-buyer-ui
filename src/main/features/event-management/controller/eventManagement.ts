@@ -209,9 +209,9 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const { eventId } = req.session;
   const { supplierid } = req.query;
 
-
+try{
   if (supplierid != undefined) {
-    try{
+    
     const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
@@ -229,20 +229,10 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       'Content-Disposition': 'attachment; filename=' + fileName,
     });
     res.send(fileData);
-  }catch (error) {
-    LoggTracer.errorLogger(
-      res,
-      error,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Tenders Service Api cannot be connected',
-      true,
-    );
   }
-  }
+  
   else {
-    try{
+    
     const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
@@ -260,18 +250,18 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       'Content-Disposition': 'attachment; filename=' + fileName,
     });
     res.send(fileData)
-    }catch (error) {
-      LoggTracer.errorLogger(
-        res,
-        error,
-        `${req.headers.host}${req.originalUrl}`,
-        null,
-        TokenDecoder.decoder(SESSION_ID),
-        'Tenders Service Api cannot be connected',
-        true,
-      );
     }
-  }
+}catch (error) {
+  LoggTracer.errorLogger(
+    res,
+    error,
+    `${req.headers.host}${req.originalUrl}`,
+    null,
+    TokenDecoder.decoder(SESSION_ID),
+    'Tenders Service Api cannot be connected',
+    true,
+  );
+}
 
 }
 //publisheddoc?download=1
