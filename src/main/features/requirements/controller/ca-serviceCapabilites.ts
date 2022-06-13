@@ -121,11 +121,23 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       designation => designation.data.length !== 0,
     );
 
+    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
+    let requirements = dimensionRequirements?.filter(x =>x["dimension-id"] == 3)[0]?.requirements;
+
     const TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
+     let totalAddedWeighting = 0;
+     const { data} = item;
+    
+     data?.map(req => {
+      let weighting =  requirements?.filter(x => x["requirement-id"] == req["requirement-id"] )[0]?.weighting;
+      if(weighting !=null && weighting !=undefined)
+      totalAddedWeighting = totalAddedWeighting + weighting;
+     })
+     
       return {
         url: `#section${index}`,
         text: item.category,
-        subtext: `[ 0 % ]`,
+        subtext: `[ `+ totalAddedWeighting +` % ]`,
         className: 'ca-service-capabilities'
       };
     });
@@ -169,8 +181,6 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
      */
     let DRequirements;
     let totalWeighting = 0;
-
-    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
 
     if (dimensionRequirements != null && dimensionRequirements !== undefined && dimensionRequirements.length > 0) {
       let  dimension = dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3);
@@ -518,7 +528,7 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const PUT_BODY = {
       weighting: Service_capbility_weightage,
       includedCriteria: includedSubContractor,
-      overwriteRequirements: false,
+      overwriteRequirements: true,
       requirements: MappedWholeAndPartialCluster,
     };
 

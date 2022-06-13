@@ -154,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 else if(vetWhole.val() != undefined && vetWhole.val() == "")
                 {
+                    itemSubText.innerHTML = '[ '+0 + ' %' + ' ]';
                  $(`#${vettingWhole}`).removeClass('govuk-input--error');
                  $(`.${vettingWholeT}`).text('');
                 }
@@ -168,6 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             vetPartial.on('blur', () => {
 
+                clearWholeCluster(category);
+
                 if(vetPartial.val() != undefined && vetPartial.val() !== null && vetPartial.val() !== "")
                 {                
                     clearInputData(weight_whole_len,vettingWhole2);
@@ -176,11 +179,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 else if(vetPartial.val() != undefined && vetPartial.val() == "")
                 {
+                    updateVettingPartial(vettingPartial);
                  $(`#${weightId}`).removeClass('govuk-input--error');
                  $(`.${weightT}`).text('');
                 }
 
             });
+        }
+    }
+
+    function clearWholeCluster(category)
+    {
+        for (var a = 1; a < weight_whole_len; a++) {
+            let vettingWhole = 'weight_vetting_whole_' + category + a;
+            let vetWhole = $(`#${vettingWhole}`);
+            if(vetWhole !=undefined && vetWhole !=null)
+            vetWhole.text('');
         }
     }
 
