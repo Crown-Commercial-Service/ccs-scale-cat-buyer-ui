@@ -44,7 +44,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     });
     const baseurl = `/tenders/projects/${projectId}/events`
     const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
-
+    status=apidata.data[0].dashboardStatus;
 
     // Code Block ends
 
@@ -134,7 +134,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
     const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
     let showCloseProject = false;
-          if (status == "Published".toLowerCase() || status == "To Be Evaluated".toLowerCase()) {
+          if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated") {
             showCloseProject = true;
           }
           const procurementId =  req.session['projectId'];
@@ -143,7 +143,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           collaboratorData = collaboratorData.data;          
           const appendData = { data: eventManagementData,Colleagues:collaboratorData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
-    if (status == "In-Progress".toLowerCase()) {
+    if (status.toLowerCase() == "in-progress") {
       let redirectUrl: string
       switch (eventType) {
         case "RFI":
@@ -209,8 +209,9 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const { eventId } = req.session;
   const { supplierid } = req.query;
 
-
+try{
   if (supplierid != undefined) {
+    
     const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
@@ -229,7 +230,9 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
     });
     res.send(fileData);
   }
+  
   else {
+    
     const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
@@ -247,7 +250,18 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       'Content-Disposition': 'attachment; filename=' + fileName,
     });
     res.send(fileData)
-  }
+    }
+}catch (error) {
+  LoggTracer.errorLogger(
+    res,
+    error,
+    `${req.headers.host}${req.originalUrl}`,
+    null,
+    TokenDecoder.decoder(SESSION_ID),
+    'Tenders Service Api cannot be connected',
+    true,
+  );
+}
 
 }
 //publisheddoc?download=1

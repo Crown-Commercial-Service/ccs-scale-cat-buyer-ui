@@ -97,12 +97,12 @@ export class QuestionHelper {
               else if (questionType === 'ReadMe') {
                 innerMandatoryNum += 1;
               }
+            }else {
+              mandatoryNum += 1;
             }
           }
           if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
-          else if (innerMandatoryNum ===0 || mandatoryNumberinGroup === 0 || mandatoryNumberinGroup >0 || mandatoryNumberinGroup === null) {
-            mandatoryNum += 1;
-          }
+          
         }
       }
 
@@ -197,7 +197,6 @@ export class QuestionHelper {
      */
     let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
-
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       let fetch_dynamic_api_data = fetch_dynamic_api?.data;
       let extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
@@ -237,21 +236,7 @@ export class QuestionHelper {
         let next_group_id = next_cursor_object.OCDS['id'];
         let next_criterian_id = next_cursor_object['criterianId'];
         let base_url = `/rfp/assesstment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}=&step${res.req?.query?.step}`;
-        if (next_group_id === 'Group 8' && next_criterian_id === 'Criterion 2') {
-
-          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'Completed');
-          if (response.status == HttpStatusCode.OK) {
-            let flag = await ShouldEventStatusBeUpdated(proc_id, 38, req);
-            if (flag) {
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
-            }//await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
-            //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
-            //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
-          }
-
-          res.redirect('/rfp/task-list');
-        } else
-          res.redirect(base_url);
+        res.redirect(base_url);
       } else {
         let mandatoryNum = 0;
         const maxNum = 8;
