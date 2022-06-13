@@ -25,7 +25,7 @@ export const CA_GET_UPLOAD_SUPPORTING_DOCUMENT = async (req: express.Request, re
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
     const appendData = { data: cmsData, releatedContent, error: isJaggaerError, choosenViewPath };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/56`, 'In progress');
-    res.render('ca-uploadDoc', appendData);
+    res.render('ca-uploadDocument', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,

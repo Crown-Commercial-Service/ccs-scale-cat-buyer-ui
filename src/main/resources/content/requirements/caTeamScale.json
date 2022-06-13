@@ -17,13 +17,13 @@
       "href": "/ca/task-list"
     },
     {
-      "text": "How well can the team scale?",
+      "text": "How much the team can grow (scale)",
       "href": "#"
     }
   ],
 
-  "title": "How well can the team scale?",
-  "subtitle": "[ Instructions for this page ]",
+  "title": "How much the team can grow (scale)",
+  "subtitle": "As your project progresses you may need more staff to complete or support the project. If you think this is something you will need you can select a range that you might need the supplier team to grow by.",
   "form": {
     "question": "This needs to relate to the potential size of the supplier team that needs to fulfil the buyer’s requirements",
     "radioOptions": {

@@ -48,7 +48,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {{ data.title }}
+                  <strong> {{ data.title }} </strong>
                 </h1>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 {{ CCSInsetText({
                         html: data.insertText
                 }) }}
-
+               {# <p class = "govuk-body"> {{data.insertText}} </p>#}
                 <form id="ccs_ca_weighting" name="ccs_ca_weighting" class="form ccs_ca_weighting" action="/ca/enter-your-weightings" method="POST">
                     {{ csrfProtection(csrf) }}
                     <div class="ccs-page-section">

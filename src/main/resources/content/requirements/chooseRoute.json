@@ -27,17 +27,20 @@
       "idPrefix": "ccs_choose_ca_route",
       "name": "ccs_choose_ca_type",
       "items": [   
+       
+        
         {
           "value": "1-stage",
-          "text": "Further competition",
+          "text": "One-stage further competition",
           "hint": {
-            "text": "If you select this option,you will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."
+            "text": "If you select this option, you will need to invite all suppliers to bid for your opportunity and assess all bids that are submitted."
           },
           "disabled": "false",
           "remove": "false"
         }
       ]
     },
+    
     "backJump": {
       "title": "Return to Procurement overview",
       "href": "/projects/create-or-choose"

@@ -1,6 +1,6 @@
 //@ts-nocheck
 import * as express from 'express';
-import * as dataWWD from '../../../resources/content/requirements/daWhereWorkDone.json';
+import * as dataWWD from '../../../resources/content/requirements/caWhereWorkDone.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';

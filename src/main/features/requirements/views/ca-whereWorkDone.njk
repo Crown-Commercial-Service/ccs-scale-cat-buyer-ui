@@ -28,7 +28,7 @@
                 "href": "/ca/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "Where the work will be done?",
+                "text": "Where the work will be done",
                 "href": "#"
             }
         ]
@@ -55,19 +55,25 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 id="page-heading" class="govuk-heading-xl">
-          {{title}}
+          <strong>{{title}}</strong>
         </h1>
       </div>
     </div>
     <div class="govuk-grid-column-two-thirds">
       {% include "includes/project_header.njk" %}
       <div class="ccs-page-section">
-        <p class="govuk-body">{{subtitle}}</p>
+        <p class="govuk-body">{{subtitle1}}</p>
+             {{ CCSInsetText({
+                        html:subtitle2
+                }) }}
         <br>
       </div>
+      
       <form id="ca_where_work_done" name="ca_where_work_done" class="form ca_form" action="/ca/where-work-done" method="post">
       {{ csrfProtection(csrf) }} 
         <div class="ccs-page-section">
+        <div class="sub-section">
+         
           <p class="govuk-body">
                         <h2>Total : <span id="totalPercentage">{{totalPercentage    }}</span> of 100%</h2>
                               <a href="#" class="del govuk-link govuk-link--no-visited-state ca_whereworkdone_popup" title="delete">Clear form</a>

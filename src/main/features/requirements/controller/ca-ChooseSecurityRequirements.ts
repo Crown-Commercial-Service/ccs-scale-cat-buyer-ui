@@ -75,9 +75,9 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
 function checkErrors(selectedNumber, resources,totalQuantityca) {
   let errorText = [];
   if (!selectedNumber) {
-    errorText.push({ text: 'You must provide a security clearance level before proceeding' });
+    errorText.push({ text: 'You must select the highest level of security clearance that staff supplied to the project will need to have.' });
   } else if (selectedNumber && ['1','2', '3', '4'].includes(selectedNumber) && !resources) {
-    errorText.push({ text: 'A Quantity must be specified' });
+    errorText.push({ text: 'You must enter the number of staff who will need a lower security and vetting requirement' });
   } else if (selectedNumber && ['1','2', '3', '4'].includes(selectedNumber) && (resources < 0 || resources > (totalQuantityca-1))) {
     errorText.push({ text: 'A Quantity must be between 1 to Quantity('+totalQuantityca+') - 1' });
   }
