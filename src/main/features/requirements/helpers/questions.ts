@@ -100,7 +100,7 @@ export class QuestionHelper {
             }
           }
           if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
-          else if (mandatoryNumberinGroup === 0 || mandatoryNumberinGroup === null) {
+          else if (innerMandatoryNum ===0 || mandatoryNumberinGroup === 0 || mandatoryNumberinGroup >0 || mandatoryNumberinGroup === null) {
             mandatoryNum += 1;
           }
         }
