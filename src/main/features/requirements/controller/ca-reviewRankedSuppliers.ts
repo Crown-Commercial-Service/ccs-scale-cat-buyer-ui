@@ -12,7 +12,7 @@ const excelJS= require('exceljs');
 
 export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId, releatedContent, isError, errorText, eventId, currentEvent } = req.session;
+  const { projectId, releatedContent, isError, errorText,choosenViewPath, eventId, currentEvent } = req.session;
   const { assessmentId } = currentEvent;
   const { data: eventData } = await TenderApi.Instance(SESSION_ID).get(
     `/tenders/projects/${projectId}/events/${eventId}`,
@@ -185,7 +185,7 @@ const data = await workbook.xlsx.writeFile(`suppliers.xlsx`).then(() => {
   }
 else
 {
-  const appendData = {...dataRRSMod, numSuppliers,RankedSuppliers:TopRankScores,BelowRankScores:BelowRankScores, lotSuppliers: lotSuppliers, Justification:Justification,releatedContent, isError, errorText };
+  const appendData = {...dataRRSMod,choosenViewPath, numSuppliers,RankedSuppliers:TopRankScores,BelowRankScores:BelowRankScores, lotSuppliers: lotSuppliers, Justification:Justification,releatedContent, isError, errorText };
   
   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
   res.render('ca-reviewRankedSuppliers', appendData);
@@ -279,12 +279,12 @@ export const CA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
         
         const response = await TenderApi.Instance(SESSION_ID).post(Supplier_BASEURL, body);
         if (response.status == 200) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');
         res.redirect('/ca/next-steps');
         }
         else{
-          res.redirect('/400');
+          res.redirect('/404/');
         }
     } catch (error) {
       LoggTracer.errorLogger(

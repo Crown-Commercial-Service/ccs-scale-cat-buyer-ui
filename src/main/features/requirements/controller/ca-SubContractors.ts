@@ -85,7 +85,7 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
 
     if (ca_subContractors !== undefined && ca_subContractors !== '') {
      const ca_acceptsubcontractors = ca_subContractors == 'yes' ? true : false;
-
+     req.session['CapAss'].isSubContractorAccepted=ca_acceptsubcontractors
       const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
       for (var dimension of assessmentDetail.dimensionRequirements) {

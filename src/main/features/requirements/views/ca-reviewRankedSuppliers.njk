@@ -4,7 +4,28 @@
 
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
-    items: breadCrumbs
+   items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/ca/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "Review ranked suppliers",
+                "href": "#"
+            }
+        ]
   }) }}
 {% endblock %}
 
@@ -29,19 +50,21 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 id="page-heading" class="govuk-heading-xl">
-          {{title}}
+          <strong>{{title}}</strong>
         </h1>
       </div>
     </div>
     <div class="govuk-grid-column-two-thirds">
       {% include "includes/project_header.njk" %}
-      <div class="govuk-inset-text">
-        <p>[Instructions for this page]</p>
-        <p class="govuk-body">If you'd like to look at the details for each suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers</a><span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website.</p>
-      </div>
+        <p class="govuk-body">{{instruction1}}</p>
+        <p class="govuk-body">{{instruction2}}</p>
+        <p class="govuk-body">{{instruction3}}</p>
+        <p class="govuk-body">{{instruction4}}</p>
+        <p class="govuk-body">{{instruction5}}<a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers (Opens in new window).</a><span class="govuk-visually-hidden">opens in a new window</span></p>
+        <p class="govuk-body">{{instruction6}}</p>
       <div class="ccs-page-section">
-        <p class="govuk-body">{{p1}}</p><br>
-        <p class="govuk-body">{{p5}}</p>
+        <p class="govuk-body"><h3>{{p1}}</h3></p>
+        <p class="govuk-body"><h3>{{p5}}</h3></p>
       </div>
       
         <form id="ca_review_ranked_suppliers" name="ca_review_ranked_suppliers" class="form ca_form" action="/ca/review-ranked-suppliers" method="post">
@@ -50,8 +73,8 @@
            
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">[Rank and score]</th>
-                <th scope="col" class="govuk-table__header">[Supplier]</th>
+                <th scope="col" class="govuk-table__header">Position and score</th>
+                <th scope="col" class="govuk-table__header">Supplier</th>
                </tr>
             </thead>
             <tbody class="govuk-table__body">
@@ -59,7 +82,7 @@
                 <tr class="govuk-table__row">
                   
                   <td class="govuk-table__cell">
-                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>Rank {{score.rank}}</strong></p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>Position {{score.rank}}</strong></p><br>
                   <p class="govuk-body govuk-!-margin-bottom-0"><strong>{{score.total}}%  total score</strong></p><br>
                   <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[0].score}}%  [Capacity score]</p><br>
                   <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[1].score}}%  [Vetting score]</p><br>
@@ -80,7 +103,9 @@
        
          {% if(BelowRankScores.length>0)%}
         <div class="ccs-page-section">
-          <p class="govuk-body">{{p2}}</p>
+          <p class="govuk-body"><h3>{{p2}}</h3></p>
+          <p class="govuk-body"><h3>{{p6}}</h3></p>
+          <p class="govuk-body"><h3>{{p7}}</h3></p>
         </div>
     <table class="govuk-table">
           
@@ -142,7 +167,8 @@
                 </a>
                                 </h3>
                             </div>
-              <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
+                             {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+              <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
             </div>
 
         </form>

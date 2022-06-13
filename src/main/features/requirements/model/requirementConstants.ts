@@ -13,6 +13,7 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_ADD_COLLABORATOR_JSENABLED = '/rfp/get-collaborator-detail/js-enabled',
   RFP_POST_ADD_COLLABORATOR = '/rfp/get-collaborator-detail',
   RFP_POST_ADD_COLLABORATOR_TO_JAGGER = '/rfp/add-collaborator-detail',
+  RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = '/rfp/delete-collaborators',
   RFP_POST_PROCEED_COLLABORATORS = '/rfp/proceed-collaborators',
 
   // RFP Scoring Criteria

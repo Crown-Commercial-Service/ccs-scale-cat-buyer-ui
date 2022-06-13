@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   $('.additional').addClass('ccs-dynaform-hidden');
-
+  const removeErrorFieldsRfpScoreQuestion = () => {
+    $('.govuk-error-message').remove();
+    $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+    $('.govuk-error-summary').remove();
+    $('.govuk-input').removeClass('govuk-input--error');
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+  };
   const FormSelector = $('#rfp_multianswer_question_form');
   if (FormSelector !== undefined && FormSelector.length > 0) {
     let with_value_count = 10,
@@ -211,13 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return errorStore;
   }
 
-  const removeErrorFieldsRfpScoreQuestion = () => {
-    $('.govuk-error-message').remove();
-    $('.govuk-form-group--error').removeClass('govuk-form-group--error');
-    $('.govuk-error-summary').remove();
-    $('.govuk-input').removeClass('govuk-input--error');
-    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-  };
+
   $('#rfp_multianswer_question_form').on('submit', (event) => {
     event.preventDefault();
     let errorStore = [];

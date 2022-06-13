@@ -71,6 +71,10 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
       const FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
+      let findername=FINDER.name;
+      const temp=findername.replace( /^\D+/g, '');
+     const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
+     FINDER.name=tempname;
       UNIQUE_DESIG_STORAGE.push(FINDER);
     }
 
@@ -214,7 +218,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
         }
         for(var designation of cat.designations)
       {
-        let res=dimensionResourceQuantities[0].requirements.filter(req=>req["requirement-id"]==designation["requirement-id"])[0]?.["weighting"];
+        let res=dimensionResourceQuantities[0]?.requirements.filter(req=>req["requirement-id"]==designation["requirement-id"])[0]?.["weighting"];
         designation["NumberSFIA"]="";
         if(res!=undefined){
           designation["NumberSFIA"]=res.toString();
@@ -248,10 +252,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       total_res,total_ws,total_wv
     };
 
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
-    //res.json(dimensions)
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'In progress');
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -531,8 +532,6 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   if(response.status==HttpStatusCode.OK){
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');//review ranked suppliers
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/56`, 'Cannot start yet');//next steps
     res.redirect('/ca/choose-security-requirements');
   }
   else{
