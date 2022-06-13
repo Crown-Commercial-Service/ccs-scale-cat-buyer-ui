@@ -24,6 +24,7 @@ const removeErrorFieldsRfpSelect = () => {
 $('#rfp_singleselect').on('submit', (event) => {
     event.preventDefault();
     removeErrorFieldsRfpSelect();
+    const textPattern = /^[a-zA-Z ]+$/
     var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
     let ischecked = false;
     var headerText = document.getElementById('page-heading').innerHTML;
@@ -37,11 +38,11 @@ $('#rfp_singleselect').on('submit', (event) => {
         var rfp_security_confirmation = document.getElementById("rfp_security_confirmation");
         if (ccs_vetting_type && rfp_security_confirmation.value === '' && Number(rfp_security_confirmation.value)) {
             ccsZaddErrorMessage(rfp_security_confirmation, 'You must add information in field.');
-            ccsZPresentErrorSummary([["There is a problem", 'You must add information in field.']]);
+            ccsZPresentErrorSummary([["rfp_security_confirmationrfp_security_confirmation", 'You must add information in field.']]);
         }
-        else if (ccs_vetting_type && rfp_security_confirmation.value !== '' && Number(rfp_security_confirmation.value)) {
+        else if (ccs_vetting_type && rfp_security_confirmation.value !== undefined && rfp_security_confirmation.value !== null && rfp_security_confirmation.value !== '' && !textPattern.test(rfp_security_confirmation.value) && Number(rfp_security_confirmation.value)) {
             ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
-            ccsZPresentErrorSummary([["There is a problem", 'Please enter only character.']]);
+            ccsZPresentErrorSummary([["rfp_security_confirmation", 'Please enter only character.']]);
         }
         else {
             document.forms['rfp_singleselect'].submit();
