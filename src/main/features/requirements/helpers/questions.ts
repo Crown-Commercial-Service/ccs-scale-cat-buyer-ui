@@ -105,18 +105,18 @@ export class QuestionHelper {
       }
 
       if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'Completed');
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/32`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-          let flag = await ShouldEventStatusBeUpdated(proc_id, 33, req);
+          let flag = await ShouldEventStatusBeUpdated(req.session.eventId, 33, req);
           if (flag) {
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/33`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/33`, 'Not started');
           }
         }
       }
       else {
-        let flag = await ShouldEventStatusBeUpdated(proc_id, 32, req);
+        let flag = await ShouldEventStatusBeUpdated(req.session.eventId, 32, req);
         if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'In progress');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/32`, 'In progress');
         }
       }
       //update section 3 status end
@@ -237,11 +237,11 @@ export class QuestionHelper {
         let base_url = `/rfp/assesstment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}=&step${res.req?.query?.step}`;
         if (next_group_id === 'Group 8' && next_criterian_id === 'Criterion 2') {
 
-          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'Completed');
+          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/37`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
-            let flag = await ShouldEventStatusBeUpdated(proc_id, 38, req);
+            let flag = await ShouldEventStatusBeUpdated(req.session.eventId, 38, req);
             if (flag) {
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/38`, 'Not started');
             }//await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');

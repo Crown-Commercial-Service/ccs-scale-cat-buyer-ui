@@ -88,10 +88,15 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
           res.redirect('/projects/create-or-choose');
           break;
         case '[1-stage FC]':
-            const fcResponse = updateEventType("FC",baseURL,SESSION_ID);
+          let body1 = {
+            eventType: "FC",
+          };
+          const  fcResponse  = await TenderApi.Instance(SESSION_ID).put(baseURL, body1);
+            // const fcResponse = updateEventType("FC",baseURL,SESSION_ID);
+          let data1 =fcResponse.data;
 
-          if (fcResponse != null && fcResponse != undefined)
-            req.session.currentEvent = fcResponse;
+          if (data1 != null && data1 != undefined)
+            req.session.currentEvent = data1;
 
             res.redirect('/projects/create-or-choose');
             break;  
