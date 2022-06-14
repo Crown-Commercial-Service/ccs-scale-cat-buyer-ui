@@ -61,7 +61,7 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     const appendData = { ...data, releatedContent, isError, choosenViewPath, errorText };
 
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'In progress');
-    res.render('ca-chooseSecurityRequirements', appendData);
+    res.render('ca-ChooseSecurityRequirements', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,

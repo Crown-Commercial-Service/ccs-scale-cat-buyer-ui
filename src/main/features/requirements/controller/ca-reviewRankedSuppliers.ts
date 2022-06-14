@@ -9,7 +9,8 @@ import SampleData from '../../shared/SampleData.json';
 import { CalRankSuppliers } from '../../shared/CalRankSuppliers';
 import { CAGetRequirementDetails } from '../../shared/CAGetRequirementDetails';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-const excelJS = require('exceljs');
+import {CAGetRequirementDetails} from '../../shared/CAGetRequirementDetails';
+const excelJS= require('exceljs');
 
 export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
