@@ -213,7 +213,7 @@
           </div>
         </div>
         {% endif %}
-        {% if status.toLowerCase() == 'to-be-evaluated' %}
+        {% if status.toLowerCase() != 'published' %}
         
           
         <p class="govuk-body">The supplliers below have responded to your published project.You can download individual supplier's answers or all answers</p>
@@ -263,7 +263,7 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-      {% if status.toLowerCase() == 'to-be-evaluated' %}
+      {% if status.toLowerCase() != 'published' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete project</h2>
@@ -283,7 +283,7 @@
 {#<div class="govuk-grid-row ccs-page-section">#}
       <div>
       {% if eventType == 'FC' %}
-      {% if status.toLowerCase() == 'to-be-evaluated' %}
+      {% if status.toLowerCase() != 'published' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>
