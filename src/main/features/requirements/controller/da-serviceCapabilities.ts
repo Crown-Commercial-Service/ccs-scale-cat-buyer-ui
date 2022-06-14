@@ -123,13 +123,20 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
     const TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
       let totalAddedWeighting = 0;
-      const { data } = item;
 
+     const headingReqId = CAPACITY_CONCAT_OPTIONS.filter(x => x.name == item.category)[0];
+     let tempWeighting = requirements?.filter(x => x["requirement-id"] == headingReqId["requirement-id"] )[0]?.weighting;
+     
+     if(tempWeighting !=undefined && tempWeighting !=null)
+     totalAddedWeighting =  tempWeighting; 
+     else{
+     const { data } = item;
       data?.map(req => {
         let weighting = requirements?.filter(x => x["requirement-id"] == req["requirement-id"])[0]?.weighting;
         if (weighting != null && weighting != undefined)
           totalAddedWeighting = totalAddedWeighting + weighting;
       })
+    }
 
       return {
         "url": `#section${index}`,

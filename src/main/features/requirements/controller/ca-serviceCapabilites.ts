@@ -23,7 +23,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     project_name,
     isError,
     errorText,
-    currentEvent,choosenViewPath,
+    currentEvent, choosenViewPath,
   } = req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -122,22 +122,28 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     );
 
     let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
-    let requirements = dimensionRequirements?.filter(x =>x["dimension-id"] == 3)[0]?.requirements;
+    let requirements = dimensionRequirements?.filter(x => x["dimension-id"] == 3)[0]?.requirements;
 
     const TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
-     let totalAddedWeighting = 0;
-     const { data} = item;
-    
-     data?.map(req => {
-      let weighting =  requirements?.filter(x => x["requirement-id"] == req["requirement-id"] )[0]?.weighting;
-      if(weighting !=null && weighting !=undefined)
-      totalAddedWeighting = totalAddedWeighting + weighting;
-     })
-     
+      let totalAddedWeighting = 0;
+
+      const headingReqId = CAPACITY_CONCAT_OPTIONS.filter(x => x.name == item.category)[0];
+      let tempWeighting = requirements?.filter(x => x["requirement-id"] == headingReqId["requirement-id"])[0]?.weighting;
+
+      if (tempWeighting != undefined && tempWeighting != null)
+        totalAddedWeighting = tempWeighting;
+      else {
+        const { data } = item;
+        data?.map(req => {
+          let weighting = requirements?.filter(x => x["requirement-id"] == req["requirement-id"])[0]?.weighting;
+          if (weighting != null && weighting != undefined)
+            totalAddedWeighting = totalAddedWeighting + weighting;
+        })
+      }
       return {
         url: `#section${index}`,
         text: item.category,
-        subtext: `[ `+ totalAddedWeighting +` % ]`,
+        subtext: `[ ` + totalAddedWeighting + ` % ]`,
         className: 'ca-service-capabilities'
       };
     });
@@ -183,7 +189,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     let totalWeighting = 0;
 
     if (dimensionRequirements != null && dimensionRequirements !== undefined && dimensionRequirements.length > 0) {
-      let  dimension = dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3);
+      let dimension = dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3);
       DRequirements = dimension?.[0]?.requirements;
       DRequirements.map(x => {
         totalWeighting = totalWeighting + x.weighting
@@ -516,16 +522,14 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     });
     let subcontractorscheck;
 
-    if(Weightings?.filter(dimension => dimension["dimension-id"] === 3).length>0)
-    {
-      subcontractorscheck=(Weightings?.filter(dimension => dimension["dimension-id"] === 3)[0].includedCriteria.
-      find(x=>x["criterion-id"]==1))
+    if (Weightings?.filter(dimension => dimension["dimension-id"] === 3).length > 0) {
+      subcontractorscheck = (Weightings?.filter(dimension => dimension["dimension-id"] === 3)[0].includedCriteria.
+        find(x => x["criterion-id"] == 1))
     }
-    let includedSubContractor=[];
-    if(subcontractorscheck!=undefined)
-    {
-      includedSubContractor=[{ 'criterion-id': '1' }]
-    }  
+    let includedSubContractor = [];
+    if (subcontractorscheck != undefined) {
+      includedSubContractor = [{ 'criterion-id': '1' }]
+    }
     const PUT_BODY = {
       weighting: Service_capbility_weightage,
       includedCriteria: includedSubContractor,
