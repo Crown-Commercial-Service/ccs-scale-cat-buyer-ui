@@ -14,7 +14,7 @@ import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpda
 
 export class QuestionHelper {
   static AFTER_UPDATINGDATA = async (
-    ErrorView: any,
+    _ErrorView: any,
     DynamicFrameworkInstance: any,
     proc_id: any,
     event_id: any,
@@ -49,58 +49,80 @@ export class QuestionHelper {
           let question_api_data = question_api?.data;
           //let mandatoryMarked=false;//increase mandatory count
           let innerMandatoryNum = 0;
-          let mandatoryNumberinGroup = question_api_data.filter((a: any) => a?.nonOCDS?.mandatory == true)?.length;//no of questions mandatory in group
+          //let mandatoryNumberinGroup = question_api_data.filter((a: any) => a?.nonOCDS?.mandatory == true)?.length;//no of questions mandatory in group
+          let mandatoryNumberinGroup = question_api_data.length;
+          //if (mandatoryNumberinGroup != null && mandatoryNumberinGroup.length > 0) {
           for (let k = 0; k < question_api_data.length; k++) {//multiple questions on page
-            let isInnerMandatory = question_api_data?.[k]?.nonOCDS?.mandatory;
-            if (isInnerMandatory) {
-              let questionType = question_api_data?.[k]?.nonOCDS?.questionType;
-              let answer = ''
-              let selectedLocation;
-              if (questionType == 'Text' || questionType == 'Percentage') {
-                let textMandatoryNum = question_api_data?.[k]?.nonOCDS?.options?.length;
-                let textNum = 0;
-                if (textMandatoryNum == 0) { textMandatoryNum = -1; }//no data is entered
+            //let isInnerMandatory = question_api_data?.[k]?.nonOCDS?.mandatory;
+            let questionType = question_api_data[k]?.nonOCDS.questionType;
+            //if (isInnerMandatory) {
+            let answer = ''
+            let selectedLocation;
+            if (questionType == 'Text' || questionType == 'Percentage') {
+              let textMandatoryNum = question_api_data[k]?.nonOCDS.options?.length;
+              let textNum = 0;
+              if (textMandatoryNum != null && textMandatoryNum > 0) {
                 for (let j = 0; j < textMandatoryNum; j++) {
                   answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
                   if (answer != '' && answer != undefined) { textNum += 1; }
                 }
                 if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
               }
-              else if (questionType === 'SingleSelect') {
-                for (let j = 0; j < question_api_data?.[k]?.nonOCDS?.options?.length; j++) {
-                  selectedLocation = question_api_data?.[k]?.nonOCDS?.options?.[j]['selected'];
-                  if (selectedLocation) { innerMandatoryNum += 1; }
-                }
+            }
+
+            else if (questionType === 'MultiSelect') {
+              let isMultiselect = false;
+              for (let j = 0; j < question_api_data?.[k]?.nonOCDS.options?.length; j++) {
+                selectedLocation = question_api_data?.[k]?.nonOCDS.options?.[j]['selected'];
+                if (selectedLocation && !isMultiselect) { innerMandatoryNum += 1; isMultiselect = true; }
               }
-              else if (questionType === 'Date') {
-                let dateValidation = 0;
-                for (let j = 0; j < question_api_data?.[k]?.nonOCDS?.options?.length; j++) {
-                  let dateValue = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
-                  if (dateValue != '' && dateValue != undefined) { dateValidation += 1; }
-                }
-                if (dateValidation == 3)//3 for day,month,year
-                {
+            }
+            else if (questionType === 'SingleSelect') {
+              let isSingleSelect = false;
+              for (let j = 0; j < question_api_data?.[k]?.nonOCDS.options?.length; j++) {
+                selectedLocation = question_api_data?.[k]?.nonOCDS.options?.[j]['selected'];
+                let value = question_api_data?.[k]?.nonOCDS.options?.[j]['value'];
+                if (selectedLocation && !isSingleSelect) { innerMandatoryNum += 1; isSingleSelect = true; }
+                if (gid === 'Group 16' && value !== undefined && value === 'No' && selectedLocation) {
                   innerMandatoryNum += 1;
                 }
               }
-              else if (questionType === 'KeyValuePair') {
-                let kvMandatoryNum = question_api_data?.[k]?.nonOCDS?.options?.length;
-                let kvNum = 0;
-                if (kvMandatoryNum == 0) { kvMandatoryNum = -1; }//no data is entered
+            }
+            else if (questionType === 'Date') {
+              let dateValidation = 0;
+              for (let j = 0; j < question_api_data?.[k]?.nonOCDS.options?.length; j++) {
+                let dateValue = question_api_data?.[k]?.nonOCDS.options?.[j]?.value;
+                if (dateValue != undefined && dateValue != null && dateValue != '') { dateValidation += 1; }
+              }
+              if (dateValidation == 3)//3 for day,month,year
+              {
+                innerMandatoryNum += 1;
+              }
+            }
+            else if (questionType === 'Duration') {
+              innerMandatoryNum += 1;
+            }
+            else if (questionType === 'KeyValuePair') {
+              let kvMandatoryNum = question_api_data?.[k]?.nonOCDS.options?.length;
+              let kvNum = 0;
+              if (kvMandatoryNum != null && kvMandatoryNum > 0) {
+                //kvMandatoryNum = -1;
                 for (let j = 0; j < kvMandatoryNum; j++) {
                   let kvText = question_api_data?.[k]?.nonOCDS?.options?.[j]?.text;
                   let kvValue = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
                   if (kvText != '' && kvValue != '' && kvText != undefined && kvValue != undefined) { kvNum += 1; }
                 }
                 if (kvNum == kvMandatoryNum) { innerMandatoryNum += 1; }
-              }
-              else if (questionType === 'ReadMe') {
-                innerMandatoryNum += 1;
-              }
+              }//no data is entered
             }
-
+            else if (questionType === 'ReadMe') {
+              innerMandatoryNum += 1;
+              //mandatoryNumberinGroup += 1;
+            }
           }
-          if (mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
+
+
+          if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
         }
       }
 
@@ -177,7 +199,7 @@ export class QuestionHelper {
     }
   };
   static AFTER_UPDATINGDATA_RFP_Assessment = async (
-    ErrorView: any,
+    _ErrorView: any,
     DynamicFrameworkInstance: any,
     proc_id: any,
     event_id: any,
@@ -186,7 +208,7 @@ export class QuestionHelper {
     agreement_id: any,
     id: any,
     res: express.Response,
-    req: express.Request,
+    _req: express.Request,
   ) => {
     /**
      * @Path
@@ -195,7 +217,6 @@ export class QuestionHelper {
      */
     let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
-
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       let fetch_dynamic_api_data = fetch_dynamic_api?.data;
       let extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
@@ -235,21 +256,7 @@ export class QuestionHelper {
         let next_group_id = next_cursor_object.OCDS['id'];
         let next_criterian_id = next_cursor_object['criterianId'];
         let base_url = `/rfp/assesstment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}=&step${res.req?.query?.step}`;
-        if (next_group_id === 'Group 8' && next_criterian_id === 'Criterion 2') {
-
-          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'Completed');
-          if (response.status == HttpStatusCode.OK) {
-            let flag = await ShouldEventStatusBeUpdated(proc_id, 38, req);
-            if (flag) {
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
-            }//await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
-            //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
-            //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
-          }
-
-          res.redirect('/rfp/task-list');
-        } else
-          res.redirect(base_url);
+        res.redirect(base_url);
       } else {
         let mandatoryNum = 0;
         const maxNum = 8;
@@ -305,6 +312,19 @@ export class QuestionHelper {
       );
     }
   };
+
+  static GET_GROUP_LIST = async (
+    proc_id: any,
+    event_id: any,
+    id: any,
+    SESSION_ID: any,
+    DynamicFrameworkInstance: any
+  ) => {
+    const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
+    const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
+    return heading_fetch_dynamic_api?.data;
+
+  }
 }
 
 
