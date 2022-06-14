@@ -8,6 +8,7 @@ import config from 'config';
 import SampleData from '../../shared/SampleData.json';
 import { CalRankSuppliers } from '../../shared/CalRankSuppliers';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import {CAGetRequirementDetails} from '../../shared/CAGetRequirementDetails';
 const excelJS= require('exceljs');
 
 export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
@@ -79,10 +80,9 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
 
   if(download!=undefined){
 
- //uncomment below 
-    //const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
-   // let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-   let assessments = SampleData;  // remove
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+   let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+   //SHEET 1
     let finalCSVData=[];
     let dataPrepared:any;
     let downloadedRankedSuppliers=req.session.TopRankScores.concat(req.session.BelowRankScores)
@@ -101,29 +101,23 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
         }
         finalCSVData.push(dataPrepared);     
     }
-    
+    //SHEET 2
+    let dimensionRequirements = assessments.dimensionRequirements;
     let dimensionsTable=[];
-    let dimensions=[];
-    dimensions.push(...assessments.dimensionRequirements.map(x =>{ return [x.name, x.weighting]}));
-      for (var i=0;i<dimensions.length;i++)
+    for (var i=1;i<=5;i++)
     {   
-    dataPrepared={
-      "Dimension":dimensions[i][0],
-      "Weighting":dimensions[i][1]
+      let dim=dimensionRequirements.filter(item=>item["dimension-id"]==i)[0]
+      if(dim!=undefined){
+      dataPrepared={
+        "Dimension":dim.name,
+        "Weighting":dim.weighting
+      }
+      dimensionsTable.push(dataPrepared);
     }
-    dimensionsTable.push(dataPrepared);
-  }
-   
-//get the details from the service capability dimension Endpoint
-    let requirementsTable=[];
-    dataPrepared={
-      "Dimension":"200",
-      "Requirement Group":"200",
-      "Requirement":"200",
-      "Quantity":"200",
-      "Relative Weighting":"200"
     }
-    requirementsTable.push(dataPrepared);
+    //SHEET 3
+    let requirementsTable=await CAGetRequirementDetails(req);
+    
 
   const workbook = new excelJS.Workbook();
   let worksheet = workbook.addWorksheet("Scores"); // New Worksheet
@@ -269,10 +263,14 @@ export const CA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
             id:id
           }   
         });
-
+        let overalljustification='';
+        if(justification==undefined)
+        {
+          overalljustification=''
+        }
       const body = {
         "suppliers":supplierdata,
-          "justification": justification
+          "justification": overalljustification
         };
 
         const Supplier_BASEURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
