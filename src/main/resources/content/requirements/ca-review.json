@@ -17,19 +17,19 @@
         "href": "/ca/task-list"
       },
       {
-        "text": "Review and publish your 2-stage further competition",
+        "text": "Review and publish your further competition",
         "href": "#"
       }
     ],
   
-    "title": "Review and publish your 2-stage further competition",
+    "title": "Review and publish your further competition",
     "suppliers": {
       "min": 3,
       "max": 49
     },
     "subtitle": null,
     "form": {
-      "question": "[instructions for this page]",
+      "question": "You should review your further competition before publishing it for suppliers to see.You can make changes to any sections.",
       "backJump": {
         "title": "Return to write and publish your requirements",
         "href": "/ca/task-list"

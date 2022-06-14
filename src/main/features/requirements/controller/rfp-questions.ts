@@ -32,7 +32,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       group_id = 'Group 19';
       id = 'Criterion 3';
     }
-
+    //Call group API-END-POINT
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -179,8 +179,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       data.form_name = 'service_levels_kpi_form';
     }
     if (group_id === 'Group 16' && id === 'Criterion 3') {
-      data.data[0].nonOCDS.childern.push(TemporaryObjStorage[1]);
-      data.data[0].nonOCDS.childern[0].nonOCDS.questionType = '';
+      data?.data?.[0].nonOCDS.childern.push(TemporaryObjStorage?.[1]);
+      data?.data?.[0].nonOCDS.childern?.[0].nonOCDS.questionType = '';
     }
     if (group_id === 'Group 10' && id === 'Criterion 3') {
       let count = 0;
@@ -206,6 +206,30 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         count++;
       });
     }
+    //#region KPI FORM DATA MANIPULATION INTO SINGLE QUESTION
+    if (group_id != undefined && group_id != null && group_id != '' && id != undefined && id != null && id != '' && group_id === 'Group 19' && id === 'Criterion 3') {
+      let count = 0;
+      let kpiQustionDataList = [];
+      if (data?.data?.[0].nonOCDS?.options?.length > 0 && data?.data?.[1].nonOCDS?.options?.length > 0 && data?.data?.[2].nonOCDS?.options?.length > 0) {
+        for (let index = 0; index < data?.data?.[0].nonOCDS?.options.length; index++) {
+          let dataList = [];
+
+          dataList.push({ value: data?.data?.[0].nonOCDS?.options[index].value, title: data?.data?.[0].OCDS?.title, text: data?.data?.[0].OCDS.description });
+          dataList.push({ value: data?.data?.[1].nonOCDS?.options[index].value, title: data?.data?.[1].OCDS?.title, text: data?.data?.[1].OCDS.description });
+          dataList.push({ value: data?.data?.[2].nonOCDS?.options[index].value, title: data?.data?.[2].OCDS?.title, text: data?.data?.[2].OCDS.description });
+
+          kpiQustionDataList.push(dataList);
+        }
+      } else {
+        let dataList = [];
+        dataList.push("");
+        dataList.push("");
+        dataList.push("");
+        kpiQustionDataList.push(dataList);
+      }
+      data?.data?.[0].nonOCDS?.options = kpiQustionDataList;
+    }
+    //#endregion KPI FORM DATA MANIPULATION INTO SINGLE QUESTION
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
@@ -587,7 +611,26 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 };
               }
 
-            } else {
+            } else if (questionNonOCDS.questionType === 'Text' && req.body.rfp_security_confirmation != undefined &&  req.body.rfp_security_confirmation != null) {
+              let res = /^[a-zA-Z ]+$/;
+              let optionsData = [];
+              if (req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation != null && req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation!=='' && res.test(req.body.rfp_security_confirmation)) {
+                optionsData = [];
+                optionsData.push({ value: req.body.rfp_security_confirmation, selected: true })
+              } else {
+                optionsData.push({ value: req.body.rfp_security_confirmation, selected: true })
+              }
+              if (!validationError) {
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
+                    options: [...optionsData],
+                  },
+                };
+              }
+            }
+            else {
               if (
                 (questionNonOCDS.mandatory == true && object_values.length == 0)
               ) {
@@ -611,18 +654,15 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 for (let index = 0; index < object_values.length; index++) {
                   optionsData.push({ value: object_values[index], selected: true });
                 }
-                //add incumbent supplier details balwinder
-                if (req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation != null && req.body.rfp_security_confirmation != '') {
-                  optionsData = [];
-                  optionsData.push({ value: req.body.rfp_security_confirmation, selected: true })
+                if (validationError) {
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: questionNonOCDS.multiAnswer,
+                      options: [...optionsData],
+                    },
+                  };
                 }
-                answerValueBody = {
-                  nonOCDS: {
-                    answered: true,
-                    multiAnswer: questionNonOCDS.multiAnswer,
-                    options: [...optionsData],
-                  },
-                };
               }
             }
             if (!validationError) {

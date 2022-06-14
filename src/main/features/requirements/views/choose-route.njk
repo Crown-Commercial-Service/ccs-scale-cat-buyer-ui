@@ -23,7 +23,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         <h1 class="govuk-heading-xl">
-          {{data.title }}
+          <strong>{{data.title }}</strong>
         </h1>
       </div>
     </div>
@@ -33,7 +33,7 @@
         {% include "includes/project_header.njk" %}
         <p class="govuk-body">{{ data.form.question }}</p>
         <p class="govuk-body">Before you select direct award,you will need to get a legal advice to confirm it is a compliant route to market(way to buy) for your circumstances</p>
-        <p class="govuk-body">If you select an option that includes capability assessment,you can download your list of suppliers at the end of the assessment to use your own procurement system.</p>
+        {#<p class="govuk-body">If you select an option that includes capability assessment,you can download your list of suppliers at the end of the assessment to use your own procurement system.</p>#}
         <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form ccs_rfp_type_form" action="/requirements/choose-route" method="POST">
         {{ csrfProtection(csrf) }}
           {% set formOptions = data.form.radioOptions.items %}
@@ -76,7 +76,7 @@
                 items: form_Options_Altered,
                 errorMessage: error,
                 errorMessage: {
-                text: 'Select an option'
+                text: 'You must select a route to market'
                   }                  
               }) }}
           {% else %}

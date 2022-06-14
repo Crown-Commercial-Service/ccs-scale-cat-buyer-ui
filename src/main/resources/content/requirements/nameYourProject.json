@@ -6,7 +6,8 @@
         "projectName": "Project name: "
     },
     "subtitle": null,
-    "caption" : "You can change the name of your project. Enter the new name below.",
+    "caption1" : "You can change the name of your project. Enter the new name below.",
+    "caption2" : "If You don't want to change the name of your project you can ",
     "form": {
         "input": {            
             "id": "rfi_projLongName",

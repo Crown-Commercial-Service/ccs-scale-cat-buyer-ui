@@ -15,6 +15,8 @@ const weight_whole_len = $('.weight_vetting_whole').length + 1;
 const weight_partial_len = $('.weight_vetting_partial').length + 1;
 const weight = $('.weight');
 
+const TotalFieldOnScreen = $('.govuk-radios__input').length / 2 + 1;
+
 for (var a = 0; a < document.getElementsByClassName('weight_vetting_whole').length; a++) {
     document.getElementsByClassName('weight_vetting_whole')[a].checked = true;
 }
@@ -71,10 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 itemText = tabLinks[clicked_index].getElementsByTagName('a')[0].childNodes[0].data
 
                 itemText = itemText.replaceAll(" ", "_");
-
                 weightVettingWholePartialOnClick(itemText);
                 updateTotalWeight();
-
+                resetRadioButtion();
                 return false;
             });
         });
@@ -117,6 +118,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     }
+    
+    function resetRadioButtion()
+    {
+      for (var a = 0; a < TotalFieldOnScreen; a++) {
+          const WholeclusterDIV = '#whole_cluster_' + a;
+          const PartialClusterDIV = '#partial_cluster_' + a;
+          $('#whole_weightage_' + a).prop('checked',false);
+          $('#partial_weightage_' + a).prop('checked',false)
+          $(PartialClusterDIV).fadeOut();
+          $(WholeclusterDIV).fadeOut();
+      }
+    }
+
     function weightVettingWholePartialOnClick(category) {
 
         let vettingPartial = 'weight_vetting_partial' + category;
@@ -138,6 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (isValidInputData(vettingWhole, vettingWholeT, vetWhole.val()))
                     itemSubText.innerHTML = '[ '+vetWhole.val() + ' %' + ' ]';
                 }
+                else if(vetWhole.val() != undefined && vetWhole.val() == "")
+                {
+                    itemSubText.innerHTML = '[ '+0 + ' %' + ' ]';
+                 $(`#${vettingWhole}`).removeClass('govuk-input--error');
+                 $(`.${vettingWholeT}`).text('');
+                }
 
             });
         }
@@ -149,14 +169,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
             vetPartial.on('blur', () => {
 
+                clearWholeCluster(category);
+
                 if(vetPartial.val() != undefined && vetPartial.val() !== null && vetPartial.val() !== "")
                 {                
                     clearInputData(weight_whole_len,vettingWhole2);
                 if (isValidInputData(weightId, weightT, vetPartial.val()))
                     updateVettingPartial(vettingPartial);
                 }
+                else if(vetPartial.val() != undefined && vetPartial.val() == "")
+                {
+                    updateVettingPartial(vettingPartial);
+                 $(`#${weightId}`).removeClass('govuk-input--error');
+                 $(`.${weightT}`).text('');
+                }
 
             });
+        }
+    }
+
+    function clearWholeCluster(category)
+    {
+        for (var a = 1; a < weight_whole_len; a++) {
+            let vettingWhole = 'weight_vetting_whole_' + category + a;
+            let vetWhole = $(`#${vettingWhole}`);
+            if(vetWhole !=undefined && vetWhole !=null)
+            vetWhole.text('');
         }
     }
 
@@ -178,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         itemSubText.innerHTML =  '[ '+value + ' %' + ' ]';
     }
 
-    const TotalFieldOnScreen = $('.govuk-radios__input').length / 2 + 1;
+    
 
 
     /**

@@ -121,7 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function clearRfpResourceVettingData(tabLinks) {
-    $('#rfp_total_resource').text(0);
+    $('#rfp_total_resource').text('0');
+    $('#rfp_total_resource2').text('0');
     for (var a = 0; a < tabLinks.length; a++) {
       document.getElementsByClassName('table-item-subtext')[a].innerHTML = '0 resources added'
     }

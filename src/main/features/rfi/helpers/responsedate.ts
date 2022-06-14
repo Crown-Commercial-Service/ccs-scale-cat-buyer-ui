@@ -47,387 +47,248 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     criterianStorage = criterianStorage.flat();
     criterianStorage = criterianStorage.filter(AField => AField.OCDS.id === keyDateselector);
     const Criterian_ID = criterianStorage[0].criterianId;
-    const prompt = criterianStorage[0].nonOCDS.prompt.replace("</strong></p>\n       <br>"," It is recommended you set your times to no later than 4pm on a weekday in case you need to contact CCS about your project.</strong></p>");
+    const prompt = criterianStorage[0].nonOCDS.prompt.replace("</strong></p>\n       <br>", " It is recommended you set your times to no later than 4pm on a weekday in case you need to contact CCS about your project.</strong></p>");
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
-    let DeadlinePeriodDate; 
+    let DeadlinePeriodDate;
     let SupplierPeriodDate;
-   let rfi_clarification_date ;
+    let rfi_clarification_date;
     let rfi_clarification_period_end;
     let clarification_period_end_date;
     let deadline_period_for_clarification_period;
     let supplier_period_for_clarification_period;
     let supplier_dealine_for_clarification_period;
     let rfi_clarification;
-let rfi_clarification_period;
-let deadline_period_for_clarification;
-let supplier_period_for_clarification;
-        if(req.session.UIDate==null){
-          rfi_clarification_date= moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
-           clarification_period_end_date = new Date();
-          const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${
-            clarification_period_end_date.getMonth() + 1
-          }-${clarification_period_end_date.getFullYear()}`;
-           rfi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD MM YYYY').businessAdd(
-            predefinedDays.clarification_days,
-          )._d;
-          rfi_clarification_period_end.setHours(predefinedDays.defaultEndingHour);
-          rfi_clarification_period_end.setMinutes(predefinedDays.defaultEndingMinutes);
-      
-          const DeadlinePeriodDate = rfi_clarification_period_end;
-      
-          const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${
-            DeadlinePeriodDate.getMonth() + 1
-          }-${DeadlinePeriodDate.getFullYear()}`;
-           deadline_period_for_clarification_period = moment(DeadlinePeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
-            predefinedDays.clarification_period_end,
-          )._d;
-          deadline_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-          deadline_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
-      
-          const SupplierPeriodDate = deadline_period_for_clarification_period;
-          const SupplierPeriodDate_Parsed = `${SupplierPeriodDate.getDate()}-${
-            SupplierPeriodDate.getMonth() + 1
-          }-${SupplierPeriodDate.getFullYear()}`;
-           supplier_period_for_clarification_period = moment(SupplierPeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
-            predefinedDays.supplier_period,
-          )._d;
-          supplier_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-          supplier_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
-      
-          const SupplierPeriodDeadLine = supplier_period_for_clarification_period;
-          const SupplierPeriodDeadLine_Parsed = `${SupplierPeriodDeadLine.getDate()}-${
-            SupplierPeriodDeadLine.getMonth() + 1
-          }-${SupplierPeriodDeadLine.getFullYear()}`;
-           supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(
-            predefinedDays.supplier_deadline,
-          )._d;
-          supplier_dealine_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-          supplier_dealine_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
-          fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
-            const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
-            const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
-            return currentElementID - nextElementID;
-          });
-      
-          let appendData = {
-            data: cmsData,
-            prompt: prompt,
-            framework: fetchQuestionsData,
-            rfi_clarification_date,
-            rfi_clarification_period_end: moment(rfi_clarification_period_end, 'DD/MM/YYYY, hh:mm a').format(
-              'DD MMMM YYYY, hh:mm a',
-            ),
-            deadline_period_for_clarification_period: moment(
-              deadline_period_for_clarification_period,
-              'DD/MM/YYYY, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a'),
-            supplier_period_for_clarification_period: moment(
-              supplier_period_for_clarification_period,
-              'DD/MM/YYYY, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a'),
-            supplier_dealine_for_clarification_period: moment(
-              supplier_dealine_for_clarification_period,
-              'DD/MM/YYYY, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a'),
-            releatedContent: req.session.releatedContent,
-          };
-      
-          if (errorTriggered) {
-            appendData = { ...appendData, error: true, errorMessage: errorItem };
-          } else {
-            req.session.timeline = {};
-            req.session.timeline.publish = new Date();
-            req.session.timeline.clarificationPeriodEnd = rfi_clarification_period_end;
-            req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
-            req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
-            req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
-          }
-      
-          res.render('response-date', appendData); 
-        }
-        
-        else
-        {
-          if (req.session.questionID=='Question 2')
-          {
-            rfi_clarification =req.session.rfipublishdate;
-            rfi_clarification_date =moment(
-              rfi_clarification,
-              'YYYY-MM-DD, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a');
-            rfi_clarification_period_end=req.session.UIDate;;  
-        
+    let rfi_clarification_period;
+    let deadline_period_for_clarification;
+    let supplier_period_for_clarification;
+    if (req.session.UIDate == null) {
+      rfi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
+      clarification_period_end_date = new Date();
+      const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${clarification_period_end_date.getMonth() + 1
+        }-${clarification_period_end_date.getFullYear()}`;
+      rfi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD MM YYYY').businessAdd(
+        predefinedDays.clarification_days,
+      )._d;
+      rfi_clarification_period_end.setHours(predefinedDays.defaultEndingHour);
+      rfi_clarification_period_end.setMinutes(predefinedDays.defaultEndingMinutes);
 
-    const DeadlinePeriodDate = rfi_clarification_period_end;
-     deadline_period_for_clarification_period = moment( DeadlinePeriodDate, 'DD MMMM YYYY, hh:mm a').businessAdd(
-      predefinedDays.clarification_period_end,
-    )._d;
-    deadline_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-    deadline_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
+      const DeadlinePeriodDate = rfi_clarification_period_end;
 
-     SupplierPeriodDate = deadline_period_for_clarification_period;
-     supplier_period_for_clarification_period = moment(SupplierPeriodDate, 'DD-MM-YYYY').businessAdd(
-      predefinedDays.supplier_period,
-    )._d;
-    supplier_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-    supplier_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
+      const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${DeadlinePeriodDate.getMonth() + 1
+        }-${DeadlinePeriodDate.getFullYear()}`;
+      deadline_period_for_clarification_period = moment(DeadlinePeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
+        predefinedDays.clarification_period_end,
+      )._d;
+      deadline_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
+      deadline_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
 
-    const SupplierPeriodDeadLine = supplier_period_for_clarification_period;
-     supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine, 'DD-MM-YYYY').businessAdd(
-      predefinedDays.supplier_deadline,
-    )._d;
-    supplier_dealine_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-    supplier_dealine_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
-    fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
-      const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
-      const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
-      return currentElementID - nextElementID;
-    });
+      const SupplierPeriodDate = deadline_period_for_clarification_period;
+      const SupplierPeriodDate_Parsed = `${SupplierPeriodDate.getDate()}-${SupplierPeriodDate.getMonth() + 1
+        }-${SupplierPeriodDate.getFullYear()}`;
+      supplier_period_for_clarification_period = moment(SupplierPeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
+        predefinedDays.supplier_period,
+      )._d;
+      supplier_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
+      supplier_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
 
-    let appendData = {
-      data: cmsData,
-      prompt: prompt,
-      framework: fetchQuestionsData,
-      rfi_clarification_date,
-      rfi_clarification_period_end: moment(rfi_clarification_period_end, 'DD-MM-YYYY, hh:mm a').format(
-        'DD MMMM YYYY, hh:mm a',
-      ),
-      deadline_period_for_clarification_period: moment(
-        deadline_period_for_clarification_period,
-        'DD-MM-YYYY, hh:mm a',
-      ).format('DD MMMM YYYY, hh:mm a'),
-      supplier_period_for_clarification_period: moment(
-        supplier_period_for_clarification_period,
-        'DD-MM-YYYY, hh:mm a',
-      ).format('DD MMMM YYYY, hh:mm a'),
-      supplier_dealine_for_clarification_period: moment(
-        supplier_dealine_for_clarification_period,
-        'DD-MM-YYYY, hh:mm a',
-      ).format('DD MMMM YYYY, hh:mm a'),
-      releatedContent: req.session.releatedContent,
-    };
-    if (errorTriggered) {
-      appendData = { ...appendData, error: true, errorMessage: errorItem };
-    } else {
-      req.session.timeline = {};
-      req.session.timeline.publish = new Date();
-      req.session.timeline.clarificationPeriodEnd = rfi_clarification_period_end;
-      req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
-      req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
-      req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
-    }
+      const SupplierPeriodDeadLine = supplier_period_for_clarification_period;
+      const SupplierPeriodDeadLine_Parsed = `${SupplierPeriodDeadLine.getDate()}-${SupplierPeriodDeadLine.getMonth() + 1
+        }-${SupplierPeriodDeadLine.getFullYear()}`;
+      supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(
+        predefinedDays.supplier_deadline,
+      )._d;
+      supplier_dealine_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
+      supplier_dealine_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
+      fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
+        const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
+        const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
+        return currentElementID - nextElementID;
+      });
 
-    res.render('response-date', appendData); 
+      let appendData = {
+        data: cmsData,
+        prompt: prompt,
+        framework: fetchQuestionsData,
+        rfi_clarification_date,
+        rfi_clarification_period_end: moment(rfi_clarification_period_end, 'DD/MM/YYYY, hh:mm a').format(
+          'DD MMMM YYYY, hh:mm a',
+        ),
+        deadline_period_for_clarification_period: moment(
+          deadline_period_for_clarification_period,
+          'DD/MM/YYYY, hh:mm a',
+        ).format('DD MMMM YYYY, hh:mm a'),
+        supplier_period_for_clarification_period: moment(
+          supplier_period_for_clarification_period,
+          'DD/MM/YYYY, hh:mm a',
+        ).format('DD MMMM YYYY, hh:mm a'),
+        supplier_dealine_for_clarification_period: moment(
+          supplier_dealine_for_clarification_period,
+          'DD/MM/YYYY, hh:mm a',
+        ).format('DD MMMM YYYY, hh:mm a'),
+        releatedContent: req.session.releatedContent,
+      };
 
-          }
-          else if(req.session.questionID=='Question 3')
-          {
-            rfi_clarification =req.session.rfipublishdate;
-            rfi_clarification_date =moment(
-              rfi_clarification,
-              'YYYY-MM-DD, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a');
-            rfi_clarification_period=req.session.clarificationend;
-            rfi_clarification_period_end=moment(
-              rfi_clarification_period,
-              'YYYY-MM-DD, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a');
-            if(rfi_clarification_period_end=='Invalid date')rfi_clarification_period_end=rfi_clarification_period;
-            else 
-            rfi_clarification_period_end=rfi_clarification_period_end;
-            deadline_period_for_clarification_period=req.session.UIDate;
-             
-             SupplierPeriodDate = deadline_period_for_clarification_period;
-             supplier_period_for_clarification_period = moment(SupplierPeriodDate, 'DD MMMM YYYY, hh:mm a').businessAdd(
-              predefinedDays.supplier_period,
-            )._d;
-            supplier_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-            supplier_period_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
-        
-            const SupplierPeriodDeadLine = supplier_period_for_clarification_period;
-             supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine, 'DD-MM-YYYY').businessAdd(
-              predefinedDays.supplier_deadline,
-            )._d;
-            supplier_dealine_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-            supplier_dealine_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
-            fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
-              const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
-              const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
-              return currentElementID - nextElementID;
-            });
-        
-            let appendData = {
-              data: cmsData,
-              prompt: prompt,
-              framework: fetchQuestionsData,
-              rfi_clarification_date,
-              rfi_clarification_period_end,
-              deadline_period_for_clarification_period: moment(
-                deadline_period_for_clarification_period,
-                'DD-MM-YYYY, hh:mm a',
-              ).format('DD MMMM YYYY, hh:mm a'),
-              supplier_period_for_clarification_period: moment(
-                supplier_period_for_clarification_period,
-                'DD-MM-YYYY, hh:mm a',
-              ).format('DD MMMM YYYY, hh:mm a'),
-              supplier_dealine_for_clarification_period: moment(
-                supplier_dealine_for_clarification_period,
-                'DD-MM-YYYY, hh:mm a',
-              ).format('DD MMMM YYYY, hh:mm a'),
-              releatedContent: req.session.releatedContent,
-            };
-            if (errorTriggered) {
-              appendData = { ...appendData, error: true, errorMessage: errorItem };
-            } else {
-              req.session.timeline = {};
-              req.session.timeline.publish = new Date();
-              req.session.timeline.clarificationPeriodEnd = rfi_clarification_period_end;
-              req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
-              req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
-              req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
-            }
-        
-            res.render('response-date', appendData); 
-       
-          }
-          else if(req.session.questionID=='Question 4'){
-            rfi_clarification =req.session.rfipublishdate;
-            rfi_clarification_date =moment(
-              rfi_clarification,
-              'YYYY-MM-DD, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a');
-            rfi_clarification_period=req.session.clarificationend;
-            rfi_clarification_period_end=moment(
-              rfi_clarification_period,
-              'YYYY-MM-DD, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a');
-            if(rfi_clarification_period_end=='Invalid date')rfi_clarification_period_end=rfi_clarification_period;
-            else 
-            rfi_clarification_period_end=rfi_clarification_period_end;
-            deadline_period_for_clarification=req.session.deadlinepublishresponse;
-            deadline_period_for_clarification_period=moment(
-              deadline_period_for_clarification,
-              'YYYY-MM-DD, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a');
-            if(deadline_period_for_clarification_period=='Invalid date')deadline_period_for_clarification_period=deadline_period_for_clarification;
-            else 
-            deadline_period_for_clarification_period=deadline_period_for_clarification_period;
-          SupplierPeriodDate=req.session.UIDate;
-         
-     
-
-    const SupplierPeriodDeadLine = SupplierPeriodDate;
-   supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine, 'DD MMMM YYYY, hh:mm a').businessAdd(
-      predefinedDays.supplier_deadline,
-    )._d;
-    supplier_dealine_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
-    supplier_dealine_for_clarification_period.setMinutes(predefinedDays.defaultEndingMinutes);
-    fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
-      const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
-      const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
-      return currentElementID - nextElementID;
-    });
-
-    let appendData = {
-      data: cmsData,
-      prompt: prompt,
-      framework: fetchQuestionsData,
-      rfi_clarification_date,
-      rfi_clarification_period_end,
-      deadline_period_for_clarification_period,
-      supplier_period_for_clarification_period: moment(
-        supplier_period_for_clarification_period,
-        'DD-MM-YYYY, hh:mm a',
-      ).format('DD MMMM YYYY, hh:mm a'),
-      supplier_dealine_for_clarification_period: moment(
-        supplier_dealine_for_clarification_period,
-        'DD-MM-YYYY, hh:mm a',
-      ).format('DD MMMM YYYY, hh:mm a'),
-      releatedContent: req.session.releatedContent,
-    };
-    if (errorTriggered) {
-      appendData = { ...appendData, error: true, errorMessage: errorItem };
-    } else {
-      req.session.timeline = {};
-      req.session.timeline.publish = new Date();
-      req.session.timeline.clarificationPeriodEnd = rfi_clarification_period_end;
-      req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
-      req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
-      req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
-    }
-
-    res.render('response-date', appendData); 
-        }
-        else if(req.session.questionID=='Question 5'){
-          rfi_clarification =req.session.rfipublishdate;
-            rfi_clarification_date =moment(
-              rfi_clarification,
-              'YYYY-MM-DD, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a');
-            rfi_clarification_period=req.session.clarificationend;
-            rfi_clarification_period_end=moment(
-              rfi_clarification_period,
-              'YYYY-MM-DD, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a');
-            if(rfi_clarification_period_end=='Invalid date')rfi_clarification_period_end=rfi_clarification_period;
-            else 
-            rfi_clarification_period_end=rfi_clarification_period_end;
-            deadline_period_for_clarification=req.session.deadlinepublishresponse;
-            deadline_period_for_clarification_period=moment(
-              deadline_period_for_clarification,
-              'YYYY-MM-DD, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a');
-            if(deadline_period_for_clarification_period=='Invalid date')deadline_period_for_clarification_period=deadline_period_for_clarification;
-            else 
-            deadline_period_for_clarification_period=deadline_period_for_clarification_period;
-            supplier_period_for_clarification=req.session.supplierresponse;
-          supplier_period_for_clarification_period= moment(
-            supplier_period_for_clarification,
-            'YYYY-MM-DD, hh:mm a',
-          ).format('DD MMMM YYYY, hh:mm a');
-          if(supplier_period_for_clarification_period=='Invalid date')supplier_period_for_clarification_period=supplier_period_for_clarification;
-          else 
-          supplier_period_for_clarification_period=supplier_period_for_clarification_period
-          supplier_dealine_for_clarification_period=req.session.UIDate;
-           fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
-            const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
-            const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
-            return currentElementID - nextElementID;
-          });
-      
-          let appendData = {
-            data: cmsData,
-            prompt: prompt,
-            framework: fetchQuestionsData,
-            rfi_clarification_date,
-            rfi_clarification_period_end,
-            deadline_period_for_clarification_period,
-            supplier_period_for_clarification_period,
-            supplier_dealine_for_clarification_period: moment(
-              supplier_dealine_for_clarification_period,
-              'DD-MM-YYYY, hh:mm a',
-            ).format('DD MMMM YYYY, hh:mm a'),
-            releatedContent: req.session.releatedContent,
-          };
-          if (errorTriggered) {
-            appendData = { ...appendData, error: true, errorMessage: errorItem };
-          } else {
-            req.session.timeline = {};
-            req.session.timeline.publish = new Date();
-            req.session.timeline.clarificationPeriodEnd = rfi_clarification_period_end;
-            req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
-            req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
-            req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
-          }
-      
-          res.render('response-date', appendData); 
-        }
+      if (errorTriggered) {
+        appendData = { ...appendData, error: true, errorMessage: errorItem };
+      } else {
+        req.session.timeline = {};
+        req.session.timeline.publish = new Date();
+        req.session.timeline.clarificationPeriodEnd = rfi_clarification_period_end;
+        req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
+        req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
+        req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
       }
-    
-    
-    
+
+      res.render('response-date', appendData);
+    }
+
+    else {
+      if (req.session.questionID == 'Question 2') {
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_period_end = req.session.UIDate;
+
+        // rfp_clarification_date =moment(req.session.clarificationend,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        supplier_dealine_for_clarification_period = moment(req.session.confirmNextStepsSuppliers, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+
+        fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
+          const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
+          const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
+          return currentElementID - nextElementID;
+        });
+
+        let appendData = {
+          data: cmsData,
+          prompt: prompt,
+          framework: fetchQuestionsData,
+          rfi_clarification_date,
+          rfi_clarification_period_end,
+          deadline_period_for_clarification_period,
+          supplier_period_for_clarification_period,
+          supplier_dealine_for_clarification_period,
+          releatedContent: req.session.releatedContent,
+        };
+        if (errorTriggered) {
+          appendData = { ...appendData, error: true, errorMessage: errorItem };
+        } else {
+          req.session.timeline.clarificationPeriodEnd = rfi_clarification_period_end;
+        }
+
+        res.render('response-date', appendData);
+
+      }
+      else if (req.session.questionID == 'Question 3') {
+
+        deadline_period_for_clarification_period = req.session.UIDate;
+
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        //deadline_period_for_clarification_period =moment(req.session.deadlinepublishresponse,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        supplier_dealine_for_clarification_period = moment(req.session.confirmNextStepsSuppliers, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+
+        fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
+          const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
+          const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
+          return currentElementID - nextElementID;
+        });
+
+        let appendData = {
+          data: cmsData,
+          prompt: prompt,
+          framework: fetchQuestionsData,
+          rfi_clarification_date,
+          rfi_clarification_period_end,
+          deadline_period_for_clarification_period,
+          supplier_period_for_clarification_period,
+          supplier_dealine_for_clarification_period,
+          releatedContent: req.session.releatedContent,
+        };
+        if (errorTriggered) {
+          appendData = { ...appendData, error: true, errorMessage: errorItem };
+        } else {
+          req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
+        }
+
+        res.render('response-date', appendData);
+
+      }
+      else if (req.session.questionID == 'Question 4') {
+
+        supplier_period_for_clarification_period = req.session.UIDate;
+
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        //supplier_period_for_clarification_period =moment(req.session.supplierresponse,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        supplier_dealine_for_clarification_period = moment(req.session.confirmNextStepsSuppliers, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+
+        fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
+          const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
+          const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
+          return currentElementID - nextElementID;
+        });
+
+        let appendData = {
+          data: cmsData,
+          prompt: prompt,
+          framework: fetchQuestionsData,
+          rfi_clarification_date,
+          rfi_clarification_period_end,
+          deadline_period_for_clarification_period,
+          supplier_period_for_clarification_period,
+          supplier_dealine_for_clarification_period,
+          releatedContent: req.session.releatedContent,
+        };
+        if (errorTriggered) {
+          appendData = { ...appendData, error: true, errorMessage: errorItem };
+        } else {
+          req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
+        }
+
+        res.render('response-date', appendData);
+      }
+      else if (req.session.questionID == 'Question 5') {
+        supplier_dealine_for_clarification_period = req.session.UIDate;
+
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        //supplier_dealine_for_clarification_period =moment(req.session.confirmNextStepsSuppliers,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+
+        fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
+          const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
+          const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
+          return currentElementID - nextElementID;
+        });
+
+        let appendData = {
+          data: cmsData,
+          prompt: prompt,
+          framework: fetchQuestionsData,
+          rfi_clarification_date,
+          rfi_clarification_period_end,
+          deadline_period_for_clarification_period,
+          supplier_period_for_clarification_period,
+          supplier_dealine_for_clarification_period,
+          releatedContent: req.session.releatedContent,
+        };
+        if (errorTriggered) {
+          appendData = { ...appendData, error: true, errorMessage: errorItem };
+        } else {
+          req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
+        }
+
+        res.render('response-date', appendData);
+      }
+    }
+
+
+
   } catch (error) {
     LoggTracer.errorLogger(
       res,

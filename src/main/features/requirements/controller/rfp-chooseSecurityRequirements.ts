@@ -81,9 +81,9 @@ function checkErrors(selectedNumber, resources,totalQuantityrfp) {
  // const selectedNumber = selected ? selected.replace(/[^0-9.]/g, '') : null;
  
   if (!selectedNumber) {
-    errorText.push({ text: 'You must provide a security clearance level before proceeding' });
+    errorText.push({ text: 'You must select the highest level of security clearance that staff supplied to the projrct will need to have.' });
   } else if (selectedNumber && ['1','2', '3', '4'].includes(selectedNumber) && !resources) {
-    errorText.push({ text: 'A Quantity must be specified' });
+    errorText.push({ text: 'You must enter the number of staffs who will need a lower security and vetting requirement.' });
   } else if (selectedNumber && ['1','2', '3', '4'].includes(selectedNumber) && (resources < 0 || resources > (totalQuantityrfp-1))) {
     errorText.push({ text: 'A Quantity must be between 1 to Quantity('+totalQuantityrfp+') - 1' });
   }

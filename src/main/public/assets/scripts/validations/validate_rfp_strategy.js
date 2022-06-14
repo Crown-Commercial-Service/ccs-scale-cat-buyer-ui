@@ -1,7 +1,7 @@
 let errorStore = [];
 let words = '';
 let char = '';
-const textPattern = /^[a-zA-Z]+$/;
+const textPattern = /^[a-zA-Z ]+$/;
 const condLength = (text) => {
   words = text?.trim().split(/\s+/)?.length > 500;
   char = text?.trim()?.length > 5000;
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var element = document.getElementById("rfp_security_confirmation");
       element.addEventListener("keyup", (event) => {
         removeErrorFieldsRfpStar();
-        let res = /^[a-zA-Z]+$/.test(event.value);
+        let res = /^[a-zA-Z ]+$/.test(event.value);
         if (!res) { event.preventDefault(); }
       })
     }
@@ -48,8 +48,17 @@ const ccsZvalidateRfPStrategy = event => {
   errorStore.length = 0;
   const pageHeading = document.getElementById('page-heading').innerHTML;
   if ($('#ccs_vetting_type') !== undefined) {
-    fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Select an option");
-    if (fieldCheck !== true && fieldCheck !== undefined) errorStore.push(fieldCheck);
+    var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
+    let ischecked = false;
+    listofRadionButton.forEach(element => {
+      if (element.type === 'radio' && element.checked) {
+        ischecked = true;
+      }
+    });
+    if (!ischecked) {
+      fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Select an option");
+      if (fieldCheck !== true && fieldCheck !== undefined) errorStore.push(fieldCheck);
+    }
   }
 
   if ($('#rfp_prob_statement_t') !== undefined && $('#rfp_prob_statement_t').val() !== undefined) {
@@ -77,15 +86,14 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
     if ($('#rfp_prob_statement_s').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter information here');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must add background information about your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
 
   if ($('#rfp_prob_statement_d') !== undefined && $('#rfp_prob_statement_d').val() !== undefined) {
     if ($('#rfp_prob_statement_d').val().length === 0) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter information here');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must add background information about your procurement');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
     else if ($('#rfp_prob_statement_d').val().length > 500) {
@@ -125,7 +133,7 @@ const ccsZvalidateRfPStrategy = event => {
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }
-    else {
+    else if (!textPattern.test($('#rfp_security_confirmation').val())) {
       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You must enter characters here', false);
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }

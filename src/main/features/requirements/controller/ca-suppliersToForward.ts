@@ -36,7 +36,7 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
     agreementLotName,
     lotId,
     error: isJaggaerError,
-    choosenViewPath: req.session['choosenViewPath']
+    choosenViewPath:choosenViewPath,
   };
   try {
 
@@ -82,7 +82,7 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
   try {
     const body = {
       assessmentSupplierTarget: ca_supplier_count,
-      assessmentID:assessmentId
+      assessmentId:assessmentId
     };
    const response= await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}`, body);
    if(response.status==200)
@@ -92,7 +92,7 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
     res.redirect(REQUIREMENT_PATHS.CA_GET_REVIEW_RANKED_SUPPLIERS);
    } 
    else{
-     res.redirect('/400');
+     res.redirect('/404/');
    }
   } catch (error) {
     LoggTracer.errorLogger(

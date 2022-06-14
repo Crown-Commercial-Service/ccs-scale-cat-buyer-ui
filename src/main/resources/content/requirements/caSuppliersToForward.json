@@ -1,10 +1,12 @@
 {
   "breadCrumbs": [],
 
-  "title": "How many suppliers you'd like to take forward?",
+  "title": "Number of suppliers to take to further competition",
   "subtitle": null,
   "form": {
-    "question": "[instructions for this page]",
+    "question1": "Enter a number for the amount of suppliers you would like to take to further competition.",
+    "question2": "All the suppliers you choose to take forward, who also apply for your opportunity, will need to be evaluated. For example, if you choose to take forward 50 suppliers, and all suppliers apply, you will need to evaluate 50 suppliers.",
+    "question3": "Some suppliers may not apply.",
     "backJump": {
       "title": "Return to write and publish your requirements",
       "href": "/ca/task-list"

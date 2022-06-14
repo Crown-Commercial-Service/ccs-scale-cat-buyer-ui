@@ -1,29 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('rfp_budget_for') !== null) {
     let allInputfield = document.querySelectorAll(".govuk-input");
+    var validNumber = new RegExp(/^\d+$/);
     allInputfield.forEach(element => {
-      element.addEventListener(event => {
-        var isDecimal = event.value.includes(".");
-        if (event.keyCode === '69') { event.preventDefault(); }
+      element.addEventListener('keydown', event => {
+        if (event.key === '.') { event.preventDefault(); return;}
+        if (event.keyCode === 69) { event.preventDefault(); return;}
+        if (event.keyCode === 187) { event.preventDefault(); return;}
+        if (event.keyCode === 189) { event.preventDefault(); return;}
       })
-    })
+    })  
   }
 })
 const emptyQuestionFieldCheckBudget = () => {
   let fieldCheck = '',
     errorStore = [];
   const pageHeading = document.getElementById('page-heading').innerHTML;
-
-  if ($('#rfp_maximum_estimated_contract_value')) {
+  var reg = new RegExp('^[0-9]$');
+  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
-    const minBudget = $('#rfp_minimum_estimated_contract_value').val();
-
+    const minBudget = $('#rfp_maximum_estimated_contract_value').val();
+    if (maxBudget.includes("-")) {
+      errorStore.push(["rfp_maximum_estimated_contract_value", "You must enter a positive value"]);
+      ccsZPresentErrorSummary(errorStore)
+      return;
+    }
+    if (minBudget.includes("-")) {
+      errorStore.push(["rfp_maximum_estimated_contract_value", "You must enter a positive value"]);
+      ccsZPresentErrorSummary(errorStore)
+      return;
+    }
 
     if (pageHeading.includes("(Optional)")) {
       let msg = '';
       //if (!maxBudget) msg = 'You must enter a value';
       if (Number(maxBudget) < 0) msg = 'You must enter a positive value';
-      if (Number(maxBudget) < Number(minBudget)) {
+      if (Number(maxBudget) > 0 && Number(minBudget) > 0 && Number(maxBudget) < Number(minBudget)) {
         msg = 'Entry should be greater than minimum estimated contract value';
         let element = document.getElementById("rfp_maximum_estimated_contract_value");
         ccsZaddErrorMessage(element, msg);
@@ -32,14 +44,24 @@ const emptyQuestionFieldCheckBudget = () => {
       }
     }
   }
-  if ($('#rfp_minimum_estimated_contract_value')) {
+  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
+    if (maxBudget.includes("-")) {
+      errorStore.push(["rfp_maximum_estimated_contract_value", "You must enter a positive value"]);
+      ccsZPresentErrorSummary(errorStore)
+      return;
+    }
+    if (minBudget.includes("-")) {
+      errorStore.push(["rfp_maximum_estimated_contract_value", "You must enter a positive value"]);
+      ccsZPresentErrorSummary(errorStore)
+      return;
+    }
     let msg = '';
     if (pageHeading.includes("(Optional)")) {
       //if (!minBudget) msg = 'You must enter a value';
       if (Number(minBudget) < 0) msg = 'You must enter a positive value';
-      if (Number(minBudget) > Number(maxBudget)) {
+      if (Number(minBudget) > 0 && Number(maxBudget) > 0 && Number(minBudget) > Number(maxBudget)) {
         msg = 'Entry should be lesser than maximum estimated contract value';
         let element = document.getElementById("rfp_minimum_estimated_contract_value");
         ccsZaddErrorMessage(element, msg);

@@ -23,7 +23,7 @@
       "href": "/ca/task-list?path="+ choosenViewPath
     },
     {
-      "text": "Upload pricing schedules and any other supporting documentation",
+      "text": "Upload pricing schedules and other documents",
       "href": "#"
     }
   ]
@@ -34,7 +34,7 @@
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
-            <h1 class="govuk-heading-xl">{{ data.title }}</h1>
+            <h1 class="govuk-heading-xl"><strong>{{ data.title }}</strong></h1>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -42,7 +42,14 @@
             <div class="govuk-!-margin-bottom-6">
             {% include "includes/project_header.njk" %}
             </div>
-            <p class="govuk-body govuk-!-margin-bottom-7">{{data.description}}</p>
+            <p class="govuk-body govuk-!-margin-bottom-7">{{data.description}}
+            <ul>
+            <li>{{data.p1}}</li>
+            <li>{{data.p2}}</li>
+            <li>{{data.p3}}</li>
+            </ul>
+            </p>
+
             <ul class="app-task-list ccs-rfp-upload">
                 {% for items in data.taskList %}
 
@@ -58,9 +65,15 @@
             </ul>
             <br>
             <br>
-            <p class="govuk-body">
-                <a href="{{ data.backJump.href }}?path={{choosenViewPath}}" class="govuk-link govuk-link--no-visited-state">{{ data.backJump.title }}</a>
-            </p>
+            <div class="govuk-button-group">
+                        {{ CCSButton({
+                              text: "Save and continue",
+                              type: "submit"
+                            })
+                        }}
+                        <a href="/ca/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
+                </div>
+        
         </div>
         <div class="govuk-grid-column-one-third">
             {{ CCSReleatedContent(releatedContent) }}

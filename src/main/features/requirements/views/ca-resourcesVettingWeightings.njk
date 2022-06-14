@@ -12,8 +12,8 @@
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 {{ CCSDialog({
-  title:'This action cannot be undone, please confirm that you want to progress.',
-  description:'This action will revert the form to its original stated.',
+  title:'This action cannot be undone. Confirm that you want to progress.',
+  description:'This action will revert the form to its original state.',
   redirect:'#',
   type:'vetting'
 }) }}
@@ -25,13 +25,27 @@
     {%endif %}
  <div class="govuk-grid-row">
     <h1 class="govuk-heading-xl">
-        {{title}}
+        <strong>{{title}}</strong>
     </h1>
     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
 
         {% include "includes/project_header.njk" %}
+        <br>
+      </div>
+      <br/>
+           <div class="sub-section">
+        <p class="govuk-body">{{subtitle1}}</p>
+        <p class="govuk-body">{{subtitle2}}</p>
+        <p class="govuk-body">{{subtitle3}}<a target="_blank" href="{{backJump.href +'?path='+ choosenViewPath }}" class="govuk-link govuk-link--no-visited-state "> DDaT (Digital,Data and Technology) professions .</a> {{subtitle4}}</p>
+        <p class="govuk-body">{{subtitle5}}</p>
+        <p class="govuk-body">{{subtitle6}}</p>
+      </div>
+      <div class="sub-section">
+        {{ CCSInsetText({
+                        html: subtitle7
+                }) }}
       </div>
     </div>
     <div id="error_summary_resources">
@@ -40,10 +54,12 @@
     {{ csrfProtection(csrf) }}
    
     <div class="ccs-page-section">
+
       <div class="sub-section">
-       <p class="govuk-body"><span id="total-resources">0</span> resources added</p>
-        <p class="govuk-body"><span id="total-staff">0</span> of 100% total weighting for number of staff</p>
-        <p class="govuk-body"><span id="total-vetting">0</span> of 100% total weighting for related vetting requirement</p>
+       <p class="govuk-body"><span id="ca-total-resources">{{total_res}}</span> resources added</p>
+        <p class="govuk-body"><span id="ca-total-staff">{{total_ws}}</span> of 100% total weighting for number of staff</p>
+        <p class="govuk-body"><span id="ca-total-vetting">{{total_wv}}</span> of 100% total weighting for related vetting requirement</p>
+
       </div>
        <div class="sub-section"><a href="#" class="del govuk-link govuk-link--no-visited-state vetting-popup" title="delete">Clear form</a></div>
     </div>
@@ -77,9 +93,10 @@
                           label: {
                             text: ""
                           },
-                          classes: "govuk-input--width-2 weight_staff_class",
-                          id: "weight_staff_"+loop.index+newID,
+                          classes: "govuk-input--width-2 ca_weight_staff_class",
+                          id: "ca_weight_staff_"+loop.index+newID,
                           name: "weight_staff",
+                          value: subItems.NumberStaff,
                           suffix: {
                             text: "%"
                           },
@@ -91,19 +108,26 @@
                           label: {
                             text: ""
                           },
-                          classes: "govuk-input--width-2",
-                          id: "weight_vetting_"+loop.index+newID,
+                          classes: "govuk-input--width-2 ca_weight_vetting_class_p  p_to",
+                          id: "ca_weight_vetting_"+loop.index+newID,
                           name: "weight_vetting",
+                          value: subItems.NumberVetting,
                           suffix: {
                             text: "%"
                           },
                           spellcheck: false
                         }) }}
                            {{ CCSInput({
-                                    id: "weight_vetting_whole_group_"+loop.index+newID,
+                                    id: "ca_weigthage_weight_vetting_whole_group_"+loop.index+newID,
                                     name: "weigthage_group_name",
                                     type: "hidden",
                                     value: subItems.ParentName
+                                  }) }}
+                          {{ CCSInput({
+                                    id: "ca_weigthage_weight_vetting_whole_group_reqid"+loop.index+newID,
+                                    name: "weigthage_reqid",
+                                    type: "hidden",
+                                    value: subItems.ParentReqId
                                   }) }}
                      </div>
 
@@ -117,9 +141,10 @@
                           label: {
                             text: ""
                           },
-                          classes: "govuk-input--width-2 weight_vetting_class",
-                          id: "weight_vetting_"+loop.index+newsubID,
+                          classes: "govuk-input--width-2 ca_weight_vetting_class",
+                          id: "ca_sfia_weight_vetting_"+loop.index+newsubID,
                           name: "SFIA_weightage",
+                          value: subNestedItems['NumberSFIA'],
                           suffix: {
                             text: subNestedItems['SFIA_name']
                           },
@@ -127,10 +152,17 @@
                         }) }}
 </span>
                          {{ CCSInput({
-                                    id: "weight_vetting_whole_group_"+loop.index+newID,
+                                    id: "ca_requirement_weight_vetting_whole_group_"+loop.index+newID,
                                     name: "requirement_Id_SFIA_weightage",
                                     type: "hidden",
                                     value: subNestedItems['requirement-id']
+                                  }) }}
+
+                        {{ CCSInput({
+                                    id: "ca_weigthage_weight_vetting_whole_group_"+loop.index+newID,
+                                    name: "weigthage_group_name_sfia",
+                                    type: "hidden",
+                                    value: subItems.ParentName
                                   }) }}
 
 
