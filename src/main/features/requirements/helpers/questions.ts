@@ -120,8 +120,6 @@ export class QuestionHelper {
               //mandatoryNumberinGroup += 1;
             }
           }
-
-
           if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
         }
       }
