@@ -60,7 +60,7 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
         }
       })
     }).flat();
-    
+
     //Setting the data that have groupRequirement = true;
     const CAPACITY_CONCAT_Heading = CAPACITY_CONCAT_OPTIONS.filter(designation => designation.groupRequirement === true);
 
@@ -118,12 +118,30 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     Level1DesignationStorageForHeadings = Level1DesignationStorageForHeadings.filter(designation => designation.data.length !== 0);
 
 
+    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
+    let requirements = dimensionRequirements?.filter(x => x["dimension-id"] == 3)[0]?.requirements;
 
     const TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
+      let totalAddedWeighting = 0;
+
+     const headingReqId = CAPACITY_CONCAT_OPTIONS.filter(x => x.name == item.category)[0];
+     let tempWeighting = requirements?.filter(x => x["requirement-id"] == headingReqId["requirement-id"] )[0]?.weighting;
+     
+     if(tempWeighting !=undefined && tempWeighting !=null)
+     totalAddedWeighting =  tempWeighting; 
+     else{
+     const { data } = item;
+      data?.map(req => {
+        let weighting = requirements?.filter(x => x["requirement-id"] == req["requirement-id"])[0]?.weighting;
+        if (weighting != null && weighting != undefined)
+          totalAddedWeighting = totalAddedWeighting + weighting;
+      })
+    }
+
       return {
         "url": `#section${index}`,
         "text": item.category,
-        "subtext": `[ 0 % ]`,
+        "subtext": `[ ` + totalAddedWeighting + ` % ]`,
         "className": 'da-service-capabilities'
       }
     })
@@ -167,8 +185,8 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
      */
     let DRequirements;
     let totalWeighting = 0;
-    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
-    
+    // let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
+
     if (dimensionRequirements != null && dimensionRequirements !== undefined && dimensionRequirements.length > 0) {
       let dimension = dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3);
       DRequirements = dimension?.[0]?.requirements;
@@ -358,11 +376,10 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
 
     let CAPACITY_DATASET
-    if(CAPACITY_DATA !=null && CAPACITY_DATA !=undefined && CAPACITY_DATA.data !=null && CAPACITY_DATA.data !=undefined)
-    {
+    if (CAPACITY_DATA != null && CAPACITY_DATA != undefined && CAPACITY_DATA.data != null && CAPACITY_DATA.data != undefined) {
       CAPACITY_DATASET = CAPACITY_DATA.data;
     }
-     
+
 
     CAPACITY_DATASET = CAPACITY_DATASET.filter(levels => levels['name'] === 'Service Capability')
 
@@ -530,10 +547,10 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-      
+
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Completed');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Not started');
-      
+
       res.redirect('/da/team-scale');
 
     } catch (error) {
