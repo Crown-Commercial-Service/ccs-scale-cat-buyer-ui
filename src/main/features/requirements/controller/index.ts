@@ -9,7 +9,7 @@ import {
 import {
   CA_GET_CHOOSE_SECURITY_REQUIREMENTS,
   CA_POST_CHOOSE_SECURITY_REQUIREMENTS,
-}from './ca-ChooseSecurityRequirements';
+}from './ca-chooseSecurityRequirements';
 import { CA_GET_LEARN_ASSESSMENT_BASES, CA_POST_LEARN_ASSESSMENT_BASES } from './ca-learnAssessmentBases';
 import { CA_GET_SERVICE_CAPABILITIES, CA_POST_SERVICE_CAPABILITIES } from './ca-serviceCapabilites';
 import { CA_GET_REVIEW_RANKED_SUPPLIERS, CA_POST_REVIEW_RANKED_SUPPLIERS } from './ca-reviewRankedSuppliers';
