@@ -7,6 +7,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import config from 'config';
 import SampleData from '../../shared/SampleData.json';
 import { CalRankSuppliers } from '../../shared/CalRankSuppliers';
+import {CAGetRequirementDetails} from '../../shared/CAGetRequirementDetails';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 const excelJS= require('exceljs');
 
@@ -37,35 +38,40 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
   let Justification=null;
     RankedSuppliers=result;
   let BelowRankScores=[];
-  TopRankScores= [...RankedSuppliers.slice(0,numSuppliers)]
-  LeastRankScores=[...RankedSuppliers.slice(numSuppliers)]
-  if(LeastRankScores.length>0)
+  if(numSuppliers > RankedSuppliers.length)
   {
-    if(TopRankScores[TopRankScores.length-1].rank===LeastRankScores[0].rank)
-    {
-      const Leastscorerank=LeastRankScores[0].rank;
-      BelowRankScores=LeastRankScores.filter(x=>x.rank===Leastscorerank).concat(TopRankScores.filter(x=>x.rank===Leastscorerank))
-      if(SuppliersData.suppliers.length>0)
-  {
-     SuppliersData.suppliers.forEach(element => {
-      let selectedLocIndex=BelowRankScores.findIndex(x=>x.supplier.id===element.id);
-      if(selectedLocIndex!=-1)
-      {
-        BelowRankScores[selectedLocIndex].checked=true;  
-      }
-     
-    Justification=SuppliersData.justification;
-    });
-    BelowRankScores.sort((a, b) => a.rank < b.rank? -1 : a.rank> b.rank? 1 : 0);
+    TopRankScores=RankedSuppliers;
   }
-      
-      BelowRankScores.filter(x=>x.dimensionScores.map(y=>y.score=parseFloat(y.score).toFixed(2)))
-      TopRankScores=[...TopRankScores.slice(0,-TopRankScores.filter(x=>x.rank===Leastscorerank).length)]
-      dataRRSMod.p2 = dataRRSMod.p2.replace(new RegExp('Z', 'g'), BelowRankScores.length);
-      dataRRSMod.p2 = dataRRSMod.p2.replace(new RegExp('X', 'g'), numSuppliers-TopRankScores.length);
+  else{
+    TopRankScores= [...RankedSuppliers.slice(0,numSuppliers)]
+    LeastRankScores=[...RankedSuppliers.slice(numSuppliers)]
+    if(LeastRankScores.length>0)
+    {
+      if(TopRankScores[TopRankScores.length-1].rank===LeastRankScores[0].rank)
+      {
+        const Leastscorerank=LeastRankScores[0].rank;
+        BelowRankScores=LeastRankScores.filter(x=>x.rank===Leastscorerank).concat(TopRankScores.filter(x=>x.rank===Leastscorerank))
+        if(SuppliersData.suppliers.length>0)
+    {
+       SuppliersData.suppliers.forEach(element => {
+        let selectedLocIndex=BelowRankScores.findIndex(x=>x.supplier.id===element.id);
+        if(selectedLocIndex!=-1)
+        {
+          BelowRankScores[selectedLocIndex].checked=true;  
+        }
+       
+      Justification=SuppliersData.justification;
+      });
+      BelowRankScores.sort((a, b) => a.rank < b.rank? -1 : a.rank> b.rank? 1 : 0);
+    }
+        
+        BelowRankScores.filter(x=>x.dimensionScores.map(y=>y.score=parseFloat(y.score).toFixed(2)))
+        TopRankScores=[...TopRankScores.slice(0,-TopRankScores.filter(x=>x.rank===Leastscorerank).length)]
+        dataRRSMod.p2 = dataRRSMod.p2.replace(new RegExp('Z', 'g'), BelowRankScores.length);
+        dataRRSMod.p2 = dataRRSMod.p2.replace(new RegExp('X', 'g'), numSuppliers-TopRankScores.length);
+      }
     }
   }
- 
  
   TopRankScores.filter(x=>x.dimensionScores.map(y=>y.score=parseFloat(y.score).toFixed(2)))
   let lastrankinTop=TopRankScores.slice(-1)
@@ -78,13 +84,11 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
   req.session.BelowRankScores=BelowRankScores;
 
   if(download!=undefined){
-
- //uncomment below 
-    //const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
-   // let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-   let assessments = SampleData;  // remove
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+   let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     let finalCSVData=[];
     let dataPrepared:any;
+    //sheet 1
     let downloadedRankedSuppliers=req.session.TopRankScores.concat(req.session.BelowRankScores)
     for (var i=0;i<downloadedRankedSuppliers.length;i++)
     {            
@@ -101,30 +105,21 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
         }
         finalCSVData.push(dataPrepared);     
     }
-    
+    //sheet 2
     let dimensionsTable=[];
     let dimensions=[];
-    dimensions.push(...assessments.dimensionRequirements.map(x =>{ return [x.name, x.weighting]}));
-      for (var i=0;i<dimensions.length;i++)
-    {   
-    dataPrepared={
-      "Dimension":dimensions[i][0],
-      "Weighting":dimensions[i][1]
+    let {dimensionRequirements} = assessments;
+    for(let i=1;i<=5;i++)
+    {
+      dataPrepared={
+        "Dimension":dimensionRequirements[i].name,
+        "Weighting":dimensionRequirements[i].weighting,
+      }
+      dimensionsTable.push(dataPrepared);
     }
-    dimensionsTable.push(dataPrepared);
-  }
-   
-//get the details from the service capability dimension Endpoint
-    let requirementsTable=[];
-    dataPrepared={
-      "Dimension":"200",
-      "Requirement Group":"200",
-      "Requirement":"200",
-      "Quantity":"200",
-      "Relative Weighting":"200"
-    }
-    requirementsTable.push(dataPrepared);
 
+//sheet 3
+  let requirementsTable=await CAGetRequirementDetails(req);
   const workbook = new excelJS.Workbook();
   let worksheet = workbook.addWorksheet("Scores"); // New Worksheet
   worksheet.columns = [
