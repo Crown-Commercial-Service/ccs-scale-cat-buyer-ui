@@ -32,7 +32,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         agreementName = element.agreementName
         agreementLotName = element.lotName
         agreementId_session = element.agreementId
-        status = element.activeEvent.status
+        status = element?.activeEvent?.status?.toLowerCase()
         projectName = element.projectName
         eventId = element.activeEvent.id.toString()
         eventType = element.activeEvent.eventType
@@ -44,7 +44,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     });
     const baseurl = `/tenders/projects/${projectId}/events`
     const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
-
+    status=apidata.data[0].dashboardStatus;
 
     // Code Block ends
 
@@ -73,6 +73,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     req.session['eventId'] = eventId
     req.session['evetTitle'] = title
     req.session['Projectname'] = projectName
+    req.session['project_name'] = projectName
 
     // Releated content session values
     const releatedContent: ReleatedContent = new ReleatedContent();
@@ -132,8 +133,17 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     //Get Q&A Count
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
     const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
+    let showCloseProject = false;
+          if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated") {
+            showCloseProject = true;
+          }
+          const procurementId =  req.session['projectId'];
+          const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
+          let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
+          collaboratorData = collaboratorData.data;          
+          const appendData = { data: eventManagementData,Colleagues:collaboratorData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
-    if (status == "IN PROGRESS" || status == "In Progress") {
+    if (status.toLowerCase() == "in-progress") {
       let redirectUrl: string
       switch (eventType) {
         case "RFI":
@@ -168,23 +178,15 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       switch (eventType) {
 
         case "RFI":
-
-
-          //const appendData = { data: eventManagementData, status, projectName, eventId, eventType,apidata,supplierName,supplierSummary,showallDownload, suppliers: localData, unreadMessage: unreadMessage }
-          let showCloseProject = false;
-          if (status == "Published" || status == "To be Evaluated") {
-            showCloseProject = true;
-          }
-          const appendData = { data: eventManagementData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
           res.render('eventManagement', appendData)
-
           break
-        case "FC":
-          redirectUrl_ = "/rfp/rfp-unpublishedeventmanagement"
-          res.redirect(redirectUrl_)
+        case "FC":       
+          res.render('eventManagement', appendData)
           break
         default:
           redirectUrl_ = '/event/management'
+         res.redirect(redirectUrl_)
+
           break
       }
 
@@ -207,8 +209,9 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const { eventId } = req.session;
   const { supplierid } = req.query;
 
-
+try{
   if (supplierid != undefined) {
+    
     const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
@@ -227,7 +230,9 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
     });
     res.send(fileData);
   }
+  
   else {
+    
     const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
@@ -245,6 +250,44 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       'Content-Disposition': 'attachment; filename=' + fileName,
     });
     res.send(fileData)
-  }
+    }
+}catch (error) {
+  LoggTracer.errorLogger(
+    res,
+    error,
+    `${req.headers.host}${req.originalUrl}`,
+    null,
+    TokenDecoder.decoder(SESSION_ID),
+    'Tenders Service Api cannot be connected',
+    true,
+  );
+}
 
+}
+//publisheddoc?download=1
+export const PUBLISHED_PROJECT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  const { download } = req.query;
+
+  if (download != undefined) {
+    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/documents/export`;
+    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+      responseType: 'arraybuffer',
+    });
+    const file = FetchDocuments;
+    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+    const fileData = file.data;
+    const type = file.headers['content-type'];
+    const ContentLength = file.headers['content-length'];
+    res.status(200);
+    res.set({
+      'Cache-Control': 'no-cache',
+      'Content-Type': type,
+      'Content-Length': ContentLength,
+      'Content-Disposition': 'attachment; filename=' + fileName,
+    });
+    res.send(fileData);
+  }
 }

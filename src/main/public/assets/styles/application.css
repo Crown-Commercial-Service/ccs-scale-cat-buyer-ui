@@ -997,7 +997,10 @@ p + .govuk-heading-s,
   width: 100%;
   padding: 0 15px;
 }
-
+.ccs-eventmanagement
+{
+  margin: 0 -15px !important;
+}
 @media (min-width: 40.0625em) {
   .govuk-grid-column-one-half {
     width: 50%;
@@ -8948,7 +8951,7 @@ p,
   height: inherit;
 }
 
-.backdrop-vetting, .backdrop-nav-menu, .backdrop-tier-4, .backdrop-tier-5,backdrop-nextsteps {
+.backdrop-vetting, .backdrop-nav-menu, .backdrop-tier-4, .backdrop-tier-5 {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -8959,6 +8962,27 @@ p,
   display: none;
 }
 
+.backdrop-nextsteps {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+
+.backdrop-ca-workdone {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+}
 .backdrop-timeout-warnings {
   position: fixed;
   top: 0px;

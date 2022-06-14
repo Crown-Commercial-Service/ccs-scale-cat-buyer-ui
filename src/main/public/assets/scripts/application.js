@@ -160,6 +160,9 @@ if (document.getElementById('ccs_rfi_next_steps') !== null)
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
 
+  if (document.getElementById('ca_justification') !== null)
+  document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
+
 if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
@@ -170,17 +173,6 @@ if (document.getElementById('ccs_rfi_docs_form') !== null)
 
 //if (document.getElementById("ccs_rfi_response_date_form") !== null) document.getElementById("ccs_rfi_response_date_form").addEventListener('submit', ccsZvalidateRfiResponseDate);
 
-if (document.getElementById('ccs_rfi_response_date_form_2') !== null)
-  document.getElementById('ccs_rfi_response_date_form_2').addEventListener('submit', ccsZvalidateDate);
-
-if (document.getElementById('ccs_rfi_response_date_form_3') !== null)
-  document.getElementById('ccs_rfi_response_date_form_3').addEventListener('submit', ccsZvalidateDate);
-
-if (document.getElementById('ccs_rfi_response_date_form_4') !== null)
-  document.getElementById('ccs_rfi_response_date_form_4').addEventListener('submit', ccsZvalidateDate);
-
-if (document.getElementById('ccs_rfi_response_date_form_5') !== null)
-  document.getElementById('ccs_rfi_response_date_form_5').addEventListener('submit', ccsZvalidateDate);
 
 if (document.getElementById('ccs_rfi_questions_form') !== null)
   document.getElementById('ccs_rfi_questions_form').addEventListener('submit', ccsZvalidateRfIQuestions);
@@ -307,7 +299,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_2'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );
 
 setInputFilter(
@@ -328,7 +320,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_3'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );
 
 setInputFilter(
@@ -349,7 +341,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_4'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );
 
 setInputFilter(
@@ -370,5 +362,5 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_5'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );

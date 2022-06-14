@@ -12,6 +12,7 @@ import { EVENT_MANAGEMENT_GET_QA_Edit,EVENT_MANAGEMENT_POST_QA_Edit } from './QA
 import { EVENT_MANAGEMENT_DOWNLOAD } from './eventManagement'
 import { GET_STEPS_TO_CONTINUE } from './steps-to-continue'
 import { POST_STEPS_TO_CONTINUE } from './steps-to-continue'
+import { PUBLISHED_PROJECT_DOWNLOAD } from './eventManagement'
 /**
  * @BaseController
  * @Provider
@@ -39,5 +40,6 @@ export const EVENT_MANAGEMENT_CONTROLLER = {
     EVENT_MANAGEMENT_POST_QA_Edit,
     EVENT_MANAGEMENT_DOWNLOAD,
     GET_STEPS_TO_CONTINUE,
-    POST_STEPS_TO_CONTINUE
+    POST_STEPS_TO_CONTINUE,
+    PUBLISHED_PROJECT_DOWNLOAD
 }

@@ -41,7 +41,7 @@
                 <p class="govuk-body">{{data.subtitle}}</p>  
                 <div class="govuk-!-margin-top-9">
                 {{ CCSButton({
-                text: "Export this 2-stage further competition",
+                text: "Export your draft further competition",
                 classes: " govuk-body-s govuk-button--secondary"
                 }) }}
                 </div>
@@ -49,7 +49,7 @@
                 <form id="ccs_ca_next_steps" name="ccs_ca_next_steps" class="form ccs_ca_next_steps" action="/ca/next-steps" method="POST">
                 {{ csrfProtection(csrf) }}
 
-                <h1>1. Project and collaborators</h1>
+                <h1>1. Project and colleagues</h1>
                 <dl class="govuk-summary-list">
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
@@ -83,7 +83,7 @@
                     </div>
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
-                        Add members to your project
+                        Add colleagues to your project
                         </dt>
                         <dd class="govuk-summary-list__value">
                        {% for element in projectTeam %}

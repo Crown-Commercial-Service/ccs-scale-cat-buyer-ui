@@ -11,7 +11,7 @@
       "href": "/dashboard"
     },
     {
-      "text": eventId+" / "+eventType,
+      "text": "Project section",
       "href": "#"
     }
   ]
@@ -58,7 +58,7 @@
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">
             {{data.subsection3_title}}</h2>
-          <p class="govuk-body">You have {{unreadMessage}} unread messages</p>
+          <p class="govuk-body"><strong>({{unreadMessage}} unread messages)</strong></p>
           <p class="govuk-body">
             <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
           </p>
@@ -66,7 +66,7 @@
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">
             {{data.subsection3_title2}}</h2>
-          <p class="govuk-body">There are {{ QAs.length }} clarifications in the Q&A </p>
+          <p class="govuk-body"><strong>({{ QAs.length }} unread messages )</strong></p>
           <p class="govuk-body">
             <a class="govuk-link" href="{{ data.subsection3_linkURL2 }}">{{ data.subsection3_linkText2 }}</a>
           </p>
@@ -74,19 +74,36 @@
       </div>
     </div>
 
-    <div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">1.</span>
           {{data.subsection4_title1}}
-          <p class="app-task-list__tag">
 
+          <!--COMMENTING FOR RELEASE 1-->
+         <!-- <p class="app-task-list__tag">
+            {% if eventType == 'RFI' %}
  
             <a class="govuk-link" href="/rfi/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
-
-          </p>
+             {% endif %} 
+              {% if eventType == 'FC' %}
+              <a class="govuk-link" href="/rfp/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
+            {% endif %}   
+               </p>-->
         </h2>
-        <p class="govuk-body">{{ data.subsection4_title1_descriiption }}</p>
+       
+         {% for item in Colleagues %}
+          <div class="">
+        <p class="govuk-body  govuk-grid-column-full"><strong>{{item.OCDS.contact.name}}</strong></p>
+         <div class="govuk-body govuk-grid-column-full ccs-page-section">
+  
+          <div class="ccs-eventmanagement govuk-body govuk-grid-column-one-half " >{{item.OCDS.contact.email}}</div>
+           <div class="govuk-body govuk-grid-column-one-half">  {{item.OCDS.contact.telephone}}</div>
+           </div>
+            </div>
+           {% endfor %}
+      
+        <!--<p class="govuk-body">{{ data.subsection4_title1_descriiption }}</p>-->
       </div>
     </div>
 
@@ -103,9 +120,10 @@
             </p>
           </h2>
           <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
-            <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_1_task[1].line_1_link}}">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
+            <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
           </p>
-        {% elseif eventType == 'EOI' %}
+          {% endif %}
+        {% if eventType == 'EOI' %}
           <h2 class="govuk-heading-m">
             <span class="proc-task-list__section-number">2.</span>
             {{data.subsection4_title2_2}}
@@ -115,6 +133,20 @@
           </h2>
           <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
             <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_2_task[1].line_1_link}}">{{data.subsection4_title2_2_task[1].line_1_text}}</a>
+          </p>
+          {% endif %}
+        {% if eventType == 'FC' %}
+          <h2 class="govuk-heading-m">
+            <span class="proc-task-list__section-number">2.</span>
+            {{data.subsection4_title2_1}}
+            <p class="app-task-list__tag">
+
+              <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
+
+            </p>
+          </h2>
+          <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
           </p>
         {% endif %}
       </div>
@@ -126,7 +158,9 @@
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3}}</h2>
         <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task1}}
+        <p class="govuk-body">If you want to see any clarification questions,suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
+        <p class="govuk-body">The deadline for response from suppliers is <strong>Day Month Year time</strong></p>
+        <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_task1}}</strong>
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
         <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
@@ -141,32 +175,15 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
-        {% if status == 'Published' %}
-        <span class="proc-task-list__section-number">4.</span>
+       
+         <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
         <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
-        <h3 class="govuk-heading-m">
-          {{data.subsection4_title4_1}}</h3>
-        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
-          <div class="govuk-grid-column-full">
-            <table class="govuk-table">
-              <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
-              <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
-                </tr>
-              </thead>
-              </table>
-            </div>
-          </div>
-        {% elseif status == 'Response period open' %}
-        <span class="proc-task-list__section-number">4.</span>
-          {{data.subsection4_title4}}</h2>
-        <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
-        <h3 class="govuk-heading-m">
-          {{data.subsection4_title4_1}}</h3>
+       
+       
+        {% if status.toLowerCase() == 'published' %}
+        
+        
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
@@ -195,11 +212,11 @@
             </table>
           </div>
         </div>
-        {% elseif status == 'Response period closed' %}
+        {% endif %}
+        {% if status.toLowerCase() == 'to-be-evaluated' %}
         
-          <span class="proc-task-list__section-number">4.</span>
-          {{data.subsection4_title4}}</h2>
-        <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
+          
+        <p class="govuk-body">The supplliers below have responded to your published project.You can download individual supplier's answers or all answers</p>
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4_1}}</h3>
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -245,15 +262,47 @@
     
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
-      {% if status == 'To be evaluated' %}
-      <div class="govuk-inset-text">
-        <h4 class="govuk-heading-s">
-        [5.Next Steps]</h4>
-        <p>[description for  this section]</p>
-         <a class="govuk-link" href="/projects/create-or-choose">Complete RfI and start procurement</a> 
+       {% if eventType == 'RFI' %}
+      {% if status.toLowerCase() == 'to-be-evaluated' %}
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Complete project</h2>
+        <p>When you have the supplier responses,you can close this project and then:</p>
+        <ul type='disc'>
+        <li>start the next stage of your project(from the procurement overview page)</li>
+        <li>copy all the details of this project to procure from your own platform</li>
+        <li>start another pre-market enagagement project</li>
+        </ul>
+         <a class="govuk-link" href="/projects/create-or-choose">Close this project and return to procurement overview</a> 
+     
+    </div>
+    </div>
+    {% endif %}  
+  {% endif %}
+<div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+      {% if eventType == 'FC' %}
+      {% if status.toLowerCase() == 'to-be-evaluated' %}
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Evaluate suppliers</h2>
+        <p>You will need to download all of the supplier responses to evaluate their answers.You will have to evaluate them using the criteris and the question you set before you published your procurement</p>
+         <div class="govuk-button-group">
+        {{ CCSButton({
+        text: "[Complete evaluation of the supplier response]",
+        href:"#"
+        }) }}
+        </div> 
+     
       </div>
-    </div>
-    </div>
-    {% endif %}
+      </div>
+      {% endif %}
+      {% endif %}
+     <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+     <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
+     </div>
+     </div>
+
   </main>
 {% endblock %}

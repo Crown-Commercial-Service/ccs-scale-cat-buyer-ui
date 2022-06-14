@@ -4,7 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as RFP_WEIGTING_JSON from '../../../resources/content/requirements/rfp-weighting.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -94,7 +94,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       return {
         url: `#section${index + 1}`,
         text: designation['job-category'],
-        subtext: `${weightage.min}% / ${weightage.max}%`,
+        subtext: `0 resources added`,
       };
     });
 
@@ -115,7 +115,11 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     var UNIQUE_DESIG_STORAGE = [];
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
-      const FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
+      let FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
+     let findername=FINDER.name;
+      const temp=findername.replace( /^\D+/g, '');
+     const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
+     FINDER.name=tempname;
       UNIQUE_DESIG_STORAGE.push(FINDER);
     }
 
@@ -210,6 +214,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
             url: i.url,
             text: x.Parent,
             subtext: i.subtext,
+            className: 'rfp-vetting-weighting',
           };
           REMAPPTED_TABLE_ITEM_STORAGE.push(ReformedObj);
         }
@@ -232,9 +237,14 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
     let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
 
-    if (dimensionRequirements.length > 0) {
+    let totalResouceAdded = 0; 
+    if (dimensionRequirements !=null && dimensionRequirements.length > 0) {
       dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0]
         .requirements;
+
+        dimensionRequirements.map(x => {
+          totalResouceAdded = totalResouceAdded + x.weighting
+        })
 
       const AddedValuesTo_StorageForSortedItems = StorageForSortedItems.map(items => {
         const { category } = items;
@@ -259,20 +269,26 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
       StorageForSortedItems = AddedValuesTo_StorageForSortedItems;
     }
+    REMAPPTED_TABLE_ITEM_STORAGE.sort((a, b) => a.text.localeCompare(b.text))
+    StorageForSortedItems.sort((a, b) => a.Parent.localeCompare(b.Parent))
     const windowAppendData = {
       ...RFP_WEIGTING_JSON,
       lotId,
       agreementLotName,
       releatedContent,
       isError,
-      totalResouces: dimensionRequirements.length,
+      totalResouces:totalResouceAdded ,
       errorText,
       designations: StorageForSortedItems,
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
     };
 
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
+    let flag=await ShouldEventStatusBeUpdated(projectId,33,req);
+    if(flag)
+    {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'In progress');
+    }
     //res.json(StorageForSortedItems)
     res.render('rfp-vetting-weighting', windowAppendData);
   } catch (error) {
@@ -312,6 +328,7 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
   const PUT_BODY = {
     weighting: 0,
     includedCriteria: [],
+    overwriteRequirements: true,
     requirements: INDEX_FINDER_OBJ_REMAPPER,
   };
 
@@ -328,7 +345,11 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(projectId,34,req);
+    if(flag)
+    {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'Not started');
+    }
     res.redirect('/rfp/choose-security-requirements');
   } catch (error) {
     req.session['isJaggaerError'] = true;

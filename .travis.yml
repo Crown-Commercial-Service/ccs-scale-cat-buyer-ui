@@ -55,6 +55,13 @@ deploy:
     on:
       branch: release/uat
 
+  # PRE-PRD
+  - provider: script
+    skip_cleanup: true
+    script: CF_ENVIRONMENT=pre bash ./deploy.sh
+    on:
+      branch: release/pre
+
 # WARNING! Do NOT use the --add flag of travis cli encrypt - it removes all formatting and comments
 env:
   global:

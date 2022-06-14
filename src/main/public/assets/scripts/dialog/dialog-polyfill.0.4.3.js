@@ -164,8 +164,14 @@ $(function () {
   $('#redirect-button-vetting').on('click', function () {
     const total_staffs = document.getElementById('total-staff');
     const total_vettings = document.getElementById('total-vetting');
-    total_staffs.innerHTML = 0;
-    total_vettings.innerHTML = 0;
+    const ca_total_staff=document.getElementById('ca-total-staff');
+    const ca_total_vetting=document.getElementById('ca-total-vetting');
+    const ca_total_resource=document.getElementById('ca-total-resources');
+    if(total_staffs!=null)total_staffs.innerHTML = 0;
+    if(total_vettings!=null)total_vettings.innerHTML = 0;
+    if(ca_total_staff!=null)ca_total_staff.innerHTML = 0;
+    if(ca_total_vetting!=null)ca_total_vetting.innerHTML = 0;
+    if(ca_total_resource!=null)ca_total_resource.innerHTML = 0;
     staffs = [];
     vettings = [];
     deselect($('.dialog-close-vetting'));
@@ -173,8 +179,18 @@ $(function () {
     var route = this.name;
     if (route == 'Clear form') {
       for (index = 0; index < inputs.length; ++index) {
+        if(inputs[index].type!='hidden'){
         inputs[index].value = '';
+        }
       }
+      var tabLinks = document.querySelectorAll('.ca-vetting-weighting');
+
+if (tabLinks != null && tabLinks.length > 0) {
+      var tabLinks = document.querySelectorAll('.ons-list__item');
+      tabLinks.forEach(tab=>{
+        tab.getElementsByClassName('table-item-subtext')[0].innerHTML="0 resources added,0% / 0%"//will cause issue
+      });
+    }
     } else {
       return false;
     }

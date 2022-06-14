@@ -3,7 +3,6 @@ import * as express from 'express'
 import { TenderApi } from '../../util/fetch/procurementService/TenderApiInstance'
 import { LoggTracer } from '../../logtracer/tracer'
 import { ActiveEvents } from '../models/active-events'
-import moment from 'moment';
 
 /**
  *
@@ -20,7 +19,6 @@ export class EventEngagementMiddleware {
     
     const activeEvents: ActiveEvents[] = []
     const historicalEvents: ActiveEvents[] = []
-    const today = moment(new Date(), 'DD/MM/YYYY');
     let draftActiveEvent: ActiveEvents = {
       projectId: 0,
       projectName: '',
@@ -53,7 +51,7 @@ export class EventEngagementMiddleware {
         req.session['errorTextSumary'] = [];
         req.session['CapAss'] = {};
         req.session['isTcUploaded'] = true;
-
+        req.session['UIDate']=null;
     // Retrive active events
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)
     retrieveProjetActiveEventsPromise
@@ -62,89 +60,70 @@ export class EventEngagementMiddleware {
         for (let i = 0; i < events.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
           if (events[i].activeEvent !=undefined && events[i].activeEvent?.status != undefined && (events[i].activeEvent.eventType == 'RFI' || events[i].activeEvent.eventType == 'EOI')) {
-            if (events[i].activeEvent.status == 'withdrawn' || events[i].activeEvent.status == 'cancelled') {
+            if (events[i].activeEvent?.dashboardStatus == 'COMPLETE' || events[i].activeEvent?.dashboardStatus == 'CLOSED' ) {
               // Historical Events
               historicalEvents.push(events[i])
-            } else if (events[i].activeEvent?.status == 'planning') {
-              // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-              if (events[i].activeEvent?.tenderPeriod?.endDate == undefined) {
+            } else if (events[i].activeEvent?.dashboardStatus == 'IN-PROGRESS') {          
                 draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'In Progress'
+                draftActiveEvent.activeEvent.status = 'In-Progress'
                 activeEvents.push(draftActiveEvent)
-              } else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today)) {
-                // Today < "tenderPeriod": "endDate" -- Published
+              } else if (events[i].activeEvent?.dashboardStatus == 'PUBLISHED') {
                 draftActiveEvent = events[i]
                 draftActiveEvent.activeEvent.status = 'Published'
                 activeEvents.push(draftActiveEvent)
-              } else if (moment(events[i].activeEvent?.tenderPeriod?.endDate).isSameOrBefore(today)) {
-                // Today >= "tenderPeriod": "endDate" -- Response period closed
+              } else if (events[i].activeEvent?.dashboardStatus == 'TO-BE-EVALUATED') {
                 draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Response period closed'
+                draftActiveEvent.activeEvent.status = 'To Be Evaluated'
                 activeEvents.push(draftActiveEvent)
-              } else {
+              } else if (events[i].activeEvent?.dashboardStatus == 'EVALUATING') {
+                draftActiveEvent = events[i]
+                draftActiveEvent.activeEvent.status = 'Evaluating'
+                activeEvents.push(draftActiveEvent)
+               } else if (events[i].activeEvent?.dashboardStatus == 'EVALUATED') {
+                draftActiveEvent = events[i]
+                draftActiveEvent.activeEvent.status = 'Evaluated'
+                activeEvents.push(draftActiveEvent)
+               }  else {
                 activeEvents.push(events[i])
-              }
-            }
+              }           
           } else if (events[i].activeEvent?.eventType == 'TBD') {
             draftActiveEvent = events[i]
             draftActiveEvent.activeEvent.status = 'In Progress'
             activeEvents.push(draftActiveEvent)
           }
-          else if (events[i].activeEvent?.eventType == 'DAA' || events[i].activeEvent?.eventType == 'FCA') {
-            
-            if (events[i].activeEvent?.status == 'active') {
-              // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-              if (events[i].activeEvent?.tenderPeriod?.endDate == undefined) {
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'ASSESSMENT'
-                activeEvents.push(draftActiveEvent)
-              } else if (events[i].activeEvent?.status == 'complete') {
-                // Today < "tenderPeriod": "endDate" -- Published
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'COMPLETE'
-                activeEvents.push(draftActiveEvent)}
-          }}
 
           // eventType = FC & DA (Active and historic events)
           else if (events[i].activeEvent?.status != undefined && (events[i].activeEvent?.eventType == 'FC' || events[i].activeEvent?.eventType == 'DA')) {
-            if (events[i].activeEvent?.status == 'withdrawn' || events[i].activeEvent?.status == 'cancelled') {
+            if (events[i].activeEvent?.dashboardStatus == 'COMPLETE' || events[i].activeEvent?.dashboardStatus == 'CLOSED' ) {
+              // Historical Events
               historicalEvents.push(events[i])
-            } else if (events[i].activeEvent?.status == 'planning' || events[i].activeEvent?.status == 'complete' || events[i].activeEvent?.status == 'active') {
-              // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-if(events[i].activeEvent?.status == 'planning')
-{
-  draftActiveEvent = events[i]
-  draftActiveEvent.activeEvent.status = 'IN PROGRESS'
-  activeEvents.push(draftActiveEvent)
-}
-else if(events[i].activeEvent?.status == 'active' && moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today))
-{
-  draftActiveEvent = events[i]
-  draftActiveEvent.activeEvent.status = 'PUBLISHED'
-  activeEvents.push(draftActiveEvent)
-}
-else if(events[i].activeEvent?.status == 'active' && moment(events[i].activeEvent.tenderPeriod?.endDate).isSameOrBefore(today))
-{
-  draftActiveEvent = events[i]
-  draftActiveEvent.activeEvent.status = 'EVALUATE RESPONSES'
-  activeEvents.push(draftActiveEvent)
-}
-else if(events[i].activeEvent?.status == 'complete')
-{
-  draftActiveEvent = events[i]
-  draftActiveEvent.activeEvent.status = 'EVALUATION COMPLETE'
-  activeEvents.push(draftActiveEvent)
-}
-else if(events[i].activeEvent?.status == 'awarded')
-{
-  draftActiveEvent = events[i]
-  draftActiveEvent.activeEvent.status = 'AWARDED'
-  activeEvents.push(draftActiveEvent)
-}
-else {
+            } else if (events[i].activeEvent?.dashboardStatus == 'IN-PROGRESS') {          
+              draftActiveEvent = events[i]
+              draftActiveEvent.activeEvent.status = 'In-Progress'
+              activeEvents.push(draftActiveEvent)
+            } else if (events[i].activeEvent?.dashboardStatus == 'PUBLISHED') {
+              draftActiveEvent = events[i]
+              draftActiveEvent.activeEvent.status = 'Published'
+              activeEvents.push(draftActiveEvent)
+            } else if (events[i].activeEvent?.dashboardStatus == 'TO-BE-EVALUATED') {
+              draftActiveEvent = events[i]
+              draftActiveEvent.activeEvent.status = 'To Be Evaluated'
+              activeEvents.push(draftActiveEvent)
+            } else if (events[i].activeEvent?.dashboardStatus == 'EVALUATING') {
+              draftActiveEvent = events[i]
+              draftActiveEvent.activeEvent.status = 'Evaluating'
+              activeEvents.push(draftActiveEvent)
+             } else if (events[i].activeEvent?.dashboardStatus == 'EVALUATED') {
+              draftActiveEvent = events[i]
+              draftActiveEvent.activeEvent.status = 'Evaluated'
+              activeEvents.push(draftActiveEvent)
+             } else if (events[i].activeEvent?.dashboardStatus == 'AWARDED') {
+              draftActiveEvent = events[i]
+              draftActiveEvent.activeEvent.status = 'Awarded'
+              activeEvents.push(draftActiveEvent)
+             }else {
  activeEvents.push(events[i])
-              }
-            }
+              }           
           } 
         }
         req.session.openProjectActiveEvents = activeEvents;

@@ -30,7 +30,7 @@
                 "href": "/ca/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "Will you accept sub-contractors?",
+                "text": "Use of sub-contractors",
                 "href": "#"
             }
         ]
@@ -43,7 +43,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {{ data.title }}
+                   <strong> {{ data.title }}</strong>
                 </h1>
             </div>
         </div>
@@ -51,8 +51,8 @@
         <div class="govuk-grid-row govuk-!-padding-bottom-3">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-                <p class="govuk-body">{{ data.subtitle }}</p>
-
+                <p class="govuk-body">{{ data.subtitle1 }}</p>
+                <p class="govuk-body">{{ data.subtitle2 }}</p>
                 <form id="ccs_ca_subContractors" name="ccs_ca_subContractors" class="form ccs_ca_subContractors" action="/ca/accept-subcontractors" method="POST">
                     {{ csrfProtection(csrf) }}
                     {% for form in data.form %}
@@ -78,9 +78,10 @@
                                     items: form_Options_Altered,
                                     errorMessage: error,
                                     errorMessage: {
-                                    text: 'Select an option'
+                                    text: 'You must choose if suppliers can sub-contractors'
                                     }                  
                                 }) }}
+                                <br>
                         {% else %}
 
                             {{ CCSRadios({
@@ -88,6 +89,7 @@
                                         name: "ca_subContractors",
                                         items: form_Options_Altered        
                                 }) }}
+                                <br>
                         {%endif %}
                     {% endfor %}
 
