@@ -12,9 +12,7 @@
 {% endblock %}
 
 {% block content %}
-  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-
-
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="ca-summary-main-content" role="main">
 <div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
   <h2 class="govuk-error-summary__title" id="error-summary-title">
     
@@ -24,8 +22,6 @@
     </ul>
   </div>
 </div>
-
-
  <div class="govuk-grid-row">
     <h1 class="govuk-heading-xl">
         {{data.title}}
@@ -38,7 +34,6 @@
 
  <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/service-capabilities" method="POST">
     {{ csrfProtection(csrf) }}  
-
 
 <div class="govuk-grid-row govuk-!-padding-top-9 ">
   <div class="govuk-grid-column-two-thirds">
@@ -54,7 +49,7 @@
             </div>
   </div>
   <div class="govuk-grid-column-one-third">
-   <a href="#" class="govuk-link">Download this summary</a>
+   <a href="#" class="govuk-link" id="ca-summary-Download">Download this summary</a>
   </div>
 </div>
 
@@ -62,137 +57,126 @@
 
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
-      Enter your weightings
+      [Enter your weightings]
     </dt>
     <dd class="govuk-summary-list__value">
-     {% for items in Weightings.dimensionRequirements %}
+    {%if weightings.length>0%}
+     {% for items in Weightings %}
      <div class="govuk-!-margin-2">{{items.weighting}}% &nbsp; {{items.name}}</div>
      {%endfor%}
+     {%endif%}
     </dd>
-    <dd class="govuk-summary-list__actions">
+  </div>
+ <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+       [Will you accept sub-contractors?]
+    </dt>
+    <dd class="govuk-summary-list__value">
+     {{isSubContractorAccepted}}
+    </dd>  
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+       [Set your resources and vetting weightings]
+    </dt>
+    <dd class="govuk-summary-list__value">
+    <div class="govuk-!-margin-2">{{Totalresourcesvetting}} &nbsp; [Total number of added resources]</div>
+    </dd>  
+  </div>
+
+<p><strong> [Choose highest security and vetting requirements] </strong></p>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+     [Select the highest level of security clearance that staff supplied to the project will need to have.]
+    </dt>
+    <dd class="govuk-summary-list__value">
+    {{Securityoption}}
+    </dd> 
+  </div>
+   <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+     [How many resources need a lower security and vtting requirement?]
+    </dt>
+    <dd class="govuk-summary-list__value">
+    {{Securityresources}}
+    </dd> 
+  </div>
+
+ <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+       [Select your service capabilities]
+    </dt>
+    <dd class="govuk-summary-list__value">
+     {%if individualcluster.length>0%}
+    {% for items in individualcluster %}
+    <p><strong>{{items[0]}}</strong></p>
+    {% for group in items[1] %}
+     <div class="govuk-!-margin-2">{{group.InputWeighting}}% &nbsp; {{group.name}}</div>
+     {%endfor%}
+     {%endfor%}
+     {%endif%}
+     </br>
+     {%if wholeCluster.length>0%}
+     {% for items in wholeCluster %}
+    <p><strong>{{items.name}}</strong></p>
+     <div class="govuk-!-margin-2">{{items.InputWeighting}}% &nbsp; [Whole cluster]</div>
+     {%endfor%}
+      {%endif%}
+     </br>
+    </dd>  
+  </div>
+
+   <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+     [How well your team will scale?]
+    </dt>
+    <dd class="govuk-summary-list__value">
+    {{Teamscale}} 
+    </dd> 
+  </div>
+
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      [Where the work will be done?]
+    </dt>
+    <dd class="govuk-summary-list__value">
+     {%if wherewrkdone.length>0%}
+     {% for items in wherewrkdone %}
+     <div class="govuk-!-margin-2">{{items.weighting}}% &nbsp; {{items.name}}</div>
+     {%endfor%}
+      {%endif%}
+    </dd>
+  </div>
+
+<div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+     [How many suppliers you'd like to take forward?]
+    </dt>
+    <dd class="govuk-summary-list__value">
+    {{SuppliersForward}} 
+    </dd> 
+  </div>
+
+  
+
+   <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      [Review ranked suppliers]
+    </dt>
+    <dd class="govuk-summary-list__value">
      
     </dd>
   </div>
-  <div class="govuk-summary-list__row">
+
+   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
-       Will you accept sub-contractors
+      [Enter your justification]
     </dt>
     <dd class="govuk-summary-list__value">
-     {{subcontractor}}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      
-    </dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Choose highest security and vetting requirements
-    </dt>
-    <dd class="govuk-summary-list__value">
-     {% for items in SecurityStorageWithVal%}
-    <p class="govuk-heading-s">{{items.groupName}}</p>
-
-    {% for subItems in items.data%}
-    <p class="govuk-body-s"><span class="govuk-!-padding-right-9">{{subItems.weighting}}% </span>   {{subItems.name}}</p>
-    {%endfor%}
-
-
-    {%endfor%}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-    
-    </dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Select your service capabilities
-    </dt>
-    <dd class="govuk-summary-list__value">
-    {% for items in ServiceStorageWithVal%}
-    <p class="govuk-heading-s">{{items.groupName}}</p>
-
-    {% for subItems in items.data%}
-    <p class="govuk-body-s"><span class="govuk-!-padding-right-9">{{subItems.weighting}}% </span>   {{subItems.name}}</p>
-    {%endfor%}
-
-
-    {%endfor%}
      
     </dd>
-    <dd class="govuk-summary-list__actions">
-      
-    </dd>
   </div>
-
-   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      How well your team will scale?
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <p class="govuk-body">26-99</p>
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      
-    </dd>
-  </div>
-
-   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Where the work will be done?
-    </dt>
-    <dd class="govuk-summary-list__value">
-       {% for items in LocationStorageWithVal%}
-    <p class="govuk-heading-s">{{items.groupName}}</p>
-
-    {% for subItems in items.data%}
-    <p class="govuk-body-s"><span class="govuk-!-padding-right-9">{{subItems.weighting}}% </span>   {{subItems.name}}</p>
-    {%endfor%}
-
-
-    {%endfor%}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      
-    </dd>
-  </div>
-
-   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      How many suppliers you'd like to take forward?
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <p class="govuk-body">XX</p>
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      
-    </dd>
-  </div>
-
-   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Review ranked suppliers
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <p class="govuk-body">Rank and score</p>
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      
-    </dd>
-  </div>
-
-   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Enter your justification
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <p class="govuk-body">Answer</p>
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      
-    </dd>
-  </div>
-
-
 </dl>
         
    

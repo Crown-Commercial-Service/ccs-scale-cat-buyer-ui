@@ -3,16 +3,16 @@ import express from 'express';
 import SampleData from './SampleData.json';
 import { GetLotSuppliers } from './supplierService';
 import { TenderApi } from '../../common/util/fetch/procurementService/TenderApiInstance';
+import { TokenDecoder } from '../../common/tokendecoder/tokendecoder';
+import { LoggTracer } from '../../common/logtracer/tracer';
 
 export const CalRankSuppliers = async (req: express.Request) => {
     const { currentEvent } = req.session;
     const { assessmentId } = currentEvent;
-
+    const { SESSION_ID } = req.cookies; //jwt
   try {
-    //uncomment below 
-    //const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
-   // let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-    let assessments = SampleData;  // remove
+    const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
+    let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     let assesssort = assessments.scores.sort((a, b) => (a.total > b.total ? -1 : 1));
     const distinctassessments = [... new Set(assesssort.map(x => x.total))]
     let RankedSuppliers = [];
@@ -20,11 +20,12 @@ export const CalRankSuppliers = async (req: express.Request) => {
 
     //GET TOTAL SUPPLIERS LIST
   supplierList = await GetLotSuppliers(req);
+  
   //ASSIGN RANKS TO SUPPLIERS WHEN SOCRES ARE DISTINCT
   if (distinctassessments.length === assesssort.length) {   
       assesssort.forEach((score, index) => {
         score.rank = index + 1;
-        score.name = supplierList.find(s => s.organization.id == score.supplier.id).organization.name
+        score.name = supplierList.find(s => s.organization.id === score.supplier.id).organization.name
       });
       RankedSuppliers = [...assesssort];       
     }
@@ -36,7 +37,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
       let similarRankedItems = assesssort.filter(x => x.total == assesssort[i].total);
       if (similarRankedItems.length == 1) {       
         assesssort[i].rank = ++rankValue;
-        assesssort[i].name = supplierList.find(s => s.organization.id == assesssort[i].supplier.id).organization.name;
+        assesssort[i].name = supplierList.find(s => s.organization.id === assesssort[i].supplier.id).organization.name;
         RankedSuppliers.push(assesssort[i]);
       }
       else {
@@ -48,7 +49,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
         if (firstIterateDistint.length == firstIterateSort.length) {
           firstIterateSort.forEach(x => {
             let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
-            assesssort[indexVal].name = supplierList.find(s => s.organization.id == assesssort[indexVal].supplier.id).organization.name;
+            assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
             assesssort[indexVal].rank = similarrank;
             RankedSuppliers.push(assesssort[indexVal]);
           });
@@ -61,7 +62,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
           if (secondIterateDistint.length == secondIterateSort.length) {
             secondIterateSort.forEach(x => {
               let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
-              assesssort[indexVal].name = supplierList.find(s => s.organization.id == assesssort[indexVal].supplier.id).organization.name;
+              assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
               assesssort[indexVal].rank = similarrank;
               RankedSuppliers.push(assesssort[indexVal]);
             });
@@ -74,7 +75,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
             if (thirdIterateDistint.length == thirdIterateSort.length) {
               thirdIterateSort.forEach(x => {
                 let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
-                assesssort[indexVal].name = supplierList.find(s => s.organization.id == assesssort[indexVal].supplier.id).organization.name;
+                assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
                     assesssort[indexVal].rank = similarrank;
                 RankedSuppliers.push(assesssort[indexVal]);
               });
@@ -87,7 +88,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
               if (fourthIterateDistint.length == fourthIterateSort.length) {
                 fourthIterateSort.forEach(x => {
                   let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
-                  assesssort[indexVal].name = supplierList.find(s => s.organization.id == assesssort[indexVal].supplier.id).organization.name;
+                  assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
                     assesssort[indexVal].rank = similarrank;
                   RankedSuppliers.push(assesssort[indexVal]);
                 });
@@ -100,7 +101,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
                 if (fifthIterateDistint.length == fifthIterateSort.length) {
                   fifthIterateSort.forEach(x => {
                     let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
-                    assesssort[indexVal].name = supplierList.find(s => s.organization.id == assesssort[indexVal].supplier.id).organization.name;
+                    assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
                     assesssort[indexVal].rank = similarrank;
                     RankedSuppliers.push(assesssort[indexVal]);
                   });
@@ -111,7 +112,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
                   similarRankedItems.forEach(x => {
                     let indexVal = assesssort.findIndex(sup => sup.supplier.id == x.supplier.id);
                     assesssort[indexVal].rank = similarrank;
-                    assesssort[indexVal].name = supplierList.find(s => s.organization.id == assesssort[indexVal].supplier.id).organization.name;
+                    assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
                     sortbyalpha.push(assesssort[indexVal]);
                     
                   });
@@ -133,6 +134,14 @@ export const CalRankSuppliers = async (req: express.Request) => {
   const SupplierswithRanks=RankedSuppliers;
   return SupplierswithRanks;
     } catch (error) {
-    
+      LoggTracer.errorLogger(
+        res,
+        error,
+        `${req.headers.host}${req.originalUrl}`,
+        null,
+        TokenDecoder.decoder(SESSION_ID),
+        'Tender agreement failed to be added',
+        true,
+      );
     }
 };
