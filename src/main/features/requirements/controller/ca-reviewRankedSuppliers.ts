@@ -64,7 +64,8 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
           BelowRankScores.filter(x => x.dimensionScores.map(y => y.score = parseFloat(y.score).toFixed(2)))
           TopRankScores = [...TopRankScores.slice(0, -TopRankScores.filter(x => x.rank === Leastscorerank).length)]
           dataRRSMod.p2 = dataRRSMod.p2.replace(new RegExp('Z', 'g'), BelowRankScores.length);
-          dataRRSMod.p2 = dataRRSMod.p2.replace(new RegExp('X', 'g'), numSuppliers - TopRankScores.length);
+          dataRRSMod.p3 = dataRRSMod.p3.replace(new RegExp('X', 'g'), BelowRankScores[0].rank);
+          dataRRSMod.p7 = dataRRSMod.p7.replace(new RegExp('X', 'g'), numSuppliers - TopRankScores.length);
         }
       }
     }
@@ -88,28 +89,31 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
       let downloadedRankedSuppliers = req.session.TopRankScores.concat(req.session.BelowRankScores)
       for (var i = 0; i < downloadedRankedSuppliers.length; i++) {
         dataPrepared = {
-          "Rank No.": downloadedRankedSuppliers[i].rank,
-          "Supplier Name": downloadedRankedSuppliers[i].name,
-          "Supplier Trading Name": downloadedRankedSuppliers[i].name,
-          "Total Score": downloadedRankedSuppliers[i].total,
-          "Capacity Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 1).score,
-          "Security Clearance Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 2).score,
-          "Capability Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 3).score,
-          "Scalability Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 4).score,
-          "Location Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 5).score
+          "Rank No.": downloadedRankedSuppliers[i]?.rank,
+          "Supplier Name": downloadedRankedSuppliers[i]?.name,
+          "Supplier Trading Name": downloadedRankedSuppliers[i]?.name,
+          "Total Score": downloadedRankedSuppliers[i]?.total,
+          "Capacity Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 1)?.score,
+          "Security Clearance Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 2)?.score,
+          "Capability Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 3)?.score,
+          "Scalability Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 4)?.score,
+          "Location Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 5)?.score
         }
         finalCSVData.push(dataPrepared);
       }
       //sheet 2
       let dimensionsTable = [];
-      let dimensions = [];
       let { dimensionRequirements } = assessments;
-      for (let i = 1; i <= 5; i++) {
-        dataPrepared = {
-          "Dimension": dimensionRequirements[i].name,
-          "Weighting": dimensionRequirements[i].weighting,
+      for (var i=1;i<=5;i++)
+      {   
+        let dim=dimensionRequirements.filter(item=>item["dimension-id"]==i)[0]
+        if(dim!=undefined){
+        dataPrepared={
+          "Dimension":dim.name,
+          "Weighting":dim.weighting
         }
         dimensionsTable.push(dataPrepared);
+      }
       }
 
       //sheet 3

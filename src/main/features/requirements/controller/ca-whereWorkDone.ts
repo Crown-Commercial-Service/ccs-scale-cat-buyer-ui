@@ -133,6 +133,7 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
         weighting: dimension5weighitng,     
         includedCriteria: includedSubContractor,
         requirements: initialDataRequirements,
+        overwriteRequirements: true,
       };
 
       const response=await TenderApi.Instance(SESSION_ID).put(
