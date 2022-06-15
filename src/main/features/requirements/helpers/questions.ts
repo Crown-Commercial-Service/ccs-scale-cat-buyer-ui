@@ -69,7 +69,6 @@ export class QuestionHelper {
                 if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
               }
             }
-
             else if (questionType === 'MultiSelect') {
               let isMultiselect = false;
               for (let j = 0; j < question_api_data?.[k]?.nonOCDS.options?.length; j++) {
@@ -94,7 +93,7 @@ export class QuestionHelper {
                 let dateValue = question_api_data?.[k]?.nonOCDS.options?.[j]?.value;
                 if (dateValue != undefined && dateValue != null && dateValue != '') { dateValidation += 1; }
               }
-              if (dateValidation == 3)//3 for day,month,year
+              if (dateValidation >= 3)//3 for day,month,year
               {
                 innerMandatoryNum += 1;
               }
@@ -290,12 +289,13 @@ export class QuestionHelper {
             mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
           }
         }
-
+        //if (mandatoryNum === maxNum) {
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/66`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/70`, 'Not started');
         }
         res.redirect('/rfp/task-list');
+        //}
       }
     } catch (error) {
       logger.log('Something went wrong in the RFP Journey, please review the logit error log for more information');
