@@ -65,15 +65,15 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
         if(data.length>0){
           
           dataPrepared ={
-            "Rank No.":data[0].rank,
-            "Supplier Name":data[0].name,
-            "Supplier Trading Name":data[0].name,
-            "Total Score":data[0].total,
-            "Capacity Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==1)?.[0].score,
-            "Security Clearance Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==2)?.[0].score,
-            "Capability Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==3)?.[0].score,
-            "Scalability Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==4)?.[0].score,
-            "Location Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==5)?.[0].score
+            "Rank No.":data[0]?.rank,
+            "Supplier Name":data[0]?.name,
+            "Supplier Trading Name":data[0]?.name,
+            "Total Score":data[0]?.total,
+            "Capacity Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==1)?.[0]?.score,
+            "Security Clearance Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==2)?.[0]?.score,
+            "Capability Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==3)?.[0]?.score,
+            "Scalability Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==4)?.[0]?.score,
+            "Location Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==5)?.[0]?.score
           }
           finalCSVData.push(dataPrepared);
         }
