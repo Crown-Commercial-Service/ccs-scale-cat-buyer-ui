@@ -128,6 +128,7 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       name:dimensionName ,
       weighting: weight,
       includedCriteria: includedSubContractor,
+      overwriteRequirements: true,
       requirements: [
         {
           name: scalabilityData.options.find(data => data['requirement-id'] === Number(req.body.team_option)).name,

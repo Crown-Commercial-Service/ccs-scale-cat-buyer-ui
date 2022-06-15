@@ -155,6 +155,7 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
         weighting: dimension2weighitng,
         includedCriteria:includedSubContractor,
         requirements: requirementsData,
+        overwriteRequirements: true,
       };
       const response= await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
      if(response.status == 200)

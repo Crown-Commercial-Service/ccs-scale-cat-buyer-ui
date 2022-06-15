@@ -519,6 +519,7 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     weighting: 0,
     includedCriteria: includedSubContractor,
     requirements: INDEX_FINDER_OBJ_REMAPPER,
+    overwriteRequirements: true,
   };
   
 
