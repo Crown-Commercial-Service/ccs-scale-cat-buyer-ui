@@ -34,7 +34,7 @@
   "p2": " You have Z suppliers with a lower score that can also be taken through to further competition.",
   "p6": "You will need to enter a reason for any suppliers you choose in the box below.",
   "p7":"You need to select at least X supplier(s).",
-  "p3": "Enter the reason why you selected the suppliers from position 3 above.",
+  "p3": "Enter the reason why you selected the suppliers from position X above.",
   "p4": "",
   "backJump": {
     "title": "Return to write and publish your requirements",
