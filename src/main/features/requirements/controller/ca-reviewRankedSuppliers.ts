@@ -89,15 +89,15 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
       let downloadedRankedSuppliers = req.session.TopRankScores.concat(req.session.BelowRankScores)
       for (var i = 0; i < downloadedRankedSuppliers.length; i++) {
         dataPrepared = {
-          "Rank No.": downloadedRankedSuppliers[i].rank,
-          "Supplier Name": downloadedRankedSuppliers[i].name,
-          "Supplier Trading Name": downloadedRankedSuppliers[i].name,
-          "Total Score": downloadedRankedSuppliers[i].total,
-          "Capacity Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 1).score,
-          "Security Clearance Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 2).score,
-          "Capability Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 3).score,
-          "Scalability Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 4).score,
-          "Location Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 5).score
+          "Rank No.": downloadedRankedSuppliers[i]?.rank,
+          "Supplier Name": downloadedRankedSuppliers[i]?.name,
+          "Supplier Trading Name": downloadedRankedSuppliers[i]?.name,
+          "Total Score": downloadedRankedSuppliers[i]?.total,
+          "Capacity Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 1)?.score,
+          "Security Clearance Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 2)?.score,
+          "Capability Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 3)?.score,
+          "Scalability Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 4)?.score,
+          "Location Score": downloadedRankedSuppliers[i].dimensionScores.find(x => x["dimension-id"] == 5)?.score
         }
         finalCSVData.push(dataPrepared);
       }
