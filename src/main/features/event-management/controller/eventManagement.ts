@@ -44,7 +44,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     });
     const baseurl = `/tenders/projects/${projectId}/events`
     const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
-    status=apidata.data[0].dashboardStatus;
+    //status=apidata.data[0].dashboardStatus;
+    status = apidata.data.filter((d:any)=>d.id==eventId)[0].dashboardStatus;
 
     // Code Block ends
 
