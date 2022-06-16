@@ -77,10 +77,10 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
         agreementLotName,
         releatedContent: releatedContent,
       };
-      let flag=await ShouldEventStatusBeUpdated(proc_id,37,req);
+      let flag=await ShouldEventStatusBeUpdated(req.session.eventId,37,req);
     if(flag)
     {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/37`, 'In progress');
     }
       // await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');

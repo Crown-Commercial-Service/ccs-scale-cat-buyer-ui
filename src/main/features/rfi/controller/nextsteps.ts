@@ -74,6 +74,7 @@ export const RFI_POST_NEXT_STEPS = async (req: express.Request, res: express.Res
             req.session['eventId'] =data.id;
             req.session.procurements[0]['eventId'] = data.id;
             req.session.procurements[0]['eventType'] = data.eventType;
+            req.session.procurements[0]['started'] = false;
           }
 
            //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');

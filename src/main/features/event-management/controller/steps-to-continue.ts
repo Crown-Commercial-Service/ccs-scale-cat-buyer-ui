@@ -77,26 +77,26 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
 
         case '[Rfi]':
           //const rfiResponse = updateEventType("RFI",baseURL,SESSION_ID);
-          const body = {
-            eventType: "RFI",
-          };
-          const { data } = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
+          // const body = {
+          //   eventType: "RFI",
+          // };
+          // const { data } = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
 
-          if (data != null && data != undefined)
-            req.session.currentEvent = data;
+          // if (data != null && data != undefined)
+          //   req.session.currentEvent = data;
 
           res.redirect('/projects/create-or-choose');
           break;
         case '[1-stage FC]':
-          let body1 = {
-            eventType: "FC",
-          };
-          const  fcResponse  = await TenderApi.Instance(SESSION_ID).put(baseURL, body1);
-            // const fcResponse = updateEventType("FC",baseURL,SESSION_ID);
-          let data1 =fcResponse.data;
+          // let body1 = {
+          //   eventType: "FC",
+          // };
+          // const  fcResponse  = await TenderApi.Instance(SESSION_ID).put(baseURL, body1);
+          //   // const fcResponse = updateEventType("FC",baseURL,SESSION_ID);
+          // let data1 =fcResponse.data;
 
-          if (data1 != null && data1 != undefined)
-            req.session.currentEvent = data1;
+          // if (data1 != null && data1 != undefined)
+          //   req.session.currentEvent = data1;
 
             res.redirect('/projects/create-or-choose');
             break;  

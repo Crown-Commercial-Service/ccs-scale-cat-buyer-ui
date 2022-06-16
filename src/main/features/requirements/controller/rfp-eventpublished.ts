@@ -20,7 +20,7 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
     
 
 try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/2`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/2`, 'Completed');
     if(download!=undefined)
     {
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/documents/export`;
