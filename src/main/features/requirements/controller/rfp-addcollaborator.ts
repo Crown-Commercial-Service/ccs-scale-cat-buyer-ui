@@ -221,7 +221,7 @@ export const RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Reques
 export const RFP_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/29`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/29`, 'Completed');
   if(req.session.unpublishedeventmanagement=="true")
   {
     res.redirect('/rfp/rfp-unpublishedeventmanagement');

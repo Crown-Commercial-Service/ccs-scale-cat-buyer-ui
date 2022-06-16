@@ -55,16 +55,16 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.agreementLotName = agreementLotName;
     const agreementName = req.session.agreementName;
     try {
-      const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.projectId}/steps`);
+      const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
     } catch (journeyError) {
       const _body = {
-        'journey-id': req.session.projectId,
+        'journey-id': req.session.eventId,
         states: journyData.states,
       };
       if (journeyError.response.status == 404) {
         await TenderApi.Instance(SESSION_ID).post(`journeys`, _body);
-        const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.projectId}/steps`);
+        const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
         req.session['journey_status'] = JourneyStatus?.data;
       }
     }

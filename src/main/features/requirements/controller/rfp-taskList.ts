@@ -51,7 +51,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Cannot start yet');
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/37`, 'Not started');
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
+    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     statusStepsDataFilter(chooseRouteData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
 

@@ -28,10 +28,10 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   const appendData = { data: uploadData, releatedContent, error: isJaggaerError };
   try {
-    let flag=await ShouldEventStatusBeUpdated(projectId,30,req);
+    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,30,req);
     if(flag)
     {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/30`, 'In progress');
     }
     //37 changes to 30 BALWINDER 
     res.render('rfp-uploadOverview', appendData);

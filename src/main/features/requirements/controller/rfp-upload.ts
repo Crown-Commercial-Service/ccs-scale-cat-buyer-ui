@@ -195,11 +195,11 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
   if (req.session['isTcUploaded']) {
     if (selectedRoute === 'FC') selectedRoute = 'RFP';
     const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(projectId,31,req);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/${step}`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,31,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/31`, 'Not started');
     }
     res.redirect(`/rfp/IR35`);
   } else {

@@ -91,9 +91,9 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             releatedContent: releatedContent
          }
          res.render('onlinetasklist', display_fetch_data);
-         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/9`, 'Completed');
+         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/9`, 'Completed');
          if (response.status == HttpStatusCode.OK){
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/10`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Not started');
          }
       } catch (error) {
          LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,

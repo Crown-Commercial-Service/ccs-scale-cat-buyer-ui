@@ -80,7 +80,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
 
 export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId, eventId } = req.session;
   const { rfi_procurement_lead_input: userMail } = req.body;
   const url = `/tenders/projects/${projectId}/users/${userMail}`;
   try {
@@ -88,7 +88,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       userType: 'PROJECT_OWNER',
     };
     await TenderApi.Instance(SESSION_ID).put(url, _body);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/8`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/8`, 'Completed');
 
     res.redirect('/rfi/add-collaborators');
   } catch (error) {

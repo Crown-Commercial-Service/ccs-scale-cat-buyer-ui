@@ -22,10 +22,10 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
   lotid=lotid.replace('Lot ','')
   const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ":" + lotid + "/lot-suppliers";
   try {
-    let flag=await ShouldEventStatusBeUpdated(projectId,39,req);
+    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,39,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/39`, 'In progress');
     }
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);
@@ -176,12 +176,12 @@ export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Resp
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   try {
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/39`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      let flag=await ShouldEventStatusBeUpdated(projectId,40,req);
+      let flag=await ShouldEventStatusBeUpdated(req.session.eventId,40,req);
       if(flag)
       {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/40`, 'Not started');
     }
   }
      res.redirect('/rfp/response-date');
