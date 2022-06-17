@@ -53,7 +53,7 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
       choosenViewPath,
       releatedContent,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'In progress');
     res.render(`ca-suppliersToForward`, windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -87,8 +87,8 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
    const response= await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}`, body);
    if(response.status==200)
    {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
     res.redirect(REQUIREMENT_PATHS.CA_GET_REVIEW_RANKED_SUPPLIERS);
    } 
    else{

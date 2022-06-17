@@ -12,7 +12,7 @@ export const DA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
   req.session.errorText = '';
   const appendData = { ...dataRRS, releatedContent, isError, errorText };
   try {
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');
     res.render('da-reviewRankedSuppliers', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -43,18 +43,18 @@ function checkErrors(ranks, justification) {
 
 export const DA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, releatedContent } = req.session;
+  const { eventId, releatedContent } = req.session;
   const { additional_ranks: ranks, justification } = req['body'];
   const { isError, errorText } = checkErrors(ranks, justification);
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Completed');
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Not started');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
   if (isError) {
     req.session.errorText = errorText;
     req.session.isError = isError;
     res.redirect('/da/review-ranked-suppliers');
   } else {
     try {
-      //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Completed');
       res.redirect('/da/task-list');
     } catch (error) {
       LoggTracer.errorLogger(

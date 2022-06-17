@@ -33,7 +33,7 @@ export const DA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
   req.session.errorText = '';
   const appendData = { ...data, selectedOption, releatedContent, isError, errorText };
   try {
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');
     res.render('da-chooseSecurityRequirements', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -98,7 +98,7 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
         requirements: requirementsData,
       };
       await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
-      //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Completed');
       res.redirect('/da/service-capabilities');
     } catch (error) {
       LoggTracer.errorLogger(

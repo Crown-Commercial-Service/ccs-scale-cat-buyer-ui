@@ -62,7 +62,7 @@ const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string) => {
 
 export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId} = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const dimension = req.session.dimensions;
   const scalabilityData = dimension.filter(data => data.name === 'Scalability')[0];
@@ -92,12 +92,12 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       body,
     );
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Cannot start yet');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Cannot start yet');
 
     // Check 'review ranked suppliers' step number
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/`, 'To do');
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Completed');
     res.redirect('/da/where-work-done');
   } catch (error) {
     LoggTracer.errorLogger(

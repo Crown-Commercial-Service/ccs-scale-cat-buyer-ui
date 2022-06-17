@@ -25,10 +25,10 @@ export const GET_EOI_SUPPLIERS = async (req: express.Request, res: express.Respo
 
 export const POST_EOI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId } = req.session;
-  const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/22`, 'Completed');
+  const { eventId } = req.session;
+  const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/22`, 'Completed');
   if (response.status == HttpStatusCode.OK) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/23`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/23`, 'Not started');
   }
   res.redirect('/eoi/response-date');
 };

@@ -179,7 +179,7 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
     else {
       const appendData = { ...dataRRSMod, choosenViewPath, numSuppliers, RankedSuppliers: TopRankScores, BelowRankScores: BelowRankScores, lotSuppliers: lotSuppliers, Justification: Justification, releatedContent, isError, errorText };
 
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');
       res.render('ca-reviewRankedSuppliers', appendData);
     }
 
@@ -267,8 +267,8 @@ export const CA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
 
     const response = await TenderApi.Instance(SESSION_ID).post(Supplier_BASEURL, body);
     if (response.status == 200) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Not started');
       res.redirect('/ca/next-steps');
     }
     else {

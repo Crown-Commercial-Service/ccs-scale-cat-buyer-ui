@@ -20,7 +20,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     lotId,
     agreementLotName,
     agreementName,
-    projectId,
+    eventId,
     agreement_id,
     releatedContent,
     project_name,
@@ -318,7 +318,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     };
 
 
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');
     //res.json(ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Resource Quantity')[0])
    res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
@@ -338,9 +338,9 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
 export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
+  const { eventId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Not started');
   const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage } =
     req.body;
 
@@ -439,7 +439,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   await TenderApi.Instance(SESSION_ID).put(BaseURL, _RequestBody);
  }
 
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
   res.redirect('/da/resources-vetting-weightings');
 
 

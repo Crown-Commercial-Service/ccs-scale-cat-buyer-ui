@@ -7,7 +7,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 
 export const DA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId, releatedContent, isError, errorText, dimensions } = req.session;
+  const { eventId, releatedContent, isError, errorText, dimensions } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
   var choosenViewPath = req.session.choosenViewPath;
@@ -24,7 +24,7 @@ export const DA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
       choosenViewPath,
       weightingRange,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');
     res.render('da-whereWorkDone', appendData);
   } catch (error) {
     console.log(error);
@@ -57,7 +57,7 @@ function checkErrors(total) {
 
 export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, releatedContent, dimensions } = req.session;
+  const { eventId, releatedContent, dimensions } = req.session;
   const { da_locationweight: weights } = req['body'];
   const { da_locationName: names } = req['body'];
   const { requirement_id: requirementIdList } = req['body'];
@@ -111,7 +111,7 @@ export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
         body,
       );
 
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Completed');
       res.redirect('/da/task-list?path=' + choosenViewPath);
     } catch (error) {
       LoggTracer.errorLogger(

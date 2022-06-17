@@ -25,7 +25,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
   const project_name = req.session.project_name;
-  const projectId = req.session.projectId;
+  //const projectId = req.session.projectId;
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const { isJaggaerError } = req.session;
@@ -43,8 +43,8 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
   try {
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');
     const isSummaryDone = journeySteps.find(stp => stp.step === 54 && stp.state === 'Completed');
    
 

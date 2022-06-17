@@ -11,7 +11,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  */
 export const ROUTE_TO_MARKET = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const projectId = req.session.projectId;
+  const {eventId} = req.session;
   const {isrfi}=req.query;
   try {
     const eventTypes = req.session.types
@@ -21,7 +21,7 @@ export const ROUTE_TO_MARKET = async (req: express.Request, res: express.Respons
       res.redirect('/projects/events/choose-route')
     } else {
       req.session.selectedRoute = 'RFI'
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/2`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'In progress');
       res.redirect('/rfi/rfi-tasklist')
     }
   }catch (error) {

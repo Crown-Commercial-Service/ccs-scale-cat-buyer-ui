@@ -184,7 +184,7 @@ export const CA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
 // /rfp/proceed-collaborators
 export const CA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
+  const { eventId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/46`, 'Completed');
   res.redirect(`/ca/task-list?path=${req.session['choosenViewPath']}`);
 };

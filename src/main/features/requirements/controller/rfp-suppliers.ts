@@ -15,17 +15,17 @@ import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdate
 // RFI Suppliers
 export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId } = req.session;
+  const { projectId ,eventId} = req.session;
   const { download,previous,next } = req.query
   const releatedContent = req.session.releatedContent
   let lotid=req.session.lotId;
   lotid=lotid.replace('Lot ','')
   const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ":" + lotid + "/lot-suppliers";
   try {
-    let flag=await ShouldEventStatusBeUpdated(projectId,39,req);
+    let flag=await ShouldEventStatusBeUpdated(eventId,39,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'In progress');
     }
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);
@@ -174,14 +174,14 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
 
 export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId } = req.session;
+  const { eventId } = req.session;
   try {
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      let flag=await ShouldEventStatusBeUpdated(projectId,40,req);
+      let flag=await ShouldEventStatusBeUpdated(eventId,40,req);
       if(flag)
       {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'Not started');
     }
   }
      res.redirect('/rfp/response-date');
