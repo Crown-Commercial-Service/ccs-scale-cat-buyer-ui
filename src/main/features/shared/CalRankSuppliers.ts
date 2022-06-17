@@ -14,13 +14,20 @@ export const CalRankSuppliers = async (req: express.Request) => {
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     let assesssort = assessments.scores.sort((a, b) => (a.total > b.total ? -1 : 1));
-    const distinctassessments = [... new Set(assesssort.map(x => x.total))]
-    let RankedSuppliers = [];
     let supplierList = [];
-
     //GET TOTAL SUPPLIERS LIST
-  supplierList = await GetLotSuppliers(req);
+    supplierList = await GetLotSuppliers(req);
+    //IGNORE THE SUPPLIERS WHICH DOESN'T MATCH THE SUPPLIER'S LIST
+    let CAsuppliers=[];
+    supplierList.forEach(item => {
+       let suppliersinfo=assesssort.filter(x=>x.supplier.id===item.organization.id)
+       CAsuppliers.push(...suppliersinfo)
+    });
   
+    assesssort = CAsuppliers.sort((a, b) => (a.total > b.total ? -1 : 1));
+    let RankedSuppliers = [];
+
+  const distinctassessments = [... new Set(assesssort.map(x => x.total))]
   //ASSIGN RANKS TO SUPPLIERS WHEN SOCRES ARE DISTINCT
   if (distinctassessments.length === assesssort.length) {   
       assesssort.forEach((score, index) => {
