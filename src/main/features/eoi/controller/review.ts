@@ -30,9 +30,9 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   if (finished_pre_engage && eoi_publish_confirmation === '1') {
     try {
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'Completed');
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/24`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
       }
 
       res.redirect('/eoi/event-sent');

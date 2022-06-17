@@ -698,9 +698,9 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   if (finished_pre_engage && rfp_publish_confirmation === '1') {
     try {
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/2`, 'Completed');
+      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
       // if (response.status == Number(HttpStatusCode.OK)) {
-      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/24`, 'Completed');
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
       // }
       await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/41`, 'Completed');
       res.redirect('/rfp/rfp-eventpublished');
