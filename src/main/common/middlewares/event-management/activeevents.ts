@@ -93,12 +93,16 @@ export class EventEngagementMiddleware {
           }
    // eventType = FCA & DAA (Active and historic events)
    else if (events[i].activeEvent?.status != undefined && (events[i].activeEvent?.eventType == 'FCA' || events[i].activeEvent?.eventType == 'DAA')) {
-    if (events[i].activeEvent?.dashboardStatus == 'EVALUATED' || events[i].activeEvent?.dashboardStatus == 'CLOSED' ) {
+    if (events[i].activeEvent?.dashboardStatus == 'COMPLETE' || events[i].activeEvent?.dashboardStatus == 'CLOSED' ) {
       // Historical Events
       historicalEvents.push(events[i])
     } else if (events[i].activeEvent?.dashboardStatus == 'ASSESSMENT') {          
       draftActiveEvent = events[i]
       draftActiveEvent.activeEvent.status = 'Assessment'
+      activeEvents.push(draftActiveEvent)
+    } else if (events[i].activeEvent?.dashboardStatus == 'EVALUATED') {          
+      draftActiveEvent = events[i]
+      draftActiveEvent.activeEvent.status = 'Evaluated'
       activeEvents.push(draftActiveEvent)
     }else {
       activeEvents.push(events[i])
