@@ -24,7 +24,7 @@ export const CA_GET_UPLOAD_SUPPORTING_DOCUMENT = async (req: express.Request, re
   try {
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
     const appendData = { data: cmsData, releatedContent, error: isJaggaerError, choosenViewPath };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/56`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/56`, 'In progress');
     res.render('ca-uploadDocument', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -72,12 +72,12 @@ export const CA_POST_UPLOAD_SUPPORTING_DOCUMENT = async (req: express.Request, r
       body,
     );
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Cannot start yet');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/58`, 'Cannot start yet');
 
     // Check 'review ranked suppliers' step number
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/53`, 'Completed');
     res.redirect('/ca/get-work-done');
   } catch (error) {
     LoggTracer.errorLogger(

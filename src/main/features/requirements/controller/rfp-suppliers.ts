@@ -11,6 +11,7 @@ import { Blob } from 'buffer';
 import { JSDOM } from 'jsdom';
 import { Parser } from 'json2csv';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 // RFI Suppliers
 export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Response) => {
@@ -28,7 +29,23 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/39`, 'In progress');
     }
     let supplierList = [];
+    const supplierBaseURL: any = `/tenders/projects/${projectId}/events/${req.session.eventId}/suppliers`;
+    const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
+    let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
+    if(SUPPLIER_DATA!=undefined){
+      let allSuppliers=await GetLotSuppliers(req);
+      for(var i=0;i<SUPPLIER_DATA.suppliers.length;i++)
+          {
+              let supplierInfo=allSuppliers.filter(s=>s.organization.id==SUPPLIER_DATA.suppliers[i].id)?.[0];
+              if(supplierInfo!=undefined)
+              {
+                supplierList.push(supplierInfo);
+              }
+          }
+    }
+    else{
     supplierList = await GetLotSuppliers(req);
+    }
     const rowCount=10;let showPrevious=false,showNext=false;
     supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
     const supplierLength=supplierList.length;

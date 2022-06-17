@@ -109,8 +109,8 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           body,
         );
       }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/47`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/48`, 'Not started');
 
       res.redirect(REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {

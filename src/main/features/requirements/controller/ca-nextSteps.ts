@@ -8,6 +8,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import * as journyData from '../../procurement/model/tasklist.json';
 import { GetLotSuppliers } from '../../shared/supplierService';
+import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 /**
  *
@@ -153,7 +154,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           
           
         }
-        /*uncomment to save supplier
+        //uncomment to save supplier
         const supplierBaseURL: any = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
           const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
           let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
@@ -164,7 +165,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           let supplierDataToSave=[];
           for(var i=0;i<SUPPLIER_DATA.suppliers.length;i++)
           {
-              let supplierInfo=supplierList.filter(s=>s.id==SUPPLIER_DATA.suppliers[i].id);
+              let supplierInfo=supplierList.filter(s=>s.organization.id==SUPPLIER_DATA.suppliers[i].id)?.[0];
               if(supplierInfo!=undefined)
               {
                 supplierDataToSave.push({'name':supplierInfo.organization.name,'id':SUPPLIER_DATA.suppliers[i].id});
@@ -177,7 +178,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           const Supplier_BASEURL = `/tenders/projects/${projectId}/events/${data.id}/suppliers`;
 
     const response = await TenderApi.Instance(SESSION_ID).post(Supplier_BASEURL, supplierBody);
-        */
+        
        res.redirect('/rfp/task-list');
       }
       else{

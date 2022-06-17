@@ -28,7 +28,15 @@ export class EventEngagementMiddleware {
       lotName: '',
       activeEvent: undefined
     }
-
+    // let singleEvent: ActiveEvents = {
+    //   projectId: 0,
+    //   projectName: '',
+    //   agreementId: '',
+    //   agreementName: '',
+    //   lotId: '',
+    //   lotName: '',
+    //   activeEvent: undefined
+    // }
 
         req.session['agreement_id'] = '';
         req.session['agreementName'] = '';
@@ -55,76 +63,94 @@ export class EventEngagementMiddleware {
     // Retrive active events
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)
     retrieveProjetActiveEventsPromise
-      .then(data => {
+      .then(async (data) => {
         const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) => (a.projectId < b.projectId) ? 1 : -1)
         for (let i = 0; i < events.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
-          if (events[i].activeEvent !=undefined && events[i].activeEvent?.status != undefined && (events[i].activeEvent.eventType == 'RFI' || events[i].activeEvent.eventType == 'EOI')) {
-            if (events[i].activeEvent?.dashboardStatus == 'COMPLETE' || events[i].activeEvent?.dashboardStatus == 'CLOSED' ) {
-              // Historical Events
-              historicalEvents.push(events[i])
-            } else if (events[i].activeEvent?.dashboardStatus == 'IN-PROGRESS') {          
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'In-Progress'
+          const eventsURL = `tenders/projects/${events[i].projectId}/events`;
+          let getEvents =await TenderApi.Instance(SESSION_ID).get(eventsURL);
+          let getEventsData=getEvents.data;
+            for(let j=0;j<getEventsData.length;j++){
+              //let singleEvent=undefined;
+             let  singleEvent:ActiveEvents= {
+                projectId: events[i].projectId,
+                projectName: events[i].projectName,
+                agreementId: events[i].agreementId,
+                agreementName: events[i].agreementName,
+                lotId: events[i].lotId,
+                lotName: events[i].lotName,
+                activeEvent: getEventsData[j]
+              }
+              //singleEvent=events[i];
+              //singleEvent.activeEvent=getEventsData[j];
+              if (singleEvent.activeEvent !=undefined && singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent.eventType == 'RFI' || singleEvent.activeEvent.eventType == 'EOI')) {
+                if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED' ) {
+                  // Historical Events
+                  historicalEvents.push(singleEvent)
+                } else if (singleEvent.activeEvent?.dashboardStatus == 'IN-PROGRESS') {          
+                    draftActiveEvent = singleEvent
+                    draftActiveEvent.activeEvent.status = 'In-Progress'
+                    activeEvents.push(draftActiveEvent)
+                  } else if (singleEvent.activeEvent?.dashboardStatus == 'PUBLISHED') {
+                    draftActiveEvent = singleEvent
+                    draftActiveEvent.activeEvent.status = 'Published'
+                    activeEvents.push(draftActiveEvent)
+                  } else if (singleEvent.activeEvent?.dashboardStatus == 'TO-BE-EVALUATED') {
+                    draftActiveEvent = singleEvent
+                    draftActiveEvent.activeEvent.status = 'To Be Evaluated'
+                    activeEvents.push(draftActiveEvent)
+                  } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATING') {
+                    draftActiveEvent = singleEvent
+                    draftActiveEvent.activeEvent.status = 'Evaluating'
+                    activeEvents.push(draftActiveEvent)
+                   } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATED') {
+                    draftActiveEvent = singleEvent
+                    draftActiveEvent.activeEvent.status = 'Evaluated'
+                    activeEvents.push(draftActiveEvent)
+                   }  else {
+                    activeEvents.push(singleEvent)
+                  }           
+              } else if (singleEvent.activeEvent?.eventType == 'TBD') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'In Progress'
                 activeEvents.push(draftActiveEvent)
-              } else if (events[i].activeEvent?.dashboardStatus == 'PUBLISHED') {
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Published'
-                activeEvents.push(draftActiveEvent)
-              } else if (events[i].activeEvent?.dashboardStatus == 'TO-BE-EVALUATED') {
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'To Be Evaluated'
-                activeEvents.push(draftActiveEvent)
-              } else if (events[i].activeEvent?.dashboardStatus == 'EVALUATING') {
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Evaluating'
-                activeEvents.push(draftActiveEvent)
-               } else if (events[i].activeEvent?.dashboardStatus == 'EVALUATED') {
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Evaluated'
-                activeEvents.push(draftActiveEvent)
-               }  else {
-                activeEvents.push(events[i])
-              }           
-          } else if (events[i].activeEvent?.eventType == 'TBD') {
-            draftActiveEvent = events[i]
-            draftActiveEvent.activeEvent.status = 'In Progress'
-            activeEvents.push(draftActiveEvent)
-          }
-
-          // eventType = FC & DA (Active and historic events)
-          else if (events[i].activeEvent?.status != undefined && (events[i].activeEvent?.eventType == 'FC' || events[i].activeEvent?.eventType == 'DA')) {
-            if (events[i].activeEvent?.dashboardStatus == 'COMPLETE' || events[i].activeEvent?.dashboardStatus == 'CLOSED' ) {
-              // Historical Events
-              historicalEvents.push(events[i])
-            } else if (events[i].activeEvent?.dashboardStatus == 'IN-PROGRESS') {          
-              draftActiveEvent = events[i]
-              draftActiveEvent.activeEvent.status = 'In-Progress'
-              activeEvents.push(draftActiveEvent)
-            } else if (events[i].activeEvent?.dashboardStatus == 'PUBLISHED') {
-              draftActiveEvent = events[i]
-              draftActiveEvent.activeEvent.status = 'Published'
-              activeEvents.push(draftActiveEvent)
-            } else if (events[i].activeEvent?.dashboardStatus == 'TO-BE-EVALUATED') {
-              draftActiveEvent = events[i]
-              draftActiveEvent.activeEvent.status = 'To Be Evaluated'
-              activeEvents.push(draftActiveEvent)
-            } else if (events[i].activeEvent?.dashboardStatus == 'EVALUATING') {
-              draftActiveEvent = events[i]
-              draftActiveEvent.activeEvent.status = 'Evaluating'
-              activeEvents.push(draftActiveEvent)
-             } else if (events[i].activeEvent?.dashboardStatus == 'EVALUATED') {
-              draftActiveEvent = events[i]
-              draftActiveEvent.activeEvent.status = 'Evaluated'
-              activeEvents.push(draftActiveEvent)
-             } else if (events[i].activeEvent?.dashboardStatus == 'AWARDED') {
-              draftActiveEvent = events[i]
-              draftActiveEvent.activeEvent.status = 'Awarded'
-              activeEvents.push(draftActiveEvent)
-             }else {
- activeEvents.push(events[i])
-              }           
-          } 
+              }
+    
+              // eventType = FC & DA (Active and historic events)
+              else if (singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent?.eventType == 'FC' || singleEvent.activeEvent?.eventType == 'DA')) {
+                if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED' ) {
+                  // Historical Events
+                  historicalEvents.push(singleEvent)
+                } else if (singleEvent.activeEvent?.dashboardStatus == 'IN-PROGRESS') {          
+                  draftActiveEvent = singleEvent
+                  draftActiveEvent.activeEvent.status = 'In-Progress'
+                  activeEvents.push(draftActiveEvent)
+                } else if (singleEvent.activeEvent?.dashboardStatus == 'PUBLISHED') {
+                  draftActiveEvent = singleEvent
+                  draftActiveEvent.activeEvent.status = 'Published'
+                  activeEvents.push(draftActiveEvent)
+                } else if (singleEvent.activeEvent?.dashboardStatus == 'TO-BE-EVALUATED') {
+                  draftActiveEvent = singleEvent
+                  draftActiveEvent.activeEvent.status = 'To Be Evaluated'
+                  activeEvents.push(draftActiveEvent)
+                } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATING') {
+                  draftActiveEvent = singleEvent
+                  draftActiveEvent.activeEvent.status = 'Evaluating'
+                  activeEvents.push(draftActiveEvent)
+                 } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATED') {
+                  draftActiveEvent = singleEvent
+                  draftActiveEvent.activeEvent.status = 'Evaluated'
+                  activeEvents.push(draftActiveEvent)
+                 } else if (singleEvent.activeEvent?.dashboardStatus == 'AWARDED') {
+                  draftActiveEvent = singleEvent
+                  draftActiveEvent.activeEvent.status = 'Awarded'
+                  activeEvents.push(draftActiveEvent)
+                 }else {
+     activeEvents.push(singleEvent)
+                  }           
+              } 
+            }
+          
         }
         req.session.openProjectActiveEvents = activeEvents;
         req.session.historicalEvents = historicalEvents;
