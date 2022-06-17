@@ -311,7 +311,7 @@ export class QuestionHelper {
       if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-          let flag = await ShouldEventStatusBeUpdated(proc_id, 37, req);
+          let flag = await ShouldEventStatusBeUpdated(proc_id, 38, req);
           if (flag) {
             await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
           }
