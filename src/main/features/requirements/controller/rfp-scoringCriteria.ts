@@ -20,7 +20,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -54,6 +54,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     //   agreementLotName,
     //   releatedContent,
     // };
+    
     let group_id = 'Group 8';
     let criterion_Id = 'Criterion 2';
     const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups/${group_id}/questions`;
@@ -208,11 +209,10 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
 
-    let flag=await ShouldEventStatusBeUpdated(projectId,38,req);
-            if(flag)
-            {
-                    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
-            }
+    let flag = await ShouldEventStatusBeUpdated(projectId, 38, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
+    }
     //res.render('rfp-question-assessment', data);
     res.render('rfp-scoringCriteria', data);
   } catch (error) {
@@ -386,10 +386,9 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
           } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
             //SET-SCORING-CRITERIA STATUS UPDATE
             await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
-            let flag=await ShouldEventStatusBeUpdated(projectId,39,req);
-            if(flag)
-            {
-                    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Not started');
+            let flag = await ShouldEventStatusBeUpdated(projectId, 39, req);
+            if (flag) {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Not started');
             }//await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Cannot start yet');
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'Cannot start yet');
             res.redirect("/rfp/task-list");
@@ -426,12 +425,11 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
     if (section != undefined && section === '5') {
-      let flag=await ShouldEventStatusBeUpdated(projectId,39,req);
-    if(flag)
-    {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
+      let flag = await ShouldEventStatusBeUpdated(projectId, 39, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
+      }
     }
-  }
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -805,10 +803,9 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
                   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
-                  let flag=await ShouldEventStatusBeUpdated(projectId,39,req);
-                  if(flag)
-                  {
-                          await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Not started');
+                  let flag = await ShouldEventStatusBeUpdated(projectId, 39, req);
+                  if (flag) {
+                    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Not started');
                   }
                   res.redirect("/rfp/task-list");
                 }
