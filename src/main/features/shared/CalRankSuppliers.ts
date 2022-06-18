@@ -14,21 +14,30 @@ export const CalRankSuppliers = async (req: express.Request) => {
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     let assesssort = assessments.scores.sort((a, b) => (a.total > b.total ? -1 : 1));
-    let supplierList = [];
+
     //GET TOTAL SUPPLIERS LIST
+    let supplierList = [];
     supplierList = await GetLotSuppliers(req);
+    let SupplierswithName=[];
+    //IGNORE THE SUPPLIERS WHICH DOESN'T HAVE THE SUPPLIER NAME IN SUPPLIER'S LIST
+    SupplierswithName = supplierList.filter(x=>x.organization.name !='' && x.organization.name!=undefined)
+
     //IGNORE THE SUPPLIERS WHICH DOESN'T MATCH THE SUPPLIER'S LIST
     let CAsuppliers=[];
-    supplierList.forEach(item => {
+    SupplierswithName.forEach(item => {
        let suppliersinfo=assesssort.filter(x=>x.supplier.id===item.organization.id)
        CAsuppliers.push(...suppliersinfo)
     });
-  
-    assesssort = CAsuppliers.sort((a, b) => (a.total > b.total ? -1 : 1));
+
+    //IGNORE THE SUPPLIERS WHO DOESN'T HAVE ALL THE DIMENSION SCORES
+    let CASupplierswithAllDimensions=[];
+    CASupplierswithAllDimensions=CAsuppliers.filter(x=>x.dimensionScores.length==5)
+
+    assesssort = CASupplierswithAllDimensions.sort((a, b) => (a.total > b.total ? -1 : 1));
     let RankedSuppliers = [];
 
   const distinctassessments = [... new Set(assesssort.map(x => x.total))]
-  //ASSIGN RANKS TO SUPPLIERS WHEN SOCRES ARE DISTINCT
+  //ASSIGN RANKS TO SUPPLIERS WHEN SCORES ARE DISTINCT
   if (distinctassessments.length === assesssort.length) {   
       assesssort.forEach((score, index) => {
         score.rank = index + 1;
@@ -48,12 +57,16 @@ export const CalRankSuppliers = async (req: express.Request) => {
         RankedSuppliers.push(assesssort[i]);
       }
       else {
-        //SORT WITH CAPACITY
+        //SORT WITH FIRST HIGHEST DIMENSION SCORE
         similarrank=++rankValue;
-        let firstIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores.find(x => x["dimension-id"] == 1)] });
+        for(let i=0;i<similarRankedItems.length;i++)
+        {
+          similarRankedItems[i].dimensionScores.sort((a, b) => (a.score > b.score ? -1 : 1))
+        }
+        let firstIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores[0]] });
         let firstIterateSort: any = firstIterate.sort((a, b) => (a[1].score > b[1].score ? -1 : 1));
         const firstIterateDistint = [... new Set(firstIterateSort.map(x => x[1].score))];
-        if (firstIterateDistint.length == firstIterateSort.length) {
+        if (firstIterateDistint.length > 1) {
           firstIterateSort.forEach(x => {
             let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
             assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
@@ -62,11 +75,11 @@ export const CalRankSuppliers = async (req: express.Request) => {
           });
         } 
         else {
-          //SORT WITH VETTING
-          let secondIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores.find(x => x["dimension-id"] == 2)] });
+          //SORT WITH SECOND HIGHEST DIMENSION SCORE
+          let secondIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores[1]] });
           let secondIterateSort: any = secondIterate.sort((a, b) => (a[1].score > b[1].score ? -1 : 1));
           const secondIterateDistint = [... new Set(secondIterateSort.map(x => x[1].score))];
-          if (secondIterateDistint.length == secondIterateSort.length) {
+          if (secondIterateDistint.length > 1) {
             secondIterateSort.forEach(x => {
               let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
               assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
@@ -75,11 +88,11 @@ export const CalRankSuppliers = async (req: express.Request) => {
             });
           }
           else {
-            //SORT WITH CAPABILITY
-            let thirdIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores.find(x => x["dimension-id"] == 3)] });
+            //SORT WITH THIRD HIGHEST DIMENSION SCORE
+            let thirdIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores[2]] });
             let thirdIterateSort: any = thirdIterate.sort((a, b) => (a[1].score > b[1].score ? -1 : 1));
             const thirdIterateDistint = [... new Set(thirdIterateSort.map(x => x[1].score))];
-            if (thirdIterateDistint.length == thirdIterateSort.length) {
+            if (thirdIterateDistint.length > 1) {
               thirdIterateSort.forEach(x => {
                 let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
                 assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
@@ -88,11 +101,11 @@ export const CalRankSuppliers = async (req: express.Request) => {
               });
             }
             else {
-              //SORT WITH SCALABILITY
-              let fourthIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores.find(x => x["dimension-id"] == 4)] });
+              //SORT WITH FOURTH HIGHEST DIMENSION SCORE
+              let fourthIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores[3]] });
               let fourthIterateSort: any = fourthIterate.sort((a, b) => (a[1].score > b[1].score ? -1 : 1));
               const fourthIterateDistint = [... new Set(fourthIterateSort.map(x => x[1].score))];
-              if (fourthIterateDistint.length == fourthIterateSort.length) {
+              if (fourthIterateDistint.length > 1) {
                 fourthIterateSort.forEach(x => {
                   let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
                   assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
@@ -101,11 +114,11 @@ export const CalRankSuppliers = async (req: express.Request) => {
                 });
               }
               else {
-                //SORT WITH LOCATION
-                let fifthIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores.find(x => x["dimension-id"] == 5)] });
+                //SORT WITH FIFTH HIGHEST DIMENSION SCORE
+                let fifthIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores[4]] });
                 let fifthIterateSort: any = fifthIterate.sort((a, b) => (a[1].score > b[1].score ? -1 : 1));
                 const fifthIterateDistint = [... new Set(fifthIterateSort.map(x => x[1].score))];
-                if (fifthIterateDistint.length == fifthIterateSort.length) {
+                if (fifthIterateDistint.length > 1) {
                   fifthIterateSort.forEach(x => {
                     let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
                     assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
@@ -147,7 +160,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
         `${req.headers.host}${req.originalUrl}`,
         null,
         TokenDecoder.decoder(SESSION_ID),
-        'Tender agreement failed to be added',
+        'CalRankSupplier.ts file',
         true,
       );
     }
