@@ -44,7 +44,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     });
     const baseurl = `/tenders/projects/${projectId}/events`
     const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
-    status=apidata.data[0].dashboardStatus;
+    status = apidata.data[0].dashboardStatus;
 
     // Code Block ends
 
@@ -134,16 +134,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
     const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
     let showCloseProject = false;
-          if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated") {
-            showCloseProject = true;
-          }
-          const procurementId =  req.session['projectId'];
-          const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
-          let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
-          collaboratorData = collaboratorData.data;          
-          const appendData = { data: eventManagementData,Colleagues:collaboratorData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
-         
-          let redirectUrl: string
+    if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated") {
+      showCloseProject = true;
+    }
+    const procurementId = req.session['projectId'];
+    const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
+    let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
+    collaboratorData = collaboratorData.data;
+    const appendData = { data: eventManagementData, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+
+    let redirectUrl: string
     if (status.toLowerCase() == "in-progress") {
       switch (eventType) {
         case "RFI":
@@ -160,21 +160,22 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           break
         case "FC":
           redirectUrl = '/rfp/task-list'
-          break    
+          break
         default:
           redirectUrl = '/event/management'
           break
       }
+      res.redirect(redirectUrl)
     }
-      else if(status.toLowerCase()=='assessment')
-      {  switch (eventType) {
+    else if (status.toLowerCase() == 'assessment') {
+      switch (eventType) {
         case "DAA":
-          redirectUrl = '/da/task-list?path=B1' 
+          redirectUrl = '/da/task-list?path=B1'
           break
         case "FCA":
-          redirectUrl = '/ca/task-list?path=A1' 
+          redirectUrl = '/ca/task-list?path=A1'
           break
-          default:
+        default:
           redirectUrl = '/event/management'
           break
       }
@@ -187,17 +188,17 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         case "RFI":
           res.render('eventManagement', appendData)
           break
-        case "FC":       
+        case "FC":
           res.render('eventManagement', appendData)
           break
         default:
           redirectUrl_ = '/event/management'
-         res.redirect(redirectUrl_)
+          res.redirect(redirectUrl_)
 
           break
       }
-
     }
+    
   } catch (err) {
     LoggTracer.errorLogger(
       res,
@@ -216,59 +217,59 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const { eventId } = req.session;
   const { supplierid } = req.query;
 
-try{
-  if (supplierid != undefined) {
-    
-    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
-    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
-      responseType: 'arraybuffer',
-    });
-    const file = FetchDocuments;
-    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
-    const fileData = file.data;
-    const type = file.headers['content-type'];
-    const ContentLength = file.headers['content-length'];
-    res.status(200);
-    res.set({
-      'Cache-Control': 'no-cache',
-      'Content-Type': type,
-      'Content-Length': ContentLength,
-      'Content-Disposition': 'attachment; filename=' + fileName,
-    });
-    res.send(fileData);
-  }
-  
-  else {
-    
-    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
-    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
-      responseType: 'arraybuffer',
-    });
-    const file = FetchDocuments;
-    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
-    const fileData = file.data;
-    const type = file.headers['content-type'];
-    const ContentLength = file.headers['content-length'];
-    res.status(200);
-    res.set({
-      'Cache-Control': 'no-cache',
-      'Content-Type': type,
-      'Content-Length': ContentLength,
-      'Content-Disposition': 'attachment; filename=' + fileName,
-    });
-    res.send(fileData)
+  try {
+    if (supplierid != undefined) {
+
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
     }
-}catch (error) {
-  LoggTracer.errorLogger(
-    res,
-    error,
-    `${req.headers.host}${req.originalUrl}`,
-    null,
-    TokenDecoder.decoder(SESSION_ID),
-    'Tenders Service Api cannot be connected',
-    true,
-  );
-}
+
+    else {
+
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData)
+    }
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    );
+  }
 
 }
 //publisheddoc?download=1
