@@ -82,7 +82,8 @@
                 action:"submit"
                 })
             }}
-            <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+               {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
           </div>
       </form>
  </div>
