@@ -166,6 +166,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           redirectUrl = '/event/management'
           break
       }
+      res.redirect(redirectUrl)
     }
       else if(status.toLowerCase()=='assessment')
       {  switch (eventType) {
