@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
               document.getElementById("rfp_score_criteria_point_1").value = rowsAndHead.rows[i].at(1).text;
               document.getElementById("rfp_score_criteria_desc_1").value = rowsAndHead.rows[i].at(2).text;
 
-              $("#rfp_score_criteria_name_1").prop('readonly', true);
-              $("#rfp_score_criteria_point_1").prop('readonly', true);
-              $("#rfp_score_criteria_desc_1").prop('readonly', true);
+              // $("#rfp_score_criteria_name_1").prop('readonly', true);
+              // $("#rfp_score_criteria_point_1").prop('readonly', true);
+              // $("#rfp_score_criteria_desc_1").prop('readonly', true);
 
             } else {
               const ii = i + 1;
@@ -88,14 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
               document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
               document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
 
-              $("#rfp_score_criteria_name_" + ii).prop('readonly', true);
-              $("#rfp_score_criteria_point_" + ii).prop('readonly', true);
-              $("#rfp_score_criteria_desc_" + ii).prop('readonly', true);
+              // $("#rfp_score_criteria_name_" + ii).prop('readonly', true);
+              // $("#rfp_score_criteria_point_" + ii).prop('readonly', true);
+              // $("#rfp_score_criteria_desc_" + ii).prop('readonly', true);
 
             }
-
           }
-
         }
       })
     })
