@@ -73,7 +73,7 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
     TopRankScores.filter(x => x.dimensionScores.map(y => y.score = parseFloat(y.score).toFixed(2)))
     let lastrankinTop = TopRankScores.slice(-1)
     dataRRSMod.p5 = dataRRSMod.p5.replace(new RegExp('X', 'g'), TopRankScores.length);
-    dataRRSMod.p5 = dataRRSMod.p5.replace(new RegExp('Z', 'g'), lastrankinTop[0].rank);
+    dataRRSMod.p5 = dataRRSMod.p5.replace(new RegExp('Z', 'g'), lastrankinTop[0]?.rank);
 
     req.session.isError = false;
     req.session.errorText = '';

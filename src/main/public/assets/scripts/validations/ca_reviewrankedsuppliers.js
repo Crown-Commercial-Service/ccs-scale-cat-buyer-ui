@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var element =  document.getElementById('supplierID');
     var justification=document.getElementById('ca_justification');
+    var noofsuppliers=$('#ca_p7').html();
+    var matches = noofsuppliers.match(/(\d+)/);
     if (typeof(element) != 'undefined' && element != null &&typeof(justification) != 'undefined' && justification != null)
 {
     
@@ -16,7 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
         $("#ca_rank_summary_list").html('<li><a href="#">Please select the suppliers</a></li>');
         $('html, body').animate({ scrollTop: 0 }, 'fast');
     }
-    else if($('input[type=checkbox]:checked').length > 0 && $('#ca_justification').val()==='')
+    else if($('input[type=checkbox]:checked').length > 0 && $('input[type=checkbox]:checked').length < matches[0])
+    {
+        e.preventDefault();
+        $('#ca_reviewrankedsuppliers_error_summary').removeClass('hide-block');
+        $('.govuk-error-summary__title').text('There is a problem');
+        $("#ca_rank_summary_list").html('<li><a href="#">Please select the '+matches[0]+' suppliers</a></li>');
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+    }
+    else if($('input[type=checkbox]:checked').length >= matches[0] && $('#ca_justification').val()==='')
     {
         
         e.preventDefault();
