@@ -19,5 +19,7 @@ export enum EVENT_MANAGEMENT_PATHS {
     POST_EVENT_MANAGEMENT_MESSAGE_REPLY='/message/reply',
     EVENT_MANAGEMENT_DOWNLOAD='/eventmanagement',
     STEPS_TO_CONTINUE='/steps-to-continue',
-    PUBLISHED_PROJECT_DOWNLOAD='/publisheddoc'
+    PUBLISHED_PROJECT_DOWNLOAD='/publisheddoc',
+    EVALUATE_SUPPLIERS='/evaluate-suppliers',
+    EVALUATE_SUPPLIERS_DOWNLOAD='/evaluate-download'
 }
