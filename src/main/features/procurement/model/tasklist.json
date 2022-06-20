@@ -166,11 +166,11 @@
     },
     {
       "step": 42,
-      "state": "Not started"
+      "state": "Optional"
     },
     {
       "step": 43,
-      "state": "Not started"
+      "state": "Optional"
     },
     {
       "step": 44,

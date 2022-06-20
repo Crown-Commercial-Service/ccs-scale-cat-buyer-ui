@@ -156,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const emptyQuestionFieldCheckRfp = () => {
-    debugger
     removeErrorFieldsRfpScoreQuestion();
     const countWords = str => str?.trim().split(/\s+/)?.length;
     let fieldCheck = '',
