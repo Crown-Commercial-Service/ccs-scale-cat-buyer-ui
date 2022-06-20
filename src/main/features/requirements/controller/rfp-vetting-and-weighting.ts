@@ -4,7 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as RFP_WEIGTING_JSON from '../../../resources/content/requirements/rfp-weighting.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -38,8 +38,8 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     error: isJaggaerError,
   };
   try {
-   // const assessmentId = 1;
-   const { assessmentId } = currentEvent;
+    // const assessmentId = 1;
+    const { assessmentId } = currentEvent;
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
@@ -72,11 +72,13 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     }).flat();
 
     const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity.map(capacity => {
+      const requirementId = capacity['requirement-id'];
       return {
         designation: capacity.name,
         ...capacity?.groups?.[0],
         Weightagename: capacity.Weightagename,
         Weightage: capacity.Weightage,
+        'requirement-id': requirementId,
       };
     });
 
@@ -89,12 +91,27 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     });
     const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME.filter(item => itemList.includes(item['job-category']));
 
+
+    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
+    let requirements = dimensionRequirements?.filter(x => x["dimension-id"] == 7)[0]?.requirements;
+
     const ITEMLIST = filteredMenuItem.map((designation, index) => {
       const weightage = designation.data?.[0]?.Weightage;
+
+      let totalAddedWeighting = 0;
+
+      const { data } = designation;
+      data?.map(req => {
+        let weighting = requirements?.filter(x => x["requirement-id"] == req["requirement-id"])[0]?.weighting;
+        if (weighting != null && weighting != undefined)
+          totalAddedWeighting = totalAddedWeighting + weighting;
+      })
+
+
       return {
         url: `#section${index + 1}`,
         text: designation['job-category'],
-        subtext: `0 resources added`,
+        subtext: totalAddedWeighting + `  resources added`,
       };
     });
 
@@ -116,10 +133,10 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
       let FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
-     let findername=FINDER.name;
-      const temp=findername.replace( /^\D+/g, '');
-     const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
-     FINDER.name=tempname;
+      let findername = FINDER.name;
+      const temp = findername.replace(/^\D+/g, '');
+      const tempname = FINDER.name.replace(/\d+/g, ", SFIA level " + temp + "");
+      FINDER.name = tempname;
       UNIQUE_DESIG_STORAGE.push(FINDER);
     }
 
@@ -235,16 +252,16 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       StorageForSortedItems.push(findElementInRemapptedParentRole);
     }
 
-    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
+    //let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
 
-    let totalResouceAdded = 0; 
-    if (dimensionRequirements !=null && dimensionRequirements.length > 0) {
+    let totalResouceAdded = 0;
+    if (dimensionRequirements != null && dimensionRequirements.length > 0) {
       dimensionRequirements = dimensionRequirements.filter(dimension => dimension.name === 'Resource Quantities')[0]
         .requirements;
 
-        dimensionRequirements.map(x => {
-          totalResouceAdded = totalResouceAdded + x.weighting
-        })
+      dimensionRequirements.map(x => {
+        totalResouceAdded = totalResouceAdded + x.weighting
+      })
 
       const AddedValuesTo_StorageForSortedItems = StorageForSortedItems.map(items => {
         const { category } = items;
@@ -277,7 +294,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       agreementLotName,
       releatedContent,
       isError,
-      totalResouces:totalResouceAdded ,
+      totalResouces: totalResouceAdded,
       errorText,
       designations: StorageForSortedItems,
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
@@ -308,7 +325,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
 export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,currentEvent } = req.session;
+  const { projectId, currentEvent } = req.session;
 
   const { SFIA_weightage, requirement_Id_SFIA_weightage } = req.body;
 

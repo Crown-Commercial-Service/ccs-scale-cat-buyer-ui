@@ -115,7 +115,23 @@ export class EventEngagementMiddleware {
                 draftActiveEvent.activeEvent.status = 'In Progress'
                 activeEvents.push(draftActiveEvent)
               }
-    
+              // eventType = FCA & DAA (Active and historic events)
+   else if (singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent?.eventType == 'FCA' || singleEvent.activeEvent?.eventType == 'DAA')) {
+    if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED' ) {
+      // Historical Events
+      historicalEvents.push(singleEvent)
+    } else if (singleEvent.activeEvent?.dashboardStatus == 'ASSESSMENT') {          
+      draftActiveEvent = singleEvent
+      draftActiveEvent.activeEvent.status = 'Assessment'
+      activeEvents.push(draftActiveEvent)
+    } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATED') {          
+      draftActiveEvent = singleEvent
+      draftActiveEvent.activeEvent.status = 'Evaluated'
+      activeEvents.push(draftActiveEvent)
+    }else {
+      activeEvents.push(singleEvent)
+                   }
+    }
               // eventType = FC & DA (Active and historic events)
               else if (singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent?.eventType == 'FC' || singleEvent.activeEvent?.eventType == 'DA')) {
                 if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED' ) {

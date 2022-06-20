@@ -33,7 +33,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     appendData = { types, ...appendData };
 
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
-        
+
     let procurement: Procurement;
     if (!elementCached) {
       const _body = {
@@ -105,20 +105,24 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         }
       }
     });
-
-    if ((req.session.selectedRoute !== undefined && req.session.selectedRoute !== null )|| (req.session.choosenViewPath !== undefined && req.session.choosenViewPath !== null)) {
+    //BALWINDER 17-06-2022 
+    const objIndex = appendData.events.findIndex(obj => obj.eventno === 3);
+    if ((req.session.selectedRoute !== undefined && req.session.selectedRoute !== null) || (req.session.choosenViewPath !== undefined && req.session.choosenViewPath !== null)) {
       let path;
       if (req.session.selectedRoute === 'FCA') {
         path = 'ca';
       } else if (req.session.selectedRoute === 'DAA') {
         path = 'da';
       }
-      const objIndex = appendData.events.findIndex(obj => obj.eventno === 3);
-      if (path == undefined) {
+      //const objIndex = appendData.events.findIndex(obj => obj.eventno === 3);
+      //ADDED CONDATION FOR  choosenViewPath ===NULL
+      if (path == undefined || req.session.choosenViewPath === null) {
         appendData.events[objIndex].href = "/requirements/choose-route";
       } else {
         appendData.events[objIndex].href = `/${path}/task-list?path=${req.session.choosenViewPath}`;
       }
+    } else if (appendData.events[objIndex].href !== '/requirements/choose-route') {//BALWINDER IF CONDATION IS NOT TRUE THEN WE SET HREF VALUE REPLACE TO AS A CHOOSE-ROUTE
+      appendData.events[objIndex].href = "/requirements/choose-route";
     }
 
     const lotid = req.session?.lotId;

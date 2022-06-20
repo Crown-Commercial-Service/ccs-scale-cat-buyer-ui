@@ -20,7 +20,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -54,6 +54,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     //   agreementLotName,
     //   releatedContent,
     // };
+    
     let group_id = 'Group 8';
     let criterion_Id = 'Criterion 2';
     const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups/${group_id}/questions`;
@@ -431,7 +432,6 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/39`, 'In progress');
     }
-  }
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -845,7 +845,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     } else {
       res.redirect('/error');
     }
-  } catch (err) {
+  } }catch (err) {
     LoggTracer.errorTracer(err, res);
   }
 };

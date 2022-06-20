@@ -7,7 +7,7 @@ import { ErrorView } from '../../../common/shared/error/errorView';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -39,8 +39,8 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
         const criterian_array = fetch_criterian_group_data?.data;
         const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
           const object = anItem;
-          object.step =getStepNumberWithGroupId(anItem.OCDS.id)
-            object['criterianId'] = aURI;
+          object.step = getStepNumberWithGroupId(anItem.OCDS.id)
+          object['criterianId'] = aURI;
           return object;
         });
         criterianStorage.push(rebased_object_with_requirements);
@@ -64,7 +64,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
       const ExcludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
-        AField => AField.OCDS.id !== 'Group Key Dates',
+        AField => AField.OCDS.id !== 'Group Key Dates' && AField.OCDS.id !='Group 8'
       );
       const releatedContent = req.session.releatedContent;
       const display_fetch_data = {
@@ -86,6 +86,8 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/40`, 'Cannot start yet');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/41`, 'Cannot start yet');
+
+      
       res.render('rfp-yourassesstment', display_fetch_data);
     } catch (error) {
       LoggTracer.errorLogger(

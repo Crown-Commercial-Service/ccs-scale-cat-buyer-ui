@@ -143,9 +143,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
           collaboratorData = collaboratorData.data;          
           const appendData = { data: eventManagementData,Colleagues:collaboratorData, status, projectName, eventId, eventType, apidata, supplierName, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
-
+         
+          let redirectUrl: string
     if (status.toLowerCase() == "in-progress") {
-      let redirectUrl: string
       switch (eventType) {
         case "RFI":
           redirectUrl = '/rfi/rfi-tasklist'
@@ -161,14 +161,21 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           break
         case "FC":
           redirectUrl = '/rfp/task-list'
+          break    
+        default:
+          redirectUrl = '/event/management'
           break
+      }
+    }
+      else if(status.toLowerCase()=='assessment')
+      {  switch (eventType) {
         case "DAA":
-          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+          redirectUrl = '/da/task-list?path=B1' 
           break
         case "FCA":
-          redirectUrl = '/projects/create-or-choose' // Path needs to be updated as per the AC
+          redirectUrl = '/ca/task-list?path=A1' 
           break
-        default:
+          default:
           redirectUrl = '/event/management'
           break
       }
