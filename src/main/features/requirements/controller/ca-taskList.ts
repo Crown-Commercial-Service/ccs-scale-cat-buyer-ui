@@ -52,8 +52,6 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   let ViewLoadedTemplateData;
 
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/42`, 'Optional');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/43`, 'Optional');
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     const isSummaryDone = journeySteps.find(stp => stp.step === 54 && stp.state === 'Completed');
