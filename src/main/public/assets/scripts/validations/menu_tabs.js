@@ -146,7 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let values = [];
     let keys = [];
     for (let index = 0; index < inputs.length; ++index) {
-      inputs[index].value = '';
+      if(inputs[index].type!='hidden'){
+      // inputs[index].value = '';
       inputs[index].addEventListener('focus', function (e) {
         oldIdName = e.currentTarget.id;
         oldIdValue = e.currentTarget.value;
@@ -199,4 +200,5 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     }
   }
+}
 });

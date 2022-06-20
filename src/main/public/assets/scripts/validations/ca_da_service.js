@@ -37,14 +37,12 @@ var totalWeighting = '';
 var daServiceCapaTabLinks = document.querySelectorAll('.da-service-capabilities');
 var caServiceCapaTabLinks = document.querySelectorAll('.ca-service-capabilities');
 
-if (daServiceCapaTabLinks !== null && daServiceCapaTabLinks.length > 0)
-{
+if (daServiceCapaTabLinks !== null && daServiceCapaTabLinks.length > 0) {
     tabLinks = daServiceCapaTabLinks;
     ccsTabMenuNaviation();
     totalWeighting = $('#da_total_weighting');
 }
-else if(caServiceCapaTabLinks !==null && caServiceCapaTabLinks.length > 0)
-{
+else if (caServiceCapaTabLinks !== null && caServiceCapaTabLinks.length > 0) {
     tabLinks = caServiceCapaTabLinks;
     ccsTabMenuNaviation();
     totalWeighting = $('#ca_total_weighting');
@@ -74,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 itemText = itemText.replaceAll(" ", "_");
                 weightVettingWholePartialOnClick(itemText);
-                updateTotalWeight();
+                // updateTotalWeight();
                 resetRadioButtion();
                 return false;
             });
@@ -82,59 +80,68 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     weight.on('keydown', (event) => {
-        if (event.key === '.' || event.keyCode ===69)
-          event.preventDefault(); });
+        if (event.key === '.' || event.keyCode === 69)
+            event.preventDefault();
+    });
 
-    function updateTotalWeight() {
-
-        let weightCount = 0;
-        for (let index = 0; index < tabLinks.length; index++) {
-
-            let subText = tabLinks[index].getElementsByTagName('div')[0].childNodes[0].data;
-            var numbr = subText.match(/\d/g);
-
-            if(numbr !=null)
-            {
-                numbr = numbr.join("");
-                weightCount = weightCount + Number(numbr);
-            }
-           
+    function updateTotalAddedWeight() {
+        let weightCount = 0
+        for (index = 0; index < weight.length; ++index) {
+            if (weight[index].value != "")
+                weightCount = weightCount + Number(weight[index].value);
         }
-        if (weightCount > 100) {
-
-            $('.govuk-error-summary__title').text('There is a problem');
-
-            $("#summary_list").html('<li><a href="#">The weighting value(s) for the service capabilities must be equal to 100%</a></li> ');
-            $([document.documentElement, document.body]).animate({
-                scrollTop: $("#summary_list").offset().top
-            }, 1000);
-
-            $('#service_capability_error_summary').removeClass('hide-block');
-        }
-        else {
-
-            let buildText = weightCount + ' of 100% total weighting for service capabilities'
-            totalWeighting.text(buildText);
-        }
-
+        let buildText = weightCount + ' of 100% total weighting for service capabilities'
+        totalWeighting.text(buildText);
     }
-    
-    function resetRadioButtion()
-    {
-      for (var a = 0; a < TotalFieldOnScreen; a++) {
-          const WholeclusterDIV = '#whole_cluster_' + a;
-          const PartialClusterDIV = '#partial_cluster_' + a;
-          $('#whole_weightage_' + a).prop('checked',false);
-          $('#partial_weightage_' + a).prop('checked',false)
-          $(PartialClusterDIV).fadeOut();
-          $(WholeclusterDIV).fadeOut();
-      }
+
+    // function updateTotalWeight() {
+
+    //     let weightCount = 0;
+    //     for (let index = 0; index < tabLinks.length; index++) {
+
+    //         let subText = tabLinks[index].getElementsByTagName('div')[0].childNodes[0].data;
+    //         var numbr = subText.match(/\d/g);
+
+    //         if (numbr != null) {
+    //             numbr = numbr.join("");
+    //             weightCount = weightCount + Number(numbr);
+    //         }
+
+    //     }
+    //     if (weightCount > 100) {
+
+    //         $('.govuk-error-summary__title').text('There is a problem');
+
+    //         $("#summary_list").html('<li><a href="#">The weighting value(s) for the service capabilities must be equal to 100%</a></li> ');
+    //         $([document.documentElement, document.body]).animate({
+    //             scrollTop: $("#summary_list").offset().top
+    //         }, 1000);
+
+    //         $('#service_capability_error_summary').removeClass('hide-block');
+    //     }
+    //     else {
+
+    //         let buildText = weightCount + ' of 100% total weighting for service capabilities'
+    //         totalWeighting.text(buildText);
+    //     }
+
+    // }
+
+    function resetRadioButtion() {
+        for (var a = 0; a < TotalFieldOnScreen; a++) {
+            const WholeclusterDIV = '#whole_cluster_' + a;
+            const PartialClusterDIV = '#partial_cluster_' + a;
+            $('#whole_weightage_' + a).prop('checked', false);
+            $('#partial_weightage_' + a).prop('checked', false)
+            $(PartialClusterDIV).fadeOut();
+            $(WholeclusterDIV).fadeOut();
+        }
     }
 
     function weightVettingWholePartialOnClick(category) {
 
         let vettingPartial = 'weight_vetting_partial' + category;
-        const vettingWhole2 = 'weight_vetting_whole_' + category 
+        const vettingWhole2 = 'weight_vetting_whole_' + category
 
         for (var a = 1; a < weight_whole_len; a++) {
 
@@ -145,17 +152,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             vetWhole.on('blur', () => {
 
-                if(vetWhole.val() != undefined && vetWhole.val() !== null && vetWhole.val() !== "")
-                {
-                    clearInputData(weight_partial_len,vettingPartial);
+                if (vetWhole.val() != undefined && vetWhole.val() !== null && vetWhole.val() !== "") {
+                    clearInputData(weight_partial_len, vettingPartial);
 
                     if (isValidInputData(vettingWhole, vettingWholeT, vetWhole.val()))
-                    itemSubText.innerHTML = '[ '+vetWhole.val() + ' %' + ' ]';
+                    {
+                        updateTotalAddedWeight();
+                        itemSubText.innerHTML = '[ ' + vetWhole.val() + ' %' + ' ]';
+                    }
+                        
                 }
-                else if(vetWhole.val() != undefined && vetWhole.val() == "")
-                {
-                 $(`#${vettingWhole}`).removeClass('govuk-input--error');
-                 $(`.${vettingWholeT}`).text('');
+                else if (vetWhole.val() != undefined && vetWhole.val() == "") {
+                    itemSubText.innerHTML = '[ ' + 0 + ' %' + ' ]';
+                    $(`#${vettingWhole}`).removeClass('govuk-input--error');
+                    $(`.${vettingWholeT}`).text('');
+                    updateTotalAddedWeight();
                 }
 
             });
@@ -168,24 +179,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
             vetPartial.on('blur', () => {
 
-                if(vetPartial.val() != undefined && vetPartial.val() !== null && vetPartial.val() !== "")
-                {                
-                    clearInputData(weight_whole_len,vettingWhole2);
-                if (isValidInputData(weightId, weightT, vetPartial.val()))
-                    updateVettingPartial(vettingPartial);
+                clearWholeCluster(category);
+
+                if (vetPartial.val() != undefined && vetPartial.val() !== null && vetPartial.val() !== "") {
+                    clearInputData(weight_whole_len, vettingWhole2);
+                    if (isValidInputData(weightId, weightT, vetPartial.val()))
+                    {
+                        updateVettingPartial(vettingPartial);
+                        updateTotalAddedWeight();
+                    }
+                       
                 }
-                else if(vetPartial.val() != undefined && vetPartial.val() == "")
-                {
-                 $(`#${weightId}`).removeClass('govuk-input--error');
-                 $(`.${weightT}`).text('');
+                else if (vetPartial.val() != undefined && vetPartial.val() == "") {
+                    updateVettingPartial(vettingPartial);
+                    updateTotalAddedWeight();
+                    $(`#${weightId}`).removeClass('govuk-input--error');
+                    $(`.${weightT}`).text('');
                 }
 
             });
         }
     }
 
-    function clearInputData(weightLength,idName)
-    {
+    function clearWholeCluster(category) {
+        for (var a = 1; a < weight_whole_len; a++) {
+            let vettingWhole = 'weight_vetting_whole_' + category + a;
+            let vetWhole = $(`#${vettingWhole}`);
+            if (vetWhole != undefined && vetWhole != null)
+                vetWhole.text('');
+        }
+    }
+
+    function clearInputData(weightLength, idName) {
         for (var a = 1; a < weightLength; a++) {
             $(`#${idName}${a}`).val('');
         }
@@ -199,10 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (vetPartial.val() != undefined && vetPartial.val() != '')
                 value = value + Number(vetPartial.val());
         }
-        itemSubText.innerHTML =  '[ '+value + ' %' + ' ]';
+        itemSubText.innerHTML = '[ ' + value + ' %' + ' ]';
     }
 
-    
+
 
 
     /**
@@ -249,11 +274,10 @@ document.addEventListener('DOMContentLoaded', () => {
             $(`#${weightClassName}`).addClass('govuk-input--error');
             $(`.${weightPartialClassName}`).text('The weighting value(s) for the service capabilities must be a positive integer');
         }
-        else if(Number(value) > 100)
-        {
+        else if (Number(value) > 100) {
             $(`#${weightClassName}`).addClass('govuk-input--error');
             $(`.${weightPartialClassName}`).text('The weighting value(s) for the service capabilities must be less or equal 100 %');
-       
+
         }
         else {
             $(`#${weightClassName}`).removeClass('govuk-input--error');
@@ -267,8 +291,8 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#ccs_ca_menu_tabs_form').on('submit', (e) => {
 
         var isFormValid = true;
-        updateTotalWeight();
-        var totalWeightingPercentage = totalWeighting.text().trim().substring(0,4).match(/\d/g);
+       // updateTotalWeight();
+        var totalWeightingPercentage = totalWeighting.text().trim().substring(0, 4).match(/\d/g);
         totalWeightingPercentage = totalWeightingPercentage.join("");
         let intWeightingPercentage = Number(totalWeightingPercentage);
 

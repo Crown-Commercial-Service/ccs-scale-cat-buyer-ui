@@ -13,6 +13,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 // import { JSDOM } from 'jsdom';
 // import { Parser } from 'json2csv';
 import { CalRankSuppliers } from '../../shared/CalRankSuppliers';
+import {CAGetRequirementDetails} from '../../shared/CAGetRequirementDetails';
 const excelJS= require('exceljs');
 import SampleData from '../../shared/SampleData.json';
 
@@ -35,11 +36,12 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
       releatedContent: releatedContent,
     };
     if(download!=undefined){
-      const  assessmentId = 507;//currentEvent.assessmentId;
+      
+      const  assessmentId = currentEvent.assessmentId;//507 
       const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
       const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
       const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;//scores data
-      let assessments = SampleData;//mock data
+      let dimensionRequirements = ALL_ASSESSTMENTS_DATA.dimensionRequirements;//SampleData
 
       const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
       const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
@@ -63,41 +65,35 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
         if(data.length>0){
           
           dataPrepared ={
-            "Rank No.":data[0].rank,
-            "Supplier Name":data[0].name,
-            "Supplier Trading Name":data[0].name,
-            "Total Score":data[0].total,
-            "Capacity Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==1)?.[0].score,
-            "Security Clearance Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==2)?.[0].score,
-            "Capability Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==3)?.[0].score,
-            "Scalability Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==4)?.[0].score,
-            "Location Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==5)?.[0].score
+            "Rank No.":data[0]?.rank,
+            "Supplier Name":data[0]?.name,
+            "Supplier Trading Name":data[0]?.name,
+            "Total Score":data[0]?.total,
+            "Capacity Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==1)?.[0]?.score,
+            "Security Clearance Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==2)?.[0]?.score,
+            "Capability Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==3)?.[0]?.score,
+            "Scalability Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==4)?.[0]?.score,
+            "Location Score":data[0].dimensionScores.filter(d=>d["dimension-id"]==5)?.[0]?.score
           }
           finalCSVData.push(dataPrepared);
         }
       }
       finalCSVData.sort((a, b) => a["Rank No."] < b["Rank No."]? -1 : a["Rank No."]> b["Rank No."]? 1 : 0);
       let dimensionsTable=[];
-      let dimensions=[];
-      dimensions.push(...assessments.dimensionRequirements.map(x =>{ return [x.name, x.weighting]}));
-      for (var i=0;i<dimensions.length;i++)
+      for (var i=1;i<=5;i++)
       {   
+        let dim=dimensionRequirements.filter(item=>item["dimension-id"]==i)[0]
+        if(dim!=undefined){
         dataPrepared={
-          "Dimension":dimensions[i][0],
-          "Weighting":dimensions[i][1]
+          "Dimension":dim.name,
+          "Weighting":dim.weighting
         }
         dimensionsTable.push(dataPrepared);
       }
-      
-      let requirementsTable=[];
-      dataPrepared={
-        "Dimension":"200",
-        "Requirement Group":"200",
-        "Requirement":"200",
-        "Quantity":"200",
-        "Relative Weighting":"200"
       }
-      requirementsTable.push(dataPrepared);
+      
+      let requirementsTable=await CAGetRequirementDetails(req);
+      
 
     //   let supplierFields = ["Rank No.","Supplier Name","Supplier Trading Name","Total Score","Capacity Score","Security Clearance Score"
     // ,"Capability Score","Scalability Score","Location Score"];

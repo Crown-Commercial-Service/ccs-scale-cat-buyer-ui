@@ -22,7 +22,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {{data.title}}
+         <strong> {{data.title}}</strong>
         </h1>
         <div class="project-overview">
         <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
@@ -183,8 +183,7 @@
        
         {% if status.toLowerCase() == 'published' %}
         
-        <h3 class="govuk-heading-m">
-          {{data.subsection4_title4_1}}</h3>
+        
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
@@ -214,13 +213,12 @@
           </div>
         </div>
         {% endif %}
-        {% if status.toLowerCase() == 'to be evaluated' %}
+        {% if status.toLowerCase() != 'published' %}
         
-          <span class="proc-task-list__section-number">4.</span>
-          {{data.subsection4_title4}}</h2>
+          
         <p class="govuk-body">The supplliers below have responded to your published project.You can download individual supplier's answers or all answers</p>
-        <h3 class="govuk-heading-m">
-          {{data.subsection4_title4_1}}</h3>
+        {#<h3 class="govuk-heading-m">
+          {{data.subsection4_title4_1}}</h3>#}
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
@@ -265,7 +263,7 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-      {% if status.toLowerCase() == 'to be evaluated' %}
+      {% if status.toLowerCase() != 'published' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete project</h2>
@@ -281,30 +279,32 @@
     </div>
     {% endif %}  
   {% endif %}
-<div class="govuk-grid-row ccs-page-section">
-      <div class="govuk-grid-column-full">
+  </main> 
+{#<div class="govuk-grid-row ccs-page-section">#}
+      <div>
       {% if eventType == 'FC' %}
-      {% if status.toLowerCase() == 'to be evaluated' %}
+      {% if status.toLowerCase() != 'published' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>
-        <p>You will need to download all of the supplier responses to evaluate their answers.You will have to evaluate them using the criteris and the question you set before you published your procurement</p>
-         <div class="govuk-button-group">
+        <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project.</p>
+        <p>You can only enter  your final evaluation score for each supplier in this serevice. You will need to complete your full evaluation offline.</p>
+      </div>
+      {% endif %}
+      {% endif %}
+     {#<div class="govuk-grid-row ccs-page-section">#}
+     {#</div>#}
+
+ 
+ <div class="govuk-button-group">
         {{ CCSButton({
-        text: "[Complete evaluation of the supplier response]",
+        text: "Start Supplier Evaluation",
         href:"#"
         }) }}
-        </div> 
-     
-      </div>
-      </div>
-      {% endif %}
-      {% endif %}
-     <div class="govuk-grid-row ccs-page-section">
-      <div class="govuk-grid-column-full">
+        </div>
+         {% if eventType !== 'FC' %}
+      <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
      </div>
-     </div>
-
-  </main>
+     {% endif %}
 {% endblock %}

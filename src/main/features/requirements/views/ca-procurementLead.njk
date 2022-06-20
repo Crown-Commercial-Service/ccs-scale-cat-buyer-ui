@@ -23,7 +23,7 @@
       },
       {
         text: "Write and publish your requirements",
-        href: "/ca/task-list"
+        "href": "/ca/task-list?path="+ choosenViewPath 
       },
       {
          text: "Change who is going to lead the procurement",
@@ -53,7 +53,7 @@
    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
          <h1 class="govuk-heading-xl">
-            Change who is going to lead the procurement
+            <strong>Change who is going to lead the procurement (Optional)</strong>
          </h1>
       </div>
    </div>
@@ -109,7 +109,8 @@
               {{ CCSButton({
                text: "Save and continue"
               }) }}
-              <a href="/ca/task-list" class="govuk-link govuk-link--no-visited-state">Return to write and publish your requirements</a>
+             {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to write and publish your requirements</a>
             </div>
 
          </form>

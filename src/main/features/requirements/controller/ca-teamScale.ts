@@ -75,6 +75,7 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
      
   
     const windowAppendData = { data:caTeamScale,RadioData, lotId, agreementLotName, choosenViewPath, releatedContent,error: caTeamScaleerror };
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
     res.render('ca-team-scale', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -111,9 +112,9 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
  if(req.body.team_option!=undefined && req.body.team_option !=null){
   try {
     let subcontractorscheck;
-    if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 4).length>0)
+    if(Dimensionrequirements?.filter(dimension => dimension["dimension-id"] === 4).length>0)
     {
-      subcontractorscheck=(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 4)[0].includedCriteria.
+      subcontractorscheck=(Dimensionrequirements?.filter(dimension => dimension["dimension-id"] === 4)[0].includedCriteria.
       find(x=>x["criterion-id"]==1))
     }
     let includedSubContractor=[];
@@ -127,6 +128,7 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       name:dimensionName ,
       weighting: weight,
       includedCriteria: includedSubContractor,
+      overwriteRequirements: true,
       requirements: [
         {
           name: scalabilityData.options.find(data => data['requirement-id'] === Number(req.body.team_option)).name,
@@ -145,8 +147,6 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'Not started');
 
-    // Check 'review ranked suppliers' step number
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
     req.session.caTeamScaleerror=false;
     res.redirect('/ca/where-work-done');
    
