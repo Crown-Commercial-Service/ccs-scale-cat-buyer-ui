@@ -9,7 +9,7 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
   const organization_id = req.session.user.payload.ciiOrgId;
   req.session['organizationId'] = organization_id;
   const { SESSION_ID } = req.cookies;
-  const { projectId, isJaggaerError } = req.session;
+  const { projectId, isJaggaerError,choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   const { rfp_procurement_lead: userParam } = req.query;
   const releatedContent = req.session.releatedContent;
@@ -63,6 +63,7 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
       agreementLotName,
       error: false,
       releatedContent,
+      choosenViewPath:choosenViewPath
     };
     res.render('ca-procurementLead', windowAppendData);
   } catch (error) {

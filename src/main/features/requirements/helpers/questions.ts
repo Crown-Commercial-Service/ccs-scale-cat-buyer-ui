@@ -218,7 +218,7 @@ export class QuestionHelper {
       const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
       const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
       let heading_fetch_dynamic_api_data = heading_fetch_dynamic_api?.data;
-      heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 8'));//exclude group 18 and 2
+      heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 8' && a?.OCDS?.id != 'Group 7'));//exclude group 18 and 2
       heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.sort((n1: { nonOCDS: { order: number; }; }, n2: { nonOCDS: { order: number; }; }) => n1.nonOCDS.order - n2.nonOCDS.order);
       const mandatoryGroupList = heading_fetch_dynamic_api_data.filter((n1: { nonOCDS: { mandatory: any; }; }) => n1.nonOCDS?.mandatory);
       let mandatoryNum = 0;
@@ -323,37 +323,7 @@ export class QuestionHelper {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'In progress');
         }
       }
-      //#endregion
-      //#region old code
-      //let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-      //let fetch_dynamic_api_data = fetch_dynamic_api?.data;
-      //let extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
-      //let criterianStorage: any = [];
-      //let criterian_array: any = [];
-      // for (let aURI of extracted_criterion_based) {
-      //   const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-      //   const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
-      //   criterian_array = fetch_criterian_group_data?.data;
-      //   const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
-      //     const object = anItem;
-      //     object['criterianId'] = aURI;
-      //     return object;
-      //   });
-      //   criterianStorage.push(rebased_object_with_requirements);
-      // }
-      // criterianStorage = criterianStorage.flat();
-      // const sorted_ascendingly = criterianStorage
-      //   .map((aCriterian: any) => {
-      //     const object = aCriterian;
-      //     let tempId = object.criterianId.split('Criterion ').join('') + '000';
-      //     if (object.nonOCDS['mandatory'] === false)
-      //       object.OCDS['description'] = object.OCDS['description'] + ' (Optional)';
-      //     object.OCDS['sortId'] = Number(tempId) + Number(aCriterian.OCDS['id']?.split('Group ').join(''));
-      //     if (!isNaN(object.OCDS['sortId'])) return object;
-      //   })
-      //   .sort((a: any, b: any) => (a.OCDS.sortId < b.OCDS.sortId ? -1 : 1))
-      //   .filter((obj: any) => obj != undefined).filter((obj: any) => obj.criterianId === id);
-      //#endregion
+     
       heading_fetch_dynamic_api_data?.map((obj:any)=>{
         obj.criterianId=id;
       })
@@ -370,48 +340,6 @@ export class QuestionHelper {
         let base_url = `/rfp/assesstment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}=&step${res.req?.query?.step}`;
         res.redirect(base_url);
       } else {
-        //#region old code
-
-        // let mandatoryNum = 0;
-        // const maxNum = 8;
-        // //let status = 'In progress';
-        // for (let i = 0; i < criterian_array.length; i++) {
-        //   const groupId = criterian_array[i].OCDS['id'];
-        //   const mandatory = criterian_array[i].nonOCDS['mandatory'];
-        //   if (mandatory) {
-        //     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
-        //     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-        //     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
-        //     let answered;
-        //     const questionType = fetch_dynamic_api_data[0].nonOCDS['questionType'];
-        //     let selectedLocation;
-        //     if (fetch_dynamic_api_data[0].nonOCDS.options[0]) {
-        //       if (
-        //         questionType === 'Value' ||
-        //         questionType === 'Text' ||
-        //         questionType === 'Monetary' ||
-        //         questionType === 'Duration' ||
-        //         questionType === 'Date'
-        //       ) {
-        //         answered = fetch_dynamic_api_data[0].nonOCDS.options[0]['value'];
-        //         if (answered !== '') mandatoryNum += 1;
-        //       }
-        //       if (questionType === 'SingleSelect' || questionType === 'MultiSelect') {
-        //         for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
-        //           selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
-        //           if (selectedLocation) mandatoryNum += 1;
-        //         }
-        //       }
-        //     }
-        //     mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
-        //   }
-        // }
-        // //if (mandatoryNum === maxNum) {
-        // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'Completed');
-        // if (response.status == HttpStatusCode.OK) {
-        //   //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/70`, 'Not started');
-        // }
-        //#endregion
         res.redirect('/rfp/task-list');
         //}
       }
