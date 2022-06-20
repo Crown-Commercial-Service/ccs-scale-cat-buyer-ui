@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var element =  document.getElementById('supplierID');
     var justification=document.getElementById('ca_justification');
-    debugger
     var noofsuppliers=$('#ca_p7').html();
     var matches = noofsuppliers.match(/(\d+)/);
     if (typeof(element) != 'undefined' && element != null &&typeof(justification) != 'undefined' && justification != null)
