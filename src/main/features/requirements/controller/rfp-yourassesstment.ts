@@ -64,7 +64,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
       const lotId = req.session?.lotId;
       const agreementLotName = req.session.agreementLotName;
       const ExcludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
-        AField => AField.OCDS.id !== 'Group Key Dates' && AField.OCDS.id !='Group 8'
+        AField => AField.OCDS.id !== 'Group Key Dates' && AField.OCDS.id !='Group 8' && AField.OCDS.id !='Group 7'
       );
       const releatedContent = req.session.releatedContent;
       const display_fetch_data = {
