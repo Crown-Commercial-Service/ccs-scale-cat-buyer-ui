@@ -41,7 +41,7 @@
                 }]
             }) }}
         {%endif %}
-
+        
         <div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
         <h2 class="govuk-error-summary__title" id="error-summary-title">
         </h2>
@@ -82,6 +82,12 @@
                       pattern:"[0-9]{2}"
                     })
                 }}
+                  {{ CCSInput({
+                id: "ca_max_suppliers",
+                name: "ca_max_suppliers",
+                type: "hidden",
+                value: SuppliersMax
+              }) }}
                     </div>
                     <div class="govuk-button-group" >
                         {{ CCSButton({
