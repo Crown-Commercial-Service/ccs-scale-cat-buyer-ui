@@ -14,9 +14,9 @@
         }
     ],
     "title": "Your Project",
-    "subtitle": "You can manage your project from this page including responding to supplier's clarification question or messages in your inbox, and seeing supplier's answers to your publishes project",
-    "subtitle1":"You can close this project using the link under the project name below",
-    "subsection2_title": "Open Project ID/ Name",
+    "subtitle": "Manage your project from this page including responding to supplier's clarification question or messages in your inbox. See supplier's answers to your publishes project.",
+    "subtitle1":"You can close this project using the link under the project name below.",
+    "subsection2_title": "Project ID/name",
     "subsection2_content": "Close this project",
     "subsection3_title": "Your Inbox",
     "subsection3_linkText": "Open my inbox",

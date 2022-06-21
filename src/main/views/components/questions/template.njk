@@ -201,7 +201,7 @@
     {{  CCSTextarea({
       name:  requirement.OCDS.id,
       required: requirement.nonOCDS.mandatory,
-      id: "fc_question_"+index+"_"+requirement.nonOCDS.order,
+      id: "fc_question_"+index+'_'+requirement.nonOCDS.order,
       value: requirement.nonOCDS.options[index-1].value,
       label: {
       text:requirement.OCDS.title,
@@ -336,7 +336,7 @@
                         },
                         id: "rfp_contracting_auth",
                         name:requirement.OCDS.title | replace(" ", "_"),
-                        value: requirement.nonOCDS.options[1].value
+                        value: requirement.nonOCDS.options[0].value
                       })
                   }}
 
