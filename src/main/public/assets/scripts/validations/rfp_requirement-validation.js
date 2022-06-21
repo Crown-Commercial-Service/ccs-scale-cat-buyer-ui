@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-const totalInputFields = $('.rfp_weight_vetting_class');
-const inputFieldsLength = totalInputFields.length + 1
+    const totalInputFields = $('.rfp_weight_vetting_class');
+    const inputFieldsLength = totalInputFields.length + 1
 
-var itemSubText = '';
-var itemText = '';
-var totalResourceAdded = $('#rfp_total_resource');
-var totalResourceAdded2 = $('#rfp_total_resource2');
+    var itemSubText = '';
+    var itemText = '';
+    var totalResourceAdded = $('#rfp_total_resource');
+    var totalResourceAdded2 = $('#rfp_total_resource2');
 
-var tabLinks = document.querySelectorAll('.rfp-vetting-weighting');
+    var tabLinks = document.querySelectorAll('.rfp-vetting-weighting');
 
     if (tabLinks != null && tabLinks.length > 0) {
 
@@ -30,11 +30,11 @@ var tabLinks = document.querySelectorAll('.rfp-vetting-weighting');
                 itemSubText = currentTarget.getElementsByClassName('table-item-subtext')[0];
                 itemText = tabLinks[clicked_index].getElementsByTagName('a')[0].childNodes[0].data
 
-                itemText = itemText.replaceAll(" ", "_");    
-                itemText =  itemText.replaceAll(/[\])}[{(]/g, '');
-                
+                itemText = itemText.replaceAll(" ", "_");
+                itemText = itemText.replaceAll(/[\])}[{(]/g, '');
+
                 resourceItemOnClick(itemText);
-                updateTotalResourceAdded();
+                // updateTotalResourceAdded();
                 return false;
             });
         });
@@ -43,51 +43,74 @@ var tabLinks = document.querySelectorAll('.rfp-vetting-weighting');
     }
     function resourceItemOnClick(category) {
 
-        const weightVettingId = 'rfp_weight_vetting_'+category+"_" 
-    
+        const weightVettingId = 'rfp_weight_vetting_' + category + "_"
+
         for (var a = 1; a < inputFieldsLength; a++) {
-    
+
             let weightVetting = $(`#${weightVettingId}${a}`);
-    
+
             weightVetting.on('blur', () => {
-    
-                if(weightVetting.val() != undefined && weightVetting.val() !== null && weightVetting.val() !== "")
+
+                if (weightVetting.val() != undefined && weightVetting.val() !== null && weightVetting.val() !== "") {
                     updateWeightVetting(weightVettingId);
+                    updateTotalResource();
+                }
+                else {
+                    updateWeightVetting(weightVettingId);
+                    updateTotalResource();
+                }
+
             });
         }
     }
-    
+
     function updateWeightVetting(weightVettingId) {
         let value = 0;
         for (var a = 1; a < inputFieldsLength; a++) {
-    
+
             let weightVetting = $(`#${weightVettingId}${a}`);
             if (weightVetting.val() != undefined && weightVetting.val() != '')
                 value = value + Number(weightVetting.val());
+
         }
-        itemSubText.innerHTML =  value + ' resources added';
+        itemSubText.innerHTML = value + ' resources added';
     }
-    
-    function updateTotalResourceAdded() {
-    
-        let resourceCount = 0;
-        for (let index = 0; index < tabLinks.length; index++) {
-    
-            let subText = tabLinks[index].getElementsByTagName('div')[0].childNodes[0].data;
-            var numbr = subText.match(/\d/g);
-    
-            if(numbr !=null)
-            {
-                numbr = numbr.join("");
-                resourceCount = resourceCount + Number(numbr);
-            }
-           
+
+    function updateTotalResource() {
+        let resourceCount = 0
+        for (index = 0; index < totalInputFields.length; ++index) {
+            if (totalInputFields[index].value != "")
+                resourceCount = resourceCount + Number(totalInputFields[index].value);
         }
         totalResourceAdded.text(resourceCount);
         totalResourceAdded2.text(resourceCount);
-        
     }
-    
+
+    totalInputFields.on('keydown', (event) => {
+        if (event.key === '.' || event.keyCode === 69)
+            event.preventDefault();
+    });
+
+    // function updateTotalResourceAdded() {
+
+    //     let resourceCount = 0;
+    //     for (let index = 0; index < tabLinks.length; index++) {
+
+    //         let subText = tabLinks[index].getElementsByTagName('div')[0].childNodes[0].data;
+    //         var numbr = subText.match(/\d/g);
+
+    //         if(numbr !=null)
+    //         {
+    //             numbr = numbr.join("");
+    //             resourceCount = resourceCount + Number(numbr);
+    //         }
+
+    //     }
+    //     totalResourceAdded.text(resourceCount);
+    //     totalResourceAdded2.text(resourceCount);
+
+    // }
+
 
     $('#ccs_ca_menu_tabs_form_rfp_vetting').on('submit', (e) => {
 

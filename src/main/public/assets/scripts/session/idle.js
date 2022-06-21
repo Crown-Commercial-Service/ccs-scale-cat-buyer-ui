@@ -1,6 +1,6 @@
 var inactiviyTime = 0;
 let logoutlocationURL = window.location.origin + '/oauth/logout'
-var inactivateAfter = 15;
+var inactivateAfter = 60;
 
 $(document).ready(function () {
     // Increment the idle time counter every minute.

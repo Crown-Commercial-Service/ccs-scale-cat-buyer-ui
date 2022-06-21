@@ -3,7 +3,8 @@ const ccsZvalidateCASupplier = (event) => {
          let fieldCheck = "",
     errorStore = [];
     const val = $("#ca-supplier-count").val();
-     if (val.length === 0 || val <3 || val > 49) {
+    var max = $("#ca_max_suppliers").val();
+     if (val.length === 0 || val <3 || val > parseInt(max)){
     fieldCheck = ccsZvalidateWithRegex("ca-supplier-count", "Enter a valid value", null);
     if (fieldCheck !== true) errorStore.push(fieldCheck);
   }

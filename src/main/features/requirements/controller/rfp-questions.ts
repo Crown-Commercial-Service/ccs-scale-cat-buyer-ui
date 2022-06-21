@@ -426,7 +426,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
               //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
             } else if (questionNonOCDS.questionType === 'Date') {
 
-              const slideObj = object_values.slice(0, 4);
+              const slideObj = object_values.slice(0, 3);
               let newArraryForDate = [];
               if (slideObj != null && slideObj.length > 0) {
                 slideObj.forEach(x => {
@@ -654,7 +654,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 for (let index = 0; index < object_values.length; index++) {
                   optionsData.push({ value: object_values[index], selected: true });
                 }
-                if (validationError) {
+                if (!validationError) {
                   answerValueBody = {
                     nonOCDS: {
                       answered: true,
