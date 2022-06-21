@@ -100,7 +100,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
