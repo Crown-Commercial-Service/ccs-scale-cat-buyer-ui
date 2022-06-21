@@ -66,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     document.getElementById("ccs_rfpTerm_add").addEventListener('click', (e) => {
-      debugger
       errorStore = [];
       $('.govuk-form-group').removeClass('govuk-textarea--error');
       //checkFieldsRfpKPI();
