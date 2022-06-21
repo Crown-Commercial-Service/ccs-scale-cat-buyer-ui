@@ -11,6 +11,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
  */
 export const ROUTE_TO_MARKET = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  //const projectId = req.session.projectId;
   const {eventId} = req.session;
   const {isrfi}=req.query;
   try {

@@ -842,7 +842,8 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     } else {
       res.redirect('/error');
     }
-  } catch (err) {
+  }
+  catch (err) {
     LoggTracer.errorTracer(err, res);
   }
 };

@@ -108,11 +108,11 @@ export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: expres
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY,);
       
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
-      let flag=await ShouldEventStatusBeUpdated(eventId,37,req);
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/36`, 'Completed');
+      let flag=await ShouldEventStatusBeUpdated(req.session.eventId,37,req);
     if(flag)
     {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/37`, 'Not started');
     }
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/38`, 'Cannot start yet');
       res.redirect('/rfp/task-list');
