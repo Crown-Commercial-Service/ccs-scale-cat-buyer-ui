@@ -158,7 +158,7 @@ text: bcTitleText
                     </label>
                     </br>
                     {% for requirement in data %}
-                    {{recurseRequirements(requirement,form_name,loop.index)}}
+                    {{recurseRequirements(requirement,form_name,i)}}
                     {% endfor %}
                 </div>
                 {%endfor%}
