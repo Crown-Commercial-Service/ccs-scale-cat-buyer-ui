@@ -25,6 +25,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     const { SESSION_ID } = req.cookies
     const { projectId,eventId } = req.session;
     const { download } = req.query;
+    let completionStatus = 'No';
     
 
     // Event header
@@ -61,7 +62,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     const supplierSummary = supplierdata.data;
 
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,data: eventManagementData,  eventId, supplierName, supplierSummary, showallDownload, suppliers: localData , }
+          const appendData = { releatedContent,data: eventManagementData, completionStatus,  eventId, supplierName, supplierSummary, showallDownload, suppliers: localData , }
 
     res.render('evaluateSuppliers',appendData);     
     

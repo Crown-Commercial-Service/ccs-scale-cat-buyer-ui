@@ -15,6 +15,8 @@ import { POST_STEPS_TO_CONTINUE } from './steps-to-continue'
 import { PUBLISHED_PROJECT_DOWNLOAD } from './eventManagement'
 import { EVALUATE_SUPPLIERS } from './evaluateSuppliers'
 import { EVALUATE_SUPPLIERS_DOWNLOAD } from './evaluateSuppliers'
+import { ENTER_EVALUATION } from './enterEvaluation'
+import { ENTER_EVALUATION_POST } from './enterEvaluation'
 /**
  * @BaseController
  * @Provider
@@ -46,4 +48,6 @@ export const EVENT_MANAGEMENT_CONTROLLER = {
     PUBLISHED_PROJECT_DOWNLOAD,
     EVALUATE_SUPPLIERS,
     EVALUATE_SUPPLIERS_DOWNLOAD,
+    ENTER_EVALUATION,
+    ENTER_EVALUATION_POST
 }

@@ -69,7 +69,7 @@
                 </tr>
               </thead>
               {% for supplier in supplierName %}
-               {% if supplier.responseState =='Submitted'  %}
+              {# {% if supplier.responseState =='Submitted'  %}#}
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
@@ -84,11 +84,11 @@
                      <td class="govuk-text-align">
                       <a class="govuk-link" href="/evaluate-download?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
                     </td> 
-                    <td class="govuk-table__cell"> Add or edit </td>
+                    <td class="govuk-table__cell"> <a href="/enter-evaluation?supplierid={{supplier.id}}&suppliername={{supplier.name}}" class="govuk-link govuk-link--no-visited-state"> Add or edit </a></td>
                     <td class="govuk-table__cell"> Yes/No </td>
                   </tr>
               </tbody>
-           {% endif %} 
+           {#{% endif %} #}
           {% endfor %}
             </table>
             </div>

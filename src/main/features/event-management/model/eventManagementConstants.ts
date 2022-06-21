@@ -21,5 +21,7 @@ export enum EVENT_MANAGEMENT_PATHS {
     STEPS_TO_CONTINUE='/steps-to-continue',
     PUBLISHED_PROJECT_DOWNLOAD='/publisheddoc',
     EVALUATE_SUPPLIERS='/evaluate-suppliers',
-    EVALUATE_SUPPLIERS_DOWNLOAD='/evaluate-download'
+    EVALUATE_SUPPLIERS_DOWNLOAD='/evaluate-download',
+    ENTER_EVALUATION='/enter-evaluation',
+    ENTER_EVALUATION_POST='/enter-evaluation'
 }
