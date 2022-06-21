@@ -71,6 +71,7 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       errorText,
       errorTextSumary: errorTextSumary,
     };
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'In progress');
     res.render('da-enterYourWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -146,8 +147,8 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,
         );
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'Not started');
       }
        
         res.redirect('/da/accept-subcontractors');

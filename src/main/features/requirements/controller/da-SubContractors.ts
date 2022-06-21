@@ -46,6 +46,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       SubContractorAccepted: isSubContractorAccepted,
       choosenViewPath,
     };
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'In progress');
     res.render('da-SubContractors', windowAppendData);
   } catch (error) {
     req.session['isValidationError'] = true;
@@ -83,7 +84,7 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
     const { da_subContractors } = req.body;
 
     if (da_subContractors !== undefined && da_subContractors !== '') {
-      const da_acceptsubcontractors = da_subContractors == 'yes' ? true : false;
+      const da_acceptsubcontractors = da_subContractors.toLowerCase() == 'yes' ? true : false;
       req.session['CapAss'].isSubContractorAccepted=da_acceptsubcontractors
       const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
@@ -93,7 +94,7 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           weighting: dimension.weighting,
           requirements: dimension.requirements,
           includedCriteria: dimension.includedCriteria.map(criteria => {
-            if (!da_acceptsubcontractors && criteria['name'] == 'Sub Contractor') {
+            if (!da_acceptsubcontractors && criteria['name'].toLowerCase() == 'sub contractor') {
               return null;
             } else
               return {
@@ -106,8 +107,8 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           body,
         );
       }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/66`, 'Not started');
 
       res.redirect(REQUIREMENT_PATHS.DA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
