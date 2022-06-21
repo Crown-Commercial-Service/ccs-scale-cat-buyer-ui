@@ -27,7 +27,6 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     currentEvent,
     designations,
     tableItems,
-    dimensions,
     choosenViewPath,    
   } = req.session;
   const { assessmentId } = currentEvent;
@@ -51,6 +50,14 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       dimensionResourceQuantity=dimensionRequirementsData.filter(item=>item["dimension-id"]==1);
       dimensionResourceQuantities=dimensionRequirementsData.filter(item=>item["dimension-id"]==7);
     }
+    
+    const EXTERNAL_ID = assessmentDetail['external-tool-id'];
+
+    const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
+    const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+    const CAPACITY_DATASET = CAPACITY_DATA.data;
+
+    const dimensions=[...CAPACITY_DATASET];
     const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
     const LEVEL2CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Security Clearance')[0];
 
@@ -280,6 +287,23 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
 
     let isError=false;
 
+    const Mapped_weight_staff_validation = weight_staff.map(item => item !== '');
+    let IndexStorageValidation = [];
+
+    for (var i = 0; i < Mapped_weight_staff_validation.length; i++) {
+      if (Mapped_weight_staff_validation[i] == true) {
+        IndexStorageValidation.push(i);
+      }
+    }
+
+    let IndexStorageStaffValidation = IndexStorageValidation.map(Index => {
+      
+      const GroupName = weigthage_group_name[Index];
+      return {
+        "ParentName": GroupName
+      }    
+    });
+
     let isWeightStaffArrayEmpty=weight_staff.every(value=>value==='');
     let isWeightVettingArrayEmpty=weight_vetting.every(value=>value==='');
     let isSFIAweightageArrayEmpty=SFIA_weightage.every(value=>value==='');
@@ -307,12 +331,15 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       element.category.forEach(category => {
         end=first+category.designations.length;
         let SFIA_weightage_subarray=SFIA_weightage.slice(first,end);
-        if(SFIA_weightage_subarray.some(value=>value!='') && SFIA_weightage_subarray.some(value=>value==''))
+        let dataNeeded=IndexStorageStaffValidation.findIndex(d=>d.ParentName==category.ParentName);
+        if(dataNeeded!=-1){
+        if(SFIA_weightage_subarray.every(value=>value===''))
         {
           if(!errorTextSumary.find(i=>i.id==2))
-          {isError=true; errorTextSumary.push({ id: 2, text: 'All boxes in the Role Family must either be  empty or fully populated' });}
+          {isError=true; errorTextSumary.push({ id: 2, text: 'Quantity should be added for at least one role in DDAT family' });}
           
         }
+      }
         first=end;
       });
     });
@@ -454,7 +481,14 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       };
     });
 
-    const dimension = req.session.dimensions;
+    // const dimension = req.session.dimensions;
+    const EXTERNAL_ID = assessments['external-tool-id'];
+
+    const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
+    const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+    const CAPACITY_DATASET = CAPACITY_DATA.data;
+
+    const dimension=[...CAPACITY_DATASET];
   let resourcesData = dimension.filter(data => data["dimension-id"] === 1)[0];
   let body = {
     name: resourcesData['name'],
