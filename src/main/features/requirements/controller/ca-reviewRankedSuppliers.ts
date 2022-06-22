@@ -11,6 +11,7 @@ import { CAGetRequirementDetails } from '../../shared/CAGetRequirementDetails';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import {CAGetRequirementDetails} from '../../shared/CAGetRequirementDetails';
 const excelJS= require('exceljs');
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
@@ -178,8 +179,10 @@ export const CA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
     }
     else {
       const appendData = { ...dataRRSMod, choosenViewPath, numSuppliers, RankedSuppliers: TopRankScores, BelowRankScores: BelowRankScores, lotSuppliers: lotSuppliers, Justification: Justification, releatedContent, isError, errorText };
-
+      let flag = await ShouldEventStatusBeUpdated(projectId, 54, req);
+        if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+        }
       res.render('ca-reviewRankedSuppliers', appendData);
     }
 
@@ -268,7 +271,10 @@ export const CA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
     const response = await TenderApi.Instance(SESSION_ID).post(Supplier_BASEURL, body);
     if (response.status == 200) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(projectId, 55, req);
+        if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');
+        }
       res.redirect('/ca/next-steps');
     }
     else {

@@ -5,6 +5,7 @@ import * as caResourcesVetting from '../../../resources/content/requirements/caR
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -259,7 +260,10 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       total_res,total_ws,total_wv
     };
 
+    let flag = await ShouldEventStatusBeUpdated(projectId, 48, req);
+        if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'In progress');
+        }
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -548,7 +552,10 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   }
   if(response.status==HttpStatusCode.OK){
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
+    let flag = await ShouldEventStatusBeUpdated(projectId, 49, req);
+        if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
+        }
     res.redirect('/ca/choose-security-requirements');
   }
   else{
