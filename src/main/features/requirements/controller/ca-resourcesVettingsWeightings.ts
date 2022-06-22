@@ -287,23 +287,7 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
 
     let isError=false;
 
-    const Mapped_weight_staff_validation = weight_staff.map(item => item !== '');
-    let IndexStorageValidation = [];
-
-    for (var i = 0; i < Mapped_weight_staff_validation.length; i++) {
-      if (Mapped_weight_staff_validation[i] == true) {
-        IndexStorageValidation.push(i);
-      }
-    }
-
-    let IndexStorageStaffValidation = IndexStorageValidation.map(Index => {
-      
-      const GroupName = weigthage_group_name[Index];
-      return {
-        "ParentName": GroupName
-      }    
-    });
-
+    
     let isWeightStaffArrayEmpty=weight_staff.every(value=>value==='');
     let isWeightVettingArrayEmpty=weight_vetting.every(value=>value==='');
     let isSFIAweightageArrayEmpty=SFIA_weightage.every(value=>value==='');
@@ -331,15 +315,13 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       element.category.forEach(category => {
         end=first+category.designations.length;
         let SFIA_weightage_subarray=SFIA_weightage.slice(first,end);
-        let dataNeeded=IndexStorageStaffValidation.findIndex(d=>d.ParentName==category.ParentName);
-        if(dataNeeded!=-1){
-        if(SFIA_weightage_subarray.every(value=>value===''))
+        if(SFIA_weightage_subarray.some(value=>value!='') && SFIA_weightage_subarray.some(value=>value==''))
         {
           if(!errorTextSumary.find(i=>i.id==2))
-          {isError=true; errorTextSumary.push({ id: 2, text: 'Quantity should be added for at least one role in DDAT family' });}
+          {isError=true; errorTextSumary.push({ id: 2, text: 'All boxes in the Role Family must either be  empty or fully populated' });}
           
         }
-      }
+      
         first=end;
       });
     });

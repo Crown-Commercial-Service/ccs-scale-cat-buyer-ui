@@ -41,6 +41,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     error: isJaggaerError,
   };
   try {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'In progress');
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
     let weightingsArray = [];

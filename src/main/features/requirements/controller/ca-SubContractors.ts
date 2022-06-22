@@ -32,6 +32,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     error: isValidationError,
   };
   try {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'In progress');
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
     isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
