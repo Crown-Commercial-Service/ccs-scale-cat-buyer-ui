@@ -200,5 +200,75 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     }
   }
+  if (document.getElementById("ccs_da_menu_tabs_form_later") !== null) {
+    let inputs;
+    let container;
+    let oldIdName = '';
+    let oldIdValue = '';
+    let repeated = false;
+    //const total_resources = document.getElementById('total-resources');
+    const total_staffs = document.getElementById('total-staff');
+    const total_vettings = document.getElementById('total-vetting');
+    container = document.getElementById('ccs_da_menu_tabs_form_later');
+    inputs = container.getElementsByTagName('input');
+
+    let values = [];
+    let keys = [];
+    for (let index = 0; index < inputs.length; ++index) {
+      if(inputs[index].type!='hidden'){
+      // inputs[index].value = '';
+      inputs[index].addEventListener('focus', function (e) {
+        oldIdName = e.currentTarget.id;
+        oldIdValue = e.currentTarget.value;
+      }, true);
+      inputs[index].addEventListener('change', function (event) {
+        event.preventDefault();
+        let indx = 0;
+        if (weight_staff.includes(event.currentTarget.id)) {
+          repeated = false;
+
+          if (staffIDs.length !== 0) {
+            keys = Object.keys(staffIDs[0]);
+            repeated = keys.find(key => {
+              if (key === event.currentTarget.id) {
+                return key;
+              }
+            });
+          }
+          if (repeated === undefined) repeated = false;
+          // if there is not repeated element
+          if (staffIDs.length === 0 || (repeated !== event.currentTarget.id && !repeated)) {
+            const idName = event.currentTarget.id;
+            staffIDs.push({ [idName]: event.currentTarget.value });
+            //values = Object.values(staffIDs[0]);
+            //keys = Object.keys(staffIDs[0]);
+            total_staffs.innerHTML = staffIDs.reduce((acc, value, i) => {
+              if (staffIDs.length === 1) indx = i + 1;
+
+              console.log('the indx ', Object.values(staffIDs.slice(-1)[0])[0])
+              let v = Object.values(staffIDs.slice(-1)[0])[0];
+              return (parseInt(acc) + parseInt(v));
+            }, 0);
+          } else {
+            //  if there is repeated element
+            const idName = event.currentTarget.id;
+            staffIDs.splice(-1, 1, { [idName]: event.currentTarget.value });
+            total_staffs.innerHTML = staffIDs.reduce((acc, value, i) => {
+              // console.log(Object.values(value)[staffIDs.length - indx])
+              //if (staffIDs.length === 1) indx = i + 1;
+
+              let v = Object.values(staffIDs.slice(-1)[0])[0];
+              // if (oldIdName === idName && staffIDs.length >= 2) {
+              //   oldIdValue = 0;
+              // }
+              if (i > 1) oldIdValue = 0;
+              return ((parseInt(acc) - Number(oldIdValue)) + parseInt(v));
+            }, 0);
+          }
+        }
+      })
+    }
+    }}
 }
+
 });

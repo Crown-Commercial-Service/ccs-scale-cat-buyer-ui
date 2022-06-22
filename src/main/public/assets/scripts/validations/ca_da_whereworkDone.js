@@ -29,6 +29,26 @@ document.addEventListener('DOMContentLoaded', () => {
     return false;
   });
 
+  $('.da_whereworkdone_popup').on('click', function () {
+    
+    if ($(this).hasClass('selected')) {
+      deselect($(this));
+      $(".backdrop-vetting").fadeOut(200);
+       } else {
+      $(".backdrop-vetting").fadeTo(200, 1);
+     let btnSend = document.querySelector('#redirect-button-vetting');
+      if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
+        btnSend.setAttribute('name', this.innerHTML);
+      } else {
+        btnSend.setAttribute('name', 'CCS website');
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+      }
+      $(this).addClass('selected');
+       $('.pop').slideFadeToggle();
+    }
+    return false;
+  });
+
   function deselect(e) {
     
     $('.pop').slideFadeToggle(function () {
