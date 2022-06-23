@@ -59,7 +59,7 @@ export const DA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
 
   req.session.isError = false;
   req.session.errorText = '';
-  const appendData = { ...data, choosenViewPath, releatedContent, isError, errorText };
+  const appendData = { ...data, choosenViewPath, releatedContent, isError, errorText,totalQuantityda };
   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/67`, 'In progress');
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('da-chooseSecurityRequirements', appendData);
