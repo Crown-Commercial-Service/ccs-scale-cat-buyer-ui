@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
       if (score_criteria_fieldset == 1) {
-        document.getElementById('rfp_score_criteria_name_' + 1).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[0]?.at(0).text != undefined ? rowsAndHead?.rows[0]?.at(0).text : '';
-        document.getElementById('rfp_score_criteria_point_' + 1).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[0]?.at(1).text != undefined ? rowsAndHead?.rows[0]?.at(1).text : '';
-        document.getElementById('rfp_score_criteria_desc_' + 1).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[0]?.at(2).text != undefined ? rowsAndHead?.rows[0]?.at(2).text : '';
+        document.getElementById('rfp_score_criteria_name_' + 1).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[0]?.at(0).text != undefined ? rowsAndHead?.rows[0]?.at(0).text : '';
+        document.getElementById('rfp_score_criteria_point_' + 1).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[0]?.at(1).text != undefined ? rowsAndHead?.rows[0]?.at(1).text : '';
+        document.getElementById('rfp_score_criteria_desc_' + 1).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[0]?.at(2).text != undefined ? rowsAndHead?.rows[0]?.at(2).text : '';
       } else {
-        document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text : '';
-        document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text : '';
-        document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text : '';
+        document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text : '';
+        document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text : '';
+        document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text : '';
       }
 
       let this_fieldset = document.querySelector('.score_criteria_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset)),
