@@ -84,7 +84,7 @@
                      <td class="govuk-text-align">
                       <a class="govuk-link" href="/evaluate-download?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
                     </td> 
-                    <td class="govuk-table__cell"> <a href="/enter-evaluation?supplierid={{supplier.id}}&suppliername={{supplier.name}}" class="govuk-link govuk-link--no-visited-state"> Add or edit </a></td>
+                    <td class="govuk-table__cell"> <a href="/enter-evaluation?supplierid={{supplier.id}}&suppliername={{supplier.name}}&evaluation={{supplier.Evaluation}}" class="govuk-link govuk-link--no-visited-state"> Add or edit </a></td>
                     <td class="govuk-table__cell"> Yes/No </td>
                   </tr>
               </tbody>
@@ -136,11 +136,11 @@
       <a href="#" class="dialog-close-evaluatesuppliers nav-list__link_secondary">X</a></p>
     </div>
     <div class="govuk-grid-column-full">
-      <h1 id="dialog-title">This action will close your current event and project, without the option to re-open<p></p>
-      <p id="dialog-description">This action cannot be undone</p>
+      <h1 id="dialog-title">You are about to complete your evaluation<p></p>
+      <p id="dialog-description">Click Continue, or click Return to further edit your scores.</p>
       <div class="govuk-button-group">
         <button id="redirect-button-evaluatesuppliers" class="button dialog-button govuk-button" name="Evaluate Suppliers">Continue</button>
-        <a href="#" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Cancel</a>
+        <a href="#" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Return</a>
       </div>
     </h1></div>
   </div>

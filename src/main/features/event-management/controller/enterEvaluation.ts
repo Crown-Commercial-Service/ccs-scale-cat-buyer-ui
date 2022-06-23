@@ -25,10 +25,14 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     const { SESSION_ID } = req.cookies
     const { eventId } = req.session;//projectId,
     const { supplierid , suppliername } = req.query;
+    let { Evaluation } = req.query;
+    const { isEmptyProjectError } = req.session;
+    req.session['isEmptyProjectError'] = false;
+
     
 
     // Event header
-    res.locals.agreement_header = { project_name: project_name, agreementName, agreement_id, agreementLotName, lotid }
+    res.locals.agreement_header = { project_name: project_name,Evaluation, agreementName, agreement_id, agreementLotName, lotid }
    
   try{
     //Supplier of interest
@@ -36,7 +40,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     
 
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,data: eventManagementData,  eventId, suppliername, supplierid, suppliers: localData , }
+          const appendData = { releatedContent,data: eventManagementData,error: isEmptyProjectError,  eventId, suppliername, supplierid, suppliers: localData , }
 
     res.render('enterEvaluation',appendData);     
     
@@ -59,10 +63,9 @@ export const ENTER_EVALUATION_POST = async (req: express.Request, res: express.R
   const { eventId } = req.session;
   const { supplierid } = req.query;
   const {enter_evaluation_feedback,enter_evaluation_score} =req.body;
-  //let id;
+  //let EvaluationStatus = Evaluation;
 
 try{
-    
     const body = [
                 {
                   organisationId: supplierid ,
@@ -74,7 +77,7 @@ try{
               await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
-              
+              //res.render('evaluateSuppliers')
               //res.redirect('/evaluate-suppliers'); 
     
    

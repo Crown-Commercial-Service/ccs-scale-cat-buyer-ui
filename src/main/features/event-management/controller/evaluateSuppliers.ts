@@ -25,8 +25,8 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     const { SESSION_ID } = req.cookies
     const { projectId,eventId } = req.session;
     const { download } = req.query;
-    let completionStatus = 'No';
-    
+    const supplierScores = await TenderApi.Instance(SESSION_ID).get(`tenders/projects/${projectId}/events/${eventId}/scores`) 
+    const supplierScoresandFeedback = supplierScores.data;
 
     // Event header
     res.locals.agreement_header = { project_name: project_name, agreementName, agreement_id, agreementLotName, lotid }
@@ -39,9 +39,11 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     }
       else {
   try{
+
     //Supplier of interest
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL) 
+    
     let supplierName = [];
 
     let showallDownload = false;
@@ -53,8 +55,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
         "name": supplierdata.data.responders[i].supplier.name,
 
         "responseState": supplierdata.data.responders[i].responseState,
-        "responseDate": supplierdata.data.responders[i].responseDate
-
+        "responseDate": supplierdata.data.responders[i].responseDate,
       }
      
       supplierName.push(dataPrepared)
@@ -62,7 +63,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     const supplierSummary = supplierdata.data;
 
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,data: eventManagementData, completionStatus,  eventId, supplierName, supplierSummary, showallDownload, suppliers: localData , }
+          const appendData = { releatedContent,data: eventManagementData, supplierScoresandFeedback,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData , }
 
     res.render('evaluateSuppliers',appendData);     
     

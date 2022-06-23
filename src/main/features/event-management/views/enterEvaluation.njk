@@ -85,7 +85,11 @@
                             spellcheck: false,
                             classes: "govuk-input--width-2 dimensions",
                             value: enter_evaluation.value,
-                            maxlength: "3"
+                            maxlength: "3",
+                            min:00.00,
+                            max:100.00,
+                            inputmode:"numeric",
+                            type: numeric
                         })
                       }}
 
@@ -102,23 +106,15 @@
                              text: "Feedback should be constructive and relevant to the answers the supplier submitted.Try and include feedback about something positive, as well as areas of improvement."
                             },
                             
-                            id: "enter_evaluation_feedback"+supplier.name,
+                            id: "enter_evaluation_feedback"+suppliername,
                             name: "enter_evaluation_feedback",
                             spellcheck: true,
                             classes: "govuk-input",
-                            value: enter_evaluation.value,
                             maxlength: "5000"
                         })
                       }}
+<p><label id="supplierFeedback"></label></p>
 
-                      {{ CCSInput({
-                          id: "requirement_id",
-                          name: "requirement_id",
-                          type: "hidden",
-                          value: elem["requirement-id"]
-                      })
-                      }}
-                      <br/>
                      <div class="govuk-button-group">
                         {{ CCSButton({
                             text: "Save supplier feedback"
