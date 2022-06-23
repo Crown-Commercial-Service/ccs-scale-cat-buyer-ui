@@ -62,7 +62,12 @@
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                   </th>
-                  <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
+                  {% if event.activeEvent.eventType =='TBD' %}
+                  <td class="govuk-table__cell"> N/A </td>
+                   {% else %}    
+                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td> 
+                     {% endif %}
+
                   <td class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
@@ -100,7 +105,12 @@
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                   </th>
-                  <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
+                  {% if event.activeEvent.eventType =='TBD' %}
+                  <td class="govuk-table__cell"> N/A </td>
+                   {% else %}    
+                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td> 
+                     {% endif %}
+
                   <td class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
@@ -172,7 +182,12 @@
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
                   </th>
-                  <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
+                  {% if event.activeEvent.eventType =='TBD' %}
+                  <td class="govuk-table__cell"> N/A </td>
+                   {% else %}    
+                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td> 
+                     {% endif %}
+
                   <td class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
@@ -209,7 +224,12 @@
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
                   </th>
-                  <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
+                  {% if event.activeEvent.eventType =='TBD' %}
+                  <td class="govuk-table__cell"> N/A </td>
+                   {% else %}    
+                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td> 
+                     {% endif %}
+
                   <td class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
