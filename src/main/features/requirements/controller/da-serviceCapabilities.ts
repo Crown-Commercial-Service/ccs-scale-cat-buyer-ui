@@ -21,6 +21,7 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     agreement_id,
     releatedContent,
     project_name,
+    choosenViewPath,
     isError,
     errorText,
     currentEvent
@@ -276,8 +277,8 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
 
 
-    const windowAppendData = { ...daService, totalWeighting, lotId, agreementLotName, releatedContent, isError, errorText, TABLE_HEADING: TableHeadings, TABLE_BODY: TABLEBODY, WHOLECLUSTER: WHOLECLUSTERCELLS };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'In progress');
+    const windowAppendData = { ...daService, totalWeighting, lotId, agreementLotName, releatedContent, choosenViewPath,isError, errorText, TABLE_HEADING: TableHeadings, TABLE_BODY: TABLEBODY, WHOLECLUSTER: WHOLECLUSTERCELLS };
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/68`, 'In progress');
 
     //res.json(UNIQUE_DESIGNATION_HEADINGS_ARR)
     res.render('da-serviceCapabilities', windowAppendData);
@@ -548,8 +549,8 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
 
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/68`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/69`, 'Not started');
 
       res.redirect('/da/team-scale');
 

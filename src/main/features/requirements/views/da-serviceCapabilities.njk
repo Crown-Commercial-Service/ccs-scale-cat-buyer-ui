@@ -188,8 +188,8 @@
               id: "form_submit"
             })
         }}
-         
-        <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
+         {% set returnLink = "/da/task-list?path="+choosenViewPath %}
+        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
       </div>
     </div>
      </form>
