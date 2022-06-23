@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (name_box.value !== '' && name_box.value !== undefined && name_box.value !== null) {
             //if (score_criteria_fieldset !== 1) {
             activateField += 1;
+            document.getElementById('tiersAdded').textContent = activateField;
             //}
             this_fieldset.classList.remove('ccs-dynaform-hidden');
             if (score_criteria_fieldset === 10) {
