@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         $('#rfp_choose_security_form').on('submit', (e) => {
             var resources=$('.rfp_choosesecurity_resources').val();
-            debugger
+            
             var totalQuantityrfp=$('#totalQuantityrfp').val();  
             var choosenoption=$('input[name="ccs_rfp_choose_security"]:checked').val();   
             var selectednumber=choosenoption?choosenoption.replace(/[^0-9.]/g, ''):null   
@@ -53,12 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         $('#ca_choose_security_form').on('submit', (e) => {
             var resources=$('.ca_choosesecurity_resources').val();
-            debugger
+            
             var totalQuantityca=$('#totalQuantityca').val();  
             var choosenoption=$('input[name="ccs_ca_choose_security"]:checked').val();   
             var selectednumber=choosenoption?choosenoption.replace(/[^0-9.]/g, ''):null           
             if( $('input:radio[name="ccs_ca_choose_security"]:checked').length == 0)
-            {          debugger       
+            {                 
                     e.preventDefault();
                     $('#ca_choose_security_error_summary').removeClass('hide-block');
                     $('.govuk-error-summary__title').text('There is a problem');
