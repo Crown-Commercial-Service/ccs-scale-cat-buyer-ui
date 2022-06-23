@@ -27,6 +27,7 @@
             <div class="govuk-grid-column-two-thirds">
                {% for table in requirement.nonOCDS.options %}
                <input type="hidden" class="tierLable" tierLable="{{table.text}}" id="tiersTableData" value="{{table.optiontableDefinationJsonString}}" >
+                   {%if(table.text !=='Create your own scoring criteria')%}
                     {{ CCSTable({
                         caption: table.optiontableDefination.rows.length+' tier scoring criteria',
                         captionClasses: "govuk-table__caption--m",
@@ -35,6 +36,7 @@
                         rows:table.optiontableDefination.rows
                     }) }}
                     <br>
+                    {%endif%}
                 {% endfor %}
             </div>
   </div>
@@ -566,7 +568,7 @@
 
                       }) }}
 
-              {% if- (requirement.OCDS.title === 'Price') %}
+              {% if- (requirement.OCDS.title === 'Price' or requirement.OCDS.title === 'Social value') %}
               <div>
                 {{ CCSInsetText({
                       text: "<b> The total weighting is : <span id='totalPercentage'>100</span>% </b> " | safe
