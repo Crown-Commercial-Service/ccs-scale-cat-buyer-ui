@@ -33,16 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
         rowsAndHead = e.attributes?.[4]?.value != null ? JSON.parse(e.attributes?.[4]?.value) : null;
       }
     })
-    console.log(rowsAndHead)
+
     for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
       if (score_criteria_fieldset == 1) {
-        document.getElementById('rfp_score_criteria_name_' + 1).value = rowsAndHead?.rows[0]?.at(0).text != undefined ? rowsAndHead?.rows[0]?.at(0).text : '';
-        document.getElementById('rfp_score_criteria_point_' + 1).value = rowsAndHead?.rows[0]?.at(1).text != undefined ? rowsAndHead?.rows[0]?.at(1).text : '';
-        document.getElementById('rfp_score_criteria_desc_' + 1).value = rowsAndHead?.rows[0]?.at(2).text != undefined ? rowsAndHead?.rows[0]?.at(2).text : '';
+        document.getElementById('rfp_score_criteria_name_' + 1).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[0]?.at(0).text != undefined ? rowsAndHead?.rows[0]?.at(0).text : '';
+        document.getElementById('rfp_score_criteria_point_' + 1).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[0]?.at(1).text != undefined ? rowsAndHead?.rows[0]?.at(1).text : '';
+        document.getElementById('rfp_score_criteria_desc_' + 1).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[0]?.at(2).text != undefined ? rowsAndHead?.rows[0]?.at(2).text : '';
       } else {
-        document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text : '';
-        document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text : '';
-        document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text : '';
+        document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text : '';
+        document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text : '';
+        document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != undefined && rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text : '';
       }
 
       let this_fieldset = document.querySelector('.score_criteria_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset)),
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (score_criteria_fieldset === 10) {
           document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
         }
-        document.getElementById('tiersAdded').textContent=score_criteria_fieldset;
+        document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
       } else if (score_criteria_fieldset !== 0) {
         this_fieldset?.classList.add('ccs-dynaform-hidden');
         with_value_count = score_criteria_fieldset;
@@ -200,9 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('rfp_score_criteria_point_' + 1).value = resetTierData[0]?.point != undefined ? resetTierData[0]?.point : '';
             document.getElementById('rfp_score_criteria_desc_' + 1).value = resetTierData[0]?.desc != undefined ? resetTierData[0]?.desc : '';
           } else {
-            document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset-1]?.name != undefined ? resetTierData[score_criteria_fieldset-1]?.name : '';
-            document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset-1]?.point != undefined ? resetTierData[score_criteria_fieldset-1]?.point : '';
-            document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset-1]?.desc != undefined ? resetTierData[score_criteria_fieldset-1]?.desc : '';
+            document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1]?.name != undefined ? resetTierData[score_criteria_fieldset - 1]?.name : '';
+            document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1]?.point != undefined ? resetTierData[score_criteria_fieldset - 1]?.point : '';
+            document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = resetTierData[score_criteria_fieldset - 1]?.desc != undefined ? resetTierData[score_criteria_fieldset - 1]?.desc : '';
           }
 
           let this_fieldset = document.querySelector('.score_criteria_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset)),
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (score_criteria_fieldset === 10) {
               document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
             }
-            document.getElementById('tiersAdded').textContent=score_criteria_fieldset;
+            document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
           } else if (score_criteria_fieldset !== 0) {
             this_fieldset?.classList.add('ccs-dynaform-hidden');
             with_value_count = score_criteria_fieldset;
