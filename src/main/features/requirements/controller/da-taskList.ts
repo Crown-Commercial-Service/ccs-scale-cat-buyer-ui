@@ -52,6 +52,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   
     switch (path) {
       case 'B1':
+        req.session['choosenViewPath'] = 'B1';
         ViewLoadedTemplateData = isSummaryDone ? B1_Template : B1_Template ;
         break;
   
@@ -70,7 +71,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
       default:
         res.redirect('error/404');
     }
-
+    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'DAA', agreementId_session, projectId, eventId);
 
 
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
@@ -117,7 +118,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
       return {
         url: `#section${index + 1}`,
         text: designation['job-category'],
-        subtext: `${weightage.min}% / ${weightage.max}%`,
+        subtext:  "0 resources added,0% / 0%",
       };
     });
 
