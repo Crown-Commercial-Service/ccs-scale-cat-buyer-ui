@@ -22,11 +22,11 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
     const { dimensionRequirements } = assessments;
 
     let selectedOption;
-    let totalQuantityrfp;
+    let totalQuantityrfp=0;
     if (dimensionRequirements.length > 0) {
       if(dimensionRequirements.filter(dimension => dimension["dimension-id"] === 7).length>0)
       {
-        totalQuantityrfp=dimensionRequirements.filter(x=>x["dimension-id"])[0].requirements.map(a => a.weighting).reduce(function(a, b)
+        totalQuantityrfp=dimensionRequirements.filter(x=>x["dimension-id"]=== 7)[0].requirements.map(a => a.weighting).reduce(function(a, b)
       {
          return a + b;
       });
@@ -54,7 +54,7 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       .evaluationCriteria.find(criteria => criteria['criterion-id'] === '0').options;
     req.session.isError = false;
     req.session.errorText = '';
-    const appendData = { ...data, releatedContent, isError, errorText };
+    const appendData = { ...data, releatedContent, isError, errorText,totalQuantityrfp };
 
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     let flag=await ShouldEventStatusBeUpdated(projectId,34,req);
