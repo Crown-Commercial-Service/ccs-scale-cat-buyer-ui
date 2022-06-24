@@ -49,15 +49,18 @@
           {% include "includes/project_header.njk" %}
 
           <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
+          <p class="govuk-body">{{data.SUBTITLE_1}}
           <ul type="disc">
           <li>{{data.subtitle1}}</li>
           <li>{{data.subtitle2}}</li>
           <li>{{data.subtitle3}}</li>
           </ul>
+          </p>
+          <br/>
           <div id="upload_doc_form">
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full" id="documents_upload">
-                <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">Upload documents</label>
+                <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">Upload terms and conditions (Mandatory)</label>
                 <span id="rfp_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
                 <p class="govuk-body-s">
                   {{data.filedesc}}</p>
@@ -129,7 +132,8 @@
                 </div>
               </form>
               {%endif%}
-
+              <p class="govuk-body">{{data.subtitle4}}</p>
+              <br/>
               <form action="/rfp/upload-doc/proceed" method="post">
                 {{ csrfProtection(csrf) }}
                 <div class="govuk-button-group">
