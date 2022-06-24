@@ -11,7 +11,7 @@
       "href": "/dashboard"
     },
     {
-      "text": "Project section",
+      "text": "Your project",
       "href": "#"
     }
   ]
@@ -35,7 +35,8 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <p class="govuk-!-padding-bottom-9">
-          {{data.subtitle}}
+          {{data.subtitle}}<br><br>
+          {{data.subtitle1}}
         </p>
         <div>
           <h2 class="govuk-heading-m">
@@ -188,6 +189,7 @@
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
               <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
+              {% if(showallDownload) %}
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
@@ -195,6 +197,7 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                 </tr>
               </thead>
+              {% endif %}
               <tbody class="govuk-table__body">
                 {% for supplier in supplierName %}
                 {% if supplier.responseState =='Submitted'  %}

@@ -151,10 +151,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           break
         case "EOI":
           redirectUrl = '/eoi/eoi-tasklist'
-          break
-        case "TBD":
-          redirectUrl = '/projects/create-or-choose'
-          break
+          break    
         case "DA":
           redirectUrl = '/da/task-list?path=B1'
           break
@@ -174,6 +171,21 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           break
         case "FCA":
           redirectUrl = '/ca/task-list?path=A1'
+          break
+        default:
+          redirectUrl = '/event/management'
+          break
+      }
+      res.redirect(redirectUrl)
+    } else if (status.toLowerCase() == 'unknown') {
+      switch (eventType) {
+        case "TBD":
+          const { eventId, projectId, procurements } = req.session;
+          const currentProcNum = procurements.findIndex(
+            (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,
+          );
+          req.session.procurements[currentProcNum].started = false;
+          redirectUrl = '/projects/create-or-choose'
           break
         default:
           redirectUrl = '/event/management'
