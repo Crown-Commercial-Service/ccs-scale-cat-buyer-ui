@@ -31,24 +31,21 @@ document.addEventListener('DOMContentLoaded', () => {
     tierDataList.forEach(e => {
       if (e.attributes?.[2]?.textContent?.toLowerCase() === 'Create your own scoring criteria'.toLowerCase()) {
         rowsAndHead = e.attributes?.[4]?.value != null ? JSON.parse(e.attributes?.[4]?.value) : null;
+
       }
     })
 
     for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
       if (score_criteria_fieldset == 1) {
-        document.getElementById('rfp_score_criteria_name_' + 1).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[0]?.at(0).text != undefined ? rowsAndHead?.rows[0]?.at(0).text : '';
-        document.getElementById('rfp_score_criteria_point_' + 1).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[0]?.at(1).text != undefined ? rowsAndHead?.rows[0]?.at(1).text : '';
-        document.getElementById('rfp_score_criteria_desc_' + 1).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[0]?.at(2).text != undefined ? rowsAndHead?.rows[0]?.at(2).text : '';
-      } else {
-        document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text : '';
-        document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text : '';
-        document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text : '';
+        rowsAndHead?.rows?.unshift([{ text: 'ignore' }]);
       }
+
+      document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(0).text : '';
+      document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(1).text : '';
+      document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = rowsAndHead != undefined && rowsAndHead != null && rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text != undefined ? rowsAndHead?.rows[score_criteria_fieldset]?.at(2).text : '';
 
       let this_fieldset = document.querySelector('.score_criteria_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset)),
         name_box = document.getElementById('rfp_score_criteria_name_' + (score_criteria_fieldset === 0 ? 1 : score_criteria_fieldset));
-      //document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset);
-      //element.classList.add("ccs-dynaform-hidden");
 
       if (name_box.value !== '' && name_box.value !== undefined && name_box.value !== null) {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
@@ -56,13 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
         }
         document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
-      } else if (score_criteria_fieldset !== 0) {
+      } else if (score_criteria_fieldset !== 1) {
         this_fieldset?.classList.add('ccs-dynaform-hidden');
         with_value_count = score_criteria_fieldset;
-      }
-      if (score_criteria_fieldset === 1) {
-        this_fieldset?.classList.remove('ccs-dynaform-hidden');
-        with_value_count = 1;
       }
     }
     document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
