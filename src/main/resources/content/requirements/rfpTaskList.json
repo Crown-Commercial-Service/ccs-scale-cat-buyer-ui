@@ -141,7 +141,7 @@
         },
         {
           "Task": 2,
-          "title": "Set your scoring criteria",
+          "title": "How you will score suppliers",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfp/set-scoring-criteria"
