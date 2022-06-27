@@ -58,16 +58,16 @@
       <div class="govuk-grid-column-full">
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">
-            {{data.subsection3_title}}</h2>
-          <p class="govuk-body"><strong>({{unreadMessage}} unread messages)</strong></p>
+            {{data.subsection3_title}}<br>
+          ({{unreadMessage}} unread messages)</h2>
           <p class="govuk-body">
             <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
           </p>
         </div>
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">
-            {{data.subsection3_title2}}</h2>
-          <p class="govuk-body"><strong>({{ QAs.length }} unread messages )</strong></p>
+            {{data.subsection3_title2}}<br>
+         ({{ QAs.length }} unread messages )</h2>
           <p class="govuk-body">
             <a class="govuk-link" href="{{ data.subsection3_linkURL2 }}">{{ data.subsection3_linkText2 }}</a>
           </p>
@@ -159,7 +159,7 @@
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3}}</h2>
         <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
-        <p class="govuk-body">If you want to see any clarification questions,suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
+        <p class="govuk-body">If you want to see any clarification questions suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
         <p class="govuk-body">The deadline for response from suppliers is <strong>Day Month Year time</strong></p>
         <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_task1}}</strong>
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
@@ -292,19 +292,18 @@
         Evaluate suppliers</h2>
         <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project.</p>
         <p>You can only enter  your final evaluation score for each supplier in this serevice. You will need to complete your full evaluation offline.</p>
+      <div class="govuk-button-group">
+        {{ CCSButton({
+        text: "Start Supplier Evaluation",
+        href:"#"
+        }) }}
+        </div>
       </div>
       {% endif %}
       {% endif %}
      {#<div class="govuk-grid-row ccs-page-section">#}
      {#</div>#}
 
- 
- <div class="govuk-button-group">
-        {{ CCSButton({
-        text: "Start Supplier Evaluation",
-        href:"#"
-        }) }}
-        </div>
          {% if eventType !== 'FC' %}
       <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
