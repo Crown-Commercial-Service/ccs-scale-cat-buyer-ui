@@ -97,6 +97,7 @@
                             text: requirement.OCDS.title
                         },
                         label: {
+                            html: "Enter the name for this level <a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
                             text: requirement.OCDS.title,
                             classes: 'govuk-label govuk-label--m'
                         }
@@ -813,7 +814,7 @@
                         }) }}
                         <div id="rfp_keyterm"></div>
                       {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type !== 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true) and form_name === 'ccs_rfp_acronyms_form' %}
-                        <p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p>
+                        {# <p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p> #}
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
                             legend: {

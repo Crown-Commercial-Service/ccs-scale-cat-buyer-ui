@@ -140,16 +140,21 @@ document.addEventListener('DOMContentLoaded', () => {
           if (name_box.value !== '' && name_box.value !== undefined && name_box.value !== null) {
             //if (score_criteria_fieldset !== 1) {
             activateField += 1;
-            document.getElementById('tiersAdded').textContent = activateField;
+            document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
             //}
             this_fieldset.classList.remove('ccs-dynaform-hidden');
             if (score_criteria_fieldset === 10) {
               document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
+              errorStore.push(["There is a problem", 'You must add min maximum 10 tiers.']);
             }
           }
         }
         if ($(".score_criteria_" + Number(activateField)).length > 0 && $(".score_criteria_" + Number(activateField)).hasClass("ccs-dynaform-hidden")) {
           document.querySelector('.score_criteria_' + Number(activateField)).classList.remove('ccs-dynaform-hidden');
+          document.getElementById('tiersAdded').textContent = activateField;
+        }
+        if (errorStore.length > 0) {
+          ccsZPresentErrorSummary(errorStore);
         }
       } else ccsZPresentErrorSummary(errorStore);
     });
