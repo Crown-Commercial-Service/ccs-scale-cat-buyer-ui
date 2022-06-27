@@ -35,10 +35,12 @@
         {% set countryArray = [] %}
 
          {% for elem in locationArray %}
-         
+          {% if (elem.name === "Remote (Supplier's own site)") %}
+            {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name, checked:elem.checked, behaviour: "exclusive"}), countryArray) %}
+          {% else %}
            
             {% set countryArray = (countryArray.push({value: elem['requirement-id'], text: elem.name, checked:elem.checked}), countryArray) %}
-            
+            {% endif %}
             {% endfor %}
             
       <!-- {% for elem in locationArray %}
