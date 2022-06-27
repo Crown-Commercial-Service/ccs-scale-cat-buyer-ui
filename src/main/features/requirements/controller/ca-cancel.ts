@@ -13,7 +13,6 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 // import { JSDOM } from 'jsdom';
 // import { Parser } from 'json2csv';
 import { CalRankSuppliers } from '../../shared/CalRankSuppliers';
-import {CAGetRequirementDetails} from '../../shared/CAGetRequirementDetails';
 const excelJS= require('exceljs');
 import SampleData from '../../shared/SampleData.json';
 
@@ -28,7 +27,7 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
   const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ':' + lotid + '/lot-suppliers';
   const {download}=req.query;
   try {
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/38`, 'In progress');
     
     
     const appendData = {
@@ -36,8 +35,8 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
       releatedContent: releatedContent,
     };
     if(download!=undefined){
-      
-      const  assessmentId = currentEvent.assessmentId;//507 
+
+      const assessmentId = currentEvent.assessmentId;//507
       const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
       const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
       const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;//scores data
@@ -90,11 +89,12 @@ export const CA_GET_CANCEL = async (req: express.Request, res: express.Response)
         }
         dimensionsTable.push(dataPrepared);
       }
-      }
+    }
       
-      let requirementsTable=await CAGetRequirementDetails(req);
-      
+    let requirementsTable=await CAGetRequirementDetails(req);
+     
 
+    
     //   let supplierFields = ["Rank No.","Supplier Name","Supplier Trading Name","Total Score","Capacity Score","Security Clearance Score"
     // ,"Capability Score","Scalability Score","Location Score"];
     //   let json2csv = new Parser({supplierFields});

@@ -10,11 +10,11 @@ export const GET_UNPUBLISHED_EVENT_MANAGEMENT  = async (req: express.Request, re
     const agreementName = req.session.agreementName;
     const agreementId_session = req.session.agreement_id;
     const { SESSION_ID } = req.cookies; //jwt
-    const projectId = req.session.projectId;
+    const {eventId} = req.session;
     const agreementLotName = req.session.agreementLotName;
     req.session.unpublishedeventmanagement="true";
     const lotid = req.session?.lotId;
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
+    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     chooseRouteData.events[0].eventTask[0].status=getValue(journeySteps.filter((d:any) => d.step==28)?.[0]?.state);//procurement lead
     chooseRouteData.events[0].eventTask[1].status=getValue(journeySteps.filter((d:any) => d.step==29)?.[0]?.state);//collaborator
     const appendData = {

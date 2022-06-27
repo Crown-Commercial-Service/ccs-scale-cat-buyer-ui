@@ -18,6 +18,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     agreementLotName,
     agreementName,
     projectId,
+    eventId,
     agreement_id,
     releatedContent,
     project_name,
@@ -300,11 +301,10 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
     };
 
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
-    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,33,req);
-    if(flag)
-    {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/33`, 'In progress');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'In progress');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'In progress');
     }
     //res.json(StorageForSortedItems)
     res.render('rfp-vetting-weighting', windowAppendData);
@@ -325,7 +325,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
 
 export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, currentEvent } = req.session;
+  const { projectId, currentEvent,eventId } = req.session;
 
   const { SFIA_weightage, requirement_Id_SFIA_weightage } = req.body;
 
@@ -361,11 +361,10 @@ export const RFP_POST_VETTING_AND_WEIGHTING = async (req: express.Request, res: 
 
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/33`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,34,req);
-    if(flag)
-    {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/34`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
     }
     res.redirect('/rfp/choose-security-requirements');
   } catch (error) {

@@ -33,8 +33,7 @@ export class PreMarketEngagementMiddleware {
         let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
         const { data: eventTypes } = await TenderApi.Instance(SESSION_ID).get(eventTypesURL);
         req.session.haveFCA = eventTypes.some(event => event.type === 'FCA');
-        // getEventType = getEventType.data[0].eventType;
-        getEventType = getEventType.data.filter(d=>d.id==eventId)[0].eventType;
+        getEventType = getEventType.data.filter(x => x.id ==eventId)[0]?.eventType
         if (getEventType === 'TBD') {
           const { data } = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
           req.session.currentEvent = data;

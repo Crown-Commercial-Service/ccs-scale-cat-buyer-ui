@@ -61,7 +61,7 @@ export const CA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
 
 export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,eventId } = req.session;
+  const { projectId ,eventId} = req.session;
   const { choosenViewPath } = req.session;
 
   try {

@@ -11,10 +11,11 @@ import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdate
 export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const proj_Id = req.session.projectId;
-  let flag=await ShouldEventStatusBeUpdated(req.session.eventId,40,req);
+  const {eventId} = req.session;
+  let flag=await ShouldEventStatusBeUpdated(eventId,40,req);
     if(flag)
     {
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/40`, 'In progress');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'In progress');
     }
   RESPONSEDATEHELPER(req, res);
 };
@@ -29,7 +30,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
@@ -84,15 +85,15 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
     }
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/23`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/23`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/24`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/24`, 'Not started');
     }
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/40`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,41,req);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(eventId,41,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/41`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Not started');
     }
     res.redirect('/rfp/review');
   } catch (error) {

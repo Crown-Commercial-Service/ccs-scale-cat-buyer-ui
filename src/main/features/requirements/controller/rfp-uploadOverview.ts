@@ -15,7 +15,7 @@ import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdate
  */
 export const RFP_UPLOAD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const releatedContent = req.session.releatedContent;
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
@@ -28,10 +28,10 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   const appendData = { data: uploadData, releatedContent, error: isJaggaerError };
   try {
-    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,30,req);
+    let flag=await ShouldEventStatusBeUpdated(eventId,30,req);
     if(flag)
     {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/30`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
     }
     //37 changes to 30 BALWINDER 
     res.render('rfp-uploadOverview', appendData);

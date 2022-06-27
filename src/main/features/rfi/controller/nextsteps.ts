@@ -58,7 +58,7 @@ export const RFI_POST_NEXT_STEPS = async (req: express.Request, res: express.Res
         'choose_fc_rfi_next_steps',
       );
       const { rfi_next_steps } = filtered_body_content_removed_fc_key;
-      //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Not started');
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/55`, 'Not started');
       if (rfi_next_steps) {
         switch (rfi_next_steps) {
           case 'I want to close this event, and move to the next stage of the project':
@@ -71,18 +71,18 @@ export const RFI_POST_NEXT_STEPS = async (req: express.Request, res: express.Res
           const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
           if(data != null && data !=undefined)
           {
-            req.session['eventId'] =data.id;
+            req.session['eventId'] = data.id;
             req.session.procurements[0]['eventId'] = data.id;
             req.session.procurements[0]['eventType'] = data.eventType;
             req.session.procurements[0]['started'] = false;
           }
 
-           //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+           //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/steps/54`, 'Completed');
             res.redirect('/steps-to-continue');//scat-5012
             break;
   
           case 'I also want to close the whole project':
-            //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Not started');
+            //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/steps/54`, 'Not started');
             
             break;
   
@@ -91,7 +91,7 @@ export const RFI_POST_NEXT_STEPS = async (req: express.Request, res: express.Res
         }
       } else {
         req.session['isJaggaerError'] = true;
-       // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Completed');
+       // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/steps/58`, 'Completed');
         res.redirect('/rfi/nextsteps');
       }
     } catch (error) {

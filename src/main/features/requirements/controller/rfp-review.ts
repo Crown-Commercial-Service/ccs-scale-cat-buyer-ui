@@ -66,9 +66,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
   const BaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   const { checkboxerror } = req.session;
   try {
-    let flag = await ShouldEventStatusBeUpdated(req.session.eventId, 41, req);
+    let flag = await ShouldEventStatusBeUpdated(event_id, 41, req);
     if (flag) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/41`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/41`, 'In progress');
     }
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
@@ -698,11 +698,11 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
   if (finished_pre_engage && rfp_publish_confirmation === '1') {
     try {
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
-      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/2`, 'Completed');
+      // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/2`, 'Completed');
       // if (response.status == Number(HttpStatusCode.OK)) {
-      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${ProjectID}/steps/24`, 'Completed');
+      //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
       // }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/41`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/41`, 'Completed');
       res.redirect('/rfp/rfp-eventpublished');
     } catch (error) {
 

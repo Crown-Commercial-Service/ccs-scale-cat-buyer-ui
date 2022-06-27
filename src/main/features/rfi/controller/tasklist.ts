@@ -20,9 +20,9 @@ export const GET_TASKLIST = async (req: express.Request, res: express.Response) 
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     // if(journeySteps[9].state=="Cannot start yet")
     // {
-    //   await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/10`, 'Not started');
+    //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Not started');
     // }
-    // const { data: journeyrfi } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
+    // const { data: journeyrfi } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     // journeyrfi.forEach((element,index)=>{  
     //   if(element.step==9) journeyrfi.splice(index,1);
   // });

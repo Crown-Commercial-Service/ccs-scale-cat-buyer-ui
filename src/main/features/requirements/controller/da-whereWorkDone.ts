@@ -7,7 +7,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 
 export const DA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId, releatedContent, isError, errorText, dimensions,currentEvent } = req.session;
+  const { projectId, releatedContent, isError, errorText, dimensions,currentEvent,eventId } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
   var choosenViewPath = req.session.choosenViewPath;
@@ -42,7 +42,7 @@ export const DA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
       choosenViewPath,
       
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/70`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'In progress');
     res.render('da-whereWorkDone', appendData);
   } catch (error) {
     console.log(error);
@@ -75,7 +75,7 @@ function checkErrors(total) {
 
 export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, releatedContent, dimensions } = req.session;
+  const { eventId, releatedContent, dimensions } = req.session;
   const { da_locationweight: weights } = req['body'];
   const { requirement_id: requirementIdList } = req['body'];
   const total = weights.reduce((accum, elem) => (accum += parseInt(elem)), 0);
@@ -146,8 +146,8 @@ export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
       );
       if(response.status == 200)
       {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/70`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/71`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
         res.redirect('/da/task-list?path=' + choosenViewPath);
         }
         else{

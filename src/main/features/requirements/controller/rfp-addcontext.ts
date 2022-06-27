@@ -15,7 +15,7 @@ import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpda
  * @GETController
  */
 export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Response) => {
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   if (
     operations.isUndefined(req.query, 'agreement_id') ||
     operations.isUndefined(req.query, 'proc_id') ||
@@ -138,9 +138,9 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         agreementLotName,
         releatedContent: releatedContent,
       };
-      let flag = await ShouldEventStatusBeUpdated(req.session.eventId, 32, req);
+      let flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
       if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/32`, 'In progress');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'In progress');
       }
       res.render('rfp-context', display_fetch_data);
     } catch (error) {

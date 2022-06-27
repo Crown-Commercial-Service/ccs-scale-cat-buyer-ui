@@ -38,7 +38,7 @@ export const RFP_GET_WORK_COMPLETED = async (req: express.Request, res: express.
             response: ocdData
         }
     
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');
         res.render('rfp-work-completed.njk', windowAppendData)
     } catch (error) {
         LoggTracer.errorLogger(
@@ -86,7 +86,7 @@ export const RFP_POST_WORK_COMPLETED = async (req: express.Request, res: express
         }
 
         await TenderApi.Instance(SESSION_ID).put(BaseURL, REQUESTBODY);
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Completed');
         res.redirect('/rfp/task-list');
 
 

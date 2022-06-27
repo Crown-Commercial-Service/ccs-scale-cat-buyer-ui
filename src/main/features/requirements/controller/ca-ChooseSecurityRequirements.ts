@@ -60,7 +60,7 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     req.session.errorText = '';
     const appendData = { ...data, releatedContent, isError, choosenViewPath, errorText,totalQuantityca };
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/49`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'In progress');
     res.render('ca-ChooseSecurityRequirements', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -90,7 +90,7 @@ function checkErrors(selectedNumber, resources,totalQuantityca) {
 
 export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, releatedContent, currentEvent } = req.session;
+  const { projectId, eventId,releatedContent, currentEvent } = req.session;
   const { assessmentId } = currentEvent;
   const { ccs_ca_choose_security: selectedValue, ccs_ca_resources } = req.body;
   const selectedresourceNumber = selectedValue ? selectedValue.replace(/[^0-9.]/g, '') : null;
@@ -160,8 +160,8 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       const response= await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
      if(response.status == 200)
      {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/49`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/50`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/50`, 'Not started');
       res.redirect('/ca/service-capabilities');
      }
     else{

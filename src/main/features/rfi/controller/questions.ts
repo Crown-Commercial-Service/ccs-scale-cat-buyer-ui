@@ -144,7 +144,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
   try {
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const { SESSION_ID } = req.cookies;
-    const { eventId } = req.session;
+    const { projectId,eventId } = req.session;
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'In progress');
     req.session['isLocationError'] = false;
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfi_build_started');

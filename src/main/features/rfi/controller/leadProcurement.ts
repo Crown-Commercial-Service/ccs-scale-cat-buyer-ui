@@ -80,7 +80,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
 
 export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, eventId } = req.session;
+  const { projectId,eventId } = req.session;
   const { rfi_procurement_lead_input: userMail } = req.body;
   const url = `/tenders/projects/${projectId}/users/${userMail}`;
   try {

@@ -113,7 +113,7 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
       }
     } else {
       req.session['isJaggaerError'] = true;
-     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Completed');
+     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
       res.redirect('/steps-to-continue');
     }
   } catch (error) {

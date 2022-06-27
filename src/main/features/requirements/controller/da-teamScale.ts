@@ -95,7 +95,7 @@ const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string) => {
 
 export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId} = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const dimension = req.session.dimensions;
   const scalabilityData = dimension.filter(data => data.name === 'Scalability')[0];
@@ -137,11 +137,11 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       `/assessments/${assessmentId}/dimensions/${scalabilityData['dimension-id']}`,
       body,
     );
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/69`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/70`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'Not started');
 
     // Check 'review ranked suppliers' step number
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/`, 'To do');
 
     
     req.session.daTeamScaleerror=false;

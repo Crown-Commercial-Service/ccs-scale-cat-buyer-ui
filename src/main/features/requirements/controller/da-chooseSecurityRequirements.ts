@@ -60,7 +60,7 @@ export const DA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
   req.session.isError = false;
   req.session.errorText = '';
   const appendData = { ...data, choosenViewPath, releatedContent, isError, errorText,totalQuantityda };
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/67`, 'In progress');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/67`, 'In progress');
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('da-chooseSecurityRequirements', appendData);
  } catch (error) {
@@ -166,8 +166,8 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       const response= await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
       if(response.status == 200)
      {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/67`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/68`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/67`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/68`, 'Not started');
       res.redirect('/da/service-capabilities');
      }else{
       res.redirect('/404/');

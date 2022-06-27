@@ -28,7 +28,8 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     designations,
     tableItems,
     dimensions,
-    choosenViewPath,    
+    choosenViewPath,  
+    eventId,  
   } = req.session;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;
@@ -252,7 +253,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       total_res,total_ws,total_wv
     };
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/48`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'In progress');
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -270,7 +271,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
 export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,StorageForSortedItems } = req.session;
+  const { projectId,eventId,StorageForSortedItems } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const errorTextSumary = [];
 
@@ -531,8 +532,8 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   
   }
   if(response.status==HttpStatusCode.OK){
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/48`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/49`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Not started');
     res.redirect('/ca/choose-security-requirements');
   }
   else{

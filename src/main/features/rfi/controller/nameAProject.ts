@@ -44,7 +44,7 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
 export const POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
-  const { eventId } = req.session;
+  const { projectId ,eventId} = req.session;
   const name = req.body['rfi_projLongName'];
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   try {

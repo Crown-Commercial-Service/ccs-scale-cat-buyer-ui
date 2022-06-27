@@ -38,22 +38,22 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError };
   try {
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/26`, 'Cannot start yet');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/27`, 'Optional');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/28`, 'Optional');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/29`, 'Optional');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Cannot start yet');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'Cannot start yet');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Cannot start yet');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Cannot start yet');
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/37`, 'Cannot start yet');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Cannot start yet');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/26`, 'Cannot start yet');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Optional');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/28`, 'Optional');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/29`, 'Optional');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Cannot start yet');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Cannot start yet');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Cannot start yet');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Cannot start yet');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Cannot start yet');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Cannot start yet');
     
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Cannot start yet');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/37`, 'Not started');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Cannot start yet');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     statusStepsDataFilter(chooseRouteData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'In progress');
 
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
