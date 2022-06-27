@@ -138,9 +138,9 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         agreementLotName,
         releatedContent: releatedContent,
       };
-      let flag = await ShouldEventStatusBeUpdated(projectId, 32, req);
+      let flag = await ShouldEventStatusBeUpdated(req.session.eventId, 32, req);
       if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/32`, 'In progress');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/32`, 'In progress');
       }
       res.render('rfp-context', display_fetch_data);
     } catch (error) {

@@ -209,10 +209,11 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
 
-    let flag = await ShouldEventStatusBeUpdated(projectId, 38, req);
-    if (flag) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
-    }
+    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,38,req);
+            if(flag)
+            {
+                    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/38`, 'In progress');
+            }
     //res.render('rfp-question-assessment', data);
     res.render('rfp-scoringCriteria', data);
   } catch (error) {
@@ -407,10 +408,11 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             res.redirect(url.replace(regex, 'questions'));
           } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
             //SET-SCORING-CRITERIA STATUS UPDATE
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
-            let flag = await ShouldEventStatusBeUpdated(projectId, 39, req);
-            if (flag) {
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/38`, 'Completed');
+            let flag=await ShouldEventStatusBeUpdated(req.session.eventId,39,req);
+            if(flag)
+            {
+                    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/39`, 'Not started');
             }//await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Cannot start yet');
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/41`, 'Cannot start yet');
             res.redirect("/rfp/task-list");
@@ -447,10 +449,10 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
     if (section != undefined && section === '5') {
-      let flag = await ShouldEventStatusBeUpdated(projectId, 39, req);
-      if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
-      }
+      let flag=await ShouldEventStatusBeUpdated(req.session.eventId,39,req);
+    if(flag)
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/39`, 'In progress');
     }
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
@@ -824,10 +826,11 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
-                  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Completed');
-                  let flag = await ShouldEventStatusBeUpdated(projectId, 39, req);
-                  if (flag) {
-                    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Not started');
+                  await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/38`, 'Completed');
+                  let flag=await ShouldEventStatusBeUpdated(req.session.eventId,39,req);
+                  if(flag)
+                  {
+                          await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/39`, 'Not started');
                   }
                   res.redirect("/rfp/task-list");
                 }
@@ -864,7 +867,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     } else {
       res.redirect('/error');
     }
-  } catch (err) {
+  } }catch (err) {
     LoggTracer.errorTracer(err, res);
   }
 };

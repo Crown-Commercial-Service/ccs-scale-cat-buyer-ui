@@ -57,10 +57,10 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
     const appendData = { ...data, releatedContent, isError, errorText,totalQuantityrfp };
 
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    let flag=await ShouldEventStatusBeUpdated(projectId,34,req);
+    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,34,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/34`, 'In progress');
     }
     res.render('rfp-chooseSecurityRequirements', appendData);
   } catch (error) {
@@ -129,11 +129,11 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
         includedCriteria: [{ 'criterion-id': '0' }],
         requirements: requirementsData,
       };
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/34`, 'Completed');
-      let flag=await ShouldEventStatusBeUpdated(projectId,35,req);
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/34`, 'Completed');
+      let flag=await ShouldEventStatusBeUpdated(req.session.eventId,35,req);
     if(flag)
     {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/35`, 'Not started');
     }
       await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
       res.redirect('/rfp/service-capabilities');

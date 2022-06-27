@@ -124,18 +124,18 @@ export class QuestionHelper {
       }
 
       if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'Completed');
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/32`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-          let flag = await ShouldEventStatusBeUpdated(proc_id, 33, req);
+          let flag = await ShouldEventStatusBeUpdated(req.session.eventId, 33, req);
           if (flag) {
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/33`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/33`, 'Not started');
           }
         }
       }
       else {
-        let flag = await ShouldEventStatusBeUpdated(proc_id, 32, req);
+        let flag = await ShouldEventStatusBeUpdated(req.session.eventId, 32, req);
         if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/32`, 'In progress');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/32`, 'In progress');
         }
       }
       //update section 3 status end

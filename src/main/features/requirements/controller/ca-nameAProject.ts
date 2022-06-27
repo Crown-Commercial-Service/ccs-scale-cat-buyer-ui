@@ -56,7 +56,7 @@ export const CA_POST_NAME_PROJECT = async (req: express.Request, res: express.Re
       };
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
       if (response.status == HttpStatusCode.OK) req.session.project_name = name;
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/42`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/42`, 'Completed');
       res.redirect('/ca/procurement-lead');
     } else {
       req.session['isEmptyProjectError'] = true;

@@ -257,10 +257,10 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       //WHOLECLUSTER: WHOLECLUSTERCELLS,
       totalAdded: TotalAdded,
     };
-    let flag=await ShouldEventStatusBeUpdated(projectId,35,req);
+    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,35,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/35`, 'In progress');
     }
     //res.json(dataset);
     res.render('rfp-servicecapabilities.njk', windowAppendData);
@@ -340,11 +340,11 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const DIMENSION_ID = CAPACITY_DATASET[2]['dimension-id'];
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(projectId,36,req);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/35`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(req.session.eventId,36,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/36`, 'Not started');
     }
     res.redirect('/rfp/where-work-done');
   }

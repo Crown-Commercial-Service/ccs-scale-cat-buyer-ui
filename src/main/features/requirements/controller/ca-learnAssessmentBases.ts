@@ -38,7 +38,7 @@ export const CA_GET_LEARN_ASSESSMENT_BASES = async (req: express.Request, res: e
       releatedContent,
       isPathOne,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/66`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/66`, 'In progress');
     res.render('ca-learnAssessmentBases', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -58,7 +58,7 @@ export const CA_POST_LEARN_ASSESSMENT_BASES = async (req: express.Request, res: 
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/66`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/66`, 'Completed');
     res.redirect('/ca/enter-your-weightings');
   } catch (error) {
     LoggTracer.errorLogger(

@@ -270,7 +270,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/20`, 'In progress');
 
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
