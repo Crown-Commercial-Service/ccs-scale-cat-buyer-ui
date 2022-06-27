@@ -7524,6 +7524,10 @@ p + .govuk-heading-s,
   }
 }
 
+.govuk-div-inline {
+  float:left;
+}
+
 @media (min-width: 40.0625em) {
   .app-step-nav__button--controls {
     font-size: 14px;
