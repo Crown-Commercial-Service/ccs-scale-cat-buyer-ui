@@ -207,18 +207,15 @@ console.log(FilteredSetWithTrue)
 
    for(let i=0;i<expected_rfi_keydates[0].answer.length;i++){
      let data=expected_rfi_keydates[0].answer[i].values[0].value;
+     let day=data.substr(0,10);
+     let time=data.substr(11,5);
      if(i==0){
-      expected_rfi_keydates[0].answer[i].values[0].value=moment(
-        new Date(data),
-        'DD/MM/YYYY, hh:mm a',
-      ).format('DD MMMM YYYY')
-     }
-     else{
-     expected_rfi_keydates[0].answer[i].values[0].value=moment(
-      new Date(data),
-      'DD/MM/YYYY, hh:mm a',
-    ).format('DD MMMM YYYY, hh:mm a')
-     }
+      expected_rfi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+    }
+    else
+    {
+      expected_rfi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+    }
    };
       //RFI_ANSWER_STORAGE[3].answer.reverse()
 
