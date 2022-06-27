@@ -162,9 +162,9 @@ console.log(FilteredSetWithTrue)
           if(dataOFRFI.id=='Group 2')
           {
           const tempGroup2=RFI_DATA_WITHOUT_KEYDATES[1]
-          const answer_=tempGroup2.answer[1]
+          const answer_=tempGroup2.answer.filter(x=>x.question!=undefined)
           tempGroup2.answer=[];       
-          tempGroup2.answer.push(answer_)
+          tempGroup2.answer.push(...answer_)
             const formattedData = { ...tempGroup2, criterian: dataOFCRITERIAN.criterian };
             RFI_ANSWER_STORAGE.push(formattedData);
           }
