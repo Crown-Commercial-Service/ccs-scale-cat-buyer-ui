@@ -26,6 +26,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
+  let day,time;
 
   try {
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
@@ -106,7 +107,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-
+      for(var i=0;i<fetchQuestionsData.length;i++)
+        {
+          if(fetchQuestionsData[i].nonOCDS.options.length>0){
+          let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+          day=value.substr(0,10);
+          time=value.substr(11,5);
+          if(i==0){
+            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+          }
+          else
+          {
+          fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+          }
+        }
+        }
       let appendData = {
         data: cmsData,
         prompt: prompt,
@@ -159,7 +174,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-
+        for(var i=0;i<fetchQuestionsData.length;i++)
+        {
+          if(fetchQuestionsData[i].nonOCDS.options.length>0){
+            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+            day=value.substr(0,10);
+            time=value.substr(11,5);
+            if(i==0){
+              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+            }
+            else
+            {
+            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+            }
+          }
+        }
         let appendData = {
           data: cmsData,
           prompt: prompt,
@@ -195,7 +224,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-
+        for(var i=0;i<fetchQuestionsData.length;i++)
+        {
+          if(fetchQuestionsData[i].nonOCDS.options.length>0){
+            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+            day=value.substr(0,10);
+            time=value.substr(11,5);
+            if(i==0){
+              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+            }
+            else
+            {
+            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+            }
+          }
+        }
         let appendData = {
           data: cmsData,
           prompt: prompt,
@@ -231,7 +274,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-
+        for(var i=0;i<fetchQuestionsData.length;i++)
+        {
+          if(fetchQuestionsData[i].nonOCDS.options.length>0){
+            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+            day=value.substr(0,10);
+            time=value.substr(11,5);
+            if(i==0){
+              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+            }
+            else
+            {
+            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+            }
+          }
+        }
         let appendData = {
           data: cmsData,
           prompt: prompt,
@@ -265,7 +322,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-
+        for(var i=0;i<fetchQuestionsData.length;i++)
+        {
+          if(fetchQuestionsData[i].nonOCDS.options.length>0){
+            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+            day=value.substr(0,10);
+            time=value.substr(11,5);
+            if(i==0){
+              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+            }
+            else
+            {
+            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+            }
+          }
+        }
         let appendData = {
           data: cmsData,
           prompt: prompt,
