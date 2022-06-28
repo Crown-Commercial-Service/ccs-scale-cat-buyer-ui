@@ -29,6 +29,14 @@
 {% endblock %}
 
 {% block content %}
+<div class="govuk-error-summary hide-block" id="ca_choose_security_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="ca_choose_security_summary_list">
+    </ul>
+  </div>
+</div>
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
     {% if(isError)%}
@@ -117,7 +125,12 @@
                 type: "hidden",
                 value: true
               }) }}
-
+  {{ CCSInput({
+                id: "totalQuantityca",
+                name: "totalQuantityca",
+                type: "hidden",
+                value: totalQuantityca
+              }) }}
         <div class="govuk-button-group">
           {{ CCSButton({
                 text: "Save and continue"

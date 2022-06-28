@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/dialog/macro.njk" import CCSDialog %}
 {# {% block breadCrumb %}
   {{ CCSBreadcrumbs({
     items: breadCrumbs
@@ -42,7 +43,13 @@
           titleText: "There is a problem",
           errorList: errorText
       }) }}
-    {%endif %}
+    {%endif %} 
+    {{ CCSDialog({
+  title:'This action cannot be undone, please confirm that you want to progress',
+  description:'This action will revert the form to its original state.',
+  redirect:'#',
+  type:'vetting'
+}) }}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 id="page-heading" class="govuk-heading-xl">
@@ -59,9 +66,10 @@
       <form id="da_where_work_done" name="da_where_work_done" class="form da_form" action="/da/where-work-done" method="post">
       {{ csrfProtection(csrf) }}
         <div class="ccs-page-section">
+        <div class="sub-section">
           <p class="govuk-body">
             <h2>Total : <span id="totalPercentage">{{totalPercentage    }}</span> of 100%</h2>
-            <a href="2" class="del govuk-link govuk-link--no-visited-state" title="delete">Clear form</a></p>
+            <a href="#" class="del govuk-link govuk-link--no-visited-state da_whereworkdone_popup" title="delete">Clear form</a></p>
         </div>
 
             {% for elem in locationArray %}
@@ -78,10 +86,10 @@
                             suffix: {
                               text: "%"
                             },
-                            id: "da_locationweight",
+                            id: "da_locationweight"+elem.name,
                             name: "da_locationweight",
                             spellcheck: false,
-                            classes: "govuk-input--width-2",
+                            classes: "govuk-input--width-2 dimensions",
                             value: elem.value,
                              attributes:{
                                         min:weightingRange.min,

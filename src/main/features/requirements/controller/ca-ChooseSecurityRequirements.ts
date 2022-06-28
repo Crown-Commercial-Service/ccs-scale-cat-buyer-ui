@@ -59,9 +59,10 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
       .evaluationCriteria.find(criteria => criteria['criterion-id'] === '0').options;
     req.session.isError = false;
     req.session.errorText = '';
-    const appendData = { ...data, releatedContent, isError, choosenViewPath, errorText };
+    const appendData = { ...data, releatedContent, isError, choosenViewPath, errorText,totalQuantityca };
     let flag = await ShouldEventStatusBeUpdated(projectId, 49, req);
         if (flag) {
+
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'In progress');
         }
     res.render('ca-ChooseSecurityRequirements', appendData);

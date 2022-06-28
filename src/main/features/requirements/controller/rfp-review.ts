@@ -352,12 +352,12 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     sectionbaseURLfetch_dynamic_api_data?.filter(o => o?.OCDS?.id == 'Question 3')?.[0].nonOCDS?.options?.forEach(element => {
       socialGroup?.[j].good = element?.value; j = j + 1;
     });
-    //question 7
-    sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 7/questions`;
-    sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
-    sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
+    //Group 7 SECTION 5 removed this page from 1FC joureny
+    // sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 7/questions`;
+    // sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
+    // sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let pricingModel = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true)[0]?.value;
+    let pricingModel =null; //sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true)[0]?.value;
 
     //question 8
     sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 8/questions`;
