@@ -6,6 +6,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('questions healper');
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 /**
  * @Helper
  * helps with question controller to redirect
@@ -22,6 +23,7 @@ export class QuestionHelper {
     agreement_id: any,
     id: any,
     res: express.Response,
+    req:express.Request,
   ) => {
     /**
      * @Path
@@ -101,8 +103,16 @@ export class QuestionHelper {
         }
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
+          let flag=await ShouldEventStatusBeUpdated(event_id,11,req);
+    if(flag)
+    {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/11`, 'Optional');
+    }
+          flag=await ShouldEventStatusBeUpdated(event_id,12,req);
+    if(flag)
+    {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/12`, 'Not started');
+    }
         }
         res.redirect('/rfi/rfi-tasklist');
       }

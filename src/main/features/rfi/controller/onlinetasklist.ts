@@ -8,6 +8,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 // RFI TaskList
 /**
  * 
@@ -91,10 +92,13 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
             releatedContent: releatedContent
          }
          res.render('onlinetasklist', display_fetch_data);
-         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/9`, 'Completed');
-         if (response.status == HttpStatusCode.OK){
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'Not started');
-         }
+         // const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/9`, 'Completed');
+         // if (response.status == HttpStatusCode.OK){
+            let flag=await ShouldEventStatusBeUpdated(eventId,10,req);
+    if(flag)
+    {
+             await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'In progress');
+          }
       } catch (error) {
          LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
             TokenDecoder.decoder(SESSION_ID), "Tenders Service Api cannot be connected", true)

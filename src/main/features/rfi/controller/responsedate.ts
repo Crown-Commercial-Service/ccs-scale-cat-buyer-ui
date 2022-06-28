@@ -7,6 +7,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -78,7 +79,11 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     }
     const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
+      let flag=await ShouldEventStatusBeUpdated(eventId,14,req);
+    if(flag)
+    {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/14`, 'Not started');
+    }
     }
 
     res.redirect('/rfi/review');
