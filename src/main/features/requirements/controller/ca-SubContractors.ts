@@ -6,6 +6,7 @@ import * as caSubContractors from '../../../resources/content/requirements/caSub
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -32,6 +33,10 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     error: isValidationError,
   };
   try {
+    let flag = await ShouldEventStatusBeUpdated(projectId, 47, req);
+        if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'In progress');
+        }
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
     isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
@@ -109,8 +114,13 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           body,
         );
       }
+
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 48, req);
+        if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Not started');
+        }
+
 
       res.redirect(REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {

@@ -4,6 +4,7 @@ import * as data from '../../../resources/content/requirements/caChooseSecurityR
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
@@ -59,8 +60,15 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     req.session.isError = false;
     req.session.errorText = '';
     const appendData = { ...data, releatedContent, isError, choosenViewPath, errorText,totalQuantityca };
+    let flag = await ShouldEventStatusBeUpdated(projectId, 49, req);
+        if (flag) {
+
 
     await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/49`, 'In progress');
+
+    
+        }
+
     res.render('ca-ChooseSecurityRequirements', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -160,8 +168,13 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       const response= await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
      if(response.status == 200)
      {
+
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 50, req);
+        if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/50`, 'Not started');
+        }
+
       res.redirect('/ca/service-capabilities');
      }
     else{

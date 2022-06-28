@@ -5,6 +5,7 @@ import * as caResourcesVetting from '../../../resources/content/requirements/caR
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -27,9 +28,10 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     currentEvent,
     designations,
     tableItems,
-    dimensions,
-    choosenViewPath,  
-    eventId,  
+
+    choosenViewPath,    
+    eventId,
+
   } = req.session;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;
@@ -52,6 +54,14 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       dimensionResourceQuantity=dimensionRequirementsData.filter(item=>item["dimension-id"]==1);
       dimensionResourceQuantities=dimensionRequirementsData.filter(item=>item["dimension-id"]==7);
     }
+    
+    const EXTERNAL_ID = assessmentDetail['external-tool-id'];
+
+    const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
+    const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+    const CAPACITY_DATASET = CAPACITY_DATA.data;
+
+    const dimensions=[...CAPACITY_DATASET];
     const LEVEL7CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
     const LEVEL2CONTENTS = dimensions.filter(dimension => dimension['name'] === 'Security Clearance')[0];
 
@@ -253,7 +263,12 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       total_res,total_ws,total_wv
     };
 
+
+    let flag = await ShouldEventStatusBeUpdated(eventId, 48, req);
+        if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'In progress');
+        }
+
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -281,6 +296,7 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
 
     let isError=false;
 
+    
     let isWeightStaffArrayEmpty=weight_staff.every(value=>value==='');
     let isWeightVettingArrayEmpty=weight_vetting.every(value=>value==='');
     let isSFIAweightageArrayEmpty=SFIA_weightage.every(value=>value==='');
@@ -314,6 +330,7 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
           {isError=true; errorTextSumary.push({ id: 2, text: 'All boxes in the Role Family must either be  empty or fully populated' });}
           
         }
+      
         first=end;
       });
     });
@@ -455,7 +472,14 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       };
     });
 
-    const dimension = req.session.dimensions;
+    // const dimension = req.session.dimensions;
+    const EXTERNAL_ID = assessments['external-tool-id'];
+
+    const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
+    const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
+    const CAPACITY_DATASET = CAPACITY_DATA.data;
+
+    const dimension=[...CAPACITY_DATASET];
   let resourcesData = dimension.filter(data => data["dimension-id"] === 1)[0];
   let body = {
     name: resourcesData['name'],
@@ -532,8 +556,13 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   
   }
   if(response.status==HttpStatusCode.OK){
+
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 49, req);
+        if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Not started');
+        }
+
     res.redirect('/ca/choose-security-requirements');
   }
   else{
