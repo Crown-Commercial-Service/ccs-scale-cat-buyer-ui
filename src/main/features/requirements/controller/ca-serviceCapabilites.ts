@@ -4,6 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as caService from '../../../resources/content/requirements/caService.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -275,7 +276,10 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       TABLE_BODY: TABLEBODY,
       WHOLECLUSTER: WHOLECLUSTERCELLS,
     };
+    let flag = await ShouldEventStatusBeUpdated(projectId, 50, req);
+        if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'In progress');
+        }
 
     //res.json(UNIQUE_DESIGNATION_HEADINGS_ARR)
     res.render('ca-serviceCapabilities', windowAppendData);
@@ -547,7 +551,10 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
 
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(projectId, 51, req);
+        if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Not started');
+        }
 
       res.redirect('/ca/team-scale');
     } catch (error) {
