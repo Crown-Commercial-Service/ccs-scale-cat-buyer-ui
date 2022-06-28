@@ -12,6 +12,7 @@ import { Logger } from '@hmcts/nodejs-logging';
 const logger = Logger.getLogger('questionsPage');
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  * @Controller
@@ -145,7 +146,11 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     const { agreement_id, proc_id, event_id, id, group_id, stop_page_navigate } = req.query;
     const { SESSION_ID } = req.cookies;
     const { projectId,eventId } = req.session;
+    let flag=await ShouldEventStatusBeUpdated(eventId,10,req);
+    if(flag)
+    {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/10`, 'In progress');
+    }
     req.session['isLocationError'] = false;
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfi_build_started');
     if (operations.equals(started_progress_check, false)) {
@@ -216,6 +221,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   agreement_id,
                   id,
                   res,
+                  req,
                 );
               } else {
                 res.send();
@@ -270,6 +276,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   agreement_id,
                   id,
                   res,
+                  req,
                 );
               } else {
                 res.send();
@@ -326,6 +333,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     agreement_id,
                     id,
                     res,
+                    req,
                   );
                 } catch (error) {
 
@@ -408,6 +416,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                     agreement_id,
                     id,
                     res,
+                    req,
                   );
                 }
               } catch (error) {
