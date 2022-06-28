@@ -85,7 +85,7 @@ function checkErrors(selectedNumber, resources,totalQuantityda) {
     errorText.push({ text: 'You must select the highest level of security clearance that staff supplied to the project will need to have.' });
   } else if (selectedNumber && ['1', '2', '3', '4'].includes(selectedNumber) && !resources) {
     errorText.push({ text: 'You must enter the number of staff who will need a lower security and vetting requirement' });
-  } else if (selectedNumber && ['1', '2', '3', '4'].includes(selectedNumber) && resources < 0 || resources < (totalQuantityda-1)) {
+  } else if (selectedNumber && ['1', '2', '3', '4'].includes(selectedNumber) && (resources < 0 || resources > (totalQuantityda-1))) {
     errorText.push({ text: 'A Quantity must be between 1 to Quantity('+totalQuantityda+') - 1' });
   }
   const isError = errorText.length > 0;

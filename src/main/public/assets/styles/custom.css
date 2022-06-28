@@ -373,6 +373,10 @@ fieldset {
 .hide-block {
   display: none !important;
 }
+.hide-block-dasupplier {
+  display: none ;
+}
+
 .sfia-roles .govuk-input__prefix {
   width: 492px;
   text-align: left;

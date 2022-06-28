@@ -130,6 +130,7 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
           values: [{ 'criterion-id': '0', value: '1: Yes' }],
         },
       ],
+      overwriteRequirements: true,
     };
 
 
@@ -140,10 +141,6 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/69`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/70`, 'Not started');
 
-    // Check 'review ranked suppliers' step number
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
-
-    
     req.session.daTeamScaleerror=false;
     res.redirect('/da/where-work-done');
   } catch (error) {

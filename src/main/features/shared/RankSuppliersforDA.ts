@@ -6,13 +6,14 @@ import { TenderApi } from '../../common/util/fetch/procurementService/TenderApiI
 import { TokenDecoder } from '../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../common/logtracer/tracer';
 
-export const CalRankSuppliers = async (req: express.Request) => {
+export const RankSuppliersforDA = async (req: express.Request) => {
     const { currentEvent } = req.session;
     const { assessmentId } = currentEvent;
     const { SESSION_ID } = req.cookies; //jwt
   try {
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}?scores=true`;
     let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
+   //let assessments=SampleData;
     let assesssort = assessments.scores.sort((a, b) => (a.total > b.total ? -1 : 1));
 
     //GET TOTAL SUPPLIERS LIST
@@ -23,17 +24,17 @@ export const CalRankSuppliers = async (req: express.Request) => {
     SupplierswithName = supplierList.filter(x=>x.organization.name !='' && x.organization.name!=undefined)
 
     //IGNORE THE SUPPLIERS WHICH DOESN'T MATCH THE SUPPLIER'S LIST
-    let CAsuppliers=[];
+    let DAsuppliers=[];
     SupplierswithName.forEach(item => {
        let suppliersinfo=assesssort.filter(x=>x.supplier.id===item.organization.id)
-       CAsuppliers.push(...suppliersinfo)
+       DAsuppliers.push(...suppliersinfo)
     });
 
     //IGNORE THE SUPPLIERS WHO DOESN'T HAVE ALL THE DIMENSION SCORES
-    let CASupplierswithAllDimensions=[];
-    CASupplierswithAllDimensions=CAsuppliers.filter(x=>x.dimensionScores.length==5)
+    let DASupplierswithAllDimensions=[];
+    DASupplierswithAllDimensions=DAsuppliers.filter(x=>x.dimensionScores.length==6)
 
-    assesssort = CASupplierswithAllDimensions.sort((a, b) => (a.total > b.total ? -1 : 1));
+    assesssort = DASupplierswithAllDimensions.sort((a, b) => (a.total > b.total ? -1 : 1));
     let RankedSuppliers = [];
 
   const distinctassessments = [... new Set(assesssort.map(x => x.total))]
@@ -127,6 +128,19 @@ export const CalRankSuppliers = async (req: express.Request) => {
                   });
                 }
                 else {
+                    //SORT WITH SIXTH HIGHEST DIMENSION SCORE
+                    let sixthIterate = similarRankedItems.map(x => { return [x.supplier.id, x.dimensionScores[1]] });
+                    let sixthIterateSort: any = sixthIterate.sort((a, b) => (a[1].score > b[1].score ? -1 : 1));
+                    const sixthIterateDistint = [... new Set(sixthIterateSort.map(x => x[1].score))];
+                    if (sixthIterateDistint.length > 1) {
+                      sixthIterateSort.forEach(x => {
+                        let indexVal = assesssort.findIndex(sup => sup.supplier.id == x[0]);
+                        assesssort[indexVal].name = supplierList.find(s => s.organization.id === assesssort[indexVal].supplier.id).organization.name;
+                        assesssort[indexVal].rank = similarrank;
+                        RankedSuppliers.push(assesssort[indexVal]);
+                      });
+                    }
+                else {
                   //SORT WITH ALPHABETICAL ORDER
                   let sortbyalpha=[];
                   similarRankedItems.forEach(x => {
@@ -147,6 +161,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
       i += similarRankedItems.length - 1;
     }
   }
+}
   for(let i=0;i<RankedSuppliers.length;i++)
   {
     RankedSuppliers[i].dimensionScores.sort((a, b) => a["dimension-id"] < b["dimension-id"]? -1 : a["dimension-id"]> b["dimension-id"]? 1 : 0);
@@ -160,7 +175,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
         `${req.headers.host}${req.originalUrl}`,
         null,
         TokenDecoder.decoder(SESSION_ID),
-        'CalRankSupplier.ts file',
+        'RankSupplierDA.ts file',
         true,
       );
     }

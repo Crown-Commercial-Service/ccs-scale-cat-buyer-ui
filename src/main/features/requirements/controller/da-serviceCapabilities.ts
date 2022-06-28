@@ -530,11 +530,20 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       PostedFormElement['values'] = [];
       return PostedFormElement;
     })
+    let subcontractorscheck;
 
+    if (Weightings?.filter(dimension => dimension["dimension-id"] === 3).length > 0) {
+      subcontractorscheck = (Weightings?.filter(dimension => dimension["dimension-id"] === 3)[0].includedCriteria.
+        find(x => x["criterion-id"] == 1))
+    }
+    let includedSubContractor = [];
+    if (subcontractorscheck != undefined) {
+      includedSubContractor = [{ 'criterion-id': '1' }]
+    }
 
     const PUT_BODY = {
       weighting: Service_capbility_weightage,
-      includedCriteria: [],
+      includedCriteria: includedSubContractor,
       overwriteRequirements: true,
       requirements: MappedWholeAndPartialCluster
     }
