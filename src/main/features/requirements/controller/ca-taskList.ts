@@ -54,7 +54,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    const isSummaryDone = journeySteps.find(stp => stp.step === 54 && stp.state === 'Completed');
+    const isSummaryDone = journeySteps.find(stp => stp.step === 55 && stp.state === 'Completed');
     switch (path) {
       case 'A1':
         req.session['choosenViewPath'] = 'A1';
