@@ -279,7 +279,7 @@ export const DA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
           };
         }
       }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/71`, 'In progress');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'In progress');
       res.render('da-reviewRankedSuppliers', appendData);
     }
   } catch (error) {
@@ -354,8 +354,8 @@ export const DA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
 
     const response = await TenderApi.Instance(SESSION_ID).post(Supplier_BASEURL, body);
     if (response.status == 200) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/71`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/72`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Not started');
       res.redirect('/da/next-steps');
     }
     else {

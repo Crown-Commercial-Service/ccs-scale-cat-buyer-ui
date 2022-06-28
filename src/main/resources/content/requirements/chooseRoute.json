@@ -27,8 +27,6 @@
       "idPrefix": "ccs_choose_ca_route",
       "name": "ccs_choose_ca_type",
       "items": [   
-       
-        
         {
           "value": "2-stage",
           "text": "Further competition with capability assessment",
@@ -45,7 +43,7 @@
           },
           "disabled": "false",
           "remove": "false"
-        },{
+        }, {
           "value": "1-stage",
           "text": "One-stage further competition",
           "hint": {

@@ -76,7 +76,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
 
   try {
@@ -106,8 +106,8 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           body,
         );
       }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/66`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Not started');
 
       res.redirect(REQUIREMENT_PATHS.DA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {

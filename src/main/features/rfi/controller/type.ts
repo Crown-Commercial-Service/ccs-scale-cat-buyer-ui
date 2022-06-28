@@ -37,9 +37,9 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
    const { SESSION_ID } = req.cookies;
    try {
       // eslint-disable-next-line no-case-declarations
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/9`, 'Completed');
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/9`, 'Completed');
       if (response.status == HttpStatusCode.OK){
-         await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/10`, 'Not started');
+         await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'Not started');
       }
    
       const filtered_body_content_removed_rfi_key = ObjectModifiers._deleteKeyofEntryinObject(req.body, 'choose_rfi_type');

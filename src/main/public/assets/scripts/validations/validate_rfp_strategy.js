@@ -53,7 +53,7 @@ const ccsZvalidateRfPStrategy = event => {
       }
     });
     if (!ischecked) {
-      fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Please Select an option");
+      fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Please select an option");
       if (fieldCheck !== true && fieldCheck !== undefined) errorStore.push(fieldCheck);
     }
   }

@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
         Array.from(tabLinks).forEach(link => {
 
             link.addEventListener('click', function (e) {
+                setTimeout(x => {
+                    document.querySelectorAll("#rfp_weight_vetting_IT_Ops_16")[0].style.width = "100px";
+                }, 5000)
                 let currentTarget = e.currentTarget;
                 let clicked_index = $(this).index();
 

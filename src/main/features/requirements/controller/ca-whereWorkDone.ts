@@ -4,10 +4,11 @@ import * as dataWWD from '../../../resources/content/requirements/caWhereWorkDon
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId, releatedContent, isError, errorText, dimensions,currentEvent } = req.session;
+  const { eventId, releatedContent, isError, errorText, dimensions,currentEvent } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
   var choosenViewPath = req.session.choosenViewPath;
@@ -39,7 +40,10 @@ export const CA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
       locationArray,
       choosenViewPath,   
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'In progress');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 52, req);
+        if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/52`, 'In progress');
+        }
     res.render('ca-whereWorkDone', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -71,7 +75,7 @@ function checkErrors(total) {
 
 export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, releatedContent, dimensions } = req.session;
+  const { eventId, releatedContent, dimensions } = req.session;
   const { ca_locationweight: weights } = req['body'];
   const { requirement_id: requirementIdList } = req['body'];
   const total = weights.reduce((accum, elem) => (accum += parseInt(elem)), 0);
@@ -141,8 +145,11 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
       );
       if(response.status == 200)
       {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/52`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 53, req);
+        if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Not started');
+        }
       res.redirect('/ca/suppliers-to-forward');
       }
       else{

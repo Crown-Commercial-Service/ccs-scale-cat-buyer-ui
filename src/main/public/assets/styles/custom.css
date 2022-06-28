@@ -197,6 +197,10 @@ fieldset {
     max-width: 58.3333333333%;
     width: 58.3333333333%;
   }
+  .ons-col-8\@m {
+    max-width: 70.3333333333%;
+    width: 65.9%;
+  }
   .ons-col-4\@m {
     max-width: 33.3333333333%;
     width: 33.3333333333%;

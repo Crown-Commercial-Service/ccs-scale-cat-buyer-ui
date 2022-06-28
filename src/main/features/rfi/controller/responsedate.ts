@@ -7,6 +7,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -60,8 +61,8 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       const findFilterValues = findFilterQuestion[0].value;
       const filtervalues = moment(
         findFilterValues,
-        'DD MMMM YYYY, hh:mm:ss ',
-      ).format('YYYY-MM-DDThh:mm:ss') + 'Z';
+        'DD MMMM YYYY, hh:mm a',
+      ).format('YYYY-MM-DDTHH:mm:ss') + 'Z';
       const answerformater = {
         value: filtervalues,
         selected: true,
@@ -76,9 +77,13 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       const answerBaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
     }
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/13`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/14`, 'Not started');
+      let flag=await ShouldEventStatusBeUpdated(eventId,14,req);
+    if(flag)
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/14`, 'Not started');
+    }
     }
 
     res.redirect('/rfi/review');
@@ -211,7 +216,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
         req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
         req.session.supplierresponse = timeline.supplierSubmitResponse;
         req.session.confirmNextStepsSuppliers = timeline.confirmNextStepsSuppliers;
-        req.session.UIDate = date;
+        //req.session.UIDate = date;
       }
       else if (selected_question_id == 'Question 3') {
         req.session.rfipublishdate = timeline.publish;
@@ -219,7 +224,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
         req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
         req.session.supplierresponse = timeline.supplierSubmitResponse;
         req.session.confirmNextStepsSuppliers = timeline.confirmNextStepsSuppliers;
-        req.session.UIDate = date;
+        //req.session.UIDate = date;
       }
       else if (selected_question_id == 'Question 4') {
         req.session.rfipublishdate = timeline.publish;
@@ -227,7 +232,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
         req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
         req.session.supplierresponse = timeline.supplierSubmitResponse;
         req.session.confirmNextStepsSuppliers = timeline.confirmNextStepsSuppliers;
-        req.session.UIDate = date;
+        //req.session.UIDate = date;
       }
       else if (selected_question_id == 'Question 5') {
         req.session.rfipublishdate = timeline.publish;
@@ -235,11 +240,18 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
         req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
         req.session.supplierresponse = timeline.supplierSubmitResponse;
         req.session.confirmNextStepsSuppliers = timeline.confirmNextStepsSuppliers;
-        req.session.UIDate = date;
+        //req.session.UIDate = date;
       }
 
+      const filtervalues = moment(
+        date,
+        'DD MMMM YYYY, hh:mm a',
+      ).format('YYYY-MM-DDTHH:mm:ss') + 'Z';
+
+      req.session.UIDate = filtervalues;
+
       const answerformater = {
-        value: date,
+        value: filtervalues,
         selected: true,
         text: selected_question_id,
       };
