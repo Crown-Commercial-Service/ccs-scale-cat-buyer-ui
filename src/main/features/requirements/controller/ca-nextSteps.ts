@@ -34,7 +34,10 @@ export const CA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
     error: isJaggaerError,
   };
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Not started');
+
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'In progress');
+
     const windowAppendData = {
       data: caNextData,
       projectLongName: project_name,
@@ -70,11 +73,11 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
       'choose_fc_ca_next_steps',
     );
     const { ca_next_steps } = filtered_body_content_removed_fc_key;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Not started');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Not started');
     if (ca_next_steps) {
       switch (ca_next_steps) {
         case 'yes':
-          //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Completed'); remove this later
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Completed'); //remove this later
           const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
           let endDate=new Date()
           endDate.setDate(endDate.getDate()+1);
@@ -188,12 +191,12 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           break;
 
         case 'edit':
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Not started');
           res.redirect(REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
           break;
 
         case 'no':
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Completed');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Completed');
           res.redirect(REQUIREMENT_PATHS.CA_GET_CANCEL);
           break;
 
@@ -202,7 +205,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
       }
     } else {
       req.session['isJaggaerError'] = true;
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Completed');
       res.redirect(REQUIREMENT_PATHS.CA_GET_NEXTSTEPS);
     }
   } catch (error) {

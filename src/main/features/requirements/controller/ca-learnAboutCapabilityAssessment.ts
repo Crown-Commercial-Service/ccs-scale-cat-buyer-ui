@@ -57,7 +57,9 @@ export const CA_POST_LEARN = async (req: express.Request, res: express.Response)
   const { SESSION_ID } = req.cookies;
   const { eventId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/45`, 'Completed');
+
     res.redirect('/ca/enter-your-weightings');
   } catch (error) {
     LoggTracer.errorLogger(

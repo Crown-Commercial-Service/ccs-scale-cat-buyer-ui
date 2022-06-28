@@ -6,6 +6,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { GetLotSuppliers } from '../../shared/supplierService';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -53,7 +54,10 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
       choosenViewPath,
       releatedContent,
     };
+    let flag = await ShouldEventStatusBeUpdated(eventId, 53, req);
+        if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'In progress');
+        }
     res.render(`ca-suppliersToForward`, windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -88,7 +92,10 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
    if(response.status==200)
    {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Completed');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 54, req);
+        if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+        }
     res.redirect(REQUIREMENT_PATHS.CA_GET_REVIEW_RANKED_SUPPLIERS);
    } 
    else{

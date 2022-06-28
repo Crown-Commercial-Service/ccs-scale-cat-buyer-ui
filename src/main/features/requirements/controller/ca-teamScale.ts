@@ -5,6 +5,7 @@ import * as caTeamScale from '../../../resources/content/requirements/caTeamScal
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { idText } from 'typescript';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -75,7 +76,10 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
      
   
     const windowAppendData = { data:caTeamScale,RadioData, lotId, agreementLotName, choosenViewPath, releatedContent,error: caTeamScaleerror };
+    let flag = await ShouldEventStatusBeUpdated(eventId, 51, req);
+        if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/51`, 'In progress');
+        }
     res.render('ca-team-scale', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -145,7 +149,10 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
     );
 
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/51`, 'Completed');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 52, req);
+        if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/52`, 'Not started');
+        }
 
     req.session.caTeamScaleerror=false;
     res.redirect('/ca/where-work-done');
