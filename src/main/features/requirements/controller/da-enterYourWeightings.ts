@@ -71,6 +71,7 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       errorText,
       errorTextSumary: errorTextSumary,
     };
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'In progress');
     res.render('da-enterYourWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -128,30 +129,28 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       req.session['isJaggaerError'] = true;
       res.redirect('/da/enter-your-weightings');
     } else {
+      let Weightings=[];
+        for(let i=1;i<=6;i++)
+        {
+            let dim=dimensions.filter(x=>x["dimension-id"] === i)
+            Weightings.push(...dim)
+        }
       for (var dimension of dimensions) {
         const body = {
           name: dimension.name,
           weighting: req.body[dimension['dimension-id']],
           requirements: [],
           includedCriteria: dimension.evaluationCriteria
-            .map(criteria => {
-              if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
-                return null;
-              } else
-                return {
-                  'criterion-id': criteria['criterion-id'],
-                };
-            })
-            .filter(criteria => criteria !== null),
         };
 
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,
         );
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'Not started');
       }
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
+       
         res.redirect('/da/accept-subcontractors');
     }
   } catch (error) {
@@ -171,6 +170,7 @@ function checkErrors(arr, range) {
   let isError = false;
   const errorText = [];
   const keys = Object.keys(...arr).map(key => key);
+  let isTotalOutOfHundred = 0;
   for (const obj of arr) {
     for (const k of keys) {
       if ((range.max < Number(obj[k]) || range.min > Number(obj[k])) && Number(obj[k]) !== 0) {
@@ -181,7 +181,11 @@ function checkErrors(arr, range) {
         isError = true;
         errorText.push({ id: k, text: 'All entry boxes must contain a value' });
       }
+      isTotalOutOfHundred += Number(obj[k]);
     }
+  }
+  if (isTotalOutOfHundred < 100  || isTotalOutOfHundred >100) {
+    isError = true;
   }
 
   return { isError, errorText };

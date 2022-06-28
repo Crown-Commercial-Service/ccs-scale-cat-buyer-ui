@@ -27,6 +27,7 @@
             <div class="govuk-grid-column-two-thirds">
                {% for table in requirement.nonOCDS.options %}
                <input type="hidden" class="tierLable" tierLable="{{table.text}}" id="tiersTableData" value="{{table.optiontableDefinationJsonString}}" >
+                   {%if(table.text !=='Create your own scoring criteria')%}
                     {{ CCSTable({
                         caption: table.optiontableDefination.rows.length+' tier scoring criteria',
                         captionClasses: "govuk-table__caption--m",
@@ -35,6 +36,7 @@
                         rows:table.optiontableDefination.rows
                     }) }}
                     <br>
+                    {%endif%}
                 {% endfor %}
             </div>
   </div>
@@ -64,7 +66,7 @@
             <div class="govuk-grid-column-one-half">
                 {# <a href="javascript:void(0)" onclick="selectedTiers('5')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-5-popup" title="Tier5">Use a 5-tier scoring criteria</a> #}
                 {% for table in requirement.nonOCDS.options %}
-                {%if table.optiontableDefination.rows.length>0 %}
+                {%if table.optiontableDefination.rows.length>0 and  table.text !=='Create your own scoring criteria'%}
                 <a href="javascript:void(0)"   id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-!-margin-5 govuk-link--no-visited-state " title="Tier {{table.optiontableDefination.rows.length}}">Use a {{table.optiontableDefination.rows.length}}-tier scoring criteria</a>
                 {%endif%}
                 {# <a href="javascript:void(0)"  id="tier-4-popup" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state" title="Tier4">Use a 4-tier scoring criteria</a> #}
@@ -95,6 +97,7 @@
                             text: requirement.OCDS.title
                         },
                         label: {
+                            html: "Enter the name for this level <a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
                             text: requirement.OCDS.title,
                             classes: 'govuk-label govuk-label--m'
                         }
@@ -566,7 +569,7 @@
 
                       }) }}
 
-              {% if- (requirement.OCDS.title === 'Price') %}
+              {% if- (requirement.OCDS.title === 'Price' or requirement.OCDS.title === 'Social value') %}
               <div>
                 {{ CCSInsetText({
                       text: "<b> The total weighting is : <span id='totalPercentage'>100</span>% </b> " | safe
@@ -811,7 +814,7 @@
                         }) }}
                         <div id="rfp_keyterm"></div>
                       {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type !== 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true) and form_name === 'ccs_rfp_acronyms_form' %}
-                        <p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p>
+                        {# <p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p> #}
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
                             legend: {
