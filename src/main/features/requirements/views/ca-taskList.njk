@@ -42,12 +42,12 @@
                   <span class="app-task-list__section-number">{{item.eventno}}. </span>{% endif%}
                   {{item.eventTitle}}
                 </h2>
-                {% if (item.eventTitle == "3. Continue to further competition") or (item.eventTitle == "Your assessment criteria") or (item.eventTitle == "2. Do a capability assessment ") %}
+                {% if (item.eventTitle == "Stage 2: Progress to further competition") or (item.eventTitle == "Your assessment criteria") or (item.eventTitle == "2. Do a capability assessment ") %}
                 <p class="govuk-body">{{item.eventDescription1}}</p>
                 <p class="govuk-body">{{item.eventDescription2}}</p>
                 {% endif %}
 
-                {% if (item.eventTitle == "Add context to your further competition") %}
+                {% if (item.eventTitle == "Add context and requirements") %}
                 <p class="govuk-body">{{item.eventDescription1}}</p>
                 <ul type='disc'>
                 <li>{{item.p1}}</li>
@@ -55,7 +55,6 @@
                 <li>{{item.p3}}</li>
                 <li>{{item.p4}}</li>
                 <li>{{item.p5}}</li>
-                <li>{{item.p6}}</li>
                 </ul>
                 {% endif %}
 
