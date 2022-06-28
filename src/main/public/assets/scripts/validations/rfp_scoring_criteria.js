@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
 
+    //fill data on page reaload
+    let activateField9thAreFilledReload = false;
     for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
       if (score_criteria_fieldset == 1) {
         rowsAndHead?.rows?.unshift([{ text: 'ignore' }]);
@@ -52,6 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (score_criteria_fieldset === 10) {
           document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
         }
+        if (score_criteria_fieldset == 9) {
+          activateField9thAreFilledReload = true;
+        }
         document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
       } else if (score_criteria_fieldset !== 1) {
         this_fieldset?.classList.add('ccs-dynaform-hidden');
@@ -59,6 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (score_criteria_fieldset === 1) {
         this_fieldset?.classList.remove('ccs-dynaform-hidden');
+      }
+      if (score_criteria_fieldset === 10 && activateField9thAreFilledReload) {
+        document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
       }
     }
     document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
