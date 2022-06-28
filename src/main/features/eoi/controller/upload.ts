@@ -174,8 +174,8 @@ export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, 
 
 export const POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/21`, 'Completed');
+  const { eventId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/21`, 'Completed');
 
   res.redirect('/eoi/suppliers');
 });
