@@ -2,9 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('ccs_rfp_scoring_criteria') !== null) {
     let noOfCountfieldNotNull = [], with_value_count = 10,
       prev_input = 0,
+
       deleteButtons = document.querySelectorAll('a.del').length > 0 ? document.querySelectorAll('a.del') : document.querySelectorAll('a.clear-fields');
     selectTierButtons = document.querySelectorAll('.tier-popup');
     let tierDataList = document.querySelectorAll('.tierLable');
+    document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
 
     const points_for_this_level = document.querySelectorAll(".govuk-input--width-3");
     const allinput = document.querySelectorAll(".govuk-input");
@@ -35,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
 
+    //fill data on page reaload
+    let activateField9thAreFilledReload = false;
     for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
       if (score_criteria_fieldset == 1) {
         rowsAndHead?.rows?.unshift([{ text: 'ignore' }]);
@@ -52,67 +56,69 @@ document.addEventListener('DOMContentLoaded', () => {
         if (score_criteria_fieldset === 10) {
           document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
         }
+        if (score_criteria_fieldset === 9) {
+          activateField9thAreFilledReload = true;
+        }
         document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
       } else if (score_criteria_fieldset !== 1) {
         this_fieldset?.classList.add('ccs-dynaform-hidden');
         with_value_count = score_criteria_fieldset;
       }
-      if (score_criteria_fieldset === 1) {
-        this_fieldset?.classList.remove('ccs-dynaform-hidden');
+      else if (score_criteria_fieldset === 10 && activateField9thAreFilledReload) {
+        document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
+      } else {
+        document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
       }
+
     }
-    document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+    //document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
     selectTierButtons.forEach(st => {
       st.addEventListener('click', e => {
         const rowsAndHead = JSON.parse(e.currentTarget.attributes[2].value);
         let count = 0;
         removeErrorFieldsRfpScore();
-        document.querySelectorAll(".score_criteria_fieldset").forEach(element => {
-          if (count !== 0) {
-            element.classList.add("ccs-dynaform-hidden");
-            document.getElementById('rfp_score_criteria_name_' + count).value = '';
-            document.getElementById('rfp_score_criteria_point_' + count).value = '';
-            document.getElementById('rfp_score_criteria_desc_' + count).value = '';
-          }
-          count++;
-        });
+        for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
+          document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = '';
+          document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = '';
+          document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = '';
+          var elements = document.getElementsByClassName("score_criteria_" + score_criteria_fieldset);
+          // elements.classList.removeClass("ccs-dynaform-hidden");
+          //while (elements.length)
+          elements[0].classList.add("ccs-dynaform-hidden");
+        }
+
         if (rowsAndHead != undefined && rowsAndHead != null) {
           document.getElementById('tiersAdded').textContent = rowsAndHead.rows.length;
           with_value_count = rowsAndHead.rows.length + 1;
+          rowsAndHead.rows.unshift({ text: "Ignore" })
           for (let i = 0; i < rowsAndHead.rows.length; i++) {
-            if (i === 0) {
-              const ii = i + 1;
-              //document.getElementsByClassName("score_criteria_1").classList.remove("ccs-dynaform-hidden");
-              document.getElementById("rfp_score_criteria_name_1").value = rowsAndHead.rows[i].at(0).text;
-              document.getElementById("rfp_score_criteria_point_1").value = rowsAndHead.rows[i].at(1).text;
-              document.getElementById("rfp_score_criteria_desc_1").value = rowsAndHead.rows[i].at(2).text;
-
-              // $("#rfp_score_criteria_name_1").prop('readonly', true);
-              // $("#rfp_score_criteria_point_1").prop('readonly', true);
-              // $("#rfp_score_criteria_desc_1").prop('readonly', true);
-
-            } else {
-              const ii = i + 1;
-              var elements = document.getElementsByClassName("score_criteria_" + ii);
+            if (i !== 0) {
+              //const ii = i + 1;
+              var elements = document.getElementsByClassName("score_criteria_" + i);
               // elements.classList.removeClass("ccs-dynaform-hidden");
               //while (elements.length)
               elements[0].classList.remove("ccs-dynaform-hidden");
-              if (rowsAndHead.rows.length == ii) {
-                //$("#deleteButton_" + ii).removeClass("ccs-dynaform-hidden");
-                //$("#ccs_rfp_score_criteria_add").addClass("ccs-dynaform-hidden");
-              }
-              else {
-                //$("#deleteButton_" + ii).addClass("ccs-dynaform-hidden");
-              }
+              // if (rowsAndHead.rows.length == i) {
+              //   //$("#deleteButton_" + ii).removeClass("ccs-dynaform-hidden");
+              //   //$("#ccs_rfp_score_criteria_add").addClass("ccs-dynaform-hidden");
+              // }
+              // else {
+              //   //$("#deleteButton_" + ii).addClass("ccs-dynaform-hidden");
+              // }
 
-              document.getElementById("rfp_score_criteria_name_" + ii).value = rowsAndHead.rows[i].at(0).text;
-              document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
-              document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
+              document.getElementById("rfp_score_criteria_name_" + i).value = rowsAndHead.rows[i].at(0).text;
+              document.getElementById("rfp_score_criteria_point_" + i).value = rowsAndHead.rows[i].at(1).text;
+              document.getElementById("rfp_score_criteria_desc_" + i).value = rowsAndHead.rows[i].at(2).text;
 
               // $("#rfp_score_criteria_name_" + ii).prop('readonly', true);
               // $("#rfp_score_criteria_point_" + ii).prop('readonly', true);
               // $("#rfp_score_criteria_desc_" + ii).prop('readonly', true);
 
+            }
+            if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
+              document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
+            } else {
+              document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
             }
           }
         }
@@ -125,12 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
       removeErrorFieldsRfpScore();
       e.preventDefault();
       errorStore = emptyFieldCheckRfpScore();
-      if (with_value_count === 11) {
-        let errlist = [];
-        errlist.push(["There is a problem", 'You must add min maximum 10 tiers.'])
-        ccsZPresentErrorSummary(errlist);
-        return;
-      }
+      // if (with_value_count === 11) {
+      //   let errlist = [];
+      //   errlist.push(["There is a problem", 'You must add min maximum 10 tiers.'])
+      //   ccsZPresentErrorSummary(errlist);
+      //   return;
+      // }
       let activateField = 1;
       let activateField9thAreFilled = false;
       if (errorStore.length == 0) {
@@ -234,22 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
             with_value_count = 1;
           }
         }
-        // if (prev_coll > 1) {
-        //   // document
-        //   //   .querySelector('.score_criteria_' + prev_coll + ' a.clear-fields')
-        //   //   .classList.remove('ccs-dynaform-hidden');
-        //   if (document.querySelectorAll('a.del').length > 0) {
-        //     document
-        //       .querySelector('.score_criteria_' + target + ' a.del')
-        //       .classList.add('ccs-dynaform-hidden');
-        //     //document.getElementById("deleteButton_" + prev_coll).classList.remove('ccs-dynaform-hidden');
-        //   }
-        //   else
-        //     document
-        //       .querySelector('.score_criteria_' + prev_input + ' a.clear-fields')
-        //       .classList.add('ccs-dynaform-hidden');
-        // }
-
         document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
         with_value_count--;
         if (totalAddedTierSoFar === 0) {
@@ -301,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
           //performSubmitAction(ele1, ele2, ele3);
         });
         var performSubmitAction = function (ele1, ele2, ele3) {
-          console.log('ajax call')
           if (ele1.value !== '' && ele2.value !== '' && ele3.value !== '') {
             let formElement = document.getElementById('ccs_rfp_scoring_criteria');
             let action = formElement.getAttribute('action');
