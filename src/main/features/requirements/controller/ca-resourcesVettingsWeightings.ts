@@ -28,8 +28,10 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     currentEvent,
     designations,
     tableItems,
-    choosenViewPath,   
-    eventId,  
+
+    choosenViewPath,    
+    eventId,
+
   } = req.session;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;

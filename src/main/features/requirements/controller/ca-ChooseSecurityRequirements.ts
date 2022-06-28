@@ -63,9 +63,13 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     let flag = await ShouldEventStatusBeUpdated(projectId, 49, req);
         if (flag) {
 
+
     await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/49`, 'In progress');
+
+    
         }
-        res.render('ca-ChooseSecurityRequirements', appendData);
+
+    res.render('ca-ChooseSecurityRequirements', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
