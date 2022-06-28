@@ -2,9 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('ccs_rfp_scoring_criteria') !== null) {
     let noOfCountfieldNotNull = [], with_value_count = 10,
       prev_input = 0,
+      
       deleteButtons = document.querySelectorAll('a.del').length > 0 ? document.querySelectorAll('a.del') : document.querySelectorAll('a.clear-fields');
     selectTierButtons = document.querySelectorAll('.tier-popup');
     let tierDataList = document.querySelectorAll('.tierLable');
+    document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
 
     const points_for_this_level = document.querySelectorAll(".govuk-input--width-3");
     const allinput = document.querySelectorAll(".govuk-input");
@@ -62,14 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
         this_fieldset?.classList.add('ccs-dynaform-hidden');
         with_value_count = score_criteria_fieldset;
       }
-      if (score_criteria_fieldset === 1) {
-        this_fieldset?.classList.remove('ccs-dynaform-hidden');
-      }
-      if (score_criteria_fieldset === 10 && activateField9thAreFilledReload) {
+      else if (score_criteria_fieldset === 10 && activateField9thAreFilledReload) {
         document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
-      }
+      } else {
+        document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+      }     
+
     }
-    document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+    //document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
     selectTierButtons.forEach(st => {
       st.addEventListener('click', e => {
         const rowsAndHead = JSON.parse(e.currentTarget.attributes[2].value);
@@ -242,22 +244,6 @@ document.addEventListener('DOMContentLoaded', () => {
             with_value_count = 1;
           }
         }
-        // if (prev_coll > 1) {
-        //   // document
-        //   //   .querySelector('.score_criteria_' + prev_coll + ' a.clear-fields')
-        //   //   .classList.remove('ccs-dynaform-hidden');
-        //   if (document.querySelectorAll('a.del').length > 0) {
-        //     document
-        //       .querySelector('.score_criteria_' + target + ' a.del')
-        //       .classList.add('ccs-dynaform-hidden');
-        //     //document.getElementById("deleteButton_" + prev_coll).classList.remove('ccs-dynaform-hidden');
-        //   }
-        //   else
-        //     document
-        //       .querySelector('.score_criteria_' + prev_input + ' a.clear-fields')
-        //       .classList.add('ccs-dynaform-hidden');
-        // }
-
         document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
         with_value_count--;
         if (totalAddedTierSoFar === 0) {
