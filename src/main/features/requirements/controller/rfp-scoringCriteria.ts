@@ -825,7 +825,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
                   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
-                  let flag = await ShouldEventStatusBeUpdated(projectId, 39, req);
+                  let flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
                   if (flag) {
                     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'Not started');
                   }
