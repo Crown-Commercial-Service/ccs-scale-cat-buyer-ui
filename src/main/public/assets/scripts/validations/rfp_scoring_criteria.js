@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (score_criteria_fieldset === 10) {
           document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
         }
-        if (score_criteria_fieldset == 9) {
+        if (score_criteria_fieldset === 9) {
           activateField9thAreFilledReload = true;
         }
         document.getElementById('tiersAdded').textContent = score_criteria_fieldset;
