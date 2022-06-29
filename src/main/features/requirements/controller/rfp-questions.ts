@@ -59,8 +59,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const titleText = nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (Optional)';
     const promptData = nonOCDS?.prompt;
 
-    const splitOn = '<br>';
-    const promptSplit = group_id == 'Group 24' && id == 'Criterion 3' ? promptData.split(splitOn) : promptData;
+    //const splitOn = '<br>';
+    //const promptSplit = group_id == 'Group 24' && id == 'Criterion 3' ? promptData.split(splitOn) : promptData;
 
 
     const nonOCDSList = [];
@@ -164,7 +164,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       rfpTitle: titleText,
       shortTitle: mapTitle(group_id),
       bcTitleText,
-      prompt: promptSplit,
+      prompt: promptData,
       organizationName: organizationName,
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,

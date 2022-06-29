@@ -5,13 +5,13 @@ import * as express from 'express';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 
-export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
+export const DA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const organization_id = req.session.user.payload.ciiOrgId;
   req.session['organizationId'] = organization_id;
   const { SESSION_ID } = req.cookies;
   const { projectId, isJaggaerError,choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
-  const { ca_procurement_lead: userParam } = req.query;
+  const { da_procurement_lead: userParam } = req.query;
   const releatedContent = req.session.releatedContent;
 
   const url = `/tenders/projects/${projectId}/users`;
@@ -65,7 +65,7 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
       releatedContent,
       choosenViewPath:choosenViewPath
     };
-    res.render('ca-procurementLead', windowAppendData);
+    res.render('da-procurementLead', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -79,19 +79,19 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
   }
 };
 
-export const CA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
+export const DA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,eventId } = req.session;
-  const { ca_procurement_lead_input: userMail } = req.body;
+  const { projectId } = req.session;
+  const { da_procurement_lead_input: userMail } = req.body;
   const url = `/tenders/projects/${projectId}/users/${userMail}`;
   try {
     const _body = {
       userType: 'PROJECT_OWNER',
     };
     await TenderApi.Instance(SESSION_ID).put(url, _body);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/43`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/61`, 'Completed');
 
-    res.redirect('/ca/add-collaborators');
+    res.redirect('/da/add-collaborators');
   } catch (error) {
     const isJaggaerError = error.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
@@ -107,11 +107,11 @@ export const CA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
     );
 
     req.session['isJaggaerError'] = isJaggaerError;
-    res.redirect('/ca/procurement-lead');
+    res.redirect('/da/procurement-lead');
   }
 };
 
-export const CA_GET_USER_PROCUREMENT = async (req: express.Request, res: express.Response) => {
+export const DA_GET_USER_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { id } = req.query;
   try {
