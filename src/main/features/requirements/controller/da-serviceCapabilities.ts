@@ -17,7 +17,7 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     lotId,
     agreementLotName,
     agreementName,
-    projectId,
+    eventId,
     agreement_id,
     releatedContent,
     project_name,
@@ -278,7 +278,7 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
 
     const windowAppendData = { ...daService, totalWeighting, lotId, agreementLotName, releatedContent, choosenViewPath,isError, errorText, TABLE_HEADING: TableHeadings, TABLE_BODY: TABLEBODY, WHOLECLUSTER: WHOLECLUSTERCELLS };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/68`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/68`, 'In progress');
 
     //res.json(UNIQUE_DESIGNATION_HEADINGS_ARR)
     res.render('da-serviceCapabilities', windowAppendData);
@@ -298,7 +298,7 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
 export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { eventId } = req.session;
 
   let { ca_partial_weightage, weight_vetting_partial, weight_vetting_whole, weight_vetting_whole_group } = req.body;
 
@@ -530,11 +530,20 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       PostedFormElement['values'] = [];
       return PostedFormElement;
     })
+    let subcontractorscheck;
 
+    if (Weightings?.filter(dimension => dimension["dimension-id"] === 3).length > 0) {
+      subcontractorscheck = (Weightings?.filter(dimension => dimension["dimension-id"] === 3)[0].includedCriteria.
+        find(x => x["criterion-id"] == 1))
+    }
+    let includedSubContractor = [];
+    if (subcontractorscheck != undefined) {
+      includedSubContractor = [{ 'criterion-id': '1' }]
+    }
 
     const PUT_BODY = {
       weighting: Service_capbility_weightage,
-      includedCriteria: [],
+      includedCriteria: includedSubContractor,
       overwriteRequirements: true,
       requirements: MappedWholeAndPartialCluster
     }
@@ -549,8 +558,8 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
 
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/68`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/69`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/68`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'Not started');
 
       res.redirect('/da/team-scale');
 

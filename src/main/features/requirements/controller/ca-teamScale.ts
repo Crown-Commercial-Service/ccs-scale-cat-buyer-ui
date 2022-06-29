@@ -76,9 +76,9 @@ export const CA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
      
   
     const windowAppendData = { data:caTeamScale,RadioData, lotId, agreementLotName, choosenViewPath, releatedContent,error: caTeamScaleerror };
-    let flag = await ShouldEventStatusBeUpdated(projectId, 51, req);
+    let flag = await ShouldEventStatusBeUpdated(eventId, 51, req);
         if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/51`, 'In progress');
         }
     res.render('ca-team-scale', windowAppendData);
   } catch (error) {
@@ -103,7 +103,7 @@ const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string) => {
 
 export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const dimension = req.session.dimensions;
   //const scalabledata = req.session.scaledata;
@@ -148,10 +148,10 @@ export const CA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       body,
     );
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
-    let flag = await ShouldEventStatusBeUpdated(projectId, 52, req);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/51`, 'Completed');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 52, req);
         if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/52`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/52`, 'Not started');
         }
 
     req.session.caTeamScaleerror=false;

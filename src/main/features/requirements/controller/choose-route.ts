@@ -96,13 +96,13 @@ function updateRadioButtonOptions(
 
 export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const projectId = req.session.projectId;
+  const {eventId} = req.session;
   try {
     const filtered_body_content_removed_fc_key = ObjectModifiers._deleteKeyofEntryinObject(
       req.body,
       'choose_fc_route_to_market',
     );
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/3`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/3`, 'In progress');
     const { fc_route_to_market } = filtered_body_content_removed_fc_key;
 
     if (fc_route_to_market) {
