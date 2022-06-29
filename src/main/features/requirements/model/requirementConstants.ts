@@ -55,6 +55,14 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
   RFP_POST_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
 
+ //Add cllaborator DA
+ DA_GET_ADD_COLLABORATOR = '/da/add-collaborators',
+ DA_POST_ADD_COLLABORATOR_JSENABLED = '/da/get-collaborator-detail/js-enabled',
+ DA_POST_ADD_COLLABORATOR = '/da/get-collaborator-detail',
+ DA_POST_ADD_COLLABORATOR_TO_JAGGER = '/da/add-collaborator-detail',
+ DA_POST_PROCEED_COLLABORATORS = '/da/proceed-collaborators',
+
+
   // Add collaborator ca
   CA_GET_ADD_COLLABORATOR = '/ca/add-collaborators',
   CA_POST_ADD_COLLABORATOR_JSENABLED = '/ca/get-collaborator-detail/js-enabled',
@@ -77,6 +85,13 @@ export enum REQUIREMENT_PATHS {
   CA_GET_LEAD_PROCUREMENT = '/ca/procurement-lead',
   CA_PUT_LEAD_PROCUREMENT = '/ca/procurement-lead',
   CA_GET_USER_PROCUREMENT = '/ca/users-procurement-lead',
+
+  //Proc lead DA
+  DA_GET_NAME_PROJECT='/da/name-your-project',
+  DA_POST_NAME_PROJECT='/da/name',
+  DA_GET_USER_PROCUREMENT='/da/users-procurement-lead',
+  DA_PUT_LEAD_PROCUREMENT='/da/procurement-lead',
+  DA_GET_LEAD_PROCUREMENT='/da/procurement-lead',
 
   // Upload doc ca
   CA_GET_UPLOAD_DOC = '/ca/upload-doc',
