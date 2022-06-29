@@ -149,6 +149,7 @@ export enum REQUIREMENT_PATHS {
   DA_GET_NEXTSTEPS = '/da/next-steps',
   DA_POST_NEXTSTEPS = '/da/next-steps',
   DA_GET_CANCEL = '/da/cancel',
+  DA_POST_CANCEL = '/da/cancel',
   CA_GET_CANCEL = '/ca/cancel',
 
   CA_GET_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',

@@ -17,7 +17,7 @@
                     <br><br><br>
                     <p class="govuk-body">{{data.subtitle}}</p>
                 <br/><br/><br/>
-                 {# <form id="ccs-eoi-suppliers-form" class="ccs-eoi-suppliers-form" action="/rfp/suppliers" method="POST">  #}
+                 <form  class="ccs-eoi-suppliers-form" action="/da/cancel" method="POST">
                 {{ csrfProtection(csrf) }}
                     <div class="govuk-form-group"></div>
                     <div id="page1" >
@@ -32,10 +32,10 @@
                     </div>
                                         <br><br><br>
                     <div class="govuk-button-group">
-
+                  
                             {{ CCSButton({
-                            text: "Go to your project dashboard",
-                            href:"/dashboard"
+                            text: "Go to your project dashboard"
+                            
                             }) }}
                                     {# <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a> #}
                                 </div>

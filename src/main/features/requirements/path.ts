@@ -520,7 +520,11 @@ export default function (app: Application): void {
     AUTH,
     REQUIREMENT_CONTROLLER.CA_POST_ADD_COLLABORATOR_JSENABLED,
   );
-
+  app.post(
+    REQUIREMENT_PATHS.DA_POST_CANCEL,
+    AUTH,
+    REQUIREMENT_CONTROLLER.DA_POST_CANCEL,
+  );
   //@POST '/da/get-collaborator-detail/js-enabled'
   app.post(
     REQUIREMENT_PATHS.DA_POST_ADD_COLLABORATOR_JSENABLED,

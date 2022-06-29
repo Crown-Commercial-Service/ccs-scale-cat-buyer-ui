@@ -1,6 +1,7 @@
 //@ts-nocheck
 import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import * as express from 'express';
+import * as journyData from '../../procurement/model/tasklist.json';
 import { RankSuppliersforDA } from '../../shared/RankSuppliersforDA';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
@@ -169,8 +170,18 @@ export const DA_GET_CANCEL = async (req: express.Request, res: express.Response)
 
 export const DA_POST_CANCEL = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
+  const {  projectId,eventId } = req.session;
   try {
-    res.redirect('/rfp/response-date');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Completed');
+          const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
+          let endDate=new Date()
+          endDate.setDate(endDate.getDate()+1);
+          const _bodyData = {
+            endDate: endDate,
+          };
+          await TenderApi.Instance(SESSION_ID).put(publishUrl, _bodyData);
+       res.redirect('/dashboard');
+      
   } catch (error) {
     LoggTracer.errorLogger(
       res,
