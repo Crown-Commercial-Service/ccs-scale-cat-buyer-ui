@@ -19,7 +19,7 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
   const { SESSION_ID } = req.cookies;
   const organization_id = req.session.user.payload.ciiOrgId;
   req.session['organizationId'] = organization_id;
-  const { isJaggaerError } = req.session;
+  const { isJaggaerError,choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   try {
     const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
@@ -74,6 +74,7 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
       agreementLotName,
       error: isJaggaerError,
       releatedContent: releatedContent,
+      choosenViewPath:choosenViewPath
     };
     res.render('ca-add-collaborator', windowAppendData);
   } catch (error) {
@@ -185,6 +186,6 @@ export const CA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
 export const CA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/44`, 'Completed');
   res.redirect(`/ca/task-list?path=${req.session['choosenViewPath']}`);
 };

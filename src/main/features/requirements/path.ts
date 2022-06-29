@@ -108,7 +108,11 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.CA_REQUIREMENT_TYPE,
   );
-
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_CHOOSE_REQUIREMENTS,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_CHOOSE_SECURITY_REQUIREMENTS,
+  );
   app.get(
     REQUIREMENT_PATHS.CA_GET_NAME_PROJECT,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -284,11 +288,11 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
   );
   // /ca/resources-vetting-weightings
-  // app.get(
-  //   REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
-  //   [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-  //   REQUIREMENT_CONTROLLER.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
-  // );
+  app.get(
+    REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
+  );
   // /da/resources-vetting-weightings
   app.get(
     REQUIREMENT_PATHS.DA_GET_RESOURCES_VETTING_WEIGHTINGS,
@@ -485,10 +489,11 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_POST_ADD_COLLABORATOR_TO_JAGGER,
   );
 
+  app.get(REQUIREMENT_PATHS.RFP_POST_DELETE_COLLABORATOR_TO_JAGGER,AUTH,REQUIREMENT_CONTROLLER.RFP_POST_DELETE_COLLABORATOR_TO_JAGGER,);
+
   //@POST '/ca/add-collaborator-detail'
   app.post(
-    REQUIREMENT_PATHS.CA_POST_ADD_COLLABORATOR_TO_JAGGER,
-    AUTH,
+    REQUIREMENT_PATHS.CA_POST_ADD_COLLABORATOR_TO_JAGGER,AUTH,
     REQUIREMENT_CONTROLLER.CA_POST_ADD_COLLABORATOR_TO_JAGGER,
   );
 
@@ -589,11 +594,11 @@ export default function (app: Application): void {
   //@POST "rfp/suppliers"
   app.post(REQUIREMENT_PATHS.POST_RFP_SUPPLIER, AUTH, REQUIREMENT_CONTROLLER.POST_RFP_SUPPLIERS);
   //@POST '/ca/resources-vetting-weightisngs'
-  // app.post(
-  //   REQUIREMENT_PATHS.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
-  //   AUTH,
-  //   REQUIREMENT_CONTROLLER.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
-  // );
+  app.post(
+    REQUIREMENT_PATHS.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
+    AUTH,
+    REQUIREMENT_CONTROLLER.CA_POST_RESOURCES_VETTING_WEIGHTINGS,
+  );
   app.post(REQUIREMENT_PATHS.CA_POST_WEIGHTINGS, AUTH, REQUIREMENT_CONTROLLER.CA_POST_WEIGHTINGS);
 
   app.post(REQUIREMENT_PATHS.CA_POST_SERVICE_CAPABILITIES, AUTH, REQUIREMENT_CONTROLLER.CA_POST_SERVICE_CAPABILITIES);
@@ -624,7 +629,11 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_POST_CHOOSE_SECURITY_REQUIREMENTS,
   );
-
+  app.post(
+    REQUIREMENT_PATHS.CA_POST_CHOOSE_REQUIREMENTS,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.CA_POST_CHOOSE_SECURITY_REQUIREMENTS,
+  );
   app.post(
     REQUIREMENT_PATHS.DA_POST_CHOOSE_REQUIREMENTS,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -724,5 +733,17 @@ export default function (app: Application): void {
     REQUIREMENT_PATHS.GET_RFP_CLOSE_PROJECT,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.GET_RFP_CLOSE_PROJECT,
+  );
+
+  app.post(
+    REQUIREMENT_PATHS.POST_DA_REVIEW_SUPPLIER,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.POST_DA_REVIEW_SUPPLIER,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.GET_DA_REVIEW_SUPPLIER,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.GET_DA_REVIEW_SUPPLIER,
   );
 }

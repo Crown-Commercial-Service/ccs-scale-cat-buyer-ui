@@ -1,0 +1,147 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+    items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/ca/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "Set your highest security and vetting requirements",
+                "href": "#"
+            }
+        ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-error-summary hide-block" id="ca_choose_security_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="ca_choose_security_summary_list">
+    </ul>
+  </div>
+</div>
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    {% if(isError)%}
+      {{ CCSErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorText
+      }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 id="page-heading" class="govuk-heading-xl">
+          <strong>{{title}}</strong>
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
+      <div class="ccs-page-section">
+      <p class="govuk-body">{{form.question}}</p>
+        <br>
+      </div>
+      <form id="ca_choose_security_form" name="ca_choose_security_form" class="form" action="/ca/choose-security-requirements" method="post">
+        {{ csrfProtection(csrf) }}
+        {% set formOptions = form.radioOptions.items %}
+
+        {% set form_Options_Altered = [] %}
+
+        {% set condResources %}
+          {{ CCSInput({
+            id: "ccs_ca_resources",
+            name: "ccs_ca_resources",
+            type: "number",
+            classes: "govuk-!-width-one-third ca_choosesecurity_resources",
+            value: form.selectedValue,
+            label: {
+              text: "How many staff will need a lower security and vetting requirement?"
+            }
+            
+          }) }}
+        {% endset -%}
+
+        {% for item in formOptions %}
+          {% if item.hasResources %}
+            {% set form_Options_Altered = (form_Options_Altered.push(
+              {
+                value: item.value,
+                html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+                hint : {
+                  text: item.hint.text
+                },
+                conditional: {
+                  html: condResources
+                },
+                checked: item.checked
+                }
+              ), form_Options_Altered) 
+              
+              %}
+          {% else %}
+              {% set form_Options_Altered = (form_Options_Altered.push(
+                  {
+                    value: item.value,
+                    html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+                    hint : {
+                      text: item.hint.text
+                    },
+                    checked: item.checked
+                  }
+                ), form_Options_Altered) 
+              
+              %} 
+          {% endif %}
+
+        {% endfor %}
+
+
+        {{ CCSRadios({
+                idPrefix: "ccs_ca_choose_security",
+                name: "ccs_ca_choose_security",
+                items: form_Options_Altered               
+              }) }}
+
+        {{ CCSInput({
+                id: "selected_ca_choose_security",
+                name: "selected_ca_choose_security",
+                type: "hidden",
+                value: true
+              }) }}
+  {{ CCSInput({
+                id: "totalQuantityca",
+                name: "totalQuantityca",
+                type: "hidden",
+                value: totalQuantityca
+              }) }}
+        <div class="govuk-button-group">
+          {{ CCSButton({
+                text: "Save and continue"
+                }) }}
+                  {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+          <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{form.backJump.title}}</a>
+        </div>
+      </form>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </main>
+{% endblock %}

@@ -16,7 +16,9 @@
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
                     <br><br><br>
-                    <p class="govuk-body">{{data.subtitle}}</p>
+                    <p class="govuk-body">You chose not to continue to further competition with your list of suppliers. If you want to continue to further competition you will need to start your capability assessment again.</p>
+                    <p class="govuk-body">You can assess this capability assessment in the archive, in your project dashboard.</p>
+                    <p class="govuk-body">You can download your list of suppliers below.</p>
                     <br><br><br>
                 {#<form id="ccs-eoi-suppliers-form" class="ccs-eoi-suppliers-form" action="/rfp/suppliers" method="POST">#}
                 {{ csrfProtection(csrf) }}
@@ -25,7 +27,7 @@
                         <div id="supplier-list">
                             <div class="govuk-form-group">
                                 <h3>
-                                    <a href="/ca/cancel?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download list of ranked suppliers
+                                    <a href="/ca/cancel?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download your list of suppliers
                 </a>
                                 </h3>
                             </div>

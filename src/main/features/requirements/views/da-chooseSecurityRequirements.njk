@@ -8,6 +8,14 @@
 {% endblock %}
 
 {% block content %}
+<div class="govuk-error-summary hide-block" id="da_choose_security_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list" id="da_choose_security_summary_list">
+    </ul>
+  </div>
+</div>
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
     {% if(isError)%}
@@ -40,7 +48,7 @@
             id: "ccs_da_resources",
             name: "ccs_da_resources",
             type: "number",
-            classes: "govuk-!-width-one-third",
+            classes: "govuk-!-width-one-third da_choosesecurity_resources",
             label: {
               text: "How many resources need a lower security and vetting requirement?"
             }
@@ -94,7 +102,12 @@
                 type: "hidden",
                 value: true
               }) }}
-
+ {{ CCSInput({
+                id: "totalQuantityda",
+                name: "totalQuantityda",
+                type: "hidden",
+                value: totalQuantityda
+              }) }}
         <div class="govuk-button-group">
           {{ CCSButton({
                 text: "Save and continue"

@@ -18,6 +18,8 @@ export enum RFI_PATHS {
   GET_RFI_REVIEW = '/rfi/review',
   GET_EVENT_PUBLISHED = '/rfi/event-sent',
   GET_OFFLINE = '/eoi/offline',
+  RFI_GET_NEXT_STEPS='/rfi/nextsteps',
+  RFI_GET_CLOSE='/rfi/closerfi',
   POST_DELETE_COLLABORATOR_TO_JAGGER='/rfi/delete-collaborators',
 
   /**
@@ -38,5 +40,6 @@ export enum RFI_PATHS {
   POST_RESPONSE_DATE = '/rfi/response-date',
   POST_ADD_RESPONSE_DATA = '/rfi/add/response-date',
   POST_RFI_REVIEW = '/rfi/review',
-  POST_UPLOAD_PROCEED = '/rfi/upload-doc/proceed'
+  POST_UPLOAD_PROCEED = '/rfi/upload-doc/proceed',
+  RFI_POST_NEXT_STEPS='/rfi/nextsteps',
 }

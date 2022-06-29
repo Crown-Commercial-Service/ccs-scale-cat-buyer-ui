@@ -9,41 +9,42 @@
             "href": "/dashboard"
         },
         {
-            "text": "Event Management",
+            "text": "Project section",
             "href": "#"
         }
     ],
-    "title": "Event Management",
-    "subtitle": "[ Instructions for this page ]",
-    "subsection2_title": "Open Project ID/ Name",
-    "subsection2_content": "Close project",
-    "subsection3_title": "Messaging Inbox",
-    "subsection3_linkText": "Access my inbox",
+    "title": "Your Project",
+    "subtitle": "Manage your project from this page including responding to supplier's clarification question or messages in your inbox. See supplier's answers to your publishes project.",
+    "subtitle1":"You can close this project using the link under the project name below.",
+    "subsection2_title": "Project ID/name",
+    "subsection2_content": "Close this project",
+    "subsection3_title": "Your Inbox",
+    "subsection3_linkText": "Open my inbox",
     "subsection3_linkURL": "/message/inbox",
-    "subsection3_title2": "Q&A",
-    "subsection3_linkText2": "View Q&A",
+    "subsection3_title2": "Clarification questions",
+    "subsection3_linkText2": "Open clarification questions",
     "subsection3_linkURL2": "/event/qa",
-    "subsection4_title1": "Project and collaborators",
-    "subsection4_title1_descriiption": "[ Description for this section ]",
+    "subsection4_title1": "Project and colleagues",
+    "subsection4_title1_descriiption": "You can add or remove colleagues from this project",
     "subsection4_title1_task": [
         {
-            "line_1_text": "Edit Collaborators",
+            "line_1_text": "Add or remove Colleagues",
             "line_1_link": "#",
             "disable": true
         }
     ],
-    "subsection4_title2_1": "Your Request for Information (RFI)",
+    "subsection4_title2_1": "Your published project",
     "subsection4_title2_2": "Your Expression of interest (Eoi)",
-    "subsection4_title2_1_descriiption": "[ Description for this section ]",
+    "subsection4_title2_1_descriiption": "You can read or download a copy of your published project.You cannot make any changes",
     "subsection4_title2_2_descriiption": "[ Description for this section ]",
     "subsection4_title2_1_task": [
         {
-            "line_1_text": "View  RFI",
+            "line_1_text": "Read my published project",
             "line_1_link": "#",
             "disable": true
         },
         {
-            "line_1_text": "Download document sent to supplier",
+            "line_1_text": "Download my published project",
             "line_1_link": "#",
             "disable": true
         }
@@ -60,40 +61,27 @@
             "disable": true
         }
     ],
-    "subsection4_title3": "Supplier Response Summary",
-    "subsection4_title3_descriiption": "[ Description for this section ]",
-    "subsection4_title3_task": [
-        {
-            "line_1_text": "Suppliers Invited to Respond",
-            "line_1_count": "6",
-            "disable": true
-        },
-        {
-            "line_1_text": "Responses received - Interested to Participate",
-            "line_1_count": "3 <a class='govuk-link' href='#'>See bellow</a>",
-            "disable": true
-        },
-        {
-            "line_1_text": "Responses received - indicating they won’t respond",
-            "line_1_count": "1 <a class='govuk-link' href='#'>See bellow</a>",
-            "disable": true
-        },
-        {
-            "line_1_text": "Response not received",
-            "line_1_count": "2 <a class='govuk-link' href='#'>See bellow</a>",
-            "disable": true
-        }
-    ],
-    "subsection4_title4": "Supplier of Interest",
-    "subsection4_title4_descriiption": "[ Description for this section ]",
+    "subsection4_title3": "How many suppliers will respond to your published project",
+    "subsection4_title3_descriiption": "You can find out how many suppliers are interested in responding to your project in the section below.",
+    "subsection4_title3_task1":"Total number of suppliers who received your published project",
+    "subsection4_title3_task2":"Number of suppliers who want to submit an answer",
+    "subsection4_title3_task3":"Number of suppliers who do not want to submit an answer",
+     "subsection4_title3_task4":"Number of suppliers who have not responded",
+    
+    
+    "subsection4_title4": "Supplier responses",
+    "subsection4_title4_descriiption": "You will see the supplier after the closing date and time",
     "subsection4_title4_1": "Responses received - interest to participate",
     "subsection4_table_th_1": "Supplier Name",
-    "subsection4_table_th_2": "Response Date",
-    "subsection4_table_th_3": null,
+    "subsection4_table_th_2": "Date the supplier responded",
+    "subsection4_table_th_3": "Supplier's Answer",
     "Downloadresponse": [
         {
             "text": "Download response",
             "link": "#"
         }
-    ]
+    ],
+    "backJump": {
+        "title": "Download all responses"
+      }
 }

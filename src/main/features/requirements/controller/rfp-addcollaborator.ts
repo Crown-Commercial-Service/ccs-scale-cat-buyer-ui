@@ -159,6 +159,12 @@ export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: expre
 export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborator } = req['body'];
+
+  if (rfi_collaborator === '') {
+    req.session['isJaggaerError'] = true;
+    res.redirect('/rfp/add-collaborators');
+  }
+
   try {
     const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfi_collaborator}`;
     const userType = {
@@ -184,11 +190,38 @@ export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, 
   }
 };
 
+export const RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies;
+  const {id}=req.query;
+  try {
+    const baseURL = `/tenders/projects/${req.session.projectId}/users/${id}`;
+    
+    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
+    req.session['searched_user'] = [];
+    res.redirect('/rfp/add-collaborators');
+  } catch (err) {
+    const isJaggaerError = err.response.data.errors.some(
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+    );
+    LoggTracer.errorLogger(
+      res,
+      err,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tender agreement failed to be added',
+      !isJaggaerError,
+    );
+    req.session['isJaggaerError'] = isJaggaerError;
+    res.redirect('/rfp/add-collaborators');
+  }
+};
+
 // /rfp/proceed-collaborators
 export const RFP_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/29`, 'Completed');
+  const { eventId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/29`, 'Completed');
   if(req.session.unpublishedeventmanagement=="true")
   {
     res.redirect('/rfp/rfp-unpublishedeventmanagement');

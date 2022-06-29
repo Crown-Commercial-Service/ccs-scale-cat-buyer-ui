@@ -149,17 +149,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const emptyQuestionFieldCheck = () => {
-  let fieldCheck = "",
+  let fieldCheck = true,
     errorStore = [];
 
   //const event_typ = document.getElementById("event_type_label").value;
 
   //if (event_typ !== "Request for Information") {
-  fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
+  //fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
   for (var i = 1; i < 11; i++) {
     if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
+      if(i==1){
+        fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
+      }
+      else{
       fieldCheck = ccsZvalidateWithRegex("rfi_question_" + i, "You must type a question before you can add another question", /\w+/);
+      }
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }

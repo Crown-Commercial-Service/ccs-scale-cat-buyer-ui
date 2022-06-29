@@ -11,7 +11,7 @@ import config from 'config';
 // FC cancel
 export const CA_GET_UPLOAD_SUPPORTING_DOCUMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { eventId } = req.session;
   const releatedContent = req.session.releatedContent;
   const agreementName = req.session.agreementName;
   const lotid = req.session?.lotId;
@@ -22,10 +22,10 @@ export const CA_GET_UPLOAD_SUPPORTING_DOCUMENT = async (req: express.Request, re
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   try {
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'In progress');
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'In progress');
     const appendData = { data: cmsData, releatedContent, error: isJaggaerError, choosenViewPath };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/56`, 'In progress');
-    res.render('ca-uploadDoc', appendData);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/56`, 'In progress');
+    res.render('ca-uploadDocument', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -41,7 +41,7 @@ export const CA_GET_UPLOAD_SUPPORTING_DOCUMENT = async (req: express.Request, re
 
 export const CA_POST_UPLOAD_SUPPORTING_DOCUMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const dimension = req.session.dimensions;
   const scalabilityData = dimension.filter(data => data.name === 'Scalability')[0];
@@ -72,12 +72,12 @@ export const CA_POST_UPLOAD_SUPPORTING_DOCUMENT = async (req: express.Request, r
       body,
     );
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Cannot start yet');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Cannot start yet');
 
     // Check 'review ranked suppliers' step number
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
+    // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/`, 'To do');
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Completed');
     res.redirect('/ca/get-work-done');
   } catch (error) {
     LoggTracer.errorLogger(

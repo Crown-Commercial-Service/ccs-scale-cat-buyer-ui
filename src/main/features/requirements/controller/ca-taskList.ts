@@ -52,11 +52,14 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
   let ViewLoadedTemplateData;
 
   try {
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${projectId}/steps`);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    const isSummaryDone = journeySteps.find(stp => stp.step === 54 && stp.state === 'Completed');
+
+    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
+    const isSummaryDone = journeySteps.find(stp => stp.step === 55 && stp.state === 'Completed');
+
     switch (path) {
       case 'A1':
+        req.session['choosenViewPath'] = 'A1';
         ViewLoadedTemplateData = haveFCA && isSummaryDone !=undefined && isSummaryDone ? A1_Template_FCA : A1_Template;
         break;
       case 'A2':
@@ -74,8 +77,8 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
       default:
         res.redirect('error/404');
     }
-    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, eventType, agreement_id, projectId, eventId);
-
+    console.log(journeySteps)
+    statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'FCA', agreement_id, projectId, eventId);
     const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
 
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
@@ -122,7 +125,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
       return {
         url: `#section${index + 1}`,
         text: designation['job-category'],
-        subtext: `${weightage.min}% / ${weightage.max}%`,
+        subtext: "0 resources added,0% / 0%",
       };
     });
 

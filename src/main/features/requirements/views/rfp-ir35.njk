@@ -38,7 +38,7 @@
  <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-xl">
-            Confirm if IR35 off-payroll working rules apply to your contractors
+            Confirm if you require a contracted out service or supply of resource.
 
           </h1>
           {% include "includes/project_header.njk" %}
@@ -47,12 +47,12 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-    <form action="/rfp/IR35" method="POST" >
+    <form name="rfp_IR35_form" id="rfp_IR35_form" action="/rfp/IR35" method="POST" >
     {{ csrfProtection(csrf) }}
     
-    <p class="govuk-body">You are responsible for deciding if the off-payroll working rules(IR35) apply to any staff supplied to you.</p>
-    <p class="govuk-body">The IR35 off-payroll working rules makes sure that contractors who would have been employeesif they provided their services directly, pay the same Income Tax and National Insurance contributions as ordinary employees.</p>
-    <p class="govuk-body">The IR35 rules apply if contractors provide their services through an intermediary such as an agency or a personal service company.They do not apply if the contractors are self-employed.You can get help on the IR35 rules from HMRC.</p>
+    <p class="govuk-body">As the buyer,you are the supplier's client when buying a supply of resource(people to do the work).</p>
+    <p class="govuk-body">This means that you are responsible for deciding if the off-payroll working rules(IR35) apply to  them.You must meet your legal obligations where they do.</p>
+    <p class="govuk-body">Choose whether you need a contracted out service or a supply of resource.</p>
     <div class="govuk-!-margin-top-9">
           {% for requirement in apiData%}
          {% block singleSelect%}

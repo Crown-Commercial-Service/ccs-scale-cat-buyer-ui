@@ -23,7 +23,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         <h1 class="govuk-heading-xl">
-          {{data.title }}
+          <strong>{{data.title }}</strong>
         </h1>
       </div>
     </div>
@@ -32,7 +32,8 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
 
-        <p class="govuk-body">{{ data.form.question }}</p>
+        <p class="govuk-body">{{ data.form.question1 }}</p>
+        <p class="govuk-body">{{ data.form.question2 }}</p>
         <ol class="app-task-list capability-assessment">
           {% for item in data.events %}
             <li>
@@ -41,6 +42,22 @@
                   <span class="app-task-list__section-number">{{item.eventno}}. </span>{% endif%}
                   {{item.eventTitle}}
                 </h2>
+                {% if (item.eventTitle == "Stage 2: Progress to further competition") or (item.eventTitle == "Your assessment criteria") or (item.eventTitle == "2. Do a capability assessment ") %}
+                <p class="govuk-body">{{item.eventDescription1}}</p>
+                <p class="govuk-body">{{item.eventDescription2}}</p>
+                {% endif %}
+
+                {% if (item.eventTitle == "Add context and requirements") %}
+                <p class="govuk-body">{{item.eventDescription1}}</p>
+                <ul type='disc'>
+                <li>{{item.p1}}</li>
+                <li>{{item.p2}}</li>
+                <li>{{item.p3}}</li>
+                <li>{{item.p4}}</li>
+                <li>{{item.p5}}</li>
+                </ul>
+                {% endif %}
+
                 <p class="govuk-body">{{item.eventDescription}}</p>
                 <ul class="app-task-list__items">
                   {% for Tasks in item.eventTask %}

@@ -972,6 +972,12 @@ p + .govuk-heading-s,
     float: left;
   }
 }
+.govuk-text-align{
+  text-align:right;
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #b1b4b6;
+  vertical-align: top;
+}
 
 .govuk-grid-column-one-third {
   box-sizing: border-box;
@@ -991,7 +997,10 @@ p + .govuk-heading-s,
   width: 100%;
   padding: 0 15px;
 }
-
+.ccs-eventmanagement
+{
+  margin: 0 -15px !important;
+}
 @media (min-width: 40.0625em) {
   .govuk-grid-column-one-half {
     width: 50%;
@@ -7515,6 +7524,10 @@ p + .govuk-heading-s,
   }
 }
 
+.govuk-div-inline {
+  float:left;
+}
+
 @media (min-width: 40.0625em) {
   .app-step-nav__button--controls {
     font-size: 14px;
@@ -8953,6 +8966,27 @@ p,
   display: none;
 }
 
+.backdrop-nextsteps {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+
+.backdrop-ca-workdone {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+}
 .backdrop-timeout-warnings {
   position: fixed;
   top: 0px;

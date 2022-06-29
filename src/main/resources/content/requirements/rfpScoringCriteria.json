@@ -17,12 +17,12 @@
       "href": "/rfp/task-list"
     },
     {
-      "text": "Set your scoring criteria",
+      "text": "How you will score suppliers",
       "href": "#"
     }
   ],
 
-  "title": "Set your scoring criteria",
+  "title": "How you will score suppliers",
   "inset1": "You must tell suppliers what scoring criteria you are using to evaluate their responses.You must also use this scoring criteria for all suppliers,to make sure you have evaluated them fairly.",
   "inset2": "You can select one of the two scoring criteria below or use one of the existingscoring criteria to create your own.",
   "subtitle": "Create your scoring criteria",

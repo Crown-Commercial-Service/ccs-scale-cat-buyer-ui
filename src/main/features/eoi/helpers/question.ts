@@ -70,7 +70,7 @@ export class QuestionHelper {
         res.redirect(base_url);
       } else {
         let mandatoryNum = 0;
-        const maxNum = 8;
+        const maxNum = 4;
         let status = '';
         for (let i = 0; i < criterian_array.length; i++) {
           const groupId = criterian_array[i].OCDS['id'];
@@ -113,10 +113,10 @@ export class QuestionHelper {
             mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
           }
         }
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/20`, status);
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, status);
         if (response.status == HttpStatusCode.OK) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/21`, 'Optional');
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/22`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/21`, 'Optional');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/22`, 'Not started');
         }
         res.redirect('/eoi/eoi-tasklist');
       }

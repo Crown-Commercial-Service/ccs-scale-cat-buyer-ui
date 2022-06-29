@@ -24,7 +24,7 @@
       "href": "/ca/task-list?path="+choosenViewPath
     },
     {
-      "text": "How many suppliers you'd like to take forward?",
+      "text": "Number of suppliers to take to further competition",
       "href": "#"
     }
   ]
@@ -41,7 +41,7 @@
                 }]
             }) }}
         {%endif %}
-
+        
         <div class="govuk-error-summary hide-block" id="service_capability_error_summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
         <h2 class="govuk-error-summary__title" id="error-summary-title">
         </h2>
@@ -54,7 +54,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {{ data.title }}
+                    <strong>{{ data.title }}</strong>
                 </h1>
             </div>
         </div>
@@ -62,7 +62,9 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-                <p class="govuk-body">{{ data.form.question }}</p>
+                <p class="govuk-body">{{ data.form.question1 }}</p>
+                <p class="govuk-body">{{ data.form.question2 }}</p>
+                <p class="govuk-body">{{ data.form.question3 }}</p>
 
                 <form id="ccs_ca_suppliers_form" name="ccs_ca_suppliers_form" class="form ccs_ca_suppliers" action="/ca/suppliers-to-forward" method="POST">
                     {{ csrfProtection(csrf) }}
@@ -70,7 +72,7 @@
                     <div id="summary">
                     {{ CCSInput({
                       label: {
-                        text: "You can enter between "+data.suppliers.min + " and "+data.suppliers.max+" suppliers"                        
+                        text: "You can enter between 3 and "+SuppliersMax+" suppliers"                        
                       },
                       type:"number",
                       classes:"govuk-input--width-10",
@@ -80,6 +82,12 @@
                       pattern:"[0-9]{2}"
                     })
                 }}
+                  {{ CCSInput({
+                id: "ca_max_suppliers",
+                name: "ca_max_suppliers",
+                type: "hidden",
+                value: SuppliersMax
+              }) }}
                     </div>
                     <div class="govuk-button-group" >
                         {{ CCSButton({

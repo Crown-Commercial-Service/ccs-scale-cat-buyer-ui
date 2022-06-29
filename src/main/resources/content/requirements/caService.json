@@ -17,15 +17,18 @@
         "href": "/ca/task-list"
       },
       {
-        "text": "Select your service capabilities",
+        "text": "Select your service capabilities and set the weighting",
         "href": "#"
       }
     ],
   
-    "title": "Select your service capabilities",
-    "subtitle": ["[instructions for this page]"],
+    "title": "Select your service capabilities and set the weighting",
+    "subtitle1": "This step is divided into service capabilities and specific capabilities.",
+    "subtitle2": "You will need to tell suppliers which service capabilities you need, and set a weighting to show which are most important to your project. You can also set a weighting for specific capabilities.",
+    "subtitle3": "You do not need to enter a weighting for any service capability or specific capability that you do not need.",
+    "subtitle4": "The weighting for service capabilities must total 100% to continue to the next step.",
     "data": {
-      "total": 50
+      "total": 0
     },
     "backJump": {
       "title": "Return to write and publish your requirements",

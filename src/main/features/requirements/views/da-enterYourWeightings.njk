@@ -39,7 +39,7 @@
 
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-    {% if(error)%}
+    {% if(isError)%}
       {{ CCSErrorSummary({
           titleText: "There is a problem",
           errorList: errorTextSumary
@@ -99,7 +99,7 @@
                                         min:dimension.weightingRange.min,
                                         max:dimension.weightingRange.max
                                     },
-                                    maxlength: "1"
+                                    maxlength: "2"
                                 }) }}
                             </div>
                             {% else %}
@@ -125,7 +125,7 @@
                                         min:dimension.weightingRange.min,
                                         max:dimension.weightingRange.max
                                     },
-                                    maxlength: "1"
+                                    maxlength: "2"
                                 }) }}
                             </div>
                         {% endif %}

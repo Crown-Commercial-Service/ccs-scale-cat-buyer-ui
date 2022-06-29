@@ -4,6 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as caService from '../../../resources/content/requirements/caService.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -18,12 +19,13 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     agreementLotName,
     agreementName,
     projectId,
+    eventId,
     agreement_id,
     releatedContent,
     project_name,
     isError,
     errorText,
-    currentEvent,
+    currentEvent, choosenViewPath,
   } = req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -43,10 +45,8 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
 
-    const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
-    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
-
-
+    //const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
+    //const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
 
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
@@ -123,11 +123,30 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       designation => designation.data.length !== 0,
     );
 
+    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
+    let requirements = dimensionRequirements?.filter(x => x["dimension-id"] == 3)[0]?.requirements;
+
     const TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
+      let totalAddedWeighting = 0;
+
+      const headingReqId = CAPACITY_CONCAT_OPTIONS.filter(x => x.name == item.category)[0];
+      let tempWeighting = requirements?.filter(x => x["requirement-id"] == headingReqId["requirement-id"])[0]?.weighting;
+
+      if (tempWeighting != undefined && tempWeighting != null)
+        totalAddedWeighting = tempWeighting;
+      else {
+        const { data } = item;
+        data?.map(req => {
+          let weighting = requirements?.filter(x => x["requirement-id"] == req["requirement-id"])[0]?.weighting;
+          if (weighting != null && weighting != undefined)
+            totalAddedWeighting = totalAddedWeighting + weighting;
+        })
+      }
       return {
         url: `#section${index}`,
         text: item.category,
-        subtext: `${item.Weightage.min}% / ${item.Weightage.max}%`,
+        subtext: `[ ` + totalAddedWeighting + ` % ]`,
+        className: 'ca-service-capabilities'
       };
     });
 
@@ -168,8 +187,16 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
      * @ASSESSMENT_API_REQUEST
      * @DIMENSION_REQUIREMENT
      */
-    let { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
-    const DRequirements = dimensionRequirements?.[0]?.requirements;
+    let DRequirements;
+    let totalWeighting = 0;
+
+    if (dimensionRequirements != null && dimensionRequirements !== undefined && dimensionRequirements.length > 0) {
+      let dimension = dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 3);
+      DRequirements = dimension?.[0]?.requirements;
+      DRequirements.map(x => {
+        totalWeighting = totalWeighting + x.weighting
+      })
+    }
 
     var TABLEBODY = [];
 
@@ -239,6 +266,8 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
     const windowAppendData = {
       ...caService,
+      choosenViewPath,
+      totalWeighting,
       lotId,
       agreementLotName,
       releatedContent,
@@ -248,7 +277,10 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       TABLE_BODY: TABLEBODY,
       WHOLECLUSTER: WHOLECLUSTERCELLS,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'In progress');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 50, req);
+        if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/50`, 'In progress');
+        }
 
     //res.json(UNIQUE_DESIGNATION_HEADINGS_ARR)
     res.render('ca-serviceCapabilities', windowAppendData);
@@ -275,12 +307,8 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
  */
 export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId} = req.session;
-  const { ca_service_started } = req.body;
+  const { projectId ,eventId} = req.session;
 
-
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Not started');
   let { ca_partial_weightage, weight_vetting_partial, weight_vetting_whole, weight_vetting_whole_group } = req.body;
 
   /**
@@ -338,10 +366,13 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
 
+    var Service_capbility_weightage = 10;
 
     const Weightings = ALL_ASSESSTMENTS_DATA.dimensionRequirements;
-    const Service_capbility_weightage = Weightings.filter(item => item.name == 'Service Capability')[0].weighting;
 
+    if (typeof Weightings !== 'undefined' && Weightings.length > 0) {
+      Service_capbility_weightage = Weightings?.filter(item => item.name == 'Service Capability')[0].weighting;
+    }
 
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
@@ -489,14 +520,24 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const { Weightage } = item;
       const requirementId = item['requirement-id'];
       const PostedFormElement = {};
-      (PostedFormElement['requirement-id'] = requirementId), (PostedFormElement['weighting'] = Weightage);
+      (PostedFormElement['requirement-id'] = requirementId),
+        (PostedFormElement['weighting'] = Weightage);
       PostedFormElement['values'] = [];
       return PostedFormElement;
     });
+    let subcontractorscheck;
 
+    if (Weightings?.filter(dimension => dimension["dimension-id"] === 3).length > 0) {
+      subcontractorscheck = (Weightings?.filter(dimension => dimension["dimension-id"] === 3)[0].includedCriteria.
+        find(x => x["criterion-id"] == 1))
+    }
+    let includedSubContractor = [];
+    if (subcontractorscheck != undefined) {
+      includedSubContractor = [{ 'criterion-id': '1' }]
+    }
     const PUT_BODY = {
       weighting: Service_capbility_weightage,
-      includedCriteria: [],
+      includedCriteria: includedSubContractor,
       overwriteRequirements: true,
       requirements: MappedWholeAndPartialCluster,
     };
@@ -509,9 +550,14 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const DIMENSION_ID = CAPACITY_DATASET[0]['dimension-id'];
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Completed');
 
-      res.redirect('/ca/service-capabilities');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/50`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 51, req);
+        if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/51`, 'Not started');
+        }
+
+      res.redirect('/ca/team-scale');
     } catch (error) {
       req.session['isJaggaerError'] = true;
       LoggTracer.errorLogger(
@@ -529,8 +575,6 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
      *
      */
   } catch (error) {
-
-
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,

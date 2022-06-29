@@ -5,7 +5,7 @@
       "href": "/"
     },
     {
-      "text": "Choose a commericial agreement",
+      "text": "Choose a commercial agreement",
       "href": "/projects/choose-agreement"
     },
     {
@@ -22,11 +22,11 @@
     }
   ],
 
-  "title": "Provide the context to your one-stage further competition",
+  "title": "Add context to your one-stage further competition",
   "subtitle": null,
   "taskList": [
     {
-      "title": "Learn about adding context and requirements",
+      "title": "Learn more about adding context and requirements",
       "hreftitle": "Understand add context and requirements",
       "href": "learn_about_adding_context_and_requirements"
     },
@@ -36,47 +36,47 @@
       "href": "rfp_ir35_acknowledgement"
     },
     {
-      "title": "Terms and acronyms (Optional)",
+      "title": "Terms and acronyms (optional)",
       "hreftitle": "Add terms and acronyms",
       "href": "rfp_add_terms_acronyms"
     },
     {
-      "title": "Background and context to your requirement",
-      "hreftitle": "Add background and context to your requirement",
+      "title": "Background to your requirement",
+      "hreftitle": "Add background to your requirement",
       "href": "rfp_add_background_and_context"
     },
     {
-      "title": "Problem to solve / Impact of not completing deliverables and outcome",
+      "title": "The business problem you need to solve",
       "hreftitle": "Add information about the project",
       "href": "rfp_problem_to_solve"
     },
     {
-      "title": "Key users (Optional)",
+      "title": "The people who will use your service (optional)",
       "hreftitle": "Add key users",
       "href": "rfp_key_users"
     },
     {
-      "title": "Work completed to date (Optional)",
+      "title": "Any work that has been done so far (optional)",
       "hreftitle": "Add work complete so far",
       "href": "rfp_work_complete"
     },
     {
-      "title": "Current phase of the project",
+      "title": "Which phase the project is currently in",
       "hreftitle": "Add current phase of the project",
       "href": "rfp_current_phase"
     },
     {
-      "title": "Phase resource is required for",
+      "title": "Which phases of the project you need resource for",
       "hreftitle": "Add phase resource required",
       "href": "rfp_phase_resource_required"
     },
     {
-      "title": "Duration of work / Resource required from / to",
+      "title": "The expected duration of the project",
       "hreftitle": "Set dates",
       "href": "rfp_duration_of_work"
     },
     {
-      "title": "The buying organisation (Optional)",
+      "title": "Who the buying organisation is (optional)",
       "hreftitle": "Add buying organisation",
       "href": "rfp_buying_organisation"
     },
@@ -91,17 +91,17 @@
       "href": "rfp_address"
     },
     {
-      "title": "Market engagement to date (Optional)",
+      "title": "Describe any market engagement you've done (optional)",
       "hreftitle": "Add market engagement",
       "href": "rfp_market_engagement"
     },
     {
-      "title": "New, replacement or expanded services or products",
+      "title": "Choose if this is a new, replacement or expanded service or product",
       "hreftitle": "Add services or products",
       "href": "rfp_services"
     },
     {
-      "title": "Is there an incumbent supplier?",
+      "title": "Tell us if there is an existing supplier",
       "hreftitle": "Add supplier details",
       "href": "rfp_incumbent_supplier"
     },
@@ -111,22 +111,22 @@
       "href": "rfp_essential_skills"
     },
     {
-      "title": "Management information and reporting",
+      "title": "Management information and reporting requirements",
       "hreftitle": "Add management information",
       "href": "rfp_management_information"
     },
     {
-      "title": "Service levels and performance",
+      "title": "Define your service levels and KPIs",
       "hreftitle": "Add service levels and performance",
       "href": "rfp_service_levels"
     },
     {
-      "title": "Incentives and exit strategy",
+      "title": "Detail any performance incentives and exit strategies",
       "hreftitle": "Add incentives and exit strategy",
       "href": "rfp_incentives"
     },
     {
-      "title": "How the supplier will deliver within the budgetary constraints (Optional)",
+      "title": "Contract value and how suppliers will meet the project needs within this budget (optional)",
       "hreftitle": "Add the budgetary constraints",
       "href": "rfp_budgetary_constraints"
     },
@@ -141,13 +141,13 @@
       "href": "rfp_confirm_security_and_vetting"
     },
     {
-      "title": "Add your requirements",
+      "title": "Enter your project requirements",
       "hreftitle": "Add supplier details",
       "href": "rfp_add_requirements"
     }
   ],
   "form": {
-    "question1": "Click on the section below to enter details about your procurement.The more detailed information you give the more you will help suppliers understand what you need",
+    "question1": "Click on the sections below to enter details about your procurement.The more detailed information you give the more you will help suppliers understand what you need.",
     "question2":"Some sections are optional",
     "backJump": {
       "title": "Return to Write and publish your requirements",

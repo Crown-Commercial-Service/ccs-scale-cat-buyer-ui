@@ -56,8 +56,8 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
         };
       });
     }
-    req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
-    req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
+    req.session['DA'] = req.session['DA'] == undefined ? {} : req.session['DA'];
+    req.session['DA'].toolId = assessmentDetail['external-tool-id'];
     req.session['weightingRange'] = weightingsArray[0].weightingRange;
     const windowAppendData = {
       data: daWeightingData,
@@ -71,6 +71,7 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       errorText,
       errorTextSumary: errorTextSumary,
     };
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'In progress');
     res.render('da-enterYourWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -100,11 +101,11 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
-    const toolId = req.session['CapAss'].toolId;
+    const toolId = req.session['DA'].toolId;
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
 
     const range = req.session['weightingRange'];
@@ -128,31 +129,30 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       req.session['isJaggaerError'] = true;
       res.redirect('/da/enter-your-weightings');
     } else {
+      let Weightings=[];
+        for(let i=1;i<=6;i++)
+        {
+            let dim=dimensions.filter(x=>x["dimension-id"] === i)
+            Weightings.push(...dim)
+        }
       for (var dimension of dimensions) {
         const body = {
           name: dimension.name,
           weighting: req.body[dimension['dimension-id']],
           requirements: [],
           includedCriteria: dimension.evaluationCriteria
-            .map(criteria => {
-              if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
-                return null;
-              } else
-                return {
-                  'criterion-id': criteria['criterion-id'],
-                };
-            })
-            .filter(criteria => criteria !== null),
         };
 
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,
         );
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-        //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
-        res.redirect('/da/accept-subcontractors');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'Not started');
       }
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'To-do');
+        res.redirect('/da/accept-subcontractors');
     }
   } catch (error) {
     LoggTracer.errorLogger(
@@ -171,6 +171,7 @@ function checkErrors(arr, range) {
   let isError = false;
   const errorText = [];
   const keys = Object.keys(...arr).map(key => key);
+  let isTotalOutOfHundred = 0;
   for (const obj of arr) {
     for (const k of keys) {
       if ((range.max < Number(obj[k]) || range.min > Number(obj[k])) && Number(obj[k]) !== 0) {
@@ -181,7 +182,11 @@ function checkErrors(arr, range) {
         isError = true;
         errorText.push({ id: k, text: 'All entry boxes must contain a value' });
       }
+      isTotalOutOfHundred += Number(obj[k]);
     }
+  }
+  if (isTotalOutOfHundred < 100  || isTotalOutOfHundred >100) {
+    isError = true;
   }
 
   return { isError, errorText };

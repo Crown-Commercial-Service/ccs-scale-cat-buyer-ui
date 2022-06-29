@@ -56,7 +56,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
     const filteredUser = userData.map(user => {
       return { name: `${user.OCDS.contact.name}`, userName: user.OCDS.id };
     });
-
+console.log(collaboratorData)
     filteredListofOrganisationUser = RemoveDuplicatedList(filteredListofOrganisationUser, filteredUser);
 
     const lotId = req.session?.lotId;
@@ -75,6 +75,7 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       error: isJaggaerError,
       releatedContent: releatedContent,
     };
+    console.log(JSON.stringify(windowAppendData))
     res.render('add-collaborator-rfi', windowAppendData);
   } catch (error) {
     LoggTracer.errorLogger(
@@ -138,7 +139,12 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
       const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
       const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
       const userData = organisation_user_data?.data;
-      req.session['searched_user'] = userData;
+      const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfi_collaborators}`;
+      const userType = {
+        userType: 'TEAM_MEMBER',
+      };
+    await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+      req.session['searched_user'] = [];
       res.redirect(RFI_PATHS.GET_ADD_COLLABORATOR);
     
   
@@ -216,7 +222,7 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
 // /rfi/proceed-collaborators
 export const POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/8`, 'Completed');
+  const { eventId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/9`, 'Completed');
   res.redirect('/rfi/rfi-tasklist');
 };

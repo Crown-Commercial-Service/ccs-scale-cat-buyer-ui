@@ -77,14 +77,14 @@
         },
         {
           "Task": 4,
-          "link": "#",
+          "link": "/da/resources-vetting-weightings",
           "title": " Set your resources and vetting weightings ",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
         {
           "Task": 5,
-          "link": "#",
+          "link": "/da/choose-security-requirements",
           "title": "Choose highest security and vetting requirements",
           "required": "mandatory",
           "status": "Cannot start yet"
@@ -110,17 +110,9 @@
           "required": "mandatory",
           "status": "Cannot start yet"
         },
-
-        {
-          "Task": 9,
-          "link": "/da/suppliers-to-forward",
-          "title": "How many suppliers you'd like to take forward? ",
-          "required": "mandatory",
-          "status": "Cannot start yet"
-        },
         {
           "Task": 10,
-          "link": "#",
+          "link": "/da/review-ranked-suppliers",
           "title": " Review ranked suppliers ",
           "required": "mandatory",
           "status": "Cannot start yet"

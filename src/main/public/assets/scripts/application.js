@@ -154,8 +154,14 @@ if (document.getElementById('ccs_rfi_about_proj') !== null)
 if (document.getElementById('rfi_prob_statement') !== null)
   document.getElementById('rfi_prob_statement').addEventListener('input', ccsZCountRfiProject);
 
+if (document.getElementById('ccs_rfi_next_steps') !== null)
+  document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
+
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
+
+  if (document.getElementById('ca_justification') !== null)
+  document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
 
 if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
@@ -166,6 +172,7 @@ if (document.getElementById('ccs_rfi_docs_form') !== null)
   document.getElementById('ccs_rfi_docs_form').addEventListener('submit', ccsZvalidateRfiDocs);
 
 //if (document.getElementById("ccs_rfi_response_date_form") !== null) document.getElementById("ccs_rfi_response_date_form").addEventListener('submit', ccsZvalidateRfiResponseDate);
+
 
 if (document.getElementById('ccs_rfi_questions_form') !== null)
   document.getElementById('ccs_rfi_questions_form').addEventListener('submit', ccsZvalidateRfIQuestions);
@@ -220,7 +227,7 @@ if (document.getElementById('ccs_eoi_acronyms_form') !== null)
   document.getElementById('ccs_eoi_acronyms_form').addEventListener('submit', ccsZvalidateEoiAcronyms);
 
 if (document.getElementById('ccs_rfp_acronyms_form') !== null)
-  document.getElementById('ccs_rfp_acronyms_form').addEventListener('submit', ccsZvalidateRfpAcronyms);
+  document.getElementById('ccs_rfp_acronyms_form').addEventListener('submit', ccsZvalidateRfpAcronymsRFP);
 
 if (document.getElementById('rfp_location') !== null)
   document.getElementById('rfp_location').addEventListener('submit', ccsZvalidateRfpLocation);
@@ -242,11 +249,12 @@ if (document.getElementById('ccs_eoi_date_form') !== null)
 if (document.getElementById('rfp_percentage_form') !== null)
   document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
 
-if (document.getElementById('rfp_multianswer_question_form') !== null)
-  // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");
+//if (document.getElementById('rfp_multianswer_question_form') !== null)
+// document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");
+//if (document.getElementById('service_levels_kpi_form') !== null)
+  //document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
 
-
-  if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
+if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
 setInputFilter(
   document.getElementById('eoi_resource_start_date-day'),
@@ -291,7 +299,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_2'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );
 
 setInputFilter(
@@ -312,7 +320,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_3'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );
 
 setInputFilter(
@@ -333,7 +341,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_4'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );
 
 setInputFilter(
@@ -354,5 +362,5 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-year_5'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2024),
+  value => /^\d*$/.test(value),
 );

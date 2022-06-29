@@ -1,7 +1,8 @@
 {
   "title": "Upload your pricing schedule (attachment 4)",
-  "subtitle": "[ Description for this page ]",
-  "description": "[instructions for this page]",
+  "subtitle": "If you have your own pricing schedule ready you can upload it at the bottom of the screen.If you would like a template you can download the document below.",
+  "description1": "You will need to make sure you include what the pricing model is that you expect suppliers to provide.",
+  "description2": "You can  upload any other supporting documents on the next page.",
   "taskList": [],
   "backJump": {
     "title": "Return to Write and publish your requirements",

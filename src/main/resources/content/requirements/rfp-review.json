@@ -14,14 +14,14 @@
       },
       {
         "text": "Write and publish your requirements",
-        "href": "/rfp/rfp-tasklist"
+        "href": "/rfp/task-list"
       },
       {
-        "text": "Review and publish your 1-stage further competition"
+        "text": "Review and publish"
       }
     ],
-    "title": " Review and publish your 1-stage further competition",
-    "subtitle": "[Instructions for this page]",
+    "title": " Review and publish",
+    "subtitle": "You should review your further competition before publishing it for suppliers to see. You can make changes to any sections.",
     "data": {
       "supplier": {
         "text": "suppliers can be contracted to supply products and services for this lot. Some suppliers are ",

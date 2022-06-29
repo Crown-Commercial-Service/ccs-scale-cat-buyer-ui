@@ -76,9 +76,9 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
     }
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/23`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/23`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/24`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/24`, 'Not started');
     }
 
     res.redirect('/eoi/review');

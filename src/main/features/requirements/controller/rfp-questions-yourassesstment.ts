@@ -16,6 +16,7 @@ import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 
+
 /**
  * @Controller
  * @GET
@@ -52,6 +53,10 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     const promptSplit = promptData?.split(splitOn);
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
+    
+    if (group_id === 'Group 3' && id === 'Criterion 2'){
+      fetch_dynamic_api_data.pop();
+    }
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
       const questionNonOCDS = {
         groupId: group_id,
@@ -103,7 +108,6 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     const releatedContent = req.session.releatedContent;
     //fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
-
     fetch_dynamic_api_data = fetch_dynamic_api_data.map(item => {
       const newItem = item;
       if (item.nonOCDS.dependency == undefined) {
@@ -134,19 +138,21 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       .map(JSON.parse)
       .filter(item => !item.nonOCDS.dependant);
 
-    const formNameValue = form_name.find(fn => fn !== '');
+    let formNameValue = form_name.find(fn => fn !== '');
     if (group_id === 'Group 8' && id === 'Criterion 2') {
       TemporaryObjStorage.forEach(x => {
         //x.nonOCDS.childern=[];
         if (x.nonOCDS.questionType === 'Table') {
           x.nonOCDS.options.forEach(element => {
             element.optiontableDefination = mapTableDefinationData(element);
-            element.optiontableDefinationJsonString =JSON.stringify(mapTableDefinationData(element));
+            element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element));
           });
         }
       });
-      TemporaryObjStorage=TemporaryObjStorage.slice(0,2);
+      TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
     }
+
+    
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
@@ -173,6 +179,14 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
       data.data[0].nonOCDS.options = req.session['errorFields'];
+    }
+    //Balwinder 1FC step 44
+    if (group_id === 'Group 5' && id === 'Criterion 2') {
+      data.form_name = 'rfp_multianswer_question_form';
+    }
+    if (group_id === 'Group 1' && id === 'Criterion 2') {
+      data.data=[];
+      data.form_name='read_me';
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
@@ -213,9 +227,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId } = req.session;
-    if (section != undefined && section === '5') {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
-    }
+    
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
@@ -258,7 +270,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
         });
 
         if (req.body.rfp_read_me) {
-          QuestionHelper.AFTER_UPDATINGDATA(
+          QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
             ErrorView,
             DynamicFrameworkInstance,
             proc_id,
@@ -268,6 +280,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
             agreement_id,
             id,
             res,
+            req,
           );
         } else {
           let validationError = false;
@@ -285,6 +298,67 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   options: [...object_values],
                 },
               };
+            }
+            else if (questionNonOCDS.questionType === 'Table') {
+              if (KeyValuePairValidation(object_values, req)) {
+                validationError = true;
+              }
+
+              let { score_criteria_level, score_criteria_points, score_criteria_desc } = req.body;
+              const TAStorage = [];
+              score_criteria_level = score_criteria_level?.filter((akeyTerm: any) => akeyTerm !== '');
+              score_criteria_points = score_criteria_points?.filter((aKeyValue: any) => aKeyValue !== '');
+              score_criteria_desc = score_criteria_desc?.filter((aKeyValue: any) => aKeyValue !== '');
+              //Balwinder
+
+              let rows = [];
+              let tableData = [];
+              for (let index = 0; index < score_criteria_level.length; index++) {
+                rows.push({ id: index + 1, name: score_criteria_level[index] });
+              }
+
+              for (let index = 0; index < score_criteria_points.length; index++) {
+                let cols = [];
+                cols.push(score_criteria_points[index]);
+                cols.push(score_criteria_desc[index]);
+                tableData.push({
+                  row: index + 1, cols: cols
+                });
+              }
+              answerValueBody = {
+                nonOCDS: {
+                  answered: true,
+                  options: [
+                    {
+                      value: 3,
+                      tableDefinition: {
+                        titles: {
+                          columns: [
+                            {
+                              "id": 0,
+                              "name": "Marking Scheme"
+                            },
+                            {
+                              "id": 1,
+                              "name": "Points"
+                            },
+                            {
+                              "id": 2,
+                              "name": "Description"
+                            }],
+                          rows: [
+                            ...rows
+                          ]
+                        },
+                        data: [
+                          ...tableData
+                        ]
+                      }
+                    }
+                  ],
+                },
+              };
+
             } else if (questionNonOCDS.questionType === 'KeyValuePair') {
               if (KeyValuePairValidation(object_values, req)) {
                 validationError = true;
@@ -360,7 +434,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   },
                 };
               }
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
+              //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
             } else if (questionNonOCDS.questionType === 'Date') {
               const slideObj = object_values.slice(1, 4);
               answerValueBody = {
@@ -447,7 +521,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
               }
 
             }
-            else if (questionNonOCDS.questionType != 'Percentage' && question_ids.length == 4 && questionNonOCDS.multiAnswer === true) {
+            else if (questionNonOCDS.questionType != 'Integer' && questionNonOCDS.questionType != 'Percentage' && question_ids.length == 4 && questionNonOCDS.multiAnswer === true) {
               answerValueBody = {
                 nonOCDS: {
                   answered: true,
@@ -527,7 +601,6 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
                 }
-
               } catch (error) {
                 LoggTracer.errorTracer(error, res);
               }
@@ -547,6 +620,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
               agreement_id,
               id,
               res,
+              req,
             );
           } else {
             res.send();
@@ -687,14 +761,14 @@ const mapTableDefinationData = (tableData) => {
   let object = null;
   var columnsHeaderList = getColumnsHeaderList(tableData.tableDefinition?.titles?.columns);
   //var rowDataList
-  var tableDefination = tableData.tableDefinition !=undefined&& tableData.tableDefinition.data !=undefined? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data):null
-  
-  return { head: columnsHeaderList?.length >0 && tableDefination?.length >0?columnsHeaderList:[], rows: tableDefination?.length >0?tableDefination:[] };
+  var tableDefination = tableData.tableDefinition != undefined && tableData.tableDefinition.data != undefined ? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data) : null
+
+  return { head: columnsHeaderList?.length > 0 && tableDefination?.length > 0 ? columnsHeaderList : [], rows: tableDefination?.length > 0 ? tableDefination : [] };
 }
 
 const getColumnsHeaderList = (columns) => {
   const list = columns?.map(element => {
-    return {text: element.name};
+    return { text: element.name };
   });
   return list
 }
@@ -703,7 +777,7 @@ const getRowDataList = (rows, data1) => {
   rows?.forEach(element => {
     element.text = element.name;
     var data = getDataList(element.id, data1);
-    let innerArrObj = [{ text: element.name,"classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter",text: data[0].cols[0] }, {"classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
+    let innerArrObj = [{ text: element.name, "classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter", text: data[0].cols[0] }, { "classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
     dataRowsList.push(innerArrObj);
   });
   return dataRowsList;

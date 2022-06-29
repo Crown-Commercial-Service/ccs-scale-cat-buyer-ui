@@ -22,7 +22,7 @@
     },
     {
       "step": 6,
-      "state": "Optional"
+      "state": "Cannot start yet"
     },
     {
       "step": 7,
@@ -34,11 +34,11 @@
     },
     {
       "step": 9,
-      "state": "Not started"
+      "state": "Optional"
     },
     {
       "step": 10,
-      "state": "Cannot start yet"
+      "state": "Not started"
     },
     {
       "step": 11,
@@ -162,15 +162,15 @@
     },
     {
       "step": 41,
-      "state": "Not started"
+      "state": "Cannot start yet"
     },
     {
       "step": 42,
-      "state": "Not started"
+      "state": "Optional"
     },
     {
       "step": 43,
-      "state": "Not started"
+      "state": "Optional"
     },
     {
       "step": 44,
@@ -238,23 +238,23 @@
     },
     {
       "step": 60,
-      "state": "Cannot start yet"
+      "state": "Optional"
     },
     {
       "step": 61,
-      "state": "Cannot start yet"
+      "state": "Optional"
     },
     {
       "step": 62,
-      "state": "Cannot start yet"
+      "state": "Optional"
     },
     {
       "step": 63,
-      "state": "Cannot start yet"
+      "state": "Optional"
     },
     {
       "step": 64,
-      "state": "Cannot start yet"
+      "state": "Not started"
     },
     {
       "step": 65,

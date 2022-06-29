@@ -9,7 +9,7 @@ import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiIns
 import { FILEUPLOADHELPER } from '../helpers/upload';
 import { FileValidations } from '../util/file/filevalidations';
 import * as cmsData from '../../../resources/content/requirements/offline-doc.json';
-
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 let tempArray = [];
 
 // requirements Upload document
@@ -42,7 +42,7 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
   const EventId = req.session['eventId'];
   const journeyStatus = req.session['journey_status'];
 
-  if (req.files !=undefined && req.files !=null) {
+  if (req.files != undefined && req.files != null) {
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
     const FileFilterArray = [];
 
@@ -189,11 +189,18 @@ export const RFP_GET_REMOVE_FILES = (express.Handler = async (req: express.Reque
 
 export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { eventId } = req.session;
+  const { selectedRoute } = req.session;
 
   if (req.session['isTcUploaded']) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/30`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Not started');
+    if (selectedRoute === 'FC') selectedRoute = 'RFP';
+    const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71;
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
+    if(flag)
+    {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+    }
     res.redirect(`/rfp/IR35`);
   } else {
     const lotId = req.session?.lotId;

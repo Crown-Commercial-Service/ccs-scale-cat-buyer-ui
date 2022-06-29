@@ -8,83 +8,82 @@ document.addEventListener('DOMContentLoaded', () => {
    let hour = $(`#clarification_date-hour_${element}`);
    let minutes = $(`#clarification_date-minute_${element}`);
 
+   let responseDate = $(`#ccs_rfi_response_date_form_${element}`);
+
    day.on('blur', ()=>{
      let value  = day;
+     if(value != undefined && value.val() != '')
+     {
      let parentID = getParentId(element);  
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 31;
      let startmonthCheck = Number(value.val()) < 1;     
-     if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
+     if (matchValue || endmonthCheck || startmonthCheck) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid date");
-     } else {
-      if (month.val() !== '' && year.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
-      {
-        value.addClass("govuk-input--error")
-        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
-      }
+     } 
       else
       {
         value.removeClass("govuk-input--error");
         ccsZremoveErrorMessage(document.getElementById(parentID));
-      }
-      
      }
- 
+    }
    });
  
    month.on('blur', ()=>{
      let value  = month;
+     if(value != undefined && value.val() != '')
+     {
      let parentID = getParentId(element);  
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 12;
      let startmonthCheck = Number(value.val()) <= 0;
-     if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
+     if (matchValue || endmonthCheck || startmonthCheck) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid month");
-     } else {
-      if (year.val() !== '' && day.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
-      {
-        value.addClass("govuk-input--error")
-        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
-      }
+     }
       else{
       value.removeClass("govuk-input--error");
        ccsZremoveErrorMessage(document.getElementById(parentID));
       }
-     }
- 
-   });
+    }
+     });
  
    year.on('blur', ()=>{
      let value  = year;
+     if(value != undefined && value.val() != '')
+     {
      let parentID = getParentId(element);
      let matchValue = !value.val().match(/^\d{4}$/);
      let endyearCheck = Number(value.val()) > 2121;
      let currentYear =  new Date().getFullYear();
      let startyearCheck = Number(value.val()) < currentYear;
-     if (matchValue || endyearCheck || startyearCheck|| value == '' ) {
+     if (matchValue || endyearCheck || startyearCheck) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid year");
-     } else { 
-        if (month.val() !== '' && day.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
-        {
-          value.addClass("govuk-input--error")
-          ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
-        }
+     }
         else{
         value.removeClass("govuk-input--error");
          ccsZremoveErrorMessage(document.getElementById(parentID));
         }
-     }
+      }
    });
  
    hour.on('blur', ()=>{
      let value  = hour;
+     if(value != undefined && value.val() != '')
+     {
      let parentID = getParentId(element);
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 12;
      let startmonthCheck = Number(value.val()) <= 0;
+     if (day.val() !=='' && month.val() !== '' && day.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
+        {
+          value.addClass("govuk-input--error")
+          ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+        }
+        else
+        {
      if (matchValue || endmonthCheck || startmonthCheck|| value == '' ) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid hour");
@@ -92,24 +91,92 @@ document.addEventListener('DOMContentLoaded', () => {
       value.removeClass("govuk-input--error");
        ccsZremoveErrorMessage(document.getElementById(parentID));
      }
- 
+    }
+  }
    });
  
    minutes.on('blur', ()=>{
      let value  = minutes;
+     if(value != undefined && value.val() != '')
+     {
      let parentID = getParentId(element);
      let matchValue = !value.val().match(/^\d\d?$/);
      let endmonthCheck = Number(value.val()) > 59;
      let startmonthCheck = Number(value.val()) < 0;
+     if (day.val() !=='' && month.val() !== '' && day.val() !=='' && !isValidDate(year.val(),month.val(),day.val()))
+        {
+          value.addClass("govuk-input--error")
+          ccsZaddErrorMessage(document.getElementById(parentID), "Enter a valid day");
+        }
+        else
+        {
      if (matchValue || endmonthCheck || startmonthCheck || value == '' ) {
        value.addClass("govuk-input--error")
        ccsZaddErrorMessage(document.getElementById(parentID), "Enter valid minutes");
      } else {
-      value.removeClass("govuk-input--error");
+       value.removeClass("govuk-input--error");
        ccsZremoveErrorMessage(document.getElementById(parentID));
      }
- 
+    }
+    }
    });
+
+   responseDate.on('submit', (e)=> {
+    e.preventDefault();
+    day.removeClass("govuk-input--error")
+    month.removeClass("govuk-input--error")
+    year.removeClass("govuk-input--error")
+
+    let parentID = getParentId(element);
+ ccsZremoveErrorMessage(document.getElementById(parentID));
+
+    if((year.val() != undefined && year.val() == "") &&(month.val() != undefined && month.val() == "") && (day.val() != undefined && day.val() == ""))
+    {
+      day.addClass("govuk-input--error")
+      month.addClass("govuk-input--error")
+      year.addClass("govuk-input--error")
+      ccsZaddErrorMessage(document.getElementById(parentID), "Date should not be empty");
+    }
+    else if(day.val() != undefined && day.val() == "")
+    {
+      day.addClass("govuk-input--error")
+      ccsZaddErrorMessage(document.getElementById(parentID), "Day should not be empty");
+    }
+    else if(month.val() != undefined && month.val() == "")
+    {
+      month.addClass("govuk-input--error")
+      ccsZaddErrorMessage(document.getElementById(parentID), "Month should not be empty");
+    }
+    else if(year.val() != undefined && year.val() == "")
+    { 
+      year.addClass("govuk-input--error")
+      ccsZaddErrorMessage(document.getElementById(parentID), "Year should not be empty");
+    }
+    else 
+    { 
+      if(!isValidDate(year.val(),month.val(),day.val()))
+      {
+        day.addClass("govuk-input--error")
+        ccsZaddErrorMessage(document.getElementById(parentID), "Please enter valid date");
+      } 
+      else 
+      {
+        let currentDate = new Date();
+        let enteredDate = new Date(year.val(),month.val()-1,day.val());
+        if(enteredDate < currentDate)
+        {
+          day.addClass("govuk-input--error")
+          month.addClass("govuk-input--error")
+          year.addClass("govuk-input--error")
+          ccsZaddErrorMessage(document.getElementById(parentID), "Date should be in future");
+        }
+        else 
+        {
+          document.getElementById(`ccs_rfi_response_date_form_${element}`).submit()
+        }
+      }
+    }
+  });
 
    function getParentId(element)
    {
@@ -138,8 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     }
   } 
+  
   });
 
+ 
  $('.save-button').on('click', (e)=> {
   let publication_date = new Date(document.getElementsByClassName("clarification_1")[0].innerText);
   let clarification_date = new Date(document.getElementsByClassName("clarification_2")[0].innerText);
@@ -203,12 +272,5 @@ document.addEventListener('DOMContentLoaded', () => {
   else{
     document.forms['ccs_eoi_response_date_form'].submit();
 }
-})
- 
- 
- 
- 
- 
- 
- 
+});
  

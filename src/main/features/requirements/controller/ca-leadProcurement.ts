@@ -9,7 +9,7 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
   const organization_id = req.session.user.payload.ciiOrgId;
   req.session['organizationId'] = organization_id;
   const { SESSION_ID } = req.cookies;
-  const { projectId, isJaggaerError } = req.session;
+  const { projectId, isJaggaerError,choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   const { rfp_procurement_lead: userParam } = req.query;
   const releatedContent = req.session.releatedContent;
@@ -63,6 +63,7 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
       agreementLotName,
       error: false,
       releatedContent,
+      choosenViewPath:choosenViewPath
     };
     res.render('ca-procurementLead', windowAppendData);
   } catch (error) {
@@ -80,7 +81,7 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
 
 export const CA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const { ca_procurement_lead_input: userMail } = req.body;
   const url = `/tenders/projects/${projectId}/users/${userMail}`;
   try {
@@ -88,7 +89,7 @@ export const CA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
       userType: 'PROJECT_OWNER',
     };
     await TenderApi.Instance(SESSION_ID).put(url, _body);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/43`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/43`, 'Completed');
 
     res.redirect('/ca/add-collaborators');
   } catch (error) {

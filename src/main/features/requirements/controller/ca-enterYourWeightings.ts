@@ -4,6 +4,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import * as caWeightingData from '../../../resources/content/requirements/caEnterYourWeightings.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -41,6 +42,10 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     error: isJaggaerError,
   };
   try {
+    let flag = await ShouldEventStatusBeUpdated(projectId, 46, req);
+    if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'In progress');
+    }
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
     let weightingsArray = [];
@@ -100,7 +105,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
@@ -128,35 +133,32 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       req.session['isJaggaerError'] = true;
       res.redirect('/ca/enter-your-weightings');
     } else {
-      for (var dimension of dimensions) {
-        if (dimensions.length < 6) {
+      let Weightings=[];
+        for(let i=1;i<=5;i++)
+        {
+            let dim=dimensions.filter(x=>x["dimension-id"] === i)
+            Weightings.push(...dim)
+        }
+      for (var dimension of Weightings) {
           const body = {
             name: dimension.name,
             weighting: req.body[dimension['dimension-id']],
             requirements: [],
             includedCriteria: dimension.evaluationCriteria
-              .map(criteria => {
-                if (!req.session['CapAss'].isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
-                  return null;
-                } else
-                  return {
-                    'criterion-id': criteria['criterion-id'],
-                  };
-              })
-              .filter(criteria => criteria !== null),
           };
           
           await TenderApi.Instance(SESSION_ID).put(
             `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
             body,
           );
+      
+          
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/46`, 'Completed');
+        let flag = await ShouldEventStatusBeUpdated(eventId, 47, req);
+        if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not started');
         }
-        
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Not started');
       }
-
-      //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
       res.redirect('/ca/accept-subcontractors');
     }
   } catch (error) {
