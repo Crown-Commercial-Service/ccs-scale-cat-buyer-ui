@@ -28,13 +28,14 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
   } = req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
+  const lotid = req.session?.lotId;
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = {
     agreementName,
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
 
@@ -277,7 +278,7 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
 
 
-    const windowAppendData = { ...daService, totalWeighting, lotId, agreementLotName, releatedContent, choosenViewPath,isError, errorText, TABLE_HEADING: TableHeadings, TABLE_BODY: TABLEBODY, WHOLECLUSTER: WHOLECLUSTERCELLS };
+    const windowAppendData = { ...daService, totalWeighting, lotid, agreementLotName, releatedContent, choosenViewPath,isError, errorText, TABLE_HEADING: TableHeadings, TABLE_BODY: TABLEBODY, WHOLECLUSTER: WHOLECLUSTERCELLS };
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/68`, 'In progress');
 
     //res.json(UNIQUE_DESIGNATION_HEADINGS_ARR)
