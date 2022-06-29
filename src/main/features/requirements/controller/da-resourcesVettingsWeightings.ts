@@ -76,11 +76,18 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
       const FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
-      let findername=FINDER.name;
-      const temp=findername.replace( /^\D+/g, '');
-     const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
-     FINDER.name=tempname;
-      UNIQUE_DESIG_STORAGE.push(FINDER);
+      if(FINDER.name.includes('SFIA level'))
+      {
+        UNIQUE_DESIG_STORAGE.push(FINDER);
+      }
+      else{
+        let findername=FINDER.name;
+        const temp=findername.replace( /^\D+/g, '');
+       const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
+       FINDER.name=tempname;
+        UNIQUE_DESIG_STORAGE.push(FINDER);
+      }
+     
     }
 
     UNIQUE_DESIG_STORAGE = UNIQUE_DESIG_STORAGE.flat();

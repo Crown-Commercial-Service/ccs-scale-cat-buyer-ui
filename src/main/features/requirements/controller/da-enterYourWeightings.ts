@@ -71,7 +71,7 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       errorText,
       errorTextSumary: errorTextSumary,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'In progress');
     res.render('da-enterYourWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -147,11 +147,9 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,
         );
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'Not started');
       }
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'To-do');
         res.redirect('/da/accept-subcontractors');
     }
   } catch (error) {
