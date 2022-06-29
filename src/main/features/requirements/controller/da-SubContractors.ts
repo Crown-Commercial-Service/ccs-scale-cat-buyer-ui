@@ -46,7 +46,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       SubContractorAccepted: isSubContractorAccepted,
       choosenViewPath,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'In progress');
     res.render('da-SubContractors', windowAppendData);
   } catch (error) {
     req.session['isValidationError'] = true;
@@ -121,7 +121,7 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Post failed - DA next steps page',
+      'Post failed - DA sub contractors',
       true,
     );
   }

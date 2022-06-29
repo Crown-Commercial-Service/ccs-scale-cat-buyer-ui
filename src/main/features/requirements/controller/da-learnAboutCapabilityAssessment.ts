@@ -38,7 +38,7 @@ export const DA_GET_LEARN = async (req: express.Request, res: express.Response) 
       releatedContent,
       isPathOne,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/63`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/63`, 'In progress');
     res.render('da-learnAboutCapabilityAssessment', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -56,10 +56,10 @@ export const DA_GET_LEARN = async (req: express.Request, res: express.Response) 
 
 export const DA_POST_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/63`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/63`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'Not started');
     res.redirect('/da/enter-your-weightings');
   } catch (error) {
     LoggTracer.errorLogger(
