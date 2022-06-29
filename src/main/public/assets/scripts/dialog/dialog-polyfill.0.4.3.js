@@ -7,7 +7,7 @@ let weightingStaff = [];
 let weightingVetting = [];
 
 container =
-  document.getElementById('ccs_ca_menu_tabs_form_later') || document.getElementById('ccs_rfp_scoring_criteria');
+  document.getElementById('ccs_ca_menu_tabs_form_later') || document.getElementById('ccs_rfp_scoring_criteria') || document.getElementById('ccs_da_menu_tabs_form_later');
 inputs = container.getElementsByTagName('input');
 
 function deselect(e) {
