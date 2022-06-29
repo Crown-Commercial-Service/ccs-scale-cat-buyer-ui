@@ -61,7 +61,6 @@ export const DA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
   req.session.errorText = '';
   const appendData = { ...data, choosenViewPath, releatedContent, isError, errorText,totalQuantityda };
   await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/67`, 'In progress');
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     res.render('da-chooseSecurityRequirements', appendData);
  } catch (error) {
     LoggTracer.errorLogger(
@@ -94,7 +93,7 @@ function checkErrors(selectedNumber, resources,totalQuantityda) {
 
 export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, releatedContent, currentEvent } = req.session;
+  const { projectId,eventId, releatedContent, currentEvent } = req.session;
   const { assessmentId } = currentEvent;
   const { ccs_da_choose_security: selectedValue, ccs_da_resources } = req.body;
   const selectedresourceNumber = selectedValue ? selectedValue.replace(/[^0-9.]/g, '') : null;
@@ -181,7 +180,7 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
         `${req.headers.host}${req.originalUrl}`,
         null,
         TokenDecoder.decoder(SESSION_ID),
-        'Tender agreement failed to be added',
+        'Post failed - DA choose security requirements',
         true,
       );
     }
