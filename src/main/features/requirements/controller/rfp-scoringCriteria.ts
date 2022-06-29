@@ -75,7 +75,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
 
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
-    const bcTitleText = OCDS?.description;
+    const bcTitleText = OCDS?.description === 'How you will score suppliers' ? OCDS?.description : "How you will score suppliers";
     const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
     const promptData = nonOCDS?.prompt;
     const splitOn = ' <br> ';
@@ -255,16 +255,16 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
     let defaultOptions = [];
-    fetch_dynamic_api_data = fetch_dynamic_api_data.filter(x=>{
-      if (x.nonOCDS.questionType.toLowerCase() ==='table') {
+    fetch_dynamic_api_data = fetch_dynamic_api_data.filter(x => {
+      if (x.nonOCDS.questionType.toLowerCase() === 'table') {
         x.nonOCDS.options.map(xx => {
           if (xx.text?.toLowerCase() !== 'Create your own scoring criteria'.toLowerCase()) {
             defaultOptions.push(xx);
           }
         })
       }
-    });    
-    
+    });
+
     //#endregion
 
     const regex = /questionnaire/gi;
