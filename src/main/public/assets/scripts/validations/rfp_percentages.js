@@ -4,13 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let elements = document.querySelectorAll("[name='percentage']");
     let totalPercentageEvent = () => {
       let percentage = 0
-      let errorList=[];
+      let errorList = [];
       removeErrorFieldsRfpPercentage();
       elements.forEach((el) => {
         percentage += isNaN(el.value) ? 0 : Number(el.value);
       });
-      if (percentage >100) {
-        errorList.push(["There is a problem","The total weighting is exceeded more than 100%"]);
+      if (percentage > 100) {
+        errorList.push(["There is a problem", "The total weighting is exceeded more than 100%"]);
         ccsZPresentErrorSummary(errorList)
       }
       $("#totalPercentage").text(percentage);
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.forEach((ele) => {
       ele.addEventListener('focusout', totalPercentageEvent)
       ele.addEventListener('keydown', (event) => {
-        if (event.key === '.' || event.keyCode ===69) { event.preventDefault(); }
+        if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
       });
     });
     totalPercentageEvent();
@@ -91,7 +91,22 @@ const checkRange = (s, e, val) => {
 }
 const ccsZvalidateRfpPercentages = (event) => {
   event.preventDefault();
-  const errorStore = checkPercentagesCond();
+  let errorStore =[];
+  const pageHeading = document.getElementById('page-heading').innerHTML;
+
+  let elements = document.querySelectorAll("[name='percentage']");
+  let percentage = 0;
+  elements.forEach((el) => {
+    percentage += isNaN(el.value) ? 0 : Number(el.value);
+
+  });
+
+
+  if (pageHeading.includes('Set the overall weighting between quality and price') && (percentage > 100 || percentage < 100)) {
+    errorStore.push(["#", "Your total percentage must be 100%."]);
+    ccsZPresentErrorSummary(errorStore)
+  }
+  errorStore = errorStore == null || errorStore.length <= 0 ? checkPercentagesCond() : errorStore;
   if (errorStore === undefined || errorStore === null || errorStore.length === 0) {
     document.forms["rfp_percentage_form"].submit();
   }

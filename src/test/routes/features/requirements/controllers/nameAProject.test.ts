@@ -91,7 +91,7 @@ describe('Name a project', () => {
   it('should redirect to procurement lead if name fulfilled', async () => {
     const dummyName = 'dummyName';
     nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/name`).reply(200, true);
-    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${projectId}/steps/27`).reply(200, true);
+    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${eventId}/steps/27`).reply(200, true);
     await request(parentApp)
       .post(`/rfp/name?procid=${procId}`)
       .send({ rfi_projLongName: dummyName })
@@ -117,7 +117,7 @@ describe('Name a project', () => {
     nock(envs.TENDERS_SERVICE_API_URL).put(`/tenders/projects/${procId}/name`).reply(500, {
       msg: 'Internal Server Error',
     });
-    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${projectId}/steps/27`).reply(200, true);
+    nock(envs.TENDERS_SERVICE_API_URL).put(`/journeys/${eventId}/steps/27`).reply(200, true);
     await request(parentApp)
       .post(`/rfp/name?procid=${procId}`)
       .send({ rfi_projLongName: 'nameExample' })

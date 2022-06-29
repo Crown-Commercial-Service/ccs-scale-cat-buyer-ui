@@ -71,7 +71,7 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
       }
       RadioData.sort((a,b)=>(a.value < b.value) ? -1 : 1 );
     const windowAppendData = { data: daTeamScale,RadioData, lotId, agreementLotName, choosenViewPath, releatedContent,error:daTeamScaleerror};
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/69`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'In progress');
     res.render('da-team-scale', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -95,7 +95,7 @@ const GET_ASSESSMENT_DETAIL = async (sessionId: any, assessmentId: string) => {
 
 export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId} = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const dimension = req.session.dimensions;
   const scalabilityData = dimension.filter(data => data.name === 'Scalability')[0];
@@ -130,6 +130,7 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
           values: [{ 'criterion-id': '0', value: '1: Yes' }],
         },
       ],
+      overwriteRequirements: true,
     };
 
 
@@ -137,13 +138,8 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       `/assessments/${assessmentId}/dimensions/${scalabilityData['dimension-id']}`,
       body,
     );
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/69`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/70`, 'Not started');
-
-    // Check 'review ranked suppliers' step number
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/`, 'To do');
-
-    
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'Not started');
     req.session.daTeamScaleerror=false;
     res.redirect('/da/where-work-done');
   } catch (error) {

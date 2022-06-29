@@ -1,0 +1,95 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% set title = 'Name project | Contract Award Service' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+    items: [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commericial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": url
+        },
+        {
+        "text": "Write and publish your requirements",
+        "href": "/da/task-list?path="+ choosenViewPath 
+        },
+        {
+          "text": "Name your project",
+          "href": "#"
+        }
+    ]
+      }) }}
+{% endblock %}
+
+{% block content %}
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "Your project must have a name."
+    }
+  ]
+}) }}
+{%endif %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">
+     <strong>{{data.title }}</strong>
+    </h1>
+  </div>
+</div>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+  {% include "includes/project_header.njk" %}
+  <br><br>
+   <div>
+        <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong><br>Make sure you include this ID every time you contact CCS. </p>
+      </div>
+      <div>
+      <p class="govuk-body">{{data.caption1}}
+      <br>{{data.caption2}} <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">return to pre-market engagement.</a> </p>
+      </div>
+      <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/da/name?procid={{procId}}" method="POST">       
+          {{ csrfProtection(csrf) }}
+        {{ CCSInput({           
+            id: data.form.input.id,
+            name: data.form.input.name,
+            value: projectLongName
+            })
+        }}
+
+          <div class="govuk-button-group">
+            {{ CCSButton({
+                text: "Save and continue",
+                action:"submit"
+                })
+            }}
+               {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+          </div>
+      </form>
+ </div>
+      <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+      </div>
+   </div>
+  </main>
+{% endblock %}

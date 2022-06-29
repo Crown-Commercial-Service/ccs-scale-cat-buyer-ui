@@ -62,13 +62,15 @@
           <form id="{{form_name}}"  name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}&section={{section}}&step={{step}}" method="post">
           {{ csrfProtection(csrf) }}
           <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
-            {%if(prompt.length>0)%}
+            {# {%if(prompt.length>0)%}
              <p class="govuk-body">{{prompt[0] | safe}}</p>
              {%endif%}
              {%if(prompt.length>1)%}
               <p class="govuk-body">{{prompt[1] | safe}}</p>
-             {%endif%}
-            
+             {%endif%} #}
+            {{ CCSInsetText({
+                    html: prompt
+                }) }}
 
               {% macro recurseRequirements(requirement,form_name,index = 0) -%}
               {%if (requirement.nonOCDS.childern.length > 0)%}
@@ -85,8 +87,8 @@
                   <p class="govuk-body">
                     <h2>
                       <span id="questionsCount">{{questionsCount}}</span>
-                      {{shortTitle}} questions entered so far</h2>
-                    <h2> Total for the {{shortTitle}} group: <span id="totalPercentage">{{totalPercentage    }}</span> of 100%</h2>
+                      {{shortTitle}} questions entered</h2>
+                    <h2> Total for the {{shortTitle}} group: <span id="totalPercentage">{{totalPercentage    }}</span>% of 100%</h2>
                   </p>
                 </div>
                 {% set numberWord = [

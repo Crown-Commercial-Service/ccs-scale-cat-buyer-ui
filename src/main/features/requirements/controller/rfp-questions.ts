@@ -59,8 +59,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const titleText = nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (Optional)';
     const promptData = nonOCDS?.prompt;
 
-    const splitOn = '<br>';
-    const promptSplit = group_id == 'Group 24' && id == 'Criterion 3' ? promptData.split(splitOn) : promptData;
+    //const splitOn = '<br>';
+    //const promptSplit = group_id == 'Group 24' && id == 'Criterion 3' ? promptData.split(splitOn) : promptData;
 
 
     const nonOCDSList = [];
@@ -164,7 +164,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       rfpTitle: titleText,
       shortTitle: mapTitle(group_id),
       bcTitleText,
-      prompt: promptSplit,
+      prompt: promptData,
       organizationName: organizationName,
       emptyFieldError: req.session['isValidationError'],
       errorText: errorText,
@@ -268,9 +268,9 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const { proc_id, event_id, id, group_id, stop_page_navigate, section } = req.query;
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
-    const { projectId } = req.session;
+    const { eventId } = req.session;
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/20`, 'In progress');
 
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
@@ -423,7 +423,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   },
                 };
               }
-              //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
+              //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
             } else if (questionNonOCDS.questionType === 'Date') {
 
               const slideObj = object_values.slice(0, 3);

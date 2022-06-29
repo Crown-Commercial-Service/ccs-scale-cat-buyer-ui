@@ -3,6 +3,7 @@ import * as express from 'express';
 import * as cmsData from '../../../resources/content/RFI/review.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import moment from 'moment-business-days';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
@@ -14,12 +15,14 @@ import { reverse } from 'dns';
 
 
 
+
 export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Response, viewError: boolean, apiError: boolean) => {
   const { SESSION_ID } = req.cookies;
   const ProjectID = req.session['projectId'];
   const EventID = req.session['eventId'];
   const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
   const { download } = req.query;
+  
   if(download!=undefined)
     {
       const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
@@ -159,9 +162,9 @@ console.log(FilteredSetWithTrue)
           if(dataOFRFI.id=='Group 2')
           {
           const tempGroup2=RFI_DATA_WITHOUT_KEYDATES[1]
-          const answer_=tempGroup2.answer[1]
+          const answer_=tempGroup2.answer.filter(x=>x.question!=undefined)
           tempGroup2.answer=[];       
-          tempGroup2.answer.push(answer_)
+          tempGroup2.answer.push(...answer_)
             const formattedData = { ...tempGroup2, criterian: dataOFCRITERIAN.criterian };
             RFI_ANSWER_STORAGE.push(formattedData);
           }
@@ -199,8 +202,21 @@ console.log(FilteredSetWithTrue)
   
 //Fix for SCAT-4146 - arranging the questions order
    let expected_rfi_keydates=RFI_DATA_TIMELINE_DATES;
+   
    expected_rfi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
 
+   for(let i=0;i<expected_rfi_keydates[0].answer.length;i++){
+     let data=expected_rfi_keydates[0].answer[i].values[0].value;
+     let day=data.substr(0,10);
+     let time=data.substr(11,5);
+     if(i==0){
+      expected_rfi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+    }
+    else
+    {
+      expected_rfi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+    }
+   };
       //RFI_ANSWER_STORAGE[3].answer.reverse()
 
     let supplierList = [];

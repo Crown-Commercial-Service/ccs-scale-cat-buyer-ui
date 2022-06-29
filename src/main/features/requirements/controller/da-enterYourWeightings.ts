@@ -56,8 +56,8 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
         };
       });
     }
-    req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
-    req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
+    req.session['DA'] = req.session['DA'] == undefined ? {} : req.session['DA'];
+    req.session['DA'].toolId = assessmentDetail['external-tool-id'];
     req.session['weightingRange'] = weightingsArray[0].weightingRange;
     const windowAppendData = {
       data: daWeightingData,
@@ -71,7 +71,7 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       errorText,
       errorTextSumary: errorTextSumary,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'In progress');
     res.render('da-enterYourWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -101,11 +101,11 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
-    const toolId = req.session['CapAss'].toolId;
+    const toolId = req.session['DA'].toolId;
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
 
     const range = req.session['weightingRange'];
@@ -147,10 +147,9 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,
         );
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/64`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'Completed');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'Not started');
       }
-       
         res.redirect('/da/accept-subcontractors');
     }
   } catch (error) {

@@ -12,10 +12,10 @@ export const GET_EVENT_PUBLISHED  = async (req: express.Request, res: express.Re
         rfi_ref_no : req.session.eventId
     }
     const { SESSION_ID } = req.cookies; //jwt
-    const { projectId } = req.session;
+    const { eventId } = req.session;
 
 try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/2`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'Completed');
 
     res.render('eventpublished.njk', appendData)
   }catch (error) {

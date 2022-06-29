@@ -37,10 +37,10 @@ export const RFP_GET_I35: express.Handler = async (req: express.Request, res: ex
       apiData: ResponseData,
       releatedContent,
     };
-    let flag=await ShouldEventStatusBeUpdated(projectId,31,req);
+    let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'In progress');
     }
     res.render('rfp-ir35.njk', windowAppendData);
   } catch (error) {
@@ -83,10 +83,10 @@ export const RFP_POST_I35: express.Handler = async (req: express.Request, res: e
     };
     if (REQUESTBODY?.nonOCDS?.options?.length >0 && REQUESTBODY.nonOCDS.options[0].value !==undefined) {
       await TenderApi.Instance(SESSION_ID).put(BaseURL, REQUESTBODY);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(projectId,32,req);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(eventId,32,req);
     if(flag){
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/32`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
     }
     res.redirect('/rfp/task-list');
     }else{

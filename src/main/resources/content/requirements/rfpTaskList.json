@@ -63,7 +63,7 @@
         },
         {
           "Task": 2,
-          "title": "Confirm if you require a contracted out service or supply of resource.",
+          "title": "Confirm if you need a contracted out service or supply of resource.",
           "required": "optional",
           "link": "/rfp/IR35",
           "status": "Cannot start yet"
@@ -141,7 +141,7 @@
         },
         {
           "Task": 2,
-          "title": "Set your scoring criteria",
+          "title": "How you will score suppliers",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfp/set-scoring-criteria"

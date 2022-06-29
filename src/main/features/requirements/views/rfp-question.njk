@@ -76,7 +76,7 @@ text: bcTitleText
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <h1 id="page-heading" class="govuk-heading-xl">
-                {{rfpTitle}}
+               <strong> {{rfpTitle}} </strong>
             </h1>
         </div>
     </div>
@@ -92,25 +92,26 @@ text: bcTitleText
                 <div class="ccs-page-section">
                 {#<--! SCAT-5151-->#}
                 {% if (form_name === 'rfp_multianswer_question_form') %}
-                <p class="govuk-body">{{prompt[0]}}</p>
-                <p class="govuk-body">{{prompt[1]}}</p>
+                {{ CCSInsetText({
+                    html: prompt
+                }) }}
                 </div>
                 <h2>Create your first requirement group</p> </h2>
                 {%endif%}
-
-               {% if (form_name === 'service_user_type_form') %}
-                <p class="govuk-body">{{prompt}}</p>
+                {% if (form_name !== 'rfp_multianswer_question_form') %}
+                {{ CCSInsetText({
+                    html: prompt
+                }) }}
                 {%endif%}
-                <p class="govuk-body">{{prompt?[0] | safe}}</p>
-                <p class="govuk-body">{{prompt?[1] | safe}}</p>
-
+                
+               
 
                 {% macro recurseRequirements(requirement,form_name,index = 0) -%}
                 {%if (requirement.nonOCDS.childern.length > 0)%}
-                {{CCSQUESTIONS(organizationName,requirement,form_name, index)}}
-                {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index)}}
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}} 
+                 {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index)}} 
                 {%else%}
-                {{CCSQUESTIONS(organizationName,requirement,form_name, index)}}
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}} 
                 {%endif%}
                 {%- endmacro %}
                 {%if (form_name === 'ccs_rfp_scoring_criteria')%}
@@ -181,11 +182,11 @@ text: bcTitleText
                 {%endif%}
                 {%elif (form_name !== 'ccs_rfp_acronyms_form')%}
                 {% for requirement in data %}
-                {{recurseRequirements(requirement,form_name,loop.index)}}
+                 {{recurseRequirements(requirement,form_name,loop.index)}}
                 {% endfor %}
                 {%elif(form_name === 'ccs_rfp_acronyms_form')%}
                 {% for requirement in data %}
-                {{recurseRequirements(requirement,form_name,loop.index)}}
+                 {{recurseRequirements(requirement,form_name,loop.index)}}
                 {% endfor %}
 
 
@@ -226,18 +227,16 @@ text: bcTitleText
                         class="govuk-link govuk-link--no-visited-state">Return to Add context and requirements</a>
                 </div>
 
-            </form>
-
-        </div>
+          </form>
+    </div>
+</div>
+        
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-third">
                 {{ CCSReleatedContent(releatedContent) }}
             </div>
         </div>
-
-        </form>
-    </div>
-
-    </div>
+ </div>      
+    
 </main>
 {% endblock %}
