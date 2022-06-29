@@ -71,7 +71,7 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
       }
       RadioData.sort((a,b)=>(a.value < b.value) ? -1 : 1 );
     const windowAppendData = { data: daTeamScale,RadioData, lotId, agreementLotName, choosenViewPath, releatedContent,error:daTeamScaleerror};
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/69`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'In progress');
     res.render('da-team-scale', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
