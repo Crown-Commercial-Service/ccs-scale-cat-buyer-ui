@@ -566,6 +566,11 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
         if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Not started');
         }
+        if(req.session["CA_nextsteps_edit"])
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+    }
     res.redirect('/ca/choose-security-requirements');
   }
   else{

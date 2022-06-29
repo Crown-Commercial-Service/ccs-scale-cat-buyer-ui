@@ -77,6 +77,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
 
         case 'edit':
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Not started');
+          req.session["DA_nextsteps_edit"]=true
           res.redirect(REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
           break;
 

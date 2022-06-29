@@ -543,6 +543,11 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   if(response.status==HttpStatusCode.OK){
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/67`, 'Not started');
+    if(req.session["DA_nextsteps_edit"])
+      {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
+      }
     res.redirect('/da/choose-security-requirements');
   }
   else{
