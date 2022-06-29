@@ -484,6 +484,7 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     weighting: dimension1weighitng,
     requirements: IndexStorageStaff,
     includedCriteria:includedSubContractor,
+    overwriteRequirements: true,
   };
 
   let response;

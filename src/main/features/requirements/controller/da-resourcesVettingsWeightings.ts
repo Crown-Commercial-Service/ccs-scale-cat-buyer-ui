@@ -464,6 +464,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     weighting: dimension1weighitng,
     requirements: IndexStorageStaff,
     includedCriteria:includedSubContractor,
+    overwriteRequirements: true,
   };
   let response;
   //save number of staff data
@@ -519,8 +520,9 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   body = {
     name: resourcesData['name'],
     weighting: dimension6weighitng,
-    includedCriteria: includedSubContractor,
+    includedCriteria: [],
     requirements: INDEX_FINDER_OBJ_REMAPPER,
+    overwriteRequirements: true,
   };
   
 

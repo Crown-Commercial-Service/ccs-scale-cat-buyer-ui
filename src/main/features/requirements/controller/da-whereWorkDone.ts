@@ -82,7 +82,6 @@ export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
   const { isError, errorText } = checkErrors(total);
   const assessmentId = req.session.currentEvent.assessmentId;
   const choosenViewPath = req.session.choosenViewPath;
-  var capAssessement = req.session['CapAss'];
   if (isError) {
     req.session.errorText = errorText;
     req.session.isError = isError;
@@ -138,6 +137,7 @@ export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
         weighting: dimension5weighitng,
         includedCriteria: includedSubContractor,
         requirements: initialDataRequirements,
+        overwriteRequirements: true,
       };
 
       const response=await TenderApi.Instance(SESSION_ID).put(
@@ -148,7 +148,7 @@ export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
       {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'Completed');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
-        res.redirect('/da/task-list?path=' + choosenViewPath);
+        res.redirect('/da/review-ranked-suppliers');
         }
         else{
           res.redirect('/404/');

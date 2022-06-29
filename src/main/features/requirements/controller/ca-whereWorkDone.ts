@@ -82,7 +82,6 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
   const { isError, errorText } = checkErrors(total);
   const assessmentId = req.session.currentEvent.assessmentId;
   const choosenViewPath = req.session.choosenViewPath;
-  var capAssessement = req.session['CapAss'];
 
   if (isError) {
     req.session.errorText = errorText;
