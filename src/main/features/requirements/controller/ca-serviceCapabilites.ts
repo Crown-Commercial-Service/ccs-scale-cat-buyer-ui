@@ -19,6 +19,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
     agreementLotName,
     agreementName,
     projectId,
+    eventId,
     agreement_id,
     releatedContent,
     project_name,
@@ -28,13 +29,14 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
   } = req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
+  const lotid = req.session?.lotId;
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = {
     agreementName,
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
 
@@ -267,7 +269,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       ...caService,
       choosenViewPath,
       totalWeighting,
-      lotId,
+      lotid,
       agreementLotName,
       releatedContent,
       isError,
@@ -276,9 +278,9 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       TABLE_BODY: TABLEBODY,
       WHOLECLUSTER: WHOLECLUSTERCELLS,
     };
-    let flag = await ShouldEventStatusBeUpdated(projectId, 50, req);
+    let flag = await ShouldEventStatusBeUpdated(eventId, 50, req);
         if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/50`, 'In progress');
         }
 
     //res.json(UNIQUE_DESIGNATION_HEADINGS_ARR)
@@ -306,7 +308,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
  */
 export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId ,eventId} = req.session;
 
   let { ca_partial_weightage, weight_vetting_partial, weight_vetting_whole, weight_vetting_whole_group } = req.body;
 
@@ -550,12 +552,16 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
 
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/50`, 'Completed');
-      let flag = await ShouldEventStatusBeUpdated(projectId, 51, req);
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/50`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 51, req);
         if (flag) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/51`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/51`, 'Not started');
         }
-
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+        }
       res.redirect('/ca/team-scale');
     } catch (error) {
       req.session['isJaggaerError'] = true;

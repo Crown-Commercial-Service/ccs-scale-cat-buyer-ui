@@ -137,34 +137,58 @@ const updateLocationTotal = dimensions => {
 
 const ccsZvalidateDAWhereWorkDone = event => {
   event.preventDefault();
-  var dimensions = $('.dimensions');
-  let fieldCheck = '',
-    errorStore = [],
-    total = 0;
+  var dimensions = $(".dimensions")
+  let fieldCheck = "",
+    errorStore = [], total = 0;
+    emptycontent=[];
   dimensions.each(function () {
     var element = document.getElementById($(this).attr('id'));
-    ccsZremoveErrorMessage(element);
-    let errMsg = '';
-    if (element.value === '') errMsg = 'All entry boxes must contain a value 1';
-    else if (isNaN($(this).val()) || element.value.includes('.')) errMsg = 'Dimension value entered must be an integer';
-    else if (
-      (Number(element.value) < Number($(this).attr('min')) && Number($(this).attr('min')) !== 0) ||
-      (Number(element.value) > Number($(this).attr('max')) && Number($(this).attr('max')) !== 0)
-    )
-      errMsg = 'Dimension value entered is outside the permitted range';
-    else total += Number(element.value);
-    if (errMsg !== '') {
+    ccsZremoveErrorMessage(element)
+    let errMsg = "";   
+    if (isNaN($(this).val())&&element.value != '')
+    {
+      errMsg = "Dimension value entered must be an integer"
+      emptycontent.push("false")
+    }
+    else if(element.value.includes('.')&& element.value != '')
+    {
+      errMsg = "Dimension value entered must not contain decimal values"
+      emptycontent.push("false")
+    }
+    else if(element.value>100 && element.value != '')
+    {
+      errMsg = "Dimension value entered must be <100"
+      emptycontent.push("false")
+    } 
+    else if(element.value<=0 && element.value != '')
+    {
+      errMsg = "Dimension value entered must be >0"
+      emptycontent.push("false")
+    } 
+     else if (element.value != '')
+      { 
+        total += Number(element.value);
+        emptycontent.push("true")
+      }     
+    if (errMsg !== "") {
       ccsZaddErrorMessage(element, errMsg);
-      fieldCheck = [$(this).attr('id'), errMsg];
+      fieldCheck = [$(this).attr('id'), errMsg]
       errorStore.push(fieldCheck);
     }
   });
-  if (total !== 100) {
-    fieldCheck = ['totalPercentage', 'Dimension value entered does not total to 100%'];
+  if( !emptycontent.length > 0)
+  {
+      fieldCheck = ["","Entry box must contain a value"]
+      errorStore.push(fieldCheck);   
+  }
+  else if (total !== 100) {
+    fieldCheck = ["totalPercentage", "Dimension value entered does not total to 100%"]
     errorStore.push(fieldCheck);
   }
-  if (errorStore.length === 0) document.forms['da_where_work_done'].submit();
+  if (errorStore.length === 0) document.forms["da_where_work_done"].submit();
   else ccsZPresentErrorSummary(errorStore);
+
+
 };
 
 

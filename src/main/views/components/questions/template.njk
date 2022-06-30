@@ -949,7 +949,7 @@
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
                             legend: {
-                               html: "Service user type",
+                               html: "First service user type",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -1241,6 +1241,7 @@
                             },
                             hint: {
                               text: requirement.OCDS.description,
+                              html: requirement.OCDS.description,
                               classes: "govuk-hint"
                             },
                             prefix: {

@@ -20,6 +20,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   const agreementId_session = agreement_id;
   const { isValidationError, choosenViewPath } = req.session;
   const { assessmentId } = req.session.currentEvent;
+  const lotid = req.session?.lotId;
   let isSubContractorAccepted = false;
   req.session['isValidationError'] = false;
   res.locals.agreement_header = {
@@ -27,12 +28,12 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isValidationError,
   };
   try {
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-    isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
+    isSubContractorAccepted = req.session['DA'].isSubContractorAccepted;
 
     daSubContractors.form[0].radioOptions.items = daSubContractors.form[0].radioOptions.items.map(opt => {
       if (opt.value == 'yes' && isSubContractorAccepted) opt.checked = true;
@@ -46,7 +47,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       SubContractorAccepted: isSubContractorAccepted,
       choosenViewPath,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'In progress');
     res.render('da-SubContractors', windowAppendData);
   } catch (error) {
     req.session['isValidationError'] = true;
@@ -76,16 +77,15 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
-  const toolId = req.session['CapAss']?.toolId;
 
   try {
     const { da_subContractors } = req.body;
 
     if (da_subContractors !== undefined && da_subContractors !== '') {
       const da_acceptsubcontractors = da_subContractors.toLowerCase() == 'yes' ? true : false;
-      req.session['CapAss'].isSubContractorAccepted=da_acceptsubcontractors
+      req.session['DA'].isSubContractorAccepted=da_acceptsubcontractors
       const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
       for (var dimension of assessmentDetail.dimensionRequirements) {
@@ -107,9 +107,13 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           body,
         );
       }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/65`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/66`, 'Not started');
-
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Not started');
+      if(req.session["DA_nextsteps_edit"])
+      {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
+      }
       res.redirect(REQUIREMENT_PATHS.DA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
       req.session['isValidationError'] = true;
@@ -122,7 +126,7 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Post failed - DA next steps page',
+      'Post failed - DA sub contractors',
       true,
     );
   }

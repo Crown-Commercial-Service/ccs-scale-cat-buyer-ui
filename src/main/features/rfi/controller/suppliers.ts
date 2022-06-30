@@ -8,6 +8,7 @@ import config from 'config';
 import { Blob } from 'buffer';
 import { JSDOM } from 'jsdom';
 import { Parser } from 'json2csv';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 // RFI Suppliers
 export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Response) => {
@@ -152,10 +153,14 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
 
 export const POST_RFI_SUPPLIER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId } = req.session;
-  const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/12`, 'Completed');
+  const { eventId } = req.session;
+  const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/12`, 'Completed');
   if (response.status == HttpStatusCode.OK) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/13`, 'Not started');
+    let flag=await ShouldEventStatusBeUpdated(eventId,13,req);
+    if(flag)
+    {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Not started');
+    }
   }
   res.redirect('/rfi/response-date');
 };

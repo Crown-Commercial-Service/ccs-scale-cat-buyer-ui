@@ -28,8 +28,12 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     currentEvent,
     designations,
     tableItems,
+
     choosenViewPath,    
+    eventId,
+
   } = req.session;
+  const lotid = req.session?.lotId;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -39,7 +43,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
   try {
@@ -79,11 +83,17 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
       const FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
-      let findername=FINDER.name;
-      const temp=findername.replace( /^\D+/g, '');
-     const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
-     FINDER.name=tempname;
-      UNIQUE_DESIG_STORAGE.push(FINDER);
+      if(FINDER.name.includes('SFIA level'))
+      {
+        UNIQUE_DESIG_STORAGE.push(FINDER);
+      }
+      else{
+        let findername=FINDER.name;
+        const temp=findername.replace( /^\D+/g, '');
+       const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
+       FINDER.name=tempname;
+        UNIQUE_DESIG_STORAGE.push(FINDER);
+      }
     }
 
     UNIQUE_DESIG_STORAGE = UNIQUE_DESIG_STORAGE.flat();
@@ -249,7 +259,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     StorageForSortedItems.sort((a:any, b:any) => (a.Parent < b.Parent ? -1 : 1))
     const windowAppendData = {
       ...caResourcesVetting,
-      lotId,
+      lotid,
       agreementLotName,
       releatedContent,
       isError,
@@ -260,9 +270,9 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       total_res,total_ws,total_wv
     };
 
-    let flag = await ShouldEventStatusBeUpdated(projectId, 48, req);
+    let flag = await ShouldEventStatusBeUpdated(eventId, 48, req);
         if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'In progress');
         }
     res.render('ca-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
@@ -281,7 +291,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
 export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,StorageForSortedItems } = req.session;
+  const { projectId,eventId,StorageForSortedItems } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const errorTextSumary = [];
 
@@ -481,6 +491,7 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     weighting: dimension1weighitng,
     requirements: IndexStorageStaff,
     includedCriteria:includedSubContractor,
+    overwriteRequirements: true,
   };
 
   let response;
@@ -551,11 +562,16 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   
   }
   if(response.status==HttpStatusCode.OK){
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Completed');
-    let flag = await ShouldEventStatusBeUpdated(projectId, 49, req);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 49, req);
         if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Not started');
         }
+        if(req.session["CA_nextsteps_edit"])
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+    }
     res.redirect('/ca/choose-security-requirements');
   }
   else{

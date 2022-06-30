@@ -34,9 +34,9 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
   const event_id = req.session['eventId'];
   const { SESSION_ID } = req.cookies;
   try {
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/19`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/19`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/20`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'Not started');
     }
     const filtered_body_content_removed_eoi_key = ObjectModifiers._deleteKeyofEntryinObject(
       req.body,

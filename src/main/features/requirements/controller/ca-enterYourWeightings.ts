@@ -105,7 +105,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
@@ -153,12 +153,17 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
           );
       
           
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
-        let flag = await ShouldEventStatusBeUpdated(projectId, 47, req);
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/46`, 'Completed');
+        let flag = await ShouldEventStatusBeUpdated(eventId, 47, req);
         if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not started');
         }
       }
+      if(req.session["CA_nextsteps_edit"])
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+    }
       res.redirect('/ca/accept-subcontractors');
     }
   } catch (error) {

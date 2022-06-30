@@ -22,6 +22,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   const { choosenViewPath } = req.session;
   const { isValidationError } = req.session;
   const { assessmentId } = req.session.currentEvent;
+  const lotid = req.session?.lotId;
   let isSubContractorAccepted = false;
   req.session['isValidationError'] = false;
   res.locals.agreement_header = {
@@ -29,7 +30,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isValidationError,
   };
   try {
@@ -37,6 +38,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
         if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'In progress');
         }
+        
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
     isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
@@ -81,7 +83,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId ,eventId} = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const toolId = req.session['CapAss']?.toolId;
 
@@ -114,12 +116,16 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           body,
         );
       }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Completed');
-      let flag = await ShouldEventStatusBeUpdated(projectId, 48, req);
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 48, req);
         if (flag) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Not started');
         }
-
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+        }
       res.redirect(REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
       req.session['isValidationError'] = true;
