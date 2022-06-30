@@ -77,7 +77,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
     if (ca_next_steps) {
       switch (ca_next_steps) {
         case 'yes':
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Completed');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Completed');
           const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
           let endDate=new Date()
           endDate.setDate(endDate.getDate()+1);
