@@ -96,6 +96,11 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
         if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
         }
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+        }
     res.redirect(REQUIREMENT_PATHS.CA_GET_REVIEW_RANKED_SUPPLIERS);
    } 
    else{

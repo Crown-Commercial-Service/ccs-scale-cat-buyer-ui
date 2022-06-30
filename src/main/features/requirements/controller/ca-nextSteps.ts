@@ -192,6 +192,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
 
         case 'edit':
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Not started');
+          req.session["CA_nextsteps_edit"]=true
           res.redirect(REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
           break;
 

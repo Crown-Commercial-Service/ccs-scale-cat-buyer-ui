@@ -556,7 +556,11 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
         if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/51`, 'Not started');
         }
-
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+        }
       res.redirect('/ca/team-scale');
     } catch (error) {
       req.session['isJaggaerError'] = true;
