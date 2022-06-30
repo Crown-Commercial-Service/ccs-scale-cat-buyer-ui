@@ -189,17 +189,17 @@ export const RFP_GET_REMOVE_FILES = (express.Handler = async (req: express.Reque
 
 export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { eventId } = req.session;
   const { selectedRoute } = req.session;
 
   if (req.session['isTcUploaded']) {
     if (selectedRoute === 'FC') selectedRoute = 'RFP';
     const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(projectId,31,req);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/31`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
     }
     res.redirect(`/rfp/IR35`);
   } else {

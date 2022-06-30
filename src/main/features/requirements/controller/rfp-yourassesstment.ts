@@ -26,6 +26,7 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
   } else {
     const { agreement_id, proc_id, event_id } = req.query;
     const { SESSION_ID } = req.cookies;
+    const{eventId} = req.session;
 
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
@@ -77,9 +78,9 @@ export const RFP_GET_YOUR_ASSESSTMENT = async (req: express.Request, res: expres
         agreementLotName,
         releatedContent: releatedContent,
       };
-      let flag = await ShouldEventStatusBeUpdated(proc_id, 37, req);
+      let flag = await ShouldEventStatusBeUpdated(eventId, 37, req);
       if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/37`, 'In progress');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'In progress');
       }
       // await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/38`, 'Not started');
       //await TenderApi.Instance(SESSION_ID).put(`journeys/${proc_id}/steps/39`, 'Cannot start yet');

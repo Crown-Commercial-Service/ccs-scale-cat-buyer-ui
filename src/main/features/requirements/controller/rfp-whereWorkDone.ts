@@ -8,7 +8,7 @@ import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdate
 
 export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId, releatedContent, isError, errorText, dimensions,currentEvent  } = req.session;
+  const { projectId, releatedContent, isError, errorText, dimensions,currentEvent ,eventId } = req.session;
   req.session.isError = false;
   req.session.errorText = '';
   const { assessmentId } = currentEvent;
@@ -49,10 +49,10 @@ export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express
       locationArray,
       
     };
-    let flag=await ShouldEventStatusBeUpdated(projectId,36,req);
+    let flag=await ShouldEventStatusBeUpdated(eventId,36,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'In progress');
   }
     res.render('rfp-whereWorkDone', appendData);
   } catch (error) {
@@ -71,7 +71,7 @@ export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express
 
 export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, dimensions } = req.session;
+  const { projectId, dimensions,eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const capAssessement = req.session['CapAss'];
   let locationIds = req.body.rfp_location;
@@ -108,13 +108,13 @@ export const RFP_POST_WHERE_WORK_DONE = async (req: express.Request, res: expres
       const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
       await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY,);
       
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Completed');
-      let flag=await ShouldEventStatusBeUpdated(projectId,37,req);
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/36`, 'Completed');
+      let flag=await ShouldEventStatusBeUpdated(req.session.eventId,37,req);
     if(flag)
     {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/37`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/37`, 'Not started');
     }
-      //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/38`, 'Cannot start yet');
+      //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/38`, 'Cannot start yet');
       res.redirect('/rfp/task-list');
     } catch (error) {
       LoggTracer.errorLogger(

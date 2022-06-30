@@ -75,6 +75,15 @@
     "subsection4_table_th_1": "Supplier Name",
     "subsection4_table_th_2": "Date the supplier responded",
     "subsection4_table_th_3": "Supplier's Answer",
+
+    "subsection4_eval_title4_descriiption": "Please select who you want to award from your list of evaluated suppliers.",
+    "subsection4_eval_table_th_1": "Supplier's Name",
+    "subsection4_eval_table_th_2": "Supplier's Answer",
+    "subsection4_eval_table_th_3": "Supplier evaluation",
+    "subsection4_eval_table_th_4": "Rank",
+    "subsection4_eval_table_th_5": "Score (%)",
+    "subsection4_eval_table_th_6": "Begin award process",
+
     "Downloadresponse": [
         {
             "text": "Download response",

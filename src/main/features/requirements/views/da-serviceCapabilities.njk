@@ -4,9 +4,30 @@
 {% from "components/dialog/macro.njk" import CCSDialog %}
 
 {% block breadCrumb %}
-  {{ CCSBreadcrumbs({
-    items: breadCrumbs
-  }) }}
+ {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/da/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "Select your service capabilities and set the weighting",
+                "href": "#"
+            }
+        ]
+    }) }}
 {% endblock %}
 
 {% block content %}
