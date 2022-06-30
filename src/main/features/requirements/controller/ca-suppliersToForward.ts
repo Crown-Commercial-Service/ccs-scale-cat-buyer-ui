@@ -27,6 +27,7 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
     releatedContent,
     project_name,
   } = req.session;
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -35,7 +36,7 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
     choosenViewPath:choosenViewPath,
   };

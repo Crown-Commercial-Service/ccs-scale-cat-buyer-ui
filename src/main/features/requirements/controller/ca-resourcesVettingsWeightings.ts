@@ -33,6 +33,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     eventId,
 
   } = req.session;
+  const lotid = req.session?.lotId;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -42,7 +43,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
   try {
@@ -258,7 +259,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     StorageForSortedItems.sort((a:any, b:any) => (a.Parent < b.Parent ? -1 : 1))
     const windowAppendData = {
       ...caResourcesVetting,
-      lotId,
+      lotid,
       agreementLotName,
       releatedContent,
       isError,
