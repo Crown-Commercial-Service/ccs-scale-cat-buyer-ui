@@ -68,7 +68,9 @@
              {%if(prompt.length>1)%}
               <p class="govuk-body">{{prompt[1] | safe}}</p>
              {%endif%} #}
-            <p class="govuk-body">{{prompt | safe}}</p>
+            {{ CCSInsetText({
+                    html: prompt
+                }) }}
 
               {% macro recurseRequirements(requirement,form_name,index = 0) -%}
               {%if (requirement.nonOCDS.childern.length > 0)%}

@@ -11,7 +11,7 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
   const { SESSION_ID } = req.cookies;
   const { projectId, isJaggaerError,choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
-  const { rfp_procurement_lead: userParam } = req.query;
+  const { ca_procurement_lead: userParam } = req.query;
   const releatedContent = req.session.releatedContent;
 
   const url = `/tenders/projects/${projectId}/users`;
@@ -81,7 +81,7 @@ export const CA_GET_LEAD_PROCUREMENT = async (req: express.Request, res: express
 
 export const CA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const { ca_procurement_lead_input: userMail } = req.body;
   const url = `/tenders/projects/${projectId}/users/${userMail}`;
   try {
@@ -89,7 +89,7 @@ export const CA_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express
       userType: 'PROJECT_OWNER',
     };
     await TenderApi.Instance(SESSION_ID).put(url, _body);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/43`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/43`, 'Completed');
 
     res.redirect('/ca/add-collaborators');
   } catch (error) {

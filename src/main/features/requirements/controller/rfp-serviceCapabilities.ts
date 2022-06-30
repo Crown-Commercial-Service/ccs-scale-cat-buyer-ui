@@ -19,6 +19,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     agreementLotName,
     agreementName,
     projectId,
+    eventId,
     agreement_id,
     releatedContent,
     project_name,
@@ -257,10 +258,10 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       //WHOLECLUSTER: WHOLECLUSTERCELLS,
       totalAdded: TotalAdded,
     };
-    let flag=await ShouldEventStatusBeUpdated(projectId,35,req);
+    let flag=await ShouldEventStatusBeUpdated(eventId,35,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'In progress');
     }
     //res.json(dataset);
     res.render('rfp-servicecapabilities.njk', windowAppendData);
@@ -288,7 +289,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
  */
  export const RFP_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, serviceCapabilityData,currentEvent } = req.session;
+  const { projectId, eventId,serviceCapabilityData,currentEvent } = req.session;
   const { requirementId } = req.body;
   if (!req.body.requirementId) {
     req.session.errorText = [{ text: 'Select atleast one service capability.' }];
@@ -340,11 +341,11 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const DIMENSION_ID = CAPACITY_DATASET[2]['dimension-id'];
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(projectId,36,req);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(eventId,36,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
     }
     res.redirect('/rfp/where-work-done');
   }

@@ -22,7 +22,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     lotId,
     agreementLotName,
     agreementName,
-    projectId,
+    eventId,
     agreement_id,
     releatedContent,
     project_name,
@@ -34,6 +34,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     dimensions,
     choosenViewPath,
   } = req.session;
+  const lotid = req.session?.lotId;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -43,7 +44,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
 
@@ -76,11 +77,18 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
 
     for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
       const FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
-      let findername=FINDER.name;
-      const temp=findername.replace( /^\D+/g, '');
-     const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
-     FINDER.name=tempname;
-      UNIQUE_DESIG_STORAGE.push(FINDER);
+      if(FINDER.name.includes('SFIA level'))
+      {
+        UNIQUE_DESIG_STORAGE.push(FINDER);
+      }
+      else{
+        let findername=FINDER.name;
+        const temp=findername.replace( /^\D+/g, '');
+       const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
+       FINDER.name=tempname;
+        UNIQUE_DESIG_STORAGE.push(FINDER);
+      }
+     
     }
 
     UNIQUE_DESIG_STORAGE = UNIQUE_DESIG_STORAGE.flat();
@@ -246,7 +254,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     StorageForSortedItems.sort((a:any, b:any) => (a.Parent < b.Parent ? -1 : 1))
     const windowAppendData = {
       ...daResourcesVetting,
-      lotId,
+      lotid,
       agreementLotName,
       releatedContent,
       isError,
@@ -257,7 +265,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       total_res,total_ws,total_wv
     };
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/66`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/66`, 'In progress');
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
     //res.json(ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Resource Quantity')[0])
    res.render('da-resourcesVettingWeightings', windowAppendData);
@@ -282,6 +290,9 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   const assessmentId = req.session.currentEvent.assessmentId;
   const errorTextSumary = [];
   try{
+    const { eventId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Not started');
   const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage,weigthage_group_name_sfia,weigthage_reqid  } =
     req.body;
 
@@ -461,6 +472,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     weighting: dimension1weighitng,
     requirements: IndexStorageStaff,
     includedCriteria:includedSubContractor,
+    overwriteRequirements: true,
   };
   let response;
   //save number of staff data
@@ -516,8 +528,9 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   body = {
     name: resourcesData['name'],
     weighting: dimension6weighitng,
-    includedCriteria: includedSubContractor,
+    includedCriteria: [],
     requirements: INDEX_FINDER_OBJ_REMAPPER,
+    overwriteRequirements: true,
   };
   
 
@@ -529,8 +542,13 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   
   }
   if(response.status==HttpStatusCode.OK){
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/66`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/67`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/67`, 'Not started');
+    if(req.session["DA_nextsteps_edit"])
+      {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
+      }
     res.redirect('/da/choose-security-requirements');
   }
   else{
