@@ -172,14 +172,7 @@ export const DA_POST_CANCEL = async (req: express.Request, res: express.Response
   const { SESSION_ID } = req.cookies; //jwt
   const {  projectId,eventId } = req.session;
   try {
-    //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Completed');
-          const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
-          let endDate=new Date()
-          endDate.setDate(endDate.getDate()+1);
-          const _bodyData = {
-            endDate: endDate,
-          };
-          await TenderApi.Instance(SESSION_ID).put(publishUrl, _bodyData);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Completed');
        res.redirect('/dashboard');
       
   } catch (error) {

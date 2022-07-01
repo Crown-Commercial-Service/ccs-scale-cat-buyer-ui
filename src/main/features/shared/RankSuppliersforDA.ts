@@ -5,17 +5,7 @@ import { GetLotSuppliers } from './supplierService';
 import { TenderApi } from '../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../common/logtracer/tracer';
-/**
 
- *
-
- * @param req
-
- * @param res
-
- * @GETController
-
- */
 export const RankSuppliersforDA = async (req: express.Request) => {
     const { currentEvent } = req.session;
     const { assessmentId } = currentEvent;
