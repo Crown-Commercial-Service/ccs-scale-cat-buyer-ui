@@ -311,7 +311,7 @@ export class QuestionHelper {
       if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/37`, 'Completed');
         if (response.status == HttpStatusCode.OK) {
-          let flag = await ShouldEventStatusBeUpdated(proc_id, 38, req);
+          let flag = await ShouldEventStatusBeUpdated(event_id, 38, req);
           if (flag) {
             await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/38`, 'Not started');
           }
@@ -323,16 +323,16 @@ export class QuestionHelper {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/37`, 'In progress');
         }
       }
-     
-      heading_fetch_dynamic_api_data?.map((obj:any)=>{
-        obj.criterianId=id;
+
+      heading_fetch_dynamic_api_data?.map((obj: any) => {
+        obj.criterianId = id;
       })
       let current_cursor = heading_fetch_dynamic_api_data?.findIndex(
         (pointer: any) => pointer.OCDS['id'] === group_id && pointer.criterianId === id,
       );
 
       let check_for_overflowing: Boolean = current_cursor < heading_fetch_dynamic_api_data.length - 1;
-      if (check_for_overflowing && current_cursor !=-1) {
+      if (check_for_overflowing && current_cursor != -1) {
         let next_cursor = current_cursor + 1;
         let next_cursor_object = heading_fetch_dynamic_api_data[next_cursor];
         let next_group_id = next_cursor_object.OCDS['id'];

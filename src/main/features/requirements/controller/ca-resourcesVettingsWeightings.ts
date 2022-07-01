@@ -33,6 +33,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     eventId,
 
   } = req.session;
+  const lotid = req.session?.lotId;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -42,7 +43,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
   try {
@@ -258,7 +259,7 @@ export const CA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     StorageForSortedItems.sort((a:any, b:any) => (a.Parent < b.Parent ? -1 : 1))
     const windowAppendData = {
       ...caResourcesVetting,
-      lotId,
+      lotid,
       agreementLotName,
       releatedContent,
       isError,
@@ -566,6 +567,11 @@ export const CA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
         if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'Not started');
         }
+        if(req.session["CA_nextsteps_edit"])
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+    }
     res.redirect('/ca/choose-security-requirements');
   }
   else{

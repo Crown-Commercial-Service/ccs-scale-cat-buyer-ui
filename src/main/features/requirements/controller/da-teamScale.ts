@@ -141,6 +141,11 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'Not started');
     req.session.daTeamScaleerror=false;
+    if(req.session["DA_nextsteps_edit"])
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
+    }
     res.redirect('/da/where-work-done');
   } catch (error) {
     LoggTracer.errorLogger(

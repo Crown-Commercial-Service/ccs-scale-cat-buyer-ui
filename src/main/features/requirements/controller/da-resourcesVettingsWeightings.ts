@@ -34,6 +34,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     dimensions,
     choosenViewPath,
   } = req.session;
+  const lotid = req.session?.lotId;
   const { assessmentId } = currentEvent;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -43,7 +44,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
 
@@ -253,7 +254,7 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
     StorageForSortedItems.sort((a:any, b:any) => (a.Parent < b.Parent ? -1 : 1))
     const windowAppendData = {
       ...daResourcesVetting,
-      lotId,
+      lotid,
       agreementLotName,
       releatedContent,
       isError,
@@ -543,6 +544,11 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   if(response.status==HttpStatusCode.OK){
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Completed');
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/67`, 'Not started');
+    if(req.session["DA_nextsteps_edit"])
+      {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
+      }
     res.redirect('/da/choose-security-requirements');
   }
   else{

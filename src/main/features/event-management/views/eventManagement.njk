@@ -179,11 +179,9 @@
        
          <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
-        <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
-       
        
         {% if status.toLowerCase() == 'published' %}
-        
+         <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
         
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
@@ -216,7 +214,67 @@
           </div>
         </div>
         {% endif %}
-        {% if status.toLowerCase() != 'published' %}
+
+{% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+             
+        <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
+        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_6}}</th>
+                </tr>
+              </thead>
+              {% for supplier in supplierName %}
+               {% if supplier.responseState =='Draft'  %} 
+              <tbody class="govuk-table__body">
+                
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                    
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        {{supplier.name}}
+                      </p>
+                      
+                    </th>
+                     <td class="govuk-text-align">
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Download</a>
+                    </td>
+
+                    <td class="govuk-text-align">
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
+                    </td>
+
+                    <th scope="row" class="govuk-table__cell">
+                    <p class="govuk-body govuk-!-margin-bottom-0">1</p>  
+                    </th>
+                    <th scope="row" class="govuk-table__cell">
+                    <p class="govuk-body govuk-!-margin-bottom-0">100</p>
+                    </th>
+
+                    
+                    <td class="govuk-text-align">
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Select</a>
+                    </td> 
+                  </tr>
+              </tbody>
+           {% endif %} 
+          {% endfor %}
+            </table>
+            </div>
+        </div>
+        {% if(true) %}
+              <a href="/eventmanagement" class="govuk-link ">Download all</a> 
+        {% endif %}
+       
+        {% elif status.toLowerCase() != 'published' %}
         
           
         <p class="govuk-body">The supplliers below have responded to your published project.You can download individual supplier's answers or all answers</p>

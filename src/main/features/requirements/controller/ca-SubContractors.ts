@@ -22,6 +22,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   const { choosenViewPath } = req.session;
   const { isValidationError } = req.session;
   const { assessmentId } = req.session.currentEvent;
+  const lotid = req.session?.lotId;
   let isSubContractorAccepted = false;
   req.session['isValidationError'] = false;
   res.locals.agreement_header = {
@@ -29,7 +30,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isValidationError,
   };
   try {
@@ -37,6 +38,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
         if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'In progress');
         }
+        
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
     isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
@@ -119,7 +121,11 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
         if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Not started');
         }
-
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+        }
       res.redirect(REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
       req.session['isValidationError'] = true;
