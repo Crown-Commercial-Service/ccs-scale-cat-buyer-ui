@@ -7,6 +7,8 @@ import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import * as journyData from '../../procurement/model/tasklist.json';
+import { GetLotSuppliers } from '../../shared/supplierService';
 
 /**
  *
