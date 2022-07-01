@@ -61,6 +61,7 @@ export enum REQUIREMENT_PATHS {
  DA_POST_ADD_COLLABORATOR = '/da/get-collaborator-detail',
  DA_POST_ADD_COLLABORATOR_TO_JAGGER = '/da/add-collaborator-detail',
  DA_POST_PROCEED_COLLABORATORS = '/da/proceed-collaborators',
+ DA_POST_DELETE_COLLABORATOR_TO_JAGGER='/da/delete-collaborators',
 
 
   // Add collaborator ca
@@ -68,6 +69,7 @@ export enum REQUIREMENT_PATHS {
   CA_POST_ADD_COLLABORATOR_JSENABLED = '/ca/get-collaborator-detail/js-enabled',
   CA_POST_ADD_COLLABORATOR = '/ca/get-collaborator-detail',
   CA_POST_ADD_COLLABORATOR_TO_JAGGER = '/ca/add-collaborator-detail',
+  CA_POST_DELETE_COLLABORATOR_TO_JAGGER = '/ca/delete-collaborators',
   CA_POST_PROCEED_COLLABORATORS = '/ca/proceed-collaborators',
   CA_GET_CHOOSE_REQUIREMENTS = '/ca/choose-security-requirements',
   CA_POST_CHOOSE_REQUIREMENTS = '/ca/choose-security-requirements',
