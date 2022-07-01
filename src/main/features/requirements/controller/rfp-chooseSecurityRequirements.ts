@@ -8,7 +8,7 @@ import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdate
 
 export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { releatedContent, isError, errorText, dimensions,currentEvent } = req.session;
+  const { releatedContent, isError, errorText, dimensions,currentEvent,eventId } = req.session;
   // const { projectId } = req.session;
   const { assessmentId } = currentEvent;
   //const assessmentId = 13;

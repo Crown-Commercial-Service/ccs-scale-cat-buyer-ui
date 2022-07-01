@@ -231,7 +231,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
 
 export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId,eventId } = req.session;
+  const { projectId, eventId } = req.session;
   // try {
 
   //   //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'Completed');
@@ -445,7 +445,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     const { proc_id, event_id, id, group_id, stop_page_navigate, section, step } = req.query;
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
-    const { projectId ,eventId} = req.session;
+    const { projectId, eventId } = req.session;
     if (section != undefined && section === '5') {
       let flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
       if (flag) {

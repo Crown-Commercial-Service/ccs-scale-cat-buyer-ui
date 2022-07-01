@@ -150,6 +150,11 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
         if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Not started');
         }
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+        }
       res.redirect('/ca/suppliers-to-forward');
       }
       else{
