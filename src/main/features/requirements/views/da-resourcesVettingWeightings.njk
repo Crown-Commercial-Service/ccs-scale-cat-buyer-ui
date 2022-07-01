@@ -4,7 +4,26 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
-    items: breadCrumbs
+    items:   [{
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+       "href": "/da/task-list?path="+ choosenViewPath 
+    },
+    {
+      "text": "Select the resources you need and set weighting for vetting and resources",
+      "href": "#"
+    }]
   }) }}
 {% endblock %}
 

@@ -6,7 +6,7 @@ import * as daSubContractors from '../../../resources/content/requirements/daSub
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -20,6 +20,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   const agreementId_session = agreement_id;
   const { isValidationError, choosenViewPath } = req.session;
   const { assessmentId } = req.session.currentEvent;
+  const lotid = req.session?.lotId;
   let isSubContractorAccepted = false;
   req.session['isValidationError'] = false;
   res.locals.agreement_header = {
@@ -27,7 +28,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isValidationError,
   };
   try {
@@ -46,7 +47,10 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       SubContractorAccepted: isSubContractorAccepted,
       choosenViewPath,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'In progress');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 65, req);
+  if (flag) {
+await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'In progress');
+  }
     res.render('da-SubContractors', windowAppendData);
   } catch (error) {
     req.session['isValidationError'] = true;
@@ -107,8 +111,15 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
         );
       }
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Not started');
-
+      let flag = await ShouldEventStatusBeUpdated(eventId, 66, req);
+      if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Not started');
+      }
+      if(req.session["DA_nextsteps_edit"])
+      {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
+      }
       res.redirect(REQUIREMENT_PATHS.DA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
       req.session['isValidationError'] = true;

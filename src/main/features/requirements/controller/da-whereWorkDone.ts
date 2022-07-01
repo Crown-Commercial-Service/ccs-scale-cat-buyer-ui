@@ -4,7 +4,7 @@ import * as dataWWD from '../../../resources/content/requirements/daWhereWorkDon
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
-
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 export const DA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId, releatedContent, isError, errorText, dimensions,currentEvent,eventId } = req.session;
@@ -42,7 +42,10 @@ export const DA_GET_WHERE_WORK_DONE = async (req: express.Request, res: express.
       choosenViewPath,
       
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'In progress');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 70, req);
+  if (flag) {
+await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'In progress');
+  }
     res.render('da-whereWorkDone', appendData);
   } catch (error) {
     console.log(error);
@@ -104,20 +107,20 @@ export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
       var weightsFiltered = weights.filter(weight => weight.value != '');
       var indexList = [];
       var initialDataRequirements = [];
-      let req = {};
+      let reqr = {};
       for (let i = 0; i < weights.length; i++) {
         if (weights[i] != '') {
           indexList.push({ i });
         }
       }
       for (let i = 0; i < indexList.length; i++) {
-        req = {
+        reqr = {
           //name: names[i] ,
           'requirement-id': requirementIdList[indexList[i].i],
           weighting: weights[indexList[i].i],
           values: [{ 'criterion-id': '0', value: '1: Yes' }],
         };
-        initialDataRequirements.push(req);
+        initialDataRequirements.push(reqr);
       }
     let subcontractorscheck;
     if(dimensionRequirements?.filter(dimension => dimension["dimension-id"] === 5).length>0)
@@ -147,7 +150,15 @@ export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
       if(response.status == 200)
       {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+        let flag = await ShouldEventStatusBeUpdated(eventId, 71, req);
+        if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+        }
+        if(req.session["DA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
+        }
         res.redirect('/da/review-ranked-suppliers');
         }
         else{
