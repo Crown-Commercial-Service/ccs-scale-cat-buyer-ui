@@ -65,7 +65,9 @@
       </div>
       <div>
       <p class="govuk-body">{{data.caption1}}
-      <br>{{data.caption2}} <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">return to pre-market engagement.</a> </p>
+      <br>{{data.caption2}}
+      {% set returnLink = "/da/task-list?path="+choosenViewPath %}
+            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">return to write and publish your requirements.</a> </p>
       </div>
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/da/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}

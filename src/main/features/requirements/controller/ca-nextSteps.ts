@@ -196,12 +196,22 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           res.redirect(REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
           break;
 
-        case 'no':
+          case 'no':
 
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Completed');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Completed');
+           const baseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
+            const _body = {
+                    "terminationType": "cancelled"       
+              };
+              const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
+              if (response.status == 200) {
+                res.redirect(REQUIREMENT_PATHS.CA_GET_CANCEL);
+              } else {
+                  res.redirect('/404')
+              }
+              
+            break;
 
-          res.redirect(REQUIREMENT_PATHS.CA_GET_CANCEL);
-          break;
 
         default:
           res.redirect('/404');

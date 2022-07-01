@@ -4,7 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as daService from '../../../resources/content/requirements/daService.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -279,10 +279,11 @@ export const DA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
 
     const windowAppendData = { ...daService, totalWeighting, lotid, agreementLotName, releatedContent, choosenViewPath,isError, errorText, TABLE_HEADING: TableHeadings, TABLE_BODY: TABLEBODY, WHOLECLUSTER: WHOLECLUSTERCELLS };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/68`, 'In progress');
-
-    //res.json(UNIQUE_DESIGNATION_HEADINGS_ARR)
-    res.render('da-serviceCapabilities', windowAppendData);
+    let flag = await ShouldEventStatusBeUpdated(eventId, 68, req);
+    if (flag) {
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/68`, 'In progress');
+    }
+     res.render('da-serviceCapabilities', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -560,7 +561,10 @@ export const DA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
 
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/68`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'Not started');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 69, req);
+      if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'Not started');
+      }
       if(req.session["DA_nextsteps_edit"])
       {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
