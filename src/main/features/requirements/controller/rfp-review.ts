@@ -357,7 +357,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     // sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
     // sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-    let pricingModel =null; //sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true)[0]?.value;
+    let pricingModel = null; //sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true)[0]?.value;
 
     //question 8
     sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 2/groups/Group 8/questions`;
@@ -582,7 +582,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       data: cmsData,
       project_name: project_name,
       procurementLead,
-      procurementColleagues :procurementColleagues != undefined && procurementColleagues != null ? procurementColleagues : null,
+      procurementColleagues: procurementColleagues != undefined && procurementColleagues != null ? procurementColleagues : null,
       document: FileNameStorage[FileNameStorage.length - 1],
       documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
       ir35: IR35selected,
@@ -684,9 +684,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
 export const POST_RFP_REVIEW = async (req: express.Request, res: express.Response) => {
   req.session['checkboxerror'] = 0;
   const { rfp_publish_confirmation, finished_pre_engage } = req.body;
-  const ProjectID = req.session['projectId'];
-  const EventID = req.session['eventId'];
-  const BASEURL = `/tenders/projects/${ProjectID}/events/${EventID}/publish`;
+  const { eventId, projectId } = req.session;
+
+  const BASEURL = `/tenders/projects/${projectId}/events/${eventId}/publish`;
   const { SESSION_ID } = req.cookies;
   let CurrentTimeStamp = req.session.endDate;
   CurrentTimeStamp = new Date(CurrentTimeStamp).toISOString();
@@ -702,7 +702,8 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
       // if (response.status == Number(HttpStatusCode.OK)) {
       //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
       // }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/41`, 'Completed');
+
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Completed');
       res.redirect('/rfp/rfp-eventpublished');
     } catch (error) {
 
