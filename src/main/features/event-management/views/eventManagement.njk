@@ -244,23 +244,23 @@
                       </p>
                       
                     </th>
-                     <td class="govuk-text-align">
-                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Download</a>
+                     <td class="govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.id}}">Download</a>
                     </td>
 
-                    <td class="govuk-text-align">
+                    <td class="govuk-text-align govuk-!-text-align-centre">
                       <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
                     </td>
 
-                    <th scope="row" class="govuk-table__cell">
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">1</p>  
                     </th>
-                    <th scope="row" class="govuk-table__cell">
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">100</p>
                     </th>
 
                     
-                    <td class="govuk-text-align">
+                    <td class="govuk-text-align govuk-!-text-align-centre">
                       <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Select</a>
                     </td> 
                   </tr>
@@ -271,7 +271,10 @@
             </div>
         </div>
         {% if(true) %}
-              <a href="/eventmanagement" class="govuk-link ">Download all</a> 
+         <p class="govuk-body govuk-!-text-align-centre">
+             <a href="/supplieranswerall?download=1" class="govuk-link ">Download all</a> 
+        </p>
+             
         {% endif %}
        
         {% elif status.toLowerCase() != 'published' %}
