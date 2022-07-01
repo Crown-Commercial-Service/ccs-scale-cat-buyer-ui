@@ -34,9 +34,9 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     error: isValidationError,
   };
   try {
-    let flag = await ShouldEventStatusBeUpdated(projectId, 47, req);
+    let flag = await ShouldEventStatusBeUpdated(eventId, 47, req);
         if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'In progress');
         }
         
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
