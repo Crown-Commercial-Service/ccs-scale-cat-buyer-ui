@@ -46,7 +46,7 @@ export const DA_GET_NAME_PROJECT = async (req: express.Request, res: express.Res
 export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const name = req.body['rfi_projLongName'];
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
   try {
@@ -56,7 +56,7 @@ export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Re
       };
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
       if (response.status == HttpStatusCode.OK) req.session.project_name = name;
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/60`, 'Completed');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/60`, 'Completed');
       res.redirect('/da/procurement-lead');
     } else {
       req.session['isEmptyProjectError'] = true;

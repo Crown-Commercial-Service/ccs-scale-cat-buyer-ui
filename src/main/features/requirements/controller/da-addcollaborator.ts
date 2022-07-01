@@ -185,7 +185,7 @@ export const DA_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, r
 // /rfp/proceed-collaborators
 export const DA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/62`, 'Completed');
+  const { projectId,eventId } = req.session;
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/62`, 'Completed');
   res.redirect(`/da/task-list?path=${req.session['choosenViewPath']}`);
 };

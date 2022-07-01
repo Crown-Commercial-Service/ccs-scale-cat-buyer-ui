@@ -4,7 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as daTeamScale from '../../../resources/content/requirements/daTeamScale.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -71,8 +71,11 @@ export const DA_GET_TEAM_SCALE = async (req: express.Request, res: express.Respo
       }
       RadioData.sort((a,b)=>(a.value < b.value) ? -1 : 1 );
     const windowAppendData = { data: daTeamScale,RadioData, lotId, agreementLotName, choosenViewPath, releatedContent,error:daTeamScaleerror};
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'In progress');
-    res.render('da-team-scale', windowAppendData);
+    let flag = await ShouldEventStatusBeUpdated(eventId, 69, req);
+    if (flag) {
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'In progress');
+    }
+   res.render('da-team-scale', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
@@ -139,7 +142,10 @@ export const DA_POST_TEAM_SCALE = async (req: express.Request, res: express.Resp
       body,
     );
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/69`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'Not started');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 70, req);
+    if (flag) {
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'Not started');
+    }
     req.session.daTeamScaleerror=false;
     if(req.session["DA_nextsteps_edit"])
     {
