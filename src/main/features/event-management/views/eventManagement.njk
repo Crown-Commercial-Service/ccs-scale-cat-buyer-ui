@@ -155,6 +155,23 @@
 
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
+
+      {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+      <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">3.</span>
+          {{data.subsection4_title3_eval}}</h2>
+        <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption }}</p>
+        <p class="govuk-body">To see the clarification questions suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
+        <p class="govuk-body">The deadline for responses from suppliers is [<strong>Day month year time</strong>].</p>
+        <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong>
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
+      {% else %}
         <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3}}</h2>
@@ -169,7 +186,7 @@
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
         <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
-        
+        {% endif %}
       </div>
     </div>
 
