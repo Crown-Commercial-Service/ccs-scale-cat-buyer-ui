@@ -167,6 +167,11 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
      {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/67`, 'Completed');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/68`, 'Not started');
+      if(req.session["DA_nextsteps_edit"])
+      {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
+      }
       res.redirect('/da/service-capabilities');
      }else{
       res.redirect('/404/');

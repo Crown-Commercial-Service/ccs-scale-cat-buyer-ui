@@ -27,6 +27,7 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
     releatedContent,
     project_name,
   } = req.session;
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -35,7 +36,7 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
     choosenViewPath:choosenViewPath,
   };
@@ -95,6 +96,11 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
     let flag = await ShouldEventStatusBeUpdated(eventId, 54, req);
         if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+        }
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
         }
     res.redirect(REQUIREMENT_PATHS.CA_GET_REVIEW_RANKED_SUPPLIERS);
    } 
