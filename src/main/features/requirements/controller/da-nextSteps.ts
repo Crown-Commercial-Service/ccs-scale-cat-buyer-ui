@@ -7,6 +7,8 @@ import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import * as journyData from '../../procurement/model/tasklist.json';
+import { GetLotSuppliers } from '../../shared/supplierService';
 
 /**
  *
@@ -59,7 +61,7 @@ export const DA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
 
 export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { eventId,projectId } = req.session;
   const { choosenViewPath } = req.session;
 
   try {
