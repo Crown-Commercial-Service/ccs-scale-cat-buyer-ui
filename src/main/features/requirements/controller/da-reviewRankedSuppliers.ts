@@ -9,6 +9,7 @@ import SampleData from '../../shared/SampleData.json';
 import { RankSuppliersforDA } from '../../shared/RankSuppliersforDA';
 import { CAGetRequirementDetails } from '../../shared/CAGetRequirementDetails';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 const excelJS= require('exceljs');
 
 export const DA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: express.Response) => {
@@ -279,8 +280,11 @@ export const DA_GET_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res: 
           };
         }
       }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'In progress');
-      res.render('da-reviewRankedSuppliers', appendData);
+      let flag = await ShouldEventStatusBeUpdated(eventId, 71, req);
+  if (flag) {
+await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'In progress');
+  }
+       res.render('da-reviewRankedSuppliers', appendData);
     }
   } catch (error) {
     LoggTracer.errorLogger(
@@ -355,7 +359,10 @@ export const DA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
     const response = await TenderApi.Instance(SESSION_ID).post(Supplier_BASEURL, body);
     if (response.status == 200) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Not started');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 72, req);
+      if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Not started');
+      }
       res.redirect('/da/next-steps');
     }
     else {

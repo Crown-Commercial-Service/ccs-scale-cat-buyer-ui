@@ -5,7 +5,7 @@ import * as daResourcesVetting from '../../../resources/content/requirements/daR
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
-
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 //pricing 
 
@@ -264,10 +264,10 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       TableItems: REMAPPTED_TABLE_ITEM_STORAGE,
       total_res,total_ws,total_wv
     };
-
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/66`, 'In progress');
-    // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'In progress');
-    //res.json(ALL_ASSESSTMENTS_DATA.dimensionRequirements.filter(i=> i['name']=='Resource Quantity')[0])
+    let flag = await ShouldEventStatusBeUpdated(eventId, 66, req);
+    if (flag) {
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'In progress');
+    }
    res.render('da-resourcesVettingWeightings', windowAppendData);
   } catch (error) {
     console.log(error)
@@ -543,7 +543,10 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   }
   if(response.status==HttpStatusCode.OK){
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Completed');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 67, req);
+      if (flag) {
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/67`, 'Not started');
+      }
     if(req.session["DA_nextsteps_edit"])
       {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
