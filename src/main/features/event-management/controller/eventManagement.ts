@@ -369,3 +369,31 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
     res.send(fileData);
   }
 }
+
+//supplieranswer?download=1
+export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  const { download } = req.query;
+
+  if (download != undefined) {
+    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+      responseType: 'arraybuffer',
+    });
+    const file = FetchDocuments;
+    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+    const fileData = file.data;
+    const type = file.headers['content-type'];
+    const ContentLength = file.headers['content-length'];
+    res.status(200);
+    res.set({
+      'Cache-Control': 'no-cache',
+      'Content-Type': type,
+      'Content-Length': ContentLength,
+      'Content-Disposition': 'attachment; filename=' + fileName,
+    });
+    res.send(fileData);
+  }
+}
