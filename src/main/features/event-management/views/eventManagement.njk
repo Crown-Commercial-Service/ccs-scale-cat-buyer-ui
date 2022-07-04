@@ -232,7 +232,7 @@
         </div>
         {% endif %}
 
-{% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+{% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED'%}
              
         <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -249,7 +249,7 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_6}}</th>
                 </tr>
               </thead>
-              {% for supplier in supplierName %}
+              {% for supplier in supplierResponceList %}
                {% if supplier.responseState =='Draft'  %} 
               <tbody class="govuk-table__body">
                 
