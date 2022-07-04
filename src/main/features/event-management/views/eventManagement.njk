@@ -353,7 +353,7 @@
       <div class="govuk-button-group">
         {{ CCSButton({
         text: "Start Supplier Evaluation",
-        href:"#"
+        href:"/evaluate-suppliers"
         }) }}
         </div>
       </div>
@@ -363,15 +363,10 @@
      {#</div>#}
 
  
- <div class="govuk-button-group">
-        {{ CCSButton({
-        text: "Start Supplier Evaluation",
-        href:"/evaluate-suppliers"
-        }) }}
-        </div>
-         {% if eventType !== 'FC' %}
+
+         
       <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
      </div>
-     {% endif %}
+     
 {% endblock %}

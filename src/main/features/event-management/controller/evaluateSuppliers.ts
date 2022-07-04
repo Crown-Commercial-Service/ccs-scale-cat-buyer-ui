@@ -17,24 +17,44 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
  * @param res 
  */
 
-
 export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Response) => {
     const { agreementLotName, agreementName, agreement_id, releatedContent, project_name } =
     req.session;
     const lotid = req.session?.lotId;
-    const { SESSION_ID } = req.cookies
+    const { SESSION_ID } = req.cookies 
     const { projectId,eventId } = req.session;
     const { download } = req.query;
-    const supplierScores = await TenderApi.Instance(SESSION_ID).get(`tenders/projects/${projectId}/events/${eventId}/scores`) 
-    const supplierScoresandFeedback = supplierScores.data;
+    //const supplierScores = await TenderApi.Instance(SESSION_ID).get(`tenders/projects/${projectId}/events/${eventId}/scores`) 
+    //const supplierScoresandFeedback = supplierScores.data;
+
 
     // Event header
     res.locals.agreement_header = { project_name: project_name, agreementName, agreement_id, agreementLotName, lotid }
     // req.session.agreement_header = res.locals.agreement_header
     if (download != undefined) {
    
-        res.sendFile(`~\src\main\assets\doc\CAS001 - Award Recommendation Report - Competition v0.1`);
-        
+        const TemplateIDURL = `/tenders/projects/${projectId}/events/${eventId}/scores/templates`;
+        const TemplateIDdata = await TenderApi.Instance(SESSION_ID).get(TemplateIDURL) 
+        const TemplateID = TemplateIDdata.data[0].id;
+        const TemplateURL = `/tenders/projects/${projectId}/events/${eventId}/scores/templates/${TemplateID}`;
+        //const Templatedata = await TenderApi.Instance(SESSION_ID).get(TemplateURL) 
+      
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(TemplateURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
        
     }
       else {
@@ -63,7 +83,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     const supplierSummary = supplierdata.data;
 
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,data: eventManagementData, supplierScoresandFeedback,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData , }
+          const appendData = { releatedContent,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData , }
 
     res.render('evaluateSuppliers',appendData);     
     
