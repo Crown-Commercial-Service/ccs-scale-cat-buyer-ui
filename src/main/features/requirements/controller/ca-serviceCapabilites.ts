@@ -29,13 +29,14 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
   } = req.session;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
+  const lotid = req.session?.lotId;
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = {
     agreementName,
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
 
@@ -268,7 +269,7 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       ...caService,
       choosenViewPath,
       totalWeighting,
-      lotId,
+      lotid,
       agreementLotName,
       releatedContent,
       isError,
@@ -556,7 +557,11 @@ export const CA_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
         if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/51`, 'Not started');
         }
-
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+        }
       res.redirect('/ca/team-scale');
     } catch (error) {
       req.session['isJaggaerError'] = true;

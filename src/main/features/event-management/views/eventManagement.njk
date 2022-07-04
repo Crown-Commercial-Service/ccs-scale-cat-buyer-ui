@@ -155,6 +155,23 @@
 
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
+
+      {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+      <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">3.</span>
+          {{data.subsection4_title3_eval}}</h2>
+        <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption }}</p>
+        <p class="govuk-body">To see the clarification questions suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
+        <p class="govuk-body">The deadline for responses from suppliers is [<strong>Day month year time</strong>].</p>
+        <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong>
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
+      {% else %}
         <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3}}</h2>
@@ -169,7 +186,7 @@
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
         <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
-        
+        {% endif %}
       </div>
     </div>
 
@@ -179,11 +196,9 @@
        
          <span class="proc-task-list__section-number">4.</span>
           {{data.subsection4_title4}}</h2>
-        <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
-       
        
         {% if status.toLowerCase() == 'published' %}
-        
+         <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
         
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
@@ -216,7 +231,70 @@
           </div>
         </div>
         {% endif %}
-        {% if status.toLowerCase() != 'published' %}
+
+{% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED'%}
+             
+        <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
+        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_6}}</th>
+                </tr>
+              </thead>
+              {% for supplier in supplierResponceList %}
+               {% if supplier.responseState =='Draft'  %} 
+              <tbody class="govuk-table__body">
+                
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                    
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        {{supplier.name}}
+                      </p>
+                      
+                    </th>
+                     <td class="govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.id}}">Download</a>
+                    </td>
+
+                    <td class="govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
+                    </td>
+
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                    <p class="govuk-body govuk-!-margin-bottom-0">1</p>  
+                    </th>
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                    <p class="govuk-body govuk-!-margin-bottom-0">100</p>
+                    </th>
+
+                    
+                    <td class="govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/selectsupplierevaluation?supplierid={{supplier.id}}">Select</a>
+                    </td> 
+                  </tr>
+              </tbody>
+           {% endif %} 
+          {% endfor %}
+            </table>
+            </div>
+        </div>
+        {% if(true) %}
+         <p class="govuk-body govuk-!-text-align-centre">
+             <a href="/supplieranswerall?download=1" class="govuk-link ">Download all</a> 
+        </p>
+             
+        {% endif %}
+       
+        {% elif status.toLowerCase() != 'published' %}
         
           
         <p class="govuk-body">The supplliers below have responded to your published project.You can download individual supplier's answers or all answers</p>
@@ -266,7 +344,13 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-      {% if status.toLowerCase() != 'published' %}
+       {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Evaluate Suppliers</h2>
+        <p>You have completed your supplier evaluation.</p>
+
+      {% elif status.toLowerCase() != 'published' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete project</h2>
@@ -286,7 +370,13 @@
 {#<div class="govuk-grid-row ccs-page-section">#}
       <div>
       {% if eventType == 'FC' %}
-      {% if status.toLowerCase() != 'published' %}
+      {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Evaluate Suppliers</h2>
+        <p>You have completed your supplier evaluation.</p>
+
+      {% elif status.toLowerCase() != 'published' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>

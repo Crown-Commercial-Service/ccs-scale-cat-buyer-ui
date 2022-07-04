@@ -77,7 +77,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
     if (ca_next_steps) {
       switch (ca_next_steps) {
         case 'yes':
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'Completed');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Completed');
           const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
           let endDate=new Date()
           endDate.setDate(endDate.getDate()+1);
@@ -192,15 +192,36 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
 
         case 'edit':
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Not started');
+          req.session["CA_nextsteps_edit"]=true
           res.redirect(REQUIREMENT_PATHS.CA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
           break;
 
-        case 'no':
+          case 'no':
 
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Completed');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Completed');
+           const baseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
+            const _body = {
+                    "terminationType": "cancelled"       
+              };
+              const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
+              if (response.status == 200) {
+                const { procurements } = req.session;
+                if(procurements.length==1)
+                {
+                  let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
+                  let body = {
+                 
+                    "eventType": "TBD"
+                  }
+                  const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
+                }
+                res.redirect(REQUIREMENT_PATHS.CA_GET_CANCEL);
+              } else {
+                  res.redirect('/404')
+              }
+              
+            break;
 
-          res.redirect(REQUIREMENT_PATHS.CA_GET_CANCEL);
-          break;
 
         default:
           res.redirect('/404');

@@ -8,7 +8,7 @@ import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpda
 
 export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { releatedContent, isError, errorText, dimensions,currentEvent,projectId, choosenViewPath, } = req.session;
+  const { releatedContent, isError, eventId,errorText, dimensions,currentEvent,projectId, choosenViewPath, } = req.session;
   const { assessmentId } = currentEvent;
   const extToolId=1;
 
@@ -60,11 +60,11 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     req.session.isError = false;
     req.session.errorText = '';
     const appendData = { ...data, releatedContent, isError, choosenViewPath, errorText,totalQuantityca };
-    let flag = await ShouldEventStatusBeUpdated(projectId, 49, req);
+    let flag = await ShouldEventStatusBeUpdated(eventId, 49, req);
         if (flag) {
 
 
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/49`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/49`, 'In progress');
 
     
         }
@@ -172,6 +172,11 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       let flag = await ShouldEventStatusBeUpdated(eventId, 50, req);
         if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/50`, 'Not started');
+        }
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
         }
       res.redirect('/ca/service-capabilities');
      }
