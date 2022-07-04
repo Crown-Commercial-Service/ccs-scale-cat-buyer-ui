@@ -27,5 +27,5 @@ export enum EVENT_MANAGEMENT_PATHS {
     POST_CONFIRM_SUPPLIER='/confirm-supplier',
     GET_AWARD_SUPPLIER = '/award-supplier',
     POST_AWARD_SUPPLIER = '/award-supplier',
-    
+    GET_AWARD_SUPPLIER_DOCUMENT = '/award-supplier-document',
 }

@@ -1,4 +1,5 @@
 import { EVENT_MANAGEMENT } from './eventManagement'
+import { GET_AWARD_SUPPLIER_DOCUMENT } from './awardDocumentComplete'
 import { GET_CONFIRM_SUPPLIER,POST_CONFIRM_SUPPLIER } from './confirmSupplier'
 import { GET_AWARD_SUPPLIER, POST_AWARD_SUPPLIER} from './awardSupplier'
 import { EVENT_MANAGEMENT_MESSAGING } from './MessagingInbox'
@@ -50,5 +51,6 @@ export const EVENT_MANAGEMENT_CONTROLLER = {
     GET_CONFIRM_SUPPLIER,
     POST_CONFIRM_SUPPLIER,
     GET_AWARD_SUPPLIER,
-    POST_AWARD_SUPPLIER
+    POST_AWARD_SUPPLIER,
+    GET_AWARD_SUPPLIER_DOCUMENT
 }
