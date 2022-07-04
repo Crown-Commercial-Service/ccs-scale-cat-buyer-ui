@@ -1,0 +1,11 @@
+export enum eventStatus {
+    COMPLETE = "COMPLETE",
+    INPROGRESS = "IN-PROGRESS",
+    PUBLISHED = "PUBLISHED",
+    TOBEEVALUATED = "TO-BE-EVALUATED",
+    EVALUATING = "EVALUATING",
+    EVALUATED = "EVALUATED",
+    TBD = "TBD",
+    ASSESSMENT = "ASSESSMENT",
+    Awarded = "Awarded"
+}
