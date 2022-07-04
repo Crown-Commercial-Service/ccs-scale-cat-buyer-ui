@@ -1,4 +1,5 @@
 import { EVENT_MANAGEMENT } from './eventManagement'
+import { EVENT_MANAGEMENT_SUPPLIER_EVALUATION } from './supplierEvaluation'
 import { EVENT_MANAGEMENT_MESSAGING } from './MessagingInbox'
 import { EVENT_MANAGEMENT_MESSAGING_CREATE, POST_MESSAGING_CREATE } from './MessagingCreate'
 import { EVENT_MANAGEMENT_MESSAGING_SENT } from './MessagingSent'
@@ -12,11 +13,12 @@ import { EVENT_MANAGEMENT_GET_QA_Edit,EVENT_MANAGEMENT_POST_QA_Edit } from './QA
 import { EVENT_MANAGEMENT_DOWNLOAD } from './eventManagement'
 import { GET_STEPS_TO_CONTINUE } from './steps-to-continue'
 import { POST_STEPS_TO_CONTINUE } from './steps-to-continue'
-import { PUBLISHED_PROJECT_DOWNLOAD } from './eventManagement'
 import { EVALUATE_SUPPLIERS } from './evaluateSuppliers'
 import { EVALUATE_SUPPLIERS_DOWNLOAD } from './evaluateSuppliers'
 import { ENTER_EVALUATION } from './enterEvaluation'
 import { ENTER_EVALUATION_POST } from './enterEvaluation'
+import { PUBLISHED_PROJECT_DOWNLOAD,SUPPLIER_ANSWER_DOWNLOAD,SUPPLIER_ANSWER_DOWNLOAD_ALL,SUPPLIER_EVALUATION } from './eventManagement'
+
 /**
  * @BaseController
  * @Provider
@@ -46,8 +48,15 @@ export const EVENT_MANAGEMENT_CONTROLLER = {
     GET_STEPS_TO_CONTINUE,
     POST_STEPS_TO_CONTINUE,
     PUBLISHED_PROJECT_DOWNLOAD,
+
     EVALUATE_SUPPLIERS,
     EVALUATE_SUPPLIERS_DOWNLOAD,
     ENTER_EVALUATION,
     ENTER_EVALUATION_POST
+
+    SUPPLIER_ANSWER_DOWNLOAD,
+    SUPPLIER_ANSWER_DOWNLOAD_ALL,
+    SUPPLIER_EVALUATION,
+    EVENT_MANAGEMENT_SUPPLIER_EVALUATION
+
 }

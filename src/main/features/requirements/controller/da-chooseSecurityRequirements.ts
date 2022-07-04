@@ -4,10 +4,11 @@ import * as data from '../../../resources/content/requirements/daChooseSecurityR
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 export const DA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { releatedContent, isError, errorText, currentEvent,dimensions,projectId,choosenViewPath } = req.session;
+  const { releatedContent, isError,eventId, errorText, currentEvent,dimensions,projectId,choosenViewPath } = req.session;
 
   const { assessmentId } = currentEvent;
 
@@ -60,8 +61,11 @@ export const DA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
   req.session.isError = false;
   req.session.errorText = '';
   const appendData = { ...data, choosenViewPath, releatedContent, isError, errorText,totalQuantityda };
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/67`, 'In progress');
-    res.render('da-chooseSecurityRequirements', appendData);
+  let flag = await ShouldEventStatusBeUpdated(eventId, 67, req);
+  if (flag) {
+await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/67`, 'In progress');
+  }
+   res.render('da-chooseSecurityRequirements', appendData);
  } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -166,8 +170,11 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       if(response.status == 200)
      {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/67`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 68, req);
+        if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/68`, 'Not started');
-      if(req.session["DA_nextsteps_edit"])
+        }
+     if(req.session["DA_nextsteps_edit"])
       {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');

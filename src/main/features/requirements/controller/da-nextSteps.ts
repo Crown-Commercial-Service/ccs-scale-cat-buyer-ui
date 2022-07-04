@@ -7,6 +7,8 @@ import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import * as journyData from '../../procurement/model/tasklist.json';
+import { GetLotSuppliers } from '../../shared/supplierService';
 
 /**
  *
@@ -59,7 +61,7 @@ export const DA_GET_NEXTSTEPS = async (req: express.Request, res: express.Respon
 
 export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { eventId,projectId } = req.session;
   const { choosenViewPath } = req.session;
 
   try {
@@ -190,10 +192,31 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           res.redirect(REQUIREMENT_PATHS.DA_REQUIREMENT_TASK_LIST + '?path=' + choosenViewPath);
           break;
 
-        case 'no':
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
-          res.redirect(REQUIREMENT_PATHS.DA_GET_CANCEL);
-          break;
+          case 'no':
+
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Completed');
+           const baseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
+            const _body = {
+                    "terminationType": "cancelled"       
+              };
+              const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
+              if (response.status == 200) {
+                const { procurements } = req.session;
+                if(procurements.length==1)
+                {
+                  let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
+                  let body = {
+                 
+                    "eventType": "TBD"
+                  }
+                  const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
+                }
+                res.redirect(REQUIREMENT_PATHS.DA_GET_CANCEL);
+              } else {
+                  res.redirect('/404')
+              }
+              
+            break;
 
         default:
           res.redirect('/404');

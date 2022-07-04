@@ -42,9 +42,9 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     error: isJaggaerError,
   };
   try {
-    let flag = await ShouldEventStatusBeUpdated(projectId, 46, req);
+    let flag = await ShouldEventStatusBeUpdated(eventId, 46, req);
     if (flag) {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/46`, 'In progress');
     }
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
@@ -164,6 +164,9 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
     }
+    req.session.errorText = [];
+    req.session.isError = false;
+    req.session.errorTextSumary=[];
       res.redirect('/ca/accept-subcontractors');
     }
   } catch (error) {
