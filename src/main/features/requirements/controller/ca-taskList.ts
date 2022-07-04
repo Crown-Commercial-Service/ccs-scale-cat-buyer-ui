@@ -50,6 +50,9 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     'No DDaT Cluster Mapping',
   ];
   let ViewLoadedTemplateData;
+  req.session.errorTextSumary = [];
+      req.session.isError = false;
+      req.session['isJaggaerError'] = false;
 
   try {
 
