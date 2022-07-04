@@ -1,8 +1,8 @@
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Event management ' %}
+{% set title = 'Award Supplier ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -36,7 +36,7 @@
       <div class="govuk-grid-column-full">
         <div>
           <h2 class="govuk-heading-m">
-          {{projectName}}
+          projectName
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">status</strong>
           </h2>
           <p class="govuk-body">
@@ -53,10 +53,10 @@
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          <strong>Your chosen suppler</strong>
+          <strong>Details of the supplier to be awarded </strong>
         </h1>
         
-        <h3> <strong>Supplier name</strong></h3>
+        <h3> <strong>Supplier organisation A Name </strong></h3>
 
        <p> Sbscdd</p>
 
@@ -64,7 +64,7 @@
        <p> Address</p>
        </br>
        </br>
-       </br>
+       
 <p> <strong>Contact name:</strong></p>
        <p> Contact</p>
        </br>
@@ -123,21 +123,45 @@
             </div>
         </div>
 <br>
+
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-   
-    <p>4</p>
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          <strong>Award supplier </strong>
+        </h1>
+</br></br>
+        {{ CCSWarningText({
+    text: "You must agree that you acknowledge the reponsibility to award this supplier.",
+    iconFallbackText: "Warning"
+    }) }}
+       </div>
+       </div>
 
-
-  <div class="govuk-button-group">
-                    {{ CCSButton({
-                            text: "Confirm supplier"
-                            }) }}
-
-  <a class="govuk-link" href="/dashboard">Return to your project</a> 
-  </div>                          
-</div>
- </div>           
+<form id="ccs_award_supplier_form" name="ccs_award_supplier_form" class="form ccs_award_supplier_form"
+      action="/award-supplier" method="post">
+                     {{ csrfProtection(csrf) }}         	 
+        {{ CCSCheckboxes({
+      idPrefix: "award_supplier_confirmation",
+      name: "award_supplier_confirmation",
+      items: [
+      {
+      "value": 1,
+      html: "<label><strong>I acknowledge the reponsibility to award this supplier.</strong></label>",
+      Checked: ""
+      }
+      ]
+      }) }}
+                                <div class="govuk-button-group">
+                                  {{ CCSButton({
+        attributes: {
+        id: "btn_award_supplier"
+        },
+        text: "Award supplier"
+        }) }}
+                                  <a class="govuk-link" href="/dashboard">Return to your project</a> 
+                                </div>
+                                
+                              </form>          
  </main>
 {% endblock %}
  

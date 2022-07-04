@@ -249,7 +249,7 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_6}}</th>
                 </tr>
               </thead>
-              {% for supplier in supplierResponceList %}
+              {% for supplier in supplierName %}
                {% if supplier.responseState =='Draft'  %} 
               <tbody class="govuk-table__body">
                 
@@ -266,7 +266,7 @@
                     </td>
 
                     <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
+                      <a class="govuk-link" href="/supplier-evaluation?supplierid={{supplier.id}}">Review evaluation</a>
                     </td>
 
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
@@ -278,7 +278,7 @@
 
                     
                     <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/selectsupplierevaluation?supplierid={{supplier.id}}">Select</a>
+                      <a class="govuk-link" href="/confirm-supplier?supplierid={{supplier.id}}">Select</a>
                     </td> 
                   </tr>
               </tbody>

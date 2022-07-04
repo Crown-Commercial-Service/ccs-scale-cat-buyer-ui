@@ -22,8 +22,10 @@ export enum EVENT_MANAGEMENT_PATHS {
     PUBLISHED_PROJECT_DOWNLOAD='/publisheddoc',
     SUPPLIER_ANSWER_DOWNLOAD='/supplieranswer',
     SUPPLIER_ANSWER_DOWNLOAD_ALL='/supplieranswerall',
-    SUPPLIER_EVALUATION='/supplierevaluation',
-    EVENT_MANAGEMENT_SUPPLIER_EVALUATION='/selectsupplierevaluation'
-    
+    SUPPLIER_EVALUATION='/supplier-evaluation',
+    GET_CONFIRM_SUPPLIER='/confirm-supplier',
+    POST_CONFIRM_SUPPLIER='/confirm-supplier',
+    GET_AWARD_SUPPLIER = '/award-supplier',
+    POST_AWARD_SUPPLIER = '/award-supplier',
     
 }

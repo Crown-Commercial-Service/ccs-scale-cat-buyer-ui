@@ -6,7 +6,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 //import * as inboxData from '../../../resources/content/event-management/messaging-create.json'
 import * as eventManagementData from '../../../resources/content/event-management/event-management.json'
 
-export const EVENT_MANAGEMENT_SUPPLIER_EVALUATION = async (req: express.Request, res: express.Response) => {
+export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Response) => {
         const { SESSION_ID } = req.cookies;
         const {projectId,eventId,projectName} =req.session
         //Supplier of interest
@@ -31,5 +31,9 @@ export const EVENT_MANAGEMENT_SUPPLIER_EVALUATION = async (req: express.Request,
       }
         const appendData = { data: eventManagementData,supplierName,projectName}
 
-       res.render('supplierEvaluation',appendData)
+        res.render('confirmSupplier',appendData)
+}
+
+export const POST_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Response) => {
+  res.redirect('/award-supplier')
 }
