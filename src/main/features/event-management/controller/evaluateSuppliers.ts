@@ -77,7 +77,9 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
         "responseState": supplierdata.data.responders[i].responseState,
         "responseDate": supplierdata.data.responders[i].responseDate,
       }
-     
+     if (supplierdata.data.responders[i].responseState == 'Submitted') {
+        showallDownload = true;
+      }
       supplierName.push(dataPrepared)
     }
     const supplierSummary = supplierdata.data;

@@ -1,6 +1,6 @@
 {% extends "template.njk" %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Event management ' %}
@@ -61,7 +61,7 @@
       </div>
 
       <form id="enter_evaluation" name="enter_evaluation" class="form enter_evaluation" action="/enter-evaluation?supplierid={{supplierid}}&suppliername={{suppliername}}" method="POST">
-      {#{{ csrfProtection(csrf) }} #}
+      {{ csrfProtection(csrf) }}
         <div class="ccs-page-section">
        
 
