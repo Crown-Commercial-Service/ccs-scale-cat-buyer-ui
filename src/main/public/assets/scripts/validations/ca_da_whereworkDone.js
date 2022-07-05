@@ -129,7 +129,8 @@ $.fn.slideFadeToggle = function (easing, callback) {
 const updateLocationTotal = dimensions => {
   let total = 0;
   dimensions.each(function () {
-    if (!isNaN($(this).val())) total = total + Number($(this).val());
+    
+    if (!isNaN($(this).val()) && $(this).val()>0) total = total + Number($(this).val());
   });
   $('#totalPercentage').text(total);
 };
@@ -187,8 +188,6 @@ const ccsZvalidateDAWhereWorkDone = event => {
   }
   if (errorStore.length === 0) document.forms["da_where_work_done"].submit();
   else ccsZPresentErrorSummary(errorStore);
-
-
 };
 
 
