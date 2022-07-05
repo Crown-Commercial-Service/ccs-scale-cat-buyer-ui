@@ -156,7 +156,7 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
 
-      {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+      {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATED' %}
       <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval}}</h2>
@@ -214,7 +214,7 @@
               </thead>
               {% endif %}
               <tbody class="govuk-table__body">
-                {% for supplier in supplierName %}
+                {% for supplier in supplierResponceList %}
                 {% if supplier.responseState =='Submitted'  %}
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell">
@@ -249,7 +249,7 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_6}}</th>
                 </tr>
               </thead>
-              {% for supplier in supplierName %}
+              {% for supplier in supplierResponceList %}
                {% if supplier.responseState =='Draft'  %} 
               <tbody class="govuk-table__body">
                 
@@ -311,7 +311,7 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                 </tr>
               </thead>
-              {% for supplier in supplierName %}
+              {% for supplier in supplierResponceList %}
                {% if supplier.responseState =='Submitted'  %} 
               <tbody class="govuk-table__body">
                 
@@ -370,7 +370,7 @@
 {#<div class="govuk-grid-row ccs-page-section">#}
       <div>
       {% if eventType == 'FC' %}
-      {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+      {% if status.toUpperCase() == 'TO-BE-EVALUATED'  or status.toUpperCase() == 'EVALUATED'%}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
