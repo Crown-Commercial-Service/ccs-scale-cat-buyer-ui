@@ -403,7 +403,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     else{
       req.session.errorTextSumary = [];
       req.session.isError = false;
-      req.session['isJaggaerError'] = false;
+      req.session['isJaggaerError'] = false;*/
     const Mapped_weight_staff = weight_staff.map(item => item !== '');
     let IndexStorage = [];
 
@@ -411,7 +411,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       if (Mapped_weight_staff[i] == true) {
         IndexStorage.push(i);
       }
-    }*/
+    }
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
 
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);

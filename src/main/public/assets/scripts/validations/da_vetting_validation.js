@@ -12,12 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const nonnumerical = [];
 
         for (var a = 1; a < totalInputFields.length; a++) {
-         for (var i = 1; i < vettingfield.length; i++){
-          for (var j = 1; j < stafffield.length; j++) {
-            
             const classTarget = document.getElementsByClassName("error_check_weight")[a - 1];
-            const classTarget1 = document.getElementsByClassName("error_check_staff")[a - 1];
-            const classTarget2 = document.getElementsByClassName("error_check_vetting")[a - 1];
+        
             if (classTarget.value != '') {
                 inputtedtext.push(true)
             }
@@ -26,11 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'All entry boxes are integer numeric ';
 
                 decimalnumber.push(true)
-            }
-            else if (classTarget.value === '' && classTarget1.value != '' && classTarget2.value != '') {
-                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                preventDefaultState.push(true);
             }
             else if (isNaN(classTarget.value) && classTarget.value !== '') {
                 document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
@@ -52,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = '';
                 // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
             }
-        }}
+   
         }
 
         for (var a = 1; a < stafffield.length; a++) {

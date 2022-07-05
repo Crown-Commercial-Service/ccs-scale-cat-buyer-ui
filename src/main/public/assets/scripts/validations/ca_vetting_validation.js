@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (classTarget.value.includes('.')) {
                 document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'Decimal value is entered. Please enter number <100 and >0 ';
+                document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'All entry boxes are integer numeric  ';
 
                 decimalnumber.push(true)
             }
