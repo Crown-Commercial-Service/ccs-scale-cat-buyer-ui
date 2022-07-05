@@ -20,7 +20,18 @@
 
 {% block content %}
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-        
+          {% if (viewError == true) %}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem with supplier to be awarded",
+        errorList: [
+          {
+            text: "You must check this box to confirm that I have read and confirm the statements above",
+            href: "#ccs_award_supplier_form"
+          }
+        ]
+      }) }}
+    {% endif %}
+
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
               <div class="project-overview">
@@ -36,7 +47,7 @@
       <div class="govuk-grid-column-full">
         <div>
           <h2 class="govuk-heading-m">
-          projectName
+          {{ agreement_header['project_name'] }}
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{eventManagementData.status}}</strong>
           </h2>
           <p class="govuk-body">
@@ -88,13 +99,13 @@
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">Supplier's name</th>
-                  <th scope="col" class="govuk-table__header">Supplier's answer</th>
-                  <th scope="col" class="govuk-table__header">Supplier's evaluation</th>
-                  <th scope="col" class="govuk-table__header">Score (%)</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's answer</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's evaluation</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score (%)</th>
                 </tr>
               </thead>
               {% for supplier in supplierDetailsList %}
-               {% if supplier.responseState =='Draft'  %} 
+               {# {% if supplier.responseState =='Draft'  %} #}
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
@@ -105,19 +116,19 @@
                       </p>
                       
                     </th>
-                     <td class="govuk-table__cell">
+                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
                       <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.id}}">Download</a>
                     </td>
 
-                    <td class="govuk-table__cell">
+                    <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
                       <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
                     </td>
-                    <th scope="row" class="govuk-table__cell">
-                    <p class="govuk-body govuk-!-margin-bottom-0">100</p>
+                    <th scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
                     </th> 
                   </tr>
               </tbody>
-           {% endif %} 
+          {# {% endif %} #}
           {% endfor %}
             </table>
             </div>

@@ -36,15 +36,11 @@
       <div class="govuk-grid-column-full">
         <div>
           <h2 class="govuk-heading-m">
-          projectName
-            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">status</strong>
+          {{ agreement_header['project_name'] }}
+            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
           </h2>
           <p class="govuk-body">
-            {% if(true) %}
             <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
-            {% else %}
-            <a class="govuk-link" href="/event/management?id=eventId">Close Event</a>
-            {% endif %}
           </p>
         </div>
       </div>
