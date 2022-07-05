@@ -296,7 +296,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage,weigthage_group_name_sfia,weigthage_reqid  } =
     req.body;
 
-    let isError=false;
+   /* let isError=false;
 
     let isWeightStaffArrayEmpty=weight_staff.every(value=>value==='');
     let isWeightVettingArrayEmpty=weight_vetting.every(value=>value==='');
@@ -411,7 +411,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
       if (Mapped_weight_staff[i] == true) {
         IndexStorage.push(i);
       }
-    }
+    }*/
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
 
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
@@ -557,7 +557,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   else{
     res.redirect('/404');
   }
-}
+
   } catch (error) {
     LoggTracer.errorLogger(
       res,

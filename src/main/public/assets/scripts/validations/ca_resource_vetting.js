@@ -158,8 +158,14 @@ function updateWeightVetting(weightQuantityId,weightStaffId,weightVettingId,item
     for (var a = 0; a < weightQuantityId.length; a++) {
 
         let weightQuantity = $(`#${weightQuantityId[a].id}`);
-        if (weightQuantity.val() != undefined && weightQuantity.val() != '')
-        totalQuantity = totalQuantity + Number(weightQuantity.val());
+        if (weightQuantity.val() != undefined && weightQuantity.val() != ''){
+         if(weightQuantity.val()<0 || isNaN(weightQuantity.val())){
+            totalQuantity = totalQuantity;
+         }
+         else{
+              totalQuantity = totalQuantity + Number(weightQuantity.val());
+              }
+        }
     }
     for (var a = 0; a < weightStaffId.length; a++) {
 
@@ -193,5 +199,4 @@ function updateTotalResourceAdded() {
     }
     totalResourceAdded.text(resourceCount);
 }
-
 
