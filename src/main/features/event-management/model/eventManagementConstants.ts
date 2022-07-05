@@ -20,6 +20,12 @@ export enum EVENT_MANAGEMENT_PATHS {
     EVENT_MANAGEMENT_DOWNLOAD='/eventmanagement',
     STEPS_TO_CONTINUE='/steps-to-continue',
     PUBLISHED_PROJECT_DOWNLOAD='/publisheddoc',
+
+    EVALUATE_SUPPLIERS='/evaluate-suppliers',
+    EVALUATE_SUPPLIERS_DOWNLOAD='/evaluate-download',
+    ENTER_EVALUATION='/enter-evaluation',
+    ENTER_EVALUATION_POST='/enter-evaluation',
+
     SUPPLIER_ANSWER_DOWNLOAD='/supplieranswer',
     SUPPLIER_ANSWER_DOWNLOAD_ALL='/supplieranswerall',
     SUPPLIER_EVALUATION='/supplier-evaluation',

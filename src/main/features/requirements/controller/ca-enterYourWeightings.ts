@@ -164,6 +164,9 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
     }
+    req.session.errorText = [];
+    req.session.isError = false;
+    req.session.errorTextSumary=[];
       res.redirect('/ca/accept-subcontractors');
     }
   } catch (error) {

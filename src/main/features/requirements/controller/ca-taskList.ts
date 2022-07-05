@@ -47,9 +47,12 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     'Product Delivery',
     'QAT',
     'User Centred Design',
-    'No DDaT Cluster Mapping',
+    'Security and Privacy (Non-DDAT)',
   ];
   let ViewLoadedTemplateData;
+  req.session.errorTextSumary = [];
+      req.session.isError = false;
+      req.session['isJaggaerError'] = false;
 
   try {
 
