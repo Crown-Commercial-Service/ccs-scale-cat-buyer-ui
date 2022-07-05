@@ -75,6 +75,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     req.session['evetTitle'] = title
     req.session['Projectname'] = projectName
     req.session['project_name'] = projectName
+    req.session.selectedeventtype=''
 
     // Releated content session values
     const releatedContent: ReleatedContent = new ReleatedContent();
@@ -154,7 +155,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           redirectUrl = '/eoi/eoi-tasklist'
           break    
         case "DA":
-          redirectUrl = '/da/task-list?path=B1'
+          redirectUrl = '/rfp/task-list'
+          req.session.selectedeventtype="DA"
           break
         case "FC":
           redirectUrl = '/rfp/task-list'

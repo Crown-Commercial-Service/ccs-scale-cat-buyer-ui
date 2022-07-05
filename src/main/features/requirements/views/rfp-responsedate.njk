@@ -34,14 +34,14 @@
                      <p class="govuk-body">{{data.subtitle}}</p>
          <p class="govuk-body">{{data.subtitle1}}</p>
           <ul type="disc">
-          <li><b>four</b> working days from publishing your {%if(dummyEventType=='DA')%}requirements{%else%}one stage further competition{%endif%} until the clarification period closes</li>
+          <li><b>four</b> working days from publishing your {%if(selectedeventtype=='DA')%}requirements{%else%}one stage further competition{%endif%} until the clarification period closes</li>
           <li><b>two</b> working days from the clarification period closing to publishing your responses to the clarification questions</li>
           <li><b>four</b> working days from publishing responses to clarification questions to the deadline for the suppliers to submit their responses.</li>
           </ul>
          <p class="govuk-body">{{subtitle2}}</p>
          <p class="govuk-body"><b>You can change the length of time for each section to more suitable times for you</b></p>
                     <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5">
-                        <p class="govuk-body-l govuk-!-margin-top-3"><strong>{%if(dummyEventType=='DA')%}Timeline{%else%}Timeline for the 1-stage further competition{%endif%}</strong></p> <br>
+                        <p class="govuk-body-l govuk-!-margin-top-3"><strong>{%if(selectedeventtype=='DA')%}Timeline{%else%}Timeline for the 1-stage further competition{%endif%}</strong></p> <br>
                     </div>
                     {% block valuewitNoMultiSelect %}
                         {% for requirement in framework%}

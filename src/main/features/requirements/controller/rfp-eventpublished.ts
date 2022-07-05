@@ -12,7 +12,7 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
         data: cmsData,
         projPersistID: req.session['project_name'],
         rfi_ref_no : req.session.eventId,
-        dummyEventType:req.session.dummyEventType
+        selectedeventtype:req.session.selectedeventtype
      }
     const { SESSION_ID } = req.cookies; //jwt
     const { projectId } = req.session;

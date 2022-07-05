@@ -17,7 +17,7 @@
  <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-xl">
-          {%if(dummyEventType=='DA')%}
+          {%if(selectedeventtype=='DA')%}
           <strong>{{data.titleDA}}</strong>
           {%else%}
             {{data.titleRFP}}
@@ -31,7 +31,7 @@
     <br>
   <div class="govuk-panel govuk-panel--confirmation">
         <h2 class="govuk-panel__title">
-        {%if(dummyEventType=='DA')%}
+        {%if(selectedeventtype=='DA')%}
         {{data.board.headerDA}}
         {%else%}
           {{data.board.headerRFP}}
@@ -58,7 +58,7 @@
       </ol>
       <br>
        <div class="govuk-button-group">
-       {%if(dummyEventType=='DA')%}
+       {%if(selectedeventtype=='DA')%}
        {{ CCSButton({
           text: "Export your direct award" ,
           href: "/rfp/rfp-eventpublished?download=1"
