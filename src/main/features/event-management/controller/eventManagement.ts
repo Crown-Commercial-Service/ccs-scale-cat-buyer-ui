@@ -110,14 +110,23 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
     let supplierResponceList = [];
+     //Supplier score
+    const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
+    const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
+
+    
 
     let showallDownload = false;
     for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
+      let id = supplierdata.data.responders[i].supplier.id;
+      let score = supplierScore?.data?.filter( (x: any) =>x.organisationId == id)[0]?.score
       let dataPrepared = {
-        "id": supplierdata.data.responders[i].supplier.id,
+        "id": id,
         "name": supplierdata.data.responders[i].supplier.name,
         "responseState": supplierdata.data.responders[i].responseState,
-        "responseDate": supplierdata.data.responders[i].responseDate
+        "responseDate": supplierdata.data.responders[i].responseDate,
+        "score" : (score !=undefined) ? score : 0,
+        "rank":1
       }
       if (supplierdata.data.responders[i].responseState.trim().toLowerCase() == 'submitted') {
         showallDownload = true;

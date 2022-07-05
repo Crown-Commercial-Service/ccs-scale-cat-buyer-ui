@@ -156,7 +156,7 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
 
-      {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATED' %}
+      {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
       <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval}}</h2>
@@ -232,7 +232,7 @@
         </div>
         {% endif %}
 
-{% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED'%}
+{% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING'%}
              
         <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -250,7 +250,7 @@
                 </tr>
               </thead>
               {% for supplier in supplierResponceList %}
-               {% if supplier.responseState =='Draft'  %} 
+               {# {% if supplier.responseState =='Draft'  %} #}
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
@@ -270,10 +270,10 @@
                     </td>
 
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                    <p class="govuk-body govuk-!-margin-bottom-0">1</p>  
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>  
                     </th>
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                    <p class="govuk-body govuk-!-margin-bottom-0">100</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
                     </th>
 
                     
@@ -282,7 +282,7 @@
                     </td> 
                   </tr>
               </tbody>
-           {% endif %} 
+           {# {% endif %} #}
           {% endfor %}
             </table>
             </div>
@@ -344,7 +344,7 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-       {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+       {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
@@ -370,7 +370,7 @@
 {#<div class="govuk-grid-row ccs-page-section">#}
       <div>
       {% if eventType == 'FC' %}
-      {% if status.toUpperCase() == 'TO-BE-EVALUATED'  or status.toUpperCase() == 'EVALUATED'%}
+   {# {% if status.toUpperCase() == 'TO-BE-EVALUATED'  or status.toUpperCase() == 'EVALUATED' or status.toUpperCase() == 'EVALUATING'%}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
