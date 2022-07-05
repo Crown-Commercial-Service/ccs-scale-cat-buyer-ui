@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (var a = 1; a < weight_whole_len; a++) {
 
             let vettingWhole = 'weight_vetting_whole_' + category + a;
-            let vettingWholeT = category + a;
+            let vettingWholeT = category +'whole'+ a;
 
             let vetWhole = $(`#${vettingWhole}`);
 
