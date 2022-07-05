@@ -1,0 +1,148 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Event management ' %}
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Your Project",
+      "href": "#"
+    },
+    {
+      "text": "Evaluate Suppliers",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+         <strong> {{data.title}}</strong>
+        </h1>
+      </div>
+    </div>
+
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            {% include "includes/project_header.njk" %}  
+     
+              <div class="ccs-page-section">
+                    <p>{{data.subtitle}}</p>
+                    <p>{{data.subtitle1}}</p>
+                    <p>{{data.subtitle2}}</p>
+                    <p class="govuk-!-padding-bottom-9">
+                         {{data.subtitle3}}<a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">download the Award Recommendation Report .</a>
+                    </p>
+              <div>  
+
+      </div>
+</div> 
+</div>
+      <div class="govuk-grid-column-one-third-from-desktop">
+          {{ CCSReleatedContent(releatedContent) }}
+      </div> 
+     <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+
+    <div class="govuk-grid-row">
+        <h3 class="govuk-heading-m">
+          {{data.subsection4_title4}}</h3>
+        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
+                </tr>
+              </thead>
+              {% for supplier in supplierName %}
+{#              {% if supplier.responseState =='Submitted'  %}   #}
+              <tbody class="govuk-table__body">
+                
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                    
+                      {#<p class="govuk-body govuk-!-margin-bottom-0">#}
+                        {{supplier.name}}
+                      {#</p>#}
+                      
+                    </th>
+                    <td class="govuk-table__cell">{{ supplier.responseDate }}</td>
+                     <td class="govuk-text-align">
+                      <a class="govuk-link" href="/evaluate-download?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
+                    </td> 
+                    <td class="govuk-table__cell"> <a href="/enter-evaluation?supplierid={{supplier.id}}&suppliername={{supplier.name}}&evaluation={{supplier.Evaluation}}" class="govuk-link govuk-link--no-visited-state"> Add or edit </a></td>
+                    <td class="govuk-table__cell"> Yes/No </td>
+                  </tr>
+              </tbody>
+           {#{% endif %}  #}
+          {% endfor %}
+            </table>
+            </div>
+        </div>
+        {% if(showallDownload) %}
+              <a href="/evaluate-suppliers" class="govuk-link app-task-list__tag ">{{data.backJump.title}}</a> 
+        {% endif %}
+        {#{% endif %}#}
+      </div>
+ 
+      </div>
+      </div>
+  
+
+ <div class="govuk-button-group">
+        {#{{ CCSButton({
+        text: "Confirm Scores",
+        idPrefix:"evaluate_suppliers"
+        }) }}#}
+        <button class="govuk-button" data-module="govuk-button" id="evaluate_suppliers">
+  Confirm Scores
+</button>
+        <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
+ </div>
+ 
+
+
+      
+   </main>     
+
+
+
+
+<div class="backdrop-evaluatesuppliers" id="evaluatesupplierspopup">
+  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
+    <div class="pop_logo govuk-grid-column-full">
+      <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
+      <p class="pop_logo_image govuk-grid-column-one-half" <a="" href="#">
+        <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
+      
+      </p>
+      <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-evaluatesuppliers govuk-!-padding-top-6">
+      <a href="#" class="dialog-close-evaluatesuppliers nav-list__link_secondary">X</a></p>
+    </div>
+    <div class="govuk-grid-column-full">
+      <h1 id="dialog-title">You are about to complete your evaluation<p></p>
+      <p id="dialog-description">Click Continue, or click Return to further edit your scores.</p>
+      <div class="govuk-button-group">
+        <button id="redirect-button-evaluatesuppliers" class="button dialog-button govuk-button" name="Evaluate Suppliers">Continue</button>
+        <a href="#" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Return</a>
+      </div>
+    </h1></div>
+  </div>
+</div>
+
+{% endblock %}
