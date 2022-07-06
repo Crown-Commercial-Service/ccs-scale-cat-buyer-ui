@@ -26,7 +26,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     errorText,
     currentEvent,
   } = req.session;
-
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -35,7 +35,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
   try {
@@ -291,7 +291,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     StorageForSortedItems.sort((a, b) => a.Parent.localeCompare(b.Parent))
     const windowAppendData = {
       ...RFP_WEIGTING_JSON,
-      lotId,
+      lotid,
       agreementLotName,
       releatedContent,
       isError,
