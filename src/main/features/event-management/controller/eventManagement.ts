@@ -204,7 +204,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       switch (eventType) {
 
         case "RFI":
-          res.render('eventManagement', appendData)
+          if(true)
+          {
+            res.render('preAwardEventManagement', appendData)
+          }
+          
+          else
+          {
+            res.render('eventManagement', appendData)
+          }
+         
           break
         case "FC":
           res.render('eventManagement', appendData)
@@ -375,6 +384,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
   }
 }
 
+
 //supplieranswer?download=1
 export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
@@ -401,4 +411,17 @@ export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Res
     });
     res.send(fileData);
   }
+}
+
+//confirm-supplier-award
+export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.Response) => {
+  // const { SESSION_ID } = req.cookies; //jwt
+  // const { projectId } = req.session;
+  // const { eventId } = req.session;
+  // const { download } = req.query;
+  const { pre_award_supplier_confirmation, } = req.body;
+
+  if (pre_award_supplier_confirmation !=undefined && pre_award_supplier_confirmation === '1') {
+    //res.redirect("/awardSupplier");
+}
 }

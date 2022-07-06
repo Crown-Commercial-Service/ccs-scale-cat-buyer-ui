@@ -252,6 +252,10 @@ if (document.getElementById('ccs_eoi_date_form') !== null)
 if (document.getElementById('rfp_percentage_form') !== null)
   document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
 
+  //Award
+if (document.getElementById('ccs_pre_award_supplier_form') !== null)
+document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
+
 //if (document.getElementById('rfp_multianswer_question_form') !== null)
 // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");
 //if (document.getElementById('service_levels_kpi_form') !== null)

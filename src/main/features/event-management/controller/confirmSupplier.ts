@@ -34,19 +34,19 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
     const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
 
-//Supplier score
-const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
-const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
+    //Supplier score
+    const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
+    const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
 
     for (let i = 0; i < supplierdata.data.responders.length; i++) {
       let id = supplierdata.data.responders[i].supplier.id;
-      let score = supplierScore?.data?.filter( (x: any) =>x.organisationId == id)[0]?.score
+      let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
       let dataPrepared = {
         "id": id,
         "name": supplierdata.data.responders[i].supplier.name,
         "responseState": supplierdata.data.responders[i].responseState,
         "responseDate": supplierdata.data.responders[i].responseDate,
-        "score" : (score !=undefined) ? score : 0,
+        "score": (score != undefined) ? score : 0,
       }
       if (supplierdata.data.responders[i].responseState == 'Submitted') {
         showallDownload = true;
@@ -112,7 +112,7 @@ export const POST_CONFIRM_SUPPLIER = async (req: express.Request, res: express.R
   const { supplierId } = req.query;
 
   try {
-    res.redirect('/award-supplier?supplierId='+supplierId)
+    res.redirect('/award-supplier?supplierId=' + supplierId)
   } catch (error) {
     LoggTracer.errorLogger(
       res,
