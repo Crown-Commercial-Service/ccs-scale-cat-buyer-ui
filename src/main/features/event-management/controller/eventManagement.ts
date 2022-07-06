@@ -206,6 +206,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         case "FC":
           res.render('eventManagement', appendData)
           break
+        case "DA":
+            req.session.selectedeventtype="DA"
+            res.render('eventManagement', appendData)
+            break
         default:
           redirectUrl_ = '/event/management'
           res.redirect(redirectUrl_)
