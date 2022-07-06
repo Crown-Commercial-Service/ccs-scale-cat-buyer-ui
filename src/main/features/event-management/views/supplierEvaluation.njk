@@ -101,16 +101,15 @@
                     <th scope="row" class="govuk-table__cell">
                     
                       <p class="govuk-body govuk-!-margin-bottom-0">
-                        {{supplier.name}}
-                      </p>
-                      
+                        {{supplier.supplierName}}
+                      </p>                      
                     </th>
-                     <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.id}}">Download</a>
+                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/award-supplier-document?supplierid={{supplier.supplierId}}">Download</a>
                     </td>
 
-                    <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
+                    <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Review evaluation</a>
                     </td>
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">100</p>
@@ -124,20 +123,27 @@
         </div>
 <br>
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-   
-    <p>4</p>
-
-
-  <div class="govuk-button-group">
-                    {{ CCSButton({
-                            text: "Confirm supplier"
-                            }) }}
-
-  <a class="govuk-link" href="/dashboard">Return to your project</a> 
-  </div>                          
-</div>
- </div>           
+   <form id="ccs_supplier_confirmation_form" name="ccs_supplier_confirmation_form" class="form ccs_supplier_confirmation_form"
+       method="GET">
+                             	  
+                                 {{ csrfProtection(csrf) }}
+                                <div class="govuk-button-group">
+                                  {{ CCSButton({
+        attributes: {
+        id: "btn_supplier_confirmation"
+        },
+        text: "Confirm supplier",
+        href:"/award-supplier-document?supplierId="+eventManagementData.supplierDetails.supplierId
+        }) }}
+                                  <a class="govuk-link" href="/dashboard">Return to your project</a> 
+                                </div>
+                                
+                              </form>      
+ </div>
+ </div> 
+       
+ 
+ 
  </main>
 {% endblock %}
  
