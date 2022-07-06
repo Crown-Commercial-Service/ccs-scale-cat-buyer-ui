@@ -125,8 +125,6 @@ if (document.getElementById('ccs_ca_weighting') !== null)
 
 if (document.getElementById('ccs_daa_weighting') !== null)
   document.getElementById('ccs_daa_weighting').addEventListener('submit', ccsZvalidateDAAWeightings);
-if (document.getElementById('ccs_ca_suppliers_form') !== null)
-  document.getElementById('ccs_ca_suppliers_form').addEventListener('submit', ccsZvalidateCASupplier);
 
 if (document.getElementById('ca_where_work_done') !== null)
   document.getElementById('ca_where_work_done').addEventListener('submit', ccsZvalidateCAWhereWorkDone);
