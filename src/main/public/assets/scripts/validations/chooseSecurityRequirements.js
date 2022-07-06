@@ -20,8 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         $('#rfp_choose_security_form').on('submit', (e) => {
-            var resources=$('.rfp_choosesecurity_resources').val();
-            
+            var resources='';
+            for(var i=0;i<4;i++)
+            {
+                var value=document.getElementsByClassName("rfp_choosesecurity_resources")[i].value
+               if(value!=undefined && value!='')   
+               {
+                resources=value;
+               }  
+            }            
             var totalQuantityrfp=$('#totalQuantityrfp').val();  
             var choosenoption=$('input[name="ccs_rfp_choose_security"]:checked').val();   
             var selectednumber=choosenoption?choosenoption.replace(/[^0-9.]/g, ''):null   
@@ -52,8 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         $('#ca_choose_security_form').on('submit', (e) => {
-            var resources=$('.ca_choosesecurity_resources').val();
-            
+            var resources='';
+            for(var i=0;i<4;i++)
+            {
+                var value=document.getElementsByClassName("ca_choosesecurity_resources")[i].value
+               if(value!=undefined && value!='')   
+               {
+                resources=value;
+               }  
+            }  
             var totalQuantityca=$('#totalQuantityca').val();  
             var choosenoption=$('input[name="ccs_ca_choose_security"]:checked').val();   
             var selectednumber=choosenoption?choosenoption.replace(/[^0-9.]/g, ''):null           
@@ -84,7 +98,15 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         $('#da_choose_security_form').on('submit', (e) => {
-            var resources=$('.da_choosesecurity_resources').val();
+            var resources='';
+            for(var i=0;i<4;i++)
+            {
+                var value=document.getElementsByClassName("da_choosesecurity_resources")[i].value
+               if(value!=undefined && value!='')   
+               {
+                resources=value;
+               }  
+            }  
             var totalQuantityda=$('#totalQuantityda').val();  
             var choosenoption=$('input[name="ccs_da_choose_security"]:checked').val();   
             var selectednumber=choosenoption?choosenoption.replace(/[^0-9.]/g, ''):null          
