@@ -1,0 +1,178 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Award Supplier ' %}
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Your project",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
+
+{% block content %}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+          {% if (viewError == true) %}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem with supplier to be awarded",
+        errorList: [
+          {
+            text: "You must check this box to confirm that I have read and confirm the statements above",
+            href: "#ccs_award_supplier_form"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+<div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+              <div class="project-overview">
+        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+  </strong></p>
+  {%endif %}
+  <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+        </div>
+      </div>  
+</div>
+
+ <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <div>
+          <h2 class="govuk-heading-m">
+          {{ agreement_header['project_name'] }}
+            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
+          </h2>
+          <p class="govuk-body">
+            {% if(true) %}
+            <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
+            {% else %}
+            <a class="govuk-link" href="/event/management?id=eventId">Close Event</a>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+
+<div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          <strong>Details of the supplier to be awarded </strong>
+        </h1>
+        
+        <h3> <strong>Supplier organisation A Name </strong></h3>
+
+       <p> {{supplierDetails.supplierName}}</p>
+
+       <p> <strong>Address:</strong></p>
+       <p> {{supplierDetails.supplierAddress}}</p>
+       </br>
+       </br>
+       
+<p> <strong>Contact name:</strong></p>
+       <p> {{supplierDetails.supplierContactName}}</p>
+       </br>
+       </br>
+       <p> <strong>Contact email:</strong></p>
+       <p> {{supplierDetails.supplierContactEmail}}</p>
+       </br>
+       <p> <strong>Website:</strong></p>
+       <p> {{supplierDetails.supplierWebsite}}</p>
+       </br>
+       </br>
+       </br>
+       </br>
+       </div>
+        </div>
+
+  <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">Supplier's name</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's answer</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's evaluation</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score (%)</th>
+                </tr>
+              </thead>
+              {% for supplier in supplierDetailsList %}
+               {# {% if supplier.responseState =='Draft'  %} #}
+              <tbody class="govuk-table__body">
+                
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                    
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        {{supplier.supplierName}}
+                      </p>
+                      
+                    </th>
+                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
+                    </td>
+
+                    <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Review evaluation</a>
+                    </td>
+                    <th scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
+                    </th> 
+                  </tr>
+              </tbody>
+          {# {% endif %} #}
+          {% endfor %}
+            </table>
+            </div>
+        </div>
+<br>
+
+<div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          <strong>Award supplier </strong>
+        </h1>
+</br></br>
+        {{ CCSWarningText({
+    text: "You must agree that you acknowledge the reponsibility to award this supplier.",
+    iconFallbackText: "Warning"
+    }) }}
+       </div>
+       </div>
+
+<form id="ccs_award_supplier_form" name="ccs_award_supplier_form" class="form ccs_award_supplier_form"
+      action="/award-supplier" method="post">
+                     {{ csrfProtection(csrf) }}         	 
+        {{ CCSCheckboxes({
+      idPrefix: "award_supplier_confirmation",
+      name: "award_supplier_confirmation",
+      items: [
+      {
+      "value": 1,
+      html: "<label><strong>I acknowledge the reponsibility to award this supplier.</strong></label>",
+      Checked: ""
+      }
+      ]
+      }) }}
+                                <div class="govuk-button-group">
+                                  {{ CCSButton({
+        attributes: {
+        id: "btn_award_supplier"
+        },
+        text: "Award supplier"
+        }) }}
+                                  <a class="govuk-link" href="/dashboard">Return to your project</a> 
+                                </div>
+                                
+                              </form>          
+ </main>
+{% endblock %}
+ 
