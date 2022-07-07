@@ -1,0 +1,156 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Award documents ' %}
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Your project",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
+
+{% block content %}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        
+<div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+              <div class="project-overview">
+        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+  </strong></p>
+  {%endif %}
+  <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+        </div>
+      </div>  
+</div>
+
+ <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <div>
+          <h2 class="govuk-heading-m">
+          {{ agreement_header['project_name'] }}
+            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{eventManagementData.status}}</strong>
+          </h2>
+          <p class="govuk-body">
+            <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+<div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          <strong>Download and complete award documents </strong>
+        </h1>
+        </br> </br> </br>
+        
+        <h3> <strong>Awarded supplier contract templates </strong></h3>
+
+       <p> If you have not already complete the order form and call off schedules template, you must download and complete it before continuing.</p>
+<div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">Supplier's name</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Documents Template</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Order from and call of schedules template</th>
+                </tr>
+              </thead>
+              {% for supplier in eventManagementData.documentTemplateDataList %}
+              {# {% if supplier.responseState ==='Draft'  %} #}
+              <tbody class="govuk-table__body">
+                
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                    
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        {{supplier.supplierName}}
+                      </p>                      
+                    </th>
+                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/award-supplier-document?supplierid={{supplier.supplierId}}+&doctempateId={{supplier.documentTemplates}}">Download templates</a>
+                    </td>
+
+                    <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/award-supplier-document?supplierid={{supplier.supplierId}}+&doctempateId={{supplier.templatesOrder}}">Download template</a>
+                    </td>
+                    
+                  </tr>
+              </tbody>
+          {# {% endif %} #}
+          {% endfor %}
+            </table>
+            </div>
+        </div>
+<br>
+</br> </br> </br>
+       <h3> <strong>Unsuccessful supplier templates </strong></h3>
+        </br>
+       <p> You'll need to notify by email all suppliers who have not been successful.</p>
+</br> </br> </br>
+ <a class="govuk-link" href="/award-supplier-document?supplierid={{documentTemplateDataList[0].supplierId}}+&doctempateId={{documentTemplateDataList[0].documentTemplatesUnSuccess}}">Download templates</a>
+       </div>
+        </div>
+
+  <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">Supplier's name</th>
+                  <th scope="col" class="govuk-table__header">Contact email</th>
+                </tr>
+              </thead>
+              {% for supplier in eventManagementData.supplierDetailsList %}
+               
+              <tbody class="govuk-table__body">                
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">                    
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        {{supplier.supplierName}}
+                      </p>                      
+                    </th>
+                     <th scope="row" class="govuk-table__cell">                    
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        {{supplier.supplierContactEmail}}
+                      </p>                      
+                    </th>                    
+                  </tr>
+              </tbody>
+           
+          {% endfor %}
+            </table>
+            </div>
+        </div>
+<br>
+
+<form id="ccs_document_supplier_form" name="ccs_document_supplier_form" class="form ccs_document_supplier_form"
+      action="/award-supplier" method="post">
+                     {{ csrfProtection(csrf) }}      	 
+
+                                <div class="govuk-button-group">
+                                  {{ CCSButton({
+        attributes: {
+        id: "btn_document_completed"
+        },
+        text: "Documents completed"
+        }) }}
+                                  <a class="govuk-link" href="/confirm-supplier">Return to your project</a> 
+                                </div>
+                                
+                              </form>          
+ </main>
+{% endblock %}
+ 

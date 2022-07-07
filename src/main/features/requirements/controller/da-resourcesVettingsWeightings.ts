@@ -296,7 +296,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   const { weight_staff, weight_vetting, weigthage_group_name, SFIA_weightage, requirement_Id_SFIA_weightage,weigthage_group_name_sfia,weigthage_reqid  } =
     req.body;
 
-    let isError=false;
+   /* let isError=false;
 
     let isWeightStaffArrayEmpty=weight_staff.every(value=>value==='');
     let isWeightVettingArrayEmpty=weight_vetting.every(value=>value==='');
@@ -403,7 +403,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
     else{
       req.session.errorTextSumary = [];
       req.session.isError = false;
-      req.session['isJaggaerError'] = false;
+      req.session['isJaggaerError'] = false;*/
     const Mapped_weight_staff = weight_staff.map(item => item !== '');
     let IndexStorage = [];
 
@@ -557,7 +557,7 @@ export const DA_POST_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request,
   else{
     res.redirect('/404');
   }
-}
+
   } catch (error) {
     LoggTracer.errorLogger(
       res,
