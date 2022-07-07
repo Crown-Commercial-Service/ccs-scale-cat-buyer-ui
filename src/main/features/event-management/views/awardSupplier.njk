@@ -48,7 +48,7 @@
         <div>
           <h2 class="govuk-heading-m">
           {{ agreement_header['project_name'] }}
-            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{eventManagementData.status}}</strong>
+            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
           </h2>
           <p class="govuk-body">
             {% if(true) %}
@@ -69,22 +69,22 @@
         
         <h3> <strong>Supplier organisation A Name </strong></h3>
 
-       <p> {{eventManagementData.supplierDetails.supplierName}}</p>
+       <p> {{supplierDetails.supplierName}}</p>
 
        <p> <strong>Address:</strong></p>
-       <p> {{eventManagementData.supplierDetails.supplierAddress}}</p>
+       <p> {{supplierDetails.supplierAddress}}</p>
        </br>
        </br>
        
 <p> <strong>Contact name:</strong></p>
-       <p> {{eventManagementData.supplierDetails.supplierContactName}}</p>
+       <p> {{supplierDetails.supplierContactName}}</p>
        </br>
        </br>
        <p> <strong>Contact email:</strong></p>
-       <p> {{eventManagementData.supplierDetails.supplierContactEmail}}</p>
+       <p> {{supplierDetails.supplierContactEmail}}</p>
        </br>
        <p> <strong>Website:</strong></p>
-       <p> {{eventManagementData.supplierDetails.supplierWebsite}}</p>
+       <p> {{supplierDetails.supplierWebsite}}</p>
        </br>
        </br>
        </br>
@@ -112,16 +112,16 @@
                     <th scope="row" class="govuk-table__cell">
                     
                       <p class="govuk-body govuk-!-margin-bottom-0">
-                        {{supplier.name}}
+                        {{supplier.supplierName}}
                       </p>
                       
                     </th>
                      <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.id}}">Download</a>
+                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Review evaluation</a>
                     </td>
                     <th scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>

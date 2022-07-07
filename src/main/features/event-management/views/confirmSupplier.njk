@@ -97,15 +97,15 @@
                     <th scope="row" class="govuk-table__cell">
                     
                       <p class="govuk-body govuk-!-margin-bottom-0">
-                        {{supplier.name}}
+                        {{supplier.supplierName}}
                       </p>                      
                     </th>
                      <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/award-supplier-document?supplierid={{supplier.id}}">Download</a>
+                      <a class="govuk-link" href="/award-supplier-document?supplierid={{supplier.supplierId}}">Download</a>
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Review evaluation</a>
                     </td>
                     <td scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
@@ -120,14 +120,16 @@
 <br>
 <div class="govuk-grid-row">
    <form id="ccs_supplier_confirmation_form" name="ccs_supplier_confirmation_form" class="form ccs_supplier_confirmation_form"
-      action="/award-supplier?supplierId={{eventManagementData.supplierDetails.supplierId}}" method="post">
-                             	  {{ csrfProtection(csrf) }}
+       method="GET">
+                             	  
+                                 {{ csrfProtection(csrf) }}
                                 <div class="govuk-button-group">
                                   {{ CCSButton({
         attributes: {
         id: "btn_supplier_confirmation"
         },
-        text: "Confirm supplier"
+        text: "Confirm supplier",
+        href:"/award-supplier-document?supplierId="+eventManagementData.supplierDetails.supplierId
         }) }}
                                   <a class="govuk-link" href="/dashboard">Return to your project</a> 
                                 </div>

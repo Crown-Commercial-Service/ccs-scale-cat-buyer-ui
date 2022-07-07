@@ -1,10 +1,10 @@
-import { LoggTracer } from '@common/logtracer/tracer';
-import { TokenDecoder } from '@common/tokendecoder/tokendecoder';
 import * as express from 'express'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import * as localContent from '../../../resources/content/event-management/event-management.json'
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance'
-
+import { SupplierDetails } from '../model/supplierDetailsModel';
+import { LoggTracer } from '../../../common/logtracer/tracer'
+import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
 
 export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Response) => {
 
@@ -17,16 +17,10 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
   try {
 
     res.locals.agreement_header = req.session.agreement_header;
-    let supplierDetailsList = [];
     let showallDownload = false;
-    let supplierDetails = {
-      supplierName: "",
-      supplierAddress: "",
-      supplierContactName: "",
-      supplierContactEmail: "",
-      supplierWebsite: "",
-      supplierId: ""
-    };
+    let supplierDetailsList: SupplierDetails[] = [];
+    let supplierDetails = {} as SupplierDetails;
+
     //Supplier of interest
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
@@ -41,36 +35,24 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     for (let i = 0; i < supplierdata.data.responders.length; i++) {
       let id = supplierdata.data.responders[i].supplier.id;
       let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
-      let dataPrepared = {
-        "id": id,
-        "name": supplierdata.data.responders[i].supplier.name,
-        "responseState": supplierdata.data.responders[i].responseState,
-        "responseDate": supplierdata.data.responders[i].responseDate,
-        "score": (score != undefined) ? score : 0,
-      }
       if (supplierdata.data.responders[i].responseState == 'Submitted') {
         showallDownload = true;
       }
       if (supplierdata.data.responders[i].supplier.id == supplierid) {
-
         // let supplierData = supplierDataList.filter((x: any) => x.);
         supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
+        supplierDetails.responseState = supplierdata.data.responders[i].responseState;
+        supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
+        supplierDetails.score = (score != undefined) ? score : 0;
+
         supplierDetails.supplierAddress = supplierDataList != null ? "" : "";
         supplierDetails.supplierContactName = supplierDataList != null ? "" : "";
         supplierDetails.supplierContactEmail = supplierDataList != null ? "" : "";
         supplierDetails.supplierWebsite = supplierDataList != null ? "" : "";
-        supplierDetails.supplierId = supplierid.toString();
-        supplierDetailsList.push(dataPrepared);
+        supplierDetails.supplierId = id;
+        supplierDetailsList.push(supplierDetails);
       }
       //supplierDetailsList.push(dataPrepared);
-    }
-    if (supplierid != undefined && supplierid != null && supplierdata.data.responders != null && supplierdata.data.responders.length > 0) {
-      supplierdata.data.responders.filter((x: any) => {
-        if (x != null && x.supplier.id == supplierid) {
-          supplierDetails.supplierName = x.supplier.name;
-          // supplierDetails.supplierAddress=x.supplier.name;
-        }
-      })
     }
 
     //SELECTED EVENT DETAILS FILTER FORM LIST

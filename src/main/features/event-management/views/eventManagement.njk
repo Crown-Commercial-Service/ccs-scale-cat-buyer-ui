@@ -156,7 +156,7 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
 
-      {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
+      {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
       <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval}}</h2>
@@ -214,7 +214,7 @@
               </thead>
               {% endif %}
               <tbody class="govuk-table__body">
-                {% for supplier in supplierResponceList %}
+                {% for supplier in supplierName %}
                 {% if supplier.responseState =='Submitted'  %}
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell">
@@ -232,7 +232,7 @@
         </div>
         {% endif %}
 
-{% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING'%}
+{% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED'%}
              
         <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -250,7 +250,7 @@
                 </tr>
               </thead>
               {% for supplier in supplierResponceList %}
-               {# {% if supplier.responseState =='Draft'  %} #}
+               {% if supplier.responseState =='Draft'  %} 
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
@@ -266,23 +266,23 @@
                     </td>
 
                     <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/supplier-evaluation?supplierid={{supplier.id}}">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
                     </td>
 
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>  
+                    <p class="govuk-body govuk-!-margin-bottom-0">1</p>  
                     </th>
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0">100</p>
                     </th>
 
                     
                     <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/confirm-supplier?supplierid={{supplier.id}}">Select</a>
+                      <a class="govuk-link" href="/selectsupplierevaluation?supplierid={{supplier.id}}">Select</a>
                     </td> 
                   </tr>
               </tbody>
-           {# {% endif %} #}
+           {% endif %} 
           {% endfor %}
             </table>
             </div>
@@ -311,7 +311,7 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                 </tr>
               </thead>
-              {% for supplier in supplierResponceList %}
+              {% for supplier in supplierName %}
                {% if supplier.responseState =='Submitted'  %} 
               <tbody class="govuk-table__body">
                 
@@ -344,7 +344,11 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-       {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
+<<<<<<< Updated upstream
+       {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+=======
+       {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATED'  or status.toUpperCase() == 'EVALUATING' %}
+>>>>>>> Stashed changes
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
@@ -370,13 +374,7 @@
 {#<div class="govuk-grid-row ccs-page-section">#}
       <div>
       {% if eventType == 'FC' %}
-   {# {% if status.toUpperCase() == 'TO-BE-EVALUATED'  or status.toUpperCase() == 'EVALUATED' or status.toUpperCase() == 'EVALUATING'%}
-        <h2 class="govuk-heading-m">
-        <span class="proc-task-list__section-number">5.</span>
-        Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p>
-
-      {% elif status.toLowerCase() != 'published' %}
+      {# {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>
@@ -393,7 +391,7 @@
         Evaluate Suppliers</h2>
         <p>You have completed your supplier evaluation.</p>  #}
 
-      {% if status.toLowerCase() != 'published' %}
+      {% if status.toUpperCase() !== 'TO-BE-EVALUATED' and status.toUpperCase() !=='EVALUATED' and status.toUpperCase() !=='Awarded' %}
       {# <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
@@ -408,16 +406,12 @@
         text: "Start Supplier Evaluation",
         href:"/evaluate-suppliers"
         }) }}
-        </div>  
+        </div>
       </div>
       {% endif %}
       {% endif %}
      {#<div class="govuk-grid-row ccs-page-section">#}
      {#</div>#}
-
- 
-
-         
       <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
      </div>
