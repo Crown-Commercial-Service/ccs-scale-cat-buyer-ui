@@ -46,7 +46,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const baseurl = `/tenders/projects/${projectId}/events`
     const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
     //status=apidata.data[0].dashboardStatus;
-    status = apidata.data.filter((d:any)=>d.id==eventId)[0].dashboardStatus;
+    status = apidata.data.filter((d: any) => d.id == eventId)[0].dashboardStatus;
 
     // Code Block ends
 
@@ -163,7 +163,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           break
         case "EOI":
           redirectUrl = '/eoi/eoi-tasklist'
-          break    
+          break
         case "DA":
           redirectUrl = '/da/task-list?path=B1'
           break
@@ -229,7 +229,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           break
       }
     }
-    
+
   } catch (err) {
     LoggTracer.errorLogger(
       res,
@@ -339,7 +339,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD = async (req: express.Request, res: expres
   const { supplierid } = req.query;
 
   if (supplierid != undefined) {
-   // /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id]}/export
+    // /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id]}/export
     const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
       responseType: 'arraybuffer',
@@ -387,6 +387,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
     res.send(fileData);
   }
 }
+
 
 //supplieranswer?download=1
 export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Response) => {
