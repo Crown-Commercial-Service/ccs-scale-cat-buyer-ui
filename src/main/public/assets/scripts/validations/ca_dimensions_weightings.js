@@ -70,7 +70,7 @@ const ccsZvalidateCAWeightings = event => {
       errorStore.push(fieldCheck);   
   }
   else if (total !== 100) {
-    fieldCheck = ["totalPercentage", "Dimension value entered does not total to 100%"]
+    fieldCheck = ["totalPercentage", "Your total weighting must add up to 100%"]
     errorStore.push(fieldCheck);
   }
   if (errorStore.length === 0) document.forms["ccs_ca_weighting"].submit();
@@ -130,7 +130,7 @@ const ccsZvalidateDAAWeightings = event => {
       errorStore.push(fieldCheck);   
   }
   else if (total !== 100) {
-    fieldCheck = ["totalPercentage", "Dimension value entered does not total to 100%"]
+    fieldCheck = ["totalPercentage", "Your total weighting must add up to 100%"]
     errorStore.push(fieldCheck);
   }
   if (errorStore.length === 0) document.forms["ccs_daa_weighting"].submit();

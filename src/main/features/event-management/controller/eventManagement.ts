@@ -9,6 +9,7 @@ import * as eventManagementData from '../../../resources/content/event-managemen
 import { Message } from '../model/messages'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import { SupplierDetails } from '../model/supplierDetailsModel'
 /**
  * 
  * @Rediect 
@@ -109,32 +110,37 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     //Supplier of interest
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
-    let supplierResponceList = [];
-     //Supplier score
+    //Supplier score
     const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
     const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
-
-    
-
+    let supplierDetailsDataList: SupplierDetails[] = [];
     let showallDownload = false;
     for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
       let id = supplierdata.data.responders[i].supplier.id;
-      let score = supplierScore?.data?.filter( (x: any) =>x.organisationId == id)[0]?.score
-      let dataPrepared = {
-        "id": id,
-        "name": supplierdata.data.responders[i].supplier.name,
-        "responseState": supplierdata.data.responders[i].responseState,
-        "responseDate": supplierdata.data.responders[i].responseDate,
-        "score" : (score !=undefined) ? score : 0,
-        "rank":1
+      let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
+      if (supplierdata.data.responders[i].responseState == 'Submitted') {
+        showallDownload = true;
       }
+      let supplierDetailsObj = {} as SupplierDetails;
+
+      supplierDetailsObj.supplierName = supplierdata.data.responders[i].supplier.name;
+      supplierDetailsObj.responseState = supplierdata.data.responders[i].responseState;
+      supplierDetailsObj.responseDate = supplierdata.data.responders[i].responseDate;
+      supplierDetailsObj.score = (score != undefined) ? score : 0;
+
+      //supplierDetailsObj.supplierAddress = supplierDataList != null ? "NA" : "NA";
+      //supplierDetailsObj.supplierContactName = supplierDataList != null ? "NA" : "NA";
+      //supplierDetailsObj.supplierContactEmail = supplierDataList != null ? "NA" : "NA";
+      //supplierDetailsObj.supplierWebsite = supplierDataList != null ? "NA" : "NA";
+      supplierDetailsObj.supplierId = id;
+      supplierDetailsDataList.push(supplierDetailsObj);
       if (supplierdata.data.responders[i].responseState.trim().toLowerCase() == 'submitted') {
         showallDownload = true;
       }
-      supplierResponceList.push(dataPrepared)
+
     }
     const supplierSummary = supplierdata.data;
-
+    supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
     //Get Q&A Count
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
@@ -147,7 +153,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
     let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
     collaboratorData = collaboratorData.data;
-    const appendData = { data: eventManagementData, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierResponceList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+    const appendData = { data: eventManagementData, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
     let redirectUrl: string
     if (status.toLowerCase() == "in-progress") {
@@ -204,16 +210,14 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       switch (eventType) {
 
         case "RFI":
-          if(true)
-          {
+          if (true) {
             res.render('preAwardEventManagement', appendData)
           }
-          
-          else
-          {
+
+          else {
             res.render('eventManagement', appendData)
           }
-         
+
           break
         case "FC":
           res.render('eventManagement', appendData)
@@ -421,7 +425,7 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
   // const { download } = req.query;
   const { pre_award_supplier_confirmation, } = req.body;
 
-  if (pre_award_supplier_confirmation !=undefined && pre_award_supplier_confirmation === '1') {
+  if (pre_award_supplier_confirmation != undefined && pre_award_supplier_confirmation === '1') {
     //res.redirect("/awardSupplier");
-}
+  }
 }

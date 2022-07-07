@@ -249,40 +249,39 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_6}}</th>
                 </tr>
               </thead>
-              {% for supplier in supplierResponceList %}
-               {% if supplier.responseState =='Draft'  %} 
+              {% for supplier in supplierDetailsDataList %}
+              
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell">
                     
                       <p class="govuk-body govuk-!-margin-bottom-0">
-                        {{supplier.name}}
+                        {{supplier.supplierName}}
                       </p>
                       
                     </th>
                      <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.id}}">Download</a>
+                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
                     </td>
 
                     <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Review evaluation</a>
                     </td>
 
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                    <p class="govuk-body govuk-!-margin-bottom-0">1</p>  
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>  
                     </th>
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                    <p class="govuk-body govuk-!-margin-bottom-0">100</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
                     </th>
 
                     
                     <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/selectsupplierevaluation?supplierid={{supplier.id}}">Select</a>
+                      <a class="govuk-link" href="/confirm-supplier?supplierid={{supplier.supplierId}}">Select</a>
                     </td> 
                   </tr>
               </tbody>
-           {% endif %} 
           {% endfor %}
             </table>
             </div>
@@ -311,25 +310,25 @@
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                 </tr>
               </thead>
-              {% for supplier in supplierName %}
-               {% if supplier.responseState =='Submitted'  %} 
+              {% for supplier in supplierDetailsDataList %}
+               
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell">
                     
                       <p class="govuk-body govuk-!-margin-bottom-0">
-                        {{supplier.name}}
+                        {{supplier.supplierName}}
                       </p>
                       
                     </th>
                     <td class="govuk-table__cell">{{ supplier.responseDate }}</td>
                      <td class="govuk-text-align">
-                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">{{ data.Downloadresponse[0].text }}</a>
                     </td> 
                   </tr>
               </tbody>
-           {% endif %} 
+           
           {% endfor %}
             </table>
             </div>
@@ -348,9 +347,9 @@
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p>
+        <p>You have completed your supplier evaluation.</p> #}
 
-      {% elif status.toLowerCase() != 'published' %}
+      {% if status.toLowerCase() != 'published' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete project</h2>
