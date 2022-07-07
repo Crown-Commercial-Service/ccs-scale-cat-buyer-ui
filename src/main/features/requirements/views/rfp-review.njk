@@ -79,11 +79,19 @@
         <br><br>
         <p class="govuk-body">{{data.subtitle}}
         </p><br><br>
+        {%if(selectedeventtype=='DA')%}
         {{ CCSButton({
+    text: "Export your draft",
+    classes: "govuk-button--secondary",
+    href: "/rfp/review?download=1"
+    }) }}
+    {%else%}
+    {{ CCSButton({
     text: "Export your draft one-stage further competition",
     classes: "govuk-button--secondary",
     href: "/rfp/review?download=1"
-    }) }}<br><br>
+    }) }}
+    {%endif%}<br><br>
 
       </div>
     </div>
@@ -1167,19 +1175,25 @@
          <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                               <p class="govuk-body">
-                                <h2 class="govuk-heading-m"> Publish your further competition</h2>
+                                <h2 class="govuk-heading-m"> Publish your {%if(selectedeventtype=='DA')%}requirements{%else%}further competition{%endif%}</h2>
                               </p>
                               <p class="govuk-body">
-      After publishing this event, you can still cancel all or part of it at any time, or amend, clarify, add to or withdraw all or any part of it.
+      After publishing{%if(selectedeventtype!='DA')%} this event{%endif%}, you can still cancel all or part of it at any time, or amend, clarify, add to or withdraw all or any part of it.
     </p>
 
       
                               <br><br>
-
+{%if(selectedeventtype=='DA')%}
                               {{ CCSWarningText({
+    text: "By publishing these requirements, you are stating that, to the best of your knowledge, the information you have provided is correct.",
+    iconFallbackText: "Warning"
+    }) }}
+    {%else%}
+     {{ CCSWarningText({
     text: "By publishing this further competition to all the suppliers listed, you are stating that, to the best of your knowledge, the information you have provided is correct.",
     iconFallbackText: "Warning"
     }) }}
+    {%endif%}
                         <br><br>
                               <div class="ccs-link-group">
                                 <span>

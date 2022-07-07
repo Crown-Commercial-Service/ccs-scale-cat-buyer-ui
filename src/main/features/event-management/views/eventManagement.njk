@@ -87,7 +87,7 @@
  
             <a class="govuk-link" href="/rfi/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
              {% endif %} 
-              {% if eventType == 'FC' %}
+              {% if (eventType == 'FC' or eventType == 'DA') %}
               <a class="govuk-link" href="/rfp/add-collaborators">{{data.subsection4_title1_task[0].line_1_text}}</a>
             {% endif %}   
                </p>-->
@@ -136,7 +136,7 @@
             <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_2_task[1].line_1_link}}">{{data.subsection4_title2_2_task[1].line_1_text}}</a>
           </p>
           {% endif %}
-        {% if eventType == 'FC' %}
+        {% if (eventType == 'FC' or eventType == 'DA') %}
           <h2 class="govuk-heading-m">
             <span class="proc-task-list__section-number">2.</span>
             {{data.subsection4_title2_1}}
@@ -368,7 +368,7 @@
   </main> 
 {#<div class="govuk-grid-row ccs-page-section">#}
       <div>
-      {% if eventType == 'FC' %}
+      {% if (eventType == 'FC' or eventType == 'DA') %}
       {# {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
