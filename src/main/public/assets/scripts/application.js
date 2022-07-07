@@ -125,8 +125,6 @@ if (document.getElementById('ccs_ca_weighting') !== null)
 
 if (document.getElementById('ccs_daa_weighting') !== null)
   document.getElementById('ccs_daa_weighting').addEventListener('submit', ccsZvalidateDAAWeightings);
-if (document.getElementById('ccs_ca_suppliers_form') !== null)
-  document.getElementById('ccs_ca_suppliers_form').addEventListener('submit', ccsZvalidateCASupplier);
 
 if (document.getElementById('ca_where_work_done') !== null)
   document.getElementById('ca_where_work_done').addEventListener('submit', ccsZvalidateCAWhereWorkDone);
@@ -156,6 +154,9 @@ if (document.getElementById('rfi_prob_statement') !== null)
 
 if (document.getElementById('ccs_rfi_next_steps') !== null)
   document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
+
+  if (document.getElementById('evaluate_suppliers') !== null)
+  document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);

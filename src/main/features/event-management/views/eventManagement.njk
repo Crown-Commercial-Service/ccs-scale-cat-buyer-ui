@@ -344,7 +344,11 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
+<<<<<<< Updated upstream
        {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+=======
+       {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATED'  or status.toUpperCase() == 'EVALUATING' %}
+>>>>>>> Stashed changes
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
@@ -370,13 +374,7 @@
 {#<div class="govuk-grid-row ccs-page-section">#}
       <div>
       {% if eventType == 'FC' %}
-      {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
-        <h2 class="govuk-heading-m">
-        <span class="proc-task-list__section-number">5.</span>
-        Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p>
-
-      {% elif status.toLowerCase() != 'published' %}
+      {# {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>
@@ -385,7 +383,28 @@
       <div class="govuk-button-group">
         {{ CCSButton({
         text: "Start Supplier Evaluation",
-        href:"#"
+        href:"/evaluate-suppliers"
+        }) }}
+        </div>
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Evaluate Suppliers</h2>
+        <p>You have completed your supplier evaluation.</p>  #}
+
+      {% if status.toUpperCase() !== 'TO-BE-EVALUATED' and status.toUpperCase() !=='EVALUATED' and status.toUpperCase() !=='Awarded' %}
+      {# <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Evaluate Suppliers</h2>
+        <p>You have completed your supplier evaluation.</p> #}
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Evaluate suppliers</h2>
+        <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project.</p>
+        <p>You can only enter  your final evaluation score for each supplier in this serevice. You will need to complete your full evaluation offline.</p>
+      <div class="govuk-button-group">
+        {{ CCSButton({
+        text: "Start Supplier Evaluation",
+        href:"/evaluate-suppliers"
         }) }}
         </div>
       </div>
@@ -393,10 +412,8 @@
       {% endif %}
      {#<div class="govuk-grid-row ccs-page-section">#}
      {#</div>#}
-
-         {% if eventType !== 'FC' %}
       <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
      </div>
-     {% endif %}
+     
 {% endblock %}
