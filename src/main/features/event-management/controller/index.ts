@@ -1,6 +1,5 @@
 import { EVENT_MANAGEMENT,CONFIRM_SUPPLIER_AWARD } from './eventManagement'
 import { GET_AWARD_SUPPLIER_DOCUMENT } from './awardDocumentComplete'
-import { GET_CONFIRM_SUPPLIER,POST_CONFIRM_SUPPLIER } from './confirmSupplier'
 import { GET_AWARD_SUPPLIER, POST_AWARD_SUPPLIER} from './awardSupplier'
 import { EVENT_MANAGEMENT_MESSAGING } from './MessagingInbox'
 import { EVENT_MANAGEMENT_MESSAGING_CREATE, POST_MESSAGING_CREATE } from './MessagingCreate'
@@ -20,6 +19,7 @@ import { EVALUATE_SUPPLIERS_DOWNLOAD } from './evaluateSuppliers'
 import { ENTER_EVALUATION } from './enterEvaluation'
 import { ENTER_EVALUATION_POST } from './enterEvaluation'
 import { PUBLISHED_PROJECT_DOWNLOAD,SUPPLIER_ANSWER_DOWNLOAD,SUPPLIER_ANSWER_DOWNLOAD_ALL,SUPPLIER_EVALUATION } from './eventManagement'
+import { GET_CONFIRM_SUPPLIER,POST_CONFIRM_SUPPLIER } from './confirmSupplier'
 
 /**
  * @BaseController
