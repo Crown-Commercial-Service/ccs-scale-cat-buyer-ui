@@ -348,9 +348,9 @@
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p>
+        <p>You have completed your supplier evaluation.</p> #}
 
-      {% elif status.toLowerCase() != 'published' %}
+      {% if status.toLowerCase() != 'published' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete project</h2>
