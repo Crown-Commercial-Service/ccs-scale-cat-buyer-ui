@@ -31,18 +31,27 @@
                 <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                     {% include "includes/project_header.njk" %}
                     <br>
+                    {% if (selectedeventtype=='DA')%}
+                    <p class="govuk-body">{{data.subtitleDA}}</p><br>
+                    <div>
+                    <div class="vl govuk-div-inline"></div>
+                    <div><p class="govuk-body">{{data.subtitleDA1}}</p></div>
+                    </div>
+                    <br>
+                    {%else%}
                      <p class="govuk-body">{{data.subtitle}}</p>
          <p class="govuk-body">{{data.subtitle1}}</p>
           <ul type="disc">
-          <li><b>four</b> working days from publishing your {%if(selectedeventtype=='DA')%}requirements{%else%}one stage further competition{%endif%} until the clarification period closes</li>
+          <li><b>four</b> working days from publishing your one stage further competition until the clarification period closes</li>
           <li><b>two</b> working days from the clarification period closing to publishing your responses to the clarification questions</li>
           <li><b>four</b> working days from publishing responses to clarification questions to the deadline for the suppliers to submit their responses.</li>
           </ul>
          <p class="govuk-body">{{subtitle2}}</p>
          <p class="govuk-body"><b>You can change the length of time for each section to more suitable times for you</b></p>
                     <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5">
-                        <p class="govuk-body-l govuk-!-margin-top-3"><strong>{%if(selectedeventtype=='DA')%}Timeline{%else%}Timeline for the 1-stage further competition{%endif%}</strong></p> <br>
+                        <p class="govuk-body-l govuk-!-margin-top-3"><strong>Timeline for the 1-stage further competition</strong></p>
                     </div>
+                    {%endif%} <br>
                     {% block valuewitNoMultiSelect %}
                         {% for requirement in framework%}
                             {% if (requirement.nonOCDS.questionType === 'DateTime') and (requirement.nonOCDS.multiAnswer === false) %}
