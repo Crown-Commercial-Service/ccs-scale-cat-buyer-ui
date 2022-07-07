@@ -27,6 +27,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     errorText,
     currentEvent,
   } = req.session;
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -37,7 +38,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
 
@@ -248,7 +249,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
 
     const windowAppendData = {
       ...RFPService,
-      lotId,
+      lotid,
       agreementLotName,
       releatedContent,
       isError,

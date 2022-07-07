@@ -88,6 +88,7 @@
                     <h2 class="govuk-heading-l govuk-!-font-weight-bold" >{{item['category']}}</h2>
                     <h4> {{item['category']}} description </h4>
                            {% set domCategory = item['category'].trim().replaceAll(" ", "_") %}
+                                {% set domCategoryWhole = item['category'].trim().replaceAll(" ", "_")+"whole" %}
                           <div class="govuk-form-group">
                               <fieldset class="govuk-fieldset">
                               
@@ -110,7 +111,7 @@
  
                                       {% if wholeCells.name == item.category %}
 
-                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t {{domCategory}}{{loop.index}}">
+                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t {{domCategoryWhole}}{{loop.index}}">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
 

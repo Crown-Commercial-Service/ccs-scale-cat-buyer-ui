@@ -97,7 +97,8 @@
                     <p class="hide-block headings">{{headings['category']}}</p>
                     {%endfor%}
                     <h4> {{item['category']}} description </h4>
-                        {% set caDomCategory = item['category'].trim().replaceAll(" ", "_") %}
+                        {% set caDomCategory =  item['category'].trim().replaceAll(" ", "_") %}
+                         {% set caDomCategoryWhole =  item['category'].trim().replaceAll(" ", "_")+"whole" %}
                           <div class="govuk-form-group">
                               <fieldset class="govuk-fieldset">
                                 <div class="govuk-radios" data-module="govuk-radios">
@@ -117,7 +118,7 @@
 
                                       {% if wholeCells.name == item.category %}
 
-                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t {{caDomCategory}}{{loop.index}}">
+                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t {{caDomCategoryWhole}}{{loop.index}}">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
                                     
