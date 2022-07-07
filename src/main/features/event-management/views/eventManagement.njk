@@ -344,11 +344,7 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-<<<<<<< Updated upstream
-       {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
-=======
        {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATED'  or status.toUpperCase() == 'EVALUATING' %}
->>>>>>> Stashed changes
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
