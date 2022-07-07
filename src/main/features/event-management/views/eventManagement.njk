@@ -344,6 +344,7 @@
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
        {% if status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATED' %}
+
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
@@ -387,7 +388,6 @@
         <p>You have completed your supplier evaluation.</p>  #}
 
      {% if status.toUpperCase() == 'EVALUATING' and status.toUpperCase() == 'TO-BE-EVALUATED' and status.toUpperCase() == 'EVALUATED' and status.toUpperCase() == 'Awarded' %}
-
       {# <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
@@ -402,16 +402,12 @@
         text: "Start Supplier Evaluation",
         href:"/evaluate-suppliers"
         }) }}
-        </div>  
+        </div>
       </div>
       {% endif %}
       {% endif %}
      {#<div class="govuk-grid-row ccs-page-section">#}
      {#</div>#}
-
- 
-
-         
       <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
      </div>
