@@ -162,6 +162,10 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
       }
+      req.session.errorText = [];
+    req.session.isError = false;
+    req.session.errorTextSumary=[];
+    req.session['isJaggaerError'] = false;
         res.redirect('/da/accept-subcontractors');
     }
   } catch (error) {
