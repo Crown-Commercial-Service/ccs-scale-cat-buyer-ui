@@ -15,6 +15,11 @@
   font-display: fallback;
 }
 
+.vl {
+  border-left: 6px solid black;
+  height: 50px;
+}
+
 @font-face {
   font-family: "GDS Transport";
   font-style: normal;
