@@ -5,6 +5,7 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
 import { SupplierDetails } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
+import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Response) => {
 
@@ -108,3 +109,42 @@ export const POST_CONFIRM_SUPPLIER = async (req: express.Request, res: express.R
   }
   //
 }
+export const Download_SUPPLIER_RESPONCE = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies;
+  const { supplierid } = req.query;
+  let { projectId, eventId} = req.session;
+
+
+  try {
+    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
+
+    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+      responseType: 'arraybuffer',
+    });
+    const file = FetchDocuments;
+    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+    const fileData = file.data;
+    const type = file.headers['content-type'];
+    const ContentLength = file.headers['content-length'];
+    res.status(200);
+    res.set({
+      'Cache-Control': 'no-cache',
+      'Content-Type': type,
+      'Content-Length': ContentLength,
+      'Content-Disposition': 'attachment; filename=' + fileName,
+    });
+    res.send(fileData);
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    );
+  }
+  //
+}
+

@@ -36,7 +36,9 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     'No DDaT Cluster Mapping',
   ];
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
-  const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError };
+  //req.session.dummyEventType='FC';
+  let selectedeventtype=req.session.selectedeventtype;
+  const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError,selectedeventtype };
   try {
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/26`, 'Cannot start yet');
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Optional');
@@ -52,7 +54,12 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Cannot start yet');
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-    statusStepsDataFilter(chooseRouteData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
+    if(selectedeventtype=='DA'){
+      statusStepsDataFilter(chooseRouteData, journeySteps, 'DA', agreementId_session, projectId, eventId);
+    }
+    else{
+      statusStepsDataFilter(chooseRouteData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
+    }
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'In progress');
 
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
@@ -128,6 +135,9 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     req.session.designations = [...UNIQUE_JOB_IDENTIFIER];
     req.session.tableItems = [...ITEMLIST];
     req.session.dimensions = [...CAPACITY_DATASET];
+
+    
+
 
     res.render('rfp-taskList', appendData);
   } catch (error) {

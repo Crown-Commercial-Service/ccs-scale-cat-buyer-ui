@@ -2,9 +2,11 @@
     "breadCrumbs": [
     ],
 
-    "title": "Your RFP is published  ",
+    "titleRFP": "Your RFP is published  ",
+    "titleDA":"Your direct award has been published",
     "board": {
-        "header": "Your Request for Information was sent to the suppliers you selected ",
+        "headerRFP": "Your Request for Information was sent to the suppliers you selected ",
+        "headerDA":"Your direct award has been sent to suppliers",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",

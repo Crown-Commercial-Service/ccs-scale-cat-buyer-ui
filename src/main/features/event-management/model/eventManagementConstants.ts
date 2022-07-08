@@ -28,9 +28,12 @@ export enum EVENT_MANAGEMENT_PATHS {
 
     SUPPLIER_ANSWER_DOWNLOAD='/supplieranswer',
     SUPPLIER_ANSWER_DOWNLOAD_ALL='/supplieranswerall',
-    SUPPLIER_EVALUATION='/supplierevaluation',
-    EVENT_MANAGEMENT_SUPPLIER_EVALUATION='/selectsupplierevaluation'
-    
-    
-
+    SUPPLIER_EVALUATION='/supplier-evaluation',
+    GET_CONFIRM_SUPPLIER='/confirm-supplier',
+    POST_CONFIRM_SUPPLIER='/confirm-supplier',
+    GET_AWARD_SUPPLIER = '/award-supplier',
+    POST_AWARD_SUPPLIER = '/award-supplier',
+    GET_AWARD_SUPPLIER_DOCUMENT = '/award-supplier-document',
+    CONFIRM_SUPPLIER_AWARD = '/confirm-supplier-award',
+    Download_SUPPLIER_RESPONCE='/download-supplier-responce'
 }
