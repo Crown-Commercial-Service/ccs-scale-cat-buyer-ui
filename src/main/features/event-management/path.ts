@@ -117,5 +117,12 @@ export default function (app: Application): void {
     AUTH,
     EVENT_MANAGEMENT_CONTROLLER.ENTER_EVALUATION_POST,
   );
+  //DOWNLOAD SUPPLIER RESPONCE
+  app.get(
+    EVENT_MANAGEMENT_PATHS.Download_SUPPLIER_RESPONCE,
+    AUTH,
+    EVENT_MANAGEMENT_CONTROLLER.Download_SUPPLIER_RESPONCE,
+  );
+  
   
 }
