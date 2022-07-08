@@ -78,7 +78,7 @@ try{
                 body,
               );
               //res.render('evaluateSuppliers')
-              //res.redirect('/evaluate-suppliers'); 
+              res.redirect('/evaluate-suppliers'); 
     
    
 }catch (error) {

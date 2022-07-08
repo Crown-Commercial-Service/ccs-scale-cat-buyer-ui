@@ -78,7 +78,7 @@ const showEvaluateSuppliersPopup = (event) => {
   $('#redirect-button-evaluatesuppliers').on('click', function () {
     deselect($('.dialog-close-evaluatesuppliers'));
     $(".backdrop-evaluatesuppliers").fadeOut(200);
-    document.location.href="../event-management/evaluateSuppliers"//scat-5013
+    document.location.href="/dashboard"//scat-5013
       return false;
     
   });
