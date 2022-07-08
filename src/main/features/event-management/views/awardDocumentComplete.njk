@@ -79,11 +79,11 @@
                       </p>                      
                     </th>
                      <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/award-supplier-document?supplierid={{supplier.supplierId}}+&doctempateId={{supplier.documentTemplates}}">Download templates</a>
+                      <a class="govuk-link" href="/award-supplier-document?supplierId={{supplier.supplierId}}&doctempateId={{supplier.documentTemplates}}">Download templates</a>
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/award-supplier-document?supplierid={{supplier.supplierId}}+&doctempateId={{supplier.templatesOrder}}">Download template</a>
+                      <a class="govuk-link" href="/award-supplier-document?supplierId={{supplier.supplierId}}&doctempateId={{supplier.templatesOrder}}">Download template</a>
                     </td>
                     
                   </tr>
@@ -99,7 +99,8 @@
         </br>
        <p> You'll need to notify by email all suppliers who have not been successful.</p>
 </br> </br> </br>
- <a class="govuk-link" href="/award-supplier-document?supplierid={{documentTemplateDataList[0].supplierId}}+&doctempateId={{documentTemplateDataList[0].documentTemplatesUnSuccess}}">Download templates</a>
+{%set urlNew=eventManagementData.documentTemplateDataList[0].supplierId+"&doctempateId="+eventManagementData.documentTemplateDataList[0].documentTemplatesUnSuccess %}
+ <a class="govuk-link" href="/award-supplier-document?supplierId={{urlNew}}">Download templates</a>
        </div>
         </div>
 
@@ -137,7 +138,7 @@
 <br>
 
 <form id="ccs_document_supplier_form" name="ccs_document_supplier_form" class="form ccs_document_supplier_form"
-      action="/award-supplier" method="post">
+     >
                      {{ csrfProtection(csrf) }}      	 
 
                                 <div class="govuk-button-group">
@@ -145,7 +146,8 @@
         attributes: {
         id: "btn_document_completed"
         },
-        text: "Documents completed"
+        text: "Documents completed",
+        href:"/award-supplier?supplierId="+eventManagementData.documentTemplateDataList[0].supplierId
         }) }}
                                   <a class="govuk-link" href="/confirm-supplier">Return to your project</a> 
                                 </div>
