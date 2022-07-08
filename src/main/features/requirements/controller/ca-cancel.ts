@@ -15,6 +15,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { CalRankSuppliers } from '../../shared/CalRankSuppliers';
 const excelJS= require('exceljs');
 import SampleData from '../../shared/SampleData.json';
+import { CAGetRequirementDetails } from '../../shared/CAGetRequirementDetails';
 
 // FC cancel
 export const CA_GET_CANCEL = async (req: express.Request, res: express.Response) => {
