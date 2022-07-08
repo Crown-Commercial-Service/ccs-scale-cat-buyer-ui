@@ -212,10 +212,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       switch (eventType) {
 
         case "RFI":
-          if (true) {
+          const preawardStatus =req.session['status'];
+          if (preawardStatus !=undefined && preawardStatus == "Pre-Award" || preawardStatus == "Awarded") {
+           status = preawardStatus
             res.render('preAwardEventManagement', appendData)
           }
-
           else {
             res.render('eventManagement', appendData)
           }

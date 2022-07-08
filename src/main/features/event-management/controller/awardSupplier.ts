@@ -4,18 +4,17 @@ import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreem
 import { SupplierDetails } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
-export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Response) => {
+export const GET_AWARD_SUPPLIER =async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
     const { supplierId } = req.query;
 
-    const { projectId, eventId, projectName, agreement_header, agreement_id, lotId } = req.session;
+    const { projectId, eventId, projectName, agreement_header, agreement_id, lotId,viewError } = req.session;
     try {
         //Supplier of interest
         const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`;
         const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
         let supplierDetailsList: SupplierDetails[] = [];
         let supplierDetails = {} as SupplierDetails;
-        let viewError = false;
         //agreements/{agreement-id}/lots/{lot-id}/suppliers
         const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
         const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
@@ -73,17 +72,17 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
 
     const { award_supplier_confirmation, } = req.body;
     const { SESSION_ID } = req.cookies;
-    //let { projectId, eventId, projectName, agreement_id, lotId } = req.session;
+   
     const { supplierId } = req.query;
     try {
-        // let viewError = false;
-
         if (award_supplier_confirmation != undefined && award_supplier_confirmation === '1') {
-            res.redirect("/awardSupplier");
+            res.redirect("/stand-period");
         }
         else {
-            // viewError = true;
+            req.session['viewError'] = true;
+          //  res.redirect('award-supplier?supplierId=' + supplierId)
             res.redirect('award-supplier?supplierId=' + supplierId)
+
         }
     } catch (error) {
         LoggTracer.errorLogger(
