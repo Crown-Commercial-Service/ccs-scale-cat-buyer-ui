@@ -42,7 +42,8 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
   };
   try {
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-    const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
+    let dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
+    dimensions= dimensions.filter(x=>x['dimension-id']!=7)
     let weightingsArray = [];
     if (dimensions.length > 0) {
       weightingsArray = dimensions.map(anItem => {
