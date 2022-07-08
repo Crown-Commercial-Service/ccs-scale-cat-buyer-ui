@@ -110,6 +110,9 @@ export function statusStepsDataFilter(
     case 'DAA':
       stepsByType = steps.slice(59, 74);
       break;
+    case 'DA':
+      stepsByType = steps.slice(26, 41);//result: step 27 to 41
+      break;
   }
 
   events.forEach((event: any) => {

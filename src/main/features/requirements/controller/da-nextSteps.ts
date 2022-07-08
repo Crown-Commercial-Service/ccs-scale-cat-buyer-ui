@@ -178,7 +178,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           const Supplier_BASEURL = `/tenders/projects/${projectId}/events/${data.id}/suppliers`;
 
     const response = await TenderApi.Instance(SESSION_ID).post(Supplier_BASEURL, supplierBody);
-        
+    req.session.selectedeventtype='DA';
        res.redirect('/rfp/task-list');
       }
       else{
