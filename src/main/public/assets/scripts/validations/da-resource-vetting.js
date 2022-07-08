@@ -8,9 +8,9 @@ const DAstaffweightPercentage = $('.da_weight_staff_class');
 const DAvettingPercentage = $('.da_weight_vetting_class_p');
 const DASFIA = $('.da_weight_vetting_class');
 
-var DAtotalStaffWeight = Number($('#da-total-staff')[0].innerHTML);
-var DAtotalVetting = Number($('#da-total-vetting')[0].innerHTML);
-var DAtotalSFIA= Number($('#da-total-resources')[0].innerHTML);
+var DAtotalStaffWeight = $('#da-total-staff')!=indefined && $('#da-total-staff')!=null?Number($('#da-total-staff')[0].innerHTML):null;
+var DAtotalVetting = $('#da-total-vetting')!=undefined && $('#da-total-vetting')!=null?Number($('#da-total-vetting')[0].innerHTML):null;
+var DAtotalSFIA= $('#da-total-resources')!=undefined && $('#da-total-resources')!=null?Number($('#da-total-resources')[0].innerHTML):null;
 
 for(var a =0; a < DAstaffweightPercentage.length; a++){
     DAstaffweightPercentage[a].addEventListener('blur', (event)=>{
