@@ -8,7 +8,7 @@ export const STAND_PERIOD_DECISION_GET = async (req: express.Request, res: expre
    const { projectName,isError } =req.session
    res.locals.agreement_header = req.session.agreement_header;
    
-   const supplierName  = "ABCD";
+   const supplierName  =  req.session['supplierName'];
    const appendData = { projectName,isError,supplierName };
  
     res.render('standstillPeriodDecision', appendData)
@@ -18,7 +18,7 @@ export const STAND_PERIOD_DECISION_GET = async (req: express.Request, res: expre
 export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
     const {standstill_period_yes, standstill_period_no } =req.body;
-    //const { projectId, eventId } = req.session;
+    const {  eventId } = req.session;
    // let state = "";
 
     try {
@@ -48,7 +48,7 @@ export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: expr
 
        //const awardURL = `tenders/projects/${projectId}/events/${eventId}/state/${state}/awards`
         // await TenderApi.Instance(SESSION_ID).post(awardURL,body);
-       res.redirect("/event/management");
+       res.redirect('/event/management?id='+eventId);
 
     } catch (error) {
         LoggTracer.errorLogger(

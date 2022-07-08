@@ -76,11 +76,10 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
     const { supplierId } = req.query;
     try {
         if (award_supplier_confirmation != undefined && award_supplier_confirmation === '1') {
-            res.redirect("/stand-period");
+            res.redirect('/stand-period');
         }
         else {
             req.session['viewError'] = true;
-          //  res.redirect('award-supplier?supplierId=' + supplierId)
             res.redirect('award-supplier?supplierId=' + supplierId)
 
         }
