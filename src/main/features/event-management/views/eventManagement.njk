@@ -311,7 +311,7 @@
                 </tr>
               </thead>
               {% for supplier in supplierDetailsDataList %}
-               
+               {% if supplier.responseState =='Submitted' %}
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
@@ -328,7 +328,7 @@
                     </td> 
                   </tr>
               </tbody>
-           
+           {% endif %}
           {% endfor %}
             </table>
             </div>
