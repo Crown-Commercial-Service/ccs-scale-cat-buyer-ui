@@ -1,3 +1,16 @@
+const ccsZvalidateScore= (event) => {
+  event.preventDefault();
+
+  let fieldCheck = "",
+    errorStore = [];
+
+  fieldCheck = ccsZvalidateWithRegex("enter_evaluation_score", "Enter Feedback.", /^.+$/);
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["enter_evaluation"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
 const ccsZvalidateFeedback= (event) => {
     event.preventDefault();
   

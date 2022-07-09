@@ -27,7 +27,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     const { supplierid , suppliername } = req.query;
     let { Evaluation } = req.query;
     const { isEmptyProjectError } = req.session;
-    req.session['isEmptyProjectError'] = false;
+    req.session.isEmptyProjectError = false;
 
     
 
@@ -61,11 +61,12 @@ export const ENTER_EVALUATION_POST = async (req: express.Request, res: express.R
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  const { supplierid } = req.query;
+  const { supplierid , suppliername} = req.query;
   const {enter_evaluation_feedback,enter_evaluation_score} =req.body;
-  //let EvaluationStatus = Evaluation;
+  
 
 try{
+  if (enter_evaluation_feedback && enter_evaluation_score ) {
     const body = [
                 {
                   organisationId: supplierid ,
@@ -77,9 +78,12 @@ try{
               await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
-              //res.render('evaluateSuppliers')
-              //res.redirect('/evaluate-suppliers'); 
-    
+              req.session.isEmptyProjectError = false;
+              res.redirect('/evaluate-suppliers'); 
+            } else {
+              req.session.isEmptyProjectError = true;
+              res.redirect('/enter-evaluation?'+"supplierid="+supplierid+"&suppliername="+suppliername);
+            }
    
 }catch (error) {
   LoggTracer.errorLogger(
