@@ -70,7 +70,7 @@
                 </tr>
               </thead>
               {% for supplier in supplierName %}
-{#              {% if supplier.responseState =='Submitted'  %}   #}
+              {% if supplier.responseState =='Submitted'  %}   
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
@@ -82,20 +82,21 @@
                       
                     </th>
                     <td class="govuk-table__cell">{{ supplier.responseDate }}</td>
-                     <td class="govuk-text-align">
+                     <td class="govuk-table__cell">
                       <a class="govuk-link" href="/evaluate-download?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
                     </td> 
                     <td class="govuk-table__cell"> <a href="/enter-evaluation?supplierid={{supplier.id}}&suppliername={{supplier.name}}" class="govuk-link govuk-link--no-visited-state"> Add or edit </a></td>
                     <td class="govuk-table__cell"> {{supplier.completionStatus}} </td>
                   </tr>
               </tbody>
-           {#{% endif %}  #}
+           {% endif %}  
           {% endfor %}
             </table>
             </div>
         </div>
         {% if(showallDownload) %}
-              <a href="/evaluate-suppliers" class="govuk-link app-task-list__tag ">{{data.backJump.title}}</a> 
+              {#<a href="/evaluate-suppliers" class="govuk-link app-task-list__tag ">{{data.backJump.title}}</a>#}
+               <a class="govuk-link" href="/evaluate-suppliers?download=2" class="govuk-link ">{{data.backJump.title}}</a>  
         {% endif %}
         {#{% endif %}#}
       </div>
@@ -103,15 +104,17 @@
       </div>
       </div>
   
-
+<br />
  <div class="govuk-button-group">
         {#{{ CCSButton({
         text: "Confirm Scores",
         idPrefix:"evaluate_suppliers"
         }) }}#}
+        {% if(ConfirmFlag) %}
         <button class="govuk-button" data-module="govuk-button" id="evaluate_suppliers">
   Confirm Scores
 </button>
+{% endif %}
         <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
  </div>
  
@@ -138,8 +141,8 @@
       <h1 id="dialog-title">You are about to complete your evaluation<p></p>
       <p id="dialog-description">Click Continue, or click Return to further edit your scores.</p>
       <div class="govuk-button-group">
-        <button id="redirect-button-evaluatesuppliers" class="button dialog-button govuk-button" name="Evaluate Suppliers">Continue</button>
-        <a href="#" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Return</a>
+        <button id="redirect-button-evaluatesuppliers" href="/dashboard" class="button dialog-button govuk-button" name="Evaluate Suppliers">Continue</button>
+        <a href="/evaluate-suppliers" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Return</a>
       </div>
     </h1></div>
   </div>
