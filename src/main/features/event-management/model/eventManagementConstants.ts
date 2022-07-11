@@ -38,4 +38,5 @@ export enum EVENT_MANAGEMENT_PATHS {
     Download_SUPPLIER_RESPONCE='/download-supplier-responce',
     STAND_PERIOD_DECISION_GET = '/stand-period',
     STAND_PERIOD_DECISION_POST = '/stand-period',
+    UNSUCCESSFUL_SUPPLIER_DOWNLOAD = '/unsuccessful',
 }
