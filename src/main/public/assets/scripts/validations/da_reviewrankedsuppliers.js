@@ -58,5 +58,6 @@ const ccsZCountDAReviewRank = (event) => {
   };
   let supplierID= $('input[type=radio]:checked').val()
   justification_text = document.getElementById("da_textarea_reviewrank_" + supplierID);
+  if(justification_text!=undefined && justification_text!=null)
  justification_text.addEventListener('input', ccsZCountDAReviewRank);
 });

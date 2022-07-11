@@ -250,6 +250,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       resourceQuantity = dimensionRequirements?.filter(dimension => dimension.name === 'Resource Quantities')?.[0]?.requirements;
       highestSecurityCount = dimensionRequirements?.filter(dimension => dimension.name === 'Security Clearance')?.[0]?.requirements?.[0]?.weighting;
       highestSecuritySelected = dimensionRequirements?.filter(dimension => dimension.name === 'Security Clearance')?.[0]?.requirements?.[0]?.values?.[0]?.value;
+      if( highestSecuritySelected==='0: None')highestSecuritySelected='0: No security clearance needed'
       serviceCapabilitesCount = dimensionRequirements?.filter(dimension => dimension.name === 'Service Capability')?.[0]?.requirements?.length;
       whereWorkDone = dimensionRequirements?.filter(dimension => dimension.name === 'Location')?.[0]?.requirements?.map(n => n.name);
     }

@@ -31,12 +31,17 @@
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
-    {% if(isError)%}
-      {{ CCSErrorSummary({
-          titleText: "There is a problem",
-          errorList: errorText
-      }) }}
-    {%endif %}
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "You must fill all the fields."
+    }
+  ]
+}) }}
+{%endif %}
 
     {{ CCSDialog({
   title:'This action cannot be undone, please confirm that you want to progress',
@@ -80,18 +85,18 @@
                             suffix: {
                               text: "%"
                             },
-                            id: "enter_evaluation_score"+supplier.name,
+                            id: "enter_evaluation_score",
                             name: "enter_evaluation_score",
-                            spellcheck: false,
-                            classes: "govuk-input--width-2 dimensions",
-                            value: enter_evaluation.value,
-                            maxlength: "3",
-                            min:00.00,
-                            max:100.00,
-                            inputmode:"numeric",
-                            type: numeric
+                            classes: "govuk-input--width-4 dimensions",
+                            maxlength: "6",
+                            type:"number",
+                             min:"0.00",
+                              max:"100.00",
+                              step:"0.01"
+
                         })
                       }}
+        
 
 <br/>
 
@@ -99,14 +104,13 @@
                             label: {
                               text: "Final Feedback ",
                               classes: "govuk-label--m",
-                              id: "enter_evaluation",
                               name: "enter_evaluation"
                             },
                             hint: {
                              text: "Feedback should be constructive and relevant to the answers the supplier submitted.Try and include feedback about something positive, as well as areas of improvement."
                             },
                             
-                            id: "enter_evaluation_feedback"+suppliername,
+                            id: "enter_evaluation_feedback",
                             name: "enter_evaluation_feedback",
                             spellcheck: true,
                             classes: "govuk-input",
@@ -117,7 +121,8 @@
 
                      <div class="govuk-button-group">
                         {{ CCSButton({
-                            text: "Save supplier feedback"
+                            text: "Save supplier feedback",
+                            action:"submit"
                         }) }}
                         {% set returnLink = "/evaluate-suppliers" %}
                         <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Evaluate suppliers</a>
