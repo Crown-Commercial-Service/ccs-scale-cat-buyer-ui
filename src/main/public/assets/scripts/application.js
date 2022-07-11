@@ -101,6 +101,9 @@ if (document.getElementById('rfi_projLongName') !== null)
   if (document.getElementById('enter_evaluation_feedback') !== null)
   document.getElementById('enter_evaluation_feedback').addEventListener('input', ccsZCountsupplierFeedback);
 
+  if (document.getElementById('enter_evaluation_score') !== null)
+  document.getElementById('enter_evaluation_score').addEventListener('keypress', ccsZValidateDecimalScore);
+
   if (document.getElementById('enter_evaluation_feedback') !== null)
   document.getElementById('enter_evaluation_feedback').addEventListener('submit', ccsZvalidateFeedback);
 
