@@ -98,6 +98,19 @@ if (document.getElementById('ccs_rfi_project_name_form') !== null)
 if (document.getElementById('rfi_projLongName') !== null)
   document.getElementById('rfi_projLongName').addEventListener('input', ccsZCountRfiProjectName);
 
+  if (document.getElementById('enter_evaluation_feedback') !== null)
+  document.getElementById('enter_evaluation_feedback').addEventListener('input', ccsZCountsupplierFeedback);
+
+  if (document.getElementById('enter_evaluation_score') !== null)
+  document.getElementById('enter_evaluation_score').addEventListener('keypress', ccsZValidateDecimalScore);
+
+  if (document.getElementById('enter_evaluation_feedback') !== null)
+  document.getElementById('enter_evaluation_feedback').addEventListener('submit', ccsZvalidateFeedback);
+
+  
+  if (document.getElementById('enter_evaluation_score') !== null)
+  document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
+
 if (document.getElementById('ccs_eoi_project_name_form') !== null)
   document.getElementById('ccs_eoi_project_name_form').addEventListener('submit', ccsZvalidateEoiProjectName);
 
@@ -253,6 +266,9 @@ if (document.getElementById('rfp_percentage_form') !== null)
   //Award
 if (document.getElementById('ccs_pre_award_supplier_form') !== null)
 document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
+
+if (document.getElementById('ccs_standstill_period_form') !== null)
+document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
 
 //if (document.getElementById('rfp_multianswer_question_form') !== null)
 // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");

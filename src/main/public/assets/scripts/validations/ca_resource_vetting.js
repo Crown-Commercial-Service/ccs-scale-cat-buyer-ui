@@ -7,10 +7,11 @@ const updateToViewCA = (CAtotalStaffWeight, CAtotalVetting) => {
 const CAstaffweightPercentage = $('.ca_weight_staff_class');
 const CAvettingPercentage = $('.ca_weight_vetting_class_p');
 const CASFIA = $('.ca_weight_vetting_class');
+ 
 
-var CAtotalStaffWeight = Number($('#ca-total-staff')[0].innerHTML);
-var CAtotalVetting = Number($('#ca-total-vetting')[0].innerHTML);
-var CAtotalSFIA= Number($('#ca-total-resources')[0].innerHTML);
+var CAtotalStaffWeight = $('#ca-total-staff')[0]!=undefined && $('#ca-total-staff')[0]!=null?Number($('#ca-total-staff')[0].innerHTML):0;
+var CAtotalVetting = $('#ca-total-vetting')[0]!=undefined && $('#ca-total-vetting')[0]!=null?Number($('#ca-total-vetting')[0].innerHTML):0;
+var CAtotalSFIA=$('#ca-total-resources')[0]!=undefined && $('#ca-total-resources')[0]!=null? Number($('#ca-total-resources')[0].innerHTML):0;
 
 for(var a =0; a < CAstaffweightPercentage.length; a++){
     CAstaffweightPercentage[a].addEventListener('blur', (event)=>{
