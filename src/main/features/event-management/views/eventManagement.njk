@@ -156,7 +156,7 @@
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
 
-      {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+      {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'EVALUATED' %}
       <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval}}</h2>
@@ -232,7 +232,7 @@
         </div>
         {% endif %}
 
-{% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED'%}
+{% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
              
         <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -311,7 +311,7 @@
                 </tr>
               </thead>
               {% for supplier in supplierDetailsDataList %}
-               
+               {% if supplier.responseState =='Submitted' %}
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
@@ -328,7 +328,7 @@
                     </td> 
                   </tr>
               </tbody>
-           
+           {% endif %}
           {% endfor %}
             </table>
             </div>
@@ -343,7 +343,7 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-      {#  {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+      {#  {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'EVALUATED' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
@@ -369,7 +369,7 @@
 {#<div class="govuk-grid-row ccs-page-section">#}
       <div>
       {% if (eventType == 'FC' or eventType == 'DA') %}
-      {# {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+      {# {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'EVALUATED' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>

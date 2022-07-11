@@ -25,6 +25,7 @@ export enum EVENT_MANAGEMENT_PATHS {
     EVALUATE_SUPPLIERS_DOWNLOAD='/evaluate-download',
     ENTER_EVALUATION='/enter-evaluation',
     ENTER_EVALUATION_POST='/enter-evaluation',
+    EVALUATE_SUPPLIERS_POPUP='/evaluate-confirm',
 
     SUPPLIER_ANSWER_DOWNLOAD='/supplieranswer',
     SUPPLIER_ANSWER_DOWNLOAD_ALL='/supplieranswerall',
@@ -35,5 +36,8 @@ export enum EVENT_MANAGEMENT_PATHS {
     POST_AWARD_SUPPLIER = '/award-supplier',
     GET_AWARD_SUPPLIER_DOCUMENT = '/award-supplier-document',
     CONFIRM_SUPPLIER_AWARD = '/confirm-supplier-award',
-    Download_SUPPLIER_RESPONCE='/download-supplier-responce'
+    Download_SUPPLIER_RESPONCE='/download-supplier-responce',
+    STAND_PERIOD_DECISION_GET = '/stand-period',
+    STAND_PERIOD_DECISION_POST = '/stand-period',
+    UNSUCCESSFUL_SUPPLIER_DOWNLOAD = '/unsuccessful',
 }
