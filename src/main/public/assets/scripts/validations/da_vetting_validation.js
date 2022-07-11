@@ -260,5 +260,5 @@ if(totalVetting<100 || totalVetting>100)
             }
 
 
-        });
+);
   
