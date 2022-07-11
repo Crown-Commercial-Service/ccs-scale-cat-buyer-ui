@@ -23,9 +23,11 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     const lotid = req.session?.lotId;
     const { SESSION_ID } = req.cookies 
     const { projectId,eventId } = req.session;
-    const { download } = req.query;
+    const { download} = req.query;
     //const supplierScores = await TenderApi.Instance(SESSION_ID).get(`tenders/projects/${projectId}/events/${eventId}/scores`) 
     //const supplierScoresandFeedback = supplierScores.data;
+
+   
 
     // Event header
     res.locals.agreement_header = { project_name: project_name, agreementName, agreement_id, agreementLotName, lotid }
@@ -208,6 +210,32 @@ try{
 }
 
 }
+
+export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  
+
+  try{
+    const ScoresAndFeedbackURL =`tenders/projects/${projectId}/events/${eventId}/scores`
+    const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL) 
+    let body=ScoresAndFeedbackURLdata.data
+    await TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
+    res.redirect('/dashboard');
 //publisheddoc?download=1
+}catch (error) {
+  LoggTracer.errorLogger(
+    res,
+    error,
+    `${req.headers.host}${req.originalUrl}`,
+    null,
+    TokenDecoder.decoder(SESSION_ID),
+    'Tenders Service Api cannot be connected',
+    true,
+  );
+}
+
+}
 
   

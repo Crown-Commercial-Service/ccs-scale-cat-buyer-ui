@@ -17,6 +17,7 @@ import { GET_STEPS_TO_CONTINUE } from './steps-to-continue'
 import { POST_STEPS_TO_CONTINUE } from './steps-to-continue'
 import { EVALUATE_SUPPLIERS } from './evaluateSuppliers'
 import { EVALUATE_SUPPLIERS_DOWNLOAD } from './evaluateSuppliers'
+import { EVALUATE_SUPPLIERS_POPUP } from './evaluateSuppliers'   
 import { ENTER_EVALUATION } from './enterEvaluation'
 import { ENTER_EVALUATION_POST } from './enterEvaluation'
 import { PUBLISHED_PROJECT_DOWNLOAD,SUPPLIER_ANSWER_DOWNLOAD,SUPPLIER_ANSWER_DOWNLOAD_ALL,SUPPLIER_EVALUATION,UNSUCCESSFUL_SUPPLIER_DOWNLOAD } from './eventManagement'
@@ -54,6 +55,7 @@ export const EVENT_MANAGEMENT_CONTROLLER = {
 
     EVALUATE_SUPPLIERS,
     EVALUATE_SUPPLIERS_DOWNLOAD,
+    EVALUATE_SUPPLIERS_POPUP,
     ENTER_EVALUATION,
     ENTER_EVALUATION_POST,
 
