@@ -9,7 +9,8 @@ import * as eventManagementData from '../../../resources/content/event-managemen
 import { Message } from '../model/messages'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import { SupplierDetails } from '../model/supplierDetailsModel'
+import { SupplierDetails } from '../model/supplierDetailsModel';
+import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 /**
  * 
  * @Rediect 
@@ -216,12 +217,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     }
     else {
       let redirectUrl_: string
-      let awardStatus = req.session['status'];
       switch (eventType) {
-
+       
         case "RFI":
-          if (awardStatus != undefined && awardStatus == "Pre-Award" || awardStatus == "Awarded") {
-            res.render('preAwardEventManagement', appendData)
+        if (status!= undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() =="complete" ) {
+            res.render('awardEventManagement', appendData)
           }
           else {
             res.render('eventManagement', appendData)
@@ -229,8 +229,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
           break
         case "FC":
-          if (awardStatus != undefined && awardStatus == "Pre-Award" || awardStatus == "Awarded") {
-            res.render('preAwardEventManagement', appendData)
+          if (status!= undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() =="complete" ) {
+            res.render('awardEventManagement', appendData)
           }
           else {
             res.render('eventManagement', appendData)
@@ -238,8 +238,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           break
         case "DA":
           req.session.selectedeventtype = "DA"
-          if (awardStatus != undefined && awardStatus == "Pre-Award" || awardStatus == "Awarded") {
-            res.render('preAwardEventManagement', appendData)
+          if (status!= undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() =="complete" ) {
+            res.render('awardEventManagement', appendData)
           }
           else {
             res.render('eventManagement', appendData)
@@ -411,6 +411,34 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
   }
 }
 
+//unsuccessful?download=1
+export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  const { download } = req.query;
+
+  if (download != undefined) {
+    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
+    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+      responseType: 'arraybuffer',
+    });
+    const file = FetchDocuments;
+    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+    const fileData = file.data;
+    const type = file.headers['content-type'];
+    const ContentLength = file.headers['content-length'];
+    res.status(200);
+    res.set({
+      'Cache-Control': 'no-cache',
+      'Content-Type': type,
+      'Content-Length': ContentLength,
+      'Content-Disposition': 'attachment; filename=' + fileName,
+    });
+    res.send(fileData);
+  }
+}
+
 
 //supplieranswer?download=1
 export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Response) => {
@@ -442,13 +470,32 @@ export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Res
 
 //confirm-supplier-award
 export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.Response) => {
-  // const { SESSION_ID } = req.cookies; //jwt
-  // const { projectId } = req.session;
-  // const { eventId } = req.session;
-  // const { download } = req.query;
-  const { pre_award_supplier_confirmation, } = req.body;
+   const { SESSION_ID } = req.cookies; //jwt
+   const { projectId,eventId} = req.session;
+   const { pre_award_supplier_confirmation,supplier_id,status_flag} = req.body;
 
   if (pre_award_supplier_confirmation != undefined && pre_award_supplier_confirmation === '1') {
-    //res.redirect("/awardSupplier");
+    const awardId = 1;
+    let state ="";
+    if(status_flag.toUpparCase() == "AWARDED")
+    {
+      state = "COMPLETE"
+      // const signedURL = `tenders/projects/${projectId}/events/${eventId}/signed`    
+    }
+    else{
+      state = "AWARD"
+    }
+    const awardURL = `tenders/projects/${projectId}/events/${eventId}/state/${state}/awards/${awardId}`
+      const putBody = {
+        "suppliers": [
+            {
+              "id": supplier_id
+            }
+          ]
+      };
+      const response  = await TenderApi.Instance(SESSION_ID).put(awardURL,putBody);
+      if (response.status == Number(HttpStatusCode.OK)) {
+        res.redirect('/event/management?id='+eventId);
+      }
   }
 }

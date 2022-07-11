@@ -43,10 +43,8 @@ or messages in your inbox.See supplier's answer to your published project.</p>
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
           </h2>
           <p class="govuk-body">
-            {% if(showCloseProject) %}
+            {% if(showCloseProject) and status.toLowerCase !== "complete" %}
             <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
-            {% else %}
-            <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
             {% endif %}
           </p>
         </div>
@@ -246,8 +244,12 @@ or messages in your inbox.See supplier's answer to your published project.</p>
            Awarded supplier details
         </h1>
         </br>
+        {% if status.toLowerCase() ==="complete" %}
+        <p>  Your project is now complete.</p>
+        {% else %}
         <p>  Your awarded supplier will now enter the agreed standstill period.</p>
 				<p> Once the standtstill period has ended,you will need to confirm the awarded suppler below.</p>
+        {% endif %}
         <h3 class="govuk-heading-m">
           <strong>Supplier name </strong>
         </h3>
@@ -265,12 +267,18 @@ or messages in your inbox.See supplier's answer to your published project.</p>
        <p> <strong>Website:</strong></p>
        <p>Website</p>
 </br></br>
-<p> If you have not done so already,you can  <a class="govuk-link" href="/dashboard">download the awarded supplier and unsuccessful supplier templates here.</a> </p>
-  {% if status.toUpperCase() =="AWARDED"%} 
+
+  {% if status.toUpperCase() =="AWARDED" or status.toLowerCase() =="complete" %} 
+  <p> If you have not done so already,you can  <a class="govuk-link" href="/unsuccessful?download=1">download the awarded supplier and unsuccessful supplier templates here.</a> </p>
                <p> Awarded Date &nbsp; &nbsp;&nbsp; &nbsp;[DD/MM/YYYY] </p>
+               {%  if status.toLowerCase() =="complete" %}
+               <p> If you have not done so already,you can  <a class="govuk-link" href="/unsuccessful?download=1">download the unsuccessful supplier templates here.</a> </p>
+                <p> Received Signed Contarct &nbsp; &nbsp;&nbsp; &nbsp;[DD/MM/YYYY] </p>
+                 {% endif %} 
                 {% else %}
+                <p> If you have not done so already,you can  <a class="govuk-link" href="/unsuccessful?download=1">download the awarded supplier and unsuccessful supplier templates here.</a> </p>
                 <p> Standstill End Date &nbsp; &nbsp;&nbsp; &nbsp;[DD/MM/YYYY] </p>
-                {% endif %}
+                {% endif %} 
 
        </div>
         </div>
@@ -278,6 +286,9 @@ or messages in your inbox.See supplier's answer to your published project.</p>
           <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
 
+{% if status.toLowerCase() =="complete"%} 
+ <a class="govuk-link" href="/dashboard">Return to your project</a> 
+{% else %} 
                {% if status.toUpperCase() =="AWARDED"%} 
                 {{ CCSWarningText({
     text: "I acknowledge the responsibility to confirm receipt of the contract signed by supplier.",
@@ -296,6 +307,20 @@ or messages in your inbox.See supplier's answer to your published project.</p>
        <form id="ccs_pre_award_supplier_form" name="ccs_pre_award_supplier_form" class="form ccs_pre_award_supplier_form"
       action="/confirm-supplier-award" method="post">
                      {{ csrfProtection(csrf) }}  
+
+ {{ CCSInput({
+                    id: "supplier_id",
+                    name: "supplier_id",
+                    type: "hidden",
+                    value: "GB-COH-9652035"
+                    }) }}
+
+                    {{ CCSInput({
+                    id: "status_flag",
+                    name: "status_flag",
+                    type: "hidden",
+                    value: status
+                    }) }}
 
                {{ CCSCheckboxes({
       idPrefix: "pre_award_supplier_confirmation",
@@ -329,5 +354,6 @@ or messages in your inbox.See supplier's answer to your published project.</p>
                                 </div>
                                 
                               </form>  
+                              {% endif %}
 							
 {% endblock %}
