@@ -141,8 +141,6 @@ or messages in your inbox.See supplier's answer to your published project.</p>
 
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
-
-      {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
       <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval}}</h2>
@@ -157,22 +155,6 @@ or messages in your inbox.See supplier's answer to your published project.</p>
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
         <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
-      {% else %}
-        <h2 class="govuk-heading-m">
-          <span class="proc-task-list__section-number">3.</span>
-          {{data.subsection4_title3}}</h2>
-        <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
-        <p class="govuk-body">If you want to see any clarification questions suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
-        <p class="govuk-body">The deadline for response from suppliers is <strong>Day Month Year time</strong></p>
-        <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_task1}}</strong>
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task3}}
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
-        {% endif %}
       </div>
     </div>
 
@@ -193,14 +175,14 @@ or messages in your inbox.See supplier's answer to your published project.</p>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_4}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}}</th>
-                  <th scope="col" class="govuk-table__header">Award</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_2}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_5}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Award</th>
                 </tr>
               </thead>
-              {% for supplier in supplierResponceList %}
+              {% for supplier in supplierDetailsDataList %}
                {# {% if supplier.responseState =='Draft'  %} #}
               <tbody class="govuk-table__body">
                 
@@ -208,7 +190,7 @@ or messages in your inbox.See supplier's answer to your published project.</p>
                     <th scope="row" class="govuk-table__cell">
                     
                       <p class="govuk-body govuk-!-margin-bottom-0">
-                        {{supplier.name}}
+                        {{supplier.supplierName}}
                       </p>
                       
                     </th>
@@ -238,7 +220,7 @@ or messages in your inbox.See supplier's answer to your published project.</p>
             </table>
             </div>
         </div>
-        {% if(true) %}
+        {% if(showallDownload) %}
          <p class="govuk-body govuk-!-text-align-centre">
              <a href="/supplieranswerall?download=1" class="govuk-link ">Download all</a> 
         </p>
@@ -284,22 +266,38 @@ or messages in your inbox.See supplier's answer to your published project.</p>
        <p>Website</p>
 </br></br>
 <p> If you have not done so already,you can  <a class="govuk-link" href="/dashboard">download the awarded supplier and unsuccessful supplier templates here.</a> </p>
-<p> Standstill End Date &nbsp; &nbsp;&nbsp; &nbsp;[DD/MM/YYYY] </p>
+  {% if status.toUpperCase() =="AWARDED"%} 
+               <p> Awarded Date &nbsp; &nbsp;&nbsp; &nbsp;[DD/MM/YYYY] </p>
+                {% else %}
+                <p> Standstill End Date &nbsp; &nbsp;&nbsp; &nbsp;[DD/MM/YYYY] </p>
+                {% endif %}
+
        </div>
         </div>
 
-  <div class="govuk-grid-row">
+          <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        {{ CCSWarningText({
+
+               {% if status.toUpperCase() =="AWARDED"%} 
+                {{ CCSWarningText({
+    text: "I acknowledge the responsibility to confirm receipt of the contract signed by supplier.",
+    iconFallbackText: "Warning"
+    }) }}
+                {% else %}
+                {{ CCSWarningText({
     text: "I acknowledge the responsibility to award this supplier after the standstill period has passed.",
     iconFallbackText: "Warning"
     }) }}
-       </div>
-       </div>
+                {% endif %}   
+                 </div>
+       </div>   
+
+  
        <form id="ccs_pre_award_supplier_form" name="ccs_pre_award_supplier_form" class="form ccs_pre_award_supplier_form"
       action="/confirm-supplier-award" method="post">
-                     {{ csrfProtection(csrf) }}    	 
-        {{ CCSCheckboxes({
+                     {{ csrfProtection(csrf) }}  
+
+               {{ CCSCheckboxes({
       idPrefix: "pre_award_supplier_confirmation",
       name: "pre_award_supplier_confirmation",
       items: [
@@ -310,13 +308,23 @@ or messages in your inbox.See supplier's answer to your published project.</p>
       }
       ]
       }) }}
-                                <div class="govuk-button-group">
-                                  {{ CCSButton({
+                <div class="govuk-button-group">
+                    
+        {% if status.toUpperCase() =="AWARDED"%} 
+                   {{ CCSButton({
+        attributes: {
+        id: "btn_pre_award_supplier"
+        },
+        text: "I have received the signed contract"
+        }) }}
+        {% else %}
+                    {{ CCSButton({
         attributes: {
         id: "btn_pre_award_supplier"
         },
         text: "Confirm suppler award"
         }) }}
+        {% endif %}
                                   <a class="govuk-link" href="/dashboard">Return to your project</a> 
                                 </div>
                                 

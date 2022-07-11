@@ -76,7 +76,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     req.session['evetTitle'] = title
     req.session['Projectname'] = projectName
     req.session['project_name'] = projectName
-    req.session.selectedeventtype=''
+    req.session.selectedeventtype = ''
 
     // Releated content session values
     const releatedContent: ReleatedContent = new ReleatedContent();
@@ -142,6 +142,13 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     }
     const supplierSummary = supplierdata.data;
     supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
+
+    let rankCount = 0;
+    for (let i = 0; i < supplierDetailsDataList.length; i++) {
+      rankCount =  rankCount+1
+      supplierDetailsDataList[i].rank = ""+rankCount;
+    }
+
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
     //Get Q&A Count
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
@@ -167,7 +174,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           break
         case "DA":
           redirectUrl = '/rfp/task-list'
-          req.session.selectedeventtype="DA"
+          req.session.selectedeventtype = "DA"
           break
         case "FC":
           redirectUrl = '/rfp/task-list'
@@ -209,25 +216,35 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     }
     else {
       let redirectUrl_: string
+      let awardStatus = req.session['status'];
       switch (eventType) {
 
         case "RFI":
-          if (true) {
+          if (awardStatus != undefined && awardStatus == "Pre-Award" || awardStatus == "Awarded") {
             res.render('preAwardEventManagement', appendData)
           }
-
           else {
             res.render('eventManagement', appendData)
           }
 
           break
         case "FC":
-          res.render('eventManagement', appendData)
+          if (awardStatus != undefined && awardStatus == "Pre-Award" || awardStatus == "Awarded") {
+            res.render('preAwardEventManagement', appendData)
+          }
+          else {
+            res.render('eventManagement', appendData)
+          }
           break
         case "DA":
-            req.session.selectedeventtype="DA"
+          req.session.selectedeventtype = "DA"
+          if (awardStatus != undefined && awardStatus == "Pre-Award" || awardStatus == "Awarded") {
+            res.render('preAwardEventManagement', appendData)
+          }
+          else {
             res.render('eventManagement', appendData)
-            break
+          }
+          break
         default:
           redirectUrl_ = '/event/management'
           res.redirect(redirectUrl_)
