@@ -37,6 +37,7 @@ const ccsZvalidateFeedback= (event) => {
       labelElement.innerText=count + " remaining of 5000";
   };
 
+
   var txt = document.getElementById('enter_evaluation_score');
     txt.addEventListener('keyup', myFunc);
     
@@ -58,5 +59,4 @@ const ccsZvalidateFeedback= (event) => {
     }
 
   const ccsZValidateDecimalScore = (event) => {
-    
   };

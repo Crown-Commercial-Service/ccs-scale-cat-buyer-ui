@@ -57,6 +57,7 @@
   {%- if params.max %} max="{{ params.max}}"{% endif %}
   {%- if params.min %} min="{{ params.min}}"{% endif %}
   {%- if params.step %} step="{{ params.step}}"{% endif %}
+
   {%- for attribute, value in params.attributes %} {{ attribute }}="{{ value }}"{% endfor -%}>
 
   {%- if params.suffix.text or params.suffix.html %}
