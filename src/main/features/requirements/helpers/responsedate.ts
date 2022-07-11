@@ -23,6 +23,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
   let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
+  let selectedeventtype=req.session.selectedeventtype;
   try {
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
     const fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -203,9 +204,10 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         proposed_award_date: moment(proposed_award_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, hh:mm a'),
         expected_signature_date: moment(expected_signature_date, 'DD/MM/YYYY, hh:mm a').format('DD MMMM YYYY, hh:mm a'),
         releatedContent: req.session.releatedContent,
+        selectedeventtype
       };
       if (errorTriggered) {
-        appendData = { ...appendData, error: true, errorMessage: errorItem };
+        appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
       } else {
         req.session.timeline = {};
         req.session.timeline.publish = new Date();
@@ -265,9 +267,10 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         proposed_award_date,
         expected_signature_date,
         releatedContent: req.session.releatedContent,
+        selectedeventtype
       };
       if (errorTriggered) {
-        appendData = { ...appendData, error: true, errorMessage: errorItem };
+        appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
       } else {
         req.session.timeline.clarificationPeriodEnd = rfp_clarification_period_end;
       }
@@ -315,10 +318,11 @@ let appendData = {
         standstill_period_starts_date,
         proposed_award_date,
         expected_signature_date,
-        releatedContent: req.session.releatedContent
+        releatedContent: req.session.releatedContent,
+        selectedeventtype
 };
 if (errorTriggered) {
-  appendData = { ...appendData, error: true, errorMessage: errorItem };
+  appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
 } else {
   req.session.timeline.publishResponsesClarificationQuestions = deadline_period_for_clarification_period;
 }
@@ -368,10 +372,11 @@ let appendData = {
         standstill_period_starts_date,
         proposed_award_date,
         expected_signature_date,
-        releatedContent: req.session.releatedContent
+        releatedContent: req.session.releatedContent,
+        selectedeventtype
 };
 if (errorTriggered) {
-  appendData = { ...appendData, error: true, errorMessage: errorItem };
+  appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
 } else {
  
   req.session.timeline.supplierSubmitResponse = supplier_period_for_clarification_period;
@@ -421,10 +426,10 @@ let appendData = {
         standstill_period_starts_date,
         proposed_award_date,
         expected_signature_date,
-        releatedContent: req.session.releatedContent
+        releatedContent: req.session.releatedContent,selectedeventtype
 };
 if (errorTriggered) {
-  appendData = { ...appendData, error: true, errorMessage: errorItem };
+  appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
 } else {
  
   req.session.timeline.confirmNextStepsSuppliers = supplier_dealine_for_clarification_period;
@@ -475,9 +480,10 @@ res.render('rfp-responsedate.njk', appendData);
             proposed_award_date,
             expected_signature_date,
             releatedContent: req.session.releatedContent
+            ,selectedeventtype
     };
      if (errorTriggered) {
-       appendData = { ...appendData, error: true, errorMessage: errorItem };
+       appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
      } else {
       
        req.session.timeline.deadlineForSubmissionOfStageOne = deadline_for_submission_of_stage_one;
@@ -527,10 +533,11 @@ res.render('rfp-responsedate.njk', appendData);
             standstill_period_starts_date,
             proposed_award_date,
             expected_signature_date,
-            releatedContent: req.session.releatedContent
+            releatedContent: req.session.releatedContent,
+            selectedeventtype
     };
      if (errorTriggered) {
-       appendData = { ...appendData, error: true, errorMessage: errorItem };
+       appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
      } else {
        
        req.session.timeline.evaluationProcessStartDate = evaluation_process_start_date;
@@ -580,10 +587,11 @@ res.render('rfp-responsedate.njk', appendData);
             standstill_period_starts_date,
             proposed_award_date,
             expected_signature_date,
-            releatedContent: req.session.releatedContent
+            releatedContent: req.session.releatedContent,
+            selectedeventtype
     };
      if (errorTriggered) {
-       appendData = { ...appendData, error: true, errorMessage: errorItem };
+       appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
      } else {
        
        req.session.timeline.bidderPresentationsDate = bidder_presentations_date;
@@ -633,10 +641,11 @@ res.render('rfp-responsedate.njk', appendData);
             standstill_period_starts_date,
             proposed_award_date,
             expected_signature_date,
-            releatedContent: req.session.releatedContent
+            releatedContent: req.session.releatedContent,
+            selectedeventtype
     };
      if (errorTriggered) {
-       appendData = { ...appendData, error: true, errorMessage: errorItem };
+       appendData = { ...appendData, error: true, errorMessage: errorItem ,selectedeventtype};
      } else {
       
        req.session.timeline.standstillPeriodStartsDate = standstill_period_starts_date;
@@ -687,10 +696,10 @@ res.render('rfp-responsedate.njk', appendData);
             standstill_period_starts_date,
             proposed_award_date,
             expected_signature_date,
-            releatedContent: req.session.releatedContent
+            releatedContent: req.session.releatedContent,selectedeventtype
     };
     if (errorTriggered) {
-      appendData = { ...appendData, error: true, errorMessage: errorItem };
+      appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
     } else {
      
       req.session.timeline.proposedAwardDate = proposed_award_date;
@@ -741,10 +750,11 @@ res.render('rfp-responsedate.njk', appendData);
             standstill_period_starts_date,
             proposed_award_date,
             expected_signature_date,
-            releatedContent: req.session.releatedContent
+            releatedContent: req.session.releatedContent,
+            selectedeventtype
     };
     if (errorTriggered) {
-      appendData = { ...appendData, error: true, errorMessage: errorItem };
+      appendData = { ...appendData, error: true, errorMessage: errorItem,selectedeventtype };
     } else {
       req.session.timeline.expectedSignatureDate = expected_signature_date;
     }

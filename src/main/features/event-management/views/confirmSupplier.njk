@@ -1,5 +1,5 @@
 {% extends "template.njk" %}
-
+{% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Event management ' %}
@@ -36,15 +36,11 @@
       <div class="govuk-grid-column-full">
         <div>
           <h2 class="govuk-heading-m">
-          {{projectName}}
-            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">status</strong>
+         {{ agreement_header['project_name'] }}
+            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{eventManagementData.status}}</strong>
           </h2>
           <p class="govuk-body">
-            {% if(true) %}
             <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
-            {% else %}
-            <a class="govuk-link" href="/event/management?id=eventId">Close Event</a>
-            {% endif %}
           </p>
         </div>
       </div>
@@ -58,22 +54,22 @@
         
         <h3> <strong>Supplier name</strong></h3>
 
-       <p> Sbscdd</p>
+       <p> {{eventManagementData.supplierDetails.supplierName}}</p>
 
        <p> <strong>Address:</strong></p>
-       <p> Address</p>
+       <p> {{eventManagementData.supplierDetails.supplierAddress}}</p>
        </br>
        </br>
        </br>
 <p> <strong>Contact name:</strong></p>
-       <p> Contact</p>
+       <p> {{eventManagementData.supplierDetails.supplierContactName}}</p>
        </br>
        </br>
        <p> <strong>Contact email:</strong></p>
-       <p> Contact</p>
+       <p> {{eventManagementData.supplierDetails.supplierContactEmail}}</p>
        </br>
        <p> <strong>Website:</strong></p>
-       <p> Website</p>
+       <p> {{eventManagementData.supplierDetails.supplierWebsite}}</p>
        </br>
        </br>
        </br>
@@ -88,56 +84,62 @@
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">Supplier's name</th>
-                  <th scope="col" class="govuk-table__header">Supplier's answer</th>
-                  <th scope="col" class="govuk-table__header">Supplier's evaluation</th>
-                  <th scope="col" class="govuk-table__header">Score (%)</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's answer</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's evaluation</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score (%)</th>
                 </tr>
               </thead>
-              {% for supplier in supplierName %}
-               {% if supplier.responseState =='Draft'  %} 
+              {% for supplier in supplierDetailsList %}
+              {# {% if supplier.responseState ==='Draft'  %} #}
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell">
                     
                       <p class="govuk-body govuk-!-margin-bottom-0">
-                        {{supplier.name}}
-                      </p>
-                      
+                        {{supplier.supplierName}}
+                      </p>                      
                     </th>
-                     <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.id}}">Download</a>
+                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/download-supplier-responce?supplierid={{supplier.supplierId}}">Download</a>
                     </td>
 
-                    <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.id}}">Review evaluation</a>
+                    <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Review evaluation</a>
                     </td>
-                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
-                    <p class="govuk-body govuk-!-margin-bottom-0">100</p>
-                    </th> 
+                    <td scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
+                    </td> 
                   </tr>
               </tbody>
-           {% endif %} 
+          {# {% endif %} #}
           {% endfor %}
             </table>
             </div>
         </div>
 <br>
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-   
-    <p>4</p>
-
-
-  <div class="govuk-button-group">
-                    {{ CCSButton({
-                            text: "Confirm supplier"
-                            }) }}
-
-  <a class="govuk-link" href="/dashboard">Return to your project</a> 
-  </div>                          
-</div>
- </div>           
+   <form id="ccs_supplier_confirmation_form" name="ccs_supplier_confirmation_form" class="form ccs_supplier_confirmation_form"
+       method="GET">
+                             	  
+                                 {{ csrfProtection(csrf) }}
+                                <div class="govuk-button-group">
+                                  {{ CCSButton({
+        attributes: {
+        id: "btn_supplier_confirmation"
+        },
+        text: "Confirm supplier",
+        href:"/award-supplier-document?supplierId="+eventManagementData.supplierDetails.supplierId
+        }) }}
+                                  <a class="govuk-link" href="/dashboard">Return to your project</a> 
+                                </div>
+                                
+                              </form>      
+ </div>
+ </div> 
+       
+ 
+ 
  </main>
 {% endblock %}
  

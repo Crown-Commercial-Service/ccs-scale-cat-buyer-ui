@@ -1,0 +1,333 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Event management ' %}
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Your project",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+         <strong> {{data.title}}</strong>
+        </h1>
+        <div class="project-overview">
+        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+  </strong></p>
+  {%endif %}
+  <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+      <p>Manage your project from this page including reponding to supplier's clarification question
+or messages in your inbox.See supplier's answer to your published project.</p>
+        <p>You can close this project using the link under the project name below.</p></br></br>
+        <div>
+          <h2 class="govuk-heading-m">
+          {{projectName}}
+            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
+          </h2>
+          <p class="govuk-body">
+            {% if(showCloseProject) %}
+            <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
+            {% else %}
+            <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <div class="govuk-grid-column-one-half">
+          <h2 class="govuk-heading-m">
+            {{data.subsection3_title}}<br>
+          ({{unreadMessage}} unread messages)</h2>
+          <p class="govuk-body">
+            <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
+          </p>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <h2 class="govuk-heading-m">
+            {{data.subsection3_title2}}<br>
+         ({{ QAs.length }} unread messages )</h2>
+          <p class="govuk-body">
+            <a class="govuk-link" href="{{ data.subsection3_linkURL2 }}">{{ data.subsection3_linkText2 }}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">1.</span>
+          {{data.subsection4_title1}}
+        </h2>
+       
+         {% for item in Colleagues %}
+          <div class="">
+        <p class="govuk-body  govuk-grid-column-full"><strong>{{item.OCDS.contact.name}}</strong></p>
+         <div class="govuk-body govuk-grid-column-full ccs-page-section">
+  
+          <div class="ccs-eventmanagement govuk-body govuk-grid-column-one-half " >{{item.OCDS.contact.email}}</div>
+           <div class="govuk-body govuk-grid-column-one-half">  {{item.OCDS.contact.telephone}}</div>
+           </div>
+            </div>
+           {% endfor %}
+      </div>
+    </div>
+
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        {% if eventType == 'RFI' %}
+          <h2 class="govuk-heading-m">
+            <span class="proc-task-list__section-number">2.</span>
+            {{data.subsection4_title2_1}}
+            <p class="app-task-list__tag">
+
+              <a class="govuk-link" href="/rfi/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
+
+            </p>
+          </h2>
+          <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
+          </p>
+          {% endif %}
+        {% if eventType == 'EOI' %}
+          <h2 class="govuk-heading-m">
+            <span class="proc-task-list__section-number">2.</span>
+            {{data.subsection4_title2_2}}
+            <p class="app-task-list__tag">
+              <a class="govuk-link" href="{{data.subsection4_title2_2_task[0].line_1_link}}">{{data.subsection4_title2_2_task[0].line_1_text}}</a>
+            </p>
+          </h2>
+          <p class="govuk-body">{{ data.subsection4_title2_2_descriiption }}
+            <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_2_task[1].line_1_link}}">{{data.subsection4_title2_2_task[1].line_1_text}}</a>
+          </p>
+          {% endif %}
+        {% if eventType == 'FC' %}
+          <h2 class="govuk-heading-m">
+            <span class="proc-task-list__section-number">2.</span>
+            {{data.subsection4_title2_1}}
+            <p class="app-task-list__tag">
+
+              <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
+
+            </p>
+          </h2>
+          <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
+            <a class="govuk-link app-task-list__tag" href="/publisheddoc?download=1">{{data.subsection4_title2_1_task[1].line_1_text}}</a>
+          </p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+      <h2 class="govuk-heading-m">
+          <span class="proc-task-list__section-number">3.</span>
+          {{data.subsection4_title3_eval}}</h2>
+        <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption }}</p>
+        <p class="govuk-body">To see the clarification questions suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
+        <p class="govuk-body">The deadline for responses from suppliers is [<strong>Day month year time</strong>].</p>
+        <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong>
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
+        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">
+         <span class="proc-task-list__section-number">4.</span>
+          {{data.subsection4_title4}}</h2></br></br>
+
+          <h1 class="govuk-heading-s">
+       <strong> Result of award</strong>
+          </h1>
+
+        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_2}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_5}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Award</th>
+                </tr>
+              </thead>
+              {% for supplier in supplierDetailsDataList %}
+               {# {% if supplier.responseState =='Draft'  %} #}
+              <tbody class="govuk-table__body">
+                
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                    
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        {{supplier.supplierName}}
+                      </p>
+                      
+                    </th>
+                     <td class="govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.id}}">Download</a>
+                    </td>
+
+                    <td class="govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/supplier-evaluation?supplierid={{supplier.id}}">Review evaluation</a>
+                    </td>
+
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>  
+                    </th>
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
+                    </th>
+
+                    
+                    </th>
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                    <p class="govuk-body govuk-!-margin-bottom-0">Award</p>
+                    </th>
+                  </tr>
+              </tbody>
+          {% endfor %}
+            </table>
+            </div>
+        </div>
+        {% if(showallDownload) %}
+         <p class="govuk-body govuk-!-text-align-centre">
+             <a href="/supplieranswerall?download=1" class="govuk-link ">Download all</a> 
+        </p>
+		 {% endif %}
+      </div>
+  </div>
+    
+  <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Evaluate Suppliers</h2>
+        <p>You have completed your supplier evaluation.</p>
+        </br></br>
+    </div>
+    </div> 
+  </main> 
+
+  <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-m">
+         <span class="proc-task-list__section-number">6.</span>
+           Awarded supplier details
+        </h1>
+        </br>
+        <p>  Your awarded supplier will now enter the agreed standstill period.</p>
+				<p> Once the standtstill period has ended,you will need to confirm the awarded suppler below.</p>
+        <h3 class="govuk-heading-m">
+          <strong>Supplier name </strong>
+        </h3>
+        <p> Supplier name </p>
+        </br>
+
+        <p> <strong>Address:</strong></p>
+       <p> Address</p>
+       </br></br>
+
+       <p> <strong>Contact Name:</strong></p>
+       <p> Contact Name</p>
+       <p> <strong>Contact Email:</strong></p>
+       <p> Contact Email</p>
+       <p> <strong>Website:</strong></p>
+       <p>Website</p>
+</br></br>
+<p> If you have not done so already,you can  <a class="govuk-link" href="/dashboard">download the awarded supplier and unsuccessful supplier templates here.</a> </p>
+  {% if status.toUpperCase() =="AWARDED"%} 
+               <p> Awarded Date &nbsp; &nbsp;&nbsp; &nbsp;[DD/MM/YYYY] </p>
+                {% else %}
+                <p> Standstill End Date &nbsp; &nbsp;&nbsp; &nbsp;[DD/MM/YYYY] </p>
+                {% endif %}
+
+       </div>
+        </div>
+
+          <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+
+               {% if status.toUpperCase() =="AWARDED"%} 
+                {{ CCSWarningText({
+    text: "I acknowledge the responsibility to confirm receipt of the contract signed by supplier.",
+    iconFallbackText: "Warning"
+    }) }}
+                {% else %}
+                {{ CCSWarningText({
+    text: "I acknowledge the responsibility to award this supplier after the standstill period has passed.",
+    iconFallbackText: "Warning"
+    }) }}
+                {% endif %}   
+                 </div>
+       </div>   
+
+  
+       <form id="ccs_pre_award_supplier_form" name="ccs_pre_award_supplier_form" class="form ccs_pre_award_supplier_form"
+      action="/confirm-supplier-award" method="post">
+                     {{ csrfProtection(csrf) }}  
+
+               {{ CCSCheckboxes({
+      idPrefix: "pre_award_supplier_confirmation",
+      name: "pre_award_supplier_confirmation",
+      items: [
+      {
+      "value": 1,
+      html: "<label><strong>By checking this box I confirm the statement above.</strong></label>",
+      Checked: ""
+      }
+      ]
+      }) }}
+                <div class="govuk-button-group">
+                    
+        {% if status.toUpperCase() =="AWARDED"%} 
+                   {{ CCSButton({
+        attributes: {
+        id: "btn_pre_award_supplier"
+        },
+        text: "I have received the signed contract"
+        }) }}
+        {% else %}
+                    {{ CCSButton({
+        attributes: {
+        id: "btn_pre_award_supplier"
+        },
+        text: "Confirm suppler award"
+        }) }}
+        {% endif %}
+                                  <a class="govuk-link" href="/dashboard">Return to your project</a> 
+                                </div>
+                                
+                              </form>  
+							
+{% endblock %}

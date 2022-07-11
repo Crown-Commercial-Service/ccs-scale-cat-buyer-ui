@@ -65,6 +65,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
   const event_id = req.session['eventId'];
   const BaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   const { checkboxerror } = req.session;
+  let selectedeventtype=req.session.selectedeventtype
   try {
     let flag = await ShouldEventStatusBeUpdated(event_id, 41, req);
     if (flag) {
@@ -249,6 +250,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       resourceQuantity = dimensionRequirements?.filter(dimension => dimension.name === 'Resource Quantities')?.[0]?.requirements;
       highestSecurityCount = dimensionRequirements?.filter(dimension => dimension.name === 'Security Clearance')?.[0]?.requirements?.[0]?.weighting;
       highestSecuritySelected = dimensionRequirements?.filter(dimension => dimension.name === 'Security Clearance')?.[0]?.requirements?.[0]?.values?.[0]?.value;
+      if( highestSecuritySelected==='0: None')highestSecuritySelected='0: No security clearance needed'
       serviceCapabilitesCount = dimensionRequirements?.filter(dimension => dimension.name === 'Service Capability')?.[0]?.requirements?.length;
       whereWorkDone = dimensionRequirements?.filter(dimension => dimension.name === 'Location')?.[0]?.requirements?.map(n => n.name);
     }
@@ -646,6 +648,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
+      selectedeventtype
     };
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440 

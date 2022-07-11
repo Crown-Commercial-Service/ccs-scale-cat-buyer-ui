@@ -13,6 +13,7 @@ var DAtotalVetting = $('#da-total-vetting')[0]!=undefined && $('#da-total-vettin
 var DAtotalSFIA= $('#da-total-resources')[0]!=undefined && $('#da-total-resources')[0]!=null?Number($('#da-total-resources')[0].innerHTML):0;
 
 for(var a =0; a < DAstaffweightPercentage.length; a++){
+    
     DAstaffweightPercentage[a].addEventListener('blur', (event)=>{
         DAtotalStaffWeight=0;
         for(var j =0; j < DAstaffweightPercentage.length; j++){
@@ -25,6 +26,7 @@ for(var a =0; a < DAstaffweightPercentage.length; a++){
 }
 
 for(var b =0; b < DAvettingPercentage.length; b++){
+    
     DAvettingPercentage[b].addEventListener('blur', (event)=>{
         DAtotalVetting=0;
         for(var j =0; j < DAvettingPercentage.length; j++){
@@ -39,6 +41,7 @@ for(var b =0; b < DAvettingPercentage.length; b++){
 
 
 for(var a =0; a < DASFIA.length; a++){
+    
     DASFIA[a].addEventListener('blur', (event)=>{
         DAtotalSFIA=0;
         for(var j =0; j < DASFIA.length; j++){
@@ -65,7 +68,7 @@ if (tabLinks != null && tabLinks.length > 0) {
       if (i === 0) {
         elems[i].style.display = 'block';
         itemSubText = tabLinks[0].getElementsByClassName('table-item-subtext')[0];
-        resourceItemOnClick(elems[i],itemSubText);
+        resourceItemOnClickDA(elems[i],itemSubText);
       } else {
         elems[i].style.display = 'none';
       }
@@ -104,7 +107,8 @@ if (tabLinks != null && tabLinks.length > 0) {
             //itemText = itemText.replaceAll(" ", "_");    
             //itemText =  itemText.replace(/[\])}[{(]/g, '');
             let articles=tabContainer.getElementsByTagName('article');
-            resourceItemOnClick(articles[clicked_index],itemSubText);
+            
+            resourceItemOnClickDA(articles[clicked_index],itemSubText);
             //updateTotalResourceAdded();
             return false;
         });
@@ -114,7 +118,7 @@ if (tabLinks != null && tabLinks.length > 0) {
 }
 
 
-function resourceItemOnClick(article,itemSubText) {
+function resourceItemOnClickDA(article,itemSubText) {
 
     const weightQuantityId = article.querySelectorAll('[id^="da_sfia_weight_vetting_"]');
     const weightStaffId=article.querySelectorAll('[id^="da_weight_staff_"]');
@@ -126,7 +130,7 @@ function resourceItemOnClick(article,itemSubText) {
         weightQuantity.on('blur', () => {
 
             if(weightQuantity.val() != undefined && weightQuantity.val() !== null && weightQuantity.val() !== "")
-                updateWeightVetting(weightQuantityId,weightStaffId,weightVettingId,itemSubText);
+                updateWeightVettingDA(weightQuantityId,weightStaffId,weightVettingId,itemSubText);
         });
     }
     for (var a = 0; a < weightStaffId.length; a++) {
@@ -136,7 +140,7 @@ function resourceItemOnClick(article,itemSubText) {
         weightStaff.on('blur', () => {
 
             if(weightStaff.val() != undefined && weightStaff.val() !== null && weightStaff.val() !== "")
-            updateWeightVetting(weightQuantityId,weightStaffId,weightVettingId,itemSubText);
+            updateWeightVettingDA(weightQuantityId,weightStaffId,weightVettingId,itemSubText);
         });
     }
     for (var a = 0; a < weightVettingId.length; a++) {
@@ -146,15 +150,16 @@ function resourceItemOnClick(article,itemSubText) {
         weightVetting.on('blur', () => {
 
             if(weightVetting.val() != undefined && weightVetting.val() !== null && weightVetting.val() !== "")
-            updateWeightVetting(weightQuantityId,weightStaffId,weightVettingId,itemSubText);
+            updateWeightVettingDA(weightQuantityId,weightStaffId,weightVettingId,itemSubText);
         });
     }
 }
 
-function updateWeightVetting(weightQuantityId,weightStaffId,weightVettingId,itemSubText) {
+function updateWeightVettingDA(weightQuantityId,weightStaffId,weightVettingId,itemSubText) {
     let totalQuantity = 0;
     let totalStaff=0;
     let totalVetting=0;
+    
     for (var a = 0; a < weightQuantityId.length; a++) {
 
         let weightQuantity = $(`#${weightQuantityId[a].id}`);

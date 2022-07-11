@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     $('#ccs_ca_menu_tabs_form_later').on('submit', (e) => {
 
         const totalInputFields = $('.error_check_weight');
@@ -78,22 +79,7 @@ if(totalVetting<100 || totalVetting>100)
                 }
             }
         }
-        // for (var a = 1; a < weightStaffId.length; a++) {
-            
-        //     const staffvalue = document.getElementsByClassName("error_check_staff")[a - 1];
-        //    if(staffvalue.value!=''){
-        //     const vettingValue = document.getElementsByClassName("error_check_vetting")[a - 1];
-        //     if(vettingValue.value!=''){
-                
-        //         for (var i = 1; i < weightQuantityId.length; i++){
-        //         const classTarget = document.getElementsByClassName("error_check_weight")[i - 1];
-        //         if ( classTarget.value === '') {
-        //             rolevalidation.push(true);
-        //         }
-        //     }
-        //    }
-        //    }
-        // }
+        
         for (var a = 1; a < totalInputFields.length; a++) {
             const classTarget = document.getElementsByClassName("error_check_weight")[a - 1];
             if (classTarget.value != '') {
@@ -188,77 +174,86 @@ if(totalVetting<100 || totalVetting>100)
          *  
          */
 
-        switch (true) {
-            case (preventDefaultState.length > 0 && decimalnumber.length > 0 && nonnumerical.length > 0):
+       
 
-                e.preventDefault();
-                $('#ca_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#ca_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (preventDefaultState.length > 0 && decimalnumber.length > 0):
 
-                e.preventDefault();
-                $('#ca_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#ca_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (preventDefaultState.length > 0 && nonnumerical.length > 0):
+    
+            switch (true) {
+                case (preventDefaultState.length > 0 && decimalnumber.length > 0 && nonnumerical.length > 0):
 
-                e.preventDefault();
-                $('#ca_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#ca_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field must be a number</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (decimalnumber.length > 0 && nonnumerical.length > 0):
+                    e.preventDefault();
+                    $('#ca_vetting_error_summary').removeClass('hide-block');
+                    $('.govuk-error-summary__title').text('There is a problem');
+                    $("#ca_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    break;
+                case (preventDefaultState.length > 0 && decimalnumber.length > 0):
 
-                e.preventDefault();
-                $('#ca_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#ca_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (preventDefaultState.length > 0):
+                    e.preventDefault();
+                    $('#ca_vetting_error_summary').removeClass('hide-block');
+                    $('.govuk-error-summary__title').text('There is a problem');
+                    $("#ca_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li>');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    break;
+                case (preventDefaultState.length > 0 && nonnumerical.length > 0):
 
-                e.preventDefault();
-                $('#ca_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#ca_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (nonnumerical.length > 0):
+                    e.preventDefault();
+                    $('#ca_vetting_error_summary').removeClass('hide-block');
+                    $('.govuk-error-summary__title').text('There is a problem');
+                    $("#ca_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field must be a number</a></li>');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    break;
+                case (decimalnumber.length > 0 && nonnumerical.length > 0):
 
-                e.preventDefault();
-                $('#ca_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#ca_summary_list").html('<li><a href="#">The input field must be a number</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (decimalnumber.length > 0):
+                    e.preventDefault();
+                    $('#ca_vetting_error_summary').removeClass('hide-block');
+                    $('.govuk-error-summary__title').text('There is a problem');
+                    $("#ca_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    break;
+                case (preventDefaultState.length > 0):
 
-                e.preventDefault();
-                $('#ca_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#ca_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (rolevalidation.length>0):
-                e.preventDefault();
-                $('#ca_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#ca_summary_list").html('<li><a href="#">At least 1 DDaT role must be populated with a quantity value</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast'); 
-                break;  
-                
+                    e.preventDefault();
+                    $('#ca_vetting_error_summary').removeClass('hide-block');
+                    $('.govuk-error-summary__title').text('There is a problem');
+                    $("#ca_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    break;
+                case (nonnumerical.length > 0):
+
+                    e.preventDefault();
+                    $('#ca_vetting_error_summary').removeClass('hide-block');
+                    $('.govuk-error-summary__title').text('There is a problem');
+                    $("#ca_summary_list").html('<li><a href="#">The input field must be a number</a></li>');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    break;
+                case (decimalnumber.length > 0):
+
+                    e.preventDefault();
+                    $('#ca_vetting_error_summary').removeClass('hide-block');
+                    $('.govuk-error-summary__title').text('There is a problem');
+                    $("#ca_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li>');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    break;
+                   
+                 case (rolevalidation.length>0):
+                    e.preventDefault();
+                     $('#ca_vetting_error_summary').removeClass('hide-block');
+                     $('.govuk-error-summary__title').text('There is a problem');
+                     $("#ca_summary_list").html('<li><a href="#">At least 1 DDaT role must be populated with a quantity value</a></li>');
+                     $('html, body').animate({ scrollTop: 0 }, 'fast'); 
+                     break;        
+                default:
+                    console.log("If all else fails");
+                    break;
+            }
+
             
 
-            default:
-                console.log("If all else fails");
-                break;
-        }
+
+               
+            
+
 
         if (!inputtedtext.length > 0) {
 
@@ -270,5 +265,9 @@ if(totalVetting<100 || totalVetting>100)
         }
 
     });
+
+       
+    }
+
 
 });

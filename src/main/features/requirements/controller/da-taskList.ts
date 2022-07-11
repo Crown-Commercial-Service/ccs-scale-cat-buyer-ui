@@ -38,10 +38,12 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     'Product Delivery',
     'QAT',
     'User Centred Design',
-    'No DDaT Cluster Mapping',
+    'Security and Privacy (Non-DDAT)',
   ];
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
-
+  req.session.errorTextSumary = [];
+  req.session.isError = false;
+  req.session['isJaggaerError'] = false;
   try {
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'In progress');

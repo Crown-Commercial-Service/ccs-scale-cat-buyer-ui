@@ -125,8 +125,6 @@ if (document.getElementById('ccs_ca_weighting') !== null)
 
 if (document.getElementById('ccs_daa_weighting') !== null)
   document.getElementById('ccs_daa_weighting').addEventListener('submit', ccsZvalidateDAAWeightings);
-if (document.getElementById('ccs_ca_suppliers_form') !== null)
-  document.getElementById('ccs_ca_suppliers_form').addEventListener('submit', ccsZvalidateCASupplier);
 
 if (document.getElementById('ca_where_work_done') !== null)
   document.getElementById('ca_where_work_done').addEventListener('submit', ccsZvalidateCAWhereWorkDone);
@@ -251,6 +249,13 @@ if (document.getElementById('ccs_eoi_date_form') !== null)
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
   document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
+
+  //Award
+if (document.getElementById('ccs_pre_award_supplier_form') !== null)
+document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
+
+if (document.getElementById('ccs_standstill_period_form') !== null)
+document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
 
 //if (document.getElementById('rfp_multianswer_question_form') !== null)
 // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");

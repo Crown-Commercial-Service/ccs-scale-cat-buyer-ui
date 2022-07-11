@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     $('#ccs_da_menu_tabs_form_later').on('submit', (e) => {
 
         const totalInputFields = $('.error_check_weight');
@@ -210,42 +211,42 @@ if(totalVetting<100 || totalVetting>100)
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             case (preventDefaultState.length > 0):
+                    e.preventDefault();
+                    $('#da_vetting_error_summary').removeClass('hide-block');
+                    $('.govuk-error-summary__title').text('There is a problem');
+                    $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    break;
+                case (nonnumerical.length > 0):
 
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (nonnumerical.length > 0):
+                    e.preventDefault();
+                    $('#da_vetting_error_summary').removeClass('hide-block');
+                    $('.govuk-error-summary__title').text('There is a problem');
+                    $("#da_summary_list").html('<li><a href="#">The input field must be a number</a></li>');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    break;
+                case (decimalnumber.length > 0):
 
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field must be a number</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (decimalnumber.length > 0):
-
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-                case (rolevalidation.length>0):
+                    e.preventDefault();
+                    $('#da_vetting_error_summary').removeClass('hide-block');
+                    $('.govuk-error-summary__title').text('There is a problem');
+                    $("#da_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li>');
+                    $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    break;
+                    
+                 case (rolevalidation.length>0):
                     e.preventDefault();
                     $('#da_vetting_error_summary').removeClass('hide-block');
                     $('.govuk-error-summary__title').text('There is a problem');
                     $("#da_summary_list").html('<li><a href="#">At least 1 DDaT role must be populated with a quantity value</a></li>');
                     $('html, body').animate({ scrollTop: 0 }, 'fast'); 
-                    break;     
-            default:
-                console.log("If all else fails");
-                break;
-        }
+                    break;      
+                default:
+                    console.log("If all else fails");
+                    break;
+            }
 
-        if (!inputtedtext.length > 0) {
+            if (!inputtedtext.length > 0) {
 
             e.preventDefault();
             $('#ca_vetting_error_summary').removeClass('hide-block');
@@ -256,4 +257,8 @@ if(totalVetting<100 || totalVetting>100)
 
     });
 
-});
+            }
+
+
+        });
+  
