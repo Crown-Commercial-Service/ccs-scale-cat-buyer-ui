@@ -1,111 +1,183 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    if (document.getElementById('ccs_ca_menu_tabs_form_later') !== null) {
-        $('#ccs_ca_menu_tabs_form_later').on('submit', (e) => {
+    $('#ccs_ca_menu_tabs_form_later').on('submit', (e) => {
 
-            const totalInputFields = $('.error_check_weight');
-            const stafffield = $('.error_check_staff');
-            const vettingfield = $('.error_check_vetting');
-            const inputFieldsLength = totalInputFields.length + 1
+        const totalInputFields = $('.error_check_weight');
+        const stafffield=$('.error_check_staff');
+        const vettingfield=$('.error_check_vetting');
+        const inputFieldsLength = totalInputFields.length + 1
+        const weightStaffId=document.querySelectorAll('[id^="ca_weight_staff_"]');
+        const weightQuantityId = document.querySelectorAll('[id^="ca_sfia_weight_vetting_"]');
+        const weightVettingId=document.querySelectorAll('[id^="ca_weight_vetting_"]');
+        const hiddenId=document.querySelectorAll('[id^="ca_hidden_vetting"]');
 
-            const preventDefaultState = [];
-            const inputtedtext = [];
-            const decimalnumber = [];
-            const nonnumerical = [];
 
-            for (var a = 1; a < totalInputFields.length; a++) {
-                const classTarget = document.getElementsByClassName("error_check_weight")[a - 1];
-                if (classTarget.value != '') {
-                    inputtedtext.push(true)
-                }
-                if (classTarget.value.includes('.')) {
-                    document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'All entry boxes are integer numeric  ';
+        var preventDefaultState = [];
+        var inputtedtext = [];
+        var decimalnumber = [];
+        var nonnumerical = [];
+        var rolevalidation=[];
+        let totalStaff=0;
+        let totalVetting=0;
 
-                    decimalnumber.push(true)
-                }
-                else if (isNaN(classTarget.value) && classTarget.value !== '') {
-                    document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
-                    nonnumerical.push(true);
-                }
-                else if (classTarget.value > 99 && classTarget.value != '') {
-                    document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                    preventDefaultState.push(true);
-                }
-                else if (classTarget.value <= 0 && classTarget.value !== '') {
-                    document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                    preventDefaultState.push(true);
-                }
-                else {
-                    document.getElementsByClassName("weight_class")[a - 1].classList.remove('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = '';
-                    // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
+//staff 100% validation
+        for (var a = 0; a < weightStaffId.length; a++) {
+
+            let weightStaff = $(`#${weightStaffId[a].id}`);
+            if (weightStaff.val() != undefined && weightStaff.val() != '')
+            totalStaff = totalStaff + Number(weightStaff.val());
+        }
+        if(totalStaff<100 || totalStaff>100)
+        {
+            ///staffvalidation.push(true);
+            e.preventDefault();
+            $('#ca_vetting_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#ca_summary_list").html('<li><a href="#">The number of staff weightings for all Role Family entries must = 100%</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+        }
+
+// vetting 100% validation    
+for (var a = 0; a < weightVettingId.length; a++) {
+
+    let weightVetting = $(`#${weightVettingId[a].id}`);
+    if (weightVetting.val() != undefined && weightVetting.val() != '')
+    totalVetting = totalVetting + Number(weightVetting.val());
+}
+if(totalVetting<100 || totalVetting>100)
+{
+    ///staffvalidation.push(true);
+    e.preventDefault();
+    $('#ca_vetting_error_summary').removeClass('hide-block');
+    $('.govuk-error-summary__title').text('There is a problem');
+    $("#ca_summary_list").html('<li><a href="#">The vetting requirement weightings for all Role Family entries must = 100%</a></li>');
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+}    
+        
+        //empty DDAT roles validation
+        for (var a = 0; a < weightStaffId.length; a++) {
+
+            let weightStaff = $(`#${weightStaffId[a].id}`);
+            if (weightStaff.val() != undefined && weightStaff.val() != '')
+            {
+                let weightVetting = $(`#${weightVettingId[a].id}`);
+                if (weightVetting.val() != undefined && weightVetting.val() != '')
+                {
+                    let vetting_hidden = $(`#${hiddenId[a].id}`);
+                    let name=vetting_hidden.val()
+                    let quantity_roles=document.querySelectorAll('[id^="ca_sfia_weight_vetting_"][id$='+name+']');
+                    let quantity_flag=false;
+                    for (var b = 0; b < quantity_roles.length; b++) {
+                        let role_box = $(`#${quantity_roles[b].id}`);
+                        if (role_box.val() != undefined && role_box.val() != ''){
+                            quantity_flag=true;
+                        }
+                    }
+                    if(quantity_flag==false){
+                        rolevalidation.push(true);
+                    }
                 }
             }
-
-            for (var a = 1; a < stafffield.length; a++) {
-                const classTarget = document.getElementsByClassName("error_check_staff")[a - 1];
-                if (classTarget.value != '') {
-                    inputtedtext.push(true)
-                }
-                if (classTarget.value.includes('.')) {
-                    document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'Decimal value is entered. Please enter number <100 and >0 ';
-
-                    decimalnumber.push(true)
-                }
-                else if (isNaN(classTarget.value) && classTarget.value !== '') {
-                    document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
-                    nonnumerical.push(true);
-                }
-                else if (classTarget.value <= 0 && classTarget.value !== '') {
-                    document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                    preventDefaultState.push(true);
-                }
-                else {
-                    document.getElementsByClassName("weight_staff_class")[a - 1].classList.remove('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = '';
-                    // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
-                }
+        }
+        
+        for (var a = 1; a < totalInputFields.length; a++) {
+            const classTarget = document.getElementsByClassName("error_check_weight")[a - 1];
+            if (classTarget.value != '') {
+                inputtedtext.push(true)
             }
+            if (classTarget.value.includes('.')) {
+                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'All entry boxes are integer numeric  ';
 
-            for (var a = 1; a < vettingfield.length; a++) {
-                const classTarget = document.getElementsByClassName("error_check_vetting")[a - 1];
-                if (classTarget.value != '') {
-                    inputtedtext.push(true)
-                }
-                if (classTarget.value.includes('.')) {
-                    document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = 'Decimal value is entered. Please enter number <100 and >0 ';
-
-                    decimalnumber.push(true)
-                }
-                else if (isNaN(classTarget.value) && classTarget.value !== '') {
-                    document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
-                    nonnumerical.push(true);
-                }
-                else if (classTarget.value <= 0 && classTarget.value !== '') {
-                    document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                    preventDefaultState.push(true);
-                }
-                else {
-                    document.getElementsByClassName("weight_vetting_class")[a - 1].classList.remove('govuk-input--error')
-                    document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = '';
-                    // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
-                }
+                decimalnumber.push(true)
             }
+            else if (isNaN(classTarget.value) && classTarget.value !== '') {
+                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
+                nonnumerical.push(true);
+            }
+            else if (classTarget.value > 99 && classTarget.value != '') {
+                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
+                preventDefaultState.push(true);
+            }
+            else if (classTarget.value <= 0 && classTarget.value !== '') {
+                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
+                preventDefaultState.push(true);
+            }
+            else {
+                document.getElementsByClassName("weight_class")[a - 1].classList.remove('govuk-input--error')
+                document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = '';
+                // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
+            }
+        }
 
-            /**
-             *  
-             */
+        for (var a = 1; a < stafffield.length; a++) {
+            const classTarget = document.getElementsByClassName("error_check_staff")[a - 1];
+            if (classTarget.value != '') {
+                inputtedtext.push(true)
+            }
+            if (classTarget.value.includes('.')) {
+                document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'Decimal value is entered. Please enter number <100 and >0 ';
 
+                decimalnumber.push(true)
+            }
+            else if (isNaN(classTarget.value) && classTarget.value !== '') {
+                document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
+                nonnumerical.push(true);
+            }
+            else if (classTarget.value <= 0 && classTarget.value !== '') {
+                document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
+                preventDefaultState.push(true);
+            }
+            else {
+                document.getElementsByClassName("weight_staff_class")[a - 1].classList.remove('govuk-input--error')
+                document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = '';
+                // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
+            }
+        }
+
+        for (var a = 1; a < vettingfield.length; a++) {
+            const classTarget = document.getElementsByClassName("error_check_vetting")[a - 1];
+            if (classTarget.value != '') {
+                inputtedtext.push(true)
+            }
+            if (classTarget.value.includes('.')) {
+                document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = 'Decimal value is entered. Please enter number <100 and >0 ';
+
+                decimalnumber.push(true)
+            }
+            else if (isNaN(classTarget.value) && classTarget.value !== '') {
+                document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
+                nonnumerical.push(true);
+            }
+            else if (classTarget.value <= 0 && classTarget.value !== '') {
+                document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
+                preventDefaultState.push(true);
+            }
+            else {
+                document.getElementsByClassName("weight_vetting_class")[a - 1].classList.remove('govuk-input--error')
+                document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = '';
+                // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
+            }
+        }
+        
+
+        /**
+         *  
+         */
+
+       
+
+
+    
             switch (true) {
                 case (preventDefaultState.length > 0 && decimalnumber.length > 0 && nonnumerical.length > 0):
 
@@ -163,21 +235,39 @@ document.addEventListener('DOMContentLoaded', () => {
                     $("#ca_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li>');
                     $('html, body').animate({ scrollTop: 0 }, 'fast');
                     break;
+                   
+                 case (rolevalidation.length>0):
+                    e.preventDefault();
+                     $('#ca_vetting_error_summary').removeClass('hide-block');
+                     $('.govuk-error-summary__title').text('There is a problem');
+                     $("#ca_summary_list").html('<li><a href="#">At least 1 DDaT role must be populated with a quantity value</a></li>');
+                     $('html, body').animate({ scrollTop: 0 }, 'fast'); 
+                     break;        
                 default:
                     console.log("If all else fails");
                     break;
             }
 
-            if (!inputtedtext.length > 0) {
+            
 
-                e.preventDefault();
-                $('#ca_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#ca_summary_list").html('You must enter atleast on value');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-            }
 
-        });
+               
+            
+
+
+        if (!inputtedtext.length > 0) {
+
+            e.preventDefault();
+            $('#ca_vetting_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#ca_summary_list").html('You must enter atleast on value');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+        }
+
+    });
+
+       
     }
+
 
 });
