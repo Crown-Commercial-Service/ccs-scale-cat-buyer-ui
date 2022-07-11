@@ -67,11 +67,12 @@ export const ENTER_EVALUATION_POST = async (req: express.Request, res: express.R
 
 try{
   if (enter_evaluation_feedback && enter_evaluation_score ) {
+    let evaluation_score=(enter_evaluation_score.includes('.'))?enter_evaluation_score:enter_evaluation_score+".00";
     const body = [
                 {
                   organisationId: supplierid ,
                   comment: enter_evaluation_feedback,
-                  score: enter_evaluation_score,
+                  score: evaluation_score,
                 }
               ];
   
