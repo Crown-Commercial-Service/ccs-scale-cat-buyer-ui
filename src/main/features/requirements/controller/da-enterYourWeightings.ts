@@ -44,6 +44,38 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
     let dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
     dimensions= dimensions.filter(x=>x['dimension-id']!=7)
+    let da_weightings_description=[
+      {
+        "ID":1,
+        "title":"Capacity (number of specialists per DDaT role)",
+        "desc":"This relates to how many staff are supplied in each role."
+      },
+      {
+        "ID":2,
+        "title":"Security clearance and vetting",
+        "desc":"This relates to the importance of having specific security clearance levels or how detailed the vetting process of any supplied staff is."
+      },
+      {
+        "ID":3,
+        "title":"Service capability",
+        "desc":"This relates to the services the supplier can offer, including the specifics of each serivce."
+      },
+      {
+        "ID":4,
+        "title":"Scalability(size of team)",
+        "desc":"This relates to how many people you need in the team to get the work done. It also relates to how quickly the team can be increased if there is a need in the project to do so."
+      },
+      {
+        "ID":5,
+        "title":"Location",
+        "desc":"This relates to how important it is to you that any supplied staff are based in the specific regions of the country."
+      },
+      {
+        "ID":6,
+        "title":"Price",
+        "desc":"[Dimension description]"
+      }
+    ];
     let weightingsArray = [];
     if (dimensions.length > 0) {
       weightingsArray = dimensions.map(anItem => {
@@ -57,6 +89,11 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
         };
       });
     }
+    da_weightings_description.forEach(element => {
+      let index=weightingsArray.findIndex(x=>x.id===element.ID)
+      weightingsArray[index].title=element.title
+      weightingsArray[index].description=element.desc
+    });
     req.session['DA'] = req.session['DA'] == undefined ? {} : req.session['DA'];
     req.session['DA'].toolId = assessmentDetail['external-tool-id'];
     req.session['weightingRange'] = weightingsArray[0].weightingRange;

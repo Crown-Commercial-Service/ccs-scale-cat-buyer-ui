@@ -52,6 +52,8 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
         supplierDetails.supplierWebsite = supplierDataList != null ? "" : "";
         supplierDetails.supplierId = id;
         supplierDetailsList.push(supplierDetails);
+        req.session['supplierName'] = supplierDetails.supplierName;
+        req.session['supplierId'] = id;
       }
       //supplierDetailsList.push(dataPrepared);
     }
