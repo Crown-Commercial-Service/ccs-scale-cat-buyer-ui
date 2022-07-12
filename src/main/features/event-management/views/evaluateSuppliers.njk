@@ -85,7 +85,7 @@
                      <td class="govuk-table__cell">
                       <a class="govuk-link" href="/evaluate-download?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
                     </td> 
-                    <td class="govuk-table__cell"> <a href="/enter-evaluation?supplierid={{supplier.id}}&suppliername={{supplier.name}}&evaluation={{supplier.Evaluation}}" class="govuk-link govuk-link--no-visited-state"> Add or edit </a></td>
+                    <td class="govuk-table__cell"> <a href="/enter-evaluation?supplierid={{supplier.id}}&suppliername={{supplier.name}}" class="govuk-link govuk-link--no-visited-state"> Add or edit </a></td>
                     <td class="govuk-table__cell"> {{supplier.completionStatus}} </td>
                   </tr>
               </tbody>
@@ -141,7 +141,7 @@
       <h1 id="dialog-title">You are about to complete your evaluation<p></p>
       <p id="dialog-description">Click Continue, or click Return to further edit your scores.</p>
       <div class="govuk-button-group">
-        <button id="redirect-button-evaluatesuppliers" href="/dashboard" class="button dialog-button govuk-button" name="Evaluate Suppliers">Continue</button>
+        <button id="redirect-button-evaluatesuppliers"  class="button dialog-button govuk-button" name="Evaluate Suppliers">Continue</button>
         <a href="/evaluate-suppliers" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Return</a>
       </div>
     </h1></div>

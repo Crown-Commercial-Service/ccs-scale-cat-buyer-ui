@@ -25,6 +25,7 @@ export enum EVENT_MANAGEMENT_PATHS {
     EVALUATE_SUPPLIERS_DOWNLOAD='/evaluate-download',
     ENTER_EVALUATION='/enter-evaluation',
     ENTER_EVALUATION_POST='/enter-evaluation',
+    EVALUATE_SUPPLIERS_POPUP='/evaluate-confirm',
 
     SUPPLIER_ANSWER_DOWNLOAD='/supplieranswer',
     SUPPLIER_ANSWER_DOWNLOAD_ALL='/supplieranswerall',
