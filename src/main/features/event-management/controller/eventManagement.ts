@@ -333,24 +333,36 @@ export const PUBLISHED_PROJECT_DOWNLOAD = async (req: express.Request, res: expr
   const { eventId } = req.session;
   const { download } = req.query;
 
-  if (download != undefined) {
-    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/documents/export`;
-    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
-      responseType: 'arraybuffer',
-    });
-    const file = FetchDocuments;
-    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
-    const fileData = file.data;
-    const type = file.headers['content-type'];
-    const ContentLength = file.headers['content-length'];
-    res.status(200);
-    res.set({
-      'Cache-Control': 'no-cache',
-      'Content-Type': type,
-      'Content-Length': ContentLength,
-      'Content-Disposition': 'attachment; filename=' + fileName,
-    });
-    res.send(fileData);
+  try {
+    if (download != undefined) {
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/documents/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
+    } 
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    );
   }
 }
 
@@ -361,25 +373,37 @@ export const SUPPLIER_ANSWER_DOWNLOAD = async (req: express.Request, res: expres
   const { eventId } = req.session;
   const { supplierid } = req.query;
 
-  if (supplierid != undefined) {
-    // /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id]}/export
-    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/documents`;
-    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
-      responseType: 'arraybuffer',
-    });
-    const file = FetchDocuments;
-    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
-    const fileData = file.data;
-    const type = file.headers['content-type'];
-    const ContentLength = file.headers['content-length'];
-    res.status(200);
-    res.set({
-      'Cache-Control': 'no-cache',
-      'Content-Type': type,
-      'Content-Length': ContentLength,
-      'Content-Disposition': 'attachment; filename=' + fileName,
-    });
-    res.send(fileData);
+  try {
+    if (supplierid != undefined) {
+      // /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id]}/export
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/documents`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
+    }
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    );
   }
 }
 
@@ -388,26 +412,59 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  const { download } = req.query;
+  const { download,download_all} = req.query;
 
-  if (download != undefined) {
-    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
-    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
-      responseType: 'arraybuffer',
-    });
-    const file = FetchDocuments;
-    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
-    const fileData = file.data;
-    const type = file.headers['content-type'];
-    const ContentLength = file.headers['content-length'];
-    res.status(200);
-    res.set({
-      'Cache-Control': 'no-cache',
-      'Content-Type': type,
-      'Content-Length': ContentLength,
-      'Content-Disposition': 'attachment; filename=' + fileName,
-    });
-    res.send(fileData);
+  try {
+    if (download != undefined) {
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
+    }
+    else if(download_all != undefined)
+    {
+      //Download all for awarded supplier
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
+    }
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    );
   }
 }
 
@@ -418,25 +475,38 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
   const { eventId } = req.session;
   const { download } = req.query;
 
-  if (download != undefined) {
-    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
-    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
-      responseType: 'arraybuffer',
-    });
-    const file = FetchDocuments;
-    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
-    const fileData = file.data;
-    const type = file.headers['content-type'];
-    const ContentLength = file.headers['content-length'];
-    res.status(200);
-    res.set({
-      'Cache-Control': 'no-cache',
-      'Content-Type': type,
-      'Content-Length': ContentLength,
-      'Content-Disposition': 'attachment; filename=' + fileName,
-    });
-    res.send(fileData);
+  try {
+    if (download != undefined) {
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
+    }
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    );
   }
+  
 }
 
 
@@ -447,24 +517,36 @@ export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Res
   const { eventId } = req.session;
   const { download } = req.query;
 
-  if (download != undefined) {
-    const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
-    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
-      responseType: 'arraybuffer',
-    });
-    const file = FetchDocuments;
-    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
-    const fileData = file.data;
-    const type = file.headers['content-type'];
-    const ContentLength = file.headers['content-length'];
-    res.status(200);
-    res.set({
-      'Cache-Control': 'no-cache',
-      'Content-Type': type,
-      'Content-Length': ContentLength,
-      'Content-Disposition': 'attachment; filename=' + fileName,
-    });
-    res.send(fileData);
+  try {
+    if (download != undefined ) {
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
+    }
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    ); 
   }
 }
 
