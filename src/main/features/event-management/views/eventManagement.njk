@@ -243,10 +243,12 @@
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2}}</th>
+                  {% if status.toUpperCase() ==='EVALUATED' %}
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_4}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_5}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_6}}</th>
+                  {% endif %}
                 </tr>
               </thead>
               {% for supplier in supplierDetailsDataList %}
@@ -261,10 +263,15 @@
                       </p>
                       
                     </th>
-                     <td class="govuk-text-align govuk-!-text-align-centre">
+                    {% if status.toUpperCase() !=='EVALUATED'%}
+                     <td class="govuk-text-align govuk-!-text-align-left">
                       <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
                     </td>
-
+                    {%endif%}
+                    {% if status.toUpperCase() ==='EVALUATED' %}
+                    <td class="govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
+                    </td>
                     <td class="govuk-text-align govuk-!-text-align-centre">
                       <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Review evaluation</a>
                     </td>
@@ -280,6 +287,7 @@
                     <td class="govuk-text-align govuk-!-text-align-centre">
                       <a class="govuk-link" href="/confirm-supplier?supplierid={{supplier.supplierId}}">Select</a>
                     </td> 
+                    {%endif%}
                   </tr>
                   {%endif%}
               </tbody>
