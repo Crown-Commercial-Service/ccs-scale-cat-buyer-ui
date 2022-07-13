@@ -1,14 +1,14 @@
 import * as express from 'express'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
-import { SupplierDetails } from '../model/supplierDetailsModel';
+import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
-export const GET_AWARD_SUPPLIER =async (req: express.Request, res: express.Response) => {
+export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
     const { supplierId } = req.query;
 
-    const { projectId, eventId, projectName, agreement_header, agreement_id, lotId,viewError } = req.session;
+    const { projectId, eventId, projectName, agreement_header, agreement_id, lotId, viewError } = req.session;
     try {
         //Supplier of interest
         const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`;
@@ -32,15 +32,18 @@ export const GET_AWARD_SUPPLIER =async (req: express.Request, res: express.Respo
             }
             if (supplierdata.data.responders[i].supplier.id == supplierId) {
                 // let supplierData = supplierDataList.filter((x: any) => x.);
+                var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
+                
                 supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
                 supplierDetails.responseState = supplierdata.data.responders[i].responseState;
                 supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
                 supplierDetails.score = (score != undefined) ? score : 0;
 
-                supplierDetails.supplierAddress = supplierDataList != null ? "" : "";
-                supplierDetails.supplierContactName = supplierDataList != null ? "" : "";
-                supplierDetails.supplierContactEmail = supplierDataList != null ? "" : "";
-                supplierDetails.supplierWebsite = supplierDataList != null ? "" : "";
+                supplierDetails.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
+                supplierDetails.supplierAddress = supplierFiltedData !=undefined && supplierFiltedData != null && supplierFiltedData.length >0? supplierFiltedData.address : {} as SupplierAddress;
+                supplierDetails.supplierContactName =supplierFiltedData !=undefined &&  supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.name : "";
+                supplierDetails.supplierContactEmail = supplierFiltedData !=undefined && supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.email : "";
+                supplierDetails.supplierWebsite =supplierFiltedData !=undefined &&  supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.url : "";
                 supplierDetails.supplierId = id;
                 supplierDetailsList.push(supplierDetails);
             }
@@ -72,7 +75,7 @@ export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Res
 
     const { award_supplier_confirmation, } = req.body;
     const { SESSION_ID } = req.cookies;
-   
+
     const { supplierId } = req.query;
     try {
         if (award_supplier_confirmation != undefined && award_supplier_confirmation === '1') {

@@ -4,7 +4,7 @@ import { AgreementAPI } from '@common/util/fetch/agreementservice/agreementsApiI
 import * as express from 'express'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 //import * as eventManagementData from '../../../resources/content/event-management/event-management.json'
-import { SupplierDetails, DocumentTemplate } from '../model/supplierDetailsModel';
+import { SupplierDetails, DocumentTemplate, SupplierAddress } from '../model/supplierDetailsModel';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: express.Response) => {
@@ -46,7 +46,7 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       //agreements/{agreement-id}/lots/{lot-id}/suppliers
       const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
       const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
-
+      
 
       let documentTemplateDataList: DocumentTemplate[] = [];
       let documentTemplateData = {} as DocumentTemplate;
@@ -85,18 +85,22 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
           showallDownload = true;
         }
         if (supplierdata.data.responders[i].supplier.id != supplierId) {
-          // let supplierData = supplierDataList.filter((x: any) => x.);
           let supplierDetailsObj = {} as SupplierDetails;
+          var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
+          
+         
 
           supplierDetailsObj.supplierName = supplierdata.data.responders[i].supplier.name;
           supplierDetailsObj.responseState = supplierdata.data.responders[i].responseState;
           supplierDetailsObj.responseDate = supplierdata.data.responders[i].responseDate;
           supplierDetailsObj.score = (score != undefined) ? score : 0;
-
-          supplierDetailsObj.supplierAddress = supplierDataList != null ? "NA" : "NA";
-          supplierDetailsObj.supplierContactName = supplierDataList != null ? "NA" : "NA";
-          supplierDetailsObj.supplierContactEmail = supplierDataList != null ? "NA" : "NA";
-          supplierDetailsObj.supplierWebsite = supplierDataList != null ? "NA" : "NA";
+          supplierDetailsObj.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
+          supplierDetailsObj.supplierAddress = supplierFiltedData !=undefined && supplierFiltedData != null && supplierFiltedData.length >0? supplierFiltedData.address : {} as SupplierAddress;
+          supplierDetailsObj.supplierContactName =supplierFiltedData !=undefined &&  supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.name : "";
+          supplierDetailsObj.supplierContactEmail = supplierFiltedData !=undefined && supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.email : "";
+          supplierDetailsObj.supplierWebsite =supplierFiltedData !=undefined &&  supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.url : "";
+          
+          
           supplierDetailsObj.supplierId = id;
           supplierDetailsList.push(supplierDetailsObj);
         }

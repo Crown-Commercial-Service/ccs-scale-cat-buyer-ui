@@ -2,7 +2,7 @@ import * as express from 'express'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import * as localContent from '../../../resources/content/event-management/event-management.json'
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance'
-import { SupplierDetails } from '../model/supplierDetailsModel';
+import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
@@ -40,16 +40,19 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
         showallDownload = true;
       }
       if (supplierdata.data.responders[i].supplier.id == supplierid) {
-        // let supplierData = supplierDataList.filter((x: any) => x.);
+        var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
+
         supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
         supplierDetails.responseState = supplierdata.data.responders[i].responseState;
         supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
         supplierDetails.score = (score != undefined) ? score : 0;
 
-        supplierDetails.supplierAddress = supplierDataList != null ? "" : "";
-        supplierDetails.supplierContactName = supplierDataList != null ? "" : "";
-        supplierDetails.supplierContactEmail = supplierDataList != null ? "" : "";
-        supplierDetails.supplierWebsite = supplierDataList != null ? "" : "";
+        supplierDetails.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
+        supplierDetails.supplierAddress = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.address : {} as SupplierAddress;
+        supplierDetails.supplierContactName = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.name : "";
+        supplierDetails.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.email : "";
+        supplierDetails.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.url : "";
+
         supplierDetails.supplierId = id;
         supplierDetailsList.push(supplierDetails);
         req.session['supplierName'] = supplierDetails.supplierName;
@@ -114,7 +117,7 @@ export const POST_CONFIRM_SUPPLIER = async (req: express.Request, res: express.R
 export const Download_SUPPLIER_RESPONCE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { supplierid } = req.query;
-  let { projectId, eventId} = req.session;
+  let { projectId, eventId } = req.session;
 
 
   try {
