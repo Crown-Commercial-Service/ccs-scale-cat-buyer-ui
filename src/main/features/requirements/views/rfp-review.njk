@@ -507,7 +507,7 @@
                       <p> {{newreplace}}</p>
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus !=undefined and   eventStatus != "published")%}
+                      {% if(eventStatus != "published")%}
                       <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 15">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -537,7 +537,7 @@
                       <p> {{managementinfo}}</p>
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus !=undefined and   eventStatus != "published")%}
+                      {% if(eventStatus != "published")%}
                       <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 17">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -1082,7 +1082,7 @@
         {%endif%}
     </dd>
     <dd class="govuk-summary-list__actions">
-        {% if(eventStatus !=null and eventStatus != "published")%}
+        {% if(eventStatus != "published")%}
         <a class="govuk-link" href="/rfp/suppliers">
             View<span class="govuk-visually-hidden">project name</span>
         </a>

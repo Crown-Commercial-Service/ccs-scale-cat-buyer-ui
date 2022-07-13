@@ -70,6 +70,7 @@
                         {% set formOptions = form.radioOptions.items %}
                         {% set form_Options_Altered = [] %}
                         {% for item in formOptions %}
+                             {% if item.checked%}
                             {% set form_Options_Altered = (form_Options_Altered.push(
                                 {
                                     value: item.value,
@@ -80,6 +81,17 @@
                                     checked: item.checked
                                 }), form_Options_Altered) 
                                 %}
+                                {% else %}
+                                 {% set form_Options_Altered = (form_Options_Altered.push(
+                                {
+                                    value: item.value,
+                                    html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
+                                    hint : {
+                                        text: item.hint.text
+                                    }
+                                }), form_Options_Altered) 
+                                %}
+                                {% endif %}
                         {% endfor %}
                         {% if (error == true) %}
 
