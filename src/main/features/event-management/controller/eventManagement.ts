@@ -56,7 +56,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
     //status=apidata.data[0].dashboardStatus;
     status = apidata.data.filter((d: any) => d.id == eventId)[0].dashboardStatus;
-
+    let supplierDetails = {} as SupplierDetails;
     // Code Block ends
 
     // Update procurement data into (redis) session
@@ -140,15 +140,19 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
       var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
       supplierDetailsObj.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
-      supplierDetailsObj.supplierAddress = supplierFiltedData !=undefined && supplierFiltedData != null && supplierFiltedData.length >0? supplierFiltedData.address : {} as SupplierAddress;
-      supplierDetailsObj.supplierContactName =supplierFiltedData !=undefined &&  supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.name : "";
-      supplierDetailsObj.supplierContactEmail = supplierFiltedData !=undefined && supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.email : "";
-      supplierDetailsObj.supplierWebsite =supplierFiltedData !=undefined &&  supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.telephone : "";
+      supplierDetailsObj.supplierAddress = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.address : {} as SupplierAddress;
+      supplierDetailsObj.supplierContactName = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.name : "";
+      supplierDetailsObj.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.email : "";
+      supplierDetailsObj.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.telephone : "";
       supplierDetailsObj.supplierId = id;
       supplierDetailsDataList.push(supplierDetailsObj);
       if (supplierdata.data.responders[i].responseState.trim().toLowerCase() == 'submitted') {
         showallDownload = true;
       }
+      //UNCOMMET THIS CODE WHEN AWARDED SUPPLIER INFORMATION COMING FROM JAGGER
+      // if (id ==="") {
+      //   supplierDetails=supplierDetailsObj;
+      // }
     }
     const supplierSummary = supplierdata.data;
     supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
@@ -171,7 +175,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
     let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
     collaboratorData = collaboratorData.data;
-    const appendData = { data: eventManagementData, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+    const appendData = { supplierDetails, data: eventManagementData, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
     let redirectUrl: string
     if (status.toLowerCase() == "in-progress") {
@@ -359,7 +363,7 @@ export const PUBLISHED_PROJECT_DOWNLOAD = async (req: express.Request, res: expr
         'Content-Disposition': 'attachment; filename=' + fileName,
       });
       res.send(fileData);
-    } 
+    }
   } catch (error) {
     LoggTracer.errorLogger(
       res,
@@ -419,7 +423,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  const { download,download_all} = req.query;
+  const { download, download_all } = req.query;
 
   try {
     if (download != undefined) {
@@ -441,8 +445,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
       });
       res.send(fileData);
     }
-    else if(download_all != undefined)
-    {
+    else if (download_all != undefined) {
       //Download all for awarded supplier
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
@@ -513,7 +516,7 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
       true,
     );
   }
-  
+
 }
 
 
@@ -525,7 +528,7 @@ export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Res
   const { download } = req.query;
 
   try {
-    if (download != undefined ) {
+    if (download != undefined) {
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
@@ -553,7 +556,7 @@ export const SUPPLIER_EVALUATION = async (req: express.Request, res: express.Res
       TokenDecoder.decoder(SESSION_ID),
       'Tenders Service Api cannot be connected',
       true,
-    ); 
+    );
   }
 }
 
