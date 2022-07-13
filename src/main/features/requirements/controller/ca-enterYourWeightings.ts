@@ -171,16 +171,20 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
             let dim=dimensions.filter(x=>x["dimension-id"] === i)
             Weightings.push(...dim)
         }
+        let body=[];
+        
       for (var dimension of Weightings) {
-          const body = {
-            name: dimension.name,
-            weighting: req.body[dimension['dimension-id']],
-            requirements: [],
-            includedCriteria: dimension.evaluationCriteria
-          };
-          
+          body.push({
+            "name": dimension.name,
+            "dimension-id":dimension['dimension-id'],
+            "weighting": req.body[dimension['dimension-id']],
+            "requirements": [],
+            "includedCriteria": dimension.evaluationCriteria,
+            "overwriteRequirements": true
+          });
+        }
           await TenderApi.Instance(SESSION_ID).put(
-            `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+            `/assessments/${assessmentId}/dimensions`,
             body,
           );
       
@@ -190,7 +194,7 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
         if (flag) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not started');
         }
-      }
+      
       if(req.session["CA_nextsteps_edit"])
     {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
