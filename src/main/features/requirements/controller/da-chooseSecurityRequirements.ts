@@ -104,14 +104,12 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
 
   const resources= selectedresourceNumber>0?ccs_da_resources[selectedresourceNumber-1]:0;
   const totalQuantityda=req.session.totalQuantityda;
-  //const resources = ccs_da_resources.filter(elem => elem != '')[0];
-  const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityda);
- // const { isError, errorText } = checkErrors(selectedValue, resources);
-  if (isError) {
-    req.session.errorText = errorText;
-    req.session.isError = isError;
-    res.redirect('/da/choose-security-requirements');
-  } else {
+  //const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityda);
+  // if (isError) {
+  //   req.session.errorText = errorText;
+  //   req.session.isError = isError;
+  //   res.redirect('/da/choose-security-requirements');
+  // } else {
     try {
       let dimension2weighitng;
       let SecQuantityrequirements;
@@ -196,5 +194,5 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
         true,
       );
     }
-  }
+  //}
 };

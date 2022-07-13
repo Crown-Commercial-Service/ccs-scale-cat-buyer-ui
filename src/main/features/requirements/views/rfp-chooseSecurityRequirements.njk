@@ -59,6 +59,7 @@
         {% endset -%}
 
         {% for item in formOptions %}
+        {% if item.checked %}
           {% if item.hasResources %}
             {% set form_Options_Altered = (form_Options_Altered.push(
               {
@@ -89,7 +90,36 @@
               
               %} 
           {% endif %}
-
+        {% else %}
+         {% if item.hasResources %}
+            {% set form_Options_Altered = (form_Options_Altered.push(
+              {
+                value: item.value,
+                html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+                hint : {
+                  text: item.hint.text
+                },
+                conditional: {
+                  html: condResources
+                }           
+                }
+              ), form_Options_Altered) 
+              
+              %}
+          {% else %}
+             {% set form_Options_Altered = (form_Options_Altered.push(
+                  {
+                    value: item.value,
+                    html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
+                    hint : {
+                      text: item.hint.text
+                    }
+                  }
+                ), form_Options_Altered) 
+              
+              %} 
+          {% endif %}
+           {% endif %}
         {% endfor %}
 
         {{ CCSRadios({

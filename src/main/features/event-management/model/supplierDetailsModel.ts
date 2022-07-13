@@ -1,6 +1,6 @@
 export interface SupplierDetails {
     supplierName: string,
-    supplierAddress: string,
+    supplierAddress:SupplierAddress ,
     supplierContactName: string,
     supplierContactEmail: string,
     supplierWebsite: string,
@@ -11,6 +11,15 @@ export interface SupplierDetails {
     score: string,
     rank: string,
 
+}
+
+export interface SupplierAddress {
+    streetAddress: string,
+    locality: string,
+    region: string,
+    postalCode: string,
+    countryName: string,
+    countryCode: string
 }
 
 export interface DocumentTemplate {
