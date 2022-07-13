@@ -101,16 +101,15 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
 
   const resources= selectedresourceNumber>0?ccs_rfp_resources[selectedresourceNumber-1]:0;
   const totalQuantityrfp=req.session.totalQuantityrfp;
-  const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityrfp);
-  if (isError) {
-    req.session.errorText = errorText;
-    req.session.isError = isError;
-    res.redirect('/rfp/choose-security-requirements');
-  } else {
+  // const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityrfp);
+  // if (isError) {
+  //   req.session.errorText = errorText;
+  //   req.session.isError = isError;
+  //   res.redirect('/rfp/choose-security-requirements');
+  // } else {
     try {
       const requirementsData = [
-        {
-          name: 'Performance analysis and data',
+        {         
           'requirement-id': 101,
           weighting: resources,
           values: [
@@ -148,5 +147,5 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
         true,
       );
     }
-  }
+//  }
 };
