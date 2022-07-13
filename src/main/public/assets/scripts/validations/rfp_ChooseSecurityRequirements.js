@@ -11,18 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Checking for Backspace.
                 if (event.keyCode == 8) {
-                    debugger
+                    
                     $('.rfp_choosesecurity_resources').val(" ")
                 }
                 // Checking for Delete.
                 if (event.keyCode == 46) {
-                    debugger
+                    
                     $('.rfp_choosesecurity_resources').val(" ")
                 }
             });          
        
         $('#rfp_choose_security_form').on('submit', (e) => {
-            debugger
+            
             var resources_rfp='';          
             for(var i=0;i<4;i++)
             {
