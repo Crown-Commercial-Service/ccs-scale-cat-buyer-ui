@@ -252,7 +252,7 @@
               {% for supplier in supplierDetailsDataList %}
               
               <tbody class="govuk-table__body">
-                
+                {% if supplier.responseState.toLowerCase() =='submitted' %}
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__cell">
                     
@@ -281,12 +281,13 @@
                       <a class="govuk-link" href="/confirm-supplier?supplierid={{supplier.supplierId}}">Select</a>
                     </td> 
                   </tr>
+                  {%endif%}
               </tbody>
           {% endfor %}
             </table>
             </div>
         </div>
-        {% if(true) %}
+        {% if(showallDownload) %}
          <p class="govuk-body govuk-!-text-align-centre">
              <a href="/supplieranswerall?download=1" class="govuk-link ">Download all</a> 
         </p>
