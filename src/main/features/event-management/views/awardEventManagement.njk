@@ -257,15 +257,17 @@ or messages in your inbox.See supplier's answer to your published project.</p>
         </br>
 
         <p> <strong>Address:</strong></p>
-       <p> Address</p>
+        <p> {{supplierDetails.supplierDetails.streetAddress}}</p>
+       <p> {{supplierDetails.supplierDetails.locality}}</p>
+       <p> {{supplierDetails.supplierAddress.region}}</p>
        </br></br>
 
        <p> <strong>Contact Name:</strong></p>
-       <p> Contact Name</p>
+       <p> {{supplierDetails.supplierContactName}}</p>
        <p> <strong>Contact Email:</strong></p>
-       <p> Contact Email</p>
+       <p> {{supplierDetails.supplierContactEmail}}</p>
        <p> <strong>Website:</strong></p>
-       <p>Website</p>
+       <p>{{supplierDetails.supplierWebsite}}</p>
 </br></br>
 
   {% if status.toUpperCase() =="AWARDED"%} 
