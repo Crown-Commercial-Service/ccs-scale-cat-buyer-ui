@@ -105,12 +105,12 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
 
   const resources= selectedresourceNumber>0?ccs_ca_resources[selectedresourceNumber-1]:0;
   const totalQuantityca=req.session.totalQuantityca;
-  const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityca);
-  if (isError) {
-    req.session.errorText = errorText;
-    req.session.isError = isError;
-    res.redirect('/ca/choose-security-requirements');
-  } else {
+  // const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityca);
+  // if (isError) {
+  //   req.session.errorText = errorText;
+  //   req.session.isError = isError;
+  //   res.redirect('/ca/choose-security-requirements');
+  // } else {
     try {
       let dimension2weighitng;
       let SecQuantityrequirements;
@@ -194,5 +194,5 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
         true,
       );
     }
-  }
+  //}
 };
