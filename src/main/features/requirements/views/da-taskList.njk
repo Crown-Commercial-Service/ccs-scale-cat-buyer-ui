@@ -40,6 +40,24 @@
             <h2 class="app-task-list__section">
             <span class="app-task-list__section-number">{{item.eventno}} </span> {{item.eventTitle}}
              </h2>
+
+              {% if (item.eventTitle == "Stage 1: Do a capability assessment") or (item.eventTitle == "Your assessment bases and evaluation weightings") %}
+                <p class="govuk-body">{{item.eventDescription1}}</p>
+                <p class="govuk-body">{{item.eventDescription2}}</p>
+                {% endif %}
+
+                {% if (item.eventTitle == " Add Context to your direct award") %}
+                <p class="govuk-body">{{item.eventDescription1}}</p>
+                <ul type='disc'>
+                <li>{{item.p1}}</li>
+                <li>{{item.p2}}</li>
+                <li>{{item.p3}}</li>
+                <li>{{item.p4}}</li>
+                <li>{{item.p5}}</li>
+                </ul>
+                {% endif %}
+
+
              <p class="govuk-body">{{item.eventDescription}}</p>
               <ul class="app-task-list__items">
                {% for Tasks in item.eventTask %}
