@@ -1,7 +1,7 @@
 {
   "breadCrumbs": [
     {
-      "text": "Dashboard",
+      "text": "Your Dashboard",
       "href": "/dashboard"
     },
     {
@@ -228,7 +228,8 @@
     }
   ],
   "form": {
-    "question": "[instructions for this page]",
+    "question1": "Write and publish your bid pack for suppliers, who can then submit their responses and complete any other evaluation tasks.",
+    "question2": "You will need to provide a clear set of criteria and explain how you will score responses.",
     "backJump": {
       "title": "Return to procurement overview",
       "href": "/projects/create-or-choose"

@@ -1,7 +1,7 @@
 {
   "breadCrumbs": [
     {
-      "text": "Dashboard",
+      "text": "Your Dashboard",
       "href": "/dashboard"
     },
     {
@@ -36,7 +36,7 @@
         {
           "Task": 2,
           "link": "/ca/procurement-lead",
-          "title": "Change who is going to lead the procurement",
+          "title": "Change who will lead the procurement",
           "required": "optional",
           "status": "Optional"
         },
@@ -58,7 +58,7 @@
       "eventTask": [
         {
           "Task": 1,
-          "title": "Learn about capability assessment",
+          "title": "What is a capability assessment",
           "required": "optional",
           "link": "/ca/learn-about-capability-assessment",
           "status": "Optional"
@@ -116,7 +116,7 @@
         {
           "Task": 9,
           "link": "/ca/suppliers-to-forward",
-          "title": "Number of suppliers you would like to take to further competition",
+          "title": "Number of suppliers to take to further competition",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
@@ -139,15 +139,15 @@
     },
     {
       "eventno": null,
-      "eventTitle": "Stage 2: Progress to further competition",
-      "eventDescription1": "To progress with the second stage of further competition you need to complete the previous \"Next steps\" screen at the end of stage 1.",
-      "eventDescription2": "",
+      "eventTitle": "3. Continue to further competition ",
+      "eventDescription1": "Tell suppliers about your business and the problem you need to solve, as well as any work that has already been carried out.",
+      "eventDescription2": "You will also set your evaluation criteria and explain how you will score supplier submissions.",
       "eventTask": []
     },
     {
       "eventno": 1,
       "eventTitle": "Upload pricing schedules and other supporting documents ",
-      "eventDescription": "You can upload pricing schedules and other supporting documents. You will also need to confirm if you require a contracted out service or a supply of resource.",
+      "eventDescription": "YYou will also need to confirm if you require a contracted out service or a supply of resource.",
       "eventTask": [
         {
           "Task": 1,
@@ -189,11 +189,12 @@
     {
       "eventno": 3,
       "eventTitle": "Your assessment criteria",
-      "eventDescription1": "When you build your further competition online, you'll be able to define your requirements and evaluation weightings as well.",
+      "eventDescription1": "Decide and explain how you will assess and evaluate applications.",
+      "eventDescription2": "When running a further competition, you must award the contract on the basis of the most economically advantageous tender (MEAT) and make it clear to suppliers how their bids will be evaluated.",
       "eventTask": [
         {
           "Task": 1,
-          "title": "Add Your assessment criteria and evaluation weightings ",
+          "title": "Set Your assessment criteria and evaluation weightings ",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
@@ -228,7 +229,7 @@
         },
         {
           "Task": 3,
-          "title": "Review and publish your further competition",
+          "title": "Review and publish ",
           "required": "optional",
           "link": "#",
           "status": "Cannot start yet"
