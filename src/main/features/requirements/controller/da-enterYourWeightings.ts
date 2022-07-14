@@ -147,7 +147,7 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
   req.session.errorText = [];
   try {
     const toolId = req.session['DA'].toolId;
-    const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
+    let dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
 
     const range = req.session['weightingRange'];
     const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5, 6: field6 } = req.body;
@@ -176,16 +176,22 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
             let dim=dimensions.filter(x=>x["dimension-id"] === i)
             Weightings.push(...dim)
         }
+        let body=[];
+        dimensions= dimensions.filter(x=>x['dimension-id']!=7)
       for (var dimension of dimensions) {
-        const body = {
-          name: dimension.name,
-          weighting: req.body[dimension['dimension-id']],
-          requirements: [],
-          includedCriteria: dimension.evaluationCriteria
-        };
+         body.push({
+            "name": dimension.name,
+            "dimension-id":dimension['dimension-id'],
+            "weighting": req.body[dimension['dimension-id']],
+            "requirements": [],
+            "includedCriteria": dimension.evaluationCriteria,
+            "overwriteRequirements": true
+          });
+        
+      }
 
         await TenderApi.Instance(SESSION_ID).put(
-          `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+          `/assessments/${assessmentId}/dimensions`,
           body,
         );
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'Completed');
@@ -193,7 +199,7 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
           if (flag) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'Not started');
           }
-       }
+       
       if(req.session["DA_nextsteps_edit"])
       {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
