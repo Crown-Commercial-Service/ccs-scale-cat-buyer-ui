@@ -5,14 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
                $('.ca_choosesecurity_resources').val(" ")
             }
         });
-    
+        var value_ca_=document.getElementsByClassName("ca_choosesecurity_resources")  
+        for (var i = 0; i < value_ca_.length; i++) {
+            
+       value_ca_[i].addEventListener('keydown', function(event) {
+           
+           // Checking for Backspace.
+           if (event.keyCode == 8) {
+               
+               $('.ca_choosesecurity_resources').val(" ")
+           }
+           // Checking for Delete.
+           if (event.keyCode == 46) {
+               
+               $('.ca_choosesecurity_resources').val(" ")
+           }
+       });          
+        }
         $('#ca_choose_security_form').on('submit', (e) => {
             debugger
             var resources_ca='';
             for(var i=0;i<4;i++)
             {
                 var value_ca=document.getElementsByClassName("ca_choosesecurity_resources")[i].value
-               if(value_ca!=undefined && value_ca!='')   
+               if(value_ca!=undefined && value_ca!=" " && value_ca!='')   
                {
                 resources_ca=value_ca;
                }  

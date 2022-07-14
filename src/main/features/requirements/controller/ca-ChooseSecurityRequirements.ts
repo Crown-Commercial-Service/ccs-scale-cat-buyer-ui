@@ -45,7 +45,7 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
       } 
       securityQuantity=dimensionRequirements.filter(dimension => dimension["dimension-id"] ===2)[0]
       .requirements[0].values?.find(y=>y["criterion-id"]==6)?.value
-      data.form.selectedValue=totalQuantityca-securityQuantity;
+      data.form.selectedValue=(totalQuantityca-securityQuantity).toString();;
      }
     }
     }
