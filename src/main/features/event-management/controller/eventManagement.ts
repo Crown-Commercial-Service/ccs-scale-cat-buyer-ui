@@ -585,7 +585,16 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
     let state = "";
     if (status_flag.toUpparCase() == "AWARDED") {
       state = "COMPLETE"
-      // const signedURL = `tenders/projects/${projectId}/events/${eventId}/signed`    
+      // const signedURL = `tenders/projects/${projectId}/events/${eventId}/signed`  
+      const signedURL = `tenders/projects/${projectId}/events/${eventId}/signed`
+      const putBody = {
+        "awardID":awardId,
+        "status": "complete"
+      }
+      const response = await TenderApi.Instance(SESSION_ID).put(signedURL, putBody);
+    if (response.status == Number(HttpStatusCode.OK)) {
+      res.redirect('/event/management?id=' + eventId);
+    }
     }
     else {
       state = "AWARD"
