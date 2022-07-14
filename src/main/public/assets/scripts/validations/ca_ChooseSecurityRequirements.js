@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
        });          
         }
         $('#ca_choose_security_form').on('submit', (e) => {
-            debugger
+            
             var resources_ca='';
             for(var i=0;i<4;i++)
             {
