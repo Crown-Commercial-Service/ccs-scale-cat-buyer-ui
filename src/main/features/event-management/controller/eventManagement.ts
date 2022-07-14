@@ -309,7 +309,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const { projectId } = req.session;
   const { eventId } = req.session;
   const { supplierid, reviewsupplierid } = req.query;
-  let agreementName: string, agreementLotName: string, string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventType: string
+  let projectName: string, status: string, eventType: string
   let supplierDetails = {} as SupplierDetails;
   try {
     if (supplierid != undefined) {
@@ -341,12 +341,12 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
       const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
-      let showallDownload = false;
+      //let showallDownload = false;
       for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
         let id = supplierdata.data.responders[i].supplier.id;
         let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]
         if (supplierdata.data.responders[i].responseState == 'Submitted') {
-          showallDownload = true;
+          //showallDownload = true;
         }
         supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
         supplierDetails.responseState = supplierdata.data.responders[i].responseState;
