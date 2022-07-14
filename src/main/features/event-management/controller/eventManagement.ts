@@ -167,22 +167,21 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     }
 
     //Awarded,pre_awarded and complete supplier info
-    if(status.toLowerCase() == "awarded" || status.toLowerCase() == "pre_awarded"|| status.toLowerCase() == "complete")
-    {
+    if (status.toLowerCase() == "awarded" || status.toLowerCase() == "pre_awarded" || status.toLowerCase() == "complete") {
       let supplierState = "COMPLETE";
-      if(status.toLowerCase() == "awarded")
-      supplierState = "AWARD"
-      else if(status.toLowerCase() == "pre_awarded")
-      supplierState = "PRE_AWARD"
+      if (status.toLowerCase() == "awarded")
+        supplierState = "AWARD"
+      else if (status.toLowerCase() == "pre_awarded")
+        supplierState = "PRE_AWARD"
 
       const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
       const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
 
-      supplierAwardDetail?.suppliers?.map((item: any) =>{
-        supplierDetailsDataList.filter(x => x.supplierId ==item.id)[0].supplierState ="Awarded"
+      supplierAwardDetail?.suppliers?.map((item: any) => {
+        supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = "Awarded"
       });
     }
-    
+
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
     //Get Q&A Count
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
@@ -588,35 +587,35 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
 
   if (pre_award_supplier_confirmation != undefined && pre_award_supplier_confirmation === '1') {
     let awardId = 1;
-    let state = "";
-    if (status_flag.toUpparCase() == "AWARDED") {
-      state = "COMPLETE"
-      // const signedURL = `tenders/projects/${projectId}/events/${eventId}/signed`  
+    if (status_flag.toUpparCase() == "AWARDED") {  
       const signedURL = `tenders/projects/${projectId}/events/${eventId}/signed`
       const putBody = {
-        "awardID":awardId,
+        "awardID": awardId,
         "status": "complete"
       }
       const response = await TenderApi.Instance(SESSION_ID).put(signedURL, putBody);
-    if (response.status == Number(HttpStatusCode.OK)) {
-      res.redirect('/event/management?id=' + eventId);
-    }
+      if (response.status == Number(HttpStatusCode.OK)) {
+        res.redirect('/event/management?id=' + eventId);
+      }
     }
     else {
-      state = "AWARD"
+      const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards/${awardId}?award-state= AWARD`
+
+      const putBody = {
+        "suppliers": [
+          {
+            "id": supplier_id
+          }
+        ]
+      };
+      const response = await TenderApi.Instance(SESSION_ID).put(awardURL, putBody);
+      if (response.status == Number(HttpStatusCode.OK)) {
+        res.redirect('/event/management?id=' + eventId);
+      }
     }
-    const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards/${awardId}?award-state=${state}`
-    //const awardURL = `tenders/projects/${projectId}/events/${eventId}/state/${state}/awards/${awardId}`
-    const putBody = {
-      "suppliers": [
-        {
-          "id": supplier_id
-        }
-      ]
-    };
-    const response = await TenderApi.Instance(SESSION_ID).put(awardURL, putBody);
-    if (response.status == Number(HttpStatusCode.OK)) {
-      res.redirect('/event/management?id=' + eventId);
-    }
+  }
+  else {
+    req.session['isError'] = true;
+    res.redirect('/event/management?id=' + eventId);
   }
 }
