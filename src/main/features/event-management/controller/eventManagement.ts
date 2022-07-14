@@ -121,10 +121,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
-    const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/award?award-state=${eventId}`
-    const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
-
-
     //Supplier score
     const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
     const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
@@ -150,14 +146,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       supplierDetailsObj.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.email : "";
       supplierDetailsObj.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.telephone : "";
       supplierDetailsObj.supplierId = id;
-      const fiilterDataSupplierId = supplierAwardDetail !== undefined && supplierAwardDetail != null && supplierAwardDetail.suppliers != null && supplierAwardDetail.suppliers != null && supplierAwardDetail.suppliers.length > 0 ? supplierAwardDetail.suppliers.filter((a: any) => { a.id === id })?.[0] : null;
-      if (fiilterDataSupplierId === undefined && fiilterDataSupplierId === null) {
-        supplierDetailsObj.supplierState = "Awarded";
-        supplierDetails = supplierDetailsObj;
-        supplierDetails.supplierAwardedDate = supplierAwardDetail.date;
-      } else {
-        supplierDetailsObj.supplierState = "Unsuccessfull";
-      }
+      supplierDetailsObj.supplierState = "Unsuccessfull";
 
       supplierDetailsDataList.push(supplierDetailsObj);
       if (supplierdata.data.responders[i].responseState.trim().toLowerCase() == 'submitted') {
@@ -177,6 +166,23 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       supplierDetailsDataList[i].rank = "" + rankCount;
     }
 
+    //Awarded,pre_awarded and complete supplier info
+    if(status.toLowerCase() == "awarded" || status.toLowerCase() == "pre_awarded"|| status.toLowerCase() == "complete")
+    {
+      let supplierState = "COMPLETE";
+      if(status.toLowerCase() == "awarded")
+      supplierState = "AWARD"
+      else if(status.toLowerCase() == "pre_awarded")
+      supplierState = "PRE_AWARD"
+
+      const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
+      const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
+
+      supplierAwardDetail?.suppliers?.map((item: any) =>{
+        supplierDetailsDataList.filter(x => x.supplierId ==item.id)[0].supplierState ="Awarded"
+      });
+    }
+    
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
     //Get Q&A Count
     const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
