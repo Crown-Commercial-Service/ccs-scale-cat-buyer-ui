@@ -121,8 +121,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
-    const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/award?award-state=${eventId}`
-    const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
+    // const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/award?award-state=${eventId}`
+    // const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
 
 
     //Supplier score
@@ -150,16 +150,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       supplierDetailsObj.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.email : "";
       supplierDetailsObj.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.telephone : "";
       supplierDetailsObj.supplierId = id;
-      const fiilterDataSupplierId = supplierAwardDetail !== undefined && supplierAwardDetail != null && supplierAwardDetail.suppliers != null && supplierAwardDetail.suppliers != null && supplierAwardDetail.suppliers.length > 0 ? supplierAwardDetail.suppliers.filter((a: any) => { a.id === id })?.[0] : null;
-      if (fiilterDataSupplierId === undefined && fiilterDataSupplierId === null) {
-        supplierDetailsObj.supplierState = "Awarded";
-        supplierDetails = supplierDetailsObj;
-        supplierDetails.supplierAwardedDate = supplierAwardDetail.date;
-      } else {
-        supplierDetailsObj.supplierState = "Unsuccessfull";
-      }
+      // const fiilterDataSupplierId = supplierAwardDetail !== undefined && supplierAwardDetail != null && supplierAwardDetail.suppliers != null && supplierAwardDetail.suppliers != null && supplierAwardDetail.suppliers.length > 0 ? supplierAwardDetail.suppliers.filter((a: any) => { a.id === id })?.[0] : null;
+      // if (fiilterDataSupplierId === undefined && fiilterDataSupplierId === null) {
+      //   supplierDetailsObj.supplierState = "Awarded";
+      //   supplierDetails = supplierDetailsObj;
+      //   supplierDetails.supplierAwardedDate = supplierAwardDetail.date;
+      // } else {
+      //   supplierDetailsObj.supplierState = "Unsuccessfull";
+      // }
 
-      supplierDetailsDataList.push(supplierDetailsObj);
+      // supplierDetailsDataList.push(supplierDetailsObj);
       if (supplierdata.data.responders[i].responseState.trim().toLowerCase() == 'submitted') {
         showallDownload = true;
       }
