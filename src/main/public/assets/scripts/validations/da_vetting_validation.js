@@ -271,9 +271,9 @@ if(totalVetting<100 || totalVetting>100)
             if (!inputtedtext.length > 0) {
 
             e.preventDefault();
-            $('#ca_vetting_error_summary').removeClass('hide-block');
+            $('#da_vetting_error_summary').removeClass('hide-block');
             $('.govuk-error-summary__title').text('There is a problem');
-            $("#ca_summary_list").html('You must enter atleast on value');
+            $("#da_summary_list").html('At least 1 Role Family set of values are defined and 1 DDaT Role value is defined for that Role Family');
             $('html, body').animate({ scrollTop: 0 }, 'fast');
         }
 
