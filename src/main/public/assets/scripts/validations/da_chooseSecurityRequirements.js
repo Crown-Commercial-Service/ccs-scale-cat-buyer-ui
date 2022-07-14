@@ -5,13 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
                $('.da_choosesecurity_resources').val(" ")
             }
         });
-     
+        var value_da_=document.getElementsByClassName("da_choosesecurity_resources")  
+        for (var i = 0; i < value_da_.length; i++) {
+            
+       value_da_[i].addEventListener('keydown', function(event) {
+           
+           // Checking for Backspace.
+           if (event.keyCode == 8) {
+               
+               $('.da_choosesecurity_resources').val(" ")
+           }
+           // Checking for Delete.
+           if (event.keyCode == 46) {
+               
+               $('.da_choosesecurity_resources').val(" ")
+           }
+       });          
+        }
         $('#da_choose_security_form').on('submit', (e) => {
             var resources_da='';
+            
             for(var i=0;i<4;i++)
             {
                 var value_da=document.getElementsByClassName("da_choosesecurity_resources")[i].value
-               if(value_da!=undefined && value_da!='')   
+               if(value_da!=undefined && value_da!=" " && value_da!='')   
                {
                 resources_da=value_da;
                }  
