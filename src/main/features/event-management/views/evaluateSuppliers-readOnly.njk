@@ -1,0 +1,141 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Event management ' %}
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+        {
+            "text": "Your Project",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Evaluate Suppliers",
+            "href": "/evaluate-suppliers"
+        },
+        {
+            "text": "Enter your supplier Evaluation",
+            "href": "#"
+        }
+  ]
+    }) }}
+{% endblock %}
+
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "You must fill all the fields."
+    }
+  ]
+}) }}
+{%endif %}
+
+    {{ CCSDialog({
+  title:'This action cannot be undone, please confirm that you want to progress',
+  description:'This action will revert the form to its original state.',
+  redirect:'#',
+  type:'vetting'
+}) }}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 id="page-heading" class="govuk-heading-xl">
+          <strong>{{title}}</strong>
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
+      <div class="ccs-page-section">
+        <p class="govuk-body">{{subtitle}}</p>
+        <p class="govuk-body">{{subtitle1}}</p>  
+        <br>
+      </div>
+
+      <form id="enter_evaluation" name="enter_evaluation" class="form enter_evaluation" action="/enter-evaluation?supplierid={{supplierid}}&suppliername={{suppliername}}" method="POST">
+      {{ csrfProtection(csrf) }}
+        <div class="ccs-page-section">
+       
+
+            <p class="govuk-body"><h2><strong>Supplier Name :</strong>{{supplierDetails.suppliername}}</h2></p>
+                      {{ CCSInput({
+                            label: {
+                              text: "Final Score ",
+                              classes: "govuk-label--m",
+                              id: "enter_evaluation",
+                              name: "enter_evaluation"
+                            },
+                            hint: {
+                              classes: "govuk-hint",
+                              text: "(Minimum 0, Maximum 100)"
+                            },
+                            value:supplierDetails.score,
+                            suffix: {
+                              text: "%"
+                            },
+                            id: "enter_evaluation_score",
+                            name: "enter_evaluation_score",
+                            classes: "govuk-input--width-4 dimensions",
+                            maxlength: "6",
+                            type:"number",
+                             min:"0.00",
+                              max:"100.00",
+                              step:"0.01"
+
+                        })
+                      }}
+        
+
+<br/>
+
+                        {{ CCSInput({
+                            label: {
+                              text: "Final Feedback ",
+                              classes: "govuk-label--m",
+                              name: "enter_evaluation"
+                            },
+                            hint: {
+                             text: "Feedback should be constructive and relevant to the answers the supplier submitted.Try and include feedback about something positive, as well as areas of improvement."
+                            },
+                            value:supplierDetails.supplierFeedBack,
+                            id: "enter_evaluation_feedback",
+                            name: "enter_evaluation_feedback",
+                            spellcheck: true,
+                            classes: "govuk-input",
+                            maxlength: "5000"
+                        })
+                      }}
+<p><label id="supplierFeedback"></label></p>
+
+                     <div class="govuk-button-group">
+                        {{ CCSButton({
+                            text: "Save supplier feedback",
+                            action:"submit"
+                        }) }}
+                        {% set returnLink = "/evaluate-suppliers" %}
+                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Evaluate suppliers</a>
+                    </div>       
+
+
+
+      </form>
+</div>    
+</div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </main>
+        {% endblock %}
