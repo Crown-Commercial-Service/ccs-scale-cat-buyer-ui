@@ -183,7 +183,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     {
       const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
       const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
-      
+
+      signedContractDate =  scontractAwardDetail?.dateSigned
       
     }
 
@@ -199,7 +200,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
     let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
     collaboratorData = collaboratorData.data;
-    const appendData = { supplierDetails, data: eventManagementData, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+    const appendData = { supplierDetails,signedContractDate, data: eventManagementData, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
     let redirectUrl: string
     if (status.toLowerCase() == "in-progress") {
@@ -597,7 +598,7 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
         "awardID": "1",
         "status": "active"
       }
-      const response = await TenderApi.Instance(SESSION_ID).put(signedURL, putBody);
+      const response = await TenderApi.Instance(SESSION_ID).post(signedURL, putBody);
       if (response.status == Number(HttpStatusCode.OK)) {
         res.redirect('/event/management?id=' + eventId);
       }
