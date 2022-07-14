@@ -44,7 +44,7 @@ export const DA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     } 
     securityQuantity=dimensionRequirements.filter(dimension => dimension["dimension-id"] ===2)[0]
     .requirements[0].values?.find(y=>y["criterion-id"]==6)?.value
-    data.form.selectedValue=totalQuantityda-securityQuantity;
+    data.form.selectedValue=(totalQuantityda-securityQuantity).toString();;
    }
   }
   }
@@ -163,6 +163,7 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
         weighting:dimension2weighitng,
         includedCriteria: includedSubContractor,
         requirements: requirementsData,
+        overwriteRequirements: true,
       };
       const response= await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
       if(response.status == 200)

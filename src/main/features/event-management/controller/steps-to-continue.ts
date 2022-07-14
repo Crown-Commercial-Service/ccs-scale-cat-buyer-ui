@@ -1,12 +1,7 @@
 import * as express from 'express'
-//import { ParsedQs } from 'qs'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
-import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
-//import { Procurement } from '../../procurement/model/project';
-//import { ReleatedContent } from '../../agreement/model/related-content'
 import * as data from '../../../resources/content/event-management/steps-to-continue.json'
-//import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 
 /**
  * 
@@ -58,54 +53,22 @@ import * as data from '../../../resources/content/event-management/steps-to-cont
 
 export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; 
-  const { eventId, projectId } = req.session; 
   try {
    
     const  rfi_next_steps  =  req.body.rfi_next_steps_to_continue;
-    const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
-
     if (rfi_next_steps) {
       switch (rfi_next_steps) {
         case '[DA]':
-          // const daResponse = updateEventType("DA",baseURL,SESSION_ID);
-
-          // if (daResponse != null && daResponse != undefined)
-          //   req.session.currentEvent = daResponse;
-
-           res.redirect('/projects/create-or-choose');
+          res.redirect('/projects/create-or-choose');
           break;
 
         case '[Rfi]':
-          //const rfiResponse = updateEventType("RFI",baseURL,SESSION_ID);
-          // const body = {
-          //   eventType: "RFI",
-          // };
-          // const { data } = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
-
-          // if (data != null && data != undefined)
-          //   req.session.currentEvent = data;
-
-          res.redirect('/projects/create-or-choose');
+         res.redirect('/projects/create-or-choose');
           break;
-        case '[1-stage FC]':
-          // let body1 = {
-          //   eventType: "FC",
-          // };
-          // const  fcResponse  = await TenderApi.Instance(SESSION_ID).put(baseURL, body1);
-          //   // const fcResponse = updateEventType("FC",baseURL,SESSION_ID);
-          // let data1 =fcResponse.data;
-
-          // if (data1 != null && data1 != undefined)
-          //   req.session.currentEvent = data1;
-
+        case '[1-stage FC]':      
             res.redirect('/projects/create-or-choose');
             break;  
-        case '[1-stage FC]':
-              const fcResponse2 = updateEventType("FC",baseURL,SESSION_ID);
-
-          if (fcResponse2 != null && fcResponse2 != undefined)
-            req.session.currentEvent = fcResponse2;
-            
+        case '[2-stage FC]':          
               res.redirect('/projects/create-or-choose');
               break;
         default:
@@ -113,7 +76,6 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
       }
     } else {
       req.session['isJaggaerError'] = true;
-     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
       res.redirect('/steps-to-continue');
     }
   } catch (error) {
@@ -128,11 +90,4 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
     );
   }
 
-}
-const updateEventType = async (eventType: any, baseURL: any, SESSION_ID: any) => {
-  const body = {
-    eventType: eventType,
-  };
-  const { data } = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
-  return data;
 }

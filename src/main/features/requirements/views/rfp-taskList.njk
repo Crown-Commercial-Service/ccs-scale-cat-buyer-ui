@@ -40,7 +40,7 @@
     {% for item in data.events %}
          <li>
             <h2 class="app-task-list__section">
-            <span class="app-task-list__section-number">{{item.eventno}} </span> {{item.eventTitle}}
+            <span class="app-task-list__section-number">{{item.eventno}} </span>{% if selectedeventtype=='DA' and item.eventno==3 %} {{item.eventTitleDA}} {% else %} {{item.eventTitle}} {%endif%}
              </h2>
              <p class="govuk-body">{{item.eventDescription}}</p>
                {% if (item.eventno==3) %}

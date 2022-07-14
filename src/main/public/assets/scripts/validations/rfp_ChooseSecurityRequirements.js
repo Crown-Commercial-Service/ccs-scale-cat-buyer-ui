@@ -6,8 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
                $('.rfp_choosesecurity_resources').val(" ")
             }
         });
-             var value_rfp_=document.getElementById("ccs_rfp_resources")  
-            value_rfp_.addEventListener('keydown', function(event) {
+             var value_rfp_=document.getElementsByClassName("rfp_choosesecurity_resources")  
+             for (var i = 0; i < value_rfp_.length; i++) {
+                 
+            value_rfp_[i].addEventListener('keydown', function(event) {
                 
                 // Checking for Backspace.
                 if (event.keyCode == 8) {
@@ -20,14 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     $('.rfp_choosesecurity_resources').val(" ")
                 }
             });          
-       
-        $('#rfp_choose_security_form').on('submit', (e) => {
-            
+             }
+        $('#rfp_choose_security_form').on('submit', (e) => {     
             var resources_rfp='';          
             for(var i=0;i<4;i++)
             {
                 var value_rfp=document.getElementsByClassName("rfp_choosesecurity_resources")[i].value
-               if(value_rfp!=undefined && value_rfp!='')   
+               if(value_rfp!=undefined && value_rfp!=" " && value_rfp!='')   
                {
                 resources_rfp=value_rfp;
                }  
