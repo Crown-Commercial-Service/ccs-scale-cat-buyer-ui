@@ -294,8 +294,9 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  const { supplierid } = req.query;
-
+  const { supplierid, reviewsupplierid } = req.query;
+  let agreementName: string, agreementLotName: string, string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventType: string
+  let supplierDetails = {} as SupplierDetails;
   try {
     if (supplierid != undefined) {
 
@@ -317,9 +318,39 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       });
       res.send(fileData);
     }
+    if (reviewsupplierid != undefined) {
+      //Supplier score
+      //Supplier score
+      const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
+      const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
+      //Supplier of interest
+      const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
+      const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
+      let showallDownload = false;
+      for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
+        let id = supplierdata.data.responders[i].supplier.id;
+        let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]
+        if (supplierdata.data.responders[i].responseState == 'Submitted') {
+          showallDownload = true;
+        }
+        supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
+        supplierDetails.responseState = supplierdata.data.responders[i].responseState;
+        supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
+        supplierDetails.score = (score != undefined) ? score.score : 0;
+        supplierDetails.supplierFeedBack = (score != undefined) ? score.comment : "";
+
+
+        //UNCOMMET THIS CODE WHEN AWARDED SUPPLIER INFORMATION COMING FROM JAGGER
+        // if (id ==="") {
+        //   supplierDetails=supplierDetailsObj;
+        // }
+      }
+      const appendData = {supplierDetails, data: eventManagementData, status, projectName, eventId, eventType };
+
+      res.render('evaluateSuppliers', appendData);
+    }
     else {
-
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
@@ -588,13 +619,13 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
       // const signedURL = `tenders/projects/${projectId}/events/${eventId}/signed`  
       const signedURL = `tenders/projects/${projectId}/events/${eventId}/signed`
       const putBody = {
-        "awardID":awardId,
+        "awardID": awardId,
         "status": "complete"
       }
       const response = await TenderApi.Instance(SESSION_ID).put(signedURL, putBody);
-    if (response.status == Number(HttpStatusCode.OK)) {
-      res.redirect('/event/management?id=' + eventId);
-    }
+      if (response.status == Number(HttpStatusCode.OK)) {
+        res.redirect('/event/management?id=' + eventId);
+      }
     }
     else {
       state = "AWARD"
