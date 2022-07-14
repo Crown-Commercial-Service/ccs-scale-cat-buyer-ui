@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
         var decimalnumber = [];
         var nonnumerical = [];
         var rolevalidation=[];
+        var staffval=[];
+        var vettval=[];
         let totalStaff=0;
         let totalVetting=0;
 
@@ -30,11 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(totalStaff<100 || totalStaff>100)
         {
             ///staffvalidation.push(true);
-            e.preventDefault();
-            $('#ca_vetting_error_summary').removeClass('hide-block');
-            $('.govuk-error-summary__title').text('There is a problem');
-            $("#ca_summary_list").html('<li><a href="#">The number of staff weightings for all Role Family entries must = 100%</a></li>');
-            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            staffval.push(true);
         }
 
 // vetting 100% validation    
@@ -47,11 +45,7 @@ for (var a = 0; a < weightVettingId.length; a++) {
 if(totalVetting<100 || totalVetting>100)
 {
     ///staffvalidation.push(true);
-    e.preventDefault();
-    $('#ca_vetting_error_summary').removeClass('hide-block');
-    $('.govuk-error-summary__title').text('There is a problem');
-    $("#ca_summary_list").html('<li><a href="#">The vetting requirement weightings for all Role Family entries must = 100%</a></li>');
-    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    vettval.push(true);
 }    
         
         //empty DDAT roles validation
@@ -129,6 +123,11 @@ if(totalVetting<100 || totalVetting>100)
                 document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
                 nonnumerical.push(true);
             }
+            else if (classTarget.value >100 && classTarget.value !== '') {
+                document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'Value entered in any [Weighting for number of staff] entry box <= 100';
+                staffval.push(true);
+            }
             else if (classTarget.value <= 0 && classTarget.value !== '') {
                 document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
@@ -156,6 +155,11 @@ if(totalVetting<100 || totalVetting>100)
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
                 nonnumerical.push(true);
+            }
+            else if (classTarget.value >100 && classTarget.value !== '') {
+                document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = 'Value entered in any [Weighting for related vetting requirement] entry box <= 100';
+                vettval.push(true);
             }
             else if (classTarget.value <= 0 && classTarget.value !== '') {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
@@ -242,7 +246,26 @@ if(totalVetting<100 || totalVetting>100)
                      $('.govuk-error-summary__title').text('There is a problem');
                      $("#ca_summary_list").html('<li><a href="#">At least 1 DDaT role must be populated with a quantity value</a></li>');
                      $('html, body').animate({ scrollTop: 0 }, 'fast'); 
-                     break;        
+                     break;  
+                     
+                case(staffval.length>0):
+                e.preventDefault();
+                $('#ca_vetting_error_summary').removeClass('hide-block');
+                $('.govuk-error-summary__title').text('There is a problem');
+                $("#ca_summary_list").html('<li><a href="#">The number of staff weightings for all Role Family entries must = 100%</a></li>');
+                $('html, body').animate({ scrollTop: 0 }, 'fast'); 
+                break;
+            
+                case(vettval.length>0):
+                e.preventDefault();
+                $('#ca_vetting_error_summary').removeClass('hide-block');
+                $('.govuk-error-summary__title').text('There is a problem');
+                $("#ca_summary_list").html('<li><a href="#">The number of vetting weightings for all Role Family entries must = 100%</a></li>');
+                $('html, body').animate({ scrollTop: 0 }, 'fast'); 
+                break;
+
+
+
                 default:
                     console.log("If all else fails");
                     break;
