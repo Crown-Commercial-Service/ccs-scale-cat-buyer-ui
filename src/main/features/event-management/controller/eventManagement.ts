@@ -121,10 +121,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
-    const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/award?award-state=${eventId}`
-    const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
-
-
     //Supplier score
     const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
     const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
@@ -150,14 +146,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       supplierDetailsObj.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.email : "";
       supplierDetailsObj.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.telephone : "";
       supplierDetailsObj.supplierId = id;
-      const fiilterDataSupplierId = supplierAwardDetail !== undefined && supplierAwardDetail != null && supplierAwardDetail.suppliers != null && supplierAwardDetail.suppliers != null && supplierAwardDetail.suppliers.length > 0 ? supplierAwardDetail.suppliers.filter((a: any) => { a.id === id })?.[0] : null;
-      if (fiilterDataSupplierId === undefined && fiilterDataSupplierId === null) {
-        supplierDetailsObj.supplierState = "Awarded";
-        supplierDetails = supplierDetailsObj;
-        supplierDetails.supplierAwardedDate = supplierAwardDetail.date;
-      } else {
-        supplierDetailsObj.supplierState = "Unsuccessfull";
-      }
+      supplierDetailsObj.supplierState = "Unsuccessfull";
 
       supplierDetailsDataList.push(supplierDetailsObj);
       if (supplierdata.data.responders[i].responseState.trim().toLowerCase() == 'submitted') {
@@ -175,6 +164,22 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     for (let i = 0; i < supplierDetailsDataList.length; i++) {
       rankCount = rankCount + 1
       supplierDetailsDataList[i].rank = "" + rankCount;
+    }
+
+    //Awarded,pre_awarded and complete supplier info
+    if (status.toLowerCase() == "awarded" || status.toLowerCase() == "pre_awarded" || status.toLowerCase() == "complete") {
+      let supplierState = "COMPLETE";
+      if (status.toLowerCase() == "awarded")
+        supplierState = "AWARD"
+      else if (status.toLowerCase() == "pre_awarded")
+        supplierState = "PRE_AWARD"
+
+      const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
+      const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
+
+      supplierAwardDetail?.suppliers?.map((item: any) => {
+        supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = "Awarded"
+      });
     }
 
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
@@ -582,35 +587,35 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
 
   if (pre_award_supplier_confirmation != undefined && pre_award_supplier_confirmation === '1') {
     let awardId = 1;
-    let state = "";
-    if (status_flag.toUpparCase() == "AWARDED") {
-      state = "COMPLETE"
-      // const signedURL = `tenders/projects/${projectId}/events/${eventId}/signed`  
+    if (status_flag.toUpparCase() == "AWARDED") {  
       const signedURL = `tenders/projects/${projectId}/events/${eventId}/signed`
       const putBody = {
-        "awardID":awardId,
+        "awardID": awardId,
         "status": "complete"
       }
       const response = await TenderApi.Instance(SESSION_ID).put(signedURL, putBody);
-    if (response.status == Number(HttpStatusCode.OK)) {
-      res.redirect('/event/management?id=' + eventId);
-    }
+      if (response.status == Number(HttpStatusCode.OK)) {
+        res.redirect('/event/management?id=' + eventId);
+      }
     }
     else {
-      state = "AWARD"
+      const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards/${awardId}?award-state= AWARD`
+
+      const putBody = {
+        "suppliers": [
+          {
+            "id": supplier_id
+          }
+        ]
+      };
+      const response = await TenderApi.Instance(SESSION_ID).put(awardURL, putBody);
+      if (response.status == Number(HttpStatusCode.OK)) {
+        res.redirect('/event/management?id=' + eventId);
+      }
     }
-    const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards/${awardId}?award-state=${state}`
-    //const awardURL = `tenders/projects/${projectId}/events/${eventId}/state/${state}/awards/${awardId}`
-    const putBody = {
-      "suppliers": [
-        {
-          "id": supplier_id
-        }
-      ]
-    };
-    const response = await TenderApi.Instance(SESSION_ID).put(awardURL, putBody);
-    if (response.status == Number(HttpStatusCode.OK)) {
-      res.redirect('/event/management?id=' + eventId);
-    }
+  }
+  else {
+    req.session['isError'] = true;
+    res.redirect('/event/management?id=' + eventId);
   }
 }
