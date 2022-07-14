@@ -13,6 +13,7 @@ export interface SupplierDetails {
     supplierState: string,
     supplierAwardedDate: string,
     supplierSignedContractDate: string,
+    supplierFeedBack: string,
 
 }
 

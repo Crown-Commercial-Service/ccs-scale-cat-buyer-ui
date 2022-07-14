@@ -77,7 +77,7 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
         <br><br>
-        <p class="govuk-body">{{data.subtitle}}
+        <p class="govuk-body">{% if selectedeventtype=='DA' %}{{data.subtitleDA}}{%else%}{{data.subtitle}}{%endif%}
         </p><br><br>
         {%if(selectedeventtype=='DA')%}
         {{ CCSButton({
@@ -294,7 +294,7 @@
 {%block Section_3%}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-            <h2 class="govuk-heading-m">3. Add context to your further competition </h2>
+            <h2 class="govuk-heading-m">3. Add context {% if selectedeventtype=='DA' %}and requirements{%else%}to your further competition{%endif%} </h2>
               <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
@@ -1060,7 +1060,7 @@
 {# START-----------Review and publish your further competition #}
  {%block Review_and_publish_your_further_competition%}
 
-<h2 class="govuk-heading-m">6. Review and publish your further competition </h2>
+<h2 class="govuk-heading-m">6. Review and publish {% if selectedeventtype!='DA' %}your further competition{%endif%} </h2>
 <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
