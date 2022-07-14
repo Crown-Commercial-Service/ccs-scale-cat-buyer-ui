@@ -12,6 +12,7 @@ export interface SupplierDetails {
     rank: string,
     supplierState: string,
     supplierAwardedDate: string,
+    supplierSignedContractDate: string,
     supplierFeedBack: string,
 
 }

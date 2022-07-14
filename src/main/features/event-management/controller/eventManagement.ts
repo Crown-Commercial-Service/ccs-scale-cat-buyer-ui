@@ -12,6 +12,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import moment from 'moment-business-days';
 
 /**
  * 
@@ -165,27 +166,29 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       rankCount = rankCount + 1
       supplierDetailsDataList[i].rank = "" + rankCount;
     }
-  let signedContractDate = "";
     //Awarded,pre_awarded and complete supplier info
-    if (status.toLowerCase() == "awarded" || status.toLowerCase() == "pre_awarded") {
-      let supplierState = "PRE_AWARD";
-      if (status.toLowerCase() == "pre_awarded")
-        supplierState = "AWARD"
+    if (status.toLowerCase() == "awarded" || status.toLowerCase() == "pre-award" || status.toLowerCase() == "complete") {
+      let supplierState = "AWARD";
+      if (status.toLowerCase() == "pre-award")
+        supplierState = "PRE_AWARD"
 
       const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
       const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
 
+      
       supplierAwardDetail?.suppliers?.map((item: any) => {
-        supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = "Awarded"
+        supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = "Awarded";
+        supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
       });
+      supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date).format('DD MMMM YYYY');
     }
-    else if(status.toLowerCase() == "complete")
+
+    //to get signed awarded contrct end date
+     if(status.toLowerCase() == "complete")
     {
       const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
       const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
-
-      signedContractDate =  scontractAwardDetail?.dateSigned
-      
+      supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
     }
 
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
@@ -200,7 +203,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
     let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
     collaboratorData = collaboratorData.data;
-    const appendData = { supplierDetails,signedContractDate, data: eventManagementData, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+    const appendData = { supplierDetails,data: eventManagementData, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
     let redirectUrl: string
     if (status.toLowerCase() == "in-progress") {
@@ -306,7 +309,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const { projectId } = req.session;
   const { eventId } = req.session;
   const { supplierid, reviewsupplierid } = req.query;
-  let agreementName: string, agreementLotName: string, string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventType: string
+  let projectName: string, status: string, eventType: string
   let supplierDetails = {} as SupplierDetails;
   try {
     if (supplierid != undefined) {
@@ -338,12 +341,12 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
       const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
-      let showallDownload = false;
+      //let showallDownload = false;
       for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
         let id = supplierdata.data.responders[i].supplier.id;
         let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]
         if (supplierdata.data.responders[i].responseState == 'Submitted') {
-          showallDownload = true;
+          //showallDownload = true;
         }
         supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
         supplierDetails.responseState = supplierdata.data.responders[i].responseState;
@@ -623,7 +626,7 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
   const { pre_award_supplier_confirmation, supplier_id, status_flag } = req.body;
 
   if (pre_award_supplier_confirmation != undefined && pre_award_supplier_confirmation === '1') {
-    if (status_flag.toUpparCase() == "AWARDED") {  
+    if (status_flag!=undefined && status_flag === "AWARDED") {  
       const signedURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
       const putBody = {
         "awardID": "1",
