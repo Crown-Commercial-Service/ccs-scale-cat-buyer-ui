@@ -43,8 +43,7 @@ export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: expr
                 }
               ]
           };
-
-       const awardURL = `tenders/projects/${projectId}/events/${eventId}/state/${state}/awards`
+       const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${state}`
         await TenderApi.Instance(SESSION_ID).post(awardURL,body);
        res.redirect('/event/management?id='+eventId);
 

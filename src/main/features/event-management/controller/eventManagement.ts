@@ -564,7 +564,7 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
   const { pre_award_supplier_confirmation, supplier_id, status_flag } = req.body;
 
   if (pre_award_supplier_confirmation != undefined && pre_award_supplier_confirmation === '1') {
-    const awardId = 1;
+    let awardId = 1;
     let state = "";
     if (status_flag.toUpparCase() == "AWARDED") {
       state = "COMPLETE"
@@ -573,7 +573,8 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
     else {
       state = "AWARD"
     }
-    const awardURL = `tenders/projects/${projectId}/events/${eventId}/state/${state}/awards/${awardId}`
+    const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards/${awardId}?award-state=${state}`
+    //const awardURL = `tenders/projects/${projectId}/events/${eventId}/state/${state}/awards/${awardId}`
     const putBody = {
       "suppliers": [
         {
