@@ -251,14 +251,14 @@ or messages in your inbox.See supplier's answer to your published project.</p>
 				<p> Once the standtstill period has ended,you will need to confirm the awarded suppler below.</p>
         {% endif %}
         <h3 class="govuk-heading-m">
-          <strong>Supplier name </strong>
+          <strong>{{supplierDetails.supplierName}} </strong>
         </h3>
-        <p> Supplier name </p>
+        <p> {{supplierDetails.supplierId}} </p>
         </br>
 
         <p> <strong>Address:</strong></p>
-        <p> {{supplierDetails.supplierDetails.streetAddress}}</p>
-       <p> {{supplierDetails.supplierDetails.locality}}</p>
+        <p> {{supplierDetails.supplierAddress.streetAddress}}</p>
+       <p> {{supplierDetails.supplierAddress.locality}}</p>
        <p> {{supplierDetails.supplierAddress.region}}</p>
        </br></br>
 
@@ -272,7 +272,7 @@ or messages in your inbox.See supplier's answer to your published project.</p>
 
   {% if status.toUpperCase() =="AWARDED"%} 
   <p> If you have not done so already,you can  <a class="govuk-link" href="/unsuccessful?download=1">download the awarded supplier and unsuccessful supplier templates here.</a> </p>
-               <p> Awarded Date &nbsp; &nbsp;&nbsp; &nbsp;[DD/MM/YYYY] </p>
+               <p> Awarded Date &nbsp; &nbsp;&nbsp; &nbsp;{{supplierDetails.supplierAwardedDate}} </p>
 
                {%  elif status.toLowerCase() =="complete" %}
  <p> If you have not done so already,you can  <a class="govuk-link" href="/unsuccessful?download=1">download the unsuccessful supplier templates here.</a> </p>
@@ -283,12 +283,12 @@ or messages in your inbox.See supplier's answer to your published project.</p>
                </div>
 
                 <div class="govuk-grid-column-one-half">
-                <p> [DD/MM/YYYY] </p>
-                 <p> [DD/MM/YYYY] </p>
+                <p> {{supplierDetails.supplierAwardedDate}} </p>
+                 <p> {{supplierDetails.supplierAwardedDate}} </p>
                </div>
                 {% else %}
                 <p> If you have not done so already,you can  <a class="govuk-link" href="/unsuccessful?download=1">download the awarded supplier and unsuccessful supplier templates here.</a> </p>
-                <p> Standstill End Date &nbsp; &nbsp;&nbsp; &nbsp;[DD/MM/YYYY] </p>
+                <p> Standstill End Date &nbsp; &nbsp;&nbsp; &nbsp;{{supplierDetails.supplierAwardedDate}} </p>
                 {% endif %} 
 
        </div>
