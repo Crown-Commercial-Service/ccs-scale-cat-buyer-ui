@@ -15,12 +15,9 @@
             "text": "Your Project",
             "href": "/dashboard"
         },
+        
         {
-            "text": "Evaluate Suppliers",
-            "href": "/evaluate-suppliers"
-        },
-        {
-            "text": "Enter your supplier Evaluation",
+            "text": "Review your supplier evaluation",
             "href": "#"
         }
   ]
@@ -70,23 +67,19 @@
         <div class="ccs-page-section">
        
 
-            <p class="govuk-body"><h2><strong>Supplier Name :</strong>{{supplierDetails.suppliername}}</h2></p>
+            <p class="govuk-body"><h2><strong>Supplier Name :</strong>{{supplierDetails.supplierName}}</h2></p>
                       {{ CCSInput({
                             label: {
                               text: "Final Score ",
                               classes: "govuk-label--m",
-                              id: "enter_evaluation",
+                              id: "enter_evaluation_Score",
                               name: "enter_evaluation"
-                            },
-                            hint: {
-                              classes: "govuk-hint",
-                              text: "(Minimum 0, Maximum 100)"
                             },
                             value:supplierDetails.score,
                             suffix: {
                               text: "%"
                             },
-                            id: "enter_evaluation_score",
+                            id: "enter_evaluation_score_readOnly",
                             name: "enter_evaluation_score",
                             classes: "govuk-input--width-4 dimensions",
                             maxlength: "6",
@@ -105,13 +98,10 @@
                             label: {
                               text: "Final Feedback ",
                               classes: "govuk-label--m",
-                              name: "enter_evaluation"
-                            },
-                            hint: {
-                             text: "Feedback should be constructive and relevant to the answers the supplier submitted.Try and include feedback about something positive, as well as areas of improvement."
-                            },
+                              name: "enter_evaluation_readOnly"
+                            },                            
                             value:supplierDetails.supplierFeedBack,
-                            id: "enter_evaluation_feedback",
+                            id: "enter_evaluation_feedback_readOnly",
                             name: "enter_evaluation_feedback",
                             spellcheck: true,
                             classes: "govuk-input",
@@ -121,12 +111,8 @@
 <p><label id="supplierFeedback"></label></p>
 
                      <div class="govuk-button-group">
-                        {{ CCSButton({
-                            text: "Save supplier feedback",
-                            action:"submit"
-                        }) }}
-                        {% set returnLink = "/evaluate-suppliers" %}
-                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Evaluate suppliers</a>
+                        {% set returnLink = "/event/management?id="+supplierDetails.eventId %}
+                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to project</a>
                     </div>       
 
 

@@ -5,6 +5,7 @@ export interface SupplierDetails {
     supplierContactEmail: string,
     supplierWebsite: string,
     supplierId: string,
+    eventId: string,
     supplierOrganisation: string,
     responseState: string,
     responseDate: string,
