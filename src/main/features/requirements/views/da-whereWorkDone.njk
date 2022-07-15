@@ -53,14 +53,15 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 id="page-heading" class="govuk-heading-xl">
-          {{title}}
+          <strong>{{title}}</strong>
         </h1>
       </div>
     </div>
     <div class="govuk-grid-column-two-thirds">
       {% include "includes/project_header.njk" %}
       <div class="ccs-page-section">
-        <p class="govuk-body">{{subtitle}}</p>
+        <p class="govuk-body">{{subtitle1}}</p>
+        <p class="govuk-inset-text">{{subtitle2}}</p>
         <br>
       </div>
       <form id="da_where_work_done" name="da_where_work_done" class="form da_form" action="/da/where-work-done" method="post">
