@@ -416,19 +416,21 @@
         Evaluate suppliers</h2>
         <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project.</p>
         <p>You can only enter  your final evaluation score for each supplier in this serevice. You will need to complete your full evaluation offline.</p>
+      
+      {% if supplierDetailsDataList !=null and supplierDetailsDataList.length >0 %}
       <div class="govuk-button-group">
         {{ CCSButton({
         text: "Start Supplier Evaluation",
         href:"/evaluate-suppliers"
         }) }}
         </div>
+        {% endif %}
       </div>
       {% endif %}
       {% endif %}
       {% endif %}
-     {#<div class="govuk-grid-row ccs-page-section">#}
-     {#</div>#}
-     {% if status.toUpperCase() !== 'EVALUATED' %}
+
+     {% if status.toUpperCase() !== 'EVALUATED'%}
       <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
      </div>
