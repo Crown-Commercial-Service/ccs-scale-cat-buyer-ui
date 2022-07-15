@@ -22,8 +22,9 @@
       }
     ],
   
-    "title": "Will you accept sub-contractors?",
-    "subtitle": "[ Instructions for this page ]",
+    "title": "Use of sub-contractors?",
+    "subtitle1": "Indicate if a supplier can use subcontractors to complete the work needed for your project.In some instances suppluiers may already work with subcontractors to help  deliver a project's need.",
+    "subtitle2": "Your contractor will be with the supplier and they will be responsible for making sure any subcontractors perform as expected.",
     "form": [
       {
         "radioOptions": {
@@ -32,14 +33,14 @@
               "value": "yes",
               "text": "Yes",
               "hint": {
-                "text": "[ Description for this option ]"
+                "text": "A supplier can use subcontractors to complete the work needed on my project"
               }
             },
             {
               "value": "no",
               "text": "No",
               "hint": {
-                "text": "[ Description for this option ]"
+                "text": "A supplier can't use subcontractors to complete the work needed on my project"
               }
             }
           ]

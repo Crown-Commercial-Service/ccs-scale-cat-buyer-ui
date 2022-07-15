@@ -73,6 +73,7 @@
     {
       "eventno": 3,
       "eventTitle": "Add context to your further competition",
+      "eventTitleDA": "Add context and requirements",
       "eventDescription": "You may also  consider including the following",
       "eventdescriptionlist":[{
               "description1":"product road-maps and the expected life cycle of the project",

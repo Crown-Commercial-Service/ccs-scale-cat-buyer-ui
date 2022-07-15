@@ -118,6 +118,7 @@ function clearAllTextboxes()
   for(var a =0; a < dimensions.length; a++){
     dimensions[a].value = ''  
   }
+  $('#totalPercentage').text('');
 }
 
 $.fn.slideFadeToggle = function (easing, callback) {
@@ -158,7 +159,7 @@ const ccsZvalidateDAWhereWorkDone = event => {
     }
     else if(element.value>100 && element.value != '')
     {
-      errMsg = "Dimension value entered must be <100"
+      errMsg = "Dimension value entered must be <=100"
       emptycontent.push("false")
     } 
     else if(element.value<=0 && element.value != '')
@@ -213,7 +214,7 @@ const ccsZvalidateCAWhereWorkDone = (event) => {
     }
     else if(element.value>100 && element.value != '')
     {
-      errMsg = "Dimension value entered must be <100"
+      errMsg = "Dimension value entered must be <=100"
       emptycontent.push("false")
     } 
     else if(element.value<=0 && element.value != '')
