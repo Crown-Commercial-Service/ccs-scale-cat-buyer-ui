@@ -1,15 +1,20 @@
 export interface SupplierDetails {
     supplierName: string,
-    supplierAddress:SupplierAddress ,
+    supplierAddress: SupplierAddress,
     supplierContactName: string,
     supplierContactEmail: string,
     supplierWebsite: string,
     supplierId: string,
+    eventId: string,
     supplierOrganisation: string,
     responseState: string,
     responseDate: string,
     score: string,
     rank: string,
+    supplierState: string,
+    supplierAwardedDate: string,
+    supplierSignedContractDate: string,
+    supplierFeedBack: string,
 
 }
 

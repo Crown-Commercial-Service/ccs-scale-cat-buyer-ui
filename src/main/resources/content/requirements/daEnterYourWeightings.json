@@ -23,9 +23,9 @@
   ],
 
   "title": "Enter your weightings",
-  "insertText": "<p>[Instruction for this page]</p> <p> Please note that in order to progress the total must be 100%.</p> <p> The CAM Tool provides a mechanism to relatively rank all Suppliers on the framework based on the information provided when applying to the framework.</p> <p> It is the Buyer's discretion to determine how many Suppliers it wishes to take forward to the second stage of a further competition. </p>",
+  "insertText": "<p>You will need to enter weightings for each section. The weightings will determine how important it is to you that the supplier meets that specific criteria.You can set your percentages equally or you can weight one criteria more than others.</p> <p> When you have entered all your weightings on this page, and the following pages, you will get a list of suppliers, in order of who can best meet your needs.</p> <p> You will decide how many suppliers you want to take through to a further competition when you have the list of suppliers.</p> <p> To continue to the next step your total must be 100%. </p>",
   "form": {
-    "question": "[instructions for this page]",
+    "question": "",
     "backJump": {
       "title": "Return to write and publish your requirements",
       "href": "/da/task-list"

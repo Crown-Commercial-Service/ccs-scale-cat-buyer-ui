@@ -128,6 +128,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       // }
 
       const releatedContent = req.session.releatedContent;
+      let selectedeventtype=req.session.selectedeventtype;
       const display_fetch_data = {
         data: excludingIR35andSkills,
         agreement_id: agreement_id,
@@ -137,6 +138,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
         lotId,
         agreementLotName,
         releatedContent: releatedContent,
+        selectedeventtype,
       };
       let flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
       if (flag) {
