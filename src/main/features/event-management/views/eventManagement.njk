@@ -360,13 +360,13 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-      {#  {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'EVALUATED' %}
+      {% if status.toLowerCase() != 'published' %}
+ {% if status.toUpperCase() == 'EVALUATED' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p> #}
-
-      {% if status.toLowerCase() != 'published' %}
+        <p>You have completed your supplier evaluation.</p>
+      {% else %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete project</h2>
@@ -380,6 +380,7 @@
      
     </div>
     </div>
+    {% endif %}
     {% endif %}  
   {% endif %}
   </main> 
@@ -404,10 +405,12 @@
         <p>You have completed your supplier evaluation.</p>  #}
 
       {% if status.toUpperCase() !== 'PUBLISHED' %}
-      {# <h2 class="govuk-heading-m">
+      {% if status.toUpperCase() == 'EVALUATED' %}
+       <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p> #}
+        <p>You have completed your supplier evaluation.</p>
+        {% else %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>
@@ -422,10 +425,13 @@
       </div>
       {% endif %}
       {% endif %}
+      {% endif %}
      {#<div class="govuk-grid-row ccs-page-section">#}
      {#</div>#}
+     {% if status.toUpperCase() !== 'EVALUATED' %}
       <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
      </div>
+     {% endif %}
      
 {% endblock %}
