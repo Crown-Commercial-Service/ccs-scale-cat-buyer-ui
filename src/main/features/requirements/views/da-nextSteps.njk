@@ -52,7 +52,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 <h1 class="govuk-heading-xl">
-                {{ data.title }}
+               <strong> {{ data.title }} </strong>
                 </h1>
             </div>
         </div>
@@ -60,12 +60,20 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-                <p class="govuk-body">{{data.subtitle}}</p>  
+                <p class="govuk-body">{{data.subtitle1}}</p>
+                <ul>
+                <li>{{data.p1}}</li>
+                <li>{{data.p2}}</li>
+                <li>{{data.p3}}</li>
+                </ul>  
+                     {{ CCSInsetText({
+                        html:data.subtitle2
+                }) }}
                 <form id="ccs_da_next_steps" name="ccs_da_next_steps" class="form ccs_da_next_steps" action="/da/next-steps" method="POST">
                 {{ csrfProtection(csrf) }}
                     {% for form in data.form %}
                         <fieldset id="{{form.id}}">
-                            <p class="govuk-body">{{ form.question }}</p>
+                           <h2><strong>{{ form.question }}</strong></h2>
                             {% set formOptions = form.radioOptions.items %}
                             {% set form_Options_Altered = [] %}
 
