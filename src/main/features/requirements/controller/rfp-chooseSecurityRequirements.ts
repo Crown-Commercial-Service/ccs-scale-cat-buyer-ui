@@ -38,9 +38,9 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       selectedOption = dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0]
       .requirements[0].values[0].value;
       data.form.radioOptions.items.find(item => item.value === selectedOption).checked = true;
-      if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting>0)
+      if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting>=0)
       {
-        data.form.selectedValue=dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting;
+        data.form.selectedValue=(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting).toString();
       }
      }
     }
@@ -127,6 +127,7 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
         weighting: 40,
         includedCriteria: [{ 'criterion-id': '0' }],
         requirements: requirementsData,
+        overwriteRequirements: true,
       };
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
       let flag=await ShouldEventStatusBeUpdated(eventId,35,req);

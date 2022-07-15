@@ -37,9 +37,9 @@
           "remove": "false"
         }, {
           "value": "award",
-          "text": "Run a 2-stage direct award event",
+          "text": "Two-stage direct award event",
           "hint": {
-            "text": "Based on the supplier responses you receive, if you find a single supplier who can meet your needs you can choose to award your contract directly to them after completing a capability assessement."
+            "text": "Shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool.You can then choose to continue your direct award online or use your own organisation's procurement systems."
           },
           "disabled": "false",
           "remove": "false"

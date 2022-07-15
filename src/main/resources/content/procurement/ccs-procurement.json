@@ -62,9 +62,10 @@
              "subsections": [
                 ["<b>Further competition with capability assessment</b>",
                 "You can shortlist the suppliers to find the ones most suitable for your procurement using a capability assessment tool.",
-                "Only the suppliers on the shortlist will be invited to bid for your opportunity.","This is also known as two-stage further competition."],["<b>Direct award</b>",
+                "Only the suppliers on the shortlist will be invited to bid for your opportunity.","This is also known as two-stage further competition."],
+                ["<b>Direct award</b>",
                 "Based on the supplier responses you receive, if you find a single supplier who can meet your needs you can choose to award your contract directly to them after completing a capability assessement.",
-                "You need to complete this step before you can award your contract."]],
+                "You need to complete this step before you can award your contract.","If you start this step you cannot start step 2 at the same time."]],
             "list": [],
             "required": "optional",
             "status": "not started"
