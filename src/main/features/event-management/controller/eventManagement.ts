@@ -22,7 +22,7 @@ import moment from 'moment-business-days';
  * @param res 
  */
 export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
-  const { id } = req.query
+  const { id,closeProj } = req.query
   const events = req.session.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
 
@@ -30,6 +30,26 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
   //const eventId = req.session['eventId']
   try {
     // Code Block start - Replace this block with API endpoint
+    if(closeProj!=undefined)
+    {
+      let baseCloseUrl = `/tenders/projects/${req.session.projectId}/events`;
+          let closebody = {
+            "name": "Further Competition Event",
+            "eventType": "FCA"
+          }
+          const { data:closedata } = await TenderApi.Instance(SESSION_ID).post(baseCloseUrl, closebody);
+          if(closedata != null && closedata !=undefined)
+          {
+            req.session['eventId'] = closedata.id;
+            req.session.procurements[0]['eventId'] = closedata.id;
+            req.session.procurements[0]['eventType'] = closedata.eventType;
+            req.session.procurements[0]['started'] = false;
+          }
+
+           //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/steps/54`, 'Completed');
+            res.redirect('/projects/create-or-choose');
+    }
+    else{
     let agreementName: string, agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string
 
     events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; }) => {
@@ -292,6 +312,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           break
       }
     }
+  }
   } catch (err) {
     LoggTracer.errorLogger(
       res,
@@ -312,6 +333,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   let projectName: string, status: string, eventType: string
   let supplierDetails = {} as SupplierDetails;
   try {
+    
     if (supplierid != undefined) {
 
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
