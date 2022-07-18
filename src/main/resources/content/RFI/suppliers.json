@@ -1,42 +1,36 @@
 {
-    "breadCrumbs": [
-      {
-        "text": "Dashboard",
-        "href": "/dashboard"
-        },
-        {
-        "text": "Choose a commercial agreement",
-        "href": "/projects/choose-agreement"
-        },
-        {
-        "text": "Procurement overview",
-        "href": "/projects/create-or-choose"
-        },
-        {
-        "text": "Do pre-market engagement",
-        "href": "/rfi/rfi-tasklist"
-        },
-        {
-        "text": "See the suppliers who will receive your RFI"
-        }
-    ],
-
-    "title": "See the suppliers who will receive your RfI",
-    "subtitle": null,
-    "data": {
-      "supplier": {
-        "text": "suppliers can be contracted to supply products and services for this lot. Some suppliers are ",
-        "href": "https://ec.europa.eu/growth/smes/sme-definition_en",
-        "href_text": "small and medium-sized enterprises (SMEs)."
-      },
-      "Inset": "You will need to add the suppliers you want to send your RfI to. Any suppliers you don’t add at this stage will not remove them from future steps in your procurement."
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
     },
-        "backJump": {
-            "title": "Return to Run pre-market engagement",
-            "href": "#"
-        }
-
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Do pre-market engagement",
+      "href": "/rfi/rfi-tasklist"
+    },
+    {
+      "text": "See the suppliers who will receive your RFI"
     }
-
-
-
+  ],
+  "title": "See the suppliers who will receive your RfI",
+  "subtitle": null,
+  "data": {
+    "supplier": {
+      "text": "The suppliers listed below are contracted to provide goods and services under this commercial agreement lot. Your RfI will be sent to all suppliers on this list but some may not respond. For details of each supplier, visit the ",
+      "href": "https://www.crowncommercial.gov.uk/suppliers",
+      "href_text": "Search suppliers page on the CCS website."
+    },
+    "backJump": {
+      "title": "Return to Do pre-market engagement",
+      "href": "#"
+    }
+  }
+}

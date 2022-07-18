@@ -1,0 +1,147 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Event management ' %}
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Your project",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% endblock %}
+
+{% block content %}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        
+<div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+              <div class="project-overview">
+        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+  </strong></p>
+  {%endif %}
+  <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+        </div>
+      </div>  
+</div>
+
+ <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
+        <div>
+          <h2 class="govuk-heading-m">
+         {{ agreement_header['project_name'] }}
+            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{eventManagementData.status}}</strong>
+          </h2>
+          <p class="govuk-body">
+            <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+<div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          <strong>Your chosen suppler</strong>
+        </h1>
+        
+        <h3> <strong>Supplier name</strong></h3>
+
+       <p> {{eventManagementData.supplierDetails.supplierName}}</p>
+
+       <p> <strong>Address:</strong></p>
+       <p> {{eventManagementData.supplierDetails.streetAddress}}</p>
+       <p> {{eventManagementData.supplierDetails.locality}}</p>
+       <p> {{eventManagementData.supplierAddress.region}}</p>      
+       </br>
+       </br>
+       </br>
+<p> <strong>Contact name:</strong></p>
+       <p> {{eventManagementData.supplierDetails.supplierContactName}}</p>
+       </br>
+       </br>
+       <p> <strong>Contact email:</strong></p>
+       <p> {{eventManagementData.supplierDetails.supplierContactEmail}}</p>
+       </br>
+       <p> <strong>Website:</strong></p>
+       <p> {{eventManagementData.supplierDetails.supplierWebsite}}</p>
+       </br>
+       </br>
+       </br>
+       </br>
+       </div>
+        </div>
+
+  <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+          <div class="govuk-grid-column-full">
+            <table class="govuk-table">
+              <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">Supplier's name</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's answer</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's evaluation</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score (%)</th>
+                </tr>
+              </thead>
+              {% for supplier in supplierDetailsList %}
+              {# {% if supplier.responseState ==='Draft'  %} #}
+              <tbody class="govuk-table__body">
+                
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__cell">
+                    
+                      <p class="govuk-body govuk-!-margin-bottom-0">
+                        {{supplier.supplierName}}
+                      </p>                      
+                    </th>
+                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/download-supplier-responce?supplierid={{supplier.supplierId}}">Download</a>
+                    </td>
+
+                    <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Review evaluation</a>
+                    </td>
+                    <td scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                    <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
+                    </td> 
+                  </tr>
+              </tbody>
+          {# {% endif %} #}
+          {% endfor %}
+            </table>
+            </div>
+        </div>
+<br>
+<div class="govuk-grid-row">
+   <form id="ccs_supplier_confirmation_form" name="ccs_supplier_confirmation_form" class="form ccs_supplier_confirmation_form"
+       method="GET">
+                             	  
+                                 {{ csrfProtection(csrf) }}
+                                <div class="govuk-button-group">
+                                  {{ CCSButton({
+        attributes: {
+        id: "btn_supplier_confirmation"
+        },
+        text: "Confirm supplier",
+        href:"/award-supplier-document?supplierId="+eventManagementData.supplierDetails.supplierId
+        }) }}
+                                  <a class="govuk-link" href="/dashboard">Return to your project</a> 
+                                </div>
+                                
+                              </form>      
+ </div>
+ </div> 
+       
+ 
+ 
+ </main>
+{% endblock %}
+ 

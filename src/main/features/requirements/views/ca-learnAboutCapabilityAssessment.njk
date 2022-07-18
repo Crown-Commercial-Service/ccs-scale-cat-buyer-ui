@@ -22,7 +22,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {{ data.title }}
+                    <strong>{{ data.title }}</strong>
                 </h1>
             </div>
         </div>
@@ -30,7 +30,22 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-                <p class="govuk-body">{{ data.form.question }}</p>
+                <p class="govuk-body">{{ data.form.Line1 }}</p>
+                <p class="govuk-body">{{ data.form.Line2 }}</p>
+                <p class="govuk-body">{{ data.form.Line3 }}
+                {% for item in data.form.points %}
+                <ul>
+                <li>{{ item.p1 }}</li>
+                <li>{{ item.p2 }}</li>
+                <li>{{ item.p3 }}</li>
+                <li>{{ item.p4 }}</li>
+                </ul>
+                {% endfor %}
+                </p>
+            <p class="govuk-body">{{ data.form.Line4 }}</p>
+            <p class="govuk-body">{{ data.form.Line5 }}</p>
+            <p class="govuk-body">{{ data.form.Line6 }}</p>
+                
             </div>
             <div class="govuk-grid-column-one-third">
                 {{ CCSReleatedContent(releatedContent) }}

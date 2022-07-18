@@ -4,7 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as daLearnData from '../../../resources/content/requirements/daLearnAboutCapabilityAssessment.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -38,6 +38,11 @@ export const DA_GET_LEARN = async (req: express.Request, res: express.Response) 
       releatedContent,
       isPathOne,
     };
+    let flag = await ShouldEventStatusBeUpdated(eventId, 63, req);
+  if (flag) {
+await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/63`, 'In progress');
+  }
+   
     res.render('da-learnAboutCapabilityAssessment', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -55,9 +60,14 @@ export const DA_GET_LEARN = async (req: express.Request, res: express.Response) 
 
 export const DA_POST_LEARN = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   try {
-    res.redirect('/da/resources-vetting-weightings');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/63`, 'Completed');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 64, req);
+      if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'Not started');
+      }
+     res.redirect('/da/enter-your-weightings');
   } catch (error) {
     LoggTracer.errorLogger(
       res,

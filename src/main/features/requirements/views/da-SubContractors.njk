@@ -39,11 +39,22 @@
 
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-
+{% if (error == true) %}
+ <div class="govuk-error-summary"  aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+  There is a problem
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list">
+    <li><a href="#">Please select the option</a></li>
+    </ul>
+  </div>
+</div>
+  {%endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {{ data.title }}
+                    <strong>{{ data.title }}</strong>
                 </h1>
             </div>
         </div>
@@ -51,7 +62,8 @@
         <div class="govuk-grid-row govuk-!-padding-bottom-3">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-                <p class="govuk-body">{{ data.subtitle }}</p>
+                <p class="govuk-body">{{ data.subtitle1 }}</p>
+                <p class="govuk-body">{{ data.subtitle2 }}</p>
 
                 <form id="ccs_da_subContractors" name="ccs_da_subContractors" class="form ccs_da_subContractors" action="/da/accept-subcontractors" method="POST">
                     {{ csrfProtection(csrf) }}
@@ -59,6 +71,7 @@
                         {% set formOptions = form.radioOptions.items %}
                         {% set form_Options_Altered = [] %}
                         {% for item in formOptions %}
+                        {% if item.checked%}
                             {% set form_Options_Altered = (form_Options_Altered.push(
                                 {
                                     value: item.value,
@@ -69,6 +82,17 @@
                                     checked: item.checked
                                 }), form_Options_Altered) 
                                 %}
+                                {% else %}
+                                 {% set form_Options_Altered = (form_Options_Altered.push(
+                                {
+                                    value: item.value,
+                                    html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
+                                    hint : {
+                                        text: item.hint.text
+                                    }
+                                }), form_Options_Altered) 
+                                %}
+                                {% endif %}
                         {% endfor %}
                         {% if (error == true) %}
 

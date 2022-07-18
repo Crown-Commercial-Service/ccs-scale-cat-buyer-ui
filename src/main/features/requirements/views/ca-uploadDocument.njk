@@ -1,16 +1,40 @@
 {% extends "template.njk" %}
 {% from "macros/csrf.njk" import csrfProtection %}
-{% from "components/support/macro.njk" import howToGetSupport %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
 
 {% set title = 'Complete and upload a document | Contract Award Service' %}
 {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
 {% block breadCrumb %}
-{{ CCSBreadcrumbs({
-        items: data.breadCrumbs
-      }) }}
-
+    {{ CCSBreadcrumbs({
+        items: [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/ca/task-list?path="+ choosenViewPath
+    },
+    {
+      "text": "Upload pricing schedules and other documents",
+      "href": "/ca/upload-supporting-doc"
+    },
+    {
+      "text": "Upload other supporting documents",
+      "href": "#"
+    }
+  ]
+    }) }}
 {% endblock %}
 
 {% block content %} 
@@ -27,7 +51,7 @@
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-two-thirds">
             <h1 class="govuk-heading-xl">
-            {{data.title}}
+            <strong>{{data.title}}</strong>
             </h1>
       {% include "includes/project_header.njk" %} 
             </div>
@@ -39,7 +63,13 @@
     <div class="govuk-grid-row">
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
 
-      <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
+        <p class="govuk-body govuk-!-margin-bottom-7">{{data.description}}
+            <ul>
+            <li>{{data.p1}}</li>
+            <li>{{data.p2}}</li>
+            <li>{{data.p3}}</li>
+            </ul>
+            </p>
         <div id="upload_doc_form">
             <div class="govuk-grid-row">
             <div class="govuk-grid-column-full" id="documents_upload">

@@ -62,7 +62,12 @@
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                   </th>
-                  <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
+                  {% if event.activeEvent.eventType =='TBD' %}
+                  <td class="govuk-table__cell"> N/A </td>
+                   {% else %}    
+                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td> 
+                     {% endif %}
+
                   <td class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
@@ -100,7 +105,12 @@
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                   </th>
-                  <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
+                  {% if event.activeEvent.eventType =='TBD' %}
+                  <td class="govuk-table__cell"> N/A </td>
+                   {% else %}    
+                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td> 
+                     {% endif %}
+
                   <td class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
@@ -133,7 +143,7 @@
               <tr>
                 <td class="govuk-table__cell">
                   <strong class="govuk-tag govuk-tag--blue">
-                    You don't have any Running events
+                    you have no current projects. To start a new project select the lot you want from the available commercial agreements.
                   </strong>
                 </td>
                 <td class="govuk-table__cell"></td>
@@ -148,36 +158,7 @@
       </div>
     </div>
 
-    <div class="govuk-grid-row govuk-!-margin-bottom-6">
-      <div class="govuk-grid-column-full">
-        <h3 class="govuk-heading-m">
-          {{data.subsection3_title}}
-        </h3>
-        <div class="govuk-tabs" data-module="govuk-tabs">
-          <h2 class="govuk-tabs__title">
-            {{data.subsection3_title}}
-          </h2>
-          <ul class="govuk-tabs__list">
-            <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-              <a class="govuk-tabs__tab" href="#tab-1">{{data.subsection3_tab_1}}</a>
-            </li>
-            <li class="govuk-tabs__list-item">
-              <a class="govuk-tabs__tab" href="#tab-2">{{data.subsection3_tab_2}}</a>
-            </li>
-          </ul>
-          <div class="govuk-tabs__panel" id="tab-1">
-            <p>
-              {{data.subsection3_tab_1_content}}
-            </p>
-          </div>
-          <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="tab-2">
-            <p>
-              {{data.subsection3_tab_2_content}}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    
 
     <div class="govuk-grid-row govuk-!-margin-bottom-6">
       <div class="govuk-grid-column-full">
@@ -197,27 +178,33 @@
                 <tr class="govuk-table__row">
                   <th scope="row" class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">
-                      <a class="govuk-link" href="">{{ event.activeEvent.id }}</a>
+                    {{ event.activeEvent.id }}
+                      <!--<a class="govuk-link" href="">{{ event.activeEvent.id }}</a>-->
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
                   </th>
-                  <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
+                  {% if event.activeEvent.eventType =='TBD' %}
+                  <td class="govuk-table__cell"> N/A </td>
+                   {% else %}    
+                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td> 
+                     {% endif %}
+
                   <td class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
                   </td>
                   <td class="govuk-table__cell">
                     {% if event.activeEvent.tenderPeriod.endDate %}
-                      {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY') }}
+                      {{ event.activeEvent.tenderPeriod.endDate| dateddmmyyyy }}
                     {% else %} N/A {% endif %}
                   </td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
-          <p>
+         <!-- <p>
             <a class="govuk-link" href="#">{{data.view_Historical}}</a>
-          </p>
+          </p>-->
           {% elseif historicalEvents.length < 6 and historicalEvents.length > 0 %}
           <table class="govuk-table">
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} ({{historicalEvents.length}})</caption>
@@ -234,27 +221,33 @@
                 <tr class="govuk-table__row">
                   <th scope="row" class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">
-                      <a class="govuk-link" href="">{{ event.activeEvent.id }}</a>
+                    {{ event.activeEvent.id }}
+                      <!--<a class="govuk-link" href="">{{ event.activeEvent.id }}</a>-->
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
                   </th>
-                  <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td>
+                  {% if event.activeEvent.eventType =='TBD' %}
+                  <td class="govuk-table__cell"> N/A </td>
+                   {% else %}    
+                     <td class="govuk-table__cell">{{ event.activeEvent.eventType }}</td> 
+                     {% endif %}
+
                   <td class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.lotId }} : {{ event.lotName }}</p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.agreementName }} [{{ event.agreementId }}]</p>
                   </td>
                   <td class="govuk-table__cell">
                     {% if event.activeEvent.tenderPeriod.endDate %}
-                      {{ event.activeEvent.tenderPeriod.endDate|date('DD/MM/YYYY') }}
+                      {{ event.activeEvent.tenderPeriod.endDate| dateddmmyyyy }}
                     {% else %} N/A {% endif %}
                   </td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
-          <p>
+         <!-- <p>
             <a class="govuk-link" href="#">{{data.view_Historical}}</a>
-          </p>
+          </p>-->
         {% else %}
           <table class="govuk-table">
             <caption class="govuk-table__caption govuk-heading-m">{{data.subsection4_title}} (0)</caption>
@@ -270,7 +263,7 @@
               <tr>
                 <td class="govuk-table__cell">
                   <strong class="govuk-tag govuk-tag--blue">
-                    You don't have any Historical Closed events
+                    You have no archived projects.
                   </strong>
                 </td>
                 <td class="govuk-table__cell"></td>

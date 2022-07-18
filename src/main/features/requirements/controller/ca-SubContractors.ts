@@ -6,6 +6,7 @@ import * as caSubContractors from '../../../resources/content/requirements/caSub
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -21,6 +22,7 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   const { choosenViewPath } = req.session;
   const { isValidationError } = req.session;
   const { assessmentId } = req.session.currentEvent;
+  const lotid = req.session?.lotId;
   let isSubContractorAccepted = false;
   req.session['isValidationError'] = false;
   res.locals.agreement_header = {
@@ -28,10 +30,15 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isValidationError,
   };
   try {
+    let flag = await ShouldEventStatusBeUpdated(eventId, 47, req);
+        if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'In progress');
+        }
+        
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
     isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
@@ -76,7 +83,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId ,eventId} = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   const toolId = req.session['CapAss']?.toolId;
 
@@ -84,8 +91,8 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
     const { ca_subContractors } = req.body;
 
     if (ca_subContractors !== undefined && ca_subContractors !== '') {
-      req.session['CapAss'].isSubContractorAccepted = ca_subContractors == 'yes' ? true : false;
-
+     const ca_acceptsubcontractors = ca_subContractors == 'yes' ? true : false;
+     req.session['CapAss'].isSubContractorAccepted=ca_acceptsubcontractors
       const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
       for (var dimension of assessmentDetail.dimensionRequirements) {
@@ -95,7 +102,7 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           requirements: dimension.requirements,
           includedCriteria: dimension.includedCriteria
             .map(criteria => {
-              if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
+              if (!ca_acceptsubcontractors && criteria['name'] == 'Sub Contractor') {
                 return null;
               } else
                 return {
@@ -109,9 +116,16 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           body,
         );
       }
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Completed');
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Not started');
-
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 48, req);
+        if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/48`, 'Not started');
+        }
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+        }
       res.redirect(REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
       req.session['isValidationError'] = true;
@@ -129,3 +143,4 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
     );
   }
 };
+

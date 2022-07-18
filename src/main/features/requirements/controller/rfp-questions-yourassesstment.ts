@@ -16,6 +16,7 @@ import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
 
+
 /**
  * @Controller
  * @GET
@@ -279,6 +280,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
             agreement_id,
             id,
             res,
+            req,
           );
         } else {
           let validationError = false;
@@ -432,7 +434,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   },
                 };
               }
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
+              //await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/33`, 'Not started');
             } else if (questionNonOCDS.questionType === 'Date') {
               const slideObj = object_values.slice(1, 4);
               answerValueBody = {
@@ -599,7 +601,6 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
                 }
-
               } catch (error) {
                 LoggTracer.errorTracer(error, res);
               }
@@ -619,6 +620,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
               agreement_id,
               id,
               res,
+              req,
             );
           } else {
             res.send();

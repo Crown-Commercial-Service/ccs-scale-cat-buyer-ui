@@ -1,14 +1,10 @@
 
 {
-  "title": "Add colleagues",
+  "title": "Add colleagues to your project",
   "subtitle": null,
   "content": {
     "p1": "You can add colleagues to help you write your requirements and review and evaluate suppliers.",
-    "p2": "Use the drop-down box below to add colleagues. They will need to be registered with CCS. If they’re not registered, send them this link to our",
-    "a1": {
-      "text": "self-registration service.",
-      "href": "#"
-    },
+    "p2": "Use the drop-down box below to add colleagues. They will need to be registered with CCS.",
     "p3": "If you need to wait for them to register, you can complete this step later and either return to Write and publish your requirements or continue to the next step.",
     "p4": "You cannot remove yourself from this procurement project. If you need to change the lead colleague, you can do this on the previous step.",
     "collegue": {

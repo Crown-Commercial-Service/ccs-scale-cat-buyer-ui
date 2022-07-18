@@ -19,5 +19,25 @@ export enum EVENT_MANAGEMENT_PATHS {
     POST_EVENT_MANAGEMENT_MESSAGE_REPLY='/message/reply',
     EVENT_MANAGEMENT_DOWNLOAD='/eventmanagement',
     STEPS_TO_CONTINUE='/steps-to-continue',
-    PUBLISHED_PROJECT_DOWNLOAD='/publisheddoc'
+    PUBLISHED_PROJECT_DOWNLOAD='/publisheddoc',
+
+    EVALUATE_SUPPLIERS='/evaluate-suppliers',
+    EVALUATE_SUPPLIERS_DOWNLOAD='/evaluate-download',
+    ENTER_EVALUATION='/enter-evaluation',
+    ENTER_EVALUATION_POST='/enter-evaluation',
+    EVALUATE_SUPPLIERS_POPUP='/evaluate-confirm',
+
+    SUPPLIER_ANSWER_DOWNLOAD='/supplieranswer',
+    SUPPLIER_ANSWER_DOWNLOAD_ALL='/supplieranswerall',
+    SUPPLIER_EVALUATION='/supplier-evaluation',
+    GET_CONFIRM_SUPPLIER='/confirm-supplier',
+    POST_CONFIRM_SUPPLIER='/confirm-supplier',
+    GET_AWARD_SUPPLIER = '/award-supplier',
+    POST_AWARD_SUPPLIER = '/award-supplier',
+    GET_AWARD_SUPPLIER_DOCUMENT = '/award-supplier-document',
+    CONFIRM_SUPPLIER_AWARD = '/confirm-supplier-award',
+    Download_SUPPLIER_RESPONCE='/download-supplier-responce',
+    STAND_PERIOD_DECISION_GET = '/stand-period',
+    STAND_PERIOD_DECISION_POST = '/stand-period',
+    UNSUCCESSFUL_SUPPLIER_DOWNLOAD = '/unsuccessful',
 }

@@ -3,7 +3,7 @@ import * as express from 'express'
 import { TenderApi } from '../../util/fetch/procurementService/TenderApiInstance'
 import { LoggTracer } from '../../logtracer/tracer'
 import { ActiveEvents } from '../models/active-events'
-import moment from 'moment';
+import { eventStatus } from '../../util/eventStatus';
 
 /**
  *
@@ -17,10 +17,9 @@ export class EventEngagementMiddleware {
     const access_token = req.session['access_token']
     const { state, SESSION_ID } = req.cookies;
     const baseActiveEventsURL = `/tenders/projects`
-    
+
     const activeEvents: ActiveEvents[] = []
     const historicalEvents: ActiveEvents[] = []
-    const today = moment(new Date(), 'DD/MM/YYYY');
     let draftActiveEvent: ActiveEvents = {
       projectId: 0,
       projectName: '',
@@ -30,126 +29,147 @@ export class EventEngagementMiddleware {
       lotName: '',
       activeEvent: undefined
     }
+    // let singleEvent: ActiveEvents = {
+    //   projectId: 0,
+    //   projectName: '',
+    //   agreementId: '',
+    //   agreementName: '',
+    //   lotId: '',
+    //   lotName: '',
+    //   activeEvent: undefined
+    // }
 
-
-        req.session['agreement_id'] = '';
-        req.session['agreementName'] = '';
-        req.session['lotNum'] = '';
-        req.session['releatedContent'] = '';
-        req.session['journey_status'] = '';
-        req.session['procurements'] = [];
-        req.session['searched_user'] = [];
-        req.session['agreementEndDate'] = '';
-        req.session['agreementDescription'] = '';
-        req.session['nonOCDSList'] = '';
-        req.session['selectedRoute'] = '';
-        req.session['caSelectedRoute'] = '';
-        req.session['fcSelectedRoute'] = '';
-        req.session['designations'] = [];
-        req.session['designationsLevel2'] = [];
-        req.session['tableItems'] = [];
-        req.session['dimensions'] = [];
-        req.session['weightingRange'] = {};
-        req.session['errorTextSumary'] = [];
-        req.session['CapAss'] = {};
-        req.session['isTcUploaded'] = true;
-
+    req.session['agreement_id'] = '';
+    req.session['agreementName'] = '';
+    req.session['lotNum'] = '';
+    req.session['releatedContent'] = '';
+    req.session['journey_status'] = '';
+    req.session['procurements'] = [];
+    req.session['searched_user'] = [];
+    req.session['agreementEndDate'] = '';
+    req.session['agreementDescription'] = '';
+    req.session['nonOCDSList'] = '';
+    req.session['selectedRoute'] = '';
+    req.session['caSelectedRoute'] = '';
+    req.session['fcSelectedRoute'] = '';
+    req.session['designations'] = [];
+    req.session['designationsLevel2'] = [];
+    req.session['tableItems'] = [];
+    req.session['dimensions'] = [];
+    req.session['weightingRange'] = {};
+    req.session['errorTextSumary'] = [];
+    req.session['CapAss'] = {};
+    req.session['isTcUploaded'] = true;
+    req.session['UIDate'] = null;
     // Retrive active events
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)
     retrieveProjetActiveEventsPromise
-      .then(data => {
+      .then(async (data) => {
         const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) => (a.projectId < b.projectId) ? 1 : -1)
         for (let i = 0; i < events.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
-          if (events[i].activeEvent !=undefined && events[i].activeEvent?.status != undefined && (events[i].activeEvent.eventType == 'RFI' || events[i].activeEvent.eventType == 'EOI')) {
-            if (events[i].activeEvent.status == 'withdrawn' || events[i].activeEvent.status == 'cancelled') {
-              // Historical Events
-              historicalEvents.push(events[i])
-            } else if (events[i].activeEvent?.status == 'planning') {
-              // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-              if (events[i].activeEvent?.tenderPeriod?.endDate == undefined) {
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'In Progress'
+          const eventsURL = `tenders/projects/${events[i].projectId}/events`;
+          let getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
+          let getEventsData = getEvents.data;
+          for (let j = 0; j < getEventsData.length; j++) {
+            //let singleEvent=undefined;
+            let singleEvent: ActiveEvents = {
+              projectId: events[i].projectId,
+              projectName: events[i].projectName,
+              agreementId: events[i].agreementId,
+              agreementName: events[i].agreementName,
+              lotId: events[i].lotId,
+              lotName: events[i].lotName,              
+              activeEvent: getEventsData[j]
+            }
+            //singleEvent=events[i];
+            //singleEvent.activeEvent=getEventsData[j];
+            if (singleEvent.activeEvent != undefined && singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent.eventType == 'RFI' || singleEvent.activeEvent.eventType == 'EOI')) {
+              if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED') {
+                // Historical Events
+                historicalEvents.push(singleEvent)
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'IN-PROGRESS') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'In-Progress'
                 activeEvents.push(draftActiveEvent)
-              } else if (moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today)) {
-                // Today < "tenderPeriod": "endDate" -- Published
-                draftActiveEvent = events[i]
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'PUBLISHED') {
+                draftActiveEvent = singleEvent
                 draftActiveEvent.activeEvent.status = 'Published'
                 activeEvents.push(draftActiveEvent)
-              } else if (moment(events[i].activeEvent?.tenderPeriod?.endDate).isSameOrBefore(today)) {
-                // Today >= "tenderPeriod": "endDate" -- Response period closed
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'Response period closed'
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'TO-BE-EVALUATED') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'To Be Evaluated'
+                activeEvents.push(draftActiveEvent)
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATING') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Evaluating'
+                activeEvents.push(draftActiveEvent)
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATED') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Evaluated'
                 activeEvents.push(draftActiveEvent)
               } else {
-                activeEvents.push(events[i])
+                activeEvents.push(singleEvent)
               }
+            } else if (singleEvent.activeEvent?.eventType == 'TBD') {
+              draftActiveEvent = singleEvent
+              draftActiveEvent.activeEvent.status = 'In Progress'
+              activeEvents.push(draftActiveEvent)
             }
-          } else if (events[i].activeEvent?.eventType == 'TBD') {
-            draftActiveEvent = events[i]
-            draftActiveEvent.activeEvent.status = 'In Progress'
-            activeEvents.push(draftActiveEvent)
-          }
-          else if (events[i].activeEvent?.eventType == 'DAA' || events[i].activeEvent?.eventType == 'FCA') {
-            
-            if (events[i].activeEvent?.status == 'active') {
-              // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-              if (events[i].activeEvent?.tenderPeriod?.endDate == undefined) {
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'ASSESSMENT'
+            // eventType = FCA & DAA (Active and historic events)
+            else if (singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent?.eventType == 'FCA' || singleEvent.activeEvent?.eventType == 'DAA')) {
+              if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED') {
+                // Historical Events
+                historicalEvents.push(singleEvent)
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'ASSESSMENT') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Assessment'
                 activeEvents.push(draftActiveEvent)
-              } else if (events[i].activeEvent?.status == 'complete') {
-                // Today < "tenderPeriod": "endDate" -- Published
-                draftActiveEvent = events[i]
-                draftActiveEvent.activeEvent.status = 'COMPLETE'
-                activeEvents.push(draftActiveEvent)}
-          }}
-
-          // eventType = FC & DA (Active and historic events)
-          else if (events[i].activeEvent?.status != undefined && (events[i].activeEvent?.eventType == 'FC' || events[i].activeEvent?.eventType == 'DA')) {
-            if (events[i].activeEvent?.status == 'withdrawn' || events[i].activeEvent?.status == 'cancelled') {
-              historicalEvents.push(events[i])
-            } else if (events[i].activeEvent?.status == 'planning' || events[i].activeEvent?.status == 'complete' || events[i].activeEvent?.status == 'active') {
-              // tenderPeriod": "endDate" - endDate is {blank} -- Unpublished
-if(events[i].activeEvent?.status == 'planning')
-{
-  draftActiveEvent = events[i]
-  draftActiveEvent.activeEvent.status = 'IN PROGRESS'
-  activeEvents.push(draftActiveEvent)
-}
-else if(events[i].activeEvent?.status == 'active' && moment(events[i].activeEvent.tenderPeriod?.endDate).isAfter(today))
-{
-  draftActiveEvent = events[i]
-  draftActiveEvent.activeEvent.status = 'PUBLISHED'
-  activeEvents.push(draftActiveEvent)
-}
-else if(events[i].activeEvent?.status == 'active' && moment(events[i].activeEvent.tenderPeriod?.endDate).isSameOrBefore(today))
-{
-  draftActiveEvent = events[i]
-  draftActiveEvent.activeEvent.status = 'EVALUATE RESPONSES'
-  activeEvents.push(draftActiveEvent)
-}
-else if(events[i].activeEvent?.status == 'complete')
-{
-  draftActiveEvent = events[i]
-  draftActiveEvent.activeEvent.status = 'EVALUATION COMPLETE'
-  activeEvents.push(draftActiveEvent)
-}
-else if(events[i].activeEvent?.status == 'awarded')
-{
-  draftActiveEvent = events[i]
-  draftActiveEvent.activeEvent.status = 'AWARDED'
-  activeEvents.push(draftActiveEvent)
-}
-else {
- activeEvents.push(events[i])
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATED') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Evaluated'
+                activeEvents.push(draftActiveEvent)
+              } else {
+                activeEvents.push(singleEvent)
               }
             }
-          } 
+            // eventType = FC & DA (Active and historic events)
+            else if (singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent?.eventType == 'FC' || singleEvent.activeEvent?.eventType == 'DA')) {
+              if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED') {
+                // Historical Events
+                historicalEvents.push(singleEvent)
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'IN-PROGRESS') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'In-Progress'
+                activeEvents.push(draftActiveEvent)
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'PUBLISHED') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Published'
+                activeEvents.push(draftActiveEvent)
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'TO-BE-EVALUATED') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'To Be Evaluated'
+                activeEvents.push(draftActiveEvent)
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATING') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Evaluating'
+                activeEvents.push(draftActiveEvent)
+              } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATED') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Evaluated'
+                activeEvents.push(draftActiveEvent)
+              } else if (singleEvent.activeEvent?.dashboardStatus == eventStatus.Awarded) {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = eventStatus.Awarded
+                activeEvents.push(draftActiveEvent)
+              } else {
+                activeEvents.push(singleEvent)
+              }
+            }
+          }
         }
         req.session.openProjectActiveEvents = activeEvents;
         req.session.historicalEvents = historicalEvents;
-
         next();
       })
       .catch(err => {

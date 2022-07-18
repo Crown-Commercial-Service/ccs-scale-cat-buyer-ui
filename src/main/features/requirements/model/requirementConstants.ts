@@ -13,6 +13,7 @@ export enum REQUIREMENT_PATHS {
   RFP_POST_ADD_COLLABORATOR_JSENABLED = '/rfp/get-collaborator-detail/js-enabled',
   RFP_POST_ADD_COLLABORATOR = '/rfp/get-collaborator-detail',
   RFP_POST_ADD_COLLABORATOR_TO_JAGGER = '/rfp/add-collaborator-detail',
+  RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = '/rfp/delete-collaborators',
   RFP_POST_PROCEED_COLLABORATORS = '/rfp/proceed-collaborators',
 
   // RFP Scoring Criteria
@@ -54,11 +55,21 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
   RFP_POST_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
 
+ //Add cllaborator DA
+ DA_GET_ADD_COLLABORATOR = '/da/add-collaborators',
+ DA_POST_ADD_COLLABORATOR_JSENABLED = '/da/get-collaborator-detail/js-enabled',
+ DA_POST_ADD_COLLABORATOR = '/da/get-collaborator-detail',
+ DA_POST_ADD_COLLABORATOR_TO_JAGGER = '/da/add-collaborator-detail',
+ DA_POST_PROCEED_COLLABORATORS = '/da/proceed-collaborators',
+ DA_POST_DELETE_COLLABORATOR_TO_JAGGER='/da/delete-collaborators',
+
+
   // Add collaborator ca
   CA_GET_ADD_COLLABORATOR = '/ca/add-collaborators',
   CA_POST_ADD_COLLABORATOR_JSENABLED = '/ca/get-collaborator-detail/js-enabled',
   CA_POST_ADD_COLLABORATOR = '/ca/get-collaborator-detail',
   CA_POST_ADD_COLLABORATOR_TO_JAGGER = '/ca/add-collaborator-detail',
+  CA_POST_DELETE_COLLABORATOR_TO_JAGGER = '/ca/delete-collaborators',
   CA_POST_PROCEED_COLLABORATORS = '/ca/proceed-collaborators',
   CA_GET_CHOOSE_REQUIREMENTS = '/ca/choose-security-requirements',
   CA_POST_CHOOSE_REQUIREMENTS = '/ca/choose-security-requirements',
@@ -76,6 +87,13 @@ export enum REQUIREMENT_PATHS {
   CA_GET_LEAD_PROCUREMENT = '/ca/procurement-lead',
   CA_PUT_LEAD_PROCUREMENT = '/ca/procurement-lead',
   CA_GET_USER_PROCUREMENT = '/ca/users-procurement-lead',
+
+  //Proc lead DA
+  DA_GET_NAME_PROJECT='/da/name-your-project',
+  DA_POST_NAME_PROJECT='/da/name',
+  DA_GET_USER_PROCUREMENT='/da/users-procurement-lead',
+  DA_PUT_LEAD_PROCUREMENT='/da/procurement-lead',
+  DA_GET_LEAD_PROCUREMENT='/da/procurement-lead',
 
   // Upload doc ca
   CA_GET_UPLOAD_DOC = '/ca/upload-doc',
@@ -134,6 +152,7 @@ export enum REQUIREMENT_PATHS {
   DA_POST_NEXTSTEPS = '/da/next-steps',
   DA_GET_CANCEL = '/da/cancel',
   CA_GET_CANCEL = '/ca/cancel',
+  DA_POST_CANCEL = '/da/cancel',
 
   CA_GET_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',
   CA_POST_REVIEW_RANKED_SUPPLIERS = '/ca/review-ranked-suppliers',

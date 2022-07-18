@@ -48,7 +48,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {{ data.title }}
+                  <strong> {{ data.title }} </strong>
                 </h1>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 {{ CCSInsetText({
                         html: data.insertText
                 }) }}
-
+               {# <p class = "govuk-body"> {{data.insertText}} </p>#}
                 <form id="ccs_ca_weighting" name="ccs_ca_weighting" class="form ccs_ca_weighting" action="/ca/enter-your-weightings" method="POST">
                     {{ csrfProtection(csrf) }}
                     <div class="ccs-page-section">
@@ -70,39 +70,7 @@
 
                     {% for dimension in dimensions %}
                         {% set loopNumber = loop.index %}
-                         {% set errorNum = loop.index0 %}
                         <div class="ccs-page-section">
-                        {% if (errorText.length > 0) and isError %}
-                             <div class="{% for text in errorText %}
-                            {% if text is defined and dimension.id == text.id.slice(-1) | int %}.govuk-form-group govuk-form-group--error{% else %}.govuk-form-group{% endif %}
-                            {% endfor %}">
-                                <label class="govuk-label govuk-label govuk-label--m">
-                                    {{loopNumber}} . {{dimension.title}}
-                                </label>
-                                <div class="govuk-hint">{{dimension.description}}</div>
-                                {% for text in errorText %}
-                                <span id="5-error" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {% if text is defined and dimension.id == text.id.slice(-1) | int  %}{{text.text}}{%  endif %}</span>
-                                {% endfor %}
-                                {{ CCSInput({
-                                    label: {
-                                    text: "Range "+dimension.weightingRange.min +"-"+dimension.weightingRange.max+"%"
-                                    },
-                                    classes: "govuk-input--width-5 dimensions",
-                                    id: dimension.id,
-                                    name: dimension.id,
-                                    suffix: {
-                                    text: "%"
-                                    },
-                                    spellcheck: false,
-                                    value: dimension.value,
-                                    attributes:{
-                                        min:dimension.weightingRange.min,
-                                        max:dimension.weightingRange.max
-                                    },
-                                    maxlength: "2"
-                                }) }}
-                            </div>
-                            {% else %}
                             <div class=".govuk-form-group">
                                 <label class="govuk-label govuk-label govuk-label--m">
                                     {{loopNumber}} . {{dimension.title}}
@@ -113,7 +81,7 @@
                                     label: {
                                       text: "Range "+dimension.weightingRange.min +"-"+dimension.weightingRange.max+"%"
                                     },
-                                    classes: "govuk-input--width-5 dimensions",
+                                    classes: "govuk-input--width-5 dimensionweightings",
                                     id: dimension.id,
                                     name: dimension.id,
                                     suffix: {
@@ -128,7 +96,6 @@
                                     maxlength: "2"
                                 }) }}
                             </div>
-                        {% endif %}
                         </div>
                     {% endfor %}
 

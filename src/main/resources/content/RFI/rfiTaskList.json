@@ -39,7 +39,7 @@
     {
       "eventno": 2,
       "eventTitle": "Build your RfI",
-      "eventDescription": "You can choose to enter information online to build your RfI, or upload a document. If you choose to build your RfI online you can write your own questions, include context about your organisation and your procurement, and get more detailed information about what suppliers can offer.",
+      "eventDescription": "When you build your RfI online you can write your own questions, include context about your organisation and your procurement, and get more detailed information about what suppliers can offer.",
       "eventTask": [
      
         {
@@ -65,7 +65,7 @@
         },
         {
           "Task": 2,
-          "title": "See the suppliers who will receive your RfI",
+          "title": "Confirm the suppliers who will receive your RfI",
           "required": "optional",
           "status": "Cannot start yet",
           "link": "/rfi/suppliers"

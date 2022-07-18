@@ -40,7 +40,7 @@
     {% for item in data.events %}
          <li>
             <h2 class="app-task-list__section">
-            <span class="app-task-list__section-number">{{item.eventno}} </span> {{item.eventTitle}}
+            <span class="app-task-list__section-number">{{item.eventno}} </span>{% if selectedeventtype=='DA' and item.eventno==3 %} {{item.eventTitleDA}} {% else %} {{item.eventTitle}} {%endif%}
              </h2>
              <p class="govuk-body">{{item.eventDescription}}</p>
                {% if (item.eventno==3) %}
@@ -56,7 +56,11 @@
                {% endif %}
                {%  if(item.eventno==5) %}
                <p class="govuk-body">{{item.eventDescription1}}</p>
+               {% if (selectedeventtype=='DA') %}
+               <p class="govuk-body">{{item.eventDescription3}}</p>
+               {%else%}
                 <p class="govuk-body">{{item.eventDescription2}}</p>
+                {%endif%}
                {% endif %}
 
               <ul class="app-task-list__items">
@@ -66,10 +70,18 @@
                           <strong>
                             {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %}
                                 <a href="{{Tasks.link}}" aria-describedby="name-your-project">
+                                    {% if (item.eventno==6) and (Tasks.Task==3) and (selectedeventtype=='DA') %}
+                                    {{Tasks.title}} your requirements
+                                    {%else%}
                                     {{Tasks.title}}
+                                    {%endif%}
                                 </a>
                             {% else %}
-                            {{Tasks.title}}
+                            {% if (item.eventno==6) and (Tasks.Task==3) and (selectedeventtype=='DA') %}
+                                    {{Tasks.title}} your requirements
+                                    {%else%}
+                                    {{Tasks.title}}
+                                    {%endif%}
                             {% endif %} 
                           </strong>
                         </span>

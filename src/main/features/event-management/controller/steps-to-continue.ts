@@ -1,12 +1,7 @@
 import * as express from 'express'
-//import { ParsedQs } from 'qs'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
-//import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
-//import { Procurement } from '../../procurement/model/project';
-//import { ReleatedContent } from '../../agreement/model/related-content'
 import * as data from '../../../resources/content/event-management/steps-to-continue.json'
-//import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 
 /**
  * 
@@ -57,28 +52,23 @@ import * as data from '../../../resources/content/event-management/steps-to-cont
 }
 
 export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.Response) => {
-  const { SESSION_ID } = req.cookies;  
+  const { SESSION_ID } = req.cookies; 
   try {
    
     const  rfi_next_steps  =  req.body.rfi_next_steps_to_continue;
-    
     if (rfi_next_steps) {
       switch (rfi_next_steps) {
         case '[DA]':
-          
-           res.redirect('/projects/create-or-choose');
+          res.redirect('/projects/create-or-choose');
           break;
 
         case '[Rfi]':
-          
-          res.redirect('/projects/create-or-choose');
+         res.redirect('/projects/create-or-choose');
           break;
-        case '[1-stage FC]':
-            
+        case '[1-stage FC]':      
             res.redirect('/projects/create-or-choose');
             break;  
-        case '[1-stage FC]':
-              
+        case '[2-stage FC]':          
               res.redirect('/projects/create-or-choose');
               break;
         default:
@@ -86,7 +76,6 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
       }
     } else {
       req.session['isJaggaerError'] = true;
-     // await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/58`, 'Completed');
       res.redirect('/steps-to-continue');
     }
   } catch (error) {

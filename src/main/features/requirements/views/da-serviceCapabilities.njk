@@ -4,9 +4,30 @@
 {% from "components/dialog/macro.njk" import CCSDialog %}
 
 {% block breadCrumb %}
-  {{ CCSBreadcrumbs({
-    items: breadCrumbs
-  }) }}
+ {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "Write and publish your requirements",
+                "href": "/da/task-list?path="+ choosenViewPath
+                },
+                {
+                "text": "Select your service capabilities",
+                "href": "#"
+            }
+        ]
+    }) }}
 {% endblock %}
 
 {% block content %}
@@ -31,7 +52,7 @@
 
  <div class="govuk-grid-row">
     <h1 class="govuk-heading-xl">
-        {{title}}
+        <strong>{{title}}</strong>
     </h1>
     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
     <div class="govuk-grid-row">
@@ -40,11 +61,14 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
+    {{ CCSInsetText({
+                        html: insertText
+                }) }}
       <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/service-capabilities" method="POST">
     {{ csrfProtection(csrf) }}    
     <div class="ccs-page-section">
       <div class="sub-section">
-        <p class="govuk-body" id = "da_total_weighting" >{{data.total}} of 100% total weighting for service capabilities</p>
+        <p class="govuk-body" id = "da_total_weighting" >{{totalWeighting}} of 100% total weighting for service capabilities</p>
       </div>
        <div class="sub-section"><a href="2" class="del govuk-link govuk-link--no-visited-state ca_da_service_cap" title="delete">Clear form</a></div>
     </div>
@@ -67,6 +91,7 @@
                     <h2 class="govuk-heading-l govuk-!-font-weight-bold" >{{item['category']}}</h2>
                     <h4> {{item['category']}} description </h4>
                            {% set domCategory = item['category'].trim().replaceAll(" ", "_") %}
+                                {% set domCategoryWhole = item['category'].trim().replaceAll(" ", "_")+"whole" %}
                           <div class="govuk-form-group">
                               <fieldset class="govuk-fieldset">
                               
@@ -89,7 +114,7 @@
  
                                       {% if wholeCells.name == item.category %}
 
-                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t {{domCategory}}{{loop.index}}">
+                                        <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t {{domCategoryWhole}}{{loop.index}}">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
 
@@ -188,8 +213,8 @@
               id: "form_submit"
             })
         }}
-         
-        <a href="{{backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
+         {% set returnLink = "/da/task-list?path="+choosenViewPath %}
+        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{backJump.title}}</a>
       </div>
     </div>
      </form>

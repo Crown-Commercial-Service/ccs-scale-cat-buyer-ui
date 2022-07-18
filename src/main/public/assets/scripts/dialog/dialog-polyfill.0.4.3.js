@@ -7,7 +7,7 @@ let weightingStaff = [];
 let weightingVetting = [];
 
 container =
-  document.getElementById('ccs_ca_menu_tabs_form_later') || document.getElementById('ccs_rfp_scoring_criteria');
+  document.getElementById('ccs_ca_menu_tabs_form_later') || document.getElementById('ccs_rfp_scoring_criteria') || document.getElementById('ccs_da_menu_tabs_form_later');
 inputs = container.getElementsByTagName('input');
 
 function deselect(e) {
@@ -162,10 +162,18 @@ $(function () {
   });
 
   $('#redirect-button-vetting').on('click', function () {
-    const total_staffs = document.getElementById('total-staff');
-    const total_vettings = document.getElementById('total-vetting');
-    total_staffs.innerHTML = 0;
-    total_vettings.innerHTML = 0;
+    const total_staffs = document.getElementById('da-total-staff');
+    const total_vettings = document.getElementById('da-total-vetting');
+    const total_resources = document.getElementById('da-total-resources');
+    const ca_total_staff=document.getElementById('ca-total-staff');
+    const ca_total_vetting=document.getElementById('ca-total-vetting');
+    const ca_total_resource=document.getElementById('ca-total-resources');
+    if(total_staffs!=null)total_staffs.innerHTML = 0;
+    if(total_vettings!=null)total_vettings.innerHTML = 0;
+    if(total_resources!=null)total_resources.innerHTML = 0;
+    if(ca_total_staff!=null)ca_total_staff.innerHTML = 0;
+    if(ca_total_vetting!=null)ca_total_vetting.innerHTML = 0;
+    if(ca_total_resource!=null)ca_total_resource.innerHTML = 0;
     staffs = [];
     vettings = [];
     deselect($('.dialog-close-vetting'));
@@ -173,12 +181,34 @@ $(function () {
     var route = this.name;
     if (route == 'Clear form') {
       for (index = 0; index < inputs.length; ++index) {
+        if(inputs[index].type!='hidden'){
         inputs[index].value = '';
+        }
       }
+      var tabLinks = document.querySelectorAll('.ca-vetting-weighting');
+      var tabLinkda = document.querySelectorAll('.da-vetting-weighting');
+      if (tabLinkda != null && tabLinkda.length > 0) {
+        var tabLinkda = document.querySelectorAll('.ons-list__item');
+        tabLinkda.forEach(tab=>{
+          tab.getElementsByClassName('table-item-subtext')[0].innerHTML="0 resources added,0% / 0%"//will cause issue
+        });
+      }
+
+     if (tabLinks != null && tabLinks.length > 0) {
+      var tabLinks = document.querySelectorAll('.ons-list__item');
+      tabLinks.forEach(tab=>{
+        tab.getElementsByClassName('table-item-subtext')[0].innerHTML="0 resources added,0% / 0%"//will cause issue
+      });
+    }
     } else {
       return false;
     }
   });
+
+  
+
+ 
+
 
   $('#redirect-button-tier-4').on('click', function () {
     deselect($('.dialog-close-tier-4'));
