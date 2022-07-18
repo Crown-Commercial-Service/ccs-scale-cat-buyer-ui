@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 $('#rfp_choose_security_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#rfp_choose_security_summary_list").html('<li><a href="#">You must enter the number of staffs who will need a lower security and vetting requirement.</a></li>');
+                $("#rfp_choose_security_summary_list").html('<li><a href="#">You must enter the number of staff requiring the highest level of clearance.</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
             }
             else if(selectednumber_rfp && ['1','2', '3', '4'].includes(selectednumber_rfp)&&  (resources_rfp < 0 || resources_rfp > (totalQuantityrfp-1)))           

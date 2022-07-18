@@ -177,7 +177,9 @@
           {{data.subsection4_title3}}</h2>
         <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
         <p class="govuk-body">If you want to see any clarification questions suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
-        <p class="govuk-body">The deadline for response from suppliers is <strong>Day Month Year time</strong></p>
+        
+        <p class="govuk-body">The deadline for response from suppliers is <strong>{{filtervalues }}</strong></p>
+        
         <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_task1}}</strong>
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
         <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
