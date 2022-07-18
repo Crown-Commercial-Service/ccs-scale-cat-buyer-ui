@@ -233,10 +233,13 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     var supplier_deadline=fetchQuestionsData[l].nonOCDS.options[0].value;
   }
  }
+ let day=supplier_deadline.substr(0,10);
+
+     let time=supplier_deadline.substr(11,5);
  const filtervalues = moment(
-  supplier_deadline,
-  'YYYY-MM-DDTHH:mm:ss'+'Z',
-).format('DD MMMM YYYY, hh:mm a') 
+  day+""+time,
+  'YYYY-MM-DD HH:mm',
+).format('DD MMMM YYYY') 
 
 
 
