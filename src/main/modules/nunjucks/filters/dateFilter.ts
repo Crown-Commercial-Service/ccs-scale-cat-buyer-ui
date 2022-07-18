@@ -49,8 +49,7 @@ export function dateFilter (value: moment.Moment | string): string {
       if (!date.isValid()) {
         throw new Error('Invalid date')
       }
-      let ddd=DateFormater.formatTimeHHMM(date)
-      return ddd;
+      return DateFormater.formatTimeHHMM(date)
     } catch (err) {
       logger.console.error(err);      
       throw err
