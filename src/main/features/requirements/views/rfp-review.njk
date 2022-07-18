@@ -318,7 +318,7 @@
                       <br /><br /><br />
                       {% if(termAndAcr !=undefined and  termAndAcr !=null and termAndAcr | length > 0 )%}
                       {% for data in termAndAcr %}
-                      <p>{{data.text}}</p><p>{{data.value}}</p><br />
+                      <p>{{data.value}}</p><p> {{data.text}}</p><br />
                       {% endfor%}
                       {%endif%}
                       {#<p>Expression or acronym answer</p><p>Definition answer</p><br />
