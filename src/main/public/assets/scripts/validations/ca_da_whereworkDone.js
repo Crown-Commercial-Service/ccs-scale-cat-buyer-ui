@@ -149,22 +149,22 @@ const ccsZvalidateDAWhereWorkDone = event => {
     let errMsg = "";   
     if (isNaN($(this).val())&&element.value != '')
     {
-      errMsg = "Dimension value entered must be an integer"
+      errMsg = "location weighting value must be an integer"
       emptycontent.push("false")
     }
     else if(element.value.includes('.')&& element.value != '')
     {
-      errMsg = "Dimension value entered must not contain decimal values"
+      errMsg = "location weighting value must not contain decimal values"
       emptycontent.push("false")
     }
     else if(element.value>100 && element.value != '')
     {
-      errMsg = "Dimension value entered must be <=100"
+      errMsg = "location weighting value must be <=100"
       emptycontent.push("false")
     } 
     else if(element.value<=0 && element.value != '')
     {
-      errMsg = "Dimension value entered must be >0"
+      errMsg = "location weighting value must be >0"
       emptycontent.push("false")
     } 
      else if (element.value != '')
@@ -180,11 +180,11 @@ const ccsZvalidateDAWhereWorkDone = event => {
   });
   if( !emptycontent.length > 0)
   {
-      fieldCheck = ["","Entry box must contain a value"]
+      fieldCheck = ["","At least one location must be selected"]
       errorStore.push(fieldCheck);   
   }
   else if (total !== 100) {
-    fieldCheck = ["totalPercentage", "Dimension value entered does not total to 100%"]
+    fieldCheck = ["totalPercentage", "Sum of the weighting values across all locations = 100%"]
     errorStore.push(fieldCheck);
   }
   if (errorStore.length === 0) document.forms["da_where_work_done"].submit();
@@ -204,22 +204,22 @@ const ccsZvalidateCAWhereWorkDone = (event) => {
     let errMsg = "";   
     if (isNaN($(this).val())&&element.value != '')
     {
-      errMsg = "Dimension value entered must be an integer"
+      errMsg = "location weighting value must be an integer"
       emptycontent.push("false")
     }
     else if(element.value.includes('.')&& element.value != '')
     {
-      errMsg = "Dimension value entered must not contain decimal values"
+      errMsg = "location weighting value must not contain decimal values"
       emptycontent.push("false")
     }
     else if(element.value>100 && element.value != '')
     {
-      errMsg = "Dimension value entered must be <=100"
+      errMsg = "location weighting value must be <= 100%"
       emptycontent.push("false")
     } 
     else if(element.value<=0 && element.value != '')
     {
-      errMsg = "Dimension value entered must be >0"
+      errMsg = "location weighting value must be >0"
       emptycontent.push("false")
     } 
      else if (element.value != '')
@@ -235,11 +235,11 @@ const ccsZvalidateCAWhereWorkDone = (event) => {
   });
   if( !emptycontent.length > 0)
   {
-      fieldCheck = ["","Entry box must contain a value"]
+      fieldCheck = ["","At least one location must be selected"]
       errorStore.push(fieldCheck);   
   }
   else if (total !== 100) {
-    fieldCheck = ["totalPercentage", "Dimension value entered does not total to 100%"]
+    fieldCheck = ["totalPercentage", "Sum of the weighting values across all locations = 100%"]
     errorStore.push(fieldCheck);
   }
   if (errorStore.length === 0) document.forms["ca_where_work_done"].submit();
