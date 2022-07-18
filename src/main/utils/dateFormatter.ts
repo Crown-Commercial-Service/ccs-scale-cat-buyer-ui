@@ -36,5 +36,7 @@ export class DateFormater {
   static formatLongDateAndTime (value: Moment): string {
     return `${DateFormater.formatLongDate(value)} at ${value.format(TIME_FORMAT)}`
   }
-
+  static formatTimeHHMM (value: Moment): string {
+    return `${value.format(TIME_FORMAT)}`
+  }
 }

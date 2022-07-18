@@ -1021,12 +1021,6 @@
           <p>Description</p><br/><br/>
           {% endfor %}
           {%endif%}
-          {#<p>Enter the name for this tier</p><br/>
-          <p>Enter the points for this tier</p><br/>
-          <p>Enter the points for this tier</p><br/><br/>
-          <p>Enter the name for this tier</p><br/>
-          <p>Enter the points for this tier</p><br/>
-          <p>Enter the points for this tier</p><br/><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
         <br/><br/><br/><br/>
@@ -1038,12 +1032,6 @@
           <p>{{data.text}}</p><br/><br/>
           {% endfor%}
           {%endif%}
-          {# <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
@@ -1113,7 +1101,7 @@
           </p><br />
         <p>
           {%if(deadline_period_for_clarification_period !=undefined and deadline_period_for_clarification_period !=null and deadline_period_for_clarification_period  !='')%}  
-           {{deadline_period_for_clarification_period | dateddmmyyyy}}
+           {{deadline_period_for_clarification_period | dateddmmyyyy}} {{ deadline_period_for_clarification_period |formatTimeHHMM}}
           {%endif%}
           </p><br /><br />
         {#<p> </p><br /><br />#}
