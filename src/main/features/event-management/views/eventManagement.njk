@@ -34,7 +34,7 @@
     </div>
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
-        <p class="govuk-!-padding-bottom-9">
+        <p>
           {{data.subtitle}}<br><br>
           {{data.subtitle1}}
         </p>
@@ -371,14 +371,38 @@
       {% else %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
-        Complete project</h2>
+        Complete RfI</h2>
         <p>When you have the supplier responses,you can close this project and then:</p>
         <ul type='disc'>
         <li>start the next stage of your project(from the procurement overview page)</li>
         <li>copy all the details of this project to procure from your own platform</li>
         <li>start another pre-market enagagement project</li>
         </ul>
-         <a class="govuk-link" href="/event/management?closeProj=true">Close this project and return to procurement overview</a> 
+         <a class="govuk-link" href="/event/management?closeProj=true">Complete this RfI event and return to procurement overview</a> 
+     
+    </div>
+    </div>
+    {% endif %}
+    {% endif %}  
+  {% endif %}
+  {% if eventType == 'EOI' %}
+      {% if status.toLowerCase() != 'published' %}
+ {% if status.toUpperCase() == 'EVALUATED' %}
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Evaluate Suppliers</h2>
+        <p>You have completed your supplier evaluation.</p>
+      {% else %}
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Complete EoI</h2>
+        <p>When you have the supplier responses,you can close this project and then:</p>
+        <ul type='disc'>
+        <li>start the next stage of your project(from the procurement overview page)</li>
+        <li>copy all the details of this project to procure from your own platform</li>
+        <li>start another pre-market enagagement project</li>
+        </ul>
+         <a class="govuk-link" href="/event/management?closeProj=true">Complete this EoI event and return to procurement overview</a> 
      
     </div>
     </div>
