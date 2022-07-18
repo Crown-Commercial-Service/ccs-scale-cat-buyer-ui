@@ -50,7 +50,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">
-     {{data.title }}
+     <strong>{{data.title }}</strong>
     </h1>
   </div>
 </div>
@@ -59,10 +59,16 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
   {% include "includes/project_header.njk" %}
-   <div class="govuk-inset-text">
-        <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
+  <br><br>
+   <div>
+        <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong><br>Make sure you include this ID every time you contact CCS. </p>
       </div>
-      <p class="govuk-body">{{data.caption}}</p>
+      <div>
+      <p class="govuk-body">{{data.caption1}}
+      <br>{{data.caption2}} 
+     {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">return to write and publish your requirements.</a> </p>
+      </div>
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/ca/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}
         {{ CCSInput({           
@@ -78,7 +84,8 @@
                 action:"submit"
                 })
             }}
-            <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>             
+               {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
           </div>
       </form>
  </div>

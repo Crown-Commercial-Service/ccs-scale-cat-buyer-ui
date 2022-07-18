@@ -10,20 +10,42 @@ import config from 'config';
 import { Blob } from 'buffer';
 import { JSDOM } from 'jsdom';
 import { Parser } from 'json2csv';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
 // RFI Suppliers
 export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId } = req.session;
+  const { projectId ,eventId} = req.session;
   const { download,previous,next } = req.query
   const releatedContent = req.session.releatedContent
   let lotid=req.session.lotId;
   lotid=lotid.replace('Lot ','')
   const lotSuppliers = config.get('CCS_agreements_url') + req.session.agreement_id + ":" + lotid + "/lot-suppliers";
   try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'In progress');
+    let flag=await ShouldEventStatusBeUpdated(eventId,39,req);
+    if(flag)
+    {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'In progress');
+    }
     let supplierList = [];
+    const supplierBaseURL: any = `/tenders/projects/${projectId}/events/${req.session.eventId}/suppliers`;
+    const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
+    let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
+    if(SUPPLIER_DATA!=undefined){
+      let allSuppliers=await GetLotSuppliers(req);
+      for(var i=0;i<SUPPLIER_DATA.suppliers.length;i++)
+          {
+              let supplierInfo=allSuppliers.filter(s=>s.organization.id==SUPPLIER_DATA.suppliers[i].id)?.[0];
+              if(supplierInfo!=undefined)
+              {
+                supplierList.push(supplierInfo);
+              }
+          }
+    }
+    else{
     supplierList = await GetLotSuppliers(req);
+    }
     const rowCount=10;let showPrevious=false,showNext=false;
     supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
     const supplierLength=supplierList.length;
@@ -169,12 +191,16 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
 
 export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  const { projectId } = req.session;
+  const { eventId } = req.session;
   try {
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/39`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/40`, 'Not started');
+      let flag=await ShouldEventStatusBeUpdated(eventId,40,req);
+      if(flag)
+      {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'Not started');
     }
+  }
      res.redirect('/rfp/response-date');
   } catch (error) {
     LoggTracer.errorLogger(

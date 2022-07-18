@@ -1,7 +1,10 @@
 {
-  "title": "Upload any additional document (optional)",
+  "title": "Upload other supporting documents (optional)",
   "subtitle": "[ Description for this page ]",
-  "description": "[instructions for this page]",
+  "description": "You can also upload more documents on this page to give suppliers more information about:",
+  "p1":"the background to your procurement",
+  "p2":"information about you organisation and the problem you want to solve",
+  "p3":"anything else you think would be useful for them to know",
   "taskList": [],
   "backJump": {
     "title": "Return to Write and publish your requirements",

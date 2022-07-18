@@ -4,7 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as daWeightingData from '../../../resources/content/requirements/daEnterYourWeightings.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -42,7 +42,47 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
   };
   try {
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-    const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
+    let dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
+    dimensions= dimensions.filter(x=>x['dimension-id']!=7)  
+    let da_weightings_description=[
+      {
+        "ID":1,
+        "title":"Capacity (number of specialists per DDaT role)",
+        "desc":"This relates to how many staff are supplied in each role.",
+        "orderID":1
+
+      },
+      {
+        "ID":2,
+        "title":"Security clearance and vetting",
+        "desc":"This relates to the importance of having specific security clearance levels or how detailed the vetting process of any supplied staff is.",
+        "orderID":4
+      },
+      {
+        "ID":3,
+        "title":"Service capability",
+        "desc":"This relates to the services the supplier can offer, including the specifics of each serivce.",
+        "orderID":2
+       },
+      {
+        "ID":4,
+        "title":"Scalability(size of team)",
+        "desc":"This relates to how many people you need in the team to get the work done. It also relates to how quickly the team can be increased if there is a need in the project to do so.",
+        "orderID":3
+      },
+      {
+        "ID":5,
+        "title":"Location",
+        "desc":"This relates to how important it is to you that any supplied staff are based in the specific regions of the country.",
+        "orderID":5
+      },
+      {
+        "ID":6,
+        "title":"Price",
+        "desc":"[Dimension description]",
+        "orderID":6
+      }
+    ];
     let weightingsArray = [];
     if (dimensions.length > 0) {
       weightingsArray = dimensions.map(anItem => {
@@ -56,8 +96,16 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
         };
       });
     }
-    req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
-    req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
+    da_weightings_description.forEach(element => {
+      let index=weightingsArray.findIndex(x=>x.id===element.ID)
+      weightingsArray[index].title=element.title
+      weightingsArray[index].description=element.desc
+      weightingsArray[index].orderID=element.orderID
+    });
+    weightingsArray.sort((a, b) => a.orderID< b.orderID? -1 : a.orderID> b.orderID? 1 : 0)
+
+    req.session['DA'] = req.session['DA'] == undefined ? {} : req.session['DA'];
+    req.session['DA'].toolId = assessmentDetail['external-tool-id'];
     req.session['weightingRange'] = weightingsArray[0].weightingRange;
     const windowAppendData = {
       data: daWeightingData,
@@ -71,6 +119,10 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       errorText,
       errorTextSumary: errorTextSumary,
     };
+    let flag = await ShouldEventStatusBeUpdated(eventId, 64, req);
+  if (flag) {
+await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'In progress');
+  }
     res.render('da-enterYourWeightings', windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -100,12 +152,12 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
-    const toolId = req.session['CapAss'].toolId;
-    const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
+    const toolId = req.session['DA'].toolId;
+    let dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
 
     const range = req.session['weightingRange'];
     const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5, 6: field6 } = req.body;
@@ -128,30 +180,45 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       req.session['isJaggaerError'] = true;
       res.redirect('/da/enter-your-weightings');
     } else {
+      let Weightings=[];
+        for(let i=1;i<=6;i++)
+        {
+            let dim=dimensions.filter(x=>x["dimension-id"] === i)
+            Weightings.push(...dim)
+        }
+        let body=[];
+        dimensions= dimensions.filter(x=>x['dimension-id']!=7)
       for (var dimension of dimensions) {
-        const body = {
-          name: dimension.name,
-          weighting: req.body[dimension['dimension-id']],
-          requirements: [],
-          includedCriteria: dimension.evaluationCriteria
-            .map(criteria => {
-              if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
-                return null;
-              } else
-                return {
-                  'criterion-id': criteria['criterion-id'],
-                };
-            })
-            .filter(criteria => criteria !== null),
-        };
+         body.push({
+            "name": dimension.name,
+            "dimension-id":dimension['dimension-id'],
+            "weighting": req.body[dimension['dimension-id']],
+            "requirements": [],
+            "includedCriteria": dimension.evaluationCriteria,
+            "overwriteRequirements": true
+          });
+        
+      }
 
         await TenderApi.Instance(SESSION_ID).put(
-          `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+          `/assessments/${assessmentId}/dimensions`,
           body,
         );
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'Completed');
+        let flag = await ShouldEventStatusBeUpdated(eventId, 65, req);
+          if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'Not started');
+          }
+       
+      if(req.session["DA_nextsteps_edit"])
+      {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
       }
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/49`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/55`, 'To-do');
+      req.session.errorText = [];
+    req.session.isError = false;
+    req.session.errorTextSumary=[];
+    req.session['isJaggaerError'] = false;
         res.redirect('/da/accept-subcontractors');
     }
   } catch (error) {
@@ -171,6 +238,7 @@ function checkErrors(arr, range) {
   let isError = false;
   const errorText = [];
   const keys = Object.keys(...arr).map(key => key);
+  let isTotalOutOfHundred = 0;
   for (const obj of arr) {
     for (const k of keys) {
       if ((range.max < Number(obj[k]) || range.min > Number(obj[k])) && Number(obj[k]) !== 0) {
@@ -181,7 +249,11 @@ function checkErrors(arr, range) {
         isError = true;
         errorText.push({ id: k, text: 'All entry boxes must contain a value' });
       }
+      isTotalOutOfHundred += Number(obj[k]);
     }
+  }
+  if (isTotalOutOfHundred < 100  || isTotalOutOfHundred >100) {
+    isError = true;
   }
 
   return { isError, errorText };

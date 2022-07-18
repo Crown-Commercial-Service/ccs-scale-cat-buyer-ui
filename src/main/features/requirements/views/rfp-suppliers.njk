@@ -26,13 +26,13 @@
                
              <p class="govuk-body">If you'd like to look at the details for each
               suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers</a> <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website. 
-              The page will open on a new tab</p>
+              The page will open in a new tab</p>
               <form id="ccs-rfp-suppliers-form" class="ccs-rfp-suppliers-form" action="/rfp/suppliers" method="POST">
                 {{ csrfProtection(csrf) }}
                     <br>
                     <h2 class="govuk-heading-m">
                         <span id="added_suppliers_count">
-                            {{suppliers_list.length}}
+                            {{supplierLength}}
                         </span> suppliers on this lot </h2>
                     <br>
                     <div class="govuk-button-group govuk-!-margin-bottom-7">
@@ -65,6 +65,7 @@
                         </div>
                     </div>
                                        <div>
+                                         </br>
                                          {% if(showPrevious) %}
           <a href="suppliers?previous=1" class="govuk-link govuk-link--no-visited-state"><- Previous Page</a>
           {% endif %}
@@ -74,13 +75,13 @@
           </div><br>
           <div>
           {% if(showPrevious) %}
-          <label>{{currentpagenumber-1}} of {{noOfPages}}</label>
+          <label>{{currentpagenumber}} of {{noOfPages}}</label>
           {% endif %}
           {% if(showNext) %}
-          <label class="anchor-right">{{currentpagenumber+1}} of {{noOfPages}}</label>
+          <label class="anchor-right">{{currentpagenumber}} of {{noOfPages}}</label>
           {% endif %}
           </div>
-          
+          </br>  </br>
                     <div class="govuk-button-group">
                         {{ CCSButton({
                 text: "Save and continue"

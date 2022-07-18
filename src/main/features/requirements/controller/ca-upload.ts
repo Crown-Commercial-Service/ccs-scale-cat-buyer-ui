@@ -161,9 +161,9 @@ export const CA_GET_REMOVE_FILES = (express.Handler = (req: express.Request, res
 
 export const CA_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, selectedRoute } = req.session;
+  const { eventId, selectedRoute } = req.session;
   const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/${step}`, 'Completed');
+  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
 
   res.redirect(`/${selectedRoute.toLowerCase()}/task-list`);
 });

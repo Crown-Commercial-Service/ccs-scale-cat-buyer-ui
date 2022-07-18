@@ -30,7 +30,7 @@
                 "href": "/ca/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "How well can the team scale?",
+                "text": "How much the team can grow (scale)",
                 "href": "#"
             }
         ]
@@ -49,7 +49,7 @@
         {%endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                <h1 class="govuk-heading-xl"> {{data.title }} </h1>
+                <h1 class="govuk-heading-xl"><strong> {{data.title }}</strong> </h1>
             </div>
         </div>
 
@@ -57,44 +57,32 @@
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
                 <p class="govuk-body">{{data.subtitle}}</p>  
-                <p class="govuk-body">{{ data.form.question }}</p>
                 <form id="ccs_ca_team_scale_form" name="ccs_ca_team_scale_form" class="form ccs_ca_team_scale_form" action="/ca/team-scale" method="POST">
                 {{ csrfProtection(csrf) }}
                     <div class="govuk-form-group">
                         <div class="govuk-radios">
                             <br>
                             {% set radioArray = [] %}
-                            {% for i in range(0, data.form.radioOptions.items | length) %}
-                            {% if i == 0%}
-                                <div class="govuk-radios__item">
-                                    {%if data.form.radioOptions.items[i].selected === true %}
-                                        <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_ca_team_scale-item-hint" checked>
-                                    {%else%}
-                                        <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_ca_team_scale-item-hint" >
-                                    {%endif%}
-                                    <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_ca_team_scale">
-                                        <h3 class="govuk-heading-m">{{data.form.radioOptions.items[i].text}}</h3>
+                          
+                            {% for item in RadioData %}
+                            
+                             <div class="govuk-radios__item">
+                              {% if(item.selected==true)%}
+                             <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale_{{loop.index}}" name="team_option" type="radio" value="{{item.value}}" checked >
+                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" >
+                                        <h3 class="govuk-heading-m">{{item.name}}</h3>
                                     </label>
-                                    <div id="ccs_ca_team_scale-item-hint" class="govuk-hint govuk-radios__hint">
-                                        {{data.form.radioOptions.items[i].hint.text | safe}}
-                                    </div>
-                                </div>
-                            {% else %}
-
-                                <div class="govuk-radios__item">
-                                    {%if data.form.radioOptions.items[i].selected === true %}
-                                        <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale-{{i+1}}" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_ca_team_scale-{{i}}-item-hint" checked>
-                                    {%else%}
-                                        <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale-{{i+1}}" name="team_option" type="radio" value="{{data.form.radioOptions.items[i].value}}" aria-describedby="ccs_ca_team_scale-{{i}}-item-hint" >
-                                    {% endif %}
-                                    <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_ca_team_scale-{{i}}">
-                                        <h3 class="govuk-heading-m">{{data.form.radioOptions.items[i].text}}</h3>
-                                    </label>
-                                    <div id="ccs_ca_team_scale-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
-                                        {{data.form.radioOptions.items[i].hint.text |safe}}
-                                    </div>
-                                </div>
-                            {%endif%}
+                              {%else%}
+                      <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale_{{loop.index}}" name="team_option" type="radio" value="{{item.value}}" >
+                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" >
+                                        <h3 class="govuk-heading-m">{{item.name}}</h3>
+                                    </label> {%endif %}
+ 
+                          <!--  <div id="ccs_ca_team_scale_desccription" class="govuk-hint govuk-radios__hint">
+                                        descriptiion
+                                    </div>-->
+                              </div>  
+                               
                             {% endfor %}
                         </div>
                     </div>

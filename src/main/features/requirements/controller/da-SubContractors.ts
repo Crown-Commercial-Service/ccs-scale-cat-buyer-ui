@@ -6,7 +6,7 @@ import * as daSubContractors from '../../../resources/content/requirements/daSub
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  *
  * @param req
@@ -20,6 +20,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   const agreementId_session = agreement_id;
   const { isValidationError, choosenViewPath } = req.session;
   const { assessmentId } = req.session.currentEvent;
+  const lotid = req.session?.lotId;
   let isSubContractorAccepted = false;
   req.session['isValidationError'] = false;
   res.locals.agreement_header = {
@@ -27,22 +28,16 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isValidationError,
   };
   try {
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-    if (assessmentDetail.dimensionRequirements.length > 0) {
-      // Need refactoring
-      const SubContractor = assessmentDetail.dimensionRequirements.find(dmns =>
-        dmns.includedCriteria.find(crt => crt.name == 'Sub Contractor'),
-      );
-      isSubContractorAccepted = SubContractor !== undefined && SubContractor !== null ? true : false;
-    } else {
-      isSubContractorAccepted = req.session['CapAss']?.isSubContractorAccepted;
-    }
+    isSubContractorAccepted = req.session['DA'].isSubContractorAccepted;
+
     daSubContractors.form[0].radioOptions.items = daSubContractors.form[0].radioOptions.items.map(opt => {
-      opt.checked = opt.value == 'yes' && isSubContractorAccepted ? true : false;
+      if (opt.value == 'yes' && isSubContractorAccepted) opt.checked = true;
+      else if (opt.value == 'no' && isSubContractorAccepted == false) opt.checked = true;
       return opt;
     });
     const windowAppendData = {
@@ -52,6 +47,10 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
       SubContractorAccepted: isSubContractorAccepted,
       choosenViewPath,
     };
+    let flag = await ShouldEventStatusBeUpdated(eventId, 65, req);
+  if (flag) {
+await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'In progress');
+  }
     res.render('da-SubContractors', windowAppendData);
   } catch (error) {
     req.session['isValidationError'] = true;
@@ -81,15 +80,15 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
-  const toolId = req.session['CapAss']?.toolId;
 
   try {
     const { da_subContractors } = req.body;
 
     if (da_subContractors !== undefined && da_subContractors !== '') {
-      req.session['CapAss']?.isSubContractorAccepted = da_subContractors == 'yes' ? true : false;
+      const da_acceptsubcontractors = da_subContractors.toLowerCase() == 'yes' ? true : false;
+      req.session['DA'].isSubContractorAccepted=da_acceptsubcontractors
       const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
 
       for (var dimension of assessmentDetail.dimensionRequirements) {
@@ -98,21 +97,29 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
           weighting: dimension.weighting,
           requirements: dimension.requirements,
           includedCriteria: dimension.includedCriteria.map(criteria => {
-            if (!req.session['CapAss']?.isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
+            if (!da_acceptsubcontractors && criteria['name'].toLowerCase() == 'sub contractor') {
+              return null;
             } else
               return {
                 'criterion-id': criteria['criterion-id'],
               };
-          }),
+          }).filter(criteria => criteria !== null),
         };
         await TenderApi.Instance(SESSION_ID).put(
           `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,
         );
       }
-
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/48`, 'Not started');
-
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'Completed');
+      let flag = await ShouldEventStatusBeUpdated(eventId, 66, req);
+      if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/66`, 'Not started');
+      }
+      if(req.session["DA_nextsteps_edit"])
+      {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/72`, 'Cannot start yet');
+      }
       res.redirect(REQUIREMENT_PATHS.DA_GET_RESOURCES_VETTING_WEIGHTINGS);
     } else {
       req.session['isValidationError'] = true;
@@ -125,7 +132,7 @@ export const DA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Post failed - DA next steps page',
+      'Post failed - DA sub contractors',
       true,
     );
   }

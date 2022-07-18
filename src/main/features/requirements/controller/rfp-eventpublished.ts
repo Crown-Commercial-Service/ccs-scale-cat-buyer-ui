@@ -11,7 +11,8 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
     const appendData = {
         data: cmsData,
         projPersistID: req.session['project_name'],
-        rfi_ref_no : req.session.eventId
+        rfi_ref_no : req.session.eventId,
+        selectedeventtype:req.session.selectedeventtype
      }
     const { SESSION_ID } = req.cookies; //jwt
     const { projectId } = req.session;
@@ -20,7 +21,7 @@ export const RFP_GET_EVENT_PUBLISHED  = async (req: express.Request, res: expres
     
 
 try {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/2`, 'Completed');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/2`, 'Completed');
     if(download!=undefined)
     {
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/documents/export`;

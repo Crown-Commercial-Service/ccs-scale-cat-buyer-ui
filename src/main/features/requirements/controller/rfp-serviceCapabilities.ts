@@ -4,6 +4,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as RFPService from '../../../resources/content/requirements/rfpService.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -18,6 +19,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     agreementLotName,
     agreementName,
     projectId,
+    eventId,
     agreement_id,
     releatedContent,
     project_name,
@@ -25,6 +27,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     errorText,
     currentEvent,
   } = req.session;
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -35,7 +38,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
   };
 
@@ -45,7 +48,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
-    const EXTERNAL_ID = 1;
+    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
@@ -246,7 +249,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
 
     const windowAppendData = {
       ...RFPService,
-      lotId,
+      lotid,
       agreementLotName,
       releatedContent,
       isError,
@@ -256,7 +259,11 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
       //WHOLECLUSTER: WHOLECLUSTERCELLS,
       totalAdded: TotalAdded,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'In progress');
+    let flag=await ShouldEventStatusBeUpdated(eventId,35,req);
+    if(flag)
+    {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'In progress');
+    }
     //res.json(dataset);
     res.render('rfp-servicecapabilities.njk', windowAppendData);
   } catch (error) {
@@ -283,7 +290,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
  */
  export const RFP_POST_SERVICE_CAPABILITIES = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId, serviceCapabilityData,currentEvent } = req.session;
+  const { projectId, eventId,serviceCapabilityData,currentEvent } = req.session;
   const { requirementId } = req.body;
   if (!req.body.requirementId) {
     req.session.errorText = [{ text: 'Select atleast one service capability.' }];
@@ -316,7 +323,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
   const PUT_BODY = {
     weighting: 10,
     includedCriteria: [],
-   
+    overwriteRequirements: true,
     requirements: MappedRequestContainingID,
   };
 
@@ -335,8 +342,12 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const DIMENSION_ID = CAPACITY_DATASET[2]['dimension-id'];
     const BASEURL_FOR_PUT = `/assessments/${assessmentId}/dimensions/${DIMENSION_ID}`;
     const POST_CHOOSEN_VALUES = await TenderApi.Instance(SESSION_ID).put(BASEURL_FOR_PUT, PUT_BODY);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/35`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/36`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(eventId,36,req);
+    if(flag)
+    {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
+    }
     res.redirect('/rfp/where-work-done');
   }
    catch (error) {

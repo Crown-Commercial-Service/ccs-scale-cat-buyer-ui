@@ -4,6 +4,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import * as caWeightingData from '../../../resources/content/requirements/caEnterYourWeightings.json';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -41,6 +42,43 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
     error: isJaggaerError,
   };
   try {
+    let flag = await ShouldEventStatusBeUpdated(eventId, 46, req);
+    if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/46`, 'In progress');
+    }
+    let ca_weightings_description=[
+      {
+        "ID":1,
+        "title":"Capacity (number of specialists per DDaT role)",
+        "desc":"This relates to how many staff are supplied in each role.",
+        "orderID":1
+
+      },
+      {
+        "ID":2,
+        "title":"Security clearance and vetting",
+        "desc":"This relates to the importance of having specific security clearance levels or how detailed the vetting process of any supplied staff is.",
+        "orderID":4
+      },
+      {
+        "ID":3,
+        "title":"Service capability",
+        "desc":"This relates to the services the supplier can offer, including the specifics of each serivce.",
+        "orderID":2
+       },
+      {
+        "ID":4,
+        "title":"Scalability(size of team)",
+        "desc":"This relates to how many people you need in the team to get the work done. It also relates to how quickly the team can be increased if there is a need in the project to do so.",
+        "orderID":3
+      },
+      {
+        "ID":5,
+        "title":"Location",
+        "desc":"This relates to how important it is to you that any supplied staff are based in the specific regions of the country.",
+        "orderID":5
+      }
+    ];
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
     const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
     let weightingsArray = [];
@@ -57,6 +95,14 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
         };
       });
     }
+    ca_weightings_description.forEach(element => {
+      let index=weightingsArray.findIndex(x=>x.id===element.ID)
+      weightingsArray[index].title=element.title
+      weightingsArray[index].description=element.desc
+      weightingsArray[index].orderID=element.orderID
+    });
+    weightingsArray.sort((a, b) => a.orderID< b.orderID? -1 : a.orderID> b.orderID? 1 : 0)
+
     req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
     req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
     req.session['weightingRange'] = weightingsArray[0].weightingRange;
@@ -72,7 +118,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       errorTextSumary: errorTextSumary,
     };
     res.render('ca-enterYourWeightings', windowAppendData);
-  } catch (error) {
+  }  catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
@@ -100,7 +146,7 @@ const GET_DIMENSIONS_BY_ID = async (sessionId: any, toolId: any) => {
 
 export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   const assessmentId = req.session.currentEvent.assessmentId;
   req.session.errorText = [];
   try {
@@ -128,33 +174,44 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       req.session['isJaggaerError'] = true;
       res.redirect('/ca/enter-your-weightings');
     } else {
-      for (var dimension of dimensions) {
+      let Weightings=[];
+        for(let i=1;i<=5;i++)
+        {
+            let dim=dimensions.filter(x=>x["dimension-id"] === i)
+            Weightings.push(...dim)
+        }
+        let body=[];
         
-          const body = {
-            name: dimension.name,
-            weighting: req.body[dimension['dimension-id']],
-            requirements: [],
-            includedCriteria: dimension.evaluationCriteria
-              .map(criteria => {
-                if (!req.session['CapAss'].isSubContractorAccepted && criteria['name'] == 'Sub Contractor') {
-                  return null;
-                } else
-                  return {
-                    'criterion-id': criteria['criterion-id'],
-                  };
-              })
-              .filter(criteria => criteria !== null),
-          };
-          
+      for (var dimension of Weightings) {
+          body.push({
+            "name": dimension.name,
+            "dimension-id":dimension['dimension-id'],
+            "weighting": req.body[dimension['dimension-id']],
+            "requirements": [],
+            "includedCriteria": dimension.evaluationCriteria,
+            "overwriteRequirements": true
+          });
+        }
           await TenderApi.Instance(SESSION_ID).put(
-            `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+            `/assessments/${assessmentId}/dimensions`,
             body,
           );
       
-        
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/46`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/47`, 'Not started');
-      }
+          
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/46`, 'Completed');
+        let flag = await ShouldEventStatusBeUpdated(eventId, 47, req);
+        if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not started');
+        }
+      
+      if(req.session["CA_nextsteps_edit"])
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+    }
+    req.session.errorText = [];
+    req.session.isError = false;
+    req.session.errorTextSumary=[];
       res.redirect('/ca/accept-subcontractors');
     }
   } catch (error) {

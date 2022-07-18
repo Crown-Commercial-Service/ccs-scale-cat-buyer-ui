@@ -73,10 +73,11 @@
             {% for item in TABLE_BODY -%}
                     <article id="section" class="govuk-!-margin-top-6">
                     <h2 class="govuk-heading-l govuk-!-font-weight-bold heading_capabilities" >{{item['category']}}</h2>
+                    <p class="govuk-body govuk-!-margin-bottom-7">This refers to the supplier's capability to measure and interpret data to see where and how a service can be improved.</p>
                        {% set domSelector = item['category'] | replace(" ", "_") %}
                     <div class="govuk-grid-row">
                       <div class="govuk-grid-column-one-half">
-                        <p class="govuk-body-s">Select all the apply.</p>
+                        <p class="govuk-body-s">Select all that apply:</p>
                       </div>
                       <div class="govuk-grid-column-one-half govuk-!-text-align-right">
                
@@ -87,7 +88,7 @@
                     {% for headings in TABLE_BODY -%}
                     <p class="hide-block headings">{{headings['category']}}</p>
                     {%endfor%}
-                    <h4 id="scrollTo"> {{item['category']}} description </h4>
+                    
                        
                     
     

@@ -23,61 +23,9 @@
   ],
 
   "title": "Review ranked suppliers",
-  "subtitles": [
-    "[instructions for this page]",
-    "If you'd like to look at the details for each suppliers please visit the Search suppliers page on the main CCS website.",
-    "The page will open on a new tab."
-  ],
-  "p1": "You've decided to take forward X suppliers. The X suppliers bellow, ranking between 1 and 2, will be automatically taken forward in your further competition event",
-  "table": {
-    "head": ["Rank and score", "supplier"],
-    "rows": [
-      [
-        {
-          "html": "<h3>Rank 1</h3><p>XX% total score</p><p>XX% [ Capacity score ]</p><p>XX% [ Vetting score ]</p><p>XX% [ Capability score ]</p><p>XX% [ Scalability score ]</p><p>XX% [ Location  score ]</p>"
-        },
-        {
-          "html": "<h3>Supplier company name</h3><p>Supplier trading name</p>"
-        }
-      ],
-      [
-        {
-          "html": "<h3>Rank 2</h3><p>XX% total score</p><p>XX% [ Capacity score ]</p><p>XX% [ Vetting score ]</p><p>XX% [ Capability score ]</p><p>XX% [ Scalability score ]</p><p>XX% [ Location  score ]</p>"
-        },
-        {
-          "html": "<h3>Supplier company name</h3><p>Supplier trading name</p>"
-        }
-      ],
-      [
-        {
-          "html": "<h3>Rank 3</h3><p>XX% total score</p><p>XX% [ Capacity score ]</p><p>XX% [ Vetting score ]</p><p>XX% [ Capability score ]</p><p>XX% [ Scalability score ]</p><p>XX% [ Location  score ]</p>"
-        },
-        {
-          "html": "<h3>Supplier company name</h3><p>Supplier trading name</p>"
-        }
-      ]
-    ]
-  },
-  "rows": [
-    {
-      "html": "<p>Rank 4</p><p>XX% total score</p><p>XX% [ Capacity score ]</p><p>XX% [ Vetting score ]</p><p>XX% [ Capability score ]</p><p>XX% [ Scalability score ]</p><p>XX% [ Location  score ]</p>",
-      "value": 4
-    },
-    {
-      "html": "<p>Rank 5</p><p>XX% total score</p><p>XX% [ Capacity score ]</p><p>XX% [ Vetting score ]</p><p>XX% [ Capability score ]</p><p>XX% [ Scalability score ]</p><p>XX% [ Location  score ]</p>",
-      "value": 5
-    }
-  ],
-  "p2": "[ You also have X suppliers with a lower ranking that can be included. You’ll be asked to enter a justification for the suppliers you can select below. You need to select at least X supplier(s).]",
-  "p3": "[ Enter your justification for the suppliers you’ve selected ]",
+  "instruction1": "To look at the details for each supplier, go to",
+ "p3": "[ Enter your justification for the suppliers you’ve selected ]",
   "p4": "[ Instructions ]",
-  "data": {
-    "total": 50,
-    "parts": [
-      { "title": "North East England", "value": 20 },
-      { "title": "North West England", "value": 30 }
-    ]
-  },
   "backJump": {
     "title": "Return to write and publish your requirements",
     "href": "/da/task-list"

@@ -104,15 +104,34 @@ document.addEventListener('DOMContentLoaded', () => {
       $(".backdrop-vetting").fadeOut(200);
       var route = this.name;
       if (route == 'Clear form') {
-        for (index = 0; index < inputs.length; ++index) {
-          inputs[index].value = '';
+        let tabLinks = document.querySelectorAll('.rfp-vetting-weighting');
+        if (tabLinks != null) {
+          clearRfpResourceVettingData(tabLinks)
         }
+        else {
+          for (index = 0; index < inputs.length; ++index) {
+            inputs[index].value = '';
+          }
+        }
+
       } else {
         return false;
       }
     });
   });
 
+  function clearRfpResourceVettingData(tabLinks) {
+    $('#rfp_total_resource').text('0');
+    $('#rfp_total_resource2').text('0');
+    for (var a = 0; a < tabLinks.length; a++) {
+      document.getElementsByClassName('table-item-subtext')[a].innerHTML = '0 resources added'
+    }
+    let totalInputFields = $('.rfp_weight_vetting_class');
+    for (a = 0; a < totalInputFields.length; ++a) {
+      totalInputFields[a].value = '';
+    }
+
+  }
 
   $.fn.slideFadeToggle = function (easing, callback) {
     return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);

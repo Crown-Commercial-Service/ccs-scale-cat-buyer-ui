@@ -16,6 +16,7 @@ export interface ActiveEvent {
     tenderPeriod:   TenderPeriod;
     eventSupportId: string;
     eventType:      string;
+    dashboardStatus:string;
 }
 
 export interface TenderPeriod {

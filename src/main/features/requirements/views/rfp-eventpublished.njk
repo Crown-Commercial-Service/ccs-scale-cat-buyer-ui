@@ -17,7 +17,11 @@
  <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-xl">
-            {{data.title}}
+          {%if(selectedeventtype=='DA')%}
+          <strong>{{data.titleDA}}</strong>
+          {%else%}
+            {{data.titleRFP}}
+            {%endif%}
 
           </h1>
           {% include "includes/project_header.njk" %}
@@ -27,7 +31,11 @@
     <br>
   <div class="govuk-panel govuk-panel--confirmation">
         <h2 class="govuk-panel__title">
-          {{data.board.header}}
+        {%if(selectedeventtype=='DA')%}
+        {{data.board.headerDA}}
+        {%else%}
+          {{data.board.headerRFP}}
+          {%endif%}
         </h2>
         <br><br><br>
         <div class="govuk-panel__body">
@@ -50,10 +58,17 @@
       </ol>
       <br>
        <div class="govuk-button-group">
+       {%if(selectedeventtype=='DA')%}
+       {{ CCSButton({
+          text: "Export your direct award" ,
+          href: "/rfp/rfp-eventpublished?download=1"
+        }) }}
+       {%else%}
         {{ CCSButton({
           text: "Export your 1-stage further competition" ,
           href: "/rfp/rfp-eventpublished?download=1"
         }) }}
+        {%endif%}
       </div>
 <br><br><br>
       <div class="govuk-button-group">
@@ -61,7 +76,7 @@
           text: data.dashboard.title,
           href: data.dashboard.href
         }) }}
-        <a href="{{data.procurement.href}}" class="govuk-link govuk-link--no-visited-state">{{data.procurement.title}} </a>
+        
       </div>
 
     </div>

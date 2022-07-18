@@ -6,6 +6,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { GetLotSuppliers } from '../../shared/supplierService';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -26,6 +27,7 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
     releatedContent,
     project_name,
   } = req.session;
+  const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
@@ -34,9 +36,9 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
     project_name,
     agreementId_session,
     agreementLotName,
-    lotId,
+    lotid,
     error: isJaggaerError,
-    choosenViewPath: req.session['choosenViewPath']
+    choosenViewPath:choosenViewPath,
   };
   try {
 
@@ -53,7 +55,10 @@ export const CA_GET_SUPPLIERS_FORWARD = async (req: express.Request, res: expres
       choosenViewPath,
       releatedContent,
     };
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'In progress');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 53, req);
+        if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'In progress');
+        }
     res.render(`ca-suppliersToForward`, windowAppendData);
   } catch (error) {
     req.session['isJaggaerError'] = true;
@@ -82,17 +87,25 @@ export const CA_POST_SUPPLIERS_FORWARD = async (req: express.Request, res: expre
   try {
     const body = {
       assessmentSupplierTarget: ca_supplier_count,
-      assessmentID:assessmentId
+      assessmentId:assessmentId
     };
    const response= await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}`, body);
    if(response.status==200)
    {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/53`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${projectId}/steps/54`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/53`, 'Completed');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 54, req);
+        if (flag) {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+        }
+        if(req.session["CA_nextsteps_edit"])
+        {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/55`, 'Cannot start yet');
+        }
     res.redirect(REQUIREMENT_PATHS.CA_GET_REVIEW_RANKED_SUPPLIERS);
    } 
    else{
-     res.redirect('/400');
+     res.redirect('/404/');
    }
   } catch (error) {
     LoggTracer.errorLogger(

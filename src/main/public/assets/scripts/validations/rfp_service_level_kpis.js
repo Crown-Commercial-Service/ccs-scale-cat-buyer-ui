@@ -6,61 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
-    //let clearFieldsButtons = document.querySelectorAll("a.clear-fields");
-
-    for (var acronym_fieldset = 10; acronym_fieldset > 1; acronym_fieldset--) {
-
-      let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + acronym_fieldset),
-        term_box = document.getElementById("rfp_term_service_levels_KPI_" + acronym_fieldset),
-        term_box1 = document.getElementById("rfp_term_definition_service_levels_KPI_" + acronym_fieldset),
-        term_box2 = document.getElementById("rfp_term_percentage_KPI_" + acronym_fieldset);
-
-      if (term_box != undefined && term_box != null && term_box.value !== "") {
-        this_fieldset.classList.remove('ccs-dynaform-hidden');
-        document.getElementById("kpiKeyLevel").textContent = acronym_fieldset;
-
-        if (acronym_fieldset === 10) {
-          document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
-        }
-
-      } else {
-
-        this_fieldset.classList.add('ccs-dynaform-hidden');
-        with_value_count = acronym_fieldset;
-      }
-    }
-    document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
-
-
-    document.getElementById("ccs_rfpTerm_add").addEventListener('click', (e) => {
-
-      $('.govuk-form-group').removeClass('govuk-textarea--error');
-      //checkFieldsRfpKPI();
-      errorStore = emptyFieldCheckRfpKPI();
-      e.preventDefault();
-      if (errorStore == null || errorStore.length <= 0) {
-        document.querySelector(".acronym_service_levels_KPI_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-        if (with_value_count > 2) {
-          prev_input = with_value_count - 1;
-          document.querySelector(".acronym_service_levels_KPI_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
-        }
-
-        with_value_count++;
-        //document.getElementById("kpiKeyLevel").textContent = with_value_count;
-        if (with_value_count === 11) {
-          document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
-        }
-      }
-
-    });
-
+    let precentageInputs = document.querySelectorAll(".govuk-input--width-5");
+    let deleteButtonCount = [];
     // delete buttons
     deleteButtons.forEach((db) => {
-      db.classList.remove('ccs-dynaform-hidden')
+      db.classList.add('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
         e.preventDefault();
 
-        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
+        let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
 
@@ -69,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
         document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
         target_fieldset.classList.add("ccs-dynaform-hidden");
+
+        document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
 
         document.getElementById("kpiKeyLevel").textContent = prev_coll;
         if (prev_coll > 1) {
@@ -80,6 +36,83 @@ document.addEventListener('DOMContentLoaded', () => {
         with_value_count--;
       });
     });
+    for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
+
+      let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
+        term_box = document.getElementById("rfp_term_service_levels_KPI_" + kpi_fieldset),
+        term_box1 = document.getElementById("rfp_term_definition_service_levels_KPI_" + kpi_fieldset),
+        term_box2 = document.getElementById("rfp_term_percentage_KPI_" + kpi_fieldset);
+      //deleteButtonKPI = document.getElementById("remove_icon_" + kpi_fieldset);
+
+      if (term_box != undefined && term_box != null && term_box.value !== "") {
+        this_fieldset.classList.remove('ccs-dynaform-hidden');
+        this_fieldset.classList.remove('ccs-dynaform-hidden');
+        document.getElementById("kpiKeyLevel").textContent = kpi_fieldset;
+        deleteButtonCount.push(kpi_fieldset);
+        if (kpi_fieldset === 10) {
+          document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+        }
+      } else {
+
+        this_fieldset.classList.add('ccs-dynaform-hidden');
+        with_value_count = kpi_fieldset;
+      }
+
+      if (kpi_fieldset === 2 && deleteButtonCount.length > 0) {
+        $("#remove_icon_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
+      }
+    }
+    document.getElementById("ccs_rfpTerm_add").classList.remove("ccs-dynaform-hidden");
+
+
+    document.getElementById("ccs_rfpTerm_add").addEventListener('click', (e) => {
+      errorStore = [];
+      $('.govuk-form-group').removeClass('govuk-textarea--error');
+      //checkFieldsRfpKPI();
+      let totalPercentage = 0;
+      var percentageElement = document.getElementsByName("percentage");
+      for (let index = 0; index < percentageElement.length; index++) {
+        totalPercentage += Number(percentageElement[index].value);
+        let index1 = Number(index) + 1;
+        if (Number(percentageElement[index].value) > 100) {
+          errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
+        }
+      }
+      if (totalPercentage === 100) {
+        errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
+      } else if (totalPercentage > 100) {
+        errorStore.push(["rfp_term_percentage_KPI_", "Percentage value exceeding 100%, So you can not proceed"])
+      }
+      errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
+      e.preventDefault();
+      if (errorStore == null || errorStore.length <= 0) {
+        document.querySelector(".acronym_service_levels_KPI_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+        if (with_value_count > 2) {
+          prev_input = with_value_count - 1;
+          document.querySelector(".acronym_service_levels_KPI_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+          document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
+        }
+        document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+        with_value_count++;
+
+
+        //document.getElementById("kpiKeyLevel").textContent = with_value_count;
+        if (with_value_count === 11) {
+          document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+        }
+      } else {
+        ccsZPresentErrorSummary(errorStore);
+      }
+
+    });
+
+
+    precentageInputs.forEach(db => {
+      db.addEventListener("keydown", (event) => {
+        if (event.keyCode == '69') { event.preventDefault(); }
+      })
+    })
+
   }
 });
 
@@ -147,14 +180,14 @@ const emptyFieldCheckRfpKPI = () => {
         if (term_field.value.trim() !== '' && definition_field.value.trim() !== '' && target_field.value.trim() !== '') {
           document.getElementById("kpiKeyLevel").textContent = x;
         }
-        
+
         if (!pageHeading.includes("(Optional)")) {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
             ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
             ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
             ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
-           
+
             errorStore.push(fieldCheck);
           }
           else {
@@ -194,8 +227,22 @@ const emptyFieldCheckRfpKPI = () => {
 }
 const ccsZvalidateRfpKPI = (event) => {
   event.preventDefault();
-
-  errorStore = emptyFieldCheckRfpKPI();
+  errorStore = [];
+  let totalPercentage = 0;
+  var percentageElement = document.getElementsByName("percentage");
+  for (let index = 0; index < percentageElement.length; index++) {
+    totalPercentage += Number(percentageElement[index].value);
+    if (Number(percentageElement[index].value) > 100) {
+      let index1 = Number(index) + 1;
+      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
+    }
+  }
+  if (totalPercentage === 100) {
+    errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
+  } else if (totalPercentage > 100) {
+    errorStore.push(["rfp_term_percentage_KPI_", "Percentage value exceeding 100%, So you can not proceed"])
+  }
+  errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
 
   if (errorStore.length === 0) {
 
@@ -208,16 +255,26 @@ const ccsZvalidateRfpKPI = (event) => {
 };
 $('#service_levels_kpi_form').on('submit', (event) => {
   event.preventDefault();
-
-  errorStore = emptyFieldCheckRfpKPI();
-
+  let totalPercentage = 0;
+  errorStore = [];
+  var percentageElement = document.getElementsByName("percentage");
+  for (let index = 0; index < percentageElement.length; index++) {
+    totalPercentage += Number(percentageElement[index].value);
+    if (Number(percentageElement[index].value) > 100) {
+      let index1 = Number(index) + 1;
+      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
+    }
+  }
+  if (totalPercentage === 100) {
+    errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
+  } else if (totalPercentage > 100) {
+    errorStore.push(["rfp_term_percentage_KPI_", "Percentage value exceeding 100%, So you can not proceed"])
+  }
+  errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
   if (errorStore.length === 0) {
-
     document.forms["service_levels_kpi_form"].submit();
   }
   else {
     ccsZPresentErrorSummary(errorStore);
-
   }
-
 });

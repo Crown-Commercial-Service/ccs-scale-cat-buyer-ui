@@ -22,11 +22,11 @@
     }
   ],
 
-  "title": "2. Upload your pricing schedules and other supporting documents",
+  "title": "2. Upload  pricing schedules and other documents",
   "subtitle": null,
   "description1": "You can use a pricing schedule to set out what you want suppliers to give prices for.This will help suppliers know what you wnat for specific costs for and will help you them evaluate fairly.",
   "description2":"You can upload your pricing schedule below",
-  "description3":"You can also add more documents with information about your procurement, suuch as information about the context of your procurement,key terms,acronyms and information about your organizantion. ",
+  "description3":"You can also add more documents with information about your procurement, such as information about the context of your procurement,key terms,acronyms and information about your organizantion. ",
   "taskList": [
     {
       "title": "Upload your pricing schedule",
@@ -34,7 +34,7 @@
       "href": "/rfp/upload-attachment"
     },
     {
-      "title": "Upload more document (optional)",
+      "title": "Upload terms and conditions and other documents",
       "hreftitle": "Add or change upload",
       "href": "/rfp/upload-doc"
     }

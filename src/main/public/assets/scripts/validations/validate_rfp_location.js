@@ -5,8 +5,18 @@ const ccsZvalidateRfpLocation = (event) => {
 
   let fieldCheck = "",
     errorStore = [];
+  let errMsg="You must select at least one region where your staff will be working, or  the “No specific location....";
+  
+  let hiddenQuestionElement=document.getElementById("question_id");
+  if(hiddenQuestionElement!==null)
+  {
+    if(hiddenQuestionElement.value=="Question 10")
+    {
+      errMsg="You must select which project phases you need resource for, or confirm if this does not apply to your project.";
+    }
+  }
 
-  fieldCheck = ccsZisOptionChecked("required_locations", "You must select at least one region where your staff will be working, or  the “No specific location....");
+  fieldCheck = ccsZisOptionChecked("required_locations",errMsg );
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["rfp_location"].submit(); //The Location page is mandatory 

@@ -51,7 +51,7 @@
                 "href": "/da/task-list?path="+ choosenViewPath
             },
             {
-                "text": "Learn about capability assessment",
+                "text": "What is a capability assessment",
                 "href": "#"
             }
         ]
@@ -65,7 +65,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {{ data.title }}
+                    <strong>{{ data.title }}</strong>
                 </h1>
             </div>
         </div>
@@ -73,7 +73,22 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-                <p class="govuk-body">{{ data.form.question }}</p>
+                <p class="govuk-body">{{ data.form.Line1 }}</p>
+                <p class="govuk-body">{{ data.form.Line2 }}</p>
+                <p class="govuk-body">{{ data.form.Line3 }}
+                {% for item in data.form.points %}
+                <ul>
+                <li>{{ item.p1 }}</li>
+                <li>{{ item.p2 }}</li>
+                <li>{{ item.p3 }}</li>
+                <li>{{ item.p4 }}</li>
+                </ul>
+                {% endfor %}
+                </p>
+            <p class="govuk-body">{{ data.form.Line4 }}</p>
+            <p class="govuk-body">{{ data.form.Line5 }}</p>
+            <p class="govuk-body">{{ data.form.Line6 }}</p>
+                
             </div>
             <div class="govuk-grid-column-one-third">
                 {{ CCSReleatedContent(releatedContent) }}
@@ -82,6 +97,7 @@
 {% if isPathOne %}
             <form id="ccs_da_learn" name="ccs_da_learn" class="form ccs_da_learn" action="/da/learnabout-CA" method="POST">
             {{ csrfProtection(csrf) }}
+            <br><br><br>
             {{ CCSInput({
                 id: "da_learn_input",
                 name: "da_learn_input",
@@ -94,7 +110,7 @@
                 text: "continue"
             }) }}
             {% set returnLink = "/da/task-list?path=" + choosenViewPath %}
-            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump1.title}}</a>
             </div>
         </form>
  {% else %}
@@ -112,7 +128,7 @@
                 text: "Save and continue"
             }) }}
             {% set returnLink = "/da/task-list?path=" + choosenViewPath %}
-            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+            <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump2.title}}</a>
             </div>
         </form>
 {% endif %}

@@ -98,6 +98,19 @@ if (document.getElementById('ccs_rfi_project_name_form') !== null)
 if (document.getElementById('rfi_projLongName') !== null)
   document.getElementById('rfi_projLongName').addEventListener('input', ccsZCountRfiProjectName);
 
+  if (document.getElementById('enter_evaluation_feedback') !== null)
+  document.getElementById('enter_evaluation_feedback').addEventListener('input', ccsZCountsupplierFeedback);
+
+  if (document.getElementById('enter_evaluation_score') !== null)
+  document.getElementById('enter_evaluation_score').addEventListener('keypress', ccsZValidateDecimalScore);
+
+  if (document.getElementById('enter_evaluation_feedback') !== null)
+  document.getElementById('enter_evaluation_feedback').addEventListener('submit', ccsZvalidateFeedback);
+
+  
+  if (document.getElementById('enter_evaluation_score') !== null)
+  document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
+
 if (document.getElementById('ccs_eoi_project_name_form') !== null)
   document.getElementById('ccs_eoi_project_name_form').addEventListener('submit', ccsZvalidateEoiProjectName);
 
@@ -125,8 +138,6 @@ if (document.getElementById('ccs_ca_weighting') !== null)
 
 if (document.getElementById('ccs_daa_weighting') !== null)
   document.getElementById('ccs_daa_weighting').addEventListener('submit', ccsZvalidateDAAWeightings);
-if (document.getElementById('ccs_ca_suppliers_form') !== null)
-  document.getElementById('ccs_ca_suppliers_form').addEventListener('submit', ccsZvalidateCASupplier);
 
 if (document.getElementById('ca_where_work_done') !== null)
   document.getElementById('ca_where_work_done').addEventListener('submit', ccsZvalidateCAWhereWorkDone);
@@ -157,6 +168,9 @@ if (document.getElementById('rfi_prob_statement') !== null)
 if (document.getElementById('ccs_rfi_next_steps') !== null)
   document.getElementById('ccs_rfi_next_steps').addEventListener('submit', showPopup);
 
+  if (document.getElementById('evaluate_suppliers') !== null)
+  document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
+
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
 
@@ -173,17 +187,6 @@ if (document.getElementById('ccs_rfi_docs_form') !== null)
 
 //if (document.getElementById("ccs_rfi_response_date_form") !== null) document.getElementById("ccs_rfi_response_date_form").addEventListener('submit', ccsZvalidateRfiResponseDate);
 
-if (document.getElementById('ccs_rfi_response_date_form_2') !== null)
-  document.getElementById('ccs_rfi_response_date_form_2').addEventListener('submit', ccsZvalidateDate);
-
-if (document.getElementById('ccs_rfi_response_date_form_3') !== null)
-  document.getElementById('ccs_rfi_response_date_form_3').addEventListener('submit', ccsZvalidateDate);
-
-if (document.getElementById('ccs_rfi_response_date_form_4') !== null)
-  document.getElementById('ccs_rfi_response_date_form_4').addEventListener('submit', ccsZvalidateDate);
-
-if (document.getElementById('ccs_rfi_response_date_form_5') !== null)
-  document.getElementById('ccs_rfi_response_date_form_5').addEventListener('submit', ccsZvalidateDate);
 
 if (document.getElementById('ccs_rfi_questions_form') !== null)
   document.getElementById('ccs_rfi_questions_form').addEventListener('submit', ccsZvalidateRfIQuestions);
@@ -259,6 +262,13 @@ if (document.getElementById('ccs_eoi_date_form') !== null)
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
   document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
+
+  //Award
+if (document.getElementById('ccs_pre_award_supplier_form') !== null)
+document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
+
+if (document.getElementById('ccs_standstill_period_form') !== null)
+document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
 
 //if (document.getElementById('rfp_multianswer_question_form') !== null)
 // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");

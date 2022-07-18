@@ -38,10 +38,10 @@
         },
         {
         text: "Write and publish your requirements",
-        href: "/ca/task-list"
+        "href": "/ca/task-list?path="+ choosenViewPath
         },
         {
-        text: "Add colleagues "
+        text: "Add colleagues to your project "
         }
         ]
       }) }}
@@ -70,7 +70,7 @@
 
 <div class="govuk-grid-row">
   <h1 class="govuk-heading-xl">
-    {{data.title}}
+    <strong>{{data.title}} (Optional)</strong>
   </h1>
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
     <div class="govuk-grid-row">
@@ -148,7 +148,7 @@
         {% if collaborator.OCDS.contact.email !== lead %}
         <div class="ccs-page-section" id="rfi_collaborator_{{collaborator.id}}">
           <div id="collaborator-detail">
-            <a href='{{collaborator.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
+            <a href='/ca/delete-collaborators?id={{collaborator.OCDS.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
             <p class="govuk-body"><strong>{{data.content.collegue.name}}<span id="collab_no"></span>: </strong><span
                 id="collab_name">{{collaborator.OCDS.contact.name}}</span></p>
@@ -183,7 +183,8 @@
         {{ CCSButton({
         text: "Save and continue"
         }) }}
-        <a href="/ca/task-list" class="govuk-link govuk-link--no-visited-state">Return to write and publish your requirements</a>
+         {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
+        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to write and publish your requirements</a>
       </div>
     </form>
 
