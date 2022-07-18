@@ -222,7 +222,27 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
     let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
     collaboratorData = collaboratorData.data;
-    const appendData = { supplierDetails, data: eventManagementData, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+
+  //response date 
+  const apiData_baseURL = `/tenders/projects/${procurementId}/events/${eventId}/criteria/Criterion 1/groups/Key Dates/questions`;
+  const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
+  let fetchQuestionsData = fetchQuestions.data;
+  for (var l=0;l<fetchQuestionsData.length;l++)
+ {
+  if(fetchQuestionsData[l].OCDS.id=='Question 4'){
+    var supplier_deadline=fetchQuestionsData[l].nonOCDS.options[0].value;
+  }
+ }
+ const filtervalues = moment(
+  supplier_deadline,
+  'YYYY-MM-DDTHH:mm:ss'+'Z',
+).format('DD MMMM YYYY, hh:mm a') 
+
+
+
+    const appendData = { supplierDetails, data: eventManagementData,filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+
+    
 
     let redirectUrl: string
     if (status.toLowerCase() == "in-progress") {
