@@ -23,7 +23,7 @@
                 "href": "/da/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "Select your service capabilities and set the weighting",
+                "text": "Select your service capabilities",
                 "href": "#"
             }
         ]
@@ -52,7 +52,7 @@
 
  <div class="govuk-grid-row">
     <h1 class="govuk-heading-xl">
-        {{title}}
+        <strong>{{title}}</strong>
     </h1>
     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
     <div class="govuk-grid-row">
@@ -61,6 +61,9 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
+    {{ CCSInsetText({
+                        html: insertText
+                }) }}
       <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/service-capabilities" method="POST">
     {{ csrfProtection(csrf) }}    
     <div class="ccs-page-section">

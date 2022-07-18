@@ -281,7 +281,7 @@
                       <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
                     </td>
                     <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}">Review evaluation</a>
                     </td>
 
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
@@ -360,13 +360,13 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-      {#  {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'EVALUATED' %}
+      {% if status.toLowerCase() != 'published' %}
+ {% if status.toUpperCase() == 'EVALUATED' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p> #}
-
-      {% if status.toLowerCase() != 'published' %}
+        <p>You have completed your supplier evaluation.</p>
+      {% else %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete project</h2>
@@ -380,6 +380,7 @@
      
     </div>
     </div>
+    {% endif %}
     {% endif %}  
   {% endif %}
   </main> 
@@ -404,28 +405,35 @@
         <p>You have completed your supplier evaluation.</p>  #}
 
       {% if status.toUpperCase() !== 'PUBLISHED' %}
-      {# <h2 class="govuk-heading-m">
+      {% if status.toUpperCase() == 'EVALUATED' %}
+       <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p> #}
+        <p>You have completed your supplier evaluation.</p>
+        {% else %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>
         <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project.</p>
         <p>You can only enter  your final evaluation score for each supplier in this serevice. You will need to complete your full evaluation offline.</p>
+      
+      {% if supplierDetailsDataList !=null and supplierDetailsDataList.length >0 %}
       <div class="govuk-button-group">
         {{ CCSButton({
         text: "Start Supplier Evaluation",
         href:"/evaluate-suppliers"
         }) }}
         </div>
+        {% endif %}
       </div>
       {% endif %}
       {% endif %}
-     {#<div class="govuk-grid-row ccs-page-section">#}
-     {#</div>#}
+      {% endif %}
+
+     {% if status.toUpperCase() !== 'EVALUATED'%}
       <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
      </div>
+     {% endif %}
      
 {% endblock %}
