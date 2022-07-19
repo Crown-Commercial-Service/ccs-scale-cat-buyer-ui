@@ -2,17 +2,17 @@
     "breadCrumbs": [
     ],
 
-    "titleRFP": "Your RFP is published  ",
+    "titleRFP": "Your further competition has been published  ",
     "titleDA":"Your direct award has been published",
     "board": {
-        "headerRFP": "Your Request for Information was sent to the suppliers you selected ",
+        "headerRFP": "Your further competition has been sent to suppliers ",
         "headerDA":"Your direct award has been sent to suppliers",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",
         "next": [
-            {"li": "the suppliers you selected can read your RFP and ask questions if they need more information"},
-            {"li": "when the clarification period ends you will need to answer the supplier questions by the deadline you set"}
+            {"li": "Suppliers can read your scope of requirements and other details you entered and ask questions. "},
+            {"li": "You will need to answer any questions supplier submit by the clarification deadline."}
         ]
     },
         "dashboard": {

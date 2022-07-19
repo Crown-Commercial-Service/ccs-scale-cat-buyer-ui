@@ -2,9 +2,9 @@
     "breadCrumbs": [
     ],
 
-    "title": "Your RfI is published  ",
+    "title": "Your Request for Information is published  ",
     "board": {
-        "header": "Your Request for Information has been published",
+        "header": "Your RfI has been sent to the selected suppliers",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",
@@ -14,7 +14,7 @@
         ]
     },
         "dashboard": {
-            "title": "Go to your project dashboard",
+            "title": "Go to project dashboard",
             "href": "/dashboard"
         },
         "procurement": {
