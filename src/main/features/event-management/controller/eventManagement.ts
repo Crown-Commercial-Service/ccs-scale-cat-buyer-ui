@@ -231,6 +231,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
  {
   if(fetchQuestionsData[l].OCDS.id=='Question 4'){
     var supplier_deadline=fetchQuestionsData[l].nonOCDS.options[0].value;
+    
   }
  }
  let day=supplier_deadline.substr(0,10);
@@ -239,9 +240,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
  const filtervalues = moment(
   day+""+time,
   'YYYY-MM-DD HH:mm',
-).format('DD MMMM YYYY') 
-
-
+).format('DD MMMM YYYY, hh:mm a') 
 
     const appendData = { supplierDetails, data: eventManagementData,filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
