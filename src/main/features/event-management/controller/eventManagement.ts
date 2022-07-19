@@ -201,7 +201,24 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
       });
       supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date).format('DD MMMM YYYY');
-    }
+
+        if (status.toLowerCase() == "pre-award")
+        {
+          supplierState = "PRE_AWARD"
+  
+          let currentDate = new Date();
+          //Standstill dates are current date +10 days.
+          currentDate.setDate(currentDate.getDate() + 10)
+  
+          const dayOfWeek = new Date(currentDate).getDay();
+          //standstill end date lands on weekend,then it move to the next valid working day
+          if (dayOfWeek === 6 || dayOfWeek === 0) {
+            currentDate.setDate(currentDate.getDate() + 1)
+          }
+  
+          supplierDetails.supplierStandStillDate = moment(currentDate).format('DD MMMM YYYY');
+        }
+      }
 
     //to get signed awarded contrct end date
     if (status.toLowerCase() == "complete") {
