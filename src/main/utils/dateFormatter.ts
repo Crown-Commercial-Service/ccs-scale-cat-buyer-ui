@@ -2,7 +2,7 @@ import {Moment} from 'moment'
 export const DATE_FORMAT = 'YYYY-MM-DD'
 export const LONG_DATE_FORMAT = 'D MMMM YYYY'
 export const LONG_DATE_DAY_FORMAT = 'dddd D MMMM YYYY'
-export const TIME_FORMAT = 'h:mma'
+export const TIME_FORMAT = 'hh:mm A'
 export const INPUT_DATE_FORMAT = 'D M YYYY'
 export const DATE_FORMAT_DDMMYYYY = 'DD/MM/YYYY'
 export const DATE_FORMAT_DD_MM_YYYY = 'DD-MM-YYYY'
@@ -36,5 +36,7 @@ export class DateFormater {
   static formatLongDateAndTime (value: Moment): string {
     return `${DateFormater.formatLongDate(value)} at ${value.format(TIME_FORMAT)}`
   }
-
+  static formatTimeHHMM (value: Moment): string {
+    return value.format(TIME_FORMAT);
+  }
 }
