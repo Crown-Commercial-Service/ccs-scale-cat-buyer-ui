@@ -65,7 +65,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
   const event_id = req.session['eventId'];
   const BaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   const { checkboxerror } = req.session;
-  let selectedeventtype=req.session.selectedeventtype
+  let selectedeventtype = req.session.selectedeventtype
   try {
     let flag = await ShouldEventStatusBeUpdated(event_id, 41, req);
     if (flag) {
@@ -250,11 +250,13 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       resourceQuantity = dimensionRequirements?.filter(dimension => dimension.name === 'Resource Quantities')?.[0]?.requirements;
       highestSecurityCount = dimensionRequirements?.filter(dimension => dimension.name === 'Security Clearance')?.[0]?.requirements?.[0]?.weighting;
       highestSecuritySelected = dimensionRequirements?.filter(dimension => dimension.name === 'Security Clearance')?.[0]?.requirements?.[0]?.values?.[0]?.value;
-      if( highestSecuritySelected==='0: None')highestSecuritySelected='0: No security clearance needed'
+      if (highestSecuritySelected === '0: None') highestSecuritySelected = '0: No security clearance needed'
       serviceCapabilitesCount = dimensionRequirements?.filter(dimension => dimension.name === 'Service Capability')?.[0]?.requirements?.length;
       whereWorkDone = dimensionRequirements?.filter(dimension => dimension.name === 'Location')?.[0]?.requirements?.map(n => n.name);
     }
-    let resourceQuntityCount = resourceQuantity?.length;
+    let resourceQuntityCount = 0;
+    resourceQuantity?.map(x => { resourceQuntityCount = resourceQuntityCount + x.weighting });
+
     StorageForSortedItems = await CalVetting(req);
     let StorageForServiceCapability = []
     StorageForServiceCapability = await CalServiceCapability(req);
@@ -370,7 +372,11 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     // let tier2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
     // let tier3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
     let tierInfo = await CalScoringCriteria(req);
-    let tierData = tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition?.titles?.rows;
+    let newfilteredData = tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition;
+    for (let i = 0; i < newfilteredData.titles.rows.length; i++) {
+      newfilteredData.titles.rows[i].text=newfilteredData.data[i].cols[1];
+    }    
+    let tierData =newfilteredData.titles.rows; //tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition?.titles?.rows;
     // let tierData=[];
     // tierRows.forEach(element => {
     //   tierData.push({id:element.id,name:element.name,text:element.text});
@@ -603,7 +609,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ? supplier_dealine_for_expect_to_award : null,
       supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ? supplier_dealine_sign_contract : null,
       supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ? supplier_dealine_for_work_to_commence : null,
-      resourceQuntityCount: resourceQuntityCount != undefined && resourceQuntityCount != null ? resourceQuntityCount : null,
+      resourceQuntityCount: resourceQuntityCount,
       resourceQuantity: resourceQuantity != undefined && resourceQuantity != null ? resourceQuantity : null,
       StorageForSortedItems: StorageForSortedItems != undefined && StorageForSortedItems != null ? StorageForSortedItems : null,
       StorageForServiceCapability: StorageForServiceCapability != undefined && StorageForServiceCapability != null ? StorageForServiceCapability : null,

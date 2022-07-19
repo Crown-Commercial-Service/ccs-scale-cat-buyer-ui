@@ -23,9 +23,9 @@
   ],
 
   "title": "How well can the team scale?",
-  "subtitle": "[ Instructions for this page ]",
+  "subtitle": "",
   "form": {
-    "question": "This needs to relate to the potential size of the supplier team that needs to fulfil the buyer’s requirements",
+    "question": "As your project progresses you may need more staff to complete or support the project.If you think this is something you will need you can select a range that you might need the supplier team to grow by.",
     "radioOptions": {
       "name": "ccs_da_team_scale",
       "items": [

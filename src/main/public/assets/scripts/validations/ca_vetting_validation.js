@@ -87,7 +87,7 @@ if(totalVetting<100 || totalVetting>100)
             }
             else if (isNaN(classTarget.value) && classTarget.value !== '') {
                 document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
+                document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'All entry boxes are integer numeric';
                 nonnumerical.push(true);
             }
             else if (classTarget.value > 99 && classTarget.value != '') {
@@ -120,7 +120,7 @@ if(totalVetting<100 || totalVetting>100)
             }
             else if (isNaN(classTarget.value) && classTarget.value !== '') {
                 document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
+                document.getElementsByClassName("ca_weight_staff_class_error")[a - 1].innerHTML = 'All entry boxes are integer numeric';
                 nonnumerical.push(true);
             }
             else if (classTarget.value >100 && classTarget.value !== '') {
@@ -153,7 +153,7 @@ if(totalVetting<100 || totalVetting>100)
             }
             else if (isNaN(classTarget.value) && classTarget.value !== '') {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
+                document.getElementsByClassName("ca_weight_vetting_class_p_error")[a - 1].innerHTML = 'All entry boxes are integer numeric';
                 nonnumerical.push(true);
             }
             else if (classTarget.value >100 && classTarget.value !== '') {

@@ -318,7 +318,7 @@
                       <br /><br /><br />
                       {% if(termAndAcr !=undefined and  termAndAcr !=null and termAndAcr | length > 0 )%}
                       {% for data in termAndAcr %}
-                      <p>{{data.text}}</p><p>{{data.value}}</p><br />
+                      <p>{{data.value}}</p><p> {{data.text}}</p><br />
                       {% endfor%}
                       {%endif%}
                       {#<p>Expression or acronym answer</p><p>Definition answer</p><br />
@@ -1021,12 +1021,6 @@
           <p>Description</p><br/><br/>
           {% endfor %}
           {%endif%}
-          {#<p>Enter the name for this tier</p><br/>
-          <p>Enter the points for this tier</p><br/>
-          <p>Enter the points for this tier</p><br/><br/>
-          <p>Enter the name for this tier</p><br/>
-          <p>Enter the points for this tier</p><br/>
-          <p>Enter the points for this tier</p><br/><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
         <br/><br/><br/><br/>
@@ -1038,12 +1032,6 @@
           <p>{{data.text}}</p><br/><br/>
           {% endfor%}
           {%endif%}
-          {# <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
@@ -1108,52 +1096,52 @@
         <br /><br />
         <p> 
           {%if rfp_clarification_period_end !=undefined and rfp_clarification_period_end !=null and rfp_clarification_period_end !=''%}  
-          {{rfp_clarification_period_end | dateddmmyyyy}}
+          {{rfp_clarification_period_end | dateddmmyyyy}}  {{ rfp_clarification_period_end |formatTimeHHMM}}
           {%endif%}
           </p><br />
         <p>
           {%if(deadline_period_for_clarification_period !=undefined and deadline_period_for_clarification_period !=null and deadline_period_for_clarification_period  !='')%}  
-           {{deadline_period_for_clarification_period | dateddmmyyyy}}
+           {{deadline_period_for_clarification_period | dateddmmyyyy}} {{ deadline_period_for_clarification_period |formatTimeHHMM}}
           {%endif%}
           </p><br /><br />
         {#<p> </p><br /><br />#}
         <p> 
           {%if supplier_period_for_clarification_period !=undefined and supplier_period_for_clarification_period !=null and supplier_period_for_clarification_period  !=''%}  
-           {{supplier_period_for_clarification_period | dateddmmyyyy}}
+           {{supplier_period_for_clarification_period | dateddmmyyyy}} {{ supplier_period_for_clarification_period |formatTimeHHMM}}
           {%endif%}
           </p><br /><br />
         <p> 
           {%if supplier_dealine_for_clarification_period !=undefined and supplier_dealine_for_clarification_period !=null and supplier_dealine_for_clarification_period  !=''%}  
-           {{ supplier_dealine_for_clarification_period | dateddmmyyyy}}
+           {{ supplier_dealine_for_clarification_period | dateddmmyyyy}} {{ supplier_dealine_for_clarification_period |formatTimeHHMM}}
           {%endif%}
           </p><br />
         <p> 
           {%if supplier_dealine_evaluation_to_start !=undefined and supplier_dealine_evaluation_to_start !=null and supplier_dealine_evaluation_to_start  !=''%}  
-           {{ supplier_dealine_evaluation_to_start | dateddmmyyyy}}
+           {{ supplier_dealine_evaluation_to_start | dateddmmyyyy}} {{ supplier_dealine_evaluation_to_start |formatTimeHHMM}}
           {%endif%}
           </p><br />
         <p> 
           {%if supplier_dealine_expect_the_bidders !=undefined and supplier_dealine_expect_the_bidders !=null and supplier_dealine_expect_the_bidders  !=''%}  
-           {{ supplier_dealine_expect_the_bidders | dateddmmyyyy}}
+           {{ supplier_dealine_expect_the_bidders | dateddmmyyyy}}  {{ supplier_dealine_expect_the_bidders |formatTimeHHMM}}
           {%endif%}
           </p><br />
         <p> 
           {%if supplier_dealine_for_pre_award !=undefined and supplier_dealine_for_pre_award !=null and supplier_dealine_for_pre_award  !=''%}  
-           {{ supplier_dealine_for_pre_award | dateddmmyyyy}}
+           {{ supplier_dealine_for_pre_award | dateddmmyyyy}}  {{ supplier_dealine_for_pre_award |formatTimeHHMM}}
           {%endif%}
           </p><br />
         <p> 
           {%if supplier_dealine_for_expect_to_award !=undefined and supplier_dealine_for_expect_to_award !=null and supplier_dealine_for_expect_to_award  !=''%}  
-           {{ supplier_dealine_for_expect_to_award | dateddmmyyyy}}
+           {{ supplier_dealine_for_expect_to_award | dateddmmyyyy}} {{ supplier_dealine_for_expect_to_award |formatTimeHHMM}}
           {%endif%}
           </p><br />
         <p>
           {%if supplier_dealine_sign_contract !=undefined and supplier_dealine_sign_contract !=null and supplier_dealine_sign_contract  !=''%}  
-           {{ supplier_dealine_sign_contract | dateddmmyyyy}}
+           {{ supplier_dealine_sign_contract | dateddmmyyyy}}  {{ supplier_dealine_sign_contract |formatTimeHHMM}}
           {%endif%} 
           </p><br />
         <p>  {%if supplier_dealine_for_work_to_commence !=undefined and supplier_dealine_for_work_to_commence !=null and supplier_dealine_for_work_to_commence  !=''%}  
-           {{ supplier_dealine_for_work_to_commence | dateddmmyyyy}}
+           {{ supplier_dealine_for_work_to_commence | dateddmmyyyy}} {{ supplier_dealine_for_work_to_commence |formatTimeHHMM}}
           {%endif%} 
           
           </p>

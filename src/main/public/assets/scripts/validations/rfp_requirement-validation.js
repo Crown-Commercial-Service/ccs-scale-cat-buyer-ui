@@ -72,9 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
         for (var a = 1; a < inputFieldsLength; a++) {
 
             let weightVetting = $(`#${weightVettingId}${a}`);
-            if (weightVetting.val() != undefined && weightVetting.val() != '')
+            if (weightVetting.val() != undefined && weightVetting.val() != '' && weightVetting.val()>0)
+            if(weightVetting.val()<0 || isNaN(weightVetting.val()))
+            {
+                value = value
+            }
+            else{
                 value = value + Number(weightVetting.val());
-
+            }
         }
         itemSubText.innerHTML = value + ' resources added';
     }
@@ -82,8 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateTotalResource() {
         let resourceCount = 0
         for (index = 0; index < totalInputFields.length; ++index) {
-            if (totalInputFields[index].value != "")
+            if (totalInputFields[index].value != "" && totalInputFields[index].value>0)
+            if(totalInputFields[index].value<0 || isNaN(totalInputFields[index].value) || totalInputFields[index].value.includes('.'))
+            {
+                resourceCount = resourceCount
+            }
+            else{
                 resourceCount = resourceCount + Number(totalInputFields[index].value);
+            }
         }
         totalResourceAdded.text(resourceCount);
         totalResourceAdded2.text(resourceCount);

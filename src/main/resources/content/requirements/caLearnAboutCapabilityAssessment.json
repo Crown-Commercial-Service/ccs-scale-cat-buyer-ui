@@ -44,7 +44,7 @@
   "subtitle": null,
   "form": {
     "Line1": "A capability assessment is a filtering tool that helps you find the most suitable suppliers for your project." ,
-    "Line2": "You select skills and capabilities that you need them to have, and the tool finds the best matches for your criteria. ",
+    "Line2": "You select skills and capabilities that you need them to have, and the tool finds the best matches for you. ",
     "Line2DA": "You select the skills and capabilities that you need them to have, and the tool finds the best matches for your criteria. ",
     "Line3": "You will set weightings for :",
     "points":
@@ -56,7 +56,7 @@
     ],
     "Line4": "Setting weightings will help you to identify what is the most important thing that a supplier can offer.This will also help to find suppliers that best match your requirements.",
     "Line5":"There are several job families that you can select individual roles from. You can also select whole families if you're not sure which specific roles you need.",
-    "Line6": "You can also choose if a supplier can hire subcontractors to complete your project or not,depending on your organisation's preference. ",
+    "Line6": "You can also choose if a supplier can hire subcontractors to complete your project, or not,depending on your organisation's preference. ",
     "backJump1": {
       "title": "Return to Procurement overview",
       "href": "/projects/create-or-choose"

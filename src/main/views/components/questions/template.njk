@@ -210,6 +210,9 @@
       text:requirement.OCDS.title,
       classes: "govuk-label govuk-label--m"
       },
+      hint: {
+              text:requirement.OCDS.description
+            },
       classes:"order_"+requirement.nonOCDS.order,
       rows:2
     }) }}
@@ -228,6 +231,9 @@
       suffix: {
         text: "%"
       },
+      hint: {
+              text:requirement.OCDS.description
+            },
       type:"number"
     }) }}
 
