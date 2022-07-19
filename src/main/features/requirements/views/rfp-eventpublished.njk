@@ -20,7 +20,7 @@
           {%if(selectedeventtype=='DA')%}
           <strong>{{data.titleDA}}</strong>
           {%else%}
-            {{data.titleRFP}}
+           <strong> {{data.titleRFP}}</strong>
             {%endif%}
 
           </h1>
@@ -65,7 +65,7 @@
         }) }}
        {%else%}
         {{ CCSButton({
-          text: "Export your 1-stage further competition" ,
+          text: "Export your further competition" ,
           href: "/rfp/rfp-eventpublished?download=1"
         }) }}
         {%endif%}

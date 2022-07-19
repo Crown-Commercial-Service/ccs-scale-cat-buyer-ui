@@ -29,9 +29,9 @@ const ccsZvalidateStandStillPeriod = (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  if ($("#enter_evaluation_score_readOnly") !=undefined && $("#enter_evaluation_score_readOnly") !=null ) {
-    document.getElementById("enter_evaluation_score_readOnly").readOnly = true;
-    document.getElementById("enter_evaluation_feedback_readOnly").readOnly = true;
+  if ($("#enter_evaluation_score_readOnly") !=undefined && $("#enter_evaluation_score_readOnly") !=null && $("#enter_evaluation_score_readOnly").length >0 ) {
+    document.getElementById("enter_evaluation_score_readOnly").readOnly = "true";
+    document.getElementById("enter_evaluation_feedback_readOnly").readOnly = "true";
   }
     $('.event_managment_award').on('click', function (event) {
         event.preventDefault();

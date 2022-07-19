@@ -9,6 +9,7 @@ import {
   addDaysFilter,
   dateFilterDDMMYYYY,
   dateFilterDD_MM_YYYY,
+  formatTimeHHMM
 } from './filters/dateFilter';
 import { stringFilter } from './filters/stringFilter';
 import { jsonFilter, jsontoStringFilter } from './filters/jsonFilter';
@@ -68,6 +69,7 @@ export class Nunjucks {
     NunjucksEnvironment.addFilter('KbtoMb', MemoryFormatter);
     NunjucksEnvironment.addFilter('dateddmmyyyy',dateFilterDDMMYYYY);
     NunjucksEnvironment.addFilter('datedd_mm_yyyy',dateFilterDD_MM_YYYY);
+    NunjucksEnvironment.addFilter('formatTimeHHMM',formatTimeHHMM);
     app.use((req, res, next) => {
       res.locals.pagePath = req.path;
       next();

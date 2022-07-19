@@ -17,17 +17,21 @@
       "href": "/da/task-list"
     },
     {
-      "text": "Next Steps",
+      "text": "Choose your next steps",
       "href": "#"
     }
   ],
 
-  "title": "Next Steps",
-  "subtitle": "[ Instructions for this page ]",
+  "title": "Choose your next steps",
+  "subtitle1": "Select an option below to indicate if you would like",
+  "p1": "continue on to further competition, with the suppliers you selected, using the online service",
+  "p2": "go back and edit your capability assessment",
+  "p3": "cancel your further competition",
+  "subtitle2": "If you select Yes or No, you can't edit your capability assessment later.",
   "form": [
     {
       "id": "da_next_steps",
-      "question": "Would you like to progress to the 2nd stage?",
+      "question": "Do you want to continue to start your further competition online?",
       "radioOptions": {
         "name": "da_next_steps",
         "items": [
@@ -35,21 +39,21 @@
             "value": "yes",
             "text": "Yes",
             "hint": {
-              "text": "Please note that if you wish to do so, you’ll not be able to edit your capability assessment, unless you delete the whole event and start again from the beginning."
+              "text": "You will not be able to edit your capability assessment later.Only the suupliers you have selected will be invited to bid for your opportunity."
             }
           },
           {
             "value": "edit",
-            "text": "I'm not ready yet, I need to edit my capability assessment",
+            "text": "Edit my capability assessment",
             "hint": {
-              "text": "You’ll be taken back to your capability assessment where you’ll be able to edit anything you’ve done previously. When you edit a screen, you’ll have to view the new ranked supplier list in order to progress with the next steps."
+              "text": "You will return to the first screen where you can select which steps you would like to edit, make changes, see a list of suppliers and continue on to online further competition."
             }
           },
           {
             "value": "no",
             "text": "No",
             "hint": {
-              "text": "Please note that if you wish to do so, you’ll be taken to a confirmation screen where you’ll be able to download the ranked list of suppliers and progress to the next stage outside our service if needed."
+              "text": "Your capability assessment will be archived and can't be used to do a further competition.You will be able to access the archived capability assessment from your dashboard.You can download your list of suppliers on the next step."
             }
           }
         ]
