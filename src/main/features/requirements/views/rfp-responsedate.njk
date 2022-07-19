@@ -27,9 +27,46 @@
   ]
 }) }}
             {% endif%}
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                    {% include "includes/project_header.njk" %}
+            <div>
+    
+      <div class="project-overview govuk-div-inline">
+  <p class="govuk-body">Selected agreement: <strong>
+    {%if agreement_header !=undefined and agreement_header !=null %}
+    {{ agreement_header['agreementName'] }}
+    {%endif%}
+    {% if(agreement_header !=undefined and agreement_header !=null 
+    and agreement_header.agreementLotName != undefined)%}, 
+    
+    {{ agreement_header['lotid'] }}: 
+    {{ agreement_header['agreementLotName'] }}  
+    {% endif %} 
+    
+  </strong></p>
+  <p class="govuk-body">Agreement ID: 
+    {%if(agreement_header !=undefined and   agreement_header !=null) %}
+    <strong>
+    {{ agreement_header['agreementId_session'] }}
+    </strong>
+    {%endif%}
+    </p>
+  {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['project_name'] %}
+   <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
+    {% else %}
+     <p class="govuk-body">Project name: You have not saved projects </p>
+    {% endif %}
+  </p>
+</div>
+
+      
+      <div class="ccs-callout-panel margin-left">
+        <h2 class="govuk-heading-m">{{releatedContent.title}}</h2>
+        <p class="govuk-body">
+            <a class="govuk-link govuk-link--no-visited-state" href={{ releatedContent.lotUrl }} target="_blank" rel="noopener noreferrer">{{releatedContent.name}}, {{releatedContent.lotName}}</a>
+        </p>
+    </div>
+      </div>
+      <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
                     <br>
                     {% if (selectedeventtype=='DA')%}
                     <p class="govuk-body">{{data.subtitleDA}}</p><br>
@@ -304,9 +341,7 @@
                 </form>
                 </div>
                                 </div>
-                            <div class="govuk-grid-column-one-third">
-                                {{ CCSReleatedContent(releatedContent) }}
-                            </div>
+                            
                         </div>
                     </main>
                 {% endblock %}
