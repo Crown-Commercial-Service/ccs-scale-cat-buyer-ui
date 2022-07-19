@@ -244,9 +244,9 @@
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1}}</th>
-                  {% if status.toUpperCase() ==='TO-BE-EVALUATED' %}
+                  {#{% if status.toUpperCase() ==='TO-BE-EVALUATED' %}#}
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_7}}</th>
-                  {% endif %}
+                  {#{% endif %}#}
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_2}}</th>
                   {% if status.toUpperCase() ==='EVALUATED' %}
                   <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_3}}</th>
@@ -268,11 +268,11 @@
                       </p>
                       
                     </th>
-                     {% if status.toUpperCase() ==='TO-BE-EVALUATED'%}
+                    {# {% if status.toUpperCase() ==='TO-BE-EVALUATED'%}#}
                      <td class="govuk-text-align govuk-!-text-align-left">
                       {{ supplier.responseDate|date('DD/MM/YYYY') }} 
                     </td>
-                    {%endif%}
+                    {#{%endif%}#}
                     {% if status.toUpperCase() !=='EVALUATED'%}
                      <td class="govuk-text-align govuk-!-text-align-left">
                       <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
@@ -306,7 +306,7 @@
             </div>
         </div>
         {% if(showallDownload) %}
-         <p class="govuk-body govuk-!-text-align-centre">
+         <p class="govuk-body govuk-!-no-margin govuk-!-text-align-right">
              <a href="/supplieranswerall?download=1" class="govuk-link ">Download all</a> 
         </p>
              
@@ -353,7 +353,7 @@
             </div>
         </div>
         {% if(showallDownload) %}
-              <a href="/eventmanagement" class="govuk-link app-task-list__tag ">{{data.backJump.title}}</a> 
+              <a href="/eventmanagement" class="govuk-link app-task-list__tag govuk-!-text-align-right">{{data.backJump.title}}</a> 
         {% endif %}
         {% endif %} 
       </div>

@@ -139,7 +139,7 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
-          <p>Change who is going to lead the procurement</p>
+          <p>Change who will lead the procurement</p>
         </dt>
             <dd class="govuk-summary-list__value">
               <ul class="govuk-list govuk-list--none">
@@ -161,7 +161,7 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
-          <p>Add colleagues</p>
+          <p>Add colleagues to your project</p>
         </dt>
             {% if procurementColleagues !=undefined and procurementColleagues !=null and procurementColleagues | length > 0 %}
               <dd class="govuk-summary-list__value">
@@ -200,7 +200,7 @@
 {# START----------------------Upload pricing schedules and any other supporting documents #}
 
 {%block Upload_pricing_schedules%}
-         <h2 class="govuk-heading-m">2. Upload pricing schedules and any other supporting documents </h2>
+         <h2 class="govuk-heading-m">2. Upload pricing schedules and other supporting documents </h2>
          <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
@@ -236,7 +236,7 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
-          <p>Upload more documents (optional)</p>
+          <p>Upload your terms and conditions and other documents</p>
         </dt>
             {# <dd class="govuk-summary-list__value"> #}
               {% if(document !=undefined and document !=null and documents | length > 0) %}
@@ -265,7 +265,7 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-          <p>Confirm if the IR35 off-payroll working rules apply</p>
+          <p>Confirm if you require a contracted out service or a supply of resource</p>
         </dt>
             {% if(ir35 !=undefined and  ir35 !=null and ir35 | length > 0) %}
               <dd class="govuk-summary-list__value">
@@ -294,7 +294,7 @@
 {%block Section_3%}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-            <h2 class="govuk-heading-m">3. Add context {% if selectedeventtype=='DA' %}and requirements{%else%}to your further competition{%endif%} </h2>
+            <h2 class="govuk-heading-m">3. Add context {% if selectedeventtype=='DA' %}and requirements{%else%}and requirements{%endif%} </h2>
               <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
@@ -433,7 +433,7 @@
                   </div>
                   <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">
-                      <p>Which phase(s) of the project you need resource for</p>
+                      <p>Which phases of the project you need resource for</p>
                   </dt>
                   <dd class="govuk-summary-list__value">
                       {% if phaseResource !=undefined and phaseResource !=null and phaseResource | length >0 %}
@@ -516,7 +516,7 @@
                   </div>
                   <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">
-                      <p>Tell us if there is an existing supplier?</p>
+                      <p>Tell us if there is an existing supplier</p>
                   </dt>
                   <dd class="govuk-summary-list__value">
                       <p> {{incumbentoption}}</p><p>{{suppliername}}</p>
@@ -628,8 +628,10 @@
                       {% for data in reqGroup%}
                       {% set text = "Name of the" +numberWordSmall[i]+" requirement group"%}
                       <p>{{text}}</p>
-                      <p>Name of the requirement</p>
-                      <p>Description of the requirement</p><br />
+                      {% set text2 = "Name of the" +numberWordSmall[i]+" requirement"%}
+                      <p>{{text2}}</p>
+                      {% set text3 = "Description of the" +numberWordSmall[i]+" requirement"%}
+                      <p>{{text3}}</p><br />
                       {% set i=i+1 %}
                       {% endfor %}
                       {% endif %}
@@ -898,7 +900,7 @@
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
-          <h3><strong>Your cultural questions</strong></h3><br/><br/>
+          <h3><strong>Your cultural fit questions</strong></h3><br/><br/>
           {%if techGroup !=undefined  and techGroup !=null and techGroup | length >0%}
 
           {% for data in techGroup%}
@@ -996,9 +998,9 @@
             </dd>
           </div>
           {# ENABLE STEP 46 UNCOMMET THIS CODE  #}
-          {# <div class="govuk-summary-list__row">
+           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-         <p> Select the pricing model</p>
+         <p> Your selected pricing model</p>
         </dt>
         <dd class="govuk-summary-list__value">
           <p>{{pricingModel}}</p>
@@ -1010,10 +1012,10 @@
               </a>
               {% endif %}
             </dd>
-          </div> #}
+          </div> 
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
-          <h3><strong>Set your scoring criteria</strong></h3><br/><br/>
+          <h3><strong>How you will score suppliers</strong></h3><br/><br/>
           {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
           {% for data in tierData%}
           <p>Level name</p><br/>
