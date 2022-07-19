@@ -34,7 +34,7 @@
     </div>
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
-        <p class="govuk-!-padding-bottom-9">
+        <p>
           {{data.subtitle}}<br><br>
           {{data.subtitle1}}
         </p>
@@ -177,7 +177,9 @@
           {{data.subsection4_title3}}</h2>
         <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
         <p class="govuk-body">If you want to see any clarification questions suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
-        <p class="govuk-body">The deadline for response from suppliers is <strong>Day Month Year time</strong></p>
+        
+        <p class="govuk-body">The deadline for response from suppliers is <strong>{{filtervalues }}</strong></p>
+        
         <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_task1}}</strong>
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
         <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
@@ -360,26 +362,51 @@
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
        {% if eventType == 'RFI' %}
-      {#  {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' or status.toUpperCase() == 'EVALUATED' %}
+      {% if status.toLowerCase() != 'published' %}
+ {% if status.toUpperCase() == 'EVALUATED' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p> #}
-
-      {% if status.toLowerCase() != 'published' %}
+        <p>You have completed your supplier evaluation.</p>
+      {% else %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
-        Complete project</h2>
+        Complete RfI</h2>
         <p>When you have the supplier responses,you can close this project and then:</p>
         <ul type='disc'>
         <li>start the next stage of your project(from the procurement overview page)</li>
         <li>copy all the details of this project to procure from your own platform</li>
         <li>start another pre-market enagagement project</li>
         </ul>
-         <a class="govuk-link" href="/event/management?closeProj=true">Close this project and return to procurement overview</a> 
+         <a class="govuk-link" href="/event/management?closeProj=true">Complete this RfI event and return to procurement overview</a> 
      
     </div>
     </div>
+    {% endif %}
+    {% endif %}  
+  {% endif %}
+  {% if eventType == 'EOI' %}
+      {% if status.toLowerCase() != 'published' %}
+ {% if status.toUpperCase() == 'EVALUATED' %}
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Evaluate Suppliers</h2>
+        <p>You have completed your supplier evaluation.</p>
+      {% else %}
+        <h2 class="govuk-heading-m">
+        <span class="proc-task-list__section-number">5.</span>
+        Complete EoI</h2>
+        <p>When you have the supplier responses,you can close this project and then:</p>
+        <ul type='disc'>
+        <li>start the next stage of your project(from the procurement overview page)</li>
+        <li>copy all the details of this project to procure from your own platform</li>
+        <li>start another pre-market enagagement project</li>
+        </ul>
+         <a class="govuk-link" href="/event/management?closeProj=true">Complete this EoI event and return to procurement overview</a> 
+     
+    </div>
+    </div>
+    {% endif %}
     {% endif %}  
   {% endif %}
   </main> 
@@ -404,28 +431,35 @@
         <p>You have completed your supplier evaluation.</p>  #}
 
       {% if status.toUpperCase() !== 'PUBLISHED' %}
-      {# <h2 class="govuk-heading-m">
+      {% if status.toUpperCase() == 'EVALUATED' %}
+       <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p> #}
+        <p>You have completed your supplier evaluation.</p>
+        {% else %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate suppliers</h2>
         <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project.</p>
         <p>You can only enter  your final evaluation score for each supplier in this serevice. You will need to complete your full evaluation offline.</p>
+      
+      {% if supplierDetailsDataList !=null and supplierDetailsDataList.length >0 %}
       <div class="govuk-button-group">
         {{ CCSButton({
         text: "Start Supplier Evaluation",
         href:"/evaluate-suppliers"
         }) }}
         </div>
+        {% endif %}
       </div>
       {% endif %}
       {% endif %}
-     {#<div class="govuk-grid-row ccs-page-section">#}
-     {#</div>#}
+      {% endif %}
+
+     {% if status.toUpperCase() !== 'EVALUATED'%}
       <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
      </div>
+     {% endif %}
      
 {% endblock %}

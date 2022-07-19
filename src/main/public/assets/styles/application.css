@@ -8596,6 +8596,10 @@ body {
   margin-bottom: 1.2rem;
 }
 
+.margin-left{
+  margin-left: 800px;
+}
+
 @media (min-width: 40.0625em) {
   .ccs-callout-panel__desc {
     width: calc(100% - 17rem);
@@ -9569,6 +9573,10 @@ p,
   position: relative;
   padding-right: 7.5em;
   margin-bottom: 0.8rem;
+}
+
+.head-bold {
+  font-weight: bold;
 }
 
 .ccs-choose-agreement .ccs-desc-list dt span {
