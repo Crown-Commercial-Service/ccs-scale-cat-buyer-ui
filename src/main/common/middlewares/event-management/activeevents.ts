@@ -79,7 +79,7 @@ export class EventEngagementMiddleware {
               agreementId: events[i].agreementId,
               agreementName: events[i].agreementName,
               lotId: events[i].lotId,
-              lotName: events[i].lotName,              
+              lotName: events[i].lotName,
               activeEvent: getEventsData[j]
             }
             //singleEvent=events[i];
@@ -108,6 +108,16 @@ export class EventEngagementMiddleware {
                 draftActiveEvent = singleEvent
                 draftActiveEvent.activeEvent.status = 'Evaluated'
                 activeEvents.push(draftActiveEvent)
+              }
+              else if (singleEvent.activeEvent?.dashboardStatus == 'PRE-AWARD') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Pre-award'
+                activeEvents.push(draftActiveEvent)
+              }
+              else if (singleEvent.activeEvent?.dashboardStatus == 'AWARDED') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Awarded'
+                activeEvents.push(draftActiveEvent)
               } else {
                 activeEvents.push(singleEvent)
               }
@@ -128,6 +138,16 @@ export class EventEngagementMiddleware {
               } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATED') {
                 draftActiveEvent = singleEvent
                 draftActiveEvent.activeEvent.status = 'Evaluated'
+                activeEvents.push(draftActiveEvent)
+              }
+              else if (singleEvent.activeEvent?.dashboardStatus == 'PRE-AWARD') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Pre-award'
+                activeEvents.push(draftActiveEvent)
+              }
+              else if (singleEvent.activeEvent?.dashboardStatus == 'AWARDED') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Awarded'
                 activeEvents.push(draftActiveEvent)
               } else {
                 activeEvents.push(singleEvent)
@@ -157,6 +177,16 @@ export class EventEngagementMiddleware {
               } else if (singleEvent.activeEvent?.dashboardStatus == 'EVALUATED') {
                 draftActiveEvent = singleEvent
                 draftActiveEvent.activeEvent.status = 'Evaluated'
+                activeEvents.push(draftActiveEvent)
+              }
+              else if (singleEvent.activeEvent?.dashboardStatus == 'AWARDED') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Awarded'
+                activeEvents.push(draftActiveEvent)
+              }
+              else if (singleEvent.activeEvent?.dashboardStatus == 'PRE-AWARD') {
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'Pre-award'
                 activeEvents.push(draftActiveEvent)
               } else if (singleEvent.activeEvent?.dashboardStatus == eventStatus.Awarded) {
                 draftActiveEvent = singleEvent

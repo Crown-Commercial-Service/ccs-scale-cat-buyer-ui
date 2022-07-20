@@ -15,6 +15,8 @@ export interface SupplierDetails {
     supplierAwardedDate: string,
     supplierSignedContractDate: string,
     supplierFeedBack: string,
+    supplierStandStillDate : string,
+    standStillFlag : boolean,
 
 }
 

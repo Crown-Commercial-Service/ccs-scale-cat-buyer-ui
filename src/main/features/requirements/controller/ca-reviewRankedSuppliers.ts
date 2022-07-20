@@ -263,7 +263,8 @@ export const CA_POST_REVIEW_RANKED_SUPPLIERS = async (req: express.Request, res:
 
     const body = {
       "suppliers": supplierdata,
-      "justification": justification
+      "justification": justification,
+      "overwriteSuppliers": true
     };
 
     const Supplier_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;

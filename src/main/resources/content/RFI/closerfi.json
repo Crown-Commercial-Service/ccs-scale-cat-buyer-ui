@@ -13,11 +13,11 @@
           }
     ],
 
-    "title": "Confirmation of project closure",
-    "subtitle": "[You can still access this project, through the historical projects in our dashbaord]",
+    "title": "Your project has been closed",
+    "subtitle": "You can still access this project in your dashboard under the closed projects section.",
 
       "backJump": {
-        "title": "Return to [Dashboard]",
+        "title": "Return to Your Dashboard",
         "href": "/dashboard"
       }
 
