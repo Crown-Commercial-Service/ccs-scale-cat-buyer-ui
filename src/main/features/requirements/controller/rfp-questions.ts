@@ -15,6 +15,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import { isArray } from 'util';
 
 /**
  * @Controller
@@ -611,10 +612,10 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                 };
               }
 
-            } else if (questionNonOCDS.questionType === 'Text' && req.body.rfp_security_confirmation != undefined &&  req.body.rfp_security_confirmation != null) {
+            } else if (questionNonOCDS.questionType === 'Text' && req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation != null) {
               let res = /^[a-zA-Z ]+$/;
               let optionsData = [];
-              if (req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation != null && req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation!=='' && res.test(req.body.rfp_security_confirmation)) {
+              if (req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation != null && req.body.rfp_security_confirmation != undefined && req.body.rfp_security_confirmation !== '' && res.test(req.body.rfp_security_confirmation)) {
                 optionsData = [];
                 optionsData.push({ value: req.body.rfp_security_confirmation, selected: true })
               } else {
@@ -675,10 +676,26 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                       return x;
                     }
                   });
+
+                  if (Array.isArray(options)) {
+                    let countOption = 0;
+                    let newOptions = [];
+                    options.forEach(x => {
+                      if (Array.isArray(x.value)) {
+                        x.value.forEach(e => {
+                          newOptions.push({ value: e, selected: true });
+                        });
+
+                      }
+                    })
+                    options = newOptions.length <= 0 ? options : newOptions;
+                    //return [{ value: x.value[0], selected: true }];
+                  }
                   answerValueBody.nonOCDS.options = options != null && options.length > 0 ? options : [{ value: null, selected: true }];
                   answerValueBody.OCDS = {
                     id: question_ids[i]
                   }
+
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
                 }
 
