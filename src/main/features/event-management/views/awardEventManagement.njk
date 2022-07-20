@@ -333,7 +333,21 @@ or messages in your inbox.See supplier's answer to your published project.</p>
                     value: status
                     }) }}
 
-               {{ CCSCheckboxes({
+{% if(supplierDetails.standStillFlag) %}
+  {{ CCSCheckboxes({
+      idPrefix: "pre_award_supplier_confirmation",
+      name: "pre_award_supplier_confirmation",
+      classes: "govuk-checkboxes__input",
+      items: [
+      {
+      "value": 1,
+      html: "<label><strong>By checking this box I confirm the statement above.</strong></label>",
+      Checked: ""
+      }
+      ]
+      }) }}
+{% else %}
+  {{ CCSCheckboxes({
       idPrefix: "pre_award_supplier_confirmation",
       name: "pre_award_supplier_confirmation",
       items: [
@@ -344,6 +358,8 @@ or messages in your inbox.See supplier's answer to your published project.</p>
       }
       ]
       }) }}
+{% endif %}
+             
                 <div class="govuk-button-group">
                     
         {% if status.toUpperCase() =="AWARDED"%} 
@@ -353,8 +369,13 @@ or messages in your inbox.See supplier's answer to your published project.</p>
         },
         text: "I have received the signed contract"
         }) }}
+        {% elif(supplierDetails.standStillFlag) %}
+        <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+         Confirm suppler award
+        </button>
+
         {% else %}
-                    {{ CCSButton({
+         {{ CCSButton({
         attributes: {
         id: "btn_pre_award_supplier"
         },
