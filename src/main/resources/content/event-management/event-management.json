@@ -14,7 +14,7 @@
         }
     ],
     "title": "Your Project",
-    "subtitle": "Manage your project from this page including responding to supplier's clarification question or messages in your inbox. See supplier's answers to your published project.",
+    "subtitle": "You can manage project from this page including responding to supplier's clarification questions or messages in your inbox and Seeing supplier's answers to your published project.",
     "subtitle1":"You can close this project using the link under the project name below.",
     "subsection2_title": "Project ID/name",
     "subsection2_content": "Close this project",
@@ -64,7 +64,7 @@
     "subsection4_title3": "How many suppliers will respond to your published project",
     "subsection4_title3_descriiption": "You can find out how many suppliers are interested in responding to your project in the section below.",
     "subsection4_title3_task1":"Total number of suppliers who received your published project",
-    "subsection4_title3_task2":"Number of suppliers who want to submit an answer",
+    "subsection4_title3_task2":"Number of suppliers who have responded",
     "subsection4_title3_task3":"Number of suppliers who do not want to submit an answer",
      "subsection4_title3_task4":"Number of suppliers who have not responded",
 
@@ -77,7 +77,7 @@
     
     
     "subsection4_title4": "Supplier responses",
-    "subsection4_title4_descriiption": "You will see the supplier after the closing date and time",
+    "subsection4_title4_descriiption": "You will see the supplier responses after the closing date and time",
     "subsection4_title4_1": "Responses received - interest to participate",
     "subsection4_table_th_1": "Supplier Name",
     "subsection4_table_th_2": "Date the supplier responded",

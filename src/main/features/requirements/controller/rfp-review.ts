@@ -372,7 +372,11 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     // let tier2=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0].options[0]?.value;
     // let tier3=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0].options[0]?.value;
     let tierInfo = await CalScoringCriteria(req);
-    let tierData = tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition?.titles?.rows;
+    let newfilteredData = tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition;
+    for (let i = 0; i < newfilteredData.titles.rows.length; i++) {
+      newfilteredData.titles.rows[i].text=newfilteredData.data[i].cols[1];
+    }    
+    let tierData =newfilteredData.titles.rows; //tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition?.titles?.rows;
     // let tierData=[];
     // tierRows.forEach(element => {
     //   tierData.push({id:element.id,name:element.name,text:element.text});
