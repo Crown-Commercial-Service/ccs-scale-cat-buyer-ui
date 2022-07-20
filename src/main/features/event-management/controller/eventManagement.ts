@@ -146,19 +146,19 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       let supplierDetailsDataList: SupplierDetails[] = [];
       let showallDownload = false;
       for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
-        let id = supplierdata.data.responders[i].supplier.id;
+        let id = supplierdata.data.responders[i]?.supplier?.id;
         let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
-        if (supplierdata.data.responders[i].responseState == 'Submitted') {
+        if (supplierdata.data?.responders[i]?.responseState == 'Submitted') {
           showallDownload = true;
         }
         let supplierDetailsObj = {} as SupplierDetails;
 
-        supplierDetailsObj.supplierName = supplierdata.data.responders[i].supplier.name;
-        supplierDetailsObj.responseState = supplierdata.data.responders[i].responseState;
-        supplierDetailsObj.responseDate = supplierdata.data.responders[i].responseDate;
+        supplierDetailsObj.supplierName = supplierdata.data?.responders[i]?.supplier?.name;
+        supplierDetailsObj.responseState = supplierdata.data?.responders[i]?.responseState;
+        supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
         supplierDetailsObj.score = (score != undefined) ? score : 0;
 
-        var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
+        var supplierFiltedData = supplierDataList?.filter((a: any) => { a.organization.id == id });
         supplierDetailsObj.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
         supplierDetailsObj.supplierAddress = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.address : {} as SupplierAddress;
         supplierDetailsObj.supplierContactName = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.name : "";
@@ -168,7 +168,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetailsObj.supplierState = "Unsuccessfull";
 
         supplierDetailsDataList.push(supplierDetailsObj);
-        if (supplierdata.data.responders[i].responseState.trim().toLowerCase() == 'submitted') {
+        if (supplierdata.data?.responders[i]?.responseState?.trim().toLowerCase() == 'submitted') {
           showallDownload = true;
         }
         //UNCOMMET THIS CODE WHEN AWARDED SUPPLIER INFORMATION COMING FROM JAGGER
@@ -176,7 +176,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         //   supplierDetails=supplierDetailsObj;
         // }
       }
-      const supplierSummary = supplierdata.data;
+      const supplierSummary = supplierdata?.data;
       supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
 
       let rankCount = 0;
