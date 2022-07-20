@@ -197,8 +197,8 @@ if (document.getElementById('ccs_eoi_questions_form') !== null)
 if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateRfPStrategy);
 
-if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
-  document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateTextArea);
+// if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
+//   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateTextArea);
 
 
 if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
