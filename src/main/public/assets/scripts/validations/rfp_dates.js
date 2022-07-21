@@ -390,7 +390,8 @@ function isProjectStartDateValid()
          const expiryMonth = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
          const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
 
-         const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
+         const expiryDateInString = expiryYears+'-'+expiryMonth+'-'+expiryDate;
+         const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryDateInString) : null;
          const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
          const FormDate = new Date(Year.val(), (Month.val()-1), Day.val());
 
@@ -422,11 +423,6 @@ function isProjectStartDateValid()
          $('.durations').addClass('govuk-form-group--error');
          $('.resource_start_date').html('Enter a valid project start date');
          return false;
-      }
-      else if (startDate > new Date(2024, 00, 19)) {
-         $('.durations').addClass('govuk-form-group--error');
-         $('.resource_start_date').html('Project cannot start after: 19 January 2024');
-          return false;
       }
       else {
          $('.durations').removeClass('govuk-form-group--error');

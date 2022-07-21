@@ -230,6 +230,9 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       }
       data?.data?.[0].nonOCDS?.options = kpiQustionDataList;
     }
+
+    var agreementEndDateFormat = moment(data.agreementEndDate).format('DD MMM YYYY');
+    data.data?.filter(x => x.nonOCDS.questionType =="Date")[0]?.OCDS?.description = `Your project cannot start after:${agreementEndDateFormat} \n For example 22 11 2022`;
     //#endregion KPI FORM DATA MANIPULATION INTO SINGLE QUESTION
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
