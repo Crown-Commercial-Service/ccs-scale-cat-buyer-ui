@@ -185,38 +185,42 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetailsDataList[i].rank = "" + rankCount;
       }
       //Awarded,pre_awarded and complete supplier info
-      if (status.toLowerCase() == "awarded" || status.toLowerCase() == "pre-award" || status.toLowerCase() == "complete") {
-        let supplierState = "AWARD";
-        if (status.toLowerCase() == "pre-award")
-          supplierState = "PRE_AWARD"
-
+      if (status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
+        let supplierState = "PRE_AWARD"
+        if (status.toLowerCase() == "awarded") {
+          supplierState = "AWARD"
+        }
         const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
         const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
 
-
         supplierAwardDetail?.suppliers?.map((item: any) => {
-          supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = "Awarded";
+          supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = item.state;
           supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
         });
+
         supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date).format('DD MMMM YYYY');
 
         if (status.toLowerCase() == "pre-award") {
-          supplierState = "PRE_AWARD"
 
-          let currentDate = new Date();
+          supplierDetails.standStillFlag = true;
+          let currentDate = new Date(supplierDetails.supplierAwardedDate);
           //Standstill dates are current date +10 days.
           currentDate.setDate(currentDate.getDate() + 10)
-
           const dayOfWeek = new Date(currentDate).getDay();
           //standstill end date lands on weekend,then it move to the next valid working day
           if (dayOfWeek === 6 || dayOfWeek === 0) {
             currentDate.setDate(currentDate.getDate() + 1)
           }
-
           supplierDetails.supplierStandStillDate = moment(currentDate).format('DD MMMM YYYY');
+
+          let todayDate = new Date();
+          if(todayDate > new Date(supplierDetails.supplierStandStillDate))
+          {
+            supplierDetails.standStillFlag = false;
+          }
+          
         }
       }
-
       //to get signed awarded contrct end date
       if (status.toLowerCase() == "complete") {
         const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
@@ -242,14 +246,14 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
       let fetchQuestionsData = fetchQuestions.data;
       let filtervalues = ""
-      
+
       for (var l = 0; l < fetchQuestionsData.length; l++) {
         if (fetchQuestionsData[l].OCDS.id == 'Question 4') {
           var supplier_deadline = fetchQuestionsData[l].nonOCDS.options[0]?.value;
           if (supplier_deadline != undefined && supplier_deadline != null) {
             let day = supplier_deadline.substr(0, 10);
             let time = supplier_deadline.substr(11, 5);
-            filtervalues = moment(day + "" + time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a')
+            filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a')
           }
         }
       }
@@ -693,36 +697,48 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
   const { projectId, eventId } = req.session;
   const { pre_award_supplier_confirmation, supplier_id, status_flag } = req.body;
 
-  if (pre_award_supplier_confirmation != undefined && pre_award_supplier_confirmation === '1') {
-    if (status_flag != undefined && status_flag === "AWARDED") {
-      const signedURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
-      const putBody = {
-        "awardID": "1",
-        "status": "active"
+  try {
+    if (pre_award_supplier_confirmation != undefined && pre_award_supplier_confirmation === '1') {
+      if (status_flag != undefined && status_flag === "AWARDED") {
+        const signedURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
+        const putBody = {
+          "awardID": "1",
+          "status": "active"
+        }
+        const response = await TenderApi.Instance(SESSION_ID).post(signedURL, putBody);
+        if (response.status == Number(HttpStatusCode.OK)) {
+          res.redirect('/event/management?id=' + eventId);
+        }
       }
-      const response = await TenderApi.Instance(SESSION_ID).post(signedURL, putBody);
-      if (response.status == Number(HttpStatusCode.OK)) {
-        res.redirect('/event/management?id=' + eventId);
+      else {
+        const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards/1?award-state=AWARD`
+  
+        const putBody = {
+          "suppliers": [
+            {
+              "id": supplier_id
+            }
+          ]
+        };
+        const response = await TenderApi.Instance(SESSION_ID).put(awardURL, putBody);
+        if (response.status == Number(HttpStatusCode.OK)) {
+          res.redirect('/event/management?id=' + eventId);
+        }
       }
     }
     else {
-      const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards/1?award-state=AWARD`
-
-      const putBody = {
-        "suppliers": [
-          {
-            "id": supplier_id
-          }
-        ]
-      };
-      const response = await TenderApi.Instance(SESSION_ID).put(awardURL, putBody);
-      if (response.status == Number(HttpStatusCode.OK)) {
-        res.redirect('/event/management?id=' + eventId);
-      }
+      req.session['isError'] = true;
+      res.redirect('/event/management?id=' + eventId);
     }
-  }
-  else {
-    req.session['isError'] = true;
-    res.redirect('/event/management?id=' + eventId);
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    );
   }
 }
