@@ -293,10 +293,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
         else if(!value.match(reg))
         {  $(`#${weightClassName}`).addClass('govuk-input--error');
-        $(`.${weightPartialClassName}`).text('Please enter only intergers');       
+        $(`.${weightPartialClassName}`).text('Enter whole numbers only');       
             $('#service_capability_error_summary').removeClass('hide-block');
             $('.govuk-error-summary__title').text('There is a problem');
-            $("#summary_list").html('<li><a href="#">The weighting value(s) for the service capabilities must not contain alphabets</a></li>');
+            $("#summary_list").html('<li><a href="#">Enter whole numbers only</a></li>');
             $('html, body').animate({ scrollTop: 0 }, 'fast');
                  }
        else {
