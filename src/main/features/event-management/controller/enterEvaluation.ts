@@ -23,13 +23,13 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     req.session;
     const lotid = req.session?.lotId;
     const { SESSION_ID } = req.cookies
-    const { eventId } = req.session;//projectId,
+    const { eventId , projectId } = req.session;//projectId,
     const { supplierid , suppliername } = req.query;
     let { Evaluation } = req.query;
     const { isEmptyProjectError } = req.session;
     req.session.isEmptyProjectError = false;
-
-    
+    var feedBack='';
+    var marks='';
 
     // Event header
     res.locals.agreement_header = { project_name: project_name,Evaluation, agreementName, agreement_id, agreementLotName, lotid }
@@ -37,10 +37,19 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
   try{
     //Supplier of interest
     
-    
+    const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`
+    const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
+    for(var m=0;m<supplierdata.data.length;m++)
+    {    if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].comment != 'No comment found' && supplierdata.data[m].score != null )
+    {
+      feedBack= supplierdata.data[m].comment;
+        marks = supplierdata.data[m].score;
+
+    }
+    }
 
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,data: eventManagementData,error: isEmptyProjectError,  eventId, suppliername, supplierid, suppliers: localData , }
+          const appendData = { releatedContent,feedBack,marks,data: eventManagementData,error: isEmptyProjectError,  eventId, suppliername, supplierid, suppliers: localData , }
 
     res.render('enterEvaluation',appendData);     
     

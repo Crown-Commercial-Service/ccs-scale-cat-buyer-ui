@@ -104,12 +104,12 @@ if (document.getElementById('rfi_projLongName') !== null)
   if (document.getElementById('enter_evaluation_score') !== null)
   document.getElementById('enter_evaluation_score').addEventListener('keypress', ccsZValidateDecimalScore);
 
-  if (document.getElementById('enter_evaluation_feedback') !== null)
-  document.getElementById('enter_evaluation_feedback').addEventListener('submit', ccsZvalidateFeedback);
+  if (document.getElementById('enter_evaluation') !== null)
+  document.getElementById('enter_evaluation').addEventListener('submit', ccsZvalidateFeedbackScore);
 
   
-  if (document.getElementById('enter_evaluation_score') !== null)
-  document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
+  // if (document.getElementById('enter_evaluation_score') !== null)
+  // document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
 
 if (document.getElementById('ccs_eoi_project_name_form') !== null)
   document.getElementById('ccs_eoi_project_name_form').addEventListener('submit', ccsZvalidateEoiProjectName);

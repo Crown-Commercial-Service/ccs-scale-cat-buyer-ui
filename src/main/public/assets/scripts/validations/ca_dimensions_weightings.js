@@ -90,7 +90,7 @@ const ccsZvalidateDAAWeightings = event => {
     let errMsg = "";   
     if (isNaN($(this).val())&&number != '')
     {
-      errMsg = "Dimension value entered must be an integer"
+      errMsg = "Enter whole numbers only"
       emptycontent.push("false")
     }
     else if(element.value.includes('.')&& number != '')
@@ -110,7 +110,7 @@ const ccsZvalidateDAAWeightings = event => {
     } 
     else if(number < min || number > max) 
     {
-      errMsg = "Dimension value is not in the range."
+      errMsg = "Enter whole numbers within the specified range only "
       emptycontent.push("false")
     } 
      else if (number != '')
