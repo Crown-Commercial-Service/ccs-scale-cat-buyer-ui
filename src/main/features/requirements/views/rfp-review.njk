@@ -256,7 +256,7 @@
             {% endif %}
             {# </dd> #}
             <dd class="govuk-summary-list__actions">
-            {% if(eventStatus !='' and eventStatus != "published")%}
+            {% if(eventStatus != "published")%}
               <a class="govuk-link" href="/rfp/upload-doc">
             Change<span class="govuk-visually-hidden"> procurement lead</span>
               </a>
@@ -567,6 +567,8 @@
                       <p>{{data.text}}</p><br />
                       <p>{{data.value}}</p><br />
                       <p>{{data.percent}}% required target</p><br /><br />
+                      <br>
+                      <br>
                       {% endfor %}
                       {%endif%}
                       {#<p>Service area answer</p><br />
@@ -998,7 +1000,7 @@
             </dd>
           </div>
           {# ENABLE STEP 46 UNCOMMET THIS CODE  #}
-           <div class="govuk-summary-list__row">
+           {# <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
          <p> Your selected pricing model</p>
         </dt>
@@ -1012,7 +1014,7 @@
               </a>
               {% endif %}
             </dd>
-          </div> 
+          </div> #}
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
           <h3><strong>How you will score suppliers</strong></h3><br/><br/>
@@ -1024,14 +1026,14 @@
           {% endfor %}
           {%endif%}
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value"> 
         <br/><br/><br/><br/>
           {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
 
         {% for data in tierData %}
           <p>{{data.name}}</p><br/>
           <p>{{data.id}}</p><br/>
-          <p>{{data.text}}</p><br/><br/>
+          <p>{{data.text}}</p>
           {% endfor%}
           {%endif%}
         </dd>
