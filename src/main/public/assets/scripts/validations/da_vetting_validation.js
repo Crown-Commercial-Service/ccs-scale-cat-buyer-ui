@@ -84,13 +84,13 @@ if(totalVetting<100 || totalVetting>100)
             }
             if (classTarget.value.includes('.')) {
                 document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'All entry boxes are integer numeric ';
+                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Enter whole numbers only ';
 
                 decimalnumber.push(true)
             }
             else if (isNaN(classTarget.value) && classTarget.value !== '') {
                 document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'All entry boxes are integer numeric';
+                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Enter whole numbers only';
                 nonnumerical.push(true);
             }
             else if (classTarget.value > 99 && classTarget.value != '') {
@@ -118,13 +118,13 @@ if(totalVetting<100 || totalVetting>100)
             }
             if (classTarget.value.includes('.')) {
                 document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_staff_class_error")[a - 1].innerHTML = 'All entry boxes are integer numeric  ';
+                document.getElementsByClassName("da_weight_staff_class_error")[a - 1].innerHTML = 'Enter whole numbers only  ';
 
                 decimalnumber.push(true)
             }
             else if (isNaN(classTarget.value) && classTarget.value !== '') {
                 document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_staff_class_error")[a - 1].innerHTML = 'All entry boxes are integer numeric';
+                document.getElementsByClassName("da_weight_staff_class_error")[a - 1].innerHTML = 'Enter whole numbers only';
                 nonnumerical.push(true);
             }
             else if (classTarget.value >100 && classTarget.value !== '') {
@@ -151,13 +151,13 @@ if(totalVetting<100 || totalVetting>100)
             }
             if (classTarget.value.includes('.')) {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_vetting_class_p_error")[a - 1].innerHTML = 'All entry boxes are integer numeric  ';
+                document.getElementsByClassName("da_weight_vetting_class_p_error")[a - 1].innerHTML = 'Enter whole numbers only  ';
 
                 decimalnumber.push(true)
             }
             else if (isNaN(classTarget.value) && classTarget.value !== '') {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_vetting_class_p_error")[a - 1].innerHTML = 'All entry boxes are integer numeric';
+                document.getElementsByClassName("da_weight_vetting_class_p_error")[a - 1].innerHTML = 'Enter whole numbers only';
                 nonnumerical.push(true);
             }
             else if (classTarget.value >100 && classTarget.value !== '') {
@@ -187,7 +187,7 @@ if(totalVetting<100 || totalVetting>100)
                 e.preventDefault();
                 $('#da_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>');
+                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">Enter whole numbers only</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             case (preventDefaultState.length > 0 && decimalnumber.length > 0):
@@ -203,7 +203,7 @@ if(totalVetting<100 || totalVetting>100)
                 e.preventDefault();
                 $('#da_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field must be a number</a></li>');
+                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">Enter whole numbers only</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             case (decimalnumber.length > 0 && nonnumerical.length > 0):
@@ -211,7 +211,7 @@ if(totalVetting<100 || totalVetting>100)
                 e.preventDefault();
                 $('#da_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>');
+                $("#da_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">Enter whole numbers only</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             case (preventDefaultState.length > 0):
@@ -226,7 +226,7 @@ if(totalVetting<100 || totalVetting>100)
                     e.preventDefault();
                     $('#da_vetting_error_summary').removeClass('hide-block');
                     $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">The input field must be a number</a></li>');
+                    $("#da_summary_list").html('<li><a href="#">Enter whole numbers only</a></li>');
                     $('html, body').animate({ scrollTop: 0 }, 'fast');
                     break;
                 case (decimalnumber.length > 0):
@@ -279,7 +279,7 @@ if(totalVetting<100 || totalVetting>100)
 
     });
 
-            }
+          }
 
 
 );

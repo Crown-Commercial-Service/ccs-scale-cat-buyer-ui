@@ -123,7 +123,7 @@ export class EventEngagementMiddleware {
               }
             } else if (singleEvent.activeEvent?.eventType == 'TBD') {
               draftActiveEvent = singleEvent
-              draftActiveEvent.activeEvent.status = 'In Progress'
+              draftActiveEvent.activeEvent.status = 'In-Progress'
               activeEvents.push(draftActiveEvent)
             }
             // eventType = FCA & DAA (Active and historic events)
@@ -155,7 +155,8 @@ export class EventEngagementMiddleware {
             }
             // eventType = FC & DA (Active and historic events)
             else if (singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent?.eventType == 'FC' || singleEvent.activeEvent?.eventType == 'DA')) {
-              if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED') {
+              if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED' 
+              || (singleEvent.activeEvent?.dashboardStatus=='UNKNOWN' && singleEvent.activeEvent?.status=='withdrawn')) {
                 // Historical Events
                 historicalEvents.push(singleEvent)
               } else if (singleEvent.activeEvent?.dashboardStatus == 'IN-PROGRESS') {
