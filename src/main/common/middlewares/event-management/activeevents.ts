@@ -155,7 +155,8 @@ export class EventEngagementMiddleware {
             }
             // eventType = FC & DA (Active and historic events)
             else if (singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent?.eventType == 'FC' || singleEvent.activeEvent?.eventType == 'DA')) {
-              if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED') {
+              if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED' 
+              || (singleEvent.activeEvent?.dashboardStatus=='UNKNOWN' && singleEvent.activeEvent?.status=='withdrawn')) {
                 // Historical Events
                 historicalEvents.push(singleEvent)
               } else if (singleEvent.activeEvent?.dashboardStatus == 'IN-PROGRESS') {
