@@ -28,8 +28,8 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     let { Evaluation } = req.query;
     const { isEmptyProjectError } = req.session;
     req.session.isEmptyProjectError = false;
-    var feedBack;
-    var marks;
+    var feedBack='';
+    var marks='';
 
     // Event header
     res.locals.agreement_header = { project_name: project_name,Evaluation, agreementName, agreement_id, agreementLotName, lotid }
