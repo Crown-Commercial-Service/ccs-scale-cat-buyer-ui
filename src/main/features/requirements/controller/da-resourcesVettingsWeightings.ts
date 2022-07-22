@@ -84,7 +84,9 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       else{
         let findername=FINDER.name;
         const temp=findername.replace( /^\D+/g, '');
-       const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
+        var name=findername.replace(/[^a-zA-Z]+/g, ' ');
+        name=name.replace(/\s+$/, '');
+        const tempname = name+", SFIA level " + temp;
        FINDER.name=tempname;
         UNIQUE_DESIG_STORAGE.push(FINDER);
       }
