@@ -265,6 +265,9 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
       WHOLECLUSTERCELLS = UNIQUE_DESIGNATION_HEADINGS_ARR;
     }
 
+    TableHeadings.sort((a:any, b:any) => (a.text < b.text ? -1 : 1));
+    TABLEBODY.sort((a:any, b:any) => (a.category < b.category ? -1 : 1))
+
     const windowAppendData = {
       ...caService,
       choosenViewPath,
