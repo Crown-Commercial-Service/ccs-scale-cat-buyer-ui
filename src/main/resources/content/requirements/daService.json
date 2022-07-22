@@ -22,7 +22,7 @@
       }
     ],
   
-    "title": "Select your service capabilities",
+    "title": "Select your service capabilities and set the weighting",
     "insertText": "<p>This step is divided into service capabilities and specific capabilities.</p><p>You will need to tellv suppliers which service capabilities you need , and set a weighting to show which are most important to your project.You can also set a weighting for specific capabilities.</p><p>You do not need to enter a weighting for any service capability or specific capability that you do not need.</p><p class='govuk-inset-text'>The weighting for service capabilities must total 100% to continue to the next step.</p>",
     "data": {
       "total": 50
