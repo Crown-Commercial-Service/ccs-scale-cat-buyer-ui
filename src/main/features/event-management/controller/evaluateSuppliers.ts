@@ -86,44 +86,44 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     //Cpmpletion Status
     const ScoresAndFeedbackURL =`tenders/projects/${projectId}/events/${eventId}/scores`
     const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL) 
-    for (let i = 0; i < ScoresAndFeedbackURLdata.data.length; i++) {
-    if(ScoresAndFeedbackURLdata.data[i].comment == 'No comment found')
-    {
-      var completion = "No"
-    }
-    else
-     {
-      var completion = "Yes"
-     }
-    }
-    //Supplier of interest
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL) 
-    
+    let supData = [];
     let supplierName = [];
 
     let showallDownload = false;
-    for (let i = 0; i < supplierdata.data.responders.length; i++) {
-      //checking for supplier ID
-    //   for (let j = 0; j < ScoresAndFeedbackURLdata.data.length; j++) {
-    //  if( supplierdata.data.responders[i].supplier.id == ScoresAndFeedbackURLdata.data[j].organisationId)
-    //  {
-    //    var completion = "Yes"
-    //  }
-    //  else
-    //  {
-    //   var completion = "No"
-    //  }
-
-    //  }
+    for (let i = 0; i < ScoresAndFeedbackURLdata.data.length; i++) {
+      
+      for(let j=0;j<supplierdata.data.responders.length;j++)
+      {
+        if(supplierdata.data.responders[j].supplier.id==ScoresAndFeedbackURLdata.data[i].organisationId)
+        {
+          supData[i]=supplierdata.data.responders[j];
+          break;
+        }
+      }
+      //supplierdata.data.responders.filter((a:any)=>{a.supplier.id==ScoresAndFeedbackURLdata.data[i].organisationId});
+      //let commentData=supplierdata.data.responders[i].supplier.filter((a:any)=>{a.organisationId==supplierdata.data.responders[i].supplier.id});
+        if(supData!=undefined){
+          var completion = "No"
+          if(ScoresAndFeedbackURLdata.data[i].comment == 'No comment found')
+    {
+      completion = "No"
+    }
+    else
+     {
+     completion = "Yes"
+     }
+    
+        
        let dataPrepared = {
 
-        "id": supplierdata.data.responders[i].supplier.id,
+        "id": supData[i].supplier.id,
 
-        "name": supplierdata.data.responders[i].supplier.name,
+        "name": supData[i].supplier.name,
 
-        "responseState": supplierdata.data.responders[i].responseState,
-        "responseDate": supplierdata.data.responders[i].responseDate,
+        "responseState": supData[i].responseState,
+        "responseDate": supData[i].responseDate,
          "completionStatus":completion,
       }
 
@@ -132,6 +132,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       }
       supplierName.push(dataPrepared)
     }
+  }
     const supplierSummary = supplierdata.data;
     var count =0;
     let ConfirmFlag = false;

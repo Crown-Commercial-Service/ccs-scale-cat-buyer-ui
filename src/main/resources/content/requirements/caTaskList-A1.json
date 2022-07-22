@@ -80,7 +80,7 @@
         {
           "Task": 4,
           "link": "/ca/resources-vetting-weightings",
-          "title": "Select the resource you need and set weighting for vetting and resources",
+          "title": "Select resources and set weightings",
           "required": "mandatory",
           "status": "Cannot start yet"
         },

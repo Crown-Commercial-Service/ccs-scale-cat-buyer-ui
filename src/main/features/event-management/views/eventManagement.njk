@@ -44,11 +44,11 @@
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
           </h2>
           <p class="govuk-body">
-            {% if(showCloseProject) %}
+           {# {% if(showCloseProject) %} #}
             <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
-            {% else %}
+           {# {% else %}
             <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
-            {% endif %}
+            {% endif %}#}
           </p>
         </div>
       </div>
@@ -162,7 +162,7 @@
           {{data.subsection4_title3_eval}}</h2>
         <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption }}</p>
         <p class="govuk-body">To see the clarification questions suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
-        <p class="govuk-body">The deadline for responses from suppliers is [<strong>Day month year time</strong>].</p>
+        <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong>.</p>
         <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong>
         <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
         <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}

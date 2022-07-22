@@ -84,7 +84,9 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       else{
         let findername=FINDER.name;
         const temp=findername.replace( /^\D+/g, '');
-       const tempname= FINDER.name.replace(/\d+/g, ", SFIA level "+temp+"");
+        var name=findername.replace(/[^a-zA-Z]+/g, ' ');
+        name=name.replace(/\s+$/, '');
+        const tempname = name+", SFIA level " + temp;
        FINDER.name=tempname;
         UNIQUE_DESIG_STORAGE.push(FINDER);
       }
@@ -215,7 +217,8 @@ export const DA_GET_RESOURCES_VETTING_WEIGHTINGS = async (req: express.Request, 
       let inner_total_ws=0,inner_total_wv=0,inner_total_res=0;
       for(var cat of item.category)
       {
-        requirementId=LEVEL2CONTENTS.options.filter(option=>option.name==cat.ParentName)?.[0]?.["requirement-id"];
+        let concatData=cat.ParentName+', SFIA level '
+        requirementId=LEVEL2CONTENTS.options.filter(option=>option.name==concatData)?.[0]?.["requirement-id"];
         let noStaff=dimensionResourceQuantity[0].requirements.filter(req=>req["requirement-id"]==requirementId)[0]?.["weighting"];
         let noVetting=dimensionSecurityClearance[0].requirements.filter(req=>req["requirement-id"]==requirementId)[0]?.["weighting"];
         cat["ParentReqId"]=requirementId;
