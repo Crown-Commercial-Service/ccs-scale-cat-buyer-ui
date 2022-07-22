@@ -17,12 +17,12 @@
         "href": "/da/task-list"
       },
       {
-        "text": "Set your resources and vetting weightings",
+        "text": "Select resources and set weightings",
         "href": "#"
       }
     ],
   
-    "title": "Select the resources you need and set weighting for vetting and resources",
+    "title": "Select resources and set weightings",
     "insertText": "<p>This step is divided into sections, job families, and your requirements for each job family.</p><p>You will need to tell suppliers how many staff you need from each job family in each section, how important their role is and how important it is that they meet security and vetting requirements.For example,you may want a higher security and vetting weighting for a job family that would handle sensitive data.</p><p>Each section is a job family from the government <a target='_blank' href='https://www.gov.uk/government/collections/digital-data-and-technology-profession-capability-framework' class='govuk-link govuk-link--no-visited-state' >DDAT(Digital,Data and Technology)professions.</a>Each job family contains more information about the roles and what they do.</p><p>Enter a number for how many staff you need from each job family.Then enter a weighting for the job family and a weighting for the security and vetting requirement for that job family.</p><p>You do not need to enter a weighting for any job family that you fo not need.</p><p class='govuk-inset-text'>The weighting for number of staff, and security and vetting must total 100% to continue to the next step.</p>",
     "data": {
       "total": 50,
