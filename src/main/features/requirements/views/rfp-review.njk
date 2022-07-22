@@ -250,8 +250,7 @@
                 </ul>
               </dd>
             {% else %}
-              <dd class="govuk-summary-list__value">
-          
+              <dd class="govuk-summary-list__value">          
         </dd>
             {% endif %}
             {# </dd> #}
@@ -318,7 +317,7 @@
                       <br /><br /><br />
                       {% if(termAndAcr !=undefined and  termAndAcr !=null and termAndAcr | length > 0 )%}
                       {% for data in termAndAcr %}
-                      <p>{{data.value}}</p><p> {{data.text}}</p><br />
+                      <p>{{data.value}} </p><p>{{data.text}}</p><br />
                       {% endfor%}
                       {%endif%}
                       {#<p>Expression or acronym answer</p><p>Definition answer</p><br />
@@ -1022,18 +1021,18 @@
           {% for data in tierData%}
           <p>Level name</p><br/>
           <p>Score</p><br/>
-          <p>Description</p><br/><br/>
+          <p>Description</p><br/>
           {% endfor %}
           {%endif%}
         </dt>
-        <dd class="govuk-summary-list__value"> 
+        <dd class="govuk-summary-list__value govuk-summary-list__key"> 
         <br/><br/><br/><br/>
           {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
 
         {% for data in tierData %}
           <p>{{data.name}}</p><br/>
           <p>{{data.id}}</p><br/>
-          <p>{{data.text}}</p>
+          <p>{{data.text}}</p><br><br>
           {% endfor%}
           {%endif%}
         </dd>
