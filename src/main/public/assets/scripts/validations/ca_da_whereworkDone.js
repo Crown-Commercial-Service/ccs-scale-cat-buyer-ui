@@ -118,7 +118,7 @@ function clearAllTextboxes()
   for(var a =0; a < dimensions.length; a++){
     dimensions[a].value = ''  
   }
-  $('#totalPercentage').text('');
+  $('#totalPercentage').text('0');
 }
 
 $.fn.slideFadeToggle = function (easing, callback) {
