@@ -181,92 +181,64 @@ if(totalVetting<100 || totalVetting>100)
          *  
          */
 
-        switch (true) {
-            case (preventDefaultState.length > 0 && decimalnumber.length > 0 && nonnumerical.length > 0):
+        let errormsg='';
 
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">Enter whole numbers only</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (preventDefaultState.length > 0 && decimalnumber.length > 0):
+            if (preventDefaultState.length > 0 && decimalnumber.length > 0 && nonnumerical.length > 0)
 
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (preventDefaultState.length > 0 && nonnumerical.length > 0):
-
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">Enter whole numbers only</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (decimalnumber.length > 0 && nonnumerical.length > 0):
-
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">Enter whole numbers only</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (preventDefaultState.length > 0):
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast');
-                    break;
-                case (nonnumerical.length > 0):
-
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">Enter whole numbers only</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast');
-                    break;
-                case (decimalnumber.length > 0):
-
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast');
-                    break;
-                    
-                 case (rolevalidation.length>0):
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">At least 1 DDaT role must be populated with a quantity value</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast'); 
-                    break; 
-                    
-                    case(staffval.length>0):
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">The number of staff weightings for all Role Family entries must = 100%</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast'); 
-                    break;
+                     errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">Enter whole numbers only</a></li>';
                 
-                    case(vettval.length>0):
+            if(preventDefaultState.length > 0 && decimalnumber.length > 0)
+
+               
+            errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li>';
+               
+            if (preventDefaultState.length > 0 && nonnumerical.length > 0)
+
+                
+            errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">Enter whole numbers only</a></li>';
+                
+            if(decimalnumber.length > 0 && nonnumerical.length > 0)
+
+               
+                errormsg=errormsg+'<li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">Enter whole numbers only</a></li>';
+                
+            if(preventDefaultState.length > 0)
+                    
+                    errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>';
+                    
+                if(nonnumerical.length > 0)
+
+                   
+                    errormsg=errormsg+'<li><a href="#">Enter whole numbers only</a></li>';
+                   
+                if (decimalnumber.length > 0)
+
+                   
+                    errormsg=errormsg+'<li><a href="#">The input field should not contain decimal values</a></li>';
+                    
+                    
+                 if(rolevalidation.length>0)
+                   
+                    errormsg=errormsg+'<li><a href="#">At least 1 DDaT role must be populated with a quantity value</a></li>';
+                    
+                    
+                    if(staffval.length>0)
+                   
+                    errormsg=errormsg+'<li><a href="#">Sum of all [Weighting for number of staff] values for all Role Families in all groups = 100%</a></li>';
+                     
+                
+                    if(vettval.length>0)
+                   
+                    errormsg=errormsg+'<li><a href="#">Sum of all [Weighting for related vetting requirement] values for all Role Families in all groups = 100%</a></li>';
+                   
                     e.preventDefault();
                     $('#da_vetting_error_summary').removeClass('hide-block');
                     $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">The number of vetting weightings for all Role Family entries must = 100%</a></li>');
+                    $("#da_summary_list").html(errormsg);
                     $('html, body').animate({ scrollTop: 0 }, 'fast'); 
-                    break;
-        
-
-                default:
-                    console.log("If all else fails");
-                    break;
-            }
+                   
+                
+            
 
             if (!inputtedtext.length > 0) {
 
