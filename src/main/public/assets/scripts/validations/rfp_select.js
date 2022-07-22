@@ -125,7 +125,7 @@ $('#rfp_singleselect').on('submit', (event) => {
       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
-    else ($('#rfp_security_confirmation').val().length === 0) {
+    if ($('#rfp_security_confirmation').val().length === 0) {
 
       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
