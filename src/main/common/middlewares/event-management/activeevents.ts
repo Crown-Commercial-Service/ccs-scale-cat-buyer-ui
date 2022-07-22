@@ -123,7 +123,7 @@ export class EventEngagementMiddleware {
               }
             } else if (singleEvent.activeEvent?.eventType == 'TBD') {
               draftActiveEvent = singleEvent
-              draftActiveEvent.activeEvent.status = 'In Progress'
+              draftActiveEvent.activeEvent.status = 'In-Progress'
               activeEvents.push(draftActiveEvent)
             }
             // eventType = FCA & DAA (Active and historic events)
