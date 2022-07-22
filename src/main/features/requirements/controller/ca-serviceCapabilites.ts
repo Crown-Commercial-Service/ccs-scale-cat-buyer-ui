@@ -129,9 +129,11 @@ export const CA_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: exp
 
     const TableHeadings = Level1DesignationStorageForHeadings.map((item, index) => {
       let totalAddedWeighting = 0;
-
+      let tempWeighting = null;
+      
       const headingReqId = CAPACITY_CONCAT_OPTIONS.filter(x => x.name == item.category)[0];
-      let tempWeighting = requirements?.filter(x => x["requirement-id"] == headingReqId["requirement-id"])[0]?.weighting;
+      if(headingReqId !=undefined && headingReqId!=null && headingReqId["requirement-id"]!=undefined && headingReqId["requirement-id"] !=null )
+       tempWeighting = requirements?.filter(x => x["requirement-id"] == headingReqId["requirement-id"])[0]?.weighting;
 
       if (tempWeighting != undefined && tempWeighting != null)
         totalAddedWeighting = tempWeighting;
