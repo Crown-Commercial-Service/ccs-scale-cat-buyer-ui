@@ -11,11 +11,14 @@ const ccsZvalidateScore= (event) => {
   else ccsZPresentErrorSummary(errorStore);
 };
 
-const ccsZvalidateFeedback= (event) => {
+const ccsZvalidateFeedbackScore= (event) => {
     event.preventDefault();
   
     let fieldCheck = "",
       errorStore = [];
+
+      fieldCheck = ccsZvalidateWithRegex("enter_evaluation_score", "Enter Score.", /^.+$/);
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
   
     fieldCheck = ccsZvalidateWithRegex("enter_evaluation_feedback", "Enter Feedback.", /^.+$/);
     if (fieldCheck !== true) errorStore.push(fieldCheck);

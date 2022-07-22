@@ -70,7 +70,7 @@
                 </tr>
               </thead>
               {% for supplier in supplierName %}
-              {% if supplier.responseState =='Submitted'  %}   
+              {#{% if supplier.responseState =='Submitted'  %}  #} 
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
@@ -89,7 +89,7 @@
                     <td class="govuk-table__cell"> {{supplier.completionStatus}} </td>
                   </tr>
               </tbody>
-           {% endif %}  
+           {#{% endif %} #} 
           {% endfor %}
             </table>
             </div>
