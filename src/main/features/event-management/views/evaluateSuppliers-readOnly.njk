@@ -3,7 +3,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Event management ' %}
+{% set title = 'Review your supplier evaluation ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -112,7 +112,7 @@
 
                      <div class="govuk-button-group">
                         {% set returnLink = "/event/management?id="+supplierDetails.eventId %}
-                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to project</a>
+                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to your project</a>
                     </div>       
 
 

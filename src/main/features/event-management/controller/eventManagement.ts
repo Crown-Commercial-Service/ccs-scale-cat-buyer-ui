@@ -194,7 +194,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
 
         supplierAwardDetail?.suppliers?.map((item: any) => {
-          supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = item.state;
+          supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = "Awarded";
           supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
         });
 
