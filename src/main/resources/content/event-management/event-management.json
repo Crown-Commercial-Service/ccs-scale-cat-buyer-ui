@@ -64,16 +64,18 @@
     "subsection4_title3": "How many suppliers will respond to your published project",
     "subsection4_title3_descriiption": "You can find out how many suppliers are interested in responding to your project in the section below.",
     "subsection4_title3_task1":"Total number of suppliers who received your published project",
-    "subsection4_title3_task2":"Number of suppliers who have responded",
-    "subsection4_title3_task3":"Number of suppliers who do not want to submit an answer",
+    "subsection4_title3_task2":"Number of suppliers who intend to respond",
+    "subsection4_title3_task3":"Number of suppliers who do not want to respond",
      "subsection4_title3_task4":"Number of suppliers who have not responded",
+    
+
 
      "subsection4_title3_eval": "Suppliers who responded to your published project",
     "subsection4_title3_eval_descriiption": "Find out how many suppliers are interested in responding to your project in the section below.",
     "subsection4_title3_eval_task1":"Total number of suppliers who received your published project",
-    "subsection4_title3_eval_task2":"Number of suppliers who want to respond",
+    "subsection4_title3_eval_task2":"Number of suppliers who intend to respond",
     "subsection4_title3_eval_task3":"Number of suppliers who do not want to respond",
-     "subsection4_title3_eval_task4":"Remaining supplier with no response",
+     "subsection4_title3_eval_task4":"Number of suppliers who have not responded",
     
     
     "subsection4_title4": "Supplier responses",
