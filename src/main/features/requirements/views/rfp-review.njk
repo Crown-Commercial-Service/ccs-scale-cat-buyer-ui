@@ -760,8 +760,8 @@ management information or reporting by the Supplier
           </div>
             <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
-         <h3><strong> Essential skills and capabilities</strong></h3><br/>
-          <p>Total number of skills and capabilities added</p>
+         <h3><strong> Select your service capabilities </strong></h3><br/>
+          <p>Total number of added capabilities</p>
           <p>Skills and capabilities added for each section</p>
         </dt>
         <dd class="govuk-summary-list__value">
@@ -828,7 +828,7 @@ management information or reporting by the Supplier
           </div>        
         <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
-         <h3><strong> The overall weighting for quality and price</strong></h3><br/>
+         <h3><strong> Set the overall ratio between quality and price </strong></h3><br/>
           <p>Quality</p><br/>
           <p>Price</p><br/>
         </dt>
@@ -847,10 +847,10 @@ management information or reporting by the Supplier
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-          <h3><strong>The overall weighting for the quality categories</strong></h3><br/>
-          <p>Technical</p><br/>
-          <p>Cultural</p><br/>
-          <p>Social value</p><br/>
+          <h3><strong>Set the specific ratio of quality groups</strong></h3><br/>
+          <p> Technical group </p><br/>
+          <p>Cultural group</p><br/>
+          <p>Social value group/p><br/>
         </dt>
         <dd class="govuk-summary-list__key">
           <br/><br/><br/><br/>
@@ -868,23 +868,15 @@ management information or reporting by the Supplier
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
-          <h3><strong>Your technical questions</strong></h3><br/>
+          <h3><strong>Add your technical questions </strong></h3><br/>
           {%if techGroup !=undefined  and techGroup !=null and techGroup | length >0%}
           {% for data in techGroup%}
           <p>Your question</p><br/>
-          <p>Enter more details about your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
           <p>Explain how good looks like</p><br/>
           <p>Enter a weighting for this question</p><br/><br/>
           {% endfor %}
           {%endif%}
-          {#<p>Your question</p><br/>
-          <p>Provide additional detail for your question</p><br/>
-          <p>Explain how good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/><br/>
-          <p>Your question</p><br/>
-          <p>Provide additional detail for your question</p><br/>
-          <p>Explain how good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/>
@@ -897,15 +889,6 @@ management information or reporting by the Supplier
           <p>{{data.weight}}%</p><br/><br/>
           {% endfor %}
           {%endif%}
-
-          {#<p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
@@ -917,25 +900,17 @@ management information or reporting by the Supplier
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
-          <h3><strong>Your cultural fit questions</strong></h3><br/><br/>
+          <h3><strong>Add your cultural questions</strong></h3><br/><br/>
           {%if techGroup !=undefined  and techGroup !=null and techGroup | length >0%}
 
           {% for data in techGroup%}
           <p>Your question</p><br/>
-          <p>Enter more details about your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
           <p>Explain how good looks like</p><br/>
           <p>Enter a weighting for this question</p><br/><br/>
           {% endfor %}
           {% endif %}
 
-          {#<p>Your question</p><br/>
-          <p>Provide additional detail for your question</p><br/>
-          <p>Explain how good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/><br/>
-          <p>Your question</p><br/>
-          <p>Provide additional detail for your question</p><br/>
-          <p>Explain how good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/><br/>
@@ -948,14 +923,6 @@ management information or reporting by the Supplier
           <p>{{data.weight}}%</p><br/><br/>
           {% endfor %}
           {%endif%}
-          {#<p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>#}
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
@@ -967,24 +934,16 @@ management information or reporting by the Supplier
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
-          <h3><strong>Your social value questions</strong></h3><br/><br/>
+          <h3><strong>Add your social value questions</strong></h3><br/><br/>
           {%if socialGroup !=undefined  and socialGroup !=null and socialGroup | length >0%}
           
           {% for data in socialGroup%}
           <p>Your question</p><br/>
-          <p>Enter more details about your question</p><br/>
+          <p>Provide additional detail for your question</p><br/>
           <p>Explain how good looks like</p><br/>
           <p>Enter a weighting for this question</p><br/><br/>
           {% endfor %}
           {% endif %}
-          {#<p>Your question</p><br/>
-          <p>Provide additional detail for your question</p><br/>
-          <p>Explain how good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/><br/>
-          <p>Your question</p><br/>
-          <p>Provide additional detail for your question</p><br/>
-          <p>Explain how good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/>#}
         </dt>
         <dd class="govuk-summary-list__value">
           <br/><br/><br/><br/>
@@ -997,14 +956,7 @@ management information or reporting by the Supplier
           <p>{{data.weight}}%</p><br/><br/>
           {% endfor %}
           {% endif %}
-          {#<p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>Answer</p><br/>
-          <p>XX%</p><br/><br/>#}
+          
         </dd>
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
@@ -1035,8 +987,8 @@ management information or reporting by the Supplier
           <h3><strong>How you will score suppliers</strong></h3><br/><br/>
           {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
           {% for data in tierData%}
-          <p>Level name</p><br/>
-          <p>Score</p><br/>
+          <p>Enter the name for this tier</p><br/>
+          <p>Enter the points for this tier</p><br/>
           <p>Description</p><br/>
           {% endfor %}
           {%endif%}
