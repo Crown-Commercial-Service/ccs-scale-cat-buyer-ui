@@ -552,15 +552,15 @@ export const SUPPLIER_ANSWER_DOWNLOAD = async (req: express.Request, res: expres
   }
 }
 
-//supplieranswer?download=1
+//supplieranswerall?supplierid=1
 export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  const { download, download_all } = req.query;
+  const { supplierid, download_all } = req.query;
 
   try {
-    if (download != undefined) {
+    if (supplierid != undefined) {
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
