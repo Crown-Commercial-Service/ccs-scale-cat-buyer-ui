@@ -2,7 +2,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Award documents ' %}
+{% set title = 'Your project ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -21,6 +21,14 @@
 {% block content %}
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         
+        <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+         <strong> {{title}}</strong> 
+         </h1>
+      </div>
+    </div>
+
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
               <div class="project-overview">
@@ -55,7 +63,7 @@
         
         <h3> <strong>Awarded supplier contract templates </strong></h3>
 
-       <p> If you have not already complete the order form and call off schedules template, you must download and complete it before continuing.</p>
+       <p> If you have not already completed the order form and call off schedules template, you must download and complete it before continuing.</p>
 <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
@@ -63,8 +71,8 @@
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">Supplier's name</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Documents Template</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Order from and call of schedules template</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Document templates</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Order form and call off schedules template</th>
                 </tr>
               </thead>
               {% for supplier in eventManagementData.documentTemplateDataList %}

@@ -3,7 +3,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Event management ' %}
+{% set title = 'Review your supplier evaluation ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -94,25 +94,15 @@
 
 <br/>
 
-                        {{ CCSInput({
-                            label: {
-                              text: "Final Feedback ",
-                              classes: "govuk-label--m",
-                              name: "enter_evaluation_readOnly"
-                            },                            
-                            value:supplierDetails.supplierFeedBack,
-                            id: "enter_evaluation_feedback_readOnly",
-                            name: "enter_evaluation_feedback",
-                            spellcheck: true,
-                            classes: "govuk-input",
-                            maxlength: "5000"
-                        })
-                      }}
+ <p class="govuk-body"><h2><strong>Final Feedback </p>
+<textarea class="govuk-textarea govuk-js-character-count" id="enter_evaluation_feedback_readOnly" name="enter_evaluation_feedback" rows="7" >{{supplierDetails.supplierFeedBack}}</textarea>
+
+                        
 <p><label id="supplierFeedback"></label></p>
 
                      <div class="govuk-button-group">
                         {% set returnLink = "/event/management?id="+supplierDetails.eventId %}
-                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to project</a>
+                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to your project</a>
                     </div>       
 
 

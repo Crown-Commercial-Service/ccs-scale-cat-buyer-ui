@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var rolevalidation=[];
         var staffval=[];
         var vettval=[];
+        var rolebox_validation=[];
         let totalStaff=0;
         let totalVetting=0;
 
@@ -93,7 +94,7 @@ if(totalVetting<100 || totalVetting>100)
             else if (classTarget.value > 99 && classTarget.value != '') {
                 document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("ca_weight_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                preventDefaultState.push(true);
+                rolebox_validation.push(true);
             }
             else if (classTarget.value <= 0 && classTarget.value !== '') {
                 document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
@@ -180,7 +181,7 @@ if(totalVetting<100 || totalVetting>100)
 
 
     
-            switch (true) {
+          /*  switch (true) {
                 case (preventDefaultState.length > 0 && decimalnumber.length > 0 && nonnumerical.length > 0):
 
                     e.preventDefault();
@@ -267,9 +268,71 @@ if(totalVetting<100 || totalVetting>100)
                 default:
                     console.log("If all else fails");
                     break;
-            }
+            }*/
 
-            
+            let errormsg='';
+            if(preventDefaultState.length > 0 || decimalnumber.length > 0 || nonnumerical.length > 0 || rolevalidation.length>0 || staffval.length>0 || vettval.length> 0 || rolebox_validation.length>0)
+{
+                if(preventDefaultState.length > 0 && decimalnumber.length > 0 && nonnumerical.length > 0)
+
+
+                errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>';
+
+                if(preventDefaultState.length > 0 && decimalnumber.length > 0)
+
+
+                errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li>';
+
+                if (preventDefaultState.length > 0 && nonnumerical.length > 0)
+
+
+                errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field must be a number</a></li>';
+
+                if (decimalnumber.length > 0 && nonnumerical.length > 0)
+
+
+                errormsg=errormsg+'<li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>';
+
+                if (preventDefaultState.length > 0)
+
+
+                errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>';
+
+                if (nonnumerical.length > 0)
+
+
+                errormsg=errormsg+'<li><a href="#">The input field must be a number</a></li>';
+
+                if (decimalnumber.length > 0)
+
+
+                errormsg=errormsg+'<li><a href="#">The input field should not contain decimal values</a></li>';
+
+                if (rolevalidation.length>0)
+
+                errormsg=errormsg+'<li><a href="#">At least 1 DDaT role must be populated with a quantity value</a></li>';
+                
+                if(staffval.length>0)
+
+                errormsg=errormsg+'<li><a href="#">Sum of all [Weighting for number of staff] values for all Role Families in all groups = 100%</a></li>';
+  
+                if(vettval.length>0)
+
+                errormsg=errormsg+'<li><a href="#">Sum of all [Weighting for related vetting requirement] values for all Role Families in all groups = 100%</a></li>';
+
+                if(rolebox_validation.length>0)
+
+                errormsg=errormsg+'<li><a href="#">Value entered in [How many people you need for this role family?] <= 99</a></li>';
+
+                
+
+                e.preventDefault();
+                $('#ca_vetting_error_summary').removeClass('hide-block');
+                $('.govuk-error-summary__title').text('There is a problem');
+                $("#ca_summary_list").html(errormsg);
+                $('html, body').animate({ scrollTop: 0 }, 'fast'); 
+                
+        }
 
 
                
