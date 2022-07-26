@@ -2,7 +2,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Event management ' %}
+{% set title = 'Your project' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -21,6 +21,14 @@
 {% block content %}
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         
+      <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+         <strong> {{title}}</strong> 
+         </h1>
+      </div>
+    </div>
+
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
               <div class="project-overview">
@@ -107,7 +115,7 @@
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/supplier-evaluation?reviewsupplierid={{supplier.supplierId}}">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}">Review evaluation</a>
                     </td>
                     <td scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>

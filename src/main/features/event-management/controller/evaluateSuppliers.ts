@@ -87,20 +87,26 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
     const ScoresAndFeedbackURL =`tenders/projects/${projectId}/events/${eventId}/scores`
     const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL) 
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
-    const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL) 
+    const supplierdata= await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
+    var submittedCount = 0
+     for (let i = 0; i < supplierdata.data.responders.length; i++) {
+       if(supplierdata.data.responders[i].responseState == 'Submitted')
+       {
+        submittedCount++
+      }
+     }
     let supData = [];
     let supplierName = [];
 
     let showallDownload = false;
     for (let i = 0; i < ScoresAndFeedbackURLdata.data.length; i++) {
-      
       for(let j=0;j<supplierdata.data.responders.length;j++)
       {
-        if(supplierdata.data.responders[j].supplier.id==ScoresAndFeedbackURLdata.data[i].organisationId)
+        if(supplierdata.data.responders[j].supplier.id==ScoresAndFeedbackURLdata.data[i].organisationId )
         {
           supData[i]=supplierdata.data.responders[j];
           break;
-        }
+      }
       }
       //supplierdata.data.responders.filter((a:any)=>{a.supplier.id==ScoresAndFeedbackURLdata.data[i].organisationId});
       //let commentData=supplierdata.data.responders[i].supplier.filter((a:any)=>{a.organisationId==supplierdata.data.responders[i].supplier.id});
@@ -115,7 +121,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
      completion = "Yes"
      }
     
-        
+     
        let dataPrepared = {
 
         "id": supData[i].supplier.id,
@@ -126,24 +132,26 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
         "responseDate": supData[i].responseDate,
          "completionStatus":completion,
       }
-
+    
      if (supplierdata.data.responders[i].responseState == 'Submitted') {
         showallDownload = true;
       }
       supplierName.push(dataPrepared)
     }
+    
   }
+
     const supplierSummary = supplierdata.data;
     var count =0;
     let ConfirmFlag = false;
     //count of completionstatus="yes" == count of responders
     for (let k = 0; k < supplierName.length; k++) {
-       if(supplierName[k].completionStatus == "Yes")
+       if(supplierName[k].completionStatus == "Yes" && supplierName[k].responseState == "Submitted" )
        {
          count++;
        }
      }
-     if(count == supplierName.length)
+     if(count == submittedCount)
      {
       ConfirmFlag = true;
      }

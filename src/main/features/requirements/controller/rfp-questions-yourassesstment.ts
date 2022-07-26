@@ -743,7 +743,7 @@ const mapTitle = groupId => {
   let title = '';
   switch (groupId) {
     case 'Group 4':
-      title = 'techinical';
+      title = 'technical';
       break;
     case 'Group 5':
       title = 'cultural';

@@ -85,7 +85,8 @@ export class EventEngagementMiddleware {
             //singleEvent=events[i];
             //singleEvent.activeEvent=getEventsData[j];
             if (singleEvent.activeEvent != undefined && singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent.eventType == 'RFI' || singleEvent.activeEvent.eventType == 'EOI')) {
-              if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED') {
+              if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED'
+              || (singleEvent.activeEvent?.dashboardStatus=='UNKNOWN' && singleEvent.activeEvent?.status=='withdrawn')) {
                 // Historical Events
                 historicalEvents.push(singleEvent)
               } else if (singleEvent.activeEvent?.dashboardStatus == 'IN-PROGRESS') {
