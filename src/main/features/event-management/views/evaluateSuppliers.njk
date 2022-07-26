@@ -8,12 +8,12 @@
   {{ CCSBreadcrumbs({
         items:[
     {
-      "text": "Dashboard",
+      "text": "Your Dashboard",
       "href": "/dashboard"
     },
     {
       "text": "Your Project",
-      "href": "#"
+      "href": "/event/management?id="+eventId
     },
     {
       "text": "Evaluate Suppliers",
@@ -70,7 +70,7 @@
                 </tr>
               </thead>
               {% for supplier in supplierName %}
-              {#{% if supplier.responseState =='Submitted'  %}  #} 
+              {% if supplier.responseState =='Submitted'  %}  
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
@@ -81,7 +81,7 @@
                       {#</p>#}
                       
                     </th>
-                    <td class="govuk-table__cell">{{ supplier.responseDate }}</td>
+                    <td class="govuk-table__cell">{{ supplier.responseDate |dateddmmyyyy }}</td>
                      <td class="govuk-table__cell">
                       <a class="govuk-link" href="/evaluate-download?supplierid={{supplier.id}}">{{ data.Downloadresponse[0].text }}</a>
                     </td> 
@@ -89,7 +89,7 @@
                     <td class="govuk-table__cell"> {{supplier.completionStatus}} </td>
                   </tr>
               </tbody>
-           {#{% endif %} #} 
+           {% endif %} 
           {% endfor %}
             </table>
             </div>
