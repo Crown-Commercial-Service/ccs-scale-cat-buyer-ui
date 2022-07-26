@@ -11,6 +11,11 @@
     <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
 </p>
 {% endset %}
+{% set Replyhtml %}
+<h3 class="govuk-notification-banner__heading">
+   Your message has been sent to [{{suppliernameforreplymessage}}]
+</h3>
+{% endset %}
 {% set errHtml %}
 <h3 class="govuk-notification-banner__heading">
     {{data.notification2.text}}
@@ -85,6 +90,25 @@
 
             </div>
         {% elseif created == 'false' %}
+            <div class="govuk-grid-column-one-half">
+                {{ govukNotificationBanner({
+                html: errHtml,
+                type: "Important",
+                titleText: data.notification2.title
+                }) }}
+            </div>
+        {% endif %}
+         {% if createdreply == 'true' %}
+            <div class="govuk-grid-column-one-half">
+
+                {{ govukNotificationBanner({
+                html: Replyhtml,
+                type: "success",
+                titleText: "Message sent"
+                }) }}
+
+            </div>
+        {% elseif createdreply == 'false' %}
             <div class="govuk-grid-column-one-half">
                 {{ govukNotificationBanner({
                 html: errHtml,
