@@ -850,7 +850,7 @@ management information or reporting by the Supplier
           <h3><strong>Set the specific ratio of quality groups</strong></h3><br/>
           <p> Technical group </p><br/>
           <p>Cultural group</p><br/>
-          <p>Social value group/p><br/>
+          <p>Social value group</p><br/>
         </dt>
         <dd class="govuk-summary-list__key">
           <br/><br/><br/><br/>
@@ -987,17 +987,27 @@ management information or reporting by the Supplier
           <h3><strong>How you will score suppliers</strong></h3><br/><br/>
           {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
           {% for data in tierData%}
-          <p>Enter the name for this tier</p><br/>
-          <p>Enter the points for this tier</p><br/>
+          {%if loop.index ==1%}
+            <br/>
+          {%endif%}
+          {%if loop.index !=1%}
+            <br/><br/><br/><br/>
+          {%endif%}
+          <p>Level Name</p><br/>
+          <p>Score</p><br/>
           <p>Description</p><br/>
           {% endfor %}
           {%endif%}
         </dt>
         <dd class="govuk-summary-list__value govuk-summary-list__key"> 
-        <br/><br/><br/><br/>
+        
           {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
 
         {% for data in tierData %}
+        {%if loop.index ==1%}
+        <br/><br/>
+          {%endif%}
+        
           <p>{{data.name}}</p><br/>
           <p>{{data.id}}</p><br/>
           <p>{{data.text}}</p><br><br>
