@@ -194,7 +194,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
 
         supplierAwardDetail?.suppliers?.map((item: any) => {
-          supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = item.state;
+          supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = "Awarded";
           supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
         });
 
@@ -552,15 +552,15 @@ export const SUPPLIER_ANSWER_DOWNLOAD = async (req: express.Request, res: expres
   }
 }
 
-//supplieranswer?download=1
+//supplieranswerall?supplierid=1
 export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  const { download, download_all } = req.query;
+  const { supplierid, download_all } = req.query;
 
   try {
-    if (download != undefined) {
+    if (supplierid != undefined) {
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',

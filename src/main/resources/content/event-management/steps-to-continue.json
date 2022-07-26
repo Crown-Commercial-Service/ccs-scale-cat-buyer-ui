@@ -14,7 +14,7 @@
           }
     ],
 
-    "title": "What next step would you like to undertake to continue your project?",
+    "title": "What event would you like to start after closing the current one?",
     "subtitle": "[ Instructions for this page ]",
     "form": [
         {
@@ -56,7 +56,7 @@
         }
       ],
       "backJump": {
-        "title": "Return to [Event Management]",
+        "title": "Return to Your project",
         "href": "/event/management?id="
       }
 
