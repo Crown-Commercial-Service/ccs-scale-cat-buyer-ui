@@ -79,7 +79,7 @@
         {
           "Task": 4,
           "link": "/da/resources-vetting-weightings",
-          "title": " Select the resources you need and set weighting for vetting and resources ",
+          "title": " Set your resources and vetting weightings",
           "required": "mandatory",
           "status": "Cannot start yet"
         },

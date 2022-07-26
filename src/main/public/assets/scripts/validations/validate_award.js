@@ -18,6 +18,7 @@ const ccsZvalidateStandStillPeriod = (event) => {
 
     const radioButtonYes = document.getElementById("standstill_period_yes").checked;
     const radioButtonNo = document.getElementById("standstill_period_no").checked;
+
     if (radioButtonYes || radioButtonNo) {
         document.forms["ccs_standstill_period_form"].submit();
     }
@@ -29,6 +30,16 @@ const ccsZvalidateStandStillPeriod = (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  $('#standstill_period_yes').on('click', function (){
+    $('#standstill_period_yes').prop('checked',true);
+    $('#standstill_period_no').prop('checked', false);
+  });
+
+  $('#standstill_period_no').on('click', function (){
+    $('#standstill_period_no').prop('checked',true);
+    $('#standstill_period_yes').prop('checked',false);
+  });
+  
   if ($("#enter_evaluation_score_readOnly") !=undefined && $("#enter_evaluation_score_readOnly") !=null && $("#enter_evaluation_score_readOnly").length >0 ) {
     document.getElementById("enter_evaluation_score_readOnly").readOnly = "true";
     document.getElementById("enter_evaluation_feedback_readOnly").readOnly = "true";

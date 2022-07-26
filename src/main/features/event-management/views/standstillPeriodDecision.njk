@@ -3,7 +3,7 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 {% from "components/dialog/macro.njk" import CCSDialog %}
 
-{% set title = 'Event management ' %}
+{% set title = 'Your project ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -39,6 +39,14 @@
     }) }}
     {%endif %}
 
+<div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+         <strong> {{title}}</strong> 
+         </h1>
+      </div>
+    </div>
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
@@ -60,11 +68,11 @@
             {# <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong> #}
           </h2>
           <p class="govuk-body">
-            {% if(showCloseProject) %}
+            {#{% if(showCloseProject) %}#}
             <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
-            {% else %}
+           {# {% else %}
             <a class="govuk-link" href="/event/management?id={{ eventId }}">Close Event</a>
-            {% endif %}
+            {% endif %} #}
           </p>
         </div>
       </div>
