@@ -17,12 +17,12 @@
       "href": "/rfp/task-list"
     },
     {
-      "text": "Look at the suppliers who will be contacted"
+      "text": "See the available suppliers "
     }
   ],
 
-  "title": "Look at the available suppliers ",
-  "subtitle": "Take a look at the suppliers available on this agreement.Your oppurtunity will be sent ot all the suppliers.If they do not respond they will be not allowed to bid for your project.",
+  "title": "See the available suppliers ",
+  "subtitle": "Your opportunity will be sent to all the suppliers on this agreement. If they do not respond they will not be allowed to bid for your project.",
   "data": {
     "supplier": {
       "text": "suppliers can be contracted to supply products and services for this lot. Some suppliers are ",
