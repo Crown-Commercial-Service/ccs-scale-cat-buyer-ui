@@ -37,6 +37,7 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
           await  getChildMethod(messageReply.nonOCDS.parentId,projectId,eventId,SESSION_ID);
         }
         const appendData = {msgThreadList:messageThreadingList, data: replyData, message: messageReply, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingReply', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -105,12 +106,13 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
               ]
             
             }};
+            req.session['SupplierNameforMessagereply']=draftMessage.data.OCDS.author.name;
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
             const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
             if (response.status == 200) {
-                res.redirect('/message/inbox?created=true')
+                res.redirect('/message/inbox?createdreply=true')
             } else {
-                res.redirect('/message/inbox?created=false')
+                res.redirect('/message/inbox?createdreply=false')
             }
     }
 }

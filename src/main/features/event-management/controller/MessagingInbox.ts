@@ -16,6 +16,7 @@ import * as inboxData from '../../../resources/content/event-management/messagin
 export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     const { created } = req.query
+    const { createdreply } = req.query
     const { createdqa } = req.session
     const { createdqaedit } = req.session
     const projectId = req.session['projectId'] 
@@ -36,7 +37,12 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
                 receivedMessages[i].OCDS.date = (moment(receivedMessages[i].OCDS.date)).format('DD-MMM-YYYY hh:mm')
             }
         }
-        const appendData = { data: inboxData,createdQA:createdqa,createdQAEdit:createdqaedit, created, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        var suppliernameforreplymessage='';
+        if(createdreply)
+        {
+            suppliernameforreplymessage=req.session['SupplierNameforMessagereply']
+        }
+        const appendData = { data: inboxData,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingInbox', appendData)
     } catch (err) {

@@ -177,6 +177,12 @@ if (document.getElementById('rfi_contracting_auth') !== null)
   if (document.getElementById('ca_justification') !== null)
   document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
 
+  if (document.getElementById('reply_subject_input') !== null)
+  document.getElementById('reply_subject_input').addEventListener('input', ccsZCountMsgReplyTextbox);
+
+  if (document.getElementById('reply_message_input') !== null)
+  document.getElementById('reply_message_input').addEventListener('input', ccsZCountMsgReplyTextArea);
+
 if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
