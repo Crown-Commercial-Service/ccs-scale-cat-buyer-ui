@@ -22,10 +22,10 @@
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
           {% if (viewError == true) %}
       {{ CCSErrorSummary({
-        titleText: "There is a problem with supplier to be awarded",
+        titleText: "There is a problem",
         errorList: [
           {
-            text: "You must check this box to confirm that I have read and confirm the statements above",
+            text: "Acknowledgement tick box must be selected to continue with the awarding of the selected supplier",
             href: "#ccs_award_supplier_form"
           }
         ]

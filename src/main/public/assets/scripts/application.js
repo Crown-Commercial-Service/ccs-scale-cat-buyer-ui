@@ -273,6 +273,10 @@ if (document.getElementById('rfp_percentage_form') !== null)
 if (document.getElementById('ccs_pre_award_supplier_form') !== null)
 document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
 
+ //Award
+ if (document.getElementById('ccs_award_supplier_form') !== null)
+ document.getElementById('ccs_award_supplier_form').addEventListener('submit', ccsZvalidateConfirmAward);
+
 if (document.getElementById('ccs_standstill_period_form') !== null)
 document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
 
