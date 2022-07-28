@@ -982,6 +982,8 @@ management information or reporting by the Supplier
               {% endif %}
             </dd>
           </div> #}
+          {#</dl>
+          <dl>#}
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
           <h3><strong>How you will score suppliers</strong></h3><br/><br/>
@@ -993,13 +995,13 @@ management information or reporting by the Supplier
           {%if loop.index !=1%}
             <br/><br/><br/><br/>
           {%endif%}
-          <p>Level Name</p><br/>
-          <p>Score</p><br/>
-          <p>Description</p><br/>
+          <p>Level Name {{data.name}}</p><br/>
+          <p>Score {{data.id}}</p><br/>
+          <p>Description {{data.text}}</p><br/>
           {% endfor %}
           {%endif%}
         </dt>
-        <dd class="govuk-summary-list__value govuk-summary-list__key"> 
+        {#<dd class="govuk-summary-list__value govuk-summary-list__key"> 
         
           {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
 
@@ -1013,7 +1015,7 @@ management information or reporting by the Supplier
           <p>{{data.text}}</p><br><br>
           {% endfor%}
           {%endif%}
-        </dd>
+        </dd>#}
         <dd class="govuk-summary-list__actions">
             {% if eventStatus != "published"%}
               <a class="govuk-link" href="/rfp/set-scoring-criteria">
@@ -1023,6 +1025,24 @@ management information or reporting by the Supplier
             </dd>
           </div>
         </dl>
+        {#<div class="govuk-summary-list__row">
+        <h3><strong>How you will score suppliers</strong></h3><br/><br/>
+        {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
+          
+        <dl>
+        {% for data in tierData%}
+        
+          <dd><span class="onelinedesc">Level name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{data.name}}</span></dd>
+          
+          <dd><span class="onelinedesc">Score &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{data.id}}</span></dd>
+          
+          <dd><span class="onelinedesc">Description &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{data.text}}</span></dd>
+        
+        {% endfor %}
+        </dl>
+        <br/>
+        {% endif %}
+        </div>#}
 {%endblock%}
 {# END-----------Your assessment criteria #}
 
