@@ -228,18 +228,19 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
       }
       
-      const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/US-DUNS-215577839`;
-      const supplierData = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
-      
-      if(supplierData != undefined && supplierData  != null && supplierData.data != undefined && supplierData.data !=null )
+      if(supplierDetails!=null && supplierDetails.supplierId != undefined && supplierDetails.supplierId !=null)
       {
-        supplierDetails.supplierAddress = supplierData.data?.address;
-        supplierDetails.supplierContactName = supplierData.data?.contactPoint.name;
-        supplierDetails.supplierContactEmail = supplierData.data?.contactPoint?.email;
-        //supplierDetails.supplierWebsite = supplierData.data?.website;
+        const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/${supplierDetails.supplierId}`;
+        const supplierResponse = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
+
+        const supplierData = supplierResponse?.data;
+
+        supplierDetails.supplierAddress = supplierData?.address;
+        supplierDetails.supplierContactName = supplierData?.contactPoint.name;
+        supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
+        //supplierDetails.supplierWebsite = supplierData?.website;
       }
       
-
       //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
       //Get Q&A Count
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
