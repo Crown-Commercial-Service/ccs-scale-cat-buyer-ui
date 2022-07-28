@@ -9,7 +9,15 @@
 .cookie-message__heading {
   padding-right: 4.375rem !important;
 }
-
+.border-bottom-rfp-review
+{
+  border-bottom:0px !important
+}
+.border-top-rfp-review-
+{
+  border-top:1px solid #b1b4b6 !important;
+  margin-bottom:15px !important;
+}
 .cookie-message__actions {
   display: -ms-flexbox !important;
   display: flex !important;
