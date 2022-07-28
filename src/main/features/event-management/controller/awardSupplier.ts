@@ -1,52 +1,53 @@
 import * as express from 'express'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
-import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
+import { SupplierDetails } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
+
 export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
     const { supplierId } = req.query;
 
-    const { projectId, eventId, projectName, agreement_header, agreement_id, lotId, viewError } = req.session;
+    const { projectId, eventId, projectName, agreement_header, viewError } = req.session;
     try {
         //Supplier of interest
         const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`;
         const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
         let supplierDetailsList: SupplierDetails[] = [];
         let supplierDetails = {} as SupplierDetails;
-        //agreements/{agreement-id}/lots/{lot-id}/suppliers
-        const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
-        const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
+
         //Supplier score
         const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
         const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL);
 
         for (let i = 0; i < supplierdata.data.responders.length; i++) {
+
             let id = supplierdata.data.responders[i].supplier.id;
             let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)?.[0]?.score;
-
 
             if (supplierdata.data.responders[i].responseState == 'Submitted') {
                 //showallDownload = true;
             }
-            if (supplierdata.data.responders[i].supplier.id == supplierId) {
-                // let supplierData = supplierDataList.filter((x: any) => x.);
-                var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
-                
+            if (id == supplierId) {
                 supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
                 supplierDetails.responseState = supplierdata.data.responders[i].responseState;
                 supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
                 supplierDetails.score = (score != undefined) ? score : 0;
 
-                supplierDetails.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
-                supplierDetails.supplierAddress = supplierFiltedData !=undefined && supplierFiltedData != null && supplierFiltedData.length >0? supplierFiltedData.address : {} as SupplierAddress;
-                supplierDetails.supplierContactName =supplierFiltedData !=undefined &&  supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.name : "";
-                supplierDetails.supplierContactEmail = supplierFiltedData !=undefined && supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.email : "";
-                supplierDetails.supplierWebsite =supplierFiltedData !=undefined &&  supplierFiltedData != null && supplierFiltedData.length >0 ? supplierFiltedData.contactPoint.url : "";
                 supplierDetails.supplierId = id;
                 supplierDetailsList.push(supplierDetails);
             }
+        }
+        if (supplierId != undefined && supplierId != null) {
+            const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/${supplierId}`;
+            const supplierResponse = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
+
+            const supplierData = supplierResponse?.data;
+
+            supplierDetails.supplierAddress = supplierData?.address;
+            supplierDetails.supplierContactName = supplierData?.contactPoint.name;
+            supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
+            //supplierDetails.supplierWebsite = supplierData?.website;
         }
 
         //SELECTED EVENT DETAILS FILTER FORM LIST
