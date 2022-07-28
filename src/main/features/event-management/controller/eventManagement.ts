@@ -227,6 +227,18 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
       }
+      
+      const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/US-DUNS-215577839`;
+      const supplierData = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
+      
+      if(supplierData != undefined && supplierData  != null && supplierData.data != undefined && supplierData.data !=null )
+      {
+        supplierDetails.supplierAddress = supplierData.data?.address;
+        supplierDetails.supplierContactName = supplierData.data?.contactPoint.name;
+        supplierDetails.supplierContactEmail = supplierData.data?.contactPoint?.email;
+        //supplierDetails.supplierWebsite = supplierData.data?.website;
+      }
+      
 
       //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
       //Get Q&A Count
