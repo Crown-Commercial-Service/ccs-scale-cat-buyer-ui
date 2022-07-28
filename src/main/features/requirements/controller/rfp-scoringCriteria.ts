@@ -177,6 +177,10 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       });
       TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
     }
+    //swap tier details - SCAT-5303
+    let temptierdata = TemporaryObjStorage[0].nonOCDS.options[0]
+    TemporaryObjStorage[0].nonOCDS.options[0] = TemporaryObjStorage[0].nonOCDS.options[1]
+    TemporaryObjStorage[0].nonOCDS.options[1] = temptierdata
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {

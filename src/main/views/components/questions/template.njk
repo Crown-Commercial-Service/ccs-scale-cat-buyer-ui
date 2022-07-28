@@ -24,7 +24,7 @@
 {% block RPFScoringCriteriaTable %}
 {%if requirement.nonOCDS.questionType === 'Table' and form_name == 'ccs_rfp_scoring_criteria'%}
   <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
+            <div class="govuk-grid-column-full">
                {% for table in requirement.nonOCDS.options %}
                <input type="hidden" class="tierLable" tierLable="{{table.text}}" id="tiersTableData" value="{{table.optiontableDefinationJsonString}}" >
                    {%if(table.text !=='Create your own scoring criteria')%}
