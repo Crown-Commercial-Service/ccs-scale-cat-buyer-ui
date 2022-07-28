@@ -224,12 +224,20 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  
+  var ScoresAndFeedbackURLdata_: any[] = []
 
   try{
     const ScoresAndFeedbackURL =`tenders/projects/${projectId}/events/${eventId}/scores`
     const ScoresAndFeedbackURLdata = await TenderApi.Instance(SESSION_ID).get(ScoresAndFeedbackURL) 
-    let body=ScoresAndFeedbackURLdata.data
+    for(var i=0;i<ScoresAndFeedbackURLdata.data.length;i++)
+    {
+      if(ScoresAndFeedbackURLdata.data[i].comment != 'No comment found')
+      {
+        ScoresAndFeedbackURLdata_.push(ScoresAndFeedbackURLdata.data[i])
+        //ScoresAndFeedbackURLdata_=ScoresAndFeedbackURLdata.data[i]
+      }
+    }
+    let body=ScoresAndFeedbackURLdata_
     await TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
     res.redirect('/dashboard');
 //publisheddoc?download=1
