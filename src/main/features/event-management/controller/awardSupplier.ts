@@ -74,17 +74,15 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
 }
 export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Response) => {
 
-    const { award_supplier_confirmation, } = req.body;
+    const { award_supplier_confirmation,supplier_id } = req.body;
     const { SESSION_ID } = req.cookies;
-
-    const { supplierId } = req.query;
     try {
         if (award_supplier_confirmation != undefined && award_supplier_confirmation === '1') {
             res.redirect('/stand-period');
         }
         else {
             req.session['viewError'] = true;
-            res.redirect('award-supplier?supplierId=' + supplierId)
+            res.redirect('award-supplier?supplierId=' + supplier_id)
 
         }
     } catch (error) {

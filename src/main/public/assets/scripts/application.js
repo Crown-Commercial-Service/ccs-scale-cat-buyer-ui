@@ -273,7 +273,7 @@ if (document.getElementById('rfp_percentage_form') !== null)
 if (document.getElementById('ccs_pre_award_supplier_form') !== null)
 document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
 
- //Award
+ //Award Supplier
  if (document.getElementById('ccs_award_supplier_form') !== null)
  document.getElementById('ccs_award_supplier_form').addEventListener('submit', ccsZvalidateConfirmAward);
 

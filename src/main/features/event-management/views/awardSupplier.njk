@@ -161,6 +161,13 @@
 
 <form id="ccs_award_supplier_form" name="ccs_award_supplier_form" class="form ccs_award_supplier_form"
       action="/award-supplier" method="post">
+       {{ CCSInput({
+                      id: "supplier_id",
+                      name: "supplier_id",
+                      type: "hidden",
+                      value: supplierDetails.supplierId
+                    })
+                }}
                      {{ csrfProtection(csrf) }}         	 
         {{ CCSCheckboxes({
       idPrefix: "award_supplier_confirmation",
