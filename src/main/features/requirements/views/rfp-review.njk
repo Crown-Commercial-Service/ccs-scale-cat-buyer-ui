@@ -845,20 +845,15 @@ management information or reporting by the Supplier
               {% endif %}
             </dd>
           </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-          <h3><strong>Set the specific ratio of quality groups</strong></h3><br/>
-          <p> Technical group </p><br/>
-          <p>Cultural group</p><br/>
-          <p>Social value group</p><br/>
-        </dt>
-        <dd class="govuk-summary-list__key">
-          <br/><br/><br/><br/>
-          <p>{{technicalgroupquestion1}}%</p><br/>
-          <p>{{culturalgroupquestion1}}%</p><br/>
-          <p>{{socialvaluegroupquestion1}}%</p><br/>
-        </dd>
-        <dd class="govuk-summary-list__actions">
+
+           <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__value border-bottom-rfp-review">
+          <h3><strong>Set the specific ratio of quality groups</strong></h3><br/><br/>
+           </dt>
+       <dt class="govuk-summary-list__value border-bottom-rfp-review">
+         
+           </dt>
+        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
             {% if eventStatus != "published"%}
               <a class="govuk-link" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 3">
             Change<span class="govuk-visually-hidden">project name</span>
@@ -866,6 +861,31 @@ management information or reporting by the Supplier
               {% endif %}
             </dd>
           </div>
+          <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key border-bottom-rfp-review" >
+    <p>Technical group </p>
+     </dt>
+    <dd class="govuk-summary-list__value border-bottom-rfp-review">
+      <p> {{technicalgroupquestion1}}%</p>
+    </dd> 
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key border-bottom-rfp-review">
+      <p>Cultural group  </p>
+     </dt>
+    <dd class="govuk-summary-list__value border-bottom-rfp-review">
+       <p>{{culturalgroupquestion1}}%</p>
+    </dd> 
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+       <p> Social value group  </p>  
+     </dt>
+    <dd class="govuk-summary-list__value ">
+      <p> {{socialvaluegroupquestion1}}%</p>
+    </dd> 
+  </div>
+       
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
           <h3><strong>Add your technical questions </strong></h3><br/>
@@ -890,7 +910,7 @@ management information or reporting by the Supplier
           {% endfor %}
           {%endif%}
         </dd>
-        <dd class="govuk-summary-list__actions">
+        <dd class="govuk-summary-list__actions border-top-rfp-review-">
             {% if eventStatus != "published"%}
               <a class="govuk-link" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 4">
             Change<span class="govuk-visually-hidden">project name</span>
@@ -898,7 +918,7 @@ management information or reporting by the Supplier
               {% endif %}
             </dd>
           </div>
-          <div class="govuk-summary-list__row">
+          <div class="govuk-summary-list__row ">
             <dt class="govuk-summary-list__value">
           <h3><strong>Add your cultural questions</strong></h3><br/><br/>
           {%if techGroup !=undefined  and techGroup !=null and techGroup | length >0%}
@@ -982,39 +1002,16 @@ management information or reporting by the Supplier
               {% endif %}
             </dd>
           </div> #}
+          {#</dl>
+          <dl>#}
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__value">
+            <dt class="govuk-summary-list__value border-bottom-rfp-review">
           <h3><strong>How you will score suppliers</strong></h3><br/><br/>
-          {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
-          {% for data in tierData%}
-          {%if loop.index ==1%}
-            <br/>
-          {%endif%}
-          {%if loop.index !=1%}
-            <br/><br/><br/><br/>
-          {%endif%}
-          <p>Level Name</p><br/>
-          <p>Score</p><br/>
-          <p>Description</p><br/>
-          {% endfor %}
-          {%endif%}
-        </dt>
-        <dd class="govuk-summary-list__value govuk-summary-list__key"> 
-        
-          {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
-
-        {% for data in tierData %}
-        {%if loop.index ==1%}
-        <br/><br/>
-          {%endif%}
-        
-          <p>{{data.name}}</p><br/>
-          <p>{{data.id}}</p><br/>
-          <p>{{data.text}}</p><br><br>
-          {% endfor%}
-          {%endif%}
-        </dd>
-        <dd class="govuk-summary-list__actions">
+           </dt>
+       <dt class="govuk-summary-list__value border-bottom-rfp-review">
+         
+           </dt>
+        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
             {% if eventStatus != "published"%}
               <a class="govuk-link" href="/rfp/set-scoring-criteria">
             Change<span class="govuk-visually-hidden">project name</span>
@@ -1022,13 +1019,45 @@ management information or reporting by the Supplier
               {% endif %}
             </dd>
           </div>
+          {%if tierData !=undefined  and tierData !=null and tierData | length >0%}
+          {% for data in tierData%}
+        
+ <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key border-bottom-rfp-review" >
+    <p> Level Name </p>
+     </dt>
+    <dd class="govuk-summary-list__value border-bottom-rfp-review">
+      <p> {{data.name}}</p>
+    </dd> 
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key border-bottom-rfp-review">
+      <p>Score  </p>
+     </dt>
+    <dd class="govuk-summary-list__value border-bottom-rfp-review">
+       <p>{{data.id}}</p>
+    </dd> 
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key border-bottom-rfp-review">
+       <p> Description  </p>  
+     </dt>
+    <dd class="govuk-summary-list__value border-bottom-rfp-review">
+      <p> {{data.text}}</p>
+    </dd> 
+  </div>
+            
+          {% endfor %}
+          {%endif%}
+       
         </dl>
+  
 {%endblock%}
 {# END-----------Your assessment criteria #}
 
 {# START-----------Review and publish your further competition #}
  {%block Review_and_publish_your_further_competition%}
-
+<div class="border-top-rfp-review-"></div>
 <h2 class="govuk-heading-m">6. Review and publish {% if selectedeventtype!='DA' %}your further competition{%endif%} </h2>
 <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
@@ -1164,7 +1193,7 @@ management information or reporting by the Supplier
     }) }}
     {%endif%}
                         <br><br>
-                              <div class="ccs-link-group">
+                              <!--<div class="ccs-link-group">
                                 <span>
                                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -1174,7 +1203,7 @@ management information or reporting by the Supplier
                                 </span>
                                 <br>
 
-                              </div>
+                              </div>-->
                               <br><br>
                             </div>
                           </div>
