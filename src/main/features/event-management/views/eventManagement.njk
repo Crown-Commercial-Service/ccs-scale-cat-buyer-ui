@@ -273,10 +273,15 @@
                       {{ supplier.responseDate |dateddmmyyyy }} 
                     </td>
                     {#{%endif%}#}
-                    {% if status.toUpperCase() !=='EVALUATED'%}
+                    {% if status.toUpperCase() ==='TO-BE-EVALUATED'%}
                      <td class="govuk-text-align govuk-!-text-align-left">
-                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
-                    </td>
+                      <a class="govuk-link" href="/eventmanagement?supplierid={{supplier.supplierId}}">Download</a>
+                    </td> 
+                    {%endif%}
+                    {% if status.toUpperCase() ==='EVALUATING'%}
+                     <td class="govuk-text-align govuk-!-text-align-left">
+                      <a class="govuk-link" href="/supplieranswer?supplierid={{supplier.supplierId}}">Download</a>
+                    </td> 
                     {%endif%}
                     {% if status.toUpperCase() ==='EVALUATED' %}
                     <td class="govuk-text-align govuk-!-text-align-centre">
@@ -305,13 +310,21 @@
             </table>
             </div>
         </div>
-        {% if(showallDownload) %}
-         <p class="govuk-body govuk-!-no-margin govuk-!-text-align-right">
-             <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a> 
-        </p>
-             
+        {% if status.toUpperCase() === 'TO-BE-EVALUATED' %}
+          {% if(showallDownload) %}
+             <p class="govuk-body govuk-!-no-margin govuk-!-text-align-right">
+             <a href="/eventmanagement?download=1" class="govuk-link ">Download all</a> 
+             </p>
+            {% endif %}
         {% endif %}
-       
+        {% if status.toUpperCase() === 'EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
+          {% if(showallDownload) %}
+           <p class="govuk-body govuk-!-no-margin govuk-!-text-align-right">
+             <a href="/supplieranswerall?download=1" class="govuk-link ">Download all</a> 
+           </p>   
+          {% endif %}
+       {% endif %}
+      
         {% elif status.toLowerCase() != 'published' %}
         
           
@@ -353,7 +366,7 @@
             </div>
         </div>
         {% if(showallDownload) %}
-              <a href="/eventmanagement" class="govuk-link app-task-list__tag govuk-!-text-align-right">{{data.backJump.title}}</a> 
+              <a href="/eventmanagement?download=1" class="govuk-link app-task-list__tag govuk-!-text-align-right">{{data.backJump.title}}</a> 
         {% endif %}
         {% endif %} 
       </div>
