@@ -396,6 +396,27 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   req.session['isLocationError'] = true;
                   res.redirect(url.replace(regex, 'questions'));
                 } else if (selectedOptionToggle.length > 0) {
+                  if(group_id=='Group 4'){
+                    //selectedOptionToggle[0].push({'value':'abc','selected':true})
+                    //save org data
+                    const organizationID = req.session.user.payload.ciiOrgId;
+                    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
+                    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+                    const name = getOrganizationDetails.data.identifier.legalName;
+                    const organizationName = name;
+                    let orgData=[]
+                    let arrData=[]
+                    arrData.push({'value':organizationName,'selected':true})
+                    orgData.push(arrData)
+                    const answerBodyOrg = {
+                      nonOCDS: {
+                        answered: true,
+                        options: [...orgData[0]],
+                      },
+                    };
+                    const answerBaseURLOrg = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/Question 2`;
+                    await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURLOrg, answerBodyOrg);
+                  }
                   const answerBody = {
                     nonOCDS: {
                       answered: true,

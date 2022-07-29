@@ -14,7 +14,7 @@
   {{ CCSBreadcrumbs({
         items:[
     {
-      "text": "Dashboard",
+      "text": "[Dashboard]",
       "href": "/dashboard"
     },
     {
@@ -22,7 +22,11 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Supplier Message",
+      "text": "Your inbox",
+      "href": "/message/inbox"
+    },
+    {
+      "text": "Message",
       "href": "#"
     }
   ]
@@ -50,12 +54,21 @@
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {{data.title}}
+         <strong> {{data.title}} </strong>
         </h1>
         <p class="govuk-body">
           <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
         </p>
-        {% include "includes/project_header.njk" %}
+      <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+              <div class="project-overview">
+        <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+  </strong></p>
+  {%endif %}
+  <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+        </div>
+      </div>  
+</div>
       </div>
     </div>
 
@@ -83,7 +96,8 @@
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
-          <a href="{{data.backlink}}">back</a></br></br></br>
+          <a href="{{data.backlink}}">Back</a></br></br></br>
+            <label class="govuk-label govuk-label govuk-label--m">Message thread</label></br>
           {%if msgThreadList.length >0%}
           {%for msgItem in msgThreadList%}
           <details class="govuk-details" data-module="govuk-details">
@@ -105,23 +119,25 @@
         </details>
          {% endfor %}
         {%endif%}
-       <label class="govuk-label govuk-label govuk-label--m">{{data.line1}} {{message.OCDS.author.name}}</label></br>
+       <label class="govuk-label govuk-label govuk-label--m">{{data.line1}} [{{message.OCDS.author.name}}]</label></br>
          
-<p class="govuk-body govuk-label govuk-label--m">{{data.MessageClassification}} : {{message.nonOCDS.classification}}</p></br>
+<p class="govuk-body">{{data.MessageClassification}} : <strong>{{message.nonOCDS.classification}}</strong></p></br>
               {{ CCSInput({           
                 id: "reply_subject_input",
                 name: "reply_subject_input",
                 value: "RE: "+message.OCDS.title,
+                maxlength:500,
                 label: {
-                  text: data.Subject,
-                  classes: "govuk-label govuk-label--m"
+                  text: data.Subject
                 }
                 })
               }}
-           
+            <p><label id="reply_message_input_textbox_count"></label></p>
+
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-             <textarea class="govuk-textarea govuk-js-character-count" id="reply_message_input" name="reply_message_input" rows="5" ></textarea>
-                
+             <p>Your message:</p>
+             <textarea class="govuk-textarea govuk-js-character-count" id="reply_message_input" name="reply_message_input" rows="5"  maxlength="5000"></textarea>
+                 <p><label id="reply_message_input_textarea_count"></label></p>
               </div>
 
             <div class="govuk-button-group">
@@ -137,8 +153,6 @@
         </div>
       </div>
     </form>
-    <p class="govuk-body">
-      <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-    </p>
+  
   </main>
 {% endblock %}

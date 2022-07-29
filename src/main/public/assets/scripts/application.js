@@ -108,8 +108,8 @@ if (document.getElementById('rfi_projLongName') !== null)
   document.getElementById('enter_evaluation').addEventListener('submit', ccsZvalidateFeedbackScore);
 
   
-  // if (document.getElementById('enter_evaluation_score') !== null)
-  // document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
+  //  if (document.getElementById('enter_evaluation') !== null)
+  //  document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
 
 if (document.getElementById('ccs_eoi_project_name_form') !== null)
   document.getElementById('ccs_eoi_project_name_form').addEventListener('submit', ccsZvalidateEoiProjectName);
@@ -176,6 +176,12 @@ if (document.getElementById('rfi_contracting_auth') !== null)
 
   if (document.getElementById('ca_justification') !== null)
   document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
+
+  if (document.getElementById('reply_subject_input') !== null)
+  document.getElementById('reply_subject_input').addEventListener('input', ccsZCountMsgReplyTextbox);
+
+  if (document.getElementById('reply_message_input') !== null)
+  document.getElementById('reply_message_input').addEventListener('input', ccsZCountMsgReplyTextArea);
 
 if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
@@ -266,6 +272,10 @@ if (document.getElementById('rfp_percentage_form') !== null)
   //Award
 if (document.getElementById('ccs_pre_award_supplier_form') !== null)
 document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
+
+ //Award Supplier
+ if (document.getElementById('ccs_award_supplier_form') !== null)
+ document.getElementById('ccs_award_supplier_form').addEventListener('submit', ccsZvalidateConfirmAward);
 
 if (document.getElementById('ccs_standstill_period_form') !== null)
 document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);

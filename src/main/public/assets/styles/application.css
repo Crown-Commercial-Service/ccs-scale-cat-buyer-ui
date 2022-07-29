@@ -8596,6 +8596,13 @@ body {
   margin-bottom: 1.2rem;
 }
 
+.onelinedesc{
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 150px;
+}
+
 .margin-left{
   margin-left: 800px;
 }
