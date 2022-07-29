@@ -228,7 +228,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
       }
       
-      if(supplierDetails!=null && supplierDetails.supplierId != undefined && supplierDetails.supplierId !=null)
+      if(supplierDetails !=null && supplierDetails.supplierId != undefined && supplierDetails.supplierId !=null)
       {
         const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/${supplierDetails.supplierId}`;
         const supplierResponse = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
