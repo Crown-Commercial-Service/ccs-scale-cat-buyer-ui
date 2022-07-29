@@ -2,7 +2,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Message Reply ' %}
+{% set title = 'Message Reply to All' %}
 
 {% set sortedMembers = [
   {
@@ -14,7 +14,7 @@
   {{ CCSBreadcrumbs({
         items:[
     {
-      "text": "[Dashboard]",
+      "text": "Dashboard",
       "href": "/dashboard"
     },
     {
@@ -90,7 +90,7 @@
         </nav>
       </div>
     </div>
-    <form id="ccs_message_reply_form" name="ccs_message_reply_form" action="/message/reply" method="POST">
+    <form id="ccs_message_reply_form" name="ccs_message_reply_form" action="/message/replytoall" method="POST">
       {{ csrfProtection(csrf) }}
      
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
@@ -99,9 +99,8 @@
           <a href="{{data.backlink}}">Back</a></br></br></br>
             <label class="govuk-label govuk-label govuk-label--m">Message thread</label></br>
           {%if msgThreadList.length >0%}
-         
+          {%for msgItem in msgThreadList%}
           <details class="govuk-details" data-module="govuk-details">
-           {%for msgItem in msgThreadList%}
             <summary class="govuk-details__summary">
               <span class="govuk-details__summary-text">
                 Subject: {{msgItem.OCDS.title}}
@@ -117,12 +116,14 @@
                Message: {{msgItem.OCDS.description}}
               </span>
             </div>
-            {% endfor %}
         </details>
-         
+         {% endfor %}
         {%endif%}
-       <label class="govuk-label govuk-label govuk-label--m">{{data.line1}} {{message.OCDS.author.name}}</label></br>
-         
+        <strong>Send to all suppliers</strong></br>
+          <a class="govuk-link" target="_blank" rel="noopener noreferrer" href="{{supplier_link}}">
+                View supplier list
+              </a>
+              </br></br>
 <p class="govuk-body">{{data.MessageClassification}} : <strong>{{message.nonOCDS.classification}}</strong></p></br>
               {{ CCSInput({           
                 id: "reply_subject_input",
@@ -144,7 +145,7 @@
 
             <div class="govuk-button-group">
               {{ CCSButton({
-                text: data.btnText,
+                text: "Send to all",
                 action:"submit"
                 })
             }}
