@@ -227,7 +227,20 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
       }
+      
+      if(supplierDetails!=null && supplierDetails.supplierId != undefined && supplierDetails.supplierId !=null)
+      {
+        const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/${supplierDetails.supplierId}`;
+        const supplierResponse = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
 
+        const supplierData = supplierResponse?.data;
+
+        supplierDetails.supplierAddress = supplierData?.address;
+        supplierDetails.supplierContactName = supplierData?.contactPoint.name;
+        supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
+        //supplierDetails.supplierWebsite = supplierData?.website;
+      }
+      
       //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
       //Get Q&A Count
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
@@ -559,15 +572,15 @@ export const SUPPLIER_ANSWER_DOWNLOAD = async (req: express.Request, res: expres
   }
 }
 
-//supplieranswer?download=1
+//supplieranswerall?supplierid=1
 export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  const { download, download_all } = req.query;
+  const { supplierid, download_all } = req.query;
 
   try {
-    if (download != undefined) {
+    if (supplierid != undefined) {
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',

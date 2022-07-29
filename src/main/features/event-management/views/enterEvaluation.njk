@@ -13,7 +13,7 @@
     },
         {
             "text": "Your Project",
-            "href": "/dashboard"
+            "href": "/event/management?id="+eventId
         },
         {
             "text": "Evaluate Suppliers",
@@ -92,8 +92,6 @@
                             classes: "govuk-input--width-4 dimensions",
                             maxlength: "6",
                             type:"number",
-                             min:"0.00",
-                              max:"100.00",
                               step:"0.01",
                               value : marks
 
@@ -116,7 +114,6 @@
                             id: "enter_evaluation_feedback",
                             name: "enter_evaluation_feedback",
                             spellcheck: true,
-                            classes: "govuk-input",
                             maxlength: "5000",
                             value: feedBack
                         })
