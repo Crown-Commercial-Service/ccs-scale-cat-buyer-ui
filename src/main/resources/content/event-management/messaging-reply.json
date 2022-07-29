@@ -1,11 +1,7 @@
 {
     "breadCrumbs": [
         {
-            "text": "Home",
-            "href": "/"
-        },
-        {
-            "text": "Dashboard",
+            "text": "[Dashboard]",
             "href": "/dashboard"
         },
         {
@@ -13,16 +9,16 @@
             "href": "#"
         },
         {
-            "text": "Messaging Inbox",
+            "text": "Message",
             "href": "#"
         }
     ],
-    "title": "Messaging Inbox",
-    "line1":"[Reply to ]",
-    "MessageClassification": "Message Classification",
+    "title": "Your inbox",
+    "line1":"Reply to ",
+    "MessageClassification": "Classification",
     "Subject": "Subject",
     "Message": "Message",
-    "btnText": "Send message to supplier",
+    "btnText": "Send",
     "Cancel": {
         "text": "Cancel",
         "link": "/message/inbox"

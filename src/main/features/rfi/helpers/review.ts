@@ -168,29 +168,7 @@ console.log(FilteredSetWithTrue)
             const formattedData = { ...tempGroup2, criterian: dataOFCRITERIAN.criterian };
             RFI_ANSWER_STORAGE.push(formattedData);
           }
-          else if(dataOFRFI.id=='Group 4')
-          {
-          const tempGroup4=RFI_DATA_WITHOUT_KEYDATES[3]
-         for(let i=0;i<tempGroup4.answer.length;i++)
-         {
-           if(tempGroup4.answer[i].question==='Name of the organisation doing the procurement')
-           {
-            const organizationID = req.session.user.payload.ciiOrgId;
-            const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-            const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-            const name = getOrganizationDetails.data.identifier.legalName;
-            const organizationName = name;
-            tempGroup4.answer[i].values=[
-              {
-                value: organizationName,
-                selected: true,
-              },
-            ]
-           }
-         }        
-            const formattedData = { ...tempGroup4, criterian: dataOFCRITERIAN.criterian };
-            RFI_ANSWER_STORAGE.push(formattedData);
-          }
+        
           else{
             const formattedData = { ...dataOFRFI, criterian: dataOFCRITERIAN.criterian };
             RFI_ANSWER_STORAGE.push(formattedData);
