@@ -4,7 +4,7 @@ const ccsZvalidateScore= (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZvalidateWithRegex("enter_evaluation_score", "Enter Feedback.", /^.+$/);
+  fieldCheck = ccsZvalidateWithRegex("enter_evaluation_score", "Score should be between 0.00 to 100.00.", /^(?:100(?:[.,]00?)?|\d?\d(?:[.,]\d\d?)?)$/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["enter_evaluation"].submit();
@@ -18,6 +18,9 @@ const ccsZvalidateFeedbackScore= (event) => {
       errorStore = [];
 
       fieldCheck = ccsZvalidateWithRegex("enter_evaluation_score", "Enter Score.", /^.+$/);
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  fieldCheck = ccsZvalidateWithRegex("enter_evaluation_score", "The Score should be between the range 0.00 to 100.00.", /^(?:100(?:[.,]00?)?|\d?\d(?:[.,]\d\d?)?)$/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
   
     fieldCheck = ccsZvalidateWithRegex("enter_evaluation_feedback", "Enter Feedback.", /^.+$/);

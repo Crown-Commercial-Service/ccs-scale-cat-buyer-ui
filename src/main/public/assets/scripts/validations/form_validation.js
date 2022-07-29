@@ -41,7 +41,16 @@ const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
     return [element?.id, errMsg];
   }
 };
-
+const ccsZvalidateTextAreaMultipleSameElement = (elementName, errMsg, valid = true) => {
+  const element = document.getElementById(elementName);
+  if (element != undefined && element != null && element.value && element.value.trim().length > 0 && valid) {
+    ccsZremoveErrorMessage(element);
+  }
+  if (element != undefined && element != null) {
+    ccsZaddErrorMessage(element, errMsg);
+    return [element?.id, errMsg];
+  }
+};
 /**
  * Validate that one checkbox or radio button in a set has been selected
  */

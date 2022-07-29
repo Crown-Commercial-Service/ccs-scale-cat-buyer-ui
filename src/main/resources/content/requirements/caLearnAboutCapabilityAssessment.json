@@ -1,7 +1,7 @@
 {
   "breadCrumbs1": [
     {
-      "text": "Dashboard",
+      "text": "Your dashboard",
       "href": "/dashboard"
     },
     {
@@ -13,13 +13,13 @@
       "href": "/projects/create-or-choose"
     },
     {
-      "text": "Learn about capability assessment",
+      "text": "What is a capability assessment?",
       "href": "#"
     }
   ],
   "breadCrumbs2": [
     {
-      "text": "Dashboard",
+      "text": "Your dashboard",
       "href": "/dashboard"
     },
     {
@@ -35,12 +35,12 @@
       "href": "/ca/task-list"
     },
     {
-      "text": "Learn about capability assessment",
+      "text": "What is a capability assessment?",
       "href": "#"
     }
   ],
 
-  "title": "What is a capability assessment",
+  "title": "What is a capability assessment?",
   "subtitle": null,
   "form": {
     "Line1": "A capability assessment is a filtering tool that helps you find the most suitable suppliers for your project." ,
