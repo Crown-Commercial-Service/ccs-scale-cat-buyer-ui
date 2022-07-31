@@ -28,6 +28,7 @@ export class Nunjucks {
     const NunjucksPathFolders = {
       mainViewDirectory: path.join(__dirname, '..', '..', 'views'),
       RFIViewDirectory: path.join(__dirname, '..', '..', 'features', 'rfi', 'views'),
+      DOS6ViewDirectory: path.join(__dirname, '..', '..', 'features', 'dos6', 'views'),
       DASHBOARDViewDirectory: path.join(__dirname, '..', '..', 'features', 'dashboard', 'views'),
       AGREEMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'agreement', 'views'),
       PROCUREMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'procurement', 'views'),
@@ -40,6 +41,7 @@ export class Nunjucks {
     const NunjucksEnvironment = nunjucks.configure(
       [
         NunjucksPathFolders.mainViewDirectory,
+        NunjucksPathFolders.DOS6ViewDirectory,
         NunjucksPathFolders.RFIViewDirectory,
         NunjucksPathFolders.DASHBOARDViewDirectory,
         NunjucksPathFolders.AGREEMENTViewDirectory,
