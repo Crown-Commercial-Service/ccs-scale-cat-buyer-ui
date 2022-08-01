@@ -43,9 +43,9 @@ or messages in your inbox.See supplier's answer to your published project.</p>
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
           </h2>
           <p class="govuk-body">
-            {#{% if(showCloseProject) and status.toLowerCase !== "complete" %}#}
+            {% if(showCloseProject) and status.toLowerCase !== "complete" %}
             <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
-            {#{% endif %}#}
+            {% endif %}
           </p>
         </div>
       </div>

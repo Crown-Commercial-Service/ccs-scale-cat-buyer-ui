@@ -245,10 +245,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       //Get Q&A Count
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
       const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
-      // let showCloseProject = false;
-      // if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated") {
-      //   showCloseProject = true;
-      // }
+      let showCloseProject = false;
+      if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated") {
+        showCloseProject = true;
+      }
       const procurementId = req.session['projectId'];
       const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
       let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
@@ -280,7 +280,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
       } catch (error) {}
   
-      const appendData = { supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata,end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage }
+      const appendData = { supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata,end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage ,showCloseProject }
 
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {
