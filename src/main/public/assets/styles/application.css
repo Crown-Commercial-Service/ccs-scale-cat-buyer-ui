@@ -6374,6 +6374,12 @@ p + .govuk-heading-s,
   }
 }
 
+@media (min-width: 40.0625em) {
+  .govuk-\!-margin_scoring {
+    margin: 2px !important;
+  }
+}
+
 .govuk-\!-margin-top-5 {
   margin-top: 15px !important;
 }
