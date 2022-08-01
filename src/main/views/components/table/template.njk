@@ -5,11 +5,11 @@
   {%- if params.captionClasses %} {{ params.captionClasses }}{% endif %}">{{ params.caption }}</caption>
   {% endif %}
   {% if params.head %}
-  <thead class="govuk-table__head">
+  <thead class="govuk-table__header__scoring ">
     <tr class="govuk-table__row">
     {% for item in params.head %}
-      <th scope="col" class="govuk-table__header
-      {%- if item.format %} govuk-table__header--{{ item.format }}{% endif %}
+      <th  scope="col" class="govuk-table__header__scoring 
+      {%- if item.format %} table__header__scoring--{{ item.format }}{% endif %}
       {%- if item.classes %} {{ item.classes }}{% endif %}"
       {%- if item.colspan %} colspan="{{ item.colspan }}"{% endif %}
       {%- if item.rowspan %} rowspan="{{ item.rowspan }}"{% endif %}{% for attribute, value in item.attributes %} {{ attribute }}="{{ value }}"{% endfor %}>{{ item.html |safe if item.html else item.text }}</th>
@@ -27,11 +27,11 @@
             {%- if cell.rowspan %} rowspan="{{ cell.rowspan }}"{% endif %}{% for attribute, value in cell.attributes %} {{ attribute }}="{{ value }}"{% endfor %}
           {% endset %}
           {% if loop.first and params.firstCellIsHeader %}
-          <th scope="row" class="govuk-table__header{%- if cell.classes %} {{ cell.classes }}{% endif %}"
+          <th scope="row" class="govuk-table__scoring__cell--border  govuk-table__header{%- if cell.classes %} {{ cell.classes }}{% endif %}"
             {{- commonAttributes | safe -}}
           >{{ cell.html | safe if cell.html else cell.text }}</th>
           {% else %}
-          <td class="govuk-table__cell
+          <td class="govuk-table__scoring__cell--border govuk-table__cell
             {%- if cell.format %} govuk-table__cell--{{ cell.format }}{% endif %}
             {%- if cell.classes %} {{ cell.classes }}{% endif %}"
             {{- commonAttributes | safe -}}
