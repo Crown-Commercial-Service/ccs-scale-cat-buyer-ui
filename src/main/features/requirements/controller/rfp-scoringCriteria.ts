@@ -263,6 +263,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
       if (x.nonOCDS.questionType.toLowerCase() === 'table') {
         x.nonOCDS.options.map(xx => {
           if (xx.text?.toLowerCase() !== 'Create your own scoring criteria'.toLowerCase()) {
+            xx.selected = false;
             defaultOptions.push(xx);
           }
         })
@@ -385,7 +386,8 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
                       data: [
                         ...tableData
                       ]
-                    }
+                    },
+                    selected: true
                   }
                 ],
               },
