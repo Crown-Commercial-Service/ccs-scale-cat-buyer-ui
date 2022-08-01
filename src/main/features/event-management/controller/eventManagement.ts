@@ -105,7 +105,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       req.session['Projectname'] = projectName
       req.session['project_name'] = projectName
       req.session.selectedeventtype = ''
-      req.session["pageType"] = "eventManagment"
 
       // Releated content session values
       const releatedContent: ReleatedContent = new ReleatedContent();
@@ -386,7 +385,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   let { projectId, eventId, agreement_header } = req.session;
-  const { supplierid, reviewsupplierid } = req.query;
+  const { supplierid, reviewsupplierid,Type } = req.query;
   const events = req.session.openProjectActiveEvents
 
   let title: string, lotid: string, agreementId_session: string, agreementName: string, agreementLotName: string, projectName: string, status: string, eventType: string
@@ -452,22 +451,22 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
         }
       }
       //Page navigation 
-      let redirectUrl: string
-      const pageType = req.session["pageType"];
-      if(pageType != undefined && pageType !=null)
+      let redirectUrl ='/event/management?id='+eventId
+      //const pageType = req.session['pageType'];
+      if(Type != undefined && Type !=null)
       {
-        switch (pageType) {
-          case "chosenSupplier":
+        switch (Type) {
+          case "confirmSupplier":
             redirectUrl = '/confirm-supplier?supplierid='+reviewsupplierid;
             break
-          case "suppilerDocument":
+          case "supplierDocument":
             redirectUrl = '/award-supplier-document?supplierId='+reviewsupplierid;
             break
-          case "awardSuppilerDetails":
+          case "awardSupplier":
             redirectUrl = '/award-supplier?supplierId='+reviewsupplierid;
             break
           default:
-            redirectUrl = '/event/management?id='+eventId
+           // redirectUrl = '/event/management?id='+eventId
             break
         }
       }
