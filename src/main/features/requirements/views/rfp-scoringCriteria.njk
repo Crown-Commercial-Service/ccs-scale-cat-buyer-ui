@@ -41,24 +41,24 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 id="page-heading" class="govuk-heading-xl">
-          {{rfpTitle}}
+         <strong> {{rfpTitle}}</strong>
         </h1>
       </div>
     </div>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         {% include "includes/project_header.njk" %}
-       {# {%if (form_name === 'ccs_rfp_scoring_criteria')%}
-              <div class="govuk-inset-text">
-                <p class="govuk-body">[Instruction for this page]</p>
-                 <p class="govuk-body">[You can create your scoring criteria from or use/ modify the 4-tier or 5-tier template below]</p>
+       {%if (form_name === 'ccs_rfp_scoring_criteria')%}
+              <div class="govuk-grid-column-two-thirds">
+                <p class="govuk-body">You must tell suppliers what scoring criteria you are using to evaluate their responses.You must also use this scoring criteria for all suppliers,to make sure you have evaluated them fairly.</p>
+                 <p class="govuk-body">You can select one of the two scoring criteria below or use one of the existingscoring criteria to create your own.</p>
 
               </div>
-          {%endif%}#}
+          {%endif%}
           <form id="{{form_name}}"  name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/set-scoring-criteria?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}&section={{section}}" method="post">
           {{ csrfProtection(csrf) }}
           <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
-            {%if(prompt.length>0)%}
+           {%if(prompt.length>0) and (form_name !== 'ccs_rfp_scoring_criteria') %}
              <p class="govuk-body">{{prompt[0] | safe}}</p>
              {%endif%}
              {%if(prompt.length>1)%}
