@@ -1,0 +1,37 @@
+{% extends "template.njk" %}
+
+{% set title = 'DOS6 task list | Contract Award Service' %}
+
+{% block content %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+{{ CCSBreadcrumbs({
+        items: [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": url
+        }
+
+        ]
+      }) }}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">
+          DOS6 task list | Contract Award Service
+          </h1>
+      </div>  
+  </div>
+<h1>DOS6 HOME PAGE<h1>
+</main>
+
+{% endblock %}
