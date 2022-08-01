@@ -105,6 +105,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       req.session['Projectname'] = projectName
       req.session['project_name'] = projectName
       req.session.selectedeventtype = ''
+      req.session["pageType"] = "eventManagment"
 
       // Releated content session values
       const releatedContent: ReleatedContent = new ReleatedContent();
@@ -450,13 +451,34 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
 
         }
       }
+      //Page navigation 
+      let redirectUrl: string
+      const pageType = req.session["pageType"];
+      if(pageType != undefined && pageType !=null)
+      {
+        switch (pageType) {
+          case "chosenSupplier":
+            redirectUrl = '/confirm-supplier?supplierid='+reviewsupplierid;
+            break
+          case "suppilerDocument":
+            redirectUrl = '/award-supplier-document?supplierId='+reviewsupplierid;
+            break
+          case "awardSuppilerDetails":
+            redirectUrl = '/award-supplier?supplierId='+reviewsupplierid;
+            break
+          default:
+            redirectUrl = '/event/management?id='+eventId
+            break
+        }
+      }
       //SELECTED EVENT DETAILS FILTER FORM LIST
       const baseurl = `/tenders/projects/${projectId}/events`
       const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
       //status=apidata.data[0].dashboardStatus;
       const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
       status = selectedEventData[0].dashboardStatus;
-      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType };
+      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType,redirectUrl };
+      
       res.render('evaluateSuppliers-readOnly', appendData);
     }
     else {

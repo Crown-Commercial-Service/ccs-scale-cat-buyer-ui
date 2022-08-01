@@ -9,6 +9,8 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
     const { supplierId } = req.query;
 
     const { projectId, eventId, projectName, agreement_header, viewError } = req.session;
+    
+    req.session["pageType"] = "awardSuppilerDetails"
     try {
         //Supplier of interest
         const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`;

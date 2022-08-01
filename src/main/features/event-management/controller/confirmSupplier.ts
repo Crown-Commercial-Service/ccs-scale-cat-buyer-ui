@@ -12,6 +12,7 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
   const { SESSION_ID } = req.cookies;
   let { projectId, eventId, projectName} = req.session;
   const { supplierid } = req.query;
+  req.session["pageType"] = "chosenSuppiler"
   //LOCAL VERIABLE agreement_id, lotId
   let status: string;
   //eventType: string,agreementName: string, agreementLotName: string, lotid: string, title: string, agreementId_session: string,

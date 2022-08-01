@@ -11,6 +11,7 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
   const { SESSION_ID } = req.cookies;
   const { projectId, eventId, projectName} = req.session
   const { supplierId, doctempateId } = req.query;
+  req.session["pageType"] = "suppilerDocument"
   try {
     //Awards/templates
     const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`

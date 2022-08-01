@@ -13,7 +13,7 @@
     },
         {
             "text": "Your Project",
-            "href": "/dashboard"
+            "href": "{{redirectUrl}}"
         },
         
         {
@@ -101,8 +101,8 @@
 <p><label id="supplierFeedback"></label></p>
 
                      <div class="govuk-button-group">
-                        {% set returnLink = "/event/management?id="+supplierDetails.eventId %}
-                        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Your project</a>
+            
+                        <a href="{{redirectUrl}}" class="govuk-link govuk-link--no-visited-state">Return to Your project</a>
                     </div>       
 
 
