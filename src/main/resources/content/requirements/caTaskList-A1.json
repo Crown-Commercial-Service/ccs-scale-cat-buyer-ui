@@ -56,13 +56,7 @@
       "eventDescription2": "You will then need to decide how many suppliers you want to take to further competition, before reviewing suitabe suppliers and choosing your next steps.",
       
       "eventTask": [
-        {
-          "Task": 1,
-          "title": "What is a capability assessment",
-          "required": "optional",
-          "link": "/ca/learn-about-capability-assessment",
-          "status": "Optional"
-        },
+        
         {
           "Task": 2,
           "link": "/ca/enter-your-weightings",
@@ -80,7 +74,7 @@
         {
           "Task": 4,
           "link": "/ca/resources-vetting-weightings",
-          "title": "Select resources and set weightings",
+          "title": "Select the resources you need and set weightings for vetting and resources",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
@@ -147,7 +141,7 @@
     {
       "eventno": 1,
       "eventTitle": "Upload pricing schedules and other supporting documents ",
-      "eventDescription": "YYou will also need to confirm if you require a contracted out service or a supply of resource.",
+      "eventDescription": "You will also need to confirm if you require a contracted out service or a supply of resource.",
       "eventTask": [
         {
           "Task": 1,
