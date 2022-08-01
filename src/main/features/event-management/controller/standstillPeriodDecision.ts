@@ -8,8 +8,10 @@ export const STAND_PERIOD_DECISION_GET = async (req: express.Request, res: expre
    const { projectName,isError } =req.session
    res.locals.agreement_header = req.session.agreement_header;
    
+   const supplierId = req.session['supplierId'];
    const supplierName  =  req.session['supplierName'];
-   const appendData = { projectName,isError,supplierName };
+   const appendData = { projectName,isError,supplierName ,supplierId};
+   
  
     res.render('standstillPeriodDecision', appendData)
 }

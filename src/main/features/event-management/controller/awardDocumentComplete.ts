@@ -128,7 +128,7 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
         documentTemplateDataList,
         supplierDetailsList
       };
-      const appendData = { eventManagementData, projectName };
+      const appendData = { eventManagementData, projectName,supplierId };
       res.render('awardDocumentComplete', appendData)
     }
 
