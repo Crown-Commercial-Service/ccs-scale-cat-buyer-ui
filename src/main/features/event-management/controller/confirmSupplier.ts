@@ -84,6 +84,7 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     let eventManagementData = {
       projectId,
       eventId,
+      supplierid,
       projectName,
       status,
       supplierDetails,

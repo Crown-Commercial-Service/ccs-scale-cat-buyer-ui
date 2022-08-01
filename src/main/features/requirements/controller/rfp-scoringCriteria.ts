@@ -177,6 +177,10 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
       });
       TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
     }
+    //swap tier details - SCAT-5303
+    let temptierdata = TemporaryObjStorage[0].nonOCDS.options[0]
+    TemporaryObjStorage[0].nonOCDS.options[0] = TemporaryObjStorage[0].nonOCDS.options[1]
+    TemporaryObjStorage[0].nonOCDS.options[1] = temptierdata
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
@@ -259,6 +263,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
       if (x.nonOCDS.questionType.toLowerCase() === 'table') {
         x.nonOCDS.options.map(xx => {
           if (xx.text?.toLowerCase() !== 'Create your own scoring criteria'.toLowerCase()) {
+            xx.selected = false;
             defaultOptions.push(xx);
           }
         })
@@ -381,7 +386,8 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
                       data: [
                         ...tableData
                       ]
-                    }
+                    },
+                    selected: true
                   }
                 ],
               },
