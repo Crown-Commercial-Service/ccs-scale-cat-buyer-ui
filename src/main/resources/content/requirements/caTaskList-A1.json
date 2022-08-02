@@ -80,7 +80,7 @@
         {
           "Task": 4,
           "link": "/ca/resources-vetting-weightings",
-          "title": "Select resources and set weightings",
+          "title": "Select the resources you need and set weightings for vetting and resources",
           "required": "mandatory",
           "status": "Cannot start yet"
         },
@@ -147,7 +147,7 @@
     {
       "eventno": 1,
       "eventTitle": "Upload pricing schedules and other supporting documents ",
-      "eventDescription": "YYou will also need to confirm if you require a contracted out service or a supply of resource.",
+      "eventDescription": "You will also need to confirm if you require a contracted out service or a supply of resource.",
       "eventTask": [
         {
           "Task": 1,
