@@ -56,7 +56,13 @@
       "eventDescription2": "You will then need to decide how many suppliers you want to take to further competition, before reviewing suitabe suppliers and choosing your next steps.",
       
       "eventTask": [
-        
+        {
+          "Task": 1,
+          "title": "What is a capability assessment",
+          "required": "optional",
+          "link": "/ca/learn-about-capability-assessment",
+          "status": "Optional"
+        },
         {
           "Task": 2,
           "link": "/ca/enter-your-weightings",
