@@ -57,5 +57,6 @@
     "supplier_deadline": "6",
     "supplier_period_extra": "5",
     "supplier_deadline_extra": "10"
-  }
+  },
+  "MyAccountURL":"https://test.identify.crowncommercial.gov.uk/home"
 }
