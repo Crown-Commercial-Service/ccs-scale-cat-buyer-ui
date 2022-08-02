@@ -901,12 +901,12 @@ management information or reporting by the Supplier
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
           <h3><strong>Add your cultural questions</strong></h3><br/><br/>
-          {%if techGroup !=undefined  and techGroup !=null and techGroup | length >0%}
+          {%if culGroup !=undefined  and culGroup !=null and culGroup | length >0%}
 
-          {% for data in techGroup%}
+          {% for data in culGroup%}
           <p>Your question</p><br/>
-          <p>Provide additional detail for your question</p><br/>
-          <p>Explain how good looks like</p><br/>
+          <p>Enter more details about your question</p><br/>
+          <p>Explain what good looks like</p><br/>
           <p>Enter a weighting for this question</p><br/><br/>
           {% endfor %}
           {% endif %}
@@ -1028,7 +1028,7 @@ management information or reporting by the Supplier
 
 {# START-----------Review and publish your further competition #}
  {%block Review_and_publish_your_further_competition%}
-
+<div class="border-top-rfp-review-"></div>
 <h2 class="govuk-heading-m">6. Review and publish {% if selectedeventtype!='DA' %}your further competition{%endif%} </h2>
 <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
