@@ -1,8 +1,8 @@
 import * as express from 'express'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import * as localContent from '../../../resources/content/event-management/event-management.json'
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance'
-import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
+//import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance'
+import { SupplierDetails } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
@@ -10,7 +10,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Response) => {
 
   const { SESSION_ID } = req.cookies;
-  let { projectId, eventId, projectName, agreement_id, lotId } = req.session;
+  let { projectId, eventId, projectName} = req.session;
   const { supplierid } = req.query;
   //LOCAL VERIABLE agreement_id, lotId
   let status: string;
@@ -26,8 +26,8 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
     //agreements/{agreement-id}/lots/{lot-id}/suppliers
-    const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
-    const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
+    // const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
+    // const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
 
     //Supplier score
     const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
@@ -39,19 +39,19 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
       if (supplierdata.data.responders[i].responseState == 'Submitted') {
         showallDownload = true;
       }
-      if (supplierdata.data.responders[i].supplier.id == supplierid) {
-        var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
+      if (id == supplierid) {
+        //  var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
 
         supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
         supplierDetails.responseState = supplierdata.data.responders[i].responseState;
         supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
         supplierDetails.score = (score != undefined) ? score : 0;
 
-        supplierDetails.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
-        supplierDetails.supplierAddress = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.address : {} as SupplierAddress;
-        supplierDetails.supplierContactName = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.name : "";
-        supplierDetails.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.email : "";
-        supplierDetails.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.url : "";
+        // supplierDetails.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
+        // supplierDetails.supplierAddress = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.address : {} as SupplierAddress;
+        // supplierDetails.supplierContactName = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.name : "";
+        // supplierDetails.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.email : "";
+        // supplierDetails.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.url : "";
 
         supplierDetails.supplierId = id;
         supplierDetailsList.push(supplierDetails);
@@ -59,6 +59,17 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
         req.session['supplierId'] = id;
       }
       //supplierDetailsList.push(dataPrepared);
+    }
+    if (supplierid != undefined && supplierid != null) {
+      const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/${supplierid}`;
+      const supplierResponse = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
+
+      const supplierData = supplierResponse?.data;
+
+      supplierDetails.supplierAddress = supplierData?.address;
+      supplierDetails.supplierContactName = supplierData?.contactPoint.name;
+      supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
+      //supplierDetails.supplierWebsite = supplierData?.website;
     }
 
     //SELECTED EVENT DETAILS FILTER FORM LIST
@@ -73,6 +84,7 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     let eventManagementData = {
       projectId,
       eventId,
+      supplierid,
       projectName,
       status,
       supplierDetails,

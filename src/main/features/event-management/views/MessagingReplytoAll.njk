@@ -2,7 +2,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Message Reply ' %}
+{% set title = 'Message Reply to All' %}
 
 {% set sortedMembers = [
   {
@@ -14,7 +14,7 @@
   {{ CCSBreadcrumbs({
         items:[
     {
-      "text": "[Dashboard]",
+      "text": "Dashboard",
       "href": "/dashboard"
     },
     {
@@ -90,32 +90,22 @@
         </nav>
       </div>
     </div>
-    <form id="ccs_message_reply_form" name="ccs_message_reply_form" action="/message/reply" method="POST">
+    <form id="ccs_message_reply_form" name="ccs_message_reply_form" action="/message/replytoall" method="POST">
       {{ csrfProtection(csrf) }}
      
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
           <a href="{{data.backlink}}">Back</a></br></br></br>
-            <span class="govuk-label govuk-label govuk-label--m">Message thread</span></br>
+            <label class="govuk-label govuk-label govuk-label--m">Message thread</label></br>
           {%if msgThreadList.length >0%}
-         
+          {%for msgItem in msgThreadList%}
           <details class="govuk-details" data-module="govuk-details">
-           {%for msgItem in msgThreadList%}
-           {%if loop.index ===1%}
             <summary class="govuk-details__summary">
               <span class="govuk-details__summary-text">
                 Subject: {{msgItem.OCDS.title}}
               </span>
             </summary>
-            {%else%}
-            <div class="govuk-details__text">
-             <span class="govuk-details__summary-text">
-                Subject: {{msgItem.OCDS.title}}
-              </span>
-            </div>
-            
-            {%endif%}
             <div class="govuk-details__text">
              <span class="govuk-details__summary-text">
                 Date: {{msgItem.OCDS.date | dateddmmyyyy}}
@@ -126,12 +116,14 @@
                Message: {{msgItem.OCDS.description}}
               </span>
             </div>
-            {% endfor %}
         </details>
-         
+         {% endfor %}
         {%endif%}
-       <label class="govuk-label govuk-label govuk-label--m">{{data.line1}} {{message.OCDS.author.name}}</label></br>
-         
+        <strong>Send to all suppliers</strong></br>
+          <a class="govuk-link" target="_blank" rel="noopener noreferrer" href="{{supplier_link}}">
+                View supplier list
+              </a>
+              </br></br>
 <p class="govuk-body">{{data.MessageClassification}} : <strong>{{message.nonOCDS.classification}}</strong></p></br>
               {{ CCSInput({           
                 id: "reply_subject_input",
@@ -146,14 +138,14 @@
             <p><label id="reply_message_input_textbox_count"></label></p>
 
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-             <span>Your message:</span>
+             <p>Your message:</p>
              <textarea class="govuk-textarea govuk-js-character-count" id="reply_message_input" name="reply_message_input" rows="5"  maxlength="5000"></textarea>
                  <p><label id="reply_message_input_textarea_count"></label></p>
               </div>
 
             <div class="govuk-button-group">
               {{ CCSButton({
-                text: data.btnText,
+                text: "Send to all",
                 action:"submit"
                 })
             }}

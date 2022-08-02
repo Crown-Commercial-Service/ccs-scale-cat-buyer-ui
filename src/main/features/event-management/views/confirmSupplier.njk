@@ -60,14 +60,14 @@
           <strong>Your chosen supplier</strong>
         </h1>
         
-        <h3> <strong>Supplier name</strong></h3>
+        <h3> <strong>{{eventManagementData.supplierDetails.supplierName}}</strong></h3>
 
-       <p> {{eventManagementData.supplierDetails.supplierName}}</p>
+       <p> {{eventManagementData.supplierDetails.supplierId}}</p>
 
        <p> <strong>Address:</strong></p>
-       <p> {{eventManagementData.supplierDetails.streetAddress}}</p>
-       <p> {{eventManagementData.supplierDetails.locality}}</p>
-       <p> {{eventManagementData.supplierAddress.region}}</p>      
+       <p> {{eventManagementData.supplierDetails.supplierAddress.streetAddress}}</p>
+       <p> {{eventManagementData.supplierDetails.supplierAddress.locality}}</p>
+       <p> {{eventManagementData.supplierDetails.supplierAddress.region}}</p>      
        </br>
        </br>
        </br>
@@ -115,7 +115,7 @@
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=confirmSupplier">Review evaluation</a>
                     </td>
                     <td scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
@@ -139,9 +139,9 @@
         id: "btn_supplier_confirmation"
         },
         text: "Confirm supplier",
-        href:"/award-supplier-document?supplierId="+eventManagementData.supplierDetails.supplierId
+        href:"/award-supplier-document?supplierId="+eventManagementData.supplierid
         }) }}
-                                  <a class="govuk-link" href="/dashboard">Return to your project</a> 
+                                  <a class="govuk-link" href="/event/management?id={{eventManagementData.eventId}}">Return to your project</a> 
                                 </div>
                                 
                               </form>      

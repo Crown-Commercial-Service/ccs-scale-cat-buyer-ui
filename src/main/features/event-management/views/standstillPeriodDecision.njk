@@ -22,7 +22,7 @@
  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
  
  {{ CCSDialog({
-  title:'Please confim your wish to award this supplier.',
+  title:'Please confirm your wish to award this supplier.',
   description:supplierName,
   redirect:'#',
   type:'vetting'
@@ -68,11 +68,11 @@
             {# <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong> #}
           </h2>
           <p class="govuk-body">
-            {#{% if(showCloseProject) %}#}
+            {% if(showCloseProject) %}
             <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
-           {# {% else %}
+            {% else %}
             <a class="govuk-link" href="/event/management?id={{ eventId }}">Close Event</a>
-            {% endif %} #}
+            {% endif %} 
           </p>
         </div>
       </div>
@@ -123,7 +123,7 @@
         text: "Save and continue"
          
         }) }}
-                                  <a class="govuk-link" href="/dashboard">Return to your project</a> 
+                                  <a class="govuk-link" href="/award-supplier?supplierId={{supplierId}}">Return to Your project</a> 
                                 </div>
                                 
                               </form> 

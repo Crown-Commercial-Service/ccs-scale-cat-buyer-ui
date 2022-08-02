@@ -22,10 +22,10 @@
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
           {% if (viewError == true) %}
       {{ CCSErrorSummary({
-        titleText: "There is a problem with supplier to be awarded",
+        titleText: "There is a problem",
         errorList: [
           {
-            text: "You must check this box to confirm that I have read and confirm the statements above",
+            text: "Acknowledgement tick box must be selected to continue with the awarding of the selected supplier",
             href: "#ccs_award_supplier_form"
           }
         ]
@@ -75,13 +75,13 @@
           <strong>Details of the supplier to be awarded </strong>
         </h1>
         
-        <h3> <strong>Supplier organisation A Name </strong></h3>
+        <h3> <strong>{{supplierDetails.supplierName}} </strong></h3>
 
-       <p> {{supplierDetails.supplierName}}</p>
+       <p> {{supplierDetails.supplierId}}</p>
 
        <p> <strong>Address:</strong></p>
-       <p> {{supplierDetails.supplierDetails.streetAddress}}</p>
-       <p> {{supplierDetails.supplierDetails.locality}}</p>
+       <p> {{supplierDetails.supplierAddress.streetAddress}}</p>
+       <p> {{supplierDetails.supplierAddress.locality}}</p>
        <p> {{supplierDetails.supplierAddress.region}}</p>
       
        </br>
@@ -132,7 +132,7 @@
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=awardSupplier">Review evaluation</a>
                     </td>
                     <th scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
@@ -161,6 +161,13 @@
 
 <form id="ccs_award_supplier_form" name="ccs_award_supplier_form" class="form ccs_award_supplier_form"
       action="/award-supplier" method="post">
+       {{ CCSInput({
+                      id: "supplier_id",
+                      name: "supplier_id",
+                      type: "hidden",
+                      value: supplierDetails.supplierId
+                    })
+                }}
                      {{ csrfProtection(csrf) }}         	 
         {{ CCSCheckboxes({
       idPrefix: "award_supplier_confirmation",
@@ -180,7 +187,7 @@
         },
         text: "Award supplier"
         }) }}
-                                  <a class="govuk-link" href="/dashboard">Return to your project</a> 
+                                  <a class="govuk-link" href="/award-supplier-document?supplierId={{supplierDetails.supplierId}}">Return to Your project</a> 
                                 </div>
                                 
                               </form>          

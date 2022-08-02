@@ -32,7 +32,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     const supplierBaseURL: any = `/tenders/projects/${projectId}/events/${req.session.eventId}/suppliers`;
     const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
     let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
-    if(SUPPLIER_DATA!=undefined){
+    if(SUPPLIER_DATA!=undefined && SUPPLIER_DATA.suppliers.length>0){
       let allSuppliers=await GetLotSuppliers(req);
       for(var i=0;i<SUPPLIER_DATA.suppliers.length;i++)
           {
