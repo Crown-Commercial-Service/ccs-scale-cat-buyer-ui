@@ -173,7 +173,8 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           }
           const supplierBody = {
             "suppliers": supplierDataToSave,
-            "justification": ''
+            "justification": SUPPLIER_DATA.justification,
+            "overwriteSuppliers":true
           };
           const Supplier_BASEURL = `/tenders/projects/${projectId}/events/${data.id}/suppliers`;
 
