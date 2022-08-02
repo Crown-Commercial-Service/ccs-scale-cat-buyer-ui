@@ -122,11 +122,13 @@ const ccsZvalidateRfPStrategy = event => {
       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
+    else{
     if ($('#rfp_security_confirmation').val().length === 0) {
 
       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
+  }
 
     // else if (textPattern.test($('#rfp_security_confirmation').val())) {
     //   if (wordLength($('#rfp_security_confirmation').val())) {
