@@ -67,7 +67,7 @@
                 {# <a href="javascript:void(0)" onclick="selectedTiers('5')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-5-popup" title="Tier5">Use a 5-tier scoring criteria</a> #}
                 {% for table in requirement.nonOCDS.options %}
                 {%if table.optiontableDefination.rows.length>0 and  table.text !=='Create your own scoring criteria'%}
-                <a href="javascript:void(0)"   id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-!-margin-5 govuk-link--no-visited-state " title="Tier {{table.optiontableDefination.rows.length}}">Use a {{table.optiontableDefination.rows.length}}-tier scoring criteria</a>
+                <a href="javascript:void(0)"   id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-\!-margin_scoring govuk-link--no-visited-state " title="Tier {{table.optiontableDefination.rows.length}}">Use a {{table.optiontableDefination.rows.length}}-tier scoring criteria</a>
                 {%endif%}
                 {# <a href="javascript:void(0)"  id="tier-4-popup" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state" title="Tier4">Use a 4-tier scoring criteria</a> #}
                 {# <a href="javascript:void(0)" onclick="selectedTiers('4')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-4-popup" title="Tier4">Use a 4-tier scoring criteria</a> #}
@@ -107,8 +107,9 @@
                {{ CCSInput({
                             label: {
                               text:  'Enter the points for this level',
-                              classes: "govuk-label govuk-date-input__label"
+                              classes: "govuk-label govuk-label--m"
                             },
+                            
                             id: 'rfp_score_criteria_point_1',
                             name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
@@ -162,6 +163,9 @@
                                 text: 'Enter the points for this level',
                                 classes: 'govuk-label govuk-label--m'
                             },
+                            hint: {
+                                text: requirement.OCDS.title
+                            },
                             id: 'rfp_score_criteria_point_'+i,
                             name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
@@ -178,7 +182,7 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                                text: 'Enter the description for this level'
+                                text: requirement.OCDS.title
                             }
                         }) }}
                        {% endcall %}

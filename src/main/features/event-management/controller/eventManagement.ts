@@ -245,10 +245,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       //Get Q&A Count
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
       const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
-      // let showCloseProject = false;
-      // if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated") {
-      //   showCloseProject = true;
-      // }
+      let showCloseProject = false;
+      if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated") {
+        showCloseProject = true;
+      }
       const procurementId = req.session['projectId'];
       const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
       let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
@@ -280,7 +280,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
       } catch (error) {}
   
-      const appendData = { supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata,end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage }
+      const appendData = { supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata,end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage ,showCloseProject }
 
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {
@@ -385,7 +385,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   let { projectId, eventId, agreement_header } = req.session;
-  const { supplierid, reviewsupplierid } = req.query;
+  const { supplierid, reviewsupplierid,Type } = req.query;
   const events = req.session.openProjectActiveEvents
 
   let title: string, lotid: string, agreementId_session: string, agreementName: string, agreementLotName: string, projectName: string, status: string, eventType: string
@@ -450,13 +450,34 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
 
         }
       }
+      //Page navigation 
+      let redirectUrl ='/event/management?id='+eventId
+      //const pageType = req.session['pageType'];
+      if(Type != undefined && Type !=null)
+      {
+        switch (Type) {
+          case "confirmSupplier":
+            redirectUrl = '/confirm-supplier?supplierid='+reviewsupplierid;
+            break
+          case "supplierDocument":
+            redirectUrl = '/award-supplier-document?supplierId='+reviewsupplierid;
+            break
+          case "awardSupplier":
+            redirectUrl = '/award-supplier?supplierId='+reviewsupplierid;
+            break
+          default:
+           // redirectUrl = '/event/management?id='+eventId
+            break
+        }
+      }
       //SELECTED EVENT DETAILS FILTER FORM LIST
       const baseurl = `/tenders/projects/${projectId}/events`
       const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
       //status=apidata.data[0].dashboardStatus;
       const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
       status = selectedEventData[0].dashboardStatus;
-      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType };
+      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType,redirectUrl };
+      
       res.render('evaluateSuppliers-readOnly', appendData);
     }
     else {

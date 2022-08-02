@@ -97,16 +97,25 @@
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
           <a href="{{data.backlink}}">Back</a></br></br></br>
-            <label class="govuk-label govuk-label govuk-label--m">Message thread</label></br>
+            <span class="govuk-label govuk-label govuk-label--m">Message thread</span></br>
           {%if msgThreadList.length >0%}
          
           <details class="govuk-details" data-module="govuk-details">
            {%for msgItem in msgThreadList%}
+           {%if loop.index ===1%}
             <summary class="govuk-details__summary">
               <span class="govuk-details__summary-text">
                 Subject: {{msgItem.OCDS.title}}
               </span>
             </summary>
+            {%else%}
+            <div class="govuk-details__text">
+             <span class="govuk-details__summary-text">
+                Subject: {{msgItem.OCDS.title}}
+              </span>
+            </div>
+            
+            {%endif%}
             <div class="govuk-details__text">
              <span class="govuk-details__summary-text">
                 Date: {{msgItem.OCDS.date | dateddmmyyyy}}
@@ -137,7 +146,7 @@
             <p><label id="reply_message_input_textbox_count"></label></p>
 
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-             <p>Your message:</p>
+             <span>Your message:</span>
              <textarea class="govuk-textarea govuk-js-character-count" id="reply_message_input" name="reply_message_input" rows="5"  maxlength="5000"></textarea>
                  <p><label id="reply_message_input_textarea_count"></label></p>
               </div>
