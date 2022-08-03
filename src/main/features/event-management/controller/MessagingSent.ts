@@ -28,7 +28,7 @@ export const EVENT_MANAGEMENT_MESSAGING_SENT = async (req: express.Request, res:
         if (sentMessage != undefined) {
             sentMessage.sort((a, b) => (a.OCDS.date < b.OCDS.date) ? 1 : -1)
             for (let i = 0; i < sentMessage.length; i++) {
-                sentMessage[i].OCDS.date = (moment(sentMessage[i].OCDS.date)).format('DD-MMM-YYYY hh:mm')
+                sentMessage[i].OCDS.date = moment(sentMessage[i].OCDS.date,'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm')
             }
         }
         const appendData = {selectedReceived:"",selectedSent:"selected", data: inboxData, messages: sentMessage, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
