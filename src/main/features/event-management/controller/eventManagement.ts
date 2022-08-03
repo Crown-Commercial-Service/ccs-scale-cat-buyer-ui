@@ -803,3 +803,10 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
     );
   }
 }
+
+
+export const RETURN_EVENTMANAGEMENT = async (req: express.Request, res: express.Response) => {
+  let { eventId } = req.session;
+  let redirectUrl = '/event/management?id=' + eventId
+  res.redirect(redirectUrl)
+}
