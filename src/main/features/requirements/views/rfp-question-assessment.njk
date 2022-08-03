@@ -7,7 +7,7 @@
 {{ CCSBreadcrumbs({
     items: [
      {
-        text: "Dashboard",
+        text: "Your Dashboard",
         href: "/dashboard"
       },
       {
@@ -23,7 +23,7 @@
           href: "/rfp/task-list"
         },
         {
-          text: "Your Assesstment bases and evaluation weightings",
+          text: "Your assessment criteria",
           href:  "/rfp/your-assesstment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
         },
       {
@@ -71,7 +71,6 @@
             {{ CCSInsetText({
                     html: prompt
                 }) }}
-
               {% macro recurseRequirements(requirement,form_name,index = 0) -%}
               {%if (requirement.nonOCDS.childern.length > 0)%}
                {{CCSQUESTIONS(organizationName,requirement,form_name, index)}}

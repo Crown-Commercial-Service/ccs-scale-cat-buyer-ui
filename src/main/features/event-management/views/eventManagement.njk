@@ -2,7 +2,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Event management ' %}
+{% set title = 'Your project ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -202,7 +202,7 @@
         {% if status.toLowerCase() == 'published' %}
          <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
         
-        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+        {#<div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
               <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
@@ -211,7 +211,6 @@
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                 </tr>
               </thead>
               {% endif %}
@@ -231,7 +230,7 @@
               </tbody>
             </table>
           </div>
-        </div>
+        </div> #}
         {% endif %}
 
 {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}

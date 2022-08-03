@@ -226,7 +226,8 @@
 
     {{ CCSInput({
       label: {
-        text: requirement.OCDS.title
+        text: requirement.OCDS.title,
+        classes: "govuk-label govuk-label--m"
       },
       classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage",
       id: "fc_question_precenate_"+index,
@@ -1262,8 +1263,7 @@
                             spellcheck: false,
                             classes: "govuk-input--width-5",
                             value: requirement.nonOCDS.options[0].value,
-                            type:"number",
-                            min:"0"
+                            type:"number"
                         })
                       }}
 
