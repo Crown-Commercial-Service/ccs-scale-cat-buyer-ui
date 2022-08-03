@@ -85,7 +85,7 @@
           <a href="/message/details?id={{message.OCDS.id}}">back</a></br></br></br>
           <h2 class="govuk-heading-m">Message from {{message.OCDS.author.name}}</h2>
           <p class="govuk-body ">Classification: {{message.nonOCDS.classification}}</p>
-          <p class="govuk-body ">Date: {{message.OCDS.date | datedd_mm_yyyy}}</p>
+          <p class="govuk-body ">Date: {{message.OCDS.date | dateddmmyyyy}}</p>
            </br>
           <label class="govuk-label"></label></br>
           <p class="govuk-body ">{{data.Subject}}: {{message.OCDS.title}}</p>
@@ -98,7 +98,7 @@
             <h2 class="govuk-heading-m">Clarification question and your answers</h2>
             <p>You can edit this document to add clarification to any questions raised by suppliers.</p>
             <p>All suppliers in the list will be notified of any edits you make</p>
-            <p>There are {{ QAs.length }} clarification for this agreement</p>
+            <p>There are {{ QAs.length }} clarifications for this agreement</p>
 
           {% for QA in QAs %}
         <div class="govuk-grid-row ccs-page-section" id="-add-qa-data-table">
@@ -108,7 +108,11 @@
                     {{QA.answer}}
                 </p>
                 <p class="govuk-body">
-                    Last updated : <strong>{{QA.created | datedd_mm_yyyy}}</strong>
+                 {% if QA.lastUpdated%}
+                     Last updated  : <strong>{{QA.lastUpdated | dateddmmyyyy }}</strong>
+                    {% else %}
+                      Last updated  : <strong>{{QA.created | dateddmmyyyy }}</strong>
+                     {% endif %}
                 </p>
             </div>
             <div class="govuk-grid-column-one-third">
