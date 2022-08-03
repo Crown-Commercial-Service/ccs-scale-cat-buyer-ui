@@ -44,7 +44,7 @@
 
 {% set htmlQAEdit %}
 <h3 class="govuk-notification-banner__heading">
-  The  Question and clarifications have been edited
+  The question and clarifications have been edited
 </h3>
 <p class="govuk-body">
     <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
@@ -211,7 +211,7 @@
                                                 <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}&type=received">{{ message.OCDS.author.name }}</a>
                                             </p>
                                         </th>
-                                        <td class="govuk-table__cell">{{ message.OCDS.date | dateddmmyyyy}}</td>
+                                        <td class="govuk-table__cell">{{ message.OCDS.date}}</td>
                                         <td class="govuk-table__cell">{{ message.OCDS.title }}</td>
                                         <!--<td class="govuk-table__cell">
                                             {% if message.nonOCDS.read == true %}

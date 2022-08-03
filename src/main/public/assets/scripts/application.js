@@ -183,6 +183,19 @@ if (document.getElementById('rfi_contracting_auth') !== null)
   if (document.getElementById('reply_message_input') !== null)
   document.getElementById('reply_message_input').addEventListener('input', ccsZCountMsgReplyTextArea);
 
+  if (document.getElementById('QA_Question_input') !== null)
+  document.getElementById('QA_Question_input').addEventListener('input', ccsZCountQAQuestionTextArea);
+
+  if (document.getElementById('message_Add_Clerification_input') !== null)
+  document.getElementById('message_Add_Clerification_input').addEventListener('input', ccsZCountQAClarificationTextArea);
+
+  if (document.getElementById('message_QA_Edit_Question_input') !== null)
+  document.getElementById('message_QA_Edit_Question_input').addEventListener('input', ccsZCountQAEditQuestionTextArea);
+
+  if (document.getElementById('message_QA_Edit_Answer_input') !== null)
+  document.getElementById('message_QA_Edit_Answer_input').addEventListener('input', ccsZCountQAEditClarificationTextArea);
+
+
 if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
