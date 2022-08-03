@@ -24,7 +24,7 @@
         "href": "/rfp/task-list"
         },
         {
-          "text": "Confirm if you need a contracted out service or supply of resource.",
+          "text": "Confirm if you need a contracted out service or supply of resource",
           "href": "#"
         }
     ]
@@ -38,7 +38,7 @@
  <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-xl">
-            <strong>Confirm if you need a contracted out service or supply of resource.</strong>
+            <strong>Confirm if you need a contracted out service or supply of resource</strong>
 
           </h1>
           {% include "includes/project_header.njk" %}
@@ -50,8 +50,8 @@
     <form name="rfp_IR35_form" id="rfp_IR35_form" action="/rfp/IR35" method="POST" >
     {{ csrfProtection(csrf) }}
     
-    <p class="govuk-body">As the buyer,you are the supplier's client when buying a supply of resource(people to do the work).</p>
-    <p class="govuk-body">This means that you are responsible for deciding if the off-payroll working rules(IR35) apply to  them.You must meet your legal obligations where they do.</p>
+    <p class="govuk-body">As the buyer, you are the supplier's client when buying a supply of resource (people to do the work).</p>
+    <p class="govuk-body">This means that you are responsible for deciding if the off-payroll working rules (IR35) apply to  them. You must meet your legal obligations where they do.</p>
     <p class="govuk-body">Choose whether you need a contracted out service or a supply of resource.</p>
     <div class="govuk-!-margin-top-9">
           {% for requirement in apiData%}
@@ -72,7 +72,7 @@
                             <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
                               <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
                             </label>
-                            <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
+                            <div id="ccs_vetting_type-item-hint" class="govuk-body">
                               {{requirement.nonOCDS.options[i].text | safe}}
                             </div>
                           </div>
@@ -87,7 +87,7 @@
                             <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
                               <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
                             </label>
-                            <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
+                            <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-body">
                               {{requirement.nonOCDS.options[i].text |safe}}
                             </div>
                           </div>
