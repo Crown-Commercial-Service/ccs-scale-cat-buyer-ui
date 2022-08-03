@@ -265,9 +265,10 @@ $('#service_levels_kpi_form').on('submit', (event) => {
       errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
     }
   }
-  if (totalPercentage === 100) {
-    errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
-  } else if (totalPercentage > 100) {
+  // if (totalPercentage === 100) {
+  //   errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
+  // } else 
+  if (totalPercentage > 100) {
     errorStore.push(["rfp_term_percentage_KPI_", "Percentage value exceeding 100%, So you can not proceed"])
   }
   errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
