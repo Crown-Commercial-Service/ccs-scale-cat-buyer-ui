@@ -216,14 +216,18 @@
             <dt class="govuk-summary-list__value">
           <p>Upload your pricing schedule</p>
         </dt>
-            {% if  document != undefined and document !=null and document | length > 0 %}
+            {% if(document !=undefined and document !=null and document | length > 0) %}
               <dd class="govuk-summary-list__value">
-                <p class="govuk-body-s">
-                  {{ document | safe }}
-                </p>
+                <ul class="govuk-list govuk-list--none">
+                  {% for doc in document %}
+                    <li>
+                       <span class="govuk-body-s">{{doc}}</span>
+                       </li>
+                  {%- endfor %}
+                </ul>
               </dd>
             {% else %}
-              <dd class="govuk-summary-list__value">
+              <dd class="govuk-summary-list__value">  
           
         </dd>
             {% endif %}
@@ -241,7 +245,7 @@
           <p>Upload your terms and conditions and other documents</p>
         </dt>
             {# <dd class="govuk-summary-list__value"> #}
-              {% if(document !=undefined and document !=null and documents | length > 0) %}
+              {% if(documents !=undefined and documents !=null and documents | length > 0) %}
               <dd class="govuk-summary-list__value">
                 <ul class="govuk-list govuk-list--none">
                   {% for doc in documents %}
