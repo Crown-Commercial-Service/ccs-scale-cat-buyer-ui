@@ -97,9 +97,9 @@
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
           <a href="{{data.backlink}}">Back</a></br></br></br>
-            <span class="govuk-label govuk-label govuk-label--m">Message thread</span></br>
-          {%if msgThreadList.length >0%}
-         
+              {%if msgThreadList.length >0%}
+         <span class="govuk-label govuk-label govuk-label--m">Message thread</span></br>
+        
           <details class="govuk-details" data-module="govuk-details">
            {%for msgItem in msgThreadList%}
            {%if loop.index ===1%}
