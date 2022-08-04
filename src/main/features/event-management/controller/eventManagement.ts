@@ -244,7 +244,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
       const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
       let showCloseProject = false;
-      if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated") {
+      if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated" || status.toLowerCase() == "evaluated" || status.toLowerCase() == "pre-award") {
         showCloseProject = true;
       }
       const procurementId = req.session['projectId'];
