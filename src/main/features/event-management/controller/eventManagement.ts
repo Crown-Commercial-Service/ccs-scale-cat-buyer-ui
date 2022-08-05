@@ -334,7 +334,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       else {
         let redirectUrl_: string
         switch (eventType) {
-
           case "RFI":
             if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
               res.render('awardEventManagement', appendData)
@@ -342,7 +341,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             else {
               res.render('eventManagement', appendData)
             }
-
             break
           case "FC":
             if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
@@ -679,7 +677,8 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
           documentTemplatesUnSuccessObj.FileSize = awardsTemplatesData[i].fileSize;
         }
       }
-      const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates`;
+      
+      const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/`+documentTemplatesUnSuccessObj.DocumentId;
       const fetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
         responseType: 'arraybuffer',
       });
@@ -687,7 +686,7 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
       //const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
       const fileData = file.data;
       const type = 'application/zip';
-      //const ContentLength = file.headers['content-length'];
+      //const contentLength = file.headers['content-length'];
       res.status(200);
       res.set({
         'Cache-Control': 'no-cache',
