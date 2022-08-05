@@ -187,7 +187,24 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
 
 
     let supplierList = [];
+    const supplierBaseURL: any = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers`;
+    const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
+    let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
+    if(SUPPLIER_DATA!=undefined && SUPPLIER_DATA.suppliers.length>0){
+      let allSuppliers=await GetLotSuppliers(req);
+      for(var index=0;index<SUPPLIER_DATA.suppliers.length;index++)
+          {
+              let supplierInfo=allSuppliers.filter(s=>s.organization.id==SUPPLIER_DATA.suppliers[index].id)?.[0];
+              if(supplierInfo!=undefined)
+              {
+                supplierList.push(supplierInfo);
+              }
+          }
+    }
+    else{
     supplierList = await GetLotSuppliers(req);
+    }
+    
 
     let rspbaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
     rspbaseURL = rspbaseURL + '/criteria';
