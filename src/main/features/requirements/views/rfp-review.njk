@@ -87,7 +87,7 @@
     }) }}
     {%else%}
     {{ CCSButton({
-    text: "Export your draft one-stage further competition",
+    text: "Export your draft further competition",
     classes: "govuk-button--secondary",
     href: "/rfp/review?download=1"
     }) }}
@@ -216,14 +216,18 @@
             <dt class="govuk-summary-list__value">
           <p>Upload your pricing schedule</p>
         </dt>
-            {% if  document != undefined and document !=null and document | length > 0 %}
+            {% if(document !=undefined and document !=null and document | length > 0) %}
               <dd class="govuk-summary-list__value">
-                <p class="govuk-body-s">
-                  {{ document | safe }}
-                </p>
+                <ul class="govuk-list govuk-list--none">
+                  {% for doc in document %}
+                    <li>
+                       <span class="govuk-body-s">{{doc}}</span>
+                       </li>
+                  {%- endfor %}
+                </ul>
               </dd>
             {% else %}
-              <dd class="govuk-summary-list__value">
+              <dd class="govuk-summary-list__value">  
           
         </dd>
             {% endif %}
@@ -241,7 +245,7 @@
           <p>Upload your terms and conditions and other documents</p>
         </dt>
             {# <dd class="govuk-summary-list__value"> #}
-              {% if(document !=undefined and document !=null and documents | length > 0) %}
+              {% if(documents !=undefined and documents !=null and documents | length > 0) %}
               <dd class="govuk-summary-list__value">
                 <ul class="govuk-list govuk-list--none">
                   {% for doc in documents %}
@@ -607,8 +611,8 @@
                   </dt>
                   <dd class="govuk-summary-list__value">
                       <br /><br /><br /><br />
-                      <p>{{incentive1}}</p><br /><br />
-                      <p>{{incentive2}}</p><br />
+                      <p class="govuk-!-margin-1">{{incentive1}}</p><br /><br />
+                      <p class="govuk-!-margin-1">{{incentive2}}</p><br />
                   </dd>
                   <dd class="govuk-summary-list__actions">
                       {% if eventStatus != "published"%}
@@ -618,18 +622,16 @@
                       {% endif %}
                   </dd>
                   </div>
+{%block Your_project_budget%}
+
                   <div class="govuk-summary-list__row">
-                  <dt class="govuk-summary-list__key">
-                      <h3><strong>Your project budget (optional)</strong></h3> <br />
-                      <p>Maximum estimated contract value (optional)</p><br />
-                      <p>Minimum estimated contract value (optional)</p><br />
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <h3><strong>Your project budget (optional)</strong></h3> 
                   </dt>
-                  <dd class="govuk-summary-list__value">
-                      <br /><br /><br />
-                      <p>{{bc1}}</p><br /><br /><br />
-                      <p>{{bc2}}</p><br />
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      
                   </dd>
-                  <dd class="govuk-summary-list__actions">
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
                       {% if eventStatus != "published"%}
                       <a class="govuk-link" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 21">
                           Change<span class="govuk-visually-hidden">project name</span>
@@ -637,6 +639,30 @@
                       {% endif %}
                   </dd>
                   </div>
+                  <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Maximum estimated contract value (optional)</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{bc1}}</p>
+                     
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+                  </div>
+                  <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Minimum estimated contract value (optional)</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{bc2}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+                  </div>
+ {%endblock%}                 
                   <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__value">
                       <h3><strong>Your project requirements</strong></h3><br />
@@ -724,22 +750,16 @@
               {% endif %}
             </dd>
           </div>
-          
+  {%block Your_highest_security_and_vetting_requirements%}        
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-          <h3><strong>Your highest security and vetting requirements </strong></h3><br/>
-          <p>Highest level of clearance that supplied staff may need to have</p><br/>
-          <p>
-            Number of staff that will need a lower level of clearance
-            {# How many resources need a lower security and vetting requirement?   #}
-          </p>
+            <dt class="govuk-summary-list__key border-bottom-rfp-review">
+          <h3><strong>Your highest security and vetting requirements </strong></h3>
+          
         </dt>
-        <dd class="govuk-summary-list__value">
-          <br/><br/><br/><br/>
-          <p>{{highestSecuritySelected}}</p><br/><br/><br/>
-          <p>{{highestSecurityCount}}</p>
+        <dd class="govuk-summary-list__value border-bottom-rfp-review">
+          
         </dd>
-        <dd class="govuk-summary-list__actions">
+        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
             {% if eventStatus != "published"%}
               <a class="govuk-link" href="/rfp/choose-security-requirements">
             Change<span class="govuk-visually-hidden">project name</span>
@@ -747,6 +767,37 @@
               {% endif %}
             </dd>
           </div>
+<div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key border-bottom-rfp-review">
+          <p>Highest level of clearance that supplied staff may need to have</p>
+          
+        </dt>
+        <dd class="govuk-summary-list__value border-bottom-rfp-review">
+         
+          <p>{{highestSecuritySelected}}</p>
+         
+        </dd>
+        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+            
+          </div>
+<div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key border-bottom-rfp-review">
+          <p>
+            Number of staff that will need a lower level of clearance
+            {# How many resources need a lower security and vetting requirement?   #}
+          </p>
+        </dt>
+        <dd class="govuk-summary-list__value border-bottom-rfp-review">
+         
+          <p>{{highestSecurityCount}}</p>
+         
+        </dd>
+        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+            
+            </dd>
+          </div>
+{%endblock%}
+
             <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value">
          <h3><strong> Essential skills and capabilities </strong></h3><br/>
@@ -814,19 +865,16 @@
             </dd>
             <dd class="govuk-summary-list__actions">
             </dd>
-          </div>        
-        <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__value">
-         <h3><strong> The overall weighting for quality and price </strong></h3><br/>
-          <p>Quality</p><br/>
-          <p>Price</p><br/>
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <br/><br/><br/><br/>
-          <p>{{overallratioQuestion2}}%</p><br/>
-          <p>{{overallratioQuestion1}}%</p><br/>
+          </div> 
+
+{%block The_overall_weighting_for_quality_and_price%}
+<div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__value border-bottom-rfp-review">
+         <h3><strong> The overall weighting for quality and price </strong></h3>
+        </dt>        
+        <dd class="govuk-summary-list__value border-bottom-rfp-review">
         </dd>
-        <dd class="govuk-summary-list__actions">
+        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
             {% if eventStatus != "published"%}
               <a class="govuk-link" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 2">
             Change<span class="govuk-visually-hidden">project name</span>
@@ -834,10 +882,31 @@
               {% endif %}
             </dd>
           </div>
-
-           <div class="govuk-summary-list__row">
+<div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value border-bottom-rfp-review">
-          <h3><strong>The overall weighting for the quality categories</strong></h3><br/><br/>
+        <p>Quality</p>
+        </dt>        
+        <dd class="govuk-summary-list__value border-bottom-rfp-review">
+          <p>{{overallratioQuestion2}}%
+        </dd>
+        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+            
+          </div>
+     <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__value border-bottom-rfp-review">
+        <p>Price</p>
+        </dt>        
+        <dd class="govuk-summary-list__value border-bottom-rfp-review">
+          <p>{{overallratioQuestion1}}%
+        </dd>
+        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+            
+          </div>      
+{%endblock%}
+    {%block The_overall_weighting_for_the_quality_categories%}    
+    <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__value border-bottom-rfp-review">
+          <h3><strong>The overall weighting for the quality categories</strong></h3>
            </dt>
        <dt class="govuk-summary-list__value border-bottom-rfp-review">
          
@@ -850,6 +919,7 @@
               {% endif %}
             </dd>
           </div>
+    {%endblock%}
           <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key border-bottom-rfp-review" >
     <p>Technical </p>
@@ -1077,81 +1147,175 @@
     </dd>
     </div>
     <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <h3><strong>Your timeline</strong></h3>
-        <p>Clarification period closes</p><br />
-        <p>Deadline to publish your responses to the clarification questions</p><br />
-        {#<p>Set response date and time</p><br />#}
-        <p>Deadline for suppliers to submit their response</p><br />
-        <p>Confirm your next steps to suppliers</p><br />
-        <p>Start supplier evaluation</p><br />
-        <p>Supplier presentations</p><br />
-        <p>Standstill starts</p><br />
-        <p>When you plan to award the contract</p><br />
-        <p>When you expect the contract to be signed</p><br />
-        <p>When you expect the supplier to start</p><br />
     </dt>
-    <dd class="govuk-summary-list__key">
-        <br /><br />
-        <p> 
-          {%if rfp_clarification_period_end !=undefined and rfp_clarification_period_end !=null and rfp_clarification_period_end !=''%}  
-          {{rfp_clarification_period_end | dateddmmyyyy}}  {{ rfp_clarification_period_end |formatTimeHHMM}}
-          {%endif%}
-          </p><br />
-        <p>
-          {%if(deadline_period_for_clarification_period !=undefined and deadline_period_for_clarification_period !=null and deadline_period_for_clarification_period  !='')%}  
-           {{deadline_period_for_clarification_period | dateddmmyyyy}} {{ deadline_period_for_clarification_period |formatTimeHHMM}}
-          {%endif%}
-          </p><br /><br />
-        {#<p> </p><br /><br />#}
-        <p> 
-          {%if supplier_period_for_clarification_period !=undefined and supplier_period_for_clarification_period !=null and supplier_period_for_clarification_period  !=''%}  
-           {{supplier_period_for_clarification_period | dateddmmyyyy}} {{ supplier_period_for_clarification_period |formatTimeHHMM}}
-          {%endif%}
-          </p><br /><br />
-        <p> 
-          {%if supplier_dealine_for_clarification_period !=undefined and supplier_dealine_for_clarification_period !=null and supplier_dealine_for_clarification_period  !=''%}  
-           {{ supplier_dealine_for_clarification_period | dateddmmyyyy}} {{ supplier_dealine_for_clarification_period |formatTimeHHMM}}
-          {%endif%}
-          </p><br />
-        <p> 
-          {%if supplier_dealine_evaluation_to_start !=undefined and supplier_dealine_evaluation_to_start !=null and supplier_dealine_evaluation_to_start  !=''%}  
-           {{ supplier_dealine_evaluation_to_start | dateddmmyyyy}} {{ supplier_dealine_evaluation_to_start |formatTimeHHMM}}
-          {%endif%}
-          </p><br />
-        <p> 
-          {%if supplier_dealine_expect_the_bidders !=undefined and supplier_dealine_expect_the_bidders !=null and supplier_dealine_expect_the_bidders  !=''%}  
-           {{ supplier_dealine_expect_the_bidders | dateddmmyyyy}}  {{ supplier_dealine_expect_the_bidders |formatTimeHHMM}}
-          {%endif%}
-          </p><br />
-        <p> 
-          {%if supplier_dealine_for_pre_award !=undefined and supplier_dealine_for_pre_award !=null and supplier_dealine_for_pre_award  !=''%}  
-           {{ supplier_dealine_for_pre_award | dateddmmyyyy}}  {{ supplier_dealine_for_pre_award |formatTimeHHMM}}
-          {%endif%}
-          </p><br />
-        <p> 
-          {%if supplier_dealine_for_expect_to_award !=undefined and supplier_dealine_for_expect_to_award !=null and supplier_dealine_for_expect_to_award  !=''%}  
-           {{ supplier_dealine_for_expect_to_award | dateddmmyyyy}} {{ supplier_dealine_for_expect_to_award |formatTimeHHMM}}
-          {%endif%}
-          </p><br />
-        <p>
-          {%if supplier_dealine_sign_contract !=undefined and supplier_dealine_sign_contract !=null and supplier_dealine_sign_contract  !=''%}  
-           {{ supplier_dealine_sign_contract | dateddmmyyyy}}  {{ supplier_dealine_sign_contract |formatTimeHHMM}}
-          {%endif%} 
-          </p><br />
-        <p>  {%if supplier_dealine_for_work_to_commence !=undefined and supplier_dealine_for_work_to_commence !=null and supplier_dealine_for_work_to_commence  !=''%}  
-           {{ supplier_dealine_for_work_to_commence | dateddmmyyyy}} {{ supplier_dealine_for_work_to_commence |formatTimeHHMM}}
-          {%endif%} 
-          
-          </p>
-
-    </dd>
-    <dd class="govuk-summary-list__actions">
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">
         {% if eventStatus != "published"%}
         <a class="govuk-link" href="/rfp/response-date">
             Change<span class="govuk-visually-hidden">project name</span>
         </a>
         {% endif %}
+    </dd>   
+    
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>Clarification period closes</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p> 
+          {%if rfp_clarification_period_end !=undefined and rfp_clarification_period_end !=null and rfp_clarification_period_end !=''%}  
+          {{rfp_clarification_period_end | dateddmmyyyy}}  {{ rfp_clarification_period_end |formatTimeHHMM}}
+          {%endif%}
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
+    </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>Deadline to publish your responses to the clarification questions</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>
+          {%if(deadline_period_for_clarification_period !=undefined and deadline_period_for_clarification_period !=null and deadline_period_for_clarification_period  !='')%}  
+           {{deadline_period_for_clarification_period | dateddmmyyyy}} {{ deadline_period_for_clarification_period |formatTimeHHMM}}
+          {%endif%}
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
+    </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>Deadline for suppliers to submit their response</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p> 
+          {%if supplier_period_for_clarification_period !=undefined and supplier_period_for_clarification_period !=null and supplier_period_for_clarification_period  !=''%}  
+           {{supplier_period_for_clarification_period | dateddmmyyyy}} {{ supplier_period_for_clarification_period |formatTimeHHMM}}
+          {%endif%}
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
+    </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>Confirm your next steps to suppliers</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p> 
+          {%if supplier_dealine_for_clarification_period !=undefined and supplier_dealine_for_clarification_period !=null and supplier_dealine_for_clarification_period  !=''%}  
+           {{ supplier_dealine_for_clarification_period | dateddmmyyyy}} {{ supplier_dealine_for_clarification_period |formatTimeHHMM}}
+          {%endif%}
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
+    </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>Start supplier evaluation</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>{%if supplier_dealine_evaluation_to_start !=undefined and supplier_dealine_evaluation_to_start !=null and supplier_dealine_evaluation_to_start  !=''%}  
+           {{ supplier_dealine_evaluation_to_start | dateddmmyyyy}} {{ supplier_dealine_evaluation_to_start |formatTimeHHMM}}
+          {%endif%}
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
+    </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>Start supplier evaluation</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+       <p> {%if supplier_dealine_evaluation_to_start !=undefined and supplier_dealine_evaluation_to_start !=null and supplier_dealine_evaluation_to_start  !=''%}  
+           {{ supplier_dealine_evaluation_to_start | dateddmmyyyy}} {{ supplier_dealine_evaluation_to_start |formatTimeHHMM}}
+          {%endif%}
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
+    </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>Supplier presentations</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p> 
+          {%if supplier_dealine_expect_the_bidders !=undefined and supplier_dealine_expect_the_bidders !=null and supplier_dealine_expect_the_bidders  !=''%}  
+           {{ supplier_dealine_expect_the_bidders | dateddmmyyyy}}  {{ supplier_dealine_expect_the_bidders |formatTimeHHMM}}
+          {%endif%}
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
+    </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>Standstill starts</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p> 
+          {%if supplier_dealine_for_pre_award !=undefined and supplier_dealine_for_pre_award !=null and supplier_dealine_for_pre_award  !=''%}  
+           {{ supplier_dealine_for_pre_award | dateddmmyyyy}}  {{ supplier_dealine_for_pre_award |formatTimeHHMM}}
+          {%endif%}
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
+    </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>When you plan to award the contract</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p> 
+          {%if supplier_dealine_for_expect_to_award !=undefined and supplier_dealine_for_expect_to_award !=null and supplier_dealine_for_expect_to_award  !=''%}  
+           {{ supplier_dealine_for_expect_to_award | dateddmmyyyy}} {{ supplier_dealine_for_expect_to_award |formatTimeHHMM}}
+          {%endif%}
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
+    </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>When you expect the contract to be signed</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>
+          {%if supplier_dealine_sign_contract !=undefined and supplier_dealine_sign_contract !=null and supplier_dealine_sign_contract  !=''%}  
+           {{ supplier_dealine_sign_contract | dateddmmyyyy}}  {{ supplier_dealine_sign_contract |formatTimeHHMM}}
+          {%endif%} 
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
+    </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+        <p>When you expect the supplier to start</p>
+    </dt>
+    <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
+         <p>  {%if supplier_dealine_for_work_to_commence !=undefined and supplier_dealine_for_work_to_commence !=null and supplier_dealine_for_work_to_commence  !=''%}  
+           {{ supplier_dealine_for_work_to_commence | dateddmmyyyy}} {{ supplier_dealine_for_work_to_commence |formatTimeHHMM}}
+          {%endif%} 
+          
+          </p>
+    </dt>
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
     </dd>
     </div>
 </dl>
@@ -1165,7 +1329,7 @@
                                 <h2 class="govuk-heading-m"> Publish your {%if(selectedeventtype=='DA')%}requirements{%else%} further competition {%endif%}</h2>
                               </p>
                               <p class="govuk-body">
-      After publishing{%if(selectedeventtype!='DA')%} this further competition, you can still cancel all or part of it at any time, or amend, clarify, add to or withdraw all or any part of it.{%endif%}, you can still cancel all or part of it at any time, or amend, clarify, add to or withdraw all or any part of it.
+      After publishing{%if(selectedeventtype!='DA')%} this further competition, you can still cancel all or part of it at any time, or amend, clarify, add to or withdraw all or any part of it.{%endif%}
     </p>
 
       

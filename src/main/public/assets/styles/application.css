@@ -3174,6 +3174,13 @@ p + .govuk-heading-s,
   max-width: 9ex;
 }
 
+.govuk-input--width-feedback {
+ /*max-width: 200ex;*/
+ width: 100ex;
+ height: 30ex;
+}
+
+
 .govuk-input--width-3 {
   max-width: 7.2ex;
 }

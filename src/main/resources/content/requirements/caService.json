@@ -17,12 +17,12 @@
         "href": "/ca/task-list"
       },
       {
-        "text": "Select your service capabilities and set the weighting",
+        "text": "Select service capabilities",
         "href": "#"
       }
     ],
   
-    "title": "Select your service capabilities and set the weighting",
+    "title": "Select service capabilities",
     "subtitle1": "This step is divided into service capabilities and specific capabilities.",
     "subtitle2": "You will need to tell suppliers which service capabilities you need, and set a weighting to show which are most important to your project. You can also set a weighting for specific capabilities.",
     "subtitle3": "You do not need to enter a weighting for any service capability or specific capability that you do not need.",
