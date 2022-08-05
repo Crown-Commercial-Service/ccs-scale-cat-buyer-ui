@@ -17,7 +17,7 @@ const emptyQuestionFieldCheckBudget = () => {
     errorStore = [];
   const pageHeading = document.getElementById('page-heading').innerHTML;
   var reg = new RegExp('^[0-9]$');
-  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined) {
+  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined && $('#rfp_maximum_estimated_contract_value') !='') {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_maximum_estimated_contract_value').val();
     if (maxBudget.includes("-")) {
@@ -34,7 +34,7 @@ const emptyQuestionFieldCheckBudget = () => {
     if (pageHeading.includes("(Optional)")) {
       let msg = '';
       //if (!maxBudget) msg = 'You must enter a value';
-      if (Number(maxBudget) <= 0) 
+      if (Number(maxBudget) <= 0 && maxBudget!='') 
       {
         msg = 'You must enter a positive value';
         let element = document.getElementById("rfp_maximum_estimated_contract_value");
@@ -42,7 +42,7 @@ const emptyQuestionFieldCheckBudget = () => {
         fieldCheck = ccsZvalidateWithRegex('rfp_maximum_estimated_contract_value', msg, /\d+/);
         errorStore.push([element.id, msg])
       }
-      if (Number(maxBudget) > 0 && Number(minBudget) > 0 && Number(maxBudget) < Number(minBudget)) {
+      if (Number(maxBudget) > 0 && Number(minBudget) > 0 && Number(maxBudget) < Number(minBudget) && maxBudget!='' && minBudget!='') {
         msg = 'Entry should be greater than minimum estimated contract value';
         let element = document.getElementById("rfp_maximum_estimated_contract_value");
         ccsZaddErrorMessage(element, msg);
@@ -51,7 +51,7 @@ const emptyQuestionFieldCheckBudget = () => {
       }
     }
   }
-  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined) {
+  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined && $('#rfp_minimum_estimated_contract_value')!='') {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
     if (maxBudget.includes("-")) {
@@ -67,14 +67,14 @@ const emptyQuestionFieldCheckBudget = () => {
     let msg = '';
     if (pageHeading.includes("(Optional)")) {
       //if (!minBudget) msg = 'You must enter a value';
-      if (Number(minBudget) <= 0) 
+      if (Number(minBudget) <= 0 && minBudget!='') 
       {
         msg = 'You must enter a positive value';
         let element = document.getElementById("rfp_minimum_estimated_contract_value");
         ccsZaddErrorMessage(element, msg);
         fieldCheck = ccsZvalidateWithRegex('rfp_minimum_estimated_contract_value', msg, /\d+/);
         errorStore.push([element.id, msg])}
-      if (Number(minBudget) > 0 && Number(maxBudget) > 0 && Number(minBudget) > Number(maxBudget)) {
+      if (Number(minBudget) > 0 && Number(maxBudget) > 0 && Number(minBudget) > Number(maxBudget)&& minBudget!='' && maxBudget!='') {
         msg = 'Entry should be lesser than maximum estimated contract value';
         let element = document.getElementById("rfp_minimum_estimated_contract_value");
         ccsZaddErrorMessage(element, msg);
