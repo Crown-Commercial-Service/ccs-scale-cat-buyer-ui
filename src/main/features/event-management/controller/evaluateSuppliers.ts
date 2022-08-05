@@ -20,10 +20,12 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Response) => {
     const { agreementLotName, agreementName, agreement_id, releatedContent, project_name } =
     req.session;
+    let { agreement_header } = req.session;
     const lotid = req.session?.lotId;
     const { SESSION_ID } = req.cookies 
     const { projectId,eventId } = req.session;
     const { download} = req.query;
+    const agreementId_session = req.session.agreement_id;
     //const supplierScores = await TenderApi.Instance(SESSION_ID).get(`tenders/projects/${projectId}/events/${eventId}/scores`) 
     //const supplierScoresandFeedback = supplierScores.data;
 
@@ -31,7 +33,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
 
     // Event header
     res.locals.agreement_header = { project_name: project_name, agreementName, agreement_id, agreementLotName, lotid }
-    // req.session.agreement_header = res.locals.agreement_header
+    req.session.agreement_header = res.locals.agreement_header
     if (download == '1') {
    
         const TemplateIDURL = `/tenders/projects/${projectId}/events/${eventId}/scores/templates`;
@@ -155,8 +157,9 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
      {
       ConfirmFlag = true;
      }
+     
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData , }
+          const appendData = { releatedContent,agreement_header,agreementId_session,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData , }
 
     res.render('evaluateSuppliers',appendData);     
     

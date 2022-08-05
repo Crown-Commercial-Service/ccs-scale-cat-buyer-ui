@@ -5,18 +5,16 @@ const ccsZvalidateRfpLocation = (event) => {
 
   let fieldCheck = "",
     errorStore = [];
-  let errMsg="You must select at least one region where your staff will be working, or  the “No specific location....";
-  
-  let hiddenQuestionElement=document.getElementById("question_id");
-  if(hiddenQuestionElement!==null)
-  {
-    if(hiddenQuestionElement.value=="Question 10")
-    {
-      errMsg="You must select which project phases you need resource for, or confirm if this does not apply to your project.";
+  let errMsg = "You must select at least one region where your staff will be working, or  the “No specific location....";
+
+  let hiddenQuestionElement = document.getElementById("question_id");
+  if (hiddenQuestionElement !== null) {
+    if (hiddenQuestionElement.value == "Question 10") {
+      errMsg = "You must select which project phases you need resource for, or confirm if this does not apply to your project.";
     }
   }
 
-  fieldCheck = ccsZisOptionChecked("required_locations",errMsg );
+  fieldCheck = ccsZisOptionChecked("required_locations", errMsg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["rfp_location"].submit(); //The Location page is mandatory 
@@ -28,15 +26,17 @@ const ccsZvalidateChangeRfpLocation = (event) => {
   event.preventDefault();
   let inputs;
   let container = document.getElementById('rfp_location');
-  let noApplicable = document.getElementById('required_locations-6');
+  // let noApplicable = document.getElementById('required_locations-6');
   inputs = container.getElementsByTagName('input');
   for (let index = 0; index < inputs.length; ++index) {
-    if (event.target.id !== 'required_locations-6')
-      noApplicable.checked = false;
-    if (event.target.id === 'required_locations-6') {
-      if (inputs[index].id !== 'required_locations-6')
-        inputs[index].checked = false;
-    }
+    if (event.target.id !== inputs[index].id)
+      inputs[index].checked = false;
+    // if (event.target.id !== 'required_locations-6')
+    //   noApplicable.checked = false;
+    // if (event.target.id === 'required_locations-6') {
+    //   if (inputs[index].id !== 'required_locations-6')
+    //     inputs[index].checked = false;
+    // }
   }
 
 }
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allCheckbox = document.getElementById("required_locations-14"),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
-    if (allCheckbox.checked) {
+    if (allCheckbox != undefined && allCheckbox.checked) {
       locationCheckboxes.forEach((cb) => {
 
         if (cb.value != notApplicableTag) cb.disabled = true;

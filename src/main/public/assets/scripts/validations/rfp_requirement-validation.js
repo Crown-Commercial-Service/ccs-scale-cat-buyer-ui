@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             $('#rfp_vetting_error_summary').removeClass('hide-block');
             $('.govuk-error-summary__title').text('There is a problem');
-            $("#summary_list").html('You must enter atleast on role');
+            $("#summary_list").html('You must enter at least 1 role');
             $('html, body').animate({ scrollTop: 0 }, 'fast');
         }
 
