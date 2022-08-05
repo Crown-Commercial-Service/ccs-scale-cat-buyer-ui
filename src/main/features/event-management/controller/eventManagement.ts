@@ -605,7 +605,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  const { supplierid, download } = req.query;
+  const { supplierid, download_all } = req.query;
 
   try {
     if (supplierid != undefined) {
@@ -627,7 +627,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
       });
       res.send(fileData);
     }
-    else if (download != undefined) {
+    else if (download_all != undefined) {
       //Download all for awarded supplier
       //`/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
