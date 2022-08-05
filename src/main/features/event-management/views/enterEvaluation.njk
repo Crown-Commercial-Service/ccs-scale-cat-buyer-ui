@@ -101,7 +101,7 @@
 
 <br/>
 
-                        {{ CCSInput({
+                        {#{{ CCSInput({
                             label: {
                               text: "Final Feedback ",
                               classes: "govuk-label--m",
@@ -113,11 +113,26 @@
                             
                             id: "enter_evaluation_feedback",
                             name: "enter_evaluation_feedback",
+                            classes: "govuk-input--width-feedback ",
                             spellcheck: true,
                             maxlength: "5000",
                             value: feedBack
+                          
                         })
-                      }}
+                      }}#}
+                      <div class="govuk-form-group">
+  <label class="govuk-label govuk-label--m" for="enter_evaluation_feedback">
+    Final Feedback 
+  </label>
+
+  
+  
+  <div id="enter_evaluation_feedback-hint" class="govuk-hint">
+    Feedback should be constructive and relevant to the answers the supplier submitted.Try and include feedback about something positive, as well as areas of improvement.
+  </div>
+
+<textarea class="govuk-input govuk-input--width-feedback " id="enter_evaluation_feedback" name="enter_evaluation_feedback"  spellcheck="true" aria-describedby="enter_evaluation_feedback-hint" maxlength="5000"></textarea>
+</div>
 <p><label id="supplierFeedback"></label></p>
 
                      <div class="govuk-button-group">
