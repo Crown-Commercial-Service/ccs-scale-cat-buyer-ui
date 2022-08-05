@@ -599,8 +599,8 @@ export const SUPPLIER_ANSWER_DOWNLOAD = async (req: express.Request, res: expres
 
   try {
     if (supplierid != undefined) {
-      // /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id]}/export
-      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/documents`;
+      // /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id]}/documents
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
@@ -660,7 +660,8 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
     }
     else if (download_all != undefined) {
       //Download all for awarded supplier
-      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
+      //`/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
