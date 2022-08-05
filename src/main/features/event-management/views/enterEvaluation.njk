@@ -60,7 +60,18 @@
       </div>
     </div>
     <div class="govuk-grid-column-two-thirds">
-      {% include "includes/project_header.njk" %}
+       <div class="project-overview">
+           <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+                </strong></p>
+              {%endif %}
+            <p class="govuk-body">Agreement ID: <strong>{{agreementId_session}}</strong></p>
+              {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['project_name'] %}
+            <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
+               {% else %}
+            <p class="govuk-body">Project name: You have not saved projects </p>
+               {% endif %}
+            </p>
+        </div>
       <div class="ccs-page-section">
         <p class="govuk-body">{{data.subtitle}}</p>
         <p class="govuk-body">{{data.subtitle1}}</p>  
@@ -101,7 +112,7 @@
 
 <br/>
 
-                        {{ CCSInput({
+                        {#{{ CCSInput({
                             label: {
                               text: "Final Feedback ",
                               classes: "govuk-label--m",
@@ -113,11 +124,26 @@
                             
                             id: "enter_evaluation_feedback",
                             name: "enter_evaluation_feedback",
+                            classes: "govuk-input--width-feedback ",
                             spellcheck: true,
                             maxlength: "5000",
                             value: feedBack
+                          
                         })
-                      }}
+                      }}#}
+                      <div class="govuk-form-group">
+  <label class="govuk-label govuk-label--m" for="enter_evaluation_feedback">
+    Final Feedback 
+  </label>
+
+  
+  
+  <div id="enter_evaluation_feedback-hint" class="govuk-hint">
+    Feedback should be constructive and relevant to the answers the supplier submitted.Try and include feedback about something positive, as well as areas of improvement.
+  </div>
+
+<textarea class="govuk-input govuk-input--width-feedback " id="enter_evaluation_feedback" name="enter_evaluation_feedback"  spellcheck="true" aria-describedby="enter_evaluation_feedback-hint" maxlength="5000"></textarea>
+</div>
 <p><label id="supplierFeedback"></label></p>
 
                      <div class="govuk-button-group">

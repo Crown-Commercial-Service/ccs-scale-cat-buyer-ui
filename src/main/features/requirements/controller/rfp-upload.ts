@@ -65,7 +65,7 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
               contentType: file.mimetype,
               filename: file.name,
             });
-            formData.append('description', file.name);
+            formData.append('description',"optional");
             formData.append('audience', 'buyer');
             const formHeaders = formData.getHeaders();
             try {
@@ -111,7 +111,7 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
             contentType: offline_document.mimetype,
             filename: offline_document.name,
           });
-          formData.append('description', offline_document.name);
+          formData.append('description', "optional");
           formData.append('audience', 'buyer');
           const formHeaders = formData.getHeaders();
           try {
