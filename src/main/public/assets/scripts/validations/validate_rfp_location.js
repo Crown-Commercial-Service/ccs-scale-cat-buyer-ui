@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allCheckbox = document.getElementById("required_locations-14"),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
-    if (allCheckbox.checked) {
+    if (allCheckbox != undefined && allCheckbox.checked) {
       locationCheckboxes.forEach((cb) => {
 
         if (cb.value != notApplicableTag) cb.disabled = true;
