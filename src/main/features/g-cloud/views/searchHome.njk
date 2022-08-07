@@ -1,0 +1,59 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{# {% from "components/support/macro.njk" import howToGetSupport %} #}
+
+
+{# {% set title = 'Find cloud hosting, software and support' %} #}
+
+{% set url ="/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}"%}
+  
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items: breadCrumbs
+      }) }}
+{% endblock %}
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{title}}</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <div class="govuk-grid-column-full">
+               {% include "includes/project_header.njk" %}
+            </div>
+            <br>
+        
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="ccs-callout-panel">
+          <h2 class="govuk-heading-m">Related content</h2>
+          <p class="govuk-body">
+            {% for item in data.related_content %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a>
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+      <div class="govuk-grid-column-full">
+        
+      </div>
+    </div>
+
+    
+
+    <div class="govuk-grid-row govuk-!-margin-bottom-6">
+      <div class="govuk-grid-column-full">
+        
+      </div>
+    </div>
+  </main>
+{% endblock %}
