@@ -22,7 +22,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Your inbox",
       "href": "#"
     }
   ]
@@ -38,6 +38,28 @@
 {% endfor %}
 
 {% block content %}
+<div class="backdrop-createmsgcancel" id="createmsgcancelpopup">
+  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
+    <div class="pop_logo govuk-grid-column-full">
+      <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
+      <p class="pop_logo_image govuk-grid-column-one-half" <a="" href="#">
+        <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
+      
+      </p>
+      <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-createmsgcancel govuk-!-padding-top-6">
+      <a href="#" class="dialog-close-createmsgcancel nav-list__link_secondary">X</a></p>
+    </div>
+    <div class="govuk-grid-column-full">
+      <h1 id="dialog-title">If you cancel now this message will not be saved.<p></p>
+      
+      <div class="govuk-button-group">
+        <button id="redirect-button-createmsgcancel" class="button dialog-button govuk-button" name="Cancel Message">OK</button>
+        <a href="#" class="dialog-close-createmsgcancel govuk-link govuk-link--no-visited-state">Cancel</a>
+      </div>
+    </h1></div>
+  </div>
+</div>
+
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
     {% if (validationError) %}
@@ -183,7 +205,7 @@
                 id:"btnCreateMessage"
                 })
             }}
-              <a href="{{data.Cancel.link}}" class="govuk-link govuk-link--no-visited-state">{{data.Cancel.text}}</a>
+              <a id="createMsgCancel" class="govuk-link govuk-link--no-visited-state a-cursor-pointer">{{data.Cancel.text}}</a>
             </div>
 
           </div>

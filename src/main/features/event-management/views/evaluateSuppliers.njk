@@ -3,7 +3,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Event management ' %}
+{% set title = 'Evaluate suppliers ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -33,8 +33,19 @@
     </div>
 
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-            {% include "includes/project_header.njk" %}  
-     
+            <div class="project-overview">
+                   <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
+                    </strong></p>
+                     {%endif %}
+                    <p class="govuk-body">Agreement ID: <strong>{{agreementId_session}}</strong></p>
+                      {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['project_name'] %}
+                    <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
+                       {% else %}
+                    <p class="govuk-body">Project name: You have not saved projects </p>
+                      {% endif %}
+                     </p>
+            </div>
+
               <div class="ccs-page-section">
                     <p>{{data.subtitle}}</p>
                     <p>{{data.subtitle1}}</p>

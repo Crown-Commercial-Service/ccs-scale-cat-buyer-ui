@@ -198,20 +198,40 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
         });
 
-        supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date).format('DD MMMM YYYY');
+        supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
 
         if (status.toLowerCase() == "pre-award") {
 
           supplierDetails.standStillFlag = true;
-          let currentDate = new Date(supplierDetails.supplierAwardedDate);
+          let currentDate = new Date(supplierAwardDetail?.date);
           //Standstill dates are current date +10 days.
           currentDate.setDate(currentDate.getDate() + 10)
-          const dayOfWeek = new Date(currentDate).getDay();
-          //standstill end date lands on weekend,then it move to the next valid working day
-          if (dayOfWeek === 6 || dayOfWeek === 0) {
-            currentDate.setDate(currentDate.getDate() + 1)
+
+          let isValid = isWeekendDate(currentDate);
+
+          if (isValid) {
+            currentDate.setDate(currentDate.getDate() + 1);
+            currentDate.setHours(23);
+            currentDate.setMinutes(59);
           }
-          supplierDetails.supplierStandStillDate = moment(currentDate).format('DD MMMM YYYY');
+        
+          const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
+          const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
+          const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
+
+          const newDate = moment(currentDate).format('YYYY-MM-DD');
+          const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+
+          if (filterDate != undefined && filterDate != null) {
+            currentDate.setDate(currentDate.getDate() + 1);
+            let isValid = isWeekendDate(currentDate);
+
+            if (isValid) {
+              currentDate.setDate(currentDate.getDate() + 1);
+            }
+          }
+
+          supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY hh:mm');
 
           let todayDate = new Date();
           if (todayDate > new Date(supplierDetails.supplierStandStillDate)) {
@@ -334,7 +354,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       else {
         let redirectUrl_: string
         switch (eventType) {
-
           case "RFI":
             if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
               res.render('awardEventManagement', appendData)
@@ -342,7 +361,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             else {
               res.render('eventManagement', appendData)
             }
-
             break
           case "FC":
             if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
@@ -389,6 +407,17 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       true,
     );
   }
+}
+
+function isWeekendDate(date: Date) {
+  const dayOfWeek = new Date(date).getDay();
+
+  let isValid = false;
+  if (dayOfWeek === 6 || dayOfWeek === 0) {
+    isValid = true;
+  }
+
+  return isValid;
 }
 export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
@@ -568,8 +597,8 @@ export const SUPPLIER_ANSWER_DOWNLOAD = async (req: express.Request, res: expres
 
   try {
     if (supplierid != undefined) {
-      // /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id]}/export
-      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/documents`;
+      // /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id]}/documents
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
@@ -629,7 +658,8 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
     }
     else if (download_all != undefined) {
       //Download all for awarded supplier
-      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
+      //`/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
@@ -679,7 +709,8 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
           documentTemplatesUnSuccessObj.FileSize = awardsTemplatesData[i].fileSize;
         }
       }
-      const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates`;
+      
+      const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/`+documentTemplatesUnSuccessObj.DocumentId;
       const fetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
         responseType: 'arraybuffer',
       });
@@ -687,7 +718,7 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
       //const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
       const fileData = file.data;
       const type = 'application/zip';
-      //const ContentLength = file.headers['content-length'];
+      //const contentLength = file.headers['content-length'];
       res.status(200);
       res.set({
         'Cache-Control': 'no-cache',
@@ -802,4 +833,11 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
       true,
     );
   }
+}
+
+
+export const RETURN_EVENTMANAGEMENT = async (req: express.Request, res: express.Response) => {
+  let { eventId } = req.session;
+  let redirectUrl = '/event/management?id=' + eventId
+  res.redirect(redirectUrl)
 }

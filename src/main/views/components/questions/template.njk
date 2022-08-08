@@ -226,7 +226,8 @@
 
     {{ CCSInput({
       label: {
-        text: requirement.OCDS.title
+        text: requirement.OCDS.title,
+        classes: "govuk-label govuk-label--m"
       },
       classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage",
       id: "fc_question_precenate_"+index,
@@ -441,8 +442,6 @@
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[2].value,
-                            max: "2023",
-                            min: "2021",
                             maxlength: "4"
                           }) }}
                           {{ CCSInput({
@@ -563,7 +562,7 @@
                       <span class="govuk-visually-hidden">Error:</span>
                </p>
                     
-              <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+              <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">  Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
               {{ CCSInput({
                         label: {
                           text: ""
