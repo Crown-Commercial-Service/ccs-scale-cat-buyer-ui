@@ -105,6 +105,26 @@ document.addEventListener('DOMContentLoaded', () => {
       $(".backdrop-vetting").fadeOut(200);
       var route = this.name;
       if (route == 'Clear form') {
+        $('#service_capability_error_summary').addClass('hide-block');
+
+      var servCapWhole=document.getElementsByClassName("weight_vetting_whole_t")
+      if (servCapWhole != null && servCapWhole.length > 0) {
+        for(index=0;index<servCapWhole.length;index++)
+        {
+          document.getElementsByClassName("weight_vetting_whole")[index].classList.remove('govuk-input--error')
+          servCapWhole[index].innerText =''
+        }
+      }
+
+      var servCapPart=document.getElementsByClassName("weight_vetting_partial_t")
+      if (servCapPart != null && servCapPart.length > 0) {
+        for(index=0;index<servCapPart.length;index++)
+        {
+          document.getElementsByClassName("weight_vetting_partial")[index].classList.remove('govuk-input--error')
+          servCapPart[index].innerText =''
+        }
+      }
+
         clearServiceCapabilitiesSubText();
         for (index = 0; index < inputs.length; ++index) {
           inputs[index].value = '';
