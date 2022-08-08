@@ -10,7 +10,9 @@ import { MessageDetails } from '../model/messgeDetails';
 export class ValidationErrors {
     static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'
     static readonly Question_REQUIRED: string = 'Question has not been defined'
-    }
+    static readonly Clarification_REQUIRED_count: string = 'Please enter <=5000 characters'
+    static readonly Question_REQUIRED_count: string = 'Please enter <=5000 characters'
+     }
 /**
  * 
  * @Rediect 
@@ -60,7 +62,7 @@ export const EVENT_MANAGEMENT_POST_QA_Edit = async (req: express.Request, res: e
     const eventId = req.session['eventId'];
     try {
         const _body = req.body
-        let IsQuestionNotDefined, IsClerificationNotDefined, validationError = false;
+        let IsQuestionNotDefined,Question_count,clarification_count, IsClerificationNotDefined, validationError = false;
         const errorText = [];
         if (!_body.message_QA_Edit_Question_input) {
             IsQuestionNotDefined = true
@@ -83,13 +85,37 @@ export const EVENT_MANAGEMENT_POST_QA_Edit = async (req: express.Request, res: e
         } else {
             IsClerificationNotDefined = false;
         }
+        if (_body.message_QA_Edit_Question_input.length > 5000) {
+            Question_count = true
+            validationError = true
+            errorText.push({
+                text: ValidationErrors.Question_REQUIRED_count,
+                href: '#message_QA_Edit_Question_input'
+            });
+        } else {
+            Question_count = false;
+        }
 
-        if (errorText.length > 0 && (IsClerificationNotDefined || IsQuestionNotDefined)) {
+        if (_body.message_QA_Edit_Answer_input.length > 5000) {
+            clarification_count = true
+            validationError = true
+            errorText.push({
+                text: ValidationErrors.Clarification_REQUIRED_count,
+                href: '#message_QA_Edit_Answer_input'
+            });
+        } else {
+            clarification_count = false;
+        }
+        if (errorText.length > 0 && (IsClerificationNotDefined || IsQuestionNotDefined || clarification_count || Question_count)) {
             const QaContent: QuestionAndAnswer = {
                 IsquestionNotDefined: IsQuestionNotDefined,
                 IsclarificationNotDefined: IsClerificationNotDefined,
                 questionErrorMessage: ValidationErrors.Question_REQUIRED,
                 clarificationErrorMessage: ValidationErrors.Clarification_REQUIRED,
+                Question_count:Question_count,
+                clarification_count:clarification_count,
+                questionErrorMessage_count: ValidationErrors.Question_REQUIRED_count,
+                clarificationErrorMessage_count: ValidationErrors.Clarification_REQUIRED_count,    
                 }
                 const QA: QuestionAndAnswer = {
                     question:_body.message_QA_Edit_Question_input,

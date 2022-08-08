@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as express from 'express'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
@@ -9,6 +10,7 @@ export class ValidationErrors {
     static readonly CLASSIFICATION_REQUIRED: string = 'Message cannot be broadcast unless a Classification has been defined - broadcast cannot be completed'
     static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Message Body has been defined - broadcast cannot be completed'
     static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Subject Line has been defined - broadcast cannot be completed'
+    static readonly SUBJECT_REQUIRED_count: string = 'Message cannot be broadcast unless a Subject Line has <=5000 characters'
 }
 
 /**
@@ -45,7 +47,6 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
             classificationErrorMessage: ValidationErrors.CLASSIFICATION_REQUIRED,
             subjectErrorMessage: ValidationErrors.SUBJECT_REQUIRED,
             messageErrorMessage: ValidationErrors.MESSAGE_REQUIRED,
-            selected_message: ''
         }
 
         const appendData = { data: inboxData, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
@@ -70,7 +71,7 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
     const eventId = req.session['eventId']
     try {
         const _body = req.body
-        let IsClassificationNotDefined, IsSubjectNotDefined, IsMessageNotDefined, validationError = false
+        let IsClassificationNotDefined, IsSubjectNotDefined,IsSubjectNotDefinedcount, IsMessageNotDefined, validationError = false
         const errorText = [];
         if (!_body.create_message) {
             IsClassificationNotDefined = true
@@ -104,6 +105,16 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
         } else {
             IsSubjectNotDefined = false
         }
+        if (_body.create_message_input.length > 5000) {
+            IsSubjectNotDefinedcount = true
+            validationError = true
+            errorText.push({
+                text: ValidationErrors.SUBJECT_REQUIRED_count,
+                href: '#create_message_input'
+            });
+        } else {
+            IsSubjectNotDefinedcount = false
+        }
 
         const message: CreateMessage = {
             create_message: ["unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
@@ -116,7 +127,8 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
             IsMessageNotDefined: IsMessageNotDefined,
             classificationErrorMessage: ValidationErrors.CLASSIFICATION_REQUIRED,
             subjectErrorMessage: ValidationErrors.SUBJECT_REQUIRED,
-            messageErrorMessage: ValidationErrors.MESSAGE_REQUIRED
+            messageErrorMessage: ValidationErrors.MESSAGE_REQUIRED,
+            SUBJECT_REQUIRED_count: ValidationErrors.SUBJECT_REQUIRED_count
         }
         if (validationError) {
             res.locals.agreement_header = req.session.agreement_header
