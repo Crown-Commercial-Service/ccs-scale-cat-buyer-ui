@@ -90,14 +90,24 @@
         <p class="govuk-body">{{data.lable2}} </p></br>
          <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
               Question
-               {% if QaContent.IsquestionNotDefined %}
+               {% if QaContent.IsquestionNotDefined  or QaContent.Question_count%}
                 <div class="govuk-form-group govuk-form-group--error">
+                  {% if QaContent.IsquestionNotDefined %}
                   <span id="QA_Question_input-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{QaContent.questionErrorMessage}}
                  </span>
                   <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="QA_Question_input" name="QA_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint QA_Question_input-error"></textarea>
                 </div>
+                 {% else %}
+                 <span id="QA_Question_input-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    {{QaContent.questionErrorMessage_count}}
+                 </span>
+                  <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="QA_Question_input" name="QA_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint QA_Question_input-error">{{QaContent.create_question_input}}</textarea>
+                </div>
+                 {% endif %}
+                 
               {% else %}
                 <div class="govuk-form-group">
                <textarea class="govuk-textarea govuk-js-character-count" id="QA_Question_input" name="QA_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint">{{QaContent.create_question_input}}</textarea>
@@ -108,14 +118,24 @@
               
  <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
              Clarification
-               {% if QaContent.IsclarificationNotDefined %}
+               {% if QaContent.IsclarificationNotDefined or QaContent.clarification_count %}
                 <div class="govuk-form-group govuk-form-group--error">
+                 {% if QaContent.IsclarificationNotDefined %}
                  <p id="message_Add_Clerification_input-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{QaContent.clarificationErrorMessage}}
                  </p>
-                  <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="message_Add_Clerification_input" name="message_Add_Clerification_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint message_Add_Clerification_input-error"></textarea>
+                 <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="message_Add_Clerification_input" name="message_Add_Clerification_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint message_Add_Clerification_input-error"></textarea>
                 </div>
+                 {% else %}
+                 <p id="message_Add_Clerification_input-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    {{QaContent.clarificationErrorMessage_count}}
+                 </p>
+                 <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="message_Add_Clerification_input" name="message_Add_Clerification_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint message_Add_Clerification_input-error">{{QaContent.create_clarification_input}}</textarea>
+                </div>
+                  {% endif %}
+                  
               {% else %}
                 <div class="govuk-form-group">
                <textarea class="govuk-textarea govuk-js-character-count" id="message_Add_Clerification_input" name="message_Add_Clerification_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint">{{QaContent.create_clarification_input}}</textarea>

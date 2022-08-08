@@ -88,14 +88,23 @@
             <h2 class="govuk-heading-m">Edit and publish the question and clarification</h2>
                 <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
                Question
-               {% if QaContent.IsquestionNotDefined %}
+               {% if QaContent.IsquestionNotDefined  or QaContent.Question_count%}
                 <div class="govuk-form-group govuk-form-group--error">
+                 {% if QaContent.IsquestionNotDefined %}
                  <span id="message_QA_Edit_Question_input-error" class="govuk-error-message">
                 <span class="govuk-visually-hidden">Error:</span> 
                   {{QaContent.questionErrorMessage}}
               </span>
                   <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="message_QA_Edit_Question_input" name="message_QA_Edit_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint message_QA_Edit_Question_input-error"></textarea>
                 </div>
+                {% else %}
+                 <span id="message_QA_Edit_Question_input-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> 
+                  {{QaContent.questionErrorMessage_count}}
+              </span>
+                  <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="message_QA_Edit_Question_input" name="message_QA_Edit_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint message_QA_Edit_Question_input-error">{{QA.question}}</textarea>
+                </div>
+                {% endif %}
               {% else %}
                 <div class="govuk-form-group">
                <textarea value="{{QA.question}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Question_input" name="message_QA_Edit_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint">{{QA.question}}</textarea>
@@ -106,14 +115,23 @@
               
  <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
              Clarification
-               {% if QaContent.IsclarificationNotDefined %}
+               {% if QaContent.IsclarificationNotDefined  or QaContent.clarification_count %}
                 <div class="govuk-form-group govuk-form-group--error">
+                  {% if QaContent.IsclarificationNotDefined %}
                  <p id="message_QA_Edit_Answer_input-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{QaContent.clarificationErrorMessage}}
                  </p>
                   <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="message_QA_Edit_Answer_input" name="message_QA_Edit_Answer_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint message_QA_Edit_Answer_input-error"></textarea>
                 </div>
+                {% else %}
+                 <p id="message_QA_Edit_Answer_input-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    {{QaContent.clarificationErrorMessage_count}}
+                 </p>
+                  <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="message_QA_Edit_Answer_input" name="message_QA_Edit_Answer_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint message_QA_Edit_Answer_input-error">{{QA.answer}}</textarea>
+                </div>
+                {% endif %}
               {% else %}
                 <div class="govuk-form-group">
                <textarea  value="{{QA.answer}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Answer_input" name="message_QA_Edit_Answer_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint">{{QA.answer}}</textarea>

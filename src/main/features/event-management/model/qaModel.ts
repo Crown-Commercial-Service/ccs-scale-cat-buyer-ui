@@ -9,4 +9,8 @@ export interface QuestionAndAnswer {
     IsclarificationNotDefined:            boolean;
     questionErrorMessage:     string;
     clarificationErrorMessage:            string;
+    questionErrorMessage_count:     string;
+    clarificationErrorMessage_count:            string;
+    clarification_count :boolean;
+    Question_count:boolean;
 }
