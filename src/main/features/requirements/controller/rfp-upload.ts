@@ -197,13 +197,22 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
   if (req.session['isTcUploaded']) {
     if (selectedRoute === 'FC') selectedRoute = 'RFP';
     const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
-    if(flag)
-    {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+     //remove below code step 15,16 and replace with api(scat 5139)
+    let flag = await ShouldEventStatusBeUpdated(eventId, 16, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/16`, 'Completed');
     }
-    res.redirect(`/rfp/IR35`);
+    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+    if(journeySteps[14].state=="Completed" && journeySteps[15].state=="Completed")
+   {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+      let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
+      if(flag)
+      {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+      }    
+    }
+    res.redirect(`/rfp/task-list`);
   } else {
     const lotId = req.session?.lotId;
     const agreementLotName = req.session.agreementLotName;
