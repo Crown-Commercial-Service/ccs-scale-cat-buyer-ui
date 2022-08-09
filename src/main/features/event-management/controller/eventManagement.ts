@@ -421,7 +421,8 @@ function isWeekendDate(date: Date) {
 }
 export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  let { projectId, eventId, agreement_header } = req.session;
+  let { projectId, eventId, agreement_header,releatedContent } = req.session;
+  //let { projectId, eventId, agreement_header } = req.session;
   const { supplierid, reviewsupplierid, Type } = req.query;
   const events = req.session.openProjectActiveEvents
 
@@ -512,7 +513,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       //status=apidata.data[0].dashboardStatus;
       const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
       status = selectedEventData[0].dashboardStatus;
-      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType, redirectUrl };
+      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType, redirectUrl,releatedContent };
 
       res.render('evaluateSuppliers-readOnly', appendData);
     }
