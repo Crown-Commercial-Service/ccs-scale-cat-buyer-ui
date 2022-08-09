@@ -401,6 +401,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     let newfilteredData = tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition;
     for (let i = 0; i < newfilteredData.titles.rows.length; i++) {
       newfilteredData.titles.rows[i].text = newfilteredData.data[i].cols[1];
+      newfilteredData.titles.rows[i].id = newfilteredData.data[i].cols[0];
     }
     let tierData = newfilteredData.titles.rows; //tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition?.titles?.rows;
     // let tierData=[];
