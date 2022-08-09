@@ -80,13 +80,13 @@ export const CalVetting = async (req: express.Request) => {
   const tableItems = [...ITEMLIST];
   const dimensions = [...CAPACITY_DATASET];
 
-  const LEVEL7CONTENTS = dimensions?.filter(dimension => dimension['name'] === 'Resource Quantities')[0];
-  var { options } = LEVEL7CONTENTS;
+  const LEVEL7CONTENTS = dimensions?.filter(dimension => dimension['name'] === 'Resource Quantities')?.[0];
+  var { options } = LEVEL7CONTENTS != undefined && LEVEL7CONTENTS != null ? LEVEL7CONTENTS : null;
 
   /**
    * @Removing_duplications
    */
-  const UNIQUE_DESIGNATION_CATEGORY = [...new Set(options.map(item => item.name))];
+  const UNIQUE_DESIGNATION_CATEGORY = options != null && options.length > 0 ? [...new Set(options.map(item => item.name))] : [];
 
   /**
    * @CLEANING_REMOVED_ITEMS
@@ -94,7 +94,7 @@ export const CalVetting = async (req: express.Request) => {
   var UNIQUE_DESIG_STORAGE = [];
 
   for (const Item of UNIQUE_DESIGNATION_CATEGORY) {
-    const FINDER = options?.filter(nestedItem => nestedItem.name == Item)[0];
+    const FINDER = options?.filter(nestedItem => nestedItem.name == Item)?.[0];
     UNIQUE_DESIG_STORAGE.push(FINDER);
   }
 
@@ -223,7 +223,7 @@ export const CalVetting = async (req: express.Request) => {
           let value = '';
           const requirementID = nestedItems['requirement-id'];
           const findInDimensions = dimensionRequirements?.filter(i => i['requirement-id'] == requirementID);
-          if (findInDimensions !=undefined && findInDimensions?.length > 0) {
+          if (findInDimensions != undefined && findInDimensions?.length > 0) {
             const weigtageOfRequirement = findInDimensions?.[0].weighting;
             value = weigtageOfRequirement;
           }

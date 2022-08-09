@@ -1,7 +1,7 @@
 {
   "breadCrumbs": [
     {
-      "text": "Dashboard",
+      "text": "Your dashboard",
       "href": "/dashboard"
     },
     {
@@ -13,13 +13,13 @@
       "href": "/projects/create-or-choose"
     },
     {
-      "text": "Build your bid pack",
+      "text": "Choose how to build your bid pack",
       "href": "#"
     }
   ],
 
-  "title": "Choose how to build your bid pack?",
-  "subtitle1": "The information you enter into this service will create a bid pack that is shared with suppliers so they can get a better understanding of your needs and how they can meet them.",
+  "title": "Choose how to build your bid pack",
+  "subtitle1": "The information you enter will create a bid pack that is shared with suppliers so they can get a better understanding of your needs and how they can meet them.",
   "subtitle2": "You can either enter all the information online, or you can upload documents with your requirements and/or evaluation details.",
   "subtitle3": "You can download a ranked list of suppliers at the end of your capability assessment and run your further competition outside our service if you wish to do so.",
   "form": [

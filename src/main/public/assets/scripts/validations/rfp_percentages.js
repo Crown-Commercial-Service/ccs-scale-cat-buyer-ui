@@ -91,18 +91,27 @@ const checkRange = (s, e, val) => {
 }
 const ccsZvalidateRfpPercentages = (event) => {
   event.preventDefault();
-  let errorStore =[];
+  let errorStore = [];
   const pageHeading = document.getElementById('page-heading').innerHTML;
 
   let elements = document.querySelectorAll("[name='percentage']");
   let percentage = 0;
-  elements.forEach((el) => {
-    percentage += isNaN(el.value) ? 0 : Number(el.value);
+  let fieldCheck = "";
 
-  });
+  for (let index = 0; index < elements.length; index++) {
+    if (Number(elements[index].value) < 0) {
+      fieldCheck = [elements[index].id, 'You must enter positive value.'];
+      errorStore.push(fieldCheck);
+      ccsZaddErrorMessage(elements[index], 'You must enter positive value.');
+    }
+    else
+      percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
+  }
 
-
-  if (pageHeading.includes('Set the overall weighting between quality and price') && (percentage > 100 || percentage < 100)) {
+  if (errorStore.length > 0) {
+    ccsZPresentErrorSummary(errorStore)
+  }
+  else if (pageHeading.includes('Set the overall weighting between quality and price') && (percentage > 100 || percentage < 100)) {
     errorStore.push(["#", "Your total percentage must be 100%."]);
     ccsZPresentErrorSummary(errorStore)
   }

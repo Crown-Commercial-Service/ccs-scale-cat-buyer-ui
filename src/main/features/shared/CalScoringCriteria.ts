@@ -99,7 +99,7 @@ export const CalScoringCriteria = async (req: express.Request) => {
         rows?.forEach(element => {
           element.text = element.name;
           var data = getDataList(element.id, data1);
-          let innerArrObj = [{ text: element.name, "classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter", text: data[0].cols[0] }, { "classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
+          let innerArrObj = [{ text: element.name, "classes": "govuk-!-width-one-quarter",value:data[0].cols[0] }, {value:data[0].cols[0], "classes": "govuk-!-width-one-quarter", text: data[0].cols[0] }, {value:data[0].cols[0], "classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
           dataRowsList.push(innerArrObj);
         });
         return dataRowsList;
