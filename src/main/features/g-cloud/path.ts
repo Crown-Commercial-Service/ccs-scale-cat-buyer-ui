@@ -7,4 +7,5 @@ import {EventEngagementMiddleware} from '../../common/middlewares/event-manageme
 export default function(app: Application): void {
  // This is the reciever callback after getting the token
  app.get(GCloud_PATHS.GET_HOME_GCloud, [AUTH, EventEngagementMiddleware.GetEvents], associatedViews_GCloud.GET_SEARCH_HOME_GCLOUD)
+ app.get(GCloud_PATHS.GET_SERVICEES_RESULT_GCLOUD, [AUTH], associatedViews_GCloud.GET_SERVICE_RESULT_GCLOUD)
 }
