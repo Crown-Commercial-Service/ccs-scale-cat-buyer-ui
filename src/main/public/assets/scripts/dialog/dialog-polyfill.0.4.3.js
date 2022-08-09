@@ -185,6 +185,57 @@ $(function () {
         inputs[index].value = '';
         }
       }
+      $('#ca_vetting_error_summary').addClass('hide-block');
+      
+      var sfiaerror=document.getElementsByClassName("ca_weight_class_error")
+      if (sfiaerror != null && sfiaerror.length > 0) {
+        for(index=0;index<sfiaerror.length;index++)
+        {
+          
+          sfiaerror[index].innerText =''
+        }
+      }
+      var sfiaerrorInput=document.getElementsByClassName("weight_class")
+      if (sfiaerrorInput != null && sfiaerrorInput.length > 0) {
+        for(index=0;index<sfiaerrorInput.length;index++)
+        {
+          sfiaerrorInput[index].classList.remove('govuk-input--error')
+          
+        }
+      }
+      var weightStafferror=document.getElementsByClassName("ca_weight_staff_class_error")
+      if (weightStafferror != null && weightStafferror.length > 0) {
+        for(index=0;index<weightStafferror.length;index++)
+        {
+          
+          weightStafferror[index].innerHTML =''
+        }
+      }
+
+      var weightStafferrorInput=document.getElementsByClassName("weight_staff_class")
+      if (weightStafferrorInput != null && weightStafferrorInput.length > 0) {
+        for(index=0;index<weightStafferrorInput.length;index++)
+        {
+          weightStafferrorInput[index].classList.remove('govuk-input--error')
+          
+        }
+      }
+      var weightVettingerror=document.getElementsByClassName("ca_weight_vetting_class_p_error")
+      if (weightVettingerror != null && weightVettingerror.length > 0) {
+        for(index=0;index<weightVettingerror.length;index++)
+        {
+          
+          weightVettingerror[index].innerHTML =''
+        }
+      }
+      var weightVettingerrorInput=document.getElementsByClassName("weight_vetting_class")
+      if (weightVettingerrorInput != null && weightVettingerrorInput.length > 0) {
+        for(index=0;index<weightVettingerrorInput.length;index++)
+        {
+          weightVettingerrorInput[index].classList.remove('govuk-input--error')
+          
+        }
+      }
       var tabLinks = document.querySelectorAll('.ca-vetting-weighting');
       var tabLinkda = document.querySelectorAll('.da-vetting-weighting');
       if (tabLinkda != null && tabLinkda.length > 0) {

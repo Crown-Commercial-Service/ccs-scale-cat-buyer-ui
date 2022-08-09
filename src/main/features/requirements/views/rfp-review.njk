@@ -1133,7 +1133,7 @@
     </dt>
     <dd class="govuk-summary-list__value">
         {%if(supplierList !=undefined  and supplierList !=null and supplierList | length >0)%}
-        {{supplierList.length}} suppliers
+        {{supplierList.length}} {% if supplierList | length >1 %}suppliers{%else%}supplier{%endif%}
         {%else%}
         0 suppliers
         {%endif%}
