@@ -185,6 +185,32 @@ $(function () {
         inputs[index].value = '';
         }
       }
+      $('#ca_vetting_error_summary').addClass('hide-block');
+      
+      var sfiaerror=document.getElementsByClassName("ca_weight_class_error")
+      if (sfiaerror != null && sfiaerror.length > 0) {
+        for(index=0;index<sfiaerror.length;index++)
+        {
+          document.getElementsByClassName("weight_class")[index].classList.remove('govuk-input--error')
+          sfiaerror[index].innerText =''
+        }
+      }
+      var weightStafferror=document.getElementsByClassName("ca_weight_staff_class_error")
+      if (weightStafferror != null && weightStafferror.length > 0) {
+        for(index=0;index<weightStafferror.length;index++)
+        {
+          document.getElementsByClassName("weight_staff_class")[index].classList.remove('govuk-input--error')
+          weightStafferror[index].innerHTML =''
+        }
+      }
+      var weightVettingerror=document.getElementsByClassName("ca_weight_vetting_class_p_error")
+      if (weightVettingerror != null && weightVettingerror.length > 0) {
+        for(index=0;index<weightVettingerror.length;index++)
+        {
+          document.getElementsByClassName("weight_vetting_class")[index].classList.remove('govuk-input--error')
+          weightVettingerror[index].innerHTML =''
+        }
+      }
       var tabLinks = document.querySelectorAll('.ca-vetting-weighting');
       var tabLinkda = document.querySelectorAll('.da-vetting-weighting');
       if (tabLinkda != null && tabLinkda.length > 0) {
