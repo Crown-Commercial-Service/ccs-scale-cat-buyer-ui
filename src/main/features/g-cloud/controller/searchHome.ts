@@ -5,6 +5,7 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
 import { GCloud_SearchAPI_Instance } from '../util/fetch/gCloudInstance'
 import { GCloud_API_END_POINTS } from '../model/gCloudConstants'
 import { Search_Highlight } from '../model/searchModel'
+import { gCloudHelper } from '../helpers/gCloudCommonHelper'
 
 
 export const GET_SEARCH_HOME_GCLOUD = async (req: express.Request, res: express.Response) => {
@@ -29,28 +30,29 @@ export const GET_SEARCH_HOME_GCLOUD = async (req: express.Request, res: express.
     let serviceCategory = [];
     for (let i = 0; i < serviceData.documents.length; i++) {
       let search_HighlightObj = {} as Search_Highlight;
-      search_HighlightObj.id=serviceData.documents[i].id;
-      search_HighlightObj.frameworkName=serviceData.documents[i].frameworkName;
-      search_HighlightObj.lot=serviceData.documents[i].lot;
-      search_HighlightObj.lotName=serviceData.documents[i].lotName;
-      search_HighlightObj.serviceBenefits=serviceData.documents[i].serviceBenefits;
-      search_HighlightObj.serviceCategories=serviceData.documents[i].serviceCategories;
-      search_HighlightObj.serviceDescription=serviceData.documents[i].serviceDescription;
-      search_HighlightObj.serviceFeatures=serviceData.documents[i].serviceFeatures;
-      search_HighlightObj.serviceName=serviceData.documents[i].serviceName;
-      search_HighlightObj.supplierName=serviceData.documents[i].supplierName;
+      search_HighlightObj.id = serviceData.documents[i].id;
+      search_HighlightObj.frameworkName = serviceData.documents[i].frameworkName;
+      search_HighlightObj.lot = serviceData.documents[i].lot;
+      search_HighlightObj.lotName = serviceData.documents[i].lotName;
+      search_HighlightObj.serviceBenefits = serviceData.documents[i].serviceBenefits;
+      search_HighlightObj.serviceCategories = serviceData.documents[i].serviceCategories;
+      search_HighlightObj.serviceDescription = serviceData.documents[i].serviceDescription;
+      search_HighlightObj.serviceFeatures = serviceData.documents[i].serviceFeatures;
+      search_HighlightObj.serviceName = serviceData.documents[i].serviceName;
+      search_HighlightObj.supplierName = serviceData.documents[i].supplierName;
       searchResult_DataList.push(search_HighlightObj)
       var exists = serviceCategory.filter(x => x == serviceData.documents[i].lotName);
       if (exists == undefined || exists) {
         serviceCategory.push(serviceData.documents[i].lotName);
       }
     }
-    
+    //REMVING UPLICATE DATA FROM LIST
     serviceCategory = serviceCategory.filter(function (elem, index, self) {
       return index === self.indexOf(elem);
     })
-    //serviceCategory=serviceCategory.filter(x=>)
-    let appendData = { ...localContent, agreementName, ...releatedContent, serviceData, serviceCategory,searchResult_DataList };
+    // GET FILTERS LIST BASED ON LOT SELECTION "cloud-hosting", "cloud-software",
+    let filterNameList = gCloudHelper.getFiltersData([ "cloud-support"]);
+    let appendData = { filterNameList, ...localContent, agreementName, ...releatedContent, serviceCategory, searchResult_DataList };
     //let dataObject = { ...localContent };
     res.render("searchHome", appendData);
   } catch (error) {
@@ -87,8 +89,8 @@ export const GET_SERVICE_RESULT_GCLOUD = async (req: express.Request, res: expre
 
     //GET SERVICES LIST AND CATAGORIES OF G-CLOUDS
     //var serviceData = await (await GCloud_SearchAPI_Instance.Instance(tokenValue).get(GCloud_API_END_POINTS.G_CLOUD_SEARCH_API))?.data;
-    
-    let appendData = { ...localContent, agreementName, ...releatedContent,searchResult_DataList };
+
+    let appendData = { ...localContent, agreementName, ...releatedContent, searchResult_DataList };
     //let dataObject = { ...localContent };
     res.render("searchResult", appendData);
   } catch (error) {
