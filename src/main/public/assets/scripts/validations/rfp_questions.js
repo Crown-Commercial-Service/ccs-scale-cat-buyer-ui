@@ -241,10 +241,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return errorStore;
   }
 
-
   $('#rfp_multianswer_question_form').on('submit', (event) => {
     event.preventDefault();
     let errorStore = [];
+
+    const weightage = $('.weightage');
+    let fieldCheck = "";
+
+    for (let index = 0; index < weightage.length; index++) {
+      if (Number(weightage[index].value) < 0) {
+        fieldCheck = [weightage[index].id, 'You must enter positive value.'];
+        errorStore.push(fieldCheck);
+        ccsZaddErrorMessage(weightage[index], 'You must enter positive value.');
+      }
+    }
+    if (errorStore.length > 0) {
+      ccsZPresentErrorSummary(errorStore)
+    }
     if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
       errorStore.push(["There is a problem", "The total weighting is more than 100% "]);
     }

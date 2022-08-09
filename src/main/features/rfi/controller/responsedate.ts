@@ -7,7 +7,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment';
-import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -79,11 +79,10 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     }
     const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      let flag=await ShouldEventStatusBeUpdated(eventId,14,req);
-    if(flag)
-    {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/14`, 'Not started');
-    }
+      let flag = await ShouldEventStatusBeUpdated(eventId, 14, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/14`, 'Not started');
+      }
     }
 
     res.redirect('/rfi/review');
@@ -100,7 +99,7 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
   }
 };
 
-function isValidQuestion(questionId: number, questionNewDate: string, timeline: any) {
+const isValidQuestion = async (questionId: number, questionNewDate: string, timeline: any, SESSION_ID: any) => {
   const dayOfWeek = new Date(questionNewDate).getDay();
 
   let isValid = true,
@@ -110,6 +109,23 @@ function isValidQuestion(questionId: number, questionNewDate: string, timeline: 
     isValid = false;
     error = 'You can not set a date in weekend';
   }
+
+  if (isValid) {
+    const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
+    const fetchHoliDayData = await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl);
+
+    const bankHoliDayData = fetchHoliDayData?.data;
+    const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
+
+    const newDate = moment(questionNewDate).format('YYYY-MM-DD');
+    const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+
+    if (filterDate != undefined && filterDate != null) {
+      isValid = false;
+      error = 'You can not set a date in bank holiday';
+    }
+  }
+
   switch (questionId) {
     case 'Question 1':
       errorSelector = 'rfi_clarification_date_expanded_1';
@@ -162,7 +178,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     clarification_date_hourFormat,
     selected_question_id,
   } = req.body;
-
+  const { SESSION_ID } = req.cookies
   const { timeline } = req.session;
 
   clarification_date_day = Number(clarification_date_day);
@@ -204,7 +220,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
     let nowDate = new Date();
 
-    const { isValid, error, errorSelector } = isValidQuestion(selected_question_id, date.toISOString(), timeline);
+    const { isValid, error, errorSelector } = await isValidQuestion(selected_question_id, date.toISOString(), timeline, SESSION_ID);
 
     if (date.getTime() >= nowDate.getTime() && isValid) {
       date = moment(date).format('DD MMMM YYYY, hh:mm a');
