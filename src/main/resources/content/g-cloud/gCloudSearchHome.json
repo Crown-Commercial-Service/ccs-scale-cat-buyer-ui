@@ -1,0 +1,77 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/dashboard"
+        },
+    {
+        "text": "Dashboard",
+        "href": "/dashboard"
+    },
+    {
+        "text": "G-Cloud",
+        "href": "#"
+    }
+    
+],
+"title": "Search results",
+"line1": "Before you start you should write a list of requirements and",
+"line2": "check if you need approval to spend money on a service.",
+"line3": "You cannot run step 2 and 3 at the same time.",
+"line4": "Check the terms and conditions of this lot in the ",
+"line5": "lot detail page.",
+"events": [
+    {
+        "eventno": 1,
+        "eventTitle": "Save and export a search",
+        "buttonText": "Start a new search",
+        "buttonDisable": false,
+        "href": "/gcloud/gcloud-search",
+        "sections": ["You can save your search results and export your results later. You must buy fairly and assess all the services that you find. Do not combine the results of more than one search."],
+        "list": [],
+        "required": "optional",
+        "status": "optional"
+    },
+    {
+        "eventno": 2,
+        "eventTitle": "Start assessing service",
+        "buttonText": "",
+        "note": "",
+        "buttonDisable": false,
+        "href": "/projects/routeToMarket?isrfi=1",
+        "sections" : ["Follow the guidance for assessing services. Choose the one that best meets your budget and requirements. <br><br> Do not hold a competition to decide the winner. You can contact suppliers to ask clarification questions, <br> but you must not negotiate with them."],
+        "subsections": [],
+        "list": [],
+        "required": "optional",
+        "status": "optional"
+    },
+    {
+        "eventno": 3,
+        "eventTitle": "Award a contract",
+        "buttonText": "",
+        "buttonDisable": false,
+        "href": "/requirements/choose-route",
+        "sections": ["Follow the guidance for awarding a contract.","You can use this G-Cloud 13 call-off contract template if you need to..."],
+         "subsections": [],
+        "list": [],
+        "required": "optional",
+        "status": "not started"
+    },
+    {
+        "eventno": 4,
+        "eventTitle": "Publish details on Contract finder",
+        "buttonText": "",
+        "sections": ["Check if you need to publish the details on Contracts Finder.  Whether you award a contract or not, tell us <br> the outcome. This information helps us improve your experience."],
+        "required": "optional",
+        "status": "cannot start yet"
+    }
+    
+],
+"related": {
+    "title": "Related content",
+    "content": {
+        "href": "/agreement/lot?agreement_id=RM6263&lotNum=Lot%202",
+        "text": "Digital Specialists and Programmes, Lot 2: Specialists"
+    }
+}
+}

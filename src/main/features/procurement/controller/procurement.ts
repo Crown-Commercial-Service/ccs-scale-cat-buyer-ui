@@ -3,10 +3,12 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import * as express from 'express';
 import * as data from '../../../resources/content/procurement/ccs-procurement.json';
+import * as dataGCloudSearchContent from '../../../resources/content/g-cloud/gCloudSearch.json';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { Procurement } from '../model/project';
 
+import * as journyData from '../model/tasklist.json';
 import * as journyData from '../model/tasklist.json';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('procurement');
@@ -20,13 +22,13 @@ const logger = Logger.getLogger('procurement');
  *
  */
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
-  const { lotId, agreementLotName } = req.session;
+  const { lotId, agreementLotName, agreementName } = req.session;
 
   const { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `/agreements/${agreementId_session}/lots/${lotId}/event-types`;
-  let appendData: any = { ...data, SESSION_ID };
+  let appendData: any = agreementName.toLowerCase() === "G-Cloud 12".toLowerCase() ? { ...dataGCloudSearchContent, SESSION_ID } : { ...data, SESSION_ID };
   try {
     const { data: typesRaw } = await AgreementAPI.Instance.get(eventTypesURL);
     const types = typesRaw.map((typeRaw: any) => typeRaw.type);
@@ -54,6 +56,8 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.types = types;
     req.session.agreementLotName = agreementLotName;
     const agreementName = req.session.agreementName;
+
+
     try {
       const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
@@ -68,6 +72,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
         req.session['journey_status'] = JourneyStatus?.data;
       }
     }
+
 
     data.events.forEach(event => {
       if (event.eventno == 1) {
@@ -131,7 +136,10 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
 
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
     appendData = { ...appendData, agreementName, releatedContent };
-    res.render('procurement', appendData);
+    if (agreementName.toLowerCase() === "G-Cloud 12".toLowerCase()) {
+      res.render('procurement-g-cloud', appendData);
+    } else
+      res.render('procurement', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
       res,

@@ -1,0 +1,10 @@
+import { AUTH } from '../../common/middlewares/oauthservice/authstatecheck';
+import {associatedViews_GCloud} from './controller/index';
+import {GCloud_PATHS} from './model/gCloudConstants';
+import { Application } from 'express';
+import {EventEngagementMiddleware} from '../../common/middlewares/event-management/activeevents'
+
+export default function(app: Application): void {
+ // This is the reciever callback after getting the token
+ app.get(GCloud_PATHS.GET_HOME_GCloud, [AUTH, EventEngagementMiddleware.GetEvents], associatedViews_GCloud.GET_SEARCH_HOME_GCLOUD)
+}
