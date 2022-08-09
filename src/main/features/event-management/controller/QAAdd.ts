@@ -10,6 +10,9 @@ import { QuestionAndAnswer } from '../model/qaModel';
 export class ValidationErrors {
     static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'
     static readonly Question_REQUIRED: string = 'Question has not been defined'
+    static readonly Clarification_REQUIRED_count: string = 'Please enter <=5000 characters'
+    static readonly Question_REQUIRED_count: string = 'Please enter <=5000 characters'
+   
     }
 /**
  * 
@@ -91,7 +94,7 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
     const eventId = req.session['eventId']
     try {
         const _body = req.body
-        let IsQuestionNotDefined, IsClerificationNotDefined, validationError = false;
+        let IsQuestionNotDefined,Question_count,clarification_count, IsClerificationNotDefined, validationError = false;
         const errorText = [];
         if (!_body.QA_Question_input) {
             IsQuestionNotDefined = true
@@ -114,8 +117,30 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
         } else {
             IsClerificationNotDefined = false;
         }
+        if (_body.QA_Question_input.length > 5000) {
+            Question_count = true
+            validationError = true
+            errorText.push({
+                text: ValidationErrors.Question_REQUIRED_count,
+                href: '#QA_Question_input'
+            });
+        } else {
+            Question_count = false;
+        }
 
-        if (errorText.length > 0 && (IsClerificationNotDefined || IsQuestionNotDefined)) {
+        if (_body.message_Add_Clerification_input.length > 5000) {
+            clarification_count = true
+            validationError = true
+            errorText.push({
+                text: ValidationErrors.Clarification_REQUIRED_count,
+                href: '#message_Add_Clerification_input'
+            });
+        } else {
+            clarification_count = false;
+        }
+
+
+        if (errorText.length > 0 && (IsClerificationNotDefined || IsQuestionNotDefined || clarification_count || Question_count )) {
             const QaContent: QuestionAndAnswer = {
             create_question_input: _body.QA_Question_input,
             create_clarification_input: _body.message_Add_Clerification_input,
@@ -123,6 +148,10 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
             IsclarificationNotDefined: IsClerificationNotDefined,
             questionErrorMessage: ValidationErrors.Question_REQUIRED,
             clarificationErrorMessage: ValidationErrors.Clarification_REQUIRED,
+            Question_count:Question_count,
+            clarification_count:clarification_count,
+            questionErrorMessage_count: ValidationErrors.Question_REQUIRED_count,
+            clarificationErrorMessage_count: ValidationErrors.Clarification_REQUIRED_count,
             }
     
             const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);

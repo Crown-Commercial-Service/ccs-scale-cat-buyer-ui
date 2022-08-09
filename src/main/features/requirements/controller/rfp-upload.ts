@@ -65,8 +65,9 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
               contentType: file.mimetype,
               filename: file.name,
             });
-            formData.append('description', file.name);
-            formData.append('audience', 'buyer');
+
+            formData.append('description',"optional");
+            formData.append('audience', 'supplier');
             const formHeaders = formData.getHeaders();
             try {
               await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
@@ -111,8 +112,9 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
             contentType: offline_document.mimetype,
             filename: offline_document.name,
           });
-          formData.append('description', offline_document.name);
-          formData.append('audience', 'buyer');
+          formData.append('description', "optional");
+          formData.append('audience', 'supplier');
+
           const formHeaders = formData.getHeaders();
           try {
             await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {

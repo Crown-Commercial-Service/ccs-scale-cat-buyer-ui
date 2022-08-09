@@ -9,4 +9,5 @@ export interface CreateMessage {
     subjectErrorMessage:            string;
     messageErrorMessage:            string;
     selected_message:               string;
+    SUBJECT_REQUIRED_count :string;
 }
