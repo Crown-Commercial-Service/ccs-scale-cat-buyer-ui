@@ -8,7 +8,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 import { ATTACHMENTUPLOADHELPER } from '../helpers/uploadAttachment';
 import { FileValidations } from '../util/file/filevalidations';
-
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 let tempArray = [];
 
 // requirements Upload document
@@ -65,7 +65,8 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
               filename: file.name,
             });
             formData.append('description', "mandatory");
-            formData.append('audience', 'buyer');
+            formData.append('audience', 'supplier');
+
             const formHeaders = formData.getHeaders();
             try {
               await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
@@ -112,7 +113,8 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
             filename: offline_document.name,
           });
           formData.append('description',"mandatory");
-          formData.append('audience', 'buyer');
+         formData.append('audience', 'supplier');
+
           const formHeaders = formData.getHeaders();
           try {
             await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
@@ -188,17 +190,42 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   res: express.Response,
 ) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   let { selectedRoute } = req.session;
   const rfp_confirm_upload = req.body.rfp_confirm_upload;
-  if (selectedRoute === 'FC') selectedRoute = 'RFP';
-  const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71; // check step number changed step 37 to 30 balwinder
+  try{ 
   if (req.session['isTcUploaded'] && rfp_confirm_upload === "confirm") {
-   // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
-    res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
-  } else {
-    req.session["pricingSchedule"] = { "IsDocumentError": true, "IsFile": !req.session['isTcUploaded'] ? true : false, "rfp_confirm_upload": rfp_confirm_upload == undefined ? true : false };
-    res.redirect(`/rfp/upload-attachment`);
+    if (selectedRoute === 'FC') selectedRoute = 'RFP';
+    const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71;
+    //remove below code step 15,16 and replace with api(scat 5139)
+      let flag = await ShouldEventStatusBeUpdated(eventId, 15, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/15`, 'Completed');
+      }
+      const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+      if(journeySteps[14].state=="Completed" && journeySteps[15].state=="Completed")
+     {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+        let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
+        if(flag)
+        {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+        }    
+      }
+      res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
+    } else {
+      req.session["pricingSchedule"] = { "IsDocumentError": true, "IsFile": !req.session['isTcUploaded'] ? true : false, "rfp_confirm_upload": rfp_confirm_upload == undefined ? true : false };
+      res.redirect(`/rfp/upload-attachment`);
+    }
   }
-
-});
+catch (error) {
+      delete error?.config?.['headers'];
+      const Logmessage = {
+        Person_id: TokenDecoder.decoder(SESSION_ID),
+        error_location: `${req.headers.host}${req.originalUrl}`,
+        sessionId: 'null',
+        error_reason: `File uploading Causes Problem in ${selRoute}  - Tenders Api throws error`,
+        exception: error,
+      };
+    }
+  });
