@@ -111,8 +111,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (servCapWhole != null && servCapWhole.length > 0) {
         for(index=0;index<servCapWhole.length;index++)
         {
-          document.getElementsByClassName("weight_vetting_whole")[index].classList.remove('govuk-input--error')
+        
           servCapWhole[index].innerText =''
+        }
+      }
+
+      var servCapWholeInput=document.getElementsByClassName("weight_vetting_whole")
+      if (servCapWholeInput != null && servCapWholeInput.length > 0) {
+        for(index=0;index<servCapWholeInput.length;index++)
+        {
+          servCapWholeInput[index].classList.remove('govuk-input--error')
+          
         }
       }
 
@@ -120,8 +129,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (servCapPart != null && servCapPart.length > 0) {
         for(index=0;index<servCapPart.length;index++)
         {
-          document.getElementsByClassName("weight_vetting_partial")[index].classList.remove('govuk-input--error')
+          
           servCapPart[index].innerText =''
+        }
+      }
+
+
+      var servCapPartInput=document.getElementsByClassName("weight_vetting_partial")
+      if (servCapPartInput != null && servCapPartInput.length > 0) {
+        for(index=0;index<servCapPartInput.length;index++)
+        {
+          servCapPartInput[index].classList.remove('govuk-input--error')
+          
         }
       }
 

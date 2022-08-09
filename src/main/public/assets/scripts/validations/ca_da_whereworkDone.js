@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
           errorLabel[index].innerText =''
         }
       }
-      var inputError=document.getElementsByClassName("govuk-input--error")
+      var inputError=document.getElementsByClassName("govuk-input--width-2")
       if (inputError != null && inputError.length > 0) {
         for(index=0;index<inputError.length;index++)
         {
