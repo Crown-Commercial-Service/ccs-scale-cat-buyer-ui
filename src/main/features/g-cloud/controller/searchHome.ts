@@ -3,6 +3,7 @@ import * as localContent from '../../../resources/content/g-cloud/gCloudSearchHo
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
 import { GCloudInstanceInstance } from '../util/fetch/gCloudInstance'
+import { GCloud_API_END_POINTS } from '../model/gCloudConstants'
 
 
 export const GET_SEARCH_HOME_GCLOUD = async (req: express.Request, res: express.Response) => {
@@ -22,8 +23,7 @@ export const GET_SEARCH_HOME_GCLOUD = async (req: express.Request, res: express.
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid: lotId };
 
     //GET SERVICES LIST AND CATAGORIES OF G-CLOUDS
-    let apiEndPoint = '/g-cloud-12/services/search';
-    var serviceData = await (await GCloudInstanceInstance.Instance(tokenValue).get(apiEndPoint))?.data;
+    var serviceData = await (await GCloudInstanceInstance.Instance(tokenValue).get(GCloud_API_END_POINTS.G_CLOUD_SEARCH_API))?.data;
     let serviceCategory = [];
     for (let i = 0; i < serviceData.documents.length; i++) {
       var exists = serviceCategory.filter(x => x == serviceData.documents[i].lotName);
