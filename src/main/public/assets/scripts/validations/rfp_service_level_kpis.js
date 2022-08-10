@@ -201,9 +201,17 @@ const emptyFieldCheckRfpKPI = () => {
               isError = true;
             }
 
-            if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
-              ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
-              isError = true;
+            if (target_field !== undefined && target_field !== null) {
+              if (Number(target_field.value) < 0) {
+                ccsZaddErrorMessage(target_field, 'You must enter positive value.');
+                isError = false;
+                fieldCheck = [target_field.id, 'You must enter positive value.'];
+                errorStore.push(fieldCheck);
+              }
+              else if (target_field.value.trim() === '') {
+                ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
+                isError = true;
+              }
             }
             if (field1) {
               ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
@@ -235,6 +243,10 @@ const ccsZvalidateRfpKPI = (event) => {
     if (Number(percentageElement[index].value) > 100) {
       let index1 = Number(index) + 1;
       errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
+    }
+    if (Number(percentageElement[index].value) < 0) {
+      let index1 = Number(index) + 1;
+      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter positive value for percentage"])
     }
   }
   if (totalPercentage === 100) {
