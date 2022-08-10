@@ -15,6 +15,7 @@ export enum GCloud_PATHS {
 
 export enum GCloud_API_END_POINTS {
   G_CLOUD_SEARCH_API = '/g-cloud-12/services/search',
+  G_CLOUD_SEARCH_API_WITH_SERVICE_ID = '/g-cloud-12/services/',
   G_CLOUD_SUPPLIER_API = '/g-cloud-filters',
 
 }
