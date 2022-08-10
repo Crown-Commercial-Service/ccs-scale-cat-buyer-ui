@@ -114,7 +114,7 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const FetchAgreementServiceData = await AgreementAPI.Instance.get(`/agreements/${ChoosenAgreement}`);
     const AgreementEndDate = FetchAgreementServiceData.data.endDate;
 
-    req.session?.nonOCDSList = nonOCDSList;
+    req.session['nonOCDSListData'] = nonOCDSList;
     const releatedContent = req.session.releatedContent;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
@@ -278,7 +278,9 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
 
     const regex = /questionnaire/gi;
     const url = req.originalUrl.toString();
-    const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
+
+    let nonOCDS = req.session['nonOCDSListData'];
+     nonOCDS = nonOCDS?.filter(anItem => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
     let { rfp_build_started, question_id } = req.body;
     if (question_id === undefined) {

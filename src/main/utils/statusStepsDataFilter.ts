@@ -96,8 +96,7 @@ export function statusStepsDataFilter(
       stepsByType = steps.slice(6, 14);
       break;
     case 'eoi':
-      stepsByType = steps.slice(15, 25);//result: step 16 to 25
-      //**NOTE:STEP 15 and 16 are USED FOR 1FC UPLOAD DOCS**
+      stepsByType = steps.slice(15, 25);
       break;
     case 'rfp':
       stepsByType = steps.slice(26, 41);//result: step 27 to 41
