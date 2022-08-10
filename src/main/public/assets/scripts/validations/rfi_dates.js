@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let year = $(`#clarification_date-year_${element}`);
     let hour = $(`#clarification_date-hour_${element}`);
     let minutes = $(`#clarification_date-minute_${element}`);
+    let hourFormat = $(`#clarification_date-hourFormat_${element}`);
+    let dateExpandedId = 'rfi_clarification_date_expanded_'+element;
 
     let responseDate = $(`#ccs_rfi_response_date_form_${element}`);
 
@@ -115,8 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       day.removeClass("govuk-input--error")
       month.removeClass("govuk-input--error")
-      year.removeClass("govuk-input--error")
+      year.removeClass("govuk-input--error")  
+      minutes.removeClass("govuk-input--error")
+      hour.removeClass("govuk-input--error")
 
+      let errorStore  = [];
       let parentID = getParentId(element);
       ccsZremoveErrorMessage(document.getElementById(parentID));
 
@@ -125,23 +130,43 @@ document.addEventListener('DOMContentLoaded', () => {
         month.addClass("govuk-input--error")
         year.addClass("govuk-input--error")
         ccsZaddErrorMessage(document.getElementById(parentID), "Date should not be empty");
+        errorStore = [[dateExpandedId, "Date should not be empty"]];
       }
       else if (day.val() != undefined && day.val() == "") {
         day.addClass("govuk-input--error")
         ccsZaddErrorMessage(document.getElementById(parentID), "Day should not be empty");
+        errorStore = [[dateExpandedId, "Day should not be empty"]];
       }
       else if (month.val() != undefined && month.val() == "") {
         month.addClass("govuk-input--error")
         ccsZaddErrorMessage(document.getElementById(parentID), "Month should not be empty");
+        errorStore = [[dateExpandedId, "Month should not be empty"]];
       }
       else if (year.val() != undefined && year.val() == "") {
         year.addClass("govuk-input--error")
         ccsZaddErrorMessage(document.getElementById(parentID), "Year should not be empty");
+        errorStore = [[dateExpandedId, "Year should not be empty"]];
+      }
+      else if (hour.val() != undefined && hour.val() == "") {
+        hour.addClass("govuk-input--error")
+        ccsZaddErrorMessage(document.getElementById(parentID), "Hour should not be empty");
+        errorStore = [[dateExpandedId, "Hour should not be empty"]];
+      }
+      else if (minutes.val() != undefined && minutes.val() == "") {
+        minutes.addClass("govuk-input--error")
+        ccsZaddErrorMessage(document.getElementById(parentID), "Minutes should not be empty");
+        errorStore = [[dateExpandedId, "Minutes should not be empty"]];
+      }
+      else if(hourFormat[0].value != undefined && hourFormat[0].value =="")
+      {
+        ccsZaddErrorMessage(document.getElementById(parentID), "Please select hour format");
+        errorStore = [[dateExpandedId, "Please select hour format"]];
       }
       else {
         if (!isValidDate(year.val(), month.val(), day.val())) {
           day.addClass("govuk-input--error")
           ccsZaddErrorMessage(document.getElementById(parentID), "Please enter valid date");
+          errorStore = [[dateExpandedId, "Please enter valid date"]];
         }
         else {
           let currentDate = new Date();
@@ -151,6 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
             month.addClass("govuk-input--error")
             year.addClass("govuk-input--error")
             ccsZaddErrorMessage(document.getElementById(parentID), "Date should be in future");
+            errorStore = [[dateExpandedId, "Date should be in future"]];
           }
           else {
             const questionNewDate = new Date(year.val(), month.val() - 1, day.val());
@@ -160,13 +186,15 @@ document.addEventListener('DOMContentLoaded', () => {
               month.addClass("govuk-input--error")
               year.addClass("govuk-input--error")
               ccsZaddErrorMessage(document.getElementById(parentID), "You can not set a date in weekend");
-            }
-            else {
-              document.getElementById(`ccs_rfi_response_date_form_${element}`).submit()
+              errorStore = [[dateExpandedId, "You can not set a date in weekend"]];
             }
           }
         }
       }
+        if(errorStore.length ===0)
+        document.getElementById(`ccs_rfi_response_date_form_${element}`).submit()
+        else 
+          ccsZPresentErrorSummary(errorStore);
     });
 
     function getParentId(element) {
