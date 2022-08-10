@@ -144,8 +144,8 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
           }
         } else {
           FileFilterArray.push({
-            href: '#documents_upload',
-            text: fileName,
+            href: '#rfp_offline_document',
+            text: "This document "+fileName+" is not an acceptable file format. Check the list and try again.",
           });
 
           ATTACHMENTUPLOADHELPER(req, res, true, FileFilterArray);
@@ -197,13 +197,20 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   if (req.session['isTcUploaded'] && rfp_confirm_upload === "confirm") {
     if (selectedRoute === 'FC') selectedRoute = 'RFP';
     const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71;
-    //remove below code step 15,16 and replace with api(scat 5139)
-      let flag = await ShouldEventStatusBeUpdated(eventId, 15, req);
-      if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/15`, 'Completed');
+    const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
+    const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+    const FETCH_FILEDATA = FetchDocuments?.data;
+    let fileNameStorageTermsnCond = [];
+    let fileNameStoragePricing = [];
+    FETCH_FILEDATA?.map(file => {
+      if (file.description === "optional") {
+        fileNameStorageTermsnCond.push(file.fileName);
       }
-      const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-      if(journeySteps[14].state=="Completed" && journeySteps[15].state=="Completed")
+      if (file.description === "mandatory") {
+        fileNameStoragePricing.push(file.fileName);
+      }
+    });
+    if(fileNameStorageTermsnCond.length>0 && fileNameStoragePricing.length>0)
      {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
         let flag=await ShouldEventStatusBeUpdated(eventId,31,req);

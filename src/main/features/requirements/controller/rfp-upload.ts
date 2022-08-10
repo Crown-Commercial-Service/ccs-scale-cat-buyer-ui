@@ -191,19 +191,26 @@ export const RFP_GET_REMOVE_FILES = (express.Handler = async (req: express.Reque
 
 export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { eventId, projectId} = req.session;
   const { selectedRoute } = req.session;
 
   if (req.session['isTcUploaded']) {
     if (selectedRoute === 'FC') selectedRoute = 'RFP';
     const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71;
-     //remove below code step 15,16 and replace with api(scat 5139)
-    let flag = await ShouldEventStatusBeUpdated(eventId, 16, req);
-    if (flag) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/16`, 'Completed');
-    }
-    const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-    if(journeySteps[14].state=="Completed" && journeySteps[15].state=="Completed")
+    const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
+    const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+    const FETCH_FILEDATA = FetchDocuments?.data;
+    let fileNameStorageTermsnCond = [];
+    let fileNameStoragePricing = [];
+    FETCH_FILEDATA?.map(file => {
+      if (file.description === "optional") {
+        fileNameStorageTermsnCond.push(file.fileName);
+      }
+      if (file.description === "mandatory") {
+        fileNameStoragePricing.push(file.fileName);
+      }
+    });
+    if(fileNameStorageTermsnCond.length>0 && fileNameStoragePricing>0)
    {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
       let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
