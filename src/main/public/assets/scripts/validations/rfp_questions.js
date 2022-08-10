@@ -22,9 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
         weightageSum += isNaN(el.value) ? 0 : Number(el.value);
       });
       if (weightageSum > 100) {
-        errorStore.push(["There is a problem", "The total weighting is exceeded more than 100%"]);
+        errorStore.push(["There is a problem", "The weighting cannot exceed 100%"]);
         ccsZPresentErrorSummary(errorStore);
       }
+      
+
       $('#totalPercentage').html(weightageSum);
     };
     elements.forEach(ele => {
@@ -200,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (rootEl.querySelector('.order_1').value == '' || condOrd1) {
               const msg = rootEl.querySelector('.order_1').value
                 ? 'Entry is limited to 50 words'
-                : 'You must enter valid question';
+                : 'Enter your question';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msg, /\w+/, !condOrd1);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
@@ -210,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (rootEl.querySelector('.order_2').value == '' || !condOrd2) {
               const msg = rootEl.querySelector('.order_2').value
                 ? 'Entry is limited to 50 words'
-                : 'You must enter valid additional information';
+                : 'Add more details about this question';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_2', msg, /\w+/, !condOrd2);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
@@ -220,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (rootEl.querySelector('.order_3').value == '' || condOrd3) {
               const msg = rootEl.querySelector('.order_3').value
                 ? 'Entry is limited to 50 words'
-                : 'You must enter valid information';
+                : 'Describe the type of answers you need from suppliers';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_3', msg, /\w+/, !condOrd3);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
