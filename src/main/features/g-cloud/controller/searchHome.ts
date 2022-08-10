@@ -15,6 +15,7 @@ export const GET_SEARCH_HOME_GCLOUD = async (req: express.Request, res: express.
   const agreementId_session = req.session.agreement_id;
   var searchResult_DataList = [] as Search_Highlight[];
   // let appendData: any =  {  SESSION_ID };
+  let tokenValue1 = 'BearerToken';
   try {
 
     // req.session.types = types;
@@ -25,7 +26,8 @@ export const GET_SEARCH_HOME_GCLOUD = async (req: express.Request, res: express.
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid: lotId };
 
     //GET SERVICES LIST AND CATAGORIES OF G-CLOUDS
-    var serviceData = await (await GCloud_SearchAPI_Instance.Instance(TokenValue.G_CLOUD_TOKEN).get(GCloud_API_END_POINTS.G_CLOUD_SEARCH_API))?.data;
+    let filterNameList =await gCloudHelper.getFiltersData(["cloud-support"]);
+    var serviceData = await (await GCloud_SearchAPI_Instance.Instance(tokenValue1).get(GCloud_API_END_POINTS.G_CLOUD_SEARCH_API))?.data;
     let serviceCategory = [];
     for (let i = 0; i < serviceData.documents.length; i++) {
       let search_HighlightObj = {} as Search_Highlight;
@@ -50,7 +52,7 @@ export const GET_SEARCH_HOME_GCLOUD = async (req: express.Request, res: express.
       return index === self.indexOf(elem);
     })
     // GET FILTERS LIST BASED ON LOT SELECTION "cloud-hosting", "cloud-software",
-    let filterNameList = gCloudHelper.getFiltersData(["cloud-support"]);
+   
     let appendData = { filterNameList, ...localContent, agreementName, ...releatedContent, serviceCategory, searchResult_DataList };
     //let dataObject = { ...localContent };
     res.render("searchHome", appendData);
@@ -61,7 +63,7 @@ export const GET_SEARCH_HOME_GCLOUD = async (req: express.Request, res: express.
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'DOS6',
+      'G-Cloud service issue',
       true,
     );
   }
