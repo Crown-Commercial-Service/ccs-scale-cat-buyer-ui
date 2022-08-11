@@ -63,14 +63,20 @@ export const FILEUPLOADHELPER: express.Handler = async (
       const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
-      const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
+      let fileNameStorageTermsNcond = [];
+      FETCH_FILEDATA?.map(file => {
+        if (file.description === "optional") {
+          fileNameStorageTermsNcond.push(file);
+        }
+      });
+      const TOTALSUM = fileNameStorageTermsNcond.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
       
       let windowAppendData = {
         lotId,
         agreementLotName,
         data: cmsData,
-        files: FETCH_FILEDATA,
+        files: fileNameStorageTermsNcond,
         releatedContent: releatedContent,
         storage: TOTALSUM,
       };

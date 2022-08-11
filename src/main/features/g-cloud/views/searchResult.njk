@@ -1,0 +1,341 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{# {% from "components/support/macro.njk" import howToGetSupport %} #}
+
+
+{# {% set title = 'Find cloud hosting, software and support' %} #}
+
+{% set url ="/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}"%}
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items: [
+        {
+          text:"Dashboard",
+          href="/Dashboard"
+        },
+        {
+          text:"G-Cloud",
+          href="/Dashboard"
+        }
+        ]
+      }) }}
+{% endblock %}
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {%block Page_Title_Section_1%}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Michael Page International</span>
+      <h1 class="govuk-heading-l">Physical and Environmental Security</h1>
+    </div>
+    </div>
+    {%blockend%}
+
+  {%block Data_Result_Section_2%}
+<div class="govuk-grid-row govuk-!-margin-bottom-9">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">{{serviceModelDataObj.dmtext_serviceDescription}}</p> 
+
+<h2 class="govuk-heading-m">Features</h2>
+<ul class="govuk-list govuk-list--bullet">
+  {%if serviceModelDataObj.dmtext_serviceFeatures !=null and serviceModelDataObj.dmtext_serviceFeatures.length >0%}
+  {%for feature in serviceModelDataObj.dmtext_serviceFeatures%}
+    <li>{{feature}}</li>
+  {%endfor%}
+  {%endif%}
+</ul>
+
+
+<h2 class="govuk-heading-m">Benefits</h2>
+<ul class="govuk-list govuk-list--bullet">
+  {%if serviceModelDataObj.dmtext_serviceBenefits !=null and serviceModelDataObj.dmtext_serviceBenefits.length >0%}
+     {%for serviceBenefits in serviceModelDataObj.dmtext_serviceBenefits%}
+      <li>{{serviceBenefits}}</li>
+    {%endfor%}
+  {%endif%}
+</ul>
+
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <div id="meta">
+  <h2 class="govuk-visually-hidden">Pricing</h2>
+  <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">£500 a unit a day</p>
+  <ul class="govuk-list govuk-body-s">
+    <li>
+        Education pricing available
+    </li>
+  </ul>
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-padding-top-1">Service documents</h2>
+
+<ul class="govuk-list">
+  <li class="gouk-!-margin-bottom-2">
+  <section class="dm-attachment" data-module="dm-attachment">
+    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+      <a class="govuk-link" href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-pricing-document-2020-07-20-0915.pdf" target="_self" tabindex="-1" aria-hidden="true">
+          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+          </svg>
+      </a>
+    </div>
+    <div class="dm-attachment__details">
+      <p class="dm-attachment__title govuk-!-font-size-16">
+        <a href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-pricing-document-2020-07-20-0915.pdf" class="govuk-link dm-attachment__link" target="_self">Pricing document</a>
+      </p>
+        <p class="dm-attachment__metadata">
+          <span class="dm-attachment__attribute">PDF</span></p>
+    </div>
+  </section>
+  </li>
+
+  <li class="gouk-!-margin-bottom-2">
+  <section class="dm-attachment" data-module="dm-attachment">
+    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+      <a class="govuk-link" href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-service-definition-document-2020-07-20-0914.pdf" target="_self" tabindex="-1" aria-hidden="true">
+          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+          </svg>
+      </a>
+    </div>
+    <div class="dm-attachment__details">
+      <p class="dm-attachment__title govuk-!-font-size-16">
+        <a href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-service-definition-document-2020-07-20-0914.pdf" class="govuk-link dm-attachment__link" target="_self">Service definition document</a>
+      </p>
+        <p class="dm-attachment__metadata">
+          <span class="dm-attachment__attribute">PDF</span></p>
+    </div>
+  </section>
+
+  </li>
+
+  <li class="gouk-!-margin-bottom-2">
+  <section class="dm-attachment" data-module="dm-attachment">
+    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+      <a class="govuk-link" href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-terms-and-conditions-2020-07-20-0915.pdf" target="_self" tabindex="-1" aria-hidden="true">
+          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+          </svg>
+      </a>
+    </div>
+    <div class="dm-attachment__details">
+      <p class="dm-attachment__title govuk-!-font-size-16">
+        <a href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-terms-and-conditions-2020-07-20-0915.pdf" class="govuk-link dm-attachment__link" target="_self">Terms and conditions</a>
+      </p>
+        <p class="dm-attachment__metadata">
+          <span class="dm-attachment__attribute">PDF</span></p>
+    </div>
+  </section>
+  </li>
+
+  <li class="gouk-!-margin-bottom-2">
+  <section class="dm-attachment" data-module="dm-attachment">
+    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+      <a class="govuk-link" href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/modern-slavery-statement-2020-03-09-1121.pdf" target="_self" tabindex="-1" aria-hidden="true">
+          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+          </svg>
+      </a>
+    </div>
+    <div class="dm-attachment__details">
+      <p class="dm-attachment__title govuk-!-font-size-16">
+        <a href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/modern-slavery-statement-2020-03-09-1121.pdf" class="govuk-link dm-attachment__link" target="_self">Modern Slavery statement</a>
+      </p>
+        <p class="dm-attachment__metadata">
+          <span class="dm-attachment__attribute">PDF</span></p>
+    </div>
+  </section>
+  </li>
+</ul>
+
+<details class="govuk-details govuk-!-font-size-16" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Request an accessible format
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    
+  If you use assistive technology (such as a screen reader) and need versions of these documents in a more accessible format,
+  email the supplier at <a href="mailto:suewaller@pagegroup.co.uk" target="_blank" class="govuk-link">suewaller@pagegroup.co.uk</a>.
+  Tell them what format you need. It will help if you say what assistive technology you use.
+
+  </div>
+</details>
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-padding-top-1">Framework</h2>
+  <p class="govuk-body-s">G-Cloud 12</p>
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-padding-top-1">Service ID</h2>
+  <p class="govuk-visually-hidden">7 4 3 5 4 3 1 0 1 6 2 6 6 2 1</p>
+  <p aria-hidden="true" class="govuk-body-s">
+    <span class="">7435</span><span class=" govuk-!-padding-left-1 ">4310</span><span class=" govuk-!-padding-left-1 ">1626</span><span class=" govuk-!-padding-left-1 ">621</span>
+  </p>
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-padding-top-1">Contact</h2>
+  <p class="govuk-body-s">
+    <span class="govuk-visually-hidden">Michael Page International</span>
+    
+    Sue Waller<br>
+    <span class="govuk-visually-hidden">Telephone: </span>+44 7790 961 498<br>
+    <a href="mailto:suewaller@pagegroup.co.uk" data-event-category="Email a supplier" data-event-label="Michael Page International"><span class="govuk-visually-hidden">Email: </span>suewaller@pagegroup.co.uk</a><br>
+  </p>
+</div>
+  </div>
+</div>
+{%blockend%}
+ 
+ {%block Data_Result_Section_3%}
+      <div class="govuk-grid-row" id="service-attributes">
+        <div class="govuk-grid-column-full">
+          <div class="scroll-tracking" id="01-planning">
+            <h2 id="planning" class="govuk-heading-m app-summary-list-heading">Planning</h2>
+            <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Planning service
+              </dt>
+              <dd class="govuk-summary-list__value">
+                Yes
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                How the planning service works
+              </dt>
+              <dd class="govuk-summary-list__value">
+                Page Outsourcing have a collaborative approach to collectively scope an understanding of your requirements. As an organisation, Page Outsourcing has a variety of experience across the Public Sector and uses a range of existing tools, techniques and methodologies to identify and deliver the right solution for you. Our service delivery managers are experienced in planning, designing and implementing cloud solutions.<br><br>Utilising our experience, we can tailor our standard processes to meet your requirements, prioritise key focus areas to deliver the best value for money for your department as well as the taxpayer within your required timescales.<br><br>Page Outsourcing has significant experience of working with multi-discipline teams including 3rd party suppliers and have proven processes for ensuring that your outcome is our delivery focus.
+              </dd>
+            </div>
+          
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Planning service works with specific services
+              </dt>
+              <dd class="govuk-summary-list__value">
+                No
+              </dd>
+              
+            </div>
+              </dl>
+          </div>
+
+          <h2 class="govuk-heading-m app-summary-list-heading" id="service-documents">Service documents</h2>
+          
+
+      <ul class="govuk-list">
+
+        <li class="gouk-!-margin-bottom-2">
+        <section class="dm-attachment" data-module="dm-attachment">
+          <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+            <a class="govuk-link" href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-pricing-document-2020-07-20-0915.pdf" target="_self" tabindex="-1" aria-hidden="true">
+              
+                <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+                  <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                  <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                </svg>
+              
+            </a>
+          </div>
+          <div class="dm-attachment__details">
+            <p class="dm-attachment__title govuk-!-font-size-16">
+              <a href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-pricing-document-2020-07-20-0915.pdf" class="govuk-link dm-attachment__link" target="_self">Pricing document</a>
+            </p>
+            
+            
+              <p class="dm-attachment__metadata">
+                <span class="dm-attachment__attribute">PDF</span></p>
+            
+            
+          </div>
+        </section>
+
+        </li>
+
+        <li class="gouk-!-margin-bottom-2">
+        <section class="dm-attachment" data-module="dm-attachment">
+          <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+            <a class="govuk-link" href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-service-definition-document-2020-07-20-0914.pdf" target="_self" tabindex="-1" aria-hidden="true">
+              
+                <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+                  <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                  <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                </svg>
+            </a>
+          </div>
+          <div class="dm-attachment__details">
+            <p class="dm-attachment__title govuk-!-font-size-16">
+              <a href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-service-definition-document-2020-07-20-0914.pdf" class="govuk-link dm-attachment__link" target="_self">Service definition document</a>
+            </p>
+              <p class="dm-attachment__metadata">
+                <span class="dm-attachment__attribute">PDF</span></p>
+          </div>
+        </section>
+        </li>
+        <li class="gouk-!-margin-bottom-2">
+          
+        <section class="dm-attachment" data-module="dm-attachment">
+          <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+            <a class="govuk-link" href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-terms-and-conditions-2020-07-20-0915.pdf" target="_self" tabindex="-1" aria-hidden="true">
+              
+                <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+                  <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                  <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                </svg>
+              
+            </a>
+          </div>
+          <div class="dm-attachment__details">
+            <p class="dm-attachment__title govuk-!-font-size-16">
+              <a href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/743543101626621-terms-and-conditions-2020-07-20-0915.pdf" class="govuk-link dm-attachment__link" target="_self">Terms and conditions</a>
+            </p>
+            
+              <p class="dm-attachment__metadata">
+                <span class="dm-attachment__attribute">PDF</span></p>
+          </div>
+        </section>
+        </li>
+        <li class="gouk-!-margin-bottom-2">
+          
+        <section class="dm-attachment" data-module="dm-attachment">
+          <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+            <a class="govuk-link" href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/modern-slavery-statement-2020-03-09-1121.pdf" target="_self" tabindex="-1" aria-hidden="true">
+              
+                <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+                  <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                  <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                </svg>
+            </a>
+          </div>
+          <div class="dm-attachment__details">
+            <p class="dm-attachment__title govuk-!-font-size-16">
+              <a href="https://assets.digitalmarketplace.service.gov.uk/g-cloud-12/documents/705864/modern-slavery-statement-2020-03-09-1121.pdf" class="govuk-link dm-attachment__link" target="_self">Modern Slavery statement</a>
+            </p>
+            
+              <p class="dm-attachment__metadata">
+                <span class="dm-attachment__attribute">PDF</span></p>
+          </div>
+        </section>
+        </li>
+      </ul>
+
+      <details class="govuk-details govuk-!-font-size-16" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Request an accessible format
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+        If you use assistive technology (such as a screen reader) and need versions of these documents in a more accessible format,
+        email the supplier at <a href="mailto:suewaller@pagegroup.co.uk" target="_blank" class="govuk-link">suewaller@pagegroup.co.uk</a>.
+        Tell them what format you need. It will help if you say what assistive technology you use.
+        </div>
+      </details>
+
+        </div>
+      </div>
+ {%blockend%}
+
+</main>
+{% endblock %}
+
