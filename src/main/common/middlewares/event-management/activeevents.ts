@@ -73,6 +73,9 @@ export class EventEngagementMiddleware {
           let getEventsData = getEvents.data;
           for (let j = 0; j < getEventsData.length; j++) {
             //let singleEvent=undefined;
+            //*NOTE THIS CONDATION ADDED FOR G-CLOUD EVENT NOT TO DISPLAY
+            if (events[i].agreementId !='RM1557.12') {
+            
             let singleEvent: ActiveEvents = {
               projectId: events[i].projectId,
               projectName: events[i].projectName,
@@ -198,6 +201,7 @@ export class EventEngagementMiddleware {
                 activeEvents.push(singleEvent)
               }
             }
+          }
           }
         }
         req.session.openProjectActiveEvents = activeEvents;

@@ -69,13 +69,19 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       const FileuploadBaseUrl = `/tenders/projects/${ProjectId}/events/${EventId}/documents`;
       const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FileuploadBaseUrl);
       const FETCH_FILEDATA = FetchDocuments.data;
-      const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
+      let fileNameStoragePricing = [];
+      FETCH_FILEDATA?.map(file => {
+        if (file.description === "mandatory") {
+          fileNameStoragePricing.push(file);
+        }
+      });
+      const TOTALSUM = fileNameStoragePricing.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
       let windowAppendData = {
         lotId,
         agreementLotName,
         data: cmsData,
-        files: FETCH_FILEDATA,
+        files: fileNameStoragePricing,
         releatedContent: releatedContent,
         storage: TOTALSUM,
         IsDocumentError: false,
@@ -89,17 +95,17 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
           errorList=[];
         }
         if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
-          errorList.push({ text: "The buyer must confirm they understand the statement by ticking the box", href: "#" })
+          errorList.push({ text: "You must confirm the statement.", href: "#rfp_confirm_upload" })
           fileError=true;
         }
         if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
-          errorList.push({ text: "Pricing schedule must be uploaded", href: "#" });
+          errorList.push({ text: "You must upload your pricing schedule.", href: "#rfp_offline_document" });
           fileError=true;
         }
       }
       if (fileObjectIsEmpty) {
         fileError=true;
-        errorList.push({ text: "Please choose file before proceeding", href: "#" })
+        errorList.push({ text: "You must upload your pricing schedule.", href: "#" })
         delete req.session["fileObjectIsEmpty"];
       }
       if (fileError && errorList !== null) {
