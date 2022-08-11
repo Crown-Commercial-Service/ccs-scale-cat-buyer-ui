@@ -5,12 +5,12 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
 export const STAND_PERIOD_DECISION_GET = async (req: express.Request, res: express.Response) => {
    // const { SESSION_ID } = req.cookies
-   const { projectName,isError } =req.session
+   const { projectName,isError,agreement_header,eventId } =req.session
    res.locals.agreement_header = req.session.agreement_header;
    
    const supplierId = req.session['supplierId'];
    const supplierName  =  req.session['supplierName'];
-   const appendData = { projectName,isError,supplierName ,supplierId};
+   const appendData = { projectName,isError,supplierName ,supplierId,agreement_header,eventId};
    
  
     res.render('standstillPeriodDecision', appendData)
