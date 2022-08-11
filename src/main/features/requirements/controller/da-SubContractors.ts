@@ -33,7 +33,7 @@ export const DA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
   };
   try {
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-    isSubContractorAccepted = req.session['DA'].isSubContractorAccepted;
+    isSubContractorAccepted = req.session['DA']?.isSubContractorAccepted;
 
     daSubContractors.form[0].radioOptions.items = daSubContractors.form[0].radioOptions.items.map(opt => {
       if (opt.value == 'yes' && isSubContractorAccepted) opt.checked = true;
