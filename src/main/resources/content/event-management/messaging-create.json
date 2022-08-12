@@ -13,11 +13,11 @@
             "href": "#"
         },
         {
-            "text": "Your inbox",
+            "text": "Messaging Inbox",
             "href": "#"
         }
     ],
-    "title": "Your inbox",
+    "title": "Messaging Inbox",
     "subtitle": "Write a new message",
     "signposting": {
         "line1": "Description to explain what happens in a broadcast",
