@@ -177,6 +177,9 @@ if (document.getElementById('rfi_contracting_auth') !== null)
   if (document.getElementById('ca_justification') !== null)
   document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
 
+  if (document.getElementById('ccs_da_menu_tabs_form') !== null)
+  document.getElementById('ccs_da_menu_tabs_form').addEventListener('submit', ccsZDAServiceCap);
+
   if (document.getElementById('reply_subject_input') !== null)
   document.getElementById('reply_subject_input').addEventListener('input', ccsZCountMsgReplyTextbox);
 
@@ -280,6 +283,9 @@ if (document.getElementById('ccs_eoi_date_form') !== null)
 
 if (document.getElementById('ccs_message_create_form') !== null)
   document.getElementById('ccs_message_create_form').addEventListener('submit', ccsZCreateMessageSubmit);
+
+  if (document.getElementById('ccs_rfi_publish_form') !== null)
+  document.getElementById('ccs_rfi_publish_form').addEventListener('submit', ccsZRFIPublishEventSubmit);
 
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)

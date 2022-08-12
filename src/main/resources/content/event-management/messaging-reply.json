@@ -9,11 +9,11 @@
             "href": "#"
         },
         {
-            "text": "Message",
+            "text": "Supplier Message",
             "href": "#"
         }
     ],
-    "title": "Your inbox",
+    "title": "Messaging Inbox",
     "line1":"Reply to ",
     "MessageClassification": "Classification",
     "Subject": "Subject",

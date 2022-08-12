@@ -20,7 +20,7 @@ const ccsZvalidateConfirmAward = (event) => {
   const preAwardSupplierConfm = document.getElementById('award_supplier_confirmation')
 
   if (preAwardSupplierConfm != undefined && !preAwardSupplierConfm.checked) {
-      const fieldCheck = ccsZisOptionChecked("award_supplier_confirmation", "Acknowledgement tick box must be selected to continue with the awarding of the selected supplier.");
+      const fieldCheck = ccsZisOptionChecked("award_supplier_confirmation", "You must check this box to confirm that I have read and confirm the statements above.");
       if (fieldCheck !== true) errorStore.push(fieldCheck);
       ccsZPresentErrorSummary(errorStore);
   }
@@ -40,13 +40,14 @@ const ccsZvalidateStandStillPeriod = (event) => {
         document.forms["ccs_standstill_period_form"].submit();
     }
     else {
-        errorStore = ['There is a problem', 'Please select an option']
+      errorStore = ['There is a problem', 'Please select an option']
         ccsZPresentErrorSummary([errorStore]);
     }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  $('#standstill_period_radios').removeClass('govuk-form-group--error');
   $('#standstill_period_yes').on('click', function (){
     $('#standstill_period_yes').prop('checked',true);
     $('#standstill_period_no').prop('checked', false);
@@ -84,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
               }
         }
         else {
+           $('#standstill_period_radios').addClass('govuk-form-group--error');
             errorStore = ['There is a problem', 'Please select an option']
             ccsZPresentErrorSummary([errorStore]);
         }
