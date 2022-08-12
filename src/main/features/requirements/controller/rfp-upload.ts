@@ -210,7 +210,7 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
         fileNameStoragePricing.push(file.fileName);
       }
     });
-    if(fileNameStorageTermsnCond.length>0 && fileNameStoragePricing>0)
+    if(fileNameStorageTermsnCond.length>0 && fileNameStoragePricing.length>0)
    {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
       let flag=await ShouldEventStatusBeUpdated(eventId,31,req);

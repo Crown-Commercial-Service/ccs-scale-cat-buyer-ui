@@ -39,18 +39,10 @@
     }) }}
     {%endif %}
 
-<div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">
-         <strong> {{title}}</strong> 
-         </h1>
-      </div>
-    </div>
-
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-         <strong> {{data.title}}</strong>
+          <strong> {{title}}</strong> 
         </h1>
         <div class="project-overview">
         <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
@@ -60,19 +52,19 @@
         </div>
       </div>
     </div>
-    <div class="govuk-grid-row ccs-page-section">
+   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <div>
           <h2 class="govuk-heading-m">
-          {{projectName}}
+          {{ agreement_header['project_name'] }}
             {# <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong> #}
           </h2>
           <p class="govuk-body">
-            {% if(showCloseProject) %}
+             {% if(showCloseProject) %}
             <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
             {% else %}
-            <a class="govuk-link" href="/event/management?id={{ eventId }}">Close Event</a>
-            {% endif %} 
+            <a class="govuk-link" href="/event/management?id={{eventId}}">Close Event</a>
+            {% endif %}
           </p>
         </div>
       </div>
@@ -88,7 +80,7 @@
       <div class="govuk-grid-column-full">
        <h1 class="govuk-heading-xl">
            <strong> Do you want a standstill period?</strong></h1>
-            <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios" id = "standstill_period_radios" data-module="govuk-radios">
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
           
                                     <input class="govuk-radios__input" id="standstill_period_yes" name="standstill_period_yes" type="radio" value="yes">
