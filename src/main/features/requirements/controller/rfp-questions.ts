@@ -50,6 +50,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       return agroupitem?.OCDS?.['id'] === group_id;
     });
 
+   
+   
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
     //const bcTitleText = OCDS?.description;
@@ -58,8 +60,11 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     //Balwinder
     const bcTitleText = newOCDSdescription == '' ? OCDS?.description : newOCDSdescription;
     const titleText = nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (Optional)';
-    const promptData = nonOCDS?.prompt;
-
+    var promptData = nonOCDS?.prompt;
+    if(id=='Criterion 3' && group_id=='Group 5' && titleText=='The business problem you need to solve' ){
+      const new_prompt=fetch_dynamic_api_data[0].OCDS.description;
+      promptData=promptData.concat("<br><br>").concat(new_prompt);
+    }
     //const splitOn = '<br>';
     //const promptSplit = group_id == 'Group 24' && id == 'Criterion 3' ? promptData.split(splitOn) : promptData;
 
