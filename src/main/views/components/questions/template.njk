@@ -600,7 +600,7 @@
             {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
 
               {% set word = requirement.OCDS.title | replace(".", "") %}
-              {% set word = requirement.OCDS.title | replace(":", "") %}
+              {% set word = word | replace(":", "") %}
 
               {{  CCSTextarea({
                       name: "rfp_prob_statement_"+word | last,
