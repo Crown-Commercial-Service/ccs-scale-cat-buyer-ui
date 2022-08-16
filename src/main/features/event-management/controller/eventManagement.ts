@@ -22,13 +22,17 @@ import moment from 'moment-business-days';
  * @param res 
  */
 export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
-  const { id, closeProj } = req.query
+  const { id, closeProj  } = req.query
   const events = req.session.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
+  // const { eventId, projectId } = req.session
 
   // const projectId = req.session['projectId']
   //const eventId = req.session['eventId']
   try {
+   
+
+
     // Code Block start - Replace this block with API endpoint
     if (closeProj != undefined) {
       let baseCloseUrl = `/tenders/projects/${req.session.projectId}/events`;
@@ -423,13 +427,13 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const { SESSION_ID } = req.cookies; //jwt
   let { projectId, eventId, agreement_header,releatedContent } = req.session;
   //let { projectId, eventId, agreement_header } = req.session;
-  const { supplierid, reviewsupplierid, Type } = req.query;
+  const { supplierid, reviewsupplierid, Type} = req.query;
   const events = req.session.openProjectActiveEvents
 
   let title: string, lotid: string, agreementId_session: string, agreementName: string, agreementLotName: string, projectName: string, status: string, eventType: string
   let supplierDetails = {} as SupplierDetails;
   try {
-
+   
     if (supplierid != undefined) {
 
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
@@ -836,6 +840,35 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
   }
 }
 
+export const EVENT_STATE_CHANGE = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  let { projectId, eventId} = req.session;
+  const {StateChange } = req.query;
+ 
+  try {
+    if (StateChange != undefined){
+
+      const StateChangeDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+     await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(StateChangeDownloadURL, {
+      responseType: 'arraybuffer',
+    });
+    
+    res.redirect('/evaluate-suppliers')
+    //res.redirect('/event/management?id='+eventId)
+ }
+  
+}catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    );
+  }
+}
 
 export const RETURN_EVENTMANAGEMENT = async (req: express.Request, res: express.Response) => {
   let { eventId } = req.session;
