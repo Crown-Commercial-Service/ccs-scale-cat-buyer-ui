@@ -701,31 +701,23 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
   try {
     if (download != undefined) {
       const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
-      const awardsTemplatesData = await (await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL))?.data;
-      let documentTemplatesUnSuccessObj = { DocumentId: "", Name: "", FileSize: "" };
-      for (let i = 0; i < awardsTemplatesData.length; i++) {
-        if (awardsTemplatesData[i].description.includes("UnSuccessful")) {
-          documentTemplatesUnSuccessObj.DocumentId = awardsTemplatesData[i].id;
-          documentTemplatesUnSuccessObj.Name = awardsTemplatesData[i].fileName;
-          documentTemplatesUnSuccessObj.FileSize = awardsTemplatesData[i].fileSize;
-        }
-      }
-      
-      const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/`+documentTemplatesUnSuccessObj.DocumentId;
-      const fetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
+      await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL);
+
+      const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
         responseType: 'arraybuffer',
       });
-      const file = fetchDocuments;
-      //const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
       const fileData = file.data;
-      const type = 'application/zip';
-      //const contentLength = file.headers['content-length'];
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
       res.status(200);
       res.set({
         'Cache-Control': 'no-cache',
         'Content-Type': type,
-        'Content-Length': documentTemplatesUnSuccessObj.FileSize,
-        'Content-Disposition': 'attachment; filename=responses_' + eventId + ".zip",
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
       });
       res.send(fileData);
     }
