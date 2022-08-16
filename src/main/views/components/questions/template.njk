@@ -78,7 +78,7 @@
 
 {%endblock%}
 {% block RPFScoringCriteria %}
-{% if requirement.nonOCDS.questionType === 'Text' and requirement.OCDS.title === 'Enter the name for this tier' and requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
+{% if requirement.nonOCDS.questionType === 'Text' and requirement.OCDS.title =="Enter the name for this level" and  requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
                   {% call CCSFieldset({
                             legend: {
                                 classes: "govuk-fieldset__legend--m",
@@ -106,10 +106,12 @@
                  
                {{ CCSInput({
                             label: {
-                              text:  'Enter the points for this level',
+                              text:  'Enter the score for this level',
                               classes: "govuk-label govuk-label--m"
                             },
-                            
+                            hint: {
+                            text: 'Make sure your scoring system doesn’t overlap or cause confusion. Use whole numbers.'
+                            },
                             id: 'rfp_score_criteria_point_1',
                             name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
@@ -128,7 +130,7 @@
                             classes: 'govuk-label govuk-label--m'
                         },
                         hint: {
-                            text: 'Enter the description for this level'
+                            text: 'Describe what a supplier has or hasn’t done to achieve this score. Be specific and detailed.'
                         }
                         })
                     }}
@@ -164,7 +166,7 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                                text: requirement.OCDS.title
+                            text: 'Make sure your scoring system doesn’t overlap or cause confusion. Use whole numbers.'
                             },
                             id: 'rfp_score_criteria_point_'+i,
                             name: 'score_criteria_points',
@@ -182,7 +184,7 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                                text: requirement.OCDS.title
+                              text: 'Describe what a supplier has or hasn’t done to achieve this score. Be specific and detailed.'
                             }
                         }) }}
                        {% endcall %}
@@ -600,6 +602,7 @@
             {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
 
               {% set word = requirement.OCDS.title | replace(".", "") %}
+              {% set word = word | replace(":", "") %}
 
               {{  CCSTextarea({
                       name: "rfp_prob_statement_"+word | last,

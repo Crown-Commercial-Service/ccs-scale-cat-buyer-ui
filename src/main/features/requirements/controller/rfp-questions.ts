@@ -50,6 +50,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       return agroupitem?.OCDS?.['id'] === group_id;
     });
 
+   
+   
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
     //const bcTitleText = OCDS?.description;
@@ -58,8 +60,11 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     //Balwinder
     const bcTitleText = newOCDSdescription == '' ? OCDS?.description : newOCDSdescription;
     const titleText = nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (Optional)';
-    const promptData = nonOCDS?.prompt;
-
+    var promptData = nonOCDS?.prompt;
+    if(id=='Criterion 3' && group_id=='Group 5' && titleText=='The business problem you need to solve' ){
+      const new_prompt=fetch_dynamic_api_data[0].OCDS.description;
+      promptData=promptData.concat("<br><br>").concat(new_prompt);
+    }
     //const splitOn = '<br>';
     //const promptSplit = group_id == 'Group 24' && id == 'Criterion 3' ? promptData.split(splitOn) : promptData;
 
@@ -232,12 +237,19 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     }
 
     var agreementEndDateFormat = moment(data.agreementEndDate).format('DD MMM YYYY');
-    data.data?.filter(x => x.nonOCDS.questionType =="Date")[0]?.OCDS?.description = `Your project cannot start after:${agreementEndDateFormat} \n For example 22 11 2022`;
+    data.data?.filter(x => x.nonOCDS.questionType == "Date")[0]?.OCDS?.description = `Your project cannot start after:${agreementEndDateFormat} \n For example 22 11 2022`;
     //#endregion KPI FORM DATA MANIPULATION INTO SINGLE QUESTION
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
+
+    //This condation is added for SCAT-6109
+    data.data.forEach(x => {
+      if (x.OCDS.title == undefined || x.OCDS.title  == null || x.OCDS.title ==="") {
+        x.OCDS.title ="";
+      }
+    })
     res.render('rfp-question', data);
   } catch (error) {
     delete error?.config?.['headers'];
@@ -280,7 +292,7 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
     const url = req.originalUrl.toString();
 
     let nonOCDS = req.session['nonOCDSListData'];
-     nonOCDS = nonOCDS?.filter(anItem => anItem.groupId == group_id);
+    nonOCDS = nonOCDS?.filter(anItem => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
     let { rfp_build_started, question_id } = req.body;
     if (question_id === undefined) {

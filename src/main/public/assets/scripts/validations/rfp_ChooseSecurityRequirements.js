@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     $('#rfp_choose_security_form').on('submit', (e) => {
-        debugger
+        //debugger
         var resources_rfp = '';
         var resources_rfp_IsZero = false;
         let errorStore = [];
@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         var totalQuantityrfp = $('#totalQuantityrfp').val();
         var choosenoption_rfp = $('input[name="ccs_rfp_choose_security"]:checked').val();
+        if(choosenoption_rfp!=undefined){
         var choosenoption_rfp_Id = $('input[name="ccs_rfp_choose_security"]:checked')[0].id;
         var selectednumber_rfp = choosenoption_rfp ? choosenoption_rfp.replace(/[^0-9.]/g, '') : null
         removeErrorFieldsRfpChoose_Security();
@@ -64,6 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let elementId ="ccs_rfp_resources"+choosenoption_rfp_Id.split('-')[1];
             ccsZvalidateTextAreaMultipleSameElement(elementId, 'A Quantity must be between 1 to Quantity(' + totalQuantityrfp + ') - 1.');
         }
+    }
+    else
+    {
+        e.preventDefault();
+            errorStore = [];
+            errorStore.push(["There is a problem", 'You must provide a security clearance level before proceeding'])
+    }
         if (errorStore.length > 0) {
             ccsZPresentErrorSummary(errorStore);
             
