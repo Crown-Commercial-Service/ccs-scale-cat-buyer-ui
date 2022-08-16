@@ -22,13 +22,17 @@ import moment from 'moment-business-days';
  * @param res 
  */
 export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
-  const { id, closeProj } = req.query
+  const { id, closeProj  } = req.query
   const events = req.session.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
+  // const { eventId, projectId } = req.session
 
   // const projectId = req.session['projectId']
   //const eventId = req.session['eventId']
   try {
+   
+
+
     // Code Block start - Replace this block with API endpoint
     if (closeProj != undefined) {
       let baseCloseUrl = `/tenders/projects/${req.session.projectId}/events`;
@@ -423,13 +427,13 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const { SESSION_ID } = req.cookies; //jwt
   let { projectId, eventId, agreement_header,releatedContent } = req.session;
   //let { projectId, eventId, agreement_header } = req.session;
-  const { supplierid, reviewsupplierid, Type } = req.query;
+  const { supplierid, reviewsupplierid, Type} = req.query;
   const events = req.session.openProjectActiveEvents
 
   let title: string, lotid: string, agreementId_session: string, agreementName: string, agreementLotName: string, projectName: string, status: string, eventType: string
   let supplierDetails = {} as SupplierDetails;
   try {
-
+   
     if (supplierid != undefined) {
 
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
@@ -701,31 +705,23 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
   try {
     if (download != undefined) {
       const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
-      const awardsTemplatesData = await (await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL))?.data;
-      let documentTemplatesUnSuccessObj = { DocumentId: "", Name: "", FileSize: "" };
-      for (let i = 0; i < awardsTemplatesData.length; i++) {
-        if (awardsTemplatesData[i].description.includes("UnSuccessful")) {
-          documentTemplatesUnSuccessObj.DocumentId = awardsTemplatesData[i].id;
-          documentTemplatesUnSuccessObj.Name = awardsTemplatesData[i].fileName;
-          documentTemplatesUnSuccessObj.FileSize = awardsTemplatesData[i].fileSize;
-        }
-      }
-      
-      const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/`+documentTemplatesUnSuccessObj.DocumentId;
-      const fetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
+      await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL);
+
+      const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
         responseType: 'arraybuffer',
       });
-      const file = fetchDocuments;
-      //const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
       const fileData = file.data;
-      const type = 'application/zip';
-      //const contentLength = file.headers['content-length'];
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
       res.status(200);
       res.set({
         'Cache-Control': 'no-cache',
         'Content-Type': type,
-        'Content-Length': documentTemplatesUnSuccessObj.FileSize,
-        'Content-Disposition': 'attachment; filename=responses_' + eventId + ".zip",
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
       });
       res.send(fileData);
     }
@@ -836,6 +832,35 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
   }
 }
 
+export const EVENT_STATE_CHANGE = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  let { projectId, eventId} = req.session;
+  const {StateChange } = req.query;
+ 
+  try {
+    if (StateChange != undefined){
+
+      const StateChangeDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+     await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(StateChangeDownloadURL, {
+      responseType: 'arraybuffer',
+    });
+    
+    res.redirect('/evaluate-suppliers')
+    //res.redirect('/event/management?id='+eventId)
+ }
+  
+}catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    );
+  }
+}
 
 export const RETURN_EVENTMANAGEMENT = async (req: express.Request, res: express.Response) => {
   let { eventId } = req.session;
