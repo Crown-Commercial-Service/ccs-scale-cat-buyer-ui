@@ -78,7 +78,7 @@
 
 {%endblock%}
 {% block RPFScoringCriteria %}
-{% if requirement.nonOCDS.questionType === 'Text' and requirement.OCDS.title =="Enter the name for this level" and  requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
+{% if requirement.nonOCDS.questionType === 'Text' and ( requirement.OCDS.title =="Enter the name for this level" or requirement.OCDS.title =="Enter the name for this tier") and  requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
                   {% call CCSFieldset({
                             legend: {
                                 classes: "govuk-fieldset__legend--m",
