@@ -5,7 +5,7 @@
 {% set title = 'Complete and upload the whole bid pack | Contract Award Service' %}
 
 {% block breadCrumb %}
-{{ CCSBreadcrumbs({
+  {{ CCSBreadcrumbs({
     items: [
         {
             "text": "Dashboard",
@@ -32,100 +32,98 @@
 
 {% endblock %}
 
-{% block content %} 
+{% block content %}
 
-<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
- <div class="govuk-grid-row">
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-          <h1 class="govuk-heading-xl">
-            <strong>Confirm if you need a contracted out service or supply of resource</strong>
+        <h1 class="govuk-heading-xl">
+          <strong>Confirm if you need a contracted out service or supply of resource</strong>
 
-          </h1>
-          {% include "includes/project_header.njk" %}
-      </div>  
-  </div>
+        </h1>
+        {% include "includes/project_header.njk" %}
+      </div>
+    </div>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-    <form name="rfp_IR35_form" id="rfp_IR35_form" action="/rfp/IR35" method="POST" >
-    {{ csrfProtection(csrf) }}
-    
-    <p class="govuk-body">As the buyer, you are the supplier's client when buying a supply of resource (people to do the work).</p>
-    <p class="govuk-body">This means that you are responsible for deciding if the off-payroll working rules (IR35) apply to  them. You must meet your legal obligations where they do.</p>
-    <p class="govuk-body">Choose whether you need a contracted out service or a supply of resource.</p>
-    <div class="govuk-!-margin-top-9">
-          {% for requirement in apiData%}
-         {% block singleSelect%}
-              {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
-                <div class="govuk-form-group">
-                  <div class="govuk-radios">
-                    <br>
-                    {% set radioArray = [] %}
-                    {% for i in range(0, requirement.nonOCDS.options | length) -%}
-                      {% if i == 0%}
-                        <div class="govuk-radios__item">
-                          {%if requirement.nonOCDS.options[i].selected === true %}
-                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
-                            {%else%}
-                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
-                            {%endif%}
-                            <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
-                              <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
-                            </label>
-                            <div id="ccs_vetting_type-item-hint" class="govuk-body">
-                              {{requirement.nonOCDS.options[i].text | safe}}
-                            </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <form name="rfp_IR35_form" id="rfp_IR35_form" action="/rfp/IR35" method="POST" >
+          {{ csrfProtection(csrf) }}
+
+          <p class="govuk-body">As the buyer, you are the supplier's client when buying a supply of resource (people to do the work).</p>
+          <p class="govuk-body">This means that you are responsible for deciding if the off-payroll working rules (IR35) apply to  them. You must meet your legal obligations where they do.</p>
+          <p class="govuk-body">Choose whether you need a contracted out service or a supply of resource.</p>
+          <div class="govuk-!-margin-top-9">
+            {% for requirement in apiData%}
+              {% block singleSelect%}
+                {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
+                  <div class="govuk-form-group">
+                    <div class="govuk-radios">
+                      <br>
+                      {% set radioArray = [] %}
+                      {% for i in range(0, requirement.nonOCDS.options | length) -%}
+                        {% if i == 0%}
+                          <fieldset>
+                            <div class="govuk-radios__item">
+                              {%if requirement.nonOCDS.options[i].selected === true %}
+                                <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
+                                {%else%}
+                                <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
+                                {%endif%}
+                                <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
+                                  <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                                </label>
+                                <div id="ccs_vetting_type-item-hint" class="govuk-body">
+                                  {{requirement.nonOCDS.options[i].text | safe}}
+                                </div>
+                              </div>
+                            </fieldset>
+                          {% else %}
+                            <fieldset>
+                              <div class="govuk-radios" data-module="govuk-radios">
+                                <div class="govuk-radios__item">
+                                  {%if requirement.nonOCDS.options[i].selected === true %}
+                                    <input class="govuk-radios__input" id="ccs_vetting_type-{{i+1}}" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" checked>
+                                    {%else%}
+                                    <input class="govuk-radios__input" id="ccs_vetting_type-{{i+1}}" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}">
+                                  {% endif %}
+                                  <label class="govuk-label govuk-radios__label" for="ccs_vetting_type-{{i+1}}">
+                                    <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                                  </label>
+                                  <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-body">
+                                    {{requirement.nonOCDS.options[i].text |safe}}
+                                  </div>
+                                </div>
+                              </fieldset>
+                              {%endif%}
+                            {%- endfor %}
                           </div>
-                        {% else %}
+                        </div>
 
-                          <div class="govuk-radios__item">
-                            {%if requirement.nonOCDS.options[i].selected === true %}
-                              <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
-                              {%else%}
-                              <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
-                            {% endif %}
-                            <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
-                              <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
-                            </label>
-                            <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-body">
-                              {{requirement.nonOCDS.options[i].text |safe}}
-                            </div>
-                          </div>
-                          {%endif%}
-                        {%- endfor %}
-                      </div>
-                    </div>
-                    
-                  {% endif %}
-                {% endblock %}
-                {%- endfor %}
-</div>
- <div class="govuk-button-group">
+                      {% endif %}
+                    {% endblock %}
+                  {%- endfor %}
+                </div>
+                <div class="govuk-button-group">
                   {{ CCSButton({
                         text: "Save and continue",
                         classes:"save-button"
                       })
                   }}
                   <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
-</div>
+                </div>
 
- </form>
-               
+              </form>
 
-  </div>
+            </div>
 
-
-    <div class="govuk-grid-row">
+            <div class="govuk-grid-row">
               <div class="govuk-grid-column-one-third">
                 {{ CCSReleatedContent(releatedContent) }}
               </div>
             </div>
-    
-  </div>
 
+          </div>
 
- 
-  
-  </main>
-{% endblock %}
-
+        </main>
+      {% endblock %}
