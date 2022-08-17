@@ -9,7 +9,7 @@ import * as eventManagementData from '../../../resources/content/event-managemen
 import { Message } from '../model/messages'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
+import { SupplierDetails } from '../model/supplierDetailsModel';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import moment from 'moment-business-days';
@@ -27,6 +27,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
   const { SESSION_ID } = req.cookies
   // const { eventId, projectId } = req.session
 
+  let newDate :any
+  let tempDate :any
   // const projectId = req.session['projectId']
   //const eventId = req.session['eventId']
   try {
@@ -162,16 +164,21 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
         supplierDetailsObj.score = (score != undefined) ? score : 0;
 
-        var supplierFiltedData = supplierDataList?.filter((a: any) => { a.organization.id == id });
-        supplierDetailsObj.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
-        supplierDetailsObj.supplierAddress = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.address : {} as SupplierAddress;
-        supplierDetailsObj.supplierContactName = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.name : "";
-        supplierDetailsObj.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.email : "";
-        supplierDetailsObj.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.telephone : "";
-        supplierDetailsObj.supplierId = id;
-        supplierDetailsObj.supplierState = "Unsuccessfull";
 
-        supplierDetailsDataList.push(supplierDetailsObj);
+        var supplierFiltedData = supplierDataList?.filter((a: any) => a.organization.id == id)[0];
+
+        if (supplierFiltedData != null && supplierFiltedData != undefined) {
+          //  supplierDetailsObj.supplierAddress = {} as SupplierAddress
+          supplierDetailsObj.supplierAddress = supplierFiltedData.organization?.address
+          supplierDetailsObj.supplierContactName = supplierFiltedData.organization?.contactPoint?.name;
+          supplierDetailsObj.supplierContactEmail = supplierFiltedData.organization?.contactPoint.email;
+          supplierDetailsObj.supplierWebsite = supplierFiltedData.organization?.contactPoint.url;
+          supplierDetailsObj.supplierId = id;
+          supplierDetailsObj.supplierState = "Unsuccessfull";
+
+          supplierDetailsDataList.push(supplierDetailsObj);
+        }
+
         if (supplierdata.data?.responders[i]?.responseState?.trim().toLowerCase() == 'submitted') {
           showallDownload = true;
         }
@@ -197,12 +204,17 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
         const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
 
-        supplierAwardDetail?.suppliers?.map((item: any) => {
-          supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = "Awarded";
-          supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
-        });
-
-        supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+        if (supplierDetailsDataList.length > 0) {
+          supplierAwardDetail?.suppliers?.map((item: any) => {
+            let supplierDataIndex = supplierDetailsDataList.findIndex(x => x.supplierId == item.id);
+            if (supplierDataIndex != undefined && supplierDataIndex != null && supplierDataIndex >=0) {
+              supplierDetailsDataList[supplierDataIndex].supplierState = "Awarded";
+              supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
+            }
+            
+          });
+          supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+        }
 
         if (status.toLowerCase() == "pre-award") {
 
@@ -210,30 +222,23 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           let currentDate = new Date(supplierAwardDetail?.date);
           //Standstill dates are current date +10 days.
           currentDate.setDate(currentDate.getDate() + 10)
+          currentDate = checkWeekendDate(currentDate);
 
-          let isValid = isWeekendDate(currentDate);
-
-          if (isValid) {
-            currentDate.setDate(currentDate.getDate() + 1);
-            currentDate.setHours(23);
-            currentDate.setMinutes(59);
-          }
-        
           const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
           const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
           const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
 
-          const newDate = moment(currentDate).format('YYYY-MM-DD');
-          const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+          currentDate = checkBankHolidayDate(currentDate,listOfHolidayDate);
+         
 
-          if (filterDate != undefined && filterDate != null) {
-            currentDate.setDate(currentDate.getDate() + 1);
-            let isValid = isWeekendDate(currentDate);
+          // if (filterDate != undefined && filterDate != null) {
+          //   currentDate.setDate(currentDate.getDate() + 1);
+          //   currentDate = checkWeekendDate(currentDate);
 
-            if (isValid) {
-              currentDate.setDate(currentDate.getDate() + 1);
-            }
-          }
+          //   // if (isValid) {
+          //   //   currentDate.setDate(currentDate.getDate() + 1);
+          //   // }
+          // }
 
           supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY hh:mm');
 
@@ -244,23 +249,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
         }
       }
+
       //to get signed awarded contrct end date
       if (status.toLowerCase() == "complete") {
         const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
         const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
-      }
-
-      if (supplierDetails != null && supplierDetails.supplierId != undefined && supplierDetails.supplierId != null) {
-        const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/${supplierDetails.supplierId}`;
-        const supplierResponse = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
-
-        const supplierData = supplierResponse?.data;
-
-        supplierDetails.supplierAddress = supplierData?.address;
-        supplierDetails.supplierContactName = supplierData?.contactPoint.name;
-        supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
-        //supplierDetails.supplierWebsite = supplierData?.website;
       }
 
       //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
@@ -400,6 +394,29 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }
       }
     }
+    
+    function checkWeekendDate(date: Date) {
+      const dayOfWeek = new Date(date).getDay();
+      newDate = new Date(date);
+      if (dayOfWeek === 6 || dayOfWeek === 0) {
+        newDate.setDate(newDate.getDate() + 1);
+        newDate.setHours(23);
+        newDate.setMinutes(59);
+        checkWeekendDate(newDate);
+      }
+      return newDate;
+    }
+   
+    function checkBankHolidayDate(date: Date,listOfHolidayDate : any) {
+       tempDate = new Date(date);
+      const newDate = moment(date).format('YYYY-MM-DD');
+      const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+      if (filterDate != undefined && filterDate != null) {
+        tempDate.setDate(tempDate.getDate() + 1);
+        checkBankHolidayDate(tempDate,listOfHolidayDate);
+      }
+      return tempDate;
+    }
   } catch (err) {
     LoggTracer.errorLogger(
       res,
@@ -413,19 +430,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
   }
 }
 
-function isWeekendDate(date: Date) {
-  const dayOfWeek = new Date(date).getDay();
-
-  let isValid = false;
-  if (dayOfWeek === 6 || dayOfWeek === 0) {
-    isValid = true;
-  }
-
-  return isValid;
-}
 export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  let { projectId, eventId, agreement_header,releatedContent } = req.session;
+  let { projectId, eventId, agreement_header, releatedContent } = req.session;
   //let { projectId, eventId, agreement_header } = req.session;
   const { supplierid, reviewsupplierid, Type} = req.query;
   const events = req.session.openProjectActiveEvents
@@ -517,7 +524,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       //status=apidata.data[0].dashboardStatus;
       const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
       status = selectedEventData[0].dashboardStatus;
-      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType, redirectUrl,releatedContent };
+      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType, redirectUrl, releatedContent };
 
       res.render('evaluateSuppliers-readOnly', appendData);
     }
