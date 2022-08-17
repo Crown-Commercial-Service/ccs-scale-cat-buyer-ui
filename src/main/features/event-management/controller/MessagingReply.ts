@@ -34,7 +34,7 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, res: 
 
         if (messageReply != undefined && messageReply != null && messageReply.nonOCDS != null && messageReply.nonOCDS.parentId != null && messageReply.nonOCDS.parentId != 'null') {
             messageThreadingList = [];
-            messageThreadingList = await getChildMethod(messageReply.nonOCDS.parentId, projectId, eventId, SESSION_ID);
+            messageThreadingList = await getChildMethod(messageReply.OCDS.id, projectId, eventId, SESSION_ID);
         }
         const appendData = { msgThreadList: messageThreadingList, data: replyData, message: messageReply, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.locals.agreement_header = req.session.agreement_header
