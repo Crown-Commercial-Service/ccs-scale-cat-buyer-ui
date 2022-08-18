@@ -32,8 +32,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
   let apidata: any = null;
   // const { eventId, projectId } = req.session
 
-  let newDate: any
-  let tempDate: any
+  //let newDate: any
+  //let tempDate: any
   // const projectId = req.session['projectId']
   //const eventId = req.session['eventId']
   try {
@@ -76,6 +76,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           end_date = element?.activeEvent?.tenderPeriod?.endDate
         }
       });
+
+      LoggTracer.errorLogger(res, "1 log", `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
+
       let supplierDataList = [];
       try {
         //#region supplier information
@@ -112,6 +116,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         );
       }
 
+      LoggTracer.errorLogger(res, "2 log", `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
 
 
       // Update procurement data into (redis) session
@@ -149,6 +155,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       releatedContent.lotUrl = "/agreement/lot?agreement_id=RM6263&lotNum=" + req.session.lotId.replace(/ /g, "%20");
       releatedContent.title = 'Related content'
       req.session.releatedContent = releatedContent
+
+      LoggTracer.errorLogger(res, "3 log", `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
 
       //Related to AssessmentID
       let data: any = null;
@@ -189,6 +198,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           true,
         );
       }
+      LoggTracer.errorLogger(res, "4 log", `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
 
       let unreadMessage = 0
       const msg: Message[] = message.data.messages
@@ -273,6 +284,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       }
       const supplierSummary = supplierdata?.data;
       supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
+      LoggTracer.errorLogger(res, "5 log", `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
 
       let rankCount = 0;
       for (let i = 0; i < supplierDetailsDataList.length; i++) {
@@ -306,11 +319,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           let currentDate = new Date(supplierAwardDetail?.date);
           //Standstill dates are current date +10 days.
           currentDate.setDate(currentDate.getDate() + 10)
-         // currentDate = checkWeekendDate(currentDate);
-          let bankHoliDayData: any = null;
+          // currentDate = checkWeekendDate(currentDate);
+          //let bankHoliDayData: any = null;
           try {
-            const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
-            bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
+            //const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
+            //bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
           } catch (error) {
             LoggTracer.errorLogger(
               res,
@@ -331,6 +344,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           }
         }
       }
+      LoggTracer.errorLogger(res, "6 log", `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
 
       //to get signed awarded contrct end date
       if (status.toLowerCase() == "complete") {
@@ -351,6 +366,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
       }
+      LoggTracer.errorLogger(res, "7 log", `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
 
       if (supplierDetails != null && supplierDetails.supplierId != undefined && supplierDetails.supplierId != null) {
         let supplierResponse: any = null;
@@ -374,6 +391,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
         //supplierDetails.supplierWebsite = supplierData?.website;
       }
+      LoggTracer.errorLogger(res, "8 log", `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
 
       //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
       //Get Q&A Count
@@ -414,6 +433,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           true,
         );
       }
+      LoggTracer.errorLogger(res, "10 log", `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
 
       let filtervalues = "";
       try {
@@ -442,6 +463,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       } catch (error) { }
 
       let appendData = { documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+      LoggTracer.errorLogger(res, "11 log", `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
 
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {
@@ -463,6 +486,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             redirectUrl = '/event/management'
             break
         }
+        LoggTracer.errorLogger(res, "12 log", `${req.headers.host}${req.originalUrl}`, null,
+          TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
+
         res.redirect(redirectUrl)
       }
       else if (status.toLowerCase() == 'assessment') {
@@ -477,6 +503,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             redirectUrl = '/event/management'
             break
         }
+        LoggTracer.errorLogger(res, "13 log", `${req.headers.host}${req.originalUrl}`, null,
+          TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
+
         res.redirect(redirectUrl)
       } else if (status.toLowerCase() == 'unknown') {
         switch (eventType) {
@@ -492,6 +521,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             redirectUrl = '/event/management'
             break
         }
+        LoggTracer.errorLogger(res, "14 log", `${req.headers.host}${req.originalUrl}`, null,
+          TokenDecoder.decoder(SESSION_ID), "Event management page " + " ", false)
+
         res.redirect(redirectUrl)
       }
       else {
@@ -580,8 +612,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     // }
   } catch (error) {
     LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-    TokenDecoder.decoder(SESSION_ID), "Event management page "+" "+error?.response?.data?.errors[0].status+' '+error?.response?.data?.errors[0].detail+' '+error?.response?.data?.errors[0].title, false)
-    
+      TokenDecoder.decoder(SESSION_ID), "Event management page " + " " + error?.response?.data?.errors[0].status + ' ' + error?.response?.data?.errors[0].detail + ' ' + error?.response?.data?.errors[0].title, false)
+
     // LoggTracer.errorLogger(
     //   res,
     //   err,
