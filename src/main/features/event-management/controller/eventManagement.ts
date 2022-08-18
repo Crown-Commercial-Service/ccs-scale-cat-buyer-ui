@@ -306,7 +306,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           let currentDate = new Date(supplierAwardDetail?.date);
           //Standstill dates are current date +10 days.
           currentDate.setDate(currentDate.getDate() + 10)
-          currentDate = checkWeekendDate(currentDate);
+         // currentDate = checkWeekendDate(currentDate);
           let bankHoliDayData: any = null;
           try {
             const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
@@ -322,8 +322,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
               true,
             );
           }
-          const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
-          currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
+          //const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
+          //currentDate = //checkBankHolidayDate(currentDate, listOfHolidayDate);
           supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
           let todayDate = new Date();
           if (todayDate > new Date(supplierDetails.supplierStandStillDate)) {
@@ -554,34 +554,33 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       }
     }
 
-    function checkWeekendDate(date: Date) {
-      const dayOfWeek = new Date(date).getDay();
-      newDate = new Date(date);
-      if (dayOfWeek === 6 || dayOfWeek === 0) {
-        newDate.setDate(newDate.getDate() + 1);
-        newDate.setHours(23);
-        newDate.setMinutes(59);
-        checkWeekendDate(newDate);
-      }
-      return newDate;
-    }
+    // function checkWeekendDate(date: Date) {
+    //   const dayOfWeek = new Date(date).getDay();
+    //   newDate = new Date(date);
+    //   if (dayOfWeek === 6 || dayOfWeek === 0) {
+    //     newDate.setDate(newDate.getDate() + 1);
+    //     newDate.setHours(23);
+    //     newDate.setMinutes(59);
+    //     checkWeekendDate(newDate);
+    //   }
+    //   return newDate;
+    // }
 
-    function checkBankHolidayDate(date: Date, listOfHolidayDate: any) {
-      tempDate = new Date(date);
-      const newDate = moment(date).format('YYYY-MM-DD');
-      const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
-      if (filterDate != undefined && filterDate != null) {
-        tempDate.setDate(tempDate.getDate() + 1);
-        tempDate.setHours(23);
-        tempDate.setMinutes(59);
-        checkBankHolidayDate(tempDate,listOfHolidayDate);
-      }
-      return tempDate;
-    }
+    // function checkBankHolidayDate(date: Date, listOfHolidayDate: any) {
+    //   tempDate = new Date(date);
+    //   const newDate = moment(date).format('YYYY-MM-DD');
+    //   const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+    //   if (filterDate != undefined && filterDate != null) {
+    //     tempDate.setDate(tempDate.getDate() + 1);
+    //     tempDate.setHours(23);
+    //     tempDate.setMinutes(59);
+    //     checkBankHolidayDate(tempDate,listOfHolidayDate);
+    //   }
+    //   return tempDate;
+    // }
   } catch (error) {
     LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
     TokenDecoder.decoder(SESSION_ID), "Event management page "+" "+error?.response?.data?.errors[0].status+' '+error?.response?.data?.errors[0].detail+' '+error?.response?.data?.errors[0].title, false)
-  
     
     // LoggTracer.errorLogger(
     //   res,
