@@ -153,7 +153,7 @@
                                                 {%if (requirement.OCDS.id !== "Question 1")%}
                                                 {% if (requirement.OCDS.title == 'Standstill starts<br>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not require a standstill, change this date to be the same as point 9 below.') %} 
                                                     <a href="#rfp_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
-                        class="govuk-link govuk-link--no-visited-state change" >change<span class="govuk-visually-hidden"> Standstill date</span></a>
+                        class="govuk-link govuk-link--no-visited-state change" >change<span class="govuk-visually-hidden"> Standstill start date</span></a>
                                                 {% else %}
                                                  <a href="#rfp_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
                         class="govuk-link govuk-link--no-visited-state change" >change<span class="govuk-visually-hidden"> {{requirement.OCDS.title}} </span></a>
