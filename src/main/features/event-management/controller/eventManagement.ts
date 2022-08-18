@@ -26,12 +26,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
   const events = req.session.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
   // const { eventId, projectId } = req.session
-
   // const projectId = req.session['projectId']
   //const eventId = req.session['eventId']
   try {
-   
-
 
     // Code Block start - Replace this block with API endpoint
     if (closeProj != undefined) {
