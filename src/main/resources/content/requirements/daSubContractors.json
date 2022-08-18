@@ -17,14 +17,14 @@
         "href": "/da/task-list"
       },
       {
-        "text": "Will you accept sub-contractors?",
+        "text": "Will you accept subcontractors?",
         "href": "#"
       }
     ],
   
-    "title": "Use of sub-contractors?",
-    "subtitle1": "Indicate if a supplier can use subcontractors to complete the work needed for your project.In some instances suppluiers may already work with subcontractors to help  deliver a project's need.",
-    "subtitle2": "Your contractor will be with the supplier and they will be responsible for making sure any subcontractors perform as expected.",
+    "title": "Use of subcontractors",
+    "subtitle1": "Indicate if a supplier can use subcontractors to complete the work needed for your project.In some instances suppliers may already work with subcontractors to help  deliver a project's need.",
+    "subtitle2": "Your contract will be with the supplier and they will be responsible for making sure any subcontractors perform as expected.",
     "form": [
       {
         "radioOptions": {

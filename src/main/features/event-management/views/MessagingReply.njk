@@ -106,23 +106,24 @@
               </span>
             </summary>
             {%else%}
-            <div class="govuk-details__text">
-             <span class="govuk-details__summary-text">
+            <div class="govuk-details__text_message">
+             <span>
                 Subject: {{msgItem.OCDS.title}}
               </span>
             </div>
             
             {%endif%}
-            <div class="govuk-details__text">
-             <span class="govuk-details__summary-text">
+            <div class="govuk-details__text_message">
+             <span>
                 Date: {{msgItem.OCDS.date | dateddmmyyyy}}
               </span>
             </div>
-            <div class="govuk-details__text">
-              <span class="govuk-details__summary-text">
+            <div class="govuk-details__text_message">
+              <span>
                Message: {{msgItem.OCDS.description}}
               </span>
             </div>
+            <div class="govuk-details__text_message_bottom"></div>
             {% endfor %}
         </details>
          
@@ -144,7 +145,7 @@
 
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
              <span>Your message:</span>
-             <textarea class="govuk-textarea govuk-js-character-count" id="reply_message_input" name="reply_message_input" rows="5"  maxlength="5000"></textarea>
+             <textarea class="govuk-textarea govuk-js-character-count" id="reply_message_input" name="reply_message_input" rows="5"  ></textarea>
                  <p><label id="reply_message_input_textarea_count"></label></p>
               </div>
 
