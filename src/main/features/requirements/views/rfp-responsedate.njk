@@ -153,11 +153,13 @@
                                                 {%if (requirement.OCDS.id !== "Question 1")%}
                                                 {% if (requirement.OCDS.title == 'Standstill starts<br>A 10-day pause in the procedure for suppliers to consider if they wish to challenge the decision. If you do not require a standstill, change this date to be the same as point 9 below.') %} 
                                                     <a href="#rfp_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
+
                         class="govuk-link govuk-link--no-visited-state change" >change<span class="govuk-visually-hidden"> Standstill start date</span></a>
                                                 {% else %}
                                                  <a href="#rfp_clarification_date_expanded_{{loop.index}}" id="change_clarification_date_{{loop.index}}"
                         class="govuk-link govuk-link--no-visited-state change" >change<span class="govuk-visually-hidden"> {{requirement.OCDS.title}} </span></a>
                                                 {% endif %}
+
                                                 <div id="rfp_clarification_date_expanded_{{loop.index}}">
                                                     <div>
                                                         <label class="govuk-label govuk-body">
@@ -174,7 +176,7 @@
                                                             <div class="govuk-date-input" id="clarification_date">
                                                                 <div class="govuk-date-input__item">
                                                                     <div class="govuk-form-group">
-                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-day">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-day_{{loop.index}}">
                                         Date
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
@@ -185,7 +187,7 @@
                                                                 </div>
                                                                 <div class="govuk-date-input__item">
                                                                     <div class="govuk-form-group">
-                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-month">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-month_{{loop.index}}">
                                         Month
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
@@ -196,7 +198,7 @@
                                                                 </div>
                                                                 <div class="govuk-date-input__item">
                                                                     <div class="govuk-form-group">
-                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-year">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-year_{{loop.index}}">
                                         Year
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-4"
@@ -211,7 +213,7 @@
                                                             <div class="govuk-date-input" id="clarification_time">
                                                                 <div class="govuk-date-input__item">
                                                                     <div class="govuk-form-group">
-                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-hour">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-hour_{{loop.index}}">
                                         Hour
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
@@ -222,7 +224,7 @@
                                                                 </div>
                                                                 <div class="govuk-date-input__item">
                                                                     <div class="govuk-form-group">
-                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-minute">
+                                                                        <label class="govuk-label govuk-date-input__label" for="clarification_date-minute_{{loop.index}}">
                                         Minutes
                                     </label>
                                                                         <input class="govuk-input govuk-date-input__input govuk-input--width-2"
