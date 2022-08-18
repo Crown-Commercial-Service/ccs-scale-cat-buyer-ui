@@ -108,6 +108,7 @@
                       <p> Weighting for number of staff </p>
                <p id="ca_weight-error-{{loop.index}}" class="govuk-error-message da_weight_staff_class_error">
                                         <span class="govuk-visually-hidden"></span> 
+                       <label  class="govuk-visually-hidden" for="da_weight_staff_{{loop.index+newID}}">Weighting for number of staff </label>
                             </p>
                         {{ CCSInput({
                           label: {
@@ -124,7 +125,8 @@
                         }) }}
                        <p> Weighting for related vetting requirement </p>
                         <p id="ca_weight-error-{{loop.index}}" class="govuk-error-message da_weight_vetting_class_p_error">
-                                        <span class="govuk-visually-hidden"></span> 
+                        <span class="govuk-visually-hidden"></span> 
+                        <label  class="govuk-visually-hidden" for="da_weight_vetting_{{loop.index+newID}}">Weighting for related vetting requirement</label>
                             </p>
                          {{ CCSInput({
                           label: {
@@ -170,6 +172,7 @@
                             <p id="ca_weight-error-{{loop.index}}" class="govuk-error-message da_weight_class_error">
                                         <span class="govuk-visually-hidden"></span> 
                             </p>  
+                              <label  class="govuk-visually-hidden" for="da_sfia_weight_vetting_{{loop.index+newID}}">{{subNestedItems['SFIA_name']}}</label>
                               {{ CCSInput({
                           label: {
                             text: ""
