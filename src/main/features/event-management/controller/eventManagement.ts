@@ -22,6 +22,16 @@ import moment from 'moment-business-days';
  * @param res 
  */
 
+function isWeekendDate(date: Date) {
+  const dayOfWeek = new Date(date).getDay();
+
+  let isValid = false;
+  if (dayOfWeek === 6 || dayOfWeek === 0) {
+    isValid = true;
+  }
+
+  return isValid;
+}
 export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
   const { id, closeProj  } = req.query
   const events = req.session.openProjectActiveEvents
