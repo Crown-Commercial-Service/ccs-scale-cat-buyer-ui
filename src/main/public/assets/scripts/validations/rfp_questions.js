@@ -21,10 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
       elements.forEach(el => {
         weightageSum += isNaN(el.value) ? 0 : Number(el.value);
       });
+      const pageHeading = document.getElementById('page-heading').innerHTML;
+      if(!(pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your cultural fit questions') || pageHeading.includes('Write your social value questions'))){
       if (weightageSum > 100) {
         errorStore.push(["There is a problem", "The weighting cannot exceed 100%"]);
         ccsZPresentErrorSummary(errorStore);
-      }
+      }}
       
 
       $('#totalPercentage').html(weightageSum);
@@ -249,9 +251,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const weightage = $('.weightage');
     let fieldCheck = "";
+    const pageHeading = document.getElementById('page-heading').innerHTML;
 
     for (let index = 0; index < weightage.length; index++) {
-      if (Number(weightage[index].value) < 0) {
+      if(pageHeading.includes('Write your technical questions')){
+        if(weightage[index].value!=""){
+        if (Number(weightage[index].value) == 0) {
+          fieldCheck = [weightage[index].id, 'The value cannot be less than 1%'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(weightage[index], 'The value cannot be less than 1%');
+        }
+        if (Number(weightage[index].value) >100) {
+          fieldCheck = [weightage[index].id, 'The weighting cannot exceed 100%'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(weightage[index], 'The weighting cannot exceed 100%');
+        }
+        if (Number(weightage[index].value) <0) {
+          fieldCheck = [weightage[index].id, 'Enter whole numbers only'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(weightage[index], 'Enter whole numbers only');
+        }
+      }
+      }
+      else if(pageHeading.includes('Write your cultural fit questions')||pageHeading.includes('Write your social value questions')){
+        if(weightage[index].value!=""){
+        if (Number(weightage[index].value) == 0) {
+          fieldCheck = [weightage[index].id, 'You cannot add a value below 1%'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(weightage[index], 'You cannot add a value below 1%');
+        }
+        if (Number(weightage[index].value) >100) {
+          fieldCheck = [weightage[index].id, 'This weighting cannot exceed 100%'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(weightage[index], 'This weighting cannot exceed 100%');
+        }
+        if (Number(weightage[index].value) <0) {
+          fieldCheck = [weightage[index].id, 'You must enter whole numbers only'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(weightage[index], 'You must enter whole numbers only');
+        }
+      }
+      }
+      else if (Number(weightage[index].value) < 0) {
         fieldCheck = [weightage[index].id, 'You must enter positive value.'];
         errorStore.push(fieldCheck);
         ccsZaddErrorMessage(weightage[index], 'You must enter positive value.');

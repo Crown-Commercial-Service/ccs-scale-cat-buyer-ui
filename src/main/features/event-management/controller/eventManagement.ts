@@ -9,7 +9,7 @@ import * as eventManagementData from '../../../resources/content/event-managemen
 import { Message } from '../model/messages'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
-import { SupplierDetails } from '../model/supplierDetailsModel';
+import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
 import moment from 'moment-business-days';
@@ -31,15 +31,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
   let supplierDetails = {} as SupplierDetails;
   let apidata: any = null;
   // const { eventId, projectId } = req.session
-
-  let newDate: any
-  let tempDate: any
+  //let newDate: any
+  //let tempDate: any
   // const projectId = req.session['projectId']
   //const eventId = req.session['eventId']
   try {
-
-
-
     // Code Block start - Replace this block with API endpoint
     if (closeProj != undefined) {
       let baseCloseUrl = `/tenders/projects/${req.session.projectId}/events`;
@@ -61,7 +57,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     else {
       let agreementName: string, agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string, end_date: string;
       //throwErr();
-      events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; tenderPeriod: { startDate: string; endDate: string; } }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; end_date: string; }) => {
+      events?.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; tenderPeriod: { startDate: string; endDate: string; } }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; end_date: string; }) => {
         if (element.activeEvent.id == id) {
           agreementName = element.agreementName
           agreementLotName = element.lotName
@@ -76,6 +72,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           end_date = element?.activeEvent?.tenderPeriod?.endDate
         }
       });
+
+      
       let supplierDataList = [];
       try {
         //#region supplier information
@@ -111,9 +109,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           true,
         );
       }
-
-
-
       // Update procurement data into (redis) session
       const proc: Procurement = {
         procurementID: projectId,
@@ -150,6 +145,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       releatedContent.title = 'Related content'
       req.session.releatedContent = releatedContent
 
+    
       //Related to AssessmentID
       let data: any = null;
       try {
@@ -189,7 +185,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           true,
         );
       }
-
+     
       let unreadMessage = 0
       const msg: Message[] = message.data.messages
       if (message.data.counts != undefined) {
@@ -252,7 +248,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         var supplierFiltedData = supplierDataList?.filter((a: any) => a.organization.id == id)[0];
 
         if (supplierFiltedData != null && supplierFiltedData != undefined) {
-          //  supplierDetailsObj.supplierAddress = {} as SupplierAddress
+          supplierDetailsObj.supplierAddress = {} as SupplierAddress
           supplierDetailsObj.supplierAddress = supplierFiltedData.organization?.address
           supplierDetailsObj.supplierContactName = supplierFiltedData.organization?.contactPoint?.name;
           supplierDetailsObj.supplierContactEmail = supplierFiltedData.organization?.contactPoint.email;
@@ -273,7 +269,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       }
       const supplierSummary = supplierdata?.data;
       supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
-
+     
       let rankCount = 0;
       for (let i = 0; i < supplierDetailsDataList.length; i++) {
         rankCount = rankCount + 1
@@ -306,11 +302,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           let currentDate = new Date(supplierAwardDetail?.date);
           //Standstill dates are current date +10 days.
           currentDate.setDate(currentDate.getDate() + 10)
-          currentDate = checkWeekendDate(currentDate);
-          let bankHoliDayData: any = null;
+          // currentDate = checkWeekendDate(currentDate);
+          //let bankHoliDayData: any = null;
           try {
-            const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
-            bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
+            //const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
+            //bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
           } catch (error) {
             LoggTracer.errorLogger(
               res,
@@ -322,8 +318,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
               true,
             );
           }
-          const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
-          currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
+          //const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
+          //currentDate = //checkBankHolidayDate(currentDate, listOfHolidayDate);
           supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
           let todayDate = new Date();
           if (todayDate > new Date(supplierDetails.supplierStandStillDate)) {
@@ -331,7 +327,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           }
         }
       }
-
+      
       //to get signed awarded contrct end date
       if (status.toLowerCase() == "complete") {
         let scontractAwardDetail: any = null;
@@ -351,7 +347,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
       }
-
+     
       if (supplierDetails != null && supplierDetails.supplierId != undefined && supplierDetails.supplierId != null) {
         let supplierResponse: any = null;
         try {
@@ -374,7 +370,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
         //supplierDetails.supplierWebsite = supplierData?.website;
       }
-
+     
       //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
       //Get Q&A Count
       let fetchData: any = null;
@@ -414,7 +410,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           true,
         );
       }
-
+    
       let filtervalues = "";
       try {
         //response date 
@@ -442,7 +438,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       } catch (error) { }
 
       let appendData = { documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
-
+     
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {
         switch (eventType) {
@@ -463,6 +459,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             redirectUrl = '/event/management'
             break
         }
+       
         res.redirect(redirectUrl)
       }
       else if (status.toLowerCase() == 'assessment') {
@@ -477,6 +474,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             redirectUrl = '/event/management'
             break
         }
+       
         res.redirect(redirectUrl)
       } else if (status.toLowerCase() == 'unknown') {
         switch (eventType) {
@@ -492,6 +490,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             redirectUrl = '/event/management'
             break
         }
+        
         res.redirect(redirectUrl)
       }
       else {
@@ -554,35 +553,34 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       }
     }
 
-    function checkWeekendDate(date: Date) {
-      const dayOfWeek = new Date(date).getDay();
-      newDate = new Date(date);
-      if (dayOfWeek === 6 || dayOfWeek === 0) {
-        newDate.setDate(newDate.getDate() + 1);
-        newDate.setHours(23);
-        newDate.setMinutes(59);
-        checkWeekendDate(newDate);
-      }
-      return newDate;
-    }
+    // function checkWeekendDate(date: Date) {
+    //   const dayOfWeek = new Date(date).getDay();
+    //   newDate = new Date(date);
+    //   if (dayOfWeek === 6 || dayOfWeek === 0) {
+    //     newDate.setDate(newDate.getDate() + 1);
+    //     newDate.setHours(23);
+    //     newDate.setMinutes(59);
+    //     checkWeekendDate(newDate);
+    //   }
+    //   return newDate;
+    // }
 
-    function checkBankHolidayDate(date: Date, listOfHolidayDate: any) {
-      tempDate = new Date(date);
-      const newDate = moment(date).format('YYYY-MM-DD');
-      const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
-      if (filterDate != undefined && filterDate != null) {
-        tempDate.setDate(tempDate.getDate() + 1);
-        tempDate.setHours(23);
-        tempDate.setMinutes(59);
-        checkBankHolidayDate(tempDate,listOfHolidayDate);
-      }
-      return tempDate;
-    }
+    // function checkBankHolidayDate(date: Date, listOfHolidayDate: any) {
+    //   tempDate = new Date(date);
+    //   const newDate = moment(date).format('YYYY-MM-DD');
+    //   const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+    //   if (filterDate != undefined && filterDate != null) {
+    //     tempDate.setDate(tempDate.getDate() + 1);
+    //     tempDate.setHours(23);
+    //     tempDate.setMinutes(59);
+    //     checkBankHolidayDate(tempDate,listOfHolidayDate);
+    //   }
+    //   return tempDate;
+    // }
   } catch (error) {
     LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-    TokenDecoder.decoder(SESSION_ID), "Event management page "+" "+error?.response?.data?.errors[0].status+' '+error?.response?.data?.errors[0].detail+' '+error?.response?.data?.errors[0].title, false)
-  
-    
+      TokenDecoder.decoder(SESSION_ID), "Event management page " + " " + error?.response?.data?.errors[0].status + ' ' + error?.response?.data?.errors[0].detail + ' ' + error?.response?.data?.errors[0].title, false)
+
     // LoggTracer.errorLogger(
     //   res,
     //   err,
