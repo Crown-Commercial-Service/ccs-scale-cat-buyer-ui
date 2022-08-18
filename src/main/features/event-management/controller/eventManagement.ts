@@ -213,7 +213,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             }
             
           });
-          supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+          supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY HH:mm');
         }
 
         if (status.toLowerCase() == "pre-award") {
@@ -240,7 +240,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           //   // }
           // }
 
-          supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY hh:mm');
+          supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
 
           let todayDate = new Date();
           if (todayDate > new Date(supplierDetails.supplierStandStillDate)) {
@@ -413,6 +413,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
       if (filterDate != undefined && filterDate != null) {
         tempDate.setDate(tempDate.getDate() + 1);
+        tempDate.setHours(23);
+        tempDate.setMinutes(59);
         checkBankHolidayDate(tempDate,listOfHolidayDate);
       }
       return tempDate;
