@@ -24,15 +24,15 @@ import moment from 'moment-business-days';
 
 export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
   const { id, closeProj } = req.query
-  const events = req.session.openProjectActiveEvents
+  const events = req.session?.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
 
   //LOCAL VERIABLE
   let supplierDetails = {} as SupplierDetails;
   let apidata: any = null;
   // const { eventId, projectId } = req.session
-  //let newDate: any
-  //let tempDate: any
+  let newDate: any
+  let tempDate: any
   // const projectId = req.session['projectId']
   //const eventId = req.session['eventId']
   try {
@@ -56,29 +56,27 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     }
     else {
       let agreementName: string, agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string, end_date: string;
-      //throwErr();
       events?.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; tenderPeriod: { startDate: string; endDate: string; } }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; end_date: string; }) => {
-        if (element.activeEvent.id == id) {
-          agreementName = element.agreementName
-          agreementLotName = element.lotName
-          agreementId_session = element.agreementId
+        if (element?.activeEvent?.id == id) {
+          agreementName = element?.agreementName
+          agreementLotName = element?.lotName
+          agreementId_session = element?.agreementId
           status = element?.activeEvent?.status?.toLowerCase()
-          projectName = element.projectName
-          eventId = element.activeEvent.id.toString()
-          eventType = element.activeEvent.eventType
-          projectId = element.projectId
-          lotid = element.lotId
-          title = element.activeEvent.title
+          projectName = element?.projectName
+          eventId = element?.activeEvent?.id?.toString()
+          eventType = element?.activeEvent?.eventType
+          projectId = element?.projectId
+          lotid = element?.lotId
+          title = element?.activeEvent?.title
           end_date = element?.activeEvent?.tenderPeriod?.endDate
         }
       });
 
-      
       let supplierDataList = [];
       try {
         //#region supplier information
         const baseurl_Supplier = `/agreements/${agreementId_session}/lots/${lotid}/suppliers`
-        supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier)).data;
+        supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
         //#endregion
       } catch (error) {
         LoggTracer.errorLogger(
@@ -96,7 +94,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const baseurl = `/tenders/projects/${projectId}/events`
         apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
         //status=apidata.data[0].dashboardStatus;
-        status = apidata.data.filter((d: any) => d.id == eventId)[0].dashboardStatus;
+        status = apidata?.data?.filter((d: any) => d.id == eventId)[0]?.dashboardStatus;
         // Code Block ends 
       } catch (error) {
         LoggTracer.errorLogger(
@@ -145,7 +143,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       releatedContent.title = 'Related content'
       req.session.releatedContent = releatedContent
 
-    
+
       //Related to AssessmentID
       let data: any = null;
       try {
@@ -162,7 +160,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           true,
         );
       }
-      const assessmentId = data.data.nonOCDS.assessmentId
+      const assessmentId = data?.data?.nonOCDS?.assessmentId
       req.session.currentEvent = { assessmentId }
 
       // Event header
@@ -185,12 +183,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           true,
         );
       }
-     
+
       let unreadMessage = 0
-      const msg: Message[] = message.data.messages
-      if (message.data.counts != undefined) {
+      const msg: Message[] = message?.data?.messages
+      if (message?.data?.counts > 0) {
         msg.forEach(element => {
-          if (!element.nonOCDS.read) {
+          if (!element?.nonOCDS?.read) {
             unreadMessage = unreadMessage + 1
           }
         });
@@ -232,7 +230,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       let supplierDetailsDataList: SupplierDetails[] = [];
       let showallDownload = false;
       for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
-        let id = supplierdata.data.responders[i]?.supplier?.id;
+        let id = supplierdata?.data?.responders[i]?.supplier?.id;
         let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
         if (supplierdata.data?.responders[i]?.responseState == 'Submitted') {
           showallDownload = true;
@@ -249,7 +247,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
         if (supplierFiltedData != null && supplierFiltedData != undefined) {
           supplierDetailsObj.supplierAddress = {} as SupplierAddress
-          supplierDetailsObj.supplierAddress = supplierFiltedData.organization?.address
+         // supplierDetailsObj.supplierAddress = supplierFiltedData.organization?.address
           supplierDetailsObj.supplierContactName = supplierFiltedData.organization?.contactPoint?.name;
           supplierDetailsObj.supplierContactEmail = supplierFiltedData.organization?.contactPoint.email;
           supplierDetailsObj.supplierWebsite = supplierFiltedData.organization?.contactPoint.url;
@@ -268,10 +266,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         // }
       }
       const supplierSummary = supplierdata?.data;
-      supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
-     
+      supplierDetailsDataList?.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
+
       let rankCount = 0;
-      for (let i = 0; i < supplierDetailsDataList.length; i++) {
+      for (let i = 0; i < supplierDetailsDataList?.length; i++) {
         rankCount = rankCount + 1
         supplierDetailsDataList[i].rank = "" + rankCount;
       }
@@ -302,11 +300,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           let currentDate = new Date(supplierAwardDetail?.date);
           //Standstill dates are current date +10 days.
           currentDate.setDate(currentDate.getDate() + 10)
-          // currentDate = checkWeekendDate(currentDate);
-          //let bankHoliDayData: any = null;
+           currentDate = checkWeekendDate(currentDate);
+          let bankHoliDayData: any = null;
           try {
-            //const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
-            //bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
+            const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
+            bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
           } catch (error) {
             LoggTracer.errorLogger(
               res,
@@ -318,8 +316,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
               true,
             );
           }
-          //const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
-          //currentDate = //checkBankHolidayDate(currentDate, listOfHolidayDate);
+          const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
+          currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
           supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
           let todayDate = new Date();
           if (todayDate > new Date(supplierDetails.supplierStandStillDate)) {
@@ -327,7 +325,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           }
         }
       }
-      
+
       //to get signed awarded contrct end date
       if (status.toLowerCase() == "complete") {
         let scontractAwardDetail: any = null;
@@ -347,7 +345,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
       }
-     
+
       if (supplierDetails != null && supplierDetails.supplierId != undefined && supplierDetails.supplierId != null) {
         let supplierResponse: any = null;
         try {
@@ -370,7 +368,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
         //supplierDetails.supplierWebsite = supplierData?.website;
       }
-     
+
       //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
       //Get Q&A Count
       let fetchData: any = null;
@@ -410,7 +408,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           true,
         );
       }
-    
+
       let filtervalues = "";
       try {
         //response date 
@@ -438,7 +436,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       } catch (error) { }
 
       let appendData = { documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
-     
+
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {
         switch (eventType) {
@@ -459,7 +457,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             redirectUrl = '/event/management'
             break
         }
-       
+
         res.redirect(redirectUrl)
       }
       else if (status.toLowerCase() == 'assessment') {
@@ -474,7 +472,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             redirectUrl = '/event/management'
             break
         }
-       
+
         res.redirect(redirectUrl)
       } else if (status.toLowerCase() == 'unknown') {
         switch (eventType) {
@@ -490,7 +488,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             redirectUrl = '/event/management'
             break
         }
-        
+
         res.redirect(redirectUrl)
       }
       else {
@@ -553,30 +551,30 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       }
     }
 
-    // function checkWeekendDate(date: Date) {
-    //   const dayOfWeek = new Date(date).getDay();
-    //   newDate = new Date(date);
-    //   if (dayOfWeek === 6 || dayOfWeek === 0) {
-    //     newDate.setDate(newDate.getDate() + 1);
-    //     newDate.setHours(23);
-    //     newDate.setMinutes(59);
-    //     checkWeekendDate(newDate);
-    //   }
-    //   return newDate;
-    // }
+    function checkWeekendDate(date: Date) {
+      const dayOfWeek = new Date(date).getDay();
+      newDate = new Date(date);
+      if (dayOfWeek === 6 || dayOfWeek === 0) {
+        newDate.setDate(newDate.getDate() + 1);
+        newDate.setHours(23);
+        newDate.setMinutes(59);
+        checkWeekendDate(newDate);
+      }
+      return newDate;
+    }
 
-    // function checkBankHolidayDate(date: Date, listOfHolidayDate: any) {
-    //   tempDate = new Date(date);
-    //   const newDate = moment(date).format('YYYY-MM-DD');
-    //   const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
-    //   if (filterDate != undefined && filterDate != null) {
-    //     tempDate.setDate(tempDate.getDate() + 1);
-    //     tempDate.setHours(23);
-    //     tempDate.setMinutes(59);
-    //     checkBankHolidayDate(tempDate,listOfHolidayDate);
-    //   }
-    //   return tempDate;
-    // }
+    function checkBankHolidayDate(date: Date, listOfHolidayDate: any) {
+      tempDate = new Date(date);
+      const newDate = moment(date).format('YYYY-MM-DD');
+      const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+      if (filterDate != undefined && filterDate != null) {
+        tempDate.setDate(tempDate.getDate() + 1);
+        tempDate.setHours(23);
+        tempDate.setMinutes(59);
+        checkBankHolidayDate(tempDate,listOfHolidayDate);
+      }
+      return tempDate;
+    }
   } catch (error) {
     LoggTracer.errorLogger(
       res,
