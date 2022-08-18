@@ -276,13 +276,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
       let rankCount = 0;
       for (let i = 0; i < supplierDetailsDataList.length; i++) {
-        rankCount = rankCount + 1
-        supplierDetailsDataList[i].rank = "" + rankCount;
+        if(supplierDetailsDataList[i].responseState.toLowerCase() == "submitted")
+        {
+          rankCount = rankCount + 1
+          supplierDetailsDataList[i].rank = "" + rankCount;
+        }
       }
       //Awarded,pre_awarded and complete supplier info
       if (status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
         let supplierState = "PRE_AWARD"
-        if (status.toLowerCase() == "awarded") {
+        if (status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
           supplierState = "AWARD"
         }
         const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
