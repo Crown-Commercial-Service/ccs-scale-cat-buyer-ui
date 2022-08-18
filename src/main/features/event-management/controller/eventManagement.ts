@@ -578,16 +578,20 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       }
       return tempDate;
     }
-  } catch (err) {
-    LoggTracer.errorLogger(
-      res,
-      err,
-      `${req.headers.host}${req.originalUrl}`,
-      null,
-      TokenDecoder.decoder(SESSION_ID),
-      'Event management page',
-      true,
-    );
+  } catch (error) {
+    LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
+    TokenDecoder.decoder(SESSION_ID), "Event management page "+" "+error?.response?.data?.errors[0].status+' '+error?.response?.data?.errors[0].detail+' '+error?.response?.data?.errors[0].title, false)
+  
+    
+    // LoggTracer.errorLogger(
+    //   res,
+    //   err,
+    //   `${req.headers.host}${req.originalUrl}`,
+    //   null,
+    //   TokenDecoder.decoder(SESSION_ID),
+    //   'Event management page',
+    //   true,
+    // );
   }
 }
 
