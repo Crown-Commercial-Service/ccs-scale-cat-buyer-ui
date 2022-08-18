@@ -104,8 +104,76 @@ const ccsZvalidateRfpPercentages = (event) => {
       errorStore.push(fieldCheck);
       ccsZaddErrorMessage(elements[index], 'You must enter positive value.');
     }
+    else{
+      if(pageHeading.includes('Set the overall weighting between quality and price')){
+      switch(elements[index].id)
+      {
+        case 'Question 1':
+          if(elements[index].value!="" && (Number(elements[index].value) < 25 || Number(elements[index].value) >75))
+          {
+            fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
+        errorStore.push(fieldCheck);
+        ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
+          }
+          else
+      percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
+          break
+        case 'Question 2':
+          if(elements[index].value!="" && (Number(elements[index].value) < 10 || Number(elements[index].value) >75))
+        {
+          fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
+      errorStore.push(fieldCheck);
+      ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
+        }
+        else
+      percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
+          break
+        default:percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
+          break
+      }
+      
+      }
+      else if(pageHeading.includes('Set the weighting for the quality groups')){
+        switch(elements[index].id)
+        {
+          case 'Question 1':
+            if(elements[index].value!="" && (Number(elements[index].value) < 10 || Number(elements[index].value) >75))
+            {
+              fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
+            }
+            else
+        percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
+            break
+          case 'Question 2':
+            if(elements[index].value!="" && (Number(elements[index].value) < 5 || Number(elements[index].value) >20))
+          {
+            fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
+        errorStore.push(fieldCheck);
+        ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
+          }
+          else
+        percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
+            break
+            case 'Question 3':
+              if(elements[index].value!="" && (Number(elements[index].value) < 10 || Number(elements[index].value) >20))
+            {
+              fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
+          errorStore.push(fieldCheck);
+          ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
+            }
+            else
+          percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
+              break
+          default:percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
+            break
+        }
+        
+        }
     else
       percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
+    }
   }
 
   if (errorStore.length > 0) {
