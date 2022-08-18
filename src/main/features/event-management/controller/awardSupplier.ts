@@ -3,10 +3,14 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import { SupplierDetails } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
+import { AgreementAPI } from '@common/util/fetch/agreementservice/agreementsApiInstance';
 
 export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
     const { supplierId } = req.query;
+
+    const agreement_id = req.session?.agreement_id;
+    const lotId = req.session?.lotId;
 
     const { projectId, eventId, projectName, agreement_header, viewError } = req.session;
     try {
@@ -38,16 +42,18 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
                 supplierDetailsList.push(supplierDetails);
             }
         }
+
+        const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
+        const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
+
         if (supplierId != undefined && supplierId != null) {
-            const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/${supplierId}`;
-            const supplierResponse = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
-
-            const supplierData = supplierResponse?.data;
-
-            supplierDetails.supplierAddress = supplierData?.address;
-            supplierDetails.supplierContactName = supplierData?.contactPoint.name;
-            supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
-            //supplierDetails.supplierWebsite = supplierData?.website;
+            var supplierFiltedData = supplierDataList?.filter((a: any) => a.organization.id == supplierId)[0]?.organization;
+            if (supplierFiltedData != null && supplierFiltedData != undefined) {
+                supplierDetails.supplierAddress = supplierFiltedData.address
+                supplierDetails.supplierContactName = supplierFiltedData.contactPoint?.name;
+                supplierDetails.supplierContactEmail = supplierFiltedData.contactPoint.email;
+                supplierDetails.supplierWebsite = supplierFiltedData.contactPoint.url;
+            }
         }
 
         //SELECTED EVENT DETAILS FILTER FORM LIST
@@ -74,7 +80,7 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
 }
 export const POST_AWARD_SUPPLIER = async (req: express.Request, res: express.Response) => {
 
-    const { award_supplier_confirmation,supplier_id } = req.body;
+    const { award_supplier_confirmation, supplier_id } = req.body;
     const { SESSION_ID } = req.cookies;
     try {
         if (award_supplier_confirmation != undefined && award_supplier_confirmation === '1') {
