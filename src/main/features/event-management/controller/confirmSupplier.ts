@@ -21,7 +21,6 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
   const baseurl_Supplier = `/agreements/${agreement_id}/lots/${lotId}/suppliers`
   let supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier)).data;
 
-  //eventType: string,agreementName: string, agreementLotName: string, lotid: string, title: string, agreementId_session: string,
   try {
 
     res.locals.agreement_header = req.session.agreement_header;
@@ -32,15 +31,11 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     //Supplier of interest
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
-    //agreements/{agreement-id}/lots/{lot-id}/suppliers
-    // const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
-    // const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
-
     //Supplier score
     const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
     const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
 
-    for (let i = 0; i < supplierdata.data.responders.length; i++) {
+    for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
       let id = supplierdata.data.responders[i].supplier.id;
       let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
       if (supplierdata.data.responders[i].responseState == 'Submitted') {
@@ -74,8 +69,8 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     const baseurl = `/tenders/projects/${projectId}/events`
     const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
     //status=apidata.data[0].dashboardStatus;
-    const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
-    status = selectedEventData[0].dashboardStatus
+    const selectedEventData = apidata?.data?.filter((d: any) => d.id == eventId);
+    status = selectedEventData?.[0].dashboardStatus
 
 
     //Final Object
