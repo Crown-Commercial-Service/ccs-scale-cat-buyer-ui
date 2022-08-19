@@ -2,7 +2,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Message Reply ' %}
+{% set title = 'Questions and clarifications ' %}
 
 {% set sortedMembers = [
   {
@@ -22,7 +22,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Message",
+      "text": "Supplier Message",
       "href": "#"
     }
   ]
@@ -104,7 +104,7 @@
               Question
               <textarea class="govuk-textarea govuk-js-character-count" id="message_input_QA_Question_input" name="message_input_QA_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-             Clerification
+             Clarification
              <textarea class="govuk-textarea govuk-js-character-count" id="message_Add_Clerification_input" name="message_Add_Clerification_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
                 
               </div>

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as express from 'express';
 import { LoggTracer } from '@common/logtracer/tracer';
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder';
@@ -7,10 +8,12 @@ import { MessageDetails } from '../model/messgeDetails';
 import { QuestionAndAnswer } from '../model/qaModel';
 
 export class ValidationErrors {
-    static readonly CLASSIFICATION_REQUIRED: string = 'Message cannot be broadcast unless a Classification has been defined'
-    static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Subject Line has been defined'
-    static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Message Body has been defined'
-}
+    static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'
+    static readonly Question_REQUIRED: string = 'Question has not been defined'
+    static readonly Clarification_REQUIRED_count: string = 'Please enter <=5000 characters'
+    static readonly Question_REQUIRED_count: string = 'Please enter <=5000 characters'
+   
+    }
 /**
  * 
  * @Rediect 
@@ -57,8 +60,17 @@ export const EVENT_MANAGEMENT_GET_QA_ADD_TWO_STEP = async (req: express.Request,
     req.session['messageID'] = req.query;
     try {
         res.locals.agreement_header = req.session.agreement_header;
+        const QaContent: QuestionAndAnswer = {
+            create_question_input:null,
+            create_clarification_input: null,
+            IsquestionNotDefined: false,
+            IsclarificationNotDefined: false,
+            questionErrorMessage: ValidationErrors.Question_REQUIRED,
+            clarificationErrorMessage: ValidationErrors.Clarification_REQUIRED,
+            }
+    
         const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
-        const appendData = { data: localTableData, message: messageDetails, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        const appendData = { data: localTableData, message: messageDetails,QaContent:QaContent, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.render('QAAdd2ndStep', appendData);
     } catch (err) {
         LoggTracer.errorLogger(
@@ -82,14 +94,14 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
     const eventId = req.session['eventId']
     try {
         const _body = req.body
-        let IsQuestionNotDefined, IsClerificationNotDefined, validationError = false;
+        let IsQuestionNotDefined,Question_count,clarification_count, IsClerificationNotDefined, validationError = false;
         const errorText = [];
-        if (!_body.message_input_QA_Question_input) {
+        if (!_body.QA_Question_input) {
             IsQuestionNotDefined = true
             validationError = true
             errorText.push({
-                text: ValidationErrors.CLASSIFICATION_REQUIRED,
-                href: '#create_message'
+                text: ValidationErrors.Question_REQUIRED,
+                href: '#QA_Question_input'
             });
         } else {
             IsQuestionNotDefined = false;
@@ -99,21 +111,58 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
             IsClerificationNotDefined = true
             validationError = true
             errorText.push({
-                text: ValidationErrors.MESSAGE_REQUIRED,
-                href: '#create_subject_input'
+                text: ValidationErrors.Clarification_REQUIRED,
+                href: '#message_Add_Clerification_input'
             });
         } else {
             IsClerificationNotDefined = false;
         }
-
-        if (errorText.length > 0 && (IsClerificationNotDefined || IsQuestionNotDefined)) {
-            const message = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
-            const appendData = { data: localTableData, message: message, validationError: validationError, errorText: errorText }
-            res.render('QAAddClerificationQuestion', appendData);
+        if (_body.QA_Question_input.length > 5000) {
+            Question_count = true
+            validationError = true
+            errorText.push({
+                text: ValidationErrors.Question_REQUIRED_count,
+                href: '#QA_Question_input'
+            });
+        } else {
+            Question_count = false;
         }
 
+        if (_body.message_Add_Clerification_input.length > 5000) {
+            clarification_count = true
+            validationError = true
+            errorText.push({
+                text: ValidationErrors.Clarification_REQUIRED_count,
+                href: '#message_Add_Clerification_input'
+            });
+        } else {
+            clarification_count = false;
+        }
+
+
+        if (errorText.length > 0 && (IsClerificationNotDefined || IsQuestionNotDefined || clarification_count || Question_count )) {
+            const QaContent: QuestionAndAnswer = {
+            create_question_input: _body.QA_Question_input,
+            create_clarification_input: _body.message_Add_Clerification_input,
+            IsquestionNotDefined: IsQuestionNotDefined,
+            IsclarificationNotDefined: IsClerificationNotDefined,
+            questionErrorMessage: ValidationErrors.Question_REQUIRED,
+            clarificationErrorMessage: ValidationErrors.Clarification_REQUIRED,
+            Question_count:Question_count,
+            clarification_count:clarification_count,
+            questionErrorMessage_count: ValidationErrors.Question_REQUIRED_count,
+            clarificationErrorMessage_count: ValidationErrors.Clarification_REQUIRED_count,
+            }
+    
+            const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
+            const appendData = { data: localTableData, message: messageDetails,QaContent:QaContent,errorText: errorText, validationError: validationError, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+            res.render('QAAdd2ndStep', appendData);
+        }
+else{
+
+
         const _requestBody = {
-            "question": _body.message_input_QA_Question_input,
+            "question": _body.QA_Question_input,
             "answer": _body.message_Add_Clerification_input
         }
 
@@ -126,7 +175,7 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
             req.session["createdqa"]=false;
             res.redirect('/message/inbox')
         }
-
+    }
     } catch (err) {
         LoggTracer.errorLogger(
             res,

@@ -8,7 +8,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 import { ATTACHMENTUPLOADHELPER } from '../helpers/uploadAttachment';
 import { FileValidations } from '../util/file/filevalidations';
-
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 let tempArray = [];
 
 // requirements Upload document
@@ -64,8 +64,9 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
               contentType: file.mimetype,
               filename: file.name,
             });
-            formData.append('description', file.name);
-            formData.append('audience', 'buyer');
+            formData.append('description', "mandatory");
+            formData.append('audience', 'supplier');
+
             const formHeaders = formData.getHeaders();
             try {
               await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
@@ -95,7 +96,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
         if (FileFilterArray.length > 0) {
           ATTACHMENTUPLOADHELPER(req, res, true, FileFilterArray);
         } else {
-          res.redirect(`/${selRoute}/upload-doc`);
+          res.redirect(`/${selRoute}/upload-attachment`);
         }
       } else {
         const fileName = offline_document.name;
@@ -111,8 +112,9 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
             contentType: offline_document.mimetype,
             filename: offline_document.name,
           });
-          formData.append('description', offline_document.name);
-          formData.append('audience', 'buyer');
+          formData.append('description',"mandatory");
+         formData.append('audience', 'supplier');
+
           const formHeaders = formData.getHeaders();
           try {
             await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
@@ -142,8 +144,8 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
           }
         } else {
           FileFilterArray.push({
-            href: '#documents_upload',
-            text: fileName,
+            href: '#rfp_offline_document',
+            text: "This document "+fileName+" is not an acceptable file format. Check the list and try again.",
           });
 
           ATTACHMENTUPLOADHELPER(req, res, true, FileFilterArray);
@@ -188,17 +190,49 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   res: express.Response,
 ) => {
   const { SESSION_ID } = req.cookies;
-  const { projectId } = req.session;
+  const { projectId,eventId } = req.session;
   let { selectedRoute } = req.session;
   const rfp_confirm_upload = req.body.rfp_confirm_upload;
-  if (selectedRoute === 'FC') selectedRoute = 'RFP';
-  const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71; // check step number changed step 37 to 30 balwinder
+  try{ 
   if (req.session['isTcUploaded'] && rfp_confirm_upload === "confirm") {
-   // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
-    res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
-  } else {
-    req.session["pricingSchedule"] = { "IsDocumentError": true, "IsFile": !req.session['isTcUploaded'] ? true : false, "rfp_confirm_upload": rfp_confirm_upload == undefined ? true : false };
-    res.redirect(`/rfp/upload-attachment`);
+    if (selectedRoute === 'FC') selectedRoute = 'RFP';
+    const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71;
+    const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
+    const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+    const FETCH_FILEDATA = FetchDocuments?.data;
+    let fileNameStorageTermsnCond = [];
+    let fileNameStoragePricing = [];
+    FETCH_FILEDATA?.map(file => {
+      if (file.description === "optional") {
+        fileNameStorageTermsnCond.push(file.fileName);
+      }
+      if (file.description === "mandatory") {
+        fileNameStoragePricing.push(file.fileName);
+      }
+    });
+    if(fileNameStorageTermsnCond.length>0 && fileNameStoragePricing.length>0)
+     {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+        let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
+        if(flag)
+        {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+        }    
+      }
+      res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
+    } else {
+      req.session["pricingSchedule"] = { "IsDocumentError": true, "IsFile": !req.session['isTcUploaded'] ? true : false, "rfp_confirm_upload": rfp_confirm_upload == undefined ? true : false };
+      res.redirect(`/rfp/upload-attachment`);
+    }
   }
-
-});
+catch (error) {
+      delete error?.config?.['headers'];
+      const Logmessage = {
+        Person_id: TokenDecoder.decoder(SESSION_ID),
+        error_location: `${req.headers.host}${req.originalUrl}`,
+        sessionId: 'null',
+        error_reason: `File uploading Causes Problem in ${selRoute}  - Tenders Api throws error`,
+        exception: error,
+      };
+    }
+  });

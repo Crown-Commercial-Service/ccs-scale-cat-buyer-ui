@@ -38,6 +38,28 @@
 {% endfor %}
 
 {% block content %}
+<div class="backdrop-createmsgcancel" id="createmsgcancelpopup">
+  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
+    <div class="pop_logo govuk-grid-column-full">
+      <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
+      <p class="pop_logo_image govuk-grid-column-one-half" <a="" href="#">
+        <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
+      
+      </p>
+      <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-createmsgcancel govuk-!-padding-top-6">
+      <a href="#" class="dialog-close-createmsgcancel nav-list__link_secondary">X</a></p>
+    </div>
+    <div class="govuk-grid-column-full">
+      <h1 id="dialog-title">If you cancel now this message will not be saved.<p></p>
+      
+      <div class="govuk-button-group">
+        <button id="redirect-button-createmsgcancel" class="button dialog-button govuk-button" name="Cancel Message">OK</button>
+        <a href="#" class="dialog-close-createmsgcancel govuk-link govuk-link--no-visited-state">Cancel</a>
+      </div>
+    </h1></div>
+  </div>
+</div>
+
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
 
     {% if (validationError) %}
@@ -148,32 +170,42 @@
               }}
             {% endif %}
 
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-              {% if message.IsMessageNotDefined %}
+            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
+              {% if message.IsMessageNotDefined or message.IsSubjectNotDefinedcount%}
                 <div class="govuk-form-group govuk-form-group--error">
                   <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
+                  {% if message.IsMessageNotDefined%}
                   <p id="more-detail-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{message.messageErrorMessage}}
                   </p>
                   <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
                 </div>
+                {% else %}
+                 <p id="more-detail-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    {{message.SUBJECT_REQUIRED_count}}
+                  </p>
+                  <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{message.create_message_input}}</textarea>
+                </div>
+                {% endif %}
               {% else %}
                 <div class="govuk-form-group">
                   <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
                   <textarea class="govuk-textarea govuk-js-character-count" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint">{{message.create_message_input}}</textarea>
                 </div>
               {% endif %}
-              <div id="create_message_input-info" class="govuk-hint govuk-character-count__message" aria-live="polite">You can enter up to 200 characters</div>
+              <div id="create_message_input-info" class="govuk-hint govuk-character-count__message" aria-live="polite">You can enter up to 5000 characters</div>
             </div>
 
             <div class="govuk-button-group">
               {{ CCSButton({
                 text: data.btnText,
-                action:"submit"
+                action:"submit",
+                id:"btnCreateMessage"
                 })
             }}
-              <a href="{{data.Cancel.link}}" class="govuk-link govuk-link--no-visited-state">{{data.Cancel.text}}</a>
+              <a id="createMsgCancel" class="govuk-link govuk-link--no-visited-state a-cursor-pointer">{{data.Cancel.text}}</a>
             </div>
 
           </div>

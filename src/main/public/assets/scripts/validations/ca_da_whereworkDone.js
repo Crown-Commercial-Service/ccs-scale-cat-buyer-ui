@@ -77,6 +77,28 @@ document.addEventListener('DOMContentLoaded', () => {
     $(".backdrop-vetting").fadeOut(200);
     var route = this.name;
     if (route == 'Clear form') {
+      document.getElementsByClassName("govuk-error-summary")[0].classList.add('hide-block')
+      var errorLabel=document.getElementsByClassName("govuk-error-message")
+      if (errorLabel != null && errorLabel.length > 0) {
+        for(index=0;index<errorLabel.length;index++)
+        {
+          errorLabel[index].innerText =''
+        }
+      }
+      var inputError=document.getElementsByClassName("govuk-input--width-2")
+      if (inputError != null && inputError.length > 0) {
+        for(index=0;index<inputError.length;index++)
+        {
+          inputError[index].classList.remove('govuk-input--error')
+        }
+      }    
+      var groupError=document.getElementsByClassName("govuk-form-group")
+      if (groupError != null && groupError.length > 0) {
+        for(index=0;index<groupError.length;index++)
+        {
+          groupError[index].classList.remove('govuk-form-group--error')
+        }
+      } 
       clearAllTextboxes();
     } else {
       return false;

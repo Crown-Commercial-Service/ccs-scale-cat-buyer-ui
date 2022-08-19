@@ -21,12 +21,9 @@
       "text": eventId+" / "+eventType,
       "href": "/event/management?id="+eventId
     },
+    
     {
-      "text": "Your inbox",
-      "href": "/message/inbox"
-    },
-    {
-      "text": "Message",
+      "text": "Supplier Message",
       "href": "#"
     }
   ]
@@ -97,26 +94,36 @@
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
           <a href="{{data.backlink}}">Back</a></br></br></br>
-            <label class="govuk-label govuk-label govuk-label--m">Message thread</label></br>
-          {%if msgThreadList.length >0%}
-         
+              {%if msgThreadList.length >0%}
+         <span class="govuk-label govuk-label govuk-label--m">Message thread</span></br>
+        
           <details class="govuk-details" data-module="govuk-details">
            {%for msgItem in msgThreadList%}
+           {%if loop.index ===1%}
             <summary class="govuk-details__summary">
               <span class="govuk-details__summary-text">
                 Subject: {{msgItem.OCDS.title}}
               </span>
             </summary>
-            <div class="govuk-details__text">
-             <span class="govuk-details__summary-text">
+            {%else%}
+            <div class="govuk-details__text_message">
+             <span>
+                Subject: {{msgItem.OCDS.title}}
+              </span>
+            </div>
+            
+            {%endif%}
+            <div class="govuk-details__text_message">
+             <span>
                 Date: {{msgItem.OCDS.date | dateddmmyyyy}}
               </span>
             </div>
-            <div class="govuk-details__text">
-              <span class="govuk-details__summary-text">
+            <div class="govuk-details__text_message">
+              <span>
                Message: {{msgItem.OCDS.description}}
               </span>
             </div>
+            <div class="govuk-details__text_message_bottom"></div>
             {% endfor %}
         </details>
          
@@ -137,8 +144,8 @@
             <p><label id="reply_message_input_textbox_count"></label></p>
 
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-             <p>Your message:</p>
-             <textarea class="govuk-textarea govuk-js-character-count" id="reply_message_input" name="reply_message_input" rows="5"  maxlength="5000"></textarea>
+             <span>Your message:</span>
+             <textarea class="govuk-textarea govuk-js-character-count" id="reply_message_input" name="reply_message_input" rows="5"  ></textarea>
                  <p><label id="reply_message_input_textarea_count"></label></p>
               </div>
 

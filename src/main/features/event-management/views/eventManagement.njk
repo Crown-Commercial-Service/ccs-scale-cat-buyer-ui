@@ -2,7 +2,7 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Event management ' %}
+{% set title = 'Your project ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -44,11 +44,11 @@
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
           </h2>
           <p class="govuk-body">
-           {# {% if(showCloseProject) %} #}
+           {% if(showCloseProject) %} 
             <a class="govuk-link" href="/rfi/nextsteps">{{ data.subsection2_content }}</a>
-           {# {% else %}
+           {% else %}
             <a class="govuk-link" href="/event/management?id={{ eventId }}">{{ data.subsection2_content }}</a>
-            {% endif %}#}
+            {% endif %}
           </p>
         </div>
       </div>
@@ -202,7 +202,7 @@
         {% if status.toLowerCase() == 'published' %}
          <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
         
-        <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+        {#<div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
               <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
@@ -211,7 +211,6 @@
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                 </tr>
               </thead>
               {% endif %}
@@ -231,7 +230,7 @@
               </tbody>
             </table>
           </div>
-        </div>
+        </div> #}
         {% endif %}
 
 {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
@@ -288,7 +287,7 @@
                       <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
                     </td>
                     <td class="govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
                     </td>
 
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
@@ -320,7 +319,7 @@
         {% if status.toUpperCase() === 'EVALUATED' or status.toUpperCase() === 'EVALUATING' %}
           {% if(showallDownload) %}
            <p class="govuk-body govuk-!-no-margin govuk-!-text-align-right">
-             <a href="/supplieranswerall?download=1" class="govuk-link ">Download all</a> 
+             <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a> 
            </p>   
           {% endif %}
        {% endif %}
@@ -371,17 +370,19 @@
         {% endif %} 
       </div>
   </div>
-    
+
+     {% if eventType == 'RFI' %}
+      {% if status.toLowerCase() != 'published' %}
+ {% if status.toUpperCase() == 'EVALUATED' %}  
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
-       {% if eventType == 'RFI' %}
-      {% if status.toLowerCase() != 'published' %}
- {% if status.toUpperCase() == 'EVALUATED' %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
         <p>You have completed your supplier evaluation.</p>
       {% else %}
+      <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Complete RfI</h2>
@@ -435,7 +436,7 @@
       <div class="govuk-button-group">
         {{ CCSButton({
         text: "Start Supplier Evaluation",
-        href:"/evaluate-suppliers"
+        href:"/eventmanagement?StateChange=1"
         }) }}
         </div>
         <h2 class="govuk-heading-m">
@@ -460,7 +461,7 @@
       <div class="govuk-button-group">
         {{ CCSButton({
         text: "Start Supplier Evaluation",
-        href:"/evaluate-suppliers"
+        href:"/eventStateChange?StateChange=1"
         }) }}
         </div>
         {% endif %}

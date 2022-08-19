@@ -21,14 +21,18 @@ import moment from 'moment-business-days';
  * @param req 
  * @param res 
  */
+
 export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
   const { id, closeProj } = req.query
   const events = req.session.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
-
+  // const { eventId, projectId } = req.session
   // const projectId = req.session['projectId']
   //const eventId = req.session['eventId']
+  let newDate: any
+  let tempDate: any
   try {
+
     // Code Block start - Replace this block with API endpoint
     if (closeProj != undefined) {
       let baseCloseUrl = `/tenders/projects/${req.session.projectId}/events`;
@@ -48,9 +52,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       res.redirect('/projects/create-or-choose');
     }
     else {
-      let agreementName: string, agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string, end_date:string;
+      let agreementName: string, agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string, end_date: string;
 
-      events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; tenderPeriod:{startDate:string;endDate:string;}}; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; end_date:string;  }) => {
+      events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; tenderPeriod: { startDate: string; endDate: string; } }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; end_date: string; }) => {
         if (element.activeEvent.id == id) {
           agreementName = element.agreementName
           agreementLotName = element.lotName
@@ -62,7 +66,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           projectId = element.projectId
           lotid = element.lotId
           title = element.activeEvent.title
-         end_date=element?.activeEvent?.tenderPeriod?.endDate
+          end_date = element?.activeEvent?.tenderPeriod?.endDate
         }
       });
 
@@ -157,24 +161,20 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetailsObj.responseState = supplierdata.data?.responders[i]?.responseState;
         supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
         supplierDetailsObj.score = (score != undefined) ? score : 0;
-
         var supplierFiltedData = supplierDataList?.filter((a: any) => { a.organization.id == id });
-        supplierDetailsObj.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
-        supplierDetailsObj.supplierAddress = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.address : {} as SupplierAddress;
-        supplierDetailsObj.supplierContactName = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.name : "";
-        supplierDetailsObj.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.email : "";
-        supplierDetailsObj.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.telephone : "";
+        supplierDetailsObj.supplierAddress = {} as SupplierAddress;
+        supplierDetailsObj.supplierAddress = supplierFiltedData.organization?.address
+        supplierDetailsObj.supplierContactName = supplierFiltedData.organization?.contactPoint?.name;
+        supplierDetailsObj.supplierContactEmail = supplierFiltedData.organization?.contactPoint.email;
+        supplierDetailsObj.supplierWebsite = supplierFiltedData.organization?.contactPoint.url;
         supplierDetailsObj.supplierId = id;
         supplierDetailsObj.supplierState = "Unsuccessfull";
 
         supplierDetailsDataList.push(supplierDetailsObj);
+
         if (supplierdata.data?.responders[i]?.responseState?.trim().toLowerCase() == 'submitted') {
           showallDownload = true;
         }
-        //UNCOMMET THIS CODE WHEN AWARDED SUPPLIER INFORMATION COMING FROM JAGGER
-        // if (id ==="") {
-        //   supplierDetails=supplierDetailsObj;
-        // }
       }
       const supplierSummary = supplierdata?.data;
       supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
@@ -193,32 +193,37 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
         const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
 
-        supplierAwardDetail?.suppliers?.map((item: any) => {
-          supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = "Awarded";
-          supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
-        });
-
-        supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date).format('DD MMMM YYYY');
+        if (supplierDetailsDataList.length > 0) {
+          supplierAwardDetail?.suppliers?.map((item: any) => {
+            let supplierDataIndex = supplierDetailsDataList.findIndex(x => x.supplierId == item.id);
+            if (supplierDataIndex != undefined && supplierDataIndex != null && supplierDataIndex >= 0) {
+              supplierDetailsDataList[supplierDataIndex].supplierState = "Awarded";
+              supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
+            }
+          });
+          supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY HH:mm');
+        }
 
         if (status.toLowerCase() == "pre-award") {
 
           supplierDetails.standStillFlag = true;
-          let currentDate = new Date(supplierDetails.supplierAwardedDate);
+          let currentDate = new Date(supplierAwardDetail?.date);
           //Standstill dates are current date +10 days.
           currentDate.setDate(currentDate.getDate() + 10)
-          const dayOfWeek = new Date(currentDate).getDay();
-          //standstill end date lands on weekend,then it move to the next valid working day
-          if (dayOfWeek === 6 || dayOfWeek === 0) {
-            currentDate.setDate(currentDate.getDate() + 1)
-          }
-          supplierDetails.supplierStandStillDate = moment(currentDate).format('DD MMMM YYYY');
+          currentDate = checkWeekendDate(currentDate);
+
+          const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
+          const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
+          const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
+
+          currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
+          supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
 
           let todayDate = new Date();
-          if(todayDate > new Date(supplierDetails.supplierStandStillDate))
-          {
+          if (todayDate > new Date(supplierDetails.supplierStandStillDate)) {
             supplierDetails.standStillFlag = false;
           }
-          
+
         }
       }
       //to get signed awarded contrct end date
@@ -227,9 +232,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
       }
-      
-      if(supplierDetails !=null && supplierDetails.supplierId != undefined && supplierDetails.supplierId !=null)
-      {
+
+      if (supplierDetails != null && supplierDetails.supplierId != undefined && supplierDetails.supplierId != null) {
         const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/${supplierDetails.supplierId}`;
         const supplierResponse = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
 
@@ -240,15 +244,15 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
         //supplierDetails.supplierWebsite = supplierData?.website;
       }
-      
+
       //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
       //Get Q&A Count
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
       const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
-      // let showCloseProject = false;
-      // if (status.toLowerCase() == "published" || status.toLowerCase() == "to-be-evaluated") {
-      //   showCloseProject = true;
-      // }
+      let showCloseProject = true;
+      if (status.toLowerCase() == "awarded") {
+        showCloseProject = false;
+      }
       const procurementId = req.session['projectId'];
       const collaboratorsBaseUrl = `/tenders/projects/${procurementId}/users`;
       let collaboratorData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(collaboratorsBaseUrl);
@@ -256,31 +260,15 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
       let filtervalues = "";
       try {
-        //response date 
-        
-      // const apiData_baseURL = `/tenders/projects/${procurementId}/events/${eventId}/criteria/Criterion 1/groups/Key Dates/questions`;
-      // const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
-      // let fetchQuestionsData = fetchQuestions.data;
-      
-      // for (var l = 0; l < fetchQuestionsData.length; l++) {
-      //   if (fetchQuestionsData[l].OCDS.id == 'Question 4') {
-      //     var supplier_deadline = fetchQuestionsData[l].nonOCDS.options[0]?.value;
-      //     if (supplier_deadline != undefined && supplier_deadline != null) {
-      //       let day = supplier_deadline.substr(0, 10);
-      //       let time = supplier_deadline.substr(11, 5);
-      //       filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a')
-      //     }
-      //   }
-      // }
-      if (end_date!= undefined && end_date != null) {
-             let day = end_date.substr(0, 10);
-             let time = end_date.substr(11, 5);
-               filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a')
-             }
+        if (end_date != undefined && end_date != null) {
+          let day = end_date.substr(0, 10);
+          let time = end_date.substr(11, 5);
+          filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a')
+        }
 
-      } catch (error) {}
-  
-      const appendData = { supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata,end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage }
+      } catch (error) { }
+
+      let appendData = { documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {
@@ -336,7 +324,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       else {
         let redirectUrl_: string
         switch (eventType) {
-
           case "RFI":
             if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
               res.render('awardEventManagement', appendData)
@@ -344,11 +331,20 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             else {
               res.render('eventManagement', appendData)
             }
-
             break
           case "FC":
             if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
-              res.render('awardEventManagement', appendData)
+              //Awards/templates
+              const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
+              const awardsTemplatesData = await (await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL))?.data;
+              let documentTemplatesUnSuccess = "";
+              for (let i = 0; i < awardsTemplatesData.length; i++) {
+                if (awardsTemplatesData[i].description.includes("UnSuccessful")) {
+                  documentTemplatesUnSuccess = awardsTemplatesData[i].id;
+                }
+              }
+              appendData.documentTemplatesUnSuccess = documentTemplatesUnSuccess
+              res.render('awardEventManagement', appendData);
             }
             else {
               res.render('eventManagement', appendData)
@@ -370,6 +366,31 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }
       }
     }
+
+    function checkWeekendDate(date: Date) {
+      const dayOfWeek = new Date(date).getDay();
+      newDate = new Date(date);
+      if (dayOfWeek === 6 || dayOfWeek === 0) {
+        newDate.setDate(newDate.getDate() + 1);
+        newDate.setHours(23);
+        newDate.setMinutes(59);
+        checkWeekendDate(newDate);
+      }
+      return newDate;
+    }
+
+    function checkBankHolidayDate(date: Date, listOfHolidayDate: any) {
+      tempDate = new Date(date);
+      const newDate = moment(date).format('YYYY-MM-DD');
+      const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+      if (filterDate != undefined && filterDate != null) {
+        tempDate.setDate(tempDate.getDate() + 1);
+        tempDate.setHours(23);
+        tempDate.setMinutes(59);
+        checkBankHolidayDate(tempDate, listOfHolidayDate);
+      }
+      return tempDate;
+    }
   } catch (err) {
     LoggTracer.errorLogger(
       res,
@@ -382,10 +403,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
     );
   }
 }
+
 export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
-  let { projectId, eventId, agreement_header } = req.session;
-  const { supplierid, reviewsupplierid } = req.query;
+  let { projectId, eventId, agreement_header, releatedContent } = req.session;
+  //let { projectId, eventId, agreement_header } = req.session;
+  const { supplierid, reviewsupplierid, Type } = req.query;
   const events = req.session.openProjectActiveEvents
 
   let title: string, lotid: string, agreementId_session: string, agreementName: string, agreementLotName: string, projectName: string, status: string, eventType: string
@@ -450,13 +473,33 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
 
         }
       }
+      //Page navigation 
+      let redirectUrl = '/event/management?id=' + eventId
+      //const pageType = req.session['pageType'];
+      if (Type != undefined && Type != null) {
+        switch (Type) {
+          case "confirmSupplier":
+            redirectUrl = '/confirm-supplier?supplierid=' + reviewsupplierid;
+            break
+          case "supplierDocument":
+            redirectUrl = '/award-supplier-document?supplierId=' + reviewsupplierid;
+            break
+          case "awardSupplier":
+            redirectUrl = '/award-supplier?supplierId=' + reviewsupplierid;
+            break
+          default:
+            // redirectUrl = '/event/management?id='+eventId
+            break
+        }
+      }
       //SELECTED EVENT DETAILS FILTER FORM LIST
       const baseurl = `/tenders/projects/${projectId}/events`
       const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
       //status=apidata.data[0].dashboardStatus;
       const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
       status = selectedEventData[0].dashboardStatus;
-      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType };
+      const appendData = { agreement_header, agreementId_session, lotid, title, agreementName, agreementLotName, status, supplierDetails, data: eventManagementData, projectName, eventId, eventType, redirectUrl, releatedContent };
+
       res.render('evaluateSuppliers-readOnly', appendData);
     }
     else {
@@ -540,8 +583,8 @@ export const SUPPLIER_ANSWER_DOWNLOAD = async (req: express.Request, res: expres
 
   try {
     if (supplierid != undefined) {
-      // /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id]}/export
-      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/documents`;
+      // /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id]}/documents
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
@@ -601,7 +644,8 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
     }
     else if (download_all != undefined) {
       //Download all for awarded supplier
-      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
+      //`/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
@@ -641,8 +685,11 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
 
   try {
     if (download != undefined) {
-      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates`;
-      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+      const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
+      await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL);
+
+      const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
         responseType: 'arraybuffer',
       });
       const file = FetchDocuments;
@@ -735,7 +782,7 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
       }
       else {
         const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards/1?award-state=AWARD`
-  
+
         const putBody = {
           "suppliers": [
             {
@@ -764,4 +811,40 @@ export const CONFIRM_SUPPLIER_AWARD = async (req: express.Request, res: express.
       true,
     );
   }
+}
+
+export const EVENT_STATE_CHANGE = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  let { projectId, eventId } = req.session;
+  const { StateChange } = req.query;
+
+  try {
+    if (StateChange != undefined) {
+
+      const StateChangeDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+      await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(StateChangeDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+
+      res.redirect('/evaluate-suppliers')
+      //res.redirect('/event/management?id='+eventId)
+    }
+
+  } catch (error) {
+    LoggTracer.errorLogger(
+      res,
+      error,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'Tenders Service Api cannot be connected',
+      true,
+    );
+  }
+}
+
+export const RETURN_EVENTMANAGEMENT = async (req: express.Request, res: express.Response) => {
+  let { eventId } = req.session;
+  let redirectUrl = '/event/management?id=' + eventId
+  res.redirect(redirectUrl)
 }

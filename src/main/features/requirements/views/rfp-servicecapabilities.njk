@@ -132,7 +132,7 @@
                       {%else%}
                        <input class="govuk-checkboxes__input rfp_cap {{domSelector}}" id="{{domSelector}}_{{loop.index}}" name="requirementId" type="checkbox" value="{{subItems['requirement-id']}}">
                       {%endif%} 
-                        <label class="govuk-label govuk-checkboxes__label" for="waste">
+                        <label class="govuk-label govuk-checkboxes__label" for="{{domSelector}}_{{loop.index}}" aria-label="{{subItems['groupname']}}">
                           {{subItems['groupname']}}
                         </label>
                       </div>

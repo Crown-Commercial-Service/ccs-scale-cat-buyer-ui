@@ -122,11 +122,13 @@ const ccsZvalidateRfPStrategy = event => {
       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
+    else{
     if ($('#rfp_security_confirmation').val().length === 0) {
 
       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
+  }
 
     // else if (textPattern.test($('#rfp_security_confirmation').val())) {
     //   if (wordLength($('#rfp_security_confirmation').val())) {
@@ -143,13 +145,36 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_e') !== undefined && $('#rfp_prob_statement_e').val() !== undefined) {
 
     if (!pageHeading.includes("(Optional)")) {
+      var hiddenQuestionId=$('input[name=question_id]')
+      var errorMsgToShow="You must enter information here"
+      for(var iterator=0;iterator<hiddenQuestionId.length;iterator++)
+      {
+        if(hiddenQuestionId[iterator].value=="Question 8")
+        {
+          errorMsgToShow="You must include your performance incentives or poor performance actions."
+          break;
+        }
+      }
       if ($('#rfp_prob_statement_e').val().length === 0) {
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', errorMsgToShow);
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }
     if ($('#rfp_prob_statement_e').val().length > 5000) {
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter less than 5000 characters');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
+  if ($('#rfp_prob_statement_y') !== undefined && $('#rfp_prob_statement_y').val() !== undefined) {
+
+    if (!pageHeading.includes("(Optional)")) {
+      if ($('#rfp_prob_statement_y').val().length === 0) {
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_y', 'You must include details of your exit strategy.');
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+    }
+    if ($('#rfp_prob_statement_y').val().length > 5000) {
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_y', 'You must enter less than 5000 characters');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }

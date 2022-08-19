@@ -23,7 +23,7 @@
                 "href": "/da/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "Select your service capabilities",
+                "text": "Select service capabilities",
                 "href": "#"
             }
         ]
@@ -64,7 +64,7 @@
     {{ CCSInsetText({
                         html: insertText
                 }) }}
-      <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/service-capabilities" method="POST">
+      <form id="ccs_da_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/service-capabilities" method="POST">
     {{ csrfProtection(csrf) }}    
     <div class="ccs-page-section">
       <div class="sub-section">
@@ -117,7 +117,7 @@
                                         <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t {{domCategoryWhole}}{{loop.index}}">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
-
+                                         <label class="govuk-visually-hidden" for="weight_vetting_whole_{{domCategory+loop.index}}">Enter a weighting for the whole cluster </label> 
                                          {{ CCSInput({
                                       label: {
                                         text: ""
@@ -157,7 +157,7 @@
                             </div>
                               <div id="partial_cluster_{{loop.index}}">
                               {% for subItems in item['data'] -%}
-                              <h4> {{subItems['groupname']}} </h4>
+                              <label class="govuk-heading-s" for="weight_vetting_partial{{domCategory+loop.index}}"> {{subItems['groupname']}} </label>
                               <div class="govuk-!-margin-top-6">
                               
                                  <p id="partial-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_partial_t {{domCategory}}{{loop.index}}">

@@ -74,14 +74,20 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let index = 0; index < percentageElement.length; index++) {
         totalPercentage += Number(percentageElement[index].value);
         let index1 = Number(index) + 1;
-        if (Number(percentageElement[index].value) > 100) {
-          errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
+        // if (Number(percentageElement[index].value) > 100) {
+        //   errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
+        // }
+        if(percentageElement[index].value!=""){
+        if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) >100) {
+
+          errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
         }
+      }
       }
       if (totalPercentage === 100) {
         errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
       } else if (totalPercentage > 100) {
-        errorStore.push(["rfp_term_percentage_KPI_", "Percentage value exceeding 100%, So you can not proceed"])
+        errorStore.push(["rfp_term_percentage_KPI_", "Your success target cannot exceed 100%"])
       }
       errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
       e.preventDefault();
@@ -201,9 +207,17 @@ const emptyFieldCheckRfpKPI = () => {
               isError = true;
             }
 
-            if (target_field !== undefined && target_field !== null && target_field.value.trim() === '') {
-              ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
-              isError = true;
+            if (target_field !== undefined && target_field !== null) {
+              if (Number(target_field.value) < 0) {
+                ccsZaddErrorMessage(target_field, 'You must enter positive value.');
+                isError = false;
+                fieldCheck = [target_field.id, 'You must enter positive value.'];
+                errorStore.push(fieldCheck);
+              }
+              else if (target_field.value.trim() === '') {
+                ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
+                isError = true;
+              }
             }
             if (field1) {
               ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
@@ -232,15 +246,28 @@ const ccsZvalidateRfpKPI = (event) => {
   var percentageElement = document.getElementsByName("percentage");
   for (let index = 0; index < percentageElement.length; index++) {
     totalPercentage += Number(percentageElement[index].value);
-    if (Number(percentageElement[index].value) > 100) {
+    // if (Number(percentageElement[index].value) > 100) {
+    //   let index1 = Number(index) + 1;
+    //   errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
+    // }
+    if(percentageElement[index].value!=""){
+    if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) >100) {
       let index1 = Number(index) + 1;
-      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
+
+      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
+
+      
+    }
+  }
+    if (Number(percentageElement[index].value) < 0) {
+      let index1 = Number(index) + 1;
+      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter positive value for percentage"])
     }
   }
   if (totalPercentage === 100) {
     errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
   } else if (totalPercentage > 100) {
-    errorStore.push(["rfp_term_percentage_KPI_", "Percentage value exceeding 100%, So you can not proceed"])
+    errorStore.push(["rfp_term_percentage_KPI_", "Your success target cannot exceed 100%"])
   }
   errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
 
@@ -260,15 +287,25 @@ $('#service_levels_kpi_form').on('submit', (event) => {
   var percentageElement = document.getElementsByName("percentage");
   for (let index = 0; index < percentageElement.length; index++) {
     totalPercentage += Number(percentageElement[index].value);
-    if (Number(percentageElement[index].value) > 100) {
+    // if (Number(percentageElement[index].value) > 100) {
+    //   let index1 = Number(index) + 1;
+    //   errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
+    // }
+    if(percentageElement[index].value!=""){
+    if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) >100) {
       let index1 = Number(index) + 1;
-      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
+
+      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
+
+     
     }
   }
-  if (totalPercentage === 100) {
-    errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
-  } else if (totalPercentage > 100) {
-    errorStore.push(["rfp_term_percentage_KPI_", "Percentage value exceeding 100%, So you can not proceed"])
+  }
+  // if (totalPercentage === 100) {
+  //   errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
+  // } else 
+  if (totalPercentage > 100) {
+    errorStore.push(["rfp_term_percentage_KPI_", "Your success target cannot exceed 100%"])
   }
   errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
   if (errorStore.length === 0) {

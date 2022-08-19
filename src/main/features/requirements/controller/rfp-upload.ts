@@ -65,8 +65,9 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
               contentType: file.mimetype,
               filename: file.name,
             });
-            formData.append('description', file.name);
-            formData.append('audience', 'buyer');
+
+            formData.append('description',"optional");
+            formData.append('audience', 'supplier');
             const formHeaders = formData.getHeaders();
             try {
               await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
@@ -111,8 +112,9 @@ export const RFP_POST_UPLOAD_DOC: express.Handler = async (req: express.Request,
             contentType: offline_document.mimetype,
             filename: offline_document.name,
           });
-          formData.append('description', offline_document.name);
-          formData.append('audience', 'buyer');
+          formData.append('description', "optional");
+          formData.append('audience', 'supplier');
+
           const formHeaders = formData.getHeaders();
           try {
             await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
@@ -189,19 +191,35 @@ export const RFP_GET_REMOVE_FILES = (express.Handler = async (req: express.Reque
 
 export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId } = req.session;
+  const { eventId, projectId} = req.session;
   const { selectedRoute } = req.session;
 
   if (req.session['isTcUploaded']) {
     if (selectedRoute === 'FC') selectedRoute = 'RFP';
     const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71;
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
-    if(flag)
-    {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+    const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
+    const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+    const FETCH_FILEDATA = FetchDocuments?.data;
+    let fileNameStorageTermsnCond = [];
+    let fileNameStoragePricing = [];
+    FETCH_FILEDATA?.map(file => {
+      if (file.description === "optional") {
+        fileNameStorageTermsnCond.push(file.fileName);
+      }
+      if (file.description === "mandatory") {
+        fileNameStoragePricing.push(file.fileName);
+      }
+    });
+    if(fileNameStorageTermsnCond.length>0 && fileNameStoragePricing.length>0)
+   {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+      let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
+      if(flag)
+      {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+      }    
     }
-    res.redirect(`/rfp/IR35`);
+    res.redirect(`/rfp/task-list`);
   } else {
     const lotId = req.session?.lotId;
     const agreementLotName = req.session.agreementLotName;

@@ -7,15 +7,16 @@
   {{ CCSBreadcrumbs({
         items:[
     {
-      "text": "Your Dashboard",
+      "text": "Dashboard",
       "href": "/dashboard"
     },
     {
       "text": eventId+" / "+eventType,
       "href": "/event/management?id="+eventId
     },
+     
     {
-      "text": "Message",
+      "text": "Supplier Message",
       "href": "#"
     }
   ]
@@ -37,7 +38,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          <strong>{{data.title}}</strong>
+          <strong>Message</strong>
         </h1>
         <p class="govuk-body">
           <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>

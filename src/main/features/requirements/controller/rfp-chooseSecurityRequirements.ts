@@ -12,13 +12,13 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
   // const { projectId } = req.session;
   const { assessmentId } = currentEvent;
   //const assessmentId = 13;
-  const extToolId=2;
+ 
 
  
   const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
   try {
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-
+    const extToolId=assessments['external-tool-id'];
     const { dimensionRequirements } = assessments;
 
     let selectedOption;

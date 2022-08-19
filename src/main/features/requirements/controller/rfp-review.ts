@@ -168,9 +168,18 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
 
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${proc_id}/events/${event_id}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
-    const FETCH_FILEDATA = FetchDocuments?.data;
 
-    const FileNameStorage = FETCH_FILEDATA?.map(file => file.fileName);
+    const FETCH_FILEDATA = FetchDocuments?.data;
+    let fileNameStorageOptional = [];
+    let fileNameStorageMandatory = [];
+    FETCH_FILEDATA?.map(file => {
+      if (file.description === "optional") {
+        fileNameStorageOptional.push(file.fileName);
+      }
+      if (file.description === "mandatory") {
+        fileNameStorageMandatory.push(file.fileName);
+      }
+    });
 
     const IR35Dataset = {
       id: 'Criterion 3',
@@ -187,7 +196,24 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
 
 
     let supplierList = [];
+    const supplierBaseURL: any = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers`;
+    const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
+    let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
+    if(SUPPLIER_DATA!=undefined && SUPPLIER_DATA.suppliers.length>0){
+      let allSuppliers=await GetLotSuppliers(req);
+      for(var index=0;index<SUPPLIER_DATA.suppliers.length;index++)
+          {
+              let supplierInfo=allSuppliers.filter(s=>s.organization.id==SUPPLIER_DATA.suppliers[index].id)?.[0];
+              if(supplierInfo!=undefined)
+              {
+                supplierList.push(supplierInfo);
+              }
+          }
+    }
+    else{
     supplierList = await GetLotSuppliers(req);
+    }
+    
 
     let rspbaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
     rspbaseURL = rspbaseURL + '/criteria';
@@ -374,9 +400,10 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     let tierInfo = await CalScoringCriteria(req);
     let newfilteredData = tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition;
     for (let i = 0; i < newfilteredData.titles.rows.length; i++) {
-      newfilteredData.titles.rows[i].text=newfilteredData.data[i].cols[1];
-    }    
-    let tierData =newfilteredData.titles.rows; //tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition?.titles?.rows;
+      newfilteredData.titles.rows[i].text = newfilteredData.data[i].cols[1];
+      newfilteredData.titles.rows[i].id = newfilteredData.data[i].cols[0];
+    }
+    let tierData = newfilteredData.titles.rows; //tierInfo?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.options?.[0].tableDefinition?.titles?.rows;
     // let tierData=[];
     // tierRows.forEach(element => {
     //   tierData.push({id:element.id,name:element.name,text:element.text});
@@ -591,8 +618,8 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       project_name: project_name,
       procurementLead,
       procurementColleagues: procurementColleagues != undefined && procurementColleagues != null ? procurementColleagues : null,
-      document: FileNameStorage[FileNameStorage.length - 1],
-      documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
+      document: fileNameStorageMandatory,
+      documents: fileNameStorageOptional,
       ir35: IR35selected,
       agreement_id,
       proc_id,

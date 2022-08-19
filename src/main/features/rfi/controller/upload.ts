@@ -108,7 +108,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
             filename: rfi_offline_document.name,
           });
           formData.append('description', rfi_offline_document.name);
-          formData.append('audience', 'buyer');
+          formData.append('audience', 'supplier');
           const formHeaders = formData.getHeaders();
           try {
             await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {

@@ -86,9 +86,9 @@
 {%endif%}
 {%endblock%}
 
+{% block RPFScoringCriteria %}
+{% if requirement.nonOCDS.questionType === 'Text' and ( requirement.OCDS.title =="Enter the name for this level" or requirement.OCDS.title =="Enter the name for this tier") and  requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
 
-{% block RPFScoringCriteria %}   
-{% if requirement.nonOCDS.questionType === 'Text' and requirement.OCDS.title === 'Enter the name for this level' and requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
                   {% call CCSFieldset({
                             legend: {
                                 classes: "govuk-fieldset__legend--m",
@@ -120,9 +120,11 @@
                               classes: "govuk-label govuk-label--m"
                             },
                             hint: {
+
                                 text:"Make sure your scoring system doesn't overlap or cause confusion.Use whole numbers." 
                         },
                             
+
                             id: 'rfp_score_criteria_point_1',
                             name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
@@ -140,7 +142,9 @@
                             classes: 'govuk-label govuk-label--m'
                         },
                         hint: {
+
                             text:"Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed."
+
                         }
                         })
                     }}
@@ -176,8 +180,9 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
+
                                 text:"Make sure your scoring system doesn't overlap or cause confusion.Use whole numbers." 
-                            },
+           },
                             id: 'rfp_score_criteria_point_'+i,
                             name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
@@ -194,7 +199,9 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                                text:"Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed."
+              text:"Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed."
+
+                             
                             }
                         }) }}
                        {% endcall %}
@@ -238,7 +245,8 @@
 
     {{ CCSInput({
       label: {
-        text: requirement.OCDS.title
+        text: requirement.OCDS.title,
+        classes: "govuk-label govuk-label--m"
       },
       classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage",
       id: "fc_question_precenate_"+index,
@@ -453,8 +461,6 @@
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[2].value,
-                            max: "2023",
-                            min: "2021",
                             maxlength: "4"
                           }) }}
                           {{ CCSInput({
@@ -575,7 +581,7 @@
                       <span class="govuk-visually-hidden">Error:</span>
                </p>
                     
-              <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+              <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">  Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
               {{ CCSInput({
                         label: {
                           text: ""
@@ -613,6 +619,7 @@
             {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
 
               {% set word = requirement.OCDS.title | replace(".", "") %}
+              {% set word = word | replace(":", "") %}
 
               {{  CCSTextarea({
                       name: "rfp_prob_statement_"+word | last,
@@ -1274,8 +1281,7 @@
                             spellcheck: false,
                             classes: "govuk-input--width-5",
                             value: requirement.nonOCDS.options[0].value,
-                            type:"number",
-                            min:"0"
+                            type:"number"
                         })
                       }}
 

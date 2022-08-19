@@ -47,7 +47,7 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
       res.redirect('/rfi/event-sent');
     } catch (error) {
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-        TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
+        TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem"+" "+error?.response?.data?.errors[0].status+' '+error?.response?.data?.errors[0].detail+' '+error?.response?.data?.errors[0].title, false)
       RFI_REVIEW_HELPER(req, res, true, true);
     }
   } else {

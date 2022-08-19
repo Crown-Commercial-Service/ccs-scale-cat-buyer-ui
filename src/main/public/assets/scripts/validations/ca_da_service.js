@@ -433,3 +433,150 @@ function fadeInFadeOut(clickedIndex )
             }
     }
 }
+
+const ccsZDAServiceCap = (e) => {
+    let negativewholeerror=[], greaterwholeerror=[],alphabetwholeerror=[];
+    let negativepartialerror=[], greaterpartialerror=[],alphabetpartialerror=[];
+    var isFormValid = true;
+    var totalWeightingPercentage = totalWeighting.text().trim().substring(0, 4).match(/\d/g);
+    totalWeightingPercentage = totalWeightingPercentage.join("");
+    let intWeightingPercentage = Number(totalWeightingPercentage);
+    var checkforEmptyBoxes = [];
+
+    const TotalWeightageBox = document.getElementsByClassName('weight');
+    for (var i = 0; i < TotalWeightageBox.length; i++) {
+        if (TotalWeightageBox[i].value == '') {
+            checkforEmptyBoxes.push(true);
+        }
+    }
+    var reg = /^\d+$/;
+    for (var a = 1; a < weight_whole_len; a++) {
+        const classTarget = document.getElementsByClassName("weight_vetting_whole")[a - 1];
+        if (classTarget.value <= 0 && classTarget.value !== '') {
+            
+            negativewholeerror.push(true)
+        }
+        else if (classTarget.value > 100 && classTarget.value != '')            
+        {
+            greaterwholeerror.push(true)
+        }
+        else if (!classTarget.value.match(reg) && classTarget.value != '')           
+            {
+                alphabetwholeerror.push(true)
+            }
+    }
+    for (var a = 1; a < weight_partial_len; a++) {
+        const classTarget = document.getElementsByClassName("weight_vetting_partial")[a - 1];
+        if (classTarget.value <= 0 && classTarget.value !== '') {
+            
+             negativepartialerror.push(true)
+        }
+        else if (classTarget.value > 100 && classTarget.value != '')            
+        {
+            greaterpartialerror.push(true)
+        }
+        else if (!classTarget.value.match(reg) && classTarget.value != '')           
+            {
+                alphabetpartialerror.push(true)
+            }         
+    }
+    if(negativewholeerror.length>0 || greaterwholeerror.length>0 ||alphabetwholeerror.length>0
+    ||negativepartialerror.length>0 || greaterpartialerror.length>0 ||alphabetpartialerror.length>0)
+    {
+        
+        isFormValid = false;
+        e.preventDefault()
+           switch (true) {
+        case ((negativewholeerror.length>0 || negativepartialerror.length>0) &&(greaterwholeerror.length>0 || greaterpartialerror.length>0) && (alphabetwholeerror.length>0 || alphabetpartialerror.length>0)):
+
+            e.preventDefault();
+            $('#service_capability_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#summary_list").html('<li><a href="#">The input field must be a number less than or equal to 100 </a></li><br><li><a href="#">The input field must be greater than 0</a></li><br><li><a href="#">The input field must be a number</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            break;
+        case ((negativewholeerror.length>0 || negativepartialerror.length>0) && (greaterwholeerror.length>0 || greaterpartialerror.length>0)):
+            
+            e.preventDefault();
+            $('#service_capability_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#summary_list").html('<li><a href="#">The input field must be a number less than 100</a></li><br><li><a href="#">The input field  must be  greater than 0</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            break;
+        case ((negativewholeerror.length>0 || negativepartialerror.length>0) && (alphabetwholeerror.length>0 || alphabetpartialerror.length>0)):
+            
+            e.preventDefault();
+            $('#service_capability_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#summary_list").html('<li><a href="#">The input field must be must be  greater than 0</a></li><br><li><a href="#">The input field must be a number</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            break;
+        case ((greaterwholeerror.length>0 || greaterpartialerror.length>0) && (alphabetwholeerror.length>0 || alphabetpartialerror.length>0)):
+            
+            e.preventDefault();
+            $('#service_capability_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#summary_list").html('<li><a href="#">The input field should  must be a number less than 100</a></li><br><li><a href="#">The input field must be a number</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            break;
+        case ((negativewholeerror.length>0 || negativepartialerror.length>0)):
+            
+            e.preventDefault();
+            $('#service_capability_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#summary_list").html('<li><a href="#">The input field must be  greater than 0</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            break;
+        case ((alphabetwholeerror.length>0 || alphabetpartialerror.length>0)):
+            
+            e.preventDefault();
+            $('#service_capability_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#summary_list").html('<li><a href="#">The input field must be a number</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            break;
+        case ((greaterwholeerror.length>0 || greaterpartialerror.length>0)):
+            
+            e.preventDefault();
+            $('#service_capability_error_summary').removeClass('hide-block');
+            $('.govuk-error-summary__title').text('There is a problem');
+            $("#summary_list").html('<li><a href="#">The input field must be a number less than 100</a></li>');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+            break;
+        default:
+            console.log("If all else fails");
+            break;
+    }
+    
+    }
+   else  if (intWeightingPercentage != 100) {
+        isFormValid = false;
+        e.preventDefault();
+        $('#service_capability_error_summary').removeClass('hide-block');
+        $('.govuk-error-summary__title').text('There is a problem');
+
+        $("#summary_list").html('<li><a href="#">The weighting value(s) for the service capabilities must be equal to 100%</a></li> ');
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $("#summary_list").offset().top
+        }, 1000);
+    }
+  else  if (checkforEmptyBoxes.length == TotalWeightageBox.length) {
+        isFormValid = false;
+        e.preventDefault();
+       $('#service_capability_error_summary').removeClass('hide-block');
+        $('.govuk-error-summary__title').text('There is a problem');
+
+        $("#summary_list").html('<li><a href="#">Atleast one of the service capability must be selected</a></li> ');
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $("#summary_list").offset().top
+        }, 1000);
+
+    
+    }
+
+    else if(isFormValid)
+        $('#ccs_ca_menu_tabs_form').submit();
+
+}
+   
+  

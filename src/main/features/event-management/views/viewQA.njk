@@ -15,7 +15,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Q&A",
+      "text": "Supplier Message",
       "href": "#"
     }
   ]
@@ -57,7 +57,11 @@
                     {{QA.answer}}
                 </p>
                 <p class="govuk-body">
-                    {{data.updateDate}} : <strong>{{QA.created | dateddmmyyyy }}</strong>
+                {% if QA.lastUpdated%}
+                    {{data.updateDate}} : <strong>{{QA.lastUpdated | dateddmmyyyy }}</strong>
+                    {% else %}
+                     {{data.updateDate}} : <strong>{{QA.created | dateddmmyyyy }}</strong>
+                     {% endif %}
                 </p>
             </div>
         </div>

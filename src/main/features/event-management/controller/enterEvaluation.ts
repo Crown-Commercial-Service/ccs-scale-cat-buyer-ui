@@ -21,19 +21,22 @@ import * as localData from '../../../resources/content/event-management/local-SO
 export const ENTER_EVALUATION = async (req: express.Request, res: express.Response) => {
     const { agreementLotName, agreementName, agreement_id, releatedContent, project_name } =
     req.session;
+    let { agreement_header } = req.session;
     const lotid = req.session?.lotId;
     const { SESSION_ID } = req.cookies
     const { eventId , projectId } = req.session;//projectId,
     const { supplierid , suppliername } = req.query;
     let { Evaluation } = req.query;
     const { isEmptyProjectError } = req.session;
+    const agreementId_session = req.session.agreement_id;
     req.session.isEmptyProjectError = false;
     var feedBack='';
     var marks='';
 
     // Event header
     res.locals.agreement_header = { project_name: project_name,Evaluation, agreementName, agreement_id, agreementLotName, lotid }
-   
+    req.session.agreement_header = res.locals.agreement_header
+  
   try{
     //Supplier of interest
     
@@ -49,7 +52,7 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     }
 
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,feedBack,marks,data: eventManagementData,error: isEmptyProjectError,  eventId, suppliername, supplierid, suppliers: localData , }
+          const appendData = { releatedContent,agreement_header,agreementId_session,feedBack,marks,data: eventManagementData,error: isEmptyProjectError,  eventId, suppliername, supplierid, suppliers: localData , }
 
     res.render('enterEvaluation',appendData);     
     

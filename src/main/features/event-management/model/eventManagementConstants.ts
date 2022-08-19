@@ -42,4 +42,6 @@ export enum EVENT_MANAGEMENT_PATHS {
     STAND_PERIOD_DECISION_GET = '/stand-period',
     STAND_PERIOD_DECISION_POST = '/stand-period',
     UNSUCCESSFUL_SUPPLIER_DOWNLOAD = '/unsuccessful',
+    RETURN_EVENTMANAGEMENT='/return/eventmanagement',
+    EVENT_STATE_CHANGE='/eventStateChange'
 }

@@ -80,8 +80,12 @@
                         <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}&type=sent">{{ message.OCDS.title }}</a>
                       </p>
                     </th>
-                    <td class="govuk-table__cell">{{ message.OCDS.author.name }}</td>
-                    <td class="govuk-table__cell">{{ message.OCDS.date | dateddmmyyyy}}</td>
+                    {% if message.nonOCDS.isBroadcast %}
+                    <td class="govuk-table__cell">Broadcasted to all suppliers</td>
+                    {% else %}
+                     <td class="govuk-table__cell">{{message.nonOCDS.receiverList[0].name}}</td>
+                    {% endif %}
+                    <td class="govuk-table__cell">{{ message.OCDS.date}}</td>
                   </tr>
                 {% endfor %}
               {% else %}

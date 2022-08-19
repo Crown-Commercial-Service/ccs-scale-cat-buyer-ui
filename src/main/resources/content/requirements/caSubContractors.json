@@ -1,7 +1,7 @@
 {
   "breadCrumbs": [
     {
-      "text": "Dashboard",
+      "text": "Your dashboard",
       "href": "/dashboard"
     },
     {
@@ -17,12 +17,12 @@
       "href": "/ca/task-list"
     },
     {
-      "text": "Use of sub-contractors",
+      "text": "Use of subcontractors",
       "href": "#"
     }
   ],
 
-  "title": "Use of sub-contractors",
+  "title": "Use of subcontractors",
   "subtitle1": "Indicate if a supplier can use sub contractors to complete the work needed for your project. In some instances suppliers may already work with subcontractors to help deliver a project's needs.",
   "subtitle2": "Your contract will be with the supplier and they will be responsible for making sure any subcontractors perform as expected.",
   "form": [

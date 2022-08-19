@@ -70,12 +70,12 @@
                              <div class="govuk-radios__item">
                               {% if(item.selected==true)%}
                              <input class="govuk-radios__input ccs_vetting" id="ccs_da_team_scale_{{loop.index}}" name="team_option" type="radio" value="{{item.value}}" checked >
-                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" >
+                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_da_team_scale_{{loop.index}}">
                                         <h3 class="govuk-heading-m">{{item.name}}</h3>
                                     </label>
                               {%else%}
                       <input class="govuk-radios__input ccs_vetting" id="ccs_da_team_scale_{{loop.index}}" name="team_option" type="radio" value="{{item.value}}" >
-                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" >
+                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_da_team_scale_{{loop.index}}">
                                         <h3 class="govuk-heading-m">{{item.name}}</h3>
                                     </label> {%endif %}
  
