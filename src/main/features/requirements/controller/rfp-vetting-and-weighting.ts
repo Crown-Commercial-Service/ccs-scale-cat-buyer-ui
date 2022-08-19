@@ -44,8 +44,8 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
-
-    const CAPACITY_BASEURL = `assessments/tools/1/dimensions`;
+    const extToolId=ALL_ASSESSTMENTS_DATA['external-tool-id'];
+    const CAPACITY_BASEURL = `assessments/tools/${extToolId}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
 
