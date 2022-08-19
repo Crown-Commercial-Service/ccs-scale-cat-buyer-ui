@@ -54,6 +54,7 @@
                  <p class="govuk-body">You can select one of the two scoring criteria below or use one of the existingscoring criteria to create your own.</p>
 
               </div>
+              
           {%endif%}
           <form id="{{form_name}}"  name="{{form_name}}" class="form {{form_name}} rfp_form" action="/rfp/set-scoring-criteria?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}&section={{section}}" method="post">
           {{ csrfProtection(csrf) }}

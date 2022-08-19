@@ -59,7 +59,15 @@
             redirect:'javascript.void(0)',
             type:'tier-5'
         }) }} #}
-         
+        <div>
+        <h1><strong>Create your scoring criteria</strong></h1>
+        <p class="govuk-body">Select one of the two options below or enter the details for your own scoring criteria.</p>
+        <p class="govuk-body">If you want to use the 4 or 5 level scoring criteria, select the option you want and then click 'save and continue'. </p>
+        <p class="govuk-body">The minimum number of scoring levels is 2 and the maximum nuumber of scoring level is 10</p>
+        </div>
+     <br><br>
+
+
          <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
                 <p class="govuk-label--l"> <strong id="tiersAdded"> {{tierNo}}  </strong> tiers added so far</h2>
@@ -76,14 +84,10 @@
             </div>
         </div>
 {%endif%}
-
-
 {%endblock%}
 
-{% block RPFScoringCriteria %}
-<div class="govuk-grid-row">
-         <p class="govuk-label">{{content_prompt.title}}</p>
-         </div>
+
+{% block RPFScoringCriteria %}   
 {% if requirement.nonOCDS.questionType === 'Text' and requirement.OCDS.title === 'Enter the name for this level' and requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
                   {% call CCSFieldset({
                             legend: {
@@ -116,7 +120,7 @@
                               classes: "govuk-label govuk-label--m"
                             },
                             hint: {
-                            html:requirement.OCDS.description 
+                                text:"Make sure your scoring system doesn't overlap or cause confusion.Use whole numbers." 
                         },
                             
                             id: 'rfp_score_criteria_point_1',
@@ -136,7 +140,7 @@
                             classes: 'govuk-label govuk-label--m'
                         },
                         hint: {
-                            html:requirement.OCDS.description 
+                            text:"Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed."
                         }
                         })
                     }}
@@ -172,7 +176,7 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                                html:requirement.OCDS.description 
+                                text:"Make sure your scoring system doesn't overlap or cause confusion.Use whole numbers." 
                             },
                             id: 'rfp_score_criteria_point_'+i,
                             name: 'score_criteria_points',
@@ -190,7 +194,7 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                                html:requirement.OCDS.description 
+                                text:"Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed."
                             }
                         }) }}
                        {% endcall %}
