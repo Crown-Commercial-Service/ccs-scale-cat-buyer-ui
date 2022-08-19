@@ -10,13 +10,13 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
   const { SESSION_ID } = req.cookies; //jwt
   const { releatedContent, isError, eventId,errorText, dimensions,currentEvent,projectId, choosenViewPath, } = req.session;
   const { assessmentId } = currentEvent;
-  const extToolId=1;
+  
 
  
   const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
   try {
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-
+    const extToolId=assessments['external-tool-id'];
     const { dimensionRequirements } = assessments;
     let totalQuantityca=0;
     let selectedOption;
@@ -49,8 +49,7 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
      }
     }
     }
-   
-  
+
     const DIMENSION_BASEURL = `assessments/tools/${extToolId}/dimensions`;
     const { data: dimensions } = await TenderApi.Instance(SESSION_ID).get(DIMENSION_BASEURL);
 
