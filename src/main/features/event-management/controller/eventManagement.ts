@@ -22,24 +22,15 @@ import moment from 'moment-business-days';
  * @param res 
  */
 
-function isWeekendDate(date: Date) {
-  const dayOfWeek = new Date(date).getDay();
-
-  let isValid = false;
-  if (dayOfWeek === 6 || dayOfWeek === 0) {
-    isValid = true;
-  }
-
-  return isValid;
-}
 export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Response) => {
-  const { id, closeProj  } = req.query
+  const { id, closeProj } = req.query
   const events = req.session.openProjectActiveEvents
   const { SESSION_ID } = req.cookies
   // const { eventId, projectId } = req.session
   // const projectId = req.session['projectId']
   //const eventId = req.session['eventId']
-  
+  let newDate: any
+  let tempDate: any
   try {
 
     // Code Block start - Replace this block with API endpoint
@@ -170,24 +161,20 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetailsObj.responseState = supplierdata.data?.responders[i]?.responseState;
         supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
         supplierDetailsObj.score = (score != undefined) ? score : 0;
-
         var supplierFiltedData = supplierDataList?.filter((a: any) => { a.organization.id == id });
-        supplierDetailsObj.supplierAddress = {} as SupplierAddress// supplierFiltedData != null ? supplierFiltedData.address : "";
-        supplierDetailsObj.supplierAddress = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.address : {} as SupplierAddress;
-        supplierDetailsObj.supplierContactName = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.name : "";
-        supplierDetailsObj.supplierContactEmail = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.email : "";
-        supplierDetailsObj.supplierWebsite = supplierFiltedData != undefined && supplierFiltedData != null && supplierFiltedData.length > 0 ? supplierFiltedData.contactPoint.telephone : "";
+        supplierDetailsObj.supplierAddress = {} as SupplierAddress;
+        supplierDetailsObj.supplierAddress = supplierFiltedData.organization?.address
+        supplierDetailsObj.supplierContactName = supplierFiltedData.organization?.contactPoint?.name;
+        supplierDetailsObj.supplierContactEmail = supplierFiltedData.organization?.contactPoint.email;
+        supplierDetailsObj.supplierWebsite = supplierFiltedData.organization?.contactPoint.url;
         supplierDetailsObj.supplierId = id;
         supplierDetailsObj.supplierState = "Unsuccessfull";
 
         supplierDetailsDataList.push(supplierDetailsObj);
+
         if (supplierdata.data?.responders[i]?.responseState?.trim().toLowerCase() == 'submitted') {
           showallDownload = true;
         }
-        //UNCOMMET THIS CODE WHEN AWARDED SUPPLIER INFORMATION COMING FROM JAGGER
-        // if (id ==="") {
-        //   supplierDetails=supplierDetailsObj;
-        // }
       }
       const supplierSummary = supplierdata?.data;
       supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
@@ -206,12 +193,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
         const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
 
-        supplierAwardDetail?.suppliers?.map((item: any) => {
-          supplierDetailsDataList.filter(x => x.supplierId == item.id)[0].supplierState = "Awarded";
-          supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
-        });
-
-        supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY hh:mm');
+        if (supplierDetailsDataList.length > 0) {
+          supplierAwardDetail?.suppliers?.map((item: any) => {
+            let supplierDataIndex = supplierDetailsDataList.findIndex(x => x.supplierId == item.id);
+            if (supplierDataIndex != undefined && supplierDataIndex != null && supplierDataIndex >= 0) {
+              supplierDetailsDataList[supplierDataIndex].supplierState = "Awarded";
+              supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
+            }
+          });
+          supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY HH:mm');
+        }
 
         if (status.toLowerCase() == "pre-award") {
 
@@ -219,32 +210,14 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           let currentDate = new Date(supplierAwardDetail?.date);
           //Standstill dates are current date +10 days.
           currentDate.setDate(currentDate.getDate() + 10)
+          currentDate = checkWeekendDate(currentDate);
 
-          let isValid = isWeekendDate(currentDate);
-
-          if (isValid) {
-            currentDate.setDate(currentDate.getDate() + 1);
-            currentDate.setHours(23);
-            currentDate.setMinutes(59);
-          }
-        
           const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
           const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
           const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
 
-          const newDate = moment(currentDate).format('YYYY-MM-DD');
-          const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
-
-          if (filterDate != undefined && filterDate != null) {
-            currentDate.setDate(currentDate.getDate() + 1);
-            let isValid = isWeekendDate(currentDate);
-
-            if (isValid) {
-              currentDate.setDate(currentDate.getDate() + 1);
-            }
-          }
-
-          supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY hh:mm');
+          currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
+          supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
 
           let todayDate = new Date();
           if (todayDate > new Date(supplierDetails.supplierStandStillDate)) {
@@ -287,22 +260,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
       let filtervalues = "";
       try {
-        //response date 
-
-        // const apiData_baseURL = `/tenders/projects/${procurementId}/events/${eventId}/criteria/Criterion 1/groups/Key Dates/questions`;
-        // const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
-        // let fetchQuestionsData = fetchQuestions.data;
-
-        // for (var l = 0; l < fetchQuestionsData.length; l++) {
-        //   if (fetchQuestionsData[l].OCDS.id == 'Question 4') {
-        //     var supplier_deadline = fetchQuestionsData[l].nonOCDS.options[0]?.value;
-        //     if (supplier_deadline != undefined && supplier_deadline != null) {
-        //       let day = supplier_deadline.substr(0, 10);
-        //       let time = supplier_deadline.substr(11, 5);
-        //       filtervalues = moment(day + "" + time, 'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a')
-        //     }
-        //   }
-        // }
         if (end_date != undefined && end_date != null) {
           let day = end_date.substr(0, 10);
           let time = end_date.substr(11, 5);
@@ -408,6 +365,31 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             break
         }
       }
+    }
+
+    function checkWeekendDate(date: Date) {
+      const dayOfWeek = new Date(date).getDay();
+      newDate = new Date(date);
+      if (dayOfWeek === 6 || dayOfWeek === 0) {
+        newDate.setDate(newDate.getDate() + 1);
+        newDate.setHours(23);
+        newDate.setMinutes(59);
+        checkWeekendDate(newDate);
+      }
+      return newDate;
+    }
+
+    function checkBankHolidayDate(date: Date, listOfHolidayDate: any) {
+      tempDate = new Date(date);
+      const newDate = moment(date).format('YYYY-MM-DD');
+      const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+      if (filterDate != undefined && filterDate != null) {
+        tempDate.setDate(tempDate.getDate() + 1);
+        tempDate.setHours(23);
+        tempDate.setMinutes(59);
+        checkBankHolidayDate(tempDate, listOfHolidayDate);
+      }
+      return tempDate;
     }
   } catch (err) {
     LoggTracer.errorLogger(
