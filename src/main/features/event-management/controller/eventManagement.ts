@@ -161,17 +161,22 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetailsObj.responseState = supplierdata.data?.responders[i]?.responseState;
         supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
         supplierDetailsObj.score = (score != undefined) ? score : 0;
-        var supplierFiltedData = supplierDataList?.filter((a: any) => { a.organization.id == id });
-        supplierDetailsObj.supplierAddress = {} as SupplierAddress;
-        supplierDetailsObj.supplierAddress = supplierFiltedData.organization?.address
-        supplierDetailsObj.supplierContactName = supplierFiltedData.organization?.contactPoint?.name;
-        supplierDetailsObj.supplierContactEmail = supplierFiltedData.organization?.contactPoint.email;
-        supplierDetailsObj.supplierWebsite = supplierFiltedData.organization?.contactPoint.url;
-        supplierDetailsObj.supplierId = id;
-        supplierDetailsObj.supplierState = "Unsuccessfull";
 
-        supplierDetailsDataList.push(supplierDetailsObj);
+        var supplierFiltedData = supplierDataList?.filter((a: any) => (a.organization.id == id))[0]?.organization;
 
+        if(supplierFiltedData !=undefined && supplierFiltedData !=null)
+        {
+          supplierDetailsObj.supplierAddress = {} as SupplierAddress;
+          supplierDetailsObj.supplierAddress = supplierFiltedData.address
+          supplierDetailsObj.supplierContactName = supplierFiltedData.contactPoint?.name;
+          supplierDetailsObj.supplierContactEmail = supplierFiltedData.contactPoint.email;
+          supplierDetailsObj.supplierWebsite = supplierFiltedData.contactPoint.url;
+          supplierDetailsObj.supplierId = id;
+          supplierDetailsObj.supplierState = "Unsuccessfull";
+  
+          supplierDetailsDataList.push(supplierDetailsObj);
+        }
+        
         if (supplierdata.data?.responders[i]?.responseState?.trim().toLowerCase() == 'submitted') {
           showallDownload = true;
         }
@@ -181,13 +186,16 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
       let rankCount = 0;
       for (let i = 0; i < supplierDetailsDataList.length; i++) {
-        rankCount = rankCount + 1
-        supplierDetailsDataList[i].rank = "" + rankCount;
+        if(supplierDetailsDataList[i].responseState.toLowerCase() == "submitted")
+        {
+          rankCount = rankCount + 1
+          supplierDetailsDataList[i].rank = "" + rankCount;
+        }
       }
       //Awarded,pre_awarded and complete supplier info
       if (status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
         let supplierState = "PRE_AWARD"
-        if (status.toLowerCase() == "awarded") {
+        if (status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
           supplierState = "AWARD"
         }
         const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
@@ -233,19 +241,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
       }
 
-      if (supplierDetails != null && supplierDetails.supplierId != undefined && supplierDetails.supplierId != null) {
-        const baseSuuplierURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers/${supplierDetails.supplierId}`;
-        const supplierResponse = await TenderApi.Instance(SESSION_ID).get(baseSuuplierURL);
-
-        const supplierData = supplierResponse?.data;
-
-        supplierDetails.supplierAddress = supplierData?.address;
-        supplierDetails.supplierContactName = supplierData?.contactPoint.name;
-        supplierDetails.supplierContactEmail = supplierData?.contactPoint?.email;
-        //supplierDetails.supplierWebsite = supplierData?.website;
-      }
-
-      //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
       //Get Q&A Count
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
       const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
