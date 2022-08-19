@@ -48,6 +48,14 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
   try {
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
+    if(ReviewData.OCDS.status == 'active'){//event is published
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
+      if (response.status == Number(HttpStatusCode.OK)) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');
+      }
+      res.redirect('/rfi/event-sent');
+    }
+    else{//event is still in progress
     //Buyer Questions
     const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions;
     const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -222,6 +230,7 @@ console.log(FilteredSetWithTrue)
     }
    
     res.render('review', appendData);
+  }
   } catch (error) {
     delete error?.config?.['headers'];
     const Logmessage = {
