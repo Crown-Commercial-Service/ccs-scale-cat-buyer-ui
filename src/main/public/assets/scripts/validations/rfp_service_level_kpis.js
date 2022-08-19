@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // }
         if(percentageElement[index].value!=""){
         if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) >100) {
-          errorStore.push(["rfp_term_percentage_KPI_" + index1, "You must enter your percentage in whole numbers up to 100"])
+
+          errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
         }
       }
       }
@@ -252,7 +253,10 @@ const ccsZvalidateRfpKPI = (event) => {
     if(percentageElement[index].value!=""){
     if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) >100) {
       let index1 = Number(index) + 1;
-      errorStore.push(["rfp_term_percentage_KPI_" + index1, "You must enter your percentage in whole numbers up to 100"])
+
+      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
+
+      
     }
   }
     if (Number(percentageElement[index].value) < 0) {
@@ -290,7 +294,10 @@ $('#service_levels_kpi_form').on('submit', (event) => {
     if(percentageElement[index].value!=""){
     if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) >100) {
       let index1 = Number(index) + 1;
-      errorStore.push(["rfp_term_percentage_KPI_" + index1, "You must enter your percentage in whole numbers up to 100"])
+
+      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
+
+     
     }
   }
   }
