@@ -31,9 +31,9 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, res: 
         const draftMessage = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
 
         const messageReply: MessageReply = draftMessage.data
-
+        messageThreadingList = [];
         if (messageReply != undefined && messageReply != null && messageReply.nonOCDS != null && messageReply.nonOCDS.parentId != null && messageReply.nonOCDS.parentId != 'null') {
-            messageThreadingList = [];
+            
             messageThreadingList = await getChildMethod(messageReply.OCDS.id, projectId, eventId, SESSION_ID);
         }
         const appendData = { msgThreadList: messageThreadingList, data: replyData, message: messageReply, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
