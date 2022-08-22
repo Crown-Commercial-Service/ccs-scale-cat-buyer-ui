@@ -38,15 +38,17 @@ const emptyQuestionFieldCheckBudget = () => {
       {
         msg = 'You must enter a positive value';
         let element = document.getElementById("rfp_maximum_estimated_contract_value");
-        ccsZaddErrorMessage(element, msg);
+        
         fieldCheck = ccsZvalidateWithRegex('rfp_maximum_estimated_contract_value', msg, /\d+/);
+        ccsZaddErrorMessage(element, msg);
         errorStore.push([element.id, msg])
       }
       if (Number(maxBudget) > 0 && Number(minBudget) > 0 && Number(maxBudget) < Number(minBudget) && maxBudget!='' && minBudget!='') {
         msg = 'Entry should be greater than minimum estimated contract value';
         let element = document.getElementById("rfp_maximum_estimated_contract_value");
-        ccsZaddErrorMessage(element, msg);
+        
         fieldCheck = ccsZvalidateWithRegex('rfp_maximum_estimated_contract_value', msg, /\d+/);
+        ccsZaddErrorMessage(element, msg);
         errorStore.push([element.id, msg])
       }
     }
@@ -71,14 +73,16 @@ const emptyQuestionFieldCheckBudget = () => {
       {
         msg = 'You must enter a positive value';
         let element = document.getElementById("rfp_minimum_estimated_contract_value");
-        ccsZaddErrorMessage(element, msg);
+        
         fieldCheck = ccsZvalidateWithRegex('rfp_minimum_estimated_contract_value', msg, /\d+/);
+        ccsZaddErrorMessage(element, msg);
         errorStore.push([element.id, msg])}
       if (Number(minBudget) > 0 && Number(maxBudget) > 0 && Number(minBudget) > Number(maxBudget)&& minBudget!='' && maxBudget!='') {
         msg = 'Entry should be lesser than maximum estimated contract value';
         let element = document.getElementById("rfp_minimum_estimated_contract_value");
-        ccsZaddErrorMessage(element, msg);
+        
         fieldCheck = ccsZvalidateWithRegex('rfp_minimum_estimated_contract_value', msg, /\d+/);
+        ccsZaddErrorMessage(element, msg);
         errorStore.push([element.id, msg])
       }
     }

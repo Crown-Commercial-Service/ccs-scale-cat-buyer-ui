@@ -324,3 +324,17 @@ const ccsZvalidateRfiAcronyms = (event) => {
   }
 
 };
+
+
+const ccsZvalidateRfiUploadDoc = (event) => {
+  event.preventDefault();
+
+  if(document.getElementById("rfi_offline_document").value != "") {
+    document.forms["ccs_rfi_doc_upload_form"].submit();
+  }
+ else 
+ {
+  const errorStore = [["rfi_offline_document", "No file chosen please choose the files"]]
+  ccsZPresentErrorSummary(errorStore);
+ }
+};

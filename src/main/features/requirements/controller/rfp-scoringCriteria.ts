@@ -72,7 +72,6 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
       return agroupitem?.OCDS?.['id'] === group_id;
     });
-
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
     const bcTitleText = OCDS?.description === 'How you will score suppliers' ? OCDS?.description : "How you will score suppliers";

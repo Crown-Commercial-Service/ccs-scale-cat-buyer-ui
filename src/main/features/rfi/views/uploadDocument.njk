@@ -81,7 +81,7 @@
                   </div>
                   {%endif%}
                   {% if (storage < 1000000000) %}
-                    <form action="/rfi/upload-doc" method="post" encType="multipart/form-data">
+                    <form action="/rfi/upload-doc" method="post" encType="multipart/form-data" id="ccs_rfi_doc_upload_form">
                       {{ csrfProtection(csrf) }}
                       {{ CCSFileUpload({
               id: "rfi_offline_document",

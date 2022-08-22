@@ -307,6 +307,9 @@ document.getElementById('ccs_standstill_period_form').addEventListener('submit',
 //if (document.getElementById('service_levels_kpi_form') !== null)
   //document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
 
+  if (document.getElementById('ccs_rfi_doc_upload_form') !== null)
+document.getElementById('ccs_rfi_doc_upload_form').addEventListener('submit', ccsZvalidateRfiUploadDoc);
+
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
 setInputFilter(
