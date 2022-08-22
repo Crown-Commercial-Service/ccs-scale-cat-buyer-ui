@@ -9,7 +9,7 @@
 
 {% set organisationUser = userdata%}
 
-{% set sortedMembers = [{value: "", text: "Please select a colleague to be added"}] %}
+{% set sortedMembers = [{value: "", text: "Select colleague "}] %}
 {% for user in organisationUser %}
   {% if user.userName !== lead%}
     {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}

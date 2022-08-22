@@ -59,26 +59,36 @@
             redirect:'javascript.void(0)',
             type:'tier-5'
         }) }} #}
+        <div>
+        <h1><strong>Create your scoring criteria</strong></h1>
+        <p class="govuk-body">Select one of the two options below or enter the details for your own scoring criteria.</p>
+        <p class="govuk-body">If you want to use the 4 or 5 level scoring criteria, select the option you want and then click 'save and continue'. </p>
+        <p class="govuk-body">The minimum number of scoring levels is 2 and the maximum nuumber of scoring level is 10</p>
+        </div>
+     <br><br>
+
+
          <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
                 <p class="govuk-label--l"> <strong id="tiersAdded"> {{tierNo}}  </strong> tiers added so far</h2>
             </div>
             <div class="govuk-grid-column-one-half">
-                {# <a href="javascript:void(0)" onclick="selectedTiers('5')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-5-popup" title="Tier5">Use a 5-tier scoring criteria</a> #}
+                {# <a href="javascript:void(0)" onclick="selectedTiers('5')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-5-popup" title="Tier5">Use the 5-tier scoring criteria</a> #}
                 {% for table in requirement.nonOCDS.options %}
                 {%if table.optiontableDefination.rows.length>0 and  table.text !=='Create your own scoring criteria'%}
                 <a href="javascript:void(0)"   id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-\!-margin_scoring govuk-link--no-visited-state " title="Tier {{table.optiontableDefination.rows.length}}">Use a {{table.optiontableDefination.rows.length}}-tier scoring criteria</a>
                 {%endif%}
-                {# <a href="javascript:void(0)"  id="tier-4-popup" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state" title="Tier4">Use a 4-tier scoring criteria</a> #}
+                {# <a href="javascript:void(0)"  id="tier-4-popup" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state" title="Tier4">Use the 4-tier scoring criteria</a> #}
                 {# <a href="javascript:void(0)" onclick="selectedTiers('4')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-4-popup" title="Tier4">Use a 4-tier scoring criteria</a> #}
                 {% endfor %}
             </div>
         </div>
 {%endif%}
-
 {%endblock%}
+
 {% block RPFScoringCriteria %}
 {% if requirement.nonOCDS.questionType === 'Text' and ( requirement.OCDS.title =="Enter the name for this level" or requirement.OCDS.title =="Enter the name for this tier") and  requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
+
                   {% call CCSFieldset({
                             legend: {
                                 classes: "govuk-fieldset__legend--m",
@@ -94,7 +104,7 @@
                         name: 'score_criteria_level',
                         classes: 'govuk-input govuk-input--width-20',
                         hint: {
-                            text: requirement.OCDS.title
+                            html:requirement.OCDS.description 
                         },
                         label: {
                             html: "Enter the name for this level <a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
@@ -103,15 +113,18 @@
                         }
                     }) }}
                   
-                 
+               
                {{ CCSInput({
                             label: {
                               text:  'Enter the score for this level',
                               classes: "govuk-label govuk-label--m"
                             },
                             hint: {
-                            text: 'Make sure your scoring system doesn’t overlap or cause confusion. Use whole numbers.'
-                            },
+
+                                text:"Make sure your scoring system doesn't overlap or cause confusion.Use whole numbers." 
+                        },
+                            
+
                             id: 'rfp_score_criteria_point_1',
                             name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
@@ -119,8 +132,7 @@
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[0].value
                           }) }}
-           
-            
+          
                     {{  CCSTextarea({
                         id: 'rfp_score_criteria_desc_1',
                         name: 'score_criteria_desc',
@@ -130,11 +142,13 @@
                             classes: 'govuk-label govuk-label--m'
                         },
                         hint: {
-                            text: 'Describe what a supplier has or hasn’t done to achieve this score. Be specific and detailed.'
+
+                            text:"Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed."
+
                         }
                         })
                     }}
-                    
+                  
                     {% endcall %}
        {% for i in range(2, 11) -%}
                          {% call CCSFieldset({
@@ -162,12 +176,13 @@
                         }) }}
                         {{ CCSInput({
                             label: {
-                                text: 'Enter the points for this level',
+                                text: 'Enter the score for this level',
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                            text: 'Make sure your scoring system doesn’t overlap or cause confusion. Use whole numbers.'
-                            },
+
+                                text:"Make sure your scoring system doesn't overlap or cause confusion.Use whole numbers." 
+           },
                             id: 'rfp_score_criteria_point_'+i,
                             name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
@@ -184,7 +199,9 @@
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                              text: 'Describe what a supplier has or hasn’t done to achieve this score. Be specific and detailed.'
+              text:"Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed."
+
+                             
                             }
                         }) }}
                        {% endcall %}

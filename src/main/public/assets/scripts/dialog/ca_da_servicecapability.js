@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     $('#redirect-button-vetting').on('click', function () {
+      
       $('.rfp_cap').attr('checked', false);
       deselect($('.dialog-close-vetting'));
       $(".backdrop-vetting").fadeOut(200);
@@ -161,7 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
     var totalWeighting = '';
     var daServiceCapaTabLinks = document.querySelectorAll('.da-service-capabilities');
     var caServiceCapaTabLinks = document.querySelectorAll('.ca-service-capabilities');
-
+    const TotalWeightageBox = document.getElementsByClassName('weight');
+    for (var i = 0; i < TotalWeightageBox.length; i++) {
+      TotalWeightageBox[i].value=''
+    }
     if (daServiceCapaTabLinks !== null && daServiceCapaTabLinks.length > 0)
     {
       tabLinks = daServiceCapaTabLinks;
