@@ -145,7 +145,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       let supplierDetailsDataList: SupplierDetails[] = [];
       let showallDownload = false;
 
-      if(status.toLowerCase() == "evaluating" ||status.toLowerCase() == "evaluated" ||status.toLowerCase() == "published" || status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete")
+      if(status.toLowerCase() == "to-be-evaluated" || status.toLowerCase() == "evaluating" ||status.toLowerCase() == "evaluated" ||status.toLowerCase() == "published" || status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete")
       {
           //Supplier of interest
       const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
