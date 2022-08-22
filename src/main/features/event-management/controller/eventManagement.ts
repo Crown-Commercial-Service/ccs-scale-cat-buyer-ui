@@ -140,15 +140,20 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           }
         });
       }
-      //Supplier of interest
+    
+      let supplierSummary;
+      let supplierDetailsDataList: SupplierDetails[] = [];
+      let showallDownload = false;
+      
+      if(status.toLowerCase() == "evaluating" ||status.toLowerCase() == "evaluated" ||status.toLowerCase() == "published" || status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete")
+      {
+          //Supplier of interest
       const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
       const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
       //Supplier score
       const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
       const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
-      let supplierDetailsDataList: SupplierDetails[] = [];
-      let showallDownload = false;
       for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
         let id = supplierdata.data.responders[i]?.supplier?.id;
         let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
@@ -181,7 +186,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           showallDownload = true;
         }
       }
-      const supplierSummary = supplierdata?.data;
+      supplierSummary = supplierdata?.data;
       supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
 
       let rankCount = 0;
@@ -239,6 +244,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
         const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
         supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
+      }
       }
 
       //Get Q&A Count
