@@ -71,7 +71,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       });
 
       //#region supplier information
-      const baseurl_Supplier = `/agreements/${agreementId_session}/lots/${lotid}/suppliers`
+      const baseurl_Supplier = `/agreements/${agreementId_session}/lots/${lotid}/suppliersss`
       let supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier)).data;
       //#endregion
 
