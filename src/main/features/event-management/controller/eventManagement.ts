@@ -156,8 +156,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
       for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
         let id = supplierdata.data.responders[i]?.supplier?.id;
-        let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
-        if (supplierdata.data?.responders[i]?.responseState == 'Submitted') {
+        let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)?.[0]?.score
+        if (supplierdata?.data?.responders[i]?.responseState == 'Submitted') {
           showallDownload = true;
         }
         let supplierDetailsObj = {} as SupplierDetails;
@@ -167,7 +167,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
         supplierDetailsObj.score = (score != undefined) ? score : 0;
 
-        var supplierFiltedData = supplierDataList?.filter((a: any) => (a.organization.id == id))[0]?.organization;
+        var supplierFiltedData = supplierDataList?.filter((a: any) => (a.organization.id == id))?.[0]?.organization;
 
         if(supplierFiltedData !=undefined && supplierFiltedData !=null)
         {
