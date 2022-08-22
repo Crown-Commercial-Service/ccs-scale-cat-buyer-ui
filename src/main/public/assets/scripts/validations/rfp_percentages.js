@@ -133,7 +133,7 @@ const ccsZvalidateRfpPercentages = (event) => {
       }
       
       }
-      else if(pageHeading.includes('Set the weighting for the quality groups')){
+      else if(pageHeading.includes('Set the weighting for the quality groups')||pageHeading.includes('Set the overall weighting for the question categories')){
         switch(elements[index].id)
         {
           case 'Question 1':
