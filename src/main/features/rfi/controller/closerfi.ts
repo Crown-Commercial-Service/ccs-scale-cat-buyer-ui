@@ -7,7 +7,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 //@GET /rfi/event-close/terminate
 export const RFI_GET_CLOSE  = async (req: express.Request, res: express.Response) => {
 
-     const {  releatedContent, eventId, projectId } =req.session;
+     const {  releatedContent, projectId } =req.session;
      const { SESSION_ID } = req.cookies; //jwt
      
 
@@ -19,10 +19,8 @@ export const RFI_GET_CLOSE  = async (req: express.Request, res: express.Response
     }
     
     try {
-    const baseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
-    const _body = {
-            "terminationType": "cancelled"       
-      };
+    const baseURL = `tenders/projects/${projectId}/close`;
+    const _body = "cancelled"
       const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
       if (response.status == 200) {
         res.render('closerfi.njk', appendData)
