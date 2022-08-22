@@ -141,10 +141,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         });
       }
     
-      let supplierSummary;
+      let supplierSummary:any;
       let supplierDetailsDataList: SupplierDetails[] = [];
       let showallDownload = false;
-      
+
       if(status.toLowerCase() == "evaluating" ||status.toLowerCase() == "evaluated" ||status.toLowerCase() == "published" || status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete")
       {
           //Supplier of interest
