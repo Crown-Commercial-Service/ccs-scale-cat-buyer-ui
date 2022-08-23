@@ -59,7 +59,8 @@ export class EventEngagementMiddleware {
     req.session['weightingRange'] = {};
     req.session['errorTextSumary'] = [];
     req.session['CapAss'] = {};
-    req.session['isTcUploaded'] = true;
+    req.session['isTcUploaded'] = false;
+    req.session['isPricingUploaded'] = false;
     req.session['UIDate'] = null;
     // Retrive active events
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)
