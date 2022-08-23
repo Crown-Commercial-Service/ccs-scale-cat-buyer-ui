@@ -140,105 +140,104 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           }
         });
       }
-      //Supplier of interest
-      const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
-      const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
-      //Supplier score
-      const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
-      const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
+      let supplierSummary: any;
       let supplierDetailsDataList: SupplierDetails[] = [];
       let showallDownload = false;
-      for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
-        let id = supplierdata.data.responders[i]?.supplier?.id;
-        let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
-        if (supplierdata.data?.responders[i]?.responseState == 'Submitted') {
-          showallDownload = true;
+
+      if (status.toLowerCase() == "to-be-evaluated" || status.toLowerCase() == "evaluating" || status.toLowerCase() == "evaluated" || status.toLowerCase() == "published" || status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
+        //Supplier of interest
+        const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
+        const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
+
+        //Supplier score
+        const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
+        const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
+        for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
+          let id = supplierdata.data.responders[i]?.supplier?.id;
+          let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)?.[0]?.score
+          if (supplierdata?.data?.responders[i]?.responseState == 'Submitted') {
+            showallDownload = true;
+          }
+          let supplierDetailsObj = {} as SupplierDetails;
+
+          supplierDetailsObj.supplierName = supplierdata.data?.responders[i]?.supplier?.name;
+          supplierDetailsObj.responseState = supplierdata.data?.responders[i]?.responseState;
+          supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
+          supplierDetailsObj.score = (score != undefined) ? score : 0;
+          var supplierFiltedData = supplierDataList?.filter((a: any) => (a.organization.id == id))?.[0]?.organization;
+          if (supplierFiltedData != undefined && supplierFiltedData != null) {
+            supplierDetailsObj.supplierAddress = {} as SupplierAddress;
+            supplierDetailsObj.supplierAddress = supplierFiltedData.address != undefined && supplierFiltedData.address != null ? supplierFiltedData?.address : null
+            supplierDetailsObj.supplierContactName = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null && supplierFiltedData.contactPoint?.name !=undefined && supplierFiltedData.contactPoint?.name !=null ? supplierFiltedData.contactPoint?.name : null;
+            supplierDetailsObj.supplierContactEmail = supplierFiltedData.contactPoint != undefined? supplierFiltedData.contactPoint?.email : null;
+            supplierDetailsObj.supplierWebsite = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null ? supplierFiltedData.contactPoint?.url : null;
+            supplierDetailsObj.supplierId = id;
+            supplierDetailsObj.supplierState = "Unsuccessfull";
+            supplierDetailsDataList.push(supplierDetailsObj);
+          }
+          if (supplierdata.data?.responders[i]?.responseState?.trim().toLowerCase() == 'submitted') {
+            showallDownload = true;
+          }
         }
-        let supplierDetailsObj = {} as SupplierDetails;
+        supplierSummary = supplierdata?.data;
+        supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
 
-        supplierDetailsObj.supplierName = supplierdata.data?.responders[i]?.supplier?.name;
-        supplierDetailsObj.responseState = supplierdata.data?.responders[i]?.responseState;
-        supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
-        supplierDetailsObj.score = (score != undefined) ? score : 0;
-
-        var supplierFiltedData = supplierDataList?.filter((a: any) => (a.organization.id == id))[0]?.organization;
-
-        if(supplierFiltedData !=undefined && supplierFiltedData !=null)
-        {
-          supplierDetailsObj.supplierAddress = {} as SupplierAddress;
-          supplierDetailsObj.supplierAddress = supplierFiltedData.address
-          supplierDetailsObj.supplierContactName = supplierFiltedData.contactPoint?.name;
-          supplierDetailsObj.supplierContactEmail = supplierFiltedData.contactPoint.email;
-          supplierDetailsObj.supplierWebsite = supplierFiltedData.contactPoint.url;
-          supplierDetailsObj.supplierId = id;
-          supplierDetailsObj.supplierState = "Unsuccessfull";
-  
-          supplierDetailsDataList.push(supplierDetailsObj);
+        let rankCount = 0;
+        for (let i = 0; i < supplierDetailsDataList.length; i++) {
+          if (supplierDetailsDataList[i].responseState.toLowerCase() == "submitted") {
+            rankCount = rankCount + 1
+            supplierDetailsDataList[i].rank = "" + rankCount;
+          }
         }
-        
-        if (supplierdata.data?.responders[i]?.responseState?.trim().toLowerCase() == 'submitted') {
-          showallDownload = true;
-        }
-      }
-      const supplierSummary = supplierdata?.data;
-      supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
+        //Awarded,pre_awarded and complete supplier info
+        if (status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
+          let supplierState = "PRE_AWARD"
+          if (status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
+            supplierState = "AWARD"
+          }
+          const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
+          const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
 
-      let rankCount = 0;
-      for (let i = 0; i < supplierDetailsDataList.length; i++) {
-        if(supplierDetailsDataList[i].responseState.toLowerCase() == "submitted")
-        {
-          rankCount = rankCount + 1
-          supplierDetailsDataList[i].rank = "" + rankCount;
-        }
-      }
-      //Awarded,pre_awarded and complete supplier info
-      if (status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
-        let supplierState = "PRE_AWARD"
-        if (status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
-          supplierState = "AWARD"
-        }
-        const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
-        const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
-
-        if (supplierDetailsDataList.length > 0) {
-          supplierAwardDetail?.suppliers?.map((item: any) => {
-            let supplierDataIndex = supplierDetailsDataList.findIndex(x => x.supplierId == item.id);
-            if (supplierDataIndex != undefined && supplierDataIndex != null && supplierDataIndex >= 0) {
-              supplierDetailsDataList[supplierDataIndex].supplierState = "Awarded";
-              supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
-            }
-          });
-          supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY HH:mm');
-        }
-
-        if (status.toLowerCase() == "pre-award") {
-
-          supplierDetails.standStillFlag = true;
-          let currentDate = new Date(supplierAwardDetail?.date);
-          //Standstill dates are current date +10 days.
-          currentDate.setDate(currentDate.getDate() + 10)
-          currentDate = checkWeekendDate(currentDate);
-
-          const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
-          const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
-          const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
-
-          currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
-          supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
-
-          let todayDate = new Date();
-          if (todayDate > new Date(supplierDetails.supplierStandStillDate)) {
-            supplierDetails.standStillFlag = false;
+          if (supplierDetailsDataList.length > 0) {
+            supplierAwardDetail?.suppliers?.map((item: any) => {
+              let supplierDataIndex = supplierDetailsDataList.findIndex(x => x.supplierId == item.id);
+              if (supplierDataIndex != undefined && supplierDataIndex != null && supplierDataIndex >= 0) {
+                supplierDetailsDataList[supplierDataIndex].supplierState = "Awarded";
+                supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
+              }
+            });
+            supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY HH:mm');
           }
 
+          if (status.toLowerCase() == "pre-award") {
+
+            supplierDetails.standStillFlag = true;
+            let currentDate = new Date(supplierAwardDetail?.date);
+            //Standstill dates are current date +10 days.
+            currentDate.setDate(currentDate.getDate() + 10)
+            currentDate = checkWeekendDate(currentDate);
+
+            const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
+            const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
+            const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
+
+            currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
+            supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
+
+            let todayDate = new Date();
+            if (todayDate > new Date(supplierDetails.supplierStandStillDate)) {
+              supplierDetails.standStillFlag = false;
+            }
+
+          }
         }
-      }
-      //to get signed awarded contrct end date
-      if (status.toLowerCase() == "complete") {
-        const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
-        const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
-        supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
+        //to get signed awarded contrct end date
+        if (status.toLowerCase() == "complete") {
+          const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
+          const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
+          supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
+        }
       }
 
       //Get Q&A Count

@@ -87,8 +87,8 @@ export const CREDENTAILS_FETCH_RECEIVER = async (
         req.session['weightingRange'] = {};
         req.session['errorTextSumary'] = [];
         req.session['CapAss'] = {};
-        req.session['isTcUploaded'] = true;
-
+        req.session['isTcUploaded'] = false;
+        req.session['isPricingUploaded'] = false;
         next();
       } else {
         logger.info('User redirected to logout');
