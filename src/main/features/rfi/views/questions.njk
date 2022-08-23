@@ -105,10 +105,11 @@
               ] %}
               {% for i in range(1, 11) -%}
                 {% if i==1 %}
-                  {% set t="You must ask at least 1 question <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='remove'> remove </a>" %}
+                  {% set t="You must ask at least 1 question <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' role='button' aria-pressed='true' title='remove'> remove </a>" %}
                 {% else %}
-                  {% set t="Enter your "+numberWord[i]+" question <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='remove'> remove </a>" %}
+                  {% set t="Enter your "+numberWord[i]+" question <a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' role='button' aria-pressed='true' title='remove'> remove </a> " %}
                 {% endif %}
+                <label class="govuk-visually-hidden rfi_questions_label_cm" id='rfi_questions_label_{{i}}' aria-live='assertive'></label>
                 {{ CCSInput({
                       label: {
                         html: t,
@@ -123,6 +124,7 @@
                 }}
                 {% set qlable =  'rfi_label_question_' + i %}
                 <p><label id="{{qlable}}"></label></p>
+                
               {%- endfor %}
 
               <p class="govuk-body">

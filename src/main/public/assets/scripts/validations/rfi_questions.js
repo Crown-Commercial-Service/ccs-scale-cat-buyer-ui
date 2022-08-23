@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("rfi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
         document.querySelector('label[for=rfi_question_' + with_value_count + ']').classList.remove("ccs-dynaform-hidden");
-
+        $(".rfi_questions_label_cm").text("");
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
           //document.querySelector('label[for=rfi_question_' + prev_input + '] a.del').classList.add("ccs-dynaform-hidden");
@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('rfi_question_' + target).value = "";
         document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
+        $("#rfi_questions_label_"+target).text("Cleared Successfully");
         let parentNode = document.querySelector('label[for=rfi_question_' + target + ']').parentNode;
         if (parentNode.children["rfi_question_" + target + '-error'] !== undefined) {
           parentNode.removeChild(document.getElementById("rfi_question_" + target + '-error'))
@@ -112,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         //document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
         document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
-
+        $("#rfi_questions_label_"+target).text("Cleared Successfully");
         if (prev_box > 1) {
           //document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
         }
