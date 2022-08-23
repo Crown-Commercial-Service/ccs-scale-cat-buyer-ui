@@ -20,7 +20,6 @@
 {% from "components/table/macro.njk" import CCSTable %}
 {% from "components/questions/macro.njk" import CCSQUESTIONS %}
 {% from "components/dialog/macro.njk" import CCSDialog %}
-
 {% block RPFScoringCriteriaTable %}
 {%if requirement.nonOCDS.questionType === 'Table' and form_name == 'ccs_rfp_scoring_criteria'%}
   <div class="govuk-grid-row">
@@ -223,7 +222,7 @@
 {% block TextRFP %}
   
   {% if requirement.nonOCDS.questionType === 'Text' and requirement.nonOCDS.multiAnswer === true and form_name == 'rfp_multianswer_question_form' %}
-
+ {% set classNameNew= requirement.OCDS.id.replace(' ','')%}
     {{  CCSTextarea({
       name:  requirement.OCDS.id,
       required: requirement.nonOCDS.mandatory,
@@ -233,13 +232,15 @@
       text:requirement.OCDS.title,
       classes: "govuk-label govuk-label--m"
       },
+      dataSet:requirement.OCDS.title,
       hint: {
               text:requirement.OCDS.description
             },
-      classes:"order_"+requirement.nonOCDS.order,
+      classes:"order_"+requirement.nonOCDS.order +" "+ classNameNew,
       rows:2
     }) }}
-
+    {% set qlable =  'rfp_label_question_lable_' + index+ "_"+requirement.nonOCDS.order %}
+                    <p class="character-count"><label id="{{qlable}}">You have xxxx character remaining</label></p>
   {%endif%}
   {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'rfp_multianswer_question_form'%}
 
