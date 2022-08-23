@@ -122,7 +122,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT: express.Handler = async (req: express.R
                 ...formHeaders,
               },
             });
-            req.session['isTcUploaded'] = true
+            req.session['isPricingUploaded'] = true
             res.redirect(`/${selRoute}/upload-attachment`);
           } catch (error) {
             delete error?.config?.['headers'];
@@ -194,7 +194,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
   let { selectedRoute } = req.session;
   const rfp_confirm_upload = req.body.rfp_confirm_upload;
   try{ 
-  if (req.session['isTcUploaded'] && rfp_confirm_upload === "confirm") {
+  if (req.session['isPricingUploaded'] && rfp_confirm_upload === "confirm") {
     if (selectedRoute === 'FC') selectedRoute = 'RFP';
     const step = selectedRoute.toLowerCase() === 'rfp' ? 30 : 71;
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${projectId}/events/${eventId}/documents`;
@@ -221,7 +221,7 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
       }
       res.redirect(`/${selectedRoute.toLowerCase()}/upload-doc`);
     } else {
-      req.session["pricingSchedule"] = { "IsDocumentError": true, "IsFile": !req.session['isTcUploaded'] ? true : false, "rfp_confirm_upload": rfp_confirm_upload == undefined ? true : false };
+      req.session["pricingSchedule"] = { "IsDocumentError": true, "IsFile": req.session['isPricingUploaded'] ? true : false, "rfp_confirm_upload": rfp_confirm_upload == undefined ? true : false };
       res.redirect(`/rfp/upload-attachment`);
     }
   }

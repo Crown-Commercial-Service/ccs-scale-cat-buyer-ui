@@ -217,23 +217,14 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
       if(flag)
       {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
-      }    
+      }  
+  
     }
-    res.redirect(`/rfp/task-list`);
+    res.redirect(`/rfp/task-list`);  
   } else {
-    const lotId = req.session?.lotId;
-    const agreementLotName = req.session.agreementLotName;
-    const releatedContent = req.session.releatedContent;
-    let windowAppendData = {
-      lotId,
-      agreementLotName,
-      data: cmsData,
-      files: null,
-      releatedContent: releatedContent,
-      storage: 0,
-    }
-    windowAppendData = Object.assign({}, { ...windowAppendData, error: 'true' });
-    res.render('rfp-uploadDocument.njk', windowAppendData)
+    
+    req.session["termsNcond"] = { "IsDocumentError": true, "IsFile": req.session['isTcUploaded'] ? true : false };
+    res.redirect(`/rfp/upload-doc`);
   }
 
 });
