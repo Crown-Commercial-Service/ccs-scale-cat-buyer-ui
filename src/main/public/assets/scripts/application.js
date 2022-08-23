@@ -287,6 +287,9 @@ if (document.getElementById('ccs_message_create_form') !== null)
   if (document.getElementById('ccs_rfi_publish_form') !== null)
   document.getElementById('ccs_rfi_publish_form').addEventListener('submit', ccsZRFIPublishEventSubmit);
 
+  if (document.getElementById('ccs_rfp_publish_form') !== null)
+  document.getElementById('ccs_rfp_publish_form').addEventListener('submit', ccsZRFPPublishEventSubmit);
+
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
   document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
