@@ -32,7 +32,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
   try {
     const { data: typesRaw } = await AgreementAPI.Instance.get(eventTypesURL);
     const types = typesRaw.map((typeRaw: any) => typeRaw.type);
-    appendData = { types, ...appendData };
+    appendData = { types,lotId, ...appendData };
 
     const elementCached = req.session.procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
 
