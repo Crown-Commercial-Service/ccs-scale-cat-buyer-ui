@@ -20,6 +20,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
   let { selectedRoute } = req.session;
   const {fileObjectIsEmpty}=req.session;
   const { file_id } = req.query;
+  const { termsNcond } = req.session;
   errorList=errorList ==undefined ||errorList==null?[]:errorList;
   if (file_id !== undefined) {
     try {
@@ -80,6 +81,17 @@ export const FILEUPLOADHELPER: express.Handler = async (
         releatedContent: releatedContent,
         storage: TOTALSUM,
       };
+      if (termsNcond != undefined) {
+        delete req.session["termsNcond"];
+         if (errorList==null) {
+           errorList=[];
+         }
+         
+         if (termsNcond.IsDocumentError && !termsNcond.IsFile) {
+           errorList.push({ text: "You must upload terms and conditions.", href: "#rfp_offline_document" });
+           fileError=true;
+         }
+       }
       if (fileObjectIsEmpty) {
         fileError=true;
         errorList.push({ text: "Please choose file before proceeding", href: "#" })
@@ -89,7 +101,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
 
-      if (FETCH_FILEDATA !=undefined && FETCH_FILEDATA.length <=0) {
+      if (fileNameStorageTermsNcond !=undefined && fileNameStorageTermsNcond.length <=0) {
         req.session['isTcUploaded'] = false;
       }else{req.session['isTcUploaded'] =true;}
      

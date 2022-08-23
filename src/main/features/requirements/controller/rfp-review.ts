@@ -73,6 +73,13 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     }
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
+    if(ReviewData.OCDS.status == 'active'){//event is published
+      
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/41`, 'Completed');
+      
+      res.redirect('/rfp/rfp-eventpublished');
+    }
+    else{
     //   //Buyer Questions
     //   const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions.sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
     //   const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -696,6 +703,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     }
 
     res.render('rfp-review', appendData);
+  }
   } catch (error) {
     delete error?.config?.['headers'];
     const Logmessage = {

@@ -58,7 +58,8 @@
                   <th scope="row" class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">
                     <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
-                      
+                       <input type="hidden" value="{{event.projectId}}">
+                     <input type="hidden" value="{{event.activeEvent.id}}">
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                   </th>
@@ -102,6 +103,8 @@
                   <th scope="row" class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">
                       <a class="govuk-link" href="/event/management?id={{ event.activeEvent.id }}">{{ event.activeEvent.id }}</a>
+                     <input type="hidden" value="{{event.projectId}}">
+                     <input type="hidden" value="{{event.activeEvent.id}}">
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName | safe }}</p>
                   </th>
@@ -179,6 +182,8 @@
                   <th scope="row" class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">
                     {{ event.activeEvent.id }}
+                     <input type="hidden" value="{{event.projectId}}">
+                     <input type="hidden" value="{{event.activeEvent.id}}">
                       <!--<a class="govuk-link" href="">{{ event.activeEvent.id }}</a>-->
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>
@@ -222,6 +227,8 @@
                   <th scope="row" class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0">
                     {{ event.activeEvent.id }}
+                     <input type="hidden" value="{{event.projectId}}">
+                     <input type="hidden" value="{{event.activeEvent.id}}">
                       <!--<a class="govuk-link" href="">{{ event.activeEvent.id }}</a>-->
                     </p>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{ event.projectName }}</p>

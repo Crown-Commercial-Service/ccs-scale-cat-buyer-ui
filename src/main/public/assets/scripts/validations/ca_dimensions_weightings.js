@@ -10,9 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const updateTotal = dimensions => {
+  
   let total = 0;
   dimensions.each(function () {
-    if (!isNaN($(this).val()) && $(this).val()>0 &&$(this).val()<100) total = total + Number($(this).val());
+    var element = document.getElementById($(this).attr('id'));
+    var min=Number(element.min);
+    var max=Number(element.max);
+    if (!isNaN($(this).val()) && Number($(this).val())>=min && Number($(this).val())<=max && !$(this).val.includes('.')) total = total + Number($(this).val());
   });
   $('#totalPercentage').text(total);
 };
@@ -83,6 +87,7 @@ const ccsZvalidateDAAWeightings = event => {
   let fieldCheck = "",errorStore = [], total = 0;emptycontent=[];
   dimensionweightings.each(function () {
     var element = document.getElementById($(this).attr('id'));
+    
     var min=element.min
     var max=element.max
     var number=Number(element.value)

@@ -29,6 +29,12 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         responseType: 'arraybuffer',
       });
       const file = FetchDocuments;
+      let fileNameStoragePricing = [];
+      FetchDocuments.data?.map(file => {
+        if (file.description === "mandatory") {
+          fileNameStoragePricing.push(file);
+        }
+      });
       const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
       const fileData = file.data;
       const type = file.headers['content-type'];
@@ -40,10 +46,10 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         'Content-Length': ContentLength,
         'Content-Disposition': 'attachment; filename=' + fileName,
       });
-      if (FetchDocuments != undefined && FetchDocuments != null && FetchDocuments.length > 0) {
-        req.session['isTcUploaded'] = true;
+      if (fileNameStoragePricing != undefined && fileNameStoragePricing != null && fileNameStoragePricing.length > 0) {
+        req.session['isPricingUploaded'] = true;
       } else {
-        req.session['isTcUploaded'] = false;
+        req.session['isPricingUploaded'] = false;
       }
       res.send(fileData);
     } catch (error) {
@@ -98,7 +104,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
           errorList.push({ text: "You must confirm the statement.", href: "#rfp_confirm_upload" })
           fileError=true;
         }
-        if (pricingSchedule.IsDocumentError && pricingSchedule.IsFile) {
+        if (pricingSchedule.IsDocumentError && !pricingSchedule.IsFile) {
           errorList.push({ text: "You must upload your pricing schedule.", href: "#rfp_offline_document" });
           fileError=true;
         }
@@ -111,11 +117,11 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: true, errorlist: errorList });
       }
-      if (FETCH_FILEDATA != undefined && FETCH_FILEDATA != null && FETCH_FILEDATA.length > 0) {
-        req.session['isTcUploaded'] = true;
+      if (fileNameStoragePricing != undefined && fileNameStoragePricing != null && fileNameStoragePricing.length > 0) {
+        req.session['isPricingUploaded'] = true;
       }
       else {
-        req.session['isTcUploaded'] = false;
+        req.session['isPricingUploaded'] = false;
       }
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !="" && selectedRoute.toUpperCase() === 'FC') selectedRoute.toUpperCase() = 'RFP';
       if (selectedRoute !=undefined && selectedRoute !=null && selectedRoute !=""&& selectedRoute.toUpperCase() === 'FCA') selectedRoute.toUpperCase() = 'CA';

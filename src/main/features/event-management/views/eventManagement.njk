@@ -21,7 +21,7 @@
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">
+        <h1 class="govuk-eventmanagement">
          <strong> {{data.title}}</strong>
         </h1>
         <div class="project-overview">
@@ -32,6 +32,7 @@
         </div>
       </div>
     </div>
+    <br><br>
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <p>
@@ -59,7 +60,7 @@
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">
             {{data.subsection3_title}}<br>
-          ({{unreadMessage}} unread messages)</h2>
+          ({{unreadMessage}} messages)</h2>
           <p class="govuk-body">
             <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
           </p>
@@ -67,7 +68,7 @@
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">
             {{data.subsection3_title2}}<br>
-         ({{ QAs.length }} unread messages )</h2>
+         ({{ QAs.length }} messages )</h2>
           <p class="govuk-body">
             <a class="govuk-link" href="{{ data.subsection3_linkURL2 }}">{{ data.subsection3_linkText2 }}</a>
           </p>
@@ -161,33 +162,40 @@
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3_eval}}</h2>
         <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption }}</p>
-        <p class="govuk-body">To see the clarification questions suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
+        <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
         <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong>.</p>
-        <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong>
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
+        </div>
+        </div>
+        <div class="govuk-grid-row ccs-page-section">
+        <div>
+        <p class="govuk-grid-column-one-half"><strong>{{data.subsection4_title3_eval_task1}}</strong>
+        <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
+        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task2}}
+        <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
+        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task3}}
+        <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
+        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_eval_task4}}
+        <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
       {% else %}
         <h2 class="govuk-heading-m">
           <span class="proc-task-list__section-number">3.</span>
           {{data.subsection4_title3}}</h2>
         <p class="govuk-body">{{ data.subsection4_title3_descriiption }}</p>
-        <p class="govuk-body">If you want to see any clarification questions suppliers have submitted ,<a href="/message/inbox">open your inbox</a>.</p>
+        <p class="govuk-body">If you want to see any clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
         
         <p class="govuk-body">The deadline for response from suppliers is <strong>{{filtervalues}}</strong></p>
-        
-        <p class="govuk-body govuk-grid-column-one-half"><strong>{{data.subsection4_title3_task1}}</strong>
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task3}}
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
-        <p class="govuk-body govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
-        <p class="govuk-body govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
+        </div>
+        </div>
+        <div class="govuk-grid-row ccs-page-section">
+        <div>
+        <p class="govuk-grid-column-one-half"><strong>{{data.subsection4_title3_task1}}</strong>
+        <p class="govuk-grid-column-one-half">{{supplierSummary.invited | safe}}</p>
+        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task2}}
+        <p class="govuk-grid-column-one-half">{{supplierSummary.responded | safe}}</p>
+        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task3}}
+        <p class="govuk-grid-column-one-half">{{supplierSummary.declined | safe}}</p>
+        <p class="govuk-grid-column-one-half">{{data.subsection4_title3_task4}}
+        <p class="govuk-grid-column-one-half">{{supplierSummary.noResponse | safe}}</p>
         {% endif %}
       </div>
     </div>
