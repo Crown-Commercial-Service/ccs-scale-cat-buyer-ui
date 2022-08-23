@@ -153,7 +153,7 @@ const updateLocationTotal = dimensions => {
   let total = 0;
   dimensions.each(function () {
     
-    if (!isNaN($(this).val()) && $(this).val()>0) total = total + Number($(this).val());
+    if (!isNaN($(this).val()) && $(this).val()>0 && !$(this).val().includes('.') && $(this).val()<=100) total = total + Number($(this).val());
   });
   $('#totalPercentage').text(total);
 };
