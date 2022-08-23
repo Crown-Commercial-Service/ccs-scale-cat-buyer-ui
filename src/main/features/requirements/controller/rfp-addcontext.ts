@@ -33,7 +33,8 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
       let criterianStorage: any = [];
       for (const aURI of extracted_criterion_based) {
-        const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+        if (aURI.trim().toLowerCase() ==="Criterion 3".toLowerCase()) {
+          const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
         const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
         const criterian_array = fetch_criterian_group_data?.data;
         const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
@@ -42,8 +43,10 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
           return object;
         });
         criterianStorage.push(rebased_object_with_requirements);
+        }
+        
       }
-      criterianStorage = criterianStorage[1];
+     criterianStorage = criterianStorage[0];
       const sorted_ascendingly = [];
       criterianStorage.map(obj => {
         sorted_ascendingly[obj.OCDS.id.split(' ')[1]] = obj;

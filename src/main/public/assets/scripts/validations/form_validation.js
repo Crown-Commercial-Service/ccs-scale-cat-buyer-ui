@@ -258,7 +258,41 @@ const ccsZaddErrorMessage = (element, message) => {
     }
   }
 };
+const ccsZaddErrorMessageClass = (element, message) => {
 
+  if (element != undefined && element != null && !element.className.includes("-error")) {
+    element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
+
+    if (element.tagName === "INPUT" && (element.type !== "radio" || element.type !== "checkbox")) {
+      element.classList.add("govuk-input--error");
+    } else {
+      let childInputs = element.querySelectorAll('input');
+      childInputs.forEach((child_i) => {
+        child_i.classList.add("govuk-input--error");
+      });
+    }
+    if (element.tagName === "TEXTAREA" && (element.type !== "radio" || element.type !== "checkbox")) {
+      element.classList.add("govuk-textarea--error");
+    } else {
+      let childInputs = element.querySelectorAll('textarea');
+      childInputs.forEach((child_i) => {
+        child_i.classList.add("govuk-textarea--error");
+      });
+    }
+
+    errorEl = ccsZcreateCcsErrorMsg(element.id, message);
+
+    if (element.type === "radio") {
+      element.closest(".govuk-radios").insertBefore(errorEl, element.parentNode);
+    } else if (element.type === "checkbox") {
+      element.closest(".govuk-checkboxes").insertBefore(errorEl, element.parentNode);
+    } else if (element.parentNode.classList.contains("govuk-input__wrapper")) {
+      element.closest(".govuk-form-group").insertBefore(errorEl, element.parentNode);
+    } else {
+      element.parentNode.insertBefore(errorEl, element);
+    }
+  }
+};
 /*
  * Helper to create an error message span that can be inserted
  * above the erroring input
