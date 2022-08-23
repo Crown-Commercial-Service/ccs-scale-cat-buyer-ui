@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const pageHeading = document.getElementById('page-heading').innerHTML;
   if (pageHeading.includes("Enter your project requirements")) {
     [].forEach.call(document.querySelectorAll('.character-count'), function (el) {
-      el.style.display='none'
-     // document.getElementsByClassName('character-count').style.display='none';
+      el.style.display = 'none'
+      // document.getElementsByClassName('character-count').style.display='none';
     });
-    
+
   }
   const ccsZCountRfpQuestions = (event) => {
     event.preventDefault();
@@ -67,8 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
         event.target.value
         // if (count !== 5000) {
         var errorElement = ccsZcreateCcsErrorMsg(event.target.id, `You have" ${event.target.value.length} characters remaining`);
-        
-        $("#rfp_label_question_lable_"+ event.target.id.substring(12,15)).text(`You have ${event.target.value.length} characters remaining`);
+
+        $("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${event.target.value.length} characters remaining`);
         //}
       });
     }
@@ -133,14 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
       //$('.govuk-error-summary').remove();
       // $('.govuk-form-group--error').remove();
       removeErrorFieldsRfpScoreQuestion();
-      if (!pageHeading.includes("Enter your project requirements") && Number($('#totalPercentage').text()) >= 100) {
-        errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
-      } else if (!pageHeading.includes("Enter your project requirements") && Number($('#totalPercentage').text()) <= 0) {
-        errorStore.push(["There is a problem", "The value cannot be less than 1%"]);
-      }
-      else {
-        errorStore = emptyQuestionFieldCheckRfp();
-      }
+      // if (!pageHeading.includes("Enter your project requirements") && Number($('#totalPercentage').text()) >= 100) {
+      //   errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
+      // } else if (!pageHeading.includes("Enter your project requirements") && Number($('#totalPercentage').text()) <= 0) {
+      //   errorStore.push(["There is a problem", "The value cannot be less than 1%"]);
+      // }
+      // else {
+      errorStore = emptyQuestionFieldCheckRfp();
+      //}
 
       if (errorStore.length == 0) {
         document.getElementById('fc_question_' + with_value_count).classList.remove('ccs-dynaform-hidden');
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const countWords = str => str?.trim().split(/\s+/)?.length;
     let fieldCheck = '',
       errorStore = [], noOfRequirement_Group = 0;
-
+    const weightage = $('.weightage');
     const pageHeading = document.getElementById('page-heading').innerHTML;
     for (var i = 1; i < 11; i++) {
       let rootEl = document.getElementById('fc_question_' + i);
@@ -280,6 +280,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 : 'You must enter valid weightage';
               fieldCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msg, /\w+/, !condWeight);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
+            } else if (rootEl.querySelector('.weightage').value === '0') {
+              fieldCheck = [weightage[i].id, 'The value cannot be less than 1%'];
+              errorStore.push(fieldCheck);
+              ccsZaddErrorMessage(weightage[i], 'The value cannot be less than 1%');
             }
           }
         }
