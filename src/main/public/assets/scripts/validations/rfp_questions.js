@@ -263,30 +263,30 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
           if (rootEl.querySelector('.order_1')) {
             let element = rootEl.querySelector('.order_1');
-            const condOrd1 = countWords(rootEl.querySelector('.order_1')?.value) > 50;
+            const condOrd1 = countWords(rootEl.querySelector('.order_1')?.value) > 500;
             if (rootEl.querySelector('.order_1').value == '' || condOrd1) {
               const msg = rootEl.querySelector('.order_1').value
-                ? 'Entry is limited to 50 words'
+                ? 'Entry is limited to 500 words'
                 : 'Enter your question';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msg, /\w+/, !condOrd1);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
           }
           if (rootEl.querySelector('.order_2')) {
-            const condOrd2 = countWords(rootEl.querySelector('.order_2')?.value) > 50;
+            const condOrd2 = countWords(rootEl.querySelector('.order_2')?.value) > 5000;
             if (rootEl.querySelector('.order_2').value == '' || !condOrd2) {
               const msg = rootEl.querySelector('.order_2').value
-                ? 'Entry is limited to 50 words'
+                ? 'Entry is limited to 5000 words'
                 : 'Add more details about this question';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_2', msg, /\w+/, !condOrd2);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
           }
           if (rootEl.querySelector('.order_3')) {
-            const condOrd3 = countWords(rootEl.querySelector('.order_3')?.value) > 50;
+            const condOrd3 = countWords(rootEl.querySelector('.order_3')?.value) > 5000;
             if (rootEl.querySelector('.order_3').value == '' || condOrd3) {
               const msg = rootEl.querySelector('.order_3').value
-                ? 'Entry is limited to 50 words'
+                ? 'Entry is limited to 5000 words'
                 : 'Describe the type of answers you need from suppliers';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_3', msg, /\w+/, !condOrd3);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
