@@ -84,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ele.addEventListener('keyup', (event) => {
         let maxLength = event.target.maxLength;
         let count = maxLength - event.target.value.length;
-
         if (count <= maxLength) {
           $("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
         } else {
