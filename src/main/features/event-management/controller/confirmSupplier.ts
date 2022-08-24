@@ -1,7 +1,7 @@
 import * as express from 'express'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import * as localContent from '../../../resources/content/event-management/event-management.json'
-import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance'
+import { GetLotSuppliers } from '../../shared/supplierService';
 import { SupplierDetails,SupplierAddress } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
@@ -12,21 +12,17 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
   const { SESSION_ID } = req.cookies;
   let { projectId, eventId, projectName} = req.session;
   const { supplierid } = req.query;
-  const agreement_id = req.session?.agreement_id;
-  const lotId = req.session?.lotId;
-  //LOCAL VERIABLE agreement_id, lotId
   let status: string;
-
-  //#region supplier information
-  const baseurl_Supplier = `/agreements/${agreement_id}/lots/${lotId}/suppliers`
-  let supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier)).data;
-
+  
   try {
 
     res.locals.agreement_header = req.session.agreement_header;
     let showallDownload = false;
     let supplierDetailsList: SupplierDetails[] = [];
     let supplierDetails = {} as SupplierDetails;
+
+    let supplierDataList = [];
+    supplierDataList = await GetLotSuppliers(req);
 
     //Supplier of interest
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
