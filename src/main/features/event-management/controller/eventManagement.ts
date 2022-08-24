@@ -69,9 +69,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           end_date = element?.activeEvent?.tenderPeriod?.endDate
         }
       });
-
-      let supplierDataList = [];
-      supplierDataList = await GetLotSuppliers(req);
       //#endregion
 
       const baseurl = `/tenders/projects/${projectId}/events`
@@ -152,6 +149,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         //Supplier score
         const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
         const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
+
+        let supplierDataList = [];
+        supplierDataList = await GetLotSuppliers(req);
+
         for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
           let id = supplierdata.data.responders[i]?.supplier?.id;
           let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)?.[0]?.score
