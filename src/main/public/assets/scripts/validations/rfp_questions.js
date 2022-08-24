@@ -6,8 +6,27 @@ document.addEventListener('DOMContentLoaded', () => {
       el.style.display = 'none'
       // document.getElementsByClassName('character-count').style.display='none';
     });
-
   }
+
+  //#region Character count validation
+  if (!pageHeading.includes("Enter your project requirements")) {
+    [].forEach.call(document.querySelectorAll('.order_1'), function (el) {
+      el.maxLength = '500'
+      let count = 500 - el.value.length;
+      $("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+    });
+    [].forEach.call(document.querySelectorAll('.order_2'), function (el) {
+      el.maxLength = '5000'
+      let count = 5000 - el.value.length;
+      $("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+    });
+    [].forEach.call(document.querySelectorAll('.order_3'), function (el) {
+      el.maxLength = '5000'
+      let count = 5000 - el.value.length;
+      $("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+    });
+  }
+  //#endregion
   const ccsZCountRfpQuestions = (event) => {
     event.preventDefault();
     const inputId = event.srcElement.id;
@@ -63,13 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let index = 0; index < allTextBox.length; index++) {
       let ele = allTextBox[index];
       ele.addEventListener('keyup', (event) => {
-        let count = 5000 - event.target.value.length;
-        event.target.value
-        // if (count !== 5000) {
-        var errorElement = ccsZcreateCcsErrorMsg(event.target.id, `You have" ${event.target.value.length} characters remaining`);
+        let maxLength = event.target.maxLength;
+        let count = maxLength - event.target.value.length;
 
-        $("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${event.target.value.length} characters remaining`);
-        //}
+        if (count <= maxLength) {
+          $("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+        } else {
+          $("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+          event.preventDefault();
+        }
       });
     }
     //    this_box.addEventListener('input', ccsZCountRfpQuestions);
@@ -253,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
           if (rootEl.querySelector('.order_2')) {
-            const condOrd2 = countWords(rootEl.querySelector('.order_2')?.value) > 150;
+            const condOrd2 = countWords(rootEl.querySelector('.order_2')?.value) > 50;
             if (rootEl.querySelector('.order_2').value == '' || !condOrd2) {
               const msg = rootEl.querySelector('.order_2').value
                 ? 'Entry is limited to 50 words'
@@ -263,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
           if (rootEl.querySelector('.order_3')) {
-            const condOrd3 = countWords(rootEl.querySelector('.order_3')?.value) > 500;
+            const condOrd3 = countWords(rootEl.querySelector('.order_3')?.value) > 50;
             if (rootEl.querySelector('.order_3').value == '' || condOrd3) {
               const msg = rootEl.querySelector('.order_3').value
                 ? 'Entry is limited to 50 words'
