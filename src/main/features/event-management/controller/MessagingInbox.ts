@@ -34,7 +34,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
         if (receivedMessages != undefined) {
             receivedMessages.sort((a, b) => (a.OCDS.date < b.OCDS.date) ? 1 : -1)
             for (let i = 0; i < receivedMessages.length; i++) {
-                receivedMessages[i].OCDS.date = (moment(receivedMessages[i].OCDS.date,'YYYY-MM-DD, hh:mm a')).format('DD/MM/YYYY hh:mm')
+                receivedMessages[i].OCDS.date = (moment(receivedMessages[i].OCDS.date,'YYYY-MM-DD, hh:mm a')).format('DD/MM/YYYY hh:mm a')
             }
         }
         var suppliernameforreplymessage='';
