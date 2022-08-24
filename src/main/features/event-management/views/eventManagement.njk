@@ -478,10 +478,13 @@
       {% endif %}
       {% endif %}
 
-     {% if status.toUpperCase() !== 'EVALUATED'%}
+     <div>
+     <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
+     </div>
+     {#{% if status.toUpperCase() !== 'EVALUATED'%}
       <div>
      <a class="govuk-link" href="/dashboard">Return to your dashboard</a> 
      </div>
-     {% endif %}
+     {% endif %}#}
      
 {% endblock %}
