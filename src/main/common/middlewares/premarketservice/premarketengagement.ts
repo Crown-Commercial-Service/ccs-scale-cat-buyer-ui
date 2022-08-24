@@ -15,6 +15,32 @@ const logger = Logger.getLogger('PreMarketEngagementMiddleware');
  */
 export class PreMarketEngagementMiddleware {
   static PutPremarket = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if(req.session.fromStepsToContinue!=null){
+      try{
+      const termbaseURL = `tenders/projects/${req.session.projectId}/events/${req.session.eventId}/termination`;
+            const _termbody = {
+                    "terminationType": "cancelled"       
+              };
+              const termresponse = await TenderApi.Instance(req.cookies.SESSION_ID).put(termbaseURL, _termbody);
+                  }catch(err){}
+      let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
+    let body = {
+      "name": "Further Competition Event",
+      "eventType": "FCA"
+    }
+    try{
+    const { data } = await TenderApi.Instance(req.cookies.SESSION_ID).post(baseUrl, body);
+    
+    if(data != null && data !=undefined)
+    {
+      req.session['eventId'] = data.id;
+      req.session.procurements[0]['eventId'] = data.id;
+      req.session.procurements[0]['eventType'] = data.eventType;
+      req.session.procurements[0]['started'] = false;
+    }
+  }catch(error){}
+    req.session.fromStepsToContinue=null
+    }
     const { eventId, projectId, procurements } = req.session;
     const isAlreadyStarted = procurements.some(
       (proc: any) => proc.eventId === eventId && proc.procurementID === projectId && proc.started,
