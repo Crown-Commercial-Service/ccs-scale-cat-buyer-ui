@@ -42,10 +42,10 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
         showallDownload = true;
       }
       if (id == supplierid) {
-
-        supplierDetails.supplierName = supplierdata.data.responders[i].supplier?.name;
-        supplierDetails.responseState = supplierdata.data.responders[i]?.responseState;
-        supplierDetails.responseDate = supplierdata.data.responders[i]?.responseDate;
+       
+        supplierDetails.supplierName =  supplierdata.data.responders[i].supplier != undefined && supplierdata.data.responders[i].supplier != null ? supplierdata.data.responders[i].supplier?.name : null;
+        supplierDetails.responseState = supplierdata.data.responders[i].responseState != undefined && supplierdata.data.responders[i].responseState != null ? supplierdata.data.responders[i].responseState : null;
+        supplierDetails.responseDate = supplierdata.data.responders[i].responseDate != undefined && supplierdata.data.responders[i].responseDate != null ? supplierdata.data.responders[i].responseDate : null;
         supplierDetails.score = (score != undefined) ? score : 0;
 
         supplierDetails.supplierId = id;
