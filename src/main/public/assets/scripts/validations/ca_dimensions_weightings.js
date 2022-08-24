@@ -16,7 +16,7 @@ const updateTotal = dimensions => {
     var element = document.getElementById($(this).attr('id'));
     var min=Number(element.min);
     var max=Number(element.max);
-    if (!isNaN($(this).val()) && Number($(this).val())>=min && Number($(this).val())<=max && !$(this).val.includes('.')) total = total + Number($(this).val());
+    if (!isNaN($(this).val()) && Number($(this).val())>=min && Number($(this).val())<=max && !$(this).val().includes('.')) total = total + Number($(this).val());
   });
   $('#totalPercentage').text(total);
 };

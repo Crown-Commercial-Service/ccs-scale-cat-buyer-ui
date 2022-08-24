@@ -6,8 +6,27 @@ document.addEventListener('DOMContentLoaded', () => {
       el.style.display = 'none'
       // document.getElementsByClassName('character-count').style.display='none';
     });
-
   }
+
+  //#region Character count validation
+  if (!pageHeading.includes("Enter your project requirements")) {
+    [].forEach.call(document.querySelectorAll('.order_1'), function (el) {
+      el.maxLength = '500'
+      let count = 500 - el.value.length;
+      $("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+    });
+    [].forEach.call(document.querySelectorAll('.order_2'), function (el) {
+      el.maxLength = '5000'
+      let count = 5000 - el.value.length;
+      $("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+    });
+    [].forEach.call(document.querySelectorAll('.order_3'), function (el) {
+      el.maxLength = '5000'
+      let count = 5000 - el.value.length;
+      $("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+    });
+  }
+  //#endregion
   const ccsZCountRfpQuestions = (event) => {
     event.preventDefault();
     const inputId = event.srcElement.id;
@@ -63,13 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let index = 0; index < allTextBox.length; index++) {
       let ele = allTextBox[index];
       ele.addEventListener('keyup', (event) => {
-        let count = 5000 - event.target.value.length;
-        event.target.value
-        // if (count !== 5000) {
-        var errorElement = ccsZcreateCcsErrorMsg(event.target.id, `You have" ${event.target.value.length} characters remaining`);
-
-        $("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${event.target.value.length} characters remaining`);
-        //}
+        let maxLength = event.target.maxLength;
+        let count = maxLength - event.target.value.length;
+        if (count <= maxLength) {
+          $("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+        } else {
+          $("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+          event.preventDefault();
+        }
       });
     }
     //    this_box.addEventListener('input', ccsZCountRfpQuestions);
@@ -243,30 +263,30 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
           if (rootEl.querySelector('.order_1')) {
             let element = rootEl.querySelector('.order_1');
-            const condOrd1 = countWords(rootEl.querySelector('.order_1')?.value) > 50;
+            const condOrd1 = countWords(rootEl.querySelector('.order_1')?.value) > 500;
             if (rootEl.querySelector('.order_1').value == '' || condOrd1) {
               const msg = rootEl.querySelector('.order_1').value
-                ? 'Entry is limited to 50 words'
+                ? 'Entry is limited to 500 words'
                 : 'Enter your question';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msg, /\w+/, !condOrd1);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
           }
           if (rootEl.querySelector('.order_2')) {
-            const condOrd2 = countWords(rootEl.querySelector('.order_2')?.value) > 150;
+            const condOrd2 = countWords(rootEl.querySelector('.order_2')?.value) > 5000;
             if (rootEl.querySelector('.order_2').value == '' || !condOrd2) {
               const msg = rootEl.querySelector('.order_2').value
-                ? 'Entry is limited to 50 words'
+                ? 'Entry is limited to 5000 words'
                 : 'Add more details about this question';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_2', msg, /\w+/, !condOrd2);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
           }
           if (rootEl.querySelector('.order_3')) {
-            const condOrd3 = countWords(rootEl.querySelector('.order_3')?.value) > 500;
+            const condOrd3 = countWords(rootEl.querySelector('.order_3')?.value) > 5000;
             if (rootEl.querySelector('.order_3').value == '' || condOrd3) {
               const msg = rootEl.querySelector('.order_3').value
-                ? 'Entry is limited to 50 words'
+                ? 'Entry is limited to 5000 words'
                 : 'Describe the type of answers you need from suppliers';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_3', msg, /\w+/, !condOrd3);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
