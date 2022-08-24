@@ -1,6 +1,6 @@
 import { LoggTracer } from '@common/logtracer/tracer';
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder';
-import { AgreementAPI } from '@common/util/fetch/agreementservice/agreementsApiInstance';
+import { GetLotSuppliers } from '../../shared/supplierService';
 import * as express from 'express'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 //import * as eventManagementData from '../../../resources/content/event-management/event-management.json'
@@ -11,9 +11,6 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
   const { SESSION_ID } = req.cookies;
   const { projectId, eventId, projectName } = req.session
   const { supplierId, doctempateId } = req.query;
-
-  const agreement_id = req.session?.agreement_id;
-  const lotId = req.session?.lotId;
 
   try {
     //Awards/templates
@@ -47,9 +44,9 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       //Supplier of interest
       const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
       const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
-      //agreements/{agreement-id}/lots/{lot-id}/suppliers
-      const baseurl_Supplier = `agreements/${agreement_id}/lots/${lotId}/suppliers`
-      const supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier))?.data;
+
+      let supplierDataList = [];
+      supplierDataList = await GetLotSuppliers(req);
 
 
       let documentTemplateDataList: DocumentTemplate[] = [];
@@ -122,7 +119,7 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
 
 
       for (let index = 0; index < supplierDetailsList.length; index++) {
-        let contactEmail = supplierDataList?.filter((a: any) => a.organization.id == supplierDetailsList[index].supplierId)[0]?.organization?.contactPoint.email;
+        let contactEmail = supplierDataList?.filter((a: any) => a.organization.id == supplierDetailsList[index].supplierId)?.[0]?.organization?.contactPoint?.email;
 
         if (contactEmail != undefined && contactEmail != null)
           supplierDetailsList[index].supplierContactEmail = contactEmail;

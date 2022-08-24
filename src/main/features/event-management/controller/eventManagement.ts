@@ -11,7 +11,7 @@ import * as localData from '../../../resources/content/event-management/local-SO
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { SupplierAddress, SupplierDetails } from '../model/supplierDetailsModel';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
-import { AgreementAPI } from './../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import { GetLotSuppliers } from '../../shared/supplierService';
 import moment from 'moment-business-days';
 
 /**
@@ -70,9 +70,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         }
       });
 
-      //#region supplier information
-      const baseurl_Supplier = `/agreements/${agreementId_session}/lots/${lotid}/suppliers`
-      let supplierDataList = await (await AgreementAPI.Instance.get(baseurl_Supplier)).data;
+      let supplierDataList = [];
+      supplierDataList = await GetLotSuppliers(req);
       //#endregion
 
       const baseurl = `/tenders/projects/${projectId}/events`
