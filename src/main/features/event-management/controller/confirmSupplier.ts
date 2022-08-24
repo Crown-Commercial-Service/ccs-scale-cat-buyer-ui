@@ -2,7 +2,7 @@ import * as express from 'express'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import * as localContent from '../../../resources/content/event-management/event-management.json'
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance'
-import { SupplierDetails } from '../model/supplierDetailsModel';
+import { SupplierDetails,SupplierAddress } from '../model/supplierDetailsModel';
 import { LoggTracer } from '../../../common/logtracer/tracer'
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder'
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
@@ -36,16 +36,16 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL)
 
     for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
-      let id = supplierdata.data.responders[i].supplier.id;
+      let id = supplierdata.data.responders[i]?.supplier?.id;
       let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
-      if (supplierdata.data.responders[i].responseState == 'Submitted') {
+      if (supplierdata.data.responders[i]?.responseState == 'Submitted') {
         showallDownload = true;
       }
       if (id == supplierid) {
 
-        supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
-        supplierDetails.responseState = supplierdata.data.responders[i].responseState;
-        supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
+        supplierDetails.supplierName = supplierdata.data.responders[i].supplier?.name;
+        supplierDetails.responseState = supplierdata.data.responders[i]?.responseState;
+        supplierDetails.responseDate = supplierdata.data.responders[i]?.responseDate;
         supplierDetails.score = (score != undefined) ? score : 0;
 
         supplierDetails.supplierId = id;
@@ -58,10 +58,11 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
     if (supplierid != undefined && supplierid != null) {
       var supplierFiltedData = supplierDataList?.filter((a: any) => a.organization.id == supplierid)[0]?.organization;
       if (supplierFiltedData != null && supplierFiltedData != undefined) {
-        supplierDetails.supplierAddress = supplierFiltedData.address
-      supplierDetails.supplierContactName = supplierFiltedData.contactPoint?.name;
-      supplierDetails.supplierContactEmail = supplierFiltedData.contactPoint.email;
-      supplierDetails.supplierWebsite = supplierFiltedData.contactPoint.url;
+      supplierDetails.supplierAddress = {} as SupplierAddress;
+      supplierDetails.supplierAddress = supplierFiltedData.address != undefined && supplierFiltedData.address != null ? supplierFiltedData?.address : null
+      supplierDetails.supplierContactName = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null && supplierFiltedData.contactPoint?.name !=undefined && supplierFiltedData.contactPoint?.name !=null ? supplierFiltedData.contactPoint?.name : null;
+      supplierDetails.supplierContactEmail = supplierFiltedData.contactPoint != undefined? supplierFiltedData.contactPoint?.email : null;
+      supplierDetails.supplierWebsite = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null ? supplierFiltedData.contactPoint?.url : null;
       }
     }
 
