@@ -15,33 +15,48 @@ const logger = Logger.getLogger('PreMarketEngagementMiddleware');
  */
 export class PreMarketEngagementMiddleware {
   static PutPremarket = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const { eventId, projectId, procurements } = req.session;
+    
     if(req.session.fromStepsToContinue!=null){
-      try{
-      const termbaseURL = `tenders/projects/${req.session.projectId}/events/${req.session.eventId}/termination`;
+      
+      const termbaseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
             const _termbody = {
                     "terminationType": "cancelled"       
               };
               const termresponse = await TenderApi.Instance(req.cookies.SESSION_ID).put(termbaseURL, _termbody);
-                  }catch(err){}
-      let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
-    let body = {
-      "name": "Further Competition Event",
-      "eventType": "FCA"
-    }
-    try{
-    const { data } = await TenderApi.Instance(req.cookies.SESSION_ID).post(baseUrl, body);
+                 
+      let newEventbaseUrl = `/tenders/projects/${projectId}/events`;
+    let newEventBody = {
+      "nonOCDS": {
+        "eventType": req.session.selectedRoute
+      }  
+    } 
     
-    if(data != null && data !=undefined)
+    const { newEventSavedata } = await TenderApi.Instance(req.cookies.SESSION_ID).post(newEventbaseUrl, newEventBody);
+    
+    if(newEventSavedata != null && newEventSavedata !=undefined)
     {
-      req.session['eventId'] = data.id;
-      req.session.procurements[0]['eventId'] = data.id;
-      req.session.procurements[0]['eventType'] = data.eventType;
-      req.session.procurements[0]['started'] = false;
+      req.session['eventId'] = newEventSavedata.id;
+      req.session.procurements[0]['eventId'] = newEventSavedata.id;
+      req.session.procurements[0]['eventType'] = newEventSavedata.eventType;
+      req.session.procurements[0]['started'] = true;
+      req.session.currentEvent = newEventSavedata;
+      
+    const currentProcNum = procurements.findIndex(
+      (proc: any) => proc.eventId === newEventSavedata.id && proc.procurementID === projectId,
+    );
+    req.session.procurements[currentProcNum].started = true;
     }
-  }catch(error){}
+    
+    // const neweventTypeURL = `tenders/projects/${projectId}/events`;
+    // req.session.currentEvent = data;
+    // const { newdata } = await TenderApi.Instance(req.cookies.SESSION_ID).post(neweventTypeURL, _body);
     req.session.fromStepsToContinue=null
+    next();
+  
+    
     }
-    const { eventId, projectId, procurements } = req.session;
+    else{
     const isAlreadyStarted = procurements.some(
       (proc: any) => proc.eventId === eventId && proc.procurementID === projectId && proc.started,
     );
@@ -91,5 +106,6 @@ export class PreMarketEngagementMiddleware {
     } else {
       next();
     }
+  }
   };
 }
