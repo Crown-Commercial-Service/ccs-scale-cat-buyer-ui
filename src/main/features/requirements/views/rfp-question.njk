@@ -80,7 +80,7 @@ text: bcTitleText
             </h1>
         </div>
     </div>
-    <div class="govuk-grid-row">
+<div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             {% include "includes/project_header.njk" %}
 
@@ -228,15 +228,20 @@ text: bcTitleText
                 </div>
 
           </form>
-    </div>
-</div>
-        
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-third">
+        </div>
+        {%if rfpTitle !='Enter your project requirements'%}
+        </div>
+        {%endif%}
+        {%if rfpTitle =='How long the project will last'%}
+        </div>
+        {%endif%}
+        <div class="govuk-grid-column-one-third">
                 {{ CCSReleatedContent(releatedContent) }}
             </div>
-        </div>
- </div>      
+        
+</div>
+        
+    
     
 </main>
 {% endblock %}

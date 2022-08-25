@@ -330,17 +330,17 @@
                       ' Tenth'
                     ] %}
                     {% for i in range(1, 11) -%}
-
+                      <label class='govuk-visually-hidden rfi_term_label_cm' id='rfi_term_label_{{i}}' aria-live='assertive'></label>
                       {% call CCSFieldset({
                       legend: {
-                        html: NumberWord[i]+" term or acronym<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon delextremeright' title='remove'> remove </a>",
+                        html: NumberWord[i]+" term or acronym  <a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon delextremeright' role='button' aria-pressed='true'  title='remove'> remove </a> ",
                         classes: "govuk-fieldset__legend--m",
                         isPageHeading: false
                       },
                       classes: "term_acronym_fieldset acronym_"+i,
                       id:"term_acronym_fieldset"
                     }) %}
-
+                     
                       {{ CCSInput({
                         label: {
                           text: "Write the term or acronym"
