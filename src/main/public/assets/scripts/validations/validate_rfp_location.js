@@ -26,17 +26,15 @@ const ccsZvalidateChangeRfpLocation = (event) => {
   event.preventDefault();
   let inputs;
   let container = document.getElementById('rfp_location');
-  // let noApplicable = document.getElementById('required_locations-6');
+  let noApplicable = document.getElementById('required_locations-6');
   inputs = container.getElementsByTagName('input');
   for (let index = 0; index < inputs.length; ++index) {
-    if (event.target.id !== inputs[index].id)
-      inputs[index].checked = false;
-    // if (event.target.id !== 'required_locations-6')
-    //   noApplicable.checked = false;
-    // if (event.target.id === 'required_locations-6') {
-    //   if (inputs[index].id !== 'required_locations-6')
-    //     inputs[index].checked = false;
-    // }
+    if (event.target.id !== 'required_locations-6')
+      noApplicable.checked = false;
+    if (event.target.id === 'required_locations-6') {
+      if (inputs[index].id !== 'required_locations-6')
+        inputs[index].checked = false;
+    }
   }
 
 }
