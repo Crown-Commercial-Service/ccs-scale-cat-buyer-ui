@@ -229,13 +229,16 @@ text: bcTitleText
 
           </form>
         </div>
+        {%if rfpTitle !='Enter your project requirements'%}
         </div>
+        {%endif%}
         {%if rfpTitle =='How long the project will last'%}
         </div>
         {%endif%}
         <div class="govuk-grid-column-one-third">
                 {{ CCSReleatedContent(releatedContent) }}
             </div>
+        
 </div>
         
     
