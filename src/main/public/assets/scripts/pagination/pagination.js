@@ -123,18 +123,15 @@ $(document).ready(function () {
     var rowsTotal = $('#sent-message tbody tr').length;
        var numPages = rowsTotal / rowsShown;
        var pageNum = 0;
-       if(rowsTotal<=rowsShown)
-       {
-         rowsShown=rowsTotal;
-       }
+       if(rowsTotal>=20){
     $('#historical-nav2').append('<a id="sent-message-previous" rel="0" class="ccs-pagination__link" href="#">Previous<span class="govuk-visually-hidden"> set of pages</span></a>');
-       for (i = 0; i < numPages; i++) {
+       for (i = 1; i < numPages; i++) {
          pageNum = i + 1;
          $('#historical-nav2').append('<a class="ccs-pagination__link" id="pageId_'+i+'" href="#" rel="' + i + '">' + pageNum + '</a> ');
        }
-       if(rowsTotal!=rowsShown){
+       
         $('#historical-nav2').append('<a id="sent-message-next" rel="1" class="ccs-pagination__link" href="#">Next<span class="govuk-visually-hidden"> set of pages</span></a>');
-        }
+        
     $('#sent-message-previous').addClass("govuk-visually-hidden");
        $('#historical-nav2').append('<span class="govuk-visually-hidden" id="total_page_active_event">' + pageNum + '</span> ');
        
@@ -177,16 +174,19 @@ $(document).ready(function () {
            css('display', 'table-row').animate({ opacity: 1 }, 300);
          return false;
        });
+       }
      });
-
+    
   // Received message
   $(document).ready(function () {
+    
     // Active event 
  $('#received-message').after('<div class="ccs-pagination" id="nav-received"><p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination nav-receivedigation</p></div>');
     var rowsShown = 20;
  var rowsTotal = $('#received-message tbody tr').length;
     var numPages = rowsTotal / rowsShown;
     var pageNum = 0;
+    if(rowsTotal>=20){
  $('#nav-received').append('<a id="received-message-previous" rel="0" class="ccs-pagination__link" href="#">Previous<span class="govuk-visually-hidden"> set of pages</span></a>');
     for (i = 0; i < numPages; i++) {
       pageNum = i + 1;
@@ -212,7 +212,7 @@ $(document).ready(function () {
       } else {
  $('#received-message-previous').addClass("govuk-visually-hidden");
       }
-  
+    
       if (parseInt($('#total_page_active_event')[0].innerHTML) - parseInt(currPage) != 1) {
  $("#received-message-next").attr('rel', parseInt(currPage)+1);
  $('#received-message-next').removeClass("govuk-visually-hidden");
@@ -235,5 +235,6 @@ $(document).ready(function () {
         css('display', 'table-row').animate({ opacity: 1 }, 300);
       return false;
     });
+  }
   });
   // Messaging pagination end
