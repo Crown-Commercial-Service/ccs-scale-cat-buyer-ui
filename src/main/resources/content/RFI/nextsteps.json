@@ -9,31 +9,31 @@
             "href": "/event/management?id="
           },
           {
-            "text": "Close/archive"
+            "text": "Close this event"
           }
     ],
 
-    "title": "Next steps",
-    "subtitle": "[ Instructions for this page ]",
+    "title": "Close this event",
+    "subtitle": "",
     "form": [
         {
           "id": "rfi_next_steps",
-          "question": "What would you like to do next?",
+          "question": "Choose your next steps",
           "radioOptions": {
             "name": "rfi_next_steps",
             "items": [
               {
-                "value": "I want to close this event, and move to the next stage of the project",
-                "text": "I want to close this event, and move to the next stage of the project",
+                "value": "Close this event and start a new event",
+                "text": "Close this event and start a new event",
                 "hint": {
-                  "text": "[Description for this route]"
+                  "text": "This event will not close until you start a new one"
                 }
               },
               {
-                "value": "I also want to close the whole project",
-                "text": "I also want to close the whole project",
+                "value": "Close this event and the whole project",
+                "text": "Close this event and the whole project",
                 "hint": {
-                  "text": "[Description for this route]"
+                  "text": "You will still be able to view this event but you will not be able to reopen it."
                 }
               }
             ]
@@ -41,7 +41,7 @@
         }
       ],
       "backJump": {
-        "title": "Return to Event Management",
+        "title": "Return to Your project",
         "href": "/event/management?id="
       }
 

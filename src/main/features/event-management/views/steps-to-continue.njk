@@ -7,7 +7,7 @@
   {{ CCSBreadcrumbs({
         items:[
     {
-      "text": "Dashboard",
+      "text": "Your dashboard",
       "href": "/dashboard"
     },
     {
@@ -15,11 +15,11 @@
       "href": "/event/management?id="+ eventId
     },
     {
-        "text":"Next Steps",
+        "text":"Close this project",
         "href":"/rfi/nextsteps"
     },
     {
-        "text":"What event would you like to start after closing the current one"
+        "text":"Choose your next event"
         
     }
   ]
@@ -52,13 +52,14 @@
    {#  </div>
     </div> #}
 
-<p><strong>[Please choose your next step]</strong></p>
+<br><br>
 <form method="post" action="/steps-to-continue" > 
 {{ csrfProtection(csrf) }}
+<p><strong>Choose your next event</strong></p>
  {% for form in data.form %}
                         <fieldset id="{{form.id}}">
                         
-                            <br><br>
+                            
                             {% set formOptions = form.radioOptions.items %}
                             {% set form_Options_Altered = [] %}
 

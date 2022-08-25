@@ -5,6 +5,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import { LoggTracer } from '../../logtracer/tracer';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('PreMarketEngagementMiddleware');
+import * as journyData from '../../../features/procurement/model/tasklist.json';
 
 /**
  *
@@ -16,8 +17,63 @@ const logger = Logger.getLogger('PreMarketEngagementMiddleware');
 export class PreMarketEngagementMiddleware {
   static PutPremarket = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const { eventId, projectId, procurements } = req.session;
+    const { SESSION_ID } = req.cookies;
     
     if(req.session.fromStepsToContinue!=null){
+      if(req.session.eventManagement_eventType=='FC' || req.session.eventManagement_eventType=='DA')
+    { 
+      const eventTypeURL = `tenders/projects/${projectId}/events`;
+      let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
+      let FCAEvents, DAAEvents;
+      if(req.session.eventManagement_eventType == 'FC'){
+        FCAEvents = getEventType.data.filter(x => x.eventType == 'FCA')
+        if(FCAEvents.length > 0)
+        { 
+        for(let i=0;i<FCAEvents.length;i++){
+         try {
+          const baseURL = `tenders/projects/${projectId}/events/${FCAEvents[i].id}/termination`;
+          const body = {
+                  "terminationType": "cancelled"       
+            };
+            const response = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
+         } catch (error) {
+          LoggTracer.errorLogger(
+            res,
+            error,
+            `${req.headers.host}${req.originalUrl}`,
+            null,
+            TokenDecoder.decoder(SESSION_ID),
+            'FCA event failed to closed',
+            true,
+          );
+         } 
+        }
+      }
+    }
+      else{
+        DAAEvents=getEventType.data.filter(x => x.eventType =='DAA')
+        if(DAAEvents.length>0)
+        for(let i=0;i<DAAEvents.length;i++){
+          try {
+          const baseURL = `tenders/projects/${projectId}/events/${DAAEvents[i].id}/termination`;
+          const body = {
+                  "terminationType": "cancelled"       
+            };
+            const response = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
+         } catch (error) {
+          LoggTracer.errorLogger(
+            res,
+            error,
+            `${req.headers.host}${req.originalUrl}`,
+            null,
+            TokenDecoder.decoder(SESSION_ID),
+            'DAA event failed to close',
+            true,
+          );
+         } 
+        }
+      }
+    }
       
       const termbaseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
             const _termbody = {
@@ -32,20 +88,50 @@ export class PreMarketEngagementMiddleware {
       }  
     } 
     
-    const { newEventSavedata } = await TenderApi.Instance(req.cookies.SESSION_ID).post(newEventbaseUrl, newEventBody);
+    const  newEventSavedata = await TenderApi.Instance(req.cookies.SESSION_ID).post(newEventbaseUrl, newEventBody);
     
     if(newEventSavedata != null && newEventSavedata !=undefined)
     {
-      req.session['eventId'] = newEventSavedata.id;
-      req.session.procurements[0]['eventId'] = newEventSavedata.id;
-      req.session.procurements[0]['eventType'] = newEventSavedata.eventType;
+      req.session['eventId'] = newEventSavedata.data.id;
+      req.session.procurements[0]['eventId'] = newEventSavedata.data.id;
+      req.session.procurements[0]['eventType'] = newEventSavedata.data.eventType;
       req.session.procurements[0]['started'] = true;
       req.session.currentEvent = newEventSavedata;
       
-    const currentProcNum = procurements.findIndex(
-      (proc: any) => proc.eventId === newEventSavedata.id && proc.procurementID === projectId,
+    const currentProcNumber = procurements.findIndex(
+      (proc: any) => proc.eventId === newEventSavedata.data.id && proc.procurementID === projectId,
     );
-    req.session.procurements[currentProcNum].started = true;
+    const proc: Procurement = {
+      procurementID: projectId,
+      eventId: newEventSavedata.data.id,
+      defaultName: {
+        name: procurements[currentProcNumber].defaultName.name,
+        components: {
+          agreementId: procurements[currentProcNumber].defaultName.components.agreementId,
+          lotId: procurements[currentProcNumber].defaultName.components.lotId,
+          org: "COGNIZANT BUSINESS SERVICES UK LIMITED",
+        }
+      },
+      started: true
+    }
+    procurements.push(proc)
+    req.session.procurements=procurements
+    // req.session.procurements[currentProcNum].started = true;
+
+    try {
+      const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
+      req.session['journey_status'] = JourneyStatus?.data;
+    } catch (journeyError) {
+      const _journeybody = {
+        'journey-id': req.session.eventId,
+        states: journyData.states,
+      };
+      if (journeyError.response.status == 404) {
+        await TenderApi.Instance(SESSION_ID).post(`journeys`, _journeybody);
+        const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
+        req.session['journey_status'] = JourneyStatus?.data;
+      }
+    }
     }
     
     // const neweventTypeURL = `tenders/projects/${projectId}/events`;
@@ -61,7 +147,7 @@ export class PreMarketEngagementMiddleware {
       (proc: any) => proc.eventId === eventId && proc.procurementID === projectId && proc.started,
     );
     if (projectId && eventId && !isAlreadyStarted) {
-      const { SESSION_ID, state } = req.cookies;
+      const { state } = req.cookies;
       const baseURL = `tenders/projects/${projectId}/events/${eventId}`;
       const eventTypeURL = `tenders/projects/${projectId}/events`;
       const eventTypesURL = `tenders/projects/${projectId}/event-types`;

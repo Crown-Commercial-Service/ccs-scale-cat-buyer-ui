@@ -85,13 +85,21 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
             endDate: endDate,
           };
           await TenderApi.Instance(SESSION_ID).put(publishUrl, _bodyData);
-          
-          let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
-          let body = {
-            "name": "Further Competition Event",
-            "eventType": "FCA"
+
+          let BaseURL=`/tenders/projects/${req.session.projectId}/events`;
+          let body_ ={
+            "nonOCDS": {
+              "eventType": "FC"
+            }  
           }
-          const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
+          const  {data}  = await TenderApi.Instance(SESSION_ID).post(BaseURL, body_);
+
+          // let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
+          // let body = {
+          //   "name": "Further Competition Event",
+          //   "eventType": "FCA"
+          // }
+          // const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
           if(data != null && data !=undefined)
           {
             req.session['eventId'] =data.id;
@@ -176,7 +184,8 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           }
           const supplierBody = {
             "suppliers": supplierDataToSave,
-            "justification": ''
+            "justification": '',
+            "overwriteSuppliers": true
           };
           const Supplier_BASEURL = `/tenders/projects/${projectId}/events/${data.id}/suppliers`;
 

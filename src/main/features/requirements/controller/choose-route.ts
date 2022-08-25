@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as express from 'express';
 import * as chooseRouteData from '../../../resources/content/requirements/chooseRoute.json';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
@@ -106,13 +107,14 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
     const { fc_route_to_market } = filtered_body_content_removed_fc_key;
 
     if (fc_route_to_market) {
+      
       switch (fc_route_to_market) {
         case '1-stage':
           // eslint-disable-next-line no-case-declarations
           const redirect_address = REQUIREMENT_PATHS.RFP_TYPE;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('One stage further competition selected');
-          req.session.selectedRoute = 'FC';
+          req.session.selectedRoute = 'FC';//await createNewEvent(req,res)
           res.redirect(redirect_address);
           break;
 
@@ -121,7 +123,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           const newAddress = REQUIREMENT_PATHS.GET_LEARN;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('two stage further competition selected');
-          req.session.selectedRoute = 'FCA';
+          req.session.selectedRoute = 'FCA';//await createNewEvent(req,res)
           res.redirect(newAddress);
           break;
 
@@ -130,7 +132,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           const nextAddress = REQUIREMENT_PATHS.DA_GET_LEARN_START;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('DA selected');
-          req.session.selectedRoute = 'DAA';
+          req.session.selectedRoute = 'DAA';//await createNewEvent(req,res)
           res.redirect(nextAddress);
           break;
 
@@ -153,3 +155,133 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
     );
   }
 };
+
+async function createNewEvent(req: express.Request, res: express.Response){
+  try{
+  const { eventId, projectId, procurements } = req.session;
+    const { SESSION_ID } = req.cookies;
+  if(req.session.fromStepsToContinue!=null){
+    if(req.session.eventManagement_eventType=='FC' || req.session.eventManagement_eventType=='DA')
+  { 
+    const eventTypeURL = `tenders/projects/${projectId}/events`;
+    let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
+    let FCAEvents, DAAEvents;
+    if(req.session.eventManagement_eventType == 'FC'){
+      FCAEvents = getEventType.data.filter(x => x.eventType == 'FCA')
+      if(FCAEvents.length > 0)
+      { 
+      for(let i=0;i<FCAEvents.length;i++){
+       try {
+        const baseURL = `tenders/projects/${projectId}/events/${FCAEvents[i].id}/termination`;
+        const body = {
+                "terminationType": "cancelled"       
+          };
+          await TenderApi.Instance(SESSION_ID).put(baseURL, body);
+       } catch (error) {
+        LoggTracer.errorLogger(
+          res,
+          error,
+          `${req.headers.host}${req.originalUrl}`,
+          null,
+          TokenDecoder.decoder(SESSION_ID),
+          'FCA event failed to closed',
+          true,
+        );
+       } 
+      }
+    }
+  }
+    else{
+      DAAEvents=getEventType.data.filter(x => x.eventType =='DAA')
+      if(DAAEvents.length>0)
+      for(let i=0;i<DAAEvents.length;i++){
+        try {
+        const baseURL = `tenders/projects/${projectId}/events/${DAAEvents[i].id}/termination`;
+        const body = {
+                "terminationType": "cancelled"       
+          };
+          const response = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
+       } catch (error) {
+        LoggTracer.errorLogger(
+          res,
+          error,
+          `${req.headers.host}${req.originalUrl}`,
+          null,
+          TokenDecoder.decoder(SESSION_ID),
+          'DAA event failed to close',
+          true,
+        );
+       } 
+      }
+    }
+  }
+    
+    const termbaseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
+          const _termbody = {
+                  "terminationType": "cancelled"       
+            };
+            const termresponse = await TenderApi.Instance(req.cookies.SESSION_ID).put(termbaseURL, _termbody);
+               
+    let newEventbaseUrl = `/tenders/projects/${projectId}/events`;
+  let newEventBody = {
+    "nonOCDS": {
+      "eventType": req.session.selectedRoute
+    }  
+  } 
+  
+  const  newEventSavedata  = await TenderApi.Instance(req.cookies.SESSION_ID).post(newEventbaseUrl, newEventBody);
+  
+  if(newEventSavedata != null && newEventSavedata !=undefined)
+  {
+    req.session['eventId'] = newEventSavedata.data.id;
+    req.session.procurements[0]['eventId'] = newEventSavedata.data.id;
+    req.session.procurements[0]['eventType'] = newEventSavedata.data.eventType;
+    req.session.procurements[0]['started'] = true;
+    req.session.currentEvent = newEventSavedata.data;
+    
+  const currentProcNumber = procurements.findIndex(
+    (proc: any) => proc.eventId === newEventSavedata.data.id && proc.procurementID === projectId,
+  );
+  const proc: Procurement = {
+    procurementID: projectId,
+    eventId: newEventSavedata.data.id,
+    defaultName: {
+      name: procurements[currentProcNumber].defaultName.name,
+      components: {
+        agreementId: procurements[currentProcNumber].defaultName.components.agreementId,
+        lotId: procurements[currentProcNumber].defaultName.components.lotId,
+        org: "COGNIZANT BUSINESS SERVICES UK LIMITED",
+      }
+    },
+    started: true
+  }
+  procurements.push(proc)
+  req.session.procurements=procurements
+  // req.session.procurements[currentProcNum].started = true;
+
+  try {
+    const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
+    req.session['journey_status'] = JourneyStatus?.data;
+  } catch (journeyError) {
+    const _journeybody = {
+      'journey-id': req.session.eventId,
+      states: journyData.states,
+    };
+    if (journeyError.response.status == 404) {
+      await TenderApi.Instance(SESSION_ID).post(`journeys`, _journeybody);
+      const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`journeys/${req.session.eventId}/steps`);
+      req.session['journey_status'] = JourneyStatus?.data;
+    }
+  }
+  }
+  
+  // const neweventTypeURL = `tenders/projects/${projectId}/events`;
+  // req.session.currentEvent = data;
+  // const { newdata } = await TenderApi.Instance(req.cookies.SESSION_ID).post(neweventTypeURL, _body);
+  req.session.fromStepsToContinue=null
+  
+
+  
+  }
+}catch(error){}
+}

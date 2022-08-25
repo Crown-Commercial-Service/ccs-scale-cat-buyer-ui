@@ -145,6 +145,15 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
         case '[2-stage FC]':          
               res.redirect('/projects/create-or-choose');
               break;
+        case '[EoI]':
+          res.redirect('/projects/create-or-choose');
+           break;
+         case '[FCA]':
+          res.redirect('/projects/create-or-choose');
+          break;
+         case '[DAA]':
+          res.redirect('/projects/create-or-choose');
+          break;
         default:
           res.redirect('/404');
       }
