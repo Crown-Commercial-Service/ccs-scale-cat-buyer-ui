@@ -169,8 +169,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           if (supplierFiltedData != undefined && supplierFiltedData != null) {
             supplierDetailsObj.supplierAddress = {} as SupplierAddress;
             supplierDetailsObj.supplierAddress = supplierFiltedData.address != undefined && supplierFiltedData.address != null ? supplierFiltedData?.address : null
-            supplierDetailsObj.supplierContactName = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null && supplierFiltedData.contactPoint?.name !=undefined && supplierFiltedData.contactPoint?.name !=null ? supplierFiltedData.contactPoint?.name : null;
-            supplierDetailsObj.supplierContactEmail = supplierFiltedData.contactPoint != undefined? supplierFiltedData.contactPoint?.email : null;
+            supplierDetailsObj.supplierContactName = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null && supplierFiltedData.contactPoint?.name != undefined && supplierFiltedData.contactPoint?.name != null ? supplierFiltedData.contactPoint?.name : null;
+            supplierDetailsObj.supplierContactEmail = supplierFiltedData.contactPoint != undefined ? supplierFiltedData.contactPoint?.email : null;
             supplierDetailsObj.supplierWebsite = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null ? supplierFiltedData.contactPoint?.url : null;
             supplierDetailsObj.supplierId = id;
             supplierDetailsObj.supplierState = "Unsuccessfull";
@@ -221,12 +221,12 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
             const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
             const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
-           
+
             let testingDate = {
-              bunting:true,
-              date:'2022-09-05',
-              notes:'Testing day',
-              title:'Testing Year’s Day'
+              bunting: true,
+              date: '2022-09-05',
+              notes: 'Testing day',
+              title: 'Testing Year’s Day'
             }
             listOfHolidayDate.push(testingDate);
 
@@ -234,9 +234,11 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
 
             let todayDate = new Date();
-            let standStillDate= new Date(supplierDetails.supplierStandStillDate);
+            let standStillDate = new Date(currentDate);
 
-            if (moment(todayDate).format('DD/MM/YYYY HH:mm') > moment(standStillDate).format('DD/MM/YYYY HH:mm')) {
+            let d1 = todayDate.getFullYear() + "-" + todayDate.getMonth() + "-" + todayDate.getDate()
+            let d2 = standStillDate.getFullYear() + "-" + standStillDate.getMonth() + "-" + standStillDate.getDate()
+            if (new Date(d1) > new Date(d2)) {
               supplierDetails.standStillFlag = false;
             }
 
