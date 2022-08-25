@@ -221,12 +221,22 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
             const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
             const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
+           
+            let testingDate = {
+              bunting:true,
+              date:'2022-09-05',
+              notes:'Testing day',
+              title:'Testing Year’s Day'
+            }
+            listOfHolidayDate.push(testingDate);
 
             currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
             supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
 
             let todayDate = new Date();
-            if (todayDate > new Date(supplierDetails.supplierStandStillDate)) {
+            let standStillDate= new Date(supplierDetails.supplierStandStillDate);
+
+            if (moment(todayDate).format('DD/MM/YYYY HH:mm') > moment(standStillDate).format('DD/MM/YYYY HH:mm')) {
               supplierDetails.standStillFlag = false;
             }
 
