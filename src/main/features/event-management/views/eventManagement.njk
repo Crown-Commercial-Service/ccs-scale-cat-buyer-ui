@@ -441,12 +441,14 @@
         Evaluate suppliers</h2>
         <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project.</p>
         <p>You can only enter  your final evaluation score for each supplier in this serevice. You will need to complete your full evaluation offline.</p>
+      {% if(showallDownload) %}
       <div class="govuk-button-group">
         {{ CCSButton({
         text: "Start Supplier Evaluation",
         href:"/eventmanagement?StateChange=1"
         }) }}
         </div>
+        {% endif %}
         <h2 class="govuk-heading-m">
         <span class="proc-task-list__section-number">5.</span>
         Evaluate Suppliers</h2>
@@ -465,13 +467,15 @@
         <p>You need to evaluate suppliers using the criteria and questions you set before you published your procurement project.</p>
         <p>You can only enter  your final evaluation score for each supplier in this serevice. You will need to complete your full evaluation offline.</p>
       
-      {% if supplierDetailsDataList !=null and supplierDetailsDataList.length >0 %}
+      {% if supplierDetailsDataList !=null  and (supplierDetailsDataList.length >0 and showallDownload) %}
+            
       <div class="govuk-button-group">
         {{ CCSButton({
         text: "Start Supplier Evaluation",
         href:"/eventStateChange?StateChange=1"
         }) }}
         </div>
+        
         {% endif %}
       </div>
       {% endif %}
