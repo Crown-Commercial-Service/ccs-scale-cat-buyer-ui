@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-
+        $(".rfi_term_label_cm").text("");
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
           //document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //target_fieldset.classList.add("ccs-dynaform-hidden");
         document.getElementsByClassName('term_acronym_fieldset acronym_'+target)[0].classList.add("ccs-dynaform-hidden");
-
+        $("#rfi_term_label_"+target).text("Cleared Successfully");   
         document.getElementById('rfi_term_' + target).value = "";
         document.getElementById('rfi_term_definition_' + target).value = "";
 
