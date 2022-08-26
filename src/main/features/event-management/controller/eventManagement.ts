@@ -208,6 +208,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
               }
             });
             supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY HH:mm');
+            
+            supplierDetails.supplierAwardedDate = supplierDetails.supplierAwardedDate.replace(/\s+/g, ' - ');
           }
 
           if (status.toLowerCase() == "pre-award") {
@@ -233,6 +235,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
             supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
 
+            supplierDetails.supplierStandStillDate = supplierDetails.supplierStandStillDate.replace(/\s+/g, ' - ');
+
             let todayDate = new Date();
             let standStillDate = new Date(currentDate);
 
@@ -241,7 +245,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             if (new Date(d1) > new Date(d2)) {
               supplierDetails.standStillFlag = false;
             }
-
           }
         }
         //to get signed awarded contrct end date
