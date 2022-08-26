@@ -202,8 +202,10 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
               };
               const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
               if (response.status == 200) {
-                const { procurements } = req.session;
-                if(procurements.length==1)
+                const getEventsURL = `tenders/projects/${req.session.projectId}/events`;
+                let getEvents = await TenderApi.Instance(SESSION_ID).get(getEventsURL);             
+               
+                if(getEvents.data.length==1)
                 {
                   let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
                   let body = {

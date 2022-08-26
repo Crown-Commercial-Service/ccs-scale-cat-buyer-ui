@@ -381,14 +381,6 @@
 
      {% if eventType == 'RFI' %}
       {% if status.toLowerCase() != 'published' %}
- {% if status.toUpperCase() == 'EVALUATED' %}  
-  <div class="govuk-grid-row ccs-page-section">
-      <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">
-        <span class="proc-task-list__section-number">5.</span>
-        Evaluate Suppliers</h2>
-        <p>You have completed your supplier evaluation.</p>
-      {% else %}
       <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
@@ -400,11 +392,9 @@
         <li>copy all the details of this project to procure from your own platform</li>
         <li>start another pre-market enagagement project</li>
         </ul>
-         <a class="govuk-link" href="/event/management?closeProj=true">Complete this RfI event and return to procurement overview</a> 
-     
+         <a class="govuk-link" href="/event/management?closeProj=true">Complete this RfI event and return to procurement overview</a>      
     </div>
     </div>
-    {% endif %}
     {% endif %}  
   {% endif %}
   {% if eventType == 'EOI' %}

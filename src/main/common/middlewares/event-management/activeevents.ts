@@ -62,6 +62,7 @@ export class EventEngagementMiddleware {
     req.session['isTcUploaded'] = false;
     req.session['isPricingUploaded'] = false;
     req.session['UIDate'] = null;
+    req.session['isRFIComplete']=false;
     // Retrive active events
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)
     retrieveProjetActiveEventsPromise

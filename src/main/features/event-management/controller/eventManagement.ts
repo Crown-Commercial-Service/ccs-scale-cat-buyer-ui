@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as express from 'express'
 import { ParsedQs } from 'qs'
 import { LoggTracer } from '@common/logtracer/tracer'
@@ -33,22 +34,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
   let tempDate: any
   try {
 
-    // Code Block start - Replace this block with API endpoint
-    if (closeProj != undefined) {
-      let baseCloseUrl = `/tenders/projects/${req.session.projectId}/events`;
-      let closebody = {
-        "name": "Further Competition Event",
-        "eventType": "FCA"
-      }
-      const { data: closedata } = await TenderApi.Instance(SESSION_ID).post(baseCloseUrl, closebody);
-      if (closedata != null && closedata != undefined) {
-        req.session['eventId'] = closedata.id;
-        req.session.procurements[0]['eventId'] = closedata.id;
-        req.session.procurements[0]['eventType'] = closedata.eventType;
-        req.session.procurements[0]['started'] = false;
-      }
-
-      //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventIId}/steps/54`, 'Completed');
+    if (closeProj != undefined) {     
+      req.session['isRFIComplete']=true;     
       res.redirect('/projects/create-or-choose');
     }
     else {
