@@ -86,7 +86,7 @@
                      {% for subItems in tr.category %}
                      <div class="govuk-!-margin-top-5">
                      <h2 class="govuk-heading-m">{{subItems.ParentName}}</h2>
-                     <p> [DDAT Family description] </p>
+                     <div> {{subItems.description | safe}} </div>
                     
                       <div class="govuk-!-margin-top-9">
                       <p> Add quantity for the roles </p>
