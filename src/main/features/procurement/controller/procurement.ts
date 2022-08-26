@@ -22,7 +22,7 @@ const logger = Logger.getLogger('procurement');
  *
  */
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
-  const { lotId, agreementLotName, agreementName } = req.session;
+  const { lotId, agreementLotName, agreementName,stepstocontinueDAA,showPreMarket,showWritePublish } = req.session;
 
   const { SESSION_ID } = req.cookies;
   const agreementId_session = req.session.agreement_id;
@@ -135,7 +135,11 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     const releatedContent = req.session.releatedContent;
 
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
-    appendData = { ...appendData, agreementName, releatedContent };
+    let ScrollTo=""
+    if(showPreMarket==true){ScrollTo="Premarket"}
+    if(showWritePublish==true){ScrollTo="WritePublish"}
+    
+    appendData = { ...appendData, agreementName, releatedContent,stepstocontinueDAA,ScrollTo };
     if (agreementName.toLowerCase() === "G-Cloud 12".toLowerCase()) {
       res.render('procurement-g-cloud', appendData);
     } else

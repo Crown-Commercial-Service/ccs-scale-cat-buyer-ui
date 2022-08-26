@@ -8,6 +8,8 @@ import { REQUIREMENT_PATHS } from '../model/requirementConstants';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('FC / CA CHOOSE ROUTE');
+import * as journyData from '../../procurement/model/tasklist.json';
+import { Procurement } from 'main/features/procurement/model/project';
 
 /**
  *
@@ -24,12 +26,14 @@ export const REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: expres
   const agreementId_session = req.session.agreement_id;
   const agreementLotName = req.session.agreementLotName;
   const { isJaggaerError } = req.session;
+  const {stepstocontinueDAA}=req.session
   req.session['isJaggaerError'] = false;
   const updatedOptions = await updateRadioButtonOptions(
     chooseRouteData,
     agreementId_session,
     lotid,
     req.session?.types,
+    stepstocontinueDAA
   );
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   const appendData = { data: updatedOptions, releatedContent, error: isJaggaerError };
@@ -41,12 +45,14 @@ function updateRadioButtonOptions(
   agreementId: string,
   lotId: string,
   types: string[],
+  stepstocontinueDAA:any
 ): object {
   let updatedOptions = chooseRouteOptions;
   const updateLotId = lotId.length > 1 ? lotId :  lotId;
+  
   switch (agreementId) {
     case 'RM6263':
-      if (updateLotId == 'Lot 1') {
+      if (updateLotId == 'Lot 1' && stepstocontinueDAA!=true) {
         for (let i = 0; i < chooseRouteData.form.radioOptions.items.length; i++) {
           if (types.find(element => element == 'FC')) {
             if (updatedOptions.form.radioOptions.items[i].value === '2-stage') {
@@ -114,7 +120,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           const redirect_address = REQUIREMENT_PATHS.RFP_TYPE;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('One stage further competition selected');
-          req.session.selectedRoute = 'FC';//await createNewEvent(req,res)
+          req.session.selectedRoute = 'FC';await createNewEvent(req,res)
           res.redirect(redirect_address);
           break;
 
@@ -123,7 +129,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           const newAddress = REQUIREMENT_PATHS.GET_LEARN;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('two stage further competition selected');
-          req.session.selectedRoute = 'FCA';//await createNewEvent(req,res)
+          req.session.selectedRoute = 'FCA';await createNewEvent(req,res)
           res.redirect(newAddress);
           break;
 
@@ -132,7 +138,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
           const nextAddress = REQUIREMENT_PATHS.DA_GET_LEARN_START;
           req.session.caSelectedRoute = fc_route_to_market;
           logger.info('DA selected');
-          req.session.selectedRoute = 'DAA';//await createNewEvent(req,res)
+          req.session.selectedRoute = 'DAA';await createNewEvent(req,res)
           res.redirect(nextAddress);
           break;
 
@@ -156,7 +162,7 @@ export const POST_REQUIREMENT_CHOOSE_ROUTE = async (req: express.Request, res: e
   }
 };
 
-async function createNewEvent(req: express.Request, res: express.Response){
+export async function createNewEvent(req: express.Request, res: express.Response){
   try{
   const { eventId, projectId, procurements } = req.session;
     const { SESSION_ID } = req.cookies;
@@ -237,11 +243,26 @@ async function createNewEvent(req: express.Request, res: express.Response){
     req.session.procurements[0]['eventId'] = newEventSavedata.data.id;
     req.session.procurements[0]['eventType'] = newEventSavedata.data.eventType;
     req.session.procurements[0]['started'] = true;
+    // if(newEventSavedata.data.eventType=='DAA'){}
     req.session.currentEvent = newEventSavedata.data;
     
   const currentProcNumber = procurements.findIndex(
     (proc: any) => proc.eventId === newEventSavedata.data.id && proc.procurementID === projectId,
   );
+  if(newEventSavedata.data.eventType=='DAA'){  const proc:Procurement={
+    procurementID: projectId,
+    eventId: newEventSavedata.data.id,
+    defaultName: {
+      name: "RM6263-Lot 2-COGNIZANT BUSINESS SERVICES UK LIMITED",
+      components: {
+        agreementId: "RM6263",
+        lotId: "Lot 2",
+        org: "COGNIZANT BUSINESS SERVICES UK LIMITED",
+      },
+    },
+  }
+  procurements.push(proc)
+}else{
   const proc: Procurement = {
     procurementID: projectId,
     eventId: newEventSavedata.data.id,
@@ -255,7 +276,7 @@ async function createNewEvent(req: express.Request, res: express.Response){
     },
     started: true
   }
-  procurements.push(proc)
+  procurements.push(proc)}
   req.session.procurements=procurements
   // req.session.procurements[currentProcNum].started = true;
 
@@ -279,9 +300,11 @@ async function createNewEvent(req: express.Request, res: express.Response){
   // req.session.currentEvent = data;
   // const { newdata } = await TenderApi.Instance(req.cookies.SESSION_ID).post(neweventTypeURL, _body);
   req.session.fromStepsToContinue=null
-  
-
+  req.session.stepstocontinueDAA=null
+  req.session.showPreMarket=null
+  req.session.showWritePublish=null 
   
   }
-}catch(error){}
+}
+catch(error){}
 }
