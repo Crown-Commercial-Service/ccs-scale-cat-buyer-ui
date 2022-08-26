@@ -224,14 +224,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             const bankHoliDayData = await (await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl)).data;
             const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
 
-            let testingDate = {
-              bunting: true,
-              date: '2022-09-05',
-              notes: 'Testing day',
-              title: 'Testing Year’s Day'
-            }
-            listOfHolidayDate.push(testingDate);
-
             currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
             supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
 
