@@ -57,7 +57,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.agreementLotName = agreementLotName;
     const agreementName = req.session.agreementName;
 
-    if(req.session['isRFIComplete'])
+    if(req.session['isRFIComplete'] || req.session.fromStepsToContinue!=null)
     {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/2`, 'Optional');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/3`, 'Not started');
