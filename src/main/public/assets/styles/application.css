@@ -8532,6 +8532,7 @@ p + .govuk-heading-s,
 .custom_tag {
   background-color: #eeefef;
   color: #383f43;
+  text-transform: capitalize;
 }
 
 .border-none{

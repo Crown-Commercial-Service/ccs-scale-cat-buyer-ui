@@ -304,21 +304,21 @@
                                             </td>
                                             {%endif%}
                                             {% if status.toUpperCase() === 'EVALUATED' %}
-                                              <td class="govuk-text-align govuk-!-text-align-centre">
+                                              <td class="govuk-text-align govuk-!-text-align-left">
                                                 <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
                                               </td>
-                                              <td class="govuk-text-align govuk-!-text-align-centre">
+                                              <td class="govuk-text-align govuk-!-text-align-left">
                                                 <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
                                               </td>
 
-                                              <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                                              <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
                                                 <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>
                                               </th>
-                                              <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                                              <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
                                                 <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
                                               </th>
 
-                                              <td class="govuk-text-align govuk-!-text-align-centre">
+                                              <td class="govuk-text-align govuk-!-text-align-left">
                                                 <a class="govuk-link" href="/confirm-supplier?supplierid={{supplier.supplierId}}">Select</a>
                                               </td>
                                               {%endif%}
@@ -342,12 +342,12 @@
                                               {% endif %}
                                             </td>
                                             {% if status.toUpperCase() === 'EVALUATED' %}
-                                              <td class="govuk-text-align govuk-!-text-align-centre border-none"></td>
+                                              <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
 
-                                              <th scope="row" class="govuk-table__cell govuk-!-text-align-centre border-none"></th>
-                                              <th scope="row" class="govuk-table__cell govuk-!-text-align-centre"></th>
+                                              <th scope="row" class="govuk-table__cell govuk-!-text-align-left border-none"></th>
+                                              <th scope="row" class="govuk-table__cell govuk-!-text-align-left border-none"></th>
 
-                                              <td class="govuk-text-align govuk-!-text-align-centre border-none"></td>
+                                              <td class="govuk-text-align govuk-!-text-align-left border-none"></td>
                                             {% endif %}
                                           </tr>
                                         </tbody>

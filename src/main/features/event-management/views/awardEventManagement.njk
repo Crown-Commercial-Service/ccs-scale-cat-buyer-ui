@@ -40,7 +40,7 @@ or messages in your inbox.See supplier's answer to your published project.</p>
         <div>
           <h2 class="govuk-heading-m">
           {{projectName}}
-            <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong>
+            <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | capitalize}}</strong>
           </h2>
           <p class="govuk-body">
             {% if(showCloseProject) and status.toLowerCase !== "complete" %}
@@ -172,12 +172,12 @@ or messages in your inbox.See supplier's answer to your published project.</p>
               <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                  <th scope="col" class="govuk-table__header">{{data.subsection4_eval_table_th_1}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_2}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_3}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_4}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">{{data.subsection4_eval_table_th_5}}</th>
-                  <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Award</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">{{data.subsection4_eval_table_th_1}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">{{data.subsection4_eval_table_th_2}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">{{data.subsection4_eval_table_th_3}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">{{data.subsection4_eval_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">{{data.subsection4_eval_table_th_5}}</th>
+                  <th scope="col" class="govuk-table__header govuk-!-text-align-left">Award</th>
                 </tr>
               </thead>
               {% for supplier in supplierDetailsDataList %}
@@ -185,45 +185,65 @@ or messages in your inbox.See supplier's answer to your published project.</p>
               <tbody class="govuk-table__body">
                 
                   <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__cell">
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
                     
                       <p class="govuk-body govuk-!-margin-bottom-0">
                         {{supplier.supplierName}}
                       </p>
                       
                     </th>
-                     <td class="govuk-text-align govuk-!-text-align-centre">
+                     <td class="govuk-text-align govuk-!-text-align-left">
                       <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
                     </td>
 
-                    <td class="govuk-text-align govuk-!-text-align-centre">
+                    <td class="govuk-text-align govuk-!-text-align-left">
                       <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=awardEventManagment">Review evaluation</a>
                     </td>
 
-                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.rank}}</p>  
                     </th>
-                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
                     </th>
 
                     
                     </th>
-                    <th scope="row" class="govuk-table__cell govuk-!-text-align-centre">
+                    <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.supplierState}}</p>
                     </th>
                   </tr>
               </tbody>
               {% endif %}
           {% endfor %}
+            {% if(showallDownload) %}   
+                        <tbody class="govuk-table__body">
+                          
+                            <tr class="govuk-table__row govuk-!-text-align-left">
+                              <th scope="row" class="govuk-table__cell border-none">
+                              </th>
+                              <td class="govuk-text-align govuk-!-text-align-left border-none">
+                              <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a> 
+                              </td>
+
+                              <td class="govuk-text-align govuk-!-text-align-left border-none">
+                              </td>
+
+                              <th scope="row" class="govuk-table__cell govuk-!-text-align-left border-none">
+                              </th>
+                              <th scope="row" class="govuk-table__cell govuk-!-text-align-left border-none">
+                              </th>
+
+                              
+                              </th>
+                              <th scope="row" class="govuk-table__cell govuk-!-text-align-left border-none">
+                              </th>
+                            </tr>
+                        </tbody>
+              {% endif %}
             </table>
             </div>
         </div>
-        {% if(showallDownload) %}
-         <p class="govuk-body govuk-!-text-align-centre">
-             <a href="/supplieranswerall?download_all=1" class="govuk-link ">Download all</a> 
-        </p>
-		 {% endif %}
       </div>
   </div>
     
