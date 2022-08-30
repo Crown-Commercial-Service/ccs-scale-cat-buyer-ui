@@ -8535,6 +8535,13 @@ p + .govuk-heading-s,
   text-transform: capitalize;
 }
 
+.event-status-tag
+{
+  float: right;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
 .border-none{
   border: none;
   border-bottom: none;
