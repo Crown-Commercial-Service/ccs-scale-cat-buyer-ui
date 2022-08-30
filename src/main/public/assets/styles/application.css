@@ -8527,6 +8527,19 @@ p + .govuk-heading-s,
   margin-bottom: 5px;
 }
 
+
+.app-task-list__tag,
+.custom_tag {
+  background-color: #eeefef;
+  color: #383f43;
+  text-transform: capitalize;
+}
+
+.border-none{
+  border: none;
+  border-bottom: none;
+}
+
 @media (min-width: 28.125em) {
   .app-task-list__tag,
   .app-task-list__task-completed {
