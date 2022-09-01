@@ -381,5 +381,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  $(".terms_acr_description_count").keyup(function(){
+    let maxlength = $(this).attr('maxlength');
+    let currentLength = this.value.length;
+    let tmpid = $(this).attr('id');
+    let id = tmpid.substring(20);
+    $(".term_accr_des_"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
+  });
 
 });

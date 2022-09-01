@@ -8542,6 +8542,12 @@ p + .govuk-heading-s,
   margin-top: 0;
 }
 
+.remaining_chrs_term{
+  position: relative;
+  bottom: 21px;
+  margin: auto;
+}
+
 .border-none{
   border: none;
   border-bottom: none;
