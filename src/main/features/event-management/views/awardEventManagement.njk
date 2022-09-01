@@ -120,7 +120,7 @@ or messages in your inbox.See supplier's answer to your published project.</p>
             <a class="govuk-link app-task-list__tag" href="{{data.subsection4_title2_2_task[1].line_1_link}}">{{data.subsection4_title2_2_task[1].line_1_text}}</a>
           </p>
           {% endif %}
-        {% if eventType == 'FC' %}
+        {% if (eventType == 'FC' or eventType == 'DA') %}
           <h2 class="govuk-heading-m">
             <span class="proc-task-list__section-number">2.</span>
             {{data.subsection4_title2_1}}
