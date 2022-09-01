@@ -243,7 +243,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         if (status.toLowerCase() == "complete") {
           const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
           const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
-          supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD MMMM YYYY');
+          supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY HH:mm');
         }
       }
 
