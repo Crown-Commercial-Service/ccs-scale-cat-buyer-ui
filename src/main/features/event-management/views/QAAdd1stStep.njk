@@ -22,7 +22,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Supplier Message",
+      "text": "Message",
       "href": "#"
     }
   ]
@@ -50,12 +50,37 @@
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {{data.title}}
+          <strong>{{data.title}}</strong>
         </h1>
-        <p class="govuk-body">
-          <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
-        </p>
-        {% include "includes/project_header.njk" %}
+        
+          <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong><br/><br/>
+        
+        <div class="project-overview">
+  Selected agreement: 
+   {%if agreement_header !=undefined and agreement_header !=null %}
+    {{ agreement_header['agreementName'] }}
+    {%endif%}
+    {% if(agreement_header !=undefined and agreement_header !=null 
+    and agreement_header.agreementLotName != undefined)%}, 
+    
+    {{ agreement_header['lotid'] }}: 
+    {{ agreement_header['agreementLotName'] }}  
+    {% endif %} <br/><br/>
+    
+  Agreement ID: 
+    
+    {%if(agreement_header !=undefined and   agreement_header !=null) %}
+    
+    {{ agreement_header['agreementId_session'] }}
+    
+    {%endif%}
+    
+    
+  
+   
+    
+  <p></p>
+</div>
       </div>
     </div>
 
@@ -82,28 +107,32 @@
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
-          <a href="/message/details?id={{message.OCDS.id}}">back</a></br></br></br>
+          <a href="/message/details?id={{message.OCDS.id}}">Back</a></br></br></br>
+          <div class="govuk-inset-text">
+          <p>You can choose between the following options:
+          <ul><li>add a new question and clarification</li><li>edit an existing question and clarification</li></ul></p></div></br>
           <h2 class="govuk-heading-m">Message from {{message.OCDS.author.name}}</h2>
-          <p class="govuk-body ">Classification: {{message.nonOCDS.classification}}</p>
-          <p class="govuk-body ">Date: {{message.OCDS.date | dateddmmyyyy}}</p>
+          <p class="govuk-body ">Classification: <strong>{{message.nonOCDS.classification}}</strong></p>
+          <p class="govuk-body ">Date: <strong>{{message.OCDS.date | dateddmmyyyy}}</strong></p>
            </br>
           <label class="govuk-label"></label></br>
           <p class="govuk-body ">{{data.Subject}}: {{message.OCDS.title}}</p>
           <p class="govuk-body ">{{data.Message}}: {{message.OCDS.description }}</p>
-        
+          <br/><br/><br/>
          <div class="govuk-button-group">
            <a class="govuk-button govuk-button--secondary" href="/event/qa-add-2nd-step?id={{message.OCDS.id}}">{{data.btnText}}</a>
         </div>
-
+<br/><br/><br/>
             <h2 class="govuk-heading-m">Clarification question and your answers</h2>
             <p>You can edit this document to add clarification to any questions raised by suppliers.</p>
-            <p>All suppliers in the list will be notified of any edits you make</p>
-            <p>There are {{ QAs.length }} clarifications for this agreement</p>
-
+            <p>All suppliers in the list will be notified of any edits you make.<br/>
+            There are <strong>{{ QAs.length }}</strong> clarifications for this agreement</p>
+            
+          {% set qnumber = 1 %}
           {% for QA in QAs %}
-        <div class="govuk-grid-row ccs-page-section" id="-add-qa-data-table">
+        <div class="govuk-grid-row ccs-page-section-btop" id="-add-qa-data-table">
             <div class="govuk-grid-column-two-thirds">
-                <h3>{{QA.question}}  </h3>
+                <h3>{{qnumber}}. {{QA.question}}  </h3>
                 <p class="govuk-body">
                     {{QA.answer}}
                 </p>
@@ -115,10 +144,11 @@
                      {% endif %}
                 </p>
             </div>
-            <div class="govuk-grid-column-one-third">
+            <div class="govuk-grid-column-one-third"><br/>
             <a href="/event/qa-edit?qaid={{QA.id}}&id={{message.OCDS.id}}">Edit</a>
           </div>
         </div>
+        {% set qnumber = qnumber+1 %}
         {% endfor %}
         
 
@@ -127,7 +157,7 @@
       </div>
     </form>
     <p class="govuk-body">
-      <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+      <a href="{{data.backlink}}" class="govuk-link govuk-link--no-visited-state">Return to inbox</a>
     </p>
   </main>
 {% endblock %}
