@@ -9,5 +9,9 @@ import * as express from 'express'
  * @param res 
  */
 export const Receiver = (req : express.Request, res : express.Response)=> {
+  const {url}=req;
+  if (url.indexOf("?projectId")==1) {
+    
+  }
   res.redirect('/dashboard');
 }
