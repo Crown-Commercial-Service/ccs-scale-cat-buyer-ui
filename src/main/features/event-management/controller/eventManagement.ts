@@ -251,7 +251,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
       const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
       let showCloseProject = true;
-      if (status.toLowerCase() == "awarded") {
+      if (status.toLowerCase() == "awarded" || status.toLowerCase() =="complete") {
         showCloseProject = false;
       }
       const procurementId = req.session['projectId'];
