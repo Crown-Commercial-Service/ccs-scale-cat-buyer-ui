@@ -9499,6 +9499,10 @@ p,
   margin-bottom: 2rem;
 }
 
+.ccs-page-section-btop{
+  border-top: 1px solid #b1b4b6;
+}
+
 .ccs-page-section.my-team .govuk-table__header {
   width: 45%;
 }
