@@ -24,7 +24,7 @@ export const AUTH: express.Handler = async (
 ) => {
   const { SESSION_ID, state } = req.cookies;
   let requestURL = req.url;
-  ///event/qa-supplier
+  /// requestURL.indexOf('event/qa-supplier') replace with requestURL.indexOf('event/management')
   if (SESSION_ID === undefined && requestURL !=null && requestURL.indexOf('event/management')==1 ) {
     req.session["supplier_qa_url"]=requestURL;
     res.redirect('/oauth/login');

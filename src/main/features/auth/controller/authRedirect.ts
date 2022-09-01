@@ -27,6 +27,7 @@ export class AuthorizationRedirect {
         const { supplier_qa_url } = req.session;
         const redirectral_url = `${this.Auth_var.AuthBaseURL}/security/authorize?response_type=code&scope=openid%20profile%20FirstName%20LastName%20%20email%20%20offline_access&client_id=${this.Auth_var.ClientID}&redirect_uri=${this.Auth_var.CallBackURL}`;
         //return supplier_qa_url ==undefined? redirectral_url: redirectral_url +'&'+supplier_qa_url.split('?')[1].split('&')[0] +'&'+supplier_qa_url.split('?')[1].split('&')[1];
-        return redirectral_url + '?projectId=122222&eId=333333';
+        //NOTE UNCOMMENT ABOVE LINE AND CONNENT BELOW LINE
+        return redirectral_url + '?projectId=122222-eId=333333';
     }
 };
