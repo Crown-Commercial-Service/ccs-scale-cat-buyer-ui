@@ -79,11 +79,11 @@
                         </span>
                         {% if (Tasks.status == "Cannot start yet") 
                           or(Tasks.status == "Not started") %}
-                          <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
+                          <strong class="govuk-tag govuk-tag--grey event-status-tag">{{Tasks.status}}</strong>
                         {% elif Tasks.status == "Done" %}
-                          <strong class="govuk-tag govuk-tag--green app-task-list__tag">{{Tasks.status}}</strong>
+                          <strong class="govuk-tag govuk-tag--green event-status-tag">{{Tasks.status}}</strong>
                         {% else %}
-                          <strong class="govuk-tag app-task-list__tag" >
+                          <strong class="govuk-tag event-status-tag" >
                             {{Tasks.status}}</strong>
                         {% endif %}
 
@@ -105,9 +105,11 @@
                                 </span>
                                 {% if (eventSubTask.status == "Cannot start yet") 
                                   or(eventSubTask.status == "Not started") %}
-                                  <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{eventSubTask.status}}</strong>
+                                  <strong class="govuk-tag govuk-tag--grey event-status-tag">{{eventSubTask.status}}</strong>
+                                  {% elif (eventSubTask.status == "Done") %}
+                                  <strong class="govuk-tag govuk-tag--green event-status-tag">{{eventSubTask.status}}</strong>                                  
                                 {% else %}
-                                  <strong class="govuk-tag app-task-list__tag" >{{eventSubTask.status}}</strong>
+                                  <strong class="govuk-tag event-status-tag" >{{eventSubTask.status}}</strong>
                                 {% endif %}
                               </li>
                             {% endfor %}

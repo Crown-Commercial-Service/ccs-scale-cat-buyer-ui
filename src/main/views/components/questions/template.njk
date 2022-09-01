@@ -1229,7 +1229,7 @@
                         {% set countryArray = [] %}
                         {% set countryList = [] %}
                         {% for countries in requirement.nonOCDS.options %}
-                          {% if countries.value !== "No specific location, for example they can work remotely" and countries.value !== "Not Applicable" %}
+                          {% if countries.value !== "No specific location, for example they can work remotely" and countries.value !== "Not Applicable" and countries.value !== "Service design phases do not apply to your project" %}
                             {% set countryList = (countryList.push(countries.value),countryList)%}
                             {% set countryArray = (countryArray.push({value: countries.value, text: countries.value, checked: countries.selected}), countryArray) %}
                             {%else%}
