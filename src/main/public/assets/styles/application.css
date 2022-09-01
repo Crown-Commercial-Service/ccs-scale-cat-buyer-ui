@@ -8527,8 +8527,6 @@ p + .govuk-heading-s,
   margin-bottom: 5px;
 }
 
-<<<<<<< Updated upstream
-=======
 
 .app-task-list__tag,
 .custom_tag {
@@ -8555,7 +8553,6 @@ p + .govuk-heading-s,
   border-bottom: none;
 }
 
->>>>>>> Stashed changes
 @media (min-width: 28.125em) {
   .app-task-list__tag,
   .app-task-list__task-completed {
