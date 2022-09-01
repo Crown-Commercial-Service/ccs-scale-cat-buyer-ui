@@ -8527,6 +8527,35 @@ p + .govuk-heading-s,
   margin-bottom: 5px;
 }
 
+<<<<<<< Updated upstream
+=======
+
+.app-task-list__tag,
+.custom_tag {
+  background-color: #eeefef;
+  color: #383f43;
+  text-transform: capitalize;
+}
+
+.event-status-tag
+{
+  float: right;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.remaining_chrs_term{
+  position: relative;
+  bottom: 21px;
+  margin: auto;
+}
+
+.border-none{
+  border: none;
+  border-bottom: none;
+}
+
+>>>>>>> Stashed changes
 @media (min-width: 28.125em) {
   .app-task-list__tag,
   .app-task-list__task-completed {
