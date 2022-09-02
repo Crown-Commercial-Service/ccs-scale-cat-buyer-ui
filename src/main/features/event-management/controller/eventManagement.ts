@@ -621,7 +621,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
 
   try {
     if (supplierid != undefined) {
-      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
