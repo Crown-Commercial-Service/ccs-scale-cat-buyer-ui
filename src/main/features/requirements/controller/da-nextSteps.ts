@@ -84,11 +84,12 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           await TenderApi.Instance(SESSION_ID).put(publishUrl, _bodyData);
           
           let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
-          let body = {
-            "name": "Further Competition Event",
-            "eventType": "FCA"
+          let body_ ={
+            "nonOCDS": {
+              "eventType": "DA"
+            }  
           }
-          const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
+          const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body_);
           if(data != null && data !=undefined)
           {
             req.session['eventId'] =data.id;
@@ -96,6 +97,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
             //req.session.procurements.push({'eventId':data.id,'eventType':data.eventType});
             // req.session.procurements[0]['eventType'] = data.eventType;
             //req.session.procurements[0]['started'] = false;
+            req.session.currentEvent = data;
             const currentProcNumber = procurements.findIndex(
               (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,
             );
@@ -202,8 +204,10 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
               };
               const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
               if (response.status == 200) {
-                const { procurements } = req.session;
-                if(procurements.length==1)
+                const getEventsURL = `tenders/projects/${req.session.projectId}/events`;
+                let getEvents = await TenderApi.Instance(SESSION_ID).get(getEventsURL);             
+               
+                if(getEvents.data.length==1)
                 {
                   let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
                   let body = {

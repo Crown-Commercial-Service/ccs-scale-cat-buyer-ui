@@ -22,6 +22,7 @@
             </div>
             <br>
             <div class="govuk-inset-text">
+               <input type="hidden" id="scrollToButton" value="{{ScrollTo}}">
                <p class="govuk-body">{{line1}}</p>
                <p class="govuk-body">{{line2}}</p>
                
@@ -62,7 +63,7 @@
                         or((event.eventno === 3) and (loop.index0 === 2) and (('DAA' in types)or('DA' in types)))%}
                          
                            {% for subSection in subSections %}
-                             {% if lotId == "Lot 2" %}
+                             {% if lotId == "Lot 2" or stepstocontinueDAA==true %}
                               <p class="govuk-body">{{subSection | safe }}</p>
                               {% endif %}
                            {% endfor %}
