@@ -60,90 +60,108 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
    
     const  rfi_next_steps  =  req.body.rfi_next_steps_to_continue;
     //IF 2FC OR 2DA IS CLOSED THEN ITS PRECEEDING FCA OR DAA MUST BE CLOSED FROM COMPLETE STATE
-    if(req.session.eventManagement_eventType=='FC' || req.session.eventManagement_eventType=='DA')
-    { 
-      const eventTypeURL = `tenders/projects/${projectID}/events`;
-      let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
-      let FCAEvents, DAAEvents;
-      if(req.session.eventManagement_eventType == 'FC'){
-        FCAEvents = getEventType.data.filter(x => x.eventType == 'FCA')
-        if(FCAEvents.length > 0)
-        { 
-        for(let i=0;i<FCAEvents.length;i++){
-         try {
-          const baseURL = `tenders/projects/${projectID}/events/${FCAEvents[i].id}/termination`;
-          const body = {
-                  "terminationType": "cancelled"       
-            };
-            const response = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
-         } catch (error) {
-          LoggTracer.errorLogger(
-            res,
-            error,
-            `${req.headers.host}${req.originalUrl}`,
-            null,
-            TokenDecoder.decoder(SESSION_ID),
-            'FCA event failed to closed',
-            true,
-          );
-         } 
-        }
-      }
-    }
-      else{
-        DAAEvents=getEventType.data.filter(x => x.eventType =='DAA')
-        if(DAAEvents.length>0)
-        for(let i=0;i<DAAEvents.length;i++){
-          try {
-          const baseURL = `tenders/projects/${projectID}/events/${DAAEvents[i].id}/termination`;
-          const body = {
-                  "terminationType": "cancelled"       
-            };
-            const response = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
-         } catch (error) {
-          LoggTracer.errorLogger(
-            res,
-            error,
-            `${req.headers.host}${req.originalUrl}`,
-            null,
-            TokenDecoder.decoder(SESSION_ID),
-            'DAA event failed to close',
-            true,
-          );
-         } 
-        }
-      }
-    }
+    //if(req.session.eventManagement_eventType=='FC' || req.session.eventManagement_eventType=='DA')
+    // { 
+    //   const eventTypeURL = `tenders/projects/${projectID}/events`;
+    //   let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
+    //   let FCAEvents, DAAEvents;
+    //   if(req.session.eventManagement_eventType == 'FC'){
+    //     FCAEvents = getEventType.data.filter(x => x.eventType == 'FCA')
+    //     if(FCAEvents.length > 0)
+    //     { 
+    //     for(let i=0;i<FCAEvents.length;i++){
+    //      try {
+    //       const baseURL = `tenders/projects/${projectID}/events/${FCAEvents[i].id}/termination`;
+    //       const body = {
+    //               "terminationType": "cancelled"       
+    //         };
+    //         const response = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
+    //      } catch (error) {
+    //       LoggTracer.errorLogger(
+    //         res,
+    //         error,
+    //         `${req.headers.host}${req.originalUrl}`,
+    //         null,
+    //         TokenDecoder.decoder(SESSION_ID),
+    //         'FCA event failed to closed',
+    //         true,
+    //       );
+    //      } 
+    //     }
+    //   }
+    // }
+    //   else{
+    //     DAAEvents=getEventType.data.filter(x => x.eventType =='DAA')
+    //     if(DAAEvents.length>0)
+    //     for(let i=0;i<DAAEvents.length;i++){
+    //       try {
+    //       const baseURL = `tenders/projects/${projectID}/events/${DAAEvents[i].id}/termination`;
+    //       const body = {
+    //               "terminationType": "cancelled"       
+    //         };
+    //         const response = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
+    //      } catch (error) {
+    //       LoggTracer.errorLogger(
+    //         res,
+    //         error,
+    //         `${req.headers.host}${req.originalUrl}`,
+    //         null,
+    //         TokenDecoder.decoder(SESSION_ID),
+    //         'DAA event failed to close',
+    //         true,
+    //       );
+    //      } 
+    //     }
+    //   }
+    // }
     //CLOSING THE EXISITING EVENT AND CREATING A NEW EVENT IN THE SAME PROJECT
-    let baseUrl = `/tenders/projects/${projectID}/events`;
-    let body = {
-      "name": "Further Competition Event",
-      "eventType": "FCA"
-    }
-    const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
-    if(data != null && data !=undefined)
-    {
-      req.session['eventId'] = data.id;
-      req.session.procurements[0]['eventId'] = data.id;
-      req.session.procurements[0]['eventType'] = data.eventType;
-      req.session.procurements[0]['started'] = false;
-    }
+    // let baseUrl = `/tenders/projects/${projectID}/events`;
+    // let body = {
+    //   "name": "Further Competition Event",
+    //   "eventType": "FCA"
+    // }
+    // const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
+    // if(data != null && data !=undefined)
+    // {
+    //   req.session['eventId'] = data.id;
+    //   req.session.procurements[0]['eventId'] = data.id;
+    //   req.session.procurements[0]['eventType'] = data.eventType;
+    //   req.session.procurements[0]['started'] = false;
+    // }
+    req.session.fromStepsToContinue=true
 
     if (rfi_next_steps) {
       switch (rfi_next_steps) {
         case '[DA]':
+          req.session.showWritePublish=true
           res.redirect('/projects/create-or-choose');
           break;
 
         case '[Rfi]':
+          req.session.showPreMarket=true
          res.redirect('/projects/create-or-choose');
           break;
-        case '[1-stage FC]':      
+        case '[1-stage FC]': 
+            req.session.showWritePublish=true     
             res.redirect('/projects/create-or-choose');
             break;  
-        case '[2-stage FC]':          
+        case '[2-stage FC]':  
+              req.session.showWritePublish=true        
               res.redirect('/projects/create-or-choose');
               break;
+        case '[EoI]':
+          req.session.showPreMarket=true
+          res.redirect('/projects/create-or-choose');
+           break;
+         case '[FCA]':
+          req.session.showWritePublish=true
+          res.redirect('/projects/create-or-choose');
+          break;
+         case '[DAA]':
+          req.session.showWritePublish=true
+           req.session.stepstocontinueDAA=true
+          res.redirect('/projects/create-or-choose');
+          break;
         default:
           res.redirect('/404');
       }
