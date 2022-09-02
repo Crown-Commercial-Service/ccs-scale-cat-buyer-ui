@@ -107,6 +107,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
             //req.session.procurements.push({'eventId':data.id,'eventType':data.eventType});
             // req.session.procurements[0]['eventType'] = data.eventType;
             //req.session.procurements[0]['started'] = false;
+            req.session.currentEvent = data;
             const currentProcNumber = procurements.findIndex(
               (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,
             );
