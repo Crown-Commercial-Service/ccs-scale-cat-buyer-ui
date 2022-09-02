@@ -48,7 +48,8 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
   try {
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
-    if(ReviewData.OCDS.status == 'active'){//event is published
+    const dashboardStatus = ReviewData?.nonOCDS?.dashboardStatus.toLowerCase();
+    if(ReviewData.OCDS.status == 'active' && !(dashboardStatus =="awarded" || dashboardStatus =="pre-award" || dashboardStatus =="evaluated" || dashboardStatus =="complete" || dashboardStatus =="to-be-evaluated" || dashboardStatus =="evaluating")  ){//event is published
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');

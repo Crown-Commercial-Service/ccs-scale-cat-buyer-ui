@@ -85,13 +85,21 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
             endDate: endDate,
           };
           await TenderApi.Instance(SESSION_ID).put(publishUrl, _bodyData);
-          
-          let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
-          let body = {
-            "name": "Further Competition Event",
-            "eventType": "FCA"
+
+          let BaseURL=`/tenders/projects/${req.session.projectId}/events`;
+          let body_ ={
+            "nonOCDS": {
+              "eventType": "FC"
+            }  
           }
-          const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
+          const  {data}  = await TenderApi.Instance(SESSION_ID).post(BaseURL, body_);
+
+          // let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
+          // let body = {
+          //   "name": "Further Competition Event",
+          //   "eventType": "FCA"
+          // }
+          // const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
           if(data != null && data !=undefined)
           {
             req.session['eventId'] =data.id;
@@ -99,6 +107,7 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
             //req.session.procurements.push({'eventId':data.id,'eventType':data.eventType});
             // req.session.procurements[0]['eventType'] = data.eventType;
             //req.session.procurements[0]['started'] = false;
+            req.session.currentEvent = data;
             const currentProcNumber = procurements.findIndex(
               (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,
             );
@@ -176,7 +185,8 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           }
           const supplierBody = {
             "suppliers": supplierDataToSave,
-            "justification": ''
+            "justification": '',
+            "overwriteSuppliers": true
           };
           const Supplier_BASEURL = `/tenders/projects/${projectId}/events/${data.id}/suppliers`;
 
@@ -205,14 +215,16 @@ export const CA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
               };
               const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
               if (response.status == 200) {
-                const { procurements } = req.session;
-                if(procurements.length==1)
+                const getEventsURL = `tenders/projects/${req.session.projectId}/events`;
+                let getEvents = await TenderApi.Instance(SESSION_ID).get(getEventsURL);             
+                if(getEvents.data.length==1)
                 {
                   let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
                   let body = {
-                 
+                       
                     "eventType": "TBD"
-                  }
+                
+                }
                   const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
                 }
                 res.redirect(REQUIREMENT_PATHS.CA_GET_CANCEL);

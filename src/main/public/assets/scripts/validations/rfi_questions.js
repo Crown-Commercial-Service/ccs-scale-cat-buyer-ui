@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  
   if (document.getElementById("ccs_rfi_questions_form") !== null) {
 
     let with_value_count = 10,
