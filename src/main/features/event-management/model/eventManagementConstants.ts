@@ -7,6 +7,7 @@ export enum EVENT_MANAGEMENT_PATHS {
     EVENT_MANAGEMENT_MESSAGING_SENT = '/message/sent',
     EVENT_MANAGEMENT_QA = '/event/qa',
     EVENT_MANAGEMENT_SUPPLIER_QA = '/event/qa-supplier',
+    EVENT_MANAGEMENT_SUPPLIER_DATA_QA = '/event/qa_data-supplier',
     EVENT_MANAGEMENT_QA_Add_GET = '/event/qa-add',
     EVENT_MANAGEMENT_GET_QA_ADD_TWO_STEP = '/event/qa-add-2nd-step',
     EVENT_MANAGEMENT_QA_Add_POST = '/event/qa-add',
