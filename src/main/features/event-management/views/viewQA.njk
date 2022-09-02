@@ -67,8 +67,15 @@
         </div>
         {% set q=q+1 %}
         {% endfor %}
+        {% if(isSupplierQA) %}
+         <p class="govuk-body-margin-top">
+            <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">Close</a>
+        </p>
+        {% else %}
         <p class="govuk-body-margin-top">
             <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
         </p>
+         {% endif %}
+        
     </main>
 {% endblock %}
