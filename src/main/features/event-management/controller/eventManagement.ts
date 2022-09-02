@@ -207,9 +207,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
                 supplierDetails = supplierDetailsDataList.filter(x => x.supplierId == item.id)[0];
               }
             });
-            supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY HH:mm');
-            
-            supplierDetails.supplierAwardedDate = supplierDetails.supplierAwardedDate.replace(/\s+/g, ' - ');
+            supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
           }
 
           if (status.toLowerCase() == "pre-award") {
@@ -225,10 +223,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
 
             currentDate = checkBankHolidayDate(currentDate, listOfHolidayDate);
-            supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY HH:mm');
-
-            supplierDetails.supplierStandStillDate = supplierDetails.supplierStandStillDate.replace(/\s+/g, ' - ');
-
+            supplierDetails.supplierStandStillDate = moment(currentDate).format('DD/MM/YYYY');
+            
             let todayDate = new Date();
             let standStillDate = new Date(currentDate);
 
@@ -243,7 +239,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         if (status.toLowerCase() == "complete") {
           const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
           const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
-          supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY HH:mm');
+          supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
         }
       }
 
@@ -625,7 +621,7 @@ export const SUPPLIER_ANSWER_DOWNLOAD_ALL = async (req: express.Request, res: ex
 
   try {
     if (supplierid != undefined) {
-      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/export`;
+      const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
       });
