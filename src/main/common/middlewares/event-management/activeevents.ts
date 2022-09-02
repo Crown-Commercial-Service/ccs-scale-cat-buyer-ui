@@ -128,9 +128,15 @@ export class EventEngagementMiddleware {
                 activeEvents.push(singleEvent)
               }
             } else if (singleEvent.activeEvent?.eventType == 'TBD') {
-              draftActiveEvent = singleEvent
-              draftActiveEvent.activeEvent.status = 'In-Progress'
-              activeEvents.push(draftActiveEvent)
+              if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED')
+              {
+                historicalEvents.push(singleEvent)
+              }
+              else{
+                draftActiveEvent = singleEvent
+                draftActiveEvent.activeEvent.status = 'In-Progress'
+                activeEvents.push(draftActiveEvent)
+              }           
             }
             // eventType = FCA & DAA (Active and historic events)
             else if (singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent?.eventType == 'FCA' || singleEvent.activeEvent?.eventType == 'DAA')) {

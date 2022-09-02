@@ -214,6 +214,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
         let findBaseOnRoles = category.filter(i => i.name == role);
         let contructedObject = {
           ParentName: role,
+          description:category.find(({ name }) => name === role).description,
           designations: findBaseOnRoles,
         };
         UNIQUESTORAGE.push(contructedObject);
