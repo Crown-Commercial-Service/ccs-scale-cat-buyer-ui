@@ -56,8 +56,9 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
         let selectedSupplierData = supplierdata.data.responders.filter((x: any) => {
           if (x.supplier.id === supplierId) return x;
         });
-        obj.supplierName = selectedSupplierData != undefined && selectedSupplierData != null ? selectedSupplierData[0].supplier.name : null
+       // obj.supplierName = selectedSupplierData != undefined && selectedSupplierData != null ? selectedSupplierData[0].supplier.name : null
         obj.supplierId = selectedSupplierData != undefined && selectedSupplierData != null ? selectedSupplierData[0].supplier.id : null;
+        obj.supplierName = supplierDataList?.filter((a: any) => (a.organization.id ==  obj.supplierId))?.[0]?.organization?.name;
         obj.templateId = awardsTemplatesData[i].id;
         obj.templatesFileName = awardsTemplatesData[i].fileName;
         obj.templatesFileSize = awardsTemplatesData[i].fileSize;

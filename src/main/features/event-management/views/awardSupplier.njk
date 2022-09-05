@@ -82,7 +82,8 @@
        <p> <strong>Address:</strong></p>
        <p> {{supplierDetails.supplierAddress.streetAddress}}</p>
        <p> {{supplierDetails.supplierAddress.locality}}</p>
-       <p> {{supplierDetails.supplierAddress.region}}</p>
+       <p> {{supplierDetails.supplierAddress.postalCode}}</p>
+       <p> {{supplierDetails.supplierAddress.countryName}}</p>
       
        </br>
        </br>
@@ -95,7 +96,9 @@
        <p> {{supplierDetails.supplierContactEmail}}</p>
        </br>
        <p> <strong>Website:</strong></p>
-       <p> {{supplierDetails.supplierWebsite}}</p>
+        <div class="govuk-button-group">
+       <a class="govuk-link" href="{{supplierDetails.supplierWebsite}}" target="_blank">{{supplierDetails.supplierWebsite}}</a> 
+          </div>
        </br>
        </br>
        </br>
