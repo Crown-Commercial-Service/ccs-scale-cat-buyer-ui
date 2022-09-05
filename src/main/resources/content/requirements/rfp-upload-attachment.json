@@ -30,7 +30,7 @@
   "subtitle1":"If you have your own pricing schedule ready you can upload it at the bottom of the screen.If you would like a template you can download the document below.",
   "subtitle2": "You  will need to make sure you can include what the pricing model is that you expect supplier to provide.",
   "subtitle3":"You can upload any other supporting documents on the next stage.",
-  "filedesc": "you can upload as many files as you need to, up to a maximum of 1Gb in total. You can only use the following file formats: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip",
+  "filedesc": "You can upload multiple files, each no larger than 300mb, to a total of 1GB. Acceptable file formats: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip",
   "backJump": {
     "title": "Write and publish your requirements",
     "href": "/rfp/task-list"
