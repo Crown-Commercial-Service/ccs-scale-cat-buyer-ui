@@ -21,6 +21,9 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
         const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`;
         const supplierScore = await TenderApi.Instance(SESSION_ID).get(supplierScoreURL);
 
+        let supplierDataList = [];
+        supplierDataList = await GetLotSuppliers(req);
+
         for (let i = 0; i < supplierdata.data.responders.length; i++) {
 
             let id = supplierdata.data.responders[i].supplier.id;
@@ -30,19 +33,16 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
                 //showallDownload = true;
             }
             if (id == supplierId) {
-                supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
+                supplierDetails.supplierName = supplierFiltedData = supplierDataList?.filter((a: any) => (a.organization.id == id))?.[0]?.organization?.name;
+              //  supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
                 supplierDetails.responseState = supplierdata.data.responders[i].responseState;
                 supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
                 supplierDetails.score = (score != undefined) ? score : 0;
-
                 supplierDetails.supplierId = id;
                 supplierDetailsList.push(supplierDetails);
             }
         }
         
-        let supplierDataList = [];
-        supplierDataList = await GetLotSuppliers(req);
-
         if (supplierId != undefined && supplierId != null) {
             var supplierFiltedData = supplierDataList?.filter((a: any) => a.organization.id == supplierId)[0]?.organization;
             if (supplierFiltedData != null && supplierFiltedData != undefined) {
@@ -52,6 +52,9 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
                 supplierDetails.supplierContactEmail = supplierFiltedData.contactPoint != undefined? supplierFiltedData.contactPoint?.email : null;
                 supplierDetails.supplierWebsite = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null ? supplierFiltedData.contactPoint?.url : null;
                 }
+
+        supplierDetails.supplierId = supplierDetails?.supplierId.substring(3);
+        supplierDetails.supplierId = supplierDetails?.supplierId.replace(/-/g, " ");
         }
 
         //SELECTED EVENT DETAILS FILTER FORM LIST
