@@ -10,7 +10,7 @@ import * as express from 'express'
  */
 export const Receiver = (req: express.Request, res: express.Response) => {
   //const { url } = req;
-  const { supplier_qa_url } = req.session["supplier_qa_url"]
+  const { supplier_qa_url } = req.session
   //url.split("?")[1].split('projectId')[1].split('&')[0]
   if (supplier_qa_url != undefined) {
     res.redirect(supplier_qa_url);
