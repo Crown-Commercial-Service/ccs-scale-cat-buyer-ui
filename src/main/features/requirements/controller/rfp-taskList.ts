@@ -25,7 +25,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   const { isJaggaerError } = req.session;
   const { assessmentId } = currentEvent;
   req.session['isJaggaerError'] = false;
-  req.session["selectedRoute"]=req.url?.split('/')[1];
+  req.session["selectedRoute"] = req.url?.split('/')[1];
   const itemList = [
     'Data',
     'Technical',
@@ -37,8 +37,8 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   ];
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   //req.session.dummyEventType='FC';
-  let selectedeventtype=req.session.selectedeventtype;
-  const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError,selectedeventtype };
+  let selectedeventtype = req.session.selectedeventtype;
+  const appendData = { data: chooseRouteData, releatedContent, error: isJaggaerError, selectedeventtype };
   try {
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/26`, 'Cannot start yet');
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Optional');
@@ -50,28 +50,28 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Cannot start yet');
     //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Cannot start yet');
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Cannot start yet');
-    
+
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Cannot start yet');
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
     const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
-    if(selectedeventtype=='DA'){
+    if (selectedeventtype == 'DA') {
       statusStepsDataFilter(chooseRouteData, journeySteps, 'DA', agreementId_session, projectId, eventId);
     }
-    else{
+    else {
       statusStepsDataFilter(chooseRouteData, journeySteps, 'rfp', agreementId_session, projectId, eventId);
     }
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'In progress');
 
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
-    const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-    const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
-    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
+    const ALL_ASSESSTMENTS = assessmentId != undefined ? await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL) : null;
+    const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS?.data;
+    const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA?.['external-tool-id'];
 
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
-    const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
-    const CAPACITY_DATASET = CAPACITY_DATA.data;
+    const CAPACITY_DATA = EXTERNAL_ID != undefined ? await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL) : null;
+    const CAPACITY_DATASET = CAPACITY_DATA?.data;
 
-    const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
+    const AddedWeigtagedtoCapacity = CAPACITY_DATASET?.map(acapacity => {
       const { name, weightingRange, options } = acapacity;
       const AddedPropsToOptions = options.map(anOpt => {
         return {
@@ -83,7 +83,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
       return AddedPropsToOptions;
     }).flat();
 
-    const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity.map(capacity => {
+    const UNIQUEFIELDNAME = AddedWeigtagedtoCapacity?.map(capacity => {
       return {
         designation: capacity.name,
         ...capacity?.groups?.[0],
@@ -92,16 +92,16 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
       };
     });
 
-    const UNIQUEELEMENTS_FIELDNAME = [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(cursor => {
-      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME.filter(item => item.name === cursor);
+    const UNIQUEELEMENTS_FIELDNAME = UNIQUEFIELDNAME != undefined && UNIQUEFIELDNAME != null ? [...new Set(UNIQUEFIELDNAME.map(designation => designation.name))].map(cursor => {
+      const ELEMENT_IN_UNIQUEFIELDNAME = UNIQUEFIELDNAME?.filter(item => item.name === cursor);
       return {
         'job-category': cursor,
         data: ELEMENT_IN_UNIQUEFIELDNAME,
       };
-    });
-    const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME.filter(item => itemList.includes(item['job-category']));
+    }) : null;
+    const filteredMenuItem = UNIQUEELEMENTS_FIELDNAME?.filter(item => itemList.includes(item['job-category']));
 
-    const ITEMLIST = filteredMenuItem.map((designation, index) => {
+    const ITEMLIST = filteredMenuItem?.map((designation, index) => {
       const weightage = designation.data?.[0]?.Weightage;
       return {
         url: `#section${index + 1}`,
@@ -110,14 +110,14 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
       };
     });
 
-    const UNIQUEJOBDESIGNATIONS = UNIQUEELEMENTS_FIELDNAME.map(designation => {
+    const UNIQUEJOBDESIGNATIONS = UNIQUEELEMENTS_FIELDNAME?.map(designation => {
       const jobCategory = designation['job-category'];
       const { data } = designation;
       const uniqueElements = [...new Set(data.map(designation => designation.designation))];
       return uniqueElements;
     }).flat();
 
-    const UNIQUE_JOB_IDENTIFIER = UNIQUEELEMENTS_FIELDNAME.map(element => {
+    const UNIQUE_JOB_IDENTIFIER = UNIQUEELEMENTS_FIELDNAME?.map(element => {
       const { data } = element;
       const JobCategory = element['job-category'];
       let JOBSTORAGE = [];
@@ -132,13 +132,9 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
       };
     });
 
-    req.session.designations = [...UNIQUE_JOB_IDENTIFIER];
-    req.session.tableItems = [...ITEMLIST];
-    req.session.dimensions = [...CAPACITY_DATASET];
-
-    
-
-
+    req.session.designations =UNIQUE_JOB_IDENTIFIER !=undefined && UNIQUE_JOB_IDENTIFIER !=null? [...UNIQUE_JOB_IDENTIFIER]:null;
+    req.session.tableItems = ITEMLIST != undefined && ITEMLIST != null ? [...ITEMLIST] : null;
+    req.session.dimensions = CAPACITY_DATASET != undefined && CAPACITY_DATASET != null ? [...CAPACITY_DATASET] : null;
     res.render('rfp-taskList', appendData);
   } catch (error) {
     LoggTracer.errorLogger(

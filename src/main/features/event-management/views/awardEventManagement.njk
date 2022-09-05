@@ -126,7 +126,7 @@ or messages in your inbox.See supplier's answer to your published project.</p>
             {{data.subsection4_title2_1}}
             <p class="app-task-list__tag">
 
-              <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
+              <a class="govuk-link" href="/rfi/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
 
             </p>
           </h2>
@@ -280,10 +280,8 @@ or messages in your inbox.See supplier's answer to your published project.</p>
         <p> <strong>Address:</strong></p>
         <p> {{supplierDetails.supplierAddress.streetAddress}}</p>
        <p> {{supplierDetails.supplierAddress.locality}}</p>
-       <p> {{supplierDetails.supplierAddress.region}}</p>
-       {#<p> {{supplierDetails.supplierAddress.postalCode}}</p>
+       <p> {{supplierDetails.supplierAddress.postalCode}}</p>
        <p> {{supplierDetails.supplierAddress.countryName}}</p>
-       #}
        </br></br>
 
        <p> <strong>Contact Name:</strong></p>
@@ -291,7 +289,9 @@ or messages in your inbox.See supplier's answer to your published project.</p>
        <p> <strong>Contact Email:</strong></p>
        <p> {{supplierDetails.supplierContactEmail}}</p>
        <p> <strong>Website:</strong></p>
-       <p>{{supplierDetails.supplierWebsite}}</p>
+         <div class="govuk-button-group">
+       <a class="govuk-link" href="{{supplierDetails.supplierWebsite}}" target="_blank">{{supplierDetails.supplierWebsite}}</a> 
+          </div>
 </br></br>
 
   {% if status.toUpperCase() =="AWARDED"%} 

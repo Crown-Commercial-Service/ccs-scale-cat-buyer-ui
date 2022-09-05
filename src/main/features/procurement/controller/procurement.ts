@@ -25,7 +25,7 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
   const { lotId, agreementLotName, agreementName,stepstocontinueDAA,showPreMarket,showWritePublish } = req.session;
 
   const { SESSION_ID } = req.cookies;
-  const agreementId_session = req.session.agreement_id;
+  const agreementId_session = req.session?.agreement_id;
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `/agreements/${agreementId_session}/lots/${lotId}/event-types`;
   let appendData: any = agreementName.toLowerCase() === "G-Cloud 12".toLowerCase() ? { ...dataGCloudSearchContent, SESSION_ID } : { ...data, SESSION_ID };
