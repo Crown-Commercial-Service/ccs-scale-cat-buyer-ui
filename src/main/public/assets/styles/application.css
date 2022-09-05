@@ -8548,6 +8548,19 @@ p + .govuk-heading-s,
   margin: auto;
 }
 
+.standstill-error-field
+{
+  position: relative;
+  top: 0px;
+  padding-left: 12px;  
+}
+
+.standstill-radios-position
+{
+bottom: 10px;
+position: relative;
+}
+
 .border-none{
   border: none;
   border-bottom: none;
