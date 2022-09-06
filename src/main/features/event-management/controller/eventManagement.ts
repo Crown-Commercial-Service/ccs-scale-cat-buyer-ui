@@ -161,6 +161,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             supplierDetailsObj.supplierWebsite = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null ? supplierFiltedData.contactPoint?.url : null;
             supplierDetailsObj.supplierName = supplierFiltedData.name != undefined && supplierFiltedData.name != null ? supplierFiltedData.name : null;
             supplierDetailsObj.supplierId = id;
+            supplierDetailsObj.supplierIdMain = id;
             supplierDetailsObj.supplierState = "Unsuccessfull";
             supplierDetailsDataList.push(supplierDetailsObj);
           }
