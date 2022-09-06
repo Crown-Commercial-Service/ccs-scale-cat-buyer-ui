@@ -21,7 +21,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
   const ProjectID = req.session['projectId'];
   const EventID = req.session['eventId'];
   const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
-  const { download } = req.query;
+  const { download,fromEventMngmnt } = req.query;
   
   if(download!=undefined)
     {
@@ -49,7 +49,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     const dashboardStatus = ReviewData?.nonOCDS?.dashboardStatus.toLowerCase();
-    if(ReviewData.OCDS.status == 'active' && !(dashboardStatus =="awarded" || dashboardStatus =="pre-award" || dashboardStatus =="evaluated" || dashboardStatus =="complete" || dashboardStatus =="to-be-evaluated" || dashboardStatus =="evaluating")  ){//event is published
+    if(ReviewData.OCDS.status == 'active' && !(dashboardStatus =="awarded" || dashboardStatus =="pre-award" || dashboardStatus =="evaluated" || dashboardStatus =="complete" || dashboardStatus =="to-be-evaluated" || dashboardStatus =="evaluating" || fromEventMngmnt!=undefined)  ){//event is published
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');
@@ -209,6 +209,11 @@ console.log(FilteredSetWithTrue)
     let supplierList = [];
     supplierList = await GetLotSuppliers(req);
 
+    let disableLink=false;
+    if(dashboardStatus =="awarded" || dashboardStatus =="pre-award" || dashboardStatus =="evaluated" || dashboardStatus =="complete" || dashboardStatus =="to-be-evaluated" || dashboardStatus =="evaluating" || fromEventMngmnt!=undefined){
+      disableLink=true;
+    }
+
     let appendData = {
       rfi_data: RFI_ANSWER_STORAGE,
       rfi_keydates: expected_rfi_keydates[0],
@@ -223,7 +228,8 @@ console.log(FilteredSetWithTrue)
       event_id,
       ccs_rfi_type: RFI_ANSWER_STORAGE.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
-      suppliers_list:supplierList
+      suppliers_list:supplierList,
+      disableLink
     };
 
     if (viewError) {
