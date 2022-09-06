@@ -352,9 +352,15 @@
 
                               <dd class="govuk-summary-list__actions">
                                 {% if eventStatus != "published"%}
-                                  <a class="govuk-link" href="/rfi/upload-doc">
+                                {#{% if disableLink==true %}
+                                  <a class="govuk-link" href="#">
             Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
                                   </a>
+                                  {% else %}#}
+                                  <a class="govuk-link" href="{{ '#' if disableLink else '/rfi/upload-doc' }}">
+            Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
+                                  </a>
+                                  {#{% endif %}#}
                                 {% endif %}
                               </dd>
                             </div>
