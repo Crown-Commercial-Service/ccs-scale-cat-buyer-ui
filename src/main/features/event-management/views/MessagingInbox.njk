@@ -66,11 +66,11 @@
       "href": "/dashboard"
     },
     {
-      "text": "Your project",
+      "text": eventId+" / "+eventName,
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Your Inbox",
       "href": "#"
     }
   ]
@@ -155,18 +155,21 @@
                 }) }}
             </div>
         {% endif %}
-        <div class="govuk-grid-row govuk-!-padding-bottom-7">
+         <div class="govuk-grid-row govuk-!-padding-bottom-7">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    {{data.title}}
+                   <strong> {{data.title}} </strong>
                 </h1>
+                <div class="project-overview">
                 <p class="govuk-body">
-                    <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
+                    <strong>{{eventId | upper}} / {{eventName}}</strong> <br/>
+                    <strong>Selected agreement : </strong>{{agreementName}} , {{lotName}} <br/>
+                    <strong>Agreement ID: </strong>{{ agreement_header['agreementId_session'] }}
                 </p>
-                {% include "includes/project_header.njk" %}
+               {# {% include "includes/project_header.njk" %}  #}
             </div>
         </div>
-
+    </div>
         <div class="govuk-grid-row messaging-navigation">
             <div class="govuk-grid-column-full">
                 <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
