@@ -40,7 +40,7 @@ or messages in your inbox.See supplier's answer to your published project.</p>
         <div>
           <h2 class="govuk-heading-m">
           {{projectName}}
-            <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | capitalize}}</strong>
+            <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | replace('-'," ") | capitalize}}</strong>
           </h2>
           <p class="govuk-body">
             {% if(showCloseProject) and status.toLowerCase !== "complete" %}
