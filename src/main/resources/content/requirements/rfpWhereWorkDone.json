@@ -1,7 +1,7 @@
 {
   "breadCrumbs": [
     {
-      "text": "Dashboard",
+      "text": "Your dashboard",
       "href": "/dashboard"
     },
     {
@@ -17,12 +17,12 @@
       "href": "/rfp/task-list"
     },
     {
-      "text": "Where the work will be done?",
+      "text": "Where the work will be done",
       "href": "#"
     }
   ],
 
-  "title": "Where the work will be done?",
+  "title": "Where the work will be done",
   "subtitle": "Select the location where you would expect the staff supplied to work.You can select multiple locations or if you do not need them to work in the office you can select 'No specific location'",
   "backJump": {
     "title": "Return to Write and publish your requirements",
