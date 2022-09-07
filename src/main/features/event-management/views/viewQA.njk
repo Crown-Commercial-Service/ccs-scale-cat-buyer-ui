@@ -11,11 +11,15 @@
       "href": "/dashboard"
     },
     {
-      "text": "Your project",
+      "text": eventId+" / "+eventName,
+      "href": "/event/management?id="+eventId
+    },
+     {
+      "text": "Event Management",
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Supplier Message",
+      "text": "Q&A",
       "href": "#"
     }
   ]
@@ -29,7 +33,7 @@
                     <strong>{{data.title}}</strong>
                 </h1>
                 <p class="govuk-body">
-                <strong>{{eventId}}</strong><br/>
+                <strong>{{eventId}}/{{eventName}}</strong><br/>
                 Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}</strong>{% endif %}<br/>
                 Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
             </div>

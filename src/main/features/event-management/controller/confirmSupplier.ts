@@ -43,7 +43,7 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
         supplierDetails.responseState = supplierdata.data.responders[i].responseState != undefined && supplierdata.data.responders[i].responseState != null ? supplierdata.data.responders[i].responseState : null;
         supplierDetails.responseDate = supplierdata.data.responders[i].responseDate != undefined && supplierdata.data.responders[i].responseDate != null ? supplierdata.data.responders[i].responseDate : null;
         supplierDetails.score = (score != undefined) ? score : 0;
-
+        supplierDetails.supplierIdMain = id;
         supplierDetails.supplierId = id.substring(3);
         supplierDetails.supplierId = supplierDetails.supplierId.replace(/-/g, " ");
         supplierDetailsList.push(supplierDetails);

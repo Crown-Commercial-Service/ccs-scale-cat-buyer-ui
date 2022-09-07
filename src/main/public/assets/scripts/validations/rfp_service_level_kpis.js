@@ -1,4 +1,5 @@
 const countWordskpi = (str) => { return str?.trim().split(/\s+/).length };
+const countCharacterkpi = (str) => { return str.length };
 document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("service_levels_kpi_form") !== null) {
@@ -134,7 +135,7 @@ const checkFieldsRfpKPI = () => {
     if (!pageHeading.includes("(Optional)")) {
 
       const field1 = countWordskpi(input.val()) < 50;
-      const field2 = countWordskpi(textbox.val()) < 150;
+      const field2 = countCharacterkpi(textbox.val()) < 5000;
       if (input.val() !== "" || field1) {
         $(`#rfp_term_service_levels_KPI_${a}`).remove();
         $(`.acronym_${a} div`).removeClass('govuk-form-group--error');
@@ -179,8 +180,8 @@ const emptyFieldCheckRfpKPI = () => {
 
     if (term_field !== undefined && term_field !== null && definition_field !== undefined && definition_field !== null && target_field !== undefined && target_field !== null) {
       const field1 = countWordskpi(term_field?.value) > 50;
-      const field2 = countWordskpi(definition_field?.value) > 150;
-
+      //const field2 = countWordskpi(definition_field?.value) > 150;
+      const field2 = countCharacterkpi(definition_field?.value)>5000;
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
         //checkFieldsRfpKPI()
         if (term_field.value.trim() !== '' && definition_field.value.trim() !== '' && target_field.value.trim() !== '') {
@@ -224,7 +225,7 @@ const emptyFieldCheckRfpKPI = () => {
               isError = true;
             }
             if (field2) {
-              ccsZaddErrorMessage(definition_field, 'No more than 250 words are allowed.');
+              ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
               isError = true;
             }
             if (isError) {

@@ -24,7 +24,7 @@
   
     "title": "Where the work will be done",
     "subtitle1": "Add a weighting for the locations you think will be most important for the supplied staff to work from.",
-    "subtitle2": "The weighting for staff location must total 100% to continue to the next step.",
+    "subtitle2": "The weighting for staff location must total 100%",
     "data": {
       "total": 50,
       "parts": [

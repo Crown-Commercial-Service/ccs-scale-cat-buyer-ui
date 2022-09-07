@@ -39,6 +39,7 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
                 supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
                 supplierDetails.score = (score != undefined) ? score : 0;
                 supplierDetails.supplierId = id;
+                supplierDetails.supplierIdMain = id;
                 supplierDetailsList.push(supplierDetails);
             }
         }

@@ -42,7 +42,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
         {
             suppliernameforreplymessage=req.session['SupplierNameforMessagereply']
         }
-        const appendData = { data: inboxData,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        const appendData = { data: inboxData,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, eventName: req.session.project_name, agreementName: req.session.agreementName, lotName: req.session.agreementLotName }
         res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingInbox', appendData)
     } catch (err) {
