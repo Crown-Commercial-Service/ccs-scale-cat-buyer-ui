@@ -1364,7 +1364,28 @@
       action="/rfp/review" method="post">
       {{ csrfProtection(csrf) }}
 
+{% if(buttonDisabled) %}
                             {{ CCSCheckboxes({
+      items: [
+      {
+      "value": 1,
+      html: "<label><strong>By checking this box, I confirm that I have read and confirm the statements above are true.</strong></label>",
+      Checked: "",
+      disabled: "disabled"
+      }
+      ]
+      }) }}
+	  
+	   <div class="govuk-button-group">
+	     <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+         Publish and continue
+        </button>
+		 <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements </a>
+      </div>
+		
+      {% else %}
+      
+      {{ CCSCheckboxes({
       idPrefix: "rfp_publish_confirmation",
       name: "rfp_publish_confirmation",
       items: [
@@ -1375,24 +1396,18 @@
       }
       ]
       }) }}
-      
-       <div class="govuk-button-group">
-      {% if (buttonDisabled) %}
-                         <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
-         Publish and continue
-        </button>
-
-
-        {% else %}
-                              {{ CCSButton({
+      <div class="govuk-button-group">
+	    {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now"
         },
         text: "Publish and continue"
         }) }}
-        {% endif %}
-                              <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements </a>
-                            </div>
+       
+           <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements </a>
+            </div>
+                            
+							  {% endif %}
                             {{ CCSInput({
       id: "finished_pre_engage",
       name: "finished_pre_engage",
