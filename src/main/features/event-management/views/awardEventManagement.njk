@@ -40,7 +40,7 @@ or messages in your inbox.See supplier's answer to your published project.</p>
         <div>
           <h2 class="govuk-heading-m">
           {{projectName}}
-            <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | capitalize}}</strong>
+            <strong class="app-task-list__tag custom_tag" id="suppliers-status">{{status | replace('-'," ") | capitalize}}</strong>
           </h2>
           <p class="govuk-body">
             {% if(showCloseProject) and status.toLowerCase !== "complete" %}
@@ -125,9 +125,7 @@ or messages in your inbox.See supplier's answer to your published project.</p>
             <span class="proc-task-list__section-number">2.</span>
             {{data.subsection4_title2_1}}
             <p class="app-task-list__tag">
-
-              <a class="govuk-link" href="/rfi/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
-
+              <a class="govuk-link" href="/rfp/review?qsProjectId={{projectId}}&qsEventId={{eventId}}">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
             </p>
           </h2>
           <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -193,11 +191,11 @@ or messages in your inbox.See supplier's answer to your published project.</p>
                       
                     </th>
                      <td class="govuk-text-align govuk-!-text-align-left">
-                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierId}}">Download</a>
+                      <a class="govuk-link" href="/supplieranswerall?supplierid={{supplier.supplierIdMain}}">Download</a>
                     </td>
 
                     <td class="govuk-text-align govuk-!-text-align-left">
-                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=awardEventManagment">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierIdMain}}&&Type=awardEventManagment">Review evaluation</a>
                     </td>
 
                     <th scope="row" class="govuk-table__cell govuk-!-text-align-left">
