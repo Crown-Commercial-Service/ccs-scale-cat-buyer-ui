@@ -624,6 +624,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
       //eoi_keydates: EOI_DATA_TIMELINE_DATES[0],
       data: cmsData,
+      buttonDisabled,
       project_name: project_name,
       procurementLead,
       procurementColleagues: procurementColleagues != undefined && procurementColleagues != null ? procurementColleagues : null,
@@ -701,7 +702,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
-      appendData = Object.assign({}, { ...appendData, checkboxerror: 1,buttonDisabled });
+      appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
 
     res.render('rfp-review', appendData);
