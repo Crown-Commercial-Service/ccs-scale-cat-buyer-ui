@@ -11,6 +11,7 @@ export const CalRankSuppliers = async (req: express.Request) => {
     const { assessmentId } = currentEvent;
     const { SESSION_ID } = req.cookies; //jwt
   try {
+
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}?scores=true`;
     let { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     let assesssort = assessments.scores.sort((a, b) => (a.total > b.total ? -1 : 1));
