@@ -42,7 +42,7 @@ export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: ex
     var projectId = supplier_qa_url != undefined ? atob(supplier_qa_url.split('?')[1].split('projectId=')[1].split('&')[0]) : undefined
     let appendData: any;
     if (eventId != undefined && projectId !=undefined) {
-        const baseURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
+        const baseURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`;
         const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
         const baseActiveEventsURL = `/tenders/projects`
         const retrieveProjetActiveEventsPromise = TenderApi.Instance(SESSION_ID).get(baseActiveEventsURL)
