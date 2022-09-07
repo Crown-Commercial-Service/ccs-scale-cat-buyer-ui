@@ -1375,13 +1375,22 @@
       }
       ]
       }) }}
-                            <div class="govuk-button-group">
+      
+       <div class="govuk-button-group">
+      {% if (buttonDisabled) %}
+                         
+                          <button disabled="disabled" aria-disabled="true"  id: "rfp_btn_publish_now" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+         Publish and continue
+        </button>
+
+        {% else %}
                               {{ CCSButton({
         attributes: {
         id: "rfp_btn_publish_now"
         },
         text: "Publish and continue"
         }) }}
+        {% endif %}
                               <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements </a>
                             </div>
                             {{ CCSInput({

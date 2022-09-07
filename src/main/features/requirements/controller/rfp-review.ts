@@ -60,12 +60,15 @@ export const GET_RFP_REVIEW = async (req: express.Request, res: express.Response
 const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response, viewError: boolean, apiError: boolean) => {
 
 
+  const { qsProjectId,qsEventId } = req.query;
   const { SESSION_ID } = req.cookies;
-  const proc_id = req.session['projectId'];
-  const event_id = req.session['eventId'];
+  const proc_id = (qsProjectId !=undefined) ?qsProjectId:req.session['projectId']
+  const event_id = (qsEventId !=undefined) ?qsEventId:req.session['eventId']
+ 
   const BaseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   const { checkboxerror } = req.session;
   let selectedeventtype = req.session.selectedeventtype
+  let buttonDisabled = false;
   try {
     let flag = await ShouldEventStatusBeUpdated(event_id, 41, req);
     if (flag) {
@@ -73,7 +76,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     }
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
-    if(ReviewData.OCDS.status == 'active'){//event is published
+    if(ReviewData.OCDS.status == 'active' && qsProjectId == undefined && qsEventId == undefined){//event is published
       
         await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/41`, 'Completed');
       
@@ -149,6 +152,8 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
 
     //   const EOI_DATA_WITHOUT_KEYDATES = FilteredSetWithTrue.filter(obj => obj.id !== 'Key Dates');
     //   const EOI_DATA_TIMELINE_DATES = FilteredSetWithTrue.filter(obj => obj.id === 'Key Dates');
+   buttonDisabled = true;
+
     const project_name = (req.session.project_name) ? req.session.project_name : req.session.Projectname;
 
     /**
@@ -170,9 +175,6 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     /**
      * @UploadedDocuments
      */
-
-    const EventId = req.session['eventId'];
-
     const FILE_PUBLISHER_BASEURL = `/tenders/projects/${proc_id}/events/${event_id}/documents`;
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
 
@@ -203,7 +205,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
 
 
     let supplierList = [];
-    const supplierBaseURL: any = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers`;
+    const supplierBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/suppliers`;
     const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
     let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
     if(SUPPLIER_DATA!=undefined && SUPPLIER_DATA.suppliers.length>0){
@@ -699,7 +701,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
     if (checkboxerror) {
-      appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
+      appendData = Object.assign({}, { ...appendData, checkboxerror: 1,buttonDisabled });
     }
 
     res.render('rfp-review', appendData);
