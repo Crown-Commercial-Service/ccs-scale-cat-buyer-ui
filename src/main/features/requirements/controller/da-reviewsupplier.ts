@@ -1,12 +1,10 @@
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/requirements/da-reviewsupplier.json';
-import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
+//import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 // import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiInstance';
 import {CalRankSuppliers} from '../../shared/CalRankSuppliers';
-import { ActiveEvents } from '@common/middlewares/models/active-events';
-
 
 
 //@GET /rfi/event-sent
@@ -19,30 +17,14 @@ export const GET_DA_REVIEW_SUPPLIER  = async (req: express.Request, res: express
     const { isJaggaerError } = req.session;
     req.session['isJaggaerError'] = false;
     const { SESSION_ID } = req.cookies; //jwt
-    const {qsProjectId, qsEventId } = req.query; //jwt
-  
 
     //api
     // const url = `/tenders/projects/${projectId}/events/${eventId}`;
     // const fetch_dynamic_api = await TenderApi.Instance(SESSION_ID).get(url);
     // const fetch_dynamic_api_data = fetch_dynamic_api?.data;
     //api
-    if (qsProjectId !=undefined && qsEventId !=undefined ) {
-    const baseActiveEventsURL = `/tenders/projects`
-    const retrieveProjetActiveEventsPromise = TenderApi.Instance(SESSION_ID).get(baseActiveEventsURL)
-    retrieveProjetActiveEventsPromise
-        .then(async (data) => {
-            const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) => (a.projectId < b.projectId) ? 1 : -1)
-            let filterProject1 = [...events.filter(pro => pro.projectId?.toString() === qsProjectId && pro.activeEvent.id == qsEventId)];
-           req.session['currentEvent'] = filterProject1[0].activeEvent;
-        })
-      }
-      else 
-      {
-        
-      }
-    let RankedSuppliers = [];
-    const result= await CalRankSuppliers(req);
+
+    let RankedSuppliers = [];const result= await CalRankSuppliers(req);
 
     RankedSuppliers=result;
 
