@@ -404,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let id = tmpid.substring(22);
-    $(".rfp_term_more_details_"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
+    $(".rfp_term_more_count_"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
   });
 
   $(".rfp_kpi_description_count").keyup(function(){
