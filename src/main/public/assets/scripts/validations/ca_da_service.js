@@ -196,13 +196,17 @@ document.addEventListener('DOMContentLoaded', () => {
             $(PartialClusterDIV).fadeOut();
             $(WholeclusterDIV).fadeIn();
         }  
-        
-        if ($('#partial_weightage_' + a).is(':checked')) {
+        else if ($('#partial_weightage_' + a).is(':checked')) {
                
             $(PartialClusterDIV).fadeIn();
             $(WholeclusterDIV).fadeOut();
-        }        
-
+        }  
+        else
+        {
+            $(PartialClusterDIV).fadeOut();
+            $(WholeclusterDIV).fadeOut();            
+        }      
+        
         $('#whole_weightage_' + a).click(function () {
            
             if ($(this).is(':checked')) {
