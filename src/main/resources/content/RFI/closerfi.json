@@ -14,10 +14,10 @@
     ],
 
     "title": "Your project has been closed",
-    "subtitle": "You can still access this project in your dashboard under the closed projects section.",
+    "subtitle": "You can still access this project in your dashboard under the 'Closed projects' section.",
 
       "backJump": {
-        "title": "Return to Your Dashboard",
+        "title": "Return to Your dashboard",
         "href": "/dashboard"
       }
 

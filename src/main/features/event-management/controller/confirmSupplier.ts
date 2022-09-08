@@ -39,12 +39,13 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
       }
       if (id == supplierid) {
        
-        supplierDetails.supplierName =  supplierdata.data.responders[i].supplier != undefined && supplierdata.data.responders[i].supplier != null ? supplierdata.data.responders[i].supplier?.name : null;
+       // supplierDetails.supplierName =  supplierdata.data.responders[i].supplier != undefined && supplierdata.data.responders[i].supplier != null ? supplierdata.data.responders[i].supplier?.name : null;
         supplierDetails.responseState = supplierdata.data.responders[i].responseState != undefined && supplierdata.data.responders[i].responseState != null ? supplierdata.data.responders[i].responseState : null;
         supplierDetails.responseDate = supplierdata.data.responders[i].responseDate != undefined && supplierdata.data.responders[i].responseDate != null ? supplierdata.data.responders[i].responseDate : null;
         supplierDetails.score = (score != undefined) ? score : 0;
-
-        supplierDetails.supplierId = id;
+        supplierDetails.supplierIdMain = id;
+        supplierDetails.supplierId = id.substring(3);
+        supplierDetails.supplierId = supplierDetails.supplierId.replace(/-/g, " ");
         supplierDetailsList.push(supplierDetails);
         req.session['supplierName'] = supplierDetails.supplierName;
         req.session['supplierId'] = id;
@@ -59,6 +60,7 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
       supplierDetails.supplierContactName = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null && supplierFiltedData.contactPoint?.name !=undefined && supplierFiltedData.contactPoint?.name !=null ? supplierFiltedData.contactPoint?.name : null;
       supplierDetails.supplierContactEmail = supplierFiltedData.contactPoint != undefined? supplierFiltedData.contactPoint?.email : null;
       supplierDetails.supplierWebsite = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null ? supplierFiltedData.contactPoint?.url : null;
+      supplierDetails.supplierName = supplierFiltedData.name != undefined && supplierFiltedData.name != null ? supplierFiltedData.name : null;
       }
     }
 

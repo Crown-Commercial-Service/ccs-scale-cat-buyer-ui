@@ -10,7 +10,7 @@
 
 {% set organisationUser = userdata%}
 
-{% set sortedMembers = [{value: "", text: "Please select a colleague to be added"}] %}
+{% set sortedMembers = [{value: "", text: "Select colleague"}] %}
 {% for user in organisationUser %}
   {% if user.userName !== lead%}
     {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
@@ -86,15 +86,15 @@
 
     <p class="govuk-body">{{data.content.p3}}</p>
       
-      {{ CCSInsetText({
+      {#{{ CCSInsetText({
         html: '<p class="govuk-body">If you are the lead on this project you can add four colleagues.<br>
           If you are not the lead you can add three colleagues.</p>'
-        }) }}
+        }) }}#}
 
     <p class="govuk-body">{{data.content.p4}} </p>
 
       <div class="ccs-page-section">
-        <p class="govuk-body">Select and add colleagues</p>
+        <p class="govuk-body">Add colleagues</p>
         <form method="POST" action="/ca/get-collaborator-detail">
         {{ csrfProtection(csrf) }}
           <div class="govuk-button-group">
@@ -184,7 +184,7 @@
         text: "Save and continue"
         }) }}
          {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
-        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to write and publish your requirements</a>
+        <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
       </div>
     </form>
 
