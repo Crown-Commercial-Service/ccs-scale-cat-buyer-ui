@@ -239,9 +239,9 @@
       classes:"rfp_fc_questions_description order_"+requirement.nonOCDS.order +" "+ classNameNew,
       rows:2
     }) }}
-     <span class="remaining_chrs_term rfp_fc_req_{{index+'_'+requirement.nonOCDS.order}}_{{requirement.OCDS.id.replace(' ','')}}">You have 5000 characters remaining</span>
+     <span class="remaining_chrs_term rfp_fc_req_{{index+'_'+requirement.nonOCDS.order}}_{{requirement.OCDS.id.replace(' ','')}}">You have XXXX characters remaining</span>
     {% set qlable =  'rfp_label_question_lable_' + index+ "_"+requirement.nonOCDS.order %}
-                    <p class="character-count"><label id="{{qlable}}">You have xxxx character remaining</label></p>
+    {# <p class="character-count"><label id="{{qlable}}">You have xxxx character remaining</label></p> #}
   {%endif%}
   {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'rfp_multianswer_question_form'%}
 
@@ -636,7 +636,7 @@
                       }
                     })
                 }}
-                <span class="remaining_chrs_term" id="{{word | last}}">You have 5000 characters remaining</span>
+                <span class="remaining_chrs_term" id="{{word | last}}">You have XXXX characters remaining</span>
               {% else %}
               {{  CCSTextarea({
                       name: "rfp_prob_statement_1",
@@ -651,7 +651,7 @@
                       }
                     })
                 }}
-                <span class="remaining_chrs_term" id="1">You have 5000 characters remaining</span>              
+                <span class="remaining_chrs_term" id="1">You have XXXX characters remaining</span>              
                {% endif %}
               {{  CCSInput({
                       id: "question_id",
@@ -896,7 +896,11 @@
                               maxlength:"500"
                             })
                           }}
+<<<<<<< Updated upstream
                          <span class="term_accr_des_1 remaining_chrs_term">You have 500 characters remaining</span>
+=======
+                         <span class="term_accr_des_1 remaining_chrs_term">You have XXXX characters remaining</span>
+>>>>>>> Stashed changes
                           <br>
                         {# {{ CCSInput({
                                 label: {
@@ -960,7 +964,11 @@
                                 maxlength:"500"
                               })
                             }}
+<<<<<<< Updated upstream
                           <span class="term_accr_des_{{i}} remaining_chrs_term">You have 500 characters remaining</span>
+=======
+                          <span class="term_accr_des_{{i}} remaining_chrs_term">You have XXXX characters remaining</span>
+>>>>>>> Stashed changes
                           <br>
                           {# {{ CCSInput({
                                   label: {
@@ -1033,7 +1041,11 @@
                               value:requirement.nonOCDS.options[0].text
                             })
                           }}
+<<<<<<< Updated upstream
                       <span class="rfp_term_more_count_1 remaining_chrs_term">You have 5000 characters remaining</span>
+=======
+                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have XXXX characters remaining</span>
+>>>>>>> Stashed changes
                         {% endcall %}
                         {% set NumberWord = [
                           'zero',
@@ -1145,7 +1157,7 @@
                               value: requirement.nonOCDS.options[0][1].value
                             })
                           }}
-                           <span class="rfp_term_kpi_description_1 remaining_chrs_term">You have 5000 characters remaining</span>
+                           <span class="rfp_term_kpi_description_1 remaining_chrs_term">You have XXXX characters remaining</span>
                         {{ CCSInput({
                                 label: {
                                 html:requirement.nonOCDS.options[0][2].title,
@@ -1210,7 +1222,7 @@
                                 value: requirement.nonOCDS.options[i-1][1].value
                               })
                             }}
-                            <span class="rfp_term_kpi_description_{{i}} remaining_chrs_term">You have 5000 characters remaining</span>
+                            <span class="rfp_term_kpi_description_{{i}} remaining_chrs_term">You have XXXX characters remaining</span>
                           {{ CCSInput({
                                   label: {
                                     text: "Insert the required target "

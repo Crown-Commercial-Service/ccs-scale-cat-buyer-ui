@@ -11,19 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
   //#region Character count validation
   if (!pageHeading.includes("Enter your project requirements")) {
     [].forEach.call(document.querySelectorAll('.order_1'), function (el) {
-      el.maxLength = '500'
+      el.maxLength = '5000'
       let count = 500 - el.value.length;
-      $("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+      //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
     });
     [].forEach.call(document.querySelectorAll('.order_2'), function (el) {
       el.maxLength = '5000'
       let count = 5000 - el.value.length;
-      $("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+      //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
     });
     [].forEach.call(document.querySelectorAll('.order_3'), function (el) {
       el.maxLength = '5000'
       let count = 5000 - el.value.length;
-      $("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+      //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
     });
   }
   //#endregion
@@ -85,9 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let maxLength = event.target.maxLength;
         let count = maxLength - event.target.value.length;
         if (count <= maxLength) {
-          $("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+          //$("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
         } else {
-          $("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+          //$("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
           event.preventDefault();
         }
       });
