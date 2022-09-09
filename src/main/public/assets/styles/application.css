@@ -9161,6 +9161,17 @@ p,
   display: none;
 }
 
+.backdrop-evaluatesuppliers {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+
 .backdrop-createmsgcancel {
   position: fixed;
   top: 0px;

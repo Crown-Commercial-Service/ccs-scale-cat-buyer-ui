@@ -83,6 +83,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       });
       const TOTALSUM = fileNameStoragePricing.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
+      let selectedeventtype = req.session.selectedeventtype;
       let windowAppendData = {
         lotId,
         agreementLotName,
@@ -93,6 +94,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         IsDocumentError: false,
         Rfp_confirm_upload: false,
         IsFileError: false,
+        selectedeventtype
       };
       
       if (pricingSchedule != undefined) {
