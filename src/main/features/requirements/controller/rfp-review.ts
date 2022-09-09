@@ -87,9 +87,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     if (ReviewData.OCDS.status == 'active' && qsProjectId == undefined && qsEventId == undefined) {//event is published
-
       await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/41`, 'Completed');
-
+      //SCAT-5140
+      req.session.currentEventForNextUse = undefined;
       res.redirect('/rfp/rfp-eventpublished');
     }
     else {
