@@ -231,13 +231,15 @@
       text:requirement.OCDS.title,
       classes: "govuk-label govuk-label--m"
       },
+      maxlength:"5000",
       dataSet:requirement.OCDS.title,      
       hint: {
               text:requirement.OCDS.description
             },
-      classes:"order_"+requirement.nonOCDS.order +" "+ classNameNew,
+      classes:"rfp_fc_questions_description order_"+requirement.nonOCDS.order +" "+ classNameNew,
       rows:2
     }) }}
+     <span class="remaining_chrs_term rfp_fc_req_{{index+'_'+requirement.nonOCDS.order}}_{{requirement.OCDS.id.replace(' ','')}}">You have 5000 characters remaining</span>
     {% set qlable =  'rfp_label_question_lable_' + index+ "_"+requirement.nonOCDS.order %}
                     <p class="character-count"><label id="{{qlable}}">You have xxxx character remaining</label></p>
   {%endif%}
@@ -620,19 +622,37 @@
 
               {% set word = requirement.OCDS.title | replace(".", "") %}
               {% set word = word | replace(":", "") %}
-
+              {% if(word) %}
               {{  CCSTextarea({
                       name: "rfp_prob_statement_"+word | last,
                       required: requirement.nonOCDS.mandatory,
                       id: "rfp_prob_statement_"+word | last,
                       value: requirement.nonOCDS.options[index-1].value,
+                      classes:"rfp_background_procurement_textarea",
+                      maxlength:"5000",
                       label: {
                       text: requirement.OCDS.title,
                       classes: "govuk-label govuk-label--m"
                       }
                     })
                 }}
-
+                <span class="remaining_chrs_term" id="{{word | last}}">You have 5000 characters remaining</span>
+              {% else %}
+              {{  CCSTextarea({
+                      name: "rfp_prob_statement_1",
+                      required: requirement.nonOCDS.mandatory,
+                      id: "rfp_prob_statement_1",
+                      value: requirement.nonOCDS.options[index-1].value,
+                      classes:"rfp_background_procurement_textarea",
+                      maxlength:"5000",
+                      label: {
+                      text: requirement.OCDS.title,
+                      classes: "govuk-label govuk-label--m"
+                      }
+                    })
+                }}
+                <span class="remaining_chrs_term" id="1">You have 5000 characters remaining</span>              
+               {% endif %}
               {{  CCSInput({
                       id: "question_id",
                       name: "question_id",
@@ -873,10 +893,10 @@
                               },
                               classes: "terms_acr_description_count rfp_term_definition_1",
                               value:  requirement.nonOCDS.options[0].text,
-                              maxlength:"500"
+                              maxlength:"5000"
                             })
                           }}
-                         <span class="term_accr_des_1 remaining_chrs_term">You have 500 characters remaining</span>
+                         <span class="term_accr_des_1 remaining_chrs_term">You have 5000 characters remaining</span>
                           <br>
                         {# {{ CCSInput({
                                 label: {
@@ -937,10 +957,10 @@
                                 },
                                 classes: "terms_acr_description_count rfp_term_definition_"+i,
                                 value:  requirement.nonOCDS.options[i-1].text,
-                                maxlength:"500"
+                                maxlength:"5000"
                               })
                             }}
-                          <span class="term_accr_des_{{i}} remaining_chrs_term">You have 500 characters remaining</span>
+                          <span class="term_accr_des_{{i}} remaining_chrs_term">You have 5000 characters remaining</span>
                           <br>
                           {# {{ CCSInput({
                                   label: {
@@ -1008,11 +1028,12 @@
                               label: {
                                 text: 'Enter more details about this user type'
                               },
-                              classes: "rfp_term_more_details_1",
+                               maxlength:"5000",
+                              classes: "rfp_term_more_description_count rfp_term_more_details_1",
                               value:requirement.nonOCDS.options[0].text
                             })
                           }}
-
+                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have 5000 characters remaining</span>
                         {% endcall %}
                         {% set NumberWord = [
                           'zero',
@@ -1057,12 +1078,14 @@
                                 label: {
                                   text: 'Enter more details about this user type'
                                 },
-                                classes: "rfp_term_more_details_"+i,
+                                maxlength:"5000",
+                                classes: "rfp_term_more_description_count rfp_term_more_details_"+i,
                                 value: requirement.nonOCDS.options[i-1].value
                               })
                             }}
+                             <span class="rfp_term_more_details_{{i}} remaining_chrs_term">You have 5000 characters remaining</span>
                           {% endcall %}
-
+                       
                         {%- endfor %}
 
                         <p class="govuk-body">
@@ -1117,11 +1140,12 @@
                                 html:requirement.nonOCDS.options[0][1].title,
                                text: requirement.nonOCDS.options[0][1].text
                               },
-                              
-                              classes: "rfp_term_definition_1",
+                              maxlength:"5000",
+                              classes: "rfp_kpi_description_count rfp_term_definition_1",
                               value: requirement.nonOCDS.options[0][1].value
                             })
                           }}
+                           <span class="rfp_term_kpi_description_1 remaining_chrs_term">You have 5000 characters remaining</span>
                         {{ CCSInput({
                                 label: {
                                 html:requirement.nonOCDS.options[0][2].title,
@@ -1181,10 +1205,12 @@
                                 label: {
                                   text: "Enter the service area / KPI description"
                                 },
-                                classes: "rfp_term_desription_KPI_"+i,
+                                maxlength:"5000",
+                                classes: "rfp_kpi_description_count rfp_term_desription_KPI_"+i,
                                 value: requirement.nonOCDS.options[i-1][1].value
                               })
                             }}
+                            <span class="rfp_term_kpi_description_{{i}} remaining_chrs_term">You have 5000 characters remaining</span>
                           {{ CCSInput({
                                   label: {
                                     text: "Insert the required target "

@@ -67,7 +67,8 @@
        <p> <strong>Address:</strong></p>
        <p> {{eventManagementData.supplierDetails.supplierAddress.streetAddress}}</p>
        <p> {{eventManagementData.supplierDetails.supplierAddress.locality}}</p>
-       <p> {{eventManagementData.supplierDetails.supplierAddress.region}}</p>      
+       <p> {{eventManagementData.supplierDetails.supplierAddress.postalCode}}</p>
+       <p> {{eventManagementData.supplierDetails.supplierAddress.countryName}}</p>
        </br>
        </br>
        </br>
@@ -79,8 +80,10 @@
        <p> {{eventManagementData.supplierDetails.supplierContactEmail}}</p>
        </br>
        <p> <strong>Website:</strong></p>
-       <p> {{eventManagementData.supplierDetails.supplierWebsite}}</p>
-       </br>
+         <div class="govuk-button-group">
+       <a class="govuk-link" href="{{eventManagementData.supplierDetails.supplierWebsite}}" target="_blank">{{eventManagementData.supplierDetails.supplierWebsite}}</a> 
+          </div>
+          </br>
        </br>
        </br>
        </br>
@@ -111,11 +114,11 @@
                       </p>                      
                     </th>
                      <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/download-supplier-responce?supplierid={{supplier.supplierId}}">Download</a>
+                      <a class="govuk-link" href="/download-supplier-responce?supplierid={{supplier.supplierIdMain}}">Download</a>
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=confirmSupplier">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierIdMain}}&&Type=confirmSupplier">Review evaluation</a>
                     </td>
                     <td scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>

@@ -389,4 +389,41 @@ document.addEventListener('DOMContentLoaded', () => {
     $(".term_accr_des_"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
   });
 
+  $(".rfp_background_procurement_textarea").keyup(function(){
+   
+    let maxlength = $(this).attr('maxlength');
+    let currentLength = this.value.length;
+    let tmpid = $(this).attr('id');
+    let id = tmpid.substring(19);
+    $("#"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
+  });
+
+  $(".rfp_term_more_description_count").keyup(function(){
+   
+    let maxlength = $(this).attr('maxlength');
+    let currentLength = this.value.length;
+    let tmpid = $(this).attr('id');
+    let id = tmpid.substring(22);
+    $(".rfp_term_more_details_"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
+  });
+
+  $(".rfp_kpi_description_count").keyup(function(){
+   
+    let maxlength = $(this).attr('maxlength');
+    let currentLength = this.value.length;
+    let tmpid = $(this).attr('id');
+    let id = tmpid.substring(39);
+    $(".rfp_term_kpi_description_"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
+  });
+  
+  $(".rfp_fc_questions_description").keyup(function(){
+   
+    let maxlength = $(this).attr('maxlength');
+    let currentLength = this.value.length;
+    let tmpid = $(this).attr('id');
+    let name = $(this).attr('name').replace(' ','');
+    let id = tmpid.substring(12);
+    $(".rfp_fc_req_"+id+'_'+name).text(`You have ${(maxlength-currentLength)} characters remaining`);
+  });
+
 });

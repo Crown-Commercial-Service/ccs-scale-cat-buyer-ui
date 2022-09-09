@@ -22,10 +22,10 @@ const logger = Logger.getLogger('procurement');
  *
  */
 export const PROCUREMENT = async (req: express.Request, res: express.Response) => {
-  const { lotId, agreementLotName, agreementName } = req.session;
+  const { lotId, agreementLotName, agreementName,stepstocontinueDAA,showPreMarket,showWritePublish } = req.session;
 
   const { SESSION_ID } = req.cookies;
-  const agreementId_session = req.session.agreement_id;
+  const agreementId_session = req.session?.agreement_id;
   const lotsURL = `/tenders/projects/agreements`;
   const eventTypesURL = `/agreements/${agreementId_session}/lots/${lotId}/event-types`;
   let appendData: any = agreementName.toLowerCase() === "G-Cloud 12".toLowerCase() ? { ...dataGCloudSearchContent, SESSION_ID } : { ...data, SESSION_ID };
@@ -57,7 +57,11 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     req.session.agreementLotName = agreementLotName;
     const agreementName = req.session.agreementName;
 
-
+    if(req.session['isRFIComplete'] || req.session.fromStepsToContinue!=null)
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/2`, 'Optional');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/3`, 'Not started');
+    }
     try {
       const JourneyStatus = await TenderApi.Instance(SESSION_ID).get(`/journeys/${req.session.eventId}/steps`);
       req.session['journey_status'] = JourneyStatus?.data;
@@ -135,7 +139,11 @@ export const PROCUREMENT = async (req: express.Request, res: express.Response) =
     const releatedContent = req.session.releatedContent;
 
     res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
-    appendData = { ...appendData, agreementName, releatedContent };
+    let ScrollTo=""
+    if(showPreMarket==true){ScrollTo="Premarket"}
+    if(showWritePublish==true){ScrollTo="WritePublish"}
+    
+    appendData = { ...appendData, agreementName, releatedContent,stepstocontinueDAA,ScrollTo };
     if (agreementName.toLowerCase() === "G-Cloud 12".toLowerCase()) {
       res.render('procurement-g-cloud', appendData);
     } else

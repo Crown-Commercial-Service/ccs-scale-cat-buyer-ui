@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         const radioButtonYes = document.getElementById("standstill_period_yes").checked;
         const radioButtonNo = document.getElementById("standstill_period_no").checked;
+        $(".standstill-error-field").html('');
         if (radioButtonYes || radioButtonNo) {
             if ($(this).hasClass('selected')) {
                 deselect($(this));
@@ -86,7 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else {
            $('#standstill_period_radios').addClass('govuk-form-group--error');
-            errorStore = ['There is a problem', 'Please select an option']
+           errorStore = ['standstill_period_yes', 'Please select an option'];
+            $(".standstill-error-field").html('<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> Please select an option</p>');
             ccsZPresentErrorSummary([errorStore]);
         }
         return false;

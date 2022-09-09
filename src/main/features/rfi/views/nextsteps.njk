@@ -16,15 +16,15 @@
     {{ CCSBreadcrumbs({
         items: [
             {
-            "text": "Dashboard",
+            "text": "Your Dashboard",
             "href": "/dashboard"
           },
           {
-            "text": "Event Management",
+            "text": "Your Project",
             "href": "/event/management?id="+eventId
           },
           {
-            "text": "Close/archive"
+            "text": "Close this event"
           }
         ]
     }) }}
@@ -45,8 +45,8 @@
       <a href="#" class="dialog-close-nextsteps nav-list__link_secondary">X</a></p>
     </div>
     <div class="govuk-grid-column-full">
-      <h1 id="dialog-title">This action will close your current event and project, without the option to re-open<p></p>
-      <p id="dialog-description">This action cannot be undone</p>
+      <h1 id="dialog-title">Confirm you want to close this event and the whole project.<p></p>
+      <p id="dialog-description"><b>You will not be able to reopen it.</b></p>
       <div class="govuk-button-group">
         <button id="redirect-button-nextsteps" class="button dialog-button govuk-button" name="Next Step">Continue</button>
         <a href="#" class="dialog-close-nextsteps govuk-link govuk-link--no-visited-state">Cancel</a>

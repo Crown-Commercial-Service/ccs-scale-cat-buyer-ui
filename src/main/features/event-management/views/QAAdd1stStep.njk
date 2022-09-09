@@ -49,14 +49,14 @@
     {%endif %}
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">
+        <h1 class="govuk-heading-xl govuk-heading-xl-nowrap">
           <strong>{{data.title}}</strong>
         </h1>
         
-          <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong><br/><br/>
+          <p class="govuk-no-margin-5bottom"><strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong></p>
         
         <div class="project-overview">
-  Selected agreement: 
+  <p class="govuk-no-margin-5bottom">Selected agreement: 
    {%if agreement_header !=undefined and agreement_header !=null %}
     {{ agreement_header['agreementName'] }}
     {%endif%}
@@ -65,7 +65,7 @@
     
     {{ agreement_header['lotid'] }}: 
     {{ agreement_header['agreementLotName'] }}  
-    {% endif %} <br/><br/>
+    {% endif %} </p>
     
   Agreement ID: 
     
@@ -106,11 +106,11 @@
      {{ csrfProtection(csrf) }}
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
-          <div class="govuk-grid-column-two-thirds">
+          <div>
           <a href="/message/details?id={{message.OCDS.id}}">Back</a></br></br></br>
           <div class="govuk-inset-text">
-          <p>You can choose between the following options:
-          <ul><li>add a new question and clarification</li><li>edit an existing question and clarification</li></ul></p></div></br>
+          <p class="govuk-no-margin-bottom">You can choose between the following options:
+          <ul class="govuk-no-margin-top"><li>add a new question and clarification</li><li>edit an existing question and clarification</li></ul></p></div></br>
           <h2 class="govuk-heading-m">Message from {{message.OCDS.author.name}}</h2>
           <p class="govuk-body ">Classification: <strong>{{message.nonOCDS.classification}}</strong></p>
           <p class="govuk-body ">Date: <strong>{{message.OCDS.date | dateddmmyyyy}}</strong></p>
@@ -144,7 +144,7 @@
                      {% endif %}
                 </p>
             </div>
-            <div class="govuk-grid-column-one-third"><br/>
+            <div class="govuk-grid-column-one-third govuk-grid-column-one-third-text-right"><br/>
             <a href="/event/qa-edit?qaid={{QA.id}}&id={{message.OCDS.id}}">Edit</a>
           </div>
         </div>
