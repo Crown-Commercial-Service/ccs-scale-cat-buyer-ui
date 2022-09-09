@@ -446,12 +446,16 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
       const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
+      let supplierDataList = [];
+      supplierDataList = await GetLotSuppliers(req);
+
       //let showallDownload = false;
       for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
         let id = supplierdata.data.responders[i].supplier.id;
         if (id == reviewsupplierid) {
           let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]
-          supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
+         // supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
+          supplierDetails.supplierName = supplierDataList?.filter((a: any) => (a.organization.id == id))?.[0]?.organization?.name;
           supplierDetails.responseState = supplierdata.data.responders[i].responseState;
           supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
           supplierDetails.score = (score != undefined) ? score.score : 0;

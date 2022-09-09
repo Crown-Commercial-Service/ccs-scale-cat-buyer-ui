@@ -1,5 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
   $('.additional').addClass('ccs-dynaform-hidden');
+
+  //#reagion Number_of count 
+  const checkHowManyQuestionAddedSoFar = function () {
+    const pageHeading = document.getElementById('page-heading').innerHTML;
+    for (var i = 1; i < 11; i++) {
+      let rootEl = document.getElementById('fc_question_' + i);
+      const divElem = document.querySelector('#fc_question_' + i);
+      if (!rootEl.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('technical questions')) {
+        document.getElementById("questionsCount").textContent = i + ' techinical questions entered so far';
+      }
+      if (!rootEl.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('cultural fit questions')) {
+        document.getElementById("questionsCount").textContent = i + ' cultural questions entered so far';
+      }
+      if (!rootEl.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('social value questions')) {
+        document.getElementById("questionsCount").textContent = i + ' social value questions entered so far';
+      }
+      if (i <= 9 && !rootEl.classList.contains('ccs-dynaform-hidden')) {
+        document.getElementsByClassName("add-another-btn")[0].classList.remove('ccs-dynaform-hidden')
+      } else if (!rootEl.classList.contains('ccs-dynaform-hidden')) {
+        document.getElementsByClassName("add-another-btn")[0].classList.add('ccs-dynaform-hidden')
+      }
+    }
+  }
+  //#endregion
   const pageHeading = document.getElementById('page-heading').innerHTML;
   if (pageHeading.includes("Enter your project requirements")) {
     [].forEach.call(document.querySelectorAll('.character-count'), function (el) {
@@ -68,8 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
           ccsZPresentErrorSummary(errorStore);
         }
       }
-
-
       $('#totalPercentage').html(weightageSum);
     };
     elements.forEach(ele => {
@@ -194,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         totalAnswerd();
       } else ccsZPresentErrorSummary(errorStore);
+      checkHowManyQuestionAddedSoFar();
     });
 
     deleteButtons.forEach((db) => {
@@ -215,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prev_input > 1) {
           document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
         }
-
+        checkHowManyQuestionAddedSoFar();
       })
     });
   }
@@ -259,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
           noOfRequirement_Group += 1;
+          checkHowManyQuestionAddedSoFar();
         }
         else {
           if (rootEl.querySelector('.order_1')) {
@@ -306,6 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ccsZaddErrorMessage(weightage[i], 'The value cannot be less than 1%');
             }
           }
+          checkHowManyQuestionAddedSoFar();
         }
       }
     }
@@ -381,49 +406,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  $(".terms_acr_description_count").keyup(function(){
+  $(".terms_acr_description_count").keyup(function () {
     let maxlength = $(this).attr('maxlength');
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let id = tmpid.substring(20);
-    $(".term_accr_des_"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
+    $(".term_accr_des_" + id).text(`You have ${(maxlength - currentLength)} characters remaining`);
   });
 
-  $(".rfp_background_procurement_textarea").keyup(function(){
-   
+  $(".rfp_background_procurement_textarea").keyup(function () {
+
     let maxlength = $(this).attr('maxlength');
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let id = tmpid.substring(19);
-    $("#"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
+    $("#" + id).text(`You have ${(maxlength - currentLength)} characters remaining`);
   });
 
-  $(".rfp_term_more_description_count").keyup(function(){
-   
+  $(".rfp_term_more_description_count").keyup(function () {
+
     let maxlength = $(this).attr('maxlength');
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let id = tmpid.substring(22);
-    $(".rfp_term_more_count_"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
+    $(".rfp_term_more_details_" + id).text(`You have ${(maxlength - currentLength)} characters remaining`);
   });
 
-  $(".rfp_kpi_description_count").keyup(function(){
-   
+  $(".rfp_kpi_description_count").keyup(function () {
+
     let maxlength = $(this).attr('maxlength');
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let id = tmpid.substring(39);
-    $(".rfp_term_kpi_description_"+id).text(`You have ${(maxlength-currentLength)} characters remaining`);
+    $(".rfp_term_kpi_description_" + id).text(`You have ${(maxlength - currentLength)} characters remaining`);
   });
-  
-  $(".rfp_fc_questions_description").keyup(function(){
-   
+
+  $(".rfp_fc_questions_description").keyup(function () {
+
     let maxlength = $(this).attr('maxlength');
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
-    let name = $(this).attr('name').replace(' ','');
+    let name = $(this).attr('name').replace(' ', '');
     let id = tmpid.substring(12);
-    $(".rfp_fc_req_"+id+'_'+name).text(`You have ${(maxlength-currentLength)} characters remaining`);
+    $(".rfp_fc_req_" + id + '_' + name).text(`You have ${(maxlength - currentLength)} characters remaining`);
   });
-
+  checkHowManyQuestionAddedSoFar();
 });
