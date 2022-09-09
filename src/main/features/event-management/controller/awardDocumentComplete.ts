@@ -37,7 +37,6 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       res.send(fileData);
     } else {
       res.locals.agreement_header = req.session.agreement_header;
-      let showallDownload = false;
       let supplierDetailsList: SupplierDetails[] = [];
       let supplierDetails = {} as SupplierDetails;
 
@@ -45,9 +44,10 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
       const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL)
 
+      const submittedSupplierData = supplierdata?.data?.responders?.filter((res :any) => res.responseState.toLowerCase() == "submitted");
+
       let supplierDataList = [];
       supplierDataList = await GetLotSuppliers(req);
-
 
       let documentTemplateDataList: DocumentTemplate[] = [];
       let documentTemplateData = {} as DocumentTemplate;
@@ -80,18 +80,17 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       const supplierScoreURL = `tenders/projects/${projectId}/events/${eventId}/scores`
       const supplierScore = awardsTemplatesData != null ? await TenderApi.Instance(SESSION_ID).get(supplierScoreURL) : null
 
-      for (let i = 0; i < supplierdata.data.responders.length; i++) {
-        let id = supplierdata.data.responders[i].supplier.id;
-        let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
-        if (supplierdata.data.responders[i].responseState == 'Submitted') {
-          showallDownload = true;
-        }
+      for (let i = 0; i < submittedSupplierData?.length; i++) {
+        let id = submittedSupplierData[i].supplier.id;
+        let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score;
+
         if (id != supplierId) {
           let supplierDetailsObj = {} as SupplierDetails;
           //var supplierFiltedData = supplierDataList.filter((a: any) => { a.organization.id == id });
-          supplierDetailsObj.supplierName = supplierdata.data.responders[i].supplier.name;
-          supplierDetailsObj.responseState = supplierdata.data.responders[i].responseState;
-          supplierDetailsObj.responseDate = supplierdata.data.responders[i].responseDate;
+          //supplierDetailsObj.supplierName = submittedSupplierData[i].supplier.name;
+          supplierDetailsObj.supplierName = supplierDataList?.filter((a: any) => (a.organization.id == id))?.[0]?.organization?.name;
+          supplierDetailsObj.responseState = submittedSupplierData[i].responseState;
+          supplierDetailsObj.responseDate = submittedSupplierData[i].responseDate;
           supplierDetailsObj.score = (score != undefined) ? score : 0;
 
           supplierDetailsObj.supplierId = id;
@@ -135,7 +134,6 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
         projectName,
         status,
         supplierDetails,
-        showallDownload,
         documentTemplateDataList,
         supplierDetailsList
       };
