@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
       //db.classList.add('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
         e.preventDefault();
-        debugger
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
