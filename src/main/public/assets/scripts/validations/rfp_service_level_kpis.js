@@ -1,5 +1,21 @@
 const countWordskpi = (str) => { return str?.trim().split(/\s+/).length };
 const countCharacterkpi = (str) => { return str.length };
+//#region Number_of count 
+const checkHowManyKPIAddedSoFar = function () {
+  for (var i = 1; i < 11; i++) {
+    let rootEl = document.getElementsByClassName('acronym_service_levels_KPI_' + i);
+    if (!rootEl?.[0].classList?.contains('ccs-dynaform-hidden')) {
+      document.getElementById("kpiKeyLevel").textContent = i;
+    }
+    
+    if (i <= 9 && !rootEl?.[0].classList?.contains('ccs-dynaform-hidden')) {
+      document.getElementById("ccs_rfpTerm_add").classList?.remove('ccs-dynaform-hidden')
+    } else if (!rootEl?.[0].classList.contains('ccs-dynaform-hidden')) {
+      document.getElementById("ccs_rfpTerm_add").classList?.add('ccs-dynaform-hidden')
+    }
+  }
+}
+//#endregion
 document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("service_levels_kpi_form") !== null) {
@@ -11,10 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let deleteButtonCount = [];
     // delete buttons
     deleteButtons.forEach((db) => {
-      db.classList.add('ccs-dynaform-hidden')
+      //db.classList.add('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
         e.preventDefault();
-
+        debugger
         let target = e.target.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
@@ -23,20 +39,74 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rfp_term_service_levels_KPI_' + target).value = "";
         document.getElementById('rfp_term_definition_service_levels_KPI_' + target).value = "";
         document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
-        target_fieldset.classList.add("ccs-dynaform-hidden");
+        //target_fieldset.classList.add("ccs-dynaform-hidden");
 
-        document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
+        //RESET ALL TIER DATA AFTER DELETED ANY DATA
+        let resetKPIData = [];
+        for (var service_KPI_LEVEL_fieldset = 1; service_KPI_LEVEL_fieldset < 11; service_KPI_LEVEL_fieldset++) {
+          let name = document.getElementById('rfp_term_service_levels_KPI_' + service_KPI_LEVEL_fieldset).value;
+          let desription = document.getElementById('rfp_term_definition_service_levels_KPI_' + service_KPI_LEVEL_fieldset).value;
+          let percentage = document.getElementById('rfp_term_percentage_KPI_' + service_KPI_LEVEL_fieldset).value;
+          if (name != undefined && name != null && name != '' && desription != undefined && desription != null && desription != '' && percentage != undefined && percentage != null && percentage != '') {
+            resetKPIData.push({ name: name, desription: desription, percentage: percentage });
+          }
+          document.getElementById('rfp_term_service_levels_KPI_' + service_KPI_LEVEL_fieldset).value = '';
+          document.getElementById('rfp_term_definition_service_levels_KPI_' + service_KPI_LEVEL_fieldset).value = '';
+          document.getElementById('rfp_term_percentage_KPI_' + service_KPI_LEVEL_fieldset).value = '';
+
+          let this_fieldset = document.querySelector('.acronym_service_levels_KPI_' + (service_KPI_LEVEL_fieldset === 0 ? 1 : service_KPI_LEVEL_fieldset));
+          this_fieldset?.classList.add('ccs-dynaform-hidden');
+
+        }
+       
+
+        for (var service_KPI_LEVEL_fieldset = 1; service_KPI_LEVEL_fieldset < 11; service_KPI_LEVEL_fieldset++) {
+          if (service_KPI_LEVEL_fieldset == 1) {
+            document.getElementById('rfp_term_service_levels_KPI_' + 1).value = resetKPIData[0]?.name != undefined ? resetKPIData[0]?.name : '';
+            document.getElementById('rfp_term_definition_service_levels_KPI_' + 1).value = resetKPIData[0]?.desription != undefined ? resetKPIData[0]?.desription : '';
+            document.getElementById('rfp_term_percentage_KPI_' + 1).value = resetKPIData[0]?.percentage != undefined ? resetKPIData[0]?.percentage : '';
+          } else {
+            document.getElementById('rfp_term_service_levels_KPI_' + service_KPI_LEVEL_fieldset).value = resetKPIData[service_KPI_LEVEL_fieldset - 1]?.name != undefined ? resetKPIData[service_KPI_LEVEL_fieldset - 1]?.name : '';
+            document.getElementById('rfp_term_definition_service_levels_KPI_' + service_KPI_LEVEL_fieldset).value = resetKPIData[service_KPI_LEVEL_fieldset - 1]?.desription != undefined ? resetKPIData[service_KPI_LEVEL_fieldset - 1]?.desription : '';
+            document.getElementById('rfp_term_percentage_KPI_' + service_KPI_LEVEL_fieldset).value = resetKPIData[service_KPI_LEVEL_fieldset - 1]?.percentage != undefined ? resetKPIData[service_KPI_LEVEL_fieldset - 1]?.percentage : '';
+          }
+
+          let this_fieldset = document.querySelector('.acronym_service_levels_KPI_' + (service_KPI_LEVEL_fieldset === 0 ? 1 : service_KPI_LEVEL_fieldset)),
+            name_box = document.getElementById('rfp_term_service_levels_KPI_' + (service_KPI_LEVEL_fieldset === 0 ? 1 : service_KPI_LEVEL_fieldset));
+          //document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset);
+          //element.classList.add("ccs-dynaform-hidden");
+
+          if (name_box.value !== '' && name_box.value !== undefined && name_box.value !== null) {
+            with_value_count=service_KPI_LEVEL_fieldset;
+            this_fieldset.classList.remove('ccs-dynaform-hidden');
+            if (service_KPI_LEVEL_fieldset === 10) {
+              document.getElementById('ccs_rfpTerm_add').classList.add('ccs-dynaform-hidden');
+            }
+            document.getElementById('kpiKeyLevel').textContent = service_KPI_LEVEL_fieldset;
+          } else if (service_KPI_LEVEL_fieldset !== 0) {
+            this_fieldset?.classList.add('ccs-dynaform-hidden');
+            with_value_count = service_KPI_LEVEL_fieldset;
+          }
+          if (service_KPI_LEVEL_fieldset === 1) {
+            this_fieldset?.classList.remove('ccs-dynaform-hidden');
+            with_value_count = 1;
+          }
+        }
+
+        //document.getElementById("remove_icon_" + target).classList.add('ccs-dynaform-hidden');
 
         document.getElementById("kpiKeyLevel").textContent = prev_coll;
         if (prev_coll > 1) {
           document.getElementById("kpiKeyLevel").textContent = prev_coll;
-          document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+          //document.querySelector('.acronym_service_levels_KPI_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
         }
 
         document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
         with_value_count--;
+        checkHowManyKPIAddedSoFar();
       });
     });
+
     for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
       let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
@@ -78,12 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // if (Number(percentageElement[index].value) > 100) {
         //   errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
         // }
-        if(percentageElement[index].value!=""){
-        if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) >100) {
+        if (percentageElement[index].value != "") {
+          if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) > 100) {
 
-          errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
+            errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
+          }
         }
-      }
       }
       if (totalPercentage === 100) {
         errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
@@ -93,24 +163,34 @@ document.addEventListener('DOMContentLoaded', () => {
       errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
       e.preventDefault();
       if (errorStore == null || errorStore.length <= 0) {
-        document.querySelector(".acronym_service_levels_KPI_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-        if (with_value_count > 2) {
-          prev_input = with_value_count - 1;
-          document.querySelector(".acronym_service_levels_KPI_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
-          document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
+        let containsHiddenClassAtPostion=[]
+        for (var i = 1; i < 11; i++) {
+          let rootEl = document.getElementsByClassName('acronym_service_levels_KPI_' + i);
+          if (!rootEl?.[0].classList?.contains('ccs-dynaform-hidden')) {
+            document.getElementById("kpiKeyLevel").textContent = i;
+          }else{
+            containsHiddenClassAtPostion.push(i);
+          }          
         }
-        document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-        with_value_count++;
+        document.querySelector(".acronym_service_levels_KPI_" + containsHiddenClassAtPostion[0]).classList.remove("ccs-dynaform-hidden");
+
+        // if (with_value_count > 2) {
+        //   prev_input = with_value_count - 1;
+        //   //document.querySelector(".acronym_service_levels_KPI_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+        //   //document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
+        // }
+        // document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
+        // with_value_count++;
 
 
-        //document.getElementById("kpiKeyLevel").textContent = with_value_count;
-        if (with_value_count === 11) {
-          document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
-        }
+        // document.getElementById("kpiKeyLevel").textContent = with_value_count;
+        // if (with_value_count === 11) {
+        //   document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+        // }
       } else {
         ccsZPresentErrorSummary(errorStore);
       }
-
+      checkHowManyKPIAddedSoFar();
     });
 
 
@@ -119,7 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.keyCode == '69') { event.preventDefault(); }
       })
     })
-
+  //on realod page IIF function
+  checkHowManyKPIAddedSoFar();
   }
 });
 
@@ -181,7 +262,7 @@ const emptyFieldCheckRfpKPI = () => {
     if (term_field !== undefined && term_field !== null && definition_field !== undefined && definition_field !== null && target_field !== undefined && target_field !== null) {
       const field1 = countWordskpi(term_field?.value) > 50;
       //const field2 = countWordskpi(definition_field?.value) > 150;
-      const field2 = countCharacterkpi(definition_field?.value)>5000;
+      const field2 = countCharacterkpi(definition_field?.value) > 5000;
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
         //checkFieldsRfpKPI()
         if (term_field.value.trim() !== '' && definition_field.value.trim() !== '' && target_field.value.trim() !== '') {
@@ -251,15 +332,15 @@ const ccsZvalidateRfpKPI = (event) => {
     //   let index1 = Number(index) + 1;
     //   errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
     // }
-    if(percentageElement[index].value!=""){
-    if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) >100) {
-      let index1 = Number(index) + 1;
+    if (percentageElement[index].value != "") {
+      if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) > 100) {
+        let index1 = Number(index) + 1;
 
-      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
+        errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
 
-      
+
+      }
     }
-  }
     if (Number(percentageElement[index].value) < 0) {
       let index1 = Number(index) + 1;
       errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter positive value for percentage"])
@@ -292,15 +373,15 @@ $('#service_levels_kpi_form').on('submit', (event) => {
     //   let index1 = Number(index) + 1;
     //   errorStore.push(["rfp_term_percentage_KPI_" + index1, "Please enter percentage value less than 100"])
     // }
-    if(percentageElement[index].value!=""){
-    if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) >100) {
-      let index1 = Number(index) + 1;
+    if (percentageElement[index].value != "") {
+      if (Number(percentageElement[index].value) < 1 || Number(percentageElement[index].value) > 100) {
+        let index1 = Number(index) + 1;
 
-      errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
+        errorStore.push(["rfp_term_percentage_KPI_" + index1, "Enter your percentage in whole numbers between 1 and 100"])
 
-     
+
+      }
     }
-  }
   }
   // if (totalPercentage === 100) {
   //   errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
@@ -316,3 +397,4 @@ $('#service_levels_kpi_form').on('submit', (event) => {
     ccsZPresentErrorSummary(errorStore);
   }
 });
+

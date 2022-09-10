@@ -1005,7 +1005,7 @@
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
                         {% call CCSFieldset({
                             legend: {
-                               html: "First service user type",
+                               html: "First service user type <a href='1' id='deleteButton_service_useer_type_1' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -1053,7 +1053,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: NumberWord[i] +" service user type"  +"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                                html: NumberWord[i] +" service user type"  +"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -1115,7 +1115,7 @@
                         <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2> 
                         {% call CCSFieldset({
                             legend: {
-                              html: "Enter your first KPI / SLA",
+                              html: "Enter your first KPI / SLA <a href='1' id='remove_icon_1' data='1'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -1180,7 +1180,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: "Enter your "+NumberWord[i]+" KPI / SLA <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                                html: "Enter your "+NumberWord[i]+" KPI / SLA <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
