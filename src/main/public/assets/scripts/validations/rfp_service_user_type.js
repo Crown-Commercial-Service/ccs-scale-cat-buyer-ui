@@ -2,6 +2,20 @@ const countWords = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("service_user_type_form") !== null) {
+    let all_InputField = document.querySelectorAll(".govuk-input");
+    let all_TextareaField = document.querySelectorAll(".govuk-textarea");
+    all_InputField.forEach((db) => {
+      db.addEventListener('keydown', (e) => {
+        //e.preventDefault();
+        removeErrorFieldServiceUserType();
+      })
+    });
+    all_TextareaField.forEach((db) => {
+      db.addEventListener('keydown', (e) => {
+        //e.preventDefault();
+        removeErrorFieldServiceUserType();
+      })
+    });
     const removeErrorFieldServiceUserType = () => {
       $('.govuk-error-message').remove();
       $('.govuk-form-group--error').removeClass('govuk-form-group--error');
@@ -55,18 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
       //checkFieldsRfp();
 
       e.preventDefault();
-      //document.querySelector(".acronym_service_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
-      // if (with_value_count > 2) {
-      //   prev_input = with_value_count - 1;
-      //   document.querySelector(".acronym_service_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
-      // }
-
-      // with_value_count++;
-
-      // if (with_value_count === 11) {
-      //   document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
-      // }
       removeErrorFieldServiceUserType();
       let errorStore = [];
       let containsHiddenClassAtPostion = []
@@ -74,22 +77,22 @@ document.addEventListener('DOMContentLoaded', () => {
         let rootEl = document.getElementsByClassName('acronym_service_' + i);
         let group = document.getElementById('rfp_term_service_group_' + i).value;
         let details = document.getElementById('rfp_term_more_details_' + i).value;
-        if (errorStore ==null ||errorStore.length <=0) {
-          if ((group == undefined || group == null || group == '') && (details == undefined || details == null || details == '')) {
-            errorStore.push(["acronym_service_" + i, "Please enter valid data"])
-          }
-          if (group == undefined || group == null || group == '') {
-            errorStore.push(["rfp_term_service_group_" + i, "Please enter service group name"])
-            ccsZaddErrorMessageClass(document.getElementById('rfp_term_service_group_' + i), "Please enter service group name");
-          }
-          if (details == undefined || details == null || details == '') {
-            errorStore.push(["rfp_term_more_details_" + i, "Please enter service group details"])
-            ccsZaddErrorMessageClass(document.getElementById('rfp_term_more_details_' + i), "Please enter service group details");
-          }
-        }       
 
         if (!rootEl?.[0].classList?.contains('ccs-dynaform-hidden')) {
           //document.getElementById("kpiKeyLevel").textContent = i;
+          if (errorStore == null || errorStore.length <= 0) {
+            if (group == undefined || group == null || group == '' || details == undefined || details == null || details == '') {
+              errorStore.push(["acronym_service_" + i, "Please enter valid data"])
+            }
+            if (group == undefined || group == null || group == '') {
+              errorStore.push(["rfp_term_service_group_" + i, "Please enter service group name"])
+              ccsZaddErrorMessageClass(document.getElementById('rfp_term_service_group_' + i), "Please enter service group name");
+            }
+            if (details == undefined || details == null || details == '') {
+              errorStore.push(["rfp_term_more_details_" + i, "Please enter service group details"])
+              ccsZaddErrorMessageClass(document.getElementById('rfp_term_more_details_' + i), "Please enter service group details");
+            }
+          }
         } else {
           containsHiddenClassAtPostion.push(i);
         }
@@ -106,19 +109,18 @@ document.addEventListener('DOMContentLoaded', () => {
       db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
         e.preventDefault();
+        removeErrorFieldServiceUserType();
 
-        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_coll = Number(target) - 1,
-          target_fieldset = db.closest("fieldset");
+        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2");
+          // prev_coll = Number(target) - 1,
+          // target_fieldset = db.closest("fieldset");
 
         // target_fieldset.classList.add("ccs-dynaform-hidden");
 
         document.getElementById('rfp_term_service_group_' + target).value = "";
         document.getElementById('rfp_term_more_details_' + target).value = "";
-        if (prev_coll > 1) {
-          // document.querySelector('.acronym_service_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
-        }
-        //RESET ALL TIER DATA AFTER DELETED ANY DATA
+
+        //RESET ALL DATA AFTER DELETED ANY DATA
         let resetKPIData = [];
         for (var service_userType_fieldset = 1; service_userType_fieldset < 11; service_userType_fieldset++) {
           let group = document.getElementById('rfp_term_service_group_' + service_userType_fieldset).value;
@@ -168,20 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
         checkHowManyServiceTypeAddedSoFar();
       });
     });
-    // clearFieldsButtons.forEach((db) => {
-    //   db.addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-    //       target_fieldset = db.closest("fieldset");
-
-    //     target_fieldset.classList.add("ccs-dynaform");
-
-    //     document.getElementById('rfp_term_service_group_' + target).value = "";
-    //     document.getElementById('rfp_term_more_details_' + target).value = "";
-    //     // removeErrorFieldsRfp();
-    //   });
-
-    // });
 
     //call this function when dom element and all function load
     checkHowManyServiceTypeAddedSoFar();

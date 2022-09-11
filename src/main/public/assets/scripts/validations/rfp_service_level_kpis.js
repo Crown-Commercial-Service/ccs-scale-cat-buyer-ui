@@ -1,20 +1,6 @@
 const countWordskpi = (str) => { return str?.trim().split(/\s+/).length };
 const countCharacterkpi = (str) => { return str.length };
-//#region Number_of count 
-const checkHowManyKPIAddedSoFar = function () {
-  for (var i = 1; i < 11; i++) {
-    let rootEl = document.getElementsByClassName('acronym_service_levels_KPI_' + i);
-    if (!rootEl?.[0].classList?.contains('ccs-dynaform-hidden')) {
-      document.getElementById("kpiKeyLevel").textContent = i;
-    }
-    
-    if (i <= 9 && !rootEl?.[0].classList?.contains('ccs-dynaform-hidden')) {
-      document.getElementById("ccs_rfpTerm_add").classList?.remove('ccs-dynaform-hidden')
-    } else if (!rootEl?.[0].classList.contains('ccs-dynaform-hidden')) {
-      document.getElementById("ccs_rfpTerm_add").classList?.add('ccs-dynaform-hidden')
-    }
-  }
-}
+
 //#endregion
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -25,6 +11,42 @@ document.addEventListener('DOMContentLoaded', () => {
       deleteButtons = document.querySelectorAll("a.del");
     let precentageInputs = document.querySelectorAll(".govuk-input--width-5");
     let deleteButtonCount = [];
+    let all_InputField = document.querySelectorAll(".govuk-input");
+    let all_TextareaField = document.querySelectorAll(".govuk-textarea");
+    all_InputField?.forEach((db) => {
+      db.addEventListener('keydown', (e) => {
+        //e.preventDefault();
+        removeErrorFieldServiceUserType();
+      })
+    });
+    all_TextareaField?.forEach((db) => {
+      db.addEventListener('keydown', (e) => {
+        //e.preventDefault();
+        removeErrorFieldServiceUserType();
+      })
+    });
+    const removeErrorFieldServiceUserType = () => {
+      $('.govuk-error-message').remove();
+      $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+      $('.govuk-error-summary').remove();
+      $('.govuk-input').removeClass('govuk-input--error');
+      $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+    };
+    //#region Number_of count 
+    const checkHowManyKPIAddedSoFar = function () {
+      for (var i = 1; i < 11; i++) {
+        let rootEl = document.getElementsByClassName('acronym_service_levels_KPI_' + i);
+        if (!rootEl?.[0].classList?.contains('ccs-dynaform-hidden')) {
+          document.getElementById("kpiKeyLevel").textContent = i;
+        }
+
+        if (i <= 9 && !rootEl?.[0].classList?.contains('ccs-dynaform-hidden')) {
+          document.getElementById("ccs_rfpTerm_add").classList?.remove('ccs-dynaform-hidden')
+        } else if (!rootEl?.[0].classList.contains('ccs-dynaform-hidden')) {
+          document.getElementById("ccs_rfpTerm_add").classList?.add('ccs-dynaform-hidden')
+        }
+      }
+    }
     // delete buttons
     deleteButtons.forEach((db) => {
       //db.classList.add('ccs-dynaform-hidden')
@@ -40,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rfp_term_percentage_KPI_' + target).value = "";
         //target_fieldset.classList.add("ccs-dynaform-hidden");
 
-        //RESET ALL TIER DATA AFTER DELETED ANY DATA
+        //RESET ALL DATA AFTER DELETED ANY DATA
         let resetKPIData = [];
         for (var service_KPI_LEVEL_fieldset = 1; service_KPI_LEVEL_fieldset < 11; service_KPI_LEVEL_fieldset++) {
           let name = document.getElementById('rfp_term_service_levels_KPI_' + service_KPI_LEVEL_fieldset).value;
@@ -57,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
           this_fieldset?.classList.add('ccs-dynaform-hidden');
 
         }
-       
+
 
         for (var service_KPI_LEVEL_fieldset = 1; service_KPI_LEVEL_fieldset < 11; service_KPI_LEVEL_fieldset++) {
           if (service_KPI_LEVEL_fieldset == 1) {
@@ -76,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
           //element.classList.add("ccs-dynaform-hidden");
 
           if (name_box.value !== '' && name_box.value !== undefined && name_box.value !== null) {
-            with_value_count=service_KPI_LEVEL_fieldset;
+            with_value_count = service_KPI_LEVEL_fieldset;
             this_fieldset.classList.remove('ccs-dynaform-hidden');
             if (service_KPI_LEVEL_fieldset === 10) {
               document.getElementById('ccs_rfpTerm_add').classList.add('ccs-dynaform-hidden');
@@ -162,30 +184,16 @@ document.addEventListener('DOMContentLoaded', () => {
       errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
       e.preventDefault();
       if (errorStore == null || errorStore.length <= 0) {
-        let containsHiddenClassAtPostion=[]
+        let containsHiddenClassAtPostion = []
         for (var i = 1; i < 11; i++) {
           let rootEl = document.getElementsByClassName('acronym_service_levels_KPI_' + i);
           if (!rootEl?.[0].classList?.contains('ccs-dynaform-hidden')) {
             document.getElementById("kpiKeyLevel").textContent = i;
-          }else{
+          } else {
             containsHiddenClassAtPostion.push(i);
-          }          
+          }
         }
         document.querySelector(".acronym_service_levels_KPI_" + containsHiddenClassAtPostion[0]).classList.remove("ccs-dynaform-hidden");
-
-        // if (with_value_count > 2) {
-        //   prev_input = with_value_count - 1;
-        //   //document.querySelector(".acronym_service_levels_KPI_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
-        //   //document.querySelector("#remove_icon_" + prev_input).classList.add("ccs-dynaform-hidden");
-        // }
-        // document.querySelector("#remove_icon_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-        // with_value_count++;
-
-
-        // document.getElementById("kpiKeyLevel").textContent = with_value_count;
-        // if (with_value_count === 11) {
-        //   document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
-        // }
       } else {
         ccsZPresentErrorSummary(errorStore);
       }
@@ -198,8 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.keyCode == '69') { event.preventDefault(); }
       })
     })
-  //on realod page IIF function
-  checkHowManyKPIAddedSoFar();
+    //on realod page IIF function
+    checkHowManyKPIAddedSoFar();
   }
 });
 
