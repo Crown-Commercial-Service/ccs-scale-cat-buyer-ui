@@ -252,8 +252,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     //const rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
 
     const rfp_clarification_period_end = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 2").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
-
-
+    //let day=rfp_clarification_period_end1.substr(0,10);
+    //let time=rfp_clarification_period_end1.substr(11,5);
+    //const rfp_clarification_period_end=moment(day+" "+time,'YYYY-MM-DD HH:mm a',).format('DD MMMM YYYY, hh:mm a');
     const deadline_period_for_clarification_period = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 3").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
 
     const supplier_period_for_clarification_period = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 4").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
