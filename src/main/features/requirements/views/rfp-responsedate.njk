@@ -91,6 +91,8 @@
          <p class="govuk-body"><b>You can change the length of time for each section to more suitable times for you. It is recommended you set your times no later than 4pm on a weekday in case you need to contact CCS about your project.</b></p>
                     <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-5">
                         <p class="govuk-body-l govuk-!-margin-top-3"><strong>Timeline for the your further competition</strong></p>
+                          <input type="hidden" value="rfp-date" id ="rfp-date">
+
                     </div>
                     {%endif%} <br>
                     {% block valuewitNoMultiSelect %}
@@ -171,7 +173,7 @@
                             class="govuk-link govuk-link--no-visited-state " hidden>I do not want to change this date and time</a>
                                                     </div>
                                                     <br>
-                                                    <form action="/rfp/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form">
+                                                    <form action="/rfp/add/response-date" method="post" class="ccs_eoi_response_date_form" id="ccs_rfp_response_date_form_{{loop.index}}">
                                                     {{ csrfProtection(csrf) }}
                                                         <fieldset class="govuk-fieldset" role="group" aria-describedby="clarification_end_date">
                                                             <div class="govuk-date-input" id="clarification_date">
@@ -236,7 +238,7 @@
                                                                 </div>
                                                                 <div class="govuk-date-input__item">
                                                                     {{ CCSSelect({
-                                id: "clarification_date-hourFormat",
+                                id: "clarification_date-hourFormat_"+loop.index,
                                 name: "clarification_date_hourFormat",                      
                                 classes: "",
                                 items: [

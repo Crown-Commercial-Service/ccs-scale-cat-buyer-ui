@@ -108,7 +108,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
     );
   }
 };
-function isValidQuestion(
+export const isValidQuestion = async (
   questionId: number,
   day: number,
   month: number,
@@ -117,7 +117,8 @@ function isValidQuestion(
   minute: number,
   timeinHoursBased: number,
   timeline: any,
-) {
+  SESSION_ID:any
+) =>{
   //const date1 = new Date(year, month, day, timeinHoursBased, minute);
   //let todaydate=new Date();
   let isValid = true,
@@ -229,6 +230,27 @@ function isValidQuestion(
     default:
       isValid = true;
   }
+  if(isValid)
+  {
+    const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
+    let bankHoliDayData = await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl);
+    bankHoliDayData = bankHoliDayData?.data;
+    let listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
+
+    // let newdate ={title: 'New Year’s Day', date: '2022-09-20', notes: 'Substitute day', bunting: true}
+    // listOfHolidayDate.push(newdate);
+
+    const questionNewDate = new Date(year, month, day, timeinHoursBased, minute);
+    const newDate = moment(questionNewDate).format('YYYY-MM-DD');
+
+    const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
+    if (filterDate != undefined && filterDate != null) {
+      isValid = false;
+      error = 'You can not set date which is fall down on bank holiday';
+      errorSelector = `rfp_clarification_date_expanded_${questionId.replace('Question ','')}`;
+    }
+    //rfi_clarification_date_expanded_3
+  }
   return { isValid, error, errorSelector };
 }
 // @POST "/rfp/add/response-date"
@@ -243,6 +265,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     selected_question_id,
   } = req.body;
   const { timeline } = req.session;
+  const { SESSION_ID } = req.cookies;
   clarification_date_day = Number(clarification_date_day);
   clarification_date_month = Number(clarification_date_month);
   clarification_date_year = Number(clarification_date_year);
@@ -274,7 +297,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     clarification_date_minute,
   );
   const nowDate = new Date();
-  const { isValid, error, errorSelector } = isValidQuestion(
+  const { isValid, error, errorSelector } = await isValidQuestion(
     selected_question_id,
     clarification_date_day,
     clarification_date_month,
@@ -283,6 +306,7 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     clarification_date_minute,
     timeinHoursBased,
     timeline,
+    SESSION_ID,
   );
   if (date.getTime() >= nowDate.getTime() && isValid) {
     date = moment(date).format('DD MMMM YYYY, hh:mm a');
