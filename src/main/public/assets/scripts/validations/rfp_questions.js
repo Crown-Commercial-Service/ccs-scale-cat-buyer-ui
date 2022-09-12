@@ -524,5 +524,32 @@ document.addEventListener('DOMContentLoaded', () => {
     let id = tmpid.substring(12);
     $(".rfp_fc_req_" + id + '_' + name).text(`You have ${(maxlength - currentLength)} characters remaining`);
   });
+
+  $(".weightage").keyup(function () {
+    var allElements = document.getElementsByClassName("weightage");
+    var totalsum = 0;
+    removeErrorFieldsRfpScoreQuestion();
+    for(i=1;i<allElements.length;i++){
+      totalsum += Number(document.getElementById("fc_question_precenate_"+i).value); 
+    }
+    if(totalsum>100)
+    {
+      document.getElementsByClassName("add-another-btn")[0].classList.add('ccs-dynaform-hidden');
+      errorStore.push(["fc_question_precenate_"+i, "The weighting cannot exceed 100%"]);
+      ccsZPresentErrorSummary(errorStore);    
+    }
+    else if(totalsum>=100)
+    {
+      document.getElementsByClassName("add-another-btn")[0].classList.add('ccs-dynaform-hidden'); 
+    }
+    else if(totalsum<100)
+    {
+      document.getElementsByClassName("add-another-btn")[0].classList.remove('ccs-dynaform-hidden');
+    }
+  });  
+
+
+
   checkHowManyQuestionAddedSoFar();
+  
 });
