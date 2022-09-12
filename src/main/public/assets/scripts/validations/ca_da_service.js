@@ -189,6 +189,24 @@ document.addEventListener('DOMContentLoaded', () => {
         //const WholeWeightageCluster = "#whole_weightage_" + a
         //$(PartialClusterDIV).fadeOut();
         //$(WholeclusterDIV).fadeOut();
+        //$('#whole_weightage_' + a).prop("checked",true);
+
+        if ($('#whole_weightage_' + a).is(':checked')) {
+               
+            $(PartialClusterDIV).fadeOut();
+            $(WholeclusterDIV).fadeIn();
+        }  
+        else if ($('#partial_weightage_' + a).is(':checked')) {
+               
+            $(PartialClusterDIV).fadeIn();
+            $(WholeclusterDIV).fadeOut();
+        }  
+        else
+        {
+            $(PartialClusterDIV).fadeOut();
+            $(WholeclusterDIV).fadeOut();            
+        }      
+        
         $('#whole_weightage_' + a).click(function () {
            
             if ($(this).is(':checked')) {

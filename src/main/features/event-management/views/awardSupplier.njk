@@ -82,7 +82,8 @@
        <p> <strong>Address:</strong></p>
        <p> {{supplierDetails.supplierAddress.streetAddress}}</p>
        <p> {{supplierDetails.supplierAddress.locality}}</p>
-       <p> {{supplierDetails.supplierAddress.region}}</p>
+       <p> {{supplierDetails.supplierAddress.postalCode}}</p>
+       <p> {{supplierDetails.supplierAddress.countryName}}</p>
       
        </br>
        </br>
@@ -95,7 +96,9 @@
        <p> {{supplierDetails.supplierContactEmail}}</p>
        </br>
        <p> <strong>Website:</strong></p>
-       <p> {{supplierDetails.supplierWebsite}}</p>
+        <div class="govuk-button-group">
+       <a class="govuk-link" href="{{supplierDetails.supplierWebsite}}" target="_blank">{{supplierDetails.supplierWebsite}}</a> 
+          </div>
        </br>
        </br>
        </br>
@@ -128,11 +131,11 @@
                       
                     </th>
                      <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/download-supplier-responce?supplierid={{supplier.supplierId}}">Download</a>
+                      <a class="govuk-link" href="/download-supplier-responce?supplierid={{supplier.supplierIdMain}}">Download</a>
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=awardSupplier">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierIdMain}}&&Type=awardSupplier">Review evaluation</a>
                     </td>
                     <th scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
@@ -187,7 +190,7 @@
         },
         text: "Award supplier"
         }) }}
-                                  <a class="govuk-link" href="/award-supplier-document?supplierId={{supplierDetails.supplierId}}">Return to Your project</a> 
+                                  <a class="govuk-link" href="/award-supplier-document?supplierId={{supplierDetails.supplierIdMain}}">Return to Your project</a> 
                                 </div>
                                 
                               </form>          

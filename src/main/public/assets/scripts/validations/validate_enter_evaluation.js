@@ -43,6 +43,9 @@ const ccsZvalidateFeedbackScore= (event) => {
       labelElement.innerText=count + " remaining of 5000";
   };
 
+  let labelElement=document.getElementById("supplierFeedback");
+  labelElement.innerText= "5000 characters remaining";  
+
 
   var txt = document.getElementById('enter_evaluation_score');
     txt.addEventListener('keyup', myFunc);

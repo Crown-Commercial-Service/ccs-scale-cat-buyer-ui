@@ -148,7 +148,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           }
           let supplierDetailsObj = {} as SupplierDetails;
 
-          supplierDetailsObj.supplierName = supplierdata.data?.responders[i]?.supplier?.name;
+          //supplierDetailsObj.supplierName = supplierdata.data?.responders[i]?.supplier?.name;
           supplierDetailsObj.responseState = supplierdata.data?.responders[i]?.responseState;
           supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
           supplierDetailsObj.score = (score != undefined) ? score : 0;
@@ -159,7 +159,9 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             supplierDetailsObj.supplierContactName = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null && supplierFiltedData.contactPoint?.name != undefined && supplierFiltedData.contactPoint?.name != null ? supplierFiltedData.contactPoint?.name : null;
             supplierDetailsObj.supplierContactEmail = supplierFiltedData.contactPoint != undefined ? supplierFiltedData.contactPoint?.email : null;
             supplierDetailsObj.supplierWebsite = supplierFiltedData.contactPoint != undefined && supplierFiltedData.contactPoint != null ? supplierFiltedData.contactPoint?.url : null;
+            supplierDetailsObj.supplierName = supplierFiltedData.name != undefined && supplierFiltedData.name != null ? supplierFiltedData.name : null;
             supplierDetailsObj.supplierId = id;
+            supplierDetailsObj.supplierIdMain = id;
             supplierDetailsObj.supplierState = "Unsuccessfull";
             supplierDetailsDataList.push(supplierDetailsObj);
           }
@@ -221,6 +223,8 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
               supplierDetails.standStillFlag = false;
             }
           }
+          supplierDetails.supplierId = supplierDetails?.supplierId.substring(3);
+          supplierDetails.supplierId = supplierDetails?.supplierId.replace(/-/g, " ");
         }
         //to get signed awarded contrct end date
         if (status.toLowerCase() == "complete") {
@@ -252,7 +256,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
       } catch (error) { }
 
-      let appendData = { documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+      let appendData = { documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId,projectId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {
@@ -442,12 +446,16 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
       const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/responses`
       const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
 
+      let supplierDataList = [];
+      supplierDataList = await GetLotSuppliers(req);
+
       //let showallDownload = false;
       for (let i = 0; i < supplierdata?.data?.responders?.length; i++) {
         let id = supplierdata.data.responders[i].supplier.id;
         if (id == reviewsupplierid) {
           let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]
-          supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
+         // supplierDetails.supplierName = supplierdata.data.responders[i].supplier.name;
+          supplierDetails.supplierName = supplierDataList?.filter((a: any) => (a.organization.id == id))?.[0]?.organization?.name;
           supplierDetails.responseState = supplierdata.data.responders[i].responseState;
           supplierDetails.responseDate = supplierdata.data.responders[i].responseDate;
           supplierDetails.score = (score != undefined) ? score.score : 0;

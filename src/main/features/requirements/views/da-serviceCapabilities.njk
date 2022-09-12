@@ -100,7 +100,7 @@
                                 <div class="govuk-radios" data-module="govuk-radios">
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
           
-                                    <input class="govuk-radios__input whole_radio" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" checked="checked"  >
+                                    <input class="govuk-radios__input whole_radio" id="whole_weightage_{{loop.index}}" name="weightage_{{loop.index}}" type="radio" value="whole">
                       
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="whole_weightage_{{loop.index}}">
                                       Enter a weighting for the whole cluster 
@@ -148,7 +148,7 @@
                                   </div>
                                 <div>
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
-                                    <input class="govuk-radios__input" id="partial_weightage_{{loop.index}}" name="weightage" type="radio" value="partial">
+                                    <input class="govuk-radios__input" id="partial_weightage_{{loop.index}}" name="weightage_{{loop.index}}" type="radio" value="partial">
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="partial_weightage_{{loop.index}}">
                                       Enter a weighting for specific capabilities
                                     </label>

@@ -15,7 +15,7 @@ import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpda
  * @GETController
  */
 export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Response) => {
-  const { projectId,eventId } = req.session;
+  const { projectId, eventId } = req.session;
   if (
     operations.isUndefined(req.query, 'agreement_id') ||
     operations.isUndefined(req.query, 'proc_id') ||
@@ -33,20 +33,20 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
       let criterianStorage: any = [];
       for (const aURI of extracted_criterion_based) {
-        if (aURI.trim().toLowerCase() ==="Criterion 3".toLowerCase()) {
+        if (aURI.trim().toLowerCase() === "Criterion 3".toLowerCase()) {
           const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-        const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
-        const criterian_array = fetch_criterian_group_data?.data;
-        const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
-          const object = anItem;
-          object['criterianId'] = aURI;
-          return object;
-        });
-        criterianStorage.push(rebased_object_with_requirements);
+          const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+          const criterian_array = fetch_criterian_group_data?.data;
+          const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
+            const object = anItem;
+            object['criterianId'] = aURI;
+            return object;
+          });
+          criterianStorage.push(rebased_object_with_requirements);
         }
-        
+
       }
-     criterianStorage = criterianStorage[0];
+      criterianStorage = criterianStorage[0];
       const sorted_ascendingly = [];
       criterianStorage.map(obj => {
         sorted_ascendingly[obj.OCDS.id.split(' ')[1]] = obj;
@@ -58,15 +58,15 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       const excludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
         AField => AField.OCDS.id !== 'Group Key Dates',
       );
-      const excludingIR35andSkills = excludingKeyDates.filter(field => (field.OCDS.description !== 'IR35 acknowledgement' && field.OCDS.description !== 'Set essential and preferred skills'));
-      if (excludingIR35andSkills !=null && excludingIR35andSkills.length >0) {
+      const excludingIR35andSkills = excludingKeyDates.filter(field => (field.OCDS.description?.toLowerCase() !== 'Confirm if you need a contracted out service or a supply of resource'.toLowerCase() && field.OCDS.description !== 'IR35 acknowledgement' && field.OCDS.description !== 'Set essential and preferred skills'));
+      if (excludingIR35andSkills != null && excludingIR35andSkills.length > 0) {
         excludingIR35andSkills.map(x => {
           if (!x.nonOCDS.mandatory) {
             x.OCDS.description += " (optional)"
           }
         });
       }
-      
+
       // let text='';
       // for(var i=0;i<excludingIR35andSkills.length;i++)
       // {
@@ -131,7 +131,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       // }
 
       const releatedContent = req.session.releatedContent;
-      let selectedeventtype=req.session.selectedeventtype;
+      let selectedeventtype = req.session.selectedeventtype;
       const display_fetch_data = {
         data: excludingIR35andSkills,
         agreement_id: agreement_id,
