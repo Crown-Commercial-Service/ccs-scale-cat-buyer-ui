@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   $('.additional').addClass('ccs-dynaform-hidden');
-
+  const pageHeading = document.getElementById('page-heading').innerHTML;
   //#reagion Number_of count 
   const checkHowManyQuestionAddedSoFar = function () {
-    const pageHeading = document.getElementById('page-heading').innerHTML;
+
     for (var i = 1; i < 11; i++) {
       let rootEl = document.getElementById('fc_question_' + i);
       const divElem = document.querySelector('#fc_question_' + i);
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   //#endregion
-  const pageHeading = document.getElementById('page-heading').innerHTML;
   if (pageHeading.includes("Enter your project requirements")) {
     [].forEach.call(document.querySelectorAll('.character-count'), function (el) {
       el.style.display = 'none'
@@ -85,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
       elements.forEach(el => {
         weightageSum += isNaN(el.value) ? 0 : Number(el.value);
       });
-      const pageHeading = document.getElementById('page-heading').innerHTML;
+      //const pageHeading = document.getElementById('page-heading').innerHTML;
       if (!(pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your cultural fit questions') || pageHeading.includes('Write your social value questions'))) {
         if (weightageSum > 100) {
           errorStore.push(["There is a problem", "The weighting cannot exceed 100%"]);
@@ -103,6 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let allTextBox = document.getElementsByTagName("textarea");
     for (let index = 0; index < allTextBox.length; index++) {
       let ele = allTextBox[index];
+      if (pageHeading.includes("Enter your project requirements"))
+        ele.id = ele.id + "_Requirements_" + index;
       ele.addEventListener('keyup', (event) => {
         let maxLength = event.target.maxLength;
         let count = maxLength - event.target.value.length;
@@ -126,27 +127,139 @@ document.addEventListener('DOMContentLoaded', () => {
     totalAnswerd();
     totalPercentage();
     deleteButtons.forEach((db) => {
-      db.classList.add('ccs-dynaform-hidden')
+      //db.classList.add('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
         e.preventDefault();
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_input = Number(target) - 1,
           target_fieldset = db.closest("div");
+        if (!pageHeading.includes("Enter your")) {
+          target_fieldset.classList.add("ccs-dynaform-hidden");
+          let precentageValueofLast = 0;
+          if (document.getElementById('fc_question_precenate_' + target) != undefined && document.getElementById('fc_question_precenate_' + target) != null) {
+            precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
+          }
+          document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
 
-        target_fieldset.classList.add("ccs-dynaform-hidden");
-        let precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
-        document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+          document.getElementById('fc_question_' + target + "_1").value = "";
+          document.getElementById('fc_question_' + target + "_2").value = "";
+          document.getElementById('fc_question_' + target + "_3").value = "";
+          if (document.getElementById('fc_question_precenate_' + target) != undefined && document.getElementById('fc_question_precenate_' + target) != null) {
+            document.getElementById('fc_question_precenate_' + target).value = "";
+          }
 
-        document.getElementById('fc_question_' + target + "_1").value = "";
-        document.getElementById('fc_question_' + target + "_2").value = "";
-        document.getElementById('fc_question_' + target + "_3").value = "";
-        document.getElementById('fc_question_precenate_' + target).value = "";
-        if (prev_input > 1) {
-          document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
+          //RESET ALL DATA AFTER DELETED ANY DATA
+          let resetKPIData = [{}];
+          for (var question_fieldset = 1; question_fieldset < 11; question_fieldset++) {
+            let questionName = document.getElementById('fc_question_' + question_fieldset + "_1").value;
+            let questionDetails = document.getElementById('fc_question_' + question_fieldset + "_2").value;
+            let questionExplation = document.getElementById('fc_question_' + question_fieldset + "_3").value;
+            let precenatage = '';
+            if (document.getElementById('fc_question_precenate_' + question_fieldset) != undefined && document.getElementById('fc_question_precenate_' + question_fieldset) != null) {
+              precenatage = document.getElementById('fc_question_precenate_' + question_fieldset).value;
+            }
+
+            if (precenatage != undefined && precenatage != null && precenatage != '' && questionName != undefined && questionName != null && questionName != '' && questionDetails != undefined && questionDetails != null && questionDetails != '' && questionExplation != undefined && questionExplation != null && questionExplation != '') {
+              resetKPIData.push({ precenatage: precenatage, questionName: questionName, questionDetails: questionDetails, questionExplation: questionExplation });
+            }
+
+            document.getElementById('fc_question_' + question_fieldset + "_1").value = '';
+            document.getElementById('fc_question_' + question_fieldset + "_2").value = '';
+            document.getElementById('fc_question_' + question_fieldset + "_3").value = '';
+            if (document.getElementById('fc_question_precenate_' + question_fieldset) != undefined && document.getElementById('fc_question_precenate_' + question_fieldset) != null) {
+              document.getElementById('fc_question_precenate_' + question_fieldset).value = ''
+            }
+            let this_fieldset = document.getElementById('fc_question_' + (question_fieldset === 0 ? 1 : question_fieldset));
+            this_fieldset?.classList.add('ccs-dynaform-hidden');
+
+          }
+
+
+          for (var question_fieldset = 0; question_fieldset < 11; question_fieldset++) {
+            if (question_fieldset != 0) {
+              document.getElementById('fc_question_' + question_fieldset + "_1").value = resetKPIData[question_fieldset]?.questionName != undefined ? resetKPIData[question_fieldset]?.questionName : '';
+              document.getElementById('fc_question_' + question_fieldset + "_2").value = resetKPIData[question_fieldset]?.questionDetails != undefined ? resetKPIData[question_fieldset]?.questionDetails : '';
+              document.getElementById('fc_question_' + question_fieldset + "_3").value = resetKPIData[question_fieldset]?.questionExplation != undefined ? resetKPIData[question_fieldset]?.questionExplation : '';
+              document.getElementById('fc_question_precenate_' + question_fieldset).value = resetKPIData[question_fieldset]?.precenatage != undefined ? resetKPIData[question_fieldset]?.precenatage : ''
+
+            }
+
+            let this_fieldset = document.getElementById('fc_question_' + question_fieldset) != undefined && document.getElementById('fc_question_' + question_fieldset) != null ? document.getElementById('fc_question_' + question_fieldset) : null;
+            let name_box = document.getElementById('fc_question_' + question_fieldset + "_1");
+            if (this_fieldset != null && name_box?.value !== undefined && name_box?.value !== null && name_box?.value !== '') {
+              with_value_count = question_fieldset;
+              this_fieldset.classList.remove('ccs-dynaform-hidden');
+              if (question_fieldset === 10) {
+                document.getElementsByClassName('add-another-btn')[0].classList.add('ccs-dynaform-hidden');
+              }
+            } else if (this_fieldset != null && question_fieldset !== 0 && (name_box?.value == '' || name_box?.value == undefined || name_box?.value != null)) {
+              this_fieldset?.classList.add('ccs-dynaform-hidden');
+              with_value_count = question_fieldset;
+            }
+            if (this_fieldset != null && question_fieldset === 1) {
+              this_fieldset?.classList.remove('ccs-dynaform-hidden');
+              with_value_count = 1;
+            }
+          }
+        } else if (pageHeading.includes("Enter your")) {
+          target_fieldset.classList.add("ccs-dynaform-hidden");
+          const inputElements = target_fieldset.querySelectorAll("textarea")
+
+          document.getElementById(inputElements[0].id).value = "";
+          document.getElementById(inputElements[1].id).value = "";
+          document.getElementById(inputElements[2].id).value = "";
+
+          //RESET ALL DATA AFTER DELETED ANY DATA
+          let resetKPIData = [{}];
+          for (var question_fieldset = 1; question_fieldset < 11; question_fieldset++) {
+            let target_fieldset_getValue = document.getElementById("fc_question_" + question_fieldset)
+            //.querySelectorAll("textarea");
+
+            let questionGroupName = target_fieldset_getValue.querySelectorAll("textarea")[0]?.value;
+            let questionRequirement = target_fieldset_getValue.querySelectorAll("textarea")[1]?.value;
+            let questionRequirementDescribe = target_fieldset_getValue.querySelectorAll("textarea")[0]?.value;;
+            if (questionGroupName != undefined && questionGroupName != null && questionGroupName != '' && questionRequirement != undefined && questionRequirement != null && questionRequirement != '' && questionRequirementDescribe != undefined && questionRequirementDescribe != null && questionRequirementDescribe != '') {
+              resetKPIData.push({ questionGroupName: questionGroupName, questionRequirement: questionRequirement, questionRequirementDescribe: questionRequirementDescribe });
+            }
+
+            document.getElementById(target_fieldset_getValue.querySelectorAll("textarea")[0].id).value = '';
+            document.getElementById(target_fieldset_getValue.querySelectorAll("textarea")[1].id).value = '';
+            document.getElementById(target_fieldset_getValue.querySelectorAll("textarea")[2].id).value = '';
+
+            let this_fieldset = document.getElementById('fc_question_' + (question_fieldset === 0 ? 1 : question_fieldset));
+            this_fieldset?.classList.add('ccs-dynaform-hidden');
+          }
+
+
+          for (var question_fieldset = 0; question_fieldset < 11; question_fieldset++) {
+            let target_fieldset_getValue = document.getElementById("fc_question_" + question_fieldset)
+            let allInputTargetField = target_fieldset_getValue?.querySelectorAll("textarea");
+
+            if (question_fieldset != 0 && allInputTargetField !=null && allInputTargetField.length >0) {
+              document.getElementById(allInputTargetField[0].id).value = resetKPIData[question_fieldset]?.questionGroupName != undefined ? resetKPIData[question_fieldset]?.questionGroupName : '';
+              document.getElementById(allInputTargetField[1].id).value = resetKPIData[question_fieldset]?.questionRequirement != undefined ? resetKPIData[question_fieldset]?.questionRequirement : '';
+              document.getElementById(allInputTargetField[2].id).value = resetKPIData[question_fieldset]?.questionRequirementDescribe != undefined ? resetKPIData[question_fieldset]?.questionRequirementDescribe : '';
+            }
+
+            let this_fieldset = document.getElementById('fc_question_' + question_fieldset) != undefined && document.getElementById('fc_question_' + question_fieldset) != null ? document.getElementById('fc_question_' + question_fieldset) : null;
+            let name_box = allInputTargetField !=null && allInputTargetField.length >0? document.getElementById(allInputTargetField[0].id):null;
+            if (this_fieldset != null && name_box?.value !== undefined && name_box?.value !== null && name_box?.value !== '') {
+              with_value_count = question_fieldset;
+              this_fieldset?.classList.remove('ccs-dynaform-hidden');
+              if (question_fieldset === 10) {
+                document.getElementsByClassName('add-another-btn')[0].classList.add('ccs-dynaform-hidden');
+              }
+            } else if (this_fieldset != null && question_fieldset !== 0 && (name_box?.value == '' || name_box?.value == undefined || name_box?.value != null)) {
+              this_fieldset?.classList.add('ccs-dynaform-hidden');
+              with_value_count = question_fieldset;
+            }
+            if (this_fieldset != null && question_fieldset === 1) {
+              this_fieldset?.classList.remove('ccs-dynaform-hidden');
+              with_value_count = 1;
+            }
+          }
         }
-
-        //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
+        checkHowManyQuestionAddedSoFar();
       });
     });
     for (var box_num = 10; box_num > 1; box_num--) {
@@ -162,53 +275,35 @@ document.addEventListener('DOMContentLoaded', () => {
         with_value_count = box_num;
       }
       if (box_num === 2 && deleteButtonCount.length > 0) {
-        $("#del_fc_question_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
+        //$("#del_fc_question_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
       }
-    }
-    if (with_value_count > 1) {
-      $('#del_fc_question_' + with_value_count).removeClass('ccs-dynaform-hidden');
     }
     $('.add-another-btn').on('click', function () {
       errorStore = [];
-      const pageHeading = document.getElementById('page-heading').innerHTML;
-
-      //$('.govuk-error-summary').remove();
-      // $('.govuk-form-group--error').remove();
+      //const pageHeading = document.getElementById('page-heading').innerHTML;
       removeErrorFieldsRfpScoreQuestion();
-      // if (!pageHeading.includes("Enter your project requirements") && Number($('#totalPercentage').text()) >= 100) {
-      //   errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
-      // } else if (!pageHeading.includes("Enter your project requirements") && Number($('#totalPercentage').text()) <= 0) {
-      //   errorStore.push(["There is a problem", "The value cannot be less than 1%"]);
-      // }
-      // else {
-      errorStore = emptyQuestionFieldCheckRfp();
-      //}
 
+      errorStore = emptyQuestionFieldCheckRfp();
+      let containsHiddenClassAtPostion = []
+      for (var i = 1; i < 11; i++) {
+        let rootEl = document.getElementById('fc_question_' + i);
+        if (rootEl?.classList?.contains('ccs-dynaform-hidden')) {
+          containsHiddenClassAtPostion.push(i);
+        }
+      }
       if (errorStore.length == 0) {
-        document.getElementById('fc_question_' + with_value_count).classList.remove('ccs-dynaform-hidden');
+        document.getElementById('fc_question_' + containsHiddenClassAtPostion[0]).classList.remove('ccs-dynaform-hidden');
         //Added this condation section 5 (step 43/44/45)
 
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
-          document
-            .querySelector('label[for=fc_question_' + prev_input + '] a.del')
-            .classList.add('ccs-dynaform-hidden');
         }
         if (document.getElementById("questionsCount") != undefined) {
           document.getElementById("questionsCount").textContent = with_value_count + ' techinical questions entered so far';
         }
         document
-          .querySelector('label[for=fc_question_' + with_value_count + '] a.del')
+          .querySelector('label[for=fc_question_' + containsHiddenClassAtPostion[0] + '] a.del')
           .classList.remove('ccs-dynaform-hidden');
-        //Add question set more than 5
-        // if (pageHeading.includes('Write your cultural questions') || pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your social value questions')) {
-        //   if (with_value_count === 5) {
-        //     errorStore.push(["There is a problem", "You can add a maximum of 5 question"]);
-        //     ccsZPresentErrorSummary(errorStore);
-        //     return;
-        //   }
-        // }
-
         with_value_count++;
 
         if (with_value_count === 11) {
@@ -219,28 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
       checkHowManyQuestionAddedSoFar();
     });
 
-    deleteButtons.forEach((db) => {
-      //db.classList.remove('ccs-dynaform-hidden')
-      db.addEventListener('click', (e) => {
-        e.preventDefault();
-        let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
-          prev_input = Number(target) - 1,
-          target_fieldset = db.closest("div");
 
-        target_fieldset.classList.add("ccs-dynaform-hidden");
-        let precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
-        document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
-
-        document.getElementById('fc_question_' + target + "_1").value = "";
-        document.getElementById('fc_question_' + target + "_2").value = "";
-        document.getElementById('fc_question_' + target + "_3").value = "";
-        document.getElementById('fc_question_precenate_' + target).value = "";
-        if (prev_input > 1) {
-          document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
-        }
-        checkHowManyQuestionAddedSoFar();
-      })
-    });
   }
 
   const emptyQuestionFieldCheckRfp = () => {
@@ -249,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let fieldCheck = '',
       errorStore = [], noOfRequirement_Group = 0;
     const weightage = $('.weightage');
-    const pageHeading = document.getElementById('page-heading').innerHTML;
+    //const pageHeading = document.getElementById('page-heading').innerHTML;
     for (var i = 1; i < 11; i++) {
       let rootEl = document.getElementById('fc_question_' + i);
       const divElem = document.querySelector('#fc_question_' + i);
@@ -343,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
     removeErrorFieldsRfpScoreQuestion();
     const weightage = $('.weightage');
     let fieldCheck = "";
-    const pageHeading = document.getElementById('page-heading').innerHTML;
+    //const pageHeading = document.getElementById('page-heading').innerHTML;
     if (!pageHeading.includes("Enter your project requirements")) {
       for (let index = 0; index < weightage.length; index++) {
         if (pageHeading.includes('Write your technical questions')) {
