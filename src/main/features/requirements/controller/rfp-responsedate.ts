@@ -69,8 +69,8 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       const findFilterValues = findFilterQuestion[0].value;
       const filtervalues=moment(
         findFilterValues,
-        'DD MMMM YYYY, hh:mm:ss ',
-      ).format('YYYY-MM-DDThh:mm:ss')+'Z';
+        'DD MMMM YYYY, hh:mm a ',
+      ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
       const answerformater = {
         value: filtervalues,
         selected: true,
