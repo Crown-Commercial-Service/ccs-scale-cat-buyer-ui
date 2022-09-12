@@ -1,6 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  const rfpDate = $(`#rfp-date`);
+  let expandedIdName = 'rfi_clarification_date_expanded_';
+  let responseDateFormName = 'ccs_rfi_response_date_form_';
   let selectors = [1, 2, 3, 4, 5];
+  if(rfpDate !=undefined && rfpDate !=null)
+  {
+    selectors = [1, 2, 3, 4, 5,6,7,8,9,10,11];
+    expandedIdName = 'rfp_clarification_date_expanded_';
+    responseDateFormName = 'ccs_rfp_response_date_form_';
+  }
   for (let element of selectors) {
     let day = $(`#clarification_date-day_${element}`);
     let month = $(`#clarification_date-month_${element}`);
@@ -8,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let hour = $(`#clarification_date-hour_${element}`);
     let minutes = $(`#clarification_date-minute_${element}`);
     let hourFormat = $(`#clarification_date-hourFormat_${element}`);
-    let dateExpandedId = 'rfi_clarification_date_expanded_'+element;
+    let dateExpandedId = expandedIdName+element;
 
-    let responseDate = $(`#ccs_rfi_response_date_form_${element}`);
+    let responseDate = $(`#${responseDateFormName}${element}`);
 
     day.on('blur', () => {
       let value = day;
@@ -192,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
         if(errorStore.length ===0)
-        document.getElementById(`ccs_rfi_response_date_form_${element}`).submit()
+        document.getElementById(`${responseDateFormName}${element}`).submit()
         else 
           ccsZPresentErrorSummary(errorStore);
     });
@@ -220,7 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     }
   }
-
 });
 
 
