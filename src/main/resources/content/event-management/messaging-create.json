@@ -20,21 +20,21 @@
     "title": "Messaging Inbox",
     "subtitle": "Write a new message",
     "signposting": {
-        "line1": "Description to explain what happens in a broadcast",
+        "line1": "Your message will be sent to all suppliers on the list.",
         "line2": "See Supplier List",
         "link": "#"
     },
     "MessageClassification": "Message Classification",
     "Subject": "Subject",
     "Message": "Message",
-    "btnText": "Broadcast to all suppliers",
+    "btnText": "Send to all",
     "Cancel": {
         "text": "Cancel",
         "link": "/message/inbox"
     }, 
     "backlink" : "/message/inbox",
     "backJump": {
-        "title": "Return to Your project",
+        "title": "",
         "href": "#"
     },
     "tabs": {
