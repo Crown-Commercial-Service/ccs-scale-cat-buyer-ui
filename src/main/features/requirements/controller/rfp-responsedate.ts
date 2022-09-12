@@ -237,8 +237,8 @@ export const isValidQuestion = async (
     bankHoliDayData = bankHoliDayData?.data;
     let listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
 
-    let newdate ={title: 'New Year’s Day', date: '2022-09-20', notes: 'Substitute day', bunting: true}
-    listOfHolidayDate.push(newdate);
+    // let newdate ={title: 'New Year’s Day', date: '2022-09-20', notes: 'Substitute day', bunting: true}
+    // listOfHolidayDate.push(newdate);
 
     const questionNewDate = new Date(year, month, day, timeinHoursBased, minute);
     const newDate = moment(questionNewDate).format('YYYY-MM-DD');
