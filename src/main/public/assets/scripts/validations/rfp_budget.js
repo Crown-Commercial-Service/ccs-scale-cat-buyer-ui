@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.key === '.') { event.preventDefault(); return;}
         if (event.keyCode === 69) { event.preventDefault(); return;}
         if (event.keyCode === 187) { event.preventDefault(); return;}
-        if (event.keyCode === 189) { event.preventDefault(); return;}
+        if (event.keyCode === 189 && event.srcElement.value.length!=0) { event.preventDefault(); return;}
       })
     })  
   }
@@ -19,24 +19,26 @@ const emptyQuestionFieldCheckBudget = () => {
   var reg = new RegExp('^[0-9]$');
   if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined && $('#rfp_maximum_estimated_contract_value') !='') {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
-    const minBudget = $('#rfp_maximum_estimated_contract_value').val();
-    if (maxBudget.includes("-")) {
-      errorStore.push(["rfp_maximum_estimated_contract_value", "You must enter a positive value"]);
-      ccsZPresentErrorSummary(errorStore)
-      return;
-    }
-    if (minBudget.includes("-")) {
-      errorStore.push(["rfp_maximum_estimated_contract_value", "You must enter a positive value"]);
-      ccsZPresentErrorSummary(errorStore)
-      return;
-    }
+    const minBudget = $('#rfp_minimum_estimated_contract_value').val();
+    // if (maxBudget.includes("-")) {
+    //   ccsZaddErrorMessage(document.getElementById("rfp_maximum_estimated_contract_value"), "Positive value is required");
+    //   errorStore.push(["rfp_maximum_estimated_contract_value", "Positive value is required"]);
+    //   ccsZPresentErrorSummary(errorStore)
+      
+    // }
+    // if (minBudget.includes("-")) {
+    //   ccsZaddErrorMessage(document.getElementById("rfp_minimum_estimated_contract_value"), "Positive value is required");
+    //   errorStore.push(["rfp_minimum_estimated_contract_value", "Positive value is required"]);
+    //   ccsZPresentErrorSummary(errorStore)
+      
+    // }
 
     if (pageHeading.includes("(Optional)")) {
       let msg = '';
-      //if (!maxBudget) msg = 'You must enter a value';
+      if (!maxBudget) msg = 'You must enter a value';
       if (Number(maxBudget) <= 0 && maxBudget!='') 
       {
-        msg = 'You must enter a positive value';
+        msg = 'Positive value is required';
         let element = document.getElementById("rfp_maximum_estimated_contract_value");
         
         fieldCheck = ccsZvalidateWithRegex('rfp_maximum_estimated_contract_value', msg, /\d+/);
@@ -56,22 +58,24 @@ const emptyQuestionFieldCheckBudget = () => {
   if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined && $('#rfp_minimum_estimated_contract_value')!='') {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
-    if (maxBudget.includes("-")) {
-      errorStore.push(["rfp_maximum_estimated_contract_value", "You must enter a positive value"]);
-      ccsZPresentErrorSummary(errorStore)
-      return;
-    }
-    if (minBudget.includes("-")) {
-      errorStore.push(["rfp_maximum_estimated_contract_value", "You must enter a positive value"]);
-      ccsZPresentErrorSummary(errorStore)
-      return;
-    }
+    // if (maxBudget.includes("-")) {
+    //   ccsZaddErrorMessage(document.getElementById("rfp_maximum_estimated_contract_value"), "Positive value is required");
+    //   errorStore.push(["rfp_maximum_estimated_contract_value", "Positive value is required"]);
+    //   ccsZPresentErrorSummary(errorStore)
+    //   return;
+    // }
+    // if (minBudget.includes("-")) {
+    //   ccsZaddErrorMessage(document.getElementById("rfp_minimum_estimated_contract_value"), "Positive value is required");
+    //   errorStore.push(["rfp_minimum_estimated_contract_value", "Positive value is required"]);
+    //   ccsZPresentErrorSummary(errorStore)
+    //   //return;
+    // }
     let msg = '';
     if (pageHeading.includes("(Optional)")) {
       //if (!minBudget) msg = 'You must enter a value';
       if (Number(minBudget) <= 0 && minBudget!='') 
       {
-        msg = 'You must enter a positive value';
+        msg = 'Positive value is required';
         let element = document.getElementById("rfp_minimum_estimated_contract_value");
         
         fieldCheck = ccsZvalidateWithRegex('rfp_minimum_estimated_contract_value', msg, /\d+/);
