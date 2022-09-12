@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();return;
         }
         if (event.key === '.') { event.preventDefault(); return;}
+        if((event.ctrlKey || event.metaKey) && event.keyCode==86){ event.preventDefault(); return;}
        });          
         }
         $('#da_choose_security_form').on('submit', (e) => {

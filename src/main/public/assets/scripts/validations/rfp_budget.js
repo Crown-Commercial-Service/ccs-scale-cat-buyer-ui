@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.keyCode === 69) { event.preventDefault(); return;}
         if (event.keyCode === 187) { event.preventDefault(); return;}
         if (event.keyCode === 189 && event.srcElement.value.length!=0) { event.preventDefault(); return;}
+        if((event.ctrlKey || event.metaKey) && event.keyCode==86){ event.preventDefault(); return;}
       })
     })  
   }
