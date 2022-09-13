@@ -20,13 +20,14 @@
     "title": "Messaging Inbox",
     "subtitle": "Write a new message",
     "signposting": {
-        "line1": "Your message will be sent to all suppliers on the list.",
-        "line2": "See Supplier List",
+
+        "line1": "Your message will be sent to all suppliers in this list.",
+        "line2": "View supplier List",
         "link": "#"
     },
-    "MessageClassification": "Message Classification",
+    "MessageClassification": "Message classification",
     "Subject": "Subject",
-    "Message": "Message",
+    "Message": "Your message",
     "btnText": "Send to all",
     "Cancel": {
         "text": "Cancel",

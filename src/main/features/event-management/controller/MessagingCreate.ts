@@ -9,7 +9,7 @@ import * as inboxData from '../../../resources/content/event-management/messagin
 export class ValidationErrors {
     static readonly CLASSIFICATION_REQUIRED: string = 'Message cannot be broadcast unless a Classification has been defined - broadcast cannot be completed'
     static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Message Body has been defined - broadcast cannot be completed'
-    static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Subject Line has been defined - broadcast cannot be completed'
+    static readonly SUBJECT_REQUIRED: string = 'Message cannot be broadcast unless a Subject Line has been defined - broadcast cannot be completed'
     static readonly SUBJECT_REQUIRED_count: string = 'Message cannot be broadcast unless a Subject Line has <=5000 characters'
 }
 
@@ -26,14 +26,20 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
         res.locals.agreement_header = req.session.agreement_header
 
         switch (req.session.eventManagement_eventType) {
+          
             case 'EOI':
                 res.locals.supplier_link = "/eoi/suppliers"
                 break;
 
             case 'RFI':
-                res.locals.supplier_link = "/rfi/suppliers"
+                res.locals.supplier_link = "/rfi/suppliers?fromMessage=1"
                 break;
-
+                case 'FC':
+                    res.locals.supplier_link = "/rfp/suppliers?fromMessage=1"
+                    break;
+                    case 'DA':
+                    res.locals.supplier_link = "/rfp/suppliers?fromMessage=1"
+                    break;
             default: res.locals.supplier_link = "#"
         }
         const message: CreateMessage = {
@@ -138,10 +144,15 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
                     res.locals.supplier_link = "/eoi/suppliers"
                     break;
 
-                case 'RFI':
-                    res.locals.supplier_link = "/rfi/suppliers"
-                    break;
-
+                    case 'RFI':
+                        res.locals.supplier_link = "/rfi/suppliers?fromMessage=1"
+                        break;
+                        case 'FC':
+                            res.locals.supplier_link = "/rfp/suppliers?fromMessage=1"
+                            break;
+                            case 'DA':
+                            res.locals.supplier_link = "/rfp/suppliers?fromMessage=1"
+                            break;
                 default: res.locals.supplier_link = "#"
             }
             const appendData = { data: inboxData, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }

@@ -34,6 +34,7 @@
                             {{supplierLength}}
                         </span> suppliers on this lot </h2>
                     <br>
+                       {% if(enablebtn) %}
                     <div class="govuk-button-group govuk-!-margin-bottom-7">
                         {{ CCSButton({
                 text: "Save and continue"
@@ -41,6 +42,11 @@
                         <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
                         <a href="/rfp/suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list</a>
                     </div>
+                     {% else %}
+                      <div class="govuk-button-group govuk-!-margin-bottom-7">
+                        <a href="/rfp/suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list</a>
+                    </div>
+          {% endif %}
                     <div class="govuk-form-group ccs-page-section"></div>
                     <div id="page1" >
                         <div id="supplier-list">

@@ -27,10 +27,10 @@
         "href": "#"
     },
     "notification": {
-        "text": "Your message was successufly broadcasted to all suppliers.",
-        "linkText": "View sent message",
+        "text": "Your message was sent to all suppliers.",
+        "linkText": "View message",
         "link": "/message/sent",
-        "title": "Message Sent"
+        "title": "Message successfully sent"
     },
     "notification2": {
         "text": "Your message was not delivered.  Please re-try and if the issue persists, please Contact CCS Customer Service Centre.",

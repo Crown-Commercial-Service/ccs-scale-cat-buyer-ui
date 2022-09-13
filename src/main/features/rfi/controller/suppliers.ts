@@ -16,18 +16,19 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
   lotid=lotid.replace('Lot ','')
   const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+lotid+"/lot-suppliers";
   const releatedContent = req.session.releatedContent
-  const { download,previous,next } = req.query
+  const { download,previous,next,fromMessage } = req.query
   let supplierList = [];
   supplierList = await GetLotSuppliers(req);
   const rowCount=10;let showPrevious=false,showNext=false;
   supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
   const supplierLength=supplierList.length;
+  let enablebtn=true
   let appendData = {
     data: cmsData,
     suppliers_list: supplierList,
     lotSuppliers: lotSuppliers,
     releatedContent: releatedContent,
-    supplierLength
+    supplierLength,enablebtn
   };
   if(download!=undefined)
   {
@@ -56,7 +57,7 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
           releatedContent: releatedContent,
           showPrevious,
           showNext,
-          supplierLength,
+          supplierLength,enablebtn
         };
       }
       else
@@ -74,7 +75,7 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
           showNext,
           supplierLength,
           currentpagenumber:1,
-          noOfPages,
+          noOfPages,enablebtn
         };
       }
     }
@@ -105,7 +106,7 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
             showNext,
             supplierLength,
             currentpagenumber:previouspagenumber,
-            noOfPages,
+            noOfPages,enablebtn
           };
       }
       else{//next is undefined
@@ -143,9 +144,14 @@ export const GET_RFI_SUPPLIERS = async (req: express.Request, res: express.Respo
           showNext,
           supplierLength,
           currentpagenumber:nextpagenumber,
-          noOfPages,
+          noOfPages,enablebtn
         };
       }
+    }
+    
+    if(fromMessage!=undefined)
+    {
+      appendData= Object.assign({}, { ...appendData, enablebtn: false})
     }
   res.render('supplier', appendData);
   }
