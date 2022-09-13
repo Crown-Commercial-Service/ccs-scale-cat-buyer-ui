@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  $('.nav-popup').on('click', function () {
+/*   $('.nav-popup').on('click', function () {
     
     if ($(this).hasClass('selected')) {
       deselect($(this));
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $(".backdrop-nav-menu").fadeOut(200);
     deselect($('.dialog-close-nav-menu'));
     return false;
-  });
+  }); */
 });
 
 

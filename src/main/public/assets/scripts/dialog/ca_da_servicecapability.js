@@ -79,25 +79,25 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     });
 
-    $('#redirect-button-nav-menu').on('click', function () {
+/*     $('#redirect-button-nav-menu').on('click', function () {
       deselect($('.dialog-close-nav-menu'));
       $(".backdrop-nav-menu").fadeOut(200);
       var route = this.name;
       if (route == 'Home') {
-        document.location.href = "/";
+        window.open("/");
       } else if (route == 'My Projects') {
-        document.location.href = "/dashboard";
+        window.open('/dashboard');
       } else if (route == 'CCS website') {
-        document.location.href = "https://www.crowncommercial.gov.uk/";
+        window.open('https://www.crowncommercial.gov.uk/');
       } else if (route == 'Guidance') {
-        document.location.href = "#";
+        window.open("#");
       } else if (route == 'Get help') {
-        document.location.href = "https://www.crowncommercial.gov.uk/contact";
+        window.open('https://www.crowncommercial.gov.uk/contact');
       } else {
         return false;
       }
       $(".backdrop-nav-menu").fadeOut(200);
-    });
+    }); */
 
     $('#redirect-button-vetting').on('click', function () {
       
