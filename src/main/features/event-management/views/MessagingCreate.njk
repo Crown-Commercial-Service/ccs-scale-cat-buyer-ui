@@ -22,7 +22,11 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Inbox",
+      "href": "#"
+    },
+    {
+      "text": "Compose message",
       "href": "#"
     }
   ]
@@ -72,7 +76,7 @@
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {{data.title}}
+         <strong> {{data.title}} </strong>
         </h1>
         <p class="govuk-body">
           <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
