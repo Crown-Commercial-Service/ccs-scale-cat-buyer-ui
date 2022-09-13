@@ -82,10 +82,10 @@
           </div><br>
           <div>
           {% if(showPrevious) %}
-          <label>{{currentpagenumber}} of {{noOfPages}}</label>
+          <label>{{currentpagenumber-1}} of {{noOfPages}}</label>
           {% endif %}
           {% if(showNext) %}
-          <label class="anchor-right">{{currentpagenumber}} of {{noOfPages}}</label>
+          <label class="anchor-right">{{currentpagenumber+1}} of {{noOfPages}}</label>
           {% endif %}
           </div>
           <br><br>
