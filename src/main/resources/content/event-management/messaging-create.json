@@ -20,6 +20,7 @@
     "title": "Messaging Inbox",
     "subtitle": "Write a new message",
     "signposting": {
+
         "line1": "Your message will be sent to all suppliers in this list.",
         "line2": "View supplier List",
         "link": "#"
@@ -34,7 +35,7 @@
     }, 
     "backlink" : "/message/inbox",
     "backJump": {
-        "title": "Return to Your project",
+        "title": "",
         "href": "#"
     },
     "tabs": {

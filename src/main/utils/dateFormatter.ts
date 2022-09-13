@@ -6,6 +6,7 @@ export const TIME_FORMAT = 'hh:mm a'
 export const INPUT_DATE_FORMAT = 'D M YYYY'
 export const DATE_FORMAT_DDMMYYYY = 'DD/MM/YYYY'
 export const DATE_FORMAT_DD_MM_YYYY = 'DD-MM-YYYY'
+export const MEDIUM_DATE_FORMAT='D MMMM y,h:mm a'
 
 export class DateFormater {
 
@@ -38,5 +39,8 @@ export class DateFormater {
   }
   static formatTimeHHMM (value: Moment): string {
     return value.format(TIME_FORMAT);
+  }
+  static formatMMMdyhmsa (value: Moment): string {
+    return value.format(MEDIUM_DATE_FORMAT);
   }
 }

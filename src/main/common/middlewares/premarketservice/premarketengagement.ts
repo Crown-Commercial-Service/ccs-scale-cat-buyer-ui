@@ -91,7 +91,7 @@ export class PreMarketEngagementMiddleware {
           if (getEventType === 'TBD') {
             const { data } = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
             req.session.currentEvent = data;
-            if (eventType === 'FC') {
+            if (eventType?.toUpperCase === 'FC' && req.session?.selectedRoute?.toUpperCase() ==='RFI') {
               req.session.currentEventForNextUse = data;
             }
             const currentProcNum = procurements.findIndex(

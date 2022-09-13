@@ -64,7 +64,7 @@
 
         {% set form_Options_Altered = [] %}
 
-        {% set condResources %}
+        {#{% set condResources %}
           {{ CCSInput({
             id: "ccs_da_resources",
             name: "ccs_da_resources",
@@ -75,7 +75,7 @@
               text: "How many resources need a lower security and vetting requirement?"
             }
           }) }}
-        {% endset -%}
+        {% endset -%}#}
 
         {% for item in formOptions %}
           {% if item.checked %}
@@ -88,7 +88,16 @@
                   text: item.hint.text
                 },
                 conditional: {
-                  html: condResources
+                  html:  CCSInput({
+            id: "ccs_da_resources_"+loop.index,
+            name: "ccs_da_resources",
+            type: "number",
+            value: form.selectedValue,
+            classes: "govuk-!-width-one-third da_choosesecurity_resources",
+            label: {
+              text: "How many resources need a lower security and vetting requirement?"
+            }
+          }) 
                 },
                 checked: item.checked
               }
@@ -119,7 +128,16 @@
                   text: item.hint.text
                 },
                 conditional: {
-                  html: condResources
+                  html:  CCSInput({
+            id: "ccs_da_resources_"+loop.index,
+            name: "ccs_da_resources",
+            type: "number",
+            value: form.selectedValue,
+            classes: "govuk-!-width-one-third da_choosesecurity_resources",
+            label: {
+              text: "How many resources need a lower security and vetting requirement?"
+            }
+          }) 
                 }
               }
               ), form_Options_Altered) 

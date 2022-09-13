@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 $('.rfp_choosesecurity_resources').val(" ")
             }
+
+            if (event.key === '.') { event.preventDefault(); return;}
+        if((event.ctrlKey || event.metaKey) && event.keyCode==86){ event.preventDefault(); return;}
         });
     }
 
