@@ -673,14 +673,35 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
-  const { download } = req.query;
+  const { download,downloadUnsuccessfulTemplateId} = req.query;
 
   try {
-    if (download != undefined) {
-      const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
+     const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
       await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL);
 
+    if (download != undefined) {
+     
       const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
+      const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
+        responseType: 'arraybuffer',
+      });
+      const file = FetchDocuments;
+      const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+      const fileData = file.data;
+      const type = file.headers['content-type'];
+      const ContentLength = file.headers['content-length'];
+      res.status(200);
+      res.set({
+        'Cache-Control': 'no-cache',
+        'Content-Type': type,
+        'Content-Length': ContentLength,
+        'Content-Disposition': 'attachment; filename=' + fileName,
+      });
+      res.send(fileData);
+    }
+    else if (downloadUnsuccessfulTemplateId != undefined) {
+     
+      const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/${downloadUnsuccessfulTemplateId}`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
         responseType: 'arraybuffer',
       });

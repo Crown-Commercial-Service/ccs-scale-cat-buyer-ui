@@ -56,21 +56,21 @@
                 <div id="rfi_clarification_date">
 
                     {% if(requirement.nonOCDS.options[0].selected)%}
-                <label class="govuk-label govuk-body"><strong id="lbl-clarification">{{ requirement.nonOCDS.options[0].value }}</strong></label>
+                <label class="govuk-label govuk-body"><strong id="lbl-clarification" class="clarification_{{loop.index}}">{{ requirement.nonOCDS.options[0].value }}</strong></label>
                 {%endif %}
                 
                 {% if( requirement.nonOCDS.options.length == 0)%}
 
                 {% if(requirement.OCDS.id == "Question 2" )%}
-                 <label class="govuk-label govuk-body"><strong id="clarification_period_end">{{ rfi_clarification_period_end}}</strong></label>
+                 <label class="govuk-label govuk-body"><strong id="clarification_period_end" class="clarification_2">{{ rfi_clarification_period_end}}</strong></label>
                  {% elif (requirement.OCDS.id == "Question 3" ) %}
-                <label class="govuk-label govuk-body"><strong id="deadline_period_for_clarification_period">{{deadline_period_for_clarification_period }}</strong></label>
+                <label class="govuk-label govuk-body"><strong id="deadline_period_for_clarification_period" class="clarification_3">{{deadline_period_for_clarification_period }}</strong></label>
                   {% elif (requirement.OCDS.id == "Question 4" ) %}
-                   <label class="govuk-label govuk-body"><strong id="supplier_period_for_clarification_period">{{supplier_period_for_clarification_period }}</strong></label>
+                   <label class="govuk-label govuk-body"><strong id="supplier_period_for_clarification_period" class="clarification_4">{{supplier_period_for_clarification_period }}</strong></label>
                     {% elif (requirement.OCDS.id == "Question 5" ) %}
-                   <label class="govuk-label govuk-body"><strong id="supplier_dealine_for_clarification_period">{{supplier_dealine_for_clarification_period }}</strong></label>
+                   <label class="govuk-label govuk-body"><strong id="supplier_dealine_for_clarification_period" class="clarification_5">{{supplier_dealine_for_clarification_period }}</strong></label>
                  {%else%}
-                  <label class="govuk-label govuk-body"><strong>{{rfi_clarification_date}}</strong></label>
+                  <label class="govuk-label govuk-body"><strong class="clarification_1">{{rfi_clarification_date}}</strong></label>
                 {%endif%}
 
 
