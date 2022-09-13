@@ -414,3 +414,13 @@ fieldset {
   width: 25px !important;
   height: 25px !important;
 }
+.backlink-margin {
+  margin-top: 0 !important;}
+  .senttoall-width
+  {
+    width: 30% !important;
+  }
+  .message-fontsize
+  {
+    font-size: 1rem !important;
+  }
