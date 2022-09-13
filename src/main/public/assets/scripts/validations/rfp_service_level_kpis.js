@@ -116,7 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     precentageInputs.forEach(db => {
       db.addEventListener("keydown", (event) => {
-        if (event.keyCode == '69') { event.preventDefault(); }
+        if (event.keyCode == '69') { event.preventDefault(); return;}
+        if (event.key === '.') { event.preventDefault(); return;}
+        if((event.ctrlKey || event.metaKey) && event.keyCode==86){ event.preventDefault(); return;}
       })
     })
 
