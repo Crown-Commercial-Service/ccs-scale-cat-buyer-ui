@@ -6,7 +6,7 @@
         "projectName": "Project name: "
     },
     "subtitle": null,
-    "caption" : "You can change the name of your project. Enter the new name below. If you don’t want to change the name of your project you can return to pre-market engagement. ",
+    "caption" : "You can change the name of your project. Enter the new name below. If you don’t want to change the name of your project you can return to Do pre-market engagement. ",
     "form": {
         "input": {            
             "id": "rfi_projLongName",
@@ -14,7 +14,7 @@
             "value": ""
         },        
         "backJump": {
-            "title": " Return to pre-market engagement",
+            "title": " Return to Do pre-market engagement",
             "href": "/rfi/rfi-tasklist"
         }
     },    
