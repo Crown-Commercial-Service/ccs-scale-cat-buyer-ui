@@ -99,11 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
         deselect($('.dialog-close-vetting'));
         return false;
       });
-      $('.dialog-close-nav-menu').on('click', function () {
+/*       $('.dialog-close-nav-menu').on('click', function () {
         $(".backdrop-nav-menu").fadeOut(200);
         deselect($('.dialog-close-nav-menu'));
         return false;
-      });
+      }); */
 
       $('#redirect-button-vetting').on('click', function () {
         $('.rfp_cap').attr('checked', false);

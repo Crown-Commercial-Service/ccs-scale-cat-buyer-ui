@@ -16,7 +16,7 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Inbox",
       "href": "#"
     }
   ]
@@ -28,12 +28,34 @@
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {{data.title}}
+          <strong>{{data.title}}</strong>
         </h1>
+        <div class="project-overview">
         <p class="govuk-body">
           <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
         </p>
-        {% include "includes/project_header.njk" %}
+        
+  <p class="govuk-body">Selected agreement: <strong>
+    {%if agreement_header !=undefined and agreement_header !=null %}
+    {{ agreement_header['agreementName'] }}
+    {%endif%}
+    {% if(agreement_header !=undefined and agreement_header !=null 
+    and agreement_header.agreementLotName != undefined)%}, 
+    
+    {{ agreement_header['lotid'] }}: 
+    {{ agreement_header['agreementLotName'] }}  
+    {% endif %} 
+    
+  </strong></p>
+  <p class="govuk-body">Agreement ID: 
+    {%if(agreement_header !=undefined and   agreement_header !=null) %}
+    <strong>
+    {{ agreement_header['agreementId_session'] }}
+    </strong>
+    {%endif%}
+    </p>
+    </div>
+        {# {% include "includes/project_header.njk" %} #}
       </div>
     </div>
 
