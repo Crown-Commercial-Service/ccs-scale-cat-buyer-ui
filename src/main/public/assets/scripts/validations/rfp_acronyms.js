@@ -3,17 +3,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
 
+
+    const checkHowManyQuestionAddedSoFar = function () {
+      for (var i = 1; i < 11; i++) {
+        let rootEl = document.getElementsByClassName('acronym_' + i);
+        if (i <= 9 && !rootEl?.[0].classList.contains('ccs-dynaform-hidden')) {
+          document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden')
+        } else if (!rootEl?.[0].classList.contains('ccs-dynaform-hidden')) {
+          document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden')
+        }
+      }
+    }
     let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let clearFieldsButtons = document.querySelectorAll("a.clear-fields");
+    let allInput = document.querySelectorAll(".govuk-input");
+    let allInputTextArea = document.querySelectorAll(".govuk-textarea");
+    allInput?.forEach(element => {
+      element.maxLength = 500;
+    })
+    allInputTextArea?.forEach(element => {
+      element.maxLength = 5000;
+    })
     let deleteButtonCount = [];
     for (var acronym_fieldset = 10; acronym_fieldset > 1; acronym_fieldset--) {
 
 
       let this_fieldset = document.querySelector(".acronym_" + acronym_fieldset),
         term_box = document.getElementById("rfp_term_" + acronym_fieldset);
-      document.getElementById("deleteButton_acronym_" + acronym_fieldset).classList.add("ccs-dynaform-hidden");
+      // document.getElementById("deleteButton_acronym_" + acronym_fieldset).classList.add("ccs-dynaform-hidden");
 
       if (term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
@@ -26,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
         this_fieldset.classList.add('ccs-dynaform-hidden');
         with_value_count = acronym_fieldset;
       }
-      if (acronym_fieldset === 2 && deleteButtonCount.length >0) {
-        $("#deleteButton_acronym_" + deleteButtonCount[deleteButtonCount.sort().length-1]).removeClass("ccs-dynaform-hidden");
+      if (acronym_fieldset === 2 && deleteButtonCount.length > 0) {
+        $("#deleteButton_acronym_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
       }
     }
 
@@ -40,17 +59,37 @@ document.addEventListener('DOMContentLoaded', () => {
       errorStore = emptyFieldCheckRfp1();
       if (errorStore.length == 0) {
         removeErrorFieldsRfp1();
-        document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-        $("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
-        
-        if (with_value_count > 2) {
-          prev_input = with_value_count - 1;
-          document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+        //$("#deleteButton_acronym_" + with_value_count).removeClass("ccs-dynaform-hidden");
+        let containsHiddenClassAtPostion = []
+        for (var i = 1; i < 11; i++) {
+          let rootEl = document.getElementsByClassName('acronym_' + i)?.[0];
+          if (rootEl?.classList?.contains('ccs-dynaform-hidden')) {
+            containsHiddenClassAtPostion.push(i);
+          }
         }
-        with_value_count++;
-        if (with_value_count === 11) {
-          document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+        if (containsHiddenClassAtPostion.length > 0) {
+          let previousElementId = containsHiddenClassAtPostion[0] - 1;
+          if (Number(previousElementId) > 0) {
+            let element1 = document.getElementById('rfp_term_' + previousElementId);
+            let element2 = document.getElementById('rfp_term_definition_' + previousElementId);
+            if (element1?.value == undefined || element1?.value == null || element1?.value == '') {
+              ccsZaddErrorMessage(element1, 'You must add information in this fields.');
+              errorStore.push([element1.id, 'You must add information in this fields.']);
+            }
+            if (element2?.value == undefined || element2?.value == null || element2?.value == '') {
+              ccsZaddErrorMessage(element2, 'You must add information in this fields.');
+              errorStore.push([element2.id, 'You must add information in this fields.']);
+            }
+            //fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+            //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+
+          }
+          if (errorStore.length > 0) {
+            ccsZPresentErrorSummary(errorStore)
+          } else
+            document.querySelector(".acronym_" + containsHiddenClassAtPostion[0]).classList.remove("ccs-dynaform-hidden");
         }
+        checkHowManyQuestionAddedSoFar();
       }
       else ccsZPresentErrorSummary(errorStore);
     });
@@ -60,28 +99,68 @@ document.addEventListener('DOMContentLoaded', () => {
       //db.classList.remove('ccs-dynaform-hidden')
       db.addEventListener('click', (e) => {
         e.preventDefault();
+        document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
 
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_coll = Number(target) - 1,
           target_fieldset = db.closest("fieldset");
 
-        target_fieldset.classList.add("ccs-dynaform-hidden");
+        //target_fieldset.classList.add("ccs-dynaform-hidden");
 
         document.getElementById('rfp_term_' + target).value = "";
         document.getElementById('rfp_term_definition_' + target).value = "";
 
+        //region Reset All field
 
-        if (prev_coll > 1) {
-          document.querySelector('.acronym_' + prev_coll + ' a.del').classList.remove("ccs-dynaform-hidden");
+        //RESET ALL DATA AFTER DELETED ANY DATA
+        let resetTermsAcronymsData = [{}];
+        for (var question_fieldset = 1; question_fieldset < 11; question_fieldset++) {
+          let termNameValue = document.getElementById('rfp_term_' + question_fieldset).value;
+          let definitionValue = document.getElementById('rfp_term_definition_' + question_fieldset).value;
+
+          if (termNameValue != undefined && termNameValue != null && termNameValue != '' && definitionValue != undefined && definitionValue != null && definitionValue != '') {
+            resetTermsAcronymsData.push({ termNameValue: termNameValue, definitionValue: definitionValue });
+          }
+
+          document.getElementById('rfp_term_' + question_fieldset).value = '';
+          document.getElementById('rfp_term_definition_' + question_fieldset).value = '';
+
+          let this_fieldset = document.getElementById('acronym_' + question_fieldset);
+          this_fieldset?.classList.add('ccs-dynaform-hidden');
+
         }
 
-        document.getElementById("ccs_rfpTerm_add").classList.remove('ccs-dynaform-hidden');
-        with_value_count--;
+
+        for (var question_fieldset = 0; question_fieldset < 11; question_fieldset++) {
+          if (question_fieldset != 0) {
+            document.getElementById('rfp_term_' + question_fieldset).value = resetTermsAcronymsData[question_fieldset]?.termNameValue != undefined ? resetTermsAcronymsData[question_fieldset]?.termNameValue : '';
+            document.getElementById('rfp_term_definition_' + question_fieldset).value = resetTermsAcronymsData[question_fieldset]?.definitionValue != undefined ? resetTermsAcronymsData[question_fieldset]?.definitionValue : '';
+          }
+
+          let this_fieldset = document.getElementsByClassName('acronym_' + question_fieldset) != undefined && document.getElementsByClassName('acronym_' + question_fieldset) != null ? document.getElementsByClassName('acronym_' + question_fieldset) : null;
+          let name_box = document.getElementById('rfp_term_' + question_fieldset);
+          if (this_fieldset != undefined && this_fieldset != null && this_fieldset.length > 0 && name_box?.value !== undefined && name_box?.value !== null && name_box?.value !== '') {
+            with_value_count = question_fieldset;
+            this_fieldset?.[0].classList.remove('ccs-dynaform-hidden');
+            if (question_fieldset === 10) {
+              document.getElementById('ccs_rfpTerm_add').classList.add('ccs-dynaform-hidden');
+            }
+          } else if (this_fieldset != undefined && this_fieldset != null && this_fieldset.length > 0 && question_fieldset !== 0 && (name_box?.value == '' || name_box?.value == undefined || name_box?.value != null)) {
+            this_fieldset?.[0].classList.add('ccs-dynaform-hidden');
+            with_value_count = question_fieldset;
+          }
+          if (this_fieldset != undefined && this_fieldset != null && this_fieldset.length > 0 && question_fieldset === 1) {
+            this_fieldset?.[0].classList.remove('ccs-dynaform-hidden');
+            with_value_count = 1;
+          }
+        }
+        //endregion
+        checkHowManyQuestionAddedSoFar();
       });
     });
     clearFieldsButtons.forEach((db) => {
       db.addEventListener('click', (e) => {
-
+        return;
         e.preventDefault();
 
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
@@ -143,6 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+const resetAllTermsAconym = (targetId) => {
+
+
+}
 const checkFieldsRfp1 = () => {
   const start = 1;
   const end = 10;
@@ -186,7 +269,7 @@ const removeErrorFieldsRfp1 = () => {
 const emptyFieldCheckRfp1 = () => {
   let fieldCheck = "",
     errorStore = [];
-    removeErrorFieldsRfp1();
+  removeErrorFieldsRfp1();
   const pageHeading = document.getElementById('page-heading').innerHTML;
   for (var x = 1; x < 11; x++) {
     let term_field = document.getElementById('rfp_term_' + x);

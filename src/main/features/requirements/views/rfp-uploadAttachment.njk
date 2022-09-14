@@ -111,11 +111,18 @@
                     </div>
                                     </form>        
                                 {%endif%}
+                {% if selectedeventtype=='DA' %}
+                {{ CCSWarningText({
+                    text: "By uploading this document for all the suppliers in your list you are stating that, to the best of your knowledge, the information you have provided is correct.",
+                    iconFallbackText: "Warning"
+                }) }}
+                {% else %}
 
                 {{ CCSWarningText({
                     text: "By uploading this 1-stage further competition to all suppliers in your list, you are stating that, to the best of your knowledge, the information you have provided is correct.",
                     iconFallbackText: "Warning"
                 }) }}
+                {% endif %}
 
                 {#<div class="ccs-link-group">
                     <span>

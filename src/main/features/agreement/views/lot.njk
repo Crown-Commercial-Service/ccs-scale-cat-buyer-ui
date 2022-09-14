@@ -39,6 +39,7 @@
             </p>
           </div>
 
+          {% if not Session['session'] %}
           <div class="govuk-inset-text">
             <p class="govuk-body">
               <strong>{{data.line1}}</strong>
@@ -46,6 +47,7 @@
               <a href="#sign-in" class="govuk-link govuk-link--no-visited-state">{{data.line2}}</a>
             </p>
           </div>
+          {% endif %}
 
           <div class="ccs-page-section" id="description">
             <h1 class="govuk-heading-l">

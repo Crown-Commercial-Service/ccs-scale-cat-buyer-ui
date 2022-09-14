@@ -17,20 +17,20 @@
             "href": "#"
         }
     ],
-    "title": "Your inbox",
+    "title": "Inbox",
     "subsection2_table_th_1": "Sender",
     "subsection2_table_th_2": "Date",
     "subsection2_table_th_3": "Subject",
     "subsection2_table_th_4": "Status",
     "backJump": {
-        "title": "Return to Your Dashboard",
+        "title": "Return to Event Management",
         "href": "#"
     },
     "notification": {
-        "text": "Your message was successufly broadcasted to all suppliers.",
-        "linkText": "View sent message",
+        "text": "Your message was sent to all suppliers.",
+        "linkText": "View message",
         "link": "/message/sent",
-        "title": "Message Sent"
+        "title": "Message successfully sent"
     },
     "notification2": {
         "text": "Your message was not delivered.  Please re-try and if the issue persists, please Contact CCS Customer Service Centre.",

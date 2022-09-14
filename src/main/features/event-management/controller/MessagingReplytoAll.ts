@@ -32,12 +32,15 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY_TO_ALL =async (req: express.Request,
                 res.locals.supplier_link = "/eoi/suppliers"
                 break;
 
-            case 'RFI':
-                res.locals.supplier_link = "/rfi/suppliers"
-                break;
-            case 'FC':
-                    res.locals.supplier_link = "/rfp/suppliers"
+                case 'RFI':
+                    res.locals.supplier_link = "/rfi/suppliers?fromMessage=1"
                     break;
+                    case 'FC':
+                        res.locals.supplier_link = "/rfp/suppliers?fromMessage=1"
+                        break;
+                        case 'DA':
+                        res.locals.supplier_link = "/rfp/suppliers?fromMessage=1"
+                        break;
             default: res.locals.supplier_link = "#"
         }
         const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id

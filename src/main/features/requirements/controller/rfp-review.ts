@@ -87,9 +87,9 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
     if (ReviewData.OCDS.status == 'active' && qsProjectId == undefined && qsEventId == undefined) {//event is published
-
       await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/41`, 'Completed');
-
+      //SCAT-5140
+      req.session.currentEventForNextUse = undefined;
       res.redirect('/rfp/rfp-eventpublished');
     }
     else {
@@ -260,10 +260,12 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       let fetchQuestionsData = fetchQuestions?.data;
       //const rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
 
+
       const rfp_clarification_period_end = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 2").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
 
 
       const deadline_period_for_clarification_period = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 3").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
+
 
       const supplier_period_for_clarification_period = fetchQuestionsData?.filter(item => item?.OCDS?.id == "Question 4").map(item => item?.nonOCDS?.options)?.[0]?.find(i => i?.value)?.value;
 

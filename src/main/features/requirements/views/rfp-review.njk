@@ -1169,7 +1169,7 @@
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p> 
           {%if rfp_clarification_period_end !=undefined and rfp_clarification_period_end !=null and rfp_clarification_period_end !=''%}  
-          {{rfp_clarification_period_end | dateddmmyyyy}}  {{ rfp_clarification_period_end |formatTimeHHMM}}
+          {{rfp_clarification_period_end |formatMMMdyhmssa}}  
           {%endif%}
           </p>
     </dt>
@@ -1183,7 +1183,7 @@
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p>
           {%if(deadline_period_for_clarification_period !=undefined and deadline_period_for_clarification_period !=null and deadline_period_for_clarification_period  !='')%}  
-           {{deadline_period_for_clarification_period | dateddmmyyyy}} {{ deadline_period_for_clarification_period |formatTimeHHMM}}
+            {{ deadline_period_for_clarification_period |formatMMMdyhmssa}}
           {%endif%}
           </p>
     </dt>
@@ -1197,7 +1197,7 @@
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p> 
           {%if supplier_period_for_clarification_period !=undefined and supplier_period_for_clarification_period !=null and supplier_period_for_clarification_period  !=''%}  
-           {{supplier_period_for_clarification_period | dateddmmyyyy}} {{ supplier_period_for_clarification_period |formatTimeHHMM}}
+           {{supplier_period_for_clarification_period | formatMMMdyhmssa}} 
           {%endif%}
           </p>
     </dt>
@@ -1211,33 +1211,33 @@
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p> 
           {%if supplier_dealine_for_clarification_period !=undefined and supplier_dealine_for_clarification_period !=null and supplier_dealine_for_clarification_period  !=''%}  
-           {{ supplier_dealine_for_clarification_period | dateddmmyyyy}} {{ supplier_dealine_for_clarification_period |formatTimeHHMM}}
+           {{ supplier_dealine_for_clarification_period | formatMMMdyhmssa}} 
           {%endif%}
           </p>
     </dt>
       <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
     </dd>
     </div>
-    <div class="govuk-summary-list__row">
+    {#<div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p>Start supplier evaluation</p>
     </dt>
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p>{%if supplier_dealine_evaluation_to_start !=undefined and supplier_dealine_evaluation_to_start !=null and supplier_dealine_evaluation_to_start  !=''%}  
-           {{ supplier_dealine_evaluation_to_start | dateddmmyyyy}} {{ supplier_dealine_evaluation_to_start |formatTimeHHMM}}
+           {{ supplier_dealine_evaluation_to_start | formatMMMdyhmssa}} 
           {%endif%}
           </p>
     </dt>
       <dd class="govuk-summary-list__actions border-bottom-rfp-review">        
     </dd>
-    </div>
+    </div>#}
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p>Start supplier evaluation</p>
     </dt>
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
        <p> {%if supplier_dealine_evaluation_to_start !=undefined and supplier_dealine_evaluation_to_start !=null and supplier_dealine_evaluation_to_start  !=''%}  
-           {{ supplier_dealine_evaluation_to_start | dateddmmyyyy}} {{ supplier_dealine_evaluation_to_start |formatTimeHHMM}}
+           {{ supplier_dealine_evaluation_to_start | formatMMMdyhmssa}} 
           {%endif%}
           </p>
     </dt>
@@ -1251,7 +1251,7 @@
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p> 
           {%if supplier_dealine_expect_the_bidders !=undefined and supplier_dealine_expect_the_bidders !=null and supplier_dealine_expect_the_bidders  !=''%}  
-           {{ supplier_dealine_expect_the_bidders | dateddmmyyyy}}  {{ supplier_dealine_expect_the_bidders |formatTimeHHMM}}
+           {{ supplier_dealine_expect_the_bidders | formatMMMdyhmssa}}  
           {%endif%}
           </p>
     </dt>
@@ -1266,7 +1266,7 @@
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p> 
           {%if supplier_dealine_for_pre_award !=undefined and supplier_dealine_for_pre_award !=null and supplier_dealine_for_pre_award  !=''%}  
-           {{ supplier_dealine_for_pre_award | dateddmmyyyy}}  {{ supplier_dealine_for_pre_award |formatTimeHHMM}}
+           {{ supplier_dealine_for_pre_award | formatMMMdyhmssa}}  
           {%endif%}
           </p>
     </dt>
@@ -1281,7 +1281,7 @@
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p> 
           {%if supplier_dealine_for_expect_to_award !=undefined and supplier_dealine_for_expect_to_award !=null and supplier_dealine_for_expect_to_award  !=''%}  
-           {{ supplier_dealine_for_expect_to_award | dateddmmyyyy}} {{ supplier_dealine_for_expect_to_award |formatTimeHHMM}}
+           {{ supplier_dealine_for_expect_to_award | formatMMMdyhmssa}} 
           {%endif%}
           </p>
     </dt>
@@ -1296,7 +1296,7 @@
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
         <p>
           {%if supplier_dealine_sign_contract !=undefined and supplier_dealine_sign_contract !=null and supplier_dealine_sign_contract  !=''%}  
-           {{ supplier_dealine_sign_contract | dateddmmyyyy}}  {{ supplier_dealine_sign_contract |formatTimeHHMM}}
+           {{ supplier_dealine_sign_contract | formatMMMdyhmssa}}  
           {%endif%} 
           </p>
     </dt>
@@ -1310,7 +1310,7 @@
     </dt>
     <dt class="govuk-summary-list__key border-bottom-rfp-review"> 
          <p>  {%if supplier_dealine_for_work_to_commence !=undefined and supplier_dealine_for_work_to_commence !=null and supplier_dealine_for_work_to_commence  !=''%}  
-           {{ supplier_dealine_for_work_to_commence | dateddmmyyyy}} {{ supplier_dealine_for_work_to_commence |formatTimeHHMM}}
+           {{ supplier_dealine_for_work_to_commence | formatMMMdyhmssa}} 
           {%endif%} 
           
           </p>

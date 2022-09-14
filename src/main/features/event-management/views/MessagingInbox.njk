@@ -20,9 +20,9 @@
 <h3 class="govuk-notification-banner__heading">
     {{data.notification2.text}}
 </h3>
-<p class="govuk-body">
+<!--<p class="govuk-body">
     <a class="govuk-notification-banner__link" href="{{data.notification2.link}}">{{data.notification2.linkText}}</a>
-</p>
+</p>-->
 {% endset %}
 
 {% set htmlQA %}
@@ -67,12 +67,12 @@
     },
     {
 
-      "text":"Your project",
+      "text": eventId+"/"+eventName,
 
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Your Inbox",
+      "text": "Inbox",
       "href": "#"
     }
   ]
@@ -243,8 +243,8 @@
                     </table>
                 </div>
             </div>
-            <p class="govuk-body">
+            {# <p class="govuk-body">
                 <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-            </p>
+            </p> #}
         </main>
     {% endblock %}
