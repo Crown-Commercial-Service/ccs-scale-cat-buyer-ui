@@ -32,8 +32,8 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
         <p class="govuk-body">{{data.subtitle1}}</p>
-        {#<p class="govuk-body">{{data.subtitle2}}</p>#}
-        <p class="govuk-body">You can download a ranked list of suppliers at the end of your capability assessment and run your further competition outside our service if you wish to do so.</p>
+        <p class="govuk-body">{{data.subtitle2}}</p>
+        <p class="govuk-body">You can <b>download a ranked list of suppliers</b> at the end of your capability assessment and run your further competition outside our service if you wish to do so.</p>
         <form id="" name="ccs_ca_type_form" class="form ccs_ca_type_form" action="/ca/type" method="POST">
           {{ csrfProtection(csrf) }}
           {% for form in data.form %}
