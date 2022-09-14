@@ -1,4 +1,5 @@
 const countWords = (str) => { return str.trim().split(/\s+/).length };
+const countCharacters = (str) => { return str.length };
 document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("service_user_type_form") !== null) {
@@ -274,18 +275,52 @@ const emptyFieldCheckRfp = () => {
   }
   return errorStore;
 }
-const ccsZvalidateRfpAcronyms = (event) => {
 
-  // event.preventDefault();
+const emptyFieldCheckRfpUserType = () => {
 
-  //errorStore = emptyFieldCheckRfp();
+  let fieldCheck = "",
+    errorStore = [];
+  const pageHeading = document.getElementById('page-heading').innerHTML;
+  for (var x = 1; x < 11; x++) {
+    let term_field = document.getElementById('rfp_term_service_group_' + x);
+    let definition_field = document.getElementById("rfp_term_more_details_" + x);
+    let target_field = document.getElementById("rfp_term_target_" + x);
 
-  //if (errorStore.length === 0) {
+    if (term_field.value !== undefined && definition_field !== undefined) {
+      const field1 = countWords(term_field.value) > 50;
+      const field2 = countCharacters(definition_field.value) > 5000;
+
+      if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+
+        //checkFieldsRfp();
+        if (pageHeading.includes("(Optional)")) {
+
+            if (field2) {
+              errorStore.push([definition_field, 'No more than 5000 characters are allowed.']);
+              ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
+              isError = true;
+            }
+        }
+      }
+    }
+
+  }
+  return errorStore;
+}
+
+
+const ccsZvalidateRfpUserType = (event) => {
+
+  event.preventDefault();
+
+  errorStore = emptyFieldCheckRfpUserType();
+
+  if (errorStore.length === 0) {
 
   document.forms["service_user_type_form"].submit();
-  //}
-  //else {
-  //   ccsZPresentErrorSummary(errorStore);
+  }
+  else {
+ccsZPresentErrorSummary(errorStore);
 
-  // }
+ }
 };
