@@ -2,6 +2,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% set title = 'Suppliers you want to approach | Crown Commercial Service' %}
 
+
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
@@ -42,12 +43,15 @@
               {{supplierLength}}
             </span>  suppliers will receive your RfI </h2>
           <br>
+          {% if(enablebtn) %}
           <div class="govuk-button-group govuk-!-margin-bottom-7">
             {{ CCSButton({
                 text: "Save and continue"
                 }) }}
             <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
           </div>
+          {% else %}
+          {% endif %}
           <div class="govuk-form-group ccs-page-section"></div>
           <div id="page1" >
             <div id="supplier-list">
@@ -82,20 +86,22 @@
           </div><br>
           <div>
           {% if(showPrevious) %}
-          <label>{{currentpagenumber}} of {{noOfPages}}</label>
+          <label>{{currentpagenumber-1}} of {{noOfPages}}</label>
           {% endif %}
           {% if(showNext) %}
-          <label class="anchor-right">{{currentpagenumber}} of {{noOfPages}}</label>
+          <label class="anchor-right">{{currentpagenumber+1}} of {{noOfPages}}</label>
           {% endif %}
           </div>
           <br><br>
+            {% if(enablebtn) %}
           <div class="govuk-button-group">
             {{ CCSButton({
                 text: "Save and continue"
                 }) }}
             <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
           </div>
-
+{% else %}
+          {% endif %}
         </form>
 
       </div>

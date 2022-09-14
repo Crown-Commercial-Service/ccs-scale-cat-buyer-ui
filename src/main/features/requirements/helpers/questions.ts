@@ -167,7 +167,7 @@ export class QuestionHelper {
         })
         .sort((a: any, b: any) => (a.OCDS.sortId < b.OCDS.sortId ? -1 : 1))
         .filter((obj: any) => obj != undefined)
-        .filter((obj: any) => obj.OCDS.description !== 'IR35 acknowledgement');
+        .filter((obj: any) => obj.OCDS.description !== 'IR35 acknowledgement' && obj?.OCDS?.description?.toLowerCase() !== 'Confirm if you need a contracted out service or a supply of resource'.toLowerCase());
       let current_cursor = sorted_ascendingly?.findIndex(
         (pointer: any) => pointer.OCDS['id'] === group_id && pointer.criterianId === id,
       );
