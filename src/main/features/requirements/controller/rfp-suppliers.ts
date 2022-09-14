@@ -17,7 +17,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId ,eventId} = req.session;
-  const { download,previous,next } = req.query
+  const { download,previous,next,fromMessage } = req.query
   const releatedContent = req.session.releatedContent
   let lotid=req.session.lotId;
   lotid=lotid.replace('Lot ','')
@@ -49,12 +49,13 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     const rowCount=10;let showPrevious=false,showNext=false;
     supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
     const supplierLength=supplierList.length;
+    let enablebtn=true
     let appendData = {
       data: cmsData,
       suppliers_list: supplierList,
       releatedContent: releatedContent,
       lotSuppliers: lotSuppliers,
-      supplierLength
+      supplierLength,enablebtn
     };
     if(download!=undefined)
   {
@@ -83,7 +84,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
           releatedContent: releatedContent,
           showPrevious,
           showNext,
-          supplierLength,
+          supplierLength,enablebtn
         };
       }
       else
@@ -101,7 +102,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
           showNext,
           supplierLength,
           currentpagenumber:1,
-          noOfPages,
+          noOfPages,enablebtn
         };
       }
     }
@@ -132,7 +133,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
             showNext,
             supplierLength,
             currentpagenumber:previouspagenumber,
-            noOfPages,
+            noOfPages,enablebtn
           };
       }
       else{//next is undefined
@@ -170,9 +171,14 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
           showNext,
           supplierLength,
           currentpagenumber:nextpagenumber,
-          noOfPages,
+          noOfPages,enablebtn
         };
       }
+    }
+     
+    if(fromMessage!=undefined)
+    {
+      appendData= Object.assign({}, { ...appendData, enablebtn: false})
     }
     res.render('rfp-suppliers', appendData);
   }

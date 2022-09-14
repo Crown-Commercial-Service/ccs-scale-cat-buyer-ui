@@ -22,7 +22,11 @@
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Messaging Inbox",
+      "text": "Inbox",
+      "href": "#"
+    },
+    {
+      "text": "Compose message",
       "href": "#"
     }
   ]
@@ -30,7 +34,7 @@
 {% endblock %}
 
 {% for msg in message.create_message %}
-  {% if selected_message == msg %}
+  {% if message.selected_message == msg %}
     {% set sortedMembers = (sortedMembers.push({value: msg, text: msg, selected: msg}), sortedMembers) %}
   {% else %}
     {% set sortedMembers = (sortedMembers.push({value: msg, text: msg}), sortedMembers) %}
@@ -72,7 +76,7 @@
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          {{data.title}}
+         <strong> {{data.title}} </strong>
         </h1>
         <p class="govuk-body">
           <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
@@ -106,7 +110,7 @@
           <h1 class="govuk-heading-m">
             {{data.subtitle}}
           </h1>
-          <a href="{{data.backlink}}">Back</a>
+          <a href="{{data.backlink}}" class="backlink-margin">Back</a></br></br></br>
           <div class="govuk-inset-text">
             <p class="govuk-body">{{data.signposting.line1}}</p>
             <p class="govuk-body">
@@ -119,7 +123,7 @@
 
             {% if message.IsClassificationNotDefined %}
               <div class="govuk-form-group govuk-form-group--error">
-                <label class="govuk-label govuk-label govuk-label--m" for="create_message">
+                <label class="govuk-label govuk-label govuk-label--m message-fontsize" for="create_message">
                   Message Classification
                 </label>
                 <span id="create_message-error" class="govuk-error-message">
@@ -147,7 +151,7 @@
 
             {% if message.IsSubjectNotDefined %}
             <div class="govuk-form-group govuk-form-group--error">
-              <label class="govuk-label govuk-label govuk-label--m" for="create_subject_input">
+              <label class="govuk-label govuk-label govuk-label--m message-fontsize" for="create_subject_input">
                 Subject
               </label>
               <span id="create_subject_input-error" class="govuk-error-message">
@@ -173,7 +177,7 @@
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
               {% if message.IsMessageNotDefined or message.IsSubjectNotDefinedcount%}
                 <div class="govuk-form-group govuk-form-group--error">
-                  <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
+                  <label class="govuk-label govuk-label govuk-label--m message-fontsize" for="create_message_input">{{data.Message}}</label>
                   {% if message.IsMessageNotDefined%}
                   <p id="more-detail-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
@@ -198,7 +202,7 @@
               <div id="create_message_input-info" class="govuk-hint govuk-character-count__message" aria-live="polite">You can enter up to 5000 characters</div>
             </div>
 
-            <div class="govuk-button-group">
+            <div class="govuk-button-group senttoall-width">
               {{ CCSButton({
                 text: data.btnText,
                 action:"submit",
@@ -212,8 +216,8 @@
         </div>
       </div>
     </form>
-    <p class="govuk-body">
+   <!-- <p class="govuk-body">
       <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-    </p>
+    </p>-->
   </main>
 {% endblock %}

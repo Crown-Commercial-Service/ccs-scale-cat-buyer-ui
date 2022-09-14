@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ele.addEventListener('focusout', totalPercentage);
       ele.addEventListener('keydown', (event) => {
         if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
+        if((event.ctrlKey || event.metaKey) && event.keyCode==86){ event.preventDefault(); return;}
       });
     });
     let allTextBox = document.getElementsByTagName("textarea");

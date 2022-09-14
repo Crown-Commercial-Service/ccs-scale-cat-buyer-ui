@@ -17,12 +17,12 @@
             "href": "#"
         }
     ],
-    "title": "Messaging Inbox",
+    "title": "Inbox",
     "subsection2_table_th_1": "Subject",
     "subsection2_table_th_2": "Recipient",
     "subsection2_table_th_3": "Date",
     "backJump": {
-        "title": "Return to Event Management",
+        "title": "Return to Your dashboard",
         "href": "#"
     },
     "tabs": {
