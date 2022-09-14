@@ -8,15 +8,15 @@
   {{ CCSBreadcrumbs({
         items:[
     {
-      "text": "Your Dashboard",
+      "text": "Your dashboard",
       "href": "/dashboard"
     },
     {
-      "text": "Your Project",
+      "text": "Your project",
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Evaluate Suppliers",
+      "text": "Evaluate suppliers",
       "href": "#"
     }
   ]
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop govuk-padding-left-inherit">
             <div class="project-overview">
                    <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
                     </strong></p>
@@ -46,7 +46,7 @@
                      </p>
             </div>
 
-              <div class="ccs-page-section">
+              <div>
                     <p>{{data.subtitle}}</p>
                     <p>{{data.subtitle1}}</p>
                     <p>{{data.subtitle2}}</p>
@@ -64,7 +64,7 @@
      <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
 
-    <div class="govuk-grid-row">
+    <div class="govuk-grid-row govuk-padding-left-inherit">
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4}}</h3>
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
@@ -118,12 +118,12 @@
 <br />
  <div class="govuk-button-group">
         {#{{ CCSButton({
-        text: "Confirm Scores",
+        text: "Confirm scores",
         idPrefix:"evaluate_suppliers"
         }) }}#}
         {% if(ConfirmFlag) %}
         <button class="govuk-button" data-module="govuk-button" id="evaluate_suppliers">
-  Confirm Scores
+  Confirm scores
 </button>
 {% endif %}
         <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
