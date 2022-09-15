@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
       let rootEl = document.getElementById('fc_question_' + i);
       const divElem = document.querySelector('#fc_question_' + i);
       if (!rootEl.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('technical questions')) {
-        document.getElementById("questionsCount").textContent = i + ' techinical questions entered so far';
+        document.getElementById("questionsCount").textContent = i + ' techinical questions entered ';
       }
       if (!rootEl.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('cultural fit questions')) {
-        document.getElementById("questionsCount").textContent = i + ' cultural questions entered so far';
+        document.getElementById("questionsCount").textContent = i + ' cultural fit questions entered';
       }
       if (!rootEl.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('social value questions')) {
-        document.getElementById("questionsCount").textContent = i + ' social value questions entered so far';
+        document.getElementById("questionsCount").textContent = i + ' social value questions entered';
       }
       if (i <= 9 && !rootEl.classList.contains('ccs-dynaform-hidden')) {
         document.getElementsByClassName("add-another-btn")[0].classList.remove('ccs-dynaform-hidden')
