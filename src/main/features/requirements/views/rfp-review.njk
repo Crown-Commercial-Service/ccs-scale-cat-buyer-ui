@@ -117,7 +117,7 @@
     {% if(buttonDisabled) %}
     {{ CCSButton({
     text: "Export your draft further competition",
-    classes: "govuk-button--secondary  govuk-button--disabled",
+    classes: "govuk-button--secondary  govuk-button--disabled govuk-a-disabled",
     href: "/rfp/review?download=1",
     disabled:"disabled"
     }) }}
@@ -1563,7 +1563,7 @@
 	     <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
          Publish and continue
         </button>
-		 <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state govuk-a-disabled">Return to Write and publish your requirements </a>
+		 <a href="/event/management?id={{event_id}}" class="govuk-link govuk-link--no-visited-state">Return to Your project </a>
       </div>
 		
       {% else %}
