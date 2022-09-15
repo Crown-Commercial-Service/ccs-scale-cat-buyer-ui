@@ -395,8 +395,20 @@ $('#service_levels_kpi_form').on('submit', (event) => {
   // if (totalPercentage === 100) {
   //   errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
   // } else 
+
+
   if (totalPercentage > 100) {
     errorStore.push(["rfp_term_percentage_KPI_", "Your success target cannot exceed 100%"])
+  }
+  for (var x = 1; x < 11; x++) {
+  let definition_field = document.getElementById("rfp_term_definition_service_levels_KPI_" + Number(x));
+    const field2 = countCharacterkpi(definition_field.value) > 5000;
+  if (field2) {
+
+    errorStore.push([definition_field, 'No more than 5000 characters are allowed.']);
+    ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
+    isError = true;
+  }  
   }
   errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
   if (errorStore.length === 0) {

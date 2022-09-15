@@ -467,6 +467,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    for (var x = 1; x < 11; x++) { 
+      
+      if(!$( "#"+"fc_question_"+x).hasClass("ccs-dynaform-hidden"))
+      {
+        $("#"+"fc_question_"+x).find("textarea").map(function() {
+          let term_field = document.getElementById(this.id);
+          const field2 = countCharacters(term_field.value) > 5000;
+          if (field2) {
+
+            errorStore.push([term_field, 'No more than 5000 characters are allowed.']);
+            ccsZaddErrorMessage(term_field, 'No more than 5000 characters are allowed.');
+            isError = true;
+          }          
+      }).get();
+      } 
+    }
+
     if (errorStore.length > 0) {
       ccsZPresentErrorSummary(errorStore)
     }
@@ -482,48 +499,102 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".terms_acr_description_count").keyup(function () {
-    let maxlength = $(this).attr('maxlength');
+    let errorStore = [];
+    removeErrorFieldsRfpScoreQuestion();
+    $(this).removeAttr('maxlength');
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let id = tmpid.substring(20);
-    $(".term_accr_des_" + id).text(`You have ${(maxlength - currentLength)} characters remaining`);
+    $(".term_accr_des_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+
+    if((currentLength)>5000)
+    {
+    errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+    ccsZPresentErrorSummary(errorStore);
+    ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+    }
+
   });
 
   $(".rfp_background_procurement_textarea").keyup(function () {
-
+    let errorStore = [];
+    removeErrorFieldsRfpScoreQuestion();
+    $(this).removeAttr('maxlength');
     let maxlength = $(this).attr('maxlength');
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let id = tmpid.substring(19);
-    $("#" + id).text(`You have ${(maxlength - currentLength)} characters remaining`);
+    $("#" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+
+    if((currentLength)>5000)
+    {
+    errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+    ccsZPresentErrorSummary(errorStore);
+    ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+    }
+
   });
 
   $(".rfp_term_more_description_count").keyup(function () {
-
+    let errorStore = [];
+    removeErrorFieldsRfpScoreQuestion();
+    $(this).removeAttr('maxlength');
     let maxlength = $(this).attr('maxlength');
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let id = tmpid.substring(22);
-    $(".rfp_term_more_details_" + id).text(`You have ${(maxlength - currentLength)} characters remaining`);
+    $(".rfp_term_more_details_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+
+    if((currentLength)>5000)
+    {
+    errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+    ccsZPresentErrorSummary(errorStore);
+    ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+    }
+
   });
 
   $(".rfp_kpi_description_count").keyup(function () {
 
-    let maxlength = $(this).attr('maxlength');
+    let errorStore = [];
+    removeErrorFieldsRfpScoreQuestion();
+    $(this).removeAttr('maxlength');
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let id = tmpid.substring(39);
-    $(".rfp_term_kpi_description_" + id).text(`You have ${(maxlength - currentLength)} characters remaining`);
+    $(".rfp_term_kpi_description_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+
+
+    if((currentLength)>5000)
+    {
+    errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+    ccsZPresentErrorSummary(errorStore);
+    ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+    }
+
   });
 
   $(".rfp_fc_questions_description").keyup(function () {
+
+    let errorStore = [];
+    removeErrorFieldsRfpScoreQuestion();
+    $(this).removeAttr('maxlength');
 
     let maxlength = $(this).attr('maxlength');
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let name = $(this).attr('name').replace(' ', '');
-    let id = tmpid.substring(12);
-    $(".rfp_fc_req_" + id + '_' + name).text(`You have ${(maxlength - currentLength)} characters remaining`);
+    let id = tmpid.substring(12,15);
+
+    $(".rfp_fc_req_" + id + '_' + name).text(`You have ${(5000 - currentLength)} characters remaining`);
+
+    if((currentLength)>5000)
+    {
+    errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+    ccsZPresentErrorSummary(errorStore);
+    ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+    }    
+
   });
 
   $(".weightage").keyup(function () {
