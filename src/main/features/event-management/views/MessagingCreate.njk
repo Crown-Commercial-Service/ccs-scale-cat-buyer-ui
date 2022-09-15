@@ -102,11 +102,11 @@
     <form id="ccs_message_create_form" name="ccs_message_create_form" action="/message/create" method="POST">
       {{ csrfProtection(csrf) }}
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
-        <div class="govuk-grid-column-full">
-          <h1 class="govuk-heading-m">
+        <div class="govuk-grid-column-full" class="backlink-margin-top" >        
+          <a href="{{data.backlink}}" class="backlink-margin">Back</a></br></br></br>
+           <h1 class="govuk-heading-m">
             {{data.subtitle}}
           </h1>
-          <a href="{{data.backlink}}" class="backlink-margin">Back</a></br></br></br>
           <div class="govuk-inset-text">
             <p class="govuk-body">{{data.signposting.line1}}</p>
             <p class="govuk-body">
@@ -175,14 +175,14 @@
                 <div class="govuk-form-group govuk-form-group--error">
                   <label class="govuk-label govuk-label govuk-label--m message-fontsize" for="create_message_input">{{data.Message}}</label>
                   {% if message.IsMessageNotDefined%}
-                  <p id="more-detail-error" class="govuk-error-message">
+                  <p id="create_message_input-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{message.messageErrorMessage}}
                   </p>
                   <textarea class="govuk-textarea govuk-textarea--error1 govuk-js-character-count" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error"></textarea>
                 </div>
                 {% else %}
-                 <p id="more-detail-error" class="govuk-error-message">
+                 <p id="create_message_input-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{message.SUBJECT_REQUIRED_count}}
                   </p>
