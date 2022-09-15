@@ -74,7 +74,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
     if (da_next_steps) {
       switch (da_next_steps) {
         case 'yes':
-          // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
+           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
           // const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
           // let endDate=new Date()
           // endDate.setDate(endDate.getDate()+1);
