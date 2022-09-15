@@ -3215,6 +3215,11 @@ p + .govuk-heading-s,
   border: 2px solid #d4351c;
 }
 
+.govuk-a-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .govuk-padding-left-inherit{
   padding-left: inherit;
 }

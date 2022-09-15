@@ -3,9 +3,27 @@
 {% set title = 'RFI review | Crown Commercial Service' %}
 
 {% block breadCrumb %}
+{% if disableLink==true %}
   {{ CCSBreadcrumbs({
+        items: [
+            {
+            "text": "Your dashboard",
+            "href": "/dashboard"
+          },
+          {
+            "text": "Your project",
+            "href": "/event/management?id="+event_id
+          },
+          {
+            "text": "Review and publish"
+          }
+        ]
+      }) }}
+      {%else%}
+      {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+      {%endif%}
 {% endblock %}
 
 {% block content %}
@@ -49,11 +67,20 @@
 
         <p class="govuk-body">{{data.subtitle}}
         </p>
+        {% if disableLink==true %}
         {{ CCSButton({
+    text: "Download your RfI (.ODT format)",
+    classes: "govuk-button--secondary govuk-button--disabled govuk-a-disabled",
+    href: "/rfi/review?download=1",
+    disabled:"disabled"
+    }) }}
+    {%else%}
+    {{ CCSButton({
     text: "Download your RfI (.ODT format)",
     classes: "govuk-button--secondary",
     href: "/rfi/review?download=1"
     }) }}
+    {%endif%}
 
       </div>
     </div>
@@ -94,9 +121,13 @@
 
             <dd class="govuk-summary-list__actions">
               {% if eventStatus != "published"%}
-                <a class="govuk-link" href="/rfi/name-your-project">
+              {% if disableLink==true %}
+                <a class="govuk-link govuk-a-disabled" href="/rfi/name-your-project">
             Change<span class="govuk-visually-hidden">project name</span>
                 </a>
+                {%else%}<a class="govuk-link" href="/rfi/name-your-project">
+            Change<span class="govuk-visually-hidden">project name</span>
+                </a>{%endif%}
               {% endif %}
             </dd>
           </div>
@@ -116,9 +147,13 @@
             </dd>
             <dd class="govuk-summary-list__actions">
               {% if eventStatus != "published"%}
-                <a class="govuk-link" href="/rfi/procurement-lead">
+              {% if disableLink==true %}
+                <a class="govuk-link govuk-a-disabled" href="/rfi/procurement-lead">
             Change<span class="govuk-visually-hidden"> procurement lead</span>
                 </a>
+                {%else%}<a class="govuk-link" href="/rfi/procurement-lead">
+            Change<span class="govuk-visually-hidden"> procurement lead</span>
+                </a>{%endif%}
               {% endif %}
             </dd>
           </div>
@@ -150,9 +185,14 @@
             {% endif %}
             <dd class="govuk-summary-list__actions">
               {% if eventStatus != "published"%}
-                <a class="govuk-link" href="/rfi/add-collaborators">
+              {% if disableLink==true %}
+                <a class="govuk-link govuk-a-disabled" href="/rfi/add-collaborators">
             Change<span class="govuk-visually-hidden"> rfi team members</span>
                 </a>
+                {%else%}
+                <a class="govuk-link" href="/rfi/add-collaborators">
+            Change<span class="govuk-visually-hidden"> rfi team members</span>
+                </a>{%endif%}
               {% endif %}
             </dd>
           </div>
@@ -187,9 +227,13 @@
 
             <dd class="govuk-summary-list__actions">
               {% if eventStatus != "published"%}
-                <a class="govuk-link" href="/rfi/type">
+              {% if disableLink==true %}
+                <a class="govuk-link govuk-a-disabled" href="/rfi/type">
             Change<span class="govuk-visually-hidden">RFI type</span>
                 </a>
+                {%else%}<a class="govuk-link" href="/rfi/type">
+            Change<span class="govuk-visually-hidden">RFI type</span>
+                </a>{%endif%}
               {% endif %}
             </dd>
           </div>-->
@@ -250,9 +294,13 @@
                   {% for i in item.answer %}
                       {% for answer in i.values%}
                         {% if eventStatus != "published"%}
-                                <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
+                        {% if disableLink==true %}
+                                <a class="govuk-link govuk-a-disabled" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
             Change<span class="govuk-visually-hidden">RFI type</span>
                                 </a>
+                                {%else%}<a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
+            Change<span class="govuk-visually-hidden">RFI type</span>
+                                </a>{%endif%}
                                 <br/><br/>
                               {% endif %}
                             {% endfor %}
@@ -299,9 +347,13 @@
                             {% endif %}
                             <dd class="govuk-summary-list__actions">
                               {% if eventStatus != "published"%}
-                                <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
+                              {% if disableLink==true %}
+                                <a class="govuk-link govuk-a-disabled" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
             Change<span class="govuk-visually-hidden">RFI type</span>
                                 </a>
+                                {%else%}<a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
+            Change<span class="govuk-visually-hidden">RFI type</span>
+                                </a>{%endif%}
                               {% endif %}
                             </dd>
                           
@@ -357,9 +409,13 @@
             Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
                                   </a>
                                   {% else %}#}
-                                  <a class="govuk-link" href="{{ '#' if disableLink else '/rfi/upload-doc' }}">
+                                  {% if disableLink==true %}
+                                  <a class="govuk-link govuk-a-disabled" href="{{ '#' if disableLink else '/rfi/upload-doc' }}">
             Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
                                   </a>
+                                  {%else%}<a class="govuk-link" href="{{ '#' if disableLink else '/rfi/upload-doc' }}">
+            Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
+                                  </a>{%endif%}
                                   {#{% endif %}#}
                                 {% endif %}
                               </dd>
@@ -437,11 +493,11 @@
                                 <h2 class="govuk-heading-m"> Publish your RfI</h2>
                               </p>
                               <p class="govuk-body">
-      After publishing this RfI, you can cancel amend, clarify, add to or withdraw all or part of it, at any time.
+      After publishing this RfI, you can cancel, amend, clarify, add to, or withdraw all or part of it, at any time.
     </p>
 
                               <p class="govuk-body">
-      The document sent to suppliers will also include a number of best practice statements from your organisation.  These are in the link below for you to review.
+      The document sent to suppliers will also include a number of best practice statements from your organisation.
         </p>
                               <br><br>
 
@@ -454,11 +510,43 @@
                               <br><br>
                             </div>
                           </div>
-                          {% if eventStatus != "published"%}
+                          {#{% if eventStatus != "published"%}#}
                             <form id="ccs_rfi_publish_form" name="ccs_rfi_publish_form" class="form ccs_rfi_publish_form"
       action="/rfi/review" method="post">
                               {{ csrfProtection(csrf) }}
+                              {% if disableLink==true %}
                               {{ CCSCheckboxes({
+      idPrefix: "rfi_publish_confirmation",
+      name: "rfi_publish_confirmation",
+      items: [
+      {
+      "value": 1,
+      html: "<label><strong>By checking this box I confirm the statements above.</strong></label>",
+      Checked: "",
+      disabled: "disabled"
+      }
+      ]
+      }) }}
+                                <div class="govuk-button-group">
+                                  {#{{ CCSButton({
+        attributes: {
+        id: "rfi_btn_publish_now"
+        },
+        text: "Publish and continue"
+        }) }}#}
+        <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+         Publish and continue
+        </button>
+                                  <a href="/rfi/rfi-tasklist?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}" class="govuk-link govuk-link--no-visited-state govuk-a-disabled">Return to Do pre-market engagement  </a>
+                                </div>
+                                {{ CCSInput({
+      id: "finished_pre_engage",
+      name: "finished_pre_engage",
+      type: "hidden",
+      value: "true"
+      }) }}
+{%else%}
+{{ CCSCheckboxes({
       idPrefix: "rfi_publish_confirmation",
       name: "rfi_publish_confirmation",
       items: [
@@ -484,9 +572,9 @@
       type: "hidden",
       value: "true"
       }) }}
-
+{%endif%}
                               </form>
-                            {% endif %}
+                            {#{% endif %}#}
                           </div>
                         </div>
 
