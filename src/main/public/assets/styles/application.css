@@ -3215,6 +3215,14 @@ p + .govuk-heading-s,
   border: 2px solid #d4351c;
 }
 
+.govuk-padding-left-inherit{
+  padding-left: inherit;
+}
+
+.govuk-p-margin-bottom{
+  margin-bottom: 10px;
+}
+
 .govuk-input--error:focus {
   border-color: #0b0c0c;
 }
