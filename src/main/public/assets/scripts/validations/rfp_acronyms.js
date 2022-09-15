@@ -1,10 +1,9 @@
-const countWords1 = (str) => { return str.trim().split(/\s+/).length };
-const countCharacters = (str) => { return str.length };
+"use strict";
+//const countWordsAcronymsFx = (str) => { return str?.trim()?.split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
+  const countCharacters = (str) => { return str.length };
 
   if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
-
-
     const checkHowManyQuestionAddedSoFar = function () {
       for (var i = 1; i < 11; i++) {
         let rootEl = document.getElementsByClassName('acronym_' + i);
@@ -29,12 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     let deleteButtonCount = [];
     for (var acronym_fieldset = 10; acronym_fieldset > 1; acronym_fieldset--) {
-
-
       let this_fieldset = document.querySelector(".acronym_" + acronym_fieldset),
         term_box = document.getElementById("rfp_term_" + acronym_fieldset);
       // document.getElementById("deleteButton_acronym_" + acronym_fieldset).classList.add("ccs-dynaform-hidden");
-
       if (term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
         deleteButtonCount.push(acronym_fieldset);
@@ -42,9 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
         }
       } else {
-
         this_fieldset.classList.add('ccs-dynaform-hidden');
         with_value_count = acronym_fieldset;
+      }
+      if (acronym_fieldset <= 9 && !this_fieldset?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("ccs_rfpTerm_add").length >0) {
+        document.getElementsByClassName("ccs_rfpTerm_add")?.[0].classList.remove('ccs-dynaform-hidden')
+      } else if (!this_fieldset?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("ccs_rfpTerm_add").length>0) {
+        document.getElementsByClassName("ccs_rfpTerm_add")?.[0].classList.add('ccs-dynaform-hidden')
       }
       if (acronym_fieldset === 2 && deleteButtonCount.length > 0) {
         $("#deleteButton_acronym_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
@@ -221,12 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-});
 
-const resetAllTermsAconym = (targetId) => {
-
-
-}
 const checkFieldsRfp1 = () => {
   const start = 1;
   const end = 10;
@@ -236,8 +231,8 @@ const checkFieldsRfp1 = () => {
     let textbox = $(`#rfp_term_definition_${a}`);
 
     if (!pageHeading.includes("(Optional)")) {
-      const field1 = countWords1(input.val()) < 50;
-      const field2 = countWords1(textbox.val()) < 150;
+      const field1 = countCharacters(input.val()) < 50;
+      const field2 = countCharacters(textbox.val()) < 150;
       if (input.val() !== "" || field1) {
 
         $(`#rfp_term_${a}-error`).remove();
@@ -278,7 +273,7 @@ const emptyFieldCheckRfp1 = () => {
     let target_field = document.getElementById("rfp_term_target_" + x);
 
     if (term_field.value !== undefined && definition_field !== undefined) {
-      const field1 = countWords1(term_field.value) > 50;
+      const field1 = countCharacters(term_field.value) > 50;
       const field2 = countCharacters(definition_field.value) > 5000;
       
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
@@ -349,3 +344,5 @@ const ccsZvalidateRfpAcronymsRFP = (event) => {
 
   }
 };
+});
+
