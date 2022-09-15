@@ -87,7 +87,7 @@
                       </p>                      
                     </th>
                      <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/award-supplier-document?supplierId={{supplier.supplierId}}&doctempateId={{supplier.documentTemplates}}">Download templates</a>
+                      <a class="govuk-link" href="/award-supplier-document?supplierId={{supplier.supplierId}}&doctempateId={{supplier.documentTemplates}}" >Download templates</a>
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
@@ -108,7 +108,7 @@
        <p> You'll need to notify by email all suppliers who have not been successful.</p>
 </br> </br> </br>
 {%set urlNew=eventManagementData.documentTemplateDataList[0].supplierId+"&doctempateId="+eventManagementData.documentTemplateDataList[0].documentTemplatesUnSuccess %}
- <a class="govuk-link" href="/award-supplier-document?supplierId={{urlNew}}">Download templates</a>
+ <a class="govuk-link" href="/award-supplier-document?supplierId={{urlNew}}"><span class="govuk-visually-hidden"> Unsuccessful supplier </span>Download templates</a>
        </div>
         </div>
 

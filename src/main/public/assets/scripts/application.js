@@ -265,6 +265,10 @@ if (document.getElementById('ccs_eoi_acronyms_form') !== null)
 if (document.getElementById('ccs_rfp_acronyms_form') !== null)
   document.getElementById('ccs_rfp_acronyms_form').addEventListener('submit', ccsZvalidateRfpAcronymsRFP);
 
+  if (document.getElementById('service_user_type_form') !== null)
+  document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateRfpUserType);
+  
+
 if (document.getElementById('rfp_location') !== null)
   document.getElementById('rfp_location').addEventListener('submit', ccsZvalidateRfpLocation);
 if (document.getElementById('rfp_location') != undefined && document.getElementById('rfp_location') != null)

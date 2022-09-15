@@ -66,8 +66,9 @@ export const GET_ONLINE_TASKLIST = async (req: express.Request, res: express.Res
                   ExcludingKeyDates[i].OCDS.description="The buying organisation (optional)";
                   ExcludingKeyDates[i].nonOCDS.task="Add who the procurement is for";
                   break;
-               case "Where the supplied staff will work":
+               case "Where the work will be done":
                   ExcludingKeyDates[i].nonOCDS.task="Select location";
+                  ExcludingKeyDates[i].OCDS.description="Where the supplied staff will work";
                   break;
                case "Terms and acronyms (Optional)":
                   ExcludingKeyDates[i].OCDS.description="Terms and acronyms (optional)";

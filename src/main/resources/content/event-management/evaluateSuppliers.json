@@ -17,11 +17,11 @@
             "href": "#"
         }
     ],
-    "title": "Evaluate Suppliers",
-    "subtitle": "Download all the supplier's responses to evaluate their answers.Any colleagues who are also evaluating should have access to this project.If they do not have access, you can download and share the answers with them.",
+    "title": "Evaluate suppliers",
+    "subtitle": "Download all the supplier's responses to evaluate their answers. Any colleagues who are also evaluating should have access to this project. If they do not have access, you can download and share the answers with them.",
     "subtitle1":"You need to evaluate suppliers seperately, then review your feedback and scores with colleagues.",
-    "subtitle2": "You will need to agree on feedback and a score for each answer from each supplier, and an overall evaluation.",
-    "subtitle3": "To capture your scores and feedback for the awarded supplier,",
+    "subtitle2": "You will need to agree on feedback and a score for each answer from each supplier, and an overall evaluation summary and score.",
+    "subtitle3": "To capture your scores and feedback for the awarded supplier, ",
     
     "subsection4_title4": "Suppliers who responded",
     "subsection4_table_th_1": "Supplier Name",
