@@ -1,4 +1,5 @@
 const countWords1 = (str) => { return str.trim().split(/\s+/).length };
+const countCharacters = (str) => { return str.length };
 document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
@@ -278,11 +279,13 @@ const emptyFieldCheckRfp1 = () => {
 
     if (term_field.value !== undefined && definition_field !== undefined) {
       const field1 = countWords1(term_field.value) > 50;
-      const field2 = countWords1(definition_field.value) > 150;
-
+      const field2 = countCharacters(definition_field.value) > 5000;
+      
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
         checkFieldsRfp1();
         if (pageHeading.includes("(Optional)")) {
+          
+          
           if (x != 1 && term_field.value.trim() !== '' && definition_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
             //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
@@ -293,6 +296,13 @@ const emptyFieldCheckRfp1 = () => {
             ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
             errorStore.push(fieldCheck);
           }
+          else if (field2) {
+
+            errorStore.push([definition_field, 'No more than 5000 characters are allowed.']);
+            ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
+            isError = true;
+          }  
+    
           // else if (x != 1) {
           //   let isError = false;
           //   if (term_field.value.trim() === '') {
@@ -307,14 +317,11 @@ const emptyFieldCheckRfp1 = () => {
           //     ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
           //     isError = true;
           //   }
-          //   if (field1) {
-          //     ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
-          //     isError = true;
-          //   }
-          //   if (field2) {
-          //     ccsZaddErrorMessage(definition_field, 'No more than 250 words are allowed.');
-          //     isError = true;
-          //   }
+            // if (field1) {
+            //   ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+            //   isError = true;
+            // }
+
           //   if (isError) {
           //     fieldCheck = [definition_field.id, 'You must add information in all fields.'];
           //     errorStore.push(fieldCheck);
