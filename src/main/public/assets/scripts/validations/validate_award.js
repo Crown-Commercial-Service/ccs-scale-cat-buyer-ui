@@ -77,7 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 $(this).attr("aria-label","Alert on dialog box, Please confirm your wish to award this supplier.");
                 $(this).attr("role","button");
 
-                document.getElementById('redirect-button-vetting').focus();
+                setTimeout(()=>{
+                  document.getElementById('redirect-button-vetting').focus();
+                },1000)
 
                 $('.dialog-close-vetting').attr("aria-label","Close dialog");
                 $('.dialog-close-vetting').attr("role","button");
