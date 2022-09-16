@@ -1112,6 +1112,7 @@
                         #}
                         {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
                         <h2> <span id="kpiKeyLevel"></span>  service levels and KPIs added</h2> 
+                        <p class="govuk-top-line"></p>
                         {% call CCSFieldset({
                             legend: {
                               html: "Enter your first service level requirement or KPI <a href='1' id='remove_icon_1' data='1'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
@@ -1227,7 +1228,7 @@
                           {% endcall %}
 
                         {%- endfor %}
-
+                        <p class="govuk-top-line"></p>
                         <p class="govuk-body">
                           {{ CCSButton({
                           text: "Add another item",
