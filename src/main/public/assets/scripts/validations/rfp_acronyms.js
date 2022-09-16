@@ -1,5 +1,5 @@
 const countWords1 = (str) => { return str.trim().split(/\s+/).length };
-const countCharacters = (str) => { return str.length };
+//const countCharacters = (str) => { return str.length };
 document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
@@ -296,7 +296,15 @@ const emptyFieldCheckRfp1 = () => {
             ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
             errorStore.push(fieldCheck);
           }
-          else if (field2) {
+
+          if (field1) {
+
+            errorStore.push([term_field, 'No more than 50 words are allowed.']);
+            ccsZaddErrorMessage(term_field, 'No more than 50 words characters are allowed.');
+            isError = true;
+          } 
+          
+          if (field2) {
 
             errorStore.push([definition_field, 'No more than 5000 characters are allowed.']);
             ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');

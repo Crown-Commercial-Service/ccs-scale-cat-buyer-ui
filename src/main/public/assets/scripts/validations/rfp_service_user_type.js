@@ -300,9 +300,37 @@ const emptyFieldCheckRfpUserType = () => {
               ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
               isError = true;
             }
+
+            if (field1) {
+              errorStore.push([term_field, 'No more than 50 words are allowed.']);
+              ccsZaddErrorMessage(term_field, 'No more than 50 words characters are allowed.');
+              isError = true;
+            }
+
         }
       }
     }
+
+  }
+  return errorStore;
+}
+
+const emptyFieldCheckRfpStrategy = () => {
+
+  let fieldCheck = "",
+    errorStore = [];
+  const pageHeading = document.getElementById('page-heading').innerHTML;
+
+    let term_field = document.getElementById('rfp_contracting_auth');
+
+    if (term_field.value !== undefined) {
+      const field1 = countWords(term_field.value) > 50;
+
+            if (field1) {
+              errorStore.push([term_field, 'No more than 50 words are allowed.']);
+              ccsZaddErrorMessage(term_field, 'No more than 50 words characters are allowed.');
+              isError = true;
+            }
 
   }
   return errorStore;
@@ -324,3 +352,21 @@ ccsZPresentErrorSummary(errorStore);
 
  }
 };
+
+const ccsZvalidateTextRfpChangeStrategy = (event) => {
+
+  event.preventDefault();
+
+  errorStore = emptyFieldCheckRfpStrategy();
+
+  if (errorStore.length === 0) {
+
+  document.forms["ccs_rfp_who_form"].submit();
+  }
+  else {
+ccsZPresentErrorSummary(errorStore);
+
+ }
+};
+
+

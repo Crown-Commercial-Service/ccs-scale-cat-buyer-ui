@@ -229,8 +229,8 @@ if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
 if (document.getElementById('ccs_rfp_about_proj') !== null)
   document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
 
-// if (document.getElementById('ccs_rfp_who_form') !== null)
-// document.getElementById('ccs_rfp_who_form').addEventListener('submit', ccsZvalidateTextRfpChangeStrategy);
+  if (document.getElementById('ccs_rfp_who_form') !== null)
+  document.getElementById('ccs_rfp_who_form').addEventListener('submit', ccsZvalidateTextRfpChangeStrategy);
 
 if (document.getElementById('ccs_eoi_purpose_form') !== null)
   document.getElementById('ccs_eoi_purpose_form').addEventListener('submit', ccsZvalidateEoiPurpose);
