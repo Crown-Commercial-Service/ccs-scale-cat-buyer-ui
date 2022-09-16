@@ -239,7 +239,7 @@
       classes:"rfp_fc_questions_description order_"+requirement.nonOCDS.order +" "+ classNameNew,
       rows:2
     }) }}
-     <span class="remaining_chrs_term rfp_fc_req_{{index+'_'+requirement.nonOCDS.order}}_{{requirement.OCDS.id.replace(' ','')}}">You have 5000 characters remaining</span>
+     <span class="remaining_chrs_term rfp_fc_req_{{index+'_'+requirement.nonOCDS.order}}_{{requirement.OCDS.id.replace(' ','')}}">You have {{(5000-(requirement.nonOCDS.options[index-1].value | length))}} characters remaining</span>
     {% set qlable =  'rfp_label_question_lable_' + index+ "_"+requirement.nonOCDS.order %}
     {# <p class="character-count"><label id="{{qlable}}">You have 5000 character remaining</label></p> #}
   {%endif%}
@@ -636,7 +636,7 @@
                       }
                     })
                 }}
-                <span class="remaining_chrs_term" id="{{word | last}}">You have 5000 characters remaining</span>
+                <span class="remaining_chrs_term" id="{{word | last}}">You have {{(5000-(requirement.nonOCDS.options[index-1].value | length))}} characters remaining</span>
               {% else %}
               {{  CCSTextarea({
                       name: "rfp_prob_statement_1",
@@ -651,7 +651,7 @@
                       }
                     })
                 }}
-                <span class="remaining_chrs_term" id="1">You have 5000 characters remaining</span>              
+                <span class="remaining_chrs_term" id="1">You have {{(5000-(requirement.nonOCDS.options[index-1].value | length))}} characters remaining</span>              
                {% endif %}
               {{  CCSInput({
                       id: "question_id",
@@ -896,7 +896,7 @@
                             })
                           }}
 
-                         <span class="term_accr_des_1 remaining_chrs_term">You have 5000 characters remaining</span>
+                         <span class="term_accr_des_1 remaining_chrs_term">You have {{ (5000-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>
 
                           <br>
                         {# {{ CCSInput({
@@ -960,7 +960,7 @@
                                 value:  requirement.nonOCDS.options[i-1].text
                               })
                             }}
-                          <span class="term_accr_des_{{i}} remaining_chrs_term">You have 5000 characters remaining</span>
+                          <span class="term_accr_des_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1].text | length))}} characters remaining</span>
                           <br>
                           {# {{ CCSInput({
                                   label: {
@@ -1033,7 +1033,7 @@
                               value:requirement.nonOCDS.options[0].text
                             })
                           }}
-                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have 5000 characters remaining</span>
+                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1].text | length))}} characters remaining</span>
                         {% endcall %}
                         {% set NumberWord = [
                           'zero',
@@ -1083,7 +1083,7 @@
                                 value: requirement.nonOCDS.options[i-1].value
                               })
                             }}
-                             <span class="rfp_term_more_details_{{i}} remaining_chrs_term">You have 5000 characters remaining</span>
+                             <span class="rfp_term_more_details_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1].value | length))}} characters remaining</span>
                           {% endcall %}
                        
                         {%- endfor %}
@@ -1112,6 +1112,7 @@
                         #}
                         {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
                         <h2> <span id="kpiKeyLevel"></span>  service levels and KPIs added</h2> 
+                        <p class="govuk-top-line"></p>
                         {% call CCSFieldset({
                             legend: {
                               html: "Enter your first service level requirement or KPI <a href='1' id='remove_icon_1' data='1'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
@@ -1145,7 +1146,7 @@
                               value: requirement.nonOCDS.options[0][1].value
                             })
                           }}
-                           <span class="rfp_term_kpi_description_1 remaining_chrs_term">You have 5000 characters remaining</span>
+                           <span class="rfp_term_kpi_description_1 remaining_chrs_term">You have {{5000-requirement.nonOCDS.options[0][1].value | length}} characters remaining</span>
                         {{ CCSInput({
                                 label: {
                                 html:requirement.nonOCDS.options[0][2].title,
@@ -1210,7 +1211,7 @@
                                 value: requirement.nonOCDS.options[i-1][1].value
                               })
                             }}
-                            <span class="rfp_term_kpi_description_{{i}} remaining_chrs_term">You have 5000 characters remaining</span>
+                            <span class="rfp_term_kpi_description_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1][1].value | length))}} characters remaining</span>
                           {{ CCSInput({
                                   label: {
                                     text: "Insert the required target "
@@ -1227,7 +1228,7 @@
                           {% endcall %}
 
                         {%- endfor %}
-
+                        <p class="govuk-top-line"></p>
                         <p class="govuk-body">
                           {{ CCSButton({
                           text: "Add another item",
