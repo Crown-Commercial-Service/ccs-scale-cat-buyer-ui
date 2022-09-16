@@ -108,7 +108,7 @@
                                     <div id="rfp_clarification_date" class="govuk-!-margin-bottom-5 govuk-!-padding-top-4">
                                         {% if(requirement.nonOCDS.options[0].selected)%}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="lbl-clarification" class="clarification_{{loop.index}}">{{ requirement.nonOCDS.options[0].value }}</strong>
+                                                <strong id="lbl-clarification" class="clarification_{{loop.index}}">{{ requirement.nonOCDS.options[0].value}}</strong>
                                             </label>
                                         {%endif %}
                                         {% if( requirement.nonOCDS.options.length == 0)%}

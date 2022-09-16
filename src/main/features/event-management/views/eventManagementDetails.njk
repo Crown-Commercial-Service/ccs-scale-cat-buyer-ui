@@ -94,9 +94,9 @@
           <form id="event_supplier_message_form" name="event_supplier_message_form" class="form event_supplier_message_form" action="/message/details" method="POST">
             {{ csrfProtection(csrf) }}
             {%if(type==='received')%}
-            <a href="{{data.backlink}}">back</a></br></br></br>
+            <a href="{{data.backlink}}">Back</a></br></br></br>
             {%else%}
-            <a href="/message/sent?type=sent">back</a></br></br></br>
+            <a href="/message/sent?type=sent">Back</a></br></br></br>
             {%endif%}
             <label class="govuk-label govuk-label govuk-label--m">{{messageDetails.OCDS.title}}</label>
             <label class="govuk-label govuk-label govuk-label--m">{{data.line4}}{{messageDetails.OCDS.author.name}}</label>
