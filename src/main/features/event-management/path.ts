@@ -1,4 +1,3 @@
-import { EventEngagementMiddleware } from '@common/middlewares/event-management/activeevents';
 import { Application } from 'express';
 import { AUTH } from '../../common/middlewares/oauthservice/authstatecheck';
 import { EVENT_MANAGEMENT_CONTROLLER } from './controller/index';
@@ -16,7 +15,6 @@ export default function (app: Application): void {
 
   app.get(EVENT_MANAGEMENT_PATHS.EVENT_MANAGEMENT_QA, [AUTH], EVENT_MANAGEMENT_CONTROLLER.EVENT_MANAGEMENT_QA);
   app.get(EVENT_MANAGEMENT_PATHS.EVENT_MANAGEMENT_SUPPLIER_QA, [AUTH], EVENT_MANAGEMENT_CONTROLLER.EVENT_MANAGEMENT_SUPPLIER_QA);
-  app.get(EVENT_MANAGEMENT_PATHS.EVENT_MANAGEMENT_SUPPLIER_DATA_QA, [AUTH,EventEngagementMiddleware.GetEvents], EVENT_MANAGEMENT_CONTROLLER.EVENT_MANAGEMENT_SUPPLIER_QA);
 
   app.get(EVENT_MANAGEMENT_PATHS.EVENT_MANAGEMENT_NEXT_STEP_GET, [AUTH], EVENT_MANAGEMENT_CONTROLLER.EVENT_MANAGEMENT_NEXT_STEP_GET);
 

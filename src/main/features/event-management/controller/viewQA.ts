@@ -38,10 +38,10 @@ export const EVENT_MANAGEMENT_QA = async (req: express.Request, res: express.Res
 export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: express.Response) => {
     const { supplier_qa_url } = req.session;
     const { SESSION_ID } = req.cookies
-    let eventId = supplier_qa_url != undefined ? atob(supplier_qa_url.split('?')[1].split('eventId=')[1]) : undefined
-    var projectId = supplier_qa_url != undefined ? atob(supplier_qa_url.split('?')[1].split('projectId=')[1].split('&')[0]) : undefined
+    let eventId = supplier_qa_url != undefined ? atob(supplier_qa_url.split('Id=')[1]).split("_")[1] : undefined
+    var projectId = supplier_qa_url != undefined ? atob(supplier_qa_url.split('Id=')[1]).split("_")[0] : undefined
     let appendData: any;
-    if (eventId != undefined && projectId !=undefined) {
+    if (eventId != undefined && projectId != undefined) {
         const baseURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`;
         const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
         const baseActiveEventsURL = `/tenders/projects`
@@ -50,9 +50,13 @@ export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: ex
             .then(async (data) => {
                 const events: ActiveEvents[] = data.data.sort((a: { projectId: number }, b: { projectId: number }) => (a.projectId < b.projectId) ? 1 : -1)
                 let filterProject = [...events.filter(pro => pro.projectId?.toString() === projectId && pro.activeEvent.id == eventId)];
-                res.locals.agreement_header = { projectId: filterProject?.[0].projectId, eventId: eventId, project_name: filterProject?.[0].projectName, agreementName: filterProject?.[0].agreementName, agreementId_session: filterProject?.[0].agreementId, agreementLotName: filterProject?.[0].lotName , lotid:filterProject?.[0].lotId}
-                req.session.agreement_header = res.locals.agreement_header
-                appendData = { data: inboxData, QAs: fetchData.data, eventId: eventId, eventType: req.session.eventManagement_eventType, isSupplierQA: true }
+                appendData={isSupplierQA: true};
+                if (filterProject != undefined && filterProject != null && filterProject.length > 0) {
+                    res.locals.agreement_header = { projectId: projectId, eventId: eventId, project_name: filterProject.length > 0 ? filterProject?.[0].projectName : "", agreementName: filterProject?.[0].agreementName, agreementId_session: filterProject?.[0].agreementId, agreementLotName: filterProject?.[0].lotName, lotid: filterProject?.[0].lotId }
+                    req.session.agreement_header = res.locals.agreement_header
+                    appendData = { data: inboxData, QAs: fetchData.data, eventId: eventId, eventType: req.session.eventManagement_eventType, isSupplierQA: true }
+                }
+
                 res.render('viewQA', appendData);
             })
             .catch(err => {
