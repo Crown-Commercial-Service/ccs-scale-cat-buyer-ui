@@ -155,12 +155,20 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       });
 
       for (let index = 0; index < fetchQuestionsData.length; index++) {
-        const stringDate = fetchQuestionsData[index]?.nonOCDS.options[0]?.value;
+        const element = fetchQuestionsData[index];
+        const stringDate = element?.nonOCDS.options[0]?.value;
         if(stringDate !=undefined && stringDate!=null)
         {
-          let convertedDate = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-          if(convertedDate !="Invalid date")
-          fetchQuestionsData[index].nonOCDS.options[0].value =convertedDate;
+          if(element.OCDS.id == "Question 1")
+          {
+            fetchQuestionsData[index].nonOCDS.options[0].value = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
+          }
+          else
+          {
+            let convertedDate = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+            if(convertedDate !="Invalid date")
+            fetchQuestionsData[index].nonOCDS.options[0].value =convertedDate;
+          }
         }
       }
       const agreementName = req.session.agreementName;

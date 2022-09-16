@@ -152,6 +152,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           supplierDetailsObj.responseState = supplierdata.data?.responders[i]?.responseState;
           supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
           supplierDetailsObj.score = (score != undefined) ? score : 0;
+          supplierDetailsObj.rankFlag = false;
           var supplierFiltedData = supplierDataList?.filter((a: any) => (a.organization.id == id))?.[0]?.organization;
           if (supplierFiltedData != undefined && supplierFiltedData != null) {
             supplierDetailsObj.supplierAddress = {} as SupplierAddress;
@@ -172,29 +173,32 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
         supplierSummary = supplierdata?.data;
         supplierDetailsDataList.sort((a, b) => (Number(a.score) > Number(b.score) ? -1 : 1));
 
-        let tempData = supplierDetailsDataList; 
-        tempData = tempData.filter(x => x.responseState.toLowerCase() == "submitted");
+        supplierDetailsDataList = supplierDetailsDataList.filter(x => x.responseState.toLowerCase() == "submitted");
         let rankCount = 0;
-
-        for (let i = 0; i < tempData.length; i++) {
-          rankCount = rankCount + 1
-          let sameScoreFound = tempData.filter(x =>x.score == tempData[i].score);
-          if(sameScoreFound !=undefined && sameScoreFound !=null)
+        
+        for (let i = 0; i < supplierDetailsDataList.length; i++) {
+          let element =supplierDetailsDataList[i];
+          if(!element.rankFlag)
+          {
+            rankCount = rankCount + 1
+            let sameScoreFound = supplierDetailsDataList.filter(x =>x.score == element.score);
+            if(sameScoreFound !=undefined && sameScoreFound !=null && sameScoreFound.length > 1)
           {
             for (let index = 0; index < sameScoreFound.length; index++) {
               let indexNumber = supplierDetailsDataList.findIndex(x => x.supplierId == sameScoreFound[index].supplierId);
               if(indexNumber !=undefined && indexNumber !=null  && indexNumber >= 0)
               {
                 supplierDetailsDataList[indexNumber].rank = "" + rankCount+ "=";
-                let indexNumber2 = tempData.findIndex(x => x.supplierId == sameScoreFound[index].supplierId);
-                tempData.splice(indexNumber2, 1);
+                supplierDetailsDataList[indexNumber].rankFlag = true;
               }
             }
-        }
+          }
         else{
           supplierDetailsDataList[i].rank = "" + rankCount;
-        }
+          supplierDetailsDataList[i].rankFlag = true;
+        }  
       }
+    }
         //Awarded,pre_awarded and complete supplier info
         if (status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
           let supplierState = "PRE_AWARD"
@@ -357,6 +361,15 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
           case "DA":
             req.session.selectedeventtype = "DA"
             if (status != undefined && status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
+              const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
+              const awardsTemplatesData = await (await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL))?.data;
+              let documentTemplatesUnSuccess = "";
+              for (let i = 0; i < awardsTemplatesData.length; i++) {
+                if (awardsTemplatesData[i].description.includes("UnSuccessful")) {
+                  documentTemplatesUnSuccess = awardsTemplatesData[i].id;
+                }
+              }
+              appendData.documentTemplatesUnSuccess = documentTemplatesUnSuccess
               res.render('awardEventManagement', appendData)
             }
             else {
@@ -716,7 +729,7 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
       });
       res.send(fileData);
     }
-    else if (downloadUnsuccessfulTemplateId != undefined) {
+    else if (downloadUnsuccessfulTemplateId != undefined && downloadUnsuccessfulTemplateId !='') {
      
       const fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/${downloadUnsuccessfulTemplateId}`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
