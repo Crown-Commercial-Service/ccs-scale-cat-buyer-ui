@@ -89,7 +89,11 @@ text: bcTitleText
                 method="post" autocomplete="off">
                 {{ csrfProtection(csrf) }}
                 <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
+                {% if form_name!=='service_levels_kpi_form' %}
                 <div class="ccs-page-section">
+                {% else %}
+                <div>
+                {% endif %}
                 {#<--! SCAT-5151-->#}
                 {% if (form_name === 'rfp_multianswer_question_form') %}
                 {{ CCSInsetText({
