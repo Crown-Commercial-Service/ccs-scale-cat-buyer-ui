@@ -128,6 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    let term_box_1 = document.getElementById("rfp_term_definition_service_levels_KPI_1")
+    if (term_box_1 != undefined && term_box_1 != null && term_box_1.value !== "") {
+      var contentlength=5000-term_box_1.value.length
+      $(".rfp_term_kpi_description_1").text('You have '+contentlength+' characters remaining');
+    }
     for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
       let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
@@ -143,6 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteButtonCount.push(kpi_fieldset);
         if (kpi_fieldset === 10) {
           document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+        }
+        if (term_box1 != undefined && term_box1 != null && term_box1.value !== "") {
+          var contentlength=5000-term_box1.value.length
+          $(".rfp_term_kpi_description_" + kpi_fieldset).text('You have '+contentlength+' characters remaining');
         }
       } else {
 

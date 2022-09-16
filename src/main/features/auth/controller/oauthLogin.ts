@@ -10,6 +10,6 @@ import { AuthorizationRedirect } from './authRedirect'
  */
 export const OAUTH_LOGIN = (req: express.Request, res: express.Response) => {
    let redirectURL: string | any = new AuthorizationRedirect();
-   redirectURL = redirectURL.Redirect_Oauth_URL();
+   redirectURL = redirectURL.Redirect_Oauth_URL(req);
    res.redirect(redirectURL)
 }

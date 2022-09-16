@@ -40,12 +40,22 @@ export const CA_GET_SUBCONTRACTORS = async (req: express.Request, res: express.R
         }
         
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
-
-    isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
-
+      if(assessmentDetail!=null && assessmentDetail!=undefined)
+      {
+        if(assessmentDetail.dimensionRequirements.find(d=>d["dimension-id"]==1)?.includedCriteria.length==0){
+          isSubContractorAccepted=null
+        }
+        else if(assessmentDetail.dimensionRequirements.find(d=>d["dimension-id"]==1)?.includedCriteria?.find(c=>c["criterion-id"]==1)!=undefined)
+        {
+          isSubContractorAccepted=true
+        }
+      }
+    //isSubContractorAccepted = req.session['CapAss'].isSubContractorAccepted;
+    
     caSubContractors.form[0].radioOptions.items = caSubContractors.form[0].radioOptions.items.map(opt => {
       if (opt.value == 'yes' && isSubContractorAccepted) opt.checked = true;
       else if (opt.value == 'no' && isSubContractorAccepted == false) opt.checked = true;
+      else opt.checked=false;
       return opt;
     });
     const windowAppendData = {
@@ -94,28 +104,31 @@ export const CA_POST_SUBCONTRACTORS = async (req: express.Request, res: express.
      const ca_acceptsubcontractors = ca_subContractors == 'yes' ? true : false;
      req.session['CapAss'].isSubContractorAccepted=ca_acceptsubcontractors
       const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
+      
 
+      const toolId=assessmentDetail['external-tool-id'];
+      const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
+      let apiData=[]
       for (var dimension of assessmentDetail.dimensionRequirements) {
-        const body = {
-          name: dimension.name,
+        let evaluationCriteriaData=dimensions.find(d=>d['dimension-id']==dimension['dimension-id']).evaluationCriteria
+        if(!ca_acceptsubcontractors){
+          evaluationCriteriaData= evaluationCriteriaData.filter(x=>x['criterion-id']!='1')
+        }
+        let bodyData = {
+          "dimension-id": dimension['dimension-id'],
           weighting: dimension.weighting,
           requirements: dimension.requirements,
-          includedCriteria: dimension.includedCriteria
-            .map(criteria => {
-              if (!ca_acceptsubcontractors && criteria['name'] == 'Sub Contractor') {
-                return null;
-              } else
-                return {
-                  'criterion-id': criteria['criterion-id'],
-                };
-            })
-            .filter(criteria => criteria !== null),
+          includedCriteria: evaluationCriteriaData,
+            overwriteRequirements:false
         };
+        apiData.push(bodyData)
+      }
+      const body=apiData
         await TenderApi.Instance(SESSION_ID).put(
-          `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
+          `/assessments/${assessmentId}/dimensions`,
           body,
         );
-      }
+      
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Completed');
       let flag = await ShouldEventStatusBeUpdated(eventId, 48, req);
         if (flag) {

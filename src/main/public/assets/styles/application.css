@@ -3220,6 +3220,11 @@ p + .govuk-heading-s,
   opacity: 0.5;
 }
 
+.govuk-top-line {
+  border-top:1px solid #b1b4b6;
+  margin-bottom: 2rem;
+}
+
 .govuk-padding-left-inherit{
   padding-left: inherit;
 }
