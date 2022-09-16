@@ -401,14 +401,25 @@ $('#service_levels_kpi_form').on('submit', (event) => {
     errorStore.push(["rfp_term_percentage_KPI_", "Your success target cannot exceed 100%"])
   }
   for (var x = 1; x < 11; x++) {
+  let term_field = document.getElementById("rfp_term_service_levels_KPI_" + Number(x));
   let definition_field = document.getElementById("rfp_term_definition_service_levels_KPI_" + Number(x));
+    const field1 = countWordskpi(term_field.value) > 50;
     const field2 = countCharacterkpi(definition_field.value) > 5000;
+
+    if (field1) {
+
+      errorStore.push([term_field, 'No more than 50 words are allowed.']);
+      ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+      isError = true;
+    }
+
   if (field2) {
 
     errorStore.push([definition_field, 'No more than 5000 characters are allowed.']);
     ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
     isError = true;
   }  
+
   }
   errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
   if (errorStore.length === 0) {
