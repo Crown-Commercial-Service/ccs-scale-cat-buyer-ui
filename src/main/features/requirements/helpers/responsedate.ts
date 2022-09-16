@@ -56,7 +56,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let supplier_period_for_clarification_period;
     let supplier_dealine_for_clarification_period;
 
-    if (req.session.UIDate == null) {
+    if (req.      session.UIDate == null) {
       const rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
       const clarification_period_end_date = new Date();
       const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${clarification_period_end_date.getMonth() + 1
@@ -153,6 +153,16 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+
+      for (let index = 0; index < fetchQuestionsData.length; index++) {
+        const stringDate = fetchQuestionsData[index]?.nonOCDS.options[0]?.value;
+        if(stringDate !=undefined && stringDate!=null)
+        {
+          let convertedDate = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+          if(convertedDate !="Invalid date")
+          fetchQuestionsData[index].nonOCDS.options[0].value =convertedDate;
+        }
+      }
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
