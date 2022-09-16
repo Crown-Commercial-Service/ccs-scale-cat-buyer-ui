@@ -3215,6 +3215,11 @@ p + .govuk-heading-s,
   border: 2px solid #d4351c;
 }
 
+.govuk-a-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .govuk-padding-left-inherit{
   padding-left: inherit;
 }
@@ -9159,6 +9164,17 @@ p,
 }
 
 .backdrop-nextsteps {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+
+.backdrop-rfp-scoring {
   position: fixed;
   top: 0px;
   left: 0px;
