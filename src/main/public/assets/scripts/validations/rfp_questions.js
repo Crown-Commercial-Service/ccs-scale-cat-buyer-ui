@@ -264,22 +264,22 @@ document.addEventListener('DOMContentLoaded', () => {
         checkHowManyQuestionAddedSoFar();
       });
     });
-    for (var box_num = 10; box_num > 1; box_num--) {
-      let this_box = document.getElementById('fc_question_' + box_num);
+    // for (var box_num = 10; box_num > 1; box_num--) {
+    //   let this_box = document.getElementById('fc_question_' + box_num);
 
-      if (this_box.querySelector('.order_1').value !== '') {
-        this_box.classList.remove('ccs-dynaform-hidden');
-        if (box_num === 10) {
-          $('.add-another-btn').addClass('ccs-dynaform-hidden');
-        }
-        deleteButtonCount.push(box_num);
-      } else {
-        with_value_count = box_num;
-      }
-      if (box_num === 2 && deleteButtonCount.length > 0) {
-        //$("#del_fc_question_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
-      }
-    }
+    //   if (this_box.querySelector('.order_1').value !== '') {
+    //     this_box.classList.remove('ccs-dynaform-hidden');
+    //     if (box_num === 10) {
+    //       $('.add-another-btn').addClass('ccs-dynaform-hidden');
+    //     }
+    //     deleteButtonCount.push(box_num);
+    //   } else {
+    //     with_value_count = box_num;
+    //   }
+    //   if (box_num === 2 && deleteButtonCount.length > 0) {
+    //     //$("#del_fc_question_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
+    //   }
+    // }
     $('.add-another-btn').on('click', function () {
       errorStore = [];
       //const pageHeading = document.getElementById('page-heading').innerHTML;

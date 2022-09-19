@@ -139,7 +139,38 @@ text: bcTitleText
                         100%</h2>
                     </p>
                 </div>
-                {%endif%}
+                {%elseif(rfpTitle==='Enter your project requirements')%}
+                {% set numberWord = [
+                'Zero',
+                'First',
+                'Second',
+                ' Third',
+                ' Fourth',
+                ' Fifth'               
+                ] %}
+                {% for i in range(1, 6) -%}
+                <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
+                    <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
+                        {{numberWord[i]}}
+                        {{shortTitle}} question <a href="{{i}}" id="del_fc_question_{{i}}"
+                            class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
+                        </a>
+                    </label>
+                    </br>
+                    {{recurseRequirements(requirement[0],form_name,i)}}
+                    {% for p in range(1, 11) -%}
+                    {%set firstId= i+"_1st_"+loop.index%}
+                    {%set secondId= i+"_2nd_"+loop.index%}
+
+                   firstId:: {{firstId}}
+                   secondId:: {{secondId}}
+                   
+                        {{recurseRequirements(requirement[1],form_name,firstId)}}
+                        {{recurseRequirements(requirement[2],form_name,secondId)}}
+                    {% endfor %}
+                </div>
+                {%endfor%}
+                {%else%}
                 {% set numberWord = [
                 'Zero',
                 'first',
@@ -167,6 +198,8 @@ text: bcTitleText
                     {% endfor %}
                 </div>
                 {%endfor%}
+                {%endif%}
+                
                 {% if(section==='5') and (form_name === 'rfp_multianswer_question_form')%}
                 <div class="ccs-page-section">
                     {{ CCSButton({
