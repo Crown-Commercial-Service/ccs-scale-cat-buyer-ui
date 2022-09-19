@@ -7,6 +7,7 @@ import { LoggTracer } from '../../logtracer/tracer';
 import config from 'config';
 import { cookies } from '../../cookies/cookies';
 import qs from 'qs';
+import session from 'express-session';
 
 /**
  *
@@ -22,9 +23,19 @@ export const AUTH: express.Handler = async (
   next: express.NextFunction,
 ) => {
   const { SESSION_ID, state } = req.cookies;
-  if (SESSION_ID === undefined) {
+  let requestURL = req.url;
+  if (requestURL.indexOf('event/qa-supplier') ==1) {
+    req.session["supplier_qa_url"] = requestURL;
+  }
+  /// requestURL.indexOf('event/qa-supplier') replace with requestURL.indexOf('event/management')
+  if (SESSION_ID === undefined && requestURL != null && requestURL.indexOf('event/qa-supplier') == 1) {
+    req.session["supplier_qa_url"] = requestURL;
     res.redirect('/oauth/login');
-  } else {
+  }
+  else if (SESSION_ID === undefined) {
+    res.redirect('/oauth/login');
+  }
+  else {
     const decoded: any = jwt.decode(req.session['access_token'], { complete: true });
     await PERFORM_REFRESH_TOKEN(req, res, decoded);
     const access_token = req.session['access_token'];

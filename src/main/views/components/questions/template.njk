@@ -239,9 +239,9 @@
       classes:"rfp_fc_questions_description order_"+requirement.nonOCDS.order +" "+ classNameNew,
       rows:2
     }) }}
-     <span class="remaining_chrs_term rfp_fc_req_{{index+'_'+requirement.nonOCDS.order}}_{{requirement.OCDS.id.replace(' ','')}}">You have XXXX characters remaining</span>
+     <span class="remaining_chrs_term rfp_fc_req_{{index+'_'+requirement.nonOCDS.order}}_{{requirement.OCDS.id.replace(' ','')}}">You have {{(5000-(requirement.nonOCDS.options[index-1].value | length))}} characters remaining</span>
     {% set qlable =  'rfp_label_question_lable_' + index+ "_"+requirement.nonOCDS.order %}
-    {# <p class="character-count"><label id="{{qlable}}">You have xxxx character remaining</label></p> #}
+    {# <p class="character-count"><label id="{{qlable}}">You have 5000 character remaining</label></p> #}
   {%endif%}
   {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'rfp_multianswer_question_form'%}
 
@@ -636,7 +636,7 @@
                       }
                     })
                 }}
-                <span class="remaining_chrs_term" id="{{word | last}}">You have XXXX characters remaining</span>
+                <span class="remaining_chrs_term" id="{{word | last}}">You have {{(5000-(requirement.nonOCDS.options[index-1].value | length))}} characters remaining</span>
               {% else %}
               {{  CCSTextarea({
                       name: "rfp_prob_statement_1",
@@ -651,7 +651,7 @@
                       }
                     })
                 }}
-                <span class="remaining_chrs_term" id="1">You have XXXX characters remaining</span>              
+                <span class="remaining_chrs_term" id="1">You have {{(5000-(requirement.nonOCDS.options[index-1].value | length))}} characters remaining</span>              
                {% endif %}
               {{  CCSInput({
                       id: "question_id",
@@ -892,12 +892,12 @@
                                 text: 'Write a definition for the term or acronym explaining what it means'
                               },
                               classes: "terms_acr_description_count rfp_term_definition_1",
-                              value:  requirement.nonOCDS.options[0].text,
-                              maxlength:"5000"
+                              value:  requirement.nonOCDS.options[0].text
                             })
                           }}
 
-                         <span class="term_accr_des_1 remaining_chrs_term">You have XXXX characters remaining</span>
+                         <span class="term_accr_des_1 remaining_chrs_term">You have {{ (5000-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>
+
                           <br>
                         {# {{ CCSInput({
                                 label: {
@@ -957,11 +957,10 @@
                                   text: 'Write a definition for the term or acronym explaining what it means'
                                 },
                                 classes: "terms_acr_description_count rfp_term_definition_"+i,
-                                value:  requirement.nonOCDS.options[i-1].text,
-                                maxlength:"5000"
+                                value:  requirement.nonOCDS.options[i-1].text
                               })
                             }}
-                          <span class="term_accr_des_{{i}} remaining_chrs_term">You have XXXX characters remaining</span>
+                          <span class="term_accr_des_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1].text | length))}} characters remaining</span>
                           <br>
                           {# {{ CCSInput({
                                   label: {
@@ -1034,7 +1033,7 @@
                               value:requirement.nonOCDS.options[0].text
                             })
                           }}
-                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have XXXX characters remaining</span>
+                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1].text | length))}} characters remaining</span>
                         {% endcall %}
                         {% set NumberWord = [
                           'zero',
@@ -1084,7 +1083,7 @@
                                 value: requirement.nonOCDS.options[i-1].value
                               })
                             }}
-                             <span class="rfp_term_more_count_{{i}} remaining_chrs_term">You have 5000 characters remaining</span>
+                             <span class="rfp_term_more_details_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1].value | length))}} characters remaining</span>
                           {% endcall %}
                        
                         {%- endfor %}
@@ -1112,10 +1111,11 @@
                         {# <p>The Authority will measure the quality of the Supplier’s delivery by: Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be</p>
                         #}
                         {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
-                        <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2> 
+                        <h2> <span id="kpiKeyLevel"></span>  service levels and KPIs added</h2> 
+                        <p class="govuk-top-line"></p>
                         {% call CCSFieldset({
                             legend: {
-                              html: "Enter your first KPI / SLA <a href='1' id='remove_icon_1' data='1'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
+                              html: "Enter your first service level requirement or KPI <a href='1' id='remove_icon_1' data='1'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -1146,7 +1146,7 @@
                               value: requirement.nonOCDS.options[0][1].value
                             })
                           }}
-                           <span class="rfp_term_kpi_description_1 remaining_chrs_term">You have XXXX characters remaining</span>
+                           <span class="rfp_term_kpi_description_1 remaining_chrs_term">You have {{5000-requirement.nonOCDS.options[0][1].value | length}} characters remaining</span>
                         {{ CCSInput({
                                 label: {
                                 html:requirement.nonOCDS.options[0][2].title,
@@ -1180,7 +1180,7 @@
 
                           {% call CCSFieldset({
                               legend: {
-                                html: "Enter your "+NumberWord[i]+" KPI / SLA <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
+                                html: "Enter your "+NumberWord[i]+" service level requirement or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -1211,7 +1211,7 @@
                                 value: requirement.nonOCDS.options[i-1][1].value
                               })
                             }}
-                            <span class="rfp_term_kpi_description_{{i}} remaining_chrs_term">You have XXXX characters remaining</span>
+                            <span class="rfp_term_kpi_description_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1][1].value | length))}} characters remaining</span>
                           {{ CCSInput({
                                   label: {
                                     text: "Insert the required target "
@@ -1228,7 +1228,7 @@
                           {% endcall %}
 
                         {%- endfor %}
-
+                        <p class="govuk-top-line"></p>
                         <p class="govuk-body">
                           {{ CCSButton({
                           text: "Add another item",

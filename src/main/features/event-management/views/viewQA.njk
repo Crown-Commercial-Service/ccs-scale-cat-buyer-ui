@@ -3,7 +3,10 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'QA ' %}
+
+
 {% block breadCrumb %}
+{%if(isSupplierQA !==true)%}
     {{ CCSBreadcrumbs({
         items:[
     {
@@ -21,13 +24,19 @@
     }
   ]
     }) }}
+    {%endif%}
 {% endblock %}
+
 {% block content %}
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         <div class="govuk-grid-row govuk-!-padding-bottom-7">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
+                    {%if(isSupplierQA ==true)%}
+                         <strong>Current Q&A Document </strong>
+                    {%else%}
                     <strong>{{data.title}}</strong>
+                    {%endif%}
                 </h1>
                 <p class="govuk-body">
                 <strong>{{eventId | upper}}/{{eventName}}</strong><br/>
@@ -68,8 +77,15 @@
         </div>
         {% set q=q+1 %}
         {% endfor %}
+        {% if(isSupplierQA) %}
+         <p class="govuk-body-margin-top">
+            <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">Close</a>
+        </p>
+        {% else %}
         <p class="govuk-body-margin-top">
             <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
         </p>
+         {% endif %}
+        
     </main>
 {% endblock %}

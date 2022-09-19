@@ -89,7 +89,11 @@ text: bcTitleText
                 method="post" autocomplete="off">
                 {{ csrfProtection(csrf) }}
                 <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
+                {% if form_name!=='service_levels_kpi_form' %}
                 <div class="ccs-page-section">
+                {% else %}
+                <div>
+                {% endif %}
                 {#<--! SCAT-5151-->#}
                 {% if (form_name === 'rfp_multianswer_question_form') %}
                 {{ CCSInsetText({
@@ -128,10 +132,10 @@ text: bcTitleText
                 <div class="ccs-page-section">
                     <p class="govuk-body">
                     <h2>
-                        <span id="questionsCount">{{questionsCount}}</span>
-                        {{shortTitle}} questions entered so far
+                        <span id="questionsCount"></span>
+                       
                     </h2>
-                    <h2> Total for the {{shortTitle}} group: <span id="totalPercentage">{{totalPercentage }}</span> of
+                    <h2 id="titleforAll"> Total for the {{shortTitle}} group: <span id="totalPercentage">{{totalPercentage }}</span> of
                         100%</h2>
                     </p>
                 </div>

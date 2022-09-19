@@ -128,6 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    let term_box_1 = document.getElementById("rfp_term_definition_service_levels_KPI_1")
+    if (term_box_1 != undefined && term_box_1 != null && term_box_1.value !== "") {
+      var contentlength=5000-term_box_1.value.length
+      $(".rfp_term_kpi_description_1").text('You have '+contentlength+' characters remaining');
+    }
     for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
       let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
@@ -143,6 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteButtonCount.push(kpi_fieldset);
         if (kpi_fieldset === 10) {
           document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+        }
+        if (term_box1 != undefined && term_box1 != null && term_box1.value !== "") {
+          var contentlength=5000-term_box1.value.length
+          $(".rfp_term_kpi_description_" + kpi_fieldset).text('You have '+contentlength+' characters remaining');
         }
       } else {
 
@@ -395,8 +404,31 @@ $('#service_levels_kpi_form').on('submit', (event) => {
   // if (totalPercentage === 100) {
   //   errorStore.push(["rfp_term_percentage_KPI_", "Percentage value equal 100% you can not add more set of question"])
   // } else 
+
+
   if (totalPercentage > 100) {
     errorStore.push(["rfp_term_percentage_KPI_", "Your success target cannot exceed 100%"])
+  }
+  for (var x = 1; x < 11; x++) {
+  let term_field = document.getElementById("rfp_term_service_levels_KPI_" + Number(x));
+  let definition_field = document.getElementById("rfp_term_definition_service_levels_KPI_" + Number(x));
+    const field1 = countWordskpi(term_field.value) > 50;
+    const field2 = countCharacterkpi(definition_field.value) > 5000;
+
+    if (field1) {
+
+      errorStore.push([term_field, 'No more than 50 words are allowed.']);
+      ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+      isError = true;
+    }
+
+  if (field2) {
+
+    errorStore.push([definition_field, 'No more than 5000 characters are allowed.']);
+    ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
+    isError = true;
+  }  
+
   }
   errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
   if (errorStore.length === 0) {

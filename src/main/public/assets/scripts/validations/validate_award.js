@@ -74,8 +74,20 @@ document.addEventListener('DOMContentLoaded', () => {
               } else {
                 $(".backdrop-vetting").fadeTo(200, 1);
                 let btnSend = document.querySelector('#redirect-button-vetting');
+                $(this).attr("aria-label","Alert on dialog box, Please confirm your wish to award this supplier.");
+                $(this).attr("role","button");
+
+                setTimeout(()=>{
+                  document.getElementById('redirect-button-vetting').focus();
+                },1000)
+
+                $('.dialog-close-vetting').attr("aria-label","Close dialog");
+                $('.dialog-close-vetting').attr("role","button");
+
                 if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
                   btnSend.setAttribute('name', 'Continue');
+                  btnSend.setAttribute('aria-label', 'Continue');
+                  btnSend.setAttribute('role', 'button');                  
                   $('#redirect-button-vetting').text('Continue')
                 } else {
                   btnSend.setAttribute('name', 'CCS website');
