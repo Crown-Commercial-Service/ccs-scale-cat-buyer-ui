@@ -1,28 +1,71 @@
 document.addEventListener('DOMContentLoaded', () => {
   $('.additional').addClass('ccs-dynaform-hidden');
   const pageHeading = document.getElementById('page-heading').innerHTML;
-  //#reagion Number_of count 
-  const checkHowManyQuestionAddedSoFar = function () {
+  if (pageHeading.includes("Enter your project requirements")) {
+    let innerButton = document.querySelectorAll(".add-another-btn-inner-requirement");
+    let outerButtonAddGroup = document.querySelectorAll(".add-another-btn-group");
+    innerButton.forEach(element => {
+      element.addEventListener("click", (e) => {
+        let idSplit = e.target.id.split("_")[2];
+        if (Number(idSplit) < 10) {
+          let next_row = Number(idSplit) + 1;
+          let getInnerDivId = "fc_question_Inner_" + e.target.id.split("_")[1] + "_" + next_row;
+          document.getElementsByClassName(getInnerDivId)?.[0].classList.remove('ccs-dynaform-hidden');
+          document.getElementById(e.target.id).classList.add('ccs-dynaform-hidden');
+        }
+      });
+    });
+    outerButtonAddGroup.forEach(element => {
+      element.addEventListener("click", (e) => {
+        let idSplit = e.target.id.split("_")[1];
+        if (Number(idSplit) < 5) {
+          let next_row = Number(idSplit) + 1;
+          let getInnerDivId = "fc_question_" + next_row;
+          document.getElementById(getInnerDivId).classList.remove('ccs-dynaform-hidden');
+          document.getElementById(e.target.id).classList.add('ccs-dynaform-hidden');
+        }
+      });
+    });
 
-    for (var i = 1; i < 11; i++) {
+    for (var i = 1; i < 6; i++) {
+      // innerButton.forEach(element=>{
+      //   console.log(element);
+      // });
       let rootEl = document.getElementById('fc_question_' + i);
       const divElem = document.querySelector('#fc_question_' + i);
-      if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('technical questions')) {
-        document.getElementById("questionsCount").textContent = i + ' techinical questions entered ';
-      }
-      if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('cultural fit questions')) {
-        document.getElementById("questionsCount").textContent = i + ' cultural fit questions entered';
-      }
-      if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('social value questions')) {
-        document.getElementById("questionsCount").textContent = i + ' social value questions entered';
-      }
-      if (i <= 9 && !rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length >0) {
-        
+      if (i <= 4 && !rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
         document.getElementsByClassName("add-another-btn")?.[0].classList.remove('ccs-dynaform-hidden')
-      } else if (!rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length>0) {
+      } else if (!rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
         document.getElementsByClassName("add-another-btn")?.[0].classList.add('ccs-dynaform-hidden')
       }
     }
+  }
+  //#reagion Number_of count 
+  const checkHowManyQuestionAddedSoFar = function () {
+    if (pageHeading.includes("Enter your project requirements")) {
+
+    } else {
+      for (var i = 1; i < 11; i++) {
+        let rootEl = document.getElementById('fc_question_' + i);
+        const divElem = document.querySelector('#fc_question_' + i);
+        if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('technical questions')) {
+          document.getElementById("questionsCount").textContent = i + ' techinical questions entered ';
+        }
+        if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('cultural fit questions')) {
+          document.getElementById("questionsCount").textContent = i + ' cultural fit questions entered';
+        }
+        if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('social value questions')) {
+          document.getElementById("questionsCount").textContent = i + ' social value questions entered';
+        }
+        if (i <= 9 && !rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
+
+          document.getElementsByClassName("add-another-btn")?.[0].classList.remove('ccs-dynaform-hidden')
+        } else if (!rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
+          document.getElementsByClassName("add-another-btn")?.[0].classList.add('ccs-dynaform-hidden')
+        }
+      }
+    }
+
   }
   //#endregion
   if (pageHeading.includes("Enter your project requirements")) {
@@ -98,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ele.addEventListener('focusout', totalPercentage);
       ele.addEventListener('keydown', (event) => {
         if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
-        if((event.ctrlKey || event.metaKey) && event.keyCode==86){ event.preventDefault(); return;}
+        if ((event.ctrlKey || event.metaKey) && event.keyCode == 86) { event.preventDefault(); return; }
       });
     });
     let allTextBox = document.getElementsByTagName("textarea");
@@ -237,14 +280,14 @@ document.addEventListener('DOMContentLoaded', () => {
             let target_fieldset_getValue = document.getElementById("fc_question_" + question_fieldset)
             let allInputTargetField = target_fieldset_getValue?.querySelectorAll("textarea");
 
-            if (question_fieldset != 0 && allInputTargetField !=null && allInputTargetField.length >0) {
+            if (question_fieldset != 0 && allInputTargetField != null && allInputTargetField.length > 0) {
               document.getElementById(allInputTargetField[0].id).value = resetKPIData[question_fieldset]?.questionGroupName != undefined ? resetKPIData[question_fieldset]?.questionGroupName : '';
               document.getElementById(allInputTargetField[1].id).value = resetKPIData[question_fieldset]?.questionRequirement != undefined ? resetKPIData[question_fieldset]?.questionRequirement : '';
               document.getElementById(allInputTargetField[2].id).value = resetKPIData[question_fieldset]?.questionRequirementDescribe != undefined ? resetKPIData[question_fieldset]?.questionRequirementDescribe : '';
             }
 
             let this_fieldset = document.getElementById('fc_question_' + question_fieldset) != undefined && document.getElementById('fc_question_' + question_fieldset) != null ? document.getElementById('fc_question_' + question_fieldset) : null;
-            let name_box = allInputTargetField !=null && allInputTargetField.length >0? document.getElementById(allInputTargetField[0].id):null;
+            let name_box = allInputTargetField != null && allInputTargetField.length > 0 ? document.getElementById(allInputTargetField[0].id) : null;
             if (this_fieldset != null && name_box?.value !== undefined && name_box?.value !== null && name_box?.value !== '') {
               with_value_count = question_fieldset;
               this_fieldset?.classList.remove('ccs-dynaform-hidden');
@@ -330,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let rootEl = document.getElementById('fc_question_' + i);
       const divElem = document.querySelector('#fc_question_' + i);
 
-      if (!rootEl.classList.contains('ccs-dynaform-hidden')) {
+      if (!rootEl?.classList.contains('ccs-dynaform-hidden')) {
         if (Number($('#totalPercentage').text) > 100) {
           fieldCheck = ccsZvalidateWithRegex(
             'fc_question_' + i + '_4',
@@ -361,21 +404,21 @@ document.addEventListener('DOMContentLoaded', () => {
           checkHowManyQuestionAddedSoFar();
         }
         else {
-          if (rootEl.querySelector('.order_1')) {
-            let element = rootEl.querySelector('.order_1');
-            const condOrd1 = countWords(rootEl.querySelector('.order_1')?.value) > 500;
-            if (rootEl.querySelector('.order_1').value == '' || condOrd1) {
-              const msg = rootEl.querySelector('.order_1').value
+          if (rootEl?.querySelector('.order_1')) {
+            let element = rootEl?.querySelector('.order_1');
+            const condOrd1 = countWords(rootEl?.querySelector('.order_1')?.value) > 500;
+            if (rootEl?.querySelector('.order_1').value == '' || condOrd1) {
+              const msg = rootEl?.querySelector('.order_1').value
                 ? 'Entry is limited to 500 words'
                 : 'Enter your question';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msg, /\w+/, !condOrd1);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
           }
-          if (rootEl.querySelector('.order_2')) {
-            const condOrd2 = countWords(rootEl.querySelector('.order_2')?.value) > 5000;
-            if (rootEl.querySelector('.order_2').value == '' || !condOrd2) {
-              const msg = rootEl.querySelector('.order_2').value
+          if (rootEl?.querySelector('.order_2')) {
+            const condOrd2 = countWords(rootEl?.querySelector('.order_2')?.value) > 5000;
+            if (rootEl?.querySelector('.order_2').value == '' || !condOrd2) {
+              const msg = rootEl?.querySelector('.order_2').value
                 ? 'Entry is limited to 5000 words'
                 : 'Add more details about this question';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_2', msg, /\w+/, !condOrd2);
@@ -384,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           if (rootEl.querySelector('.order_3')) {
             const condOrd3 = countWords(rootEl.querySelector('.order_3')?.value) > 5000;
-            if (rootEl.querySelector('.order_3').value == '' || condOrd3) {
+            if (rootEl?.querySelector('.order_3').value == '' || condOrd3) {
               const msg = rootEl.querySelector('.order_3').value
                 ? 'Entry is limited to 5000 words'
                 : 'Describe the type of answers you need from suppliers';
@@ -392,15 +435,15 @@ document.addEventListener('DOMContentLoaded', () => {
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
           }
-          if (rootEl.querySelector('.weightage')) {
-            const condWeight = rootEl.querySelector('.weightage')?.value > 100;
-            if (rootEl.querySelector('.weightage').value === '' || condWeight) {
-              const msg = rootEl.querySelector('.weightage').value
+          if (rootEl?.querySelector('.weightage')) {
+            const condWeight = rootEl?.querySelector('.weightage')?.value > 100;
+            if (rootEl?.querySelector('.weightage').value === '' || condWeight) {
+              const msg = rootEl?.querySelector('.weightage').value
                 ? 'Enter a weighting for this question <= 100%'
                 : 'You must enter valid weightage';
               fieldCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, msg, /\w+/, !condWeight);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
-            } else if (rootEl.querySelector('.weightage').value === '0') {
+            } else if (rootEl?.querySelector('.weightage').value === '0') {
               fieldCheck = [weightage[i].id, 'The value cannot be less than 1%'];
               errorStore.push(fieldCheck);
               ccsZaddErrorMessage(weightage[i], 'The value cannot be less than 1%');
@@ -416,6 +459,8 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#rfp_multianswer_question_form').on('submit', (event) => {
     event.preventDefault();
     let errorStore = [];
+    document.forms['rfp_multianswer_question_form'].submit();
+    return;
     removeErrorFieldsRfpScoreQuestion();
     const weightage = $('.weightage');
     let fieldCheck = "";
@@ -468,11 +513,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    for (var x = 1; x < 11; x++) { 
-      
-      if(!$( "#"+"fc_question_"+x).hasClass("ccs-dynaform-hidden"))
-      {
-        $("#"+"fc_question_"+x).find("textarea").map(function() {
+    for (var x = 1; x < 11; x++) {
+
+      if (!$("#" + "fc_question_" + x).hasClass("ccs-dynaform-hidden")) {
+        $("#" + "fc_question_" + x).find("textarea").map(function () {
           let term_field = document.getElementById(this.id);
           const field2 = countCharacters(term_field.value) > 5000;
           if (field2) {
@@ -480,9 +524,9 @@ document.addEventListener('DOMContentLoaded', () => {
             errorStore.push([term_field, 'No more than 5000 characters are allowed.']);
             ccsZaddErrorMessage(term_field, 'No more than 5000 characters are allowed.');
             isError = true;
-          }          
-      }).get();
-      } 
+          }
+        }).get();
+      }
     }
 
     if (errorStore.length > 0) {
@@ -508,11 +552,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let id = tmpid.substring(20);
     $(".term_accr_des_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
 
-    if((currentLength)>5000)
-    {
-    errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-    ccsZPresentErrorSummary(errorStore);
-    ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+    if ((currentLength) > 5000) {
+      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+      ccsZPresentErrorSummary(errorStore);
+      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
     }
 
   });
@@ -527,11 +570,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let id = tmpid.substring(19);
     $("#" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
 
-    if((currentLength)>5000)
-    {
-    errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-    ccsZPresentErrorSummary(errorStore);
-    ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+    if ((currentLength) > 5000) {
+      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+      ccsZPresentErrorSummary(errorStore);
+      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
     }
 
   });
@@ -546,11 +588,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let id = tmpid.substring(22);
     $(".rfp_term_more_details_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
 
-    if((currentLength)>5000)
-    {
-    errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-    ccsZPresentErrorSummary(errorStore);
-    ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+    if ((currentLength) > 5000) {
+      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+      ccsZPresentErrorSummary(errorStore);
+      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
     }
 
   });
@@ -566,11 +607,10 @@ document.addEventListener('DOMContentLoaded', () => {
     $(".rfp_term_kpi_description_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
 
 
-    if((currentLength)>5000)
-    {
-    errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-    ccsZPresentErrorSummary(errorStore);
-    ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+    if ((currentLength) > 5000) {
+      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+      ccsZPresentErrorSummary(errorStore);
+      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
     }
 
   });
@@ -585,16 +625,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLength = this.value.length;
     let tmpid = $(this).attr('id');
     let name = $(this).attr('name').replace(' ', '');
-    let id = tmpid.substring(12,15);
+    let id = tmpid.substring(12, 15);
 
     $(".rfp_fc_req_" + id + '_' + name).text(`You have ${(5000 - currentLength)} characters remaining`);
 
-    if((currentLength)>5000)
-    {
-    errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-    ccsZPresentErrorSummary(errorStore);
-    ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
-    }    
+    if ((currentLength) > 5000) {
+      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+      ccsZPresentErrorSummary(errorStore);
+      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+    }
 
   });
 
@@ -602,27 +641,24 @@ document.addEventListener('DOMContentLoaded', () => {
     var allElements = document.getElementsByClassName("weightage");
     var totalsum = 0;
     removeErrorFieldsRfpScoreQuestion();
-    for(i=1;i<allElements.length;i++){
-      totalsum += Number(document.getElementById("fc_question_precenate_"+i).value); 
+    for (i = 1; i < allElements.length; i++) {
+      totalsum += Number(document.getElementById("fc_question_precenate_" + i).value);
     }
-    if(totalsum>100)
-    {
+    if (totalsum > 100) {
       document.getElementsByClassName("add-another-btn")[0].classList.add('ccs-dynaform-hidden');
-      errorStore.push(["fc_question_precenate_"+i, "The weighting cannot exceed 100%"]);
-      ccsZPresentErrorSummary(errorStore);    
+      errorStore.push(["fc_question_precenate_" + i, "The weighting cannot exceed 100%"]);
+      ccsZPresentErrorSummary(errorStore);
     }
-    else if(totalsum>=100)
-    {
-      document.getElementsByClassName("add-another-btn")[0].classList.add('ccs-dynaform-hidden'); 
+    else if (totalsum >= 100) {
+      document.getElementsByClassName("add-another-btn")[0].classList.add('ccs-dynaform-hidden');
     }
-    else if(totalsum<100)
-    {
+    else if (totalsum < 100) {
       document.getElementsByClassName("add-another-btn")[0].classList.remove('ccs-dynaform-hidden');
     }
-  });  
+  });
 
 
 
   checkHowManyQuestionAddedSoFar();
-  
+
 });

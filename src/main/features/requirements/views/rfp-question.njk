@@ -110,12 +110,12 @@ text: bcTitleText
                 
                
 
-                {% macro recurseRequirements(requirement,form_name,index = 0) -%}
+                {% macro recurseRequirements(requirement,form_name,index = 0,dynamicId) -%}
                 {%if (requirement.nonOCDS.childern.length > 0)%}
-                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}} 
-                 {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index)}} 
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,dynamicId)}} 
+                 {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index,dynamicId)}} 
                 {%else%}
-                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}} 
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,dynamicId)}} 
                 {%endif%}
                 {%- endmacro %}
                 {%if (form_name === 'ccs_rfp_scoring_criteria')%}
@@ -149,6 +149,7 @@ text: bcTitleText
                 ' Fifth'               
                 ] %}
                 {% for i in range(1, 6) -%}
+                {%set outerButton= "outerButton_"+i%}
                 <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
                     <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
                         {{numberWord[i]}}
@@ -157,18 +158,38 @@ text: bcTitleText
                         </a>
                     </label>
                     </br>
-                    {{recurseRequirements(requirement[0],form_name,i)}}
+                    {{recurseRequirements(data[0],form_name,i,'')}}
                     {% for p in range(1, 11) -%}
-                    {%set firstId= i+"_1st_"+loop.index%}
-                    {%set secondId= i+"_2nd_"+loop.index%}
-
-                   firstId:: {{firstId}}
-                   secondId:: {{secondId}}
-                   
-                        {{recurseRequirements(requirement[1],form_name,firstId)}}
-                        {{recurseRequirements(requirement[2],form_name,secondId)}}
+                     <div id="fc_question_Inner_{{i}}_{{p}}" data-group="{{i}}_{{p}}" class="fc_question_Inner_{{i}}_{{p}} inner ccs-page-section {{'additional' if p>1 }}">
+                            {%set firstId= p+"_1st_"+loop.index%}
+                            {%set secondId= p+"_2nd_"+loop.index%}
+                            {%set innerButton= "innerButton_"+i+"_"+p%}
+                                {{recurseRequirements(data[1],form_name,i,firstId)}}
+                                {{recurseRequirements(data[2],form_name,i,secondId)}}
+                      {%if(p <10)%}
+                            <div class="ccs-page-section">
+                                    {{ CCSButton({
+                                    text: "Add another requirement",
+                                    type:"button",
+                                    id:innerButton,
+                                    classes:"add-another-btn-inner-requirement"
+                                    })}}
+                            </div>
+                        {%endif%}      
+                    </div>
+                    
                     {% endfor %}
                 </div>
+                {%if(i <5)%}
+                            <div class="ccs-page-section">
+                                    {{ CCSButton({
+                                    text: "Create group",
+                                    type:"button",
+                                    id:outerButton,
+                                    classes:"add-another-btn-group"
+                                    })}}
+                            </div>
+                        {%endif%}   
                 {%endfor%}
                 {%else%}
                 {% set numberWord = [
