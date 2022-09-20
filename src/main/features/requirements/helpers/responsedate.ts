@@ -266,6 +266,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+
+      fetchQuestionsData = convertDateTimeFormat(fetchQuestionsData);
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -318,6 +320,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+      fetchQuestionsData = convertDateTimeFormat(fetchQuestionsData);
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -372,6 +375,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+      fetchQuestionsData = convertDateTimeFormat(fetchQuestionsData);
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -426,6 +430,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+      fetchQuestionsData = convertDateTimeFormat(fetchQuestionsData);
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -479,6 +484,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+      fetchQuestionsData = convertDateTimeFormat(fetchQuestionsData);
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -533,6 +539,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+      fetchQuestionsData = convertDateTimeFormat(fetchQuestionsData);
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -587,6 +594,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+      fetchQuestionsData = convertDateTimeFormat(fetchQuestionsData);
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -641,6 +649,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+      fetchQuestionsData = convertDateTimeFormat(fetchQuestionsData);
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -696,6 +705,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+      fetchQuestionsData = convertDateTimeFormat(fetchQuestionsData);
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -749,6 +759,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
+      fetchQuestionsData = convertDateTimeFormat(fetchQuestionsData);
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -794,3 +805,25 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     );
   }
 };
+
+const convertDateTimeFormat = (fetchData :any) =>{
+  let fetchQuestionsData = fetchData
+  for (let index = 0; index < fetchQuestionsData.length; index++) {
+    const element = fetchQuestionsData[index];
+    const stringDate = element?.nonOCDS.options[0]?.value;
+    if(stringDate !=undefined && stringDate!=null)
+    {
+      if(element.OCDS.id == "Question 1")
+      {
+        fetchQuestionsData[index].nonOCDS.options[0].value = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
+      }
+      else
+      {
+        let convertedDate = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        if(convertedDate !="Invalid date")
+        fetchQuestionsData[index].nonOCDS.options[0].value =convertedDate;
+      }
+    }
+  }
+  return fetchQuestionsData;
+}
