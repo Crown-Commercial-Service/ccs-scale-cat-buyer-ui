@@ -278,7 +278,7 @@
                                         {%endfor%}
                                     {% endblock %}
                                     <div class="govuk-button-group">
-                                        <form method="post" action="/rfp/response-date" >
+                                        <form method="post" id="form_rfp_response_date" action="/rfp/response-date" >
                                         {{ csrfProtection(csrf) }}
                                             {{ CCSInput({
                     id: "timeStamp",

@@ -47,6 +47,17 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
+    for(var i=0;i<fetchQuestionsData.length;i++)
+    {
+      let tempDate=fetchQuestionsData[i].nonOCDS.options[0].value
+      let cvDate=''
+      if(fetchQuestionsData[i].OCDS.id!='Question 1')
+        cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a')
+      else 
+        cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY')
+      if(cvDate !="Invalid date")
+        fetchQuestionsData[i].nonOCDS.options[0].value=cvDate
+    }
     let rfp_clarification;
     let rfp_clarification_date;
     let rfp_clarification_period_end;
@@ -56,7 +67,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let supplier_period_for_clarification_period;
     let supplier_dealine_for_clarification_period;
 
-    if (req.      session.UIDate == null) {
+    if (req.session.UIDate == null) {
       const rfp_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
       const clarification_period_end_date = new Date();
       const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${clarification_period_end_date.getMonth() + 1
@@ -161,7 +172,9 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         {
           if(element.OCDS.id == "Question 1")
           {
-            fetchQuestionsData[index].nonOCDS.options[0].value = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
+            let convertedDate=moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
+            if(convertedDate !="Invalid date")
+            fetchQuestionsData[index].nonOCDS.options[0].value = convertedDate
           }
           else
           {
