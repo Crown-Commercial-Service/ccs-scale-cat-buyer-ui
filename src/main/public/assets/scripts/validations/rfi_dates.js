@@ -271,6 +271,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 $('.save-button').on('click', (e) => {
+  e.preventDefault();
+  const errorMsg= document.getElementsByClassName("govuk-error-message");
+  if(errorMsg !=undefined && errorMsg !=null && errorMsg.length ==0)
+  {
   let publication_date = new Date(document.getElementsByClassName("clarification_1")[0].innerText);
   let clarification_date = new Date(document.getElementsByClassName("clarification_2")[0].innerText);
   let deadline_publish_date = new Date(document.getElementsByClassName("clarification_3")[0].innerText);
@@ -320,7 +324,7 @@ $('.save-button').on('click', (e) => {
     }
   }
 
-  if (isError) {
+  if (isError) {ccs_eoi_response_date_form
     $('#event-name-error-date').html('You can not set a date and time that is earlier than the previous milestone in the timeline');
     DaySelector.addClass('govuk-form-group--error');
     MonthSelector.addClass('govuk-form-group--error');
@@ -331,6 +335,7 @@ $('.save-button').on('click', (e) => {
     ccsZPresentErrorSummary(errorStore);
   }
   else {
-    document.forms['ccs_eoi_response_date_form'].submit();
+    document.forms['ccs_response_date_form'].submit();
   }
+}
 });
