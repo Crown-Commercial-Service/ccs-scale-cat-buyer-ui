@@ -68,12 +68,12 @@ for(const selector of rfp_totalElementSelectors){
     });
 }
 
-$('#form_rfp_response_date').on('submit', (event) => {
+$('#ccs_response_date_form').on('submit', (event) => {
     event.preventDefault();
     let errorHeading=document.getElementById("error-summary-title");
     if(errorHeading==undefined)
     {
-        document.forms["form_rfp_response_date"].submit();
+        document.forms["ccs_response_date_form"].submit();
     }
 });
 

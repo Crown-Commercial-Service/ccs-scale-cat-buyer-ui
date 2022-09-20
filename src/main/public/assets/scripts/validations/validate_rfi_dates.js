@@ -37,11 +37,11 @@ const ccsZvalidateRfiResponseDate = (event) => {
   else ccsZPresentErrorSummary(errorStore);
 };
 
-$('#form_rfi_response_date').on('submit', (event) => {
-  event.preventDefault();
-  let errorHeading=document.getElementById("error-summary-title");
-  if(errorHeading==undefined)
-  {
-      document.forms["form_rfi_response_date"].submit();
-  }
-});
+// $('#form_rfi_response_date').on('submit', (event) => {
+//   event.preventDefault();
+//   let errorHeading=document.getElementById("error-summary-title");
+//   if(errorHeading==undefined)
+//   {
+//       document.forms["form_rfi_response_date"].submit();
+//   }
+// });
