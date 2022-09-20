@@ -49,7 +49,8 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let fetchQuestionsData = fetchQuestions.data;
     for(var i=0;i<fetchQuestionsData.length;i++)
     {
-      let tempDate=fetchQuestionsData[i].nonOCDS.options[0].value
+      let tempDate=fetchQuestionsData[i]?.nonOCDS?.options[0]?.value
+      if(tempDate!=undefined){
       let cvDate=''
       if(fetchQuestionsData[i].OCDS.id!='Question 1')
         cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a')
@@ -57,6 +58,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY')
       if(cvDate !="Invalid date")
         fetchQuestionsData[i].nonOCDS.options[0].value=cvDate
+      }
     }
     let rfp_clarification;
     let rfp_clarification_date;
