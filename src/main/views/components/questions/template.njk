@@ -1111,7 +1111,7 @@
                         {# <p>The Authority will measure the quality of the Supplier’s delivery by: Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be</p>
                         #}
                         {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
-                        <h2> <span id="kpiKeyLevel"></span>  service levels and KPIs added</h2> 
+                        <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2> 
                         <p class="govuk-top-line"></p>
                         {% call CCSFieldset({
                             legend: {
@@ -1123,35 +1123,29 @@
                             id:"term_acronym_fieldset_acronym_1"
                           })
                         %}
+                        <p class="govuk-p-margin-bottom"><strong> Name of requirement </strong></p><p> For example, 'Delivery timescales' </p>
                         {{ CCSInput({
-                              label: {
-                                html:requirement.nonOCDS.options[0][0].title,
-                                text: requirement.nonOCDS.options[0][0].text
-                              },
+                              
                               id: "rfp_term_service_levels_KPI_1",
                               name: "term",
                               classes: "rfp_term_1",
                               value: requirement.nonOCDS.options[0][0].value
                             })
                           }}
+                          <p class="govuk-p-margin-bottom"> <strong>Description of the criteria </strong> </p><p> For example, 'Deliveries should be received within three working days of when the order is placed'. </p>
                         {{ CCSTextarea({
                               name: "value",
                               id: "rfp_term_definition_service_levels_KPI_1",
-                              label: {
-                                html:requirement.nonOCDS.options[0][1].title,
-                               text: requirement.nonOCDS.options[0][1].text
-                              },
+                              
                               maxlength:"5000",
                               classes: "rfp_kpi_description_count rfp_term_definition_1",
                               value: requirement.nonOCDS.options[0][1].value
                             })
                           }}
                            <span class="rfp_term_kpi_description_1 remaining_chrs_term">You have {{5000-requirement.nonOCDS.options[0][1].value | length}} characters remaining</span>
+                        <p class="govuk-p-margin-bottom"><strong>Your success target</strong></p><p>For example, '98%'</p>
                         {{ CCSInput({
-                                label: {
-                                html:requirement.nonOCDS.options[0][2].title,
-                                text: requirement.nonOCDS.options[0][2].text
-                                },
+                               
                                 classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
                                 id: "rfp_term_percentage_KPI_1",
                                 value: requirement.nonOCDS.options[0][2].value,
@@ -1188,34 +1182,29 @@
                               id:"term_acronym_fieldset"
                             })
                           %}
-
+                        <p class="govuk-p-margin-bottom"><strong> Name of requirement </strong></p><p> For example, 'Delivery timescales' </p>
                           {{ CCSInput({
-                                label: {
-                                  text: "Enter the service area"
-                                },
+                                
                                 id: "rfp_term_service_levels_KPI_"+i,
                                 name: "term",
                                 classes: "rfp_term_name_requirement_KPI_"+i,
                                 value: requirement.nonOCDS.options[i-1][0].value
                               })
                             }}
-
+                        <p class="govuk-p-margin-bottom"><strong> Description of the criteria </strong></p><p> For example, 'Deliveries should be received within three working days of when the order is placed'. </p>
                           {{ CCSTextarea({
                                 name: "value",
                                 id: "rfp_term_definition_service_levels_KPI_"+i,
-                                label: {
-                                  text: "Enter the service area / KPI description"
-                                },
+                                
                                 maxlength:"5000",
                                 classes: "rfp_kpi_description_count rfp_term_desription_KPI_"+i,
                                 value: requirement.nonOCDS.options[i-1][1].value
                               })
                             }}
                             <span class="rfp_term_kpi_description_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1][1].value | length))}} characters remaining</span>
+                          <p class="govuk-p-margin-bottom"><strong>Your success target</strong></p><p>For example, '98%'</p>
                           {{ CCSInput({
-                                  label: {
-                                    text: "Insert the required target "
-                                  },
+                                 
                                   classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
                                   id: "rfp_term_percentage_KPI_"+i,
                                   value: requirement.nonOCDS.options[i-1][2].value,
@@ -1230,13 +1219,16 @@
                         {%- endfor %}
                         <p class="govuk-top-line"></p>
                         <p class="govuk-body">
-                          {{ CCSButton({
+                          {#{{ CCSButton({
                           text: "Add another item",
                           attributes: {
                             id: "ccs_rfpTerm_add"
                           },
                           classes: "govuk-button--secondary ccs-dynaform-hidden"
-                        }) }}
+                        }) }}#}
+                        <a data-module="govuk-button" id="ccs_rfpTerm_add">
+  Add another item
+</a>
                         </p>
 
                         {{ CCSInput({
