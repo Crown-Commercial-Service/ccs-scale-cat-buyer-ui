@@ -4,28 +4,30 @@ document.addEventListener('DOMContentLoaded', () => {
   if (pageHeading.includes("Enter your project requirements")) {
     let innerButton = document.querySelectorAll(".add-another-btn-inner-requirement");
     let outerButtonAddGroup = document.querySelectorAll(".add-another-btn-group");
-    innerButton.forEach(element => {
-      element.addEventListener("click", (e) => {
-        let idSplit = e.target.id.split("_")[2];
-        if (Number(idSplit) < 10) {
-          let next_row = Number(idSplit) + 1;
-          let getInnerDivId = "fc_question_Inner_" + e.target.id.split("_")[1] + "_" + next_row;
-          document.getElementsByClassName(getInnerDivId)?.[0].classList.remove('ccs-dynaform-hidden');
-          document.getElementById(e.target.id).classList.add('ccs-dynaform-hidden');
-        }
-      });
-    });
-    outerButtonAddGroup.forEach(element => {
-      element.addEventListener("click", (e) => {
-        let idSplit = e.target.id.split("_")[1];
-        if (Number(idSplit) < 5) {
-          let next_row = Number(idSplit) + 1;
-          let getInnerDivId = "fc_question_" + next_row;
-          document.getElementById(getInnerDivId).classList.remove('ccs-dynaform-hidden');
-          document.getElementById(e.target.id).classList.add('ccs-dynaform-hidden');
-        }
-      });
-    });
+    let deleteButtonEvent = document.querySelectorAll(".del");
+
+    // innerButton.forEach(element => {
+    //   element.addEventListener("click", (e) => {
+    //     let idSplit = e.target.id.split("_")[2];
+    //     if (Number(idSplit) < 10) {
+    //       let next_row = Number(idSplit) + 1;
+    //       let getInnerDivId = "fc_question_Inner_" + e.target.id.split("_")[1] + "_" + next_row;
+    //       document.getElementsByClassName(getInnerDivId)?.[0].classList.remove('ccs-dynaform-hidden');
+    //       document.getElementById(e.target.id).classList.add('ccs-dynaform-hidden');
+    //     }
+    //   });
+    // });
+    // outerButtonAddGroup.forEach(element => {
+    //   element.addEventListener("click", (e) => {
+    //     let idSplit = e.target.id.split("_")[1];
+    //     if (Number(idSplit) < 5) {
+    //       let next_row = Number(idSplit) + 1;
+    //       let getInnerDivId = "fc_question_" + next_row;
+    //       document.getElementById(getInnerDivId).classList.remove('ccs-dynaform-hidden');
+    //       document.getElementById(e.target.id).classList.add('ccs-dynaform-hidden');
+    //     }
+    //   });
+    // });
 
     for (var i = 1; i < 6; i++) {
       // innerButton.forEach(element=>{
@@ -249,14 +251,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (pageHeading.includes("Enter your")) {
           target_fieldset.classList.add("ccs-dynaform-hidden");
           const inputElements = target_fieldset.querySelectorAll("textarea")
-
           document.getElementById(inputElements[0].id).value = "";
           document.getElementById(inputElements[1].id).value = "";
           document.getElementById(inputElements[2].id).value = "";
 
           //RESET ALL DATA AFTER DELETED ANY DATA
           let resetKPIData = [{}];
-          for (var question_fieldset = 1; question_fieldset < 11; question_fieldset++) {
+          for (var question_fieldset = 1; question_fieldset < 51; question_fieldset++) {
             let target_fieldset_getValue = document.getElementById("fc_question_" + question_fieldset)
             //.querySelectorAll("textarea");
 
@@ -276,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
 
-          for (var question_fieldset = 0; question_fieldset < 11; question_fieldset++) {
+          for (var question_fieldset = 0; question_fieldset < 51; question_fieldset++) {
             let target_fieldset_getValue = document.getElementById("fc_question_" + question_fieldset)
             let allInputTargetField = target_fieldset_getValue?.querySelectorAll("textarea");
 
@@ -291,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this_fieldset != null && name_box?.value !== undefined && name_box?.value !== null && name_box?.value !== '') {
               with_value_count = question_fieldset;
               this_fieldset?.classList.remove('ccs-dynaform-hidden');
-              if (question_fieldset === 10) {
+              if (question_fieldset === 50) {
                 document.getElementsByClassName('add-another-btn')[0].classList.add('ccs-dynaform-hidden');
               }
             } else if (this_fieldset != null && question_fieldset !== 0 && (name_box?.value == '' || name_box?.value == undefined || name_box?.value != null)) {
@@ -325,37 +326,87 @@ document.addEventListener('DOMContentLoaded', () => {
     // }
     $('.add-another-btn').on('click', function () {
       errorStore = [];
+      let containsHiddenClassAtPostion = []
       //const pageHeading = document.getElementById('page-heading').innerHTML;
       removeErrorFieldsRfpScoreQuestion();
+      if (pageHeading.includes("Enter your project requirements")) {
+        //errorStore = emptyQuestionFieldCheckRfp();
 
-      errorStore = emptyQuestionFieldCheckRfp();
-      let containsHiddenClassAtPostion = []
-      for (var i = 1; i < 11; i++) {
-        let rootEl = document.getElementById('fc_question_' + i);
-        if (rootEl?.classList?.contains('ccs-dynaform-hidden')) {
-          containsHiddenClassAtPostion.push(i);
+        for (var i = 1; i < 51; i++) {
+          let rootEl = document.getElementById('fc_question_' + i);
+          if (rootEl?.classList?.contains('ccs-dynaform-hidden')) {
+            containsHiddenClassAtPostion.push(i);
+          }
         }
+        let lastRowId=containsHiddenClassAtPostion.length>0? containsHiddenClassAtPostion[0] - 1:0;
+        const divElem = Number(lastRowId) > 0 ? document.querySelector('#fc_question_' + lastRowId) : null;
+        const inputElements = divElem?.querySelectorAll("textarea");
+        if (inputElements != null && inputElements != undefined && inputElements.length > 0) {
+          for (let index = 0; index < inputElements.length; index++) {
+            const element = inputElements[index];
+            if (index === 0) {
+              if (element.value == '' || element.value === undefined || element.value === null) {
+                errorStore.push([element.id, "Please enter your requirement group name"])
+                ccsZaddErrorMessageClass(element, 'Please enter your requirement group name.')
+              }
+            } else {
+              if (element.value == '' || element.value === undefined || element.value === null) {
+                errorStore.push([element.id, "Please enter your requirement"])
+                ccsZaddErrorMessageClass(element, 'Please enter your requirement.')
+              }
+            }
+          }
+        }
+        if (errorStore.length == 0) {
+          document.getElementById('fc_question_' + containsHiddenClassAtPostion[0]).classList.remove('ccs-dynaform-hidden');
+          //Added this condation section 5 (step 43/44/45)
+
+          // if (with_value_count > 2) {
+          //   prev_input = with_value_count - 1;
+          // }
+          // if (document.getElementById("questionsCount") != undefined) {
+          //   document.getElementById("questionsCount").textContent = with_value_count + ' techinical questions entered so far';
+          // }
+          document
+            .querySelector('label[for=fc_question_' + containsHiddenClassAtPostion[0] + '] a.del')
+            .classList.remove('ccs-dynaform-hidden');
+          // with_value_count++;
+
+          // if (with_value_count === 11) {
+          //   $('.add-another-btn').addClass('ccs-dynaform-hidden');
+          // }
+          totalAnswerd();
+        } else ccsZPresentErrorSummary(errorStore);
+      } else {
+        errorStore = emptyQuestionFieldCheckRfp();
+        for (var i = 1; i < 11; i++) {
+          let rootEl = document.getElementById('fc_question_' + i);
+          if (rootEl?.classList?.contains('ccs-dynaform-hidden')) {
+            containsHiddenClassAtPostion.push(i);
+          }
+        }
+        if (errorStore.length == 0) {
+          document.getElementById('fc_question_' + containsHiddenClassAtPostion[0]).classList.remove('ccs-dynaform-hidden');
+          //Added this condation section 5 (step 43/44/45)
+
+          // if (with_value_count > 2) {
+          //   prev_input = with_value_count - 1;
+          // }
+          // if (document.getElementById("questionsCount") != undefined) {
+          //   document.getElementById("questionsCount").textContent = with_value_count + ' techinical questions entered so far';
+          // }
+          document
+            .querySelector('label[for=fc_question_' + containsHiddenClassAtPostion[0] + '] a.del')
+            .classList.remove('ccs-dynaform-hidden');
+          // with_value_count++;
+
+          // if (with_value_count === 11) {
+          //   $('.add-another-btn').addClass('ccs-dynaform-hidden');
+          // }
+          totalAnswerd();
+        } else ccsZPresentErrorSummary(errorStore);
       }
-      if (errorStore.length == 0) {
-        document.getElementById('fc_question_' + containsHiddenClassAtPostion[0]).classList.remove('ccs-dynaform-hidden');
-        //Added this condation section 5 (step 43/44/45)
 
-        if (with_value_count > 2) {
-          prev_input = with_value_count - 1;
-        }
-        if (document.getElementById("questionsCount") != undefined) {
-          document.getElementById("questionsCount").textContent = with_value_count + ' techinical questions entered so far';
-        }
-        document
-          .querySelector('label[for=fc_question_' + containsHiddenClassAtPostion[0] + '] a.del')
-          .classList.remove('ccs-dynaform-hidden');
-        with_value_count++;
-
-        if (with_value_count === 11) {
-          $('.add-another-btn').addClass('ccs-dynaform-hidden');
-        }
-        totalAnswerd();
-      } else ccsZPresentErrorSummary(errorStore);
       checkHowManyQuestionAddedSoFar();
     });
 
@@ -459,8 +510,8 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#rfp_multianswer_question_form').on('submit', (event) => {
     event.preventDefault();
     let errorStore = [];
-    document.forms['rfp_multianswer_question_form'].submit();
-    return;
+    //document.forms['rfp_multianswer_question_form'].submit();
+    //return;
     removeErrorFieldsRfpScoreQuestion();
     const weightage = $('.weightage');
     let fieldCheck = "";

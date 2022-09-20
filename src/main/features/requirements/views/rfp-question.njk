@@ -142,13 +142,59 @@ text: bcTitleText
                 {%elseif(rfpTitle==='Enter your project requirements')%}
                 {% set numberWord = [
                 'Zero',
-                'First',
-                'Second',
-                ' Third',
-                ' Fourth',
-                ' Fifth'               
+                'first',
+                'second',
+                ' third',
+                ' fourth',
+                ' fifth',
+                ' sixth',
+                ' seventh',
+                ' eight',
+                ' ninth',
+                ' tenth',
+                'Eleventh',
+                'Twelveth',
+                'Thirteenth',
+                'Fourteenth',
+                'Fifteenth',
+                'Sixteenth',
+                'Seventeenth',
+                'Eighteenth',
+                'Nineteenth',
+                'Twentyth',
+                'Twenty-one',
+                'Twenty-two',
+                'Twenty-three',
+                'Twenty-four',
+                'Twenty-five',
+                'Twenty-six',
+                'Twenty-seven',
+                'Twenty-eight',
+                'Twenty-nine',
+                'Thirty',
+                'Thirty-one',
+                'Thirty-two',
+                'Thirty-three',
+                'Thirty-four',
+                'Thirty-five',
+                'Thirty-six',
+                'Thirty-seven',
+                'Thirty-eight',
+                'Thirty-nine',
+                'Forty',
+                'Forty-one',
+                'Forty-two',
+                'Forty-three',
+                'Forty-four',
+                'Forty-five',
+                'Forty-six',
+                'Forty-seven',
+                'Forty-eight',
+                'Forty-nine',
+                'Fifty'
+
                 ] %}
-                {% for i in range(1, 6) -%}
+                {% for i in range(1, 51) -%}
                 {%set outerButton= "outerButton_"+i%}
                 <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
                     <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
@@ -158,38 +204,10 @@ text: bcTitleText
                         </a>
                     </label>
                     </br>
-                    {{recurseRequirements(data[0],form_name,i,'')}}
-                    {% for p in range(1, 11) -%}
-                     <div id="fc_question_Inner_{{i}}_{{p}}" data-group="{{i}}_{{p}}" class="fc_question_Inner_{{i}}_{{p}} inner ccs-page-section {{'additional' if p>1 }}">
-                            {%set firstId= p+"_1st_"+loop.index%}
-                            {%set secondId= p+"_2nd_"+loop.index%}
-                            {%set innerButton= "innerButton_"+i+"_"+p%}
-                                {{recurseRequirements(data[1],form_name,i,firstId)}}
-                                {{recurseRequirements(data[2],form_name,i,secondId)}}
-                      {%if(p <10)%}
-                            <div class="ccs-page-section">
-                                    {{ CCSButton({
-                                    text: "Add another requirement",
-                                    type:"button",
-                                    id:innerButton,
-                                    classes:"add-another-btn-inner-requirement"
-                                    })}}
-                            </div>
-                        {%endif%}      
-                    </div>
-                    
-                    {% endfor %}
+                    {{recurseRequirements(data[0],form_name,i)}}
+                    {{recurseRequirements(data[1],form_name,i)}}
+                    {{recurseRequirements(data[2],form_name,i)}}
                 </div>
-                {%if(i <5)%}
-                            <div class="ccs-page-section">
-                                    {{ CCSButton({
-                                    text: "Create group",
-                                    type:"button",
-                                    id:outerButton,
-                                    classes:"add-another-btn-group"
-                                    })}}
-                            </div>
-                        {%endif%}   
                 {%endfor%}
                 {%else%}
                 {% set numberWord = [
