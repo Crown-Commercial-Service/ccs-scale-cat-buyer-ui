@@ -36,3 +36,12 @@ const ccsZvalidateRfiResponseDate = (event) => {
   if (errorStore.length === 0) document.forms["ccs_rfi_response_date_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
 };
+
+// $('#form_rfi_response_date').on('submit', (event) => {
+//   event.preventDefault();
+//   let errorHeading=document.getElementById("error-summary-title");
+//   if(errorHeading==undefined)
+//   {
+//       document.forms["form_rfi_response_date"].submit();
+//   }
+// });
