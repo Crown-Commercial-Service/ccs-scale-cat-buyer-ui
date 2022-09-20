@@ -317,9 +317,23 @@
                 <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
                 {% if item.mandatory == false %}
-              {{item.title}} (optional)
+              
+              {% if item.title=='Who the buying organisation is'%}
+              <strong>{{item.title}} (optional)</strong><br/><br/>
+              {% for i in item.answer %}
+              {{i.question}}<br/><br/>
+              {% endfor %}
+              {% else %}{{item.title}} (optional)
+              {% endif%}
               {% else %}
-              {{item.title}} 
+              
+              {% if item.title=='Who the buying organisation is'%}
+              <strong>{{item.title}}</strong><br/><br/>
+              {% for i in item.answer %}
+              {{i.question}}<br/><br/>
+              {% endfor %}
+              {% else %}{{item.title}} 
+              {% endif%}
               {% endif %}
               </dt>
               {% if data['rfi_offline_document'] | length > 0 %}
@@ -328,11 +342,12 @@
         </dd>
               {% else %}
                 <dd class="govuk-summary-list__value">
-  
+                {% if item.title=='Who the buying organisation is'%}<br/><br/>{%endif%}
                   {% for i in item.answer %}
                   
                     {% if i.values | length > 0 %}
                       {% for answer in i.values%}
+                      {#{% if item.title=='Who the buying organisation is'%}<br/>{%endif%}#}
                         <p class="govuk-body-s">{{answer.value}}
                           <p>
                             <p class="govuk-body-s">{{answer.text | safe}}
@@ -340,6 +355,7 @@
                             <br/>
                             {%endfor%}
                             {%else%}
+                            {#{% if item.title=='Who the buying organisation is'%}<br/>{%endif%}#}
                             <p class="govuk-body-s">You have not answered this question<p>
                                 {%endif%}
                                 {%endfor%}
