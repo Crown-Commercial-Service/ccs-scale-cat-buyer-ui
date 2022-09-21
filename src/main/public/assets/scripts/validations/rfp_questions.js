@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   $('.additional').addClass('ccs-dynaform-hidden');
-  const pageHeading = document.getElementById('page-heading').length >0? document.getElementById('page-heading').innerHTML:null;
 
   //#reagion Number_of count 
   const checkHowManyQuestionAddedSoFar = function () {
+    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
     if (pageHeading?.includes("Enter your project requirements")) {
       for (var i = 1; i < 51; i++) {
         let rootEl = document.getElementById('fc_question_' + i);
@@ -43,12 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }
   //#endregion
-  if (pageHeading?.includes("Enter your project requirements")) {
-    [].forEach.call(document.querySelectorAll('.character-count'), function (el) {
-      el.style.display = 'none'
-      // document.getElementsByClassName('character-count').style.display='none';
-    });
-  }
+
 
   //#region Character count validation
   if (!pageHeading?.includes("Enter your project requirements")) {
@@ -91,6 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const FormSelector = $('#rfp_multianswer_question_form');
   if (FormSelector !== undefined && FormSelector.length > 0) {
+    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+
     let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll('a.del');
@@ -287,6 +284,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
     if (pageHeading?.includes("Enter your project requirements")) {
+      [].forEach.call(document.querySelectorAll('.character-count'), function (el) {
+        el.style.display = 'none'
+        // document.getElementsByClassName('character-count').style.display='none';
+      });
+    }
+    if (pageHeading?.includes("Enter your project requirements")) {
       let allSpantag = document.getElementById('enteryourProjectRequirement').querySelectorAll("span")
       allSpantag.forEach((e, index) => {
         e.id = index;
@@ -317,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let currentLength2 = inputElements[2].value.length;
         let spanId2 = inputElements[2].id?.split("_")[5];
-        
+
         document.getElementById(spanId).innerText = `You have ${(500 - currentLength)} characters remaining`;
         document.getElementById(spanId1).innerText = `You have ${(500 - currentLength1)} characters remaining`;
         document.getElementById(spanId2).innerText = `You have ${(5000 - currentLength2)} characters remaining`;
@@ -450,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let fieldCheck = '',
       errorStore = [], noOfRequirement_Group = 0;
     const weightage = $('.weightage');
-    //const pageHeading = document.getElementById('page-heading').innerHTML;
+    const pageHeading = document.getElementById('page-heading').innerHTML;
     for (var i = 1; i < 11; i++) {
       let rootEl = document.getElementById('fc_question_' + i);
       const divElem = document.querySelector('#fc_question_' + i);
@@ -546,7 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
     removeErrorFieldsRfpScoreQuestion();
     const weightage = $('.weightage');
     let fieldCheck = "";
-    //const pageHeading = document.getElementById('page-heading').innerHTML;
+    const pageHeading = document.getElementById('page-heading').innerHTML;
     if (!pageHeading?.includes("Enter your project requirements")) {
       for (let index = 0; index < weightage.length; index++) {
         if (pageHeading?.includes('Write your technical questions')) {
@@ -626,6 +629,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".terms_acr_description_count").keyup(function () {
+    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
@@ -645,6 +650,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_background_procurement_textarea").keyup(function () {
+    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
@@ -664,6 +671,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_term_more_description_count").keyup(function () {
+    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
@@ -683,6 +692,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_kpi_description_count").keyup(function () {
+    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
@@ -702,6 +713,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_fc_questions_description").keyup(function () {
+    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
@@ -724,6 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".weightage").keyup(function () {
+    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
     var allElements = document.getElementsByClassName("weightage");
     var totalsum = 0;
     removeErrorFieldsRfpScoreQuestion();
@@ -742,9 +756,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementsByClassName("add-another-btn")[0].classList.remove('ccs-dynaform-hidden');
     }
   });
-
-
-
   checkHowManyQuestionAddedSoFar();
 
 });
