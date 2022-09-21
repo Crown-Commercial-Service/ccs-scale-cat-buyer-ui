@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (vetWhole.val() != undefined && vetWhole.val() !== null && vetWhole.val() !== "") {
                     clearInputData(weight_partial_len, vettingPartial);
 
-                    if (isValidInputData(vettingWhole, vettingWholeT, vetWhole.val()))
+                    if (isValidInputData(vettingWhole, vettingWholeT, vetWhole.val(),vetWhole[0].id))
                     {
                         
                         updateTotalAddedWeight();
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (vetPartial.val() != undefined && vetPartial.val() !== null && vetPartial.val() !== "") {
                     clearInputData(weight_whole_len, vettingWhole2);
-                    if (isValidInputData(weightId, weightT, vetPartial.val()))
+                    if (isValidInputData(weightId, weightT, vetPartial.val(),vetPartial[0].id))
                     {
                         updateVettingPartial(vettingPartial);
                         
@@ -225,14 +225,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function isValidInputData(weightClassName, weightPartialClassName, value) {
+    function isValidInputData(weightClassName, weightPartialClassName, value,id) {
         var reg = /^\d+$/;
         if (value <= 0) {         
             $(`#${weightClassName}`).addClass('govuk-input--error');
             $(`.${weightPartialClassName}`).text('Please enter a positive integer');
             $('#service_capability_error_summary').removeClass('hide-block');
             $('.govuk-error-summary__title').text('There is a problem');
-            $("#summary_list").html('<li><a href="#">The weighting value(s) for the service capabilities must be a positive integer</a></li> ');
+            $("#summary_list").html('<li><a href="#'+id+'">The weighting value(s) for the service capabilities must be a positive integer</a></li> ');
             $('html, body').animate({ scrollTop: 0 }, 'fast');
                    }
         else if (Number(value) > 100) {           
