@@ -276,7 +276,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
       } catch (error) { }
 
-      let appendData = { documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId,projectId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: fetchData.data, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+      let appendData = { documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId,projectId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: (fetchData.data.QandA.length>0?fetchData.data.QandA:[]), suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {
