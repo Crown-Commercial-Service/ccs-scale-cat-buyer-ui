@@ -50,8 +50,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       return agroupitem?.OCDS?.['id'] === group_id;
     });
 
-   
-   
+
+
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
     //const bcTitleText = OCDS?.description;
@@ -61,9 +61,9 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     const bcTitleText = newOCDSdescription == '' ? OCDS?.description : newOCDSdescription;
     const titleText = nonOCDS.mandatory === true ? bcTitleText : bcTitleText + ' (Optional)';
     var promptData = nonOCDS?.prompt;
-    if(id=='Criterion 3' && group_id=='Group 5' && titleText=='The business problem you need to solve' ){
-      const new_prompt=fetch_dynamic_api_data[0].OCDS.description;
-      promptData=promptData.concat("<br><br>").concat(new_prompt);
+    if (id == 'Criterion 3' && group_id == 'Group 5' && titleText == 'The business problem you need to solve') {
+      const new_prompt = fetch_dynamic_api_data[0].OCDS.description;
+      promptData = promptData.concat("<br><br>").concat(new_prompt);
     }
     //const splitOn = '<br>';
     //const promptSplit = group_id == 'Group 24' && id == 'Criterion 3' ? promptData.split(splitOn) : promptData;
@@ -150,13 +150,21 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
         TemporaryObjStorage.push(ITEM);
       }
     }
-    const POSITIONEDELEMENTS = [...new Set(TemporaryObjStorage.map(JSON.stringify))]
+    let POSITIONEDELEMENTS = [...new Set(TemporaryObjStorage.map(JSON.stringify))]
       .map(JSON.parse)
       .filter(item => !item.nonOCDS.dependant);
 
     const formNameValue = form_name.find(fn => fn !== '');
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
+    if (group_id === 'Group 24') {
+      let firstQuestion = POSITIONEDELEMENTS[0].nonOCDS.childern;
+      POSITIONEDELEMENTS[0].nonOCDS.childern = [];
+      let secondQuestion = firstQuestion[0].nonOCDS.childern;
+      firstQuestion[0].nonOCDS.childern = [];
+      POSITIONEDELEMENTS.push(firstQuestion[0]);
+      POSITIONEDELEMENTS.push(secondQuestion[0]);
+    }
     let data = {
       data: group_id === 'Group 8' && id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
       agreement: AgreementEndDate,
@@ -246,10 +254,11 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
 
     //This condation is added for SCAT-6109
     data.data.forEach(x => {
-      if (x.OCDS.title == undefined || x.OCDS.title  == null || x.OCDS.title ==="") {
-        x.OCDS.title ="";
+      if (x.OCDS.title == undefined || x.OCDS.title == null || x.OCDS.title === "") {
+        x.OCDS.title = "";
       }
     })
+
     res.render('rfp-question', data);
   } catch (error) {
     delete error?.config?.['headers'];
