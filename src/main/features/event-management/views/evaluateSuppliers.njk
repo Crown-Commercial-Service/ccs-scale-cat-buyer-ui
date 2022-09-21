@@ -122,7 +122,7 @@
         idPrefix:"evaluate_suppliers"
         }) }}#}
         {% if(ConfirmFlag) %}
-        <button class="govuk-button" data-module="govuk-button" id="evaluate_suppliers">
+        <button class="govuk-button" data-module="govuk-button" id="evaluate_suppliers" aria-label="Alert You are about to complete your evaluation. Click Continue, or click Return to further edit your scores.">
   Confirm scores
 </button>
 {% endif %}
@@ -137,8 +137,12 @@
 
 
 
-<div class="backdrop-evaluatesuppliers" id="evaluatesupplierspopup">
-  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
+
+
+
+<div class="backdrop-evaluatesuppliers" id="evaluatesupplierspopup" >
+  {# id="evaluatesupplier-dialog-text" aria-live="assertive" aria-labelledby="dialog-title-evaluate-suppliers dialog-description-evaluate-suppliers" aria-modal="true" role="dialog" #}
+  <div class="messagepop pop" style="display: block;" >
     <div class="pop_logo govuk-grid-column-full">
       <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
       <p class="pop_logo_image govuk-grid-column-one-half" <a="" href="#">
@@ -146,16 +150,16 @@
       
       </p>
       <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-evaluatesuppliers govuk-!-padding-top-6">
-      <a href="#" class="dialog-close-evaluatesuppliers nav-list__link_secondary">X</a></p>
+      <a href="#" class="dialog-close-evaluatesuppliers nav-list__link_secondary" id="dialog-close-evaluatesupplier">X</a></p>
     </div>
     <div class="govuk-grid-column-full">
-      <h1 id="dialog-title">You are about to complete your evaluation<p></p>
-      <p id="dialog-description">Click Continue, or click Return to further edit your scores.</p>
+      <h1 id="dialog-title-evaluate-suppliers" aria-hidden="true">You are about to complete your evaluation</h1>
+      <p id="dialog-description-evaluate-suppliers" aria-hidden="true">Click Continue, or click Return to further edit your scores.</p>
       <div class="govuk-button-group">
         <button id="redirect-button-evaluatesuppliers"  class="button dialog-button govuk-button" name="Evaluate Suppliers">Continue</button>
-        <a href="/evaluate-suppliers" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Return</a>
+        <a href="/evaluate-suppliers" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state" id="return-dialog-evaluatesuppliers">Return</a>
       </div>
-    </h1></div>
+    </div>
   </div>
 </div>
 
