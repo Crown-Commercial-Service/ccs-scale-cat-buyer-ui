@@ -133,6 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
       var contentlength=5000-term_box_1.value.length
       $(".rfp_term_kpi_description_1").text('You have '+contentlength+' characters remaining');
     }
+    let term_box = document.getElementById("rfp_term_service_levels_KPI_1")
+    if (term_box != undefined && term_box != null && term_box.value !== "") {
+      var contentlength=500-term_box.value.length
+      $(".rfp_term_kpi_title_1").text('You have '+contentlength+' characters remaining');
+    }
     for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
       let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
@@ -143,6 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (term_box != undefined && term_box != null && term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
+        var titlelength=500-term_box.value.length
+        $(".rfp_term_kpi_title_" + kpi_fieldset).text('You have '+titlelength+' characters remaining');
         this_fieldset.classList.remove('ccs-dynaform-hidden');
         document.getElementById("kpiKeyLevel").textContent = kpi_fieldset;
         deleteButtonCount.push(kpi_fieldset);

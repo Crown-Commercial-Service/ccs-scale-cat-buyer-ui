@@ -624,6 +624,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   });
 
+  $(".rfp_kpi_title_count").keyup(function () {
+
+    let errorStore = [];
+    removeErrorFieldsRfpScoreQuestion();
+    $(this).removeAttr('maxlength');
+    let currentLength = this.value.length;
+    let tmpid = $(this).attr('id');
+    let id = tmpid.substring(28);
+    $(".rfp_term_kpi_title_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+
+
+    if((currentLength)>500)
+    {
+    errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+    ccsZPresentErrorSummary(errorStore);
+    ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+    }
+
+  });
+
   $(".rfp_fc_questions_description").keyup(function () {
 
     let errorStore = [];
