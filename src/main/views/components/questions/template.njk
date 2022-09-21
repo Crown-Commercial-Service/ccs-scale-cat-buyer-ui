@@ -881,10 +881,14 @@
                               },
                               id: "rfp_term_1",
                               name: "term",
-                              classes: "rfp_term_1",
-                              value:requirement.nonOCDS.options[0].value
+                              classes: "rfp_term_title_count rfp_term_1",
+                              value:requirement.nonOCDS.options[0].value,
+                              maxlength:"500"
                             })
                           }}
+                          
+                        <span class="term_accr_title_1 remaining_chrs_term">You have {{ (500-(requirement.nonOCDS.options[0].value | length))}} characters remaining</span>
+
                         {{ CCSTextarea({
                               name: "value",
                               id: "rfp_term_definition_1",
@@ -945,11 +949,11 @@
                                 },
                                 id: "rfp_term_"+i,
                                 name: "term",
-                                classes: "rfp_term_"+i,
+                                classes: "rfp_term_title_count rfp_term_"+i,
                                 value:requirement.nonOCDS.options[i-1].value
                               })
                             }}
-
+                          <span class="term_accr_title_{{i}} remaining_chrs_term">You have {{ (500-(requirement.nonOCDS.options[0].value | length))}} characters remaining</span>
                           {{ CCSTextarea({
                                 name: "value",
                                 id: "rfp_term_definition_"+i,
@@ -1019,9 +1023,11 @@
                               id: "rfp_term_service_group_1",
                               name: "term",
                               classes: "rfp_term_service_user_type_1",
-                              value:  requirement.nonOCDS.options[0].value
+                              value:  requirement.nonOCDS.options[0].value,
+                              maxlength : 500
                             })
                           }}
+
                         {{ CCSTextarea({
                               name: "value",
                               id: "rfp_term_more_details_1",
