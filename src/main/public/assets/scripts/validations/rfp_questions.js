@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //#reagion Number_of count 
   const checkHowManyQuestionAddedSoFar = function () {
-    if (pageHeading.includes("Enter your project requirements")) {
+    if (pageHeading?.includes("Enter your project requirements")) {
       for (var i = 1; i < 51; i++) {
         let rootEl = document.getElementById('fc_question_' + i);
         const inputElements = rootEl.querySelectorAll("textarea");
@@ -23,13 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
       for (var i = 1; i < 11; i++) {
         let rootEl = document.getElementById('fc_question_' + i);
         const divElem = document.querySelector('#fc_question_' + i);
-        if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('technical questions')) {
+        if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading?.includes('technical questions')) {
           document.getElementById("questionsCount").textContent = i + ' techinical questions entered ';
         }
-        if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('cultural fit questions')) {
+        if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading?.includes('cultural fit questions')) {
           document.getElementById("questionsCount").textContent = i + ' cultural fit questions entered';
         }
-        if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading.includes('social value questions')) {
+        if (!rootEl?.classList.contains('ccs-dynaform-hidden') && pageHeading?.includes('social value questions')) {
           document.getElementById("questionsCount").textContent = i + ' social value questions entered';
         }
         if (i <= 9 && !rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         weightageSum += isNaN(el.value) ? 0 : Number(el.value);
       });
       //const pageHeading = document.getElementById('page-heading').innerHTML;
-      if (!(pageHeading?.includes('Write your technical questions') || pageHeading.includes('Write your cultural fit questions') || pageHeading.includes('Write your social value questions'))) {
+      if (!(pageHeading?.includes('Write your technical questions') || pageHeading?.includes('Write your cultural fit questions') || pageHeading?.includes('Write your social value questions'))) {
         if (weightageSum > 100) {
           errorStore.push(["There is a problem", "The weighting cannot exceed 100%"]);
           ccsZPresentErrorSummary(errorStore);
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
           prev_input = Number(target) - 1,
           target_fieldset = db.closest("div");
-        if (!pageHeading.includes("Enter your")) {
+        if (!pageHeading?.includes("Enter your")) {
           target_fieldset.classList.add("ccs-dynaform-hidden");
           let precentageValueofLast = 0;
           if (document.getElementById('fc_question_precenate_' + target) != undefined && document.getElementById('fc_question_precenate_' + target) != null) {
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
               with_value_count = 1;
             }
           }
-        } else if (pageHeading.includes("Enter your")) {
+        } else if (pageHeading?.includes("Enter your")) {
           target_fieldset.classList.add("ccs-dynaform-hidden");
           const inputElements = target_fieldset.querySelectorAll("textarea")
           document.getElementById(inputElements[0].id).value = "";
@@ -360,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let containsHiddenClassAtPostion = []
       //const pageHeading = document.getElementById('page-heading').innerHTML;
       removeErrorFieldsRfpScoreQuestion();
-      if (pageHeading.includes("Enter your project requirements")) {
+      if (pageHeading?.includes("Enter your project requirements")) {
         //errorStore = emptyQuestionFieldCheckRfp();
 
         for (var i = 1; i < 51; i++) {
@@ -547,9 +547,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const weightage = $('.weightage');
     let fieldCheck = "";
     //const pageHeading = document.getElementById('page-heading').innerHTML;
-    if (!pageHeading.includes("Enter your project requirements")) {
+    if (!pageHeading?.includes("Enter your project requirements")) {
       for (let index = 0; index < weightage.length; index++) {
-        if (pageHeading.includes('Write your technical questions')) {
+        if (pageHeading?.includes('Write your technical questions')) {
           if (weightage[index].value != "") {
             if (Number(weightage[index].value) == 0) {
               fieldCheck = [weightage[index].id, 'The value cannot be less than 1%'];
@@ -568,7 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
         }
-        else if (pageHeading.includes('Write your cultural fit questions') || pageHeading.includes('Write your social value questions')) {
+        else if (pageHeading?.includes('Write your cultural fit questions') || pageHeading?.includes('Write your social value questions')) {
           if (weightage[index].value != "") {
             if (Number(weightage[index].value) == 0) {
               fieldCheck = [weightage[index].id, 'The value cannot be less than 1%'];
@@ -614,7 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (errorStore.length > 0) {
       ccsZPresentErrorSummary(errorStore)
     }
-    if (!pageHeading.includes("Enter your project requirements") && $('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
+    if (!pageHeading?.includes("Enter your project requirements") && $('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
       errorStore.push(["There is a problem", "The total weighting is more than 100% "]);
     }
     errorStore = errorStore.length <= 0 ? emptyQuestionFieldCheckRfp() : errorStore;
@@ -626,7 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".terms_acr_description_count").keyup(function () {
-    if (!pageHeading.includes("Enter your project requirements")) {
+    if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
       $(this).removeAttr('maxlength');
@@ -645,7 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_background_procurement_textarea").keyup(function () {
-    if (!pageHeading.includes("Enter your project requirements")) {
+    if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
       $(this).removeAttr('maxlength');
