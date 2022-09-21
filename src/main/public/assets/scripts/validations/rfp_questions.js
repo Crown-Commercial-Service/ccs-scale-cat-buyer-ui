@@ -1,51 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
   $('.additional').addClass('ccs-dynaform-hidden');
   const pageHeading = document.getElementById('page-heading').innerHTML;
-  if (pageHeading.includes("Enter your project requirements")) {
-    let innerButton = document.querySelectorAll(".add-another-btn-inner-requirement");
-    let outerButtonAddGroup = document.querySelectorAll(".add-another-btn-group");
-    let deleteButtonEvent = document.querySelectorAll(".del");
 
-    // innerButton.forEach(element => {
-    //   element.addEventListener("click", (e) => {
-    //     let idSplit = e.target.id.split("_")[2];
-    //     if (Number(idSplit) < 10) {
-    //       let next_row = Number(idSplit) + 1;
-    //       let getInnerDivId = "fc_question_Inner_" + e.target.id.split("_")[1] + "_" + next_row;
-    //       document.getElementsByClassName(getInnerDivId)?.[0].classList.remove('ccs-dynaform-hidden');
-    //       document.getElementById(e.target.id).classList.add('ccs-dynaform-hidden');
-    //     }
-    //   });
-    // });
-    // outerButtonAddGroup.forEach(element => {
-    //   element.addEventListener("click", (e) => {
-    //     let idSplit = e.target.id.split("_")[1];
-    //     if (Number(idSplit) < 5) {
-    //       let next_row = Number(idSplit) + 1;
-    //       let getInnerDivId = "fc_question_" + next_row;
-    //       document.getElementById(getInnerDivId).classList.remove('ccs-dynaform-hidden');
-    //       document.getElementById(e.target.id).classList.add('ccs-dynaform-hidden');
-    //     }
-    //   });
-    // });
-
-    for (var i = 1; i < 6; i++) {
-      // innerButton.forEach(element=>{
-      //   console.log(element);
-      // });
-      let rootEl = document.getElementById('fc_question_' + i);
-      const divElem = document.querySelector('#fc_question_' + i);
-      if (i <= 4 && !rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
-        document.getElementsByClassName("add-another-btn")?.[0].classList.remove('ccs-dynaform-hidden')
-      } else if (!rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
-        document.getElementsByClassName("add-another-btn")?.[0].classList.add('ccs-dynaform-hidden')
-      }
-    }
-  }
   //#reagion Number_of count 
   const checkHowManyQuestionAddedSoFar = function () {
     if (pageHeading.includes("Enter your project requirements")) {
+      for (var i = 1; i < 51; i++) {
+        let rootEl = document.getElementById('fc_question_' + i);
+        const inputElements = rootEl.querySelectorAll("textarea");
+        let field1 = document.getElementById(inputElements[0].id).value;
+        let field2 = document.getElementById(inputElements[1].id).value;
+        let field3 = document.getElementById(inputElements[2].id).value;
+        //if()
+        if (i <= 49 && !rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
 
+          document.getElementsByClassName("add-another-btn")?.[0].classList.remove('ccs-dynaform-hidden')
+        } else if (!rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
+          document.getElementsByClassName("add-another-btn")?.[0].classList.add('ccs-dynaform-hidden')
+        }
+      }
     } else {
       for (var i = 1; i < 11; i++) {
         let rootEl = document.getElementById('fc_question_' + i);
@@ -149,18 +122,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let allTextBox = document.getElementsByTagName("textarea");
     for (let index = 0; index < allTextBox.length; index++) {
       let ele = allTextBox[index];
-      if (pageHeading.includes("Enter your project requirements"))
-        ele.id = ele.id + "_Requirements_" + index;
-      ele.addEventListener('keyup', (event) => {
-        let maxLength = event.target.maxLength;
-        let count = maxLength - event.target.value.length;
-        if (count <= maxLength) {
-          //$("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
-        } else {
-          //$("#rfp_label_question_lable_" + event.target.id.substring(12, 15)).text(`You have ${count} characters remaining`);
-          event.preventDefault();
-        }
-      });
+
+      ele.id = ele.id + "_Requirements_" + index;
+      if (pageHeading.includes("Enter your project requirements")) {
+        ele.addEventListener('keyup', (event) => {
+          let maxLength = event.target.maxLength;
+          let errorStore = [];
+          removeErrorFieldsRfpScoreQuestion();
+          let currentLength = event.target.value.length;
+          let spanId = event.target.id?.split("_")[5];
+          document.getElementById(spanId).innerText = `You have ${(maxLength - currentLength)} characters remaining`;;
+          if ((currentLength) > maxLength) {
+            errorStore.push([event.target.id, `No more than ${maxLength} characters are allowed.`]);
+            ccsZPresentErrorSummary(errorStore);
+            ccsZvalidateTextArea(event.target.id, `No more than ${maxLength} characters are allowed.`, '');
+          }
+        });
+      }
     }
     //    this_box.addEventListener('input', ccsZCountRfpQuestions);
     const totalAnswerd = () => {
@@ -263,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let questionGroupName = target_fieldset_getValue.querySelectorAll("textarea")[0]?.value;
             let questionRequirement = target_fieldset_getValue.querySelectorAll("textarea")[1]?.value;
-            let questionRequirementDescribe = target_fieldset_getValue.querySelectorAll("textarea")[0]?.value;;
+            let questionRequirementDescribe = target_fieldset_getValue.querySelectorAll("textarea")[2]?.value;;
             if (questionGroupName != undefined && questionGroupName != null && questionGroupName != '' && questionRequirement != undefined && questionRequirement != null && questionRequirement != '' && questionRequirementDescribe != undefined && questionRequirementDescribe != null && questionRequirementDescribe != '') {
               resetKPIData.push({ questionGroupName: questionGroupName, questionRequirement: questionRequirement, questionRequirementDescribe: questionRequirementDescribe });
             }
@@ -308,22 +286,79 @@ document.addEventListener('DOMContentLoaded', () => {
         checkHowManyQuestionAddedSoFar();
       });
     });
-    // for (var box_num = 10; box_num > 1; box_num--) {
-    //   let this_box = document.getElementById('fc_question_' + box_num);
+    if (pageHeading.includes("Enter your project requirements")) {
+      let allSpantag = document.getElementById('enteryourProjectRequirement').querySelectorAll("span")
+      allSpantag.forEach((e, index) => {
+        e.id = index;
+      })
 
-    //   if (this_box.querySelector('.order_1').value !== '') {
-    //     this_box.classList.remove('ccs-dynaform-hidden');
-    //     if (box_num === 10) {
-    //       $('.add-another-btn').addClass('ccs-dynaform-hidden');
-    //     }
-    //     deleteButtonCount.push(box_num);
-    //   } else {
-    //     with_value_count = box_num;
-    //   }
-    //   if (box_num === 2 && deleteButtonCount.length > 0) {
-    //     //$("#del_fc_question_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
-    //   }
-    // }
+      for (var i = 1; i < 51; i++) {
+        let rootEl = document.getElementById('fc_question_' + i);
+        const inputElements = rootEl.querySelectorAll("textarea");
+        const spanElements = rootEl.querySelectorAll("span");
+
+        //#region span char lenght message
+
+        //#endregion
+
+        //#region 
+        inputElements[0].rows = 2;
+        inputElements[0].maxLength = 500;
+
+        inputElements[1].rows = 2;
+        inputElements[1].maxLength = 500;
+
+        inputElements[2].rows = 2;
+        inputElements[2].maxLength = 5000;
+
+        let currentLength = inputElements[0].value.length;
+        let spanId = inputElements[0].id?.split("_")[5];
+
+        let currentLength1 = inputElements[1].value.length;
+        let spanId1 = inputElements[1].id?.split("_")[5];
+
+        let currentLength2 = inputElements[2].value.length;
+        let spanId2 = inputElements[2].id?.split("_")[5];
+        
+        document.getElementById(spanId).innerText = `You have ${(500 - currentLength)} characters remaining`;
+        document.getElementById(spanId1).innerText = `You have ${(500 - currentLength1)} characters remaining`;
+        document.getElementById(spanId2).innerText = `You have ${(5000 - currentLength2)} characters remaining`;
+
+
+        let field1 = document.getElementById(inputElements[0].id).value;
+        
+        let field3 = document.getElementById(inputElements[1].id).value;
+
+        if (field1 != undefined && field1 != null && field1 != '') {
+          rootEl?.classList.remove("ccs-dynaform-hidden");
+        } else {
+          rootEl?.classList.add("ccs-dynaform-hidden");
+        }
+        if (i <= 49 && !rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
+          document.getElementsByClassName("add-another-btn")?.[0].classList.remove('ccs-dynaform-hidden')
+        } else if (!rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
+          document.getElementsByClassName("add-another-btn")?.[0].classList.add('ccs-dynaform-hidden')
+        }
+      }
+    } else {
+      for (var box_num = 10; box_num > 1; box_num--) {
+        let this_box = document.getElementById('fc_question_' + box_num);
+
+        if (this_box.querySelector('.order_1').value !== '') {
+          this_box.classList.remove('ccs-dynaform-hidden');
+          if (box_num === 10) {
+            $('.add-another-btn').addClass('ccs-dynaform-hidden');
+          }
+          deleteButtonCount.push(box_num);
+        } else {
+          with_value_count = box_num;
+        }
+        if (box_num === 2 && deleteButtonCount.length > 0) {
+          //$("#del_fc_question_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
+        }
+      }
+    }
+
     $('.add-another-btn').on('click', function () {
       errorStore = [];
       let containsHiddenClassAtPostion = []
@@ -338,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
             containsHiddenClassAtPostion.push(i);
           }
         }
-        let lastRowId=containsHiddenClassAtPostion.length>0? containsHiddenClassAtPostion[0] - 1:0;
+        let lastRowId = containsHiddenClassAtPostion.length > 0 ? containsHiddenClassAtPostion[0] - 1 : 0;
         const divElem = Number(lastRowId) > 0 ? document.querySelector('#fc_question_' + lastRowId) : null;
         const inputElements = divElem?.querySelectorAll("textarea");
         if (inputElements != null && inputElements != undefined && inputElements.length > 0) {
@@ -595,97 +630,101 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".terms_acr_description_count").keyup(function () {
-    let errorStore = [];
-    removeErrorFieldsRfpScoreQuestion();
-    $(this).removeAttr('maxlength');
-    let currentLength = this.value.length;
-    let tmpid = $(this).attr('id');
-    let id = tmpid.substring(20);
-    $(".term_accr_des_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+    if (!pageHeading.includes("Enter your project requirements")) {
+      let errorStore = [];
+      removeErrorFieldsRfpScoreQuestion();
+      $(this).removeAttr('maxlength');
+      let currentLength = this.value.length;
+      let tmpid = $(this).attr('id');
+      let id = tmpid.substring(20);
+      $(".term_accr_des_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
 
-    if ((currentLength) > 5000) {
-      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-      ccsZPresentErrorSummary(errorStore);
-      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      if ((currentLength) > 5000) {
+        errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+        ccsZPresentErrorSummary(errorStore);
+        ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      }
     }
 
   });
 
   $(".rfp_background_procurement_textarea").keyup(function () {
-    let errorStore = [];
-    removeErrorFieldsRfpScoreQuestion();
-    $(this).removeAttr('maxlength');
-    let maxlength = $(this).attr('maxlength');
-    let currentLength = this.value.length;
-    let tmpid = $(this).attr('id');
-    let id = tmpid.substring(19);
-    $("#" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+    if (!pageHeading.includes("Enter your project requirements")) {
+      let errorStore = [];
+      removeErrorFieldsRfpScoreQuestion();
+      $(this).removeAttr('maxlength');
+      let maxlength = $(this).attr('maxlength');
+      let currentLength = this.value.length;
+      let tmpid = $(this).attr('id');
+      let id = tmpid.substring(19);
+      $("#" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
 
-    if ((currentLength) > 5000) {
-      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-      ccsZPresentErrorSummary(errorStore);
-      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      if ((currentLength) > 5000) {
+        errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+        ccsZPresentErrorSummary(errorStore);
+        ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      }
     }
-
   });
 
   $(".rfp_term_more_description_count").keyup(function () {
-    let errorStore = [];
-    removeErrorFieldsRfpScoreQuestion();
-    $(this).removeAttr('maxlength');
-    let maxlength = $(this).attr('maxlength');
-    let currentLength = this.value.length;
-    let tmpid = $(this).attr('id');
-    let id = tmpid.substring(22);
-    $(".rfp_term_more_details_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+    if (!pageHeading.includes("Enter your project requirements")) {
+      let errorStore = [];
+      removeErrorFieldsRfpScoreQuestion();
+      $(this).removeAttr('maxlength');
+      let maxlength = $(this).attr('maxlength');
+      let currentLength = this.value.length;
+      let tmpid = $(this).attr('id');
+      let id = tmpid.substring(22);
+      $(".rfp_term_more_details_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
 
-    if ((currentLength) > 5000) {
-      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-      ccsZPresentErrorSummary(errorStore);
-      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      if ((currentLength) > 5000) {
+        errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+        ccsZPresentErrorSummary(errorStore);
+        ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      }
     }
-
   });
 
   $(".rfp_kpi_description_count").keyup(function () {
+    if (!pageHeading.includes("Enter your project requirements")) {
+      let errorStore = [];
+      removeErrorFieldsRfpScoreQuestion();
+      $(this).removeAttr('maxlength');
+      let currentLength = this.value.length;
+      let tmpid = $(this).attr('id');
+      let id = tmpid.substring(39);
+      $(".rfp_term_kpi_description_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
 
-    let errorStore = [];
-    removeErrorFieldsRfpScoreQuestion();
-    $(this).removeAttr('maxlength');
-    let currentLength = this.value.length;
-    let tmpid = $(this).attr('id');
-    let id = tmpid.substring(39);
-    $(".rfp_term_kpi_description_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
 
-
-    if ((currentLength) > 5000) {
-      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-      ccsZPresentErrorSummary(errorStore);
-      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      if ((currentLength) > 5000) {
+        errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+        ccsZPresentErrorSummary(errorStore);
+        ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      }
     }
-
   });
 
   $(".rfp_fc_questions_description").keyup(function () {
+    if (!pageHeading.includes("Enter your project requirements")) {
+      let errorStore = [];
+      removeErrorFieldsRfpScoreQuestion();
+      $(this).removeAttr('maxlength');
 
-    let errorStore = [];
-    removeErrorFieldsRfpScoreQuestion();
-    $(this).removeAttr('maxlength');
+      let maxlength = $(this).attr('maxlength');
+      let currentLength = this.value.length;
+      let tmpid = $(this).attr('id');
+      let name = $(this).attr('name').replace(' ', '');
+      let id = tmpid.substring(12, 15);
 
-    let maxlength = $(this).attr('maxlength');
-    let currentLength = this.value.length;
-    let tmpid = $(this).attr('id');
-    let name = $(this).attr('name').replace(' ', '');
-    let id = tmpid.substring(12, 15);
+      $(".rfp_fc_req_" + id + '_' + name).text(`You have ${(5000 - currentLength)} characters remaining`);
 
-    $(".rfp_fc_req_" + id + '_' + name).text(`You have ${(5000 - currentLength)} characters remaining`);
-
-    if ((currentLength) > 5000) {
-      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-      ccsZPresentErrorSummary(errorStore);
-      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      if ((currentLength) > 5000) {
+        errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+        ccsZPresentErrorSummary(errorStore);
+        ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      }
     }
-
   });
 
   $(".weightage").keyup(function () {

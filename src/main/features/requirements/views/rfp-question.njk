@@ -110,12 +110,12 @@ text: bcTitleText
                 
                
 
-                {% macro recurseRequirements(requirement,form_name,index = 0,dynamicId) -%}
+                {% macro recurseRequirements(requirement,form_name,index = 0) -%}
                 {%if (requirement.nonOCDS.childern.length > 0)%}
-                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,dynamicId)}} 
-                 {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index,dynamicId)}} 
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}} 
+                 {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index)}} 
                 {%else%}
-                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,dynamicId)}} 
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}} 
                 {%endif%}
                 {%- endmacro %}
                 {%if (form_name === 'ccs_rfp_scoring_criteria')%}
@@ -194,6 +194,7 @@ text: bcTitleText
                 'Fifty'
 
                 ] %}
+                <div id="enteryourProjectRequirement">
                 {% for i in range(1, 51) -%}
                 {%set outerButton= "outerButton_"+i%}
                 <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
@@ -209,6 +210,7 @@ text: bcTitleText
                     {{recurseRequirements(data[2],form_name,i)}}
                 </div>
                 {%endfor%}
+                </div>
                 {%else%}
                 {% set numberWord = [
                 'Zero',

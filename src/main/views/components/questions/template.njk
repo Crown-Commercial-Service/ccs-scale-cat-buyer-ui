@@ -222,7 +222,6 @@
   
   {% if requirement.nonOCDS.questionType === 'Text' and requirement.nonOCDS.multiAnswer === true and form_name == 'rfp_multianswer_question_form' %}
  {% set classNameNew= requirement.OCDS.id.replace(' ','')%}
-    {%if dynamicId ==''%}
     {{  CCSTextarea({
       name:  requirement.OCDS.id,
       required: requirement.nonOCDS.mandatory,
@@ -240,26 +239,8 @@
       classes:"rfp_fc_questions_description order_"+requirement.nonOCDS.order +" "+ classNameNew,
       rows:2
     }) }}
-    {%else%}
-{{  CCSTextarea({
-      name:  requirement.OCDS.id,
-      required: requirement.nonOCDS.mandatory,
-      id: dynamicId,
-      value: requirement.nonOCDS.options[index-1].value,
-      label: {
-      text:requirement.OCDS.title,
-      classes: "govuk-label govuk-label--m"
-      },
-      maxlength:"5000",
-      dataSet:requirement.OCDS.title,      
-      hint: {
-              text:requirement.OCDS.description
-            },
-      classes:"rfp_fc_questions_description order_"+requirement.nonOCDS.order +" "+ classNameNew,
-      rows:2
-    }) }}
-    {%endif%}
-     <span class="remaining_chrs_term rfp_fc_req_{{index+'_'+requirement.nonOCDS.order}}_{{requirement.OCDS.id.replace(' ','')}}">You have 5000 characters remaining</span>
+    
+     <span id="charcount_{{index}}" class="remaining_chrs_term rfp_fc_req_{{index+'_'+requirement.nonOCDS.order}}_{{requirement.OCDS.id.replace(' ','')}}">You have 5000 characters remaining</span>
     {% set qlable =  'rfp_label_question_lable_' + index+ "_"+requirement.nonOCDS.order %}
     {# <p class="character-count"><label id="{{qlable}}">You have 5000 character remaining</label></p> #}
   {%endif%}
