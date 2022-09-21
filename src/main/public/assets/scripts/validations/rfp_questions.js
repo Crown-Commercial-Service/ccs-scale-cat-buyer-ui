@@ -45,25 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
   //#endregion
 
 
-  //#region Character count validation
-  if (!pageHeading?.includes("Enter your project requirements")) {
-    [].forEach.call(document.querySelectorAll('.order_1'), function (el) {
-      el.maxLength = '5000'
-      let count = 500 - el.value.length;
-      //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
-    });
-    [].forEach.call(document.querySelectorAll('.order_2'), function (el) {
-      el.maxLength = '5000'
-      let count = 5000 - el.value.length;
-      //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
-    });
-    [].forEach.call(document.querySelectorAll('.order_3'), function (el) {
-      el.maxLength = '5000'
-      let count = 5000 - el.value.length;
-      //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
-    });
-  }
-  //#endregion
   const ccsZCountRfpQuestions = (event) => {
     event.preventDefault();
     const inputId = event.srcElement.id;
@@ -93,6 +74,26 @@ document.addEventListener('DOMContentLoaded', () => {
       deleteButtons = document.querySelectorAll('a.del');
     let deleteButtonCount = [];
     let elements = document.querySelectorAll('.weightage');
+    //#region Character count validation
+    if (!pageHeading?.includes("Enter your project requirements")) {
+      [].forEach.call(document.querySelectorAll('.order_1'), function (el) {
+        el.maxLength = '5000'
+        let count = 500 - el.value.length;
+        //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+      });
+      [].forEach.call(document.querySelectorAll('.order_2'), function (el) {
+        el.maxLength = '5000'
+        let count = 5000 - el.value.length;
+        //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+      });
+      [].forEach.call(document.querySelectorAll('.order_3'), function (el) {
+        el.maxLength = '5000'
+        let count = 5000 - el.value.length;
+        //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+      });
+    }
+    //#endregion
+
     let totalPercentage = () => {
       let errorStore = [];
       let weightageSum = 0;
