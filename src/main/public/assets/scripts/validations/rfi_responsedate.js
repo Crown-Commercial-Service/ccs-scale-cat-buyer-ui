@@ -53,6 +53,7 @@ for (const selector of totalElementSelectors) {
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
+        $("div.govuk-error-summary").remove()
         ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
 
         if(errorSelectorId === ClickedID)
