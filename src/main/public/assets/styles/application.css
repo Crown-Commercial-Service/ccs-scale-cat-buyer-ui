@@ -3229,6 +3229,10 @@ p + .govuk-heading-s,
   padding-left: inherit;
 }
 
+.govuk-no-text-decoration{
+  text-decoration: none;
+}
+
 .govuk-p-margin-bottom{
   margin-bottom: 10px;
 }

@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-$('.save-button').on('click', (e) => {
+$('.response-date-save-continue').on('click', (e) => {
   e.preventDefault();
   const errorMsg= document.getElementsByClassName("govuk-error-message");
   if(errorMsg !=undefined && errorMsg !=null && errorMsg.length ==0)

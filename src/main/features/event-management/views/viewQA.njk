@@ -68,9 +68,9 @@
                 </p>
                 <p class="govuk-body">
                 {% if QA.lastUpdated%}
-                    {{data.updateDate}} : <strong>{{QA.lastUpdated | dateddmmyyyy }}</strong>
+                    {{data.updateDate.replace("[","") | replace("]", "")}} : <strong>{{QA.lastUpdated | dateddmmyyyy }}</strong>
                     {% else %}
-                     {{data.updateDate}} : <strong>{{QA.created | dateddmmyyyy }}</strong>
+                     {{data.updateDate.replace("[","") | replace("]", "")}} : <strong>{{QA.created | dateddmmyyyy }}</strong>
                      {% endif %}
                 </p>
             </div>

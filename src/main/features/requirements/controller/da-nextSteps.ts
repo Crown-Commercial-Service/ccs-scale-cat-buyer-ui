@@ -132,7 +132,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
               }
             }
           
-          const eventTypeURL = `tenders/projects/${projectId}/events`;
+          /**const eventTypeURL = `tenders/projects/${projectId}/events`;
           const eventTypesURL = `tenders/projects/${projectId}/event-types`;
           const baseURL = `tenders/projects/${projectId}/events/${data.id}`;
           req.session.selectedRoute='FC';
@@ -155,7 +155,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           req.session.procurements[currentProcNum].started = true;
           
           
-        }
+        }**/
         //uncomment to save supplier
         const supplierBaseURL: any = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
           const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
