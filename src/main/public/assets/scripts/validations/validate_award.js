@@ -62,49 +62,59 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("enter_evaluation_score_readOnly").readOnly = "true";
     document.getElementById("enter_evaluation_feedback_readOnly").readOnly = "true";
   }
-    $('.event_managment_award').on('click', function (event) {
-        event.preventDefault();
-        const radioButtonYes = document.getElementById("standstill_period_yes").checked;
-        const radioButtonNo = document.getElementById("standstill_period_no").checked;
-        $(".standstill-error-field").html('');
-        if (radioButtonYes || radioButtonNo) {
-            if ($(this).hasClass('selected')) {
-                deselect($(this));
-                $(".backdrop-vetting").fadeOut(200);
-              } else {
-                $(".backdrop-vetting").fadeTo(200, 1);
-                let btnSend = document.querySelector('#redirect-button-vetting');
-                $(this).attr("aria-label","Alert on dialog box, Please confirm your wish to award this supplier.");
-                $(this).attr("role","button");
+  $('.event_managment_award').on('click', function (event) {
+    event.preventDefault();
+    const radioButtonYes = document.getElementById("standstill_period_yes").checked;
+    const radioButtonNo = document.getElementById("standstill_period_no").checked;
+    $(this).removeAttr("aria-hidden")
+    $(".standstill-error-field").html('');
+    if (radioButtonYes || radioButtonNo) {
+        if ($(this).hasClass('selected')) {
+            deselect($(this));
+            $(".backdrop-vetting").fadeOut(200);
+          } else {
+            $(".backdrop-vetting").fadeTo(200, 1);
+           
+            let btnSend = document.querySelector('#redirect-button-vetting');
+            $(this).attr("aria-label","Alert Please confirm your wish to award this supplier.");
+            setTimeout(()=>{
+              document.getElementsByClassName('dialog-close-vetting')[1].focus();
+            },200)
 
-                setTimeout(()=>{
-                  document.getElementById('redirect-button-vetting').focus();
-                },1000)
+            $("#dialog-cancel-vetting").focus(function(){
+              document.getElementById("dialog-close-vetting").tabIndex = "3";
+              document.getElementById("redirect-button-vetting").tabIndex = "2";
+              document.getElementById("dialog-cancel-vetting").tabIndex = "1";
+              document.getElementById("dialog-cancel-vetting").focus();
+            });   
+            
+            $("#dialog-close-vetting").focus(function(){
+              document.getElementById("dialog-close-vetting").tabIndex = "1";
+              document.getElementById("redirect-button-vetting").tabIndex = "2";
+              document.getElementById("dialog-cancel-vetting").tabIndex = "3";     
+            });             
 
-                $('.dialog-close-vetting').attr("aria-label","Close dialog");
-                $('.dialog-close-vetting').attr("role","button");
-
-                if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
-                  btnSend.setAttribute('name', 'Continue');
-                  btnSend.setAttribute('aria-label', 'Continue');
-                  btnSend.setAttribute('role', 'button');                  
-                  $('#redirect-button-vetting').text('Continue')
-                } else {
-                  btnSend.setAttribute('name', 'CCS website');
-                  document.body.scrollTop = document.documentElement.scrollTop = 0;
-                }
-                // $(this).addClass('selected');
-                $('.pop').slideFadeToggle();
-              }
-        }
-        else {
-           $('#standstill_period_radios').addClass('govuk-form-group--error');
-           errorStore = ['standstill_period_yes', 'Please select an option'];
-            $(".standstill-error-field").html('<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> Please select an option</p>');
-            ccsZPresentErrorSummary([errorStore]);
-        }
-        return false;
-      });
+            if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
+              //btnSend.setAttribute('name', 'Continue');
+              //btnSend.setAttribute('aria-label', 'Continue');
+              // btnSend.setAttribute('role', 'button');                  
+              // $('#redirect-button-vetting').text('Continue')
+            } else {
+              btnSend.setAttribute('name', 'CCS website');
+              document.body.scrollTop = document.documentElement.scrollTop = 0;
+            }
+            // $(this).addClass('selected');
+            $('.pop').slideFadeToggle();
+          }
+    }
+    else {
+       $('#standstill_period_radios').addClass('govuk-form-group--error');
+       errorStore = ['standstill_period_yes', 'Please select an option'];
+        $(".standstill-error-field").html('<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> Please select an option</p>');
+        ccsZPresentErrorSummary([errorStore]);
+    }
+    return false;
+  });
   
       $('.dialog-close-vetting').on('click', function () {
         $(".backdrop-vetting").fadeOut(200);
