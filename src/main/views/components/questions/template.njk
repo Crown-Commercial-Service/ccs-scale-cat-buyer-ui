@@ -374,7 +374,7 @@
                         value: requirement.nonOCDS.options[0].value
                       })
                   }}
-
+<span class="rfp_contract_auth_count remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>
               {{  CCSInput({
                         id: "question_id",
                         name: "question_id",
@@ -1022,12 +1022,12 @@
                               },
                               id: "rfp_term_service_group_1",
                               name: "term",
-                              classes: "rfp_term_service_user_type_1",
-                              value:  requirement.nonOCDS.options[0].value,
+                              classes: "rfp_term_service_count rfp_term_service_user_type_1",
+                              value:  requirement.nonOCDS.options[0].text,
                               maxlength : 500
                             })
                           }}
-
+                          <span class="rfp_term_more_service_group_1 remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>
                         {{ CCSTextarea({
                               name: "value",
                               id: "rfp_term_more_details_1",
@@ -1036,10 +1036,10 @@
                               },
                                maxlength:"5000",
                               classes: "rfp_term_more_description_count rfp_term_more_details_1",
-                              value:requirement.nonOCDS.options[0].text
+                              value:requirement.nonOCDS.options[0].value
                             })
                           }}
-                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1].text | length))}} characters remaining</span>
+                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[0].value | length))}} characters remaining</span>
                         {% endcall %}
                         {% set NumberWord = [
                           'zero',
@@ -1073,11 +1073,11 @@
                                 },
                                 id: "rfp_term_service_group_"+i,
                                 name: "term",
-                                classes: "rfp_term__Service_user_type_"+i,
+                                classes: "rfp_term_service_count rfp_term__Service_user_type_"+i,
                                 value: requirement.nonOCDS.options[i-1].text
                               })
                             }}
-
+              <span class="rfp_term_more_service_group_{{i}} remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[i-1].text | length))}} characters remaining</span>
                           {{ CCSTextarea({
                                 name: "value",
                                 id: "rfp_term_more_details_"+i,

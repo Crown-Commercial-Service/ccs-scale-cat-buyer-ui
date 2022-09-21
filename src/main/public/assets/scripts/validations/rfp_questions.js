@@ -571,6 +571,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
   });
 
+  $(".rfp_term_service_count").keyup(function () {
+    let errorStore = [];
+    removeErrorFieldsRfpScoreQuestion();
+    $(this).removeAttr('maxlength');
+    let maxlength = $(this).attr('maxlength');
+    let currentLength = this.value.length;
+    let tmpid = $(this).attr('id');
+    let id = tmpid.substring(23);
+    $(".rfp_term_more_service_group_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+
+    if((currentLength)>500)
+    {
+    errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+    ccsZPresentErrorSummary(errorStore);
+    ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+    }
+
+  });
+  $("#rfp_contracting_auth").keyup(function () {
+    let errorStore = [];
+    removeErrorFieldsRfpScoreQuestion();
+    let currentLength = this.value.length;
+    $(".rfp_contract_auth_count").text(`You have ${(500 - currentLength)} characters remaining`);
+
+    if((currentLength)>500)
+    {
+    errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+    ccsZPresentErrorSummary(errorStore);
+    ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+    }
+
+  });
+  
   $(".rfp_kpi_description_count").keyup(function () {
 
     let errorStore = [];
