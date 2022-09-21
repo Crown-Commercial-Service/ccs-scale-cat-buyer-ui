@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   $('.additional').addClass('ccs-dynaform-hidden');
-  const pageHeading = document.getElementById('page-heading').innerHTML;
+  const pageHeading = document.getElementById('page-heading').length >0? document.getElementById('page-heading').innerHTML:null;
 
   //#reagion Number_of count 
   const checkHowManyQuestionAddedSoFar = function () {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }
   //#endregion
-  if (pageHeading.includes("Enter your project requirements")) {
+  if (pageHeading?.includes("Enter your project requirements")) {
     [].forEach.call(document.querySelectorAll('.character-count'), function (el) {
       el.style.display = 'none'
       // document.getElementsByClassName('character-count').style.display='none';
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //#region Character count validation
-  if (!pageHeading.includes("Enter your project requirements")) {
+  if (!pageHeading?.includes("Enter your project requirements")) {
     [].forEach.call(document.querySelectorAll('.order_1'), function (el) {
       el.maxLength = '5000'
       let count = 500 - el.value.length;
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         weightageSum += isNaN(el.value) ? 0 : Number(el.value);
       });
       //const pageHeading = document.getElementById('page-heading').innerHTML;
-      if (!(pageHeading.includes('Write your technical questions') || pageHeading.includes('Write your cultural fit questions') || pageHeading.includes('Write your social value questions'))) {
+      if (!(pageHeading?.includes('Write your technical questions') || pageHeading.includes('Write your cultural fit questions') || pageHeading.includes('Write your social value questions'))) {
         if (weightageSum > 100) {
           errorStore.push(["There is a problem", "The weighting cannot exceed 100%"]);
           ccsZPresentErrorSummary(errorStore);
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let ele = allTextBox[index];
 
       ele.id = ele.id + "_Requirements_" + index;
-      if (pageHeading.includes("Enter your project requirements")) {
+      if (pageHeading?.includes("Enter your project requirements")) {
         ele.addEventListener('keyup', (event) => {
           let maxLength = event.target.maxLength;
           let errorStore = [];
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkHowManyQuestionAddedSoFar();
       });
     });
-    if (pageHeading.includes("Enter your project requirements")) {
+    if (pageHeading?.includes("Enter your project requirements")) {
       let allSpantag = document.getElementById('enteryourProjectRequirement').querySelectorAll("span")
       allSpantag.forEach((e, index) => {
         e.id = index;
@@ -294,9 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       for (var i = 1; i < 51; i++) {
         let rootEl = document.getElementById('fc_question_' + i);
-        const inputElements = rootEl.querySelectorAll("textarea");
-        const spanElements = rootEl.querySelectorAll("span");
-
+        const inputElements = rootEl?.querySelectorAll("textarea");
         //#region span char lenght message
 
         //#endregion
@@ -326,8 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         let field1 = document.getElementById(inputElements[0].id).value;
-        
-        let field3 = document.getElementById(inputElements[1].id).value;
 
         if (field1 != undefined && field1 != null && field1 != '') {
           rootEl?.classList.remove("ccs-dynaform-hidden");
@@ -468,8 +464,8 @@ document.addEventListener('DOMContentLoaded', () => {
           );
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
-        if (pageHeading.includes("Enter your project requirements")) {
-          const inputElements = divElem.querySelectorAll("textarea");
+        if (pageHeading?.includes("Enter your project requirements")) {
+          const inputElements = divElem?.querySelectorAll("textarea");
           if (inputElements != null && inputElements != undefined && inputElements.length > 0) {
             for (let index = 0; index < inputElements.length; index++) {
               const element = inputElements[index];
@@ -511,10 +507,10 @@ document.addEventListener('DOMContentLoaded', () => {
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
           }
-          if (rootEl.querySelector('.order_3')) {
-            const condOrd3 = countWords(rootEl.querySelector('.order_3')?.value) > 5000;
+          if (rootEl?.querySelector('.order_3')) {
+            const condOrd3 = countWords(rootEl?.querySelector('.order_3')?.value) > 5000;
             if (rootEl?.querySelector('.order_3').value == '' || condOrd3) {
-              const msg = rootEl.querySelector('.order_3').value
+              const msg = rootEl?.querySelector('.order_3').value
                 ? 'Entry is limited to 5000 words'
                 : 'Describe the type of answers you need from suppliers';
               fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_3', msg, /\w+/, !condOrd3);
@@ -668,7 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_term_more_description_count").keyup(function () {
-    if (!pageHeading.includes("Enter your project requirements")) {
+    if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
       $(this).removeAttr('maxlength');
@@ -687,7 +683,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_kpi_description_count").keyup(function () {
-    if (!pageHeading.includes("Enter your project requirements")) {
+    if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
       $(this).removeAttr('maxlength');
@@ -706,7 +702,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_fc_questions_description").keyup(function () {
-    if (!pageHeading.includes("Enter your project requirements")) {
+    if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
       $(this).removeAttr('maxlength');
