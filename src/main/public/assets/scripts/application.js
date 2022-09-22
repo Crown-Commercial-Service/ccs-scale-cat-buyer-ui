@@ -50,6 +50,9 @@ const ccsZvalidateRfiLocation = event => {
 
 // forms validation
 
+if (document.getElementById('ccs_response_date_form') !== null)
+  document.getElementById('ccs_response_date_form').addEventListener('submit', ccsZValidateResponseDate);
+
 if (document.getElementById('ccs_login') !== null)
   document.getElementById('ccs_login').addEventListener('submit', ccsZvalidateLogin);
 
@@ -229,8 +232,8 @@ if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
 if (document.getElementById('ccs_rfp_about_proj') !== null)
   document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
 
-// if (document.getElementById('ccs_rfp_who_form') !== null)
-// document.getElementById('ccs_rfp_who_form').addEventListener('submit', ccsZvalidateTextRfpChangeStrategy);
+  if (document.getElementById('ccs_rfp_who_form') !== null)
+  document.getElementById('ccs_rfp_who_form').addEventListener('submit', ccsZvalidateTextRfpChangeStrategy);
 
 if (document.getElementById('ccs_eoi_purpose_form') !== null)
   document.getElementById('ccs_eoi_purpose_form').addEventListener('submit', ccsZvalidateEoiPurpose);
@@ -427,3 +430,27 @@ setInputFilter(
   document.getElementById('clarification_date-year_5'),
   value => /^\d*$/.test(value),
 );
+
+for(var i=6;i<=11;i++)
+{
+  setInputFilter(
+    document.getElementById('clarification_date-minute_'+i),
+    value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
+  );
+  setInputFilter(
+    document.getElementById('clarification_date-hour_'+i),
+    value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+  );
+  setInputFilter(
+    document.getElementById('clarification_date-day_'+i),
+    value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+  );
+  setInputFilter(
+    document.getElementById('clarification_date-month_'+i),
+    value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+  );
+  setInputFilter(
+    document.getElementById('clarification_date-year_'+i),
+    value => /^\d*$/.test(value),
+  );
+}

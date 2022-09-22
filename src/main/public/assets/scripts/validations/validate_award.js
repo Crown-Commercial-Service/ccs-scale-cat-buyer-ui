@@ -102,9 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });             
 
             if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
-              btnSend.setAttribute('name', 'Continue');
-              //btnSend.setAttribute('aria-label', 'Continue');
-              // btnSend.setAttribute('role', 'button');                  
+              btnSend.setAttribute('name', 'Continue');          
               $('#redirect-button-vetting').text('Continue')
             } else {
               btnSend.setAttribute('name', 'CCS website');

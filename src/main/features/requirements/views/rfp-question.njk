@@ -89,7 +89,11 @@ text: bcTitleText
                 method="post" autocomplete="off">
                 {{ csrfProtection(csrf) }}
                 <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
+                {% if form_name!=='service_levels_kpi_form' %}
                 <div class="ccs-page-section">
+                {% else %}
+                <div>
+                {% endif %}
                 {#<--! SCAT-5151-->#}
                 {% if (form_name === 'rfp_multianswer_question_form') %}
                 {{ CCSInsetText({
@@ -135,7 +139,79 @@ text: bcTitleText
                         100%</h2>
                     </p>
                 </div>
-                {%endif%}
+                {%elseif(rfpTitle==='Enter your project requirements')%}
+                {% set numberWord = [
+                'Zero',
+                'first',
+                'second',
+                ' third',
+                ' fourth',
+                ' fifth',
+                ' sixth',
+                ' seventh',
+                ' eight',
+                ' ninth',
+                ' tenth',
+                'Eleventh',
+                'Twelveth',
+                'Thirteenth',
+                'Fourteenth',
+                'Fifteenth',
+                'Sixteenth',
+                'Seventeenth',
+                'Eighteenth',
+                'Nineteenth',
+                'Twentyth',
+                'Twenty-one',
+                'Twenty-two',
+                'Twenty-three',
+                'Twenty-four',
+                'Twenty-five',
+                'Twenty-six',
+                'Twenty-seven',
+                'Twenty-eight',
+                'Twenty-nine',
+                'Thirty',
+                'Thirty-one',
+                'Thirty-two',
+                'Thirty-three',
+                'Thirty-four',
+                'Thirty-five',
+                'Thirty-six',
+                'Thirty-seven',
+                'Thirty-eight',
+                'Thirty-nine',
+                'Forty',
+                'Forty-one',
+                'Forty-two',
+                'Forty-three',
+                'Forty-four',
+                'Forty-five',
+                'Forty-six',
+                'Forty-seven',
+                'Forty-eight',
+                'Forty-nine',
+                'Fifty'
+
+                ] %}
+                <div id="enteryourProjectRequirement">
+                {% for i in range(1, 51) -%}
+                {%set outerButton= "outerButton_"+i%}
+                <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
+                    <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
+                        {{numberWord[i]}}
+                        {{shortTitle}} question <a href="{{i}}" id="del_fc_question_{{i}}"
+                            class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
+                        </a>
+                    </label>
+                    </br>
+                    {{recurseRequirements(data[0],form_name,i)}}
+                    {{recurseRequirements(data[1],form_name,i)}}
+                    {{recurseRequirements(data[2],form_name,i)}}
+                </div>
+                {%endfor%}
+                </div>
+                {%else%}
                 {% set numberWord = [
                 'Zero',
                 'first',
@@ -163,6 +239,8 @@ text: bcTitleText
                     {% endfor %}
                 </div>
                 {%endfor%}
+                {%endif%}
+                
                 {% if(section==='5') and (form_name === 'rfp_multianswer_question_form')%}
                 <div class="ccs-page-section">
                     {{ CCSButton({

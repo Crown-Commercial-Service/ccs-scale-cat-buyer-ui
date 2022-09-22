@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function fadeInFadeOut(clickedIndex )
     {
         let index = parseInt(clickedIndex);
-        const InputFieldSelector_partial = document.getElementsByClassName(allListOfHeading[index].whole)[0];
+        const InputFieldSelector_partial =allListOfHeading !=undefined  && allListOfHeading !=null? document.getElementsByClassName(allListOfHeading[index].whole)[0]:null;
         //const Name = InputFieldSelector_partial?.getAttribute('class');
         const Value = InputFieldSelector_partial?.value;
 

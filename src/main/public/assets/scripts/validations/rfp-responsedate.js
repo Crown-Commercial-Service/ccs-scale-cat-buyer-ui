@@ -61,9 +61,20 @@ for(const selector of rfp_totalElementSelectors){
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
+        $("div.govuk-error-summary").remove()
         ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
         const elementIDChange = $("#change_clarification_date_" + selector);
         elementIDChange.show();
     });
 }
+
+// $('#ccs_response_date_form').on('submit', (event) 
+const ccsZValidateResponseDate = (e) => {
+    e.preventDefault();
+    let errorHeading=document.getElementById("error-summary-title");
+    if(errorHeading==undefined)
+    {
+        document.forms["ccs_response_date_form"].submit();
+    }
+};
 

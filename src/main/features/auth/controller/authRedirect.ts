@@ -23,8 +23,12 @@ export class AuthorizationRedirect {
 
     const Auth_var = new Auth_Variable;
 
-    Redirect_Oauth_URL = () => {
+    Redirect_Oauth_URL = (req: express.Request) => {
+        const  supplier_qa_url  =req !=undefined && req?.session !=undefined && req?.session != undefined ? req.session.supplier_qa_url : undefined;
         const redirectral_url = `${this.Auth_var.AuthBaseURL}/security/authorize?response_type=code&scope=openid%20profile%20FirstName%20LastName%20%20email%20%20offline_access&client_id=${this.Auth_var.ClientID}&redirect_uri=${this.Auth_var.CallBackURL}`;
-        return redirectral_url;
+        return supplier_qa_url == undefined ? redirectral_url : redirectral_url + '?urlId=' + supplier_qa_url
+
+        //NOTE UNCOMMENT ABOVE LINE AND CONNENT BELOW LINE
+        //return redirectral_url + '?projectId_122222_eId_333333';
     }
 };

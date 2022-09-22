@@ -4,6 +4,7 @@
 
 {% set title = 'Supplier message ' %}
 {% block breadCrumb %}
+{%if(type==='received')%}
   {{ CCSBreadcrumbs({
         items:[
     {
@@ -11,16 +12,37 @@
       "href": "/dashboard"
     },
     {
-      "text": eventId+" / "+eventType,
+      "text": "Your Project",
       "href": "/event/management?id="+eventId
     },
-     
+     {
+      "text": "Your inbox",
+      "href": "/event/management?id="+eventId
+    },
     {
-      "text": "Supplier Message",
+      "text": "Message",
       "href": "#"
     }
   ]
     }) }}
+    {%else%}
+    {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Your Project",
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Message",
+      "href": "#"
+    }
+  ]
+    }) }}
+    {%endif%}
 {% endblock %}
 {% block content %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
@@ -38,7 +60,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          <strong>Message</strong>
+           {%if(type==='received')%} <strong> Message </strong>{%else%} <strong> Inbox </strong> {%endif%} 
         </h1>
         <p class="govuk-body">
           <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
@@ -51,6 +73,7 @@
     </div></br></br>
     <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
+        {%if(type==='received')%}
         <p>
           {{data.subtitle}}
           <ul>
@@ -59,6 +82,7 @@
         <li>{{data.subtitleLine3}}</li>
         </ul>
         </p>
+        {%endif%}
         <div>
           <div class="govuk-grid-row messaging-navigation">
             <div class="govuk-grid-column-full">
@@ -104,7 +128,7 @@
             <p class="govuk-body">{{data.line2}} : {{messageDetails.OCDS.date | dateddmmyyyy}}</p>
             <p class="govuk-body">
               {% for attachemnt in messageDetails.nonOCDS.attachments%}
-                <a class="nav-list__link " href="/message/details?attachmentId={{attachemnt.id}}&id={{id}}">{{attachemnt.name}}</a>
+                <a class="nav-list__link " href="/message/details?attachmentId={{attachemnt.id}}&id={{id}}">{{attachemnt.name}} </a><span>{{attachemnt.size | KbtoMb}} MB</span>
               {% endfor %}
             </p>
             <p class="govuk-body">{{messageDetails.OCDS.description }}</p>
