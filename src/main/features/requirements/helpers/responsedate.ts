@@ -52,12 +52,14 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       let tempDate=fetchQuestionsData[i]?.nonOCDS?.options[0]?.value
       if(tempDate!=undefined){
       let cvDate=''
-      if(fetchQuestionsData[i].OCDS.id!='Question 1')
+      if(fetchQuestionsData[i].OCDS.id!='Question 1'){
         cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a')
-      else 
-        cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY')
+      }
+      else {
+        cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY')}
       if(cvDate !="Invalid date")
         fetchQuestionsData[i].nonOCDS.options[0].value=cvDate
+      
       }
     }
     let rfp_clarification;
@@ -167,25 +169,25 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         return currentElementID - nextElementID;
       });
 
-      for (let index = 0; index < fetchQuestionsData.length; index++) {
-        const element = fetchQuestionsData[index];
-        const stringDate = element?.nonOCDS.options[0]?.value;
-        if(stringDate !=undefined && stringDate!=null)
-        {
-          if(element.OCDS.id == "Question 1")
-          {
-            let convertedDate=moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
-            if(convertedDate !="Invalid date")
-            fetchQuestionsData[index].nonOCDS.options[0].value = convertedDate
-          }
-          else
-          {
-            let convertedDate = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-            if(convertedDate !="Invalid date")
-            fetchQuestionsData[index].nonOCDS.options[0].value =convertedDate;
-          }
-        }
-      }
+      // for (let index = 0; index < fetchQuestionsData.length; index++) {
+      //   const element = fetchQuestionsData[index];
+      //   const stringDate = element?.nonOCDS.options[0]?.value;
+      //   if(stringDate !=undefined && stringDate!=null)
+      //   {
+      //     if(element.OCDS.id == "Question 1")
+      //     {
+      //       let convertedDate=moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
+      //       if(convertedDate !="Invalid date")
+      //       fetchQuestionsData[index].nonOCDS.options[0].value = convertedDate
+      //     }
+      //     else
+      //     {
+      //       let convertedDate = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      //       if(convertedDate !="Invalid date")
+      //       fetchQuestionsData[index].nonOCDS.options[0].value =convertedDate;
+      //     }
+      //   }
+      // }
       const agreementName = req.session.agreementName;
       const lotid = req.session?.lotId;
       const agreementId_session = req.session.agreement_id;
@@ -250,7 +252,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     }
     else if (req.session.questionID == 'Question 2') {
 
-      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
       rfp_clarification_period_end = req.session.UIDate;
 
       let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -303,7 +305,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     }
     else if (req.session.questionID == 'Question 3') {
 
-      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
       rfp_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
 
       //let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -357,7 +359,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     else if (req.session.questionID == 'Question 4') {
 
       supplier_period_for_clarification_period = req.session.UIDate;
-      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
       rfp_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
 
       let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -413,7 +415,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     }
     else if (req.session.questionID == 'Question 5') {
       supplier_dealine_for_clarification_period = req.session.UIDate;
-      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
       rfp_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
 
       let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -468,7 +470,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     }
     else if (req.session.questionID == 'Question 6') {
       let deadline_for_submission_of_stage_one = req.session.UIDate;
-      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
       rfp_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
 
       let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -523,7 +525,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     }
     else if (req.session.questionID == 'Question 7') {
       let evaluation_process_start_date = req.session.UIDate;
-      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
       rfp_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
 
       let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -578,7 +580,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     else if (req.session.questionID == 'Question 8') {
 
       let bidder_presentations_date = req.session.UIDate;
-      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
       rfp_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
 
       let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -633,7 +635,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     else if (req.session.questionID == 'Question 9') {
 
       let standstill_period_starts_date = req.session.UIDate;
-      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
       rfp_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
 
       let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -688,7 +690,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     else if (req.session.questionID == 'Question 10') {
 
       let proposed_award_date = req.session.UIDate;
-      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
       rfp_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
 
       let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -744,7 +746,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       let expected_signature_date = req.session.UIDate;
 
-      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+      rfp_clarification_date = moment(req.session.rfppublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
       rfp_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
 
       let deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -817,13 +819,16 @@ const convertDateTimeFormat = (fetchData :any) =>{
     {
       if(element.OCDS.id == "Question 1")
       {
-        fetchQuestionsData[index].nonOCDS.options[0].value = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
+        // fetchQuestionsData[index].nonOCDS.options[0].value 
+        let convertedDate  = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
+        if(convertedDate !="Invalid date")
+        {fetchQuestionsData[index].nonOCDS.options[0].value =convertedDate;}
       }
       else
       {
         let convertedDate = moment(stringDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
         if(convertedDate !="Invalid date")
-        fetchQuestionsData[index].nonOCDS.options[0].value =convertedDate;
+        {fetchQuestionsData[index].nonOCDS.options[0].value =convertedDate;}
       }
     }
   }
