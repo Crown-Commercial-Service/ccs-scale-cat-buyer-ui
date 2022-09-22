@@ -71,7 +71,8 @@ export function dateFilter (value: moment.Moment | string): string {
       let day=value.toString().substr(0,10);
      let time=value.toString().substr(11,5);
      let new_date=moment(day+" "+time,'YYYY-MM-DD HH:mm a',).format('DD MMMM YYYY, h:mm a');
-      console.log("-----------------datestart---------------");
+     if(new_date=='Invalid date') {new_date=value}
+     console.log("-----------------datestart---------------");
       console.log( new_date);
       console.log("-----------------dateend---------------");
       return new_date
