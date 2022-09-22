@@ -38,7 +38,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     'Product Delivery',
     'QAT',
     'User Centred Design',
-    'Security and Privacy (Non-DDAT)',
+    'No DDaT Cluster Mapping',
   ];
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   req.session.errorTextSumary = [];
