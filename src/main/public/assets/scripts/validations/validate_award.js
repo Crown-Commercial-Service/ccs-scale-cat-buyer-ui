@@ -81,24 +81,24 @@ document.addEventListener('DOMContentLoaded', () => {
               document.getElementsByClassName('dialog-close-vetting')[1].focus();
             },200)
 
-            $("#dialog-cancel-vetting").focus(function(){
-              document.getElementById("dialog-close-vetting").tabIndex = "3";
-              document.getElementById("redirect-button-vetting").tabIndex = "2";
-              document.getElementById("dialog-cancel-vetting").tabIndex = "1";
-              document.getElementById("dialog-cancel-vetting").focus();
-            });   
+            // $("#dialog-cancel-vetting").focus(function(){
+            //   document.getElementById("dialog-close-vetting").tabIndex = "3";
+            //   document.getElementById("redirect-button-vetting").tabIndex = "2";
+            //   document.getElementById("dialog-cancel-vetting").tabIndex = "1";
+            //   document.getElementById("dialog-cancel-vetting").focus();
+            // });   
             
-            $("#dialog-close-vetting").focus(function(){
-              document.getElementById("dialog-close-vetting").tabIndex = "1";
-              document.getElementById("redirect-button-vetting").tabIndex = "2";
-              document.getElementById("dialog-cancel-vetting").tabIndex = "3";     
-            });             
+            // $("#dialog-close-vetting").focus(function(){
+            //   document.getElementById("dialog-close-vetting").tabIndex = "1";
+            //   document.getElementById("redirect-button-vetting").tabIndex = "2";
+            //   document.getElementById("dialog-cancel-vetting").tabIndex = "3";     
+            // });             
 
             if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
-              //btnSend.setAttribute('name', 'Continue');
+              btnSend.setAttribute('name', 'Continue');
               //btnSend.setAttribute('aria-label', 'Continue');
-              // btnSend.setAttribute('role', 'button');                  
-              // $('#redirect-button-vetting').text('Continue')
+              //btnSend.setAttribute('role', 'button');                  
+              $('#redirect-button-vetting').text('Continue')
             } else {
               btnSend.setAttribute('name', 'CCS website');
               document.body.scrollTop = document.documentElement.scrollTop = 0;

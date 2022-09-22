@@ -3,17 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //#reagion Number_of count 
   const checkHowManyQuestionAddedSoFar = function () {
-    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+    const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
     if (pageHeading?.includes("Enter your project requirements")) {
       for (var i = 1; i < 51; i++) {
         let rootEl = document.getElementById('fc_question_' + i);
-        const inputElements = rootEl.querySelectorAll("textarea");
-        let field1 = document.getElementById(inputElements[0].id).value;
-        let field2 = document.getElementById(inputElements[1].id).value;
-        let field3 = document.getElementById(inputElements[2].id).value;
-        //if()
         if (i <= 49 && !rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
-
           document.getElementsByClassName("add-another-btn")?.[0].classList.remove('ccs-dynaform-hidden')
         } else if (!rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
           document.getElementsByClassName("add-another-btn")?.[0].classList.add('ccs-dynaform-hidden')
@@ -45,25 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
   //#endregion
 
 
-  //#region Character count validation
-  if (!pageHeading?.includes("Enter your project requirements")) {
-    [].forEach.call(document.querySelectorAll('.order_1'), function (el) {
-      el.maxLength = '5000'
-      let count = 500 - el.value.length;
-      //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
-    });
-    [].forEach.call(document.querySelectorAll('.order_2'), function (el) {
-      el.maxLength = '5000'
-      let count = 5000 - el.value.length;
-      //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
-    });
-    [].forEach.call(document.querySelectorAll('.order_3'), function (el) {
-      el.maxLength = '5000'
-      let count = 5000 - el.value.length;
-      //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
-    });
-  }
-  //#endregion
   const ccsZCountRfpQuestions = (event) => {
     event.preventDefault();
     const inputId = event.srcElement.id;
@@ -86,13 +61,33 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const FormSelector = $('#rfp_multianswer_question_form');
   if (FormSelector !== undefined && FormSelector.length > 0) {
-    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+    const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
 
     let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll('a.del');
     let deleteButtonCount = [];
     let elements = document.querySelectorAll('.weightage');
+    //#region Character count validation
+    if (!pageHeading?.includes("Enter your project requirements")) {
+      [].forEach.call(document.querySelectorAll('.order_1'), function (el) {
+        el.maxLength = '500'
+        let count = 500 - el.value.length;
+        //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+      });
+      [].forEach.call(document.querySelectorAll('.order_2'), function (el) {
+        el.maxLength = '5000'
+        let count = 5000 - el.value.length;
+        //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+      });
+      [].forEach.call(document.querySelectorAll('.order_3'), function (el) {
+        el.maxLength = '5000'
+        let count = 5000 - el.value.length;
+        //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
+      });
+    }
+    //#endregion
+
     let totalPercentage = () => {
       let errorStore = [];
       let weightageSum = 0;
@@ -135,6 +130,20 @@ document.addEventListener('DOMContentLoaded', () => {
             ccsZvalidateTextArea(event.target.id, `No more than ${maxLength} characters are allowed.`, '');
           }
         });
+      } else {
+        ele.addEventListener('keyup', (event) => {
+          let maxLength = event.target.maxLength;
+          let errorStore = [];
+          removeErrorFieldsRfpScoreQuestion();
+          let currentLength = event.target.value.length;
+          let spanId = event.target.id?.split("_")[5];
+          document.getElementById(spanId).innerText = `You have ${(maxLength - currentLength)} characters remaining`;;
+          if ((currentLength) > maxLength) {
+            errorStore.push([event.target.id, `No more than ${maxLength} characters are allowed.`]);
+            ccsZPresentErrorSummary(errorStore);
+            ccsZvalidateTextArea(event.target.id, `No more than ${maxLength} characters are allowed.`, '');
+          }
+        });
       }
     }
     //    this_box.addEventListener('input', ccsZCountRfpQuestions);
@@ -162,10 +171,18 @@ document.addEventListener('DOMContentLoaded', () => {
             precentageValueofLast = document.getElementById('fc_question_precenate_' + target).value;
           }
           document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
+          //let allTextArea=document.getElementById("fc_question_"+target).querySelector("textarea");
 
-          document.getElementById('fc_question_' + target + "_1").value = "";
-          document.getElementById('fc_question_' + target + "_2").value = "";
-          document.getElementById('fc_question_' + target + "_3").value = "";
+          let allTextArea = document.getElementById('fc_question_' + target).querySelectorAll("textarea")
+          let allInput = document.getElementById('fc_question_' + target).querySelectorAll("textarea")
+
+          // allTextArea.forEach(x => {
+
+          // });
+
+          document.getElementById(allTextArea[0].id).value = "";
+          document.getElementById(allTextArea[1].id).value = "";
+          document.getElementById(allTextArea[2].id).value = "";
           if (document.getElementById('fc_question_precenate_' + target) != undefined && document.getElementById('fc_question_precenate_' + target) != null) {
             document.getElementById('fc_question_precenate_' + target).value = "";
           }
@@ -173,9 +190,11 @@ document.addEventListener('DOMContentLoaded', () => {
           //RESET ALL DATA AFTER DELETED ANY DATA
           let resetKPIData = [{}];
           for (var question_fieldset = 1; question_fieldset < 11; question_fieldset++) {
-            let questionName = document.getElementById('fc_question_' + question_fieldset + "_1").value;
-            let questionDetails = document.getElementById('fc_question_' + question_fieldset + "_2").value;
-            let questionExplation = document.getElementById('fc_question_' + question_fieldset + "_3").value;
+            let allTextArea = document.getElementById('fc_question_' + question_fieldset).querySelectorAll("textarea")
+
+            let questionName = allTextArea[0].value;
+            let questionDetails = allTextArea[1].value;
+            let questionExplation = allTextArea[2].value;
             let precenatage = '';
             if (document.getElementById('fc_question_precenate_' + question_fieldset) != undefined && document.getElementById('fc_question_precenate_' + question_fieldset) != null) {
               precenatage = document.getElementById('fc_question_precenate_' + question_fieldset).value;
@@ -185,9 +204,10 @@ document.addEventListener('DOMContentLoaded', () => {
               resetKPIData.push({ precenatage: precenatage, questionName: questionName, questionDetails: questionDetails, questionExplation: questionExplation });
             }
 
-            document.getElementById('fc_question_' + question_fieldset + "_1").value = '';
-            document.getElementById('fc_question_' + question_fieldset + "_2").value = '';
-            document.getElementById('fc_question_' + question_fieldset + "_3").value = '';
+            document.getElementById(allTextArea[0].id).value = '';
+            document.getElementById(allTextArea[1].id).value = '';
+            document.getElementById(allTextArea[2].id).value = '';
+
             if (document.getElementById('fc_question_precenate_' + question_fieldset) != undefined && document.getElementById('fc_question_precenate_' + question_fieldset) != null) {
               document.getElementById('fc_question_precenate_' + question_fieldset).value = ''
             }
@@ -198,16 +218,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
           for (var question_fieldset = 0; question_fieldset < 11; question_fieldset++) {
+            let allTextArea = null;
             if (question_fieldset != 0) {
-              document.getElementById('fc_question_' + question_fieldset + "_1").value = resetKPIData[question_fieldset]?.questionName != undefined ? resetKPIData[question_fieldset]?.questionName : '';
-              document.getElementById('fc_question_' + question_fieldset + "_2").value = resetKPIData[question_fieldset]?.questionDetails != undefined ? resetKPIData[question_fieldset]?.questionDetails : '';
-              document.getElementById('fc_question_' + question_fieldset + "_3").value = resetKPIData[question_fieldset]?.questionExplation != undefined ? resetKPIData[question_fieldset]?.questionExplation : '';
+              allTextArea = document.getElementById('fc_question_' + question_fieldset).querySelectorAll("textarea")
+              document.getElementById(allTextArea[0].id).value = resetKPIData[question_fieldset]?.questionName != undefined ? resetKPIData[question_fieldset]?.questionName : '';
+              document.getElementById(allTextArea[1].id).value = resetKPIData[question_fieldset]?.questionDetails != undefined ? resetKPIData[question_fieldset]?.questionDetails : '';
+              document.getElementById(allTextArea[2].id).value = resetKPIData[question_fieldset]?.questionExplation != undefined ? resetKPIData[question_fieldset]?.questionExplation : '';
               document.getElementById('fc_question_precenate_' + question_fieldset).value = resetKPIData[question_fieldset]?.precenatage != undefined ? resetKPIData[question_fieldset]?.precenatage : ''
-
             }
 
             let this_fieldset = document.getElementById('fc_question_' + question_fieldset) != undefined && document.getElementById('fc_question_' + question_fieldset) != null ? document.getElementById('fc_question_' + question_fieldset) : null;
-            let name_box = document.getElementById('fc_question_' + question_fieldset + "_1");
+            let name_box = allTextArea != undefined && allTextArea != null ? document.getElementById(allTextArea[0].id) : null;
             if (this_fieldset != null && name_box?.value !== undefined && name_box?.value !== null && name_box?.value !== '') {
               with_value_count = question_fieldset;
               this_fieldset.classList.remove('ccs-dynaform-hidden');
@@ -283,12 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         checkHowManyQuestionAddedSoFar();
       });
     });
-    if (pageHeading?.includes("Enter your project requirements")) {
-      [].forEach.call(document.querySelectorAll('.character-count'), function (el) {
-        el.style.display = 'none'
-        // document.getElementsByClassName('character-count').style.display='none';
-      });
-    }
+
     if (pageHeading?.includes("Enter your project requirements")) {
       let allSpantag = document.getElementById('enteryourProjectRequirement').querySelectorAll("span")
       allSpantag.forEach((e, index) => {
@@ -330,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (field1 != undefined && field1 != null && field1 != '') {
           rootEl?.classList.remove("ccs-dynaform-hidden");
-        } else {
+        } else if (i != 1) {
           rootEl?.classList.add("ccs-dynaform-hidden");
         }
         if (i <= 49 && !rootEl?.classList.contains('ccs-dynaform-hidden') && document.getElementsByClassName("add-another-btn").length > 0) {
@@ -340,8 +356,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     } else {
-      for (var box_num = 10; box_num > 1; box_num--) {
+      let allSpantag = document.querySelectorAll(".remaining_chrs_term")
+      allSpantag.forEach((e, index) => {
+        e.id = index;
+      })
+      for (var box_num = 1; box_num < 11; box_num++) {
         let this_box = document.getElementById('fc_question_' + box_num);
+        let rootEl = document.getElementById('fc_question_' + box_num);
+        const inputElements = rootEl?.querySelectorAll("textarea");
+
+        let currentLength = inputElements[0].value.length;
+        let spanId = inputElements[0].id?.split("_")[5];
+
+        let currentLength1 = inputElements[1].value.length;
+        let spanId1 = inputElements[1].id?.split("_")[5];
+
+        let currentLength2 = inputElements[2].value.length;
+        let spanId2 = inputElements[2].id?.split("_")[5];
+
+        document.getElementById(spanId).innerText = `You have ${(500 - currentLength)} characters remaining`;
+        document.getElementById(spanId1).innerText = `You have ${(5000 - currentLength1)} characters remaining`;
+        document.getElementById(spanId2).innerText = `You have ${(5000 - currentLength2)} characters remaining`;
 
         if (this_box.querySelector('.order_1').value !== '') {
           this_box.classList.remove('ccs-dynaform-hidden');
@@ -361,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('.add-another-btn').on('click', function () {
       errorStore = [];
       let containsHiddenClassAtPostion = []
-      //const pageHeading = document.getElementById('page-heading').innerHTML;
+      const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
       removeErrorFieldsRfpScoreQuestion();
       if (pageHeading?.includes("Enter your project requirements")) {
         //errorStore = emptyQuestionFieldCheckRfp();
@@ -443,8 +478,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       checkHowManyQuestionAddedSoFar();
     });
-
-
   }
 
   const emptyQuestionFieldCheckRfp = () => {
@@ -453,7 +486,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let fieldCheck = '',
       errorStore = [], noOfRequirement_Group = 0;
     const weightage = $('.weightage');
-    const pageHeading = document.getElementById('page-heading').innerHTML;
+    const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
+
     for (var i = 1; i < 11; i++) {
       let rootEl = document.getElementById('fc_question_' + i);
       const divElem = document.querySelector('#fc_question_' + i);
@@ -496,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
               const msg = rootEl?.querySelector('.order_1').value
                 ? 'Entry is limited to 500 words'
                 : 'Enter your question';
-              fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', msg, /\w+/, !condOrd1);
+              fieldCheck = ccsZvalidateWithRegex(rootEl?.querySelector('.order_1')?.id, msg, /\w+/, !condOrd1);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
           }
@@ -506,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
               const msg = rootEl?.querySelector('.order_2').value
                 ? 'Entry is limited to 5000 words'
                 : 'Add more details about this question';
-              fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_2', msg, /\w+/, !condOrd2);
+              fieldCheck = ccsZvalidateWithRegex(rootEl?.querySelector('.order_2')?.id, msg, /\w+/, !condOrd2);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
           }
@@ -516,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
               const msg = rootEl?.querySelector('.order_3').value
                 ? 'Entry is limited to 5000 words'
                 : 'Describe the type of answers you need from suppliers';
-              fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_3', msg, /\w+/, !condOrd3);
+              fieldCheck = ccsZvalidateWithRegex(rootEl?.querySelector('.order_3')?.id, msg, /\w+/, !condOrd3);
               if (fieldCheck !== true) errorStore.push(fieldCheck);
             }
           }
@@ -549,7 +583,8 @@ document.addEventListener('DOMContentLoaded', () => {
     removeErrorFieldsRfpScoreQuestion();
     const weightage = $('.weightage');
     let fieldCheck = "";
-    const pageHeading = document.getElementById('page-heading').innerHTML;
+    const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
+
     if (!pageHeading?.includes("Enter your project requirements")) {
       for (let index = 0; index < weightage.length; index++) {
         if (pageHeading?.includes('Write your technical questions')) {
@@ -597,20 +632,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     }
-
-    for (var x = 1; x < 11; x++) {
-
-      if (!$("#" + "fc_question_" + x).hasClass("ccs-dynaform-hidden")) {
-        $("#" + "fc_question_" + x).find("textarea").map(function () {
-          let term_field = document.getElementById(this.id);
-          const field2 = countCharacters(term_field.value) > 5000;
-          if (field2) {
-
-            errorStore.push([term_field, 'No more than 5000 characters are allowed.']);
-            ccsZaddErrorMessage(term_field, 'No more than 5000 characters are allowed.');
-            isError = true;
+    if (pageHeading?.includes("Enter your project requirements")) {
+      for (var i = 1; i < 51; i++) {
+        let rootEl = document.getElementById('fc_question_' + i);
+        if (!rootEl?.classList.contains("ccs-dynaform-hidden")){
+          const inputElements = rootEl.querySelectorAll("textarea");
+          if (inputElements != null && inputElements != undefined && inputElements.length > 0) {
+            for (let index = 0; index < inputElements.length; index++) {
+              const element = inputElements[index];
+              if (index === 0) {
+                if (element.value == '' || element.value === undefined || element.value === null) {
+                  errorStore.push([element.id, "Please enter your requirement group name"])
+                  ccsZaddErrorMessageClass(element, 'Please enter your requirement group name.')
+                }
+              } else {
+                if (element.value == '' || element.value === undefined || element.value === null) {
+                  errorStore.push([element.id, "Please enter your requirement"])
+                  ccsZaddErrorMessageClass(element, 'Please enter your requirement.')
+                }
+              }
+            }
           }
-        }).get();
+        }          
       }
     }
 
@@ -629,7 +672,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".terms_acr_description_count").keyup(function () {
-    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+    const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
+    return
 
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
@@ -650,7 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_background_procurement_textarea").keyup(function () {
-    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+    const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
 
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
@@ -671,8 +715,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_term_more_description_count").keyup(function () {
-    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
-
+    const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
+    return
+      ;
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
@@ -692,9 +737,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_kpi_description_count").keyup(function () {
-    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
-
-    if (!pageHeading?.includes("Enter your project requirements")) {
+    const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
+    return
+      ;
+    if (!pageHeading?.includes("Enter your project requirements") && !pageHeading?.includes("Write your social value questions")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
       $(this).removeAttr('maxlength');
@@ -713,8 +759,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".rfp_fc_questions_description").keyup(function () {
-    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
-
+    const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
+    return
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
@@ -737,7 +783,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $(".weightage").keyup(function () {
-    const pageHeading = document.getElementById('page-heading').length > 0 ? document.getElementById('page-heading').innerHTML : null;
+    const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
+
     var allElements = document.getElementsByClassName("weightage");
     var totalsum = 0;
     removeErrorFieldsRfpScoreQuestion();
