@@ -344,7 +344,7 @@ if(totalVetting<100 || totalVetting>100)
             e.preventDefault();
             $('#ca_vetting_error_summary').removeClass('hide-block');
             $('.govuk-error-summary__title').text('There is a problem');
-            $("#ca_summary_list").html('You must enter atleast 1 value');
+            $("#ca_summary_list").html('You must enter atleast 1 role');
             $('html, body').animate({ scrollTop: 0 }, 'fast');
         }
 
