@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //#region Character count validation
     if (!pageHeading?.includes("Enter your project requirements")) {
       [].forEach.call(document.querySelectorAll('.order_1'), function (el) {
-        el.maxLength = '5000'
+        el.maxLength = '500'
         let count = 500 - el.value.length;
         //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
       });
@@ -117,6 +117,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
       ele.id = ele.id + "_Requirements_" + index;
       if (pageHeading?.includes("Enter your project requirements")) {
+        ele.addEventListener('keyup', (event) => {
+          let maxLength = event.target.maxLength;
+          let errorStore = [];
+          removeErrorFieldsRfpScoreQuestion();
+          let currentLength = event.target.value.length;
+          let spanId = event.target.id?.split("_")[5];
+          document.getElementById(spanId).innerText = `You have ${(maxLength - currentLength)} characters remaining`;;
+          if ((currentLength) > maxLength) {
+            errorStore.push([event.target.id, `No more than ${maxLength} characters are allowed.`]);
+            ccsZPresentErrorSummary(errorStore);
+            ccsZvalidateTextArea(event.target.id, `No more than ${maxLength} characters are allowed.`, '');
+          }
+        });
+      } else {
         ele.addEventListener('keyup', (event) => {
           let maxLength = event.target.maxLength;
           let errorStore = [];
@@ -342,8 +356,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     } else {
-      for (var box_num = 10; box_num > 1; box_num--) {
+      let allSpantag = document.querySelectorAll(".remaining_chrs_term")
+      allSpantag.forEach((e, index) => {
+        e.id = index;
+      })
+      for (var box_num = 1; box_num < 11; box_num++) {
         let this_box = document.getElementById('fc_question_' + box_num);
+        let rootEl = document.getElementById('fc_question_' + box_num);
+        const inputElements = rootEl?.querySelectorAll("textarea");
+
+        let currentLength = inputElements[0].value.length;
+        let spanId = inputElements[0].id?.split("_")[5];
+
+        let currentLength1 = inputElements[1].value.length;
+        let spanId1 = inputElements[1].id?.split("_")[5];
+
+        let currentLength2 = inputElements[2].value.length;
+        let spanId2 = inputElements[2].id?.split("_")[5];
+
+        document.getElementById(spanId).innerText = `You have ${(500 - currentLength)} characters remaining`;
+        document.getElementById(spanId1).innerText = `You have ${(5000 - currentLength1)} characters remaining`;
+        document.getElementById(spanId2).innerText = `You have ${(5000 - currentLength2)} characters remaining`;
 
         if (this_box.querySelector('.order_1').value !== '') {
           this_box.classList.remove('ccs-dynaform-hidden');
@@ -445,8 +478,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       checkHowManyQuestionAddedSoFar();
     });
-
-
   }
 
   const emptyQuestionFieldCheckRfp = () => {
@@ -601,20 +632,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     }
-
-    for (var x = 1; x < 11; x++) {
-
-      if (!$("#" + "fc_question_" + x).hasClass("ccs-dynaform-hidden")) {
-        $("#" + "fc_question_" + x).find("textarea").map(function () {
-          let term_field = document.getElementById(this.id);
-          const field2 = countCharacters(term_field.value) > 5000;
-          if (field2) {
-
-            errorStore.push([term_field, 'No more than 5000 characters are allowed.']);
-            ccsZaddErrorMessage(term_field, 'No more than 5000 characters are allowed.');
-            isError = true;
+    if (pageHeading?.includes("Enter your project requirements")) {
+      for (var i = 1; i < 51; i++) {
+        let rootEl = document.getElementById('fc_question_' + i);
+        if (!rootEl?.classList.contains("ccs-dynaform-hidden")){
+          const inputElements = rootEl.querySelectorAll("textarea");
+          if (inputElements != null && inputElements != undefined && inputElements.length > 0) {
+            for (let index = 0; index < inputElements.length; index++) {
+              const element = inputElements[index];
+              if (index === 0) {
+                if (element.value == '' || element.value === undefined || element.value === null) {
+                  errorStore.push([element.id, "Please enter your requirement group name"])
+                  ccsZaddErrorMessageClass(element, 'Please enter your requirement group name.')
+                }
+              } else {
+                if (element.value == '' || element.value === undefined || element.value === null) {
+                  errorStore.push([element.id, "Please enter your requirement"])
+                  ccsZaddErrorMessageClass(element, 'Please enter your requirement.')
+                }
+              }
+            }
           }
-        }).get();
+        }          
       }
     }
 
@@ -634,6 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $(".terms_acr_description_count").keyup(function () {
     const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
+    return
 
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
@@ -676,7 +716,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $(".rfp_term_more_description_count").keyup(function () {
     const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
-
+    return
+      ;
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
@@ -697,8 +738,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $(".rfp_kpi_description_count").keyup(function () {
     const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
-
-    if (!pageHeading?.includes("Enter your project requirements")) {
+    return
+      ;
+    if (!pageHeading?.includes("Enter your project requirements") && !pageHeading?.includes("Write your social value questions")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
       $(this).removeAttr('maxlength');
@@ -718,7 +760,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $(".rfp_fc_questions_description").keyup(function () {
     const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
-
+    return
     if (!pageHeading?.includes("Enter your project requirements")) {
       let errorStore = [];
       removeErrorFieldsRfpScoreQuestion();
