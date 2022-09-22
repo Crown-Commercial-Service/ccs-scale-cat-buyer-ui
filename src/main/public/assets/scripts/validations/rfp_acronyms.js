@@ -266,7 +266,30 @@ const removeErrorFieldsRfp1 = () => {
   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
+const removeErrorFieldsRfpAcronymQuestion = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+};
+$(".rfp_term_title_count").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpAcronymQuestion();
+  $(this).removeAttr('maxlength');
+  let currentLength = this.value.length;
+  let tmpid = $(this).attr('id');
+  let id = tmpid.substring(9);
+  $(".term_accr_title_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
 
+  if((currentLength)>500)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
 const emptyFieldCheckRfp1 = () => {
   let fieldCheck = "",
     errorStore = [];

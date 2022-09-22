@@ -954,7 +954,7 @@
                                 value:requirement.nonOCDS.options[i-1].value
                               })
                             }}
-                          <span class="term_accr_title_{{i}} remaining_chrs_term">You have {{ (500-(requirement.nonOCDS.options[0].value | length))}} characters remaining</span>
+                          <span class="term_accr_title_{{i}} remaining_chrs_term">You have {{ (500-(requirement.nonOCDS.options[i-1].value | length))}} characters remaining</span>
                           {{ CCSTextarea({
                                 name: "value",
                                 id: "rfp_term_definition_"+i,

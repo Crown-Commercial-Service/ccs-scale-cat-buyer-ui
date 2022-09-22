@@ -276,6 +276,50 @@ const emptyFieldCheckRfp = () => {
   return errorStore;
 }
 
+$(".rfp_term_service_count").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpScoreQuestion();
+  $(this).removeAttr('maxlength');
+  let maxlength = $(this).attr('maxlength');
+  let currentLength = this.value.length;
+  let tmpid = $(this).attr('id');
+  let id = tmpid.substring(23);
+  $(".rfp_term_more_service_group_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+
+  if((currentLength)>500)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
+const removeErrorFieldsRfpScoreQuestion = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+};
+let org_box = document.getElementById("rfp_contracting_auth")
+    if (org_box != undefined && org_box != null && org_box.value !== "") {
+      var contentlength=500-org_box.value.length
+      $(".rfp_contract_auth_count").text('You have '+contentlength+' characters remaining');
+    }
+$("#rfp_contracting_auth").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpScoreQuestion();
+  let currentLength = this.value.length;
+  $(".rfp_contract_auth_count").text(`You have ${(500 - currentLength)} characters remaining`);
+
+  if((currentLength)>500)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
 const emptyFieldCheckRfpUserType = () => {
 
   let fieldCheck = "",

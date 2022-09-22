@@ -215,7 +215,32 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       checkHowManyKPIAddedSoFar();
     });
+    const removeErrorFieldsRfpScoreQuestion = () => {
+      $('.govuk-error-message').remove();
+      $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+      $('.govuk-error-summary').remove();
+      $('.govuk-input').removeClass('govuk-input--error');
+      $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+    };
+    $(".rfp_kpi_title_count").keyup(function () {
 
+      let errorStore = [];
+      removeErrorFieldsRfpScoreQuestion();
+      $(this).removeAttr('maxlength');
+      let currentLength = this.value.length;
+      let tmpid = $(this).attr('id');
+      let id = tmpid.substring(28);
+      $(".rfp_term_kpi_title_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+  
+  
+      if((currentLength)>500)
+      {
+      errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+      ccsZPresentErrorSummary(errorStore);
+      ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+      }
+  
+    });
 
     precentageInputs.forEach(db => {
       db.addEventListener("keydown", (event) => {
