@@ -692,7 +692,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
   });
-
+  
   $(".rfp_background_procurement_textarea").keyup(function () {
     const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
 
@@ -736,6 +736,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  
+  
   $(".rfp_kpi_description_count").keyup(function () {
     const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
     return
@@ -758,6 +760,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  
   $(".rfp_fc_questions_description").keyup(function () {
     const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
     return
