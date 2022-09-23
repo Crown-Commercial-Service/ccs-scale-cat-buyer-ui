@@ -52,6 +52,23 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
+    for(var i=0;i<fetchQuestionsData.length;i++)
+    {
+      let tempDate=fetchQuestionsData[i]?.nonOCDS?.options[0]?.value
+      if(tempDate!=undefined){
+      let cvDate=''
+      if(fetchQuestionsData[i].OCDS.id!='Question 1'){
+        cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a')
+        if(cvDate !="Invalid date")
+          {fetchQuestionsData[i].nonOCDS.options[0].value=cvDate}
+      }
+      else {
+        cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY')
+        if(cvDate !="Invalid date")
+        {fetchQuestionsData[i].nonOCDS.options[0].value=cvDate}
+      }
+      }
+    }
     let DeadlinePeriodDate;
     let SupplierPeriodDate;
     let rfi_clarification_date;
@@ -107,21 +124,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      for(var i=0;i<fetchQuestionsData.length;i++)
-        {
-          if(fetchQuestionsData[i].nonOCDS.options.length>0){
-          let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-          day=value.substr(0,10);
-          time=value.substr(11,5);
-          if(i==0){
-            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
-          }
-          else
-          {
-          fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
-          }
-        }
-        }
+      // for(var i=0;i<fetchQuestionsData.length;i++)
+      //   {
+      //     if(fetchQuestionsData[i].nonOCDS.options.length>0){
+      //     let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+      //     day=value.substr(0,10);
+      //     time=value.substr(11,5);
+      //     if(i==0){
+      //       fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+      //     }
+      //     else
+      //     {
+      //     fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+      //     }
+      //   }
+      //   }
       let appendData = {
         data: cmsData,
         prompt: prompt,
@@ -161,7 +178,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
     else {
       if (req.session.questionID == 'Question 2') {
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
         rfi_clarification_period_end = req.session.UIDate;
 
         // rfp_clarification_date =moment(req.session.clarificationend,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -174,21 +191,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-        for(var i=0;i<fetchQuestionsData.length;i++)
-        {
-          if(fetchQuestionsData[i].nonOCDS.options.length>0){
-            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-            day=value.substr(0,10);
-            time=value.substr(11,5);
-            if(i==0){
-              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
-            }
-            else
-            {
-            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
-            }
-          }
-        }
+        // for(var i=0;i<fetchQuestionsData.length;i++)
+        // {
+        //   if(fetchQuestionsData[i].nonOCDS.options.length>0){
+        //     let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+        //     day=value.substr(0,10);
+        //     time=value.substr(11,5);
+        //     if(i==0){
+        //       fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+        //     }
+        //     else
+        //     {
+        //     fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+        //     }
+        //   }
+        // }
         let appendData = {
           data: cmsData,
           prompt: prompt,
@@ -213,7 +230,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
         deadline_period_for_clarification_period = req.session.UIDate;
 
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
         rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
         //deadline_period_for_clarification_period =moment(req.session.deadlinepublishresponse,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
         supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -224,21 +241,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-        for(var i=0;i<fetchQuestionsData.length;i++)
-        {
-          if(fetchQuestionsData[i].nonOCDS.options.length>0){
-            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-            day=value.substr(0,10);
-            time=value.substr(11,5);
-            if(i==0){
-              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
-            }
-            else
-            {
-            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
-            }
-          }
-        }
+        // for(var i=0;i<fetchQuestionsData.length;i++)
+        // {
+        //   if(fetchQuestionsData[i].nonOCDS.options.length>0){
+        //     let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+        //     day=value.substr(0,10);
+        //     time=value.substr(11,5);
+        //     if(i==0){
+        //       fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+        //     }
+        //     else
+        //     {
+        //     fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+        //     }
+        //   }
+        // }
         let appendData = {
           data: cmsData,
           prompt: prompt,
@@ -263,7 +280,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
         supplier_period_for_clarification_period = req.session.UIDate;
 
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
         rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
         deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
         //supplier_period_for_clarification_period =moment(req.session.supplierresponse,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -274,21 +291,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-        for(var i=0;i<fetchQuestionsData.length;i++)
-        {
-          if(fetchQuestionsData[i].nonOCDS.options.length>0){
-            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-            day=value.substr(0,10);
-            time=value.substr(11,5);
-            if(i==0){
-              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
-            }
-            else
-            {
-            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
-            }
-          }
-        }
+        // for(var i=0;i<fetchQuestionsData.length;i++)
+        // {
+        //   if(fetchQuestionsData[i].nonOCDS.options.length>0){
+        //     let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+        //     day=value.substr(0,10);
+        //     time=value.substr(11,5);
+        //     if(i==0){
+        //       fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+        //     }
+        //     else
+        //     {
+        //     fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+        //     }
+        //   }
+        // }
         let appendData = {
           data: cmsData,
           prompt: prompt,
@@ -311,7 +328,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       else if (req.session.questionID == 'Question 5') {
         supplier_dealine_for_clarification_period = req.session.UIDate;
 
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
         rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
         deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
         supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
@@ -322,21 +339,21 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-        for(var i=0;i<fetchQuestionsData.length;i++)
-        {
-          if(fetchQuestionsData[i].nonOCDS.options.length>0){
-            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-            day=value.substr(0,10);
-            time=value.substr(11,5);
-            if(i==0){
-              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
-            }
-            else
-            {
-            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
-            }
-          }
-        }
+        // for(var i=0;i<fetchQuestionsData.length;i++)
+        // {
+        //   if(fetchQuestionsData[i].nonOCDS.options.length>0){
+        //     let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+        //     day=value.substr(0,10);
+        //     time=value.substr(11,5);
+        //     if(i==0){
+        //       fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+        //     }
+        //     else
+        //     {
+        //     fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
+        //     }
+        //   }
+        // }
         let appendData = {
           data: cmsData,
           prompt: prompt,
