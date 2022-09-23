@@ -276,6 +276,24 @@ const emptyFieldCheckRfp = () => {
   return errorStore;
 }
 
+$(".rfp_term_more_description_count").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpScoreQuestion();
+  $(this).removeAttr('maxlength');
+  let maxlength = $(this).attr('maxlength');
+  let currentLength = this.value.length;
+  let tmpid = $(this).attr('id');
+  let id = tmpid.substring(22);
+  $(".rfp_term_more_details_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+
+  if((currentLength)>5000)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
 $(".rfp_term_service_count").keyup(function () {
   let errorStore = [];
   removeErrorFieldsRfpScoreQuestion();
@@ -294,6 +312,7 @@ $(".rfp_term_service_count").keyup(function () {
   }
 
 });
+
 const removeErrorFieldsRfpScoreQuestion = () => {
   $('.govuk-error-message').remove();
   $('.govuk-form-group--error').removeClass('govuk-form-group--error');
