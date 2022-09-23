@@ -8,7 +8,11 @@ let weightingVetting = [];
 
 container =
   document.getElementById('ccs_ca_menu_tabs_form_later') || document.getElementById('ccs_rfp_scoring_criteria') || document.getElementById('ccs_da_menu_tabs_form_later');
-inputs = container.getElementsByTagName('input');
+  if(container!==null)
+  {
+    inputs = container.getElementsByTagName('input');
+  }
+
 
 function deselect(e) {
   $('.pop').slideFadeToggle(function () {
@@ -31,24 +35,24 @@ function removeClass() {
 }
 
 $(function () {
-  $('.nav-popup').on('click', function () {
-    if ($(this).hasClass('selected')) {
-      deselect($(this));
-      $('.backdrop-nav-menu').fadeOut(200);
-    } else {
-      $('.backdrop-nav-menu').fadeTo(200, 1);
-      let btnSend = document.querySelector('#redirect-button-nav-menu');
-      if (btnSend && this.className != 'logo nav-popup' && this.className != 'govuk-footer__link logo nav-popup') {
-        btnSend.setAttribute('name', this.innerHTML);
-      } else {
-        btnSend.setAttribute('name', 'CCS website');
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-      }
-      // $(this).addClass('selected');
-      $('.pop').slideFadeToggle();
-    }
-    return false;
-  });
+  // $('.nav-popup').on('click', function () {
+  //   if ($(this).hasClass('selected')) {
+  //     deselect($(this));
+  //     $('.backdrop-nav-menu').fadeOut(200);
+  //   } else {
+  //     $('.backdrop-nav-menu').fadeTo(200, 1);
+  //     let btnSend = document.querySelector('#redirect-button-nav-menu');
+  //     if (btnSend && this.className != 'logo nav-popup' && this.className != 'govuk-footer__link logo nav-popup') {
+  //       btnSend.setAttribute('name', this.innerHTML);
+  //     } else {
+  //       btnSend.setAttribute('name', 'CCS website');
+  //       document.body.scrollTop = document.documentElement.scrollTop = 0;
+  //     }
+  //     // $(this).addClass('selected');
+  //     $('.pop').slideFadeToggle();
+  //   }
+  //   return false;
+  // });
 
   $('.vetting-popup').on('click', function () {
     if ($(this).hasClass('selected')) {
@@ -118,6 +122,8 @@ $(function () {
   });
 
   $('.dialog-close-vetting').on('click', function () {
+    alert("close works");
+    return;
     $('.backdrop-vetting').fadeOut(200);
     deselect($('.dialog-close-vetting'));
     return false;
