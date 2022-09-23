@@ -199,6 +199,6 @@ async function getMessageDetails(messageId: string, projectId: string, eventId: 
 async function getClerificationData(messageId: string, projectId: string, eventId: string, SESSION_ID: string) {
     const baseQAURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`;
     const qaDataList = await TenderApi.Instance(SESSION_ID).get(baseQAURL)
-    const list: QuestionAndAnswer[] = qaDataList.data
+    const list: QuestionAndAnswer[] = (qaDataList.data.QandA.length>0?qaDataList.data.QandA:[])
     return list;
 }
