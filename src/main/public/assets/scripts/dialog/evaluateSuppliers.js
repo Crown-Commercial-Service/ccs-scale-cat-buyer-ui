@@ -3,6 +3,7 @@ const showEvaluateSuppliersPopup = (event) => {
   //const inputId=event.srcElement.id;
   // const element = document.getElementById("evaluate_suppliers");
   // if(element.checked){
+    
       if ($(this).hasClass('selected')) {
           deselect($(this));
           $(".backdrop-evaluatesuppliers").fadeOut(200);
@@ -10,28 +11,25 @@ const showEvaluateSuppliersPopup = (event) => {
           document.getElementById("evaluatesupplierspopup").style.paddingTop="1000";
         } else {
           $(".backdrop-evaluatesuppliers").fadeTo(200, 1);
+          $("#evaluate_suppliers").attr("aria-label","Alert You are about to complete your evaluation.Click Continue, or click Return to further edit your scores.");
           // $(".backdrop-evaluatesuppliers").position("relative");
           document.getElementById("evaluatesupplierspopup").style.paddingTop="1000";
           setTimeout(()=>{
             document.getElementsByClassName('dialog-close-evaluatesuppliers')[1].focus();
             },200);
-
-
-          $("#return-dialog-evaluatesuppliers").focus(function(){
-
-            document.getElementById("dialog-close-evaluatesupplier").tabIndex = "3";
-            document.getElementById("redirect-button-evaluatesuppliers").tabIndex = "2";
-            document.getElementById("return-dialog-evaluatesuppliers").tabIndex = "1";
-            document.getElementById("return-dialog-evaluatesuppliers").focus();
-          });   
           
-          $("#dialog-close-evaluatesupplier").focus(function(){
+          
+          $("#return-dialog-evaluatesuppliers").blur(function(event){
+            document.getElementsByClassName('dialog-close-evaluatesuppliers')[1].focus();
+          });  
+        
+          $("#dialog-close-evaluatesupplier").blur(function(){
             document.getElementById("dialog-close-evaluatesupplier").tabIndex = "1";
             document.getElementById("redirect-button-evaluatesuppliers").tabIndex = "2";
             document.getElementById("return-dialog-evaluatesuppliers").tabIndex = "3";     
-          });             
+          });   
 
-
+         
           
           let btnSend = document.querySelector('#redirect-button-evaluatesuppliers');
           if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {

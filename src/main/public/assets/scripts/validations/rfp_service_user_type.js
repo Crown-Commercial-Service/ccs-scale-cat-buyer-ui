@@ -276,6 +276,50 @@ const emptyFieldCheckRfp = () => {
   return errorStore;
 }
 
+$(".rfp_term_service_count").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpScoreQuestion();
+  $(this).removeAttr('maxlength');
+  let maxlength = $(this).attr('maxlength');
+  let currentLength = this.value.length;
+  let tmpid = $(this).attr('id');
+  let id = tmpid.substring(23);
+  $(".rfp_term_more_service_group_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+
+  if((currentLength)>500)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
+const removeErrorFieldsRfpScoreQuestion = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+};
+let org_box = document.getElementById("rfp_contracting_auth")
+    if (org_box != undefined && org_box != null && org_box.value !== "") {
+      var contentlength=500-org_box.value.length
+      $(".rfp_contract_auth_count").text('You have '+contentlength+' characters remaining');
+    }
+$("#rfp_contracting_auth").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpScoreQuestion();
+  let currentLength = this.value.length;
+  $(".rfp_contract_auth_count").text(`You have ${(500 - currentLength)} characters remaining`);
+
+  if((currentLength)>500)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
 const emptyFieldCheckRfpUserType = () => {
 
   let fieldCheck = "",
@@ -288,6 +332,7 @@ const emptyFieldCheckRfpUserType = () => {
 
     if (term_field.value !== undefined && definition_field !== undefined) {
       const field1 = countWords(term_field.value) > 50;
+      const field3 = countCharacters(term_field.value) > 500;
       const field2 = countCharacters(definition_field.value) > 5000;
 
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
@@ -301,9 +346,15 @@ const emptyFieldCheckRfpUserType = () => {
               isError = true;
             }
 
+            if (field3) {
+              errorStore.push([definition_field, 'No more than 500 characters are allowed.']);
+              ccsZaddErrorMessage(definition_field, 'No more than 500 characters are allowed.');
+              isError = true;
+            }
+
             if (field1) {
               errorStore.push([term_field, 'No more than 50 words are allowed.']);
-              ccsZaddErrorMessage(term_field, 'No more than 50 words characters are allowed.');
+              ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
               isError = true;
             }
 
@@ -325,10 +376,16 @@ const emptyFieldCheckRfpStrategy = () => {
 
     if (term_field.value !== undefined) {
       const field1 = countWords(term_field.value) > 50;
+      const field2 = countCharacters(term_field.value) > 500;
 
             if (field1) {
               errorStore.push([term_field, 'No more than 50 words are allowed.']);
-              ccsZaddErrorMessage(term_field, 'No more than 50 words characters are allowed.');
+              ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+              isError = true;
+            }
+            if (field2) {
+              errorStore.push([term_field, 'No more than 500 characters are allowed.']);
+              ccsZaddErrorMessage(term_field, 'No more than 500 characters are allowed.');
               isError = true;
             }
 

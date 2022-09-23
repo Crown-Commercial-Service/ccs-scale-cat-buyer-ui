@@ -266,7 +266,30 @@ const removeErrorFieldsRfp1 = () => {
   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
+const removeErrorFieldsRfpAcronymQuestion = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+};
+$(".rfp_term_title_count").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpAcronymQuestion();
+  $(this).removeAttr('maxlength');
+  let currentLength = this.value.length;
+  let tmpid = $(this).attr('id');
+  let id = tmpid.substring(9);
+  $(".term_accr_title_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
 
+  if((currentLength)>500)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
 const emptyFieldCheckRfp1 = () => {
   let fieldCheck = "",
     errorStore = [];
@@ -279,6 +302,7 @@ const emptyFieldCheckRfp1 = () => {
 
     if (term_field.value !== undefined && definition_field !== undefined) {
       const field1 = countWords1(term_field.value) > 50;
+      const field3 = countCharacters(term_field.value) > 500;
       const field2 = countCharacters(definition_field.value) > 5000;
       
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
@@ -300,7 +324,14 @@ const emptyFieldCheckRfp1 = () => {
           if (field1) {
 
             errorStore.push([term_field, 'No more than 50 words are allowed.']);
-            ccsZaddErrorMessage(term_field, 'No more than 50 words characters are allowed.');
+            ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+            isError = true;
+          } 
+
+          if (field3) {
+
+            errorStore.push([term_field, 'No more than 500 characters are allowed.']);
+            ccsZaddErrorMessage(term_field, 'No more than 500 characters are allowed.');
             isError = true;
           } 
           
