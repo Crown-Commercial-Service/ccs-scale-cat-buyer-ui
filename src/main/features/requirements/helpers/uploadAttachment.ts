@@ -96,19 +96,22 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         IsFileError: false,
         selectedeventtype
       };
-      
+      let isconfirm=false;
+      let isupload=false;
       if (pricingSchedule != undefined) {
        delete req.session["pricingSchedule"];
         if (errorList==null) {
           errorList=[];
         }
         if (pricingSchedule.IsDocumentError && pricingSchedule.rfp_confirm_upload) {
-          errorList.push({ text: "You must confirm the statement.", href: "#rfp_confirm_upload" })
+          errorList.push({ text: "You must confirm the statement.", href: "#rfp_confirm_upload_message" })
           fileError=true;
+          isconfirm=true;
         }
         if (pricingSchedule.IsDocumentError && !pricingSchedule.IsFile) {
-          errorList.push({ text: "You must upload your pricing schedule.", href: "#rfp_offline_document" });
+          errorList.push({ text: "You must upload your pricing schedule.", href: "#rfp_offline_document_message" });
           fileError=true;
+          isupload=true;
         }
       }
       if (fileObjectIsEmpty) {
@@ -117,7 +120,7 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
         delete req.session["fileObjectIsEmpty"];
       }
       if (fileError && errorList !== null) {
-        windowAppendData = Object.assign({}, { ...windowAppendData, fileError: true, errorlist: errorList });
+        windowAppendData = Object.assign({}, { ...windowAppendData, fileError: true, errorlist: errorList ,isconfirm,isupload});
       }
       if (fileNameStoragePricing != undefined && fileNameStoragePricing != null && fileNameStoragePricing.length > 0) {
         req.session['isPricingUploaded'] = true;
