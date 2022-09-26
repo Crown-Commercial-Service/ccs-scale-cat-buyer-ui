@@ -32,6 +32,26 @@ document.addEventListener('DOMContentLoaded', () => {
       $('.govuk-input').removeClass('govuk-input--error');
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
     };
+    $(".rfp_kpi_description_count").keyup(function () {
+      const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
+
+      if (!pageHeading?.includes("Enter your project requirements") && !pageHeading?.includes("Write your social value questions")) {
+        let errorStore = [];
+        removeErrorFieldsRfpScoreQuestion();
+        $(this).removeAttr('maxlength');
+        let currentLength = this.value.length;
+        let tmpid = $(this).attr('id');
+        let id = tmpid.substring(39);
+        $(".rfp_term_kpi_description_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+  
+  
+        if ((currentLength) > 5000) {
+          errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+          ccsZPresentErrorSummary(errorStore);
+          ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+        }
+      }
+    });
     //#region Number_of count 
     const checkHowManyKPIAddedSoFar = function () {
       for (var i = 1; i < 11; i++) {
@@ -133,6 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
       var contentlength=5000-term_box_1.value.length
       $(".rfp_term_kpi_description_1").text('You have '+contentlength+' characters remaining');
     }
+    let term_box = document.getElementById("rfp_term_service_levels_KPI_1")
+    if (term_box != undefined && term_box != null && term_box.value !== "") {
+      var contentlength=500-term_box.value.length
+      $(".rfp_term_kpi_title_1").text('You have '+contentlength+' characters remaining');
+    }
     for (var kpi_fieldset = 10; kpi_fieldset > 1; kpi_fieldset--) {
 
       let this_fieldset = document.querySelector(".acronym_service_levels_KPI_" + kpi_fieldset),
@@ -143,6 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (term_box != undefined && term_box != null && term_box.value !== "") {
         this_fieldset.classList.remove('ccs-dynaform-hidden');
+        var titlelength=500-term_box.value.length
+        $(".rfp_term_kpi_title_" + kpi_fieldset).text('You have '+titlelength+' characters remaining');
         this_fieldset.classList.remove('ccs-dynaform-hidden');
         document.getElementById("kpiKeyLevel").textContent = kpi_fieldset;
         deleteButtonCount.push(kpi_fieldset);
@@ -208,7 +235,32 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       checkHowManyKPIAddedSoFar();
     });
+    const removeErrorFieldsRfpScoreQuestion = () => {
+      $('.govuk-error-message').remove();
+      $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+      $('.govuk-error-summary').remove();
+      $('.govuk-input').removeClass('govuk-input--error');
+      $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+    };
+    $(".rfp_kpi_title_count").keyup(function () {
 
+      let errorStore = [];
+      removeErrorFieldsRfpScoreQuestion();
+      $(this).removeAttr('maxlength');
+      let currentLength = this.value.length;
+      let tmpid = $(this).attr('id');
+      let id = tmpid.substring(28);
+      $(".rfp_term_kpi_title_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+  
+  
+      if((currentLength)>500)
+      {
+      errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+      ccsZPresentErrorSummary(errorStore);
+      ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+      }
+  
+    });
 
     precentageInputs.forEach(db => {
       db.addEventListener("keydown", (event) => {

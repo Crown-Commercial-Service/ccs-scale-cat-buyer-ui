@@ -127,6 +127,14 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
           supplierDetailsList[index].supplierContactEmail = "NA"
 
       }
+      
+      supplierDetailsList.sort(function(a, b){
+        let firstElement = a.supplierName.toLocaleLowerCase();
+        let secondElement = b.supplierName.toLocaleLowerCase();
+        if(firstElement < secondElement) { return -1; }
+        if(firstElement > secondElement) { return 1; }
+        return 0;
+    })
       //Final Object
       let eventManagementData = {
         projectId,

@@ -1039,7 +1039,7 @@
           <p>{{overallratioQuestion2}}%
         </dd>
         <dd class="govuk-summary-list__actions border-bottom-rfp-review">
-            
+          </dd>
           </div>
      <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__value border-bottom-rfp-review">
@@ -1049,17 +1049,17 @@
           <p>{{overallratioQuestion1}}%
         </dd>
         <dd class="govuk-summary-list__actions border-bottom-rfp-review">
-            
+        </dd>
           </div>      
 {%endblock%}
     {%block The_overall_weighting_for_the_quality_categories%}    
     <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__value border-bottom-rfp-review">
+            <dt class="govuk-summary-list__key border-bottom-rfp-review">
           <h3><strong>The overall weighting for the quality categories</strong></h3>
            </dt>
        <dt class="govuk-summary-list__value border-bottom-rfp-review">
          
-           </dt>
+       </dt>
         <dd class="govuk-summary-list__actions border-bottom-rfp-review">
             {% if eventStatus != "published"%}
             {% if(buttonDisabled) %}
@@ -1080,6 +1080,8 @@
     <dd class="govuk-summary-list__value border-bottom-rfp-review">
       <p> {{technicalgroupquestion1}}%</p>
     </dd> 
+      <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+  </dd>
   </div>
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key border-bottom-rfp-review">
@@ -1088,7 +1090,9 @@
     <dd class="govuk-summary-list__value border-bottom-rfp-review">
        <p>{{culturalgroupquestion1}}%</p>
     </dd> 
-  </div
+        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+    </dd>
+  </div>
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
        <p> Social value  </p>  
@@ -1096,10 +1100,12 @@
     <dd class="govuk-summary-list__value ">
       <p> {{socialvaluegroupquestion1}}%</p>
     </dd> 
+            <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+        </dd>
   </div>
        
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__value">
+            <dt class="govuk-summary-list__key">
           <h3><strong>Your technical questions </strong></h3><br/>
           {%if techGroup !=undefined  and techGroup !=null and techGroup | length >0%}
           {% for data in techGroup%}
@@ -1135,7 +1141,7 @@
             </dd>
           </div>
           <div class="govuk-summary-list__row ">
-            <dt class="govuk-summary-list__value">
+            <dt class="govuk-summary-list__key">
           <h3><strong>Your cultural fit questions </strong></h3><br/><br/>
           {%if culGroup !=undefined  and culGroup !=null and culGroup | length >0%}
 
@@ -1173,7 +1179,7 @@
             </dd>
           </div>
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__value">
+            <dt class="govuk-summary-list__key">
           <h3><strong>Your social value questions </strong></h3><br/><br/>
           {%if socialGroup !=undefined  and socialGroup !=null and socialGroup | length >0%}
           
@@ -1233,7 +1239,7 @@
           {#</dl>
           <dl>#}
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__value border-bottom-rfp-review">
+            <dt class="govuk-summary-list__key border-bottom-rfp-review">
           <h3><strong>How you will score suppliers</strong></h3><br/><br/>
            </dt>
        <dt class="govuk-summary-list__value border-bottom-rfp-review">
@@ -1261,6 +1267,8 @@
     <dd class="govuk-summary-list__value border-bottom-rfp-review">
       <p> {{data.name}}</p>
     </dd> 
+    <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+    </dd>    
   </div>
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key border-bottom-rfp-review">
@@ -1269,6 +1277,8 @@
     <dd class="govuk-summary-list__value border-bottom-rfp-review">
        <p>{{data.id}}</p>
     </dd> 
+            <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+        </dd>
   </div>
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key border-bottom-rfp-review">
@@ -1277,6 +1287,9 @@
     <dd class="govuk-summary-list__value border-bottom-rfp-review">
       <p> {{data.text}}</p>
     </dd> 
+        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+        </dd>
+
   </div>
             
           {% endfor %}

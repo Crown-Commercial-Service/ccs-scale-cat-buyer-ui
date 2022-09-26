@@ -101,7 +101,7 @@
                     {{ CCSInput({
                         id: 'rfp_score_criteria_name_1',
                         name: 'score_criteria_level',
-                        classes: 'govuk-input govuk-input--width-20',
+                        classes: 'rfp_scoring_criteria_title govuk-input govuk-input--width-20',
                         hint: {
                             html:requirement.OCDS.description 
                         },
@@ -111,7 +111,7 @@
                             classes: 'govuk-label govuk-label--m'
                         }
                     }) }}
-                  
+                    <span class="rfp_scoring_criteria_title_count_1 remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>                 
                
                {{ CCSInput({
                             label: {
@@ -135,7 +135,7 @@
                     {{  CCSTextarea({
                         id: 'rfp_score_criteria_desc_1',
                         name: 'score_criteria_desc',
-                        classes: 'govuk-textarea govuk-label--m',
+                        classes: 'rfp_scoring_criteria_description govuk-textarea govuk-label--m',
                         label: {
                             text: 'Enter the description for this level',
                             classes: 'govuk-label govuk-label--m'
@@ -147,7 +147,7 @@
                         }
                         })
                     }}
-                  
+                  <span class="rfp_scoring_criteria_description_count_1 remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>                 
                     {% endcall %}
        {% for i in range(2, 11) -%}
                          {% call CCSFieldset({
@@ -163,7 +163,7 @@
                         {{ CCSInput({
                             id: 'rfp_score_criteria_name_'+i,
                             name: 'score_criteria_level',
-                            classes: 'govuk-input govuk-input--width-20',
+                            classes: 'rfp_scoring_criteria_title govuk-input govuk-input--width-20',
                             hint: {
                                 text: "Use the words that best reflect the scoring level,and that can be used alongside other criteria.For example 'pass' or 'fail',or 'excellent','good','poor'"
                             },
@@ -173,6 +173,7 @@
                                 classes: 'govuk-label govuk-label--m'
                             }
                         }) }}
+                        <span class="rfp_scoring_criteria_title_count_{{i}} remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[i].text | length))}} characters remaining</span>                 
                         {{ CCSInput({
                             label: {
                                 text: 'Enter the score for this level',
@@ -192,7 +193,7 @@
                         {{  CCSTextarea({
                             id: "rfp_score_criteria_desc_"+i,
                             name: "score_criteria_desc",
-                            classes: 'govuk-textarea govuk-label--m',
+                            classes: 'rfp_scoring_criteria_description govuk-textarea govuk-label--m',
                             label: {
                                 text: 'Enter the description for this level',
                                 classes: 'govuk-label govuk-label--m'
@@ -201,7 +202,7 @@
                             text:"Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed."
                             }
                         }) }}
-                        
+                        <span class="rfp_scoring_criteria_description_count_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>                 
                        {% endcall %}
                     {%- endfor %}
                     
@@ -375,7 +376,7 @@
                         value: requirement.nonOCDS.options[0].value
                       })
                   }}
-
+<span class="rfp_contract_auth_count remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>
               {{  CCSInput({
                         id: "question_id",
                         name: "question_id",
@@ -882,10 +883,14 @@
                               },
                               id: "rfp_term_1",
                               name: "term",
-                              classes: "rfp_term_1",
-                              value:requirement.nonOCDS.options[0].value
+                              classes: "rfp_term_title_count rfp_term_1",
+                              value:requirement.nonOCDS.options[0].value,
+                              maxlength:"500"
                             })
                           }}
+                          
+                        <span class="term_accr_title_1 remaining_chrs_term">You have {{ (500-(requirement.nonOCDS.options[0].value | length))}} characters remaining</span>
+
                         {{ CCSTextarea({
                               name: "value",
                               id: "rfp_term_definition_1",
@@ -897,7 +902,7 @@
                             })
                           }}
 
-                         <span class="term_accr_des_1 remaining_chrs_term">You have 5000 characters remaining</span>
+                         <span class="rfp_term_definition_1 remaining_chrs_term">You have {{ (5000-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>
 
                           <br>
                         {# {{ CCSInput({
@@ -946,11 +951,11 @@
                                 },
                                 id: "rfp_term_"+i,
                                 name: "term",
-                                classes: "rfp_term_"+i,
+                                classes: "rfp_term_title_count rfp_term_"+i,
                                 value:requirement.nonOCDS.options[i-1].value
                               })
                             }}
-
+                          <span class="term_accr_title_{{i}}  remaining_chrs_term">You have {{ (500-(requirement.nonOCDS.options[i-1].value | length))}} characters remaining</span>
                           {{ CCSTextarea({
                                 name: "value",
                                 id: "rfp_term_definition_"+i,
@@ -961,7 +966,7 @@
                                 value:  requirement.nonOCDS.options[i-1].text
                               })
                             }}
-                          <span class="term_accr_des_{{i}} remaining_chrs_term">You have 5000 characters remaining</span>
+                          <span class=" rfp_term_definition_{{i}} remaining_chrs_term">You have {{ (5000-(requirement.nonOCDS.options[i-1].text | length))}} characters remaining</span>
                           <br>
                           {# {{ CCSInput({
                                   label: {
@@ -1019,10 +1024,12 @@
                               },
                               id: "rfp_term_service_group_1",
                               name: "term",
-                              classes: "rfp_term_service_user_type_1",
-                              value:  requirement.nonOCDS.options[0].value
+                              classes: "rfp_term_service_count rfp_term_service_user_type_1",
+                              value:  requirement.nonOCDS.options[0].value,
+                              maxlength : 500
                             })
                           }}
+                          <span class="rfp_term_more_service_group_1 remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>
                         {{ CCSTextarea({
                               name: "value",
                               id: "rfp_term_more_details_1",
@@ -1034,7 +1041,7 @@
                               value:requirement.nonOCDS.options[0].text
                             })
                           }}
-                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have 5000 characters remaining</span>
+                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[0].value | length))}} characters remaining</span>
                         {% endcall %}
                         {% set NumberWord = [
                           'zero',
@@ -1068,11 +1075,11 @@
                                 },
                                 id: "rfp_term_service_group_"+i,
                                 name: "term",
-                                classes: "rfp_term__Service_user_type_"+i,
-                                value: requirement.nonOCDS.options[i-1].text
+                                classes: "rfp_term_service_count rfp_term__Service_user_type_"+i,
+                                value: requirement.nonOCDS.options[i-1].value
                               })
                             }}
-
+              <span class="rfp_term_more_service_group_{{i}} remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[i-1].text | length))}} characters remaining</span>
                           {{ CCSTextarea({
                                 name: "value",
                                 id: "rfp_term_more_details_"+i,
@@ -1081,10 +1088,10 @@
                                 },
                                 maxlength:"5000",
                                 classes: "rfp_term_more_description_count rfp_term_more_details_"+i,
-                                value: requirement.nonOCDS.options[i-1].value
+                                value: requirement.nonOCDS.options[i-1].text
                               })
                             }}
-                             <span class="rfp_term_more_details_{{i}} remaining_chrs_term">You have 5000 characters remaining</span>
+                             <span class="rfp_term_more_details_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1].value | length))}} characters remaining</span>
                           {% endcall %}
                        
                         {%- endfor %}
@@ -1129,10 +1136,12 @@
                               
                               id: "rfp_term_service_levels_KPI_1",
                               name: "term",
-                              classes: "rfp_term_1",
-                              value: requirement.nonOCDS.options[0][0].value
+                              classes: "rfp_kpi_title_count rfp_term_1",
+                              value: requirement.nonOCDS.options[0][0].value,
+                              maxlength : "500"
                             })
                           }}
+                          <span class="rfp_term_kpi_title_1 remaining_chrs_term">You have {{500-requirement.nonOCDS.options[0][0].value | length}} characters remaining</span>
                           <p class="govuk-p-margin-bottom"> <strong>Description of the criteria </strong> </p><p> For example, 'Deliveries should be received within three working days of when the order is placed'. </p>
                         {{ CCSTextarea({
                               name: "value",
@@ -1188,10 +1197,12 @@
                                 
                                 id: "rfp_term_service_levels_KPI_"+i,
                                 name: "term",
-                                classes: "rfp_term_name_requirement_KPI_"+i,
-                                value: requirement.nonOCDS.options[i-1][0].value
+                                classes: "rfp_kpi_title_count rfp_term_name_requirement_KPI_"+i,
+                                value: requirement.nonOCDS.options[i-1][0].value,
+                                 maxlength : "500"
                               })
                             }}
+                            <span class="rfp_term_kpi_title_{{i}} remaining_chrs_term">You have {{500-requirement.nonOCDS.options[i-1][0].value | length}} characters remaining</span>
                         <p class="govuk-p-margin-bottom"><strong> Description of the criteria </strong></p><p> For example, 'Deliveries should be received within three working days of when the order is placed'. </p>
                           {{ CCSTextarea({
                                 name: "value",

@@ -66,11 +66,19 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       const group_id = 'Key Dates';
       const question_id = answers;
       const findFilterQuestion = filterWithQuestions.filter(question => question.Question === question_id);
-      const findFilterValues = findFilterQuestion[0].value;
-      const filtervalues=moment(
+      let findFilterValues = findFilterQuestion[0].value;
+      let filtervalues;
+      if(question_id=='Question 1')
+      {
+        filtervalues=moment(
+          findFilterValues,
+          'DD MMMM YYYY',
+        ).format('YYYY-MM-DDTHH:mm:ss') + 'Z';
+      }
+      else{filtervalues= moment(
         findFilterValues,
-        'DD MMMM YYYY, hh:mm a ',
-      ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
+        'DD MMMM YYYY, hh:mm a',
+      ).format('YYYY-MM-DDTHH:mm:ss') + 'Z';}
       const answerformater = {
         value: filtervalues,
         selected: true,

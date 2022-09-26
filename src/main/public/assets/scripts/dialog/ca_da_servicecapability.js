@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $(function () {
     $('.nav-popup').on('click', function () {
+
       if ($(this).hasClass('selected')) {
         deselect($(this));
         $(".backdrop-nav-menu").fadeOut(200);
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
       deselect($('.dialog-close-vetting'));
       return false;
     }); */
+    
     // $('.dialog-close-nav-menu').on('click', function () {
     //   $(".backdrop-nav-menu").fadeOut(200);
     //   deselect($('.dialog-close-nav-menu'));
