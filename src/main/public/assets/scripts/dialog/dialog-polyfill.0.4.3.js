@@ -121,13 +121,12 @@ $(function () {
     return false;
   });
 
+/*   $('.dialog-close-vetting').on('click', function () {
   $('.dialog-close-vetting').on('click', function () {
-    alert("close works");
-    return;
     $('.backdrop-vetting').fadeOut(200);
     deselect($('.dialog-close-vetting'));
     return false;
-  });
+  }); */
 
   $('.dialog-close-tier-4').on('click', function () {
     $('.backdrop-tier-4').fadeOut(200);
