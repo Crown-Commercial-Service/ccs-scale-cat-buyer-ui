@@ -89,6 +89,11 @@ function removeClass() {
 
 $('.dialog-close-evaluatesuppliers').on('click', function () {
   $(".backdrop-evaluatesuppliers").fadeOut(200);
+  $('#evaluate_suppliers').attr('aria-label','confirm scores'); 
+  $('#evaluate_suppliers').attr('role','button');      
+  setTimeout(()=>{
+    document.getElementById('evaluate_suppliers').focus();
+  },300)
   deselect($('.dialog-close-evaluatesuppliers'));
   return false;
 });

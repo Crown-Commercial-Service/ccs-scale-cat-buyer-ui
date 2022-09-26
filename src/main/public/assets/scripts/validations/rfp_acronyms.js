@@ -290,6 +290,23 @@ $(".rfp_term_title_count").keyup(function () {
   }
 
 });
+$(".terms_acr_description_count ").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpAcronymQuestion();
+  $(this).removeAttr('maxlength');
+  let currentLength = this.value.length;
+  let tmpid = $(this).attr('id');
+  let id = tmpid.substring(20);
+  $(".rfp_term_definition_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+
+  if((currentLength)>5000)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
 const emptyFieldCheckRfp1 = () => {
   let fieldCheck = "",
     errorStore = [];

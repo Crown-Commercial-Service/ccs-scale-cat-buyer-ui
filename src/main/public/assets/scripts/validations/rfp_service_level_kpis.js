@@ -32,6 +32,26 @@ document.addEventListener('DOMContentLoaded', () => {
       $('.govuk-input').removeClass('govuk-input--error');
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
     };
+    $(".rfp_kpi_description_count").keyup(function () {
+      const pageHeading = document.getElementById('page-heading') != undefined && document.getElementById('page-heading') != null ? document.getElementById('page-heading').innerHTML : null;
+
+      if (!pageHeading?.includes("Enter your project requirements") && !pageHeading?.includes("Write your social value questions")) {
+        let errorStore = [];
+        removeErrorFieldsRfpScoreQuestion();
+        $(this).removeAttr('maxlength');
+        let currentLength = this.value.length;
+        let tmpid = $(this).attr('id');
+        let id = tmpid.substring(39);
+        $(".rfp_term_kpi_description_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+  
+  
+        if ((currentLength) > 5000) {
+          errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+          ccsZPresentErrorSummary(errorStore);
+          ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+        }
+      }
+    });
     //#region Number_of count 
     const checkHowManyKPIAddedSoFar = function () {
       for (var i = 1; i < 11; i++) {

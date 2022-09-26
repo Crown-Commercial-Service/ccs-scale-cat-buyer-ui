@@ -81,6 +81,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         releatedContent: releatedContent,
         storage: TOTALSUM,
       };
+      let istcupload=false;
       if (termsNcond != undefined) {
         delete req.session["termsNcond"];
          if (errorList==null) {
@@ -88,8 +89,9 @@ export const FILEUPLOADHELPER: express.Handler = async (
          }
          
          if (termsNcond.IsDocumentError && !termsNcond.IsFile) {
-           errorList.push({ text: "You must upload terms and conditions.", href: "#rfp_offline_document" });
+           errorList.push({ text: "You must upload terms and conditions.", href: "#rfp_offline_document_tc_message" });
            fileError=true;
+           istcupload=true;
          }
        }
       if (fileObjectIsEmpty) {
@@ -98,7 +100,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         delete req.session["fileObjectIsEmpty"]
       }
       if (fileError && errorList !== null) {
-        windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
+        windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList,istcupload});
       }
 
       if (fileNameStorageTermsNcond !=undefined && fileNameStorageTermsNcond.length <=0) {

@@ -84,6 +84,15 @@
                   {% if (storage < 1000000000) %}
                     <form action="/rfp/upload-doc" method="post" encType="multipart/form-data">
                       {{ csrfProtection(csrf) }}
+                       <div id= "rfp_offline_document_tc_message">
+   {% if (istcupload)%}
+    <p id="rfp_offline_document_tc_message-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+               You must upload terms and conditions.
+                  </p>
+                           
+                              {%endif %}
+                              </div>
                       {{ CCSFileUpload({
               id: "rfp_offline_document",
               name: "rfp_offline_document",
