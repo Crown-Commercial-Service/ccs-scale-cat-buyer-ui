@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $(function () {
     $('.nav-popup').on('click', function () {
+
       if ($(this).hasClass('selected')) {
         deselect($(this));
         $(".backdrop-nav-menu").fadeOut(200);
@@ -68,16 +69,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     });
 
-    $('.dialog-close-vetting').on('click', function () {
+/*     $('.dialog-close-vetting').on('click', function () {
       $(".backdrop-vetting").fadeOut(200);
       deselect($('.dialog-close-vetting'));
       return false;
-    });
-    $('.dialog-close-nav-menu').on('click', function () {
-      $(".backdrop-nav-menu").fadeOut(200);
-      deselect($('.dialog-close-nav-menu'));
-      return false;
-    });
+    }); */
+    
+    // $('.dialog-close-nav-menu').on('click', function () {
+    //   $(".backdrop-nav-menu").fadeOut(200);
+    //   deselect($('.dialog-close-nav-menu'));
+    //   return false;
+    // });
 
 /*     $('#redirect-button-nav-menu').on('click', function () {
       deselect($('.dialog-close-nav-menu'));

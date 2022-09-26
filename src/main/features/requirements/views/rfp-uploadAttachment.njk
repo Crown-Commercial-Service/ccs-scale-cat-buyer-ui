@@ -50,6 +50,15 @@
                     <div id="upload_doc_form">
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-full" id="documents_upload">
+                             <div id= "rfp_offline_document_message">
+   {% if (isupload)%}
+    <p id="rfp_offline_document_message-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                 You must upload your pricing schedule.
+                  </p>
+                           
+                              {%endif %}
+                              </div>
                                 <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">Upload a file</label>
                                 <span id="rfp_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
                                 <p class="govuk-body-s"> {{data.filedesc}}</p>
@@ -134,7 +143,16 @@
                     </span>
                     <br>
                 </div>#}
- <form action="/rfp/upload-attachment/proceed" method="post">  
+ <form action="/rfp/upload-attachment/proceed" method="post"> 
+  <div id= "rfp_confirm_upload_message">
+   {% if (isconfirm)%}
+    <p id="rfp_confirm_upload_message-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                 You must confirm the statement.
+                  </p>
+                           
+                              {%endif %}
+                              </div>
                {{ CCSCheckboxes({
                     idPrefix: "rfp_confirm_upload",
                     name: "rfp_confirm_upload",

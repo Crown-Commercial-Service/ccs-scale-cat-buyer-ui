@@ -63,13 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
       allElements[i].classList.remove('nav-popup');
     }
   }
-
+/* 
   $('.dialog-close-vetting').on('click', function () {
     
     $(".backdrop-vetting").fadeOut(200);
     deselect($('.dialog-close-vetting'));
     return false;
-  });
+  }); */
 
   $('#redirect-button-vetting').on('click', function () {
     

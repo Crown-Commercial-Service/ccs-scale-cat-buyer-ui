@@ -77,41 +77,7 @@ if(totalVetting<100 || totalVetting>100)
     }
     
 
-        for (var a = 1; a < totalInputFields.length; a++) {
-            const classTarget = document.getElementsByClassName("error_check_weight")[a - 1];
         
-            if (classTarget.value != '') {
-                inputtedtext.push(true)
-            }
-            if (classTarget.value.includes('.')) {
-                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Enter whole numbers only ';
-
-                decimalnumber.push(true)
-            }
-            else if (isNaN(classTarget.value) && classTarget.value !== '') {
-                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Enter whole numbers only';
-                nonnumerical.push(true);
-            }
-            else if (classTarget.value > 99 && classTarget.value != '') {
-                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                rolebox_validation.push(true);
-            }
-            else if (classTarget.value <= 0 && classTarget.value !== '') {
-                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
-                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                preventDefaultState.push(true);
-            }
-            else {
-                document.getElementsByClassName("weight_class")[a - 1].classList.remove('govuk-input--error')
-                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = '';
-                // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
-            }
-   
-        }
-
         for (var a = 1; a < stafffield.length; a++) {
             const classTarget = document.getElementsByClassName("error_check_staff")[a - 1];
             if (classTarget.value != '') {
@@ -121,22 +87,22 @@ if(totalVetting<100 || totalVetting>100)
                 document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("da_weight_staff_class_error")[a - 1].innerHTML = 'Enter whole numbers only  ';
 
-                decimalnumber.push(true)
+                decimalnumber.push({id:document.getElementsByClassName("weight_staff_class")[a - 1].id,isError:true})
             }
             else if (isNaN(classTarget.value) && classTarget.value !== '') {
                 document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("da_weight_staff_class_error")[a - 1].innerHTML = 'Enter whole numbers only';
-                nonnumerical.push(true);
+                nonnumerical.push({id:document.getElementsByClassName("weight_staff_class")[a - 1].id,isError:true});
             }
             else if (classTarget.value >100 && classTarget.value !== '') {
                 document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("da_weight_staff_class_error")[a - 1].innerHTML = 'Value entered in any [Weighting for number of staff] entry box <= 100';
-                staffval.push(true);
+                staffval.push({id:document.getElementsByClassName("weight_staff_class")[a - 1].id,isError:true});
             }
             else if (classTarget.value <= 0 && classTarget.value !== '') {
                 document.getElementsByClassName("weight_staff_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("da_weight_staff_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                preventDefaultState.push(true);
+                preventDefaultState.push({id:document.getElementsByClassName("weight_staff_class")[a - 1].id,isError:true});
             }
             else {
                 document.getElementsByClassName("weight_staff_class")[a - 1].classList.remove('govuk-input--error')
@@ -154,22 +120,22 @@ if(totalVetting<100 || totalVetting>100)
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("da_weight_vetting_class_p_error")[a - 1].innerHTML = 'Enter whole numbers only  ';
 
-                decimalnumber.push(true)
+                decimalnumber.push({id:document.getElementsByClassName("weight_vetting_class")[a - 1].id,isError:true})
             }
             else if (isNaN(classTarget.value) && classTarget.value !== '') {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("da_weight_vetting_class_p_error")[a - 1].innerHTML = 'Enter whole numbers only';
-                nonnumerical.push(true);
+                nonnumerical.push({id:document.getElementsByClassName("weight_vetting_class")[a - 1].id,isError:true});
             }
             else if (classTarget.value >100 && classTarget.value !== '') {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("da_weight_vetting_class_p_error")[a - 1].innerHTML = 'Value entered in any [Weighting for related vetting requirement] entry box <= 100';
-                vettval.push(true);
+                vettval.push({id:document.getElementsByClassName("weight_vetting_class")[a - 1].id,isError:true});
             }
             else if (classTarget.value <= 0 && classTarget.value !== '') {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("da_weight_vetting_class_p_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                preventDefaultState.push(true);
+                preventDefaultState.push({id:document.getElementsByClassName("weight_vetting_class")[a - 1].id,isError:true});
             }
             else {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.remove('govuk-input--error')
@@ -177,138 +143,65 @@ if(totalVetting<100 || totalVetting>100)
                 // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
             }
         }
+        for (var a = 1; a < totalInputFields.length; a++) {
+            const classTarget = document.getElementsByClassName("error_check_weight")[a - 1];
         
-        /**
-         *  
-         */
+            if (classTarget.value != '') {
+                inputtedtext.push(true)
+            }
+            if (classTarget.value.includes('.')) {
+                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Enter whole numbers only ';
 
-        /*switch (true) {
-            case (preventDefaultState.length > 0 && decimalnumber.length > 0 && nonnumerical.length > 0):
+                decimalnumber.push({id:document.getElementsByClassName("weight_class")[a - 1].id,isError:true})
+            }
+            else if (isNaN(classTarget.value) && classTarget.value !== '') {
+                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Enter whole numbers only';
+                nonnumerical.push({id:document.getElementsByClassName("weight_class")[a - 1].id,isError:true});
+            }
+            else if (classTarget.value > 99 && classTarget.value != '') {
+                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
+                rolebox_validation.push({id:document.getElementsByClassName("weight_class")[a - 1].id,isError:true});
+            }
+            else if (classTarget.value <= 0 && classTarget.value !== '') {
+                document.getElementsByClassName("weight_class")[a - 1].classList.add('govuk-input--error')
+                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
+                preventDefaultState.push({id:document.getElementsByClassName("weight_class")[a - 1].id,isError:true});
+            }
+            else {
+                document.getElementsByClassName("weight_class")[a - 1].classList.remove('govuk-input--error')
+                document.getElementsByClassName("da_weight_class_error")[a - 1].innerHTML = '';
+                // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
+            }
+   
+        }
 
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">Enter whole numbers only</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (preventDefaultState.length > 0 && decimalnumber.length > 0):
-
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (preventDefaultState.length > 0 && nonnumerical.length > 0):
-
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">Enter whole numbers only</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (decimalnumber.length > 0 && nonnumerical.length > 0):
-
-                e.preventDefault();
-                $('#da_vetting_error_summary').removeClass('hide-block');
-                $('.govuk-error-summary__title').text('There is a problem');
-                $("#da_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">Enter whole numbers only</a></li>');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
-                break;
-            case (preventDefaultState.length > 0):
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast');
-                    break;
-                case (nonnumerical.length > 0):
-
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">Enter whole numbers only</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast');
-                    break;
-                case (decimalnumber.length > 0):
-
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast');
-                    break;
-                    
-                 case (rolevalidation.length>0):
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">At least 1 DDaT role must be populated with a quantity value</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast'); 
-                    break; 
-                    
-                    case(staffval.length>0):
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">The number of staff weightings for all Role Family entries must = 100%</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast'); 
-                    break;
-                
-                    case(vettval.length>0):
-                    e.preventDefault();
-                    $('#da_vetting_error_summary').removeClass('hide-block');
-                    $('.govuk-error-summary__title').text('There is a problem');
-                    $("#da_summary_list").html('<li><a href="#">The number of vetting weightings for all Role Family entries must = 100%</a></li>');
-                    $('html, body').animate({ scrollTop: 0 }, 'fast'); 
-                    break;
         
-
-                default:
-                    console.log("If all else fails");
-                    break;
-            }*/
+        
             let errormsg='';
             if(preventDefaultState.length > 0 || decimalnumber.length > 0 || nonnumerical.length > 0 || rolevalidation.length>0 || staffval.length>0 || vettval.length> 0 || rolebox_validation.length>0)
             {
-                if(preventDefaultState.length > 0 && decimalnumber.length > 0 && nonnumerical.length > 0)
-
-
-                errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>';
-
-                if(preventDefaultState.length > 0 && decimalnumber.length > 0)
-
-
-                errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li>';
-
-                if (preventDefaultState.length > 0 && nonnumerical.length > 0)
-
-
-                errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field must be a number</a></li>';
-
-                if (decimalnumber.length > 0 && nonnumerical.length > 0)
-
-
-                errormsg=errormsg+'<li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>';
-
+                
                 if (preventDefaultState.length > 0)
 
 
-                errormsg=errormsg+'<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>';
+                errormsg=errormsg+'<li><a href="#'+preventDefaultState[0].id+'">The input field must be a number less than 100 and greater than 0</a></li>';
 
                 if (nonnumerical.length > 0)
 
 
-                errormsg=errormsg+'<li><a href="#">The input field must be a number</a></li>';
+                errormsg=errormsg+'<li><a href="#'+nonnumerical[0].id+'">The input field must be a number</a></li>';
 
                 if (decimalnumber.length > 0)
 
 
-                errormsg=errormsg+'<li><a href="#">The input field should not contain decimal values</a></li>';
+                errormsg=errormsg+'<li><a href="#'+decimalnumber[0].id+'">The input field should not contain decimal values</a></li>';
 
                 if (rolevalidation.length>0)
 
-                errormsg=errormsg+'<li><a href="#">At least 1 DDaT role must be populated with a quantity value</a></li>';
+                errormsg=errormsg+'<li><a href="#'+rolevalidation[0].id+'">At least 1 DDaT role must be populated with a quantity value</a></li>';
                 
                 if(staffval.length>0)
 
@@ -320,7 +213,7 @@ if(totalVetting<100 || totalVetting>100)
 
                 if(rolebox_validation.length>0)
 
-                errormsg=errormsg+'<li><a href="#">Value entered in [How many people you need for this role family?] <= 99</a></li>';
+                errormsg=errormsg+'<li><a href="#'+rolebox_validation[0].id+'">Value entered in [How many people you need for this role family?] <= 99</a></li>';
 
                 e.preventDefault();
                 $('#da_vetting_error_summary').removeClass('hide-block');
