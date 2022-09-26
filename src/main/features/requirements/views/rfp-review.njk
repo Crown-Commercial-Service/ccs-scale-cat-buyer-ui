@@ -27,7 +27,47 @@
                 ' seventh',
                 ' eight',
                 ' ninth',
-                ' tenth'
+                ' tenth',
+                 'Eleventh',
+                'Twelveth',
+                'Thirteenth',
+                'Fourteenth',
+                'Fifteenth',
+                'Sixteenth',
+                'Seventeenth',
+                'Eighteenth',
+                'Nineteenth',
+                'Twentyth',
+                'Twenty-one',
+                'Twenty-two',
+                'Twenty-three',
+                'Twenty-four',
+                'Twenty-five',
+                'Twenty-six',
+                'Twenty-seven',
+                'Twenty-eight',
+                'Twenty-nine',
+                'Thirty',
+                'Thirty-one',
+                'Thirty-two',
+                'Thirty-three',
+                'Thirty-four',
+                'Thirty-five',
+                'Thirty-six',
+                'Thirty-seven',
+                'Thirty-eight',
+                'Thirty-nine',
+                'Forty',
+                'Forty-one',
+                'Forty-two',
+                'Forty-three',
+                'Forty-four',
+                'Forty-five',
+                'Forty-six',
+                'Forty-seven',
+                'Forty-eight',
+                'Forty-nine',
+                'Fifty'
               ] %}
 
 {% block breadCrumb %}
@@ -787,37 +827,15 @@
                       
                   </dd>
                   </div>
- {%endblock%}                 
-                  <div class="govuk-summary-list__row">
-                  <dt class="govuk-summary-list__value">
-                      <h3><strong>Your project requirements</strong></h3><br />
-                      {%if reqGroup !=undefined  and reqGroup !=null and numberWordSmall !=undefined and numberWordSmall !=null and numberWordSmall !='' and reqGroup | length >0%}
-                      {% set i=1 %}
-
-                      {% for data in reqGroup%}
-                      {% set text = "Name of the" +numberWordSmall[i]+" requirement group"%}
-                      <p>{{text}}</p>
-                      {% set text2 = "Name of the" +numberWordSmall[i]+" requirement"%}
-                      <p>{{text2}}</p>
-                      {% set text3 = "Description of the" +numberWordSmall[i]+" requirement"%}
-                      <p>{{text3}}</p><br />
-                      {% set i=i+1 %}
-                      {% endfor %}
-                      {% endif %}
+ {%endblock%}      
+            <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <h3><strong>Your project requirements</strong></h3> 
                   </dt>
-                  <dd class="govuk-summary-list__value">
-                      <br /><br /><br />
-                      {%if reqGroup !=undefined  and reqGroup !=null and reqGroup | length >0%}
-                      {% for data in reqGroup%}
-                      <p>{{data.title}}</p>
-                      <p>{{data.group}}</p>
-                      <p>{{data.desc}}</p><br />
-                      {% endfor %}
-
-                      {%endif%}
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
                       
                   </dd>
-                  <dd class="govuk-summary-list__actions">
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
                       {% if eventStatus != "published"%}
                       {% if(buttonDisabled) %}
                       <a class="govuk-link govuk-a-disabled" href="/rfp/questions?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 24">
@@ -829,6 +847,49 @@
                       {% endif %}
                   </dd>
                   </div>
+                  {%if reqGroup !=undefined  and reqGroup !=null and reqGroup | length >0%}
+                      {% for data in reqGroup%}
+                  <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                        <p>Name of the {{numberWordSmall[loop.index].toLowerCase()}}  requirement group</p>
+                        </dt>
+                        <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                        {{data.title}}
+                        </dd>
+                        <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                            
+                        </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                          <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                          <p>Name of the  {{numberWordSmall[loop.index].toLowerCase()}} requirement</p>
+                          </dt>
+                          <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                          {{data.group}}
+                          </dd>
+                          <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                              
+                          </dd>
+                  </div>
+                  <div class="govuk-summary-list__row">
+                          <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                          <p>Name of the {{numberWordSmall[loop.index].toLowerCase()}}  requirement</p>
+                          </dt>
+                          <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                          {{data.desc}}
+                          </dd>
+                          <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                              
+                          </dd>
+                  </div>
+                      {# <p>{{data.title}}</p>
+                      <p>{{data.group}}</p>
+                      <p>{{data.desc}}</p><br /> #}
+                      {% endfor %}
+
+                      {%endif%}
+                  
               </dl>
 {%endblock%}
        {# ----END-----Add context to your further competition #}
@@ -1103,119 +1164,220 @@
             <dd class="govuk-summary-list__actions border-bottom-rfp-review">
         </dd>
   </div>
-       
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-          <h3><strong>Your technical questions </strong></h3><br/>
-          {%if techGroup !=undefined  and techGroup !=null and techGroup | length >0%}
-          {% for data in techGroup%}
-          <p>Your question</p><br/>
-          <p>Enter more details about your question</p><br/>
-          <p>Explain what good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/><br/>
-          {% endfor %}
-          {%endif%}
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <br/><br/><br/>
+ {# -------------------------------Your technical questions--------------------------------------- #}
+       <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                       <h3><strong>Your technical questions </strong></h3>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                     
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      {% if eventStatus != "published"%}
+                        {% if(buttonDisabled) %}
+                          <a class="govuk-link govuk-a-disabled" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 4">
+                        Change<span class="govuk-visually-hidden">Your technical questions</span>
+                          </a>
+                          {%else%}<a class="govuk-link" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 4">
+                        Change<span class="govuk-visually-hidden">Your technical questions</span>
+                          </a>{%endif%}
+                          {% endif %}
+                  </dd>
+                  </div>
           {%if techGroup !=undefined  and techGroup !=null and techGroup | length >0%}
 
           {% for data in techGroup%}
-          <p>{{data.tech}}</p><br/>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Your question</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.tech}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+                  </div>
+            <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Enter more details about your question</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.add}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Enter a weighting for this question</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.weight}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+              </div>
+          {# <p>{{data.tech}}</p><br/>
           <p>{{data.add}}</p><br/>
           <p>{{data.good}}</p><br/>
-          <p>{{data.weight}}%</p><br/><br/>
+          <p>{{data.weight}}%</p><br/><br/> #}
           {% endfor %}
           {%endif%}
-        </dd>
-        <dd class="govuk-summary-list__actions border-top-rfp-review-">
-            {% if eventStatus != "published"%}
-            {% if(buttonDisabled) %}
-              <a class="govuk-link govuk-a-disabled" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 4">
-            Change<span class="govuk-visually-hidden">Your technical questions</span>
-              </a>
-              {%else%}<a class="govuk-link" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 4">
-            Change<span class="govuk-visually-hidden">Your technical questions</span>
-              </a>{%endif%}
-              {% endif %}
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row ">
-            <dt class="govuk-summary-list__key">
-          <h3><strong>Your cultural fit questions </strong></h3><br/><br/>
-          {%if culGroup !=undefined  and culGroup !=null and culGroup | length >0%}
+          {# ------------------------------end Your technical questions--------------- #}
+{# ---------------------------------START-Your cultural fit questions----------------------------------------------- #}
+          
+<div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                       <h3><strong>Your cultural fit questions </strong></h3>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                     
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      {% if eventStatus != "published"%}
+                      {% if(buttonDisabled) %}
+                        <a class="govuk-link govuk-a-disabled" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 5">
+                      Change<span class="govuk-visually-hidden">Your cultural fit questions</span>
+                        </a>
+                        {%else%}<a class="govuk-link" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 5">
+                      Change<span class="govuk-visually-hidden">Your cultural fit questions</span>
+                        </a>{%endif%}
+                    {% endif %}
+                  </dd>
+                  </div>
+      {%if culGroup !=undefined  and culGroup !=null and culGroup | length >0%}
 
           {% for data in culGroup%}
-          <p>Your question</p><br/>
-          <p>Enter more details about your question</p><br/>
-          <p>Explain what good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/><br/>
-          {% endfor %}
-          {% endif %}
-
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <br/><br/><br/><br/>
-          {%if culGroup !=undefined  and culGroup !=null and culGroup | length >0%}
-
-          {% for data in culGroup%}
-          <p>{{data.tech}}</p><br/>
+          <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Your question</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.tech}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+                  </div>
+            <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Enter more details about your question</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.add}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Explain what good looks like</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.good}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Enter a weighting for this question</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.weight}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+              </div>
+          
+          {# <p>{{data.tech}}</p><br/>
           <p>{{data.add}}</p><br/>
           <p>{{data.good}}</p><br/>
-          <p>{{data.weight}}%</p><br/><br/>
+          <p>{{data.weight}}%</p><br/><br/> #}
           {% endfor %}
           {%endif%}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-            {% if eventStatus != "published"%}
-            {% if(buttonDisabled) %}
-              <a class="govuk-link govuk-a-disabled" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 5">
-            Change<span class="govuk-visually-hidden">Your cultural fit questions</span>
-              </a>
-              {%else%}<a class="govuk-link" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 5">
-            Change<span class="govuk-visually-hidden">Your cultural fit questions</span>
-              </a>{%endif%}
-              {% endif %}
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-          <h3><strong>Your social value questions </strong></h3><br/><br/>
-          {%if socialGroup !=undefined  and socialGroup !=null and socialGroup | length >0%}
-          
-          {% for data in socialGroup%}
-          <p>Your question</p><br/>
-          <p>Enter more details about your question</p><br/>
-          <p>Explain what good looks like</p><br/>
-          <p>Enter a weighting for this question</p><br/><br/>
-          {% endfor %}
-          {% endif %}
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <br/><br/><br/><br/>
-          {%if socialGroup !=undefined  and socialGroup !=null and socialGroup | length >0%}
+{# ---------------------------end-Your cultural fit questions---------------------------------- #}
+{# ---------------------------START-Your social value questions---------------------------------- #}
+ <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                       <h3><strong>Your social value questions </strong></h3>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                     
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      {% if eventStatus != "published"%}
+                        {% if(buttonDisabled) %}
+                          <a class="govuk-link govuk-a-disabled" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 6">
+                        Change<span class="govuk-visually-hidden">Your social value questions</span>
+                          </a>
+                          {%else%}<a class="govuk-link" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 6">
+                        Change<span class="govuk-visually-hidden">Your social value questions</span>
+                        </a>{%endif%}
+                        {% endif %}
+                  </dd>
+                  </div>
+{%if socialGroup !=undefined  and socialGroup !=null and socialGroup | length >0%}
 
           {% for data in socialGroup%}
-          <p>{{data.tech}}</p><br/>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Your question</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.tech}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+                  </div>
+            <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Enter more details about your question</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.add}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Explain what good looks like</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.good}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                      <p>Enter a weighting for this question</p>
+                  </dt>
+                  <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                      <p>{{data.weight}}</p>
+                  </dd>
+                  <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                      
+                  </dd>
+              </div>
+          {# <p>{{data.tech}}</p><br/>
           <p>{{data.add}}</p><br/>
           <p>{{data.good}}</p><br/>
-          <p>{{data.weight}}%</p><br/><br/>
+          <p>{{data.weight}}%</p><br/><br/> #}
           {% endfor %}
-          {% endif %}
-          
-        </dd>
-        <dd class="govuk-summary-list__actions">
-            {% if eventStatus != "published"%}
-            {% if(buttonDisabled) %}
-              <a class="govuk-link govuk-a-disabled" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 6">
-            Change<span class="govuk-visually-hidden">Your social value questions</span>
-              </a>
-              {%else%}<a class="govuk-link" href="/rfp/assesstment-question?agreement_id=RM6263&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 6">
-            Change<span class="govuk-visually-hidden">Your social value questions</span>
-              </a>{%endif%}
-              {% endif %}
-            </dd>
-          </div>
+          {%endif%}
+{# ---------------------------END-Your social value questions---------------------------------- #}
+         
           {# ENABLE STEP 46 UNCOMMET THIS CODE  #}
            {# <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
