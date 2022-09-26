@@ -161,7 +161,7 @@ else{
 async function getQADetails(qsId: string, projectId: string, eventId: string, SESSION_ID: string) {
     const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a/`;
     const eventQAObject = await TenderApi.Instance(SESSION_ID).get(baseMessageURL)
-    const eventQAList: QuestionAndAnswer[] = eventQAObject.data
+    const eventQAList: QuestionAndAnswer[] = (eventQAObject.data.QandA.length>0?eventQAObject.data.QandA:[])
     const qsObject= eventQAList.filter(function(x) {
         if (x.id==qsId) {
             return  x;

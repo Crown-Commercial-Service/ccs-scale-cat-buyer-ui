@@ -19,7 +19,7 @@ export const EVENT_MANAGEMENT_QA = async (req: express.Request, res: express.Res
         res.locals.agreement_header = req.session.agreement_header
         const baseURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
         const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
-        appendData = { data: inboxData, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, isSupplierQA: false }
+        appendData = { data: inboxData, QAs: (fetchData.data.QandA.length>0?fetchData.data.QandA:[]), eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType,eventName: req.session.project_name, isSupplierQA: false }
         res.render('viewQA', appendData)
     } catch (err) {
         LoggTracer.errorLogger(

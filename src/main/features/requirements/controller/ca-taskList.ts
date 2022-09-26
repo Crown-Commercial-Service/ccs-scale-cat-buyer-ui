@@ -47,7 +47,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     'Product Delivery',
     'QAT',
     'User Centred Design',
-    'Security and Privacy (Non-DDAT)',
+    'No DDaT Cluster Mapping',
   ];
   let ViewLoadedTemplateData;
   req.session.errorTextSumary = [];
