@@ -89,7 +89,16 @@
                   text: item.hint.text
                 },
                 conditional: {
-                  html: condResources
+                   html:  CCSInput({
+            id: "ccs_ca_resources_"+loop.index,
+            name: "ccs_ca_resources",
+            type: "number",
+            value: form.selectedValue,
+            classes: "govuk-!-width-one-third ca_choosesecurity_resources",
+            label: {
+              text: "How many resources need a lower security and vetting requirement?"
+            }
+          }) 
                 },
                 checked: item.checked
                 }
@@ -120,7 +129,16 @@
                   text: item.hint.text
                 },
                 conditional: {
-                  html: condResources
+                  html:  CCSInput({
+            id: "ccs_ca_resources_"+loop.index,
+            name: "ccs_ca_resources",
+            type: "number",
+            value: form.selectedValue,
+            classes: "govuk-!-width-one-third ca_choosesecurity_resources",
+            label: {
+              text: "How many resources need a lower security and vetting requirement?"
+            }
+          }) 
                 }
                 }
               ), form_Options_Altered) 

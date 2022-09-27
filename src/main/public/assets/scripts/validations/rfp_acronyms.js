@@ -280,14 +280,23 @@ $(".rfp_term_title_count").keyup(function () {
   let currentLength = this.value.length;
   let tmpid = $(this).attr('id');
   let id = tmpid.substring(9);
-  $(".term_accr_title_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+ 
+  if((500 - currentLength)>0)
+  {
+    $(".term_accr_title_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+  }
+  else if((500 - currentLength)<0)
+  {
+  $(".term_accr_title_" + id).text(`You have ${String(500 - currentLength).replace("-","")} characters too many`); 
+  }
 
   if((currentLength)>500)
   {
-  errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+  errorStore.push([tmpid, "No more than 500 characters are allowed."]);
   ccsZPresentErrorSummary(errorStore);
-  ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+  ccsZvalidateTextArea(tmpid, "No more than 500 characters are allowed.", !condLength($(this).val()));
   }
+
 
 });
 $(".terms_acr_description_count ").keyup(function () {
@@ -297,13 +306,22 @@ $(".terms_acr_description_count ").keyup(function () {
   let currentLength = this.value.length;
   let tmpid = $(this).attr('id');
   let id = tmpid.substring(20);
-  $(".rfp_term_definition_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+
+  if((5000 - currentLength)>0)
+  {
+    $(".rfp_term_definition_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+  }
+  else if((5000 - currentLength)<0)
+  {
+  $(".rfp_term_definition_" + id).text(`You have ${String(5000 - currentLength).replace("-","")} characters too many`); 
+  }
+
 
   if((currentLength)>5000)
   {
-  errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+  errorStore.push([tmpid, "No more than 5000 characters are allowed."]);
   ccsZPresentErrorSummary(errorStore);
-  ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+  ccsZvalidateTextArea(tmpid, "No more than 5000 characters are allowed.", !condLength($(this).val()));
   }
 
 });
@@ -340,22 +358,22 @@ const emptyFieldCheckRfp1 = () => {
 
           if (field1) {
 
-            errorStore.push([term_field, 'No more than 50 words are allowed.']);
-            ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+            errorStore.push([term_field.id, 'No more than 50 words are allowed.']);
+            ccsZaddErrorMessage(term_field, "No more than 5000 characters are allowed.");
             isError = true;
           } 
 
           if (field3) {
 
-            errorStore.push([term_field, 'No more than 500 characters are allowed.']);
-            ccsZaddErrorMessage(term_field, 'No more than 500 characters are allowed.');
+            errorStore.push([term_field.id, 'No more than 500 characters are allowed.']);
+            ccsZaddErrorMessage(term_field, "No more than 500 characters are allowed.");
             isError = true;
           } 
           
           if (field2) {
 
-            errorStore.push([definition_field, 'No more than 5000 characters are allowed.']);
-            ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
+            errorStore.push([definition_field.id, 'No more than 5000 characters are allowed.']);
+            ccsZvalidateTextArea(definition_field.id, "No more than 5000 characters are allowed.", !condLength($("#"+definition_field.id).val()));
             isError = true;
           }  
     

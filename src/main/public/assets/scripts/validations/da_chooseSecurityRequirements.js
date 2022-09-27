@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if(selectednumber_da && ['1','2', '3', '4'].includes(selectednumber_da)&& !resources_da)  
             {
                 e.preventDefault();
+                ccsZremoveErrorMessage(document.getElementsByClassName("da_choosesecurity_resources")[selectednumber_da-1]);
                 ccsZaddErrorMessage(document.getElementsByClassName("da_choosesecurity_resources")[selectednumber_da-1], 'A Quantity must be specified');
                 $('#da_choose_security_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
@@ -72,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if(selectednumber_da && ['1','2', '3', '4'].includes(selectednumber_da)&&  (resources_da < 0 || resources_da > (totalQuantityda-1)))              
             {
                 e.preventDefault();
+                ccsZremoveErrorMessage(document.getElementsByClassName("da_choosesecurity_resources")[index-2]);
                 ccsZaddErrorMessage(document.getElementsByClassName("da_choosesecurity_resources")[index-2], 'A Quantity must be between 0 to ['+totalQuantityda+'] - 1');
                 $('#da_choose_security_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
