@@ -608,22 +608,13 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
       sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
 
-      // let reqgroup=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==1).map(o=>o.nonOCDS)[0].options[0]?.value;
-      // let reqtitle=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==2).map(o=>o.nonOCDS)[0]?.options[0]?.value;
-      // let reqdesc=sectionbaseURLfetch_dynamic_api_data.filter(o=>o.nonOCDS.order==3).map(o=>o.nonOCDS)[0]?.options[0]?.value;
-
       let reqGroup = [];
-      sectionbaseURLfetch_dynamic_api_data?.[0]?.nonOCDS?.options?.forEach(element => {
-        reqGroup.push({ desc: '', group: element.value, title: '' });
-      });
-      let i = 0;
-      sectionbaseURLfetch_dynamic_api_data?.[1]?.nonOCDS?.options?.forEach(element => {
-        reqGroup?.[i].title = element.value; i = i + 1;
-      });
-      i = 0;
-      sectionbaseURLfetch_dynamic_api_data?.[2]?.nonOCDS?.options?.forEach(element => {
-        reqGroup?.[i].desc = element.value; i = i + 1;
-      });
+      let groupNameList=sectionbaseURLfetch_dynamic_api_data?.filter(x=>x.OCDS.title?.toLowerCase()==='Name of the group'.toLowerCase());
+      let reqNameList=sectionbaseURLfetch_dynamic_api_data?.filter(x=>x.OCDS.title?.toLowerCase()==='Name of the requirement'.toLowerCase());
+      let descList=sectionbaseURLfetch_dynamic_api_data?.filter(x=>x.OCDS.title?.toLowerCase()==='Describe the requirement'.toLowerCase());
+      for (let index = 0; index < sectionbaseURLfetch_dynamic_api_data?.[0]?.nonOCDS?.options?.length; index++) {
+        reqGroup.push({ desc: descList?.[0]?.nonOCDS?.options?.[index]?.value, group: groupNameList?.[0]?.nonOCDS?.options?.[index]?.value, title: reqNameList?.[0]?.nonOCDS?.options?.[index]?.value });
+      }
       //section 3
 
 
