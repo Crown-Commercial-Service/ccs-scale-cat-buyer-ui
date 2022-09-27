@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  <div class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" >
 
     {% if (fileError)%}
             {{ CCSErrorSummary({
@@ -98,6 +98,9 @@
               name: "rfp_offline_document",
               value: data['rfp_offline_document'],
               multiple: true,
+              attributes:{
+                  "aria-label":"Choose files"
+                  },
               label: {
               text: "",
               classes: "govuk-label--m"
@@ -151,5 +154,5 @@
             </div>
           </div>
 
-        </main>
+        </div>
       {% endblock %}
