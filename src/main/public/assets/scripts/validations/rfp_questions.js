@@ -123,7 +123,18 @@ document.addEventListener('DOMContentLoaded', () => {
           removeErrorFieldsRfpScoreQuestion();
           let currentLength = event.target.value.length;
           let spanId = event.target.id?.split("_")[5];
-          document.getElementById(spanId).innerText = `You have ${(maxLength - currentLength)} characters remaining`;;
+
+
+          if((maxLength - currentLength)>0)
+          {
+            document.getElementById(spanId).innerText = `You have ${(maxLength - currentLength)} characters remaining`;
+          }
+          else if((5000 - currentLength)<0)
+          {
+            document.getElementById(spanId).innerText = `You have ${String(5000 - currentLength).replace("-","")} characters too many`; 
+          }
+
+
           if ((currentLength) > maxLength) {
             errorStore.push([event.target.id, `No more than ${maxLength} characters are allowed.`]);
             ccsZPresentErrorSummary(errorStore);
@@ -137,7 +148,18 @@ document.addEventListener('DOMContentLoaded', () => {
           removeErrorFieldsRfpScoreQuestion();
           let currentLength = event.target.value.length;
           let spanId = event.target.id?.split("_")[5];
-          document.getElementById(spanId).innerText = `You have ${(maxLength - currentLength)} characters remaining`;;
+
+
+          if((maxLength - currentLength)>0)
+          {
+            document.getElementById(spanId).innerText = `You have ${(maxLength - currentLength)} characters remaining`;
+          }
+          else if((5000 - currentLength)<0)
+          {
+            document.getElementById(spanId).innerText = `You have ${String(5000 - currentLength).replace("-","")} characters too many`; 
+          }
+
+
           if ((currentLength) > maxLength) {
             errorStore.push([event.target.id, `No more than ${maxLength} characters are allowed.`]);
             ccsZPresentErrorSummary(errorStore);
@@ -701,10 +723,22 @@ document.addEventListener('DOMContentLoaded', () => {
       removeErrorFieldsRfpScoreQuestion();
       $(this).removeAttr('maxlength');
       let maxlength = $(this).attr('maxlength');
-      let currentLength = this.value.length;
+      let currentLength = $(this).val().length;
       let tmpid = $(this).attr('id');
       let id = tmpid.substring(19);
-      $("#" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+
+      console.log(currentLength);
+
+      if((5000 - currentLength)>0)
+      {
+        $("#" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+      }
+      else if((5000 - currentLength)<0)
+      {
+      $("#" + id).text(`You have ${String(5000 - currentLength).replace("-","")} characters too many`); 
+      }
+
+
 
       if ((currentLength) > 5000) {
         errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
@@ -806,6 +840,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementsByClassName("add-another-btn")[0].classList.remove('ccs-dynaform-hidden');
     }
   });
+
+  
+
+
+
+
   checkHowManyQuestionAddedSoFar();
 
 });

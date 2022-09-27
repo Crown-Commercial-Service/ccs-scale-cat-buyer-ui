@@ -42,8 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentLength = this.value.length;
         let tmpid = $(this).attr('id');
         let id = tmpid.substring(39);
-        $(".rfp_term_kpi_description_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
   
+        if((5000 - currentLength)>0)
+        {
+          $(".rfp_term_kpi_description_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+        }
+        else if((5000 - currentLength)<0)
+        {
+        $(".rfp_term_kpi_description_" + id).text(`You have ${String(5000 - currentLength).replace("-","")} characters too many`); 
+        }
+  
+
   
         if ((currentLength) > 5000) {
           errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
@@ -250,8 +259,17 @@ document.addEventListener('DOMContentLoaded', () => {
       let currentLength = this.value.length;
       let tmpid = $(this).attr('id');
       let id = tmpid.substring(28);
-      $(".rfp_term_kpi_title_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
-  
+
+      if((500 - currentLength)>0)
+      {
+        $(".rfp_term_kpi_title_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+      }
+      else if((500 - currentLength)<0)
+      {
+      $(".rfp_term_kpi_title_" + id).text(`You have ${String(500 - currentLength).replace("-","")} characters too many`); 
+      }
+
+
   
       if((currentLength)>500)
       {
@@ -466,20 +484,28 @@ $('#service_levels_kpi_form').on('submit', (event) => {
   let definition_field = document.getElementById("rfp_term_definition_service_levels_KPI_" + Number(x));
     const field1 = countWordskpi(term_field.value) > 50;
     const field2 = countCharacterkpi(definition_field.value) > 5000;
+    const field3 = countCharacterkpi(term_field.value) > 500;
 
     if (field1) {
 
-      errorStore.push([term_field, 'No more than 50 words are allowed.']);
+      errorStore.push([term_field.id, 'No more than 50 words are allowed.']);
       ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
       isError = true;
-    }
+    } 
 
   if (field2) {
 
-    errorStore.push([definition_field, 'No more than 5000 characters are allowed.']);
+    errorStore.push([definition_field.id, 'No more than 5000 characters are allowed.']);
     ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
     isError = true;
   }  
+
+  if (field3) {
+
+    errorStore.push([term_field.id, 'No more than 500 characters are allowed.']);
+    ccsZaddErrorMessage(term_field, 'No more than 500 characters are allowed.');
+    isError = true;
+  }
 
   }
   errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfpKPI() : errorStore;
