@@ -69,6 +69,7 @@
      {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
             <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">return to write and publish your requirements.</a> </p>
       </div>
+      <label for="{{data.form.input.id}}" class="govuk-visually-hidden">{{data.caption1}}</label>
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/ca/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}
         {{ CCSInput({           

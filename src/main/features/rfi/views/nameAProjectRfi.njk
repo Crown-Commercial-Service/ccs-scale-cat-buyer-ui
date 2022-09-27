@@ -74,7 +74,7 @@
             maxlength:"500"
             })
         }}
-        <p><label id="rfi_label_name_project"></label></p>
+         <p><label class="remaining_chrs_term" id="rfi_label_name_project">You have {{(500-(projectLongName | length))}}
           <div class="govuk-button-group">
             {{ CCSButton({
                 text: "Save and continue",
