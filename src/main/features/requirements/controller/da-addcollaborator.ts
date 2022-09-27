@@ -22,21 +22,33 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
   const { isJaggaerError,choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   try {
-    const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-      organisation_user_endpoint,
-    );
-    organisation_user_data = organisation_user_data?.data;
-    const { pageCount } = organisation_user_data;
-    const allUserStorge = [];
-    for (let a = 1; a <= pageCount; a++) {
-      const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
-      const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-        organisation_user_endpoint_loop,
-      );
-      const { userList } = organisation_user_data_loop?.data;
-      allUserStorge.push(...userList);
+    let allUserStorge = [];
+    if(req.session['dacollaboratorsinfo']!=null ||req.session['dacollaboratorsinfo']!=undefined)
+    { 
+      allUserStorge= req.session['dacollaboratorsinfo']    
     }
+    else{
+      const   { data: allUserdata}  = await TenderApi.Instance(SESSION_ID).get(
+        `/tenders/users`,
+      );
+      allUserStorge=allUserdata
+      req.session['dacollaboratorsinfo']=allUserdata
+     }
+    // const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
+    // let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
+    //   organisation_user_endpoint,
+    // );
+    // organisation_user_data = organisation_user_data?.data;
+    // const { pageCount } = organisation_user_data;
+    // const allUserStorge = [];
+    // for (let a = 1; a <= pageCount; a++) {
+    //   const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
+    //   const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
+    //     organisation_user_endpoint_loop,
+    //   );
+    //   const { userList } = organisation_user_data_loop?.data;
+    //   allUserStorge.push(...userList);
+    // }
     let collaborator;
     const { userName, firstName, lastName } = req.session['searched_user'];
     const fullName = firstName + ' ' + lastName;

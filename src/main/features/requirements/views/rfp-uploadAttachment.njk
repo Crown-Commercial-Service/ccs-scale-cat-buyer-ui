@@ -61,6 +61,7 @@
                               </div>
                                 <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">Upload a file</label>
                                 <span id="rfp_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
+                                
                                 <p class="govuk-body-s"> {{data.filedesc}}</p>
                                 {% if (files.length > 0)%}
                                     <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-6">
@@ -95,6 +96,9 @@
                                         name: "rfp_offline_document",
                                         value: data['rfp_offline_document'],
                                         multiple: true,
+                                        attributes:{
+                                        "aria-label":"Choose files"
+                                        },
                                         label: {
                                             text: "",
                                             classes: "govuk-label--m"
