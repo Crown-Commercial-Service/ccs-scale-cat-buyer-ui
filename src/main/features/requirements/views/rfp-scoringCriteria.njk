@@ -7,7 +7,7 @@
 {{ CCSBreadcrumbs({
     items: [
      {
-        text: "Dashboard",
+        text: "Your dashboard",
         href: "/dashboard"
       },
       {
@@ -31,7 +31,31 @@
 {% endblock %}
 
 {% block content %}
+
+<div class="backdrop-rfp-scoring" id="rfpscoringpopup">
+  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
+    <div class="pop_logo govuk-grid-column-full">
+      <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
+      <p class="pop_logo_image govuk-grid-column-one-half" <a="" href="#">
+        <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
+      
+      </p>
+      <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-rfp-scoring govuk-!-padding-top-6">
+      <a href="#" class="dialog-close-rfp-scoring nav-list__link_secondary">X</a></p>
+    </div>
+    <div class="govuk-grid-column-full">
+      <h1 id="dialog-title">Selecting this option will replace what you've entered so far and cannot be undone<p></p>
+      <p id="dialog-description"><b>The details you've entered below will be replaced with the CCS default scoring criteria.</br></br>This action cannot be undone</b></p>
+      <div class="govuk-button-group">
+        <button id="redirect-button-rfp-scoring" class="button dialog-button govuk-button" name="Continue">Continue</button>
+        <a href="#" class="dialog-close-rfp-scoring govuk-link govuk-link--no-visited-state">Cancel</a>
+      </div>
+    </h1></div>
+  </div>
+</div>
+
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
     {% if(emptyFieldError)%}
       {{ CCSErrorSummary({
           titleText: "There is a problem",

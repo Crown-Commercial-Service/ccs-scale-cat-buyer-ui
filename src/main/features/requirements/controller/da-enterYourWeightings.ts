@@ -194,7 +194,7 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
             "dimension-id":dimension['dimension-id'],
             "weighting": req.body[dimension['dimension-id']],
             "requirements": [],
-            "includedCriteria": dimension.evaluationCriteria,
+            "includedCriteria": [],
             "overwriteRequirements": true
           });
         

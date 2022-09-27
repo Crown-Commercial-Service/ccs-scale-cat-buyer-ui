@@ -5,7 +5,7 @@
             "href": "/"
         },
         {
-            "text": "Dashboard",
+            "text": "Your dashboard",
             "href": "/dashboard"
         },
         {
@@ -17,13 +17,13 @@
             "href": "#"
         }
     ],
-    "title": "Inbox",
+    "title": "Your Inbox",
     "subsection2_table_th_1": "Sender",
     "subsection2_table_th_2": "Date",
     "subsection2_table_th_3": "Subject",
     "subsection2_table_th_4": "Status",
     "backJump": {
-        "title": "Return to Event Management",
+        "title": "Return to Your Project",
         "href": "#"
     },
     "notification": {

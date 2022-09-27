@@ -13,12 +13,9 @@
       "text": "Your Dashboard",
       "href": "/dashboard"
     },
+    
     {
-      "text": eventId+"/"+eventName,
-      "href": "/event/management?id="+eventId
-    },
-    {
-      "text": "Event Management",
+      "text": "Your project",
       "href": "/event/management?id="+eventId
     },
     {
@@ -71,9 +68,9 @@
                 </p>
                 <p class="govuk-body">
                 {% if QA.lastUpdated%}
-                    {{data.updateDate}} : <strong>{{QA.lastUpdated | dateddmmyyyy }}</strong>
+                    {{data.updateDate.replace("[","") | replace("]", "")}} : <strong>{{QA.lastUpdated | dateddmmyyyy }}</strong>
                     {% else %}
-                     {{data.updateDate}} : <strong>{{QA.created | dateddmmyyyy }}</strong>
+                     {{data.updateDate.replace("[","") | replace("]", "")}} : <strong>{{QA.created | dateddmmyyyy }}</strong>
                      {% endif %}
                 </p>
             </div>

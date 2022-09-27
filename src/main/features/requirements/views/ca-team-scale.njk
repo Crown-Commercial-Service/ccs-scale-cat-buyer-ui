@@ -14,7 +14,7 @@
     {{ CCSBreadcrumbs({
         items: [
             {
-                "text": "Dashboard",
+                "text": "Your dashboard",
                 "href": "/dashboard"
                 },
                 {
@@ -43,7 +43,8 @@
             {{ CCSErrorSummary({
                 titleText: "There is a problem",
                 errorList: [{
-                    text: "Select an option"
+                    text: "Select an option",
+                     href: "#ca_teamscale_radio"
                 }]
             }) }}
         {%endif %}
@@ -62,6 +63,15 @@
                     <div class="govuk-form-group">
                         <div class="govuk-radios">
                             <br>
+                              <div id= "ca_teamscale_radio">
+                             {% if(error) %}
+                             <p id="ca_teamscale_radio-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                   Select an option
+                  </p>
+                           
+                              {%endif %}
+                              </div>
                             {% set radioArray = [] %}
                           
                             {% for item in RadioData %}

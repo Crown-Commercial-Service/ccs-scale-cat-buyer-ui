@@ -14,7 +14,7 @@
     {{ CCSBreadcrumbs({
         items: [
             {
-                "text": "Dashboard",
+                "text": "Your dashboard",
                 "href": "/dashboard"
                 },
                 {
@@ -79,6 +79,7 @@
                              
                                 {{ CCSInput({
                                     label: {
+                                         
                                       text: "Range "+dimension.weightingRange.min +"-"+dimension.weightingRange.max+"%"
                                     },
                                     classes: "govuk-input--width-5 dimensionweightings",
@@ -91,7 +92,9 @@
                                     value: dimension.value,
                                     attributes:{
                                         min:dimension.weightingRange.min,
-                                        max:dimension.weightingRange.max
+                                        max:dimension.weightingRange.max,
+                                        "aria-label":loopNumber+"."+dimension.title+" Range "+dimension.weightingRange.min +"-"+dimension.weightingRange.max+"%",
+                                        autocomplete:"off"
                                     },
                                     maxlength: "2"
                                 }) }}

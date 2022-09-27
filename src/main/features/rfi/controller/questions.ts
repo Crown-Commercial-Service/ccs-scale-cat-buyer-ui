@@ -48,7 +48,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
-    const bcTitleText = OCDS.description;
+    let bcTitleText = OCDS.description;
     let titleText = nonOCDS.mandatory === false ? OCDS.description + ' (optional)' : OCDS.description;
     const promptData = nonOCDS.prompt;
     const nonOCDSList = [];
@@ -88,7 +88,8 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
     }
     if(fetch_dynamic_api_data[0].OCDS.id=='Question 6')
     {
-      titleText="Where staff will work";
+      titleText="Where the supplied staff will work";
+      bcTitleText="Where the supplied staff will work"
     }
     const data = {
       data: fetch_dynamic_api_data,

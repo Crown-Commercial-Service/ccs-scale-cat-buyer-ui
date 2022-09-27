@@ -18,7 +18,7 @@ export interface SupplierDetails {
     supplierFeedBack: string,
     supplierStandStillDate : string,
     standStillFlag : boolean,
-
+    rankFlag : boolean,
 }
 
 export interface SupplierAddress {

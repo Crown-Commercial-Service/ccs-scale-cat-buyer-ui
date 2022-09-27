@@ -6,7 +6,7 @@
   {{ CCSBreadcrumbs({
    items: [
             {
-                "text": "Dashboard",
+                "text": "Your dashboard",
                 "href": "/dashboard"
                 },
                 {
@@ -22,7 +22,7 @@
                 "href": "/da/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "Review suitable suppliers",
+                "text": "Select your supplier for direct award",
                 "href": "#"
             }
         ]
@@ -56,11 +56,12 @@
     <div class="govuk-grid-column-two-thirds">
       {% include "includes/project_header.njk" %}
       <p class="govuk-body">{{dataRRS.instruction1}}</p>
-        <p class="govuk-body">{{dataRRS.instruction2}}</p>
+        {#<p class="govuk-body">{{dataRRS.instruction2}}</p>
         <p class="govuk-body">{{dataRRS.instruction3}}</p>
-        <p class="govuk-body">{{dataRRS.instruction4}}</p>
-        <p class="govuk-body">{{dataRRS.instruction5}}<a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers (Opens in new window).</a><span class="govuk-visually-hidden">opens in a new window</span></p>
+        <p class="govuk-body">{{dataRRS.instruction4}}</p>#}
         <p class="govuk-body">{{dataRRS.instruction6}}</p>
+        <p class="govuk-body">{{dataRRS.instruction5}}<a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers (Opens in a new tab).</a><span class="govuk-visually-hidden">opens in a new window</span></p>
+        
      {# <div class="ccs-page-section">
         <p class="govuk-body"><h3>{{dataRRS.p1}}</h3></p>
         <p class="govuk-body"><h3>{{dataRRS.p5}}</h3></p>
@@ -76,19 +77,19 @@
               }}                  
                             <div class="govuk-form-group">
                                 <h3>
-                                    <a href="/da/review-ranked-suppliers?download=2" onclick="return false;" class="govuk-link govuk-link--no-visited-state">[Download this list]
+                                    <a href="/da/review-ranked-suppliers?download=2" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list
                 </a>
                                 </h3>
                             </div>
                              {% set returnLink = "/da/task-list?path="+choosenViewPath %}
-              <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to [Write and publish your requirements]</a>
+              <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
             </div>
             </br>
     <table class="govuk-table">
            <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th colspan="2" scope="col" class="govuk-table__header">[Rank, score and price]</th>
-                <th scope="col" class="govuk-table__header">[Supplier]</th>
+                <th colspan="2" scope="col" class="govuk-table__header">Position, score and price</th>
+                <th scope="col" class="govuk-table__header">Supplier</th>
                </tr>
             </thead>
             <tbody class="govuk-table__body">
@@ -102,20 +103,21 @@
                   {%endif %}
                    </td>
                   <td class="govuk-table__cell">
-                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>Rank {{score.rank}}</strong></p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0"><strong>Position {{score.rank}}</strong></p><br>
                   <p class="govuk-body govuk-!-margin-bottom-0"><strong>{{score.total}}%  total score</strong></p><br>
+                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[5].score}}%  [Price score]</p><br>
                   <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[0].score}}%  [Capacity score]</p><br>
                   <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[1].score}}%  [Vetting score]</p><br>
                   <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[2].score}}%  [Capability score]</p><br>
                   <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[3].score}}%  [Scalability score]</p><br>
                   <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[4].score}}%  [Location score]</p><br>
-                  <p class="govuk-body govuk-!-margin-bottom-0">{{score.dimensionScores[5].score}}%  [Price score]</p>
+                  
                   </td>
                   <td class="govuk-table__cell">
                     <p class="govuk-body govuk-!-margin-bottom-0"><strong>{{score.name}}</strong></p><br>
                     <p class="govuk-body govuk-!-margin-bottom-0">{{score.name}}</p><br>
                     <a href="/da/review-ranked-suppliers?downloadPricing={{score.supplier.id}}" onclick="return false;" class="govuk-link govuk-link--no-visited-state">
-                    [Download supplier company price information]</a>
+                    Download supplier company price information</a>
                   </td>
                 
                 </tr>
@@ -192,7 +194,7 @@
                   })
               }}                     
                              {% set returnLink = "/da/task-list?path="+choosenViewPath %}
-              <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to [Write and publish your requirements]</a>
+              <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
             </div>
 
         </form>

@@ -1,4 +1,5 @@
 const countWords1 = (str) => { return str.trim().split(/\s+/).length };
+//const countCharacters = (str) => { return str.length };
 document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("ccs_rfp_acronyms_form") !== null) {
@@ -265,7 +266,65 @@ const removeErrorFieldsRfp1 = () => {
   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 
 }
+const removeErrorFieldsRfpAcronymQuestion = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+};
+$(".rfp_term_title_count").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpAcronymQuestion();
+  $(this).removeAttr('maxlength');
+  let currentLength = this.value.length;
+  let tmpid = $(this).attr('id');
+  let id = tmpid.substring(9);
+ 
+  if((500 - currentLength)>0)
+  {
+    $(".term_accr_title_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+  }
+  else if((500 - currentLength)<0)
+  {
+  $(".term_accr_title_" + id).text(`You have ${String(500 - currentLength).replace("-","")} characters too many`); 
+  }
 
+  if((currentLength)>500)
+  {
+  errorStore.push([tmpid, "No more than 500 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea(tmpid, "No more than 500 characters are allowed.", !condLength($(this).val()));
+  }
+
+
+});
+$(".terms_acr_description_count ").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpAcronymQuestion();
+  $(this).removeAttr('maxlength');
+  let currentLength = this.value.length;
+  let tmpid = $(this).attr('id');
+  let id = tmpid.substring(20);
+
+  if((5000 - currentLength)>0)
+  {
+    $(".rfp_term_definition_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+  }
+  else if((5000 - currentLength)<0)
+  {
+  $(".rfp_term_definition_" + id).text(`You have ${String(5000 - currentLength).replace("-","")} characters too many`); 
+  }
+
+
+  if((currentLength)>5000)
+  {
+  errorStore.push([tmpid, "No more than 5000 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea(tmpid, "No more than 5000 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
 const emptyFieldCheckRfp1 = () => {
   let fieldCheck = "",
     errorStore = [];
@@ -278,11 +337,14 @@ const emptyFieldCheckRfp1 = () => {
 
     if (term_field.value !== undefined && definition_field !== undefined) {
       const field1 = countWords1(term_field.value) > 50;
-      const field2 = countWords1(definition_field.value) > 150;
-
+      const field3 = countCharacters(term_field.value) > 500;
+      const field2 = countCharacters(definition_field.value) > 5000;
+      
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
         checkFieldsRfp1();
         if (pageHeading.includes("(Optional)")) {
+          
+          
           if (x != 1 && term_field.value.trim() !== '' && definition_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
             //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
@@ -293,6 +355,28 @@ const emptyFieldCheckRfp1 = () => {
             ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
             errorStore.push(fieldCheck);
           }
+
+          if (field1) {
+
+            errorStore.push([term_field.id, 'No more than 50 words are allowed.']);
+            ccsZaddErrorMessage(term_field, "No more than 5000 characters are allowed.");
+            isError = true;
+          } 
+
+          if (field3) {
+
+            errorStore.push([term_field.id, 'No more than 500 characters are allowed.']);
+            ccsZaddErrorMessage(term_field, "No more than 500 characters are allowed.");
+            isError = true;
+          } 
+          
+          if (field2) {
+
+            errorStore.push([definition_field.id, 'No more than 5000 characters are allowed.']);
+            ccsZvalidateTextArea(definition_field.id, "No more than 5000 characters are allowed.", !condLength($("#"+definition_field.id).val()));
+            isError = true;
+          }  
+    
           // else if (x != 1) {
           //   let isError = false;
           //   if (term_field.value.trim() === '') {
@@ -307,14 +391,11 @@ const emptyFieldCheckRfp1 = () => {
           //     ccsZaddErrorMessage(target_field, 'You must add information in all fields.');
           //     isError = true;
           //   }
-          //   if (field1) {
-          //     ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
-          //     isError = true;
-          //   }
-          //   if (field2) {
-          //     ccsZaddErrorMessage(definition_field, 'No more than 250 words are allowed.');
-          //     isError = true;
-          //   }
+            // if (field1) {
+            //   ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+            //   isError = true;
+            // }
+
           //   if (isError) {
           //     fieldCheck = [definition_field.id, 'You must add information in all fields.'];
           //     errorStore.push(fieldCheck);

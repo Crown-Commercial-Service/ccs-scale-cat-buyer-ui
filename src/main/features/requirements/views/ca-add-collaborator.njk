@@ -13,7 +13,7 @@
 {% set sortedMembers = [{value: "", text: "Select colleague"}] %}
 {% for user in organisationUser %}
   {% if user.userName !== lead%}
-    {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
+    {% set sortedMembers = (sortedMembers.push({value: user["user-id"], text: user.name}), sortedMembers) %}
   {%endif %}  
 {% endfor %}
 
@@ -25,7 +25,7 @@
 {{ CCSBreadcrumbs({
        items: [
         {
-        text: "Dashboard",
+        text: "Your dashboard",
         href: "/dashboard"
         },
         {

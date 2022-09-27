@@ -68,11 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     });
 
-    $('.dialog-close-vetting').on('click', function () {
+/*     $('.dialog-close-vetting').on('click', function () {
       $(".backdrop-vetting").fadeOut(200);
       deselect($('.dialog-close-vetting'));
       return false;
-    });
+    }); */
     // $('.dialog-close-nav-menu').on('click', function () {
     //   $(".backdrop-nav-menu").fadeOut(200);
     //   deselect($('.dialog-close-nav-menu'));
@@ -80,25 +80,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // });
 
 
-    $('#redirect-button-nav-menu').on('click', function () {
-      deselect($('.dialog-close-nav-menu'));
-      $(".backdrop-nav-menu").fadeOut(200);
-      var route = this.name;
-      if (route == 'Home') {
-        window.open("/");
-      } else if (route == 'My Projects') {
-        window.open('/dashboard');
-      } else if (route == 'CCS website') {
-        window.open('https://www.crowncommercial.gov.uk/');
-      } else if (route == 'Guidance') {
-        window.open("#");
-      } else if (route == 'Get help') {
-        window.open('https://www.crowncommercial.gov.uk/contact');
-      } else {
-        return false;
-      }
-      $(".backdrop-nav-menu").fadeOut(200);
-    });
+    // $('#redirect-button-nav-menu').on('click', function () {
+    //   deselect($('.dialog-close-nav-menu'));
+    //   $(".backdrop-nav-menu").fadeOut(200);
+    //   var route = this.name;
+    //   if (route == 'Home') {
+    //     window.open("/");
+    //   } else if (route == 'My Projects') {
+    //     window.open('/dashboard');
+    //   } else if (route == 'CCS website') {
+    //     window.open('https://www.crowncommercial.gov.uk/');
+    //   } else if (route == 'Guidance') {
+    //     window.open("#");
+    //   } else if (route == 'Get help') {
+    //     window.open('https://www.crowncommercial.gov.uk/contact');
+    //   } else {
+    //     return false;
+    //   }
+    //   $(".backdrop-nav-menu").fadeOut(200);
+    // });
 
     $('#redirect-button-vetting').on('click', function () {
       deselect($('.dialog-close-vetting'));

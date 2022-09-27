@@ -416,6 +416,8 @@ fieldset {
 }
 .backlink-margin {
   margin-top: 0 !important;}
+  .backlink-margin-top {
+    margin-top: -15 !important;}
   .senttoall-width
   {
     width: 30% !important;

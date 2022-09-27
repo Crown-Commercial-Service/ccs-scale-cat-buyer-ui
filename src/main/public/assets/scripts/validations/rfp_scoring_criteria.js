@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+  let rowsAndHead1 ="";
+
   if (document.getElementById('ccs_rfp_scoring_criteria') !== null) {
     let noOfCountfieldNotNull = [], with_value_count = 10,
       prev_input = 0,
@@ -74,56 +77,140 @@ document.addEventListener('DOMContentLoaded', () => {
     //document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
     selectTierButtons.forEach(st => {
       st.addEventListener('click', e => {
-        const rowsAndHead = JSON.parse(e.currentTarget.attributes[2].value);
-        let count = 0;
-        removeErrorFieldsRfpScore();
-        for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
-          document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = '';
-          document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = '';
-          document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = '';
-          var elements = document.getElementsByClassName("score_criteria_" + score_criteria_fieldset);
-          // elements.classList.removeClass("ccs-dynaform-hidden");
-          //while (elements.length)
-          elements[0].classList.add("ccs-dynaform-hidden");
+        e.preventDefault();
+        let isValueEntered = false;
+        rowsAndHead1 = JSON.parse(e.currentTarget.attributes[2].value);
+        //let isTierToBeAdd = false;
+        for (var a = 1; a <= 10; a++) {
+         if($(`#rfp_score_criteria_name_${a}`).val() != '' && !isValueEntered)
+         isValueEntered = true;
+         else if($(`#rfp_score_criteria_point_${a}`).val() != '' && !isValueEntered)
+         isValueEntered = true;
+         else if($(`#rfp_score_criteria_desc_${a}`).val() != '' && !isValueEntered)
+           isValueEntered = true;
         }
-
-        if (rowsAndHead != undefined && rowsAndHead != null) {
-          document.getElementById('tiersAdded').textContent = rowsAndHead.rows.length;
-          with_value_count = rowsAndHead.rows.length + 1;
-          rowsAndHead.rows.unshift({ text: "Ignore" })
-          for (let i = 0; i < rowsAndHead.rows.length; i++) {
-            if (i !== 0) {
-              //const ii = i + 1;
-              var elements = document.getElementsByClassName("score_criteria_" + i);
-              // elements.classList.removeClass("ccs-dynaform-hidden");
-              //while (elements.length)
-              elements[0].classList.remove("ccs-dynaform-hidden");
-              // if (rowsAndHead.rows.length == i) {
-              //   //$("#deleteButton_" + ii).removeClass("ccs-dynaform-hidden");
-              //   //$("#ccs_rfp_score_criteria_add").addClass("ccs-dynaform-hidden");
-              // }
-              // else {
-              //   //$("#deleteButton_" + ii).addClass("ccs-dynaform-hidden");
-              // }
-
-              document.getElementById("rfp_score_criteria_name_" + i).value = rowsAndHead.rows[i].at(0).text;
-              document.getElementById("rfp_score_criteria_point_" + i).value = rowsAndHead.rows[i].at(1).text;
-              document.getElementById("rfp_score_criteria_desc_" + i).value = rowsAndHead.rows[i].at(2).text;
-
-              // $("#rfp_score_criteria_name_" + ii).prop('readonly', true);
-              // $("#rfp_score_criteria_point_" + ii).prop('readonly', true);
-              // $("#rfp_score_criteria_desc_" + ii).prop('readonly', true);
-
-            }
-            if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
-              document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
-            } else {
-              document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
-            }
-          }
+        if(isValueEntered)
+        {
+      if ($(this).hasClass('selected')) {
+        deselect($(this));
+        $(".backdrop-rfp-scoring").fadeOut(200);
+        document.getElementById("rfpscoringpopup").style.paddingTop="1000";
+      } else {
+        $(".backdrop-rfp-scoring").fadeTo(200, 1);
+        document.getElementById("rfpscoringpopup").style.paddingTop="1000";
+        if (this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
+          document.body.scrollTop = document.documentElement.scrollTop = 0;
+        } 
+        $(this).addClass('selected');
+        $('.pop').slideFadeToggle();
+      }
+        }
+        else 
+        {
+          addTierData(rowsAndHead1);
         }
       })
     })
+    
+    let term_box = document.getElementById("rfp_score_criteria_name_1")
+    if (term_box != undefined && term_box != null && term_box.value !== "") {
+      var contentlength=500-term_box.value.length
+      $(".rfp_scoring_criteria_title_count_1").text('You have '+contentlength+' characters remaining');
+    }
+    let term_box_1 = document.getElementById("rfp_score_criteria_desc_1")
+    if (term_box_1 != undefined && term_box_1 != null && term_box_1.value !== "") {
+      var contentlength=5000-term_box_1.value.length
+      $(".rfp_scoring_criteria_description_count_1 ").text('You have '+contentlength+' characters remaining');
+    }
+    for (var scoring_level = 10; scoring_level > 1; scoring_level--) {
+
+      let this_fieldset = document.querySelector(".score_criteria_" + scoring_level),
+        term_box = document.getElementById("rfp_score_criteria_name_" + scoring_level),
+        term_box_1 = document.getElementById("rfp_score_criteria_desc_" + scoring_level);
+        //term_box2 = document.getElementById("rfp_term_percentage_KPI_" + scoring_level);
+      //deleteButtonKPI = document.getElementById("remove_icon_" + kpi_fieldset);
+
+      if (term_box != undefined && term_box != null && term_box.value !== "") {
+        this_fieldset.classList.remove('ccs-dynaform-hidden');
+        var titlelength=500-term_box.value.length
+        $(".rfp_scoring_criteria_title_count_" + scoring_level).text('You have '+titlelength+' characters remaining');
+        this_fieldset.classList.remove('ccs-dynaform-hidden');
+        //document.getElementById("kpiKeyLevel").textContent = scoring_level;
+        // deleteButtonCount.push(scoring_level);
+        // if (scoring_level === 10) {
+        //   document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
+        // }
+        if (term_box_1 != undefined && term_box_1 != null && term_box_1.value !== "") {
+          var contentlength=5000-term_box_1.value.length
+          $(".rfp_scoring_criteria_description_count_" + scoring_level).text('You have '+contentlength+' characters remaining');
+        }
+      } else {
+
+        this_fieldset.classList.add('ccs-dynaform-hidden');
+        with_value_count = scoring_level;
+      }
+
+      // if (scoring_level === 2 && deleteButtonCount.length > 0) {
+      //   $("#remove_icon_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
+      // }
+    }
+    const removeErrorFieldsRfpScoreQuestion = () => {
+      $('.govuk-error-message').remove();
+      $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+      $('.govuk-error-summary').remove();
+      $('.govuk-input').removeClass('govuk-input--error');
+      $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+    };
+    $(".rfp_scoring_criteria_title").keyup(function () {
+      let errorStore = [];
+      removeErrorFieldsRfpScoreQuestion();
+      $(this).removeAttr('maxlength');
+      let currentLength = this.value.length;
+      let tmpid = $(this).attr('id');
+      let id = tmpid.substring(24);
+      $(".rfp_scoring_criteria_title_count_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+  
+      if((currentLength)>500)
+      {
+      errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+      ccsZPresentErrorSummary(errorStore);
+      ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+      }
+  
+    });
+  
+    $(".rfp_scoring_criteria_description").keyup(function () {
+      let errorStore = [];
+      removeErrorFieldsRfpScoreQuestion();
+      $(this).removeAttr('maxlength');
+      let currentLength = this.value.length;
+      let tmpid = $(this).attr('id');
+      let id = tmpid.substring(24);
+      $(".rfp_scoring_criteria_description_count_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+  
+      if((currentLength)>5000)
+      {
+      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+      ccsZPresentErrorSummary(errorStore);
+      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+      }
+  
+    });
+  
+
+
+    $('.dialog-close-rfp-scoring').on('click', function () {
+      $(".backdrop-rfp-scoring").fadeOut(200);
+      deselect($('.dialog-close-rfp-scoring'));
+      return false;
+    });
+
+    $('#redirect-button-rfp-scoring').on('click', function () {
+      deselect($('.dialog-close-rfp-scoring'));
+      $(".backdrop-rfp-scoring").fadeOut(200);
+      addTierData(rowsAndHead1);
+        return false;
+    });
 
     document.getElementById('ccs_rfp_score_criteria_add').addEventListener('click', e => {
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
@@ -309,7 +396,74 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
+
+  function deselect(e) {
+    $('.pop').slideFadeToggle(function () {
+      removeClass('selected');
+    });
+  }
+
+  function removeClass() {
+    var allElements = document.querySelectorAll(".nav-popup");
+    for (i = 0; i < allElements.length; i++) {
+      allElements[i].classList.remove('nav-popup');
+    }
+  }
+  
+  $.fn.slideFadeToggle = function (easing, callback) {
+    return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+  };
 });
+
+const addTierData = (rowsAndHead) =>{
+        let count = 0;
+        removeErrorFieldsRfpScore();
+        for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
+          document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = '';
+          document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = '';
+          document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = '';
+          var elements = document.getElementsByClassName("score_criteria_" + score_criteria_fieldset);
+          // elements.classList.removeClass("ccs-dynaform-hidden");
+          //while (elements.length)
+          elements[0].classList.add("ccs-dynaform-hidden");
+        }
+
+        if (rowsAndHead != undefined && rowsAndHead != null) {
+          document.getElementById('tiersAdded').textContent = rowsAndHead.rows.length;
+          with_value_count = rowsAndHead.rows.length + 1;
+          rowsAndHead.rows.unshift({ text: "Ignore" })
+          for (let i = 0; i < rowsAndHead.rows.length; i++) {
+            if (i !== 0) {
+              //const ii = i + 1;
+              var elements = document.getElementsByClassName("score_criteria_" + i);
+              // elements.classList.removeClass("ccs-dynaform-hidden");
+              //while (elements.length)
+              elements[0].classList.remove("ccs-dynaform-hidden");
+              // if (rowsAndHead.rows.length == i) {
+              //   //$("#deleteButton_" + ii).removeClass("ccs-dynaform-hidden");
+              //   //$("#ccs_rfp_score_criteria_add").addClass("ccs-dynaform-hidden");
+              // }
+              // else {
+              //   //$("#deleteButton_" + ii).addClass("ccs-dynaform-hidden");
+              // }
+
+              document.getElementById("rfp_score_criteria_name_" + i).value = rowsAndHead.rows[i].at(0).text;
+              document.getElementById("rfp_score_criteria_point_" + i).value = rowsAndHead.rows[i].at(1).text;
+              document.getElementById("rfp_score_criteria_desc_" + i).value = rowsAndHead.rows[i].at(2).text;
+
+              // $("#rfp_score_criteria_name_" + ii).prop('readonly', true);
+              // $("#rfp_score_criteria_point_" + ii).prop('readonly', true);
+              // $("#rfp_score_criteria_desc_" + ii).prop('readonly', true);
+
+            }
+            if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
+              document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
+            } else {
+              document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+            }
+          }
+        }
+}
 const checkFieldsRfpScore = () => {
   const start = 1;
   const end = 10;
@@ -354,7 +508,23 @@ const emptyFieldCheckRfpScore = () => {
     let desc_field = document.getElementById('rfp_score_criteria_desc_' + x);
 
     if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
+      const field1 = countCharacters(name_field.value) > 500;
+      const field2 = countCharacters(desc_field.value) > 5000;
       checkFieldsRfpScore();
+      if (field1) {
+
+        errorStore.push([name_field, 'No more than 500 characters are allowed.']);
+        ccsZaddErrorMessage(name_field, 'No more than 500 characters are allowed.');
+        isError = true;
+      } 
+
+      if (field2) {
+
+        errorStore.push([desc_field, 'No more than 5000 characters are allowed.']);
+        ccsZaddErrorMessage(desc_field, 'No more than 5000 characters are allowed.');
+        isError = true;
+      } 
+    
       if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
         fieldCheck = [point_field.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(name_field, 'You must add information in all fields.');

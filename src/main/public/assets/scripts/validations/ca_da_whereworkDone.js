@@ -63,13 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
       allElements[i].classList.remove('nav-popup');
     }
   }
-
+/* 
   $('.dialog-close-vetting').on('click', function () {
     
     $(".backdrop-vetting").fadeOut(200);
     deselect($('.dialog-close-vetting'));
     return false;
-  });
+  }); */
 
   $('#redirect-button-vetting').on('click', function () {
     
@@ -181,12 +181,12 @@ const ccsZvalidateDAWhereWorkDone = event => {
     }
     else if(element.value>100 && element.value != '')
     {
-      errMsg = "location weighting value must be <=100"
+      errMsg = "total weighting value must be <=100"
       emptycontent.push("false")
     } 
     else if(element.value<=0 && element.value != '')
     {
-      errMsg = "location weighting value must be >0"
+      errMsg = "Enter whole numbers only"
       emptycontent.push("false")
     } 
      else if (element.value != '')
@@ -206,7 +206,7 @@ const ccsZvalidateDAWhereWorkDone = event => {
       errorStore.push(fieldCheck);   
   }
   else if (total !== 100) {
-    fieldCheck = ["totalPercentage", "Sum of the weighting values across all locations = 100%"]
+    fieldCheck = ["totalPercentage", "Your total weighting must add up to 100%"]
     errorStore.push(fieldCheck);
   }
   if (errorStore.length === 0) document.forms["da_where_work_done"].submit();
@@ -236,12 +236,12 @@ const ccsZvalidateCAWhereWorkDone = (event) => {
     }
     else if(element.value>100 && element.value != '')
     {
-      errMsg = "location weighting value must be <= 100%"
+      errMsg = "total weighting value must be <= 100%"
       emptycontent.push("false")
     } 
     else if(element.value<=0 && element.value != '')
     {
-      errMsg = "location weighting value must be >0"
+      errMsg = "Enter whole numbers only"
       emptycontent.push("false")
     } 
      else if (element.value != '')
@@ -261,7 +261,7 @@ const ccsZvalidateCAWhereWorkDone = (event) => {
       errorStore.push(fieldCheck);   
   }
   else if (total !== 100) {
-    fieldCheck = ["totalPercentage", "Sum of the weighting values across all locations = 100%"]
+    fieldCheck = ["totalPercentage", "Your total weighting must add up to 100%"]
     errorStore.push(fieldCheck);
   }
   if (errorStore.length === 0) document.forms["ca_where_work_done"].submit();

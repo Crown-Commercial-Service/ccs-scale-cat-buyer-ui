@@ -10,7 +10,7 @@
 {{ CCSBreadcrumbs({
     items: [
         {
-            "text": "Dashboard",
+            "text": "Your dashboard",
             "href": "/dashboard"
         },
         {
@@ -77,7 +77,7 @@
             value: projectLongName
             })
         }}
-
+         <p><label class="remaining_chrs_term" id="rfi_label_name_project">You have {{(500-(projectLongName | length))}} characters remaining</label></p>
           <div class="govuk-button-group">
             {{ CCSButton({
                 text: "Save and continue",

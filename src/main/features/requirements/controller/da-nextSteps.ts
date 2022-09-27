@@ -74,14 +74,14 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
     if (da_next_steps) {
       switch (da_next_steps) {
         case 'yes':
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
-          const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
-          let endDate=new Date()
-          endDate.setDate(endDate.getDate()+1);
-          const _bodyData = {
-            endDate: endDate,
-          };
-          await TenderApi.Instance(SESSION_ID).put(publishUrl, _bodyData);
+           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
+          // const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
+          // let endDate=new Date()
+          // endDate.setDate(endDate.getDate()+1);
+          // const _bodyData = {
+          //   endDate: endDate,
+          // };
+          // await TenderApi.Instance(SESSION_ID).put(publishUrl, _bodyData);
           
           let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
           let body_ ={
@@ -132,7 +132,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
               }
             }
           
-          const eventTypeURL = `tenders/projects/${projectId}/events`;
+          /**const eventTypeURL = `tenders/projects/${projectId}/events`;
           const eventTypesURL = `tenders/projects/${projectId}/event-types`;
           const baseURL = `tenders/projects/${projectId}/events/${data.id}`;
           req.session.selectedRoute='FC';
@@ -155,7 +155,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           req.session.procurements[currentProcNum].started = true;
           
           
-        }
+        }**/
         //uncomment to save supplier
         const supplierBaseURL: any = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
           const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);

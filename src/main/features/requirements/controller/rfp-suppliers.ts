@@ -50,6 +50,10 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
     const supplierLength=supplierList.length;
     let enablebtn=true
+    if(fromMessage!=undefined)
+    {
+      req.session["rfiSuppliersbtn"]=true
+    }
     let appendData = {
       data: cmsData,
       suppliers_list: supplierList,
@@ -176,7 +180,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
       }
     }
      
-    if(fromMessage!=undefined)
+    if(req.session["rfiSuppliersbtn"])
     {
       appendData= Object.assign({}, { ...appendData, enablebtn: false})
     }

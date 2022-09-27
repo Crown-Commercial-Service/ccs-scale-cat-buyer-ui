@@ -48,9 +48,9 @@
              
             <div class="govuk-form-group ccs-page-section rfi_publish_date">
                 <p class="govuk-body"><span>{{loop.index}} &nbsp; </span>{{requirement.OCDS.title}}</p>
-                {% if(requirement.OCDS.title == "Publish your RfI" )%}
+                {#{% if(requirement.OCDS.title == "Publish your RfI" )%}
                 <p class="govuk-body"><span> &nbsp; &nbsp; &nbsp;</span>{{data['data'].body.p4}}</p>
-                {%endif %}
+                {%endif %}#}
                
 
                 <div id="rfi_clarification_date">
@@ -211,7 +211,7 @@
 
 
 <div class="govuk-button-group">
-<form method="post" action="/rfi/response-date" >   
+<form method="post" action="/rfi/response-date" id ="ccs_response_date_form" class ="ccs_response_date_form" >   
 {{ csrfProtection(csrf) }}
                 {{ CCSInput({
                     id: "timeStamp",
@@ -252,7 +252,7 @@
 <button class="govuk-button" data-module="govuk-button">
   Save and continue
 </button>
-<a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to pre-market engagement</a>
+<a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
 </form>
                 
             </div>

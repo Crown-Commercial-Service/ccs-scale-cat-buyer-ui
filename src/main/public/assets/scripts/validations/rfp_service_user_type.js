@@ -1,4 +1,5 @@
 const countWords = (str) => { return str.trim().split(/\s+/).length };
+const countCharacters = (str) => { return str.length };
 document.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById("service_user_type_form") !== null) {
@@ -274,18 +275,202 @@ const emptyFieldCheckRfp = () => {
   }
   return errorStore;
 }
-const ccsZvalidateRfpAcronyms = (event) => {
 
-  // event.preventDefault();
+$(".rfp_term_more_description_count").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpScoreQuestion();
+  $(this).removeAttr('maxlength');
+  let maxlength = $(this).attr('maxlength');
+  let currentLength = this.value.length;
+  let tmpid = $(this).attr('id');
+  let id = tmpid.substring(22);
 
-  //errorStore = emptyFieldCheckRfp();
+  if((5000 - currentLength)>0)
+  {
+    $(".rfp_term_more_details_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
+  }
+  else if((5000 - currentLength)<0)
+  {
+  $(".rfp_term_more_details_" + id).text(`You have ${String(5000 - currentLength).replace("-","")} characters too many`); 
+  }
 
-  //if (errorStore.length === 0) {
+  if((currentLength)>5000)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
+  }
+
+
+});
+$(".rfp_term_service_count").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpScoreQuestion();
+  $(this).removeAttr('maxlength');
+  let maxlength = $(this).attr('maxlength');
+  let currentLength = this.value.length;
+  let tmpid = $(this).attr('id');
+  let id = tmpid.substring(23);
+
+  if((500 - currentLength)>0)
+  {
+    $(".rfp_term_more_service_group_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
+  }
+  else if((500 - currentLength)<0)
+  {
+  $(".rfp_term_more_service_group_" + id).text(`You have ${String(500 - currentLength).replace("-","")} characters too many`); 
+  }
+
+
+  if((currentLength)>500)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
+
+const removeErrorFieldsRfpScoreQuestion = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+};
+let org_box = document.getElementById("rfp_contracting_auth")
+    if (org_box != undefined && org_box != null && org_box.value !== "") {
+      var contentlength=500-org_box.value.length
+      $(".rfp_contract_auth_count").text('You have '+contentlength+' characters remaining');
+    }
+$("#rfp_contracting_auth").keyup(function () {
+  let errorStore = [];
+  removeErrorFieldsRfpScoreQuestion();
+  let currentLength = this.value.length;
+
+  if((500 - currentLength)>0)
+  {
+    $(".rfp_contract_auth_count").text(`You have ${(500 - currentLength)} characters remaining`);
+  }
+  else if((500 - currentLength)<0)
+  {
+  $(".rfp_contract_auth_count").text(`You have ${String(500 - currentLength).replace("-","")} characters too many`); 
+  }
+
+
+
+  if((currentLength)>500)
+  {
+  errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
+  ccsZPresentErrorSummary(errorStore);
+  ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
+  }
+
+});
+const emptyFieldCheckRfpUserType = () => {
+
+  let fieldCheck = "",
+    errorStore = [];
+  const pageHeading = document.getElementById('page-heading').innerHTML;
+  for (var x = 1; x < 11; x++) {
+    let term_field = document.getElementById('rfp_term_service_group_' + x);
+    let definition_field = document.getElementById("rfp_term_more_details_" + x);
+    let target_field = document.getElementById("rfp_term_target_" + x);
+
+    if (term_field.value !== undefined && definition_field !== undefined) {
+      const field1 = countWords(term_field.value) > 50;
+      const field3 = countCharacters(term_field.value) > 500;
+      const field2 = countCharacters(definition_field.value) > 5000;
+
+      if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+
+        //checkFieldsRfp();
+        if (pageHeading.includes("(Optional)")) {
+
+            if (field2) {
+              errorStore.push([definition_field.id, 'No more than 5000 characters are allowed.']);
+              ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
+              isError = true;
+            }
+
+            if (field3) {
+              errorStore.push([term_field.id, 'No more than 500 characters are allowed.']);
+              ccsZaddErrorMessage(term_field, 'No more than 500 characters are allowed.');
+              isError = true;
+            }
+
+            if (field1) {
+              errorStore.push([term_field.id, 'No more than 50 words are allowed.']);
+              ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+              isError = true;
+            }
+
+        }
+      }
+    }
+
+  }
+  return errorStore;
+}
+
+const emptyFieldCheckRfpStrategy = () => {
+
+  let fieldCheck = "",
+    errorStore = [];
+  const pageHeading = document.getElementById('page-heading').innerHTML;
+
+    let term_field = document.getElementById('rfp_contracting_auth');
+
+    if (term_field.value !== undefined) {
+      const field1 = countWords(term_field.value) > 50;
+      const field2 = countCharacters(term_field.value) > 500;
+
+            if (field1) {
+              errorStore.push([term_field, 'No more than 50 words are allowed.']);
+              ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
+              isError = true;
+            }
+            if (field2) {
+              errorStore.push([term_field, 'No more than 500 characters are allowed.']);
+              ccsZaddErrorMessage(term_field, 'No more than 500 characters are allowed.');
+              isError = true;
+            }
+
+  }
+  return errorStore;
+}
+
+
+const ccsZvalidateRfpUserType = (event) => {
+
+  event.preventDefault();
+
+  errorStore = emptyFieldCheckRfpUserType();
+
+  if (errorStore.length === 0) {
 
   document.forms["service_user_type_form"].submit();
-  //}
-  //else {
-  //   ccsZPresentErrorSummary(errorStore);
+  }
+  else {
+ccsZPresentErrorSummary(errorStore);
 
-  // }
+ }
 };
+
+const ccsZvalidateTextRfpChangeStrategy = (event) => {
+
+  event.preventDefault();
+
+  errorStore = emptyFieldCheckRfpStrategy();
+
+  if (errorStore.length === 0) {
+
+  document.forms["ccs_rfp_who_form"].submit();
+  }
+  else {
+ccsZPresentErrorSummary(errorStore);
+
+ }
+};
+
+
