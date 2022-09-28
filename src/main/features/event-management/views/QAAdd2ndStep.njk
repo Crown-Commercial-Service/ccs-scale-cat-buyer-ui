@@ -45,9 +45,35 @@
           <strong> {{data.title}} </strong>
         </h1>
         <p class="govuk-body">
-          <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
+          
         </p>
-        {% include "includes/project_header.njk" %}
+        <div class="project-overview">
+        <p class="govuk-no-margin-5bottom"><strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong></p>
+  <p class="govuk-no-margin-5bottom">Selected agreement: 
+   {%if agreement_header !=undefined and agreement_header !=null %}
+    {{ agreement_header['agreementName'] }}
+    {%endif%}
+    {% if(agreement_header !=undefined and agreement_header !=null 
+    and agreement_header.agreementLotName != undefined)%}, 
+    
+    {{ agreement_header['lotid'] }}: 
+    {{ agreement_header['agreementLotName'] }}  
+    {% endif %} </p>
+    
+  Agreement ID: 
+    
+    {%if(agreement_header !=undefined and   agreement_header !=null) %}
+    
+    {{ agreement_header['agreementId_session'] }}
+    
+    {%endif%}
+    
+    
+  
+   
+    
+  <p></p>
+</div>
       </div>
     </div>
 
@@ -71,9 +97,9 @@
     </div>
     <form id="ccs_message_qa_Add_ClerificationQs_form" name="ccs_message_qa_Add_ClerificationQs_form" action="/event/qa-add" method="POST">
      {{ csrfProtection(csrf) }}
-      <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
+      <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
         <div class="govuk-grid-column-full">
-          <div class="govuk-grid-column-two-thirds">
+          <div>
           <a href="{{data.backlink}}">Back</a></br></br></br>
           <h2 class="govuk-heading-m">Message from {{message.OCDS.author.name}}</h2>
           <p class="govuk-body ">Classification:  <strong>{{message.nonOCDS.classification}} </strong></p>
@@ -82,7 +108,7 @@
           <label class="govuk-label"></label></br>
           <p class="govuk-body ">{{data.Subject}}: {{message.OCDS.title}}</p>
           <p class="govuk-body ">{{data.Message}}: {{message.OCDS.description }}</p>
-        
+        <br/><br/>
         <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
          Add to clarifications
         </button>
