@@ -348,7 +348,6 @@ const emptyFieldCheckRfpKPI = () => {
     let target_field = document.getElementById("rfp_term_percentage_KPI_" + x);
 
     if (term_field !== undefined && term_field !== null && definition_field !== undefined && definition_field !== null && target_field !== undefined && target_field !== null) {
-      const field1 = countWordskpi(term_field?.value) > 50;
       //const field2 = countWordskpi(definition_field?.value) > 150;
       const field2 = countCharacterkpi(definition_field?.value) > 5000;
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
@@ -389,10 +388,7 @@ const emptyFieldCheckRfpKPI = () => {
                 isError = true;
               }
             }
-            if (field1) {
-              ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
-              isError = true;
-            }
+
             if (field2) {
               ccsZaddErrorMessage(definition_field, 'No more than 5000 characters are allowed.');
               isError = true;
@@ -482,16 +478,11 @@ $('#service_levels_kpi_form').on('submit', (event) => {
   for (var x = 1; x < 11; x++) {
   let term_field = document.getElementById("rfp_term_service_levels_KPI_" + Number(x));
   let definition_field = document.getElementById("rfp_term_definition_service_levels_KPI_" + Number(x));
-    const field1 = countWordskpi(term_field.value) > 50;
+
     const field2 = countCharacterkpi(definition_field.value) > 5000;
     const field3 = countCharacterkpi(term_field.value) > 500;
 
-    if (field1) {
 
-      errorStore.push([term_field.id, 'No more than 50 words are allowed.']);
-      ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
-      isError = true;
-    } 
 
   if (field2) {
 

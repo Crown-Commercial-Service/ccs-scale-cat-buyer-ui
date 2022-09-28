@@ -3,9 +3,8 @@ let words = '';
 let char = '';
 const textPattern = /^[a-zA-Z ]+$/;
 const condLength = (text) => {
-  words = text?.trim().split(/\s+/)?.length > 500;
+  //words = text?.trim().split(/\s+/)?.length > 500;
   char = text?.trim()?.length > 5000;
-  if (words) return words;
   return char;
 }
 

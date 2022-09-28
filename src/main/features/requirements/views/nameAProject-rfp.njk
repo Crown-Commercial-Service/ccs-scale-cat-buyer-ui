@@ -70,8 +70,7 @@
         {{ CCSInput({           
             id: data.form.input.id,
             name: data.form.input.name,
-            value: projectLongName,
-            maxlength:"500"
+            value: projectLongName
             })
         }}
         <p><label class="remaining_chrs_term" id="rfi_label_name_project">You have {{(500-(projectLongName | length))}} characters remaining</label></p>

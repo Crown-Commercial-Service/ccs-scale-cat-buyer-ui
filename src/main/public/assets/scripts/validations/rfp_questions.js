@@ -71,17 +71,17 @@ document.addEventListener('DOMContentLoaded', () => {
     //#region Character count validation
     if (!pageHeading?.includes("Enter your project requirements")) {
       [].forEach.call(document.querySelectorAll('.order_1'), function (el) {
-        el.maxLength = '500'
+        //el.maxLength = '500'
         let count = 500 - el.value.length;
         //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
       });
       [].forEach.call(document.querySelectorAll('.order_2'), function (el) {
-        el.maxLength = '5000'
+        //el.maxLength = '5000'
         let count = 5000 - el.value.length;
         //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
       });
       [].forEach.call(document.querySelectorAll('.order_3'), function (el) {
-        el.maxLength = '5000'
+        //el.maxLength = '5000'
         let count = 5000 - el.value.length;
         //$("#rfp_label_question_lable_" + el.id.substring(12, 15)).text(`You have ${count} characters remaining`);
       });
@@ -118,7 +118,25 @@ document.addEventListener('DOMContentLoaded', () => {
       ele.id = ele.id + "_Requirements_" + index;
       if (pageHeading?.includes("Enter your project requirements")) {
         ele.addEventListener('keyup', (event) => {
-          let maxLength = event.target.maxLength;
+          
+          let maxLength = '';
+          if(event.target.classList.contains("Question222"))
+          {
+          maxLength = '500';
+          }
+          else if(event.target.classList.contains("Question223"))
+          {
+          maxLength = '5000';
+          }
+          else if(event.target.classList.contains("Question224"))
+          {
+          maxLength = '5000';
+          }
+          else
+          {
+            maxLength = '5000'; 
+          }
+          
           let errorStore = [];
           removeErrorFieldsRfpScoreQuestion();
           let currentLength = event.target.value.length;
@@ -129,42 +147,54 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             document.getElementById(spanId).innerText = `You have ${(maxLength - currentLength)} characters remaining`;
           }
-          else if((5000 - currentLength)<0)
+          else if((maxLength - currentLength)<0)
           {
-            document.getElementById(spanId).innerText = `You have ${String(5000 - currentLength).replace("-","")} characters too many`; 
-          }
-
-
-          if ((currentLength) > maxLength) {
+            document.getElementById(spanId).innerText = `You have ${String(maxLength - currentLength).replace("-","")} characters too many`; 
             errorStore.push([event.target.id, `No more than ${maxLength} characters are allowed.`]);
             ccsZPresentErrorSummary(errorStore);
-            ccsZvalidateTextArea(event.target.id, `No more than ${maxLength} characters are allowed.`, '');
+            ccsZvalidateTextArea(event.target.id, `No more than ${maxLength} characters are allowed.`, '');            
           }
+
         });
       } else {
         ele.addEventListener('keyup', (event) => {
-          let maxLength = event.target.maxLength;
+          let maxLength;
+          if(event.target.classList.contains("order_1"))
+          {
+          maxLength = '500';
+          }
+          else if(event.target.classList.contains("order_2"))
+          {
+          maxLength = '5000';
+          }
+          else if(event.target.classList.contains("order_3"))
+          {
+          maxLength = '5000';
+          }
+          else
+          {
+            maxLength = '5000'; 
+          }
+
           let errorStore = [];
           removeErrorFieldsRfpScoreQuestion();
           let currentLength = event.target.value.length;
           let spanId = event.target.id?.split("_")[5];
 
+          console.log(maxLength);
 
           if((maxLength - currentLength)>0)
           {
             document.getElementById(spanId).innerText = `You have ${(maxLength - currentLength)} characters remaining`;
           }
-          else if((5000 - currentLength)<0)
+          else if((maxLength - currentLength)<0)
           {
-            document.getElementById(spanId).innerText = `You have ${String(5000 - currentLength).replace("-","")} characters too many`; 
-          }
-
-
-          if ((currentLength) > maxLength) {
+            document.getElementById(spanId).innerText = `You have ${String(maxLength - currentLength).replace("-","")} characters too many`; 
             errorStore.push([event.target.id, `No more than ${maxLength} characters are allowed.`]);
             ccsZPresentErrorSummary(errorStore);
-            ccsZvalidateTextArea(event.target.id, `No more than ${maxLength} characters are allowed.`, '');
+            ccsZvalidateTextArea(event.target.id, `No more than ${maxLength} characters are allowed.`, '');            
           }
+
         });
       }
     }
@@ -342,13 +372,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //#region 
         inputElements[0].rows = 2;
-        inputElements[0].maxLength = 500;
+        //inputElements[0].maxLength = 500;
 
         inputElements[1].rows = 2;
-        inputElements[1].maxLength = 500;
+        //inputElements[1].maxLength = 500;
 
         inputElements[2].rows = 2;
-        inputElements[2].maxLength = 5000;
+        //inputElements[2].maxLength = 5000;
 
         let currentLength = inputElements[0].value.length;
         let spanId = inputElements[0].id?.split("_")[5];
@@ -359,9 +389,34 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentLength2 = inputElements[2].value.length;
         let spanId2 = inputElements[2].id?.split("_")[5];
 
-        document.getElementById(spanId).innerText = `You have ${(500 - currentLength)} characters remaining`;
-        document.getElementById(spanId1).innerText = `You have ${(500 - currentLength1)} characters remaining`;
-        document.getElementById(spanId2).innerText = `You have ${(5000 - currentLength2)} characters remaining`;
+
+        if((500 - currentLength)>0)
+        {
+          document.getElementById(spanId).innerText = `You have ${(500 - currentLength)} characters remaining`;
+        }
+        else if((500 - currentLength)<0)
+        {
+          document.getElementById(spanId).innerText = `You have ${String(500 - currentLength).replace("-","")} characters too many`; 
+        }
+
+        if((5000 - currentLength1)>0)
+        {
+          document.getElementById(spanId1).innerText = `You have ${(5000 - currentLength1)} characters remaining`;
+        }
+        else if((5000 - currentLength1)<0)
+        {
+          document.getElementById(spanId1).innerText = `You have ${String(5000 - currentLength1).replace("-","")} characters too many`; 
+        }      
+
+        if((5000 - currentLength2)>0)
+        {
+          document.getElementById(spanId2).innerText = `You have ${(5000 - currentLength2)} characters remaining`;
+        }
+        else if((5000 - currentLength2)<0)
+        {
+          document.getElementById(spanId2).innerText = `You have ${String(5000 - currentLength2).replace("-","")} characters too many`; 
+        }      
+
 
 
         let field1 = document.getElementById(inputElements[0].id).value;
@@ -396,9 +451,33 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentLength2 = inputElements[2].value.length;
         let spanId2 = inputElements[2].id?.split("_")[5];
 
-        document.getElementById(spanId).innerText = `You have ${(500 - currentLength)} characters remaining`;
-        document.getElementById(spanId1).innerText = `You have ${(5000 - currentLength1)} characters remaining`;
-        document.getElementById(spanId2).innerText = `You have ${(5000 - currentLength2)} characters remaining`;
+        if((500 - currentLength)>0)
+        {
+          document.getElementById(spanId).innerText = `You have ${(500 - currentLength)} characters remaining`;
+        }
+        else if((500 - currentLength)<0)
+        {
+          document.getElementById(spanId).innerText = `You have ${String(500 - currentLength).replace("-","")} characters too many`; 
+        }
+
+        if((5000 - currentLength1)>0)
+        {
+          document.getElementById(spanId1).innerText = `You have ${(5000 - currentLength1)} characters remaining`;
+        }
+        else if((5000 - currentLength1)<0)
+        {
+          document.getElementById(spanId1).innerText = `You have ${String(5000 - currentLength1).replace("-","")} characters too many`; 
+        }      
+
+        if((5000 - currentLength2)>0)
+        {
+          document.getElementById(spanId2).innerText = `You have ${(5000 - currentLength2)} characters remaining`;
+        }
+        else if((5000 - currentLength2)<0)
+        {
+          document.getElementById(spanId2).innerText = `You have ${String(5000 - currentLength2).replace("-","")} characters too many`; 
+        }      
+
 
         if (this_box.querySelector('.order_1').value !== '') {
           this_box.classList.remove('ccs-dynaform-hidden');
@@ -610,6 +689,35 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!pageHeading?.includes("Enter your project requirements")) {
       for (let index = 0; index < weightage.length; index++) {
         if (pageHeading?.includes('Write your technical questions')) {
+          
+          let rootEl = document.getElementById('fc_question_' + Number(index+1));
+          if (!rootEl?.classList.contains("ccs-dynaform-hidden")){
+            const inputElements = rootEl.querySelectorAll("textarea");
+            if (inputElements != null && inputElements != undefined && inputElements.length > 0) {
+              for (let i = 0; i < inputElements.length; i++) {
+                const element = inputElements[i];
+                if (i === 0) {
+  
+  
+                  if (element.value.length>500) {
+                    errorStore.push([element.id, "No more than 500 characters are allowed."])
+                    ccsZaddErrorMessageClass(element, 'No more than 500 characters are allowed.')
+                  }                
+  
+                } else {
+
+  
+                  if (element.value.length>5000) {
+                    errorStore.push([element.id, "No more than 5000 characters are allowed."])
+                    ccsZaddErrorMessageClass(element, 'No more than 5000 characters are allowed.')
+                  }     
+  
+                }
+              }
+            }
+          } 
+
+
           if (weightage[index].value != "") {
             if (Number(weightage[index].value) == 0) {
               fieldCheck = [weightage[index].id, 'The value cannot be less than 1%'];
@@ -629,6 +737,36 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
         else if (pageHeading?.includes('Write your cultural fit questions') || pageHeading?.includes('Write your social value questions')) {
+
+
+          let rootEl = document.getElementById('fc_question_' + Number(index+1));
+          if (!rootEl?.classList.contains("ccs-dynaform-hidden")){
+            const inputElements = rootEl.querySelectorAll("textarea");
+            if (inputElements != null && inputElements != undefined && inputElements.length > 0) {
+              for (let i = 0; i < inputElements.length; i++) {
+                const element = inputElements[i];
+                if (i === 0) {
+  
+  
+                  if (element.value.length>500) {
+                    errorStore.push([element.id, "No more than 500 characters are allowed."])
+                    ccsZaddErrorMessageClass(element, 'No more than 500 characters are allowed.')
+                  }                
+  
+                } else {
+
+  
+                  if (element.value.length>5000) {
+                    errorStore.push([element.id, "No more than 5000 characters are allowed."])
+                    ccsZaddErrorMessageClass(element, 'No more than 5000 characters are allowed.')
+                  }     
+  
+                }
+              }
+            }
+          } 
+
+
           if (weightage[index].value != "") {
             if (Number(weightage[index].value) == 0) {
               fieldCheck = [weightage[index].id, 'The value cannot be less than 1%'];
@@ -663,15 +801,29 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let index = 0; index < inputElements.length; index++) {
               const element = inputElements[index];
               if (index === 0) {
+
                 if (element.value == '' || element.value === undefined || element.value === null) {
                   errorStore.push([element.id, "Please enter your requirement group name"])
                   ccsZaddErrorMessageClass(element, 'Please enter your requirement group name.')
                 }
+
+                if (element.value.length>500) {
+                  errorStore.push([element.id, "No more than 500 characters are allowed."])
+                  ccsZaddErrorMessageClass(element, 'No more than 500 characters are allowed.')
+                }                
+
               } else {
                 if (element.value == '' || element.value === undefined || element.value === null) {
                   errorStore.push([element.id, "Please enter your requirement"])
                   ccsZaddErrorMessageClass(element, 'Please enter your requirement.')
                 }
+
+
+                if (element.value.length>5000) {
+                  errorStore.push([element.id, "No more than 5000 characters are allowed."])
+                  ccsZaddErrorMessageClass(element, 'No more than 5000 characters are allowed.')
+                }     
+
               }
             }
           }
