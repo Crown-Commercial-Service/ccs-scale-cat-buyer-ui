@@ -378,7 +378,7 @@ const emptyFieldCheckRfpUserType = () => {
     let target_field = document.getElementById("rfp_term_target_" + x);
 
     if (term_field.value !== undefined && definition_field !== undefined) {
-      const field1 = countWords(term_field.value) > 50;
+
       const field3 = countCharacters(term_field.value) > 500;
       const field2 = countCharacters(definition_field.value) > 5000;
 
@@ -399,12 +399,6 @@ const emptyFieldCheckRfpUserType = () => {
               isError = true;
             }
 
-            if (field1) {
-              errorStore.push([term_field.id, 'No more than 50 words are allowed.']);
-              ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
-              isError = true;
-            }
-
         }
       }
     }
@@ -422,16 +416,12 @@ const emptyFieldCheckRfpStrategy = () => {
     let term_field = document.getElementById('rfp_contracting_auth');
 
     if (term_field.value !== undefined) {
-      const field1 = countWords(term_field.value) > 50;
+
       const field2 = countCharacters(term_field.value) > 500;
 
-            if (field1) {
-              errorStore.push([term_field, 'No more than 50 words are allowed.']);
-              ccsZaddErrorMessage(term_field, 'No more than 50 words are allowed.');
-              isError = true;
-            }
+
             if (field2) {
-              errorStore.push([term_field, 'No more than 500 characters are allowed.']);
+              errorStore.push([term_field.id, 'No more than 500 characters are allowed.']);
               ccsZaddErrorMessage(term_field, 'No more than 500 characters are allowed.');
               isError = true;
             }

@@ -336,7 +336,7 @@ const emptyFieldCheckRfp1 = () => {
     let target_field = document.getElementById("rfp_term_target_" + x);
 
     if (term_field.value !== undefined && definition_field !== undefined) {
-      const field1 = countWords1(term_field.value) > 50;
+
       const field3 = countCharacters(term_field.value) > 500;
       const field2 = countCharacters(definition_field.value) > 5000;
       
@@ -355,13 +355,6 @@ const emptyFieldCheckRfp1 = () => {
             ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
             errorStore.push(fieldCheck);
           }
-
-          if (field1) {
-
-            errorStore.push([term_field.id, 'No more than 50 words are allowed.']);
-            ccsZaddErrorMessage(term_field, "No more than 5000 characters are allowed.");
-            isError = true;
-          } 
 
           if (field3) {
 
