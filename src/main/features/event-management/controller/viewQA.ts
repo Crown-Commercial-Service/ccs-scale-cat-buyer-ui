@@ -49,7 +49,7 @@ export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: ex
             if (fetchData != undefined && fetchData != null && fetchData.data.QandA?.length > 0) {
                 res.locals.agreement_header = { projectId: projectId, eventId: eventId, project_name: fetchData.data.projectName, agreementName: fetchData.data.agreementName, agreementId_session: fetchData.data.agreementId, agreementLotName: fetchData.data.lotName, lotid: fetchData.data.lotId }
                 req.session.agreement_header = res.locals.agreement_header
-                appendData = { data: inboxData, QAs: fetchData.data.QandA, eventId: eventId, eventType: req.session.eventManagement_eventType, isSupplierQA: true }
+                appendData = { data: inboxData, QAs: fetchData.data.QandA, eventId: eventId,eventName:req.session.eventManagement_eventType, eventType: req.session.eventManagement_eventType, isSupplierQA: true }
             }
         }
         res.render('viewQA', appendData)
