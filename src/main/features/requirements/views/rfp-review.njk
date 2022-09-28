@@ -851,7 +851,7 @@
                       {% for data in reqGroup%}
                   <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key border-bottom-rfp-review">
-                        <p>Name of the {{numberWordSmall[loop.index].toLowerCase()}}  requirement group</p>
+                        Name of the {{numberWordSmall[loop.index].toLowerCase()}}  requirement group
                         </dt>
                         <dd class="govuk-summary-list__value border-bottom-rfp-review">
                         {{data.group}}
@@ -863,7 +863,7 @@
 
                   <div class="govuk-summary-list__row">
                           <dt class="govuk-summary-list__key border-bottom-rfp-review">
-                          <p>Name of the  {{numberWordSmall[loop.index].toLowerCase()}} requirement</p>
+                          Name of the  {{numberWordSmall[loop.index].toLowerCase()}} requirement
                           </dt>
                           <dd class="govuk-summary-list__value border-bottom-rfp-review">
                           {{data.title}}
@@ -874,7 +874,7 @@
                   </div>
                   <div class="govuk-summary-list__row">
                           <dt class="govuk-summary-list__key border-bottom-rfp-review">
-                          <p>Name of the {{numberWordSmall[loop.index].toLowerCase()}}  requirement</p>
+                          Description of the {{numberWordSmall[loop.index].toLowerCase()}}  requirement
                           </dt>
                           <dd class="govuk-summary-list__value border-bottom-rfp-review">
                           {{data.desc}}
@@ -882,10 +882,34 @@
                           <dd class="govuk-summary-list__actions border-bottom-rfp-review">
                               
                           </dd>
-                  </div>
-                      {# <p>{{data.title}}</p>
-                      <p>{{data.group}}</p>
-                      <p>{{data.desc}}</p><br /> #}
+                  </div> 
+                  <div class="govuk-summary-list__row">
+                          <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                          </dt>
+                          <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                          </dd>
+                          <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                              
+                          </dd>
+                  </div> 
+                   <div class="govuk-summary-list__row">
+                          <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                          </dt>
+                          <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                          </dd>
+                          <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                              
+                          </dd>
+                  </div>  
+                  <div class="govuk-summary-list__row">
+                          <dt class="govuk-summary-list__key border-bottom-rfp-review">
+                          </dt>
+                          <dd class="govuk-summary-list__value border-bottom-rfp-review">
+                          </dd>
+                          <dd class="govuk-summary-list__actions border-bottom-rfp-review">
+                              
+                          </dd>
+                  </div>  
                       {% endfor %}
 
                       {%endif%}
