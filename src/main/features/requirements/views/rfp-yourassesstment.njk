@@ -37,11 +37,11 @@
                         {% set criterion_id = items.id | replace(" ", "_") %}
                         {% if(items.step ===48) %}
                             {#<a class="app-task-list__tag" href="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">{{items.nonOCDS.task}}</a>#}
-                            <a class="app-task-list__tag" href="/rfp/set-scoring-criteria?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">[Add/ edit link]</a>
+                            <a class="app-task-list__tag" href="/rfp/set-scoring-criteria?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-label="{{items.OCDS.description}} , Add or edit ">[Add/ edit link]</a>
                         {% elseif(items.step ===40) %}
-                            <a class="app-task-list__tag" href="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">[Review link]</a>
+                            <a class="app-task-list__tag" href="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-label="{{items.OCDS.description}} , Review ">[Review link]</a>
                         {%else%}
-                            <a class="app-task-list__tag" href="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="rfp-questions">[Add/ edit link]</a>
+                            <a class="app-task-list__tag" href="/rfp/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-label="{{items.OCDS.description}} , Add or edit ">[Add/ edit link]</a>
                         {%endif%}
                     </li>
 
