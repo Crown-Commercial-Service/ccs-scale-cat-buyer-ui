@@ -95,6 +95,8 @@ const ccsZisOptionChecked = (elementName, errMsg) => {
     if (element.type === "radio") containingDiv = ".govuk-radios";
 
     let theOptions = element.closest(containingDiv).querySelectorAll('input');
+    console.log(theOptions);
+    return;
 
     theOptions.forEach((opt) => {
       if (opt.checked) gotACheck = true;
@@ -246,9 +248,9 @@ const ccsZaddErrorMessage = (element, message) => {
     }
 
     errorEl = ccsZcreateCcsErrorMsg(element.id, message);
-
+    
     if (element.type === "radio") {
-      element.closest(".govuk-radios").insertBefore(errorEl, element.parentNode);
+      $('fieldset').parent(".govuk-radios").prepend(errorEl);
     } else if (element.type === "checkbox") {
       element.closest(".govuk-checkboxes").insertBefore(errorEl, element.parentNode);
     } else if (element.parentNode.classList.contains("govuk-input__wrapper")) {

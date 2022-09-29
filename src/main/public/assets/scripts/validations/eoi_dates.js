@@ -203,8 +203,12 @@ $('.save-button').on('click', (e) => {
         ccsZPresentErrorSummary(errorStore);
     }
     else {
-        document.forms['ccs_eoi_date_form'].submit();
+        if(document.forms['ccs_eoi_date_form']){
+            document.forms['ccs_eoi_date_form'].submit();
+        }
+        
     }
+
 
 
 
