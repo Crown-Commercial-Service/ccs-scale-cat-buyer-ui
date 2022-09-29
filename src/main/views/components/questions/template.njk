@@ -483,12 +483,12 @@
                  {%set rfp_duration_months='rfp_duration_months_'+requirement.OCDS.id.trim().replace(' ','')%}
                  {%set rfp_duration_days='rfp_duration_days_'+requirement.OCDS.id.trim().replace(' ','')%}
                 <div class="govuk-form-group {{rfp_duration_years}} p_durations">
-   <div class="govuk-fieldset" role="group" aria-describedby="rfp_duration-hint">
+   <div class="govuk-fieldset" role="group" aria-describedby="rfp_duration-hint_{{requirement.OCDS.id.trim().replace(' ','')}}">
       <legend class="govuk-fieldset__legend govuk-label--m">
          {{requirement.OCDS.title}} (Optional)
       </legend>
-      <div id="rfp_duration-hint" class="govuk-hint">
-         <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
+      <div id="rfp_duration-hint_{{requirement.OCDS.id.trim().replace(' ','')}}" class="govuk-hint">
+         <p class="govuk-body"><span class="govuk-visually-hidden">{{requirement.OCDS.title+" Optional."}}</span>{{requirement.OCDS.description | nl2br | safe}}</p>
       </div>
       <p id="event-name-error-pdate" class="govuk-error-message p_durations_pday_25 p_durations_pday_{{rfp_duration_days}} p_durations_{{rfp_duration_years}} p_durations_{{rfp_duration_months}} p_durations_{{rfp_duration_days}}">
          <span class="govuk-visually-hidden">Error:</span>
