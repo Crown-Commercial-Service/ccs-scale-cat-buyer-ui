@@ -145,7 +145,7 @@
                 </p>
             </div>
             <div class="govuk-grid-column-one-third govuk-grid-column-one-third-text-right"><br/>
-            <a href="/event/qa-edit?qaid={{QA.id}}&id={{message.OCDS.id}}">Edit</a>
+            <a aria-label="{{qnumber}}. {{QA.question}} , Edit" href="/event/qa-edit?qaid={{QA.id}}&id={{message.OCDS.id}}">Edit</a>
           </div>
         </div>
         {% set qnumber = qnumber+1 %}
