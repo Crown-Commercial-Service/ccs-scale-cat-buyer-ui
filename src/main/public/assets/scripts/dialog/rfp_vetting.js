@@ -15,12 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   $(function () {
-    var foundinsave = $('body:contains("Save and continue")');
-    var foundin = $('body:contains("Confirm Scores")');
-    if (foundin.length < 1 && foundinsave.length < 1) {
+    var foundin = $('body:contains("Save and continue")');
+    if (foundin.length < 1) {
       removeClass();
     }
   });
+
   function removeClass() {
     var allElements = document.querySelectorAll(".nav-popup");
     for (i = 0; i < allElements.length; i++) {
@@ -30,24 +30,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   $(function () {
-    // $('.nav-popup').on('click', function () {
-    //   if ($(this).hasClass('selected')) {
-    //     deselect($(this));
-    //     $(".backdrop-nav-menu").fadeOut(200);
-    //   } else {
-    //     $(".backdrop-nav-menu").fadeTo(200, 1);
-    //     let btnSend = document.querySelector('#redirect-button-nav-menu');
-    //     if (btnSend && this.className != "logo nav-popup" && this.className != "govuk-footer__link logo nav-popup") {
-    //       btnSend.setAttribute('name', this.innerHTML);
-    //     } else {
-    //       btnSend.setAttribute('name', 'CCS website');
-    //       document.body.scrollTop = document.documentElement.scrollTop = 0;
-    //     }
-    //     // $(this).addClass('selected');
-    //     $('.pop').slideFadeToggle();
-    //   }
-    //   return false;
-    // });
+    $('.nav-popup').on('click', function () {
+      if ($(this).hasClass('selected')) {
+        deselect($(this));
+        $(".backdrop-nav-menu").fadeOut(200);
+      } else {
+        $(".backdrop-nav-menu").fadeTo(200, 1);
+        let btnSend = document.querySelector('#redirect-button-nav-menu');
+        if (btnSend && this.className != "logo nav-popup" && this.className != "govuk-footer__link logo nav-popup") {
+          btnSend.setAttribute('name', this.innerHTML);
+        } else {
+          btnSend.setAttribute('name', 'CCS website');
+          document.body.scrollTop = document.documentElement.scrollTop = 0;
+        }
+        // $(this).addClass('selected');
+        $('.pop').slideFadeToggle();
+      }
+      return false;
+    });
 
     $('.rfp_vetting-popup').on('click', function () {
       if ($(this).hasClass('selected')) {
@@ -68,37 +68,36 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     });
 
-/*     $('.dialog-close-vetting').on('click', function () {
+    $('.dialog-close-vetting').on('click', function () {
       $(".backdrop-vetting").fadeOut(200);
       deselect($('.dialog-close-vetting'));
       return false;
-    }); */
-    // $('.dialog-close-nav-menu').on('click', function () {
-    //   $(".backdrop-nav-menu").fadeOut(200);
-    //   deselect($('.dialog-close-nav-menu'));
-    //   return false;
-    // });
+    });
+    $('.dialog-close-nav-menu').on('click', function () {
+      $(".backdrop-nav-menu").fadeOut(200);
+      deselect($('.dialog-close-nav-menu'));
+      return false;
+    });
 
-
-    // $('#redirect-button-nav-menu').on('click', function () {
-    //   deselect($('.dialog-close-nav-menu'));
-    //   $(".backdrop-nav-menu").fadeOut(200);
-    //   var route = this.name;
-    //   if (route == 'Home') {
-    //     window.open("/");
-    //   } else if (route == 'My Projects') {
-    //     window.open('/dashboard');
-    //   } else if (route == 'CCS website') {
-    //     window.open('https://www.crowncommercial.gov.uk/');
-    //   } else if (route == 'Guidance') {
-    //     window.open("#");
-    //   } else if (route == 'Get help') {
-    //     window.open('https://www.crowncommercial.gov.uk/contact');
-    //   } else {
-    //     return false;
-    //   }
-    //   $(".backdrop-nav-menu").fadeOut(200);
-    // });
+    $('#redirect-button-nav-menu').on('click', function () {
+      deselect($('.dialog-close-nav-menu'));
+      $(".backdrop-nav-menu").fadeOut(200);
+      var route = this.name;
+      if (route == 'Home') {
+        document.location.href = "/";
+      } else if (route == 'My Projects') {
+        document.location.href = "/dashboard";
+      } else if (route == 'CCS website') {
+        document.location.href = "https://www.crowncommercial.gov.uk/";
+      } else if (route == 'Guidance') {
+        document.location.href = "#";
+      } else if (route == 'Get help') {
+        document.location.href = "https://www.crowncommercial.gov.uk/contact";
+      } else {
+        return false;
+      }
+      $(".backdrop-nav-menu").fadeOut(200);
+    });
 
     $('#redirect-button-vetting').on('click', function () {
       deselect($('.dialog-close-vetting'));

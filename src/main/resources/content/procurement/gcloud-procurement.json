@@ -1,0 +1,117 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "#"
+    }
+  ],
+  "title": "Procurement overview",
+  "line1": "Before you start you should <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.106626880.2111983670.1659520755-1443536416.1659520755#requirements'>write a list of requirements</a> and <a target='_blank' href='https://www.gov.uk/service-manual/agile-delivery/spend-controls-check-if-you-need-approval-to-spend-money-on-a-service?_ga=2.106626880.2111983670.1659520755-1443536416.1659520755'> check if you need approval </a> to spend money on a service.",
+  "line2": "",
+  "line3": "",
+  "line4": "",
+  "line5": "",
+  "events": [
+    {
+      "eventno": 81,
+      "eventnoLabel": 1,
+      "eventTitle": "Project details",
+      "buttonText": "Name your project",
+      "buttonText1": "Name your project",
+      "buttonDisable": false,
+      "href": "/g-cloud/project-name",
+      "href1": "",
+      "sections": [
+        "You can name your project in this section."
+      ],
+      "subsections": [],
+      "list": [],
+      "required": "",
+      "status": "not started"
+    },
+
+    {
+      "eventno": 82,
+      "eventnoLabel": 2,
+      "eventTitle": "Save a search",
+      "buttonText": "Start a new search",
+      "buttonText1": "See a list of  your saved searches",
+      "buttonDisable": false,
+      "href": "/g-cloud/choose-category",
+      "href1": "/g-cloud/saved-searches",
+      "sections": [
+        "Save your search so you can export your results later. You must <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.73660369.2111983670.1659520755-1443536416.1659520755#fairness'>  buy fairly  </a> and assess all the services that you find. Do not combine the results of more than one search."
+      ],
+      "subsections": [],
+      "list": [],
+      "required": "",
+      "status": "not started"
+    },
+    {
+      "eventno": 83,
+      "eventnoLabel": 3,
+      "eventTitle": "Start assessing services",
+      "buttonText": "",
+      "note": "",
+      "buttonDisable": false,
+      "href": "#",
+      "sections": [
+        "Follow the <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.148626036.2111983670.1659520755-1443536416.1659520755#review-and-compare-services'>guidance for assessing services</a>. Choose the one that best meets your budget and requirements.",
+        "Do not hold a competition to decide the winner. You can <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.103012291.2111983670.1659520755-1443536416.1659520755#what-to-do-if-you-have-a-question-for-the-suppliers'>contact suppliers to ask clarification questions</a>, but you must not negotiate with them."
+      ],
+      "subsections": [],
+      "list": [],
+      "required": "Complete Offline",
+      "status": "Complete Offline"
+    },
+    {
+      "eventno": 84,
+      "eventnoLabel": 4,
+      "eventTitle": "Award a contract",
+      "buttonText": "",
+      "buttonDisable": false,
+      "href": "#",
+      "sections": [
+        "Follow the guidance for <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.103012291.2111983670.1659520755-1443536416.1659520755#contract'>awarding a contract</a>. Check if you need to <a target='_blank' href='https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.103012291.2111983670.1659520755-1443536416.1659520755#contracts-finder'>publish the details on Contracts Finder</a>. Whether or not you award a contract, tell us the outcome. This information helps us improve."
+      ],
+      "subsections": [],
+      "list": [],
+      "required": "Complete Offline",
+      "status": "Complete Offline"
+    },
+    {
+      "eventno": 85,
+      "eventnoLabel": 5,
+      "eventTitle": "Submit a Customer Benefits Record",
+      "sections": [
+        "You must <a target='_blank' href='https://crowncommercial.qualtrics.com/jfe/form/SV_9YO5ox0tT0ofQ0u'>submit a Customer Benefits Record</a>. The Crown Commercial Service will contact you if they find any issues with the supplier."
+      ],
+      "required": "Complete Offline",
+      "status": "Complete Offline"
+    }
+  ],
+  "related_content": [
+    {
+        "text": "G-Cloud 13 customer guidance",
+        "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
+    },
+    {
+        "text": "G-Cloud buyer’s guide",
+        "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
+    },
+    {
+        "text": "G-Cloud 13 agreement page",
+        "href": "https://www.crowncommercial.gov.uk/agreements/RM1557.13"
+    }
+]
+}
+
+

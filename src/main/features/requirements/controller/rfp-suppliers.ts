@@ -3,7 +3,8 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import * as express from 'express';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
-import * as cmsData from '../../../resources/content/requirements/suppliers.json';
+import * as cmsDataDCP from '../../../resources/content/requirements/suppliers.json';
+import * as cmsDataMCF from '../../../resources/content/MCF3/requirements/suppliers.json';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import config from 'config';
@@ -16,6 +17,16 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 // RFI Suppliers
 export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; //jwt
+
+  let cmsData;
+  if(req.session.agreement_id == 'RM6187') {
+    //MCF3
+    cmsData = cmsDataMCF;
+  } else if(req.session.agreement_id == 'RM6263') {
+    //DSP
+    cmsData = cmsDataDCP;
+  }
+
   const { projectId ,eventId} = req.session;
   const { download,previous,next,fromMessage } = req.query
   const releatedContent = req.session.releatedContent
@@ -32,7 +43,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     const supplierBaseURL: any = `/tenders/projects/${projectId}/events/${req.session.eventId}/suppliers`;
     const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
     let SUPPLIER_DATA = SUPPLIERS?.data;//saved suppliers
-    if(SUPPLIER_DATA!=undefined && SUPPLIER_DATA.suppliers.length>0){
+    if(SUPPLIER_DATA!=undefined){
       let allSuppliers=await GetLotSuppliers(req);
       for(var i=0;i<SUPPLIER_DATA.suppliers.length;i++)
           {
@@ -49,11 +60,13 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     const rowCount=10;let showPrevious=false,showNext=false;
     supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
     const supplierLength=supplierList.length;
-    let enablebtn=true
-    if(fromMessage!=undefined)
-    {
-      req.session["rfiSuppliersbtn"]=true
+    let enablebtn=true	
+    
+    if(fromMessage!=undefined)	
+    {	
+     // req.session["rfiSuppliersbtn"]=true	
     }
+    
     let appendData = {
       data: cmsData,
       suppliers_list: supplierList,
@@ -61,16 +74,31 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
       lotSuppliers: lotSuppliers,
       supplierLength,enablebtn
     };
+    
     if(download!=undefined)
   {
-    let csvSupplierList=[];
-    csvSupplierList=appendData.suppliers_list.map(a=>a.organization);
-    let fields = ["name"];
+    const JsonData:any = [];
+    let contactSupplierDetails;
+    for(let i=0;i<appendData.suppliers_list.length;i++){
+      const contact = appendData.suppliers_list[i];
+      if(contact.lotContacts != undefined) {
+        contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+        contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+        contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+        contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+        contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+        contactSupplierDetails = contact.lotContacts[0].contact;
+      }
+      JsonData.push(contactSupplierDetails)
+    }
+    // let fields = ["name","email","telephone","address","url","Contact Point name","status"];
+    let fields = ["name","email","telephone","address","url","Contact Point name"];
     const json2csv = new Parser({fields});
-    const csv = json2csv.parse(csvSupplierList);
+    const csv = json2csv.parse(JsonData);
     res.header('Content-Type', 'text/csv');
-    res.attachment("Suppliers_List.csv");         
+    res.attachment("FC_Suppliers_List.csv");         
     res.send(csv);
+
   }
   else{
     let noOfPages=Math.ceil(supplierList.length/rowCount);
@@ -179,11 +207,12 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
         };
       }
     }
-     
-    if(req.session["rfiSuppliersbtn"])
-    {
-      appendData= Object.assign({}, { ...appendData, enablebtn: false})
+
+    if(fromMessage!=undefined)
+    {	
+      appendData= Object.assign({}, { ...appendData, enablebtn: false})	
     }
+
     res.render('rfp-suppliers', appendData);
   }
   } catch (error) {
@@ -203,12 +232,12 @@ export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Resp
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId } = req.session;
   try {
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
       let flag=await ShouldEventStatusBeUpdated(eventId,40,req);
       if(flag)
       {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
     }
   }
      res.redirect('/rfp/response-date');

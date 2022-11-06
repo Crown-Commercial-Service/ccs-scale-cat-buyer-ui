@@ -1,4 +1,8 @@
 {% extends "template.njk" %}
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set fcaHelperLayer = true %}
+{% endif %}
 {% from "macros/csrf.njk" import csrfProtection %}
 
 {% from "components/support/macro.njk" import howToGetSupport %}
@@ -9,11 +13,14 @@
 
 
 {% set organisationUser = userdata%}
-
+{% if agreementId_session == 'RM6187' %}
+{% set sortedMembers = [{value: "", text: "Please select a colleague to be added"}] %}
+{% else %}
 {% set sortedMembers = [{value: "", text: "Select colleague"}] %}
+{% endif %}
 {% for user in organisationUser %}
   {% if user.userName !== lead%}
-    {% set sortedMembers = (sortedMembers.push({value: user["user-id"], text: user.name}), sortedMembers) %}
+    {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
   {%endif %}  
 {% endfor %}
 
@@ -25,7 +32,7 @@
 {{ CCSBreadcrumbs({
        items: [
         {
-        text: "Your dashboard",
+        text: "Dashboard",
         href: "/dashboard"
         },
         {
@@ -86,15 +93,21 @@
 
     <p class="govuk-body">{{data.content.p3}}</p>
       
-      {#{{ CCSInsetText({
+      {% if agreementId_session == 'RM6187' %}
+      {{ CCSInsetText({
         html: '<p class="govuk-body">If you are the lead on this project you can add four colleagues.<br>
           If you are not the lead you can add three colleagues.</p>'
-        }) }}#}
+        }) }}
+        {% endif %}
 
     <p class="govuk-body">{{data.content.p4}} </p>
-
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"> 
       <div class="ccs-page-section">
-        <p class="govuk-body">Add colleagues</p>
+      {% if agreementId_session == 'RM6187' %}
+        <p class="govuk-body">Select and add colleagues</p>
+        {% else %}
+         <p class="govuk-body">Add colleagues:</p>
+         {% endif %}
         <form method="POST" action="/ca/get-collaborator-detail">
         {{ csrfProtection(csrf) }}
           <div class="govuk-button-group">

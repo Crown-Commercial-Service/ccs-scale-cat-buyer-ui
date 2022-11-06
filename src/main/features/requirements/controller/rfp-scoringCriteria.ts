@@ -56,10 +56,20 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     // };
 
     let group_id = 'Group 8';
+    if(agreementId_session == 'RM1043.8' && lotid == 3){
+      group_id = 'Group 11';
+    }
+    if(agreementId_session == 'RM1043.8' && lotid == 1){
+      group_id = 'Group 13';
+    }
+    
     let criterion_Id = 'Criterion 2';
     const baseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups/${group_id}/questions`;
+
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+    
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
+    
     const headingBaseURL: any = `/tenders/projects/${projectId}/events/${eventId}/criteria/${criterion_Id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
 
@@ -72,6 +82,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
       return agroupitem?.OCDS?.['id'] === group_id;
     });
+
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
     const bcTitleText = OCDS?.description === 'How you will score suppliers' ? OCDS?.description : "How you will score suppliers";
@@ -147,43 +158,76 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
 
     let TemporaryObjStorage = [];
     for (const ITEM of fetch_dynamic_api_data) {
-      if (ITEM.nonOCDS.dependant && ITEM.nonOCDS.dependency.relationships) {
-        const RelationsShip = ITEM.nonOCDS.dependency.relationships;
-        for (const Relation of RelationsShip) {
-          const { dependentOnId } = Relation;
-          const findElementInData = fetch_dynamic_api_data.filter(item => item.OCDS.id === dependentOnId)[0];
-          findElementInData.nonOCDS.childern = [...findElementInData.nonOCDS.childern, ITEM];
-          TemporaryObjStorage.push(findElementInData);
-        }
+      if(agreementId_session=='RM6263'){
+        if (ITEM.nonOCDS.dependant && ITEM.nonOCDS.dependency.relationships) {
+          const RelationsShip = ITEM.nonOCDS.dependency.relationships;
+          for (const Relation of RelationsShip) {
+            const { dependentOnId } = Relation;
+            const findElementInData = fetch_dynamic_api_data.filter(item => item.OCDS.id === dependentOnId)[0];
+            findElementInData.nonOCDS.childern = [...findElementInData.nonOCDS.childern, ITEM];
+            TemporaryObjStorage.push(findElementInData);
+          }
+        TemporaryObjStorage.push(ITEM);
       } else {
         TemporaryObjStorage.push(ITEM);
       }
+      }else {
+        TemporaryObjStorage.push(ITEM);
+      }
+      
     }
     const POSITIONEDELEMENTS = [...new Set(TemporaryObjStorage.map(JSON.stringify))]
       .map(JSON.parse)
       .filter(item => !item.nonOCDS.dependant);
 
     const formNameValue = form_name.find(fn => fn !== '');
-    if (group_id === 'Group 8' && criterion_Id === 'Criterion 2') {
-      TemporaryObjStorage.forEach(x => {
-        //x.nonOCDS.childern=[];
-        if (x.nonOCDS.questionType === 'Table') {
-          x.nonOCDS.options.forEach(element => {
-            element.optiontableDefination = mapTableDefinationData(element);
-            element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element));
-          });
-        }
-      });
-      TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
+    if(agreementId_session == 'RM1043.8' && lotid == 3){
+      if (group_id === 'Group 11' && criterion_Id === 'Criterion 2') {
+        TemporaryObjStorage.forEach(x => {
+          //x.nonOCDS.childern=[];
+          if (x.nonOCDS.questionType === 'Table') {
+            x.nonOCDS.options.forEach(element => {
+              
+              element.optiontableDefination = mapTableDefinationData(element,'RM1043.8');
+              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element,'RM1043.8'));
+            });
+          }
+        });
+        TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
+      }
     }
-    //swap tier details - SCAT-5303
-    let temptierdata = TemporaryObjStorage[0].nonOCDS.options[0]
-    TemporaryObjStorage[0].nonOCDS.options[0] = TemporaryObjStorage[0].nonOCDS.options[1]
-    TemporaryObjStorage[0].nonOCDS.options[1] = temptierdata
+    else if(agreementId_session == 'RM1043.8' && lotid == 1){
+      if (group_id === 'Group 13' && criterion_Id === 'Criterion 2') {
+        TemporaryObjStorage.forEach(x => {
+          //x.nonOCDS.childern=[];
+          if (x.nonOCDS.questionType === 'Table') {
+            x.nonOCDS.options.forEach(element => {
+              element.optiontableDefination = mapTableDefinationData(element,'RM1043.8');
+              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element,'RM1043.8'));
+            });
+          }
+        });
+        TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
+      }
+    }
+    else{
+      if (group_id === 'Group 8' && criterion_Id === 'Criterion 2') {
+        TemporaryObjStorage.forEach(x => {
+          //x.nonOCDS.childern=[];
+          if (x.nonOCDS.questionType === 'Table') {
+            x.nonOCDS.options.forEach(element => {
+              element.optiontableDefination = mapTableDefinationData(element);
+              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element));
+            });
+          }
+        });
+        TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
+      }
+    }
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
-      data: group_id === 'Group 8' && criterion_Id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
+      data: (group_id === 'Group 11' || group_id === 'Group 13' || group_id === 'Group 8') && criterion_Id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
@@ -212,13 +256,18 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
     req.session['fieldLengthError'] = [];
     req.session['emptyFieldError'] = false;
 
-    let flag = await ShouldEventStatusBeUpdated(eventId, 38, req);
-    if (flag) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'In progress');
+
+    if(agreement_id !== 'RM1043.8'){
+      let flag = await ShouldEventStatusBeUpdated(eventId, 35, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'In progress');
+      }
     }
     //res.render('rfp-question-assessment', data);
+    
     res.render('rfp-scoringCriteria', data);
   } catch (error) {
+
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
@@ -233,6 +282,7 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
 };
 
 export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: express.Response) => {
+  
   const { SESSION_ID } = req.cookies;
   const { projectId, eventId } = req.session;
   // try {
@@ -262,7 +312,6 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
       if (x.nonOCDS.questionType.toLowerCase() === 'table') {
         x.nonOCDS.options.map(xx => {
           if (xx.text?.toLowerCase() !== 'Create your own scoring criteria'.toLowerCase()) {
-            xx.selected = false;
             defaultOptions.push(xx);
           }
         })
@@ -276,6 +325,8 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
     let { rfp_build_started, question_id } = req.body;
+    
+
     if (question_id === undefined) {
       question_id = Object.keys(req.body).filter(x => x.includes('Question'));
     }
@@ -298,6 +349,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
         question_idsFilrtedList.push(x);
       }
     });
+   
     question_ids = [];
     question_ids.push(question_idsFilrtedList[0])
     if (operations.equals(started_progress_check, false)) {
@@ -314,6 +366,8 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
         });
 
         if (req.body.rfp_read_me) {
+
+          
           QuestionHelper.AFTER_UPDATINGDATA(
             ErrorView,
             DynamicFrameworkInstance,
@@ -327,14 +381,16 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             req,
           );
         } else {
+          
           let validationError = false;
           let answerValueBody = {};
           for (let i = 0; i < question_ids.length; i++) {
+           
 
             if (KeyValuePairValidation(object_values, req)) {
               validationError = true;
             }
-
+            
             let { score_criteria_level, score_criteria_points, score_criteria_desc } = req.body;
             const TAStorage = [];
             score_criteria_level = score_criteria_level?.filter((akeyTerm: any) => akeyTerm !== '');
@@ -391,8 +447,9 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
                 ],
               },
             };
-
+            
             if (!validationError) {
+              
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 answerValueBody?.nonOCDS?.options.push(...defaultOptions)
@@ -411,12 +468,26 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
             req.session['isValidationError'] = true;
             res.redirect(url.replace(regex, 'questions'));
           } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
-            //SET-SCORING-CRITERIA STATUS UPDATE
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
-            let flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
-            if (flag) {
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'Not started');
-            }//await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'Cannot start yet');
+
+            
+                //SET-SCORING-CRITERIA STATUS UPDATE
+            if(agreement_id == 'RM1043.8'){
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed'); 
+              let flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
+              if (flag) {
+                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
+              }
+            }else{
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed'); 
+              let flag = await ShouldEventStatusBeUpdated(eventId, 36, req);
+              if (flag) {
+                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
+            }
+            
+          }
+                       
+            
+            //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'Cannot start yet');
             //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Cannot start yet');
             res.redirect("/rfp/task-list");
           } else {
@@ -431,6 +502,7 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
       res.redirect('/error');
     }
   } catch (error) {
+    
     LoggTracer.errorLogger(
       res,
       error,
@@ -462,6 +534,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
     const nonOCDS = req.session?.nonOCDSList?.filter(anItem => anItem.groupId == group_id);
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfp_build_started');
     let { rfp_build_started, question_id } = req.body;
+    
     if (question_id === undefined) {
       question_id = Object.keys(req.body).filter(x => x.includes('Question'));
     }
@@ -826,6 +899,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
             }
             if (!validationError) {
               try {
+               
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
                 if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
@@ -980,7 +1054,7 @@ const mapTitle = groupId => {
   let title = '';
   switch (groupId) {
     case 'Group 4':
-      title = 'techinical';
+      title = 'technical';
       break;
     case 'Group 5':
       title = 'cultural';
@@ -994,11 +1068,12 @@ const mapTitle = groupId => {
   return title;
 };
 
-const mapTableDefinationData = (tableData) => {
+const mapTableDefinationData = (tableData, Agreementid ?: any) => {
+  
   let object = null;
   var columnsHeaderList = getColumnsHeaderList(tableData.tableDefinition?.titles?.columns);
   //var rowDataList
-  var tableDefination = tableData.tableDefinition != undefined && tableData.tableDefinition.data != undefined ? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data) : null
+  var tableDefination = tableData.tableDefinition != undefined && tableData.tableDefinition.data != undefined ? getRowDataList(tableData.tableDefinition?.titles?.rows, tableData.tableDefinition?.data,Agreementid) : null
 
   return { head: columnsHeaderList?.length > 0 && tableDefination?.length > 0 ? columnsHeaderList : [], rows: tableDefination?.length > 0 ? tableDefination : [] };
 }
@@ -1009,7 +1084,7 @@ const getColumnsHeaderList = (columns) => {
   });
   return list
 }
-const getRowDataList = (rows, data1) => {
+const getRowDataList = (rows, data1 , Agreementid ?: any) => {
   let dataRowsList = [];
   rows?.forEach(element => {
     element.text = element.name;
@@ -1017,7 +1092,13 @@ const getRowDataList = (rows, data1) => {
     let innerArrObj = [{ text: element.name, "classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter", text: data[0].cols[0] }, { "classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
     dataRowsList.push(innerArrObj);
   });
-  return dataRowsList;
+console.log('Agreementid',Agreementid)
+  if(Agreementid == 'RM1043.8'){
+    return dataRowsList;
+  }else{
+    return dataRowsList.reverse();
+  }
+
 }
 const getDataList = (id, data) => {
   const obj = data?.filter(element => {

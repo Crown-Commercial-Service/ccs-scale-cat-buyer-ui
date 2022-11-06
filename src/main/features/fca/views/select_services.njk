@@ -1,0 +1,135 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% set title = 'See the available suppliers | Contract Award Service' %}
+
+{% block content %}
+    {% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+    {%- endset %}
+
+    {{ CCSBreadcrumbs({
+        items: [
+        { "text": "Dashboard", "href": "/dashboard" },
+        { "text": "Choose a commercial agreement", "href": "/projects/choose-agreement" },
+        { "text": "Procurement overview", "href": url },
+        { "text": "See the available suppliers", "href": "/fca/create-supplier-shortlist" },
+        { "text": "Select the services you need", "href": "#" } ] 
+}) }}
+
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if(error) %}
+            {{ CCSErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+                    {
+                        text: "Select at least one Service to continue"
+                    }
+                ]
+            }) }}
+        {%endif %}
+
+        <div class="govuk-grid-row ccs-page-section">
+
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="govuk-heading-xl">
+                    {{data.line1}}
+                </h1>
+                {% include "includes/project_header.njk" %}
+                    
+                
+
+          
+                    <p class="govuk-body">{{data.line5}}</p>
+                    <p class="govuk-body">{{data.line6}}</p>
+                    <p class="govuk-body">{{data.line7}}</p>
+ 
+
+        <p>
+            {# <a href="#">{{data.line6_1}}</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">{{data.line6_2}}</a> #}
+        </p>
+
+        <div class="govuk-button-group">
+  <a class="govuk-link govuk-!-margin-right-9 uncheck" href="#1212" id="getId">Select / unselect all</a>
+    
+</div>
+
+        <form id="fca_select_services_form" class="govuk-check-form-custom" name="fca_select_services_form" action="/fca/select-services" method="POST">
+        {{ csrfProtection(csrf) }}
+            {% set servicesArray = [] %}
+            {% for val in services %}
+                {# {% set servicesArray = (servicesArray.push({value: val['requirement-id'] , html: "<label class='govuk-!-font-weight-bold'>"+ val['name'] +"</label>" }), servicesArray) %} #}
+                {% set selectedServices = '' %}
+                {% for check in checkCheckbox %}
+                    {% if val['requirement-id'] == check['requirement-id'] %}
+                        {% set selectedServices = 'checked' %}
+                    {% endif %}
+                {% endfor %}
+                
+
+                {% set servicesArray = (servicesArray.push({value: val['requirement-id'], text: val['name'], isChecked: selectedServices}), servicesArray) %}
+                    {{  
+                        CCSInput({
+                            name: "selected_services_name[]",
+                            type: "hidden",
+                            value: val['requirement-id']+"-"+val['name']
+                        }) 
+                    }}
+                {# {% set servicesArray = [] %} #}
+            {% endfor %}
+           
+            {% if(error) %}
+                {{ 
+                    CCSCheckboxes({
+                        classes: "govuk-checkboxes--small",
+                        name: "selected_services[]",
+                        items:  servicesArray,
+                        error:error,
+                        errorMessage: {
+                            text: 'Select at least one Service to continue'
+                        }   
+                    })
+                }}
+            {% else %}
+                {{ 
+                    CCSCheckboxes({
+                        classes: "govuk-checkboxes--small",
+                        name: "selected_services[]",
+                        items:  servicesArray
+                    }) 
+                }}
+            {% endif %}
+
+
+            <br>
+
+
+            <span class="select_service_err"></span>
+            <br>
+            <div class="govuk-button-group">
+                <button class="govuk-button" data-module="govuk-button">
+                    {{data.buttonText}}
+                </button>
+                <a class="govuk-link" href="/fca/create-supplier-shortlist">{{data.returnTo}}</a>
+            </div>
+        </form>
+
+
+
+
+            </div>
+                
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+
+
+
+
+
+        </div>
+        
+
+    </main>
+    
+
+{% endblock %}

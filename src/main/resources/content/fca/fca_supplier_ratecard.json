@@ -1,0 +1,67 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "See the available suppliers",
+            "href": "/fca/create-supplier-shortlist"
+        },
+        {
+            "text": "View or download your supplier shortlist"
+        },
+        {
+            "text": "Rate card and Contact details",
+            "href": "/fca/supplier/list"
+        }
+    ],
+    "title": "rate card and contact details.",
+    "subtitle": null,
+    "selected_agreement": "Selected agreement:",
+    "agreement_id": "Agreement ID:",
+    "project_name": "project / Name:",
+    "instruction_page": "[Instructions for this page]",
+    "max_day_rates": "Maximum day rates",
+    "max_day_rates_p1": "Rates are fixed for the life of the framework and any call-off. These rates are for an 8-hour working day and include travel expenses to the base location as stated by the customer.",
+    "max_day_rates_p2": "These are the maximum rates a supplier can charge and cannot be exceeded. Suppliers can reduce these rates.",
+    "contact_details": "Contact details",
+    "contact_name": "Name",
+    "contact_email": "Email",
+    "contact_phonenumber": "Phone number",
+    "contact_website": "Website",
+    "contact_address": "Address",
+    "return_to_supplier_list": "Return to View or download your supplier list",
+    "line1": "Please choose a commercial agreement to start your procurement.",
+    "subsection2_title": "Rate card",
+    "subsection2_table_th_1": "Role",
+    "subsection2_table_th_2": "Maximum day rate",
+    "subsection2_table_th_3": "Agreement and Lot",
+    "subsection2_table_th_4": "Supplier Response Close Date",
+    "subsection2_table_th_5": "Status",
+    "subsection4_title": "Past project",
+    "subsection4_table_th_1": "Event id / Name",
+    "subsection4_table_th_2": "Type",
+    "subsection4_table_th_3": "Agreement and Lot",
+    "subsection4_table_th_4": "Close Date",
+    "buttonText": "Start a new Project",
+    "view_Historical": "ll Historical Closed Projects",
+    "related_content": [
+        {
+            "text": "Digital Specialists and Programmes",
+            "href": "https://www.crowncommercial.gov.uk/agreements/RM6263"
+        },
+        {
+            "text": "Management Consultancy Framework Three (MCF3) (opens in a new window)",
+            "href": "https://www.crowncommercial.gov.uk/agreements/RM6187"
+        }
+    ]
+}

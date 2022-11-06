@@ -20,20 +20,34 @@
 {% from "components/table/macro.njk" import CCSTable %}
 {% from "components/questions/macro.njk" import CCSQUESTIONS %}
 {% from "components/dialog/macro.njk" import CCSDialog %}
+
 {% block RPFScoringCriteriaTable %}
+
 {%if requirement.nonOCDS.questionType === 'Table' and form_name == 'ccs_rfp_scoring_criteria'%}
   <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
+            <div class="govuk-grid-column-two-thirds">
                {% for table in requirement.nonOCDS.options %}
                <input type="hidden" class="tierLable" tierLable="{{table.text}}" id="tiersTableData" value="{{table.optiontableDefinationJsonString}}" >
                    {%if(table.text !=='Create your own scoring criteria')%}
-                    {{ CCSTable({
+                   <div class="govuk-custom-table">
+                    {% if agreement_id == 'RM1043.8' %}
+                          {{ CCSTable({
+                          caption: table.optiontableDefination.rows.length+' tier scoring criteria',
+                          captionClasses: "govuk-table__caption--m",
+                          firstCellIsHeader: true,
+                          head: table.optiontableDefination.head,
+                          rows:table.optiontableDefination.rows | reverse
+                        }) }}
+                    {% else %}
+                      {{ CCSTable({
                         caption: table.optiontableDefination.rows.length+' tier scoring criteria',
                         captionClasses: "govuk-table__caption--m",
                         firstCellIsHeader: true,
                         head: table.optiontableDefination.head,
                         rows:table.optiontableDefination.rows
-                    }) }}
+                      }) }}
+                    {% endif %}
+                  </div>
                     <br>
                     {%endif%}
                 {% endfor %}
@@ -45,49 +59,62 @@
     type: "hidden",
     value: requirement.OCDS.id
   }) }}
-   {# {{ CCSDialog({
-            title:'This action will replace what you’ve entered so far and cannot be undone',
-            description:'If your progress with this action, the details that you’ve entered below will be replaced by the chosen CCS default set. This action cannot be undone.',
-            redirect:'javascript.void(0)',
-            type:'tier-4'
+    {{ CCSDialog({
+            title:'Selecting this option will replace what you’ve entered so far and cannot be undone',
+            description:'The details you’ve entered below will be replaced with the CCS default scoring criteria.This action cannot be undone.',
+            redirect:'javascript:void(0)',
+            type:'tier'
         }) }}
-
+        {#
         {{ CCSDialog({
             title:'This action will replace what you’ve entered so far and cannot be undone',
             description:'If your progress with this action, the details that you’ve entered below will be replaced by the chosen CCS default set. This action cannot be undone.',
             redirect:'javascript.void(0)',
             type:'tier-5'
         }) }} #}
-        <div>
-        <h1><strong>Create your scoring criteria</strong></h1>
-        <p class="govuk-body">Select one of the two options below or enter the details for your own scoring criteria.</p>
-        <p class="govuk-body">If you want to use the 4 or 5 level scoring criteria, select the option you want and then click 'save and continue'. </p>
-        <p class="govuk-body">The minimum number of scoring levels is 2 and the maximum nuumber of scoring level is 10</p>
-        </div>
-     <br><br>
-
-
          <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
-                <p class="govuk-label--l"> <strong id="tiersAdded"> {{tierNo}}  </strong> tiers added so far</h2>
-            </div>
-            <div class="govuk-grid-column-one-half">
-                {# <a href="javascript:void(0)" onclick="selectedTiers('5')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-5-popup" title="Tier5">Use the 5-tier scoring criteria</a> #}
+              {% if agreement_id == 'RM1043.8' %}
                 {% for table in requirement.nonOCDS.options %}
-                {%if table.optiontableDefination.rows.length>0 and  table.text !=='Create your own scoring criteria'%}
-                <a href="javascript:void(0)"   id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-\!-margin_scoring govuk-link--no-visited-state " title="Tier {{table.optiontableDefination.rows.length}}">Use a {{table.optiontableDefination.rows.length}}-tier scoring criteria</a>
+                  {%if table.optiontableDefination.rows.length>0 and table.text !=='Create your own scoring criteria' %}
+                    <a href="javascript:void(0)" id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}" class="tier-popup govuk-!-display-inline-block govuk-!-margin-bottom-4 govuk-link govuk-!-margin-top-5 govuk-link--no-visited-state" title="Tier4">Use the 4 level scoring criteria</a>
+                    <p class="range_none govuk-label--l"> <strong class="range_none" id="tiersAdded"> {{tierNo}} </strong> </h2>
+                  {% endif %}
+                {% endfor %}
+                  {% else %}
+                <p class="govuk-label--l"> <strong class="" id="tiersAdded"> {{tierNo}} </strong> tiers added so far </p>
+              {% endif %}
+                
+            </div>
+            
+            <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                {# <a href="javascript:void(0)" onclick="selectedTiers('5')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-5-popup" title="Tier5">Use a 5-tier scoring criteria</a> #}
+                {% for table in requirement.nonOCDS.options %}
+                {%if table.optiontableDefination.rows.length>0 and  table.text !=='Create your own scoring criteria' and agreement_id != 'RM1043.8' %}
+                <a href="javascript:void(0)"   id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}"  class="tier-popup govuk-link govuk-!-margin-5 govuk-link--no-visited-state " title="Tier {{table.optiontableDefination.rows.length}}">Use a {{table.optiontableDefination.rows.length}}-tier scoring criteria</a>
                 {%endif%}
-                {# <a href="javascript:void(0)"  id="tier-4-popup" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state" title="Tier4">Use the 4-tier scoring criteria</a> #}
+                {# <a href="javascript:void(0)"  id="tier-4-popup" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state" title="Tier4">Use a 4-tier scoring criteria</a> #}
                 {# <a href="javascript:void(0)" onclick="selectedTiers('4')" class="govuk-link govuk-!-margin-5 govuk-link--no-visited-state tier-4-popup" title="Tier4">Use a 4-tier scoring criteria</a> #}
                 {% endfor %}
             </div>
         </div>
+        <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-top-0">
 {%endif%}
+
 {%endblock%}
-
 {% block RPFScoringCriteria %}
-{% if requirement.nonOCDS.questionType === 'Text' and ( requirement.OCDS.title =="Enter the name for this level" or requirement.OCDS.title =="Enter the name for this tier") and  requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
+{% if requirement.nonOCDS.questionType === 'Text' and  (requirement.OCDS.title === 'Enter the name for this tier' or requirement.OCDS.title === 'Create your scoring criteria' or requirement.OCDS.title === 'Enter the score for this level' or requirement.OCDS.title === 'Enter the description for this level' or requirement.OCDS.title === 'Enter the name for this level' ) and requirement.nonOCDS.multiAnswer === true and form_name == 'ccs_rfp_scoring_criteria' %}
+                  {% if (agreement_id == 'RM1043.8') %}
+                  <h2 class="govuk-heading-xl" > Create your own scoring criteria </h2>
+                  <p  class="govuk-body" > Enter the details for your own scoring criteria.  </p>
+                  <p  class="govuk-body" > The minimum number of scoring levels is 2 and the maximum number of scoring levels is 10.</p>
+                  {% endif %}
 
+                  {% if (agreement_id == 'RM1043.8') %}
+                {% set countLength = 5000 %}
+              {% else %}
+                {% set countLength = 500 %}
+              {% endif %}
                   {% call CCSFieldset({
                             legend: {
                                 classes: "govuk-fieldset__legend--m",
@@ -98,32 +125,31 @@
                         })
                         %}
                         
-                    {{ CCSInput({
+                    {{ CCSCharacterCount({
                         id: 'rfp_score_criteria_name_1',
                         name: 'score_criteria_level',
-                        classes: 'rfp_scoring_criteria_title govuk-input govuk-input--width-20',
+                        classes: 'govuk-input govuk-!-width-two-thirds rfpterm',
+                        maxlength:500,
+                        row:1,
                         hint: {
-                            html:requirement.OCDS.description 
+                            html: "Use words that best reflect the scoring level, and that can be used alongside other criteria. <br>  For example ‘pass’ or ‘fail’, or ‘excellent’, ‘good’, ‘poor’."
                         },
                         label: {
-                            html: "Enter the name for this level <a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
+                            html:requirement.OCDS.title+ "<a href='1' id='deleteButton_1' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
                             text: requirement.OCDS.title,
                             classes: 'govuk-label govuk-label--m'
                         }
                     }) }}
-                    <span class="rfp_scoring_criteria_title_count_1 remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>                 
-               
+                  {# min:"0", #}
+                 
                {{ CCSInput({
                             label: {
                               text:  'Enter the score for this level',
-                              classes: "govuk-label govuk-label--m"
+                              classes: "govuk-label govuk-date-input__label govuk-label--m"
                             },
-                            hint: {
-
-                                text:"Make sure your scoring system doesn't overlap or cause confusion.Use whole numbers." 
+                             hint: {
+                            text: 'Make sure your scoring system does not overlap or cause confusion. Use whole numbers.'
                         },
-                            
-
                             id: 'rfp_score_criteria_point_1',
                             name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
@@ -131,24 +157,37 @@
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[0].value
                           }) }}
-          
-                    {{  CCSTextarea({
+           
+            
+                    {{  CCSCharacterCount({
                         id: 'rfp_score_criteria_desc_1',
                         name: 'score_criteria_desc',
-                        classes: 'rfp_scoring_criteria_description govuk-textarea govuk-label--m',
+                        classes: 'govuk-textarea govuk-label--m govuk-!-width-two-thirds',
                         label: {
                             text: 'Enter the description for this level',
                             classes: 'govuk-label govuk-label--m'
                         },
                         hint: {
+                            text: 'Describe what a supplier has or has not done to achieve this score. Be specific and detailed.'
+                        },
+                        maxlength: 5000,
 
-                            text:"Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed."
 
-                        }
+                        classes:"rpf_5000 govuk-!-width-two-thirds"
                         })
                     }}
-                  <span class="rfp_scoring_criteria_description_count_1 remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>                 
+                    {# {{ CCSCharacterCount({
+                        label: {
+                          text: requirement.OCDS.title
+                        },
+                        id: "rfp_score_criteria_desc_char_1",
+                        classes: "rfp_term_1 rfpterm",
+                        maxlength: "1000"
+                      })
+                    }} #}
+                    <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
                     {% endcall %}
+      
        {% for i in range(2, 11) -%}
                          {% call CCSFieldset({
                             legend: {
@@ -160,12 +199,14 @@
                         })
                         %}
                         
-                        {{ CCSInput({
+                        {{ CCSCharacterCount({
                             id: 'rfp_score_criteria_name_'+i,
                             name: 'score_criteria_level',
-                            classes: 'rfp_scoring_criteria_title govuk-input govuk-input--width-20',
+                            classes: 'govuk-input govuk-!-width-two-thirds rfpterm',
+                             maxlength:500,
+                              row:1,
                             hint: {
-                                text: "Use the words that best reflect the scoring level,and that can be used alongside other criteria.For example 'pass' or 'fail',or 'excellent','good','poor'"
+                                html: "Use the words that best reflect the scoring level,and that can be used alongside other criteria.<br>For example 'pass' or 'fail',or 'excellent','good','poor'"
                             },
                             label: {
                                 html: "Enter the name for this level <a href='"+i+"' id='deleteButton_"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
@@ -173,36 +214,65 @@
                                 classes: 'govuk-label govuk-label--m'
                             }
                         }) }}
-                        <span class="rfp_scoring_criteria_title_count_{{i}} remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[i].text | length))}} characters remaining</span>                 
                         {{ CCSInput({
                             label: {
                                 text: 'Enter the score for this level',
                                 classes: 'govuk-label govuk-label--m'
-                            },
+                            },                            
                             hint: {
-
-                                text:"Make sure your scoring system doesn't overlap or cause confusion.Use whole numbers." 
-           },
+                              text: 'Make sure your scoring system does not overlap or cause confusion. Use whole numbers.'
+                          },
                             id: 'rfp_score_criteria_point_'+i,
                             name: 'score_criteria_points',
                             classes: "govuk-input govuk-date-input__input govuk-input--width-3",
                             type: "number",
                             inputmode:"numeric"
                           }) }}
-
-                        {{  CCSTextarea({
+                        {% if (agreement_id == 'RM1043.8') %}
+               
+                {{  CCSCharacterCount({
                             id: "rfp_score_criteria_desc_"+i,
                             name: "score_criteria_desc",
-                            classes: 'rfp_scoring_criteria_description govuk-textarea govuk-label--m',
+                            classes: 'govuk-textarea govuk-label--m govuk-!-width-two-thirds',
                             label: {
                                 text: 'Enter the description for this level',
                                 classes: 'govuk-label govuk-label--m'
                             },
                             hint: {
-                            text:"Describe what a supplier has or hasn't done to achieve this score.Be specific and detailed."
-                            }
+                                text: 'Enter the description for this level'
+                            },
+                            maxlength: 5000,
+                            classes:"rpf_5000 govuk-!-width-two-thirds"
                         }) }}
-                        <span class="rfp_scoring_criteria_description_count_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>                 
+              {% else %}
+                {{  CCSCharacterCount({
+                            id: "rfp_score_criteria_desc_"+i,
+                            name: "score_criteria_desc",
+                            classes: 'govuk-textarea govuk-label--m govuk-!-width-two-thirds',
+                            label: {
+                                text: 'Enter the description for this level',
+                                classes: 'govuk-label govuk-label--m'
+                            },
+                            hint: {
+                                text: 'Enter the description for this level'
+                            },
+                            maxlength: 500,
+                            classes:"rfpterm rpf_500"
+                        }) }}
+              {% endif %}
+                        
+
+                        {# {{ CCSCharacterCount({
+                            label: {
+                              text: requirement.OCDS.title
+                            },
+                             id: "rfp_score_criteria_desc_"+i,
+                            classes: "rfp_term_1 rfpterm",
+                            maxlength: "1000"
+                          })
+                        }} #}
+
+                        <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible ">
                        {% endcall %}
                     {%- endfor %}
                     
@@ -220,36 +290,105 @@
 {%endblock%}
 
 {% block TextRFP %}
-  
+
   {% if requirement.nonOCDS.questionType === 'Text' and requirement.nonOCDS.multiAnswer === true and form_name == 'rfp_multianswer_question_form' %}
- {% set classNameNew= requirement.OCDS.id.replace(' ','')%}
-    {{  CCSTextarea({
-      name:  requirement.OCDS.id,
-      required: requirement.nonOCDS.mandatory,
-      id: "fc_question_"+index+'_'+requirement.nonOCDS.order,
-      value: requirement.nonOCDS.options[index-1].value,
-      label: {
-      text:requirement.OCDS.title,
-      classes: "govuk-label govuk-label--m"
-      },
-      dataSet:requirement.OCDS.title,      
-      hint: {
-              text:requirement.OCDS.description
-            },
-      classes:"rfp_fc_questions_description order_"+requirement.nonOCDS.order +" "+ classNameNew,
-      rows:2
-    }) }}
-    
-     <span class="remaining_chrs_term rfp_fc_req_{{index+'_'+requirement.nonOCDS.order}}_{{requirement.OCDS.id.replace(' ','')}}">You have 500 characters remaining</span>
-    {% set qlable =  'rfp_label_question_lable_' + index+ "_"+requirement.nonOCDS.order %}
-    {# <p class="character-count"><label id="{{qlable}}">You have 5000 character remaining</label></p> #}
+         
+          {% set classnameForCount = "rfpterm" %}
+          {% set countLength = 500 %}
+              
+          {% if(requirement.OCDS.title=="Name of the group") %}
+            {% set classnameForCount = "rfpterm" %}
+          {% endif %}
+
+          {% if(requirement.OCDS.title=="Name of the requirement") %}
+            {% set classnameForCount = "rfpterm" %}
+          {% endif %}
+
+            {% if(requirement.OCDS.title=="Describe the requirement") %}
+              {% set classnameForCount = "rfp_term_definition" %}
+              {% if (agreement_id == 'RM1043.8') %}
+                        {% set countLength = 5000 %}
+                   {% set classnameForCount = "rpf_5000" %}
+              {% else %}
+                {% set countLength = 10000 %}
+                 {% set classnameForCount = "rpf_10000" %}
+              {% endif %}
+            {% endif %}
+            {% if(requirement.OCDS.title=="Describe the essential skill or experience:") or (requirement.OCDS.title=="Describe the nice-to-have skill or experience:") or (requirement.OCDS.title=="Explain the technical question:") or (requirement.OCDS.title=="Your question") or (requirement.OCDS.title=="Describe accessibility requirements:") %}
+              {% set classnameForCount = "rfpterm" %}
+              {% if (agreement_id == 'RM1043.8') %}
+                {% set countLength = 5000 %}
+                {% set classnameForCount = "rpf_5000" %}
+                {% set rows = 7 %}
+              {% endif %}
+            {% endif %}
+
+      {%set class_question_remove="fc_question_"+index %}
+      {{  CCSCharacterCount({
+        name:  requirement.OCDS.id,
+        required: requirement.nonOCDS.mandatory,
+        id: "fc_question_"+index+'_'+requirement.nonOCDS.order,
+        value: requirement.nonOCDS.options[index-1].value,
+        maxlength:countLength,
+        label: {
+        text:requirement.OCDS.title,
+        classes: "govuk-label govuk-label--m govuk-!-width-two-thirds"
+        },
+        hint: {
+          text: requirement.OCDS.description
+        },
+        classes:"dos_question_count order_"+requirement.nonOCDS.order+" class_question_remove_"+index+" "+classnameForCount,
+        rows:rows
+      }) }}
+
   {%endif%}
+
+  {% if requirement.nonOCDS.questionType === 'Text' and requirement.nonOCDS.multiAnswer === true and form_name == 'da_multianswer_question_form' %}
+         
+          {% set classnameForCount = "rfpterm" %}
+          {% set countLength = 500 %}
+              
+          {% if(requirement.OCDS.title=="Name of the group") %}
+            {% set classnameForCount = "rfpterm" %}
+          {% endif %}
+
+          {% if(requirement.OCDS.title=="Name of the requirement") %}
+            {% set classnameForCount = "rfpterm" %}
+          {% endif %}
+
+            {% if(requirement.OCDS.title=="Describe the requirement") %}
+            {% set classnameForCount = "rfp_term_definition" %}
+            {% if (agreement_id == 'RM1043.8') %}
+              {% set countLength = 5000 %}
+            {% else %}
+              {% set countLength = 10000 %}
+            {% endif %}
+          {% endif %}
+
+      {%set class_question_remove="fc_question_"+index %}
+      
+      {{  CCSCharacterCount({
+        name:  requirement.OCDS.id,
+        required: requirement.nonOCDS.mandatory,
+        id: "fc_question_"+index+'_'+requirement.nonOCDS.order,
+        value: requirement.nonOCDS.options[index-1].value,
+        maxlength:countLength,
+        hint: {
+          text: requirement.OCDS.description,
+          html: requirement.OCDS.description,
+          classes: "govuk-hint"
+        },
+        classes:"order_"+requirement.nonOCDS.order+" class_question_remove_"+index+" "+classnameForCount,
+        rows:7
+      }) }}
+
+  {%endif%}
+
   {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'rfp_multianswer_question_form'%}
 
     {{ CCSInput({
       label: {
-        text: requirement.OCDS.title,
-        classes: "govuk-label govuk-label--m"
+        text: requirement.OCDS.title | striptags(true) | escape | nl2br
       },
       classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage",
       id: "fc_question_precenate_"+index,
@@ -258,13 +397,29 @@
       suffix: {
         text: "%"
       },
-      hint: {
-              text:requirement.OCDS.description
-            },
       type:"number"
     }) }}
 
   {%endif%}
+
+    {% if requirement.nonOCDS.questionType === 'Percentage' and requirement.nonOCDS.multiAnswer === true  and form_name == 'da_multianswer_question_form'%}
+
+    {{ CCSInput({
+      label: {
+        text: requirement.OCDS.title
+      },
+      classes: "govuk-input--width-5 govuk-!-margin-bottom-3 weightage",
+      id: "fc_question_precenate_"+index,
+      value: requirement.nonOCDS.options[index-1].value,
+      name: requirement.OCDS.id,
+      suffix: {
+        text: "%"
+      },
+      type:"number"
+    }) }}
+
+  {%endif%}
+
   {# {% if requirement.nonOCDS.questionType === 'Text' and requirement.nonOCDS.multiAnswer === true and requirement.nonOCDS.childern.length === 0 %}
     {{  CCSTextarea({
                   name: "value",
@@ -273,7 +428,7 @@
                   value: requirement.nonOCDS.options[0].value,
                   label: {
                   text: requirement.OCDS.title,
-                  classes: "govuk-label govuk-label--m"
+                  classes: "govuk-label govuk-label--m govuk-!-width-two-thirds"
                   }
                 })
             }}
@@ -304,16 +459,16 @@
                 }}
             {% set numberWord = [
               'Zero',
-              'First',
-              'Second',
-              ' Third',
-              ' Fourth',
-              ' Fifth',
-              ' Sixth',
-              ' Seventh',
-              ' Eighth',
-              ' Ninth',
-              ' Tenth'
+              'first',
+              'second',
+              ' third',
+              ' fourth',
+              ' fifth',
+              ' sixth',
+              ' seventh',
+              ' eight',
+              ' ninth',
+              ' tenth'
             ] %}
             {% for i in range(2, 11) -%}
 
@@ -353,7 +508,7 @@
         {% endblock %}
 
         {% block valuewitNoMultiSelect %}
-          {% if (requirement.nonOCDS.questionType === 'Value') and (requirement.nonOCDS.multiAnswer === false) %}
+          {% if (requirement.nonOCDS.questionType === 'Value') and (requirement.nonOCDS.multiAnswer === false) and (form_name != 'suppliers_to_evaluate') %}
             {% if requirement.OCDS.id == "Question 13"%}
               <div class="govuk-!-margin-bottom-9">
                 <label class="govuk-label govuk-label--m">{{requirement.OCDS.title}}</label>
@@ -362,20 +517,47 @@
                 </p>
               </div>
             {% else %}
-              {{  CCSInput({
+            {% if (agreement_id == 'RM1043.8') %}
+            {% if ((group_id == "Group 5" and lotId == '3')) %}
+                  <p>Name of the Contracting Authority</p>
+                 <p class="govuk-body govuk-!-font-size-19 govuk-!-margin-top-3">
+                  <strong>{{organizationName}}</strong>
+                </p>
+                {{  CCSCharacterCount({
                         label: {
                           text: requirement.OCDS.title,
                           classes: "govuk-label govuk-label--m"
                         },
+                        maxlength:500,
+                        hint: {
+                          text: requirement.OCDS.description
+                        },
+                        id: "rfp_who_form",
+                        name:requirement.OCDS.title | replace(" ", "_"),
+                        value: requirement.nonOCDS.options[0].value,
+                        classes: "rpf_500",
+                        rows:"2",
+                      style:"height: 40px;"
+                      })
+                  }}
+                {% else %}
+                   {{  CCSCharacterCount({
+                        label: {
+                          text: requirement.OCDS.title,
+                          classes: "govuk-label govuk-label--m"
+                        },
+                        maxlength:5000,
                         hint: {
                           text: requirement.OCDS.description
                         },
                         id: "rfp_contracting_auth",
                         name:requirement.OCDS.title | replace(" ", "_"),
-                        value: requirement.nonOCDS.options[0].value
+                        value: requirement.nonOCDS.options[0].value,
+                        classes: "rpf_5000"
                       })
                   }}
-<span class="rfp_contract_auth_count remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>
+                   {% endif %}
+
               {{  CCSInput({
                         id: "question_id",
                         name: "question_id",
@@ -383,7 +565,63 @@
                         value: requirement.OCDS.id
                       })
                   }}
+              {% else %}
+                    {{  CCSCharacterCount({
+                        label: {
+                          text: requirement.OCDS.title,
+                          classes: "govuk-label govuk-label--m"
+                        },
+                        maxlength:500,
+                        hint: {
+                          text: requirement.OCDS.description
+                        },
+                        id: "rfp_contracting_auth",
+                        name:requirement.OCDS.title | replace(" ", "_"),
+                        value: requirement.nonOCDS.options[0].value,
+                        classes: "rfpterm rpf_500"
+                      })
+                  }}
+
+              {{  CCSInput({
+                        id: "question_id",
+                        name: "question_id",
+                        type: "hidden",
+                        value: requirement.OCDS.id
+                      })
+                  }}
+              {% endif %}
+          
             {% endif %}
+          {% endif %}
+          {% if (requirement.nonOCDS.questionType === 'Value') and (requirement.nonOCDS.multiAnswer === false) and (form_name === 'suppliers_to_evaluate') %}
+           
+              {{  CCSInput({
+                        label: {
+                          text: requirement.OCDS.title,
+                          classes: "govuk-label govuk-date-input__label"
+                        },
+                        hint: {
+                          text: requirement.OCDS.description
+                        },
+                        id: "rfp_contracting_auth",
+                        maxlength:8,
+                        name:requirement.OCDS.title | replace(" ", "_"),
+                        value: requirement.nonOCDS.options[0].value,
+                        classes: "govuk-input govuk-date-input__input govuk-input--width-3 min_supplier rfp_term_maxsupplycount",
+                        type:"number",
+                        inputmode:"numeric"
+                      })
+                  }}
+
+
+              {{  CCSInput({
+                        id: "question_id",
+                        name: "question_id",
+                        type: "hidden",
+                        value: requirement.OCDS.id
+                      })
+                  }}
+            
           {% endif %}
           {% if (requirement.nonOCDS.questionType === 'Date') 
             or(requirement.nonOCDS.questionType === 'Duration') and (requirement.nonOCDS.multiAnswer === false) %}
@@ -393,6 +631,7 @@
                   <legend class="govuk-fieldset__legend govuk-label--m">
                     {{requirement.OCDS.title}}
                   </legend>
+                  
                   <div id="rfp_resource_start_date-hint" class="govuk-hint">
                     <div id="{{agreement}}" class="agreement_no">
                       <p class="govuk-body" id="p_expirydate">{{requirement.OCDS.description | nl2br | safe}}</p>
@@ -410,6 +649,9 @@
                       <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
                           {%set rfp_resource_start_date_day='rfp_resource_start_date_day_'+requirement.OCDS.id.trim().replace(' ','')%}
+                          {% if (requirement.nonOCDS.options[0].value | length) %}
+                               {% set startdate = requirement.nonOCDS.options[0].value.split('-') %}
+                            {% endif %}
                           {{ CCSInput({
                             label: {
                               text: "Day",
@@ -418,13 +660,11 @@
                             },
                             id: rfp_resource_start_date_day,
                             name: rfp_resource_start_date_day,
-                            classes: "govuk-input rfp_resource_start_day govuk-date-input__input govuk-input--width-2",
+                            classes: "govuk-input rfp_resource_start_day govuk-date-input__input govuk-input--width-2 daylimit",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[0].value,
-                            max: 31,
-                            min: 1
-                          }) }}
+                            value: startdate[2]
+                            }) }}
                         </div>
                       </div>
                       <div class="govuk-date-input__item">
@@ -438,12 +678,10 @@
                             },
                             id: rfp_resource_start_date_month,
                             name: rfp_resource_start_date_month,
-                            classes: "govuk-input rfp_resource_start_month govuk-date-input__input govuk-input--width-2",
+                            classes: "govuk-input rfp_resource_start_month govuk-date-input__input govuk-input--width-2 daymonthlimit",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[1].value,
-                            max: "12",
-                            min: "0",
+                            value: startdate[1],
                             maxlength: "2"
                           }) }}
                         </div>
@@ -460,10 +698,10 @@
                             },
                             id: rfp_resource_start_date_year,
                             name: rfp_resource_start_date_year,
-                            classes: "govuk-input rfp_resource_start_year govuk-date-input__input govuk-input--width-4",
+                            classes: "govuk-input rfp_resource_start_year govuk-date-input__input govuk-input--width-4 startdateyearlimit",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[2].value,
+                            value: startdate[0],
                             maxlength: "4"
                           }) }}
                           {{ CCSInput({
@@ -478,14 +716,16 @@
                     </div>
                   </div>
                 </div>
+              </div>
               {% else %}
                  {%set rfp_duration_years='rfp_duration-years_'+requirement.OCDS.id.trim().replace(' ','')%}
                  {%set rfp_duration_months='rfp_duration_months_'+requirement.OCDS.id.trim().replace(' ','')%}
                  {%set rfp_duration_days='rfp_duration_days_'+requirement.OCDS.id.trim().replace(' ','')%}
                 <div class="govuk-form-group {{rfp_duration_years}} p_durations">
    <div class="govuk-fieldset" role="group" aria-describedby="rfp_duration-hint">
-      <legend class="govuk-fieldset__legend govuk-label--m">
-         {{requirement.OCDS.title}} (Optional)
+      <legend class="govuk-fieldset__legend govuk-label--m" id="getSubDateTitle{{requirement.OCDS.id.replace(" ","")}}">
+        {{requirement.OCDS.title}} {{ '' if requirement.nonOCDS.mandatory else '(Optional)' }}
+         
       </legend>
       <div id="rfp_duration-hint" class="govuk-hint">
          <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
@@ -502,6 +742,13 @@
       <div class="govuk-date-input" id="rfp_duration">
          <div class="govuk-date-input__item">
             <div class="govuk-form-group">
+              {% if (agreement_id != 'RM1043.8') %}
+                {% set textlimit = "" %}
+                {% set maxLength = 2 %}
+              {% else %}
+                {% set textlimit = "textlimit" %}
+                {% set maxLength = 1 %}
+              {% endif %}
                {{ CCSInput({
                label: {
                text: "Years",
@@ -510,13 +757,11 @@
                },
                id: rfp_duration_years,
                name: rfp_duration_years,
-               classes: "govuk-input rfp_duration rfp_duration_year_25 govuk-date-input__input govuk-input--width-4",
+               classes: "govuk-input rfp_duration rfp_duration_year_25 govuk-date-input__input govuk-input--width-2 "+textlimit,
                type: "number", 
                inputmode:"numeric",
                value: requirement.nonOCDS.options[0].value,
-               max: "4",
-               min: "0",
-               maxlength: "1"
+               maxlength: maxLength
                }) }}
             </div>
          </div>
@@ -530,12 +775,10 @@
                },
                id: rfp_duration_months,
                name: rfp_duration_months,
-               classes: "govuk-input rfp_duration rfp_duration_month_25 govuk-date-input__input govuk-input--width-2",
+               classes: "govuk-input rfp_duration rfp_duration_month_25 govuk-date-input__input govuk-input--width-2 daymonthlimit",
                type: "number", 
                inputmode:"numeric",
                value: requirement.nonOCDS.options[1].value,
-               max: "12",
-               min: "0",
                maxlength: "2"
                }) }}
             </div>
@@ -550,12 +793,10 @@
                },
                id: rfp_duration_days,
                name: rfp_duration_days,
-               classes: "govuk-input rfp_duration rfp_duration_day_25 govuk-date-input__input govuk-input--width-2",
+               classes: "govuk-input rfp_duration rfp_duration_day_25 govuk-date-input__input govuk-input--width-2 daymonthlimit",
                type: "number", 
                inputmode:"numeric",
                value: requirement.nonOCDS.options[2].value,
-               max: "31",
-               min: "0",
                maxlength: "2"
                }) }}
                {{ CCSInput({
@@ -576,15 +817,35 @@
 
           {% block Percentage%}
             {% if (requirement.nonOCDS.questionType === 'Percentage') and (requirement.nonOCDS.multiAnswer === false) %}
-              
+            {% set qhint = "" %}
+            {% if(requirement.OCDS.title === 'Social value criteria') %}
+            {% set qhint = "This must be a minimum of 10% of your overall weighting. For example, If you set your weightings at 70% quality and 30% price, then your social value questions should have a weighting of 15% (equivalent to 10% of your overall weighting)." %}
+            {% elseif(requirement.OCDS.title === 'Social value' and agreement_id == 'RM1043.8') %}
+            {% set qhint = "Enter a value of 0% if you are not in scope of PPN 06/20, or the value of the procurement is below threshold, or the application of social value is not reasonable or proportionate to what you are buying." %}
+            {%endif%}
               <p>
-                <b>{{ requirement.OCDS.title  }}</b>
+                <b id="getSubTitle{{requirement.OCDS.id.replace(" ","")}}">{{ requirement.OCDS.title  }}</b>
               </p>
               <p id="event-name-error-{{requirement.OCDS.id.replace(" ","")}}" class="govuk-error-message">
                       <span class="govuk-visually-hidden">Error:</span>
                </p>
-                    
-              <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">  Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} % </p>
+               {% if (requirement.OCDS.title === 'Technical Criteria' or requirement.OCDS.title === 'Social value criteria') %}
+               <p class="govuk-body">{{qhint}}</p>
+                <p class="govuk-!-display-none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+               {% elif (requirement.OCDS.title === 'Technical questions' or requirement.OCDS.title === 'Essential skills and experience' or requirement.OCDS.title === 'Nice-to-have skills and experience (optional)') %}
+                <p class="govuk-body">{{qhint}}</p>
+                  <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+              {% elseif(requirement.OCDS.title === 'Social value' and agreement_id == 'RM1043.8') %}
+                <p class="govuk-body">{{qhint}}</p>
+                <p range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">[ Range : 0%, or {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+                <p class="range_none" id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}">[ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+               {% else %}
+                  <p class="govuk-body">{{qhint}}</p>
+                  <p id="range_p{{requirement.OCDS.id.replace(" ","")}}" range="{{requirement.OCDS.minValue.amount}}-{{requirement.OCDS.maxValue.amount}}"> [ Range : {{requirement.OCDS.minValue.amount}} - {{requirement.OCDS.maxValue.amount}} %] </p>
+                  
+               {%endif%}
+
+              
               {{ CCSInput({
                         label: {
                           text: ""
@@ -596,14 +857,25 @@
                         suffix: {
                           text: "%"
                         },
+                        hint: {
+                          text: ""
+                        },
                         type:"number"
 
                       }) }}
 
-              {% if- (requirement.OCDS.title === 'Price' or requirement.OCDS.title === 'Social value') %}
+              {# {% if- (requirement.OCDS.title === 'Price' or requirement.OCDS.title === 'Social value') %} commented for dos assesment criteria question issue #}
+              {% if- (requirement.OCDS.title === 'Price') or (requirement.OCDS.title === 'Technical questions') %}
               <div>
                 {{ CCSInsetText({
-                      text: "<b> The total weighting is : <span id='totalPercentage'>100</span>% </b> " | safe
+                      text: "<b> The total weighting is : <span id='totalPercentage'>0</span>% </b> " | safe
+                    }) }}
+
+              </div>
+              {% elseif(requirement.OCDS.title === 'Social value criteria') %}
+              <div>
+                {{ CCSInsetText({
+                      text: "<b> The total weighting for quality is: <span id='totalPercentage'>0</span>% </b> " | safe
                     }) }}
 
               </div>
@@ -621,39 +893,104 @@
           {% block TextSelect%}
             {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
 
-              {% set word = requirement.OCDS.title | replace(".", "") %}
-              {% set word = word | replace(":", "") %}
-              {% if(word) %}
-              {{  CCSTextarea({
+              {% set word = requirement.OCDS.title | striptags(true) | replace(']', '') | replace('(optional)', '') |replace(".", "") | replace(":", "") | trim  %}
+             
+               {% if(word=='') %}
+                 {% set word = 'te' %}
+                {% endif %}
+                {% if (agreement_id == 'RM1043.8') %}
+                  {% if ((group_id == "Group 20" and lotId == '1') or (lotId == '3' and group_id == "Group 18")) %}
+                  <div class="main_rfp_prob_statement_m">
+                                {% if (requirement.OCDS.title == 'Indicative maximum') %}
+                                {% set evalsupClass = 'max' %}
+                                {% else %}
+                                {% set evalsupClass = 'min' %}
+                                {% endif %}
+
+                            {% if (requirement.nonOCDS.mandatory === false) %}
+                            {% set titleText = requirement.OCDS.title + " (optional)" %}
+                          {% else %}
+                            {% set titleText = requirement.OCDS.title %}
+                          {% endif %}
+                          {% if (requirement.OCDS.title !== 'Provide further information') %}
+                                {{  CCSInput({
+                                  name: "rfp_prob_statement_"+word | last,
+                                  required: requirement.nonOCDS.mandatory,
+                                  id: "rfp_prob_statement_"+word | last,
+                                  value: requirement.nonOCDS.options[0].value,
+                                  type:"number",
+                                  classes:"rfp_term_definition govuk-input--width-5 "+evalsupClass,
+                                  label: {
+                                  html: titleText,
+                                  classes: "govuk-label govuk-label--m govuk-custom-bold"
+                                    
+                                  },
+                                  prefix: {
+                                    text: "£"
+                                  }
+                                })
+                            }}
+                            {% else %}
+                            {{  CCSCharacterCount({
+                              name: "rfp_prob_statement_"+word | last,
+                              required: requirement.nonOCDS.mandatory,
+                              id: "rfp_prob_statement_"+word | last,
+                              value: requirement.nonOCDS.options[0].value,
+                              type:"number",
+                              classes:"rfp_term_definition",
+                              maxlength: 5000,
+                              label: {
+                              html: titleText,
+                              classes: "govuk-label govuk-label--m govuk-custom-bold"                                
+                              }
+                            })
+                        }}
+                          {% endif %}
+                    
+
+               
+
+                </div>
+                  {% else %}
+                  {% if ((group_id == "Group 6" and lotId == '1')) %}
+                  <p>Name of the Contracting Authority</p>
+                 <p class="govuk-body govuk-!-font-size-19 govuk-!-margin-top-3">
+                  <strong>{{organizationName}}</strong>
+                </p>
+                  {{  CCSCharacterCount({
                       name: "rfp_prob_statement_"+word | last,
                       required: requirement.nonOCDS.mandatory,
+                      maxlength: 500,
                       id: "rfp_prob_statement_"+word | last,
-                      value: requirement.nonOCDS.options[index-1].value,
-                      classes:"rfp_background_procurement_textarea",
-                      maxlength:"5000",
-                      label: {
-                      text: requirement.OCDS.title,
-                      classes: "govuk-label govuk-label--m"
-                      }
-                    })
-                }}
-                <span class="remaining_chrs_term" id="{{word | last}}">You have {{(5000-(requirement.nonOCDS.options[index-1].value | length))}} characters remaining</span>
-              {% else %}
-              {{  CCSTextarea({
-                      name: "rfp_prob_statement_1",
-                      required: requirement.nonOCDS.mandatory,
-                      id: "rfp_prob_statement_1",
                       value: requirement.nonOCDS.options[0].value,
-                      classes:"rfp_background_procurement_textarea",
-                      maxlength:"5000",
+                      classes:"rfp_term_definition",
                       label: {
-                      text: requirement.OCDS.title,
-                      classes: "govuk-label govuk-label--m"
+                      html: requirement.OCDS.title,
+                      classes: "govuk-label govuk-label--m rpf_500 govuk-!-width-two-thirds govuk-custom-bold"
+                        
+                      },
+                      rows:"2",
+                      style:"height: 40px;"
+                    })
+                }}
+
+                  {% else %}
+                 {{  CCSCharacterCount({
+                      name: "rfp_prob_statement_"+word | last,
+                      required: requirement.nonOCDS.mandatory,
+                      maxlength: 5000,
+                      id: "rfp_prob_statement_"+word | last,
+                      value: requirement.nonOCDS.options[0].value,
+                      classes:"rfp_term_definition",
+                      label: {
+                      html: requirement.OCDS.title,
+                      classes: "govuk-label govuk-label--m rpf_5000 govuk-!-width-two-thirds govuk-custom-bold"
+                        
                       }
                     })
                 }}
-                <span class="remaining_chrs_term" id="1">You have {{(5000-(requirement.nonOCDS.options[0].value | length))}} characters remaining</span>              
-               {% endif %}
+                {% endif %}
+                {% endif %}
               {{  CCSInput({
                       id: "question_id",
                       name: "question_id",
@@ -661,17 +998,143 @@
                       value: requirement.OCDS.id
                     })
                 }}
+              {% else %}
+                {{  CCSCharacterCount({
+                      name: "rfp_prob_statement_"+word | last,
+                      required: requirement.nonOCDS.mandatory,
+                      maxlength: 10000,
+                      id: "rfp_prob_statement_"+word | last,
+                      value: requirement.nonOCDS.options[0].value,
+                      classes:"rfp_term_definition",
+                      label: {
+                      html: requirement.OCDS.title,
+                      classes: "govuk-label govuk-label--m rpf_10000 govuk-!-width-two-thirds govuk-custom-bold"
+                        
+                      }
+                    })
+                }}
+
+              {{  CCSInput({
+                      id: "question_id",
+                      name: "question_id",
+                      type: "hidden",
+                      value: requirement.OCDS.id
+                    })
+                }}
+              {% endif %}
+        
+             
 
               {%endif%}
             {% endblock %}
-            {% block singleSelect%}
-              {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
-                <p>
-                  <span id="rfp_singleSelect" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span></span>
-                </p>
-                <div class="govuk-form-group">
-                  <div class="govuk-radios">
+            
+                  {% block singleSelect%}
+                    {# for dos #}
+                    {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) and (form_name == 'rfp_singleselect_Dos') %}
+                      <p>
+                        <span id="rfp_singleSelect" class="govuk-error-message">
+                          <span class="govuk-visually-hidden">Error:</span></span>
+                      </p>
+                      <div class="govuk-form-group">
+                        <div class="govuk-radios">
+                    <br>
+                    {% set radioArray = [] %}
+                    {% for i in range(0, requirement.nonOCDS.options | length) -%}
+                      {% if i == 0%}
+                        <div class="govuk-radios__item">
+                          {%if requirement.nonOCDS.options[i].selected === true %}
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
+                            
+                            {%else%}
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
+                            {%endif%}
+                            <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type">
+                              <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                            </label>
+                            <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
+                              {{requirement.nonOCDS.options[i].text | safe}}
+                            </div>
+                          </div>
+                          {% if requirement.nonOCDS.options[i].value === 'Yes'%}
+                            {# <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation" hidden>
+
+                                <br><br>
+                                <div class="govuk-form-group yeswho">
+                                {{ CCSInput({
+                                      label: {
+                                        text:"Indicative maximum ",
+                                        classes: "govuk-label govuk-date-input__label",
+                                        for: "rfp_security_confirmation"
+                                      },
+                                      id: "rfp_security_confirmation",
+                                      name: "rfp_security_confirmation",
+                                      classes: "govuk-input",
+                                      type: "text",
+                                      value:requirement.nonOCDS.childern[i].nonOCDS.options[i].value,
+                                      min: "100",
+                                      maxlength: "5000"
+                                  }) }}
+                                  </div>
+                                  <br><br>
+                                  <div class="govuk-form-group yeswho">
+                                  {{ CCSInput({
+                                      label: {
+                                         text:"Indicative minimum (optional) ",
+                                        classes: "govuk-label govuk-date-input__label",
+                                        for: "rfp_security_confirmation"
+                                      },
+                                      id: "rfp_security_confirmation",
+                                      name: "rfp_security_confirmation",
+                                      classes: "govuk-input",
+                                      type: "text",
+                                      value:requirement.nonOCDS.childern[1].nonOCDS.options[1].value,
+                                      min: "100",
+                                      maxlength: "5000"
+                                    }) }}
+                                    <br>
+                                  </div>
+
+                            </div> #}
+                            {%endif%}
+                          {% else %}
+
+                            <div class="govuk-radios__item">
+                           
+                              {%if requirement.nonOCDS.options[i].selected === true %}
+                                <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i+1}}-item-hint" checked>
+                                {%else%}
+                                <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i+1}}-item-hint" >
+                              {% endif %}
+                              <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type-{{i+1}}">
+                                <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                              </label>
+                              <div id="ccs_vetting_type-{{i+1}}-item-hint" class="govuk-hint govuk-radios__hint">
+                                {{requirement.nonOCDS.options[i].text |safe}}
+                              </div>
+                            </div>
+                            {%endif%}
+                          {%- endfor %}
+                        </div>
+                      </div>
+                      <br>
+                      {{ CCSInput({
+                            id: "question_id",
+                            name: "question_id",
+                            type: "hidden",
+                            value: requirement.OCDS.id
+                          })
+                      }}
+
+                    {% endif %}
+
+                    {# for mscf3 #}
+                    {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) and (form_name == 'rfp_singleselect') %}
+                      <p>
+                        <span id="rfp_singleSelect" class="govuk-error-message">
+                          <span class="govuk-visually-hidden">Error:</span></span>
+                      </p>
+                      <div class="govuk-form-group">
+                        <div class="govuk-radios">
                     <br>
                     {% set radioArray = [] %}
                     {% for i in range(0, requirement.nonOCDS.options | length) -%}
@@ -693,18 +1156,20 @@
                           {% if requirement.nonOCDS.options[i].value === 'Yes'%}
                             <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation" hidden>
                               <div class="govuk-form-group yeswho">
-                                {{ CCSInput({
+                              
+                                  {{ CCSInput({
                                       label: {
-                                        text: "[ Please enter the name of the incumbent supplier]",
+                                        text: "Enters the name of the existing supplier. For multiple suppliers, separate with a comma after each",
                                         classes: "govuk-label govuk-date-input__label",
                                         for: "rfp_security_confirmation"
                                       },
                                       id: "rfp_security_confirmation",
                                       name: "rfp_security_confirmation",
-                                      classes: "govuk-input govuk-!-width-one-third",
+                                      classes: "govuk-input rpf_500 govuk-!-width-one-third",
                                       type: "text", 
                                       value:requirement.nonOCDS.childern[0].nonOCDS.options[0].value,
-                                      min: "100"
+                                      min: "100",
+                                      maxlength: 500
                                   }) }}
                               </div>
                             </div>
@@ -712,15 +1177,16 @@
                           {% else %}
 
                             <div class="govuk-radios__item">
+                           
                               {%if requirement.nonOCDS.options[i].selected === true %}
-                                <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
+                                <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i+1}}-item-hint" checked>
                                 {%else%}
-                                <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
+                                <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i+1}}-item-hint" >
                               {% endif %}
-                              <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type-{{i}}">
+                              <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="ccs_vetting_type-{{i+1}}">
                                 <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
                               </label>
-                              <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
+                              <div id="ccs_vetting_type-{{i+1}}-item-hint" class="govuk-hint govuk-radios__hint">
                                 {{requirement.nonOCDS.options[i].text |safe}}
                               </div>
                             </div>
@@ -752,7 +1218,7 @@
                             },
                             id: "rfp_term_1",
                             name: "term",
-                            classes: "rfp_term_1",
+                            classes: "rfp_term_1 govuk-!-width-two-thirds",
                             value: requirement.nonOCDS.options[0].value
                           })
                       }}
@@ -790,7 +1256,7 @@
                               label: {
                                 text: "Write a definition for the key explaining what it means"
                               },
-                              classes: "rfp_term_definition_1",
+                              classes: "rfp_term_definition_1 govuk-!-width-two-thirds",
                               value: requirement.nonOCDS.options[0].text
                             })
                           }}
@@ -805,7 +1271,7 @@
                           ' Fifth',
                           ' Sixth',
                           ' Seventh',
-                          ' Eighth',
+                          ' Eight',
                           ' Ninth',
                           ' Tenth'
                         ] %}
@@ -827,7 +1293,7 @@
                             },
                             id: "rfp_term_"+i,
                             name: "term",
-                            classes: "rfp_term_"+i,
+                            classes: "govuk-!-width-two-thirds rfp_term_"+i,
                             value: requirement.nonOCDS.options[i-1].value
                           }) }}
 
@@ -838,10 +1304,10 @@
                             id: "rfp_term_definition_"+i,
                             name: "value",
                             spellcheck: false,
-                            classes: "rfp_term_definition_"+i,
+                            classes: "govuk-!-width-two-thirds rfp_term_definition_"+i,
                             value: requirement.nonOCDS.options[i-1].text
                           }) }}
-                            
+
                           {% endcall %}
 
                         {%- endfor %}
@@ -866,44 +1332,122 @@
                       {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and requirement.nonOCDS.type !== 'Define your service levels and KPIs' and (requirement.nonOCDS.multiAnswer === true) and form_name === 'ccs_rfp_acronyms_form' %}
                         {# <p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p> #}
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
+                        {% if agreement_id == 'RM1043.8' %}
+                          {% if (group_id == 'Group 2') and (lotId == '1')  %}
+                            {% set termAcronymDefaultFirst = 'First term or acronym' %}
+                          {% elif (group_id == 'Group 19') and (lotId == '1')  %}
+                            {% set termAcronymDefaultFirst = 'Enter your first special term or condition' %}
+                          {% elif (group_id == 'Group 17') and (lotId == '3')  %}
+                            {% set termAcronymDefaultFirst = 'Enter your first special term or condition' %}
+                          {% else %}
+                            {% set termAcronymDefaultFirst = 'First term or acronym' %}
+                          {% endif %}
+                            
+                          {% else %}
+                            {% set termAcronymDefaultFirst = 'First term or acronym' %}
+                          {% endif %}
+
                         {% call CCSFieldset({
                             legend: {
-                               html: "First term or acronym  <a href='1' id='deleteButton_acronym_1' class='del clear-fields govuk-link govuk-link--no-visited-state remove_icon' title='clear'> Remove </a>",
+                               html: termAcronymDefaultFirst,
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
-                            classes: "term_acronym_fieldset acronym_1",
+                            classes: "govuk-!-width-two-thirds term_acronym_fieldset acronym_1",
                             id:"term_acronym_fieldset_acronym_1"
                           })
                         %}
-                        {{ CCSInput({
+                        {% if (agreement_id == 'RM1043.8') %}
+                        {% if (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
+                        {{ CCSCharacterCount({
+                              label: {
+                                text: requirement.OCDS.title,
+                                classes: "govuk-!-font-weight-bold"
+                              },
+                              id: "rfp_term_1",
+                              name: "term",
+                              classes: "rfp_term_1 rfpterm",
+                              value: requirement.nonOCDS.options[0].value,
+                              maxlength: "500",
+                              rows:"1"
+                            })
+                          }}
+                          {% else %}
+                          {{ CCSCharacterCount({
                               label: {
                                 text: requirement.OCDS.title
                               },
                               id: "rfp_term_1",
                               name: "term",
-                              classes: "rfp_term_title_count rfp_term_1",
-                              value:requirement.nonOCDS.options[0].value,
-                              maxlength:"500"
+                              classes: "rfp_term_1 rfpterm",
+                              value: requirement.nonOCDS.options[0].value,
+                              maxlength: "500",
+                              rows:"1"
                             })
                           }}
-                          
-                        <span class="term_accr_title_1 remaining_chrs_term">You have {{ (500-(requirement.nonOCDS.options[0].value | length))}} characters remaining</span>
-
-                        {{ CCSTextarea({
+                          {% endif %}
+                          {% else %}
+                          {{ CCSCharacterCount({
+                              label: {
+                                text: requirement.OCDS.title
+                              },
+                              id: "rfp_term_1",
+                              name: "term",
+                              classes: "rfp_term_1 rfpterm",
+                              value: requirement.nonOCDS.options[0].value,
+                              maxlength: "500",
+                              rows:"1"
+                            })
+                          }}
+                          {% endif %}
+                          {% if (agreement_id == 'RM1043.8') %}
+                              {% if (lotId == '1') and (group_id == 'Group 2') %}
+                                  {% set explaintermtext = 'Explain your term or acronym' %}
+                              {% elseif (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
+                                  {% set explaintermtext = 'Enter an explanation for the special term or condition' %}
+                                {% else %}
+                                  {% set explaintermtext = 'Write a definition for the term or acronym explaining what it means' %}
+                              {% endif %}
+                              {% if (lotId == '1') and (group_id == 'Group 2') %}
+                                {{ CCSCharacterCount({
+                                    name: "value",
+                                    id: "rfp_term_definition_1",
+                                    label: {
+                                      text: explaintermtext
+                                    },
+                                    classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition",
+                                    value: requirement.nonOCDS.options[0].text,
+                                    maxlength: 5000
+                                  })
+                                }}
+                                {% else %}
+                                {{ CCSCharacterCount({
+                                    name: "value",
+                                    id: "rfp_term_definition_1",
+                                    label: {
+                                      text: explaintermtext,
+                                      classes:"govuk-!-font-weight-bold"
+                                    },
+                                    classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition",
+                                    value: requirement.nonOCDS.options[0].text,
+                                    maxlength: 5000
+                                  })
+                                }}
+                                {% endif %}
+                          {% else %}
+                              {{ CCSCharacterCount({
                               name: "value",
                               id: "rfp_term_definition_1",
                               label: {
                                 text: 'Write a definition for the term or acronym explaining what it means'
                               },
-                              classes: "terms_acr_description_count rfp_term_definition_1",
-                              value:  requirement.nonOCDS.options[0].text
+                              classes: "rfp_term_definition_1 rpf_10000 rfp_term_definition",
+                              value: requirement.nonOCDS.options[0].text,
+                               maxlength: 10000
                             })
                           }}
-
-                         <span class="rfp_term_definition_1 remaining_chrs_term">You have {{ (5000-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>
-
-                          <br>
+                          {% endif %}
+                        
                         {# {{ CCSInput({
                                 label: {
                                   text: "Insert the required target "
@@ -919,7 +1463,7 @@
 
                         {% endcall %}
                         {% set NumberWord = [
-                          'Zero',
+                          'zero',
                           'First',
                           'Second',
                           ' Third',
@@ -929,44 +1473,145 @@
                           ' Seventh',
                           ' Eighth',
                           ' Ninth',
-                          ' Tenth'
+                          ' Tenth',
+                          'Eleventh',
+                          'Twelfth',
+                          'Thirteenth',
+                          'Fourteenth',
+                          'Fifteenth',
+                          'Sixteenth',
+                          'Seventeenth',
+                          'Eighteenth',
+                          'Nineteenth',
+                          'Twentieth'
                         ] %}
-                        {% for i in range(2, 11) -%}
+                        {% for i in range(2, 21) -%}
+                          {% if agreement_id == 'RM1043.8' %}
+                            {% if (group_id == 'Group 2') and (lotId == '1')  %}
+                              {% set PreTermAcronym = '' %}
+                              {% set termAcronym = ' term or acronym' %}
+                              {% set AftNoWord = NumberWord[i] %}
+                            {% elif (group_id == 'Group 19') and (lotId == '1')  %}
+                              {% set PreTermAcronym = ' Enter your ' %}
+                              {% set termAcronym = ' special term or condition' %}
+                              {% set AftNoWord = NumberWord[i] | lower %}
+                            {% elif (group_id == 'Group 17') and (lotId == '3')  %}
+                              {% set PreTermAcronym = ' Enter your ' %}
+                              {% set termAcronym = ' special term or condition' %}
+                              {% set AftNoWord = NumberWord[i] | lower %}
+                            {% else %}
+                              {% set PreTermAcronym = '' %}
+                              {% set termAcronym = ' term or acronym' %}
+                              {% set AftNoWord = NumberWord[i] %}
+                            {% endif %}
+                            
+                          {% else %}
+                            {% set PreTermAcronym = '' %}
+                            {% set termAcronym = ' term or acronym' %}
+                            {% set AftNoWord = NumberWord[i] %}
+                          {% endif %}
 
                           {% call CCSFieldset({
                               legend: {
-                                html: NumberWord[i] +" term or acronym"  +"<a href="+i+" id='deleteButton_acronym_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state remove_icon' title='clear'> Remove </a>",
+                                html: PreTermAcronym+AftNoWord+termAcronym  +"<a href="+i+" id='deleteButton_acronym_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform-hidden remove_icon' title='clear'> X </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
-                              classes: "term_acronym_fieldset acronym_"+i,
+                              classes: "govuk-!-width-two-thirds term_acronym_fieldset acronym_"+i,
                               id:"term_acronym_fieldset"
                             })
                           %}
-
-                          {{ CCSInput({
+                        {% if (agreement_id == 'RM1043.8') %}
+                        {% if (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
+                          {{ CCSCharacterCount({
+                                label: {
+                                  text: requirement.OCDS.title,
+                                  classes: "govuk-!-font-weight-bold"
+                                },
+                                id: "rfp_term_"+i,
+                                name: "term",
+                                classes: "rfpterm rfp_term_"+i,
+                                value: requirement.nonOCDS.options[i-1].value,
+                                maxlength:500,
+                                rows:"1"
+                              })
+                            }}
+                            {% else %}
+                            {{ CCSCharacterCount({
                                 label: {
                                   text: requirement.OCDS.title
                                 },
                                 id: "rfp_term_"+i,
                                 name: "term",
-                                classes: "rfp_term_title_count rfp_term_"+i,
-                                value:requirement.nonOCDS.options[i-1].value
+                                classes: "rfpterm rfp_term_"+i,
+                                value: requirement.nonOCDS.options[i-1].value,
+                                maxlength:500,
+                                rows:"1"
                               })
                             }}
-                          <span class="term_accr_title_{{i}}  remaining_chrs_term">You have {{ (500-(requirement.nonOCDS.options[i-1].value | length))}} characters remaining</span>
-                          {{ CCSTextarea({
+                            {% endif %}
+                            {% else %}
+                            {{ CCSCharacterCount({
+                                label: {
+                                  text: requirement.OCDS.title
+                                },
+                                id: "rfp_term_"+i,
+                                name: "term",
+                                classes: "rfpterm rfp_term_"+i,
+                                value: requirement.nonOCDS.options[i-1].value,
+                                maxlength:500,
+                                rows:"1"
+                              })
+                            }}
+                            {% endif %}
+                            {% if (agreement_id == 'RM1043.8') %}
+                            {% if (lotId == '1') and (group_id == 'Group 2') %}
+                                {% set explaintermtext = 'Explain your term or acronym' %}
+                            {% elseif (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
+                                  {% set explaintermtext = 'Enter an explanation for the special term or condition' %}
+                              {% else %}
+                                {% set explaintermtext = 'Write a definition for the term or acronym explaining what it means' %}
+                            {% endif %}
+                            {% if (lotId == '1') and (group_id == 'Group 2') %}
+                              {{ CCSCharacterCount({
+                                name: "value",
+                                id: "rfp_term_definition_"+i,
+                                label: {
+                                  text: explaintermtext
+                                },
+                                classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition"+i,
+                                value: requirement.nonOCDS.options[i-1].text,
+                                maxlength:5000
+                              })
+                            }}
+                            {% else %}
+                            {{ CCSCharacterCount({
+                                name: "value",
+                                id: "rfp_term_definition_"+i,
+                                label: {
+                                  text: explaintermtext,
+                                  classes: "govuk-!-font-weight-bold"
+                                },
+                                classes: "rfp_term_definition_1 rpf_5000 rfp_term_definition"+i,
+                                value: requirement.nonOCDS.options[i-1].text,
+                                maxlength:5000
+                              })
+                            }}
+                            {% endif %}
+                            {% else %}
+                              {{ CCSCharacterCount({
                                 name: "value",
                                 id: "rfp_term_definition_"+i,
                                 label: {
                                   text: 'Write a definition for the term or acronym explaining what it means'
                                 },
-                                classes: "terms_acr_description_count rfp_term_definition_"+i,
-                                value:  requirement.nonOCDS.options[i-1].text
+                                classes: "rfp_term_definition rfp_10000 rfp_term_definition_"+i,
+                                value: requirement.nonOCDS.options[i-1].text,
+                                maxlength:10000
                               })
                             }}
-                          <span class=" rfp_term_definition_{{i}} remaining_chrs_term">You have {{ (5000-(requirement.nonOCDS.options[i-1].text | length))}} characters remaining</span>
-                          <br>
+                            {% endif %}
+                          
                           {# {{ CCSInput({
                                   label: {
                                     text: "Insert the required target "
@@ -984,8 +1629,23 @@
                         {%- endfor %}
 
                         <p class="govuk-body">
+                          {% if (agreement_id == 'RM1043.8') %}
+                            {% if (group_id == 'Group 2') and (lotId == '1')  %}
+                              {% set actionAddmore = 'Add another term or acronym' %}
+                            {% elif (group_id == 'Group 19') and (lotId == '1')  %}
+                              {% set actionAddmore = 'Add another special term or condition' %}
+                            {% elif (group_id == 'Group 17') and (lotId == '3')  %}
+                              {% set actionAddmore = 'Add another special term or condition' %}
+                            {% else %}
+                              {% set actionAddmore = 'Add another term or acronym' %}
+                            {% endif %}
+                            
+                          {% else %}
+                            {% set actionAddmore = 'Add another term or acronym' %}
+                          {% endif %}
+                          
                           {{ CCSButton({
-                          text: "Add another term or acronym",
+                          text: actionAddmore,
                           attributes: {
                             id: "ccs_rfpTerm_add"
                           },
@@ -1001,15 +1661,20 @@
                         }) }}
                         <div id="rfp_keyterm"></div>
                     
-                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.type === 'The people who will use your product or service (Optional)') and (requirement.nonOCDS.multiAnswer === true)and (form_name === 'service_user_type_form') %}
-
+                      {% elif(requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true)and (form_name === 'service_user_type_form') %}
+                        {# (requirement.nonOCDS.type === 'The people who will use your product or service (Optional)') and  #}
                         
 
                         {#<p>Define any terms and acronyms that you have used that suppliers may not be familiar with. this will help suppliers to understand what they mean</p>#}
                         {# <h2>X service levels and key performance indicators added so far</h2> #}
+                        {% if (agreement_id == 'RM1043.8') %}
+                          {% set DefaultServiceUserType = 'First user type' %}
+                        {% else %}
+                          {% set DefaultServiceUserType = 'First service user type' %}
+                        {% endif %}
                         {% call CCSFieldset({
                             legend: {
-                               html: "First service user type <a href='1' id='deleteButton_service_useer_type_1' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
+                               html: DefaultServiceUserType,
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -1017,30 +1682,29 @@
                             id:"term_acronym_fieldset_acronym_service_1"
                           })
                         %}
-                        {{ CCSInput({
+                        {{ CCSCharacterCount({
                               label: {
                                 text: 'Give this group a name'
                               },
                               id: "rfp_term_service_group_1",
+                              maxlength:500,
                               name: "term",
-                              classes: "rfp_term_service_count rfp_term_service_user_type_1",
-                              value:  requirement.nonOCDS.options[0].value,
-                              maxlength : 500
+                              classes: "rfp_term_service_user_type_1 govuk-!-width-two-thirds rfpterm govuk-input",
+                              value: requirement.nonOCDS.options[0].value
                             })
                           }}
-                          <span class="rfp_term_more_service_group_1 remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[0].value | length))}} characters remaining</span>
-                        {{ CCSTextarea({
+                        {{ CCSCharacterCount({
                               name: "value",
                               id: "rfp_term_more_details_1",
                               label: {
-                                text: 'Enter more details about this user type'
+                                text: 'Enter details about your service users'
                               },
-                               maxlength:"5000",
-                              classes: "rfp_term_more_description_count rfp_term_more_details_1",
-                              value:requirement.nonOCDS.options[0].text
+                              maxlength:5000,
+                              classes: "govuk-!-width-two-thirds messagesendcount rfp_term_more_details_1",
+                              value: requirement.nonOCDS.options[0].text
                             })
                           }}
-                      <span class="rfp_term_more_details_1 remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[0].text | length))}} characters remaining</span>
+
                         {% endcall %}
                         {% set NumberWord = [
                           'zero',
@@ -1056,10 +1720,14 @@
                           'Tenth'
                         ] %}
                         {% for i in range(2, 11) -%}
-
+                          {% if (agreement_id == 'RM1043.8') %}
+                            {% set DynamicServiceUserType = ' user type' %}
+                          {% else %}
+                            {% set DynamicServiceUserType = ' service user type' %}
+                          {% endif %}
                           {% call CCSFieldset({
                               legend: {
-                                html: NumberWord[i] +" service user type"  +"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
+                                html: NumberWord[i] +DynamicServiceUserType+"<a href="+i+" id='deleteButton_service_useer_type_"+i+"' class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -1068,36 +1736,40 @@
                             })
                           %}
 
-                          {{ CCSInput({
+                          {{ CCSCharacterCount({
                                 label: {
                                   text: 'Give this group a name'
                                 },
                                 id: "rfp_term_service_group_"+i,
+                                maxlength:500,
                                 name: "term",
-                                classes: "rfp_term_service_count rfp_term__Service_user_type_"+i,
+                                classes: "govuk-input govuk-!-width-two-thirds rfpterm rfp_term__Service_user_type_"+i,
                                 value: requirement.nonOCDS.options[i-1].value
                               })
                             }}
-              <span class="rfp_term_more_service_group_{{i}} remaining_chrs_term">You have {{(500-(requirement.nonOCDS.options[i-1].value | length))}} characters remaining</span>
-                          {{ CCSTextarea({
+
+                          {{ CCSCharacterCount({
                                 name: "value",
                                 id: "rfp_term_more_details_"+i,
                                 label: {
-                                  text: 'Enter more details about this user type'
+                                  text: 'Enter details about your service users'
                                 },
-                                maxlength:"5000",
-                                classes: "rfp_term_more_description_count rfp_term_more_details_"+i,
+                                maxlength:5000,
+                                classes: "govuk-!-width-two-thirds messagesendcount rfp_term_more_details_"+i,
                                 value: requirement.nonOCDS.options[i-1].text
                               })
                             }}
-                             <span class="rfp_term_more_details_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1].text | length))}} characters remaining</span>
                           {% endcall %}
-                       
-                        {%- endfor %}
 
+                        {%- endfor %}
+                        {% if (agreement_id == 'RM1043.8') %}
+                          {% set AddAnotherServiceUserType = 'Add another user type' %}
+                        {% else %}
+                          {% set AddAnotherServiceUserType = 'Add another service user type' %}
+                        {% endif %}
                         <p class="govuk-body">
                           {{ CCSButton({
-                          text: "Add another service user type",
+                          text: AddAnotherServiceUserType,
                           attributes: {
                             id: "ccs_rfpService_use_type_add"
                           },
@@ -1115,14 +1787,16 @@
   
                   
                       {% elif (index ===1 ) and (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true)and (form_name === 'service_levels_kpi_form') %}
-                        {# <p>The Authority will measure the quality of the Supplier’s delivery by: Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be</p>
-                        #}
+                        <p>The Authority will measure the quality of the Supplier’s delivery by:<br>
+                          Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be assessed. Ensure that service levels are measurable, relevant, and drive contractual performance. </p><br>
+                        
                         {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
-                        <h2> <span id="kpiKeyLevel"></span>  service levels and key performance indicators added so far</h2> 
-                        <p class="govuk-top-line"></p>
+                        
+                        <h2> <span id="kpiKeyLevel"></span>  service levels and KPI's added </h2> 
+                        <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-top-2">
                         {% call CCSFieldset({
                             legend: {
-                              html: "Enter your first service level requirement or KPI <a href='1' id='remove_icon_1' data='1'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
+                              html: "Enter your first service level requirement or KPI",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -1130,31 +1804,46 @@
                             id:"term_acronym_fieldset_acronym_1"
                           })
                         %}
-                        <p class="govuk-p-margin-bottom"><strong> Name of requirement </strong></p><p> For example, 'Delivery timescales' </p>
-                        {{ CCSInput({
-                              
+                        {{ CCSCharacterCount({
+                              label: {
+                                text: "Name of requirement",
+                                classes: "govuk-!-font-weight-bold"
+                              },
+                              hint: {
+                                text: "For example, ‘Delivery timescales’"
+                              },
                               id: "rfp_term_service_levels_KPI_1",
+                              maxlength:500,
                               name: "term",
-                              classes: "rfp_kpi_title_count rfp_term_1",
-                              value: requirement.nonOCDS.options[0][0].value,
-                              maxlength : "500"
+                              classes: "rfp_term_1 rfpterm",
+                              value: requirement.nonOCDS.options[0][0].value
                             })
                           }}
-                          <span class="rfp_term_kpi_title_1 remaining_chrs_term">You have {{500-requirement.nonOCDS.options[0][0].value | length}} characters remaining</span>
-                          <p class="govuk-p-margin-bottom"> <strong>Description of the criteria </strong> </p><p> For example, 'Deliveries should be received within three working days of when the order is placed'. </p>
-                        {{ CCSTextarea({
+              {% if (agreement_id == 'RM1043.8') %}
+
+ {{ CCSCharacterCount({
                               name: "value",
                               id: "rfp_term_definition_service_levels_KPI_1",
-                              
-                              maxlength:"5000",
-                              classes: "rfp_kpi_description_count rfp_term_definition_1",
+                              maxlength:5000,
+                              label: {
+                                text: "Description of the criteria",
+                                classes: "govuk-!-font-weight-bold"
+                              },
+                              hint: {
+                                text: "For example, ‘Deliveries should be received within three working days of when the order is placed’."
+                              },
+                              classes: "govuk-!-width-two-thirds rpf_5000 rfp_term_definition_1 rfp_term_definition",
                               value: requirement.nonOCDS.options[0][1].value
                             })
                           }}
-                           <span class="rfp_term_kpi_description_1 remaining_chrs_term">You have {{5000-requirement.nonOCDS.options[0][1].value | length}} characters remaining</span>
-                        <p class="govuk-p-margin-bottom"><strong>Your success target</strong></p><p>For example, '98%'</p>
                         {{ CCSInput({
-                               
+                                label: {
+                                  text: "Your success target",
+                                  classes: "govuk-!-font-weight-bold"
+                                },
+                                hint: {
+                                  text: "For example, ‘98%’"
+                                },
                                 classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
                                 id: "rfp_term_percentage_KPI_1",
                                 value: requirement.nonOCDS.options[0][2].value,
@@ -1162,28 +1851,71 @@
                                 suffix: {
                                   text: "%"
                                 },
-                                type:"number"
+                                type:"number",
+                                min: 1
+                               
                               }) }}
 
+
+              {% else %}
+
+                      {{ CCSCharacterCount({
+                              name: "value",
+                              id: "rfp_term_definition_service_levels_KPI_1",
+                              maxlength:10000,
+                              label: {
+                                text: "Description of the criteria",
+                                classes: "govuk-!-font-weight-bold"
+                              },
+                              hint: {
+                                text: "For example, ‘Deliveries should be received within three working days of when the order is placed’."
+                              },
+                              classes: "govuk-!-width-two-thirds rpf_10000 rfp_term_definition_1 rfp_term_definition",
+                              value: requirement.nonOCDS.options[0][1].value
+                            })
+                          }}
+                        {{ CCSInput({
+                                label: {
+                                  text: "Your success target",
+                                  classes: "govuk-!-font-weight-bold"
+                                },
+                                hint: {
+                                  text: "For example, ‘98%’"
+                                },
+                                classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                                id: "rfp_term_percentage_KPI_1",
+                                value: requirement.nonOCDS.options[0][2].value,
+                                name: "percentage",
+                                suffix: {
+                                  text: "%"
+                                },
+                                type:"number",
+                                min: 1
+                               
+                              }) }}
+
+
+              {% endif %}
+                       
                         {% endcall %}
                         {% set NumberWord = [
-                          'Zero',
-                          'First',
-                          'Second',
-                          ' Third',
-                          ' Fourth',
-                          ' Fifth',
-                          ' Sixth',
-                          ' Seventh',
-                          ' Eighth',
-                          ' Ninth',
-                          ' Tenth'
+                          'zero',
+                          'first',
+                          'second',
+                          ' third',
+                          ' fourth',
+                          ' fifth',
+                          ' sixth',
+                          ' seventh',
+                          ' eight',
+                          ' ninth',
+                          ' tenth'
                         ] %}
                         {% for i in range(2, 11) -%}
 
                           {% call CCSFieldset({
                               legend: {
-                                html: "Enter your "+NumberWord[i]+" service level requirement or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> Remove </a>",
+                                html: "Enter your "+NumberWord[i]+" service level requirement or KPI <a href='"+i+"' id='remove_icon_"+i+"' data='"+i+"'  class='del clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
                                 classes: "govuk-fieldset__legend--m",
                                 isPageHeading: false
                               },
@@ -1191,31 +1923,38 @@
                               id:"term_acronym_fieldset"
                             })
                           %}
-                        <p class="govuk-p-margin-bottom"><strong> Name of requirement </strong></p><p> For example, 'Delivery timescales' </p>
-                          {{ CCSInput({
-                                
+
+                          {{ CCSCharacterCount({
+                                label: {
+                                  text: "Name of requirement",
+                                  classes: "govuk-!-font-weight-bold"
+                                },
+                                maxlength:500,
                                 id: "rfp_term_service_levels_KPI_"+i,
                                 name: "term",
-                                classes: "rfp_kpi_title_count rfp_term_name_requirement_KPI_"+i,
-                                value: requirement.nonOCDS.options[i-1][0].value,
-                                 maxlength : "500"
+                                classes: "rfpterm rfp_term rfp_term_name_requirement_KPI_"+i,
+                                value: requirement.nonOCDS.options[i-1][0].value
                               })
                             }}
-                            <span class="rfp_term_kpi_title_{{i}} remaining_chrs_term">You have {{500-requirement.nonOCDS.options[i-1][0].value | length}} characters remaining</span>
-                        <p class="govuk-p-margin-bottom"><strong> Description of the criteria </strong></p><p> For example, 'Deliveries should be received within three working days of when the order is placed'. </p>
-                          {{ CCSTextarea({
+                          {% if (agreement_id == 'RM1043.8') %}
+             
+                         {{ CCSCharacterCount({
                                 name: "value",
                                 id: "rfp_term_definition_service_levels_KPI_"+i,
-                                
-                                maxlength:"5000",
-                                classes: "rfp_kpi_description_count rfp_term_desription_KPI_"+i,
+                                maxlength:5000,
+                                label: {
+                                  text: "Description of the criteria",
+                                  classes: "govuk-!-font-weight-bold"
+                                },
+                                classes: "rfp_term_definition rpf_5000 govuk-!-width-two-thirds rfp_term_desription_KPI_"+i,
                                 value: requirement.nonOCDS.options[i-1][1].value
                               })
                             }}
-                            <span class="rfp_term_kpi_description_{{i}} remaining_chrs_term">You have {{(5000-(requirement.nonOCDS.options[i-1][1].value | length))}} characters remaining</span>
-                          <p class="govuk-p-margin-bottom"><strong>Your success target</strong></p><p>For example, '98%'</p>
                           {{ CCSInput({
-                                 
+                                  label: {
+                                    text: "Your success target",
+                                    classes: "govuk-!-font-weight-bold"
+                                  },
                                   classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
                                   id: "rfp_term_percentage_KPI_"+i,
                                   value: requirement.nonOCDS.options[i-1][2].value,
@@ -1223,23 +1962,51 @@
                                   suffix: {
                                     text: "%"
                                   },
-                                  type:"number"
+                                  type:"number",
+                                  min: 1
                                 }) }}
+              {% else %}
+                         {{ CCSCharacterCount({
+                                name: "value",
+                                id: "rfp_term_definition_service_levels_KPI_"+i,
+                                maxlength:10000,
+                                label: {
+                                  text: "Description of the criteria",
+                                  classes: "govuk-!-font-weight-bold"
+                                },
+                                classes: "rfp_term_definition rpf_10000 govuk-!-width-two-thirds rfp_term_desription_KPI_"+i,
+                                value: requirement.nonOCDS.options[i-1][1].value
+                              })
+                            }}
+                          {{ CCSInput({
+                                  label: {
+                                    text: "Your success target",
+                                    classes: "govuk-!-font-weight-bold"
+                                  },
+                                  classes: "govuk-input--width-5 govuk-!-margin-bottom-3",
+                                  id: "rfp_term_percentage_KPI_"+i,
+                                  value: requirement.nonOCDS.options[i-1][2].value,
+                                  name: "percentage",
+                                  suffix: {
+                                    text: "%"
+                                  },
+                                  type:"number",
+                                  min: 1
+                                }) }}
+              {% endif %}
+                 
                           {% endcall %}
 
                         {%- endfor %}
-                        <p class="govuk-top-line"></p>
+
                         <p class="govuk-body">
-                          {#{{ CCSButton({
+                          {{ CCSButton({
                           text: "Add another item",
                           attributes: {
                             id: "ccs_rfpTerm_add"
                           },
                           classes: "govuk-button--secondary ccs-dynaform-hidden"
-                        }) }}#}
-                        <a data-module="govuk-button" id="ccs_rfpTerm_add">
-  Add another item
-</a>
+                        }) }}
                         </p>
 
                         {{ CCSInput({
@@ -1253,44 +2020,111 @@
                       
 
                     {% endblock %}
-
+                    
                     {% block Address%}
-                      {% if (requirement.nonOCDS.questionType === 'MultiSelect') and (requirement.nonOCDS.multiAnswer === true) %}
-                        {% set countryArray = [] %}
-                        {% set countryList = [] %}
-                        {% for countries in requirement.nonOCDS.options %}
-                          {% if countries.value !== "No specific location, for example they can work remotely" and countries.value !== "Not Applicable" and countries.value !== "Service design phases do not apply to your project" %}
-                            {% set countryList = (countryList.push(countries.value),countryList)%}
-                            {% set countryArray = (countryArray.push({value: countries.value, text: countries.value, checked: countries.selected}), countryArray) %}
-                            {%else%}
-                            {% set countryList = (countryList.push(countries.value),countryList)%}
-                            {% set countryArray = (countryArray.push({
-                              divider: "OR"
-                            }, {
-                              value: countries.value,
-                              text: countries.value,
-                              checked: countries.selected
-                            }), countryArray) %}
+                      {% if agreement_id != 'RM1043.8' %}
+                          {% if (requirement.nonOCDS.questionType === 'MultiSelect') and (requirement.nonOCDS.multiAnswer === true) %}
+                            {% set countryArray = [] %}
+                            {% set countryList = [] %}
+                            {% for countries in requirement.nonOCDS.options %}
+                              {% if countries.value !== "No specific location, for example they can work remotely" and countries.value !== "Not Applicable" and countries.value !== "None" %}
+                                {% set countryList = (countryList.push(countries.value),countryList)%}
+                                {% set countryArray = (countryArray.push({value: countries.value,text: countries.value,checked: countries.selected}), countryArray) %}
+                                {%else%}
+                                {% set countryList = (countryList.push(countries.value),countryList)%}
+                                {% set countryArray = (countryArray.push({
+                                  divider: "OR"
+                                }, {
+                                  value: countries.value,
+                                  text: countries.value,
+                                  checked: countries.selected
+                                }), countryArray) %}
 
-                            {%endif%}
-                          {% endfor %}
+                                {%endif%}
+                              {% endfor %}
 
-                          {{ CCSCheckboxes({
-                            idPrefix: "required_locations",
-                            name: "required_locations",
-                            items: countryArray
-                          })
-                      }}
-                          {{ CCSInput({
-                            id: "question_id",
-                            name: "question_id",
-                            type: "hidden",
-                            value: requirement.OCDS.id
-                          })
-                      }}
+                              {{ CCSCheckboxes({
+                                idPrefix: "required_locations",
+                                name: "required_locations",
+                                items: countryArray
+                              })
+                          }}
+                              {# {{ CCSInput({
+                                id: "question_id",
+                                name: "question_id",
+                                type: "hidden",
+                                value: requirement.OCDS.id
+                              })
+                              }} #}
 
+                            {% endif %}
+
+                      {% else %}
+                       
+                        {% if (requirement.nonOCDS.questionType === 'MultiSelect') and (requirement.nonOCDS.multiAnswer === true) %}
+                          <div class="govuk-form-group">
+                          <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                            {% for i in range(0, requirement.nonOCDS.options | length) -%}
+                            {% set sec_vetting_opt = requirement.nonOCDS.options[i] %}
+                              {% if sec_vetting_opt.value !== "No security clearance needed" 
+                                and sec_vetting_opt.value !== "No specific location, for example they can work remotely"
+                                and sec_vetting_opt.value !== "No specific location (for example they can work remotely)"
+                                and sec_vetting_opt.value !== "Not Applicable" 
+                                and sec_vetting_opt.value !== "None" %}
+                              <div class="govuk-checkboxes__item">
+                                {% if i == '0' %}
+                                  <input class="dos6_vetting govuk-checkboxes__input" id="required_locations" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
+                                  <label class="govuk-label govuk-checkboxes__label" for="required_locations">
+                                      {{ sec_vetting_opt.value }}
+                                  </label>
+                                  {%else%}
+                                  <input class="dos6_vetting govuk-checkboxes__input" id="required_locations-{{i + 1}}" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
+                                  <label class="govuk-label govuk-checkboxes__label" for="required_locations-{{i + 1}}">
+                                      {{ sec_vetting_opt.value }}
+                                  </label>
+                                  {%endif%}
+
+                                  {% if sec_vetting_opt.text %}
+                                    <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
+                                      {{sec_vetting_opt.text | safe}}
+                                    </div>
+                                  {%endif%}
+                              </div>
+
+                              {%else%}
+                              <div class="govuk-checkboxes__divider">OR</div>
+                              <div class="govuk-checkboxes__item">
+                                  <input class="dos6_vetting_change govuk-checkboxes__input" id="required_locations-{{i + 1}}" name="required_locations" {{-" checked" if sec_vetting_opt.selected }} type="checkbox" value="{{ sec_vetting_opt.value }}">
+                                  <label class="govuk-label govuk-checkboxes__label" for="required_locations-{{i +1 }}">
+                                      {{ sec_vetting_opt.value }}
+                                  </label>
+                              </div>
+                              {%endif%}
+                              
+                                {% if sec_vetting_opt.value == 'Baseline Personnel Security Standard (BPSS)'%}
+                                <div class="govuk-radios__conditional" id="security_vetting" hidden>
+                                    <div class="govuk-form-group ">
+                                  {{  CCSCharacterCount({
+                                        id: 'base_text',
+                                        name: 'base_text',
+                                        classes: 'govuk-textarea govuk-label--m govuk-!-width-two-thirds',
+                                        hint: {text: 'Enter the description for this level'},
+                                        maxlength: "5000"
+                                    })
+                                  }}
+                                  </div>
+                                </div>
+                                {%endif%}
+                            
+                            {% endfor %}
+                          </div>
+                          </div>
+                            {{ CCSInput({id: "agreement_id",type: "hidden",value: agreement_id})}}
+                            {{ CCSInput({id: "question_id",name: "question_id",type: "hidden",value: requirement.OCDS.id})}}
+
+                          {% endif %}
                         {% endif %}
-                      {% endblock %}
+                    {% endblock %}
 
                       {% block Budget %}
                         {% if ((requirement.nonOCDS.questionType === 'Monetary') and (requirement.nonOCDS.multiAnswer === false)) %}
@@ -1299,6 +2133,7 @@
                           {% else %}
                             {% set titleText = requirement.OCDS.title %}
                           {% endif %}
+                          
                         {{ CCSInput({
                             label: {
                               text: titleText,
@@ -1312,12 +2147,13 @@
                             prefix: {
                               text: "£"
                             },
-                            id: "rfp_"+requirement.OCDS.title | replace(" ", "_") | lower,
+                            id: "rfp_"+requirement.OCDS.title | replace(" (optional)", "") | replace(" ", "_") | lower,
                             name: "rfp_budget",
                             spellcheck: false,
                             classes: "govuk-input--width-5",
                             value: requirement.nonOCDS.options[0].value,
-                            type:"number"
+                            type:"number",
+                            min:"0"
                         })
                       }}
 

@@ -3,17 +3,22 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Enter your supplier Evaluation ' %}
+{% if agreementId_session != 'RM6187' %} 
+{% set title = 'Enter your supplier evaluation' %}
+{% else %}
+{% set title = 'Add your supplier evaluation' %}
+{% endif %} 
+
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
     {
-      "text": "Your Dashboard",
+      "text": "Dashboard",
       "href": "/dashboard"
     },
         {
             "text": "Your Project",
-            "href": "/event/management?id="+eventId
+            "href": "/dashboard"
         },
         {
             "text": "Evaluate Suppliers",
@@ -53,28 +58,30 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 id="page-heading" class="govuk-heading-xl">
-
-          <strong>{{data.Pagetitle}}</strong>
-
+          <strong>{{title}}</strong>
         </h1>
       </div>
     </div>
     <div class="govuk-grid-column-two-thirds">
-       <div class="project-overview">
-           <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
-                </strong></p>
-              {%endif %}
-            <p class="govuk-body">Agreement ID: <strong>{{agreementId_session}}</strong></p>
-              {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['project_name'] %}
-            <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
-               {% else %}
-            <p class="govuk-body">Project name: You have not saved projects </p>
-               {% endif %}
-            </p>
-        </div>
-      <div class="ccs-page-section">
-        <p class="govuk-body">{{data.subtitle}}</p>
-        <p class="govuk-body">{{data.subtitle1}}</p>  
+      {% include "includes/project_header.njk" %}
+      <div>  
+        {% if agreementId_session != 'RM1043.8' %}      
+        <p class="govuk-body">Enter your final evalution score and feedback for this supplier.</p>
+        <p class="govuk-body">You should have evaluated all supplier answers and reviewed this with other evaluators before entering your final score. </p>  
+        {%else%}
+        {% if stage2_value == 'Stage 2' %}
+          <p class="govuk-body">Enter your final evalution score and feedback for this supplier.</p>
+        {%else%}
+          <p class="govuk-body">Enter your shortlisting score and feedback for this supplier.</p>
+          {% endif %}
+          {% if stage2_value == 'Stage 2' %}
+            <p class="govuk-body">The final score incorporates all the individual and category weightings.</p>  
+            <p class="govuk-body">You add the shortlisting and further assessment scores together to give the final score.</p>  
+          {% else %}
+            <p class="govuk-body">You should enter the total score for each supplier, not the weighted score.</p>  
+            <p class="govuk-body">Weightings are only used in the calculation of the final score for each supplier at the end of stage 2: further assessment.</p>
+          {% endif %}
+        {%endif%}
         <br>
       </div>
 
@@ -84,6 +91,7 @@
        
 
             <p class="govuk-body"><h2><strong>Supplier Name :</strong>{{suppliername}}</h2></p>
+            {% if stage2_value == 'Stage 2' %}
                       {{ CCSInput({
                             label: {
                               text: "Final Score ",
@@ -92,59 +100,88 @@
                               name: "enter_evaluation"
                             },
                             hint: {
-                              classes: "govuk-hint",
-                              text: "(Minimum 0, Maximum 100)"
+                              classes: "govuk-hint"
                             },
                             suffix: {
                               text: "%"
                             },
                             id: "enter_evaluation_score",
                             name: "enter_evaluation_score",
-                            classes: "govuk-input--width-4 dimensions",
-                            maxlength: "6",
+                            classes: "govuk-input--width-4 dimensions percentage_limit",
+                            maxlength: "3",
                             type:"number",
                               step:"0.01",
-                              value : marks
+                               value : marks
 
                         })
                       }}
-        
+                {% else %}
+                      {{ CCSInput({
+                            label: {
+                              text: "Score ",
+                              classes: "govuk-label--m",
+                              id: "enter_evaluation",
+                              name: "enter_evaluation"
+                            },
+                            hint: {
+                              classes: "govuk-hint"
+                            },
+                            suffix: {
+                              text: "%"
+                            },
+                            id: "enter_evaluation_score",
+                            name: "enter_evaluation_score",
+                            classes: "govuk-input--width-4 dimensions percentage_limit",
+                            maxlength: "3",
+                            type:"number",
+                              step:"0.01",
+                               value : marks
+
+                        })
+                      }}
+          {% endif %}
 
 <br/>
-
-                        {#{{ CCSInput({
+        {% if stage2_value == 'Stage 2' %}
+                        {{ CCSCharacterCount({
                             label: {
                               text: "Final Feedback ",
                               classes: "govuk-label--m",
                               name: "enter_evaluation"
                             },
                             hint: {
-                             text: "Feedback should be constructive and relevant to the answers the supplier submitted.Try and include feedback about something positive, as well as areas of improvement."
+                             text: "Feedback should be constructive and relevant to the answers provided by the supplier. Include constructive feedback as well as suggestions for improvement."
                             },
                             
                             id: "enter_evaluation_feedback",
                             name: "enter_evaluation_feedback",
-                            classes: "govuk-input--width-feedback ",
                             spellcheck: true,
+                            classes: "messagesendcount",
                             maxlength: "5000",
-                            value: feedBack
-                          
+                             value: feedBack
                         })
-                      }}#}
-                      <div class="govuk-form-group">
-  <label class="govuk-label govuk-label--m" for="enter_evaluation_feedback">
-    Final Feedback 
-  </label>
-
-  
-  
-  <div id="enter_evaluation_feedback-hint" class="govuk-hint">
-    Feedback should be constructive and relevant to the answers the supplier submitted.Try and include feedback about something positive, as well as areas of improvement.
-  </div>
-
-<textarea class="govuk-input govuk-input--width-feedback " id="enter_evaluation_feedback" name="enter_evaluation_feedback"  spellcheck="true" aria-describedby="enter_evaluation_feedback-hint" maxlength="5000">{{feedBack}}</textarea>
-</div>
-<p><label id="supplierFeedback"></label></p>
+                      }}
+        {% else %}
+                        {{ CCSCharacterCount({
+                            label: {
+                              text: "Final Feedback ",
+                              classes: "govuk-label--m",
+                              name: "enter_evaluation"
+                            },
+                            hint: {
+                             text: "Feedback should be constructive and relevant to the answers the supplier submitted. Try and include feedback about something positive, as well as areas of improvement."
+                            },
+                            
+                            id: "enter_evaluation_feedback",
+                            name: "enter_evaluation_feedback",
+                            spellcheck: true,
+                            classes: "messagesendcount",
+                            maxlength: "5000",
+                             value: feedBack
+                        })
+                      }}
+                      {% endif %}
+{# <p><label id="supplierFeedback"></label></p> #}
 
                      <div class="govuk-button-group">
                         {{ CCSButton({

@@ -1,0 +1,9 @@
+{
+  "title": "Tell us if there is an existing supplier",
+  "subtitle": null,
+  "line1": "If you are replacing an existing service, you may already be working with another supplier. Select the most relevant option below.",
+  "backJump": {
+    "title": "Return to Build your EoI",
+    "href": "/eoi/online-task-list"
+  }
+}

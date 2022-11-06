@@ -14,7 +14,7 @@
     {{ CCSBreadcrumbs({
         items: [
             {
-                "text": "Your dashboard",
+                "text": "Dashboard",
                 "href": "/dashboard"
                 },
                 {
@@ -30,9 +30,9 @@
                 "href": "/da/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "How much the team can grow (scale)",
+                "text": "How well can the team scale?",
                 "href": "#"
-            } 
+            }
         ]
     }) }}
 {% endblock %}
@@ -43,15 +43,13 @@
             {{ CCSErrorSummary({
                 titleText: "There is a problem",
                 errorList: [{
-                    text: "Select an option",
-                    href: "#da_teamscale_radio"
+                    text: "Select an option"
                 }]
             }) }}
         {%endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                <h1 class="govuk-heading-xl"> 
-                <strong> {{data.title }}</strong> </h1>
+                <h1 class="govuk-heading-xl"> {{data.title }} </h1>
             </div>
         </div>
 
@@ -63,30 +61,20 @@
                 <form id="ccs_da_team_scale_form" name="ccs_da_team_scale_form" class="form ccs_da_team_scale_form" action="/da/team-scale" method="POST">
                 {{ csrfProtection(csrf) }}
                     <div class="govuk-form-group">
-                        <div class="govuk-radios" >
+                        <div class="govuk-radios">
                             <br>
-                            <div id= "da_teamscale_radio">
-                             {% if(error) %}
-                             <p id="da_teamscale_radio-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span>
-                   Select an option
-                  </p>
-                           
-                              {%endif %}
-                             </div>
                             {% set radioArray = [] %}
                             {% for item in RadioData %}
                             
                              <div class="govuk-radios__item">
-                             
                               {% if(item.selected==true)%}
                              <input class="govuk-radios__input ccs_vetting" id="ccs_da_team_scale_{{loop.index}}" name="team_option" type="radio" value="{{item.value}}" checked >
-                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_da_team_scale_{{loop.index}}">
+                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" >
                                         <h3 class="govuk-heading-m">{{item.name}}</h3>
                                     </label>
                               {%else%}
                       <input class="govuk-radios__input ccs_vetting" id="ccs_da_team_scale_{{loop.index}}" name="team_option" type="radio" value="{{item.value}}" >
-                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_da_team_scale_{{loop.index}}">
+                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" >
                                         <h3 class="govuk-heading-m">{{item.name}}</h3>
                                     </label> {%endif %}
  

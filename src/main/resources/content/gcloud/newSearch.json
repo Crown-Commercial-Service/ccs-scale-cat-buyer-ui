@@ -1,0 +1,52 @@
+{
+    "breadCrumbs": [
+      {
+        "text": "Dashboard",
+        "href": "/dashboard"
+      },
+      {
+        "text": "Choose a commercial agreement",
+        "href": "/projects/choose-agreement"
+      },
+      {
+        "text": "Procurement overview",
+        "href": "/projects/create-or-choose"
+      },
+     
+      {
+        "text": "See all suppliers for this lot"
+      }
+    ],
+  
+    "title": "Name your new search ",
+    "line1":"results found in",
+    "line2":"Name your search. A reference number or short description of what you want to buy makes a good name.",
+    "form": {
+      "input": {
+        "id": "eoi_projLongName",
+        "name": "eoi_projLongName",
+        "value": ""
+      },
+      "backJump": {
+        "title": " Return to save your search",
+        "href": "#"
+      }
+    },
+    "related_content": [
+      {
+          "text": "G-Cloud 13 customer guidance",
+          "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
+      },
+      {
+          "text": "G-Cloud buyer’s guide",
+          "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
+      },
+      {
+          "text": "G-Cloud 13 agreement page",
+          "href": "https://www.crowncommercial.gov.uk/agreements/RM1557.13"
+      }
+  ]
+    
+
+  }
+  

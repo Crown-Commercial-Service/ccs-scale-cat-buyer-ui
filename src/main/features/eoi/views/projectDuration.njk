@@ -1,0 +1,171 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Complete and upload a document | Contract Award Service' %}
+
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+          {
+            text: "Procurement overview",
+            href: url
+          },
+          {
+            text: "Run pre-market engagement",
+            href: "/eoi/eoi-tasklist"
+          },
+          {
+            text: "Build your EoI",
+            href: "/eoi/online-task-list"
+          },
+          {
+            text: "How long the project will last ",
+            href: "#"
+          }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">How long the project will last</h1>          
+      </div>  
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          {% include "includes/project_header.njk" %}
+        </div>
+      </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+          <div class="govuk-grid-column-full">
+            <p class="govuk-body">Enter the expected start date and duration so suppliers can confirm they can work to your timelines.</p>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-width-container">
+              <main class="govuk-main-wrapper " id="main-content" role="main">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-full">
+                    <form action="/form-handler" method="post" novalidate>
+            
+                      <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset" role="group" aria-describedby="project-start-hint">
+                          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                            Enter the date you want the project to start
+                          </legend>
+                          <div id="project-start-hint" class="govuk-body">
+                            Your project cannot start after: Lot expiry date<br>
+                            For example 22 11 2021
+                          </div>
+                          <div class="govuk-date-input govuk-!-margin-top-4" id="expiry">
+                            <div class="govuk-date-input__item">
+                              <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="project-start-day">
+                                  Day
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="project-start-day" name="project-start-day" type="text" inputmode="numeric">
+                              </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                              <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="project-start-month">
+                                  Month
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="project-start-month" name="project-start-month" type="text" inputmode="numeric">
+                              </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                              <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="project-start-year">
+                                  Year
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="project-start-year" name="project-start-year" type="text" inputmode="numeric">
+                              </div>
+                            </div>
+                          </div>
+            
+                        </fieldset>
+                      </div>
+            
+                      <div class="govuk-form-group govuk-!-margin-top-9">
+                        <fieldset class="govuk-fieldset" role="group" aria-describedby="expiry-hint">
+                          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                            Enter how long you think the project will run for (optional)
+                          </legend>
+                          <div id="expiry-hint" class="govuk-body">
+                            We recommend that your project should not be for longer than 4 years<br>
+                            For example 2 years, 4 months, 10 days
+                          </div>
+                          <div class="govuk-date-input govuk-!-margin-top-4" id="expiry">
+                            <div class="govuk-date-input__item">
+                              <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="expiry-day">
+                                  Day
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="expiry-day" name="expiry-day" type="text" inputmode="numeric">
+                              </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                              <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="expiry-month">
+                                  Month
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="expiry-month" name="expiry-month" type="text" inputmode="numeric">
+                              </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                              <div class="govuk-form-group">
+                                <label class="govuk-label govuk-date-input__label" for="expiry-year">
+                                  Year
+                                </label>
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="expiry-year" name="expiry-year" type="text" inputmode="numeric">
+                              </div>
+                            </div>
+                          </div>
+            
+                        </fieldset>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </main>
+            </div>
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-top-4">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-button-group">
+              <button class="govuk-button" data-module="govuk-button">Save and continue</button>
+            
+              <a class="govuk-link" href="#">Return to Build your EoI</a>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </div>
+  </main>
+{% endblock %}
+

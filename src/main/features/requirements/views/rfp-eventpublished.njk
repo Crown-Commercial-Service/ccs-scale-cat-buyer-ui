@@ -2,8 +2,13 @@
 
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Further competition has published | Crown Commercial Service' %}
-
+{%if stage2_value != 'Stage 2' and agreement_id == 'RM1043.8'  %}
+{% set title = 'Stage 1 issued | Crown Commercial Service' %} 
+{%elseif stage2_value == 'Stage 2' and agreement_id == 'RM1043.8'  %}
+{% set title = 'Stage 2 issued | Crown Commercial Service' %} 
+{% else%}
+{% set title = 'Request for information issued | Crown Commercial Service' %} 
+{%endif%}
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
         items: data.breadCrumbs
@@ -20,7 +25,7 @@
           {%if(selectedeventtype=='DA')%}
           <strong>{{data.titleDA}}</strong>
           {%else%}
-           <strong> {{data.titleRFP}}</strong>
+            {{data.titleRFP}}
             {%endif%}
 
           </h1>
@@ -39,7 +44,7 @@
         </h2>
         <br><br><br>
         <div class="govuk-panel__body">
-          {{data.board.ref}} <strong>{{ rfi_ref_no }} </strong><p class="govuk-body">Please quote this number, along with your project ID ({{ projPersistID }}),  if you need to contact CCS for support. You can contact CCS by phone on {{data.board.phoneno}} or <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}</a></p>
+          {{data.board.ref}} <strong>{{ rfi_ref_no }} </strong><p class="govuk-body">{{data.line1}} ({{ projPersistID }}),  {{data.line2}} <br> {{data.board.phoneno}} or <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}</a></p>
         </div>
       </div>
     <br>
@@ -65,7 +70,7 @@
         }) }}
        {%else%}
         {{ CCSButton({
-          text: "Export your further competition" ,
+          text: data.btntext ,
           href: "/rfp/rfp-eventpublished?download=1"
         }) }}
         {%endif%}

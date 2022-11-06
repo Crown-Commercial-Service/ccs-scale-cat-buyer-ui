@@ -1,0 +1,88 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Request for information issued | Crown Commercial Service' %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">
+          {%if(selectedeventtype=='DA')%}
+          <strong>{{data.titleDA}}</strong>
+          {%else%}
+            {{data.titleRFP}}
+            {%endif%}
+
+          </h1>
+          {% include "includes/project_header.njk" %}
+      </div>  
+
+  </div>
+    <br>
+  <div class="govuk-panel govuk-panel--confirmation">
+        <h2 class="govuk-panel__title">
+        {%if(selectedeventtype=='DA')%}
+        {{data.board.headerDA}}
+        {%else%}
+          {{data.board.headerRFP}}
+          {%endif%}
+        </h2>
+        <br><br><br>
+        <div class="govuk-panel__body">
+          {{data.board.ref}} <strong>{{ rfi_ref_no }} </strong><p class="govuk-body">{{data.line1}} ({{ projPersistID }}),  {{data.line2}} <br> {{data.board.phoneno}} or <a class="govuk-link govuk-link--no-visited-state css-link-white" href="mailto:info@crowncommercial.gov.uk">{{data.board.email}}</a></p>
+        </div>
+      </div>
+    <br>
+
+   <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+
+      <ol class="govuk-list govuk-list--number">
+      {%for items in data.board.next %}
+
+        <li>{{items.li}}</li>
+      {%endfor %}
+
+      </ol>
+      <br>
+       <div class="govuk-button-group">
+       {%if(selectedeventtype=='DA')%}
+       {{ CCSButton({
+          text: "Export your direct award" ,
+          href: "/da/da-eventpublished?download=1"
+        }) }}
+       {%else%}
+        {{ CCSButton({
+          text: data.btntext ,
+          href: "/da/da-eventpublished?download=1"
+        }) }}
+        {%endif%}
+      </div>
+<br><br><br>
+      <div class="govuk-button-group">
+        {{ CCSButton({
+          text: data.dashboard.title,
+          href: data.dashboard.href
+        }) }}
+        
+      </div>
+
+    </div>
+  </div>
+
+
+  </main>
+{% endblock %}
+

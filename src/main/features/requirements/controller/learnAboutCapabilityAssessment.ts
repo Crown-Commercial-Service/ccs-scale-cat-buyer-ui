@@ -58,7 +58,7 @@ export const POST_LEARN = async (req: express.Request, res: express.Response) =>
   const { projectId } = req.session;
   const { selectedRoute } = req.session;
   let fca_route = '';
-  selectedRoute === 'FCA' ? (fca_route = 'CA') : (fca_route = 'DA');
+  selectedRoute === 'PA' ? (fca_route = 'CA') : (fca_route = 'DA');
   try {
     res.redirect(`/${fca_route.toLowerCase()}/type`);
   } catch (error) {

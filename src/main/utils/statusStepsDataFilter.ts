@@ -59,9 +59,16 @@ function checkSublevels(
           : 'required';
         eventTask[keyMap] = getValue(stepInfo.state);
         if (stepInfo.step == 10) {
-          eventTask[
-            'link'
-          ] = `/rfi/online-task-list`;
+          if (agreement_id == 'RM6263') {
+            //DSP
+            eventTask['link'] = `/rfi/online-task-list`;
+          } else if (agreement_id == 'RM6187' || agreement_id == 'RM1043.8') {
+            //MCF3 or DOS
+            eventTask['link'] = `/rfi/choose-build-your-rfi`;
+          } else {
+            //Default
+            eventTask['link'] = `/rfi/online-task-list`;
+          }
         } else if (stepInfo.step == 20) {
           eventTask[
             'link'
@@ -89,32 +96,38 @@ export function statusStepsDataFilter(
   event_id: string,
 ) {
   const { events } = data;
+
   const accum: accumType = { accum: 0 };
   let stepsByType: any = [];
   switch (type) {
     case 'rfi':
       stepsByType = steps.slice(6, 14);
+      if (agreement_id == 'RM6187') {
+        let result = steps.filter((obj: any) => {
+          return obj.step === 81;
+        });
+        stepsByType.splice(3, 0, result[0]);
+      }
       break;
     case 'eoi':
       stepsByType = steps.slice(15, 25);
       break;
     case 'rfp':
-      stepsByType = steps.slice(26, 41);//result: step 27 to 41
+      stepsByType = steps.slice(26, 41); //result: step 27 to 41
       break;
     case 'FCA':
-      stepsByType = steps.slice(41, 58);//result: step 42 to 58
+      stepsByType = steps.slice(74, 80); //result: step 75 to 80
       break;
     case 'TBD':
-      stepsByType = steps.slice(41, 58);//result: step 42 to 58
+      stepsByType = steps.slice(41, 58); //result: step 42 to 58
       break;
     case 'DAA':
       stepsByType = steps.slice(59, 74);
       break;
     case 'DA':
-      stepsByType = steps.slice(26, 41);//result: step 27 to 41
+      stepsByType = steps.slice(26, 41); //result: step 27 to 41
       break;
   }
-
   events.forEach((event: any) => {
     checkSublevels(event, accum, ['eventTask', 'eventSubTask'], stepsByType, agreement_id, projectId, event_id);
   });

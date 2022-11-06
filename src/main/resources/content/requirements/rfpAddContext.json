@@ -1,7 +1,7 @@
 {
   "breadCrumbs": [
     {
-      "text": "Your dashboard",
+      "text": "Dashboard",
       "href": "/"
     },
     {
@@ -22,8 +22,7 @@
     }
   ],
 
-  "title": "Add context and requirements",
-  "titleDA":"Add context and requirements",
+  "title": "Add context to your one-stage further competition",
   "subtitle": null,
   "taskList": [
     {

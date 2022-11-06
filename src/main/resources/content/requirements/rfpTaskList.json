@@ -1,7 +1,7 @@
 {
   "breadCrumbs": [
     {
-      "text": "Your dashboard",
+      "text": "Dashboard",
       "href": "/dashboard"
     },
     {
@@ -73,7 +73,6 @@
     {
       "eventno": 3,
       "eventTitle": "Add context to your further competition",
-      "eventTitleDA": "Add context and requirements",
       "eventDescription": "You may also  consider including the following",
       "eventdescriptionlist":[{
               "description1":"product road-maps and the expected life cycle of the project",
@@ -94,7 +93,7 @@
     },
     {
       "eventno": 4,
-      "eventTitle": "People, skills, security and location",
+      "eventTitle": "People,skills,security and location",
       "eventDescription": "Specify the roles and skills you need, and where you need these people to be based.You will also be asked to set out your security and vetting requirements",
       "eventTask": [
         {
@@ -139,7 +138,7 @@
           "title": "Set your assessment criteria and evaluation weightings",
           "required": "optional",
           "status": "Cannot start yet",
-          "link": "/rfp/your-assesstment"
+          "link": "/rfp/your-assessment"
         },
         {
           "Task": 2,

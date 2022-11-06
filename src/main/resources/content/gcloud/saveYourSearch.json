@@ -1,0 +1,26 @@
+{
+  "title": "Save your search",
+  "subtitle": null,
+  "buttonText": "Save and Continue",
+  "buttonText1": "Save for Later",
+  "returnTo": "Return to search results",
+  "checkCheckbox": [
+    { "name": "Saved search 1", "id": 1, "value": "name1" },
+    { "name": "Saved search 2", "id": 2, "value": "name2" },
+    { "name": "Saved search 3", "id": 3, "value": "name3" }
+  ],
+  "related_content": [
+    {
+        "text": "G-Cloud 13 customer guidance",
+        "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
+    },
+    {
+        "text": "G-Cloud buyer’s guide",
+        "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
+    },
+    {
+        "text": "G-Cloud 13 agreement page",
+        "href": "https://www.crowncommercial.gov.uk/agreements/RM1557.13"
+    }
+]
+}

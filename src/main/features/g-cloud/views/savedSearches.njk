@@ -1,0 +1,191 @@
+{% extends "template.njk" %}
+
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set gcloudHelperLayer = true %}
+{% endif %}
+
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/dialog/macro.njk" import CCSDialog %}
+{% set title = 'Name project | Contract Award Service' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+    items: [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": url
+        },
+        {
+          "text": "Your saved searches",
+          "href": "#"
+        }
+    ]
+      }) }}
+{% endblock %}
+
+{% block content %}
+
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if (error) %}
+
+      {{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "Your project must have a name."
+    }
+  ]
+}) }}
+    {%endif %}
+
+    {{ CCSDialog({
+  title:'Are you sure want to delete',
+  description:'Are you sure want to delete your searched history',
+  redirect:'javascript:void(0)',
+  type:'gcloud_delete'
+}) }}
+
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          <strong>Your saved searches</strong>
+        </h1>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        {% include "includes/project_header.njk" %}
+      </div>
+      <div class="govuk-grid-column-one-third">
+         <div class="ccs-callout-panel">
+          <h2 class="govuk-heading-m">Related content</h2>
+          <p class="govuk-body">
+            {% for item in data.related_content %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <table class="govuk-table">
+          <caption class="govuk-table__caption govuk-table__caption--m">Searching</caption>
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Name</th>
+              <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Criteria</th>
+              <th scope="col" class="govuk-table__header">Saved</th>
+              <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Action</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% if (savedData.length != 0) %}
+              {% for item in savedData %}
+
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    {{item.name}} 
+                    <br>
+                    <a class="govuk-link" href="/g-cloud/search?{{item.searchKeys}}">View/Edit</a>
+                  </td>
+                  <td class="govuk-table__cell" >
+                    {{item.criteria|safe}}
+                  </td>
+                  <td class="govuk-table__cell"> 
+                    {{item.saved_date}}
+                  </td>
+                  <td class="govuk-table__cell">
+                    <a class="govuk-link govuk-action" href="/g-cloud/export-results?ass_id={{item.ass_id}}">Export</a>
+                    <a class="govuk-link DelGCButtons-popup" data-link="/g-cloud/delete-saved-searches?ass_id={{item.ass_id}}" href="javascript:void(0)">Delete</a>
+                  </td>
+
+                </tr>
+
+              {% endfor %}
+
+            {% else %}
+
+              <tr  class="govuk-table__row">
+                <td colspan="4" class="govuk-table__cell">
+                  <strong >You have not saved any searches yet.</strong>
+                </td>
+              </tr>
+
+            {% endif %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <table class="govuk-table">
+          <caption class="govuk-table__caption govuk-table__caption--m">Results Exported</caption>
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Name</th>
+              <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Criteria</th>
+              <th scope="col" class="govuk-table__header">Exported</th>
+              <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Action</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% if (exportedData.length != 0) %}
+              {% for item in exportedData %}
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    {{item.name}}
+                  </td>
+                  <td class="govuk-table__cell" >
+                    {{item.criteria|safe}}
+                  </td>
+                  <td class="govuk-table__cell">
+                    {{item.exported_date}}
+                  </td>
+                  <td class="govuk-table__cell">
+                    <a class="govuk-link" href="/g-cloud/download-your-search?assessmentID={{item.ass_id}}">Download results</a>
+                  </td>
+
+                </tr>
+
+              {% endfor %}
+
+            {% else %}
+
+              <tr  class="govuk-table__row">
+                <td colspan="4" class="govuk-table__cell">
+                  <strong >You have not exported any searches yet.</strong>
+                </td>
+              </tr>
+
+            {% endif %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-top-5">
+      <div class="govuk-grid-column-full">
+        <a href="{{url}}" class="govuk-link govuk-!-font-size-19">Return to Procurement overview</a>
+      </div>
+    </div>
+  </main>
+
+{% endblock %}

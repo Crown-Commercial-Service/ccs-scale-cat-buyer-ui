@@ -7,6 +7,8 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
+import moment from 'moment-business-days';
+import { GetLotSuppliers } from '../../shared/supplierService';
 
 //@GET /eoi/review
 export const GET_EOI_REVIEW = async (req: express.Request, res: express.Response) => {
@@ -26,20 +28,45 @@ export const POST_EOI_REVIEW = async (req: express.Request, res: express.Respons
   const _bodyData = {
     endDate: CurrentTimeStamp,
   };
+  
+  //Fix for SCAT-3440
+  const agreementName = req.session.agreementName;
+  const lotid = req.session?.lotId;
+  const project_name = req.session.project_name;
+  const agreementId_session = req.session.agreement_id;
+  const agreementLotName = req.session.agreementLotName;
+  res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
-  if (finished_pre_engage && eoi_publish_confirmation === '1') {
+  const BaseURL2 = `/tenders/projects/${ProjectID}/events/${EventID}`;
+    const FetchReviewData2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL2);
+    const ReviewData2 = FetchReviewData2.data;
+    const eventStatus2 = ReviewData2.OCDS.status == 'active' ? "published" : null 
+    var review_publish = 0;
+    if(eventStatus2=='published'){
+      review_publish = 1;
+      }else{
+        if (finished_pre_engage && eoi_publish_confirmation === '1') {
+          review_publish = 1;
+        }
+      }
+
+  if (review_publish == '1') {
     try {
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
       if (response.status == Number(HttpStatusCode.OK)) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/24`, 'Completed');
       }
-
-      res.redirect('/eoi/event-sent');
+      // if( agreementId_session == 'RM6187'){
+      //   res.redirect('/eoi/confirmation-review');
+      // }else{
+        res.redirect('/eoi/event-sent');
+      // }
+      
     } catch (error) {
       
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-        TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
+        TokenDecoder.decoder(SESSION_ID), "EOI Review - Dyanamic framework throws error - Tender Api is causing problem", false)
       EOI_REVIEW_RENDER(req, res, true, true);
     }
   } else {
@@ -52,9 +79,33 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
   const ProjectID = req.session['projectId'];
   const EventID = req.session['eventId'];
   const BaseURL = `/tenders/projects/${ProjectID}/events/${EventID}`;
+  const { download } = req.query;
+  if(download!=undefined)
+  {
+    const FileDownloadURL = `/tenders/projects/${ProjectID}/events/${EventID}/documents/export`;
+    
+    const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
+      responseType: 'arraybuffer',
+    });
+    const file = FetchDocuments;
+    const fileName = file.headers['content-disposition'].split('filename=')[1].split('"').join('');
+    const fileData = file.data;
+    const type = file.headers['content-type'];
+    const ContentLength = file.headers['content-length'];
+    res.status(200);
+    res.set({
+      'Cache-Control': 'no-cache',
+      'Content-Type': type,
+      'Content-Length': ContentLength,
+      'Content-Disposition': 'attachment; filename=' + fileName,
+    });
+    res.send(fileData);
+  }
+  else{
   try {
     const FetchReviewData = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL);
     const ReviewData = FetchReviewData.data;
+    
     //Buyer Questions
     const BuyerQuestions = ReviewData.nonOCDS.buyerQuestions.sort((a: any, b: any) => (a.id < b.id ? -1 : 1));
     const BuyerAnsweredAnswers = BuyerQuestions.map(buyer => {
@@ -93,10 +144,12 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
             question: answer.question,
             values: answer.values.filter(val => val.selected),
           };
-          if (answer.questionType == 'Date' && answer.values.length == 3) {
+          if (answer.questionType == 'Date' ) {
+            const startDate = obj.values.map(v => v.value);
+            
             obj.values = [
               {
-                value: 'Date you want the project to start: ' + obj.values.map(v => v.value).join('-'),
+                value: 'Date you want the project to start: ' + moment(startDate,'YYYY-MM-DD ',).format('DD MMMM YYYY'),
                 selected: true,
               },
             ];
@@ -158,9 +211,64 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     const proc_id = req.session['projectId'];
     const event_id = req.session['eventId'];
 
+    const eoi_data= EOI_DATA_WITHOUT_KEYDATES;
+
+      //Fix for SCAT-4146 - arranging the questions order
+      let expected_eoi_keydates=EOI_DATA_TIMELINE_DATES;
+    
+      expected_eoi_keydates[0].answer.sort((a, b) => (a.values[0].text.split(' ')[1] < b.values[0].text.split(' ')[1] ? -1 : 1))
+  
+      for(let i=0;i<expected_eoi_keydates[0].answer.length;i++){
+        let data=expected_eoi_keydates[0].answer[i].values[0].value;
+        let day=data.substr(0,10);
+        let time=data.substr(11,5);
+        if(i==0){
+          expected_eoi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+        }
+        else
+        {
+          expected_eoi_keydates[0].answer[i].values[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
+        }
+      };
+
+  //  for (const tmp of eoi_data) {
+  //   for (const tmp2 of tmp.answer) {
+  //   }
+  //  }
+    //Fix for SCAT-3440 
+    const agreementName = req.session.agreementName;
+    const lotid = req.session?.lotId;
+    const agreementId_session = req.session.agreement_id;
+    const agreementLotName = req.session.agreementLotName;
+    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
+
+    // to get suppliers count
+  let supplierList = [];
+      supplierList = await GetLotSuppliers(req);
+      const {data: getSuppliersPushed} = await TenderApi.Instance(SESSION_ID).get(`/tenders/projects/${projectId}/events/${EventId}/suppliers`);
+    let getSuppliersPushedArr = getSuppliersPushed.suppliers;
+    if(getSuppliersPushedArr.length > 0) {
+      let eptyArr = [];
+      var result = getSuppliersPushedArr.forEach((el: any) => {
+        eptyArr.push(el.id);
+      });
+      supplierList = supplierList.filter((el: any) => {
+        if(eptyArr.includes(el.organization.id)) {
+          return true;
+        }
+        return false;
+      });
+    }
+
+  
+
+  supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
+  const supplierLength=supplierList.length;
+// to get suppliers count end
+    const customStatus = ReviewData.OCDS.status;
     let appendData = {
-      eoi_data: EOI_DATA_WITHOUT_KEYDATES,
-      eoi_keydates: EOI_DATA_TIMELINE_DATES[0],
+      eoi_data,
+      eoi_keydates:expected_eoi_keydates[0],
       data: cmsData,
       project_name: project_name,
       procurementLead,
@@ -170,20 +278,22 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       proc_id,
       event_id,
       ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
-      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null // this needs to be revisited to check the mapping of the planned 
+      eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
+      customStatus,
+      supplierLength:supplierLength,
+      agreementId_session
     };
-    //Fix for SCAT-3440 
-    const agreementName = req.session.agreementName;
-    const lotid = req.session?.lotId;
-    const agreementId_session = req.session.agreement_id;
-    const agreementLotName = req.session.agreementLotName;
-    res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
-
+    
+   
+    
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
-
+    
+    
     res.render('reviewEoi', appendData);
+    
+    
   } catch (error) {
     delete error?.config?.['headers'];
     const Logmessage = {
@@ -202,4 +312,5 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     );
     LoggTracer.errorTracer(Log, res);
   }
+}
 };

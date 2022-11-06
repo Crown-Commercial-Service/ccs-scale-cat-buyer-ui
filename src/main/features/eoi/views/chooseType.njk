@@ -1,0 +1,144 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title = 'Complete and upload a document | Contract Award Service' %}
+
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+                    {
+            text: "Procurement overview",
+            href: url
+          },
+          {
+            text: "Run pre-market engagement",
+            href: "/eoi/eoi-tasklist"
+          },
+          {
+            text: "Build your EoI",
+            href: "/eoi/online-task-list"
+          },
+          {
+            text: "Choose if this is a new or replacement service or product",
+            href: "#"
+          }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %}
+
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if(error) %}
+        {{ CCSErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+                {
+                    text: "Option must be select."
+                }
+            ]
+        }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">{{title}}</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            {% include "includes/project_header.njk" %}
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+          <div class="govuk-grid-column-full">
+            <p class="govuk-body">Choose the option that best describes if this is new or a replacement for existing products or services.</p>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            {# method="post" action="/eoi/choose-type" #}
+            <form id="eoi_choose_type" method="POST">
+              {{ csrfProtection(csrf) }}
+              {% set form_Options = [] %}
+              {% set form_Options = (form_Options.push({
+                        value: "government-gateway",
+                        html: '<label class="govuk-label  govuk-!-font-weight-bold govuk-!-padding-top-0" for="choose-type">
+                      Not sure
+                    </label>
+                    <div id="choose-type-item-hint" class="govuk-hint">
+                      Select this option if you’re not sure what category your project fits best.
+                    </div>'}), form_Options) 
+                    %}
+              {% set form_Options = (form_Options.push({
+                        value: "govuk-verify",
+                        html: '<label class="govuk-label govuk-!-font-weight-bold govuk-!-padding-top-0" for="choose-type-2">
+                      New products or services
+                    </label>
+                    <div id="choose-type-2-item-hint" class="govuk-hint">
+                      You’ll have an account if you’ve already proved your identity with either Barclays, CitizenSafe, Digidentity, Experian, Post Office, Royal Mail or SecureIdentity.
+                    </div>'}), form_Options) 
+                    %}
+              {% set form_Options = (form_Options.push({
+                        value: "govuk-verify",
+                        html: '<label class="govuk-label govuk-!-font-weight-bold govuk-!-padding-top-0" for="choose-type-3">
+                      Replacement products or services 
+                    </label>
+                    <div id="choose-type-3-item-hint" class="govuk-hint">
+                      Replace an existing product or service.
+                    </div>'}), form_Options) 
+                    %}
+              {% if (error) %}
+                {{ 
+                            CCSRadios({
+                                idPrefix: "choose-type",
+                                name: "choose_type",
+                                items:form_Options,
+                                error: error,
+                                errorMessage: {
+                                    text: 'Option must be select.'
+                                } 
+                            }) 
+                        }}
+              {% else %}
+                {{ 
+                            CCSRadios({
+                                idPrefix: "choose-type",
+                                name: "choose_type",
+                                items:form_Options
+                            }) 
+                        }}
+              {% endif %}
+              
+            </div>
+          </div>
+          <div class="govuk-button-group">
+            {{ CCSButton({ text: "Save and continue" }) }}
+
+            <a class="govuk-link" href="/eoi/online-task-list">Return to Build your EoI</a>
+          </div>
+        </form>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+      </div>
+    </div>
+  </main>
+{% endblock %}

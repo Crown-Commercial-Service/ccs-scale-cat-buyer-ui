@@ -9,8 +9,6 @@ import {
   addDaysFilter,
   dateFilterDDMMYYYY,
   dateFilterDD_MM_YYYY,
-  formatTimeHHMM,
-  formatMMMdyhmsa
 } from './filters/dateFilter';
 import { stringFilter } from './filters/stringFilter';
 import { jsonFilter, jsontoStringFilter } from './filters/jsonFilter';
@@ -36,8 +34,9 @@ export class Nunjucks {
       COOKIESViewDirectory: path.join(__dirname, '..', '..', 'features', 'cookies', 'views'),
       EOIViewDirectory: path.join(__dirname, '..', '..', 'features', 'eoi', 'views'),
       EVENTMANAGEMENTViewDirectory: path.join(__dirname, '..', '..', 'features', 'event-management', 'views'),
+      FCAViewDirectory: path.join(__dirname, '..', '..', 'features', 'fca', 'views'),
+      DAViewDirectory: path.join(__dirname, '..', '..', 'features', 'da', 'views'),
       GCloudViewDirectory: path.join(__dirname, '..', '..', 'features', 'g-cloud', 'views'),
-
     };
 
     const NunjucksEnvironment = nunjucks.configure(
@@ -51,6 +50,8 @@ export class Nunjucks {
         NunjucksPathFolders.COOKIESViewDirectory,
         NunjucksPathFolders.EOIViewDirectory,
         NunjucksPathFolders.EVENTMANAGEMENTViewDirectory,
+        NunjucksPathFolders.FCAViewDirectory,
+        NunjucksPathFolders.DAViewDirectory,
         NunjucksPathFolders.GCloudViewDirectory,
       ],
       {
@@ -73,8 +74,6 @@ export class Nunjucks {
     NunjucksEnvironment.addFilter('KbtoMb', MemoryFormatter);
     NunjucksEnvironment.addFilter('dateddmmyyyy',dateFilterDDMMYYYY);
     NunjucksEnvironment.addFilter('datedd_mm_yyyy',dateFilterDD_MM_YYYY);
-    NunjucksEnvironment.addFilter('formatTimeHHMM',formatTimeHHMM);
-    NunjucksEnvironment.addFilter('formatMMMdyhmssa',formatMMMdyhmsa);
     app.use((req, res, next) => {
       res.locals.pagePath = req.path;
       next();

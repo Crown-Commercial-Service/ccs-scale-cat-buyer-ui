@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  
   if (document.getElementById("ccs_rfi_questions_form") !== null) {
-
-    let with_value_count = 10,
+    let question_length = $('.add').length;
+    if(question_length == 20){
+      document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
+    }
+    let with_value_count = 20,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
       //document.getElementById("rfi_question_1").addEventListener('input', ccsZCountRfiQuestions);
-    for (var text_box_num = 10; text_box_num >= 1; text_box_num--) {
+    for (var text_box_num = 20; text_box_num >= 1; text_box_num--) {
 
       let this_box = document.getElementById("rfi_question_" + text_box_num);
       this_box.addEventListener('input', ccsZCountRfiQuestions);
@@ -21,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this_box.value !== "") {
         this_box.classList.remove('ccs-dynaform-hidden');
 
-        if (text_box_num === 10) {
+        if (text_box_num === 20) {
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
 
@@ -44,15 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("rfi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
         document.querySelector('label[for=rfi_question_' + with_value_count + ']').classList.remove("ccs-dynaform-hidden");
-        $(".rfi_questions_label_cm").text("");
+
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
           //document.querySelector('label[for=rfi_question_' + prev_input + '] a.del').classList.add("ccs-dynaform-hidden");
         }
 
         with_value_count++;
-
-        if (with_value_count === 11) {
+        console.log("with_value_countadd>",with_value_count)
+        if (with_value_count === 21) {
           document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
         }
       }
@@ -105,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('rfi_question_' + target).value = "";
         document.getElementById('rfi_question_' + target).classList.add("ccs-dynaform-hidden");
-        $("#rfi_questions_label_"+target).text("Cleared Successfully");
         let parentNode = document.querySelector('label[for=rfi_question_' + target + ']').parentNode;
         if (parentNode.children["rfi_question_" + target + '-error'] !== undefined) {
           parentNode.removeChild(document.getElementById("rfi_question_" + target + '-error'))
@@ -114,17 +115,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         //document.getElementById('rfi_question_' + target + '-error').parentNode.removeChild(document.getElementById('rfi_question_' + target + '-error'));
         document.querySelector('label[for=rfi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
-        $("#rfi_questions_label_"+target).text("Cleared Successfully");
+
         if (prev_box > 1) {
           //document.querySelector('label[for=rfi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
         }
         document.getElementById("ccs_criteria_add").classList.remove('ccs-dynaform-hidden');
         with_value_count--;
+        console.log("with_value_count>>>",with_value_count)
       });
     });
 
 
-    let length = 11;
+    let length = 21;
     while (--length) {
       console.log(length);
       let element = document.querySelector("#rfi_question_" + length);
@@ -159,7 +161,7 @@ const emptyQuestionFieldCheck = () => {
   //if (event_typ !== "Request for Information") {
   //fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
-  for (var i = 1; i < 11; i++) {
+  for (var i = 1; i < 21; i++) {
     if (!document.getElementById("rfi_question_" + i).classList.contains('ccs-dynaform-hidden')) {
       if(i==1){
         fieldCheck = ccsZvalidateWithRegex("rfi_question_1", "You must add at least one question", /\w+/);
@@ -200,7 +202,7 @@ const ccsZCountRfiQuestions = (event) => {
   const arr=inputId.split("rfi_question_");
   // if(element.value.length<500)
   // {
-    for(var i=1;i<=10;i++)
+    for(var i=1;i<=20;i++)
     {
       document.getElementById("rfi_label_question_"+i).innerText="";
     }

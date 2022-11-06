@@ -1,5 +1,11 @@
 {% extends "template.njk" %}
 
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set fcaHelperLayer = true %}
+{% endif %}
+
+
 {% from "components/support/macro.njk" import howToGetSupport %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
@@ -9,10 +15,10 @@
 
 {% set organisationUser = userdata%}
 
-{% set sortedMembers = [{value: "", text: "Select colleague "}] %}
+{% set sortedMembers = [{value: "", text: "Select Colleague"}] %}
 {% for user in organisationUser %}
   {% if user.userName !== lead%}
-    {% set sortedMembers = (sortedMembers.push({value: user["user-id"], text: user.name}), sortedMembers) %}
+    {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
   {%endif %}  
 {% endfor %}
 
@@ -24,7 +30,7 @@
 {{ CCSBreadcrumbs({
        items: [
         {
-        text: "Your dashboard",
+        text: "Dashboard",
         href: "/dashboard"
         },
         {
@@ -75,21 +81,35 @@
       {% include "includes/project_header.njk" %}
     </div>
   </div>
+  {% if agreementId_session == 'RM1043.8' %}
+  <div class="ccs-page-section govuk-!-padding-bottom-7">
+    <p class="govuk-body">{{data.content.pdos1}}</p>
+    <p class="govuk-body">{{data.content.pdos2}}</p>
+    <p class="govuk-body">{{data.content.pdos3}}</p>
+    <p class="govuk-body">{{data.content.pdos4}} </p>
+  </div>
+  {% else %}
+   <div class="ccs-page-section">
     <p class="govuk-body">{{data.content.p1}}</p>
-        <p class="govuk-body">{{data.content.p5}}</p>
-
 
     <p class="govuk-body">{{data.content.p2}} <a target="_blank" class="govuk-link govuk-link--no-visited-state"
         href="{{data.content.a1.href}}">{{data.content.a1.text}}</a></p>
 
     <p class="govuk-body">{{data.content.p3}}</p>
       
-      
+     {% if agreementId_session != 'RM6187' %}
+      {{ CCSInsetText({
+        html: '<p class="govuk-body">If you are the lead on this project you can add four colleagues.<br>
+          If you are not the lead you can add three colleagues.</p>'
+        }) }}
+      {% endif %}
 
     <p class="govuk-body">{{data.content.p4}} </p>
-
+    <br><br>
+    </div>
+    {% endif %}
       <div class="ccs-page-section">
-        <p class="govuk-body">Add colleagues</p>
+        <p class="govuk-body">Add colleagues:</p>
         <form method="POST" action="/rfi/get-collaborator-detail">
         {{ csrfProtection(csrf) }}
          <div class="govuk-button-group">
@@ -99,21 +119,7 @@
         items: sortedMembers
         })
         }}
-        &nbsp; &nbsp; &nbsp; &nbsp;
-          {{ CCSButton({
-        text: "Add colleague",
-        attributes: {
-        id: "ccs_collab_add"
-        },
-        classes: "govuk-button--secondary"
-        }) }}
-         {{ CCSButton({
-        text: "Add",
-         attributes: {
-        id: "ccs_collab_view"
-        },
-        type: "submit"
-        }) }}
+
         </div>
         </form>
       </div>
@@ -135,8 +141,16 @@
             value: collaborator['email']
             }) }}
 
+        {{ CCSButton({
+                text: "Add colleague",
+                attributes: {
+                id: "ccs_collab_add",
+                disabled: true
+                },
+                classes: "govuk-button--secondary"
+                }) }}
       </div>
-
+        
       </form>
       <div id="collaborators-section">
         {% for collaborator in collaborators %}
@@ -146,7 +160,7 @@
 
             <a href='/rfi/delete-collaborators?id={{collaborator.OCDS.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
-            <p class="govuk-body"><strong>{{data.content.collegue.name}}<span id="collab_no"></span>: </strong><span
+            <p class="govuk-body"><strong>{{data.content.collegue.name}}<span id="collab_no"></span> </strong><span
                 id="collab_name">{{collaborator.OCDS.contact.name}}</span></p>
             <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="collab_email">{{ collaborator.OCDS.contact.email}}</span></p>
             <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="collab_tel">{{ collaborator.OCDS.contact.telephone }}</span></p>

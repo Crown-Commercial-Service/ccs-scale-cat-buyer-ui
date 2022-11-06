@@ -86,13 +86,12 @@ export const RFI_POST_NEXT_STEPS = async (req: express.Request, res: express.Res
         `${req.headers.host}${req.originalUrl}`,
         null,
         TokenDecoder.decoder(SESSION_ID),
-        'Journey service - Post failed - CA next steps page',
+        'RFI Next Step - Journey service - Post failed - CA next steps page',
         true,
       );
     }
   };
   
-
 
 
 

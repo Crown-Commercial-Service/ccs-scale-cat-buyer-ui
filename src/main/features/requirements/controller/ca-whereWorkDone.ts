@@ -106,7 +106,8 @@ export const CA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
       var indexList = [];
       var initialDataRequirements = [];
       let requirementsloc = {};
-      for (let i = 0; i < weights.length; i++) {
+      let objweightsCount = Object.keys(weights).length;
+      for (let i = 0; i < objweightsCount; i++) {
         if (weights[i] != '') {
           indexList.push({ i });
         }

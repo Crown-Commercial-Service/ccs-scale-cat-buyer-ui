@@ -2,7 +2,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Your project ' %}
+{% set title = 'Award Supplier ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -22,23 +22,15 @@
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
           {% if (viewError == true) %}
       {{ CCSErrorSummary({
-        titleText: "There is a problem",
+        titleText: "There is a problem with supplier to be awarded",
         errorList: [
           {
-            text: "Acknowledgement tick box must be selected to continue with the awarding of the selected supplier",
+            text: "You must check this box to confirm that you have read and confirm the statements above",
             href: "#ccs_award_supplier_form"
           }
         ]
       }) }}
     {% endif %}
-
-  <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">
-         <strong> {{title}}</strong> 
-         </h1>
-      </div>
-    </div>
 
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
@@ -75,15 +67,15 @@
           <strong>Details of the supplier to be awarded </strong>
         </h1>
         
-        <h3> <strong>{{supplierDetails.supplierName}} </strong></h3>
+        <h3> <strong>Supplier organisation A Name </strong></h3>
 
-       <p> {{supplierDetails.supplierId}}</p>
+       <p> {{supplierDetails.supplierName}}</p>
 
        <p> <strong>Address:</strong></p>
-       <p> {{supplierDetails.supplierAddress.streetAddress}}</p>
-       <p> {{supplierDetails.supplierAddress.locality}}</p>
-       <p> {{supplierDetails.supplierAddress.postalCode}}</p>
-       <p> {{supplierDetails.supplierAddress.countryName}}</p>
+       <p> {{supplierDetails.supplierAddress}}</p>
+       {# <p> {{supplierDetails.supplierDetails.streetAddress}}</p>
+       <p> {{supplierDetails.supplierDetails.locality}}</p>
+       <p> {{supplierDetails.supplierAddress.region}}</p> #}
       
        </br>
        </br>
@@ -96,9 +88,7 @@
        <p> {{supplierDetails.supplierContactEmail}}</p>
        </br>
        <p> <strong>Website:</strong></p>
-        <div class="govuk-button-group">
-       <a class="govuk-link" href="{{supplierDetails.supplierWebsite}}" target="_blank">{{supplierDetails.supplierWebsite}}</a> 
-          </div>
+       <p> {{supplierDetails.supplierWebsite}}</p>
        </br>
        </br>
        </br>
@@ -131,11 +121,11 @@
                       
                     </th>
                      <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/download-supplier-responce?supplierid={{supplier.supplierIdMain}}">Download</a>
+                      <a class="govuk-link" href="/download-supplier-responce?supplierid={{supplier.supplierId}}">Download</a>
                     </td>
 
                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierIdMain}}&&Type=awardSupplier">Review evaluation</a>
+                      <a class="govuk-link" href="/eventmanagement?reviewsupplierid={{supplier.supplierId}}&&Type=eventManagment">Review evaluation</a>
                     </td>
                     <th scope="row" class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
                     <p class="govuk-body govuk-!-margin-bottom-0">{{supplier.score}}</p>
@@ -154,9 +144,10 @@
         <h1 class="govuk-heading-xl">
           <strong>Award supplier </strong>
         </h1>
-</br></br>
+        <p>When you award your supplier, ensure you send documentation to both successful and unsuccessful bidders. You will need to do this via your organisation’s email account.</p>
+        </br></br>
         {{ CCSWarningText({
-    text: "You must agree that you acknowledge the reponsibility to award this supplier.",
+    text: "You must agree that you acknowledge the responsibility to award this supplier.",
     iconFallbackText: "Warning"
     }) }}
        </div>
@@ -164,13 +155,6 @@
 
 <form id="ccs_award_supplier_form" name="ccs_award_supplier_form" class="form ccs_award_supplier_form"
       action="/award-supplier" method="post">
-       {{ CCSInput({
-                      id: "supplier_id",
-                      name: "supplier_id",
-                      type: "hidden",
-                      value: supplierDetails.supplierId
-                    })
-                }}
                      {{ csrfProtection(csrf) }}         	 
         {{ CCSCheckboxes({
       idPrefix: "award_supplier_confirmation",
@@ -183,6 +167,7 @@
       }
       ]
       }) }}
+      <input type="hidden" name="supplier_id" id="supplier_id" value="{{supplierDetails.supplierId}}">
                                 <div class="govuk-button-group">
                                   {{ CCSButton({
         attributes: {
@@ -190,7 +175,7 @@
         },
         text: "Award supplier"
         }) }}
-                                  <a class="govuk-link" href="/award-supplier-document?supplierId={{supplierDetails.supplierIdMain}}">Return to Your project</a> 
+                                  <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
                                 </div>
                                 
                               </form>          

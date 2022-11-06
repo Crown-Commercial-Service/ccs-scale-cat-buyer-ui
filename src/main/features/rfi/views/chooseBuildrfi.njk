@@ -1,0 +1,156 @@
+{# {% set footerSupportLayer = true %}
+{% set fcaHelperLayer = true %} #}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% set title = title %}
+{% block head %}
+   {{ super() }}
+   <link rel="stylesheet" href="/assets/styles/styles.min.css">
+   <link rel="stylesheet" href="/assets/styles/govuk_fac_style.css">
+{% endblock %}
+{% block content %}
+	{% set url -%}
+  /projects/create-or-choose?lotId={{lotid}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{{ CCSBreadcrumbs({
+        items: [
+        { "text": "Dashboard", "href": "/dashboard" },
+        { "text": "Choose a commercial agreement", "href": "/projects/choose-agreement" },
+        { "text": "Procurement overview", "href": url },
+        { "text": "Do pre-market engagement", "href": "/rfi/rfi-tasklist" },
+		{ "text": "Choose how to build your RfI", "href": "#" }
+		] 
+}) }}
+
+	<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+		{% if(error) %}
+            {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: "Option must be select." }] }) }}
+        {% endif %}
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-full">
+				<h1 class="govuk-heading-xl govuk-!-font-weight-bold">{{line1}}</h1>
+			</div>
+		</div>
+
+		{# <div class="govuk-grid-row">
+        
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %}
+                <p class="govuk-body govuk-!-margin-top-9">{{line2}}</p>
+
+                <form id="choose_build_rfi" name="choose_build_rfi" action="/rfi/choose-build-your-rfi" method="POST">
+                    {{ csrfProtection(csrf) }}
+					{% set form_Options = [] %}
+                    {% set form_Options = (form_Options.push(
+					{	
+						"value":"goto_next",
+						"html":"<label class='govuk-label' for='goto_choose_steps'><h3 class='govuk-heading-m'>Enter all the information online</h3></label><div id='fca_next_steps-item-hint' class='govuk-hint govuk-radios__hint'> Enter all the information needed to build your RfI and submit to your selected suppliers. </div>"
+					},
+					{
+                        "value": "goto_upload",
+                        "html": "<label class='govuk-label' for='fca_next_steps-2'><h3 class='govuk-heading-m'>Return to my dashboard</h3></label><div id='fca_next_steps-2-item-hint' class='govuk-hint govuk-radios__hint'> You'll be able to resume your journey from there. </div>"
+					}), form_Options) %}
+
+
+					{% if(error) %}
+                        {{ 
+                            CCSRadios({
+                                idPrefix: "goto_choose_steps",
+                                name: "goto_choose",
+                                items:form_Options,
+                                error: error,
+                                errorMessage: {
+                                    text: 'Option must be select.'
+                                } 
+                            }) 
+                        }}
+                    {% else %}
+                        {{ 
+                            CCSRadios({
+								idPrefix: "goto_choose_steps",
+                                name: "goto_choose",
+                                items:form_Options
+                            }) 
+                        }}
+                    {% endif %}
+
+					<div class="govuk-button-group">
+						{{ CCSButton({ text: "Save and continue" }) }}
+						<a href="{{returnToHref}}" class="govuk-link govuk-link--no-visited-state">{{returnTo}}</a>
+					</div>
+				</form>
+            <span class="select_service_err"></span>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div> #}
+
+		<form id="choose_build_rfi" name="choose_build_rfi" action="/rfi/choose-build-your-rfi" method="POST">
+		{{ csrfProtection(csrf) }}
+			<div class="govuk-grid-row">
+				<div class="govuk-grid-column-two-thirds">
+					<div class="govuk-grid-row govuk-!-margin-bottom-9">
+						<div class="govuk-grid-column-full">
+							{% include "includes/project_header.njk" %}
+							<p class="govuk-body govuk-!-margin-top-9">{{line2}}</p>
+						</div>
+					</div>
+					
+						
+						
+					
+				</div>
+				<div class="govuk-grid-column-one-third">
+					{{ CCSReleatedContent(releatedContent) }}
+				</div>
+			</div>
+			<div class="govuk-grid-row">
+				<div class="govuk-grid-row">
+					<div class="govuk-grid-column-full">
+						<div class="govuk-form-group">
+							<fieldset class="govuk-fieldset" aria-describedby="sign-in-hint">
+								<div class="govuk-radios" data-module="govuk-radios">
+									{% for item in events %}
+										<div class="govuk-radios__item govuk-radios__item--small govuk-!-padding-top-1">
+											<input class="govuk-radios__input govuk-radios__item--small" {{item.disabled}} id="results-per-page-{{item.checkbox_id}}" name="goto_choose" type="radio" value="{{item.value}}" aria-describedby="sign-in-item-hint">
+											<label class="govuk-label govuk-radios__label govuk-!-font-size-24 govuk-!-font-weight-bold govuk-!-padding-top-0" for="results-per-page-{{item.checkbox_id}}">
+												{{item.label}}
+											</label>
+												{% for content in item.contents %}
+													<div id="sign-in-item-hint" class="govuk-hint govuk-radios__hint govuk-!-margin-top-6">
+														{{content.text | safe }}
+													</div>
+												{% endfor %}
+										</div><br>
+									{% endfor %}
+								</div>
+							</fieldset>
+							<span class="select_service_err"></span>
+						</div>
+					</div>
+				</div>
+				<div class="govuk-grid-row govuk-!-margin-top-8">
+					<div class="govuk-grid-column-full">
+						<div class="d-flex">
+							<Span>
+								<button class="govuk-button" data-module="govuk-button">
+									{{buttonText}}
+								</button>
+							</span>
+							<span class="govuk-!-margin-left-2 govuk-!-margin-top-2">
+								<a href={{returnToHref}}>{{returnTo}}</a>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</main>
+{% endblock %}
