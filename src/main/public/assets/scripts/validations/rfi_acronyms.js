@@ -272,15 +272,15 @@ const emptyFieldCheck = (add_more='') => {
       }
 
       if (term_field.value.trim() != '' && definition_field.value.trim() == '') {
-        ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
-        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+        ccsZaddErrorMessage(definition_field, 'You must enter the definition for the term or acronym.');
+        fieldCheck = [definition_field.id, 'You must enter the definition for the term or acronym.'];
         errorStore.push(fieldCheck);
       }
       
 
       if (term_field.value.trim() == '' && definition_field.value.trim() != '') {
-        ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
-        fieldCheck = [term_field.id, 'You must add information in both fields.'];
+        ccsZaddErrorMessage(term_field, 'You must enter the term or acronym.');
+        fieldCheck = [term_field.id, 'You must enter the term or acronym.'];
         errorStore.push(fieldCheck);
       }
     }
