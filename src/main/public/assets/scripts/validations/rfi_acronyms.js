@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
       e.preventDefault();
-      errorStore = emptyFieldCheck();
+      errorStore = emptyFieldCheck('add_more');
       if (errorStore.length == 0) {
 
         removeErrorFields();
@@ -255,7 +255,7 @@ const removeErrorFields = () => {
 
 
     
-const emptyFieldCheck = () => {
+const emptyFieldCheck = (add_more='') => {
   let fieldCheck = "",
     errorStore = [];
   for (var x = 1; x < 11; x++) {
@@ -264,6 +264,13 @@ const emptyFieldCheck = () => {
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFields();
+      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
+        ccsZaddErrorMessage(term_field, 'You must add information in this fields.');
+        ccsZaddErrorMessage(definition_field, 'You must add information in this fields.');
+        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+        errorStore.push(fieldCheck);
+      }
+
       if (term_field.value.trim() != '' && definition_field.value.trim() == '') {
         ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
         fieldCheck = [definition_field.id, 'You must add information in both fields.'];
