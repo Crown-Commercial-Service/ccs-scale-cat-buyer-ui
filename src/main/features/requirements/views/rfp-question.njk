@@ -8,7 +8,7 @@
 {{ CCSBreadcrumbs({
 items: [
 {
-text: "Your dashboard",
+text: "Dashboard",
 href: "/dashboard"
 },
 {
@@ -24,8 +24,8 @@ text: "Write and publish your requirements",
 href: "/rfp/task-list"
 },
 {
-text: "Your Assesstment bases and evaluation weightings",
-href: "/rfp/your-assesstment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+text: "Your Assessment bases and evaluation weightings",
+href: "/rfp/your-assessment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
 },
 {
 text: bcTitleText
@@ -36,7 +36,7 @@ text: bcTitleText
 {{ CCSBreadcrumbs({
 items: [
 {
-text: "Your Dashboard",
+text: "Dashboard",
 href: "/dashboard"
 },
 {
@@ -76,12 +76,12 @@ text: bcTitleText
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <h1 id="page-heading" class="govuk-heading-xl">
-               <strong> {{rfpTitle}} </strong>
+               {{rfpTitle}} 
             </h1>
         </div>
     </div>
-<div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
             {% include "includes/project_header.njk" %}
 
             <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} rfp_form"
@@ -89,18 +89,24 @@ text: bcTitleText
                 method="post" autocomplete="off">
                 {{ csrfProtection(csrf) }}
                 <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
-                {% if form_name!=='service_levels_kpi_form' %}
-                <div class="ccs-page-section">
-                {% else %}
-                <div>
+                <input type="hidden" id="agreementID" value="{{agreement_id}}">
+                <input type="hidden" id="gID" value="{{group_id}}">
+                <input type="hidden" id="lID" value="{{lotId}}">
+                <input type="hidden" id="q_mandatory" value="{{q_mandatory}}">
+                {% if (agreement_id == 'RM1043.8' and group_id == 'Group 6' and criterian_id == 'Criterion 2') %}
+                    <input type="hidden" id="countOfDiv" value="0">
                 {% endif %}
+                <div>
                 {#<--! SCAT-5151-->#}
                 {% if (form_name === 'rfp_multianswer_question_form') %}
                 {{ CCSInsetText({
                     html: prompt
                 }) }}
-                </div>
-                <h2>Create your first requirement group</p> </h2>
+                    {% if (agreement_id === 'RM1043.8') or (agreement_id === 'RM6187') %} {# XBN00121 #}
+                       
+                      {%else%}
+                        <h2>Create your first requirement group</h2>
+                    {%endif%}
                 {%endif%}
                 {% if (form_name !== 'rfp_multianswer_question_form') %}
                 {{ CCSInsetText({
@@ -108,14 +114,18 @@ text: bcTitleText
                 }) }}
                 {%endif%}
                 
-               
+                {# {% if (agreement_id == 'RM1043.8') and (form_name == 'rfp_location') %}
+                    <div class="govuk-button-group">
+                        <a class="govuk-link govuk-!-margin-right-9 uncheck" href="#page-heading" id="DOSgetId">Select / unselect all.</a>
+                    </div>
+                {% endif %} #}
 
                 {% macro recurseRequirements(requirement,form_name,index = 0) -%}
                 {%if (requirement.nonOCDS.childern.length > 0)%}
-                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}} 
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id,group_id,lotId)}} 
                  {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index)}} 
                 {%else%}
-                 {{CCSQUESTIONS(organizationName,requirement,form_name, index)}} 
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id,group_id,lotId)}} 
                 {%endif%}
                 {%- endmacro %}
                 {%if (form_name === 'ccs_rfp_scoring_criteria')%}
@@ -129,17 +139,21 @@ text: bcTitleText
                 {#<--!Condtns modified according to SCAT-5151-->#}
                 {%if (form_name === 'rfp_multianswer_question_form') %}
                 {%if (rfpTitle!='Enter your project requirements')%}
-                <div class="ccs-page-section">
+
+                {% if agreement_id != 'RM1043.8' %} {# XBN00121 #}
+                <div>
                     <p class="govuk-body">
                     <h2>
-                        <span id="questionsCount"></span>
-                       
+                        <span id="questionsCount">{{questionsCount}}</span>
+                        {{shortTitle}} questions entered so far
                     </h2>
-                    <h2 id="titleforAll"> Total for the {{shortTitle}} group: <span id="totalPercentage">{{totalPercentage }}</span> of
+                    <h2> Total for the {{shortTitle}} group: <span id="totalPercentage">{{totalPercentage }}</span> of
                         100%</h2>
                     </p>
                 </div>
-                {%elseif(rfpTitle==='Enter your project requirements')%}
+                {%endif%}
+
+                {%endif%}
                 {% set numberWord = [
                 'Zero',
                 'first',
@@ -149,104 +163,89 @@ text: bcTitleText
                 ' fifth',
                 ' sixth',
                 ' seventh',
-                ' eight',
+                ' eighth',
                 ' ninth',
                 ' tenth',
-                'Eleventh',
-                'Twelveth',
-                'Thirteenth',
-                'Fourteenth',
-                'Fifteenth',
-                'Sixteenth',
-                'Seventeenth',
-                'Eighteenth',
-                'Nineteenth',
-                'Twentyth',
-                'Twenty-one',
-                'Twenty-two',
-                'Twenty-three',
-                'Twenty-four',
-                'Twenty-five',
-                'Twenty-six',
-                'Twenty-seven',
-                'Twenty-eight',
-                'Twenty-nine',
-                'Thirty',
-                'Thirty-one',
-                'Thirty-two',
-                'Thirty-three',
-                'Thirty-four',
-                'Thirty-five',
-                'Thirty-six',
-                'Thirty-seven',
-                'Thirty-eight',
-                'Thirty-nine',
-                'Forty',
-                'Forty-one',
-                'Forty-two',
-                'Forty-three',
-                'Forty-four',
-                'Forty-five',
-                'Forty-six',
-                'Forty-seven',
-                'Forty-eight',
-                'Forty-nine',
-                'Fifty'
+                'eleventh',
+                'twelfth',
+                'thirteenth',
+                'fourteenth',
+                'fifeteenth',
+                'sixteenth',
+                'seventeenth',
+                'eighteenth',
+                'nineteenth',
+                'twentieth',
+                'twenty first',
+                'twenty second',
+                'twenty third',
+                'twenty fourth',
+                'twenty fifth',
+                'twenty sixth',
+                'twenty seventh',
+                'twenty eight',
+                'twenty ninth',
+                'thirtyth',
+                'thirty first',
+                'thirty second',
+                'thirty third',
+                'thirty fourth',
+                'thirty fifth',
+                'thirty sixth',
+                'thirty seventh',
+                'thirty eight',
+                'thirty ninth',
+                'fourtyth',
+                'fourty first',
+                'fourty second',
+                'fourty third',
+                'fourty fourth',
+                'fourty fifth',
+                'fourty sixth',
+                'fourty seventh',
+                'fourty eight',
+                'fourty ninth',
+                'fiftyth'
+                ] %}
 
-                ] %}
-                <div id="enteryourProjectRequirement">
-                {% for i in range(1, 51) -%}
-                {%set outerButton= "outerButton_"+i%}
+               {% if (agreement_id == 'RM1043.8') and (group_id == 'Group 15') and (lotId == '3') and (criterian_id == 'Criterion 3') %}
+                  {% set rf=1 %}
+                  {% set rt= 21%}
+                {% else %}
+                  {% set rf=1 %}
+                  {% set rt= 51%}
+                {%endif%}
+                                 
+                {% for i in range(rf, rt) -%}
                 <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
+                {% if (agreement_id != 'RM1043.8') %}
                     <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
                         {{numberWord[i]}}
                         {{shortTitle}} question <a href="{{i}}" id="del_fc_question_{{i}}"
-                            class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
+                            class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X
                         </a>
                     </label>
-                    </br>
-                    {{recurseRequirements(data[0],form_name,i)}}
-                    {{recurseRequirements(data[1],form_name,i)}}
-                    {{recurseRequirements(data[2],form_name,i)}}
-                </div>
-                {%endfor%}
-                </div>
-                {%else%}
-                {% set numberWord = [
-                'Zero',
-                'first',
-                'second',
-                ' third',
-                ' fourth',
-                ' fifth',
-                ' sixth',
-                ' seventh',
-                ' eight',
-                ' ninth',
-                ' tenth'
-                ] %}
-                {% for i in range(1, 11) -%}
-                <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
+                 {% else %}
                     <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
                         {{numberWord[i]}}
-                        {{shortTitle}} question <a href="{{i}}" id="del_fc_question_{{i}}"
-                            class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
+                       {{shortTitle}} requirement <a href="{{i}}" id="del_dos_question_{{i}}"
+                            class='del govuk-link govuk-link--no-visited-state' title='delete'> X
                         </a>
                     </label>
+                {%endif%}
+                    
                     </br>
                     {% for requirement in data %}
                     {{recurseRequirements(requirement,form_name,i)}}
                     {% endfor %}
                 </div>
                 {%endfor%}
-                {%endif%}
-                
                 {% if(section==='5') and (form_name === 'rfp_multianswer_question_form')%}
                 <div class="ccs-page-section">
                     {{ CCSButton({
                     text: "Add another question",
                     type:"button",
-                    classes:"add-another-btn"
+                    classes:"add-another-btn govuk-button--secondary"
                     })}}
                 </div>
                 {%elseif(section !=='5')%}
@@ -254,9 +253,10 @@ text: bcTitleText
                     {{ CCSButton({
                     text: "Add another question",
                     type:"button",
-                    classes:"add-another-btn"
+                    classes:"add-another-btn question_count govuk-button--secondary"
                     })}}
                 </div>
+                
                 {%endif%}
                 {%elif (form_name !== 'ccs_rfp_acronyms_form')%}
                 {% for requirement in data %}
@@ -304,22 +304,18 @@ text: bcTitleText
                     <a href="/rfp/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}"
                         class="govuk-link govuk-link--no-visited-state">Return to Add context and requirements</a>
                 </div>
-
+                </div>
           </form>
-        </div>
-        {%if rfpTitle !='Enter your project requirements'%}
-        </div>
-        {%endif%}
-        {%if rfpTitle =='How long the project will last' or rfpTitle=='The expected duration of project'%}
-        </div>
-        {%endif%}
-        <div class="govuk-grid-column-one-third">
-                {{ CCSReleatedContent(releatedContent) }}
-            </div>
-        
+    </div>
+    <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+    </div>
 </div>
         
-    
+        <div class="govuk-grid-row">
+            
+        </div>
+ </div>      
     
 </main>
 {% endblock %}

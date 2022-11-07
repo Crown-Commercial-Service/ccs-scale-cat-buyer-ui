@@ -18,7 +18,7 @@
     },
     {
       "text": "Upload  pricing schedules and other documents",
-      "href": "/rfp/upload"
+      "href": "#"
     },
     {
       "text": "Upload your terms and conditions and other documents",
@@ -38,5 +38,7 @@
     "href": "/rfp/task-list"
   },
   "subtitle4":"Use the same link (above) to upload any other supporting documents (optional).",
+  "subtitle5":"Upload terms and conditions (Mandatory)",
+  "subtitle6":"You can upload multiple files, each no larger than 300mb, to a total of 1GB.  Acceptable file formats: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip",
   "template": []
 }

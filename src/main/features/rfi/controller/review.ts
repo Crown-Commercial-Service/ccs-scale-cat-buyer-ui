@@ -1,6 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/RFI/review.json';
+import * as Mcf3cmsData from '../../../resources/content/MCF3/RFI/review.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -36,7 +37,20 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
   const agreementLotName = req.session.agreementLotName;
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
 
-  if (finished_pre_engage && rfi_publish_confirmation === '1') {
+  const BaseURL2 = `/tenders/projects/${ProjectID}/events/${EventID}`;
+    const FetchReviewData2 = await DynamicFrameworkInstance.Instance(SESSION_ID).get(BaseURL2);
+    const ReviewData2 = FetchReviewData2.data;
+    const eventStatus2 = ReviewData2.OCDS.status == 'active' ? "published" : null 
+    var review_publish = 0;
+    if(eventStatus2=='published'){
+      review_publish = 1;
+      }else{
+        if (finished_pre_engage && rfi_publish_confirmation === '1') {
+          review_publish = 1;
+        }
+      }
+
+  if (review_publish == '1') {
     try {
       await TenderApi.Instance(SESSION_ID).put(BASEURL, _bodyData);
       const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/2`, 'Completed');
@@ -44,10 +58,13 @@ export const POST_RFI_REVIEW = async (req: express.Request, res: express.Respons
         await TenderApi.Instance(SESSION_ID).put(`journeys/${EventID}/steps/14`, 'Completed');
       }
 
-      res.redirect('/rfi/event-sent');
+      
+        res.redirect('/rfi/event-sent');
+      
+
     } catch (error) {
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
-        TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem"+" "+error?.response?.data?.errors[0].status+' '+error?.response?.data?.errors[0].detail+' '+error?.response?.data?.errors[0].title, false)
+        TokenDecoder.decoder(SESSION_ID), "RFI Review - Dyanamic framework throws error - Tender Api is causing problem", false)
       RFI_REVIEW_HELPER(req, res, true, true);
     }
   } else {

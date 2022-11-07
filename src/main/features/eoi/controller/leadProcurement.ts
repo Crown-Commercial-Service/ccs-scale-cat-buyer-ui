@@ -55,6 +55,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
     req.session['selectedUser'] = selectedUser;
     req.session['users'] = users;
     const releatedContent = req.session.releatedContent;
+    const agreementId_session = req.session.agreement_id;
     const windowAppendData = {
       userdata: users,
       selectedUser,
@@ -62,6 +63,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       agreementLotName,
       error: isJaggaerError,
       releatedContent,
+      agreementId_session,
     };
     res.render('procurementLeadEoi', windowAppendData);
   } catch (error) {
@@ -71,7 +73,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tender Api - getting users from organization or from tenders failed',
+      'EOI - Tender Api - getting users from organization or from tenders failed',
       true,
     );
   }
@@ -99,7 +101,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tender Api - getting users from organization or from tenders failed',
+      'EOI - Tender Api - getting users from organization or from tenders failed',
       !isJaggaerError,
     );
 
@@ -129,7 +131,7 @@ export const GET_USER_PROCUREMENT = async (req: express.Request, res: express.Re
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tender Api - getting users from organization or from tenders failed',
+      'EOI - Tender Api - getting users from organization or from tenders failed',
       true,
     );
   }

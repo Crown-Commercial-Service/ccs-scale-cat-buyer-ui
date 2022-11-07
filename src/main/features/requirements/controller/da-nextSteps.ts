@@ -74,22 +74,21 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
     if (da_next_steps) {
       switch (da_next_steps) {
         case 'yes':
-           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
-          // const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
-          // let endDate=new Date()
-          // endDate.setDate(endDate.getDate()+1);
-          // const _bodyData = {
-          //   endDate: endDate,
-          // };
-          // await TenderApi.Instance(SESSION_ID).put(publishUrl, _bodyData);
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/58`, 'Completed');
+          const publishUrl = `/tenders/projects/${req.session.projectId}/events/${eventId}/publish`;
+          let endDate=new Date()
+          endDate.setDate(endDate.getDate()+1);
+          const _bodyData = {
+            endDate: endDate,
+          };
+          await TenderApi.Instance(SESSION_ID).put(publishUrl, _bodyData);
           
           let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
-          let body_ ={
-            "nonOCDS": {
-              "eventType": "DA"
-            }  
+          let body = {
+            "name": "Procurement Assessment",
+            "eventType": "PA"
           }
-          const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body_);
+          const { data } = await TenderApi.Instance(SESSION_ID).post(baseUrl, body);
           if(data != null && data !=undefined)
           {
             req.session['eventId'] =data.id;
@@ -97,7 +96,6 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
             //req.session.procurements.push({'eventId':data.id,'eventType':data.eventType});
             // req.session.procurements[0]['eventType'] = data.eventType;
             //req.session.procurements[0]['started'] = false;
-            req.session.currentEvent = data;
             const currentProcNumber = procurements.findIndex(
               (proc: any) => proc.eventId === eventId && proc.procurementID === projectId,
             );
@@ -132,7 +130,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
               }
             }
           
-          /**const eventTypeURL = `tenders/projects/${projectId}/events`;
+          const eventTypeURL = `tenders/projects/${projectId}/events`;
           const eventTypesURL = `tenders/projects/${projectId}/event-types`;
           const baseURL = `tenders/projects/${projectId}/events/${data.id}`;
           req.session.selectedRoute='FC';
@@ -143,7 +141,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           
           let getEventType = await TenderApi.Instance(SESSION_ID).get(eventTypeURL);
           const { data: eventTypes } = await TenderApi.Instance(SESSION_ID).get(eventTypesURL);
-        req.session.haveFCA = eventTypes.some(event => event.type === 'FCA');
+        req.session.havePA = eventTypes.some(event => event.type === 'PA');
         // getEventType = getEventType.data[0].eventType;
         getEventType = getEventType.data.filter(d=>d.id==data.id)[0].eventType;
         if (getEventType === 'TBD') {
@@ -155,7 +153,7 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
           req.session.procurements[currentProcNum].started = true;
           
           
-        }**/
+        }
         //uncomment to save supplier
         const supplierBaseURL: any = `/tenders/projects/${projectId}/events/${eventId}/suppliers`;
           const SUPPLIERS = await DynamicFrameworkInstance.Instance(SESSION_ID).get(supplierBaseURL);
@@ -204,10 +202,8 @@ export const DA_POST_NEXTSTEPS = async (req: express.Request, res: express.Respo
               };
               const response = await TenderApi.Instance(SESSION_ID).put(baseURL, _body);
               if (response.status == 200) {
-                const getEventsURL = `tenders/projects/${req.session.projectId}/events`;
-                let getEvents = await TenderApi.Instance(SESSION_ID).get(getEventsURL);             
-               
-                if(getEvents.data.length==1)
+                const { procurements } = req.session;
+                if(procurements.length==1)
                 {
                   let baseUrl = `/tenders/projects/${req.session.projectId}/events`;
                   let body = {

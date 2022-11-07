@@ -1,4 +1,10 @@
 {% extends "template.njk" %}
+
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set fcaHelperLayer = true %}
+{% endif %}
+
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
 
@@ -11,11 +17,11 @@
 {{ CCSBreadcrumbs({
     items: [
         {
-            "text": "Your dashboard",
+            "text": "Dashboard",
             "href": "/dashboard"
         },
         {
-            "text": "Choose a commericial agreement",
+            "text": "Choose a commercial agreement",
             "href": "/projects/choose-agreement"
         },
         {
@@ -51,7 +57,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">
-     {{data.title }}
+     <strong>{{data.title }}</strong>
     </h1>
   </div>
 </div>
@@ -60,20 +66,35 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
      {% include "includes/project_header.njk" %}
-   <div class="govuk-inset-text">
-        <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
+
+     {% if agreementId_session == 'RM6187' %}
+        <br>
+        <br>
+        <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p>
+        <p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
+        <br>
+        <br>
+      {% else %}
+        <div class="govuk-inset-text">
+        <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p>
+        <p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
       </div>
-      <p class="govuk-body">{{data.caption}} <br/>If you don't want to change the name of your project you can <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">return to do pre-market engagement</a></p>
-      <label for="{{data.form.input.id}}" class="govuk-visually-hidden">{{data.caption}}</label>
+       {% endif %}
+
+      <p class="govuk-body">{{data.caption}} <br/>If you don't want to change the name of your project you can 
+        <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">return to do pre-market engagement</a></p>
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/rfi/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}
-        {{ CCSInput({           
+        {{ CCSCharacterCount({           
             id: data.form.input.id,
             name: data.form.input.name,
-            value: projectLongName
+            value: projectLongName,
+            maxlength:"250",
+            classes: 'govuk-!-width-three-quarters nameproject',
+            rows:1
             })
         }}
-         <p><label class="remaining_chrs_term" id="rfi_label_name_project">You have {{(500-(projectLongName | length))}}
+        <p><label id="rfi_label_name_project"></label></p>
           <div class="govuk-button-group">
             {{ CCSButton({
                 text: "Save and continue",
@@ -89,6 +110,29 @@
       </div>
    </div>
   </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 {% endblock %}

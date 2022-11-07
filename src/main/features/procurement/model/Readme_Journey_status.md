@@ -53,10 +53,12 @@ First when we load the procurement page we have to issue the `POST` method to in
 > Step 2 - EOI / RFI  (Optional)
 > 
 > Step 3 - Write and publish your requirements (Not started)
-> 
-> Step 4 - Award your contract (Cannot start yet)
+
+> Step 4 - Do evaluation (Cannot start yet)
+
+> Step 5 - Award your contract (Cannot start yet)
 >
-> Step 5 - Publish your contract (Cannot start yet)
+> Step 6 - Publish your contract (Cannot start yet)
 >   
 > 
 > **pre-market engagement (RFI)**  

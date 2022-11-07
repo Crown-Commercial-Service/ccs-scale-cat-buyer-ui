@@ -1,0 +1,285 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% set title = rfpTitle + '- Create a Request for Information (rfp)' %}
+
+{% block breadCrumb %}
+{%if(section==='5')%}
+{{ CCSBreadcrumbs({
+items: [
+{
+text: "Dashboard",
+href: "/dashboard"
+},
+{
+text: "Choose a commercial agreement",
+href: "/projects/choose-agreement"
+},
+{
+text: "Procurement overview",
+href: "/projects/create-or-choose"
+},
+{
+text: "Write and publish your requirements",
+href: "/da/task-list"
+},
+{
+text: "Your Assessment bases and evaluation weightings",
+href: "/da/your-assesstment?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+},
+{
+text: bcTitleText
+}
+]
+}) }}
+{%else%}
+{{ CCSBreadcrumbs({
+items: [
+{
+text: "Dashboard",
+href: "/dashboard"
+},
+{
+text: "Choose a commercial agreement",
+href: "/projects/choose-agreement"
+},
+{
+text: "Procurement overview",
+href: "/projects/create-or-choose"
+},
+{
+text: "Write and publish your requirements",
+href: "/da/task-list"
+},
+{
+text: "Add context and requirements",
+href: "/da/add-context?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+},
+{
+text: bcTitleText
+}
+]
+}) }}
+{%endif%}
+
+{% endblock %}
+
+{% block content %}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    {% if(emptyFieldError)%}
+    {{ CCSErrorSummary({
+    titleText: "There is a problem",
+    errorList: errorText
+    }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <h1 id="page-heading" class="govuk-heading-xl">
+               {{rfpTitle}}
+            </h1>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            {% include "includes/project_header.njk" %}
+
+            <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} rfp_form"
+                action="/da/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}&section={{section}}"
+                method="post" autocomplete="off">
+                {{ csrfProtection(csrf) }}
+                <input type="hidden" agreementEndDate="{{agreementEndDate}}" id="rpf_section_3_aggrimentEndDate">
+                <input type="hidden" id="agreementID" value="{{agreement_id}}">
+                <input type="hidden" id="gID" value="{{group_id}}">
+                <div>
+                {#<--! SCAT-5151-->#}
+                {% if (form_name === 'rfp_multianswer_question_form') %}
+                {{ CCSInsetText({
+                    html: prompt
+                }) }}
+                
+                <!-- <h2>Create your first requirement group</h2> -->
+                {%endif%}
+                {% if (form_name !== 'rfp_multianswer_question_form') %}
+                {{ CCSInsetText({
+                    html: prompt
+                }) }}
+                {%endif%}
+                
+               
+
+                {% macro recurseRequirements(requirement,form_name,index = 0) -%}
+                {%if (requirement.nonOCDS.childern.length > 0)%}
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id)}} 
+                 {{recurseRequirements(requirement.nonOCDS.childern[0],form_name, index)}} 
+                {%else%}
+                 {{CCSQUESTIONS(organizationName,requirement,form_name, index,agreement_id)}} 
+                {%endif%}
+                {%- endmacro %}
+                {%if (form_name === 'ccs_rfp_scoring_criteria')%}
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">[Instruction for this page]</p>
+                    <p class="govuk-body">[You can create your scoring criteria from or use/ modify the 4-tier or 5-tier
+                        template below]</p>
+
+                </div>
+                {%endif%}
+                {#<--!Condtns modified according to SCAT-5151-->#}
+                {%if (form_name === 'rfp_multianswer_question_form') %}
+                {%if (rfpTitle!='Enter your project requirements')%}
+                <div>
+                    <p class="govuk-body">
+                    <h2>
+                        <span id="questionsCount">{{questionsCount}}</span>
+                        {{shortTitle}} questions entered so far
+                    </h2>
+                    <h2> Total for the {{shortTitle}} group: <span id="totalPercentage">{{totalPercentage }}</span> of
+                        100%</h2>
+                    </p>
+                </div>
+                {%endif%}
+                {% set numberWord = [
+                'Zero',
+                'first',
+                'second',
+                ' third',
+                ' fourth',
+                ' fifth',
+                ' sixth',
+                ' seventh',
+                ' eight',
+                ' ninth',
+                ' tenth',
+                'eleventh',
+                'twelefth',
+                'thirteenth',
+                'fourteenth',
+                'fifeteenth',
+                'sixteenth',
+                'seventeenth',
+                'eighteenth',
+                'nineteenth',
+                'twentyth',
+                'twenty first',
+                'twenty second',
+                'twenty third',
+                'twenty fourth',
+                'twenty fifth',
+                'twenty sixth',
+                'twenty seventh',
+                'twenty eight',
+                'twenty ninth',
+                'thirtyth',
+                'thirty first',
+                'thirty second',
+                'thirty third',
+                'thirty fourth',
+                'thirty fifth',
+                'thirty sixth',
+                'thirty seventh',
+                'thirty eight',
+                'thirty ninth',
+                'fourtyth',
+                'fourty first',
+                'fourty second',
+                'fourty third',
+                'fourty fourth',
+                'fourty fifth',
+                'fourty sixth',
+                'fourty seventh',
+                'fourty eight',
+                'fourty ninth',
+                'fiftyth'
+                ] %}
+                {% for i in range(1, 51) -%}
+                <div id="fc_question_{{i}}" class="ccs-page-section {{'additional' if i>1 }}">
+                    <label class="govuk-label govuk-label govuk-label--m" for="fc_question_{{i}}">Enter your
+                        {{numberWord[i]}}
+                        {{shortTitle}} requirement <a href="{{i}}" id="del_fc_question_{{i}}"
+                            class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X
+                        </a>
+                    </label>
+                    </br>
+                    {% for requirement in data %}
+                    {{recurseRequirements(requirement,form_name,i)}}
+                    {% endfor %}
+                </div>
+                {%endfor%}
+                {% if(section==='5') and (form_name === 'rfp_multianswer_question_form')%}
+                <div class="ccs-page-section">
+                    {{ CCSButton({
+                    text: "Add another question",
+                    type:"button",
+                    classes:"add-another-btn govuk-button--secondary"
+                    })}}
+                </div>
+                {%elseif(section !=='5')%}
+                <div class="ccs-page-section">
+                    {{ CCSButton({
+                    text: "Add another question",
+                    type:"button",
+                    classes:"add-another-btn question_count govuk-button--secondary"
+                    })}}
+                </div>
+                {%endif%}
+                {%elif (form_name !== 'ccs_rfp_acronyms_form')%}
+                {% for requirement in data %}
+                 {{recurseRequirements(requirement,form_name,loop.index)}}
+                {% endfor %}
+                {%elif(form_name === 'ccs_rfp_acronyms_form')%}
+                {% for requirement in data %}
+                 {{recurseRequirements(requirement,form_name,loop.index)}}
+                {% endfor %}
+
+
+                {%endif%}
+
+                {% if (form_name === 'read_me') %}
+                {{ CCSInput({
+                id: "rfp_read_me",
+                name: "rfp_read_me",
+                type: "hidden",
+                value: true
+                }) }}
+                {% endif %}
+
+                {{ CCSInput({
+                id: "rfp_build_started",
+                name: "rfp_build_started",
+                type: "hidden",
+                value: true
+                })
+                }}
+
+                <div class="govuk-button-group">
+
+                    {% if (form_name === 'read_me') %}
+                    {{ CCSButton({
+                    text: "Continue",
+                    classes:"save-button"
+                    }) }}
+                    {% else %}
+                    {{ CCSButton({
+                    text: "Save and continue",
+                    classes:"save-button"
+                    }) }}
+                    {% endif %}
+
+                    <a href="/da/add-context?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}"
+                        class="govuk-link govuk-link--no-visited-state">Return to Add context and requirements</a>
+                </div>
+                </div>
+          </form>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+    </div>
+</div>
+        
+        <div class="govuk-grid-row">
+            
+        </div>
+ </div>      
+    
+</main>
+{% endblock %}

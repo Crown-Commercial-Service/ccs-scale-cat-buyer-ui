@@ -1,0 +1,37 @@
+{
+    "breadCrumbs": [
+      {
+        "text": "Your Dashboard",
+        "href": "/dashboard"
+      },
+      {
+        "text": "Choose a commercial agreement",
+        "href": "/projects/choose-agreement"
+      },
+      {
+        "text": "Procurement overview",
+        "href": "/projects/create-or-choose"
+      },
+      {
+        "text": "Do pre-market engagement",
+        "href": "/eoi/eoi-tasklist"
+      },
+      {
+        "text": "Build your EoI",
+        "href": "/eoi/online-task-list"
+      },
+      {
+        "text": "Project scope",
+        "href": "#"
+      }
+    ],
+    "title": "Project scope (optional)",
+    "subtitle": null,
+    "line1": "List the items 'in scope' for this project. In scope means the things that must be achieved. For example, users must be able to register for an account or users must be able to add users to their account.",
+    "line2": "You can add a maximum of 10 items",
+    "backJump": {
+      "title": "Return to Build your EoI",
+      "href": "/eoi/online-task-list"
+    }
+  }
+  

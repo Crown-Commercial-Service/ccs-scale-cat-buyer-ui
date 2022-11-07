@@ -62,8 +62,12 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       const question_id = answers;
       const findFilterQuestion = filterWithQuestions.filter(question => question.Question === question_id);
       const findFilterValues = findFilterQuestion[0].value;
+      const filtervalues=moment(
+        findFilterValues,
+        'DD MMMM YYYY, HH:mm:ss ',
+      ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
       const answerformater = {
-        value: findFilterValues,
+        value: filtervalues,
         selected: true,
         text: answers,
       };
@@ -89,7 +93,7 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tenders Service Api cannot be connected',
+      'EOI Timeline - Tenders Service Api cannot be connected',
       true,
     );
   }
@@ -113,13 +117,13 @@ function isValidQuestion(
     isValid = false;
     error = 'Enter a valid date';
   }
-
-  if (minute > 59 || minute <= 0) {
+  
+  if (minute > 59 || minute < 0) {
     isValid = false;
     error = 'Enter valid minutes';
   }
 
-  if (hour > 12 || hour <= 0) {
+  if (hour > 23 || hour <= 0) {
     isValid = false;
     error = 'Enter a valid hour';
   }
@@ -135,9 +139,12 @@ function isValidQuestion(
     error = 'Enter a valid year';
   }
 
+ 
   const questionNewDate = new Date(year, month, day, timeinHoursBased, minute);
 
   const dayOfWeek = new Date(questionNewDate).getDay();
+
+  
 
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     isValid = false;
@@ -148,28 +155,41 @@ function isValidQuestion(
       errorSelector = 'clarification_date';
       break;
     case 'Question 2':
-      if (questionNewDate < timeline.publish) {
+      
+      if (questionNewDate < new Date(timeline.publish)) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.publishResponsesClarificationQuestions)) {
+        isValid = false;
+        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'clarification_period_end';
       break;
     case 'Question 3':
-      if (questionNewDate < timeline.clarificationPeriodEnd) {
+      if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.supplierSubmitResponse)) {
+        isValid = false;
+        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'deadline_period_for_clarification_period';
       break;
     case 'Question 4':
-      if (questionNewDate < timeline.publishResponsesClarificationQuestions) {
+      if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
+        isValid = false;
+        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
       break;
     case 'Question 5':
-      if (questionNewDate < timeline.supplierSubmitResponse) {
+      if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
@@ -183,6 +203,8 @@ function isValidQuestion(
 
 // @POST "/eoi/add/response-date"
 export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
+
+  try {
   let {
     clarification_date_day,
     clarification_date_month,
@@ -194,6 +216,8 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   } = req.body;
 
   const { timeline } = req.session;
+
+  
 
   clarification_date_day = Number(clarification_date_day);
   clarification_date_month = Number(clarification_date_month);
@@ -207,7 +231,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   if (clarification_date_hourFormat == 'AM') {
     timeinHoursBased = Number(clarification_date_hour);
   } else {
-    timeinHoursBased = Number(clarification_date_hour) + 12;
+    timeinHoursBased = Number(clarification_date_hour);
   }
 
   let date = new Date(
@@ -232,10 +256,53 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
   );
 
   if (date.getTime() >= nowDate.getTime() && isValid) {
-    date = moment(date).format('DD MMMM YYYY, hh:mm a');
+    date = moment(date).format('DD MMMM YYYY, HH:mm');
+    req.session.questionID=selected_question_id;
+
+    if (selected_question_id == 'Question 2') {
+      req.session.eoipublishdate = timeline.publish;
+      req.session.clarificationend = timeline.clarificationPeriodEnd;
+      req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
+      req.session.supplierresponse = timeline.supplierSubmitResponse;
+      req.session.confirmNextStepsSuppliers = timeline.confirmNextStepsSuppliers;
+      //req.session.UIDate = date;
+    }
+    else if (selected_question_id == 'Question 3') {
+      req.session.eoipublishdate = timeline.publish;
+      req.session.clarificationend = timeline.clarificationPeriodEnd;
+      req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
+      req.session.supplierresponse = timeline.supplierSubmitResponse;
+      req.session.confirmNextStepsSuppliers = timeline.confirmNextStepsSuppliers;
+      //req.session.UIDate = date;
+    }
+    else if (selected_question_id == 'Question 4') {
+      req.session.eoipublishdate = timeline.publish;
+      req.session.clarificationend = timeline.clarificationPeriodEnd;
+      req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
+      req.session.supplierresponse = timeline.supplierSubmitResponse;
+      req.session.confirmNextStepsSuppliers = timeline.confirmNextStepsSuppliers;
+      //req.session.UIDate = date;
+    }
+    else if (selected_question_id == 'Question 5') {
+      req.session.eoipublishdate = timeline.publish;
+      req.session.clarificationend = timeline.clarificationPeriodEnd;
+      req.session.deadlinepublishresponse = timeline.publishResponsesClarificationQuestions;
+      req.session.supplierresponse = timeline.supplierSubmitResponse;
+      req.session.confirmNextStepsSuppliers = timeline.confirmNextStepsSuppliers;
+      //req.session.UIDate = date;
+    }
+  
+
+    req.session.UIDate = date;
+
+    const filtervalues=moment(
+      date,
+      'DD MMMM YYYY, HH:mm:ss ',
+    ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
+
 
     const answerformater = {
-      value: date,
+      value: filtervalues,
       selected: true,
       text: selected_question_id,
     };
@@ -347,4 +414,15 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     };
     await RESPONSEDATEHELPER(req, res, true, errorItem);
   }
+} catch (error) {
+  LoggTracer.errorLogger(
+    res,
+    error,
+    `${req.headers.host}${req.originalUrl}`,
+    null,
+    TokenDecoder.decoder(SESSION_ID),
+    'EOI Timeline - Tender Api - getting users from organization or from tenders failed',
+    true,
+  );
+}
 };

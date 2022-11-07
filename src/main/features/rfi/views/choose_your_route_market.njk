@@ -1,0 +1,94 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Available Supplier' %}
+{% block content %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            <h1 class="govuk-heading-m">
+           {{data.title}}
+            </h1>
+            
+           {% include "includes/project_header.njk" %}
+           <p>{{data.subtitle}}<?p>
+        </div>
+
+        <div class="govuk-grid-column-one-third">
+            <div class="ccs-callout-panel">
+                <h2 class="govuk-heading-m">{{data.related_content_text}}</h2>
+                <p class="govuk-body">
+                    {% for item in data.related_content %}
+                    <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="govuk-grid-row">
+    
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <ol class="app-task-list capability-assessment">
+            <li>
+              <h2 class="app-task-list__section">
+              <div class="govuk-radios">
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="continue_true" name="choose_route_market" type="radio" value="" aria-describedby="ccs_vetting_type-item-hint" >
+                    <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="continue_true">
+                      <h3 class="govuk-heading-m">{{data.radio_button_title}}</h3>
+                    </label>
+                </div>
+              </div>
+                   
+              </h2>
+              <div style="padding-left: 60px !important;">
+                <p>{{data.radio_button_subtitle1}}</p>
+                <p>{{data.radio_button_subtitle2}}</p>
+              </div>
+            </li>
+
+            <li>
+              <div class="govuk-radios">
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" name="choose_route_market" id="continue_true" type="radio" value="" aria-describedby="ccs_vetting_type-item-hint" >
+                    <label class="govuk-label govuk-radios__label ccs_rfp_vetting" for="continue_true">
+                      <h3 class="govuk-heading-m">{{data.radio_button_title2}}</h3>
+                    </label>
+                </div>
+              </div>
+              <div style="padding-left: 60px !important;">
+                <p>{{data.radio_button_subtitle3}}</p>
+              </div>
+            </li>
+
+        </ol>
+        </div>
+	</div>
+  
+  <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+            <br><br><br><br><br>
+          <div class="govuk-grid-column-two-thirds-from-desktop">
+                <div class="govuk-button-group govuk-!-margin-bottom-7">
+                  {{ CCSButton({ text: "Save and continue",type: "submit"}) }}
+                  <a class="govuk-link" href="{{data.returnToUrl}}}">{{data.returnTo}}</a> 
+                  <br><br><br>
+                </div>
+          </div> 
+      
+
+           
+
+
+        </div>
+  </div>
+
+  </main>
+{% endblock %}

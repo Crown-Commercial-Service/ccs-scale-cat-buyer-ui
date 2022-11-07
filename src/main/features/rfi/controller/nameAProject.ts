@@ -1,6 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/RFI/nameYourProject.json';
+import * as MCF3cmsData from '../../../resources/content/MCF3/RFI/nameYourProject.json';
 import procurementDetail from '../model/procurementDetail';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -22,14 +23,24 @@ export const GET_NAME_PROJECT = async (req: express.Request, res: express.Respon
   const project_name = req.session.project_name;
   const agreementLotName = req.session.agreementLotName;
   const releatedContent = req.session.releatedContent;
+  const agreementId_session = req.session.agreement_id;
+
+  let forceChangeDataJson;
+  if(agreementId_session == 'RM6187') { //MCF3
+    forceChangeDataJson = MCF3cmsData;
+  } else { //DSP
+    forceChangeDataJson = cmsData;
+  }
+
   const viewData: any = {
-    data: cmsData,
+    data: forceChangeDataJson,
     procId: procurement.procurementID,
     projectLongName: project_name,
     lotId,
     agreementLotName,
     error: isEmptyProjectError,
     releatedContent: releatedContent,
+    agreementId_session:req.session.agreement_id
   };
   res.render('nameAProjectRfi', viewData);
 };
@@ -47,12 +58,14 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
   const { projectId ,eventId} = req.session;
   const name = req.body['rfi_projLongName'];
   const nameUpdateUrl = `tenders/projects/${procid}/name`;
+  const eventUpdateUrl = `/tenders/projects/${procid}/events/${eventId}`;
   try {
     if (name) {
       const _body = {
         name: name,
       };
       const response = await TenderApi.Instance(SESSION_ID).put(nameUpdateUrl, _body);
+      const response2 = await TenderApi.Instance(SESSION_ID).put(eventUpdateUrl, _body);
       if (response.status == HttpStatusCode.OK) req.session.project_name = name;
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/7`, 'Completed');
       res.redirect('/rfi/procurement-lead');
@@ -67,7 +80,7 @@ export const POST_NAME_PROJECT = async (req: express.Request, res: express.Respo
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tender Api - getting users from organization or from tenders failed',
+      'RFI Name a Project - Tender Api - getting users from organization or from tenders failed',
       true,
     );
   }

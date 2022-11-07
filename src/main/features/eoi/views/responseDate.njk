@@ -52,10 +52,10 @@
                                             <span> &nbsp; &nbsp; &nbsp;</span>{{data['data'].body.p1}}</p>
                                     {%endif %}
                                     <div id="eoi_clarification_date">
-
+                                        
                                         {% if(requirement.nonOCDS.options[0].selected)%}
                                             <label class="govuk-label govuk-body">
-                                                <strong id="lbl-clarification" class="clarification_{{loop.index}}">{{ requirement.nonOCDS.options[0].value }}</strong>
+                                                <strong id="lbl-clarification" class="clarification_{{loop.index}}">{{ requirement.nonOCDS.options[0].value  }}</strong>
                                             </label>
                                         {%endif %}
 
@@ -173,7 +173,7 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="govuk-date-input__item">
+                                                                {# <div class="govuk-date-input__item">
                                                                     {{ CCSSelect({
                                 id: "clarification_date-hourFormat",
                                 name: "clarification_date_hourFormat",
@@ -192,7 +192,7 @@
                                 ]
                                 })
                                 }}
-                                                                </div>
+                                                                </div> #}
                                                             </div>
                                                         </fieldset>
 
@@ -224,14 +224,14 @@
                     id: "timeStamp",
                     name: "eoi_clarification_date",
                     type: "hidden",
-                    value: "Question 1*"+clarification_date
+                    value: "Question 1*"+eoi_clarification_date
                     }) }}
 
                                             {{ CCSInput({
                     id: "timeStamp",
                     name: "eoi_clarification_period_end",
                     type: "hidden",
-                    value: "Question 2*"+clarification_period_end
+                    value: "Question 2*"+eoi_clarification_period_end
                     }) }}
 
                                             {{ CCSInput({
@@ -255,7 +255,7 @@
                     value: "Question 5*"+supplier_dealine_for_clarification_period
                     }) }}
 
-                    <button class="govuk-button save-button" data-module="govuk-button">Save and continue</button>
+                    <button class="govuk-button save-button" id="hideMeWhileDateChange" data-module="govuk-button">Save and continue</button>
                     <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
                 </form>
                 </div>

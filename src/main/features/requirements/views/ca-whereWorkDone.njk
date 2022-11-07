@@ -12,7 +12,7 @@
     {{ CCSBreadcrumbs({
         items: [
             {
-                "text": "Your dashboard",
+                "text": "Dashboard",
                 "href": "/dashboard"
                 },
                 {
@@ -59,61 +59,25 @@
         </h1>
       </div>
     </div>
-    <div>
-    
-      <div class="project-overview govuk-div-inline">
-  <p class="govuk-body">Selected agreement: <strong>
-    {%if agreement_header !=undefined and agreement_header !=null %}
-    {{ agreement_header['agreementName'] }}
-    {%endif%}
-    {% if(agreement_header !=undefined and agreement_header !=null 
-    and agreement_header.agreementLotName != undefined)%}, 
-    
-    {{ agreement_header['lotid'] }}: 
-    {{ agreement_header['agreementLotName'] }}  
-    {% endif %} 
-    
-  </strong></p>
-  <p class="govuk-body">Agreement ID: 
-    {%if(agreement_header !=undefined and   agreement_header !=null) %}
-    <strong>
-    {{ agreement_header['agreementId_session'] }}
-    </strong>
-    {%endif%}
-    </p>
-  {% if agreement_header !=undefined and   agreement_header !=null and agreement_header['project_name'] %}
-   <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
-    {% else %}
-     <p class="govuk-body">Project name: You have not saved projects </p>
-    {% endif %}
-  </p>
-</div>
-
-      
-      <div class="ccs-callout-panel margin-left">
-        <h2 class="govuk-heading-m">{{releatedContent.title}}</h2>
-        <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state" href={{ releatedContent.lotUrl }} target="_blank" rel="noopener noreferrer">{{releatedContent.name}}, {{releatedContent.lotName}}</a>
-        </p>
-    </div>
-      </div>
-      <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
       <div class="ccs-page-section">
         <p class="govuk-body">{{subtitle1}}</p>
-          <div  class="govuk-inset-text"><p class="govuk-body">{{subtitle2}}</p></div>
+             {{ CCSInsetText({
+                        html:subtitle2
+                }) }}
         <br>
       </div>
       
       <form id="ca_where_work_done" name="ca_where_work_done" class="form ca_form" action="/ca/where-work-done" method="post">
       {{ csrfProtection(csrf) }} 
         <div class="ccs-page-section">
-        <div class="sub-section govuk-section-break--visible">
+        <div class="sub-section">
          
           <p class="govuk-body">
-                        <span id="totalPercentage" class="head-bold">{{totalPercentage    }}</span><b> of 100%</b> total weightings for location
+                        <h2>Total : <span id="totalPercentage">{{totalPercentage    }}</span> of 100%</h2>
                               <a href="#" class="del govuk-link govuk-link--no-visited-state ca_whereworkdone_popup" title="delete">Clear form</a>
-                              </p>
-        </div><br/>
+        </div>
 
             {% for elem in locationArray %}
                       {{ CCSInput({
@@ -157,6 +121,8 @@
 
       </form>
     </div>
-    
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
   </main>
         {% endblock %}

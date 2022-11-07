@@ -1,0 +1,23 @@
+{
+    "title": "Download your results",
+    "line1":"Download a list of the services you’ve found to help you track and record your decision-making.",
+    "line2":"The files include suppliers’ service descriptions and contact information. Keep a copy for your records.",
+    "links":"Download search results as a comma-seperate values (CSV) file",
+    "line3":"Results first exported on Wednesday 3 August 2022 at 12:59pm BST",
+    "line4":"You can download your results again at any time.",
+    "buttonText":"Continue",
+    "related_content": [
+      {
+          "text": "G-Cloud 13 customer guidance",
+          "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
+      },
+      {
+          "text": "G-Cloud buyer’s guide",
+          "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
+      },
+      {
+          "text": "G-Cloud 13 agreement page",
+          "href": "https://www.crowncommercial.gov.uk/agreements/RM1557.13"
+      }
+  ]
+}

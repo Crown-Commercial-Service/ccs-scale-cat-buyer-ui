@@ -1,0 +1,70 @@
+{
+  "breadCrumbs": [
+      {
+          "text": "Your Dashboard",
+          "href": "/dashboard"
+      },
+      {
+          "text": "Choose a commercial agreement",
+          "href": "/#"
+      },
+      {
+          "text": "Procurement overview",
+          "href": "/fca/projects/create-or-choose"
+      }
+      ,
+      {
+          "text": "Do pre-market engagement",
+          "href": "/#"
+      },
+      {
+        "text": "Choose how to build your RfI",
+        "href": "/#"
+      }
+  ],
+  "related_content_text":"Related Content",
+  "related_content": [
+      {
+          "text": "Lot detail page",
+          "href": "/#"
+      },
+      {
+          "text": "Link to external source",
+          "href": "/#"
+      },
+      {
+          "text": "Link to external source",
+          "href": "/#"
+      }
+  ],
+  "title": "Available Supplier",
+  "subtitle": null,
+  "line1": "Choose how to build your RfI",
+  "buttonText":"Save and continue",
+  "returnTo":"Return to Do pre-market engagement",
+  "line2": "You can choose to either enter the information online to build your RfI or upload your own document.",
+  "events":[
+      {
+          "checkbox_id":"1",
+          "checked":"",
+          "value":"10",
+          "label":"Enter all the information online",
+          "contents":[
+              {
+                  "text":"Enter all the information needed to build your RfI and submit to your selected suppliers."
+              }
+          ]
+      },
+      {
+          "checkbox_id":"2",
+          "checked":"checked",
+          "value":"",
+          "label":"Complete and upload a document",
+          "contents":[
+              {
+                  "text":"Use this option to prepare your RfI offline and then upload it."
+              }
+          ]
+        }
+]
+}

@@ -2,10 +2,9 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Complete and upload a document | Contract Award Service' %}
-{% set url -%}
-  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
-{%- endset %}
+{% set title = 'Complete and upload the whole bid pack | Contract Award Service' %}
+
+
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
@@ -14,14 +13,26 @@
 {% endblock %}
 
 {% block content %}
-  <div class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" >
-
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+      
     {% if (fileError)%}
-            {{ CCSErrorSummary({
-                titleText: "There is a problem",
-                errorList: errorlist
-            }) }}
-        {% endif %}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem with these files",
+        errorList: errorlist
+      }) }}
+    {% endif %}
+
+    {% if (error)%}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+          {
+            text: "At least a T&Cs is required to be uploaded",
+            href: "#rfp_offline_document"
+          }
+        ]
+      }) }}
+    {% endif %}
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
@@ -31,19 +42,25 @@
       </div>
     </div>
 
-    <div class="ccs-page-section govuk-!-margin-bottom-9 govuk-!-margin-top-6 ">
+    <div class="govuk-!-margin-bottom-9 govuk-!-margin-top-6 ">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
           {% include "includes/project_header.njk" %}
- <br/>
-  <br/>
+ 
+        <div class="govuk-inset-text">
           <p class="govuk-body govuk-!-margin-bottom-6">{{data.subtitle}}</p>
-       
+            {% if agreement_id == 'RM6187' %}
+        <p class="govuk-body govuk-!-margin-bottom-0">{{data.SUBTITLE_1}}</p>
+        {% endif %}
+            {% if agreement_id == 'RM1043.8' %}
+        <p class="govuk-body govuk-!-margin-bottom-0">{{data.SUBTITLE_1}}</p>
+        {% endif %}
+        </div>
           <br/>
           <div id="upload_doc_form">
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-full" id="documents_upload">
-                <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">Upload terms and conditions (Mandatory)</label>
+                <label class="govuk-label govuk-label--m govuk-!-margin-bottom-3" for="rfp_offline_document">{{data.subtitle5}}</label>
                 <span id="rfp_upload_error_summary" class="govuk-error-message  govuk-!-margin-bottom-3"></span>
                 <p class="govuk-body-s">
                   {{data.filedesc}}</p>
@@ -52,11 +69,11 @@
                     <ul class="app-task-list">
                       {% for file in files %}
 
-                        <li class="app-task-list__item">
+                        <li class="app-task-list__item test">
 
                           <div class="govuk-grid-row">
                             <div class="govuk-grid-column-one-third text-overflow ">
-                              <span class="app-task-list__task-name">
+                              <span class="">
                                 <a href="/rfp/upload-doc?file_id={{file.id}}">
                                   <strong>{{file.fileName}}</strong>
                                 </a>
@@ -82,25 +99,13 @@
                   </div>
                   {%endif%}
                   {% if (storage < 1000000000) %}
-                    <form action="/rfp/upload-doc" method="post" encType="multipart/form-data">
+                    <form  action="/rfp/upload-doc" method="post" encType="multipart/form-data">
                       {{ csrfProtection(csrf) }}
-                       <div id= "rfp_offline_document_tc_message">
-   {% if (istcupload)%}
-    <p id="rfp_offline_document_tc_message-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span>
-               You must upload terms and conditions.
-                  </p>
-                           
-                              {%endif %}
-                              </div>
                       {{ CCSFileUpload({
               id: "rfp_offline_document",
               name: "rfp_offline_document",
               value: data['rfp_offline_document'],
               multiple: true,
-              attributes:{
-                  "aria-label":"Choose files"
-                  },
               label: {
               text: "",
               classes: "govuk-label--m"
@@ -109,9 +114,9 @@
                     </div>
                     <div class="govuk-grid-column-full">
                       {{ CCSButton({
-                              text: "upload",
+                              text: "Upload",
                               type: "submit",
-                              classes: "doc_upload_button"
+                              classes: "govuk-button--secondary"
                             })
                         }}
                     </div>
@@ -127,6 +132,7 @@
                 </div>
               </form>
               {%endif%}
+                 {% if agreement_id == 'RM6263' %}
                  <p class="govuk-body">{{data.SUBTITLE_1}}
           <ul type="disc">
           <li>{{data.subtitle1}}</li>
@@ -136,9 +142,10 @@
           </p>
               <p class="govuk-body">{{data.subtitle4}}</p>
               <br/>
-              <form action="/rfp/upload-doc/proceed" method="post">
+ {% endif %}
+              <form id="uploaddocument" action="/rfp/upload-doc/proceed" method="post">
                 {{ csrfProtection(csrf) }}
-                <div class="govuk-button-group">
+                <div class="govuk-button-group govuk-!-margin-top-9">
                   {{ CCSButton({
                               text: "Save and continue",
                               type: "submit"
@@ -154,5 +161,5 @@
             </div>
           </div>
 
-        </div>
+        </main>
       {% endblock %}

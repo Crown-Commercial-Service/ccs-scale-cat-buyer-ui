@@ -7,7 +7,7 @@
  {{ CCSBreadcrumbs({
         items: [
             {
-                "text": "Your dashboard",
+                "text": "Dashboard",
                 "href": "/dashboard"
                 },
                 {
@@ -23,7 +23,7 @@
                 "href": "/da/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "Select service capabilities",
+                "text": "Select your service capabilities and set the weighting",
                 "href": "#"
             }
         ]
@@ -52,7 +52,7 @@
 
  <div class="govuk-grid-row">
     <h1 class="govuk-heading-xl">
-        <strong>{{title}}</strong>
+        {{title}}
     </h1>
     <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
     <div class="govuk-grid-row">
@@ -61,10 +61,7 @@
         {% include "includes/project_header.njk" %}
       </div>
     </div>
-    {{ CCSInsetText({
-                        html: insertText
-                }) }}
-      <form id="ccs_da_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/service-capabilities" method="POST">
+      <form id="ccs_ca_menu_tabs_form" name="ccs_ca_menu_tabs_form" class="form ccs_ca_menu_tabs_form" action="/da/service-capabilities" method="POST">
     {{ csrfProtection(csrf) }}    
     <div class="ccs-page-section">
       <div class="sub-section">
@@ -100,7 +97,7 @@
                                 <div class="govuk-radios" data-module="govuk-radios">
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
           
-                                    <input class="govuk-radios__input whole_radio" id="whole_weightage_{{loop.index}}" name="weightage_{{loop.index}}" type="radio" value="whole">
+                                    <input class="govuk-radios__input whole_radio" id="whole_weightage_{{loop.index}}" name="weightage" type="radio" value="whole" checked="checked"  >
                       
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="whole_weightage_{{loop.index}}">
                                       Enter a weighting for the whole cluster 
@@ -117,7 +114,7 @@
                                         <p id="whole-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_whole_t {{domCategoryWhole}}{{loop.index}}">
                                         <span class="govuk-visually-hidden"></span> 
                                       </p>
-                                         <label class="govuk-visually-hidden" for="weight_vetting_whole_{{domCategory+loop.index}}">Enter a weighting for the whole cluster </label> 
+
                                          {{ CCSInput({
                                       label: {
                                         text: ""
@@ -148,7 +145,7 @@
                                   </div>
                                 <div>
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
-                                    <input class="govuk-radios__input" id="partial_weightage_{{loop.index}}" name="weightage_{{loop.index}}" type="radio" value="partial">
+                                    <input class="govuk-radios__input" id="partial_weightage_{{loop.index}}" name="weightage" type="radio" value="partial">
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="partial_weightage_{{loop.index}}">
                                       Enter a weighting for specific capabilities
                                     </label>
@@ -157,7 +154,7 @@
                             </div>
                               <div id="partial_cluster_{{loop.index}}">
                               {% for subItems in item['data'] -%}
-                              <label class="govuk-heading-s" for="weight_vetting_partial{{domCategory+loop.index}}"> {{subItems['groupname']}} </label>
+                              <h4> {{subItems['groupname']}} </h4>
                               <div class="govuk-!-margin-top-6">
                               
                                  <p id="partial-weightage-error-{{loop.index}}" class="govuk-error-message weight_vetting_partial_t {{domCategory}}{{loop.index}}">

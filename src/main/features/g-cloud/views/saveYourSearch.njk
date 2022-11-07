@@ -1,0 +1,199 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% set title = 'Save your search | Contract Award Service' %}
+
+{% block content %}
+    {% set url -%}
+   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+
+    {%- endset %}
+
+    {{ CCSBreadcrumbs({
+        items: [
+        { "text": "Your Dashboard", "href": "/dashboard" },
+        { "text": "Choose a commercial agreement", "href": "/projects/choose-agreement" },
+        { "text": "Procurement overview", "href": url },
+        { "text": "Start a new search", "href": "/g-cloud/choose-category" },
+        { "text": "Choose a category", "href": "/g-cloud/choose-category" },
+        { "text": "Search results", "href": returnto | trim }, 
+        { "text": "Save your search", "href": "#" } ] 
+}) }}
+
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if (error) %}
+            {{ CCSErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+                {
+                    text: "Select how to save your search result"
+                }
+            ]
+        }) }}
+        {%endif %}
+
+        {% if (errorName) %}
+            {{ CCSErrorSummary({
+                titleText: "There is a problem",
+                errorList: [{ text: errorName }] })
+            }}
+        {%endif %}
+
+        
+        <div class="govuk-grid-row ccs-page-section">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                <h3 class="govuk-heading-xl">{{data.title}}</h3>
+                {% include "includes/project_header.njk" %}
+                <p class="govuk-body">{{data.line5}}</p>
+                <form id="gcloud_save_your_services_form" class="govuk-check-form-custom" name="gcloud_save_your_services_form" action="/g-cloud/save-your-search" method="POST">
+                    {{ csrfProtection(csrf) }}
+                     <div><p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5">{{searchResults|safe}}</p></div><br> 
+                    {% set form_Options = [] %}
+                    {% set form_Options_others = [{ value: "new",name:'1',html:"<label class='govuk-label' for='gcloud_next_steps-2'><h3 class='govuk-heading-m'>Save a new search</h3></label>"}]%}
+
+                    {% for val in searchKeywords %}
+                        {% set form_Options = (form_Options.push({
+                        value: val,
+                        html: "<label class='govuk-label' for='gcloud_next_steps-2'><h3 class='govuk-heading-m'>"+ val +"</h3></label>"}), form_Options) 
+                    %}
+
+                    {% endfor %}
+
+                     {% if (error) %}
+
+                          {% if (searchKeywords.length) > 0 %}
+                                {{ 
+                                CCSRadios({
+                                    idPrefix: "save-search",
+                                    name: "savesearch",
+                                    items:form_Options,
+                                    error: error,
+                                        errorMessage: {
+                                            text: 'Option must be select.'
+                                        }
+                                    
+                                }) 
+                            }}
+
+                                {{ CCSInput({
+                                    classes:"new"
+                                        }) }}
+                                <br>
+                            Or
+                            <br>
+                                <br>
+                                <br>
+                            {% endif %}
+                            {{ 
+                                CCSRadios({
+                                    idPrefix: "save-search",
+                                    name: "savesearch",
+                                    items:form_Options_others,
+                                    error: error,
+                                        errorMessage: {
+                                            text: 'Option must be select'
+                                        }
+                                }) 
+                            }}
+
+
+                     {% else %}
+
+                        {% if (searchKeywords.length) > 0 %}
+                            {{ 
+                            CCSRadios({
+                                idPrefix: "save-search",
+                                name: "savesearch",
+                                items:form_Options
+                            }) 
+                        }}
+
+                            {{ CCSInput({
+                                  classes:"new"
+                                    }) }}
+                            <br>
+                        Or
+                        <br>
+                            <br>
+                            <br>
+                        {% endif %}
+                        {{ 
+                            CCSRadios({
+                                idPrefix: "save-search",
+                                name: "savesearch",
+                                items:form_Options_others
+                            }) 
+                        }}
+
+
+                     {% endif %}
+
+                   
+                        
+                   
+
+                    <div id="g_cloud_new_search_name" class="govuk-!-display-none">
+                        {{ CCSCharacterCount({           
+                            id: "search_name",
+                            name: "search_name",
+                            maxlength:250,
+                            rows:1,
+                            classes: "nameproject"
+                            })
+                        }}
+                    </div>
+
+                    <br>
+                    <span class="select_service_err"></span>
+                    {% if savedDetails | length > 0 %}
+                        <br><p><strong>Or</strong></p><br>
+                    {% endif %}
+                    {% for val in savedDetails %}
+
+                        {% set form_Options = (form_Options.push({
+                        value: val['assessment-id'],
+                        html: "<label class='govuk-label' for='gcloud_next_steps-2'><h3 class='govuk-heading-m'>"+ val.assessmentName +"</h3></label>"}), form_Options) 
+                    %}
+
+                    {% endfor %}
+                    {{ 
+                            CCSRadios({
+                               idPrefix: "save-search-name",
+                                name: "savesearch",
+                                items:form_Options
+                                     }) 
+                        }}
+
+                    <div class="govuk-button-group">
+
+                        {{ CCSButton({
+                            text: "Save and continue",
+                            name:"saveandcontinue",
+                            value:"saveandcontinue",
+                            action:"submit"
+                            })
+                        }}
+                         {{ CCSButton({
+                            text: "Save for later",
+                            name:"saveforlater",
+                            value:"saveforlater",
+                            action:"submit"
+                            })
+                        }}
+
+                        <a class="govuk-link" href="{{returnto}}">{{data.returnTo}}</a>
+                    </div>
+                </form>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                 <div class="ccs-callout-panel">
+          <h2 class="govuk-heading-m">Related content</h2>
+          <p class="govuk-body">
+            {% for item in data.related_content %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
+            {% endfor %}
+          </p>
+        </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

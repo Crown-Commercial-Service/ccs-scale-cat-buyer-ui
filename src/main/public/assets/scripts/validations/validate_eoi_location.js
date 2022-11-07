@@ -14,32 +14,40 @@ const ccsZvalidateEoiLocation = (event) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-
+  // console.log('va from eoi onload>>>>');
   if (document.getElementById("ccs_select_location") !== null || document.getElementById("rfi_location")!==null || document.getElementById("eoi_location")!==null ) {
-
-    let allCheckbox = document.getElementById("required_locations-14"),
+    nospeclocationCheckboxeseoi = document.querySelectorAll("input[name='required_locations']");
+    nospeclocationCheckboxeseoi.forEach((cl) => {
+      
+      if(cl.value === "No specific location, for example they can work remotely") {
+        noLocationtagideoi = cl.id;
+        console.log('va from rfi onload>>>>',noLocationtagideoi);
+      }
+      
+    })
+    let allCheckbox = document.getElementById(noLocationtagideoi),
       locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
 
     if (allCheckbox.checked) {
       locationCheckboxes.forEach((cb) => {
 
-        if (cb.value != noLocationTag) cb.disabled = true;
+        if (cb.value != allCheckbox.value) cb.disabled = true;
 
       });
     }
 
-    document.getElementById("required_locations-14").addEventListener('change', () => {
-      let allCb = document.getElementById("required_locations-14"),
+    document.getElementById(noLocationtagideoi).addEventListener('change', () => {
+      let allCb = document.getElementById(noLocationtagideoi),
         locationCheckboxes = document.querySelectorAll("input[name='required_locations']");
-
+        // console.log('va from eoi>>>>');
       locationCheckboxes.forEach((cb) => {
 
-        if (allCb.checked && cb.value != noLocationTag) {
+        if (allCb.checked && cb.value != allCb.value) {
           cb.checked = false;
           cb.disabled = true;
         }
 
-        if (!allCb.checked && cb.value != noLocationTag) {
+        if (!allCb.checked && cb.value != allCb.value) {
           cb.disabled = false;
         }
 

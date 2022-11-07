@@ -18,6 +18,9 @@ const ccsZvalidateRfiDocs = (event) => {
     else ccsZPresentErrorSummary(errorStore);
   };
 
+  
+
+  
 
   let inputLinks = $('#rfi_additional_link');
   inputLinks.on('keypress', ()=>{

@@ -8,6 +8,9 @@ import * as express from 'express'
  * @param req 
  * @param res 
  */
+
+
+
 export const Receiver = (req: express.Request, res: express.Response) => {
   //const { url } = req;
   const { supplier_qa_url } = req.session

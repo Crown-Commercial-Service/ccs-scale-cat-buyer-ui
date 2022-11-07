@@ -63,13 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
       allElements[i].classList.remove('nav-popup');
     }
   }
-/* 
+
   $('.dialog-close-vetting').on('click', function () {
     
     $(".backdrop-vetting").fadeOut(200);
     deselect($('.dialog-close-vetting'));
     return false;
-  }); */
+  });
 
   $('#redirect-button-vetting').on('click', function () {
     
@@ -77,35 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
     $(".backdrop-vetting").fadeOut(200);
     var route = this.name;
     if (route == 'Clear form') {
-      document.getElementsByClassName("govuk-error-summary")[0].classList.add('hide-block')
-      var errorLabel=document.getElementsByClassName("govuk-error-message")
-      if (errorLabel != null && errorLabel.length > 0) {
-        for(index=0;index<errorLabel.length;index++)
-        {
-          errorLabel[index].innerText =''
-        }
-      }
-      var inputError=document.getElementsByClassName("govuk-input--width-2")
-      if (inputError != null && inputError.length > 0) {
-        for(index=0;index<inputError.length;index++)
-        {
-          inputError[index].classList.remove('govuk-input--error')
-        }
-      }    
-      var groupError=document.getElementsByClassName("govuk-form-group")
-      if (groupError != null && groupError.length > 0) {
-        for(index=0;index<groupError.length;index++)
-        {
-          groupError[index].classList.remove('govuk-form-group--error')
-        }
-      } 
       clearAllTextboxes();
     } else {
       return false;
     }
   });
 
-/*   $('.nav-popup').on('click', function () {
+  $('.nav-popup').on('click', function () {
     
     if ($(this).hasClass('selected')) {
       deselect($(this));
@@ -129,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $(".backdrop-nav-menu").fadeOut(200);
     deselect($('.dialog-close-nav-menu'));
     return false;
-  }); */
+  });
 });
 
 
@@ -140,7 +118,6 @@ function clearAllTextboxes()
   for(var a =0; a < dimensions.length; a++){
     dimensions[a].value = ''  
   }
-  $('#totalPercentage').text('0');
 }
 
 $.fn.slideFadeToggle = function (easing, callback) {
@@ -153,7 +130,7 @@ const updateLocationTotal = dimensions => {
   let total = 0;
   dimensions.each(function () {
     
-    if (!isNaN($(this).val()) && $(this).val()>0 && !$(this).val().includes('.') && $(this).val()<=100) total = total + Number($(this).val());
+    if (!isNaN($(this).val()) && $(this).val()>0) total = total + Number($(this).val());
   });
   $('#totalPercentage').text(total);
 };
@@ -171,22 +148,22 @@ const ccsZvalidateDAWhereWorkDone = event => {
     let errMsg = "";   
     if (isNaN($(this).val())&&element.value != '')
     {
-      errMsg = "location weighting value must be an integer"
+      errMsg = "Dimension value entered must be an integer"
       emptycontent.push("false")
     }
     else if(element.value.includes('.')&& element.value != '')
     {
-      errMsg = "location weighting value must not contain decimal values"
+      errMsg = "Dimension value entered must not contain decimal values"
       emptycontent.push("false")
     }
     else if(element.value>100 && element.value != '')
     {
-      errMsg = "total weighting value must be <=100"
+      errMsg = "Dimension value entered must be <100"
       emptycontent.push("false")
     } 
     else if(element.value<=0 && element.value != '')
     {
-      errMsg = "Enter whole numbers only"
+      errMsg = "Dimension value entered must be >0"
       emptycontent.push("false")
     } 
      else if (element.value != '')
@@ -202,11 +179,11 @@ const ccsZvalidateDAWhereWorkDone = event => {
   });
   if( !emptycontent.length > 0)
   {
-      fieldCheck = ["","At least one location must be selected"]
+      fieldCheck = ["","Entry box must contain a value"]
       errorStore.push(fieldCheck);   
   }
   else if (total !== 100) {
-    fieldCheck = ["totalPercentage", "Your total weighting must add up to 100%"]
+    fieldCheck = ["totalPercentage", "Dimension value entered does not total to 100%"]
     errorStore.push(fieldCheck);
   }
   if (errorStore.length === 0) document.forms["da_where_work_done"].submit();
@@ -226,22 +203,22 @@ const ccsZvalidateCAWhereWorkDone = (event) => {
     let errMsg = "";   
     if (isNaN($(this).val())&&element.value != '')
     {
-      errMsg = "location weighting value must be an integer"
+      errMsg = "Dimension value entered must be an integer"
       emptycontent.push("false")
     }
     else if(element.value.includes('.')&& element.value != '')
     {
-      errMsg = "location weighting value must not contain decimal values"
+      errMsg = "Dimension value entered must not contain decimal values"
       emptycontent.push("false")
     }
     else if(element.value>100 && element.value != '')
     {
-      errMsg = "total weighting value must be <= 100%"
+      errMsg = "Dimension value entered must be <100"
       emptycontent.push("false")
     } 
     else if(element.value<=0 && element.value != '')
     {
-      errMsg = "Enter whole numbers only"
+      errMsg = "Dimension value entered must be >0"
       emptycontent.push("false")
     } 
      else if (element.value != '')
@@ -257,11 +234,11 @@ const ccsZvalidateCAWhereWorkDone = (event) => {
   });
   if( !emptycontent.length > 0)
   {
-      fieldCheck = ["","At least one location must be selected"]
+      fieldCheck = ["","Entry box must contain a value"]
       errorStore.push(fieldCheck);   
   }
   else if (total !== 100) {
-    fieldCheck = ["totalPercentage", "Your total weighting must add up to 100%"]
+    fieldCheck = ["totalPercentage", "Dimension value entered does not total to 100%"]
     errorStore.push(fieldCheck);
   }
   if (errorStore.length === 0) document.forms["ca_where_work_done"].submit();

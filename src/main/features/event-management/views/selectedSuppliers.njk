@@ -1,0 +1,115 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+{% from "components/dialog/macro.njk" import CCSDialog %}
+
+{% set title = 'Invite selected suppliers to stage 2: further assessment ' %}
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Your Dashboard",
+      "href": "/dashboard"
+    },
+        {
+            "text": "Your project",
+           "href": "/event/management?id="+eventId
+        },
+        {
+            "text": "Invite selected suppliers to stage 2: Further Competition",
+            "href": "#"
+        }
+  ]
+    }) }}
+{% endblock %}
+
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "You must fill all the fields."
+    }
+  ]
+}) }}
+{%endif %}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 id="page-heading" class="govuk-heading-xl">
+          <strong>{{title}}</strong>
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
+      <div>   
+        <p class="govuk-body"><h2><strong>Selected suppliers</h2></p>     
+        <p class="govuk-body">The suppliers below have responded to your published project.  You can download individual supplier responses or all responses. </p>
+        <br>
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">Supplier Name</th>
+              </tr>
+          </thead> 
+          {% for supplier in supplierData %}
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__cell">
+                    <p class="govuk-body govuk-!-margin-bottom-0">
+                        {{supplier.supplierName}}
+                    </p>
+                </th>
+            </tr> 
+          </tbody>   
+          {% endfor %}       
+        </table>
+      </div>
+
+
+
+      <form id="invite_short_list_suppliers" name="invite_short_list_suppliers" class="form invite_short_list_suppliers" action="/event/save-invite-selected-suppliers" method="POST">
+      {{ csrfProtection(csrf) }}
+        <div class="ccs-page-section">
+       
+
+                        {{ CCSCharacterCount({
+                            label: {
+                              text: "Notes for the shortlisting  ( optional )",
+                              classes: "govuk-label--m",
+                              name: "selected_suppliers"
+                            },
+                            hint: {
+                             text: "You may want to include notes about the shortlisting of suppliers "
+                            },
+                            
+                            id: "justification",
+                            name: "justification",
+                            spellcheck: true,
+                            classes: "messagesendcount",
+                            maxlength: "500"
+                        })
+                      }}
+                      
+                     <div class="govuk-button-group">
+                      <a  class="check-popup govuk-button govuk-link--no-underline"> Confirm selected suppliers for stage 2 Further Competition</a>
+                        <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">Cancel</a>
+                    </div>       
+
+
+
+      </form>
+</div>    
+</div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </main>
+        {% endblock %}

@@ -1,6 +1,7 @@
-//@ts-nocheck
+  //@ts-nocheck
 import * as express from 'express';
 import * as uploadData from '../../../resources/content/requirements/rfpUploadOverview.json';
+import * as Mcf3uploadData from '../../../resources/content/MCF3/requirements/rfpUploadOverview.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -26,7 +27,14 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
   let { selectedRoute } = req.session;//BALWINDER
   req.session['isJaggaerError'] = false;
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
-  const appendData = { data: uploadData, releatedContent, error: isJaggaerError };
+  
+    let forceChangeDataJson;
+    if(agreementId_session == 'RM6187') { //MCF3
+      forceChangeDataJson = Mcf3uploadData;
+    } else { 
+      forceChangeDataJson = uploadData;
+    }
+  const appendData = { data: forceChangeDataJson, releatedContent, error: isJaggaerError, agreementId_session };
   try {
     let flag=await ShouldEventStatusBeUpdated(eventId,30,req);
     if(flag)

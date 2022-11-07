@@ -4,6 +4,7 @@ import { REQUIREMENT_PATHS } from './model/requirementConstants';
 import { Application } from 'express';
 import { PreMarketEngagementMiddleware } from '../../common/middlewares/premarketservice/premarketengagement';
 import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch';
+//import * as express from 'express';
 
 export default function (app: Application): void {
   // This is the reciever callback after getting the token
@@ -11,10 +12,19 @@ export default function (app: Application): void {
 
   app.get(REQUIREMENT_PATHS.RFP_TYPE, [AUTH], REQUIREMENT_CONTROLLER.RFP_REQUIREMENT_TYPE);
 
+
+
   app.get(
     REQUIREMENT_PATHS.RFP_REQUIREMENT_TASK_LIST,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements, PreMarketEngagementMiddleware.PutPremarket],
     REQUIREMENT_CONTROLLER.RFP_REQUIREMENT_TASK_LIST,
+  );
+
+  //DOS6
+  app.get(
+    REQUIREMENT_PATHS.DOS6_STAGE2_TASK_LIST,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements, PreMarketEngagementMiddleware.PutPremarket],
+    REQUIREMENT_CONTROLLER.DOS6_STAGE2_TASK_LIST,
   );
 
   //@GET '/ca/task-list'
@@ -102,6 +112,27 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_NAME_PROJECT,
   );
 
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_ADDITIONAL_SERVICES,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_ADDITIONAL_SERVICES,
+  );
+
+  
+
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_CONFIRMATION_REVIEW,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_CONFIRMATION_REVIEW,
+  );
+
+  app.get(
+    REQUIREMENT_PATHS.RFP_GET_SELECTED_SERVICE,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    REQUIREMENT_CONTROLLER.RFP_GET_SELECTED_SERVICE,
+  );
+
+  
   //@Get '/ca/type'
   app.get(
     REQUIREMENT_PATHS.CA_TYPE,
@@ -131,6 +162,10 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_GET_ADD_COLLABORATOR,
   );
+
+
+
+ 
 
   //@GET '/ca/add-collaborators'
   app.get(
@@ -199,19 +234,19 @@ export default function (app: Application): void {
     REQUIREMENT_CONTROLLER.RFP_GET_ADD_CONTEXT,
   );
 
-  // /rfp/your-assesstment
+  // /rfp/your-assessment
   app.get(
     REQUIREMENT_PATHS.RFP_YOUR_ASSESSMENT,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_GET_YOUR_ASSESSTMENT,
   );
-  //rfp/your-assesstment-question -GET
+  //rfp/your-assessment-question -GET
   app.get(
     REQUIREMENT_PATHS.RFP_GET_YOUR_ASSESSMENT_QUESTION,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_Assesstment_GET_QUESTIONS,
   );
-  ///rfp/your-assesstment-question -POST
+  ///rfp/your-assessment-question -POST
   app.post(
     REQUIREMENT_PATHS.RFP_POST_YOUR_ASSESSMENT_QUESTION,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -244,6 +279,9 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.RFP_GET_I35,
   );
+
+
+
 
   app.get(
     REQUIREMENT_PATHS.CA_GET_WHERE_WORK_DONE,
@@ -475,6 +513,15 @@ export default function (app: Application): void {
  //@POST '/da/name'
  app.post(REQUIREMENT_PATHS.DA_POST_NAME_PROJECT, AUTH, REQUIREMENT_CONTROLLER.DA_POST_NAME_PROJECT);
 
+
+   //@POST '/rfp/select-services'
+   app.post(REQUIREMENT_PATHS.RFP_POST_SELECT_SERVICES, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_SELECTED_SERVICE);
+
+    //@POST '/rfp/select-additional-services
+   app.post(REQUIREMENT_PATHS.RFP_POST_ADDITIONAL_SELECT_SERVICES, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_ADDITIONAL_SELECT_SERVICES);
+
+   
+
   //@POST '/rfp/get-collaborator-detail'
   app.post(REQUIREMENT_PATHS.RFP_POST_ADD_COLLABORATOR, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_ADD_COLLABORATOR);
 
@@ -574,11 +621,11 @@ export default function (app: Application): void {
 
   app.post(REQUIREMENT_PATHS.RFP_POST_UPLOAD_PROCEED, AUTH, REQUIREMENT_CONTROLLER.RFP_POST_UPLOAD_PROCEED);
 
-  app.post(
-    REQUIREMENT_PATHS.CA_POST_REVIEW_RANKED_SUPPLIERS,
-    [AUTH],
-    REQUIREMENT_CONTROLLER.CA_POST_REVIEW_RANKED_SUPPLIERS,
-  );
+  app.get(REQUIREMENT_PATHS.RFP_GET_UPLOAD_ADDITIONAL, REQUIREMENT_CONTROLLER.RFP_GET_UPLOAD_ADDITIONAL);
+
+  app.post(REQUIREMENT_PATHS.RFP_POST_UPLOAD_ADDITIONAL,AUTH,REQUIREMENT_CONTROLLER.RFP_POST_UPLOAD_ADDITIONAL);
+
+  app.post(REQUIREMENT_PATHS.RFP_POST_UPLOAD_ADDITIONAL_PROCEED,AUTH,REQUIREMENT_CONTROLLER.RFP_POST_UPLOAD_ADDITIONAL_PROCEED );
 
   //@POST '/ca/learn-about-capability-assessment'
   app.post(REQUIREMENT_PATHS.CA_POST_LEARN, AUTH, REQUIREMENT_CONTROLLER.CA_POST_LEARN);
@@ -778,6 +825,8 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.GET_RFP_REVIEW,
   );
+
+  
   app.post(
     REQUIREMENT_PATHS.POST_RFP_REVIEW,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],

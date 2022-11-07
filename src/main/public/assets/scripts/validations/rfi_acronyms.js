@@ -4,11 +4,28 @@ if ($('#rfi_keyterm').length > 0) {
   $('.rfi_form').attr('name', 'ccs_rfi_acronyms_form');
 }
 
+const buttonTermsHidden = () => {
+  //Reload patch update
+  var allGo = document.querySelectorAll(".term_acronym_fieldset");
+  var countButtonHide = 0;
+  for (var i=0, max=allGo.length; i < max; i++) {
+      let classStage = allGo[i].getAttribute('class');
+      let classArr = classStage.split(" ");
+      let findClass = classArr.filter(el => el === 'ccs-dynaform-hidden');
+      if(findClass.length > 0) {
+        countButtonHide =+ countButtonHide + 1
+      }
+  }
+  if(countButtonHide == 0) {
+    if(document.getElementById("ccs_rfiTerm_add") !== null) {
+      document.getElementById("ccs_rfiTerm_add").classList.add('ccs-dynaform-hidden');
+    }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
-
   if (document.getElementById("ccs_rfi_acronyms_form") !== null) {
-
     let with_value_count = 10,
       prev_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
@@ -62,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         document.querySelector(".acronym_" + with_value_count).classList.remove("ccs-dynaform-hidden");
-        $(".rfi_term_label_cm").text("");
+
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
           //document.querySelector(".acronym_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
@@ -127,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //target_fieldset.classList.add("ccs-dynaform-hidden");
         document.getElementsByClassName('term_acronym_fieldset acronym_'+target)[0].classList.add("ccs-dynaform-hidden");
-        $("#rfi_term_label_"+target).text("Cleared Successfully");   
+
         document.getElementById('rfi_term_' + target).value = "";
         document.getElementById('rfi_term_definition_' + target).value = "";
 
@@ -197,8 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-
+  buttonTermsHidden();
 });
+
 const checkFields = () => {
   const start = 1;
   const end = 10;
@@ -235,22 +253,25 @@ const removeErrorFields = () => {
 
 }
 
+
+    
 const emptyFieldCheck = () => {
   let fieldCheck = "",
     errorStore = [];
-
   for (var x = 1; x < 11; x++) {
     let term_field = document.getElementById('rfi_term_' + x);
     let definition_field = document.getElementById("rfi_term_definition_" + x);
 
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFields();
-      if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
+      if (term_field.value.trim() != '' && definition_field.value.trim() == '') {
         ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
         fieldCheck = [definition_field.id, 'You must add information in both fields.'];
         errorStore.push(fieldCheck);
       }
-      if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
+      
+
+      if (term_field.value.trim() == '' && definition_field.value.trim() != '') {
         ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
         fieldCheck = [term_field.id, 'You must add information in both fields.'];
         errorStore.push(fieldCheck);
@@ -323,18 +344,4 @@ const ccsZvalidateRfiAcronyms = (event) => {
 
   }
 
-};
-
-
-const ccsZvalidateRfiUploadDoc = (event) => {
-  event.preventDefault();
-
-  if(document.getElementById("rfi_offline_document").value != "") {
-    document.forms["ccs_rfi_doc_upload_form"].submit();
-  }
- else 
- {
-  const errorStore = [["rfi_offline_document", "No file chosen please choose the files"]]
-  ccsZPresentErrorSummary(errorStore);
- }
 };

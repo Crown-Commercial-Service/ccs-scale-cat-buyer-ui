@@ -1,0 +1,60 @@
+{% extends "template.njk" %}
+
+{% set footerSupportLayer = true %}
+{% set fcaHelperLayer = true %}
+
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% block content %}
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl govuk-!-font-weight-bold">{{data.title}}</h1>
+  </div>
+</div>
+<div class="govuk-grid-row govuk-!-margin-bottom-5">
+  <div class="govuk-grid-column-full">
+    {% include "includes/project_header.njk" %}
+  </div>
+</div>
+ <div class="govuk-grid-row govuk-!-margin-bottom-5">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-panel govuk-panel--confirmation govuk-panel-dark">
+      <div class="govuk-!-margin-bottom-9">
+        <h1 class="govuk-panel__title">
+           {{ data.title2 }}
+        </h1>
+      </div>
+      <div class="govuk-!-margin-bottom-8 govuk-!-padding-top-5">
+        <div class="govuk-panel__body">
+          <strong class="govuk-!-font-size-24">{{data.title2_subtitle}} {{data.title2_subtitle_value}}</strong>
+        </div>
+      </div>
+        <p class="govuk-body">{{data.title2_line1}}<br> {{data.title2_line2}}</p>
+      </div>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full box-column">
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-2 govuk-!-font-size-27">{{title3}}</h2>
+    <ol class="govuk-list govuk-list--number">
+        {% for content in data.title3_contents %}  
+            <li>{{content.text}}</li>
+        {% endfor %}
+    </ol>
+  </div>
+</div>
+<div class="govuk-grid-row govuk-!-margin-top-9">
+  <div class="govuk-grid-column-full">
+  {{ CCSButton({
+    type: "a",
+    text: data.dashboard.title,
+    href: data.dashboard.href,
+    classes: "govuk-button-dark"
+  }) }}
+  </div>
+</div>
+</main>
+
+{% endblock %}

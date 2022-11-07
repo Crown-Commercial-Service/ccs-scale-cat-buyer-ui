@@ -3,7 +3,11 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 
 {% set title = 'How will you publish your RfI? | Contract Award Service' %}
-
+{% block head %}
+   {{ super() }}
+   <link rel="stylesheet" href="/assets/styles/styles.min.css">
+   <link rel="stylesheet" href="/assets/styles/govuk_fac_style.css">
+{% endblock %}
  <!--Commenting as per SCAT 4804-->
 <!--PLEASE ADD BELOW CONTENT IN ChooseRouje.json WHILE RUNNING FOR FCA/CA AND DA-->
 
@@ -70,12 +74,20 @@
                     {% set form_Options_Altered = [] %}
 
                     {% for item in formOptions %}
+
+                    {% if activeProjectEventType == item.value %}
+
+                        {% set activeChecked = "checked" %}
+
+                    {% endif %}
+
                         {% set form_Options_Altered = (form_Options_Altered.push(
              {
                value: item.value,
+              checked: activeChecked,
               html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
               hint : {
-                text: item.hint.text,
+                text: item.hint.text
 
               }
               }
@@ -91,6 +103,7 @@
                 idPrefix: "choose_eoi_type",
                 name: "choose_eoi_type",
                 items: form_Options_Altered,
+                radioIgnoreTopBorder: "Yes",
                 errorMessage: error,
                 errorMessage: {
                 text: 'Select an option'
@@ -101,7 +114,8 @@
             {{ CCSRadios({
                 idPrefix: "choose_eoi_type",
                 name: "choose_eoi_type",
-                items: form_Options_Altered        
+                items: form_Options_Altered,
+                radioIgnoreTopBorder: "Yes"         
               }) }}
         {%endif %}
 

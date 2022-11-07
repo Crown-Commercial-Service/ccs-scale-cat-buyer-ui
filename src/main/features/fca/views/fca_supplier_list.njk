@@ -1,0 +1,132 @@
+{% set footerSupportLayer = true %}
+{% set fcaHelperLayer = true %}
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% set title = 'Suppliers you want to approach | Crown Commercial Service' %}
+
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" href="/assets/styles/styles.min.css">
+	<link rel="stylesheet" href="/assets/styles/govuk_fac_style.css">
+{% endblock %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% block content %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+{{ CCSBreadcrumbs({
+        items: [
+        { "text": "Dashboard", "href": "/dashboard" },
+        { "text": "Choose a commercial agreement", "href": "/projects/choose-agreement" },
+        { "text": "Procurement overview", "href": url },
+        { "text": "See all suppliers for this lot", "href": "#" } ] 
+}) }}
+	
+	<main id="main-content" role="main" class="govuk-main-wrapper">
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-full">
+				<h3 class="govuk-heading-xl page-title">
+					{{data.title}}
+				</h3>
+			</div>
+		</div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+					<div class="govuk-grid-row">
+						<div class="govuk-grid-column-full">
+						{% include "includes/project_header.njk" %}
+						</div>
+					</div>
+	                <div class="govuk-inset-text">
+                    <p class="govuk-body">For more details on each supplier, visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers</a>
+                        <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website. 
+						The page will open in a new tab</p>
+						<p class="govuk-body">
+							Suppliers rate cards are only available through the supplier filtering tool.
+						</p>
+                </div>
+				<div class="govuk-fac-view fac-views">
+					<p class="govuk-body govuk-!-margin-bottom-0">{{data.line2 | safe }}</p>
+					<p class="govuk-body">{{data.line3}}</p>
+
+					<p class="govuk-body">{{data.line4}}</p>
+				</div>
+				<div class="govuk-fac-supplytitle">
+					<h3 class="govuk-heading-xl page-title">
+						{{data.line5}}
+					</h3>
+					<div>
+
+						<a href="/fca/supplier/list?download=1"><button class="govuk-button govuk-fac-button" type="button">
+							{{data.buttonText}}</button></a>
+
+						<a href="{{url}}" class="fac-view">{{data.returnTo}}
+						</a>
+					</div>
+				</div>
+
+				<ul class="govuk-list govuk-list--suppliers govuk-fac-inline-page">
+					{% for item in suppliers_list %}
+						<li>
+							<h3 class="govuk-heading-m ccs-heading-link ccs-font-weight-semibold govuk-!-font-size-24">
+								{# <a href="/fca/supplier/ratecard?supplierId={{item.organization.id}}&supplierName={{item.organization.name}}">{{item.organization.name}}</a> #}
+							{{item.organization.name}}
+							</h3>
+							<p class="govuk-list govuk-!-font-size-17featured ccs-framework-list">{{item.organization.name}}</p>
+						</li>
+					{% else %}
+						<p class="govuk-list govuk-!-font-size-17featured ccs-framework-list">Datas Not Found !</p>
+					{% endfor %}
+				</ul>
+			</div>
+
+		    <div class="govuk-grid-column-one-third">
+      			{{ CCSReleatedContent(releatedContent) }}
+    	    </div>
+			<div class="govuk-grid-column-full govuk-!-padding-bottom-5">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-one-half">
+                      <div>
+                        &nbsp;
+                      {% if(showPrevious) %}
+                      <p class="govuk-body govuk-!-margin-0">
+                        <a href="list?previous=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
+                          <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                            <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                          </svg>
+                          Previous Page</a>
+                      </p>
+                      <p class="govuk-body govuk-!-margin-0">
+                        <label class="govuk-!-font-size-16">{{currentpagenumber}} of {{noOfPages}}</label>
+                      </p>
+                      {% endif %}
+                      </div>
+                  </div>
+                  <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                      <div>
+                        &nbsp;
+                      {% if(showNext) %}
+                      <p class="govuk-body govuk-!-margin-0">
+                        <a href="list?next=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
+                          <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                            <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                          </svg>
+                          Next Page</a>
+                      </p>
+                      <p class="govuk-body govuk-!-margin-0">
+                        <label class="govuk-!-font-size-16">{{currentpagenumber}} of {{noOfPages}}</label>
+                      </p>
+                      {% endif %}
+                      </div>
+                  </div>
+                </div>
+              </div>
+    </div>
+
+		</div>
+	</main>
+{% endblock %}

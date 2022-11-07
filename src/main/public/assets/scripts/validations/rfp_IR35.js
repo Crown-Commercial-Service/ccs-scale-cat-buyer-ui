@@ -25,17 +25,9 @@ $('#rfp_IR35_form').on('submit', (event) => {
       document.forms["rfp_IR35_form"].submit();
     }
     else {
-      removeErrorFieldsRfpIR35();
-
-      errorStore=['ccs_vetting_type','You must confirm if you need a contracted out service or a supply of resource']
-
-      ccsZaddErrorMessage(document.getElementById("ccs_vetting_type"),'You must confirm if you need a contracted out service or a supply of resource');
-
+        removeErrorFieldsRfpIR35();
+        errorStore=['There is a problem','You must confirm if you need a contracted out service or a supply of resource']
       ccsZPresentErrorSummary([errorStore]);
-
     }
-
-
-    
   
   });

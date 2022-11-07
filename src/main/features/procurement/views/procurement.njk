@@ -17,44 +17,70 @@
       </div>
       <div class="govuk-grid-row">
          <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-            <div class="govuk-grid-column-full">
-               {% include "includes/project_header.njk" %}
+            <div class="govuk-grid-row">
+               <div class="govuk-grid-column-full">
+                  {% include "includes/project_header.njk" %}
+               </div>
             </div>
             <br>
-            <div class="govuk-inset-text">
-               <input type="hidden" id="scrollToButton" value="{{ScrollTo}}">
-               <p class="govuk-body">{{line1}}</p>
-               <p class="govuk-body">{{line2}}</p>
-               
-               <p class="govuk-body">{{line4}}
-                  <a class='govuk-link govuk-link--no-visited-state' target='_blank' href='{{ releatedContent.lotUrl }}'>{{line5}}</a>
-               </p>
+            <div class="govuk-grid-row govuk-!-margin-bottom-6">
+            <div class="govuk-grid-column-full">
+               <p class="govuk-body">{{line1| safe}}</p>
+               <p class="govuk-body">{{line2| safe}}</p>
+               {% if (agreementId_session == 'RM6187') %}
+                  <p class="govuk-body">Check the terms and conditions for this lot within the <a class='govuk-link govuk-link--no-visited-state' target='_blank' href='//www.crowncommercial.gov.uk/agreements/RM6187'>documents area</a> of the MCF3 agreement page.</p>
+               {% else %}
+                  <p class="govuk-body">{{line4}}
+                     <a class='govuk-link govuk-link--no-visited-state' target='_blank' href='{{ releatedContent.lotUrl }}'>{{line5}}</a>
+                  </p>
+               {% endif %}
+            </div>
             </div>
             <ol class="proc-task-list">
                {% for event in events %}
                   <li>
                      <h2 class="proc-task-list__section">
-                        <span class="proc-task-list__section-number">{{event.eventno}}.</span>
+                        <span class="proc-task-list__section-number">
+                           {% if (agreementId_session == 'RM1557.13') %}
+                              {{event.eventnoLabel}}.
+                           {% else %}
+                              {{event.eventno}}.
+                           {% endif %}
+                        </span>
                         {{event.eventTitle}}
-                        {% if (event.status === 'Optional') 
-                           or(event.status === 'TODO')or(event.status === 'DONE') %}
+                        {% if (event.status === 'Optional') and (agreementId_session != 'RM1557.13')
+                           or(event.status === 'TODO') and (agreementId_session != 'RM1557.13') or (event.status === 'DONE')  %}
+                           {% if (agreementId_session != 'RM1557.13') and (event.status === 'DONE') %}
+                           <strong class="govuk-tag govuk-tag--green app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
+                           {% else %}
                            <strong class="govuk-tag app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
-                        {% elif(event.status === 'In progress') %}
+                           {% endif %}
+                        {% elif( (event.status === 'In progress') and (agreementId_session != 'RM1557.13')) %}
                            <strong class="govuk-tag govuk-tag--blue app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
-                        {% else %}
+                        {% elif((agreementId_session != 'RM1557.13')) %}
+                           {% if((event.status != '')) %}
                            <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="suppliers-status">{{event.status}}</strong>
+                           {% endif %}
                         {% endif %}
                      </h2>
                      {% for section in event.sections %}
                         <p class="govuk-body">{{section | safe }}</p>
-                       {% if event.eventno == 1 %}
-                        <p class="govuk-body">This section is optional</p>
+                        {% if event.eventno == 1 %}
+                           {% if agreementId_session == 'RM6263' %}
+                              <p class="govuk-body">This section is optional</p>
+                           {% endif %}
                         {% endif %}
                      {% endfor %}
-                    {% for subSections in event.subsections %}
-                    
-                        {% if ((event.eventno === 2) and (loop.index0 === 0) and ('EOI' in types)) 
-                           or((event.eventno === 2) and (loop.index0 === 1) and ('RFI' in types))
+
+                     {% for subSections in event.subsections %}
+                        {% if (agreementId_session == 'RM6187') 
+                           or(agreementId_session == 'RM1557.13') %}
+                           {% for subSection in subSections %}
+                              <p class="govuk-body">{{subSection | safe }}</p>
+                           {% endfor %}
+                        {% else %}
+                           {% if ((event.eventno === 2) and (loop.index0 === 0) and ('EOI' in types)) 
+                              or((event.eventno === 2) and (loop.index0 === 1) and ('RFI' in types))
                         or((event.eventno === 3) and (loop.index0 === 0) and ('FC' in types))
                      
                         
@@ -67,8 +93,10 @@
                               <p class="govuk-body">{{subSection | safe }}</p>
                               {% endif %}
                            {% endfor %}
+                           {% endif %}
                         {% endif %}
-                     {% endfor %} 
+                     {% endfor %}
+
                      {%if event.note != undefined%}
                         <p class="govuk-body">{{ event.note | safe }}</p>
                      {% endif %}
@@ -85,10 +113,63 @@
                               {{event.buttonText}}
                            </button>
                         {% else %}
-                           {% if event.eventno === 1 %}
-                              <a hidden={{event.buttonText}} target="_blank" rel="noopener noreferrer" href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
-                                 {{event.buttonText}}
-                              </a>
+                           {% if (event.eventno === 1) 
+                              or(event.eventno === 82)or(event.eventno === 81) %}
+                              {% if agreementId_session == 'RM6187' %}
+
+                                 <div class="govuk-button-group">
+                                    {% if (event.status != 'DONE') %}
+                                       <a hidden={{event.buttonText1}} href={{event.href1}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                          {{event.buttonText1}}
+                                       </a>
+                                    {% else %}
+                                       <a hidden={{event.buttonText2}} href={{event.href2}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                          {{event.buttonText2}}
+                                       </a>
+                                    {% endif %}
+
+                                    <a class="govuk-link" rel="noopener noreferrer" href="/fca/supplier/list" aria-disabled="false" data-module="govuk-button">
+                                       {{event.buttonText}}
+                                    </a>
+                                 </div>
+
+                              {% elif agreementId_session == 'RM1557.13' %}
+
+                                 <div class="govuk-button-group">
+
+                                    {% if (event.eventTitle === 'Save a search') %}
+                                       <a class="govuk-button" rel="noopener noreferrer" href={{event.href}} aria-disabled="false" data-module="govuk-button">
+                                          {{event.buttonText}}
+                                       </a>
+                                       <a class="govuk-link" rel="noopener noreferrer" href={{event.href1}} aria-disabled="false" data-module="govuk-button">
+                                          {{event.buttonText1}}
+                                       </a>
+                                    {% else %}
+                                       <a class="govuk-link" rel="noopener noreferrer" href={{event.href}} aria-disabled="false" data-module="govuk-button">
+                                          {{event.buttonText1}}
+                                       </a>
+                                    {% endif %}
+
+                                 </div>
+
+                              {% else %}
+
+                               {% if agreementId_session == 'RM1043.8' %}
+                                 <div class="govuk-button-group">
+                                    <a hidden={{event.buttonText}} rel="noopener noreferrer" href={{event.href2}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                       {{event.buttonText}}
+                                    </a>
+                                 </div>
+                                {% else %}
+
+                                 <div class="govuk-button-group">
+                                    <a hidden={{event.buttonText}} target="_blank" rel="noopener noreferrer" href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                       {{event.buttonText}}
+                                    </a>
+                                 </div>
+                              {% endif %}
+                              {% endif %}
+
                            {% else %}
                               <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
                                  {{event.buttonText}}
@@ -103,7 +184,19 @@
             </ol>
          </div>
          <div class="govuk-grid-column-one-third">
-            {{ CCSReleatedContent(releatedContent) }}
+            {% if (agreementId_session == 'RM1557.13') %}
+                  <div class="ccs-callout-panel">
+          <h2 class="govuk-heading-m">Related content</h2>
+          <p class="govuk-body">
+            {% for item in related_content %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
+            {% endfor %}
+          </p>
+        </div>
+            {% else %}
+                  {{ CCSReleatedContent(releatedContent) }}
+            {% endif %}
+            
          </div>
       </div>
    </main>

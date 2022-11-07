@@ -14,7 +14,9 @@ $(document).ready(function () {
     const mq = window.matchMedia('(min-width: 40.0625em)');
     mq.addListener(WidthChange);
     WidthChange(mq);
+    
   }
+
 
   // media query change
   function WidthChange(mq) {
@@ -50,8 +52,47 @@ const ccsZvalidateRfiLocation = event => {
 
 // forms validation
 
-if (document.getElementById('ccs_response_date_form') !== null)
-  document.getElementById('ccs_response_date_form').addEventListener('submit', ccsZValidateResponseDate);
+$(".focusdata").click(function(){
+  
+  var $container = $("html,body");
+var $scrollTo = $('.focus-data');
+
+$container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop(), scrollLeft: 0},300);
+  
+});
+
+
+$("#getId").click(function(){
+  var myclass = $(this).hasClass("uncheck");
+   
+    if(myclass){
+      $("input[type='checkbox']").prop("checked", true);
+      $(this).removeClass("uncheck");
+      $(this).addClass("check");
+
+    }else{
+      $("input[type='checkbox']").prop("checked", false);
+      $(this).addClass("uncheck");
+      $(this).removeClass("check");
+    } 
+
+  
+});
+
+// $("#DOSgetId").click(function(){
+//   var myclass = $(this).hasClass("uncheck");
+//     if(myclass){
+//       $("input[type='checkbox']").prop("checked", true);
+//       $(this).removeClass("uncheck");
+//       $(this).addClass("check");
+
+//     }else{
+//       $("input[type='checkbox']").prop("checked", false);
+//       $(this).addClass("uncheck");
+//       $(this).removeClass("check");
+//     } 
+// });
+
 
 if (document.getElementById('ccs_login') !== null)
   document.getElementById('ccs_login').addEventListener('submit', ccsZvalidateLogin);
@@ -107,12 +148,12 @@ if (document.getElementById('rfi_projLongName') !== null)
   if (document.getElementById('enter_evaluation_score') !== null)
   document.getElementById('enter_evaluation_score').addEventListener('keypress', ccsZValidateDecimalScore);
 
-  if (document.getElementById('enter_evaluation') !== null)
-  document.getElementById('enter_evaluation').addEventListener('submit', ccsZvalidateFeedbackScore);
+  if (document.getElementById('enter_evaluation_feedback') !== null)
+  document.getElementById('enter_evaluation_feedback').addEventListener('submit', ccsZvalidateFeedback);
 
   
-  //  if (document.getElementById('enter_evaluation') !== null)
-  //  document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
+  if (document.getElementById('enter_evaluation_score') !== null)
+  document.getElementById('enter_evaluation_score').addEventListener('submit', ccsZvalidateScore);
 
 if (document.getElementById('ccs_eoi_project_name_form') !== null)
   document.getElementById('ccs_eoi_project_name_form').addEventListener('submit', ccsZvalidateEoiProjectName);
@@ -131,8 +172,8 @@ if (document.getElementById('ccs_rfi_type_form') !== null)
 if (document.getElementById('ccs_rfi_vetting_form') !== null)
   document.getElementById('ccs_rfi_vetting_form').addEventListener('submit', ccsZvalidateRfiSecurity);
 
-// if (document.getElementById('ccs_eoi_vetting_form') !== null)
-//   document.getElementById('ccs_eoi_vetting_form').addEventListener('submit', ccsZvalidateEoiSecurity);
+if (document.getElementById('ccs_eoi_vetting_form') !== null)
+  document.getElementById('ccs_eoi_vetting_form').addEventListener('submit', ccsZvalidateEoiSecurity);
 
 if (document.getElementById('ccs_ca_type_form') !== null)
   document.getElementById('ccs_ca_type_form').addEventListener('submit', ccsZvalidateCaaAssFCSecurity);
@@ -150,6 +191,9 @@ if (document.getElementById('da_where_work_done') !== null)
 
 if (document.getElementById('ccs_rfp_scoring_criteria') !== null)
   document.getElementById('ccs_rfp_scoring_criteria').addEventListener('submit', ccsZvalidateScoringCriteria);
+
+  if (document.getElementById('service_user_type_form') !== null)
+  document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateScoringCriteria2);
 // if (document.getElementById("ccs_rfi_dates_form") !== null) document.getElementById("ccs_rfi_dates_form").addEventListener('submit', ccsZvalidateRfiDates);
 
 if (document.getElementById('ccs_rfi_address_form') !== null) {
@@ -174,33 +218,15 @@ if (document.getElementById('ccs_rfi_next_steps') !== null)
   if (document.getElementById('evaluate_suppliers') !== null)
   document.getElementById('evaluate_suppliers').addEventListener('click', showEvaluateSuppliersPopup);
 
+   if (document.getElementById('supplierMsgCancel') !== null)
+   document.getElementById('supplierMsgCancel').addEventListener('click', supplierMsgCancelPopup);
+
+
 if (document.getElementById('rfi_contracting_auth') !== null)
   document.getElementById('rfi_contracting_auth').addEventListener('input', ccsZCountRfiWho);
 
   if (document.getElementById('ca_justification') !== null)
   document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
-
-  if (document.getElementById('ccs_da_menu_tabs_form') !== null)
-  document.getElementById('ccs_da_menu_tabs_form').addEventListener('submit', ccsZDAServiceCap);
-
-  if (document.getElementById('reply_subject_input') !== null)
-  document.getElementById('reply_subject_input').addEventListener('input', ccsZCountMsgReplyTextbox);
-
-  if (document.getElementById('reply_message_input') !== null)
-  document.getElementById('reply_message_input').addEventListener('input', ccsZCountMsgReplyTextArea);
-
-  if (document.getElementById('QA_Question_input') !== null)
-  document.getElementById('QA_Question_input').addEventListener('input', ccsZCountQAQuestionTextArea);
-
-  if (document.getElementById('message_Add_Clerification_input') !== null)
-  document.getElementById('message_Add_Clerification_input').addEventListener('input', ccsZCountQAClarificationTextArea);
-
-  if (document.getElementById('message_QA_Edit_Question_input') !== null)
-  document.getElementById('message_QA_Edit_Question_input').addEventListener('input', ccsZCountQAEditQuestionTextArea);
-
-  if (document.getElementById('message_QA_Edit_Answer_input') !== null)
-  document.getElementById('message_QA_Edit_Answer_input').addEventListener('input', ccsZCountQAEditClarificationTextArea);
-
 
 if (document.getElementById('ccs_eoi_about_proj') !== null)
   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
@@ -215,19 +241,19 @@ if (document.getElementById('ccs_rfi_docs_form') !== null)
 
 if (document.getElementById('ccs_rfi_questions_form') !== null)
   document.getElementById('ccs_rfi_questions_form').addEventListener('submit', ccsZvalidateRfIQuestions);
-
+  
 if (document.getElementById('ccs_eoi_questions_form') !== null)
   document.getElementById('ccs_eoi_questions_form').addEventListener('submit', ccsZvalidateEoIQuestions);
 
 if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateRfPStrategy);
 
-// if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
-//   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateTextArea);
-
-
 if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
-  document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);
+  // document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('submit', ccsZvalidateTextArea);
+
+
+// if (document.getElementById('ccs_rfp_exit_strategy_form') !== null)
+//   document.getElementById('ccs_rfp_exit_strategy_form').addEventListener('change', ccsZvalidateRfPChangeStrategy);
 
 if (document.getElementById('ccs_rfp_about_proj') !== null)
   document.getElementById('ccs_rfp_about_proj').addEventListener('submit', ccsZvalidateRfPAboutBG);
@@ -268,9 +294,9 @@ if (document.getElementById('ccs_eoi_acronyms_form') !== null)
 if (document.getElementById('ccs_rfp_acronyms_form') !== null)
   document.getElementById('ccs_rfp_acronyms_form').addEventListener('submit', ccsZvalidateRfpAcronymsRFP);
 
-  if (document.getElementById('service_user_type_form') !== null)
-  document.getElementById('service_user_type_form').addEventListener('submit', ccsZvalidateRfpUserType);
-  
+  // if (document.getElementById('ccs_rfp_acronyms_form') !== null)
+  // document.getElementById('ccs_rfp_acronyms_form').addEventListener('keydown', ccsZvalidateChangeRfpAcronymsRFP);
+
 
 if (document.getElementById('rfp_location') !== null)
   document.getElementById('rfp_location').addEventListener('submit', ccsZvalidateRfpLocation);
@@ -286,16 +312,7 @@ if (document.getElementById('ccs_rfi_acronyms_form') !== null)
 
 if (document.getElementById('ccs_eoi_date_form') !== null)
   document.getElementById('ccs_eoi_date_form').addEventListener('submit', ccsZvalidateEoiDate);
-  
 
-if (document.getElementById('ccs_message_create_form') !== null)
-  document.getElementById('ccs_message_create_form').addEventListener('submit', ccsZCreateMessageSubmit);
-
-  if (document.getElementById('ccs_rfi_publish_form') !== null)
-  document.getElementById('ccs_rfi_publish_form').addEventListener('submit', ccsZRFIPublishEventSubmit);
-
-  if (document.getElementById('ccs_rfp_publish_form') !== null)
-  document.getElementById('ccs_rfp_publish_form').addEventListener('submit', ccsZRFPPublishEventSubmit);
 
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
@@ -305,20 +322,19 @@ if (document.getElementById('rfp_percentage_form') !== null)
 if (document.getElementById('ccs_pre_award_supplier_form') !== null)
 document.getElementById('ccs_pre_award_supplier_form').addEventListener('submit', ccsZvalidateAward);
 
- //Award Supplier
- if (document.getElementById('ccs_award_supplier_form') !== null)
- document.getElementById('ccs_award_supplier_form').addEventListener('submit', ccsZvalidateConfirmAward);
-
 if (document.getElementById('ccs_standstill_period_form') !== null)
 document.getElementById('ccs_standstill_period_form').addEventListener('submit', ccsZvalidateStandStillPeriod);
+
+if (document.getElementById('ccs_da_project_name_form') !== null)
+  document.getElementById('ccs_da_project_name_form').addEventListener('submit', ccsZvalidateDaProjectName);
+
+  if (document.getElementById('da_projLongName') !== null)
+  document.getElementById('da_projLongName').addEventListener('input', ccsZCountDaProjectName);
 
 //if (document.getElementById('rfp_multianswer_question_form') !== null)
 // document.getElementById('rfp_multianswer_question_form').addEventListener('submit', "");
 //if (document.getElementById('service_levels_kpi_form') !== null)
   //document.getElementById('service_levels_kpi_form').addEventListener('submit', ccsZvalidateRfpKPI);
-
-  if (document.getElementById('ccs_rfi_doc_upload_form') !== null)
-document.getElementById('ccs_rfi_doc_upload_form').addEventListener('submit', ccsZvalidateRfiUploadDoc);
 
 if (document.querySelectorAll('.ons-list__item') !== null) ccsTabMenuNaviation();
 
@@ -332,7 +348,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('eoi_resource_start_date-year'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2023),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 2025),
 );
 setInputFilter(
   document.getElementById('eoi_duration-days'),
@@ -346,14 +362,13 @@ setInputFilter(
   document.getElementById('eoi_duration-years'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 4),
 );
-
 setInputFilter(
   document.getElementById('clarification_date-minute_2'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
 );
 setInputFilter(
   document.getElementById('clarification_date-hour_2'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
 );
 setInputFilter(
   document.getElementById('clarification_date-day_2'),
@@ -367,14 +382,13 @@ setInputFilter(
   document.getElementById('clarification_date-year_2'),
   value => /^\d*$/.test(value),
 );
-
 setInputFilter(
   document.getElementById('clarification_date-minute_3'),
   value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
 );
 setInputFilter(
   document.getElementById('clarification_date-hour_3'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
 );
 setInputFilter(
   document.getElementById('clarification_date-day_3'),
@@ -395,7 +409,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-hour_4'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
 );
 setInputFilter(
   document.getElementById('clarification_date-day_4'),
@@ -416,7 +430,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('clarification_date-hour_5'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
 );
 setInputFilter(
   document.getElementById('clarification_date-day_5'),
@@ -431,26 +445,1055 @@ setInputFilter(
   value => /^\d*$/.test(value),
 );
 
-for(var i=6;i<=11;i++)
-{
-  setInputFilter(
-    document.getElementById('clarification_date-minute_'+i),
-    value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
-  );
-  setInputFilter(
-    document.getElementById('clarification_date-hour_'+i),
-    value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
-  );
-  setInputFilter(
-    document.getElementById('clarification_date-day_'+i),
-    value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
-  );
-  setInputFilter(
-    document.getElementById('clarification_date-month_'+i),
-    value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
-  );
-  setInputFilter(
-    document.getElementById('clarification_date-year_'+i),
-    value => /^\d*$/.test(value),
-  );
+
+setInputFilter(
+  document.getElementById('clarification_date-minute_6'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
+);
+setInputFilter(
+  document.getElementById('clarification_date-hour_6'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
+);
+setInputFilter(
+  document.getElementById('clarification_date-day_6'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('clarification_date-month_6'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+);
+setInputFilter(
+  document.getElementById('clarification_date-year_6'),
+  value => /^\d*$/.test(value),
+);
+
+setInputFilter(
+  document.getElementById('clarification_date-minute_7'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
+);
+setInputFilter(
+  document.getElementById('clarification_date-hour_7'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
+);
+setInputFilter(
+  document.getElementById('clarification_date-day_7'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('clarification_date-month_7'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+);
+setInputFilter(
+  document.getElementById('clarification_date-year_7'),
+  value => /^\d*$/.test(value),
+);
+
+setInputFilter(
+  document.getElementById('clarification_date-minute_8'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
+);
+setInputFilter(
+  document.getElementById('clarification_date-hour_8'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
+);
+setInputFilter(
+  document.getElementById('clarification_date-day_8'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('clarification_date-month_8'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+);
+setInputFilter(
+  document.getElementById('clarification_date-year_8'),
+  value => /^\d*$/.test(value),
+);
+
+setInputFilter(
+  document.getElementById('clarification_date-minute_9'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
+);
+setInputFilter(
+  document.getElementById('clarification_date-hour_9'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
+);
+setInputFilter(
+  document.getElementById('clarification_date-day_9'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('clarification_date-month_9'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+);
+setInputFilter(
+  document.getElementById('clarification_date-year_9'),
+  value => /^\d*$/.test(value),
+);
+
+setInputFilter(
+  document.getElementById('clarification_date-minute_10'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
+);
+setInputFilter(
+  document.getElementById('clarification_date-hour_10'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
+);
+setInputFilter(
+  document.getElementById('clarification_date-day_10'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('clarification_date-month_10'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+);
+setInputFilter(
+  document.getElementById('clarification_date-year_10'),
+  value => /^\d*$/.test(value),
+);
+
+setInputFilter(
+  document.getElementById('clarification_date-minute_11'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
+);
+setInputFilter(
+  document.getElementById('clarification_date-hour_11'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
+);
+setInputFilter(
+  document.getElementById('clarification_date-day_11'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('clarification_date-month_11'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+);
+setInputFilter(
+  document.getElementById('clarification_date-year_11'),
+  value => /^\d*$/.test(value),
+);
+
+setInputFilter(
+  document.getElementById('clarification_date-minute_12'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
+);
+setInputFilter(
+  document.getElementById('clarification_date-hour_12'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
+);
+setInputFilter(
+  document.getElementById('clarification_date-day_12'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('clarification_date-month_12'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+);
+setInputFilter(
+  document.getElementById('clarification_date-year_12'),
+  value => /^\d*$/.test(value),
+);
+
+setInputFilter(
+  document.getElementById('clarification_date-minute_13'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 60),
+);
+setInputFilter(
+  document.getElementById('clarification_date-hour_13'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 23),
+);
+setInputFilter(
+  document.getElementById('clarification_date-day_13'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('clarification_date-month_13'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+);
+setInputFilter(
+  document.getElementById('clarification_date-year_13'),
+  value => /^\d*$/.test(value),
+);
+
+setInputFilter(
+  document.getElementById('rfp_resource_start_date_day_Question11'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('rfp_resource_start_date_month_Question 11'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 12),
+);
+setInputFilter(
+  document.getElementById('rfp_resource_start_date_year_Question 11'),
+  value => /^\d*$/.test(value),
+);
+
+//g13Check Script
+
+function parseQueryG13(query) {
+  object = {};  
+  if (query.indexOf('?') != -1){
+    query = query.split('?');		
+    query = query[1];
+  }
+  parseQuery = query.split("&");
+  for (var i = 0; i < parseQuery.length; i++) {
+      pair = parseQuery[i].split('=');
+      key = decodeURIComponent(pair[0]);
+      if (key.length == 0) continue;
+      value = decodeURIComponent(pair[1].replace("+"," "));
+      if (object[key] == undefined) object[key] = value;
+      else if (object[key] instanceof Array) object[key].push(value);
+      else object[key] = [object[key],value];
+  }
+  return object;
+};
+
+const tune = (obj) => {
+  let emptyArr = [];
+  for (const key in obj) { 
+    if(typeof(obj[key]) == 'object') { 
+      let newArr = obj[key]; 
+      for(let i = 0; i < newArr.length; i++) { 
+        emptyArr.push({'key': key, 'value': newArr[i]}); } } else { emptyArr.push({'key': key, 'value': obj[key]}); } }
+  return emptyArr;
 }
+
+function g13ServiceQueryFliterJquery(queryObj, baseUrl, overUrl) {
+  
+    let outQueryUrl = "";
+    let overName = overUrl.name;
+
+    let overValue = overUrl.value;
+    let overType = overUrl.type;
+   
+    if(queryObj.length > 0) {
+      if(overType == 'unchecked') {
+        let compareVal = overValue;
+        let compareName = overName;
+        let finalObj = [];
+        queryObj.find((el) => {
+
+       if(el.value != compareVal || el.key != compareName) { 
+          finalObj.push(el); 
+        } 
+      });
+        queryObj = finalObj;
+      }
+  
+      queryObj.forEach((el, i) => {
+          let key = el.key;
+          let value = el.value;
+          if(i == 0) {
+              if(key != '') {
+                  outQueryUrl += `?${key}=${value}`;
+              }
+          } else {
+              outQueryUrl += `&${key}=${value}`;
+          }
+          if(i == queryObj.length - 1) {
+            if(overType == 'checked' || overType == 'categoryClicked') {
+              if(key != '') {
+                outQueryUrl += `&${overName}=${overValue}`;
+              } else {
+                outQueryUrl += `?${overName}=${overValue}`;
+              }
+            }
+          }
+      });
+    } else {
+      if(overValue != '') {
+        outQueryUrl += `?${overName}=${overValue}`;
+      }
+    }
+    
+    
+    return outQueryUrl;
+}
+document.querySelectorAll(".clickCategory").forEach(function(event) {
+  event.addEventListener('click', function() {
+    let eventFilterType = 'categoryClicked';
+    let filterName = this.getAttribute("data-name");
+    let filterValue = this.getAttribute("data-value");
+    let urlObj = parseQueryG13(document.location.search);
+    urlObj = tune(urlObj);
+    let baseUrl = window.location.href.split('?')[0];
+    let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+    window.location.href = `${baseUrl}${finalTriggerUrl}`;
+  });
+});
+
+if(document.querySelectorAll('.serviceCategory')) {
+  document.querySelectorAll(".serviceCategory").forEach(function(event) {
+    event.addEventListener('click', function() {
+      let eventFilterType = 'serviceCategoryClicked';
+      let filterName = this.getAttribute('data-name');
+      let filterValue = this.getAttribute('data-value');
+      let urlObj = parseQueryG13(document.location.search);
+      urlObj = tune(urlObj);
+
+      let finalObj = [];
+      urlObj.find((el) => {
+      if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+      urlObj = finalObj;
+      urlObj.push({"key":"serviceCategories","value":filterValue});
+
+      let baseUrl = window.location.href.split('?')[0];
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      window.location.href = `${baseUrl}${finalTriggerUrl}`;
+    });
+  });
+}
+
+if(document.querySelectorAll('.parentCategory')) {
+  document.querySelectorAll(".parentCategory").forEach(function(event) {
+    event.addEventListener('click', function() {
+      let eventFilterType = 'parentCategoryClicked';
+      let filterName = this.getAttribute('data-name');
+      let filterValue = this.getAttribute('data-value');
+      let urlObj = parseQueryG13(document.location.search);
+      urlObj = tune(urlObj);
+
+      let condtionParentCat = urlObj.find(el => el.key === 'parentCategory');
+      if(condtionParentCat === undefined) {
+        let serviceCategory = urlObj.find(el => el.key === 'serviceCategories');
+        urlObj.push({"key":"parentCategory","value":serviceCategory.value});
+        urlObj.splice(urlObj.findIndex(({key}) => key == "serviceCategories"), 1);
+        urlObj.push({"key":"serviceCategories","value":filterValue});
+      } else {
+        let finalObj = [];
+        urlObj.find((el) => {
+        if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+        urlObj = finalObj;
+        urlObj.push({"key":"serviceCategories","value":filterValue});
+      }
+
+      let baseUrl = window.location.href.split('?')[0];
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      window.location.href = `${baseUrl}${finalTriggerUrl}`;
+    });
+  });
+}
+
+function titleCase(str) {
+  return str.toLowerCase().split(' ').map(function(word) {
+    return word.replace(word[0], word[0].toUpperCase());
+  }).join(' ');
+}
+
+function removeURLParameter(url, parameter) {
+  //prefer to use l.search if you have a location/link object
+  var urlparts= url.split('?');   
+  if (urlparts.length>=2) {
+
+      var prefix= encodeURIComponent(parameter)+'=';
+      var pars= urlparts[1].split(/[&;]/g);
+
+      //reverse iteration as may be destructive
+      for (var i= pars.length; i-- > 0;) {    
+          //idiom for string.startsWith
+          if (pars[i].lastIndexOf(prefix, 0) !== -1) {  
+              pars.splice(i, 1);
+          }
+      }
+
+      url= urlparts[0]+'?'+pars.join('&');
+      return url;
+  } else {
+      return url;
+  }
+}
+
+document.querySelectorAll(".g13Check").forEach(function(event) {
+    event.addEventListener('change', function(event) {
+      let eventFilterType;
+      let filterName = this.getAttribute('name');//$(this).attr("name");
+      let filterValue = this.getAttribute('value');//$(this).attr("value");
+      if(this.checked) { eventFilterType = 'checked'; } else { eventFilterType = 'unchecked'; }
+      let urlParams=removeURLParameter(document.location.search, 'page');
+      let urlObj = parseQueryG13(urlParams);
+      urlObj = tune(urlObj);
+      let baseUrl = window.location.href.split('?')[0];
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+
+      //url change
+      const baseSearchUrl = '/g-cloud/search';
+      window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${finalTriggerUrl}`);
+      
+      
+      // document.getElementById('searchResultsContainer').innerHTML = '';
+      document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+      document.getElementById('paginationContainer').innerHTML = '';
+      let slist = document.querySelector('.govuk-grid-sresult-right');
+      slist.classList.add('loadingres')
+      $('#criteriasavebtn').prop('disabled',true);
+      const baseAPIUrl = '/g-cloud/search-api';
+      $.ajax({
+          url: `${baseAPIUrl}${finalTriggerUrl}`,
+          type: "GET",
+          contentType: "application/json",
+      }).done(function (result) {
+       
+        $('#criteriasavebtn').prop('disabled',false);
+        $('#criteriasavebtn').removeClass('govuk-button--disabled');
+        $("#clearfilter").attr("href", result.clearFilterURL);
+        if(result.data.meta.total > 0) {
+          slist.classList.remove('loadingres')
+          getCriterianDetails(result.data.meta.total);
+            document.getElementById('rightSidefooterCotainer').innerHTML = '';
+                
+
+            var mainLothtml = '';
+            if(result.njkDatas.haveLot) {
+            mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
+            }else {
+            mainLothtml += '<strong>All Categories</strong>'
+            mainLothtml += '<ul class="govuk-list">'
+            result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+              mainLothtml +='<li><a data-name="lot" data-value="'+ lotwithcount.slug+'" class="govuk-link clickCategory" style="cursor: pointer !important;">'+ titleCase(lotwithcount.key)+ ' (' +lotwithcount.count+')</a></li>';
+            })
+            mainLothtml +='</ul>'
+          } 
+
+            if(result.njkDatas.haveLot){
+            mainLothtml += '<ul class="govuk-list">'
+              if(result.njkDatas.haveserviceCategory){ 
+                mainLothtml +=  '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+ result.njkDatas.lotInfos.slug+'">'+ result.njkDatas.lotInfos.label+'</a>'
+              }else{
+                mainLothtml +=  '<li><strong>'+ titleCase(result.njkDatas.lotInfos.label)+' </strong></li>'
+              }
+              if(result.njkDatas.lotInfos.currentparentCategory){
+              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+result.njkDatas.lotInfos.slug+'&serviceCategories='+ result.njkDatas.lotInfos.currentparentCategory+'">'+ titleCase(result.njkDatas.lotInfos.currentparentCategory) +'</a></p>';
+              }
+
+            mainLothtml += '<li>';
+            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+            mainLothtml +=  '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+            result.njkDatas.lotInfos.subservices.forEach(subservice => {
+              if(subservice.childrenssts) {
+                        if(result.njkDatas.lotInfos.currentparentCategory) {
+                          mainLothtml += '<li>';
+                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                              subservice.childrens.forEach(child => {
+                                if(child.value == result.njkDatas.lotInfos.currentserviceCategory ) {
+                                    mainLothtml += '<li><strong>'+ child.label+' ('+child.count+')</strong></li>';
+                                  } else {
+                                    var childVal = child.value.split(' ').join('+');
+                                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="'+child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
+                                  }
+                                }); 
+                                mainLothtml += '</ul>';
+                            mainLothtml += '</ul>';
+                        } else {
+                          mainLothtml += '<li>';
+                          mainLothtml += '<strong>'+ titleCase(result.njkDatas.lotInfos.currentserviceCategory) +'</strong>';
+                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                              subservice.childrens.forEach(child => {
+                                var childVal = child.value.split(' ').join('+');
+                                mainLothtml +=  '<li><a class="govuk-link parentCategory" data-name="'+ child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
+                                }); 
+                          mainLothtml += '</ul>';
+                          mainLothtml += '</ul>';
+                        }
+                        mainLothtml += '</li>';
+                } else {
+
+                      if(subservice.value == result.njkDatas.lotInfos.currentserviceCategory ) {
+                        mainLothtml +=  '<li><strong>'+subservice.label+'</strong></li>';
+                      } else {
+                        if(subservice.name !== 'supportMultiCloud' ) {
+                          var subserviceValue = subservice.value.split(' ').join('+');
+                          mainLothtml +=  '<li><a class="govuk-link serviceCategory" data-name="'+ subservice.name +'" data-value="'+ subserviceValue +'">'+subservice.label+  '('+ subservice.count +')</a></li>';
+                        }
+                      }
+                }
+              }); 
+              mainLothtml += '</ul>';
+              mainLothtml += '</ul>';
+              mainLothtml += '</li>';
+              mainLothtml += '</ul>';
+          }
+          document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
+          
+            var searchresultshtml = '';
+            searchresultshtml +=  '<div class="govuk-grid-row">';
+            searchresultshtml +=  '<div class="govuk-grid-column-full">';
+            searchresultshtml +=  '<ul class="govuk-list govuk-supplier-list">';
+            result.data.documents.forEach(element => {
+            searchresultshtml +=  '<li class="app-search-result">'
+                                    +'<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
+                                    +'<a class="govuk-link" href="/g-cloud/services?id='+element.id+'">'+ element.serviceName+'</a>'
+                                    +'</h2>'
+                                    +'<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">'+ element.supplierName+'</p>'
+                                    +'<p class="govuk-body govuk-!-font-size-16">'+ element.serviceDescription+'</p>'
+                                    +'<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
+                                    +'<li class="govuk-!-display-inline govuk-!-padding-right-4">'+ element.lotName+'</li>'
+                                    +'<li class="govuk-!-display-inline">'+ element.frameworkName+'</li>'
+                                    +'</ul>'
+                                    +'</li>';
+
+          });
+          searchresultshtml +=  '<div>';
+          searchresultshtml +=  '<div>';
+          searchresultshtml +=  '<ul>';
+          document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
+
+          var paginationHtml = ''
+          paginationHtml += '<div class="govuk-grid-row">';
+          paginationHtml += '<div class="govuk-grid-column-full">';
+          paginationHtml += '<div class="govuk-grid-column-one-half">';
+          paginationHtml += '<div>';
+          paginationHtml += '&nbsp;';
+            if(result.njkDatas.PrvePageUrl != ''){
+              if(result.njkDatas.CurrentPageNumber != 1){
+              paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+              paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.PrvePageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+              paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+              paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+              paginationHtml += '</svg>';
+              paginationHtml += 'Previous Page</a>';
+              paginationHtml += '</p>';
+              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber - 1) +' of '+ result.njkDatas.noOfPages+'</label></p>  ';
+            }
+          }
+          paginationHtml += '</div>';
+          paginationHtml += '</div>';
+  
+          paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+          paginationHtml += '<div>';
+          paginationHtml += '&nbsp;';
+          if(result.njkDatas.NextPageUrl != ''){
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+          paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.NextPageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+          paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+          paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+          paginationHtml += '</svg>';
+          paginationHtml += 'Next Page</a>';
+          paginationHtml += '</p>';
+          }
+          //paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber + 1) +' of '+ result.njkDatas.noOfPages+'</label></p>';
+          if(result.njkDatas.noOfPages=='0' || result.njkDatas.noOfPages =='1'){
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of 1</label></p>';
+          }else{
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of '+ result.njkDatas.noOfPages+'</label></p>';
+          }
+          paginationHtml += '</div>';
+          paginationHtml += '</div>';
+          paginationHtml += '</div>';
+          paginationHtml += '</div>';
+          document.getElementById('paginationContainer').innerHTML = paginationHtml;
+        }else{
+          $('#criteriasavebtn').prop('disabled',true);
+          slist.classList.remove('loadingres')
+          getCriterianDetails(0);
+          document.getElementById('searchResultsContainer').innerHTML = '';
+          
+         
+
+          document.getElementById('rightSidefooterCotainer').innerHTML = ''; 
+          var Noresulthtml = '';
+          Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+          Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+          Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+          Noresulthtml += '</li>removing filters</li><br>';
+          Noresulthtml += '</li>choosing a different category</li><br>';
+          Noresulthtml += '</li>double-checking your spelling</li><br>';
+          Noresulthtml += '</li>using fewer keywords</li><br>';
+          Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
+          Noresulthtml += '</ul>';
+          Noresulthtml += '</ul>';
+          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml; 
+        }
+
+        loadQuerySelector();
+        
+      }).fail((res) => {
+          // let div_email = document.getElementById('eoi-lead-email');
+          // div_email.innerText = '';
+      })
+
+     // window.location.href = `${baseUrl}${finalTriggerUrl}`;
+    });
+});
+
+window.addEventListener('DOMContentLoaded', (event) => {
+  
+  if(document.getElementById('searchQuery')) document.getElementById('searchQuery').value = window.location.search;
+  
+  let criteriasavebtn = document.getElementById('criteriasavebtn');
+  if(criteriasavebtn){
+    criteriasavebtn.addEventListener('click',function (e) {
+      if(document.getElementById('searchQuery')){
+        document.getElementById('searchQuery').value = window.location.search;
+      }
+    })
+  }
+
+  document.querySelectorAll(".paginationUrlClass").forEach(el => {
+    el.addEventListener('click',function (e) {
+      let searchQueryUrl = "";
+      let searchValue  = document.getElementsByClassName("g13_search"); //$('.g13_search').val();
+      let urlObj = parseQueryG13(document.location.search);
+      urlObj = tune(urlObj);
+      let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
+      if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+      if(searchValue.length > 0) urlObj.unshift({"key":"q","value":searchValue})
+        let baseUrl = window.location.href.split('?')[0];
+        urlObj.forEach((el, i) => {
+          let key = el.key;
+          let value = el.value;
+          if(i == 0) {
+              if(key != '') {
+                  searchQueryUrl += `?${key}=${value}`;
+              }
+          } else {
+              searchQueryUrl += `&${key}=${value}`;
+          }
+        });
+        window.location.href = `${baseUrl}${searchQueryUrl}`;
+    });
+  });
+
+  const removeErrorFieldsEoiTerms = () => {
+    $('.govuk-error-message').remove();
+    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+    $('.govuk-error-summary').remove();
+    $(".govuk-input").removeClass("govuk-input--error");
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+  
+  }
+
+  var Searchinput = document.getElementsByClassName("g13_search")[0];
+  if(Searchinput){
+    Searchinput.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementsByClassName("g13_search_click")[0].click();
+      }
+    });
+  }
+
+  
+  if(document.querySelector(".g13_search_click")){
+
+    document.querySelector(".g13_search_click").addEventListener('click', function() {
+      removeErrorFieldsEoiTerms();
+      let searchQueryUrl = "";
+      document.getElementById('searchQuery').value = window.location.search;
+      let searchValue  = document.getElementsByClassName("g13_search");
+      let definition_field = document.getElementById("with-hint");
+      if(searchValue[0].value.length > 250){
+        ccsZaddErrorMessage(definition_field, 'Keywords must be 250 characters or fewer.');
+        return false;
+      }
+      let urlParams=removeURLParameter(document.location.search, 'page');
+      let urlObj = parseQueryG13(urlParams);
+      urlObj = tune(urlObj);
+      let DuplicateSearchObj = urlObj.find(o => o.key === 'q');
+      if(DuplicateSearchObj) urlObj.splice(DuplicateSearchObj, 1);
+      if(searchValue[0].value.length > 0) urlObj.unshift({"key":"q","value":searchValue[0].value})
+        let baseUrl = window.location.href.split('?')[0];
+        urlObj.forEach((el, i) => {
+          let key = el.key;
+          let value = el.value;
+          if(i == 0) {
+              if(key != '') {
+                  searchQueryUrl += `?${key}=${value}`;
+              }
+          } else {
+              searchQueryUrl += `&${key}=${value}`;
+          }
+        });
+
+        //url change
+        const baseSearchUrl = '/g-cloud/search';
+        window.history.pushState({"html":"","pageTitle":""},"", `${baseSearchUrl}${searchQueryUrl}`);
+  
+        document.getElementById('searchResultsContainer').innerHTML = '';
+        document.getElementById('mainLotandcategoryContainer').innerHTML = '';
+        document.getElementById('paginationContainer').innerHTML = '';
+        const baseAPIUrl = '/g-cloud/search-api';
+        let slist = document.querySelector('#searchResultsContainer');
+        slist.classList.add('loadingres')
+        $('#criteriasavebtn').prop('disabled',true);
+         $.ajax({
+             url: `${baseAPIUrl}${searchQueryUrl}`,
+             type: "GET",
+             contentType: "application/json",
+         }).done(function (result) {
+          $('#criteriasavebtn').prop('disabled',false);
+          $('#criteriasavebtn').removeClass('govuk-button--disabled');
+          $("#clearfilter").attr("href", result.clearFilterURL);
+          if(result.data.meta.total > 0) {
+            slist.classList.remove('loadingres')
+            getCriterianDetails(result.data.meta.total);
+            document.getElementById('rightSidefooterCotainer').innerHTML = '';
+            
+            var mainLothtml = '';
+            if(result.njkDatas.haveLot) {
+            mainLothtml = '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>';
+            }else {
+            mainLothtml += '<strong>All Categories</strong>'
+            mainLothtml += '<ul class="govuk-list">'
+            result.njkDatas.lotInfos.lots.forEach(lotwithcount => {
+              mainLothtml +='<li><a data-name="lot" data-value="'+ lotwithcount.slug+'" class="govuk-link clickCategory" style="cursor: pointer !important;">'+ titleCase(lotwithcount.key)+ ' (' +lotwithcount.count+')</a></li>';
+            })
+            mainLothtml +='</ul>'
+          } 
+
+            if(result.njkDatas.haveLot){
+            mainLothtml += '<ul class="govuk-list">'
+              if(result.njkDatas.haveserviceCategory){ 
+                mainLothtml +=  '<a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+ result.njkDatas.lotInfos.slug+'">'+ result.njkDatas.lotInfos.label+'</a>'
+              }else{
+                mainLothtml +=  '<li><strong>'+ titleCase(result.njkDatas.lotInfos.label)+' </strong></li>'
+              }
+              if(result.njkDatas.lotInfos.currentparentCategory){
+              mainLothtml += '<p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot='+result.njkDatas.lotInfos.slug+'&serviceCategories='+ result.njkDatas.lotInfos.currentparentCategory+'">'+ titleCase(result.njkDatas.lotInfos.currentparentCategory) +'</a></p>';
+              }
+
+            mainLothtml += '<li>';
+            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+            mainLothtml +=  '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+            result.njkDatas.lotInfos.subservices.forEach(subservice => {
+              if(subservice.childrenssts) {
+                        if(result.njkDatas.lotInfos.currentparentCategory) {
+                          mainLothtml += '<li>';
+                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                            mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                              subservice.childrens.forEach(child => {
+                                if(child.value == result.njkDatas.lotInfos.currentserviceCategory ) {
+                                    mainLothtml += '<li><strong>'+ child.label+' ('+child.count+')</strong></li>';
+                                  } else {
+                                    var childVal = child.value.split(' ').join('+');
+                                    mainLothtml += '<li><a class="govuk-link parentCategory" data-name="'+child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
+                                  }
+                                }); 
+                                mainLothtml += '</ul>';
+                            mainLothtml += '</ul>';
+                        } else {
+                          mainLothtml += '<li>';
+                          mainLothtml += '<strong>'+ titleCase(result.njkDatas.lotInfos.currentserviceCategory) +'</strong>';
+                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+                          mainLothtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+                              subservice.childrens.forEach(child => {
+                                var childVal = child.value.split(' ').join('+');
+                                mainLothtml +=  '<li><a class="govuk-link parentCategory" data-name="'+ child.name+'" data-value="'+ childVal +'">'+child.label+'('+child.count+')</a></li>';
+                                }); 
+                          mainLothtml += '</ul>';
+                          mainLothtml += '</ul>';
+                        }
+                        mainLothtml += '</li>';
+                } else {
+
+                      if(subservice.value == result.njkDatas.lotInfos.currentserviceCategory ) {
+                        mainLothtml +=  '<li><strong>'+subservice.label+'</strong></li>';
+                      } else {
+                        if(subservice.name !== 'supportMultiCloud' ) {
+                          var subserviceValue = subservice.value.split(' ').join('+');
+                          mainLothtml +=  '<li><a class="govuk-link serviceCategory" data-name="'+ subservice.name +'" data-value="'+ subserviceValue +'">'+subservice.label+  '('+ subservice.count +')</a></li>';
+                        }
+                      }
+                }
+              }); 
+              mainLothtml += '</ul>';
+              mainLothtml += '</ul>';
+              mainLothtml += '</li>';
+              mainLothtml += '</ul>';
+          }
+          document.getElementById('mainLotandcategoryContainer').innerHTML = mainLothtml;
+          
+            var searchresultshtml = '';
+            searchresultshtml +=  '<div class="govuk-grid-row">';
+            searchresultshtml +=  '<div class="govuk-grid-column-full">';
+            searchresultshtml +=  '<ul class="govuk-list govuk-supplier-list">';
+            result.data.documents.forEach(element => {
+            searchresultshtml +=  '<li class="app-search-result">'
+                                    +'<h2 class="govuk-heading-s govuk-!-margin-bottom-1">'
+                                    +'<a class="govuk-link" href="/g-cloud/services?id='+element.id+'">'+ element.serviceName+'</a>'
+                                    +'</h2>'
+                                    +'<p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">'+ element.supplierName+'</p>'
+                                    +'<p class="govuk-body govuk-!-font-size-16">'+ element.serviceDescription+'</p>'
+                                    +'<ul aria-label="tags" class="govuk-list app-search-result__metadata">'
+                                    +'<li class="govuk-!-display-inline govuk-!-padding-right-4">'+ element.lotName+'</li>'
+                                    +'<li class="govuk-!-display-inline">'+ element.frameworkName+'</li>'
+                                    +'</ul>'
+                                    +'</li>';
+
+          });
+          searchresultshtml +=  '<div>';
+          searchresultshtml +=  '<div>';
+          searchresultshtml +=  '<ul>';
+          document.getElementById('searchResultsContainer').innerHTML = searchresultshtml;
+
+          var paginationHtml = ''
+          paginationHtml += '<div class="govuk-grid-row">';
+          paginationHtml += '<div class="govuk-grid-column-full">';
+          paginationHtml += '<div class="govuk-grid-column-one-half">';
+          paginationHtml += '<div>';
+          paginationHtml += '&nbsp;';
+            if(result.njkDatas.PrvePageUrl != ''){
+              if(result.njkDatas.CurrentPageNumber != 1){
+              paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+              paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.PrvePageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+              paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+              paginationHtml += '<path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>';
+              paginationHtml += '</svg>';
+              paginationHtml += 'Previous Page</a>';
+              paginationHtml += '</p>';
+              paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber - 1) +' of '+ result.njkDatas.noOfPages+'</label></p>  ';
+            }
+          }
+          paginationHtml += '</div>';
+          paginationHtml += '</div>';
+  
+          paginationHtml += '<div class="govuk-grid-column-one-half govuk-!-text-align-right">';
+          paginationHtml += '<div>';
+          paginationHtml += '&nbsp;';
+          if(result.njkDatas.NextPageUrl != ''){
+          paginationHtml += '<p class="govuk-body govuk-!-margin-0">';
+          paginationHtml += '<a href="/g-cloud/search?'+ result.njkDatas.NextPageUrl+'" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">';
+          paginationHtml += '<svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">';
+          paginationHtml += '<path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>';
+          paginationHtml += '</svg>';
+          paginationHtml += 'Next Page</a>';
+          paginationHtml += '</p>';
+        }
+          if(result.njkDatas.noOfPages=='0' || result.njkDatas.noOfPages =='1'){
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of 1</label></p>';
+          }else{
+            paginationHtml += '<p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">'+ (result.njkDatas.CurrentPageNumber) +' of '+ result.njkDatas.noOfPages+'</label></p>';
+          }
+          paginationHtml += '</div>';
+          paginationHtml += '</div>';
+          paginationHtml += '</div>';
+          paginationHtml += '</div>';
+          document.getElementById('paginationContainer').innerHTML = paginationHtml;
+        }else{
+          $('#criteriasavebtn').prop('disabled',true);
+          document.getElementById('searchResultsContainer').innerHTML = '';
+          getCriterianDetails(0);
+          slist.classList.remove('loadingres')
+          
+          document.getElementById('rightSidefooterCotainer').innerHTML = ''; 
+          var Noresulthtml = '';
+          Noresulthtml += '<h3 class="govuk-heading-m">Improve your search results by:</h3>';
+          Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0">';
+          Noresulthtml += '<ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">';
+          Noresulthtml += '</li>removing filters</li><br>';
+          Noresulthtml += '</li>choosing a different category</li><br>';
+          Noresulthtml += '</li>double-checking your spelling</li><br>';
+          Noresulthtml += '</li>using fewer keywords</li><br>';
+          Noresulthtml += '</li>searching for something less specific, you can refine your results later</li><br>';
+          Noresulthtml += '</ul>';
+          Noresulthtml += '</ul>';
+          document.getElementById('rightSidefooterCotainer').innerHTML = Noresulthtml; 
+        }
+        loadQuerySelector();
+         }).fail((res) => {
+         })
+    });
+  }
+});
+
+
+function loadQuerySelector(){
+  document.querySelectorAll(".clickCategory").forEach(function(event) {
+    event.addEventListener('click', function() {
+      let eventFilterType = 'categoryClicked';
+      let filterName = this.getAttribute("data-name");
+      let filterValue = this.getAttribute("data-value");
+      let urlObj = parseQueryG13(document.location.search);
+      urlObj = tune(urlObj);
+      let baseUrl = window.location.href.split('?')[0];
+      let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+      window.location.href = `${baseUrl}${finalTriggerUrl}`;
+    });
+  });
+  
+  if(document.querySelectorAll('.serviceCategory')) {
+    document.querySelectorAll(".serviceCategory").forEach(function(event) {
+      event.addEventListener('click', function() {
+        let eventFilterType = 'serviceCategoryClicked';
+        let filterName = this.getAttribute('data-name');
+        let filterValue = this.getAttribute('data-value');
+        let urlObj = parseQueryG13(document.location.search);
+        urlObj = tune(urlObj);
+  
+        let finalObj = [];
+        urlObj.find((el) => {
+        if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+        urlObj = finalObj;
+        urlObj.push({"key":"serviceCategories","value":filterValue});
+  
+        let baseUrl = window.location.href.split('?')[0];
+        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+        window.location.href = `${baseUrl}${finalTriggerUrl}`;
+      });
+    });
+  }
+  
+  if(document.querySelectorAll('.parentCategory')) {
+    document.querySelectorAll(".parentCategory").forEach(function(event) {
+      event.addEventListener('click', function() {
+        let eventFilterType = 'parentCategoryClicked';
+        let filterName = this.getAttribute('data-name');
+        let filterValue = this.getAttribute('data-value');
+        let urlObj = parseQueryG13(document.location.search);
+        urlObj = tune(urlObj);
+  
+        let condtionParentCat = urlObj.find(el => el.key === 'parentCategory');
+        if(condtionParentCat === undefined) {
+          let serviceCategory = urlObj.find(el => el.key === 'serviceCategories');
+          urlObj.push({"key":"parentCategory","value":serviceCategory.value});
+          urlObj.splice(urlObj.findIndex(({key}) => key == "serviceCategories"), 1);
+          urlObj.push({"key":"serviceCategories","value":filterValue});
+        } else {
+          let finalObj = [];
+          urlObj.find((el) => {
+          if(el.key !== 'serviceCategories') { finalObj.push(el); } });
+          urlObj = finalObj;
+          urlObj.push({"key":"serviceCategories","value":filterValue});
+        }
+  
+        let baseUrl = window.location.href.split('?')[0];
+        let finalTriggerUrl = g13ServiceQueryFliterJquery(urlObj, baseUrl, {name: filterName, value: filterValue, type: eventFilterType});
+        window.location.href = `${baseUrl}${finalTriggerUrl}`;
+      });
+    });
+  }
+}
+
+document.addEventListener('readystatechange', event => { 
+  if (event.target.readyState === "complete") {
+      let queryParamObj = parseQueryG13(document.location.search);
+      queryParamObj = tune(queryParamObj);
+     
+      queryParamObj.forEach((el, i) => {
+        console.log(el);
+        //Search
+        if(el.key === 'q') { $('.g13_search').val(el.value); }
+        $('.g13Check').each(function(){
+          if($(this).attr('name') == el.key && $(this).val() == el.value){
+            $(this).attr("checked", "checked");
+          }
+        });
+      });
+// total results
+      var totalResult=$('#totalResult').attr('data-value');
+
+      getCriterianDetails(totalResult);
+     
+  }
+});
+
+function getCriterianDetails(totalresult=0){
+  
+
+  let rows_selected = [];
+        $(".g13Check:checked").each(function(){
+          var $this = $(this);
+          rows_selected.push({
+            title:$this.attr('data-title'),
+            name: $this.attr('data-name'),
+            });
+       });
+
+       const groupBy = (array, key) => {
+        return array.reduce((result, currentValue) => {
+          (result[currentValue[key]] = result[currentValue[key]] || []).push(
+            currentValue
+          );
+          return result;
+        }, {}); 
+      };
+      const criteria = groupBy(rows_selected, 'title');
+      let criteriaDetails='<b class="govuk-!-font-size-48">'+totalresult+'</b> results found';
+
+      let queryParamObj = parseQueryG13(document.location.search);
+      queryParamObj = tune(queryParamObj);
+     
+      
+       let search = queryParamObj.filter(el => el.key === 'q');
+       if(search.length > 0){
+        criteriaDetails +=' containing <b>'+ search[0].value +'</b>';
+       }
+     
+       let lot = queryParamObj.filter(el => el.key === 'lot');
+       if(lot.length > 0){
+        criteriaDetails +=' in <b>'+ capitalize(lot[0].value.replace("-", " ")) +'</b>';
+       }else{
+        criteriaDetails +=' in <b>All Categories</b>';
+       }
+
+       let serviceCategories = queryParamObj.filter(el => el.key === 'serviceCategories');
+       if(serviceCategories.length > 0){
+        criteriaDetails +=' in the category <b>'+ capitalize(serviceCategories[0].value.replace("+", " ")) +'</b>';
+       }
+       
+
+      Object.keys(criteria).forEach(key => {
+        if(key !==undefined){
+          criteriaDetails +=', where <b>'+ capitalize(key) +'</b> is ';
+          let values=[];
+          for (let index = 0; index < criteria[key].length; index++) {
+            values.push('<b>'+capitalize(criteria[key][index].name)+'</b>');
+          }
+          criteriaDetails +=values.join(" and ");
+
+        }
+      });
+      $('#criteriandetails').html(criteriaDetails);
+      $('#criteriadetailsform').val(criteriaDetails.replace('govuk-!-font-size-48','govuk-!-font-size-24'));
+      
+      
+}
+
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+
+document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
+event.addEventListener('change', function(event) {
+    var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
+      return this.value;
+      }).get().join(', ');
+      $('#invite_suppliers').val(evaluateSupplier);
+  })
+
+  var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
+    return this.value;
+    }).get().join(', ');
+    $('#invite_suppliers').val(evaluateSupplier);
+})
+
+document.querySelectorAll(".dos_evaluate_supplier").forEach(function(event) {
+  event.addEventListener('change', function(event) {
+      var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
+        return this.value;
+        }).get().join(', ');
+        $('#invite_suppliers').val(evaluateSupplier);
+    })
+  
+    var evaluateSupplier =$('.dos_evaluate_supplier:checked').map(function() {
+      return this.value;
+      }).get().join(', ');
+      $('#invite_suppliers').val(evaluateSupplier);
+  })
+  
+
+  document.querySelectorAll("#invite_short_list_suppliers_btn").forEach(function(event) {
+    event.addEventListener('click', function(event) {
+      document.getElementById("invite_short_list_suppliers").submit();
+      })
+    
+     
+    })
+
+
+
+
+

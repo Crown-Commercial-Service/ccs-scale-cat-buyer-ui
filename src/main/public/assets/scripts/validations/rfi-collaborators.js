@@ -22,7 +22,7 @@ $('#rfi_collaborators').on('change', function () {
       $('#show_collab-phone').html(tel)
 
       $("#rfi_collaborator_append").val(id);
-
+      $('#ccs_collab_add').prop("disabled", false)
 
     })
       .fail(function () {
@@ -36,6 +36,7 @@ $('#rfi_collaborators').on('change', function () {
     $('#show_collab_name').html("")
     $('#show_collab_email').html("")
     $('#show_collab-phone').html("")
+    $('#ccs_collab_add').prop("disabled", true)
   }
 
 

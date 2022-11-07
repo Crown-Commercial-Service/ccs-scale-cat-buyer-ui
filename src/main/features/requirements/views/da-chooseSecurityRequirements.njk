@@ -5,7 +5,7 @@
   {{ CCSBreadcrumbs({
         items: [
             {
-                "text": "Your dashboard",
+                "text": "Dashboard",
                 "href": "/dashboard"
                 },
                 {
@@ -64,7 +64,7 @@
 
         {% set form_Options_Altered = [] %}
 
-        {#{% set condResources %}
+        {% set condResources %}
           {{ CCSInput({
             id: "ccs_da_resources",
             name: "ccs_da_resources",
@@ -75,10 +75,9 @@
               text: "How many resources need a lower security and vetting requirement?"
             }
           }) }}
-        {% endset -%}#}
+        {% endset -%}
 
         {% for item in formOptions %}
-          {% if item.checked %}
           {% if item.hasResources %}
             {% set form_Options_Altered = (form_Options_Altered.push(
               {
@@ -88,16 +87,7 @@
                   text: item.hint.text
                 },
                 conditional: {
-                  html:  CCSInput({
-            id: "ccs_da_resources_"+loop.index,
-            name: "ccs_da_resources",
-            type: "number",
-            value: form.selectedValue,
-            classes: "govuk-!-width-one-third da_choosesecurity_resources",
-            label: {
-              text: "How many resources need a lower security and vetting requirement?"
-            }
-          }) 
+                  html: condResources
                 },
                 checked: item.checked
               }
@@ -118,45 +108,7 @@
               
               %} 
           {% endif %}
-{% else %}
-        {% if item.hasResources %}
-            {% set form_Options_Altered = (form_Options_Altered.push(
-              {
-                value: item.value,
-                html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
-                hint : {
-                  text: item.hint.text
-                },
-                conditional: {
-                  html:  CCSInput({
-            id: "ccs_da_resources_"+loop.index,
-            name: "ccs_da_resources",
-            type: "number",
-            value: form.selectedValue,
-            classes: "govuk-!-width-one-third da_choosesecurity_resources",
-            label: {
-              text: "How many resources need a lower security and vetting requirement?"
-            }
-          }) 
-                }
-              }
-              ), form_Options_Altered) 
-              
-              %}
-          {% else %}
-              {% set form_Options_Altered = (form_Options_Altered.push(
-                  {
-                    value: item.value,
-                    html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
-                    hint : {
-                      text: item.hint.text
-                    }
-                  }
-                ), form_Options_Altered) 
-              
-              %} 
-          {% endif %}
-             {% endif %}
+
         {% endfor %}
 
 

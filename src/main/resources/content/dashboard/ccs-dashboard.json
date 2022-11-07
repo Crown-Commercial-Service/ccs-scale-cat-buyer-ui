@@ -9,26 +9,34 @@
             "href": "#"
         }
     ],
-    "title": "Find suppliers and run your procurement online.",
+    "title": "Your dashboard",
     "subtitle": null,
-    "line1": "Please choose a commercial agreement to start your procurement.",
+    "line1": "You can view your current projects and past projects below.",
     "subsection2_title":"Current projects",
-    "subsection2_table_th_1": "Project id / Name",
-    "subsection2_table_th_2": "Event Type",
-    "subsection2_table_th_3": "Agreement and Lot",
-    "subsection2_table_th_4": "Supplier Response Close Date",
+    "subsection2_table_th_1": "Project ID/Name",
+    "subsection2_table_th_2": "Stage",
+    "subsection2_table_th_3": "Lot and agreement ",
+    "subsection2_table_th_4": "Closing date for supplier responses",
     "subsection2_table_th_5": "Status",
     "subsection4_title":"Past project",
-    "subsection4_table_th_1": "Project id / Name",
-    "subsection4_table_th_2": "Type",
-    "subsection4_table_th_3": "Agreement and Lot",
-    "subsection4_table_th_4": "Close Date",
-    "buttonText": "Start a new Project",
+    "subsection4_table_th_1": "Project ID/Name",
+    "subsection4_table_th_2": "Stage",
+    "subsection4_table_th_3": "Lot and agreement ",
+    "subsection4_table_th_4": "Project closed",
+    "buttonText": "choose a commercial agreement",
     "view_Historical": "ll Historical Closed Projects",
     "related_content": [
         {
-            "text": "Digital Specialists and Programmes",
-            "href": "https://www.crowncommercial.gov.uk/agreements/RM6263"
+            "text-removed": "Digital Specialists and Programmes",
+            "href-removed": "https://www.crowncommercial.gov.uk/agreements/RM6263"
+        },
+        {
+            "text": "Management Consultancy Framework Three (MCF3) (opens in a new window)",
+            "href": "https://www.crowncommercial.gov.uk/agreements/RM6187"
+        },
+        {
+            "text": "G-Cloud 13 (opens in a new window)",
+            "href": "https://www.crowncommercial.gov.uk/agreements/RM1557.13"
         }
     ]
 }

@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let with_value_count = 10,
       prev_input = 0,
+      filled_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let clearFieldsButtons = document.querySelectorAll("a.clear-fields");
 
@@ -29,10 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         this_fieldset.classList.add('ccs-dynaform-hidden');
         with_value_count = acronym_fieldset;
+        filled_input++;
       }
 
     }
     document.getElementById("ccs_eoiTerm_add").classList.remove("ccs-dynaform-hidden");
+
+    if(filled_input===0){
+    
+      document.getElementById("ccs_eoiTerm_add").classList.add('ccs-dynaform-hidden');
+    }
 
 
     document.getElementById("ccs_eoiTerm_add").addEventListener('click', (e) => {

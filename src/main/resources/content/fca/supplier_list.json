@@ -1,0 +1,86 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/#"
+        },
+        {
+            "text": "Procurement Overview",
+            "href": "/fca/projects/create-or-choose"
+        },
+        {
+            "text": "See all suppliers for this lot",
+            "href": "/#"
+        }
+    ],
+       
+    "title": null,
+    "subtitle": null,
+    "line1": "View all suppliers for this lot",
+    "line2": "For more details on each supplier, visit the <a href='/#'>Search suppliers</a> page on the main CCS website.",
+    "line3": "The page will open on a new tab.",
+    "line4": "Suppliers’ rate cards are only available through the supplier filtering tool.",
+    "selected_agreement_value": "Agreement name, lot name",
+    "agreement_id_value": "XXXXXX",
+    "project_id_value": " Agreement ID Lot X Registered organisation name",
+    "line5": "[XX] suppliers on this lot",
+    "pre_page":"Previous Page",
+    "next_page":"Next Page",
+    "pre_page_pages":"1 of x",
+    "next_page_pages":"1 of x",
+    "buttonText":"Download this list",
+    "returnTo":"Return to Procurement Overview",
+    "return_url":"/#",
+    
+    "related_content_text":"Related content",
+    "related_content": [
+        {
+            "text": "[Lot detail page]",
+            "href": "/#"
+        },
+        {
+            "text": "[Link to external resource]",
+            "href": "/#"
+        },
+        {
+            "text": "[Link to external resource]",
+            "href": "/#"
+        }
+        
+    ],
+
+    "supplierList": [
+        {
+            "supplierName": "Supplier company name1",
+            "tradingName": "supplier trading name",
+            "href": "/fca/supplier/ratecard"
+        },
+        {
+            "supplierName": "Supplier company name2",
+            "tradingName": "supplier trading name",
+            "href": "/fca/supplier/ratecard"
+        },
+        {
+            "supplierName": "Supplier company name3",
+            "tradingName": "supplier trading name",
+            "href": "/fca/supplier/ratecard"
+        },
+        {
+            "supplierName": "Supplier company name4",
+            "tradingName": "supplier trading name",
+            "href": "/fca/supplier/ratecard"
+        },
+        {
+            "supplierName": "Supplier company name5",
+            "tradingName": "supplier trading name",
+            "href": "/fca/supplier/ratecard"
+        }
+        
+    ]
+   
+   
+}
