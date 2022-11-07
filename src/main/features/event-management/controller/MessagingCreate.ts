@@ -59,7 +59,7 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
             // default: res.locals.supplier_link = "#"
         }
         const message: CreateMessage = {
-            create_message: ["unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
+            create_message: ["Unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
                 "System Query", "General Clarification","Compliance Clarification", "Procurement Outcome"],
                 create_supplier_message:null,
             create_message_input: null,
@@ -133,7 +133,7 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
         }
 
         const message: CreateMessage = {
-            create_message: ["unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
+            create_message: ["Unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
                 "System Query", "General Clarification","Compliance Clarification", "Procurement Outcome"],
                 create_supplier_message: _body.create_supplier_message,
             selected_message: _body.create_message,
@@ -264,7 +264,7 @@ export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = async (req: express.Re
         
         
         const message: CreateMessage = {
-            create_message: ["unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
+            create_message: ["Unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
                 "System Query", "General Clarification","Compliance Clarification", "Procurement Outcome"],
                 create_supplier_message:null,
             create_message_input: null,
@@ -357,7 +357,7 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
         
 
         const message: CreateMessage = {
-            create_message: ["unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
+            create_message: ["Unclassified","Qualification Clarification", "Technical Clarification","Commercial Clarification",
                 "System Query", "General Clarification","Compliance Clarification", "Procurement Outcome"],
             create_supplier_message: _body.create_supplier_message,
             selected_message: _body.create_message,
