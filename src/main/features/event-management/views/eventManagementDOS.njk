@@ -217,9 +217,15 @@
                         {% endif %}
 
                         {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
-                          {% if(stage2_value == 'Stage 2')  %}
+                          
+                          {% if agreementId_session == 'RM1043.8' %}
+                              <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier responses or all responses.</p>
+                          {% else %}
+                              <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
+                          {% endif  %}
+                          {# {% if(stage2_value == 'Stage 2')  %}
                           <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
-                          {% endif %}
+                          {% endif %} #}
                           <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
                             <div class="govuk-grid-column-full">
                               <table class="govuk-table">
