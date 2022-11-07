@@ -449,7 +449,7 @@ const emptyFieldCheckRfpScore = () => {
           focusField = desc_field;
         }
 
-        fieldCheck = [point_field.id, 'You must add information in all fields.'];
+        fieldCheck = [focusField.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
         ccsZaddErrorMessage(point_field, 'Enter a valid number.');
         ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
