@@ -295,7 +295,12 @@
 
                {%  elif status.toLowerCase() =="complete" %}
  {# <p> If you have not done so already, you can  <a class="govuk-link" href="/unsuccessful?download=2">download the unsuccessful supplier templates here.</a> </p> #}
+              {%if (agreement_header['agreementId_session'] == 'RM1043.8') %}
               <p>You need to publish the contract on <a href='https://www.gov.uk/contracts-finder' target='_blank'>Contracts Finder.</a> This is a legal requirement.</p>
+              {% else %}
+              <p> If you have not done so already, you can  <a class="govuk-link" href="/unsuccessful?download=2">download the unsuccessful supplier templates here.</a> </p>
+              {% endif %}
+
                 <div class="govuk-grid-column-one-quarter">
                 <p> Awarded Date </p>
                  <p> Received Signed Contract </p>
