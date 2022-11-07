@@ -205,13 +205,13 @@ const emptyFieldCheckEoi = () => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsEoi();
       if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
-        fieldCheck = [definition_field.id, 'You must add information in both fields.'];
+        ccsZaddErrorMessage(definition_field, 'You must add definition for the term or acronym.');
+        fieldCheck = [definition_field.id, 'You must add definition for the term or acronym.'];
         errorStore.push(fieldCheck);
       }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
-        fieldCheck = [term_field.id, 'You must add information in both fields.'];
+        ccsZaddErrorMessage(term_field, 'You must add term or acronym.');
+        fieldCheck = [term_field.id, 'You must add term or acronym.'];
         errorStore.push(fieldCheck);
       }
     }

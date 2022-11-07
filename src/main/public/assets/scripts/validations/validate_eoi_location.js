@@ -6,7 +6,7 @@ const ccsZvalidateEoiLocation = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region where your staff will be working, or  the “No specific location....");
+  fieldCheck = ccsZisOptionChecked( "required_locations", "You must select at least one region, or the “No specific location...");
   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["eoi_location"].submit(); //The Location page is mandatory for EOI only
