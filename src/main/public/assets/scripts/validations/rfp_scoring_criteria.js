@@ -439,7 +439,6 @@ const emptyFieldCheckRfpScore = () => {
     if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
       checkFieldsRfpScore();
       if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
-<<<<<<< HEAD
 
         let focusField; 
         if (name_field.value.trim() === '') {
@@ -451,15 +450,9 @@ const emptyFieldCheckRfpScore = () => {
         }
 
         fieldCheck = [focusField.id, 'You must add information in all fields.'];
-        ccsZaddErrorMessage(name_field, 'you must add name for this level.');
-        ccsZaddErrorMessage(point_field, 'you must add score for this level');
-        ccsZaddErrorMessage(desc_field, 'you must add description for this level.');
-=======
-        fieldCheck = [point_field.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
         ccsZaddErrorMessage(point_field, 'Enter a valid number.');
         ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
->>>>>>> abijith_dos
         errorStore.push(fieldCheck);
       } else if (agreement_id.value.trim() == 'RM1043.8' && point_field.value.trim() >= 100){
         let errorObj = {
