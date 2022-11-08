@@ -218,8 +218,9 @@
 
                         {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
                           
-                          {% if agreementId_session == 'RM1043.8' %}
-                              <p class="govuk-body">The suppliers below have responded to your published project. You can download individual supplier responses or all responses.</p>
+                          {% if agreementId_session == 'RM1043.8' and status.toUpperCase() ==='EVALUATED' and stage2_value == 'Stage 2' %}
+                              <p class="govuk-body">You should ensure that you have followed the evaluation criteria you set out and communicated to suppliers when awarding.
+                              Make sure you have documentation supporting your choice. This documentation needs to be produced offline.</p>   
                           {% else %}
                               <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
                           {% endif  %}
