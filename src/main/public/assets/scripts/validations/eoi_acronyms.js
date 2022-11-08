@@ -205,7 +205,7 @@ const emptyFieldCheckEoi = (add_more='') => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsEoi();
       
-      if (term_field.value.trim() !== '' && definition_field.value.trim() === '' && add_more=='add_more') {
+      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
         ccsZaddErrorMessage(term_field, 'You must add information in this fields.');
         ccsZaddErrorMessage(definition_field, 'You must add information in this fields.');
         fieldCheck = [definition_field.id, 'You must add information in both fields.'];
