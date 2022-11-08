@@ -135,7 +135,7 @@
                 action:"submit"
                 })
             }}
-              <a href="{{data.Cancel.link}}" class="govuk-link govuk-link--no-visited-state">{{data.Cancel.text}}</a>
+              <a href="{{data.Cancel.link}}" id="supplierMsgCancel" class="govuk-link govuk-link--no-visited-state">{{data.Cancel.text}}</a>
             </div>
 
           </div>
@@ -145,5 +145,30 @@
     <p class="govuk-body">
       <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
     </p>
+
+
+    <div class="backdrop-evaluatesuppliers" id="suplierevaluatesupplierspopup">
+  <div class="messagepop pop" role="dialog" aria-labelledby="navigationDialog" style="display: block;">
+    <div class="pop_logo govuk-grid-column-full">
+      <hidden id="redirect-dialog" class="govuk-visually-hidden"></hidden>
+      <p class="pop_logo_image govuk-grid-column-one-half">
+        <img class="popup_image" src="/assets/images/CCS_WHITE_SML_AW.png" alt="Go to the CCS homepage">
+      
+      </p>
+      <p class="govuk-!-text-align-right govuk-grid-column-one-half dialog-close-evaluatesuppliers govuk-!-padding-top-6">
+      <a href="#" class="dialog-close-evaluatesuppliers nav-list__link_secondary">X</a></p>
+    </div>
+    <div class="govuk-grid-column-full">
+    <h1 id="dialog-title">Are you sure want to Cancel?<p></p>
+     
+      <div class="govuk-button-group">
+        <button id="supplierredirect-button-evaluatesuppliers"  class="button dialog-button govuk-button" >Ok</button>
+        <a href="{{data.Cancel.link}}" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Cancel</a>
+      </div>
+    </h1></div>
+  </div>
+</div>
+
+
   </main>
 {% endblock %}
