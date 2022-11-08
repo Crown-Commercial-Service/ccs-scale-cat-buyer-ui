@@ -35,6 +35,7 @@ export const AUTH: express.Handler = async (
     res.redirect('/oauth/login');	
   }	
   else {
+    //Session ID
     console.log(SESSION_ID);
     const decoded: any = jwt.decode(req.session['access_token'], { complete: true });
     await PERFORM_REFRESH_TOKEN(req, res, decoded);
