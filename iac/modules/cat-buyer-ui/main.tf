@@ -84,6 +84,10 @@ data "aws_ssm_parameter" "gcloud_token" {
   name = "/cat/${var.environment}/gcloud_token"
 }
 
+data "aws_ssm_parameter" "gcloud_search_api_token" {
+  name = "/cat/${var.environment}/gcloud_search_api_token"
+}
+
 data "aws_ssm_parameter" "gcloud_search_api_url" {
   name = "/cat/${var.environment}/gcloud_search_api_url"
 }
@@ -129,6 +133,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     ROLLBAR_HOST : var.environment
     ROLLBAR_ACCESS_TOKEN : data.aws_ssm_parameter.rollbar_access_token.value
     GCLOUD_TOKEN : data.aws_ssm_parameter.gcloud_token.value
+    GCLOUD_SEARCH_API_TOKEN : data.aws_ssm_parameter.gcloud_search_api_token.value
     GCLOUD_SEARCH_API_URL : data.aws_ssm_parameter.gcloud_search_api_url.value
     GCLOUD_SERVICES_API_URL : data.aws_ssm_parameter.gcloud_services_api_url.value
     GCLOUD_SUPPLIER_API_URL : data.aws_ssm_parameter.gcloud_supplier_api_url.value
