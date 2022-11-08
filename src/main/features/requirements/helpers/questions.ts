@@ -31,13 +31,10 @@ export class QuestionHelper {
      * Sorting and following to the next path
      */
     let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
-    console.log('log11',baseURL);
     try {
       //update section 3 status start
       const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
-      console.log('log12',headingBaseURL);
       const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
-      console.log('log122',headingBaseURL);
       let heading_fetch_dynamic_api_data = heading_fetch_dynamic_api?.data;
       if(agreement_id == 'RM1043.8') {
         heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 2'));//exclude group 18 and 2
@@ -55,9 +52,6 @@ export class QuestionHelper {
           let gid = mandatoryGroupList[i]?.OCDS?.id;
           let baseQuestionURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${gid}/questions`;
           
-          console.log('log14',baseQuestionURL);
-
-
           let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
           let question_api_data = question_api?.data;
           //let mandatoryMarked=false;//increase mandatory count
@@ -69,7 +63,6 @@ export class QuestionHelper {
             //let isInnerMandatory = question_api_data?.[k]?.nonOCDS?.mandatory;
             let questionType = question_api_data[k]?.nonOCDS.questionType;
             
-            console.log('log15',questionType);
             //if (isInnerMandatory) {
 
             let answer = ''
@@ -194,7 +187,6 @@ export class QuestionHelper {
           if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) {  mandatoryNum += 1; }
         }
       }
-      console.log('log11');
       if(agreement_id == 'RM1043.8'){      
         // dos
         // let lotmandatoryQues = 10;
@@ -437,8 +429,13 @@ export class QuestionHelper {
       }
 
       if(agreement_id == 'RM1043.8'){ // dos
+
+        console.log('*************************mandatoryNum');
+        console.log(mandatoryNum);
 	//if (mandatoryGroupList != null && (req.session.lotId == 1 && (mandatoryGroupList.length == mandatoryNum)) || (req.session.lotId == 3 && (mandatoryGroupList.length == mandatoryNum))) {
-        if (mandatoryGroupList != null && (req.session.lotId == 1 && mandatoryNum >= 4) || (req.session.lotId == 3 && mandatoryNum >= 4)) {
+
+    if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (req.session.lotId == 1 && (mandatoryGroupList.length == mandatoryNum)) || (req.session.lotId == 3 &&  (mandatoryGroupList.length == mandatoryNum) )) {
+                  
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
             let flag = await ShouldEventStatusBeUpdated(event_id, 33, req);
