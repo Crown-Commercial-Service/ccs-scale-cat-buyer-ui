@@ -176,7 +176,7 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
 
           //supplierDetailsObj.supplierName = supplierdata.data?.responders[i]?.supplier?.name;
           supplierDetailsObj.responseState = supplierdata.data?.responders[i]?.responseState;
-          supplierDetailsObj.responseDate = (supplierdata.data?.responders[i]?.responseDate != undefined && supplierdata.data?.responders[i]?.responseDate != null) ? moment(supplierdata.data?.responders[i]?.responseDate,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY HH:MM')  : '';
+          supplierDetailsObj.responseDate = (supplierdata.data?.responders[i]?.responseDate != undefined && supplierdata.data?.responders[i]?.responseDate != null) ? moment(supplierdata.data?.responders[i]?.responseDate,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY HH:mm')  : '';
          supplierDetailsObj.score = (score != undefined) ? score : 0;
           supplierDetailsObj.rankFlag = false;
           var supplierFiltedData = supplierDataList?.filter((a: any) => (a.organization.id == id))?.[0]?.organization;
@@ -711,7 +711,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           //supplierDetailsObj.supplierName = supplierdata.data?.responders[i]?.supplier?.name;
           supplierDetailsObj.responseState = supplierdata.data?.responders[i]?.responseState;
           //supplierDetailsObj.responseDate = supplierdata.data?.responders[i]?.responseDate;
-          supplierDetailsObj.responseDate = (supplierdata.data?.responders[i]?.responseDate != undefined && supplierdata.data?.responders[i]?.responseDate != null) ? moment(supplierdata.data?.responders[i]?.responseDate,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY HH:MM')  : '';
+          supplierDetailsObj.responseDate = (supplierdata.data?.responders[i]?.responseDate != undefined && supplierdata.data?.responders[i]?.responseDate != null) ? moment(supplierdata.data?.responders[i]?.responseDate,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY HH:mm')  : '';
           supplierDetailsObj.score = (score != undefined) ? score : 0;
           supplierDetailsObj.rankFlag = false;
           var supplierFiltedData = supplierDataList?.filter((a: any) => (a.organization.id == id))?.[0]?.organization;

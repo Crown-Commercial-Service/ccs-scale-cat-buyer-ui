@@ -69,7 +69,7 @@
           <div class="govuk-grid-column-one-half">
             <h2 class="govuk-heading-m">
               {{data.subsection3_title}}<br>
-      ({{unreadMessage}} unread messages)</h2>
+      ({{unreadMessage}} messages)</h2>
             <p class="govuk-body">
               <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
             </p>
@@ -77,7 +77,7 @@
           <div class="govuk-grid-column-one-half">
             <h2 class="govuk-heading-m">
               {{data.subsection3_title2}}<br>
-      ({{ QAs.length }} unread messages )</h2>
+      ({{ QAs.length }} messages )</h2>
             <p class="govuk-body">
               <a class="govuk-link" href="{{ data.subsection3_linkURL2 }}">{{ data.subsection3_linkText2 }}</a>
             </p>
@@ -217,9 +217,23 @@
                         {% endif %}
 
                         {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
-                          {% if(stage2_value == 'Stage 2')  %}
+                          
+                          {% if agreementId_session == 'RM1043.8' %}
+                            {% if status.toUpperCase() ==='EVALUATED' and stage2_value == 'Stage 2' %}
+                                <p class="govuk-body">{{ data.subsection4_dos_eval_descr_stg2 }}</p>   
+                            {% elif status.toUpperCase() ==='TO-BE-EVALUATED' %}
+                              <p class="govuk-body">{{data.subsection4_dos_2b_eval_descr}}</p>     
+                            {% elif status.toUpperCase() ==='EVALUATED' and stage2_value == 'Stage 1' %}
+                            <p class="govuk-body">{{data.subsection4_dos_eval_descr_stg1}}</p>
+                            {% else %}
+                                <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
+                            {% endif  %}
+                          {% else %}
+                              <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
+                          {% endif  %}
+                          {# {% if(stage2_value == 'Stage 2')  %}
                           <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
-                          {% endif %}
+                          {% endif %} #}
                           <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
                             <div class="govuk-grid-column-full">
                               <table class="govuk-table">

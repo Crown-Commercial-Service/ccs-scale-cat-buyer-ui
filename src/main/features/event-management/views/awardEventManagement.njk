@@ -55,7 +55,7 @@
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">
             {{data.subsection3_title}}<br>
-          ({{unreadMessage}} unread messages)</h2>
+          ({{unreadMessage}} messages)</h2>
           <p class="govuk-body">
             <a class="govuk-link" href="{{ data.subsection3_linkURL }}?id={{ eventId }}">{{ data.subsection3_linkText }}</a>
           </p>
@@ -63,7 +63,7 @@
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">
             {{data.subsection3_title2}}<br>
-         ({{ QAs.length }} unread messages )</h2>
+         ({{ QAs.length }} messages )</h2>
           <p class="govuk-body">
             <a class="govuk-link" href="{{ data.subsection3_linkURL2 }}">{{ data.subsection3_linkText2 }}</a>
           </p>
@@ -296,6 +296,7 @@
                {%  elif status.toLowerCase() =="complete" %}
  {# <p> If you have not done so already, you can  <a class="govuk-link" href="/unsuccessful?download=2">download the unsuccessful supplier templates here.</a> </p> #}
               <p>You need to publish the contract on <a href='https://www.gov.uk/contracts-finder' target='_blank'>Contracts Finder.</a> This is a legal requirement.</p>
+
                 <div class="govuk-grid-column-one-quarter">
                 <p> Awarded Date </p>
                  <p> Received Signed Contract </p>
