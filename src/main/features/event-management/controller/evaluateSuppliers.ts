@@ -137,7 +137,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
         "name": supData[i].supplier.name,
 
         "responseState": supData[i].responseState,
-        "responseDate": (moment(supData[i].responseDate)).format('DD/MM/YYYY HH:MM'),
+        "responseDate": (moment(supData[i].responseDate)).format('DD/MM/YYYY HH:mm'),
          "completionStatus":completion,
       }
     

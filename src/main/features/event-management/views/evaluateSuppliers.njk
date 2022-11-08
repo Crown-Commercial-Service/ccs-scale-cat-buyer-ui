@@ -80,7 +80,12 @@
     <div class="govuk-grid-row">
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4}}</h3>
-          <p>The suppliers below have responded to your published project. You can download individual supplier's answers or all answers.</p>
+          {% if agreementId_session == 'RM6187' %}
+           
+           {% else %}
+           <p> The suppliers below have responded to your published project. You can download individual supplier's answers or all answers.</p> 
+        {% endif %}
+          
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
