@@ -207,13 +207,13 @@ const emptyFieldCheckEoiTerms = () => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       //
       if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'Please provide description for the term and condition.');
-        fieldCheck = [definition_field.id, 'Please provide description for the term and condition.'];
+        ccsZaddErrorMessage(definition_field, 'You must explain the special term or condition.');
+        fieldCheck = [definition_field.id, 'You must explain the special term or condition.'];
         errorStore.push(fieldCheck);
       }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'Please provide description for the term and condition.');
-        fieldCheck = [term_field.id, 'Please provide description for the term and condition.'];
+        ccsZaddErrorMessage(term_field, 'You must add special term or condition.');
+        fieldCheck = [term_field.id, 'You must add special term or condition.'];
         errorStore.push(fieldCheck);
       }
       if (term_field.value?.length > 500) {
