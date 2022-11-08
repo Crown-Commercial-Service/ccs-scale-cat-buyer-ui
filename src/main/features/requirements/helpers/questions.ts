@@ -429,11 +429,7 @@ export class QuestionHelper {
       }
 
       if(agreement_id == 'RM1043.8'){ // dos
-
-        console.log('*************************mandatoryNum');
-        console.log(mandatoryNum);
-	//if (mandatoryGroupList != null && (req.session.lotId == 1 && (mandatoryGroupList.length == mandatoryNum)) || (req.session.lotId == 3 && (mandatoryGroupList.length == mandatoryNum))) {
-
+       
     if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (req.session.lotId == 1 && (mandatoryGroupList.length == mandatoryNum)) || (req.session.lotId == 3 &&  (mandatoryGroupList.length == mandatoryNum) )) {
                   
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'Completed');
