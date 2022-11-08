@@ -522,6 +522,7 @@ $('.rfp_date').on('submit', (e) => {
             const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
             const durationDay = document.getElementsByClassName('rfp_duration_day_25');
 
+            if(durationYear[0].value!='' || durationMonth[0].value!='' || durationDay[0].value!=''){
             const YearProjectRun = Number(durationYear[0].value);
             const MonthProjectRun = Number(durationMonth[0].value);
             const DaysProjectRun = Number(durationDay[0].value);
@@ -543,11 +544,18 @@ $('.rfp_date').on('submit', (e) => {
             }else if(YearProjectRun>4  || YearProjectRun<0){
                yrValidation = true;
             }
-
-            yrValidation2 = validateExtPeriod();
-            if(yrValidation || yrValidation2){
+            if(yrValidation){
                return;
             }
+         }
+
+         if(durationYear[1].value!='' || durationMonth[1].value!='' || durationDay[1].value!=''){
+            yrValidation2 = validateExtPeriod();
+            if(yrValidation2){
+               return;
+            }
+         }
+            
          }
 
          if(isValid)
