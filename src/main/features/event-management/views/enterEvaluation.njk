@@ -178,10 +178,17 @@
 {# <p><label id="supplierFeedback"></label></p> #}
 
                      <div class="govuk-button-group">
+                       {% if stage2_value == 'Stage 2' %}
+                        {{ CCSButton({
+                            text: "Save supplier Score",
+                            action:"submit"
+                        }) }}
+                      {%else%}
                         {{ CCSButton({
                             text: "Save supplier feedback",
                             action:"submit"
                         }) }}
+                      {% endif %}
                         {% set returnLink = "/evaluate-suppliers" %}
                         <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Evaluate suppliers</a>
                     </div>       
