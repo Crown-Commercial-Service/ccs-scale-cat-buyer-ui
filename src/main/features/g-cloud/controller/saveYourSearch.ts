@@ -10,10 +10,10 @@ import moment from 'moment-business-days';
 
 
 async function getSearchResults(url: string,hostURL:any,result: any = []){
-  const GCLOUD_TOKEN = process.env.GCLOUD_TOKEN;
+  const GCLOUD_SEARCH_API_TOKEN = process.env.GCLOUD_SEARCH_API_TOKEN;
   let hosts= hostURL;
-  let JointURL: string = `.g-cloud-13/services/search?${url}`; 
-   var {data: services} = await gCloudApi.searchInstance(GCLOUD_TOKEN).get(JointURL);
+  let JointURL: string = `g-cloud-13/services/search?${url}`; 
+   var {data: services} = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointURL);
   var NextPageUrl = '';
   if(services.links.next !== undefined){
      NextPageUrl = services?.links?.next.substring(services?.links?.next.indexOf('?') + 1);
