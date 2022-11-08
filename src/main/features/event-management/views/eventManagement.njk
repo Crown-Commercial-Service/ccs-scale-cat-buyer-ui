@@ -227,12 +227,12 @@
     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
     <h2 class="govuk-heading-m">
       <span class="proc-task-list__section-number">3.</span>
-    {{data.subsection4_title3_eval}}</h2>
-    <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption }}</p>
+    {{data.subsection4_title3_eval}}  </h2>
+    <p class="govuk-body">{{ data.subsection4_title3_eval_descriiption }} </p>
     {% if (projectStatus==2) %}
-    <p class="govuk-body">To see the clarification questions suppliers have submitted.</p>
+     <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
     {% else %}
-    <p class="govuk-body">To see the clarification questions suppliers have submitted, <a href="/message/inbox">open your inbox</a>.</p>
+   <p class="govuk-body">To see the clarification questions suppliers have submitted.</p>
     {% endif %}
     <p class="govuk-body">The deadline for responses from suppliers is <strong>{{filtervalues}}</strong>.</p>
   </div>
@@ -285,12 +285,12 @@
                       {% else %}
                       <h2 class="govuk-heading-m">
                         <span class="proc-task-list__section-number">4.</span>
-                      {{data.subsection4_title4}}</h2>
+                      {{data.subsection4_title4}} </h2>
                     {% endif %}
                     {% else %}
                     <h2 class="govuk-heading-m">
                       <span class="proc-task-list__section-number">4.</span>
-                    {{data.subsection4_title4}}</h2>
+                    {{data.subsection4_title4}} </h2>
                     {% endif %}
                     {% if status.toLowerCase() == 'published' or status.toLowerCase() == 'closed' %}
                     <p class="govuk-body">{{ data.subsection4_title4_descriiption }}</p>
@@ -328,7 +328,13 @@
 
                     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
 
-                    <p class="govuk-body">{{data.subsection4_eval_title4_descriiption}}</p>
+                    {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                    <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluate}} </p>
+                    {% else %}
+                    <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluated_text}} </p>
+                    {% endif %}
+
+                    
                     <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
                       <div class="govuk-grid-column-full">
                         <table class="govuk-table">
