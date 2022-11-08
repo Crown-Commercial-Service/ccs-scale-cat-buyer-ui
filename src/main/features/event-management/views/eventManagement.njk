@@ -331,7 +331,7 @@
                     {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
                     <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluate}} </p>
                     {% else %}
-                    <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluated_text}} </p>
+                    <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluated_text | safe}} </p>
                     {% endif %}
 
                     
