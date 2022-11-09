@@ -1,0 +1,231 @@
+import * as express from 'express';
+import * as cmsData from '../../../resources/content/procurement/mcf3_supplierlist.json';
+import { GetLotSuppliers } from '../../shared/supplierService';
+import config from 'config';
+var { Parser } = require("json2csv");
+import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
+import * as supplierIDSData from '../../../resources/content/fca/shortListed.json';
+
+/**
+ *
+ * @Rediect
+ * @param req
+ * @param res
+ *
+ *
+ */
+ export const SUPPLIER_LIST = async (req: express.Request, res: express.Response) => {
+   const { SESSION_ID } = req.cookies;
+   const { projectId ,eventId} = req.session;
+  let lotid=req.session.lotId;
+  lotid=lotid.replace('Lot ','')
+  const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+lotid+"/lot-suppliers";
+  const downloadSuppliers=process.env['AGREEMENTS_SERVICE_API_URL']+'/agreements/'+req.session.agreement_id+'/lots/'+lotid+'/suppliers/export';
+  const releatedContent = req.session.releatedContent;
+
+  const { download,previous, next } = req.query
+
+
+  const supplierURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
+    const { data: suppliers } = await TenderApi.Instance(SESSION_ID).get(supplierURL);
+console.log('log11',supplierURL);
+    const suppliersList=suppliers.suppliers;
+console.log('log12',suppliersList.length);
+    /*patch */
+    const MatchedSupplierIDS : any = [];
+    for(let i=0;i<suppliersList.length;i++){
+      console.log('logyes');
+      if(supplierIDSData['supplierIDS'].includes(suppliersList[i].id)) 
+      MatchedSupplierIDS.push(suppliersList[i].id);
+    }
+    
+    const UnqMatchedSupplierIDS = MatchedSupplierIDS.filter((value:any, index:any, self:any) => {
+      return self.indexOf(value) === index;
+    });
+    console.log('log13',UnqMatchedSupplierIDS.length);
+    /*patch */
+    let supplierList = [];
+      supplierList = await GetLotSuppliers(req);
+      console.log('log14',supplierList.length);
+      supplierList = supplierList.filter((el: any) => {
+        if(UnqMatchedSupplierIDS.includes(el.organization.id)) {
+          return true;
+        }
+        return false;
+      });
+      console.log('log15',supplierList.length);
+      
+  const rowCount=10;let showPrevious=false,showNext=false;
+  supplierList = supplierList.sort((a: any, b: any) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
+  const supplierListDwn = supplierList;
+  const supplierLength = supplierList.length;
+  
+  let appendData;
+  let noOfPages=Math.ceil(supplierList.length/rowCount);
+  
+  if(previous==undefined && next==undefined)
+      {
+        
+        req.session.supplierpagenumber = 1;
+        if(supplierList.length <= rowCount) {
+          
+          showPrevious = false;
+          showNext = false;
+
+           appendData = {
+            data: cmsData,
+            suppliers_list: supplierList,
+            lotSuppliers: lotSuppliers,
+            releatedContent: releatedContent,
+            downloadSuppliers:downloadSuppliers,
+            lotId:req.session.lotId,
+            agreementLotName:req.session.agreementLotName,
+            showPrevious,
+            showNext,
+            supplierLength
+          };
+
+
+        } else {
+          
+          showPrevious=false;
+          showNext=true;
+          supplierList = supplierList.slice(0,rowCount);
+
+           appendData = {
+            data: cmsData,
+            suppliers_list: supplierList,
+            lotSuppliers: lotSuppliers,
+            releatedContent: releatedContent,
+            downloadSuppliers:downloadSuppliers,
+            lotId:req.session.lotId,
+            agreementLotName:req.session.agreementLotName,
+            showPrevious,
+            showNext,
+            supplierLength,
+            currentpagenumber:1,
+            noOfPages
+          };
+        }
+
+
+        
+
+
+
+      } else {
+        if(previous!=undefined) {
+            let currentpagenumber=req.session.supplierpagenumber;
+            let previouspagenumber=currentpagenumber-1;
+          
+            if(previouspagenumber<1){
+              previouspagenumber=1;
+              currentpagenumber=previouspagenumber+1;
+             }
+
+            let lastindex=previouspagenumber*rowCount;
+            supplierList=supplierList.slice(lastindex-rowCount,lastindex);
+            req.session.supplierpagenumber=previouspagenumber;
+            if(previouspagenumber == 1) {
+              showPrevious=false;
+            } else {
+              showPrevious=true;
+            }
+            showNext=true;
+
+             appendData = {
+              data: cmsData,
+              suppliers_list: supplierList,
+              lotSuppliers: lotSuppliers,
+              releatedContent: releatedContent,
+              downloadSuppliers:downloadSuppliers,
+              lotId:req.session.lotId,
+              agreementLotName:req.session.agreementLotName,
+              showPrevious,
+              showNext,
+              supplierLength,
+              currentpagenumber:previouspagenumber,
+              noOfPages
+            };
+        } else {  //next is undefined
+          
+          let currentpagenumber=req.session.supplierpagenumber;
+          
+          let nextpagenumber=currentpagenumber+1;
+          
+          if(nextpagenumber>noOfPages){
+           nextpagenumber=noOfPages;
+           currentpagenumber=nextpagenumber-1;
+          }
+          let lastindex=nextpagenumber*rowCount;
+
+          let firstindex=0;
+          if(lastindex > supplierList.length) {
+            lastindex=supplierList.length;
+            firstindex=currentpagenumber*rowCount;
+          
+          } else {
+            firstindex=lastindex-rowCount;
+            
+          }
+          
+          supplierList=supplierList.slice(firstindex,lastindex);
+          
+          req.session.supplierpagenumber=nextpagenumber;
+          
+          if(nextpagenumber==noOfPages) {
+            showNext=false;
+          } else {
+            showNext=true;
+          }
+
+          
+          showPrevious=true;
+           appendData = {
+            data: cmsData,
+            suppliers_list: supplierList,
+            lotSuppliers: lotSuppliers,
+            releatedContent: releatedContent,
+            downloadSuppliers:downloadSuppliers,
+            lotId:req.session.lotId,
+            agreementLotName:req.session.agreementLotName,
+            showPrevious,
+            showNext,
+            supplierLength,
+            currentpagenumber:nextpagenumber,
+            noOfPages
+          };
+        }
+      }
+
+      console.log('log12',supplierList.length);
+      if(download!=undefined)
+      {
+        const JsonData:any = [];
+        let contactSupplierDetails;
+        
+        for(let i=0;i<supplierListDwn.length;i++){
+          const contact = supplierListDwn[i];
+          if(contact.lotContacts != undefined) {
+            contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+            contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+            contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+            contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+            contactSupplierDetails = contact.lotContacts[0].contact;
+          }
+          JsonData.push(contactSupplierDetails)
+        }
+    
+        let fields = ["name","email","telephone","address","url","Contact Point name"];
+        const json2csv = new Parser({fields});
+        const csv = json2csv.parse(JsonData);
+        res.header('Content-Type', 'text/csv');
+        res.attachment("FCA_AllSuppliers_List.csv");         
+        res.send(csv);
+    
+      }else{
+        res.render('fca_supplier_list',appendData );
+      }
+
+ }

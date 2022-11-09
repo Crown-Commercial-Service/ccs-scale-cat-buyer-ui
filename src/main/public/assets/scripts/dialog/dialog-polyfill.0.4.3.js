@@ -6,13 +6,10 @@ let resources = [];
 let weightingStaff = [];
 let weightingVetting = [];
 
-container =
-  document.getElementById('ccs_ca_menu_tabs_form_later') || document.getElementById('ccs_rfp_scoring_criteria') || document.getElementById('ccs_da_menu_tabs_form_later');
-  if(container!==null)
-  {
-    inputs = container.getElementsByTagName('input');
-  }
-
+container = document.getElementById('ccs_ca_menu_tabs_form_later') || document.getElementById('ccs_rfp_scoring_criteria') || document.getElementById('ccs_da_menu_tabs_form_later');
+if(container !== null) {
+  inputs = container.getElementsByTagName('input');
+}
 
 function deselect(e) {
   $('.pop').slideFadeToggle(function () {
@@ -21,12 +18,12 @@ function deselect(e) {
 }
 
 $(function () {
-  var foundinsave = $('body:contains("Save and continue")');
-  var foundin = $('body:contains("Confirm Scores")');
-  if (foundin.length < 1 && foundinsave.length < 1) {
+  var foundin = $('body:contains("Save and continue")');
+  if (foundin.length < 1) {
     removeClass();
   }
 });
+
 function removeClass() {
   var allElements = document.querySelectorAll('.nav-popup');
   for (i = 0; i < allElements.length; i++) {
@@ -35,24 +32,24 @@ function removeClass() {
 }
 
 $(function () {
-  // $('.nav-popup').on('click', function () {
-  //   if ($(this).hasClass('selected')) {
-  //     deselect($(this));
-  //     $('.backdrop-nav-menu').fadeOut(200);
-  //   } else {
-  //     $('.backdrop-nav-menu').fadeTo(200, 1);
-  //     let btnSend = document.querySelector('#redirect-button-nav-menu');
-  //     if (btnSend && this.className != 'logo nav-popup' && this.className != 'govuk-footer__link logo nav-popup') {
-  //       btnSend.setAttribute('name', this.innerHTML);
-  //     } else {
-  //       btnSend.setAttribute('name', 'CCS website');
-  //       document.body.scrollTop = document.documentElement.scrollTop = 0;
-  //     }
-  //     // $(this).addClass('selected');
-  //     $('.pop').slideFadeToggle();
-  //   }
-  //   return false;
-  // });
+  $('.nav-popup').on('click', function () {
+    if ($(this).hasClass('selected')) {
+      deselect($(this));
+      $('.backdrop-nav-menu').fadeOut(200);
+    } else {
+      $('.backdrop-nav-menu').fadeTo(200, 1);
+      let btnSend = document.querySelector('#redirect-button-nav-menu');
+      if (btnSend && this.className != 'logo nav-popup' && this.className != 'govuk-footer__link logo nav-popup') {
+        btnSend.setAttribute('name', this.innerHTML);
+      } else {
+        btnSend.setAttribute('name', 'CCS website');
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+      }
+      // $(this).addClass('selected');
+      $('.pop').slideFadeToggle();
+    }
+    return false;
+  });
 
   $('.vetting-popup').on('click', function () {
     if ($(this).hasClass('selected')) {
@@ -121,12 +118,11 @@ $(function () {
     return false;
   });
 
-/*   $('.dialog-close-vetting').on('click', function () {
   $('.dialog-close-vetting').on('click', function () {
     $('.backdrop-vetting').fadeOut(200);
     deselect($('.dialog-close-vetting'));
     return false;
-  }); */
+  });
 
   $('.dialog-close-tier-4').on('click', function () {
     $('.backdrop-tier-4').fadeOut(200);
@@ -139,7 +135,11 @@ $(function () {
     deselect($('.dialog-close-tier-5'));
     return false;
   });
-
+  $('.dialog-close-tier').on('click', function () {
+    $('.backdrop-tier').fadeOut(200);
+    deselect($('.dialog-close-tier'));
+    return false;
+  });
   $('.dialog-close-nav-menu').on('click', function () {
     $('.backdrop-nav-menu').fadeOut(200);
     deselect($('.dialog-close-nav-menu'));
@@ -151,21 +151,20 @@ $(function () {
     $('.backdrop-nav-menu').fadeOut(200);
     var route = this.name;
     if (route == 'Home') {
-      window.open("/");
+      document.location.href = '/';
     } else if (route == 'My Projects') {
-      window.open('/dashboard');
+      document.location.href = '/dashboard';
     } else if (route == 'CCS website') {
-      window.open('https://www.crowncommercial.gov.uk/');
+      document.location.href = 'https://www.crowncommercial.gov.uk/';
     } else if (route == 'Guidance') {
-      window.open("#");
+      document.location.href = '#';
     } else if (route == 'Get help') {
-      window.open('https://www.crowncommercial.gov.uk/contact');
+      document.location.href = 'https://www.crowncommercial.gov.uk/contact';
     } else {
       return false;
     }
     $('.backdrop-nav-menu').fadeOut(200);
   });
-
 
   $('#redirect-button-vetting').on('click', function () {
     const total_staffs = document.getElementById('da-total-staff');
@@ -189,57 +188,6 @@ $(function () {
       for (index = 0; index < inputs.length; ++index) {
         if(inputs[index].type!='hidden'){
         inputs[index].value = '';
-        }
-      }
-      $('#ca_vetting_error_summary').addClass('hide-block');
-      
-      var sfiaerror=document.getElementsByClassName("ca_weight_class_error")
-      if (sfiaerror != null && sfiaerror.length > 0) {
-        for(index=0;index<sfiaerror.length;index++)
-        {
-          
-          sfiaerror[index].innerText =''
-        }
-      }
-      var sfiaerrorInput=document.getElementsByClassName("weight_class")
-      if (sfiaerrorInput != null && sfiaerrorInput.length > 0) {
-        for(index=0;index<sfiaerrorInput.length;index++)
-        {
-          sfiaerrorInput[index].classList.remove('govuk-input--error')
-          
-        }
-      }
-      var weightStafferror=document.getElementsByClassName("ca_weight_staff_class_error")
-      if (weightStafferror != null && weightStafferror.length > 0) {
-        for(index=0;index<weightStafferror.length;index++)
-        {
-          
-          weightStafferror[index].innerHTML =''
-        }
-      }
-
-      var weightStafferrorInput=document.getElementsByClassName("weight_staff_class")
-      if (weightStafferrorInput != null && weightStafferrorInput.length > 0) {
-        for(index=0;index<weightStafferrorInput.length;index++)
-        {
-          weightStafferrorInput[index].classList.remove('govuk-input--error')
-          
-        }
-      }
-      var weightVettingerror=document.getElementsByClassName("ca_weight_vetting_class_p_error")
-      if (weightVettingerror != null && weightVettingerror.length > 0) {
-        for(index=0;index<weightVettingerror.length;index++)
-        {
-          
-          weightVettingerror[index].innerHTML =''
-        }
-      }
-      var weightVettingerrorInput=document.getElementsByClassName("weight_vetting_class")
-      if (weightVettingerrorInput != null && weightVettingerrorInput.length > 0) {
-        for(index=0;index<weightVettingerrorInput.length;index++)
-        {
-          weightVettingerrorInput[index].classList.remove('govuk-input--error')
-          
         }
       }
       var tabLinks = document.querySelectorAll('.ca-vetting-weighting');
@@ -285,6 +233,19 @@ $(function () {
     if (route == 'Use a 5-tier scoring criteria') {
       document.location.href = '/rfp/set-scoring-criteria?id=5';
     } else {
+      return false;
+    }
+  });
+  $('#redirect-button-tier').on('click', function () {
+    deselect($('.dialog-close-tier'));
+    $('.backdrop-tier').fadeOut(200);
+    var route = this.name;
+    if (route == 'Use a 5-tier scoring criteria') {
+      document.location.href = '/rfp/set-scoring-criteria?id=5';
+    }else if (route == 'Use a 4-tier scoring criteria') {
+      document.location.href = '/rfp/set-scoring-criteria?id=4';
+    }
+     else {
       return false;
     }
   });

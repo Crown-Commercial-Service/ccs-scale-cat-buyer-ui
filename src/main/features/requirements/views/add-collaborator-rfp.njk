@@ -1,5 +1,9 @@
 
 {% extends "template.njk" %}
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set fcaHelperLayer = true %}
+{% endif %}
 {% from "macros/csrf.njk" import csrfProtection %}
 
 {% from "components/support/macro.njk" import howToGetSupport %}
@@ -11,10 +15,10 @@
 
 {% set organisationUser = userdata%}
 
-{% set sortedMembers = [{value: "", text: "Please select a colleague to be added"}] %}
+{% set sortedMembers = [{value: "", text: "Select colleague"}] %}
 {% for user in organisationUser %}
   {% if user.userName !== lead%}
-    {% set sortedMembers = (sortedMembers.push({value: user["user-id"], text: user.name}), sortedMembers) %}
+    {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name}), sortedMembers) %}
   {%endif %}  
 {% endfor %}
 
@@ -26,7 +30,7 @@
 {{ CCSBreadcrumbs({
        items: [
         {
-        text: "Your dashboard",
+        text: "Dashboard",
         href: "/dashboard"
         },
         {
@@ -42,7 +46,7 @@
         href: "/rfp/task-list"
         },
         {
-        text: "Add colleagues "
+        text: "Add colleagues to your project"
         }
         ]
       }) }}
@@ -81,32 +85,36 @@
       </div>
     </div>
     <p class="govuk-body">{{data.content.p1}}</p>
-
+     {% if agreementId_session == 'RM1043.8' %}
+    <p class="govuk-body">{{data.content.p5}}</p>
+     {% endif %}
     <p class="govuk-body">{{data.content.p2}} <a class="govuk-link govuk-link--no-visited-state"
         href="{{data.content.a1.href}}">{{data.content.a1.text}}</a></p>
 
     <p class="govuk-body">{{data.content.p3}}</p>
       
-     
- 
-  
+  {% if agreementId_session == 'RM6187' %}
+  <p class="govuk-body">If you are the lead on this project you can add four colleagues.
+          If you are not the lead you can add three colleagues.</p>
+  {% endif %}
 
     <p class="govuk-body">{{data.content.p4}} </p>
 
       <div class="ccs-page-section">
-        <p class="govuk-body">Add colleagues</p>
+        <p class="govuk-body">Add colleagues:</p>
         <form method="POST" action="/rfp/get-collaborator-detail">
         {{ csrfProtection(csrf) }}
           <div class="govuk-button-group">
           {{ CCSSelect({
-          id: "rfi_collaborators",
-          name: "rfi_collaborators",
+          id: "rfp_collaborators",
+          name: "rfp_collaborators",
           items: sortedMembers
           })
           }}
           &nbsp;
           {{ CCSButton({
           text: "Add",
+          classes: "ccs-dynaform-hidden",
           attributes: {
           id: "ccs_collab_view"
           },
@@ -127,16 +135,17 @@
           </div>
 
           {{ CCSInput({
-              id: "rfi_collaborator_append",
-              name: "rfi_collaborator",
+              id: "rfp_collaborator_append",
+              name: "rfp_collaborator",
               type: "hidden",
               value: collaborator['email']
               }) }}
 
           {{ CCSButton({
-          text: "Add",
+          text: "Add colleague",
           attributes: {
-          id: "ccs_collab_add"
+          id: "ccs_collab_add",
+          disabled: true
           },
           classes: "govuk-button--secondary"
           }) }}
@@ -150,7 +159,7 @@
           <div id="collaborator-detail">
             <a href='/rfp/delete-collaborators?id={{collaborator.OCDS.id}}'  class='del govuk-link govuk-link--no-visited-state' title='delete'> Remove
             </a>
-            <p class="govuk-body"><strong>{{data.content.collegue.name}}<span id="collab_no"></span>: </strong><span
+            <p class="govuk-body"><strong>{{data.content.collegue.name}}<span id="collab_no"></span> </strong><span
                 id="collab_name">{{collaborator.OCDS.contact.name}}</span></p>
             <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="collab_email">{{ collaborator.OCDS.contact.email}}</span></p>
             <p class="govuk-body"><strong>{{data.content.collegue.tel}} </strong><span id="collab_tel">{{ collaborator.OCDS.contact.telephone }}</span></p>

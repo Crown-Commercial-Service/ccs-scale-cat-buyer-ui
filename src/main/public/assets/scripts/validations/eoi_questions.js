@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let with_value_count = 10,
       prev_input = 0,
+      filled_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
 
     for (var text_box_num = 10; text_box_num > 1; text_box_num--) {
@@ -18,13 +19,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
       } else {
         let the_label = document.querySelector('label[for=eoi_question_' + text_box_num + ']');
+        document.getElementById("eoi_question_"+text_box_num+"-info" ).classList.add('ccs-dynaform-hidden');
         the_label.classList.add('ccs-dynaform-hidden');
+        filled_input++;
         with_value_count = text_box_num;
       }
 
     }
+   
 
     document.getElementById("ccs_criteria_add").classList.remove("ccs-dynaform-hidden");
+
+    if(filled_input===0){
+    
+        document.getElementById("ccs_criteria_add").classList.add('ccs-dynaform-hidden');
+      }
+
     document.getElementById("ccs_criteria_add").addEventListener('click', (e) => {
       e.preventDefault();
       $(".govuk-error-summary").remove();
@@ -34,10 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("eoi_question_" + with_value_count).classList.remove("ccs-dynaform-hidden");
 
         document.querySelector('label[for=eoi_question_' + with_value_count + ']').classList.remove("ccs-dynaform-hidden");
+        document.getElementById("eoi_question_"+with_value_count+"-info" ).classList.remove('ccs-dynaform-hidden');
 
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
-          document.querySelector('label[for=eoi_question_' + prev_input + '] a.del').classList.add("ccs-dynaform-hidden");
+          // document.querySelector('label[for=eoi_question_' + prev_input + '] a.del').classList.add("ccs-dynaform-hidden");
         }
 
         with_value_count++;
@@ -68,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         //document.getElementById('eoi_question_' + target + '-error').parentNode.removeChild(document.getElementById('eoi_question_' + target + '-error'));
         document.querySelector('label[for=eoi_question_' + target + ']').classList.add("ccs-dynaform-hidden");
-
+        document.getElementById("eoi_question_"+target+"-info" ).classList.add('ccs-dynaform-hidden');
         if (prev_box > 1) {
           document.querySelector('label[for=eoi_question_' + prev_box + '] a.del').classList.remove("ccs-dynaform-hidden");
         }

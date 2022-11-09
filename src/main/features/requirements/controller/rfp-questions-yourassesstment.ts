@@ -15,6 +15,7 @@ import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstan
 import moment from 'moment-business-days';
 import moment from 'moment';
 import { AgreementAPI } from '../../../common/util/fetch/agreementservice/agreementsApiInstance';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 
 /**
@@ -28,23 +29,50 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
   const { agreement_id, proc_id, event_id, id, group_id, section, step } = req.query;
 
   try {
-    const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
+    if(agreement_id == 'RM1043.8'){
+      let flag = await ShouldEventStatusBeUpdated(event_id, 32, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'In progress');
+      }
+    }else{
+
+      // await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'In progress');
+    }
+
+    //Lot Supplier Count  --> CurrentLotSupplierCount
+    let CurrentLotSupplierCount = null;
+    if(agreement_id == "RM1043.8") {
+      const BaseUrlAgreementSuppliers = `/agreements/${agreement_id}/lots/${req.session?.lotId}/suppliers`;
+      const { data: retrieveAgreementSuppliers } = await AgreementAPI.Instance.get(BaseUrlAgreementSuppliers)
+      CurrentLotSupplierCount = retrieveAgreementSuppliers.length;
+    }
+
+     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
+    
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+    
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
+    const groupSixRelated = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Your social value question');
+    const groupSixRelatedq1 = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Quality');
+    const groupSixRelatedq2 = fetch_dynamic_api_data.some((el: any) => el.OCDS.title == 'Technical Criteria');
+    const groupSixRelatedq3 = fetch_dynamic_api_data.some((el: any) => el.nonOCDS.questionType == 'ReadMe');
     const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
     const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
-
+    
     const organizationID = req.session.user.payload.ciiOrgId;
     const organisationBaseURL = `/organisation-profiles/${organizationID}`;
+    
     const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
+    
     const name = getOrganizationDetails.data.identifier.legalName;
     const organizationName = name;
 
     let matched_selector = heading_fetch_dynamic_api?.data.filter((agroupitem: any) => {
       return agroupitem?.OCDS?.['id'] === group_id;
     });
-
+    
     matched_selector = matched_selector?.[0];
+    
     const { OCDS, nonOCDS } = matched_selector;
     const bcTitleText = OCDS?.description;
     const titleText = nonOCDS.mandatory === false ? OCDS?.description + ' (Optional)' : OCDS?.description;
@@ -54,9 +82,11 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     const nonOCDSList = [];
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((n1, n2) => n1.nonOCDS.order - n2.nonOCDS.order);
     
+    if(agreement_id==='RM6263'){
     if (group_id === 'Group 3' && id === 'Criterion 2'){
       fetch_dynamic_api_data.pop();
     }
+   }
     const form_name = fetch_dynamic_api_data?.map((aSelector: any) => {
       const questionNonOCDS = {
         groupId: group_id,
@@ -99,13 +129,43 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       else {
         return '';
       }
+      
+        
     });
     const ChoosenAgreement = req.session.agreement_id;
     const FetchAgreementServiceData = await AgreementAPI.Instance.get(`/agreements/${ChoosenAgreement}`);
     const AgreementEndDate = FetchAgreementServiceData.data.endDate;
-
+    
     req.session?.nonOCDSList = nonOCDSList;
-    const releatedContent = req.session.releatedContent;
+   
+    let relatedOverride, socialRelated;
+    if(req.session.currentEvent.eventType == 'FC' || req.session.eventManagement_eventType == 'FC' && req.session.agreement_id == 'RM6187') {
+      if (group_id == 'Group 6' && groupSixRelated == true){
+        relatedOverride = req.session.releatedContent;
+        socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
+      }
+      else if(group_id == 'Group 2' && groupSixRelatedq1 == true) {
+        relatedOverride = req.session.releatedContent;
+        socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
+      }
+      else if(group_id == 'Group 3' && groupSixRelatedq2 == true) {
+        relatedOverride = req.session.releatedContent;
+        socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
+      }
+      else if (group_id == 'Group 1' && groupSixRelatedq3 == true) {
+        relatedOverride = req.session.releatedContent;
+        socialRelated = new Object({social_link: 'https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts', social_label: 'Social value in the award of central government contracts (PPN 06/20)'});
+      }
+      else {
+        relatedOverride = req.session.releatedContent;
+        socialRelated = new Object({});
+      }
+    } else {
+      relatedOverride = req.session.releatedContent;
+      socialRelated = new Object({});
+    }
+    const releatedContent = relatedOverride;
+    
     //fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
     fetch_dynamic_api_data = fetch_dynamic_api_data.map(item => {
@@ -139,24 +199,26 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       .filter(item => !item.nonOCDS.dependant);
 
     let formNameValue = form_name.find(fn => fn !== '');
-    if (group_id === 'Group 8' && id === 'Criterion 2') {
-      TemporaryObjStorage.forEach(x => {
-        //x.nonOCDS.childern=[];
-        if (x.nonOCDS.questionType === 'Table') {
-          x.nonOCDS.options.forEach(element => {
-            element.optiontableDefination = mapTableDefinationData(element);
-            element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element));
-          });
-        }
-      });
-      TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
+    
+    if(req.session.agreement_id != 'RM1043.8') {
+      if (group_id === 'Group 8' && id === 'Criterion 2') {
+        TemporaryObjStorage.forEach(x => {
+          //x.nonOCDS.childern=[];
+          if (x.nonOCDS.questionType === 'Table') {
+            x.nonOCDS.options.forEach(element => {
+              element.optiontableDefination = mapTableDefinationData(element);
+              element.optiontableDefinationJsonString = JSON.stringify(mapTableDefinationData(element));
+            });
+          }
+        });
+        TemporaryObjStorage = TemporaryObjStorage.slice(0, 2);
+      }
     }
-
     
     // res.json(POSITIONEDELEMENTS)
     const { isFieldError } = req.session;
     const data = {
-      data: group_id === 'Group 8' && id === 'Criterion 2' ? TemporaryObjStorage : POSITIONEDELEMENTS,
+      data: (agreement_id != "RM1043.8") ? (group_id === 'Group 8' && id === 'Criterion 2') ? TemporaryObjStorage : POSITIONEDELEMENTS : POSITIONEDELEMENTS,
       agreement: AgreementEndDate,
       agreementEndDate: AgreementEndDate,
       agreement_id: agreement_id,
@@ -164,9 +226,10 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       event_id: event_id,
       group_id: group_id,
       criterian_id: id,
+      lotId:req.session.lotId,
       form_name: formNameValue,
       rfpTitle: titleText,
-      shortTitle: mapTitle(group_id),
+      shortTitle: mapTitle(group_id, req.session.agreement_id, req.session.lotId),
       bcTitleText,
       prompt: promptSplit,
       organizationName: organizationName,
@@ -174,7 +237,9 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       errorText: errorText,
       releatedContent: releatedContent,
       section: section,
-      step: step
+      step: step,
+      CurrentLotSupplierCount: (CurrentLotSupplierCount !== null) ? CurrentLotSupplierCount : '',
+      socialRelated: socialRelated
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
@@ -187,6 +252,12 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
     if (group_id === 'Group 1' && id === 'Criterion 2') {
       data.data=[];
       data.form_name='read_me';
+    }
+    
+    if(agreement_id == "RM1043.8") {  //DOS
+      if ((group_id === 'Group 2') && id === 'Criterion 2') {
+        data.form_name = 'suppliers_to_evaluate';
+      }
     }
     req.session['isFieldError'] = false;
     req.session['isValidationError'] = false;
@@ -222,6 +293,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
  */
 // path = '/rfp/questionnaire'
 export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: express.Response) => {
+  
   try {
     const { proc_id, event_id, id, group_id, stop_page_navigate, section, step } = req.query;
     const agreement_id = req.session.agreement_id;
@@ -265,11 +337,25 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
         );
         const _RequestBody: any = remove_objectWithKeyIdentifier;
         const filtered_object_with_empty_keys = ObjectModifiers._removeEmptyStringfromObjectValues(_RequestBody);
-        const object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
-          return { value: an_answer, selected: true };
+        let object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
+            return { value: an_answer, selected: true };
         });
-
+        if(agreement_id == "RM1043.8") {
+          object_values.shift();
+        }
+        
         if (req.body.rfp_read_me) {
+          object_values = { value: "test", selected: true }
+          let answerValueBody = {};
+          answerValueBody = {
+            nonOCDS: {
+              answered: true,
+              options: [object_values],
+            },
+          };          
+          // const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
+          const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/Question 1`;
+          await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
           QuestionHelper.AFTER_UPDATINGDATA_RFP_Assessment(
             ErrorView,
             DynamicFrameworkInstance,
@@ -474,10 +560,14 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
               }
             }
             else if (questionNonOCDS.questionType === 'Text' && questionNonOCDS.multiAnswer === true) {
-              if (KeyValuePairValidation(object_values, req)) {
-                validationError = true;
-                break;
+              if(agreement_id === 'RM1043.8' && id == 'Criterion 2' && (req.session.lotId == 1 && (group_id == 'Group 6' || group_id == 'Group 9')) || (req.session.lotId == 3 && (group_id == 'Group 6' || group_id == 'Group 8')) ) {
+              } else {
+                if (KeyValuePairValidation(object_values, req)) {
+                  validationError = true;
+                  break;
+                }
               }
+              
               let splterm = req.body;
               let splTermvalue = req.body;
               const TAStorage = [];
@@ -488,12 +578,23 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                 const spltermObject = { value: splTermvalue[item], selected: true };
                 TAStorage.push(spltermObject);
               }
-              answerValueBody = {
-                nonOCDS: {
-                  answered: true,
-                  options: [...TAStorage],
-                },
-              };
+              
+              if(TAStorage.length > 0) {
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    options: [...TAStorage],
+                  },
+                };
+              } else {
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    options: [{ value: '', selected: true }],
+                  },
+                };
+              }
+              
             }
             else if (questionNonOCDS.questionType === 'Percentage') {
               const dataList = req.body[question_ids[i]];
@@ -503,13 +604,24 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   .map(val => {
                     return { value: val, selected: true };
                   });
-                answerValueBody = {
-                  nonOCDS: {
-                    answered: true,
-                    multiAnswer: true,
-                    options: optins
-                  }
-                };
+                if(optins.length > 0) {
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: true,
+                      options: optins
+                    }
+                  };
+                } else {
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: true,
+                      options: [{ value: '', selected: true }],
+                    }
+                  };
+                } 
+                
               } else if (percentage != undefined && percentage != null) {
                 answerValueBody = {
                   nonOCDS: {
@@ -586,20 +698,64 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   },
                 };
               } else {
-                answerValueBody = {
-                  nonOCDS: {
-                    answered: true,
-                    multiAnswer: questionNonOCDS.multiAnswer,
-                    options: [...object_values],
-                  },
-                };
+                if(agreement_id == "RM1043.8" && group_id === 'Group 2' && id === 'Criterion 2') {//DOS
+                  const supplierUpdateUrl = `/tenders/projects/${proc_id}/events/${event_id}`;
+                  const _body = {
+                    assessmentSupplierTarget: object_values[0].value,
+                    assessmentId:req.session?.currentEvent?.assessmentId
+                  };
+                  const response = await TenderApi.Instance(SESSION_ID).put(supplierUpdateUrl, _body);
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: questionNonOCDS.multiAnswer,
+                      options: [...object_values],
+                    },
+                  };
+                  
+                } else if(agreement_id==='RM1043.8' && id === 'Criterion 2' && ((group_id === 'Group 10' && req.session.lotId == '3') || (group_id === 'Group 12' && req.session.lotId == '1'))) {
+                  if(object_values.length > 0) {
+                    answerValueBody = {
+                      nonOCDS: {
+                        answered: true,
+                        multiAnswer: questionNonOCDS.multiAnswer,
+                        options: [...object_values],
+                      },
+                    };
+                  } else {
+                    answerValueBody = {
+                      nonOCDS: {
+                        answered: true,
+                        multiAnswer: questionNonOCDS.multiAnswer,
+                        options: [{ value: object_values[i], selected: true }],
+                      },
+                    };
+                  }
+                  
+                } else {
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: questionNonOCDS.multiAnswer,
+                      options: [...object_values],
+                    },
+                  };
+                }
+                
               }
             }
             if (!validationError) {
               try {
                 const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_ids[i]}`;
-                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined && answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                if (answerValueBody != undefined && answerValueBody != null && answerValueBody?.nonOCDS != undefined) {
+                  if(answerValueBody?.nonOCDS?.options.length > 0 && answerValueBody?.nonOCDS?.options[0].value != undefined) {
+                    await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                  } else {
+                    if(agreement_id==='RM1043.8' && id === 'Criterion 2' && ((group_id === 'Group 10' && req.session.lotId == '3') || (group_id === 'Group 12' && req.session.lotId == '1'))) {
+                      
+                      await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
+                    }
+                  }
                 }
               } catch (error) {
                 LoggTracer.errorTracer(error, res);
@@ -634,7 +790,24 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
       res.redirect('/error');
     }
   } catch (err) {
-    LoggTracer.errorTracer(err, res);
+
+    delete err?.config?.['headers'];
+    const Logmessage = {
+      Person_id: TokenDecoder.decoder(SESSION_ID),
+      error_location: `${req.headers.host}${req.originalUrl}`,
+      sessionId: 'null',
+      error_reason: 'FC Dynamic framework throws error - Tenders Api is causing problem',
+      exception: err,
+    };
+    const Log = new LogMessageFormatter(
+      Logmessage.Person_id,
+      Logmessage.error_location,
+      Logmessage.sessionId,
+      Logmessage.error_reason,
+      Logmessage.exception,
+    );
+    
+    LoggTracer.errorTracer(Log, res);
   }
 };
 
@@ -650,10 +823,15 @@ const KeyValuePairValidation = (object_values: any, req: express.Request) => {
         if ((key.value[i] === '' && keyValue.value[i] !== '') || (key.value[i] !== '' && keyValue.value[i] === '')) {
           eitherElementEmptys.push({ index: i, isEmpty: true });
         } else {
-          if (key.value[i].length > 100) {
+          let valueLength = key.value[i].length
+          if(valueLength > 5000){
+            valueLength = 5000;
+          }
+          // if (key.value[i].length > 5000) { // For Temp Update
+          if (valueLength > 5000) {
             keyErrorIndex = keyErrorIndex + i + ',';
           }
-          if (keyValue.value[i].length > 1000) {
+          if (keyValue.value[i].length > 5000) {
             keyValueErrorIndex = keyValueErrorIndex + i + ',';
           }
         }
@@ -662,7 +840,15 @@ const KeyValuePairValidation = (object_values: any, req: express.Request) => {
         req.session.isFieldError = true;
         req.session.emptyFieldError = eitherElementEmptys.length > 0;
         req.session.fieldLengthError = [keyErrorIndex, keyValueErrorIndex];
-        const { term, value } = req.body;
+        let term;
+        let value;
+        if(req.body.term===undefined && req.body.value===undefined){
+           term=key;
+           value=keyValue;
+        }else{
+          term=req.body.term;
+          value=req.body.value;
+        }
         const TAStorage = [];
         for (let item = 0; item < 10; item++) {
           const termObject = { value: term[item], text: value[item], selected: true };
@@ -721,7 +907,8 @@ const findErrorText = (data: any, req: express.Request) => {
       req.session['isLocationMandatoryError'] == true
     ) {
       errorText.push({
-        text: 'You must select at least one region where your staff will be working, or select "No specific location...."',
+        text: 'You must select at least one way you will assess suppliers, or “None”',
+      //  text: 'You must select at least one region where your staff will be working, or select "No specific location...."',
       });
     } else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
       errorText.push({ text: 'Indicative duration cannot be negative' });
@@ -739,17 +926,46 @@ const isDateOlder = (date1: any, date2: any) => {
   );
 };
 
-const mapTitle = groupId => {
+const mapTitle = (groupId, agreement_id, lotId) => {
   let title = '';
   switch (groupId) {
     case 'Group 4':
       title = 'technical';
       break;
     case 'Group 5':
-      title = 'cultural';
+      if(agreement_id == 'RM1043.8') {
+        title = 'essential skills and experience';
+      } else {
+        title = 'cultural';
+      }
       break;
     case 'Group 6':
-      title = 'social value';
+      if(agreement_id == 'RM1043.8') {
+        title = 'nice-to-have skills and experience';
+      } else {
+        title = 'social value';
+      }
+      break;
+    case 'Group 7':
+      if(agreement_id == 'RM1043.8') {
+        title = 'technical questions';
+      } else {
+        title = '';
+      }
+      break;
+      case 'Group 8':
+      if(agreement_id == 'RM1043.8') {
+        if(lotId == 3) { title = 'social value questions'; } else { title = 'cultural fit'; }
+      } else {
+        title = '';
+      }
+      break;
+      case 'Group 9':
+      if(agreement_id == 'RM1043.8') {
+        if(lotId == 3) { title = ''; } else { title = 'social value questions'; }
+      } else {
+        title = '';
+      }
       break;
     default:
       return '';

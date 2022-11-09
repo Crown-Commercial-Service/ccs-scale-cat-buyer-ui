@@ -1,0 +1,25 @@
+{
+    "title": "Your further competition has been published",
+    "title2": "Your further competition has been sent to suppliers",
+    "title2_subtitle": "Your unique reference number is:",
+    "title2_subtitle_value": "XXX-XXXX",
+    "title2_line1": "Quote this number, along with your project ID (XXXXXXXX) if you need to contact CCS for support.",
+    "title2_line2": " 0345 410 2222     info@crowncommercial.gov.uk",
+    "dashboard": {
+      "title": "Go to your project dashboard",
+      "href": "/dashboard"
+    },
+    "title3":"[ What happens next ]",
+
+      "title3_contents": [
+        {
+         "text": "[ Next step 1 ]"
+        },
+        {
+          "text": "[ Next step 2 ]"
+        },
+        {
+            "text": "[ Next step 3 ]"
+          }
+    ]
+}

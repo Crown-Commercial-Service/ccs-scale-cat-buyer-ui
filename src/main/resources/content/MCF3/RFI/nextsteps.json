@@ -1,0 +1,49 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+          },
+          {
+            "text": "Event Management",
+            "href": "/event/management?id="
+          },
+          {
+            "text": "Close/archive"
+          }
+    ],
+
+    "title": "Next steps",
+    "subtitle": "[ Instructions for this page ]",
+    "form": [
+        {
+          "id": "rfi_next_steps",
+          "question": "What would you like to do next?",
+          "radioOptions": {
+            "name": "rfi_next_steps",
+            "items": [
+              {
+                "value": "I want to close this event, and move to the next stage of the project",
+                "text": "I want to close this event, and move to the next stage of the project",
+                "hint": {
+                  "text": "[Description for this route]"
+                }
+              },
+              {
+                "value": "I also want to close the whole project",
+                "text": "I also want to close the whole project",
+                "hint": {
+                  "text": "[Description for this route]"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "backJump": {
+        "title": "Return to Event Management",
+        "href": "/event/management?id="
+      }
+
+
+}

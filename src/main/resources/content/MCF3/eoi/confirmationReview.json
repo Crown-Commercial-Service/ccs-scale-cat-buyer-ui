@@ -1,0 +1,22 @@
+{
+    "title": "Your Expression of Interest is published",
+    "title2": "Your EoI has been sent to suppliers",
+    "title2_subtitle": "Your unique reference number is:",
+    "title2_subtitle_value": "XXX-XXXX",
+    "title2_line1": "Quote this number, along with your project ID (XXXXXXXX) if you need to contact CCS for support.",
+    "title2_line2": " 0345 410 2222     info@crowncommercial.gov.uk",
+    "dashboard": {
+      "title": "Go to your project dashboard",
+      "href": "/dashboard"
+    },
+    "title3":"What happens next",
+
+      "title3_contents": [
+        {
+         "text": "The suppliers you selected can read your RfI and ask questions if they need more information."
+        },
+        {
+          "text": "When the clarification period ends you will need to answer the supplier questions by the deadline you set."
+        }
+    ]
+}

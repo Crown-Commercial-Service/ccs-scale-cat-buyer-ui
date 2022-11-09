@@ -2,6 +2,8 @@
 import * as express from 'express';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import fileData from '../../../resources/content/requirements/rfpAddContext.json';
+import * as fileDataMCF from '../../../resources/content/MCF3/requirements/rfpAddContext.json';
+import * as fileDataDOS from '../../../resources/content/MCF3/requirements/dos_rfpAddContext.json';
 import { operations } from '../../../utils/operations/operations';
 import { ErrorView } from '../../../common/shared/error/errorView';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -15,7 +17,20 @@ import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpda
  * @GETController
  */
 export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Response) => {
-  const { projectId, eventId } = req.session;
+  const { projectId,eventId } = req.session;
+
+  let cmsData;
+  if(req.session.agreement_id == 'RM6187') {
+    //MCF3
+    cmsData = fileDataMCF;
+  } else if(req.session.agreement_id == 'RM6263') {
+    //DSP
+    cmsData = fileData;
+  } else if(req.session.agreement_id == 'RM1043.8') {
+    //DOS
+    cmsData = fileDataDOS;
+  }
+
   if (
     operations.isUndefined(req.query, 'agreement_id') ||
     operations.isUndefined(req.query, 'proc_id') ||
@@ -33,19 +48,18 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       const extracted_criterion_based = fetch_dynamic_api_data?.map((criterian: any) => criterian?.id);
       let criterianStorage: any = [];
       for (const aURI of extracted_criterion_based) {
-        if (aURI.trim().toLowerCase() === "Criterion 3".toLowerCase()) {
-          const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
-          const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
-          const criterian_array = fetch_criterian_group_data?.data;
-          const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
-            const object = anItem;
-            object['criterianId'] = aURI;
-            return object;
-          });
-          criterianStorage.push(rebased_object_with_requirements);
-        }
-
+        if (aURI.trim().toLowerCase() ==="Criterion 3".toLowerCase()) {
+        const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
+        const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
+        const criterian_array = fetch_criterian_group_data?.data;
+        const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
+          const object = anItem;
+          object['criterianId'] = aURI;
+          return object;
+        });
+        criterianStorage.push(rebased_object_with_requirements);
       }
+    }
       criterianStorage = criterianStorage[0];
       const sorted_ascendingly = [];
       criterianStorage.map(obj => {
@@ -58,15 +72,15 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       const excludingKeyDates = select_default_data_from_fetch_dynamic_api.filter(
         AField => AField.OCDS.id !== 'Group Key Dates',
       );
-      const excludingIR35andSkills = excludingKeyDates.filter(field => (field.OCDS.description?.toLowerCase() !== 'Confirm if you need a contracted out service or a supply of resource'.toLowerCase() && field.OCDS.description !== 'IR35 acknowledgement' && field.OCDS.description !== 'Set essential and preferred skills'));
-      if (excludingIR35andSkills != null && excludingIR35andSkills.length > 0) {
+      const excludingIR35andSkills = excludingKeyDates.filter(field => (field.OCDS.description !== 'IR35 acknowledgement' && field.OCDS.description !== 'Set essential and preferred skills'));
+      if (excludingIR35andSkills !=null && excludingIR35andSkills.length >0) {
         excludingIR35andSkills.map(x => {
           if (!x.nonOCDS.mandatory) {
             x.OCDS.description += " (optional)"
           }
         });
       }
-
+      
       // let text='';
       // for(var i=0;i<excludingIR35andSkills.length;i++)
       // {
@@ -130,22 +144,55 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       //   }
       // }
 
+      for (let index = 0; index < excludingIR35andSkills.length; index++) {
+        excludingIR35andSkills[index].questionStatus = 'todo';
+        const baseURLQ: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${excludingIR35andSkills[index].criterianId}/groups/${excludingIR35andSkills[index].OCDS.id}/questions`;
+        const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURLQ);
+        let fetch_dynamic_api_data = fetch_dynamic_api?.data;
+        fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
+        for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
+          if (fetch_dynamic_api_data[j].nonOCDS.questionType == 'SingleSelect' || fetch_dynamic_api_data[j].nonOCDS.questionType == 'MultiSelect') {
+            let item1 = fetch_dynamic_api_data[j].nonOCDS.answered;
+            // let questionOptions = fetch_dynamic_api_data[j].nonOCDS.options;
+            // let item1 = questionOptions.find(i => i.selected === true);
+            if(item1){
+              excludingIR35andSkills[index].questionStatus = 'Done';
+            }
+
+          } else {
+            
+            if (fetch_dynamic_api_data[j].nonOCDS.options.length > 0) {
+              
+              excludingIR35andSkills[index].questionStatus = 'Done';
+            } else {
+            }
+          }
+        }
+
+      }
+
       const releatedContent = req.session.releatedContent;
-      let selectedeventtype = req.session.selectedeventtype;
       const display_fetch_data = {
         data: excludingIR35andSkills,
         agreement_id: agreement_id,
-        file_data: fileData,
+        file_data: cmsData,
         proc_id: proc_id,
         event_id: event_id,
         lotId,
         agreementLotName,
         releatedContent: releatedContent,
-        selectedeventtype,
       };
-      let flag = await ShouldEventStatusBeUpdated(eventId, 32, req);
-      if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'In progress');
+
+      if(agreement_id == 'RM1043.8'){
+        let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
+        if (flag) {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'In progress');
+        }
+      }else{
+        let flag = await ShouldEventStatusBeUpdated(eventId, 31, req);
+        if (flag) {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'In progress');
+        }
       }
       res.render('rfp-context', display_fetch_data);
     } catch (error) {

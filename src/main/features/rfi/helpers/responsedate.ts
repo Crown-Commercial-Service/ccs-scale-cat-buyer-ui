@@ -52,23 +52,6 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     const apiData_baseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${Criterian_ID}/groups/${keyDateselector}/questions`;
     const fetchQuestions = await DynamicFrameworkInstance.Instance(SESSION_ID).get(apiData_baseURL);
     let fetchQuestionsData = fetchQuestions.data;
-    for(var i=0;i<fetchQuestionsData.length;i++)
-    {
-      let tempDate=fetchQuestionsData[i]?.nonOCDS?.options[0]?.value
-      if(tempDate!=undefined){
-      let cvDate=''
-      if(fetchQuestionsData[i].OCDS.id!='Question 1'){
-        cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a')
-        if(cvDate !="Invalid date")
-          {fetchQuestionsData[i].nonOCDS.options[0].value=cvDate}
-      }
-      else {
-        cvDate=moment(tempDate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY')
-        if(cvDate !="Invalid date")
-        {fetchQuestionsData[i].nonOCDS.options[0].value=cvDate}
-      }
-      }
-    }
     let DeadlinePeriodDate;
     let SupplierPeriodDate;
     let rfi_clarification_date;
@@ -82,11 +65,11 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
     let deadline_period_for_clarification;
     let supplier_period_for_clarification;
     if (req.session.UIDate == null) {
-      rfi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
-      clarification_period_end_date = new Date();
+      const rfi_clarification_date = moment(new Date(), 'DD/MM/YYYY').format('DD MMMM YYYY');
+      const clarification_period_end_date = new Date();
       const clarification_period_end_date_parsed = `${clarification_period_end_date.getDate()}-${clarification_period_end_date.getMonth() + 1
         }-${clarification_period_end_date.getFullYear()}`;
-      rfi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD MM YYYY').businessAdd(
+      const rfi_clarification_period_end = moment(clarification_period_end_date_parsed, 'DD MM YYYY').businessAdd(
         predefinedDays.clarification_days,
       )._d;
       rfi_clarification_period_end.setHours(predefinedDays.defaultEndingHour);
@@ -96,7 +79,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
       const DeadlinePeriodDate_Parsed = `${DeadlinePeriodDate.getDate()}-${DeadlinePeriodDate.getMonth() + 1
         }-${DeadlinePeriodDate.getFullYear()}`;
-      deadline_period_for_clarification_period = moment(DeadlinePeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
+      const deadline_period_for_clarification_period = moment(DeadlinePeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.clarification_period_end,
       )._d;
       deadline_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
@@ -105,7 +88,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const SupplierPeriodDate = deadline_period_for_clarification_period;
       const SupplierPeriodDate_Parsed = `${SupplierPeriodDate.getDate()}-${SupplierPeriodDate.getMonth() + 1
         }-${SupplierPeriodDate.getFullYear()}`;
-      supplier_period_for_clarification_period = moment(SupplierPeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
+      const supplier_period_for_clarification_period = moment(SupplierPeriodDate_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.supplier_period,
       )._d;
       supplier_period_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
@@ -114,7 +97,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       const SupplierPeriodDeadLine = supplier_period_for_clarification_period;
       const SupplierPeriodDeadLine_Parsed = `${SupplierPeriodDeadLine.getDate()}-${SupplierPeriodDeadLine.getMonth() + 1
         }-${SupplierPeriodDeadLine.getFullYear()}`;
-      supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(
+      const supplier_dealine_for_clarification_period = moment(SupplierPeriodDeadLine_Parsed, 'DD-MM-YYYY').businessAdd(
         predefinedDays.supplier_deadline,
       )._d;
       supplier_dealine_for_clarification_period.setHours(predefinedDays.defaultEndingHour);
@@ -124,41 +107,41 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
         return currentElementID - nextElementID;
       });
-      // for(var i=0;i<fetchQuestionsData.length;i++)
-      //   {
-      //     if(fetchQuestionsData[i].nonOCDS.options.length>0){
-      //     let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-      //     day=value.substr(0,10);
-      //     time=value.substr(11,5);
-      //     if(i==0){
-      //       fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
-      //     }
-      //     else
-      //     {
-      //     fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
-      //     }
-      //   }
-      //   }
+      for(var i=0;i<fetchQuestionsData.length;i++)
+        {
+          if(fetchQuestionsData[i].nonOCDS.options.length>0){
+          let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+          day=value.substr(0,10);
+          time=value.substr(11,5);
+          if(i==0){
+            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+          }
+          else
+          {
+          fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
+          }
+        }
+        }
       let appendData = {
         data: cmsData,
         prompt: prompt,
         framework: fetchQuestionsData,
         rfi_clarification_date,
-        rfi_clarification_period_end: moment(rfi_clarification_period_end, 'DD/MM/YYYY, hh:mm a').format(
-          'DD MMMM YYYY, hh:mm a',
+        rfi_clarification_period_end: moment(rfi_clarification_period_end, 'DD/MM/YYYY, HH:mm').format(
+          'DD MMMM YYYY, HH:mm',
         ),
         deadline_period_for_clarification_period: moment(
           deadline_period_for_clarification_period,
-          'DD/MM/YYYY, hh:mm a',
-        ).format('DD MMMM YYYY, hh:mm a'),
+          'DD/MM/YYYY, HH:mm',
+        ).format('DD MMMM YYYY, HH:mm'),
         supplier_period_for_clarification_period: moment(
           supplier_period_for_clarification_period,
-          'DD/MM/YYYY, hh:mm a',
-        ).format('DD MMMM YYYY, hh:mm a'),
+          'DD/MM/YYYY, HH:mm',
+        ).format('DD MMMM YYYY, HH:mm'),
         supplier_dealine_for_clarification_period: moment(
           supplier_dealine_for_clarification_period,
-          'DD/MM/YYYY, hh:mm a',
-        ).format('DD MMMM YYYY, hh:mm a'),
+          'DD/MM/YYYY, HH:mm',
+        ).format('DD MMMM YYYY, HH:mm'),
         releatedContent: req.session.releatedContent,
       };
 
@@ -178,34 +161,34 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
     else {
       if (req.session.questionID == 'Question 2') {
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
         rfi_clarification_period_end = req.session.UIDate;
 
-        // rfp_clarification_date =moment(req.session.clarificationend,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        supplier_dealine_for_clarification_period = moment(req.session.confirmNextStepsSuppliers, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        // rfp_clarification_date =moment(req.session.clarificationend,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        supplier_dealine_for_clarification_period = moment(req.session.confirmNextStepsSuppliers, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
 
         fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
           const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-        // for(var i=0;i<fetchQuestionsData.length;i++)
-        // {
-        //   if(fetchQuestionsData[i].nonOCDS.options.length>0){
-        //     let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-        //     day=value.substr(0,10);
-        //     time=value.substr(11,5);
-        //     if(i==0){
-        //       fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
-        //     }
-        //     else
-        //     {
-        //     fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
-        //     }
-        //   }
-        // }
+        for(var i=0;i<fetchQuestionsData.length;i++)
+        {
+          if(fetchQuestionsData[i].nonOCDS.options.length>0){
+            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+            day=value.substr(0,10);
+            time=value.substr(11,5);
+            if(i==0){
+              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+            }
+            else
+            {
+            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
+            }
+          }
+        }
         let appendData = {
           data: cmsData,
           prompt: prompt,
@@ -230,32 +213,32 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
         deadline_period_for_clarification_period = req.session.UIDate;
 
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
-        rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        //deadline_period_for_clarification_period =moment(req.session.deadlinepublishresponse,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        supplier_dealine_for_clarification_period = moment(req.session.confirmNextStepsSuppliers, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        //deadline_period_for_clarification_period =moment(req.session.deadlinepublishresponse,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        supplier_dealine_for_clarification_period = moment(req.session.confirmNextStepsSuppliers, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
 
         fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
           const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-        // for(var i=0;i<fetchQuestionsData.length;i++)
-        // {
-        //   if(fetchQuestionsData[i].nonOCDS.options.length>0){
-        //     let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-        //     day=value.substr(0,10);
-        //     time=value.substr(11,5);
-        //     if(i==0){
-        //       fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
-        //     }
-        //     else
-        //     {
-        //     fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
-        //     }
-        //   }
-        // }
+        for(var i=0;i<fetchQuestionsData.length;i++)
+        {
+          if(fetchQuestionsData[i].nonOCDS.options.length>0){
+            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+            day=value.substr(0,10);
+            time=value.substr(11,5);
+            if(i==0){
+              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+            }
+            else
+            {
+            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
+            }
+          }
+        }
         let appendData = {
           data: cmsData,
           prompt: prompt,
@@ -280,32 +263,32 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
 
         supplier_period_for_clarification_period = req.session.UIDate;
 
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
-        rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        //supplier_period_for_clarification_period =moment(req.session.supplierresponse,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        supplier_dealine_for_clarification_period = moment(req.session.confirmNextStepsSuppliers, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        //supplier_period_for_clarification_period =moment(req.session.supplierresponse,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        supplier_dealine_for_clarification_period = moment(req.session.confirmNextStepsSuppliers, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
 
         fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
           const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-        // for(var i=0;i<fetchQuestionsData.length;i++)
-        // {
-        //   if(fetchQuestionsData[i].nonOCDS.options.length>0){
-        //     let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-        //     day=value.substr(0,10);
-        //     time=value.substr(11,5);
-        //     if(i==0){
-        //       fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
-        //     }
-        //     else
-        //     {
-        //     fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
-        //     }
-        //   }
-        // }
+        for(var i=0;i<fetchQuestionsData.length;i++)
+        {
+          if(fetchQuestionsData[i].nonOCDS.options.length>0){
+            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+            day=value.substr(0,10);
+            time=value.substr(11,5);
+            if(i==0){
+              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+            }
+            else
+            {
+            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
+            }
+          }
+        }
         let appendData = {
           data: cmsData,
           prompt: prompt,
@@ -328,32 +311,32 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       else if (req.session.questionID == 'Question 5') {
         supplier_dealine_for_clarification_period = req.session.UIDate;
 
-        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY');
-        rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
-        //supplier_dealine_for_clarification_period =moment(req.session.confirmNextStepsSuppliers,'YYYY-MM-DD, hh:mm a',).format('DD MMMM YYYY, hh:mm a');
+        rfi_clarification_date = moment(req.session.rfipublishdate, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        rfi_clarification_period_end = moment(req.session.clarificationend, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        deadline_period_for_clarification_period = moment(req.session.deadlinepublishresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        supplier_period_for_clarification_period = moment(req.session.supplierresponse, 'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
+        //supplier_dealine_for_clarification_period =moment(req.session.confirmNextStepsSuppliers,'YYYY-MM-DD, HH:mm',).format('DD MMMM YYYY, HH:mm');
 
         fetchQuestionsData = fetchQuestionsData.sort((current_element, next_element) => {
           const currentElementID = Number(current_element.OCDS.id.split('Question ').join(''));
           const nextElementID = Number(next_element.OCDS.id.split('Question ').join(''));
           return currentElementID - nextElementID;
         });
-        // for(var i=0;i<fetchQuestionsData.length;i++)
-        // {
-        //   if(fetchQuestionsData[i].nonOCDS.options.length>0){
-        //     let value=fetchQuestionsData[i].nonOCDS.options[0].value;
-        //     day=value.substr(0,10);
-        //     time=value.substr(11,5);
-        //     if(i==0){
-        //       fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
-        //     }
-        //     else
-        //     {
-        //     fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, hh:mm a');
-        //     }
-        //   }
-        // }
+        for(var i=0;i<fetchQuestionsData.length;i++)
+        {
+          if(fetchQuestionsData[i].nonOCDS.options.length>0){
+            let value=fetchQuestionsData[i].nonOCDS.options[0].value;
+            day=value.substr(0,10);
+            time=value.substr(11,5);
+            if(i==0){
+              fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+            }
+            else
+            {
+            fetchQuestionsData[i].nonOCDS.options[0].value=moment(day+" "+time,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
+            }
+          }
+        }
         let appendData = {
           data: cmsData,
           prompt: prompt,
@@ -384,7 +367,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tenders Service Api cannot be connected',
+      'RFI Timeline - Tenders Service Api cannot be connected',
       true,
     );
   }

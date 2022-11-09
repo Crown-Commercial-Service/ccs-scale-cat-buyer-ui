@@ -1,8 +1,15 @@
-{% macro CCSReleatedContent(releatedContent) %}
+{% macro CCSReleatedContent(releatedContent, socialRelated) %}
     <div class="ccs-callout-panel">
         <h2 class="govuk-heading-m">{{releatedContent.title}}</h2>
         <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state" href={{ releatedContent.lotUrl }} target="_blank" rel="noopener noreferrer">{{releatedContent.name}}, {{releatedContent.lotName}}</a>
+            <a class="govuk-link govuk-link--no-visited-state" href={{ releatedContent.lotUrl }} target="_blank" data-test={{releatedContent.social_link}} rel="noopener noreferrer">{{releatedContent.name}}, {{releatedContent.lotName}}</a>
+            {%  if socialRelated.social_link != 'undefined' %}
+                <br><br><a target="_blank" href={{socialRelated.social_link}}>{{socialRelated.social_label}}</a>
+            {% endif %}
+            {#
+             <a href="https://www.gov.uk/government/publications/procurement-policy-note-0620-taking-account-of-social-value-in-the-award-of-central-government-contracts" target="_blank">Social value in the award of central government contracts (PPN 06/20)</a>
+            #}
+            
         </p>
     </div>
 {% endmacro %}

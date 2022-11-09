@@ -68,7 +68,7 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
         `${req.headers.host}${req.originalUrl}`,
         null,
         TokenDecoder.decoder(SESSION_ID),
-        'Journey Api - put failed',
+        'RFI Type page - Journey Api - put failed',
         true,
       );
     }

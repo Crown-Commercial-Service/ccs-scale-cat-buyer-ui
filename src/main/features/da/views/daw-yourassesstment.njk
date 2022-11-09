@@ -1,0 +1,77 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% set title = 'Provide information online | Contract Award Service' %}
+{# {% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %} #}
+{% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: file_data.breadCrumbs
+    }) }}
+{% endblock %}
+
+{% block content %}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            {#<h1 class="govuk-heading-l">{{file_data.title }}</h1>#}
+             <h1 class="govuk-heading-l">{{file_data.main_title}}</h1>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop ">
+        <div class="govuk-!-margin-bottom-6">
+        {% include "includes/project_header.njk" %}
+        </div>
+        <p class="govuk-body govuk-!-margin-bottom-7">{{file_data.form.question1}}</p>
+        {% if agreement_id == 'RM6263' %}
+         <p class="govuk-body govuk-!-margin-bottom-7">{{file_data.form.question2}}</p>
+         {% endif %}
+            <ul class="app-task-list ccs-rfp-buildtask-list">
+                {% for items in data %}
+
+                    <li class="app-task-list__item govuk-!-font-size-24 govuk-!-padding-bottom-4 govuk-!-padding-top-4">
+                        <span class="app-task-list__task-name">
+                            <strong class="govuk-!-font-size-24">
+                                {% set hreflink = items.OCDS.description | replace(" ", "_") %}
+                                {% set criterion_id = items.id | replace(" ", "_") %}
+                                {% if(items.step ===48) %}
+                                    {#<a class="app-task-list__tag" href="/da/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="da-questions">{{items.nonOCDS.task}}</a>#}
+                                    <a class="app-task-list__tag" href="/da/set-scoring-criteria?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="da-questions">{{items.OCDS.description}}</a>
+                                {% elseif(items.step ===40) %}
+                                    <a class="app-task-list__tag" href="/da/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="da-questions">{{items.OCDS.description}}</a>
+                                {%else%}
+                                    <a class="app-task-list__tag" href="/da/assesstment-question?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}&section=5&step={{items.step}}" aria-describedby="da-questions">{{items.OCDS.description}}</a>
+                                {%endif%}
+                            </strong>
+                        </span>
+                        
+                        {% if (items.questionStatus == 'todo') %}
+                            {% if (items.nonOCDS.mandatory) %}
+                                <strong class="govuk-tag govuk-tag--grey app-task-list__tag">TO DO</strong>
+                            {% elseif items.nonOCDS.mandatory == false %}
+                                <strong class="govuk-tag govuk-tag--grey app-task-list__tag">Optional</strong>
+                            {% else %}
+                                <strong class="govuk-tag govuk-tag--green app-task-list__tag" >Done</strong>
+                        {% endif %}
+                        {% else %}
+                            <strong class="govuk-tag govuk-tag--green app-task-list__tag">Done</strong>
+                        {% endif %}
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+            <br>
+            <br>
+            <p class="govuk-body govuk-!-margin-top-9">
+                <a href="{{ file_data.form.backJump.href }}" class="govuk-link govuk-link--no-visited-state">{{ file_data.form.backJump.title }}</a>
+            </p>
+        </div>
+        <div class="govuk-grid-column-one-third">
+            {{ CCSReleatedContent(releatedContent) }}
+        </div>
+    </div>
+    </main>
+{% endblock %}

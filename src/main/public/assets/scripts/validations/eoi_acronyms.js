@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let with_value_count = 10,
       prev_input = 0,
+      filled_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let clearFieldsButtons = document.querySelectorAll("a.clear-fields");
 
@@ -29,10 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         this_fieldset.classList.add('ccs-dynaform-hidden');
         with_value_count = acronym_fieldset;
+        filled_input++;
       }
 
     }
     document.getElementById("ccs_eoiTerm_add").classList.remove("ccs-dynaform-hidden");
+
+    if(filled_input===0){
+    
+      document.getElementById("ccs_eoiTerm_add").classList.add('ccs-dynaform-hidden');
+    }
 
 
     document.getElementById("ccs_eoiTerm_add").addEventListener('click', (e) => {
@@ -43,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
       checkFieldsEoi();
 
       e.preventDefault();
-      errorStore = emptyFieldCheckEoi();
+      errorStore = emptyFieldCheckEoi('add_more');
       if (errorStore.length == 0) {
 
         removeErrorFieldsEoi();
@@ -188,7 +195,7 @@ const removeErrorFieldsEoi = () => {
 
 }
 
-const emptyFieldCheckEoi = () => {
+const emptyFieldCheckEoi = (add_more='') => {
   let fieldCheck = "",
     errorStore = [];
 
@@ -197,14 +204,22 @@ const emptyFieldCheckEoi = () => {
     let definition_field = document.getElementById("eoi_term_definition_" + x);
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       checkFieldsEoi();
-      if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'You must add information in both fields.');
+      
+      if (term_field.value.trim() == '' && definition_field.value.trim() == '' && add_more=='add_more') {
+        ccsZaddErrorMessage(term_field, 'You must add information in this fields.');
+        ccsZaddErrorMessage(definition_field, 'You must add information in this fields.');
         fieldCheck = [definition_field.id, 'You must add information in both fields.'];
         errorStore.push(fieldCheck);
       }
+
+      if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
+        ccsZaddErrorMessage(definition_field, 'You must add definition for the term or acronym.');
+        fieldCheck = [definition_field.id, 'You must add definition for the term or acronym.'];
+        errorStore.push(fieldCheck);
+      }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'You must add information in both fields.');
-        fieldCheck = [term_field.id, 'You must add information in both fields.'];
+        ccsZaddErrorMessage(term_field, 'You must add term or acronym.');
+        fieldCheck = [term_field.id, 'You must add term or acronym.'];
         errorStore.push(fieldCheck);
       }
     }

@@ -6,6 +6,7 @@
 {#- If an id 'prefix' is not passed, fall back to using the name attribute
    instead. We need this for error messages and hints as well -#}
 {% set idPrefix = params.idPrefix if params.idPrefix else params.name %}
+{% set radioIgnoreTopBorder = params.radioIgnoreTopBorder if params.radioIgnoreTopBorder else ""%}
 
 {#- a record of other elements that we need to associate with the input using
    aria-describedby – for example hints or error messages -#}
@@ -65,8 +66,8 @@
         {%- else %}
         {% set hasHint = true if item.hint.text or item.hint.html %}
         {% set itemHintId = id + '-item-hint' %}
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="{{ id }}" name="{{ params.name }}" type="radio" value="{{ item.value }}"
+        <div class="govuk-radios__item{%- if radioIgnoreTopBorder == "" %} govuk-radios__item--small{% endif -%}">
+          <input class="govuk-radios__input govuk-radios__input--small" id="{{ id }}" {{item.checked}} name="{{ params.name }}" type="radio" value="{{ item.value }}"
           {{-" checked" if item.checked }}
           {{-" disabled" if item.disabled }}
           {%- if item.conditional.html %} data-aria-controls="{{ conditionalId }}"{% endif -%}

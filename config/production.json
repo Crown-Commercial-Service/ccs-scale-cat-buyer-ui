@@ -49,14 +49,31 @@
     "agreement_id": "agreement_id"
   },
   "predefinedDays": {
-    "defaultEndingHour": "23",
-    "defaultEndingMinutes": "59",
+    "defaultEndingHour": "16",
+    "defaultEndingMinutes": "00",
     "clarification_days": "4",
     "clarification_period_end": "2",
     "supplier_period": "4",
     "supplier_deadline": "6",
     "supplier_period_extra": "5",
-    "supplier_deadline_extra": "10"
-  },
-  "MyAccountURL":"https://uat.identify.crowncommercial.gov.uk/home"
+    "supplier_deadline_extra": "10",
+    "mcf3_clarification_days": "2",
+    "mcf3_clarification_period_end": "1",
+    "mcf3_supplier_period": "2",
+    "mcf3_supplier_deadline": "2",
+    "mcf3_supplier_period_extra": "2",
+    "mcf3_supplier_deadline_extra": "5",
+    "mcf3_defaultEndingHour": "16",
+    "mcf3_defaultEndingMinutes": "00",
+    "mcf3_fc_clarification_days": "4",
+    "mcf3_fc_clarification_period_end": "2",
+    "mcf3_fc_supplier_period": "4",
+    "mcf3_fc_supplier_deadline": "0",
+    "mcf3_fc_supplier_period_extra": "1",
+    "mcf3_fc_supplier_persentation": "5",
+    "mcf3_fc_supplier_award_date": "10",
+    "mcf3_fc_supplier_deadline_extra": "10",
+    "mcf3_fc_defaultEndingHour": "16",
+    "mcf3_fc_defaultEndingMinutes": "00" 
+  }
 }

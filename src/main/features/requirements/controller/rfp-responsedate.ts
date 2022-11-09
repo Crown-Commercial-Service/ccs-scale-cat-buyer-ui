@@ -11,12 +11,30 @@ import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdate
 export const RFP_GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const proj_Id = req.session.projectId;
-  const {eventId} = req.session;
-  let flag=await ShouldEventStatusBeUpdated(eventId,40,req);
+  const {eventId,stage2_value} = req.session;
+  const agreement_id = req.session.agreement_id;
+  if(agreement_id == 'RM1043.8'){
+    if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
+      let flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
+      if (flag) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'In progress');
+      }
+    }else{
+      let flag=await ShouldEventStatusBeUpdated(eventId,34,req);
+      if(flag)
+      {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'In progress');
+      }
+    }
+    
+  }else{
+    let flag=await ShouldEventStatusBeUpdated(eventId,40,req);
     if(flag)
     {
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'In progress');
     }
+  
+  }
   RESPONSEDATEHELPER(req, res);
 };
 export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -29,8 +47,10 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
   });
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
+  const stage2_value = req.session.stage2_value;
   const { SESSION_ID } = req.cookies;
   const { projectId,eventId } = req.session;
+  const agreement_id = req.session.agreement_id;
   let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   baseURL = baseURL + '/criteria';
   const keyDateselector = 'Key Dates';
@@ -66,19 +86,11 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       const group_id = 'Key Dates';
       const question_id = answers;
       const findFilterQuestion = filterWithQuestions.filter(question => question.Question === question_id);
-      let findFilterValues = findFilterQuestion[0].value;
-      let filtervalues;
-      if(question_id=='Question 1')
-      {
-        filtervalues=moment(
-          findFilterValues,
-          'DD MMMM YYYY',
-        ).format('YYYY-MM-DDTHH:mm:ss') + 'Z';
-      }
-      else{filtervalues= moment(
+      const findFilterValues = findFilterQuestion[0].value;
+      const filtervalues=moment(
         findFilterValues,
-        'DD MMMM YYYY, hh:mm a',
-      ).format('YYYY-MM-DDTHH:mm:ss') + 'Z';}
+        'DD MMMM YYYY, HH:mm:ss ',
+      ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
       const answerformater = {
         value: filtervalues,
         selected: true,
@@ -93,16 +105,39 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
     }
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/23`, 'Completed');
-    if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/24`, 'Not started');
+
+    if (agreement_id=='RM6187') {
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Completed');
+      if (response.status == HttpStatusCode.OK) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Not started');
+      }
+    } if (agreement_id=='RM1043.8') {
+      if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
+        let responseData = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
+        let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
+        if (flag) {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Not started');
+        }
+      }else{
+        let responseData = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
+        if (responseData.status == HttpStatusCode.OK) {
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
+        }
+      }
+      
     }
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(eventId,41,req);
-    if(flag)
-    {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Not started');
-    }
+    else{
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/23`, 'Completed');
+      if (response.status == HttpStatusCode.OK) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/24`, 'Not started');
+      }
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/40`, 'Completed');
+      let flag=await ShouldEventStatusBeUpdated(eventId,41,req);
+      if(flag)
+      {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/41`, 'Not started');
+      }
+   }
     res.redirect('/rfp/review');
   } catch (error) {
     LoggTracer.errorLogger(
@@ -116,7 +151,7 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
     );
   }
 };
-export const isValidQuestion = async (
+function isValidQuestion(
   questionId: number,
   day: number,
   month: number,
@@ -125,11 +160,14 @@ export const isValidQuestion = async (
   minute: number,
   timeinHoursBased: number,
   timeline: any,
-  SESSION_ID:any
-) =>{
+  agreement_id: any,
+  stage2_value: any,
+  
+) {
   //const date1 = new Date(year, month, day, timeinHoursBased, minute);
   //let todaydate=new Date();
   let isValid = true,
+  isweekendErrorFlag = false,
     error,
     errorSelector;
   if (day > 31 || day < 1) {
@@ -140,7 +178,7 @@ export const isValidQuestion = async (
     isValid = false;
     error = 'Enter valid minutes';
   }
-  if (hour > 12 || hour <= 0) {
+  if (hour > 23 || hour <= 0) {
     isValid = false;
     error = 'Enter a valid hour';
   }
@@ -154,113 +192,197 @@ export const isValidQuestion = async (
     error = 'Enter a valid year';
   }
   const questionNewDate = new Date(year, month, day, timeinHoursBased, minute);
+//   const questionNewDate=moment(
+//     questionNewDate12,
+//     'DD MMMM YYYY, HH:mm:ss ',
+//   ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
+
+
+// const timeliii=moment(questionNewDate12,'DD MMMM YYYY, HH:mm:ss ',
+// ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
+
   const dayOfWeek = new Date(questionNewDate).getDay();
   if (dayOfWeek === 6 || dayOfWeek === 0) {
     isValid = false;
-    error = 'You can not set a date in weekend';
+    error = 'You cannot set a date in weekend';
+    isweekendErrorFlag = true;
   }
   
-
   switch (questionId) {
     case 'Question 1':
       errorSelector = 'clarification_date';
       break;
     case 'Question 2':
-      if (questionNewDate < timeline.publish) {
+      if (questionNewDate < new Date(timeline.publish)) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        if(!isweekendErrorFlag)
+            error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.publishResponsesClarificationQuestions)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+          error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'clarification_period_end';
       break;
     case 'Question 3':
-      if (questionNewDate < timeline.clarificationPeriodEnd) {
+      if (questionNewDate < new Date(timeline.clarificationPeriodEnd)) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        if(!isweekendErrorFlag)
+           error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.supplierSubmitResponse)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+          error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'deadline_period_for_clarification_period';
       break;
     case 'Question 4':
-      if (questionNewDate < timeline.publishResponsesClarificationQuestions) {
+      if (questionNewDate < new Date(timeline.publishResponsesClarificationQuestions)) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        if(!isweekendErrorFlag)
+          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.confirmNextStepsSuppliers)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+          error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'supplier_period_for_clarification_period';
       break;
     case 'Question 5':
-      if (questionNewDate < timeline.supplierSubmitResponse) {
+      if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        if(!isweekendErrorFlag)
+           error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.deadlineForSubmissionOfStageOne)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'supplier_dealine_for_clarification_period';
       break;
     case 'Question 6':
-      if (questionNewDate < timeline.deadlineForSubmissionOfStageOne) {
+      if (questionNewDate < new Date(timeline.supplierSubmitResponse)) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        if(!isweekendErrorFlag)
+          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.evaluationProcessStartDate)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+         error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'deadline_for_submission_of_stage_one';
       break;
     case 'Question 7':
-      if (questionNewDate < timeline.evaluationProcessStartDate) {
+      if (questionNewDate < new Date(timeline.deadlineForSubmissionOfStageOne)) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        if(!isweekendErrorFlag)
+        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.bidderPresentationsDate)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+        error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'evaluation_process_start_date';
       break;
     case 'Question 8':
-      if (questionNewDate < timeline.bidderPresentationsDate) {
+
+      if (questionNewDate < new Date(timeline.evaluationProcessStartDate)) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        if(!isweekendErrorFlag)
+        error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
+
+      if(agreement_id == 'RM1043.8' && stage2_value !== undefined && stage2_value === "Stage 2"){
+        
+      }else{
+        if (questionNewDate > new Date(timeline.standstillPeriodStartsDate)) {
+          isValid = false;
+          if(!isweekendErrorFlag)
+            error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+        }
+      }
+      
       errorSelector = 'bidder_presentations_date';
       break;
     case 'Question 9':
-      if (questionNewDate < timeline.standstillPeriodStartsDate) {
+      if (questionNewDate < new Date(timeline.bidderPresentationsDate)) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        if(!isweekendErrorFlag)
+         error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.proposedAwardDate)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+         error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'standstill_period_starts_date';
       break;
     case 'Question 10':
-      if (questionNewDate < timeline.proposedAwardDate) {
+      if (questionNewDate < new Date(timeline.standstillPeriodStartsDate)) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        if(!isweekendErrorFlag)
+         error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.expectedSignatureDate)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+         error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'proposed_award_date';
       break;
     case 'Question 11':
-      if (questionNewDate < timeline.expectedSignatureDate) {
+      if (questionNewDate < new Date(timeline.proposedAwardDate)) {
         isValid = false;
-        error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+        if(!isweekendErrorFlag)
+          error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
+        if (agreement_id=='RM1043.8') { //DOS
+          if (questionNewDate > new Date(timeline.contractsigneddate)) {
+            isValid = false;
+            if(!isweekendErrorFlag)
+              error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+          }
+        }
       errorSelector = 'expected_signature_date';
       break;
+          
+      case 'Question 12':
+      if (questionNewDate < new Date(timeline.expectedSignatureDate)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+         error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > new Date(timeline.supplierstartdate)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+          error = 'You cannot set a date and time that is greater than the next milestone in the timeline';
+      }
+      errorSelector = 'contract_signed_date';
+      break;
+
+      case 'Question 13':
+      if (questionNewDate < new Date(timeline.contractsigneddate)) {
+        isValid = false;
+        if(!isweekendErrorFlag)
+         error = 'You cannot set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      
+      errorSelector = 'supplier_start_date';
+      break;
+    
+
     default:
       isValid = true;
   }
-  if(isValid)
-  {
-    const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
-    let bankHoliDayData = await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl);
-    bankHoliDayData = bankHoliDayData?.data;
-    let listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
-
-    // let newdate ={title: 'New Year’s Day', date: '2022-09-20', notes: 'Substitute day', bunting: true}
-    // listOfHolidayDate.push(newdate);
-
-    const questionNewDate = new Date(year, month, day, timeinHoursBased, minute);
-    const newDate = moment(questionNewDate).format('YYYY-MM-DD');
-
-    const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
-    if (filterDate != undefined && filterDate != null) {
-      isValid = false;
-      error = 'You can not set date which is fall down on bank holiday';
-      errorSelector = `rfp_clarification_date_expanded_${questionId.replace('Question ','')}`;
-    }
-    //rfi_clarification_date_expanded_3
-  }
   return { isValid, error, errorSelector };
 }
+
 // @POST "/rfp/add/response-date"
 export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
   let {
@@ -271,31 +393,46 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     clarification_date_minute,
     clarification_date_hourFormat,
     selected_question_id,
+    selected_question_index,
   } = req.body;
-  const { timeline } = req.session;
-  const { SESSION_ID } = req.cookies;
+  const { timeline,agreement_id } = req.session;
+  const stage2_value = req.session.stage2_value;
   clarification_date_day = Number(clarification_date_day);
   clarification_date_month = Number(clarification_date_month);
   clarification_date_year = Number(clarification_date_year);
   clarification_date_hour = Number(clarification_date_hour);
+  // const selected_question_indexte = selected_question_index;
   
   if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year) || clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
   {
+    let errorText='';
+    if(clarification_date_day ==0 || isNaN(clarification_date_day) ||clarification_date_month ==0 || isNaN(clarification_date_month) || clarification_date_year ==0 || isNaN(clarification_date_year))
+    {
+      errorText='Date invalid or empty. Please enter the valid date';
+    }
+    if(clarification_date_hour ==0 || isNaN(clarification_date_hour) || clarification_date_minute == '')
+    {
+      errorText='Time invalid or empty. Please enter the valid time';
+    }
+
     const errorItem = {     
-      text: 'Date invalid or empty. Plese enter the valid date', 
-      href:  'clarification_date',
+      text: errorText, 
+      href:  'rfp_clarification_date'+selected_question_index,
     };
     await RESPONSEDATEHELPER(req, res, true, errorItem);
   }
+  
   else
   {
+
+   
   clarification_date_minute = Number(clarification_date_minute);
   clarification_date_month = clarification_date_month - 1;
   let timeinHoursBased = 0;
   if (clarification_date_hourFormat == 'AM') {
     timeinHoursBased = Number(clarification_date_hour);
   } else {
-    timeinHoursBased = Number(clarification_date_hour) + 12;
+    timeinHoursBased = Number(clarification_date_hour);
   }
   let date = new Date(
     clarification_date_year,
@@ -304,8 +441,11 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     timeinHoursBased,
     clarification_date_minute,
   );
+  
+  
+
   const nowDate = new Date();
-  const { isValid, error, errorSelector } = await isValidQuestion(
+  const { isValid, error, errorSelector } = isValidQuestion(
     selected_question_id,
     clarification_date_day,
     clarification_date_month,
@@ -314,10 +454,16 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
     clarification_date_minute,
     timeinHoursBased,
     timeline,
-    SESSION_ID,
+    agreement_id,
+    stage2_value,
+
+    
   );
+
   if (date.getTime() >= nowDate.getTime() && isValid) {
-    date = moment(date).format('DD MMMM YYYY, hh:mm a');
+    //date = moment(date).format('DD MMMM YYYY, hh:mm a');
+    date = moment(date).format('DD MMMM YYYY, HH:mm');
+    
     req.session.questionID=selected_question_id;
 
     if(selected_question_id=='Question 2')
@@ -330,11 +476,16 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       req.session.bidder=timeline.bidderPresentationsDate;
       req.session.standstill=timeline.standstillPeriodStartsDate;
       req.session.awarddate=timeline.proposedAwardDate;
-    req.session.signaturedate=timeline.expectedSignatureDate;
+      req.session.signaturedate=timeline.expectedSignatureDate;
+
+      if (agreement_id=='RM1043.8') {//DOS
+      req.session.signeddate=timeline.contractsigneddate;
+      req.session.startdate=timeline.supplierstartdate;
+      }
     req.session.UIDate=date;
   }
     else if (selected_question_id=='Question 3')
-{ req.session.rfppublishdate=timeline.publish;
+{  req.session.rfppublishdate=timeline.publish;
   req.session.clarificationend=timeline.clarificationPeriodEnd;
   req.session.supplierresponse=timeline.supplierSubmitResponse;
       req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
@@ -343,7 +494,11 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       req.session.bidder=timeline.bidderPresentationsDate;
       req.session.standstill=timeline.standstillPeriodStartsDate;
       req.session.awarddate=timeline.proposedAwardDate;
-    req.session.signaturedate=timeline.expectedSignatureDate;
+      req.session.signaturedate=timeline.expectedSignatureDate;
+      if (agreement_id=='RM1043.8') {//DOS
+        req.session.signeddate=timeline.contractsigneddate;
+        req.session.startdate=timeline.supplierstartdate;
+      }
     req.session.UIDate=date;
   }
     else if(selected_question_id=='Question 4')
@@ -357,6 +512,10 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       req.session.standstill=timeline.standstillPeriodStartsDate;
       req.session.awarddate=timeline.proposedAwardDate;
     req.session.signaturedate=timeline.expectedSignatureDate;
+    if (agreement_id=='RM1043.8') {//DOS
+      req.session.signeddate=timeline.contractsigneddate;
+      req.session.startdate=timeline.supplierstartdate;
+    }
     req.session.UIDate=date;
   }
   else if(selected_question_id=='Question 5')
@@ -370,6 +529,10 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       req.session.standstill=timeline.standstillPeriodStartsDate;
       req.session.awarddate=timeline.proposedAwardDate;
     req.session.signaturedate=timeline.expectedSignatureDate;
+    if (agreement_id=='RM1043.8') {//DOS
+      req.session.signeddate=timeline.contractsigneddate;
+      req.session.startdate=timeline.supplierstartdate;
+    }
     req.session.UIDate=date;
   }
   else if(selected_question_id=='Question 6')
@@ -382,6 +545,10 @@ export const RFP_POST_ADD_RESPONSE_DATE = async (req: express.Request, res: expr
       req.session.standstill=timeline.standstillPeriodStartsDate;
       req.session.awarddate=timeline.proposedAwardDate;
     req.session.signaturedate=timeline.expectedSignatureDate;
+    if (agreement_id=='RM1043.8') {//DOS
+      req.session.signeddate=timeline.contractsigneddate;
+      req.session.startdate=timeline.supplierstartdate;
+    }
   req.session.UIDate=date;
 }
   else if (selected_question_id=='Question 7')
@@ -392,10 +559,15 @@ req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuesti
 req.session.supplierresponse=timeline.supplierSubmitResponse;
 req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
 req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+req.session.processstart=timeline.evaluationProcessStartDate;
 req.session.bidder=timeline.bidderPresentationsDate;
 req.session.standstill=timeline.standstillPeriodStartsDate;
 req.session.awarddate=timeline.proposedAwardDate;
 req.session.signaturedate=timeline.expectedSignatureDate;
+if (agreement_id=='RM1043.8') {//DOS
+  req.session.signeddate=timeline.contractsigneddate;
+  req.session.startdate=timeline.supplierstartdate;
+}
   req.session.UIDate=date;
 }
   else if(selected_question_id=='Question 8')
@@ -405,10 +577,16 @@ req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuesti
 req.session.supplierresponse=timeline.supplierSubmitResponse;
 req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
 req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
-req.session.standstill=timeline.evaluationProcessStartDate;
+req.session.processstart=timeline.evaluationProcessStartDate;
+req.session.bidder=timeline.bidderPresentationsDate;
+req.session.standstill=timeline.standstillPeriodStartsDate;
 req.session.awarddate=timeline.proposedAwardDate;
 req.session.signaturedate=timeline.expectedSignatureDate;
-  req.session.UIDate=date;
+if (agreement_id=='RM1043.8') {//DOS
+  req.session.signeddate=timeline.contractsigneddate;
+  req.session.startdate=timeline.supplierstartdate;
+}
+  req.session.UIDate=date; 
 }
 else if(selected_question_id=='Question 9')
 { req.session.rfppublishdate=timeline.publish;
@@ -421,6 +599,10 @@ else if(selected_question_id=='Question 9')
   req.session.bidder=timeline.bidderPresentationsDate;
 req.session.awarddate=timeline.proposedAwardDate;
 req.session.signaturedate=timeline.expectedSignatureDate;
+if (agreement_id=='RM1043.8') {//DOS
+  req.session.signeddate=timeline.contractsigneddate;
+  req.session.startdate=timeline.supplierstartdate;
+}
   req.session.UIDate=date;
 }
 else if(selected_question_id=='Question 10')
@@ -434,10 +616,15 @@ else if(selected_question_id=='Question 10')
   req.session.bidder=timeline.bidderPresentationsDate;
 req.session.standstill=timeline.standstillPeriodStartsDate;
 req.session.signaturedate=timeline.expectedSignatureDate;
+if (agreement_id=='RM1043.8') {//DOS
+  req.session.signeddate=timeline.contractsigneddate;
+  req.session.startdate=timeline.supplierstartdate;
+}
   req.session.UIDate=date;
 }
 else if(selected_question_id=='Question 11')
 { req.session.rfppublishdate=timeline.publish;
+ 
 req.session.clarificationend=timeline.clarificationPeriodEnd;
 req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
 req.session.supplierresponse=timeline.supplierSubmitResponse;
@@ -447,10 +634,54 @@ req.session.processstart=timeline.evaluationProcessStartDate;
 req.session.bidder=timeline.bidderPresentationsDate;
 req.session.standstill=timeline.standstillPeriodStartsDate;
 req.session.awarddate=timeline.proposedAwardDate;
+if (agreement_id=='RM1043.8') {//DOS
+  req.session.signeddate=timeline.contractsigneddate;
+  req.session.startdate=timeline.supplierstartdate;
+}
   req.session.UIDate=date;
 }
+
+else if(selected_question_id=='Question 12')
+{ 
+req.session.rfppublishdate=timeline.publish;
+req.session.clarificationend=timeline.clarificationPeriodEnd;
+req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+req.session.supplierresponse=timeline.supplierSubmitResponse;
+req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
+req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+req.session.processstart=timeline.evaluationProcessStartDate;
+req.session.bidder=timeline.bidderPresentationsDate;
+req.session.standstill=timeline.standstillPeriodStartsDate;
+req.session.awarddate=timeline.proposedAwardDate;
+req.session.signaturedate=timeline.expectedSignatureDate;
+req.session.startdate=timeline.supplierstartdate;
+req.session.UIDate=date;
+}
+
+else if(selected_question_id=='Question 13')
+{ 
+req.session.rfppublishdate=timeline.publish;
+req.session.clarificationend=timeline.clarificationPeriodEnd;
+req.session.deadlinepublishresponse=timeline.publishResponsesClarificationQuestions;
+req.session.supplierresponse=timeline.supplierSubmitResponse;
+req.session.nextsupplier=timeline.confirmNextStepsSuppliers;
+req.session.deadlinestageone=timeline.deadlineForSubmissionOfStageOne;
+req.session.processstart=timeline.evaluationProcessStartDate;
+req.session.bidder=timeline.bidderPresentationsDate;
+req.session.standstill=timeline.standstillPeriodStartsDate;
+req.session.awarddate=timeline.proposedAwardDate;
+req.session.signaturedate=timeline.expectedSignatureDate;
+req.session.signeddate=timeline.contractsigneddate;
+req.session.UIDate=date;
+}
+
+const filtervalues=moment(
+  date,
+  'DD MMMM YYYY, HH:mm:ss ',
+).format('YYYY-MM-DDTHH:mm:ss')+'Z';
+
     const answerformater = {
-      value: date,
+      value: filtervalues,
       selected: true,
       text: selected_question_id,
     };
@@ -487,6 +718,8 @@ req.session.awarddate=timeline.proposedAwardDate;
       const Criterian_ID = criterianStorage[0].criterianId;
       const id = Criterian_ID;
       const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+      
+
       await TenderApi.Instance(SESSION_ID).put(answerBaseURL, answerBody);
       res.redirect('/rfp/response-date');
     } catch (error) {
@@ -508,6 +741,7 @@ req.session.awarddate=timeline.proposedAwardDate;
       LoggTracer.errorTracer(Log, res);
     }
   } else {
+    
     const selectedErrorCause = selected_question_id; //Question 2
     let selector = '';
     let selectorID = '';
@@ -518,68 +752,78 @@ req.session.awarddate=timeline.proposedAwardDate;
       switch (selectedErrorCause) {
         case 'Question 1':
           selector =
-            ' Publish your RFP - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            ' Publish your RFP - You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'clarification_date';
           break;
         case 'Question 2':
           selector =
-            'Clarification period ends - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            'Clarification period ends - You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'clarification_period_end';
           break;
         case 'Question 3':
           selector =
-            'Deadline for publishing responses to RFP clarification questions- You can not set a date and time that is earlier than the previous milestone in the timeline';
+            'Deadline for publishing responses to RFP clarification questions- You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'deadline_period_for_clarification_period';
           break;
         case 'Question 4':
           selector =
-            'Deadline for suppliers to submit their RFP response - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            'Deadline for suppliers to submit their RFP response - You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'supplier_period_for_clarification_period';
           break;
         case 'Question 5':
           selector =
-            'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'supplier_dealine_for_clarification_period';
           break;
         case 'Question 6':
           selector =
-            'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'deadline_for_submission_of_stage_one';
           break;
         case 'Question 7':
           selector =
-            'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'evaluation_process_start_date';
           break;
         case 'Question 8':
           selector =
-            'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'bidder_presentations_date';
           break;
         case 'Question 9':
           selector =
-            'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'standstill_period_starts_date';
           break;
         case 'Question 10':
           selector =
-            'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'proposed_award_date';
           break;
         case 'Question 11':
           selector =
-            'Confirm your next steps to suppliers - You can not set a date and time that is earlier than the previous milestone in the timeline';
+            'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
           selectorID = 'expected_signature_date';
           break;
+          case 'Question 12':
+          selector =
+            'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
+          selectorID = 'contract_signed_date';
+          break;
+          case 'Question 13':
+          selector =
+            'Confirm your next steps to suppliers - You cannot set a date and time that is earlier than the previous milestone in the timeline';
+          selectorID = 'supplier_start_date';
+          break;
         default:
-          selector = ' You can not set a date and time that is earlier than the previous milestone in the timeline';
+          selector = ' You cannot set a date and time that is earlier than the previous milestone in the timeline';
       }
     }
     const errorItem = {
       text: selector,
-      href: selectorID,
+      href: 'rfp_clarification_date'+selected_question_index,
+    
     };
     await RESPONSEDATEHELPER(req, res, true, errorItem);
   }
-}
-};
+}};

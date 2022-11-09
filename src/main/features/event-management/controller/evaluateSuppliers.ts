@@ -8,6 +8,12 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import * as eventManagementData from '../../../resources/content/event-management/evaluateSuppliers.json'
 import * as localData from '../../../resources/content/event-management/local-SOI.json' // replace this JSON with API endpoint
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
+import * as stage1ShortListEvaluationData from '../../../resources/content/event-management/stage1ShortListEvaluationData.json'
+import * as stage2ShortListEvaluationData from '../../../resources/content/event-management/stage2ShortListEvaluationData.json'
+import moment from 'moment-business-days';
+
+
+
 //import { idText } from 'typescript'
 /**
  * 
@@ -131,7 +137,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
         "name": supData[i].supplier.name,
 
         "responseState": supData[i].responseState,
-        "responseDate": supData[i].responseDate,
+        "responseDate": (moment(supData[i].responseDate)).format('DD/MM/YYYY HH:mm'),
          "completionStatus":completion,
       }
     
@@ -157,9 +163,17 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
      {
       ConfirmFlag = true;
      }
-     
+    const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
+    const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+    const stage2_dynamic_api_data = stage2_dynamic_api.data;
+    const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
+    
+    let stage2_value = 'Stage 1';
+    if(stage2_data.length > 0){
+      stage2_value = 'Stage 2';
+    }
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,agreement_header,agreementId_session,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData , }
+          const appendData = { releatedContent,agreement_header,agreementId_session,ConfirmFlag,ScoresAndFeedbackURLdata,data: eventManagementData,eventId, supplierName, supplierSummary, showallDownload, suppliers: localData ,stage2_value }
 
     res.render('evaluateSuppliers',appendData);     
     
@@ -170,7 +184,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Event management page',
+      'Event management - Evaluate Supplier page',
       true,
     );
   }
@@ -216,7 +230,7 @@ try{
     `${req.headers.host}${req.originalUrl}`,
     null,
     TokenDecoder.decoder(SESSION_ID),
-    'Tenders Service Api cannot be connected',
+    'Event management - Evaluate Supplier Tenders Service Api cannot be connected',
     true,
   );
 }
@@ -227,6 +241,7 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
   const { SESSION_ID } = req.cookies; //jwt
   const { projectId } = req.session;
   const { eventId } = req.session;
+  const { agreement_id } = req.session;
   var ScoresAndFeedbackURLdata_: any[] = []
 
   try{
@@ -242,7 +257,12 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
     }
     let body=ScoresAndFeedbackURLdata_
     await TenderApi.Instance(SESSION_ID).put(`/tenders/projects/${projectId}/events/${eventId}/scores?scoring-complete=true`,body);
-    res.redirect('/dashboard');
+    if(agreement_id != 'RM1043.8'){
+      res.redirect('/dashboard');
+    }else{
+      res.redirect('/shortlist_evaluation');
+    }
+    
 //publisheddoc?download=1
 }catch (error) {
   LoggTracer.errorLogger(
@@ -251,7 +271,50 @@ export const EVALUATE_SUPPLIERS_POPUP = async (req: express.Request, res: expres
     `${req.headers.host}${req.originalUrl}`,
     null,
     TokenDecoder.decoder(SESSION_ID),
-    'Tenders Service Api cannot be connected',
+    'Event management - Evaluate Supplier Tenders Service Api cannot be connected',
+    true,
+  );
+}
+
+}
+export const SHORTLIST_EVALUATION = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies; //jwt
+  const { projectId } = req.session;
+  const { eventId } = req.session;
+  const { agreement_id } = req.session;
+  const project_name = req.session.project_name;
+  const agreementName = req.session?.agreementName;
+  const agreementId_session = req.session.agreement_id;
+  const agreementLotName = req.session.agreementLotName;
+  const lotid = req.session?.lotId;
+  try{
+    
+    const stage2BaseUrl = `/tenders/projects/${projectId}/events`
+  const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+  const stage2_dynamic_api_data = stage2_dynamic_api.data;
+  const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
+    res.locals.agreement_header = { project_name: project_name, agreementName, agreementId_session, agreementLotName, lotid }
+    let cmsData;
+    if(stage2_data.length > 0){
+       cmsData=stage2ShortListEvaluationData;
+    }else{
+       cmsData=stage1ShortListEvaluationData;
+    }
+      
+    const appendData = { data: cmsData,projectId,eventId,agreement_id}
+    
+    res.render('shorlistEvaluation',appendData);  
+    
+    
+//publisheddoc?download=1
+}catch (error) {
+  LoggTracer.errorLogger(
+    res,
+    error,
+    `${req.headers.host}${req.originalUrl}`,
+    null,
+    TokenDecoder.decoder(SESSION_ID),
+    'Event management - Evaluate Supplier Tenders Service Api cannot be connected',
     true,
   );
 }

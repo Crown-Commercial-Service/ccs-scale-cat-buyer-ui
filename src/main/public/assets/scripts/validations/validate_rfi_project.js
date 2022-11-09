@@ -4,7 +4,7 @@ const ccsZvalidateRfiProject = (event) => {
   let fieldCheck = "",
     errorStore = [];
 
-  fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must enter information here");
+  fieldCheck = ccsZvalidateTextArea("rfi_prob_statement", "You must add background information about your procurement");
   if (fieldCheck !== true && fieldCheck !== undefined) errorStore.push(fieldCheck);
 
   if (errorStore.length === 0) document.forms["ccs_rfi_about_proj"].submit();

@@ -1,17 +1,27 @@
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/eoi/eoiType.json';
+import * as mcf3cmsData from '../../../resources/content/MCF3/eoi/eoiType.json';
 import { ObjectModifiers } from '../util/operations/objectremoveEmptyString';
 import { EOI_PATHS } from '../model/eoiconstant';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
-import { HttpStatusCode } from 'main/errors/httpStatusCodes';
+//import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 // eoi TaskList
 export const GET_TYPE = (req: express.Request, res: express.Response) => {
-  const { agreement_id } = req.query;
+  const { agreement_id } = req.session;
   const releatedContent = req.session.releatedContent;
-  const windowAppendData = { data: cmsData, agreement_id: agreement_id, releatedContent };
+  const agreementId_session = req.session.agreement_id;
+    let forceChangeDataJson;
+    if(agreementId_session == 'RM6187') { //MCF3
+      forceChangeDataJson = mcf3cmsData;
+    } else { 
+      forceChangeDataJson = cmsData; 
+    }
+   
+  const windowAppendData = { data: forceChangeDataJson, agreement_id: agreement_id, releatedContent };
   res.render('typeEoi', windowAppendData);
 };
 
@@ -30,14 +40,16 @@ export const GET_TYPE = (req: express.Request, res: express.Response) => {
 
 export const POST_TYPE = async (req: express.Request, res: express.Response) => {
   const { agreement_id } = req.query;
-  const projectId = req.session['projectId'];
-  const event_id = req.session['eventId'];
+  const { eventId, projectId } = req.session;
   const { SESSION_ID } = req.cookies;
   try {
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/19`, 'Completed');
-    if (response.status == HttpStatusCode.OK) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, 'Not started');
+    let flag = await ShouldEventStatusBeUpdated(eventId, 19, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/19`, 'In progress');
     }
+    // if (response.status == HttpStatusCode.OK) {
+    //   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/20`, 'Not started');
+    // }
     const filtered_body_content_removed_eoi_key = ObjectModifiers._deleteKeyofEntryinObject(
       req.body,
       'choose_eoi_type',
@@ -48,7 +60,7 @@ export const POST_TYPE = async (req: express.Request, res: express.Response) => 
     switch (ccs_eoi_type) {
       case 'all_online':
         // eslint-disable-next-line no-case-declarations
-        const redirect_address = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${event_id}`;
+        const redirect_address = `/eoi/online-task-list?agreement_id=${agreement_id}&proc_id=${projectId}&event_id=${eventId}`;
         res.redirect(redirect_address);
         break;
 

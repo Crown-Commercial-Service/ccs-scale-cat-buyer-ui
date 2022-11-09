@@ -59,13 +59,13 @@ export class EventEngagementMiddleware {
     req.session['weightingRange'] = {};
     req.session['errorTextSumary'] = [];
     req.session['CapAss'] = {};
-    req.session['isTcUploaded'] = false;
+    req.session['isTcUploaded'] = true;
+    req.session['isAssessUploaded'] = true;
     req.session['isPricingUploaded'] = false;
     req.session['UIDate'] = null;
     req.session['isRFIComplete']=false;
-    req.session["rfiSuppliersbtn"]=false;
-    req.session["rfpSuppliersbtn"]=false;
     // Retrive active events
+    
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)
     retrieveProjetActiveEventsPromise
       .then(async (data) => {
@@ -73,13 +73,17 @@ export class EventEngagementMiddleware {
         for (let i = 0; i < events.length; i++) {
           // eventType = RFI & EOI (Active and historic events)
           const eventsURL = `tenders/projects/${events[i].projectId}/events`;
+          
           let getEvents = await TenderApi.Instance(SESSION_ID).get(eventsURL);
           let getEventsData = getEvents.data;
+          
           for (let j = 0; j < getEventsData.length; j++) {
             //let singleEvent=undefined;
+
             //*NOTE THIS CONDATION ADDED FOR G-CLOUD EVENT NOT TO DISPLAY
-            if (events[i].agreementId !='RM1557.12') {
-            
+           
+             
+
             let singleEvent: ActiveEvents = {
               projectId: events[i].projectId,
               projectName: events[i].projectName,
@@ -140,8 +144,8 @@ export class EventEngagementMiddleware {
                 activeEvents.push(draftActiveEvent)
               }           
             }
-            // eventType = FCA & DAA (Active and historic events)
-            else if (singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent?.eventType == 'FCA' || singleEvent.activeEvent?.eventType == 'DAA')) {
+            // eventType = FCA && PA & DAA (Active and historic events)
+            else if (singleEvent.activeEvent?.status != undefined && (singleEvent.activeEvent?.eventType == 'PA' || singleEvent.activeEvent?.eventType == 'FCA' || singleEvent.activeEvent?.eventType == 'DAA')) {
               if (singleEvent.activeEvent?.dashboardStatus == 'COMPLETE' || singleEvent.activeEvent?.dashboardStatus == 'CLOSED') {
                 // Historical Events
                 historicalEvents.push(singleEvent)
@@ -211,7 +215,8 @@ export class EventEngagementMiddleware {
                 activeEvents.push(singleEvent)
               }
             }
-          }
+          
+          
           }
         }
         req.session.openProjectActiveEvents = activeEvents;
@@ -231,6 +236,10 @@ export class EventEngagementMiddleware {
         next();
       });
   };
+
+
+  //IMPLEMENTED FROM GIT
+
   static GetEventList =async (req: express.Request, res: express.Response) => {
     const access_token = req.session['access_token']
     const { state, SESSION_ID } = req.cookies;
@@ -269,8 +278,11 @@ export class EventEngagementMiddleware {
     req.session['errorTextSumary'] = [];
     req.session['CapAss'] = {};
     req.session['isTcUploaded'] = false;
+    req.session['isAssessUploaded'] = false;
     req.session['isPricingUploaded'] = false;
     req.session['UIDate'] = null;
+    req.session["rfiSuppliersbtn"]=false;	
+    req.session["rfpSuppliersbtn"]=false;
     // Retrive active events
     const retrieveProjetActiveEventsPromise = TenderApi.Instance(access_token).get(baseActiveEventsURL)
     retrieveProjetActiveEventsPromise
@@ -284,8 +296,7 @@ export class EventEngagementMiddleware {
           for (let j = 0; j < getEventsData.length; j++) {
             //let singleEvent=undefined;
             //*NOTE THIS CONDATION ADDED FOR G-CLOUD EVENT NOT TO DISPLAY
-            if (events[i].agreementId !='RM1557.12') {
-            
+           
             let singleEvent: ActiveEvents = {
               projectId: events[i].projectId,
               projectName: events[i].projectName,
@@ -417,7 +428,7 @@ export class EventEngagementMiddleware {
                 activeEvents.push(singleEvent)
               }
             }
-          }
+         
           }
         }
         req.session.openProjectActiveEvents = activeEvents;
@@ -435,4 +446,9 @@ export class EventEngagementMiddleware {
         );
       });
   };
+
+
+
 }
+
+

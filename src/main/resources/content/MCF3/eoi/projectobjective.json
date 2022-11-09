@@ -1,0 +1,36 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Your Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Do pre-market engagement",
+      "href": "/eoi/eoi-tasklist"
+    },
+    {
+      "text": "Build your EoI",
+      "href": "/eoi/online-task-list"
+    },
+    {
+      "text": "Project objectives",
+      "href": "#"
+    }
+  ],
+  "title": "Project objectives",
+  "subtitle": null,
+  "line1": "List the objectives you want to achieve through this project",
+  "line2": "You can add a maximum of 10 objectives",
+  "backJump": {
+    "title": "Return to Build your EoI",
+    "href": "/eoi/online-task-list"
+  }
+}

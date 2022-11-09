@@ -72,7 +72,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tender Api - getting users from organization or from tenders failed',
+      'RFI Lead Procurement - Tender Api - getting users from organization or from tenders failed',
       true,
     );
   }
@@ -101,7 +101,7 @@ export const PUT_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tender Api - getting users from organization or from tenders failed',
+      'RFI Lead Procurement - Tender Api - getting users from organization or from tenders failed',
       !isJaggaerError,
     );
 
@@ -131,7 +131,7 @@ export const GET_USER_PROCUREMENT = async (req: express.Request, res: express.Re
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tender Api - getting users from organization or from tenders failed',
+      'RFI Lead Procurement - Tender Api - getting users from organization or from tenders failed',
       true,
     );
   }

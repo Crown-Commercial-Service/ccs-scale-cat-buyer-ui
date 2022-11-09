@@ -84,7 +84,7 @@ export default function (app: Application): void {
   //@GET "/eoi/upload-doc/remove"
   app.get(EOI_PATHS.GET_REMOVE_FILE, AUTH, associatedViews.GET_REMOVE_FILES);
 
-  // @GET "/rfi/suppliers"
+  // @GET "/eoi/suppliers"
   app.get(
     EOI_PATHS.GET_EOI_SUPPLIERS,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
@@ -96,6 +96,63 @@ export default function (app: Application): void {
     EOI_PATHS.GET_EOI_REVIEW,
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     associatedViews.GET_EOI_REVIEW,
+  );
+
+  //@GET '/eoi/project-objective'
+  app.get(
+    EOI_PATHS.GET_EOI_PROJECT_OBJECTIVE,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_EOI_PROJECT_OBJECTIVE,
+  );
+
+  //@GET '/eoi/project-scope'
+  app.get(
+    EOI_PATHS.GET_EOI_PROJECT_SCOPE,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_EOI_PROJECT_SCOPE,
+  );
+
+  //@GET '/eoi/choose-type'
+  app.get(
+    EOI_PATHS.GET_EOI_CHOOSE_TYPE,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_EOI_CHOOSE_TYPE,
+  );
+
+  //@GET '/eoi/existing-supplier'
+  app.get(
+    EOI_PATHS.GET_EOI_EXISTING_SUPPLIER,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_EOI_EXISTING_SUPPLIER,
+  );
+
+  app.get(
+    EOI_PATHS.GET_CONFIRMATION_REVIEW,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_CONFIRMATION_REVIEW,
+  );
+  
+  
+  //@GET '/eoi/special-terms'
+    app.get(
+      EOI_PATHS.GET_EOI_SPECIAL_TERMS,
+      [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      associatedViews.GET_EOI_SPECIAL_TERMS,
+    );
+
+  //@GET '/eoi/project-duration'
+  app.get(
+    EOI_PATHS.GET_EOI_PROJECT_DURATION,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_EOI_PROJECT_DURATION,
+  );
+
+
+  //@GET '/eoi/project-budget'
+  app.get(
+    EOI_PATHS.GET_EOI_PROJECT_BUDGET,
+    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.GET_EOI_PROJECT_BUDGET,
   );
 
   /**
@@ -130,6 +187,9 @@ export default function (app: Application): void {
   //@POST '/eoi/add-collaborator-detail'
   app.post(EOI_PATHS.POST_ADD_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.POST_ADD_COLLABORATOR_TO_JAGGER);
 
+  //@DELETE '/eoi/delete-collaborator-detail'
+  app.get(EOI_PATHS.GET_DELETE_COLLABORATOR_TO_JAGGER, AUTH, associatedViews.GET_DELETE_COLLABORATOR_TO_JAGGER);
+
   //@POST "/eoi/response-date"
   app.post(EOI_PATHS.POST_RESPONSE_DATE, AUTH, associatedViews.POST_RESPONSE_DATE);
 
@@ -151,4 +211,17 @@ export default function (app: Application): void {
 
   // Publish summary page
   app.get(EOI_PATHS.GET_EVENT_PUBLISHED, AUTH, associatedViews.GET_EVENT_PUBLISHED);
+
+  //@POST '/eoi/project-objective'
+  app.post(EOI_PATHS.POST_EOI_PROJECT_OBJECTIVE, AUTH, associatedViews.POST_EOI_PROJECT_OBJECTIVE);
+
+  //@POST '/eoi/project-scopr'
+  app.post(EOI_PATHS.POST_EOI_PROJECT_SCOPE, AUTH, associatedViews.POST_EOI_PROJECT_SCOPE);
+
+  //@post '/eoi/choose-type'
+  app.post(EOI_PATHS.POST_EOI_CHOOSE_TYPE,AUTH,associatedViews.POST_EOI_CHOOSE_TYPE);
+
+  //@post '/eoi/special-terms'
+  app.post(EOI_PATHS.POST_EOI_SPECIAL_TERMS,AUTH,associatedViews.POST_EOI_SPECIAL_TERMS);
+  app.post(EOI_PATHS.POST_EOI_EXISTING_SUPPLIER,AUTH,associatedViews.POST_EOI_EXISTING_SUPPLIER);
 }

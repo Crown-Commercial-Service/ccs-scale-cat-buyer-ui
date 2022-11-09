@@ -1,0 +1,146 @@
+{
+    "breadCrumbs": [{
+            "text": "Dashboard",
+            "href": "/"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "Write and publish your requirements",
+            "href": "/rfp/task-list"
+        },
+        {
+            "text": "Add context and requirements",
+            "href": "#"
+        }
+    ],
+
+    "title": "Add context and requirements",
+    "subtitle": null,
+    "taskList": [{
+            "title": "Learn about adding context and requirements",
+            "hreftitle": "Understand add context and requirements",
+            "href": "learn_about_adding_context_and_requirements"
+        },
+        {
+            "title": "Terms and acronyms (optional)",
+            "hreftitle": "Add terms and acronyms",
+            "href": "rfp_add_terms_acronyms"
+        },
+        {
+            "title": "Summary of work",
+            "hreftitle": "Acknowledge IR35 requirements",
+            "href": "rfp_ir35_acknowledgement"
+        },
+        {
+            "title": "Add background to your procurement",
+            "hreftitle": "Add background to your requirement",
+            "href": "rfp_add_background_and_context"
+        },
+        {
+            "title": "Where the supplied staff will work",
+            "hreftitle": "Add background to your requirement",
+            "href": "rfp_add_background_and_context"
+        },
+        {
+            "title": "Who the buying organisation is (optional)",
+            "hreftitle": "Add background to your requirement",
+            "href": "rfp_add_background_and_context"
+        },
+        {
+            "title": "Why the work is being done",
+            "hreftitle": "Add background to your requirement",
+            "href": "rfp_add_background_and_context"
+        },
+        {
+            "title": "The business problem you need to solve",
+            "hreftitle": "Add information about the project",
+            "href": "rfp_problem_to_solve"
+        },
+        {
+            "title": "The people who will use your service (optional)",
+            "hreftitle": "Add key users",
+            "href": "rfp_key_users"
+        },
+        {
+            "title": "Describe any market engagement you've done (optional)",
+            "hreftitle": "Add market engagement",
+            "href": "rfp_market_engagement"
+        },
+        {
+            "title": "Work done so far (optional)",
+            "hreftitle": "Add work complete so far",
+            "href": "rfp_work_complete"
+        },
+        {
+            "title": "Which phase the project is currently in",
+            "hreftitle": "Add current phase of the project",
+            "href": "rfp_current_phase"
+        },
+        {
+            "title": "Existing team ",
+            "hreftitle": "Add current phase of the project",
+            "href": "rfp_current_phase"
+        },
+        {
+            "title": "Address where the work will be done",
+            "hreftitle": "Add phase resource required",
+            "href": "rfp_phase_resource_required"
+        },
+        {
+            "title": "Working arrangements",
+            "hreftitle": "Set dates",
+            "href": "rfp_duration_of_work"
+        },
+        {
+            "title": "Security and vetting requirements",
+            "hreftitle": "Add security and vetting requirements",
+            "href": "rfp_security_and_vetting"
+        },
+        {
+            "title": "Latest start date",
+            "hreftitle": "Add address",
+            "href": "rfp_address"
+        },
+        {
+            "title": "How long the project will last",
+            "hreftitle": "Add services or products",
+            "href": "rfp_services"
+        },
+        {
+            "title": "Special terms and conditions",
+            "hreftitle": "Add supplier details",
+            "href": "rfp_incumbent_supplier"
+        },
+        {
+            "title": "Set your budget",
+            "hreftitle": "Add essential and preferred skills",
+            "href": "rfp_essential_skills"
+        },
+        {
+            "title": "Upload documents (optional)",
+            "hreftitle": "Add management information",
+            "href": "rfp_management_information"
+        },
+        {
+            "title": "Confirm if you require a contracted out service or supply of resource",
+            "hreftitle": "Add service levels and performance",
+            "href": "rfp_service_levels"
+        }
+    ],
+    "form": {
+        "question1": "Click on the sections below to enter details about your procurement. The more specific the information you provide, the better suppliers will understand what you require.",
+        "question2": "Some sections are optional",
+        "backJump": {
+            "title": "Return to Write and publish your requirements",
+            "href": "/rfp/task-list"
+        }
+    },
+    "template": []
+}

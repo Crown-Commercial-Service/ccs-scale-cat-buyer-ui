@@ -68,7 +68,7 @@ export const CA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
             filename: file.name,
           });
           formData.append('description', file.name);
-          formData.append('audience', 'supplier');
+          formData.append('audience', 'buyer');
           const formHeaders = formData.getHeaders();
           try {
             await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
@@ -113,7 +113,7 @@ export const CA_POST_UPLOAD_DOC: express.Handler = async (req: express.Request, 
           filename: offline_document.name,
         });
         formData.append('description', offline_document.name);
-        formData.append('audience', 'supplier');
+        formData.append('audience', 'buyer');
         const formHeaders = formData.getHeaders();
         try {
           await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
@@ -161,9 +161,15 @@ export const CA_GET_REMOVE_FILES = (express.Handler = (req: express.Request, res
 
 export const CA_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { eventId, selectedRoute } = req.session;
-  const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
+  try {
+      const { eventId, selectedRoute } = req.session;
+      const step = selectedRoute.toLowerCase() === 'rfp' ? 37 : 71;
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
 
-  res.redirect(`/${selectedRoute.toLowerCase()}/task-list`);
+      res.redirect(`/${selectedRoute.toLowerCase()}/task-list`);
+    } catch (error) {
+      LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
+        TokenDecoder.decoder(SESSION_ID), 'Tender agreement failed to be added', true,
+      );
+    }
 });

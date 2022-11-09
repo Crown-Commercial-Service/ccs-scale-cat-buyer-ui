@@ -68,7 +68,7 @@
           {% set itemDescribedBy = describedBy if not hasFieldset else "" %}
           {% set itemDescribedBy = (itemDescribedBy + " " + itemHintId) | trim %}
           <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" id="{{ id }}" name="{{ name }}" type="checkbox" value="{{ item.value }}"
+            <input class="govuk-checkboxes__input" id="{{ id }}" name="{{ name }}" {{item.isChecked}} {{item.isDisabled}} type="checkbox" value="{{ item.value }}"
             {{-" checked" if item.checked }}
             {{-" disabled" if item.disabled }}
             {%- if item.conditional.html %} data-aria-controls="{{ conditionalId }}"{% endif -%}

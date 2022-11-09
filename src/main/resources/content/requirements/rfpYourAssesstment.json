@@ -1,11 +1,11 @@
 {
   "breadCrumbs": [
     {
-      "text": "Your dashboard",
+      "text": "Dashboard",
       "href": "/"
     },
     {
-      "text": "Choose a commericial agreement",
+      "text": "Choose a commercial agreement",
       "href": "/projects/choose-agreement"
     },
     {
@@ -17,11 +17,11 @@
       "href": "/rfp/task-list"
     },
     {
-      "text": "Your assessment criteria",
+      "text": "Your assessment bases and evaluation weightings",
       "href": "#"
     }
   ],
-
+  "main_title": "Your assessment criteria",
   "title": " Set your assessment criteria and evaluation weightings",
   "subtitle": "null ",
   "taskList": [
@@ -64,7 +64,7 @@
       "title": "[ Add your price question ]",
       "hreftitle": "Add current phase of the project",
       "href": "rfp_current_phase"
-    }
+    } 
   ],
   "form": {
     "question1": "Set your assessment criteria, based on technical,cultural and social value questions",

@@ -1,0 +1,114 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'How to build market event' %}
+
+{% block head %}
+   {{ super() }}
+   <link rel="stylesheet" href="/assets/styles/styles.min.css">
+   <link rel="stylesheet" href="/assets/styles/govuk_fac_style.css">
+{% endblock %}
+
+{# {% block breadCrumb %}
+    {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+    }) }}
+{% endblock %} #}
+
+{% block breadCrumb%}
+    {{ CCSBreadcrumbs({
+        items: [
+            {
+                "text": "Dashboard",
+                "href": "/dashboard"
+                },
+                {
+                "text": "Choose a commercial agreement",
+                "href": "/projects/choose-agreement"
+                },
+                {
+                "text": "Procurement overview",
+                "href": "/projects/create-or-choose"
+                },
+                {
+                "text": "See the available suppliers",
+                "href": "/fca/supplier/list"
+                },
+                {
+                "text": "Choose your next steps",
+                "href": "#"
+            }
+        ]
+    }) }}
+{% endblock %}
+
+{% block content %}
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if(error) %}
+            {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: "One option must be selected." }] }) }}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                <h1 class="govuk-heading-xl">
+               <strong> {{ data.title }}</strong>
+                </h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+        
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                {% include "includes/project_header.njk" %}
+                <p class="govuk-body"><a href="/fca/supplier-filtering/export">{{data.subtitle}}</a></p>                 
+                {{ CCSInsetText({ html:data.subtitle2 }) }}
+
+                <form id="fca_next_steps_form" name="fca_next_steps_form" action="/fca/next-step" method="POST">
+                    {{ csrfProtection(csrf) }}
+                    {% set form_Options = [] %}
+                    {% set form_Options = (form_Options.push({
+                        value: "goto_next",
+                        html: "<label class='govuk-label' for='fca_next_steps'><h3 class='govuk-heading-m'>I’d like to continue to pre-market engagement or write and publish my requirements</h3></label><div id='fca_next_steps-item-hint' class='govuk-hint govuk-radios__hint'> You’ll be taken back to the procurement overview for this project and progress with your procurement activities. If you start any pre-market engagement or begin writing your requirements and then decide you don’t want to use the list of suppliers you created with this tool, you’ll have to close the project and restart from the beginning. </div>"}), form_Options) 
+                    %}
+                    {% set form_Options = (form_Options.push({
+                        value: "goto_dashboard",
+                        html: "<label class='govuk-label' for='fca_next_steps-2'><h3 class='govuk-heading-m'>Return to my dashboard</h3></label><div id='fca_next_steps-2-item-hint' class='govuk-hint govuk-radios__hint'> You’ll be able to resume your journey from there. </div>"}), form_Options) 
+                    %}
+                    {% if(error) %}
+                        {{ 
+                            CCSRadios({
+                                idPrefix: "fca_next_steps",
+                                name: "fca_next_steps",
+                                items:form_Options,
+                                error: error,
+                                errorMessage: {
+                                    text: 'One option must be selected.'
+                                } 
+                            }) 
+                        }}
+                    {% else %}
+                        {{ 
+                            CCSRadios({
+                                idPrefix: "fca_next_steps",
+                                name: "fca_next_steps",
+                                items:form_Options
+                            }) 
+                        }}
+                    {% endif %}
+     
+                <div class="govuk-button-group">
+                    {{ CCSButton({ text: "Save and continue" }) }}
+                    <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
+                </div>
+            </form>
+            <span class="select_service_err"></span>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+        </div>
+
+
+    </main>
+
+{% endblock %}

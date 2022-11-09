@@ -1,0 +1,116 @@
+{% set footerSupportLayer = true %}
+{% set gcloudHelperLayer = true %}
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% set title = 'Suppliers you want to approach | Crown Commercial Service' %}
+
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" href="/assets/styles/styles.min.css">
+	<link rel="stylesheet" href="/assets/styles/govuk_fac_style.css">
+{% endblock %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% block content %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+{{ CCSBreadcrumbs({
+        items: [
+        { "text": "Dashboard", "href": "/dashboard" },
+        { "text": "Choose a commercial agreement", "href": "/projects/choose-agreement" },
+        { "text": "Procurement overview", "href": url },
+        { "text": "Start a new Search", "href": "/g-cloud/choose-category" },
+        { "text": "Choose a category", "href": "/g-cloud/choose-category" },
+        { "text": "Search results", "href": returnto | trim },
+        { "text": "Save your search", "href": "/g-cloud/save-your-search" },
+        { "text": "Name your new search", "href": "#" } ] 
+}) }}
+	
+	<main id="main-content" role="main" class="govuk-main-wrapper">
+      {% if(error) %}
+    {{ CCSErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+                {
+                    text: "Enter any search keywords"
+                }
+            ]
+        }) }}
+    {%endif %}
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-full">
+				<h3 class="govuk-heading-xl page-title">
+					{{data.title}}
+				</h3>
+			</div>
+		</div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+					<div class="govuk-grid-row">
+						<div class="govuk-grid-column-full">
+						{% include "includes/project_header.njk" %}
+						</div>
+					</div>
+				<div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full">
+                        <h3 class="govuk-heading-xl page-title">
+                            {{searchKeywords.length}} {{data.line1}} {{agreementLotName}}
+                        </h3>
+                    </div>
+                </div>
+				
+				<p class="govuk-body">{{data.line2}}</p>
+         <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="500">
+      <form id="ccs_g13_new_search_form" name="ccs_g13_new_search_form" action="/g-cloud/new-search" method="POST">      
+        {{ csrfProtection(csrf) }} 
+          
+        {{ CCSTextarea({   
+              
+            id: "search",
+            name: "search",
+            classes:"govuk-input govuk-js-character-count",
+            maxlength: 500
+             })
+        }}
+        <div id="label-as-page-heading-info" class="govuk-hint govuk-character-count__message">
+                You have 500 characters remaining
+              </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+              <div class="govuk-button-group govuk-!-margin-top-9">
+                {{ CCSButton({
+                    text: "Save and continue",
+                    action:"submit"
+                    })
+                }}
+                <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>             
+              </div>
+          </div>
+        </div>
+          
+      </form>
+      </div>
+
+				
+
+				
+			</div>
+
+		    <div class="govuk-grid-column-one-third">
+      			 <div class="ccs-callout-panel">
+          <h2 class="govuk-heading-m">Related content</h2>
+          <p class="govuk-body">
+            {% for item in data.related_content %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
+            {% endfor %}
+          </p>
+        </div>
+    	    </div>
+
+		</div>
+	</main>
+{% endblock %}

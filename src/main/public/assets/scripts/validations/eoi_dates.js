@@ -100,11 +100,36 @@ projectYears.on('blur', () => {
         projectYears.addClass('govuk-form-group--error');
         $('.p_durations').addClass('govuk-form-group--error');
         $('#eoi-event-name-error-pdate').html('Enter a valid Year')
-    }
-    else {
-        projectYears.removeClass('govuk-form-group--error');
-        $('.p_durations').removeClass('govuk-form-group--error');
-        $('#eoi-event-name-error-pdate').html('')
+    }else{
+        let yrValidation = false;
+        let durationDays = document.getElementById('eoi_duration-days');
+        let durationMonth = document.getElementById('eoi_duration-months');
+        DaysProjectRun = Number(durationDays.value);
+        MonthProjectRun = Number(durationMonth.value);
+        let YearProjectRun = Number(projectYears.val());
+
+            if(YearProjectRun==4){
+               if(MonthProjectRun>0 || DaysProjectRun>0){
+                  yrValidation = true;
+               }
+            }else if(YearProjectRun==3){
+               if(MonthProjectRun==12 && DaysProjectRun>0){
+                  yrValidation = true;
+               }
+            }else if(YearProjectRun>4){
+               yrValidation = true;
+            }
+            if(yrValidation){
+                projectYears.addClass('govuk-form-group--error');
+                $('.p_durations').addClass('govuk-form-group--error');
+                $('#eoi-event-name-error-pdate').html('Project Duration should not be greater than 4 years')
+            }else {
+                projectYears.removeClass('govuk-form-group--error');
+                $('.p_durations').removeClass('govuk-form-group--error');
+                $('#eoi-event-name-error-pdate').html('')
+            }
+            $('.eoi_duration-days').blur();
+            $('.eoi_duration-months').blur();
     }
 })
 
@@ -113,12 +138,38 @@ projectMonths.on('blur', () => {
         projectMonths.addClass('govuk-form-group--error');
         $('.p_durations').addClass('govuk-form-group--error');
         $('#eoi-event-name-error-pdate').html('Enter a valid Month')
+    }else{
+        let yrValidation = false;
+        let durationYear = document.getElementById('eoi_duration-years');
+        let durationDay = document.getElementById('eoi_duration-days');
+        YearProjectRun = Number(durationYear.value);
+        DaysProjectRun = Number(durationDay.value);
+        let MonthProjectRun = Number(projectMonths.val());
+
+            if(YearProjectRun==4){
+               if(MonthProjectRun>0 || DaysProjectRun>0){
+                  yrValidation = true;
+               }
+            }else if(YearProjectRun==3){
+               if(MonthProjectRun==12 && DaysProjectRun>0){
+                  yrValidation = true;
+               }
+            }else if(YearProjectRun>4){
+               yrValidation = true;
+            }
+            if(yrValidation){
+                projectMonths.addClass('govuk-form-group--error');
+                $('.p_durations').addClass('govuk-form-group--error');
+                $('#eoi-event-name-error-pdate').html('Project Duration should not be greater than 4 years')
+            }else {
+                projectMonths.removeClass('govuk-form-group--error');
+                $('.p_durations').removeClass('govuk-form-group--error');
+                $('#eoi-event-name-error-pdate').html('')
+            }
+            $('.eoi_duration-days').blur();
+            $('.eoi_duration-years').blur();
     }
-    else {
-        projectMonths.removeClass('govuk-form-group--error');
-        $('.p_durations').removeClass('govuk-form-group--error');
-        $('#eoi-event-name-error-pdate').html('')
-    }
+    
 })
 
 
@@ -127,17 +178,43 @@ projectDays.on('blur', () => {
         projectDays.addClass('govuk-form-group--error');
         $('.p_durations').addClass('govuk-form-group--error');
         $('#eoi-event-name-error-pdate').html('Enter a valid date')
-    }
-    else {
-        projectDays.removeClass('govuk-form-group--error');
-        $('.p_durations').removeClass('govuk-form-group--error');
-        $('#eoi-event-name-error-pdate').html('')
+    }else{
+        let yrValidation = false;
+        let durationYear = document.getElementById('eoi_duration-years');
+        let durationMonth = document.getElementById('eoi_duration-months');
+        YearProjectRun = Number(durationYear.value);
+        MonthProjectRun = Number(durationMonth.value);
+        let DaysProjectRun = Number(projectDays.val());
+
+            if(YearProjectRun==4){
+               if(MonthProjectRun>0 || DaysProjectRun>0){
+                  yrValidation = true;
+               }
+            }else if(YearProjectRun==3){
+               if(MonthProjectRun==12 && DaysProjectRun>0){
+                  yrValidation = true;
+               }
+            }else if(YearProjectRun>4){
+               yrValidation = true;
+            }
+            if(yrValidation){
+                projectDays.addClass('govuk-form-group--error');
+                $('.p_durations').addClass('govuk-form-group--error');
+                $('#eoi-event-name-error-pdate').html('Project Duration should not be greater than 4 years')
+            }else {
+                projectDays.removeClass('govuk-form-group--error');
+                $('.p_durations').removeClass('govuk-form-group--error');
+                $('#eoi-event-name-error-pdate').html('')
+            }
+            $('.eoi_duration-years').blur();
+            $('.eoi_duration-months').blur();
     }
 })
 
 
 
 $('.save-button').on('click', (e) => {
+if(document.getElementById("eoi_resource_start_date-day") != null){
     const Day = $('#eoi_resource_start_date-day').val()
     const Month = $('#eoi_resource_start_date-month').val()
     const Year = $('#eoi_resource_start_date-year').val()
@@ -169,19 +246,24 @@ $('.save-button').on('click', (e) => {
         const errorStore = [["eoi_resource_start_date", "Porject start Year cannot be Empty"]]
         YearSelector.addClass('govuk-form-group--error');
         $('.durations').addClass('govuk-form-group--error');
+        $('#event-name-error-year').html('Enter a valid year');
         ccsZPresentErrorSummary(errorStore);
         e.preventDefault()
     }
 
 
 
-
-    const errorStore = [["eoi_resource_start_date", "Project time's format is not valid"]]
-    $('#event-name-error-year').html('Enter a valid year');
+    //$('#event-name-error-year').html('Enter a valid year');
+   // const errorStore = [["eoi_resource_start_date", "Project time's format is not valid"]]
+   
     //balwinder added if condation
     if (document.forms['ccs_eoi_date_form'] != undefined && document.forms['ccs_eoi_date_form'] != null) {
-        ccsZPresentErrorSummary(errorStore);
+       // console.log("errorStore",errorStore)
+        //ccsZPresentErrorSummary(errorStore);
     }
+    console.log("getTimeOfFormDate",getTimeOfFormDate);
+    console.log("getMSOfExpiryDate",getMSOfExpiryDate);
+    
     if (getTimeOfFormDate > getMSOfExpiryDate) {
         e.preventDefault();
         $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
@@ -203,9 +285,34 @@ $('.save-button').on('click', (e) => {
         ccsZPresentErrorSummary(errorStore);
     }
     else {
-        document.forms['ccs_eoi_date_form'].submit();
+        let yrValidation = false;
+            const durationYear = document.getElementById('eoi_duration-years');
+            const durationMonth = document.getElementById('eoi_duration-months');
+            const durationDay = document.getElementById('eoi_duration-days');
+
+            const YearProjectRun = Number(durationYear.value);
+            const MonthProjectRun = Number(durationMonth.value);
+            const DaysProjectRun = Number(durationDay.value);
+            
+            if(YearProjectRun==4){
+               if(MonthProjectRun>0 || DaysProjectRun>0){
+                  yrValidation = true;
+               }
+            }else if(YearProjectRun==3){
+               if(MonthProjectRun==12 && DaysProjectRun>0){
+                  yrValidation = true;
+               }
+            }else if(YearProjectRun>4){
+               yrValidation = true;
+            }
+            if(yrValidation){
+                e.preventDefault()
+               return;
+            }else{
+                document.forms['ccs_eoi_date_form'].submit();
+            }
     }
 
-
+}
 
 })

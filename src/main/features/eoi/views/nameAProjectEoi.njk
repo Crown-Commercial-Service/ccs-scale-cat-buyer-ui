@@ -1,4 +1,10 @@
 {% extends "template.njk" %}
+
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set fcaHelperLayer = true %}
+{% endif %}
+
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
 
@@ -15,7 +21,7 @@
             "href": "/dashboard"
         },
         {
-            "text": "Choose a commericial agreement",
+            "text": "Choose a commercial agreement",
             "href": "/projects/choose-agreement"
         },
         {
@@ -43,7 +49,7 @@
   titleText: "There is a problem",
   errorList: [
     {
-      text: "Your project must have a name."
+      text: errorText
     }
   ]
 }) }}
@@ -60,32 +66,50 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
   {% include "includes/project_header.njk" %}
-   <div class="govuk-inset-text">
-        <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p><p class="govuk-body">You should include this ID in any correspondence with CCS. </p>
+      <div class="govuk-inset-text">
+            <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong></p>
+            <p class="govuk-body">
+              {% if agreementId_session == 'RM6187' %}
+                You should include this ID every time you contact CCS.
+              {% else %}
+                You should include this ID in any correspondence with CCS. 
+              {% endif %}
+              </p>
       </div>
-      <p class="govuk-body">{{data.caption}}</p>
+    
+      
+      <p class="govuk-body">You can change the name of your project. Enter the new name below. 
+If you don’t want to change the name of your project you can <a href="/eoi/eoi-tasklist">return to Do pre-market engagement.</a> </p>
       <form id="ccs_eoi_project_name_form" name="ccs_eoi_project_name_form" action="/eoi/name?procid={{procId}}" method="POST">      
         {{ csrfProtection(csrf) }} 
           
-        {{ CCSInput({           
+        {{ CCSCharacterCount({           
             id: data.form.input.id,
             name: data.form.input.name,
-            value: projectLongName
+            value: projectLongName,
+            classes: "nameproject",
+            maxlength:250,
+            rows:1
             })
         }}
-
-          <div class="govuk-button-group">
-            {{ CCSButton({
-                text: "Save and continue",
-                action:"submit"
-                })
-            }}
-            <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>             
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+              <div class="govuk-button-group govuk-!-margin-top-9">
+                {{ CCSButton({
+                    text: "Save and continue",
+                    action:"submit"
+                    })
+                }}
+                <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>             
+              </div>
           </div>
+        </div>
+          
       </form>
  </div>
       <div class="govuk-grid-column-one-third">
          {{ CCSReleatedContent(releatedContent) }}
+      </div>
       </div>
    </div>
   </main>

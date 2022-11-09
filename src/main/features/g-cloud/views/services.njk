@@ -1,0 +1,2720 @@
+{% extends "template.njk" %}
+
+{% if agreementId_session == 'RM6187' %}
+{% set footerSupportLayer = true %}
+{% set gcloudHelperLayer = true %}
+{% endif %}
+
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title -%}
+{{serviceDetails.serviceName}} | Contract Award Service
+{%- endset %}
+{% set url -%}
+/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+  items: [
+  {
+    "text": "Dashboard",
+    "href": "/dashboard"
+  },
+  {
+    "text": "Choose a commercial agreement",
+    "href": "/projects/choose-agreement"
+  },
+  {
+    "text": "Procurement overview",
+    "href": url
+  },
+  {
+    "text": "Start a new search",
+    "href": "/g-cloud/choose-category"
+  },
+  {
+    "text": "Choose a category",
+    "href": "/g-cloud/choose-category"
+  },
+  {
+    "text": "Search results",
+    "href": returnto | trim
+  },
+  {
+    "text": serviceDetails.serviceName,
+    "href": "#"
+  }
+  ]
+}) }}
+{% endblock %}
+
+{% block content %}
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  {%block Page_Title_Section_1%}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">{{serviceDetails.supplierName}}</span>
+      <h1 class="govuk-heading-l">{{serviceDetails.serviceName}}</h1>
+    </div>
+  </div>
+  {%endblock%}
+
+  {%block Data_Result_Section_2%}
+  <div class="govuk-grid-row govuk-!-margin-bottom-9">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body">{{serviceDetails.serviceDescription| striptags(true) | escape | nl2br}}</p> 
+
+      <h2 class="govuk-heading-m">Features</h2>
+      <ul class="govuk-list govuk-list--bullet">
+        {%if serviceDetails.serviceFeatures !=null and serviceDetails.serviceFeatures.length >0%}
+        {%for feature in serviceDetails.serviceFeatures%}
+        <li>{{feature}}</li>
+        {%endfor%}
+        {%endif%}
+      </ul>
+
+
+      <h2 class="govuk-heading-m">Benefits</h2>
+      <ul class="govuk-list govuk-list--bullet">
+        {%if serviceDetails.serviceBenefits !=null and serviceDetails.serviceBenefits.length >0%}
+        {%for serviceBenefits in serviceDetails.serviceBenefits%}
+        <li>{{serviceBenefits}}</li>
+        {%endfor%}
+        {%endif%}
+      </ul>
+
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+    <div id="meta">
+      {%if serviceDetails.priceMin !=null and serviceDetails.priceMin.length >0%}
+        <h2 class="govuk-visually-hidden">Pricing</h2>
+        <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1">
+          £{{serviceDetails.priceMin}}
+          {%if serviceDetails.priceMax !=null and serviceDetails.priceMax.length >0%}
+               to £{{serviceDetails.priceMax}}
+          {%endif%}
+
+          {%if serviceDetails.priceUnit !=null and serviceDetails.priceUnit.length >0%}            
+                {{serviceDetails.priceUnit | lower}}
+          {%endif%}
+          {%if serviceDetails.priceInterval !=null and serviceDetails.priceInterval.length >0%}
+           {{serviceDetails.priceInterval | lower}}
+           {%endif%}
+        </p>
+      {%endif%}
+  <ul class="govuk-list govuk-body-s">
+    {%if serviceDetails.educationPricing %}
+    <li>
+        Education pricing available
+    </li>
+    {% endif %}
+    {%if serviceDetails.freeVersionTrialOption %}
+    <li>
+        <a href="{{serviceDetails.freeVersionLink}}" class="govuk-link" rel="external noopener noreferrer" target="_blank">Free trial available</a>
+    </li>
+   {% endif %}
+  </ul>
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-padding-top-1">Service documents</h2>
+  
+
+<ul class="govuk-list">
+
+  {%if serviceDetails.pricingDocumentURL !=null and  serviceDetails.pricingDocumentURL !=undefined %}
+
+  <li class="gouk-!-margin-bottom-2">
+    
+  <section class="dm-attachment" data-module="dm-attachment">
+    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+      <a class="govuk-link" href="{{serviceDetails.pricingDocumentURL}}" target="_self" tabindex="-1" aria-hidden="true">
+        
+          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+          </svg>
+        
+      </a>
+    </div>
+    <div class="dm-attachment__details">
+      <p class="dm-attachment__title govuk-!-font-size-16">
+        <a href="{{serviceDetails.pricingDocumentURL}}" class="govuk-link dm-attachment__link" target="_self">Pricing document</a>
+      </p>
+      
+      
+        <p class="dm-attachment__metadata">
+          <span class="dm-attachment__attribute">{{serviceDetails.pricingDocumentEXTENTION | upper}}</span></p>
+      
+      
+    </div>
+  </section>
+
+  </li>
+  {%endif%}
+  {%if serviceDetails.sfiaRateDocumentURL !=null and  serviceDetails.sfiaRateDocumentURL !=undefined %}
+  <li class="gouk-!-margin-bottom-2">
+    
+  <section class="dm-attachment" data-module="dm-attachment">
+    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+      <a class="govuk-link" href="{{serviceDetails.sfiaRateDocumentURL}}" target="_self" tabindex="-1" aria-hidden="true">
+        
+          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+          </svg>
+        
+      </a>
+    </div>
+    <div class="dm-attachment__details">
+      <p class="dm-attachment__title govuk-!-font-size-16">
+        <a href="{{serviceDetails.sfiaRateDocumentURL}}" class="govuk-link dm-attachment__link" target="_self">Skills Framework for the Information Age rate card</a>
+      </p>
+      
+      
+        <p class="dm-attachment__metadata">
+          <span class="dm-attachment__attribute">{{serviceDetails.sfiaRateDocumentEXTENTION | upper}}</span></p>
+      
+      
+    </div>
+  </section>
+
+  </li>
+{%endif%}
+  {%if serviceDetails.serviceDefinitionDocumentURL !=null and  serviceDetails.serviceDefinitionDocumentURL !=undefined %}
+  <li class="gouk-!-margin-bottom-2">
+    
+  <section class="dm-attachment" data-module="dm-attachment">
+    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+      <a class="govuk-link" href="{{serviceDetails.serviceDefinitionDocumentURL}}" target="_self" tabindex="-1" aria-hidden="true">
+        
+          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+          </svg>
+        
+      </a>
+    </div>
+    <div class="dm-attachment__details">
+      <p class="dm-attachment__title govuk-!-font-size-16">
+        <a href="{{serviceDetails.serviceDefinitionDocumentURL}}" class="govuk-link dm-attachment__link" target="_self">Service definition document</a>
+      </p>
+      
+      
+        <p class="dm-attachment__metadata">
+          <span class="dm-attachment__attribute">{{serviceDetails.serviceDefinitionDocumentEXTENTION | upper}}</span></p>
+      
+      
+    </div>
+  </section>
+
+  </li>
+{%endif%}
+  {%if serviceDetails.termsAndConditionsDocumentURL !=null and  serviceDetails.termsAndConditionsDocumentURL !=undefined %}
+  <li class="gouk-!-margin-bottom-2">
+    
+
+  <section class="dm-attachment" data-module="dm-attachment">
+    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+      <a class="govuk-link" href="{{serviceDetails.termsAndConditionsDocumentURL}}" target="_self" tabindex="-1" aria-hidden="true">
+        
+          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+          </svg>
+        
+      </a>
+    </div>
+    <div class="dm-attachment__details">
+      <p class="dm-attachment__title govuk-!-font-size-16">
+        <a href="{{serviceDetails.termsAndConditionsDocumentURL}}" class="govuk-link dm-attachment__link" target="_self">Terms and conditions</a>
+      </p>
+      
+      
+        <p class="dm-attachment__metadata">
+          <span class="dm-attachment__attribute">{{serviceDetails.termsAndConditionsDocumentEXTENTION | upper}}</span></p>
+      
+      
+    </div>
+  </section>
+
+  </li>
+{%endif%}
+
+  {%if supplierDetails.modernSlaveryStatement !=null and  supplierDetails.modernSlaveryStatement !=undefined %}
+  <li class="gouk-!-margin-bottom-2">
+  <section class="dm-attachment" data-module="dm-attachment">
+    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+      <a class="govuk-link" href="{{supplierDetails.modernSlaveryStatement}}" target="_self" tabindex="-1" aria-hidden="true">
+        
+          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+          </svg>
+        
+      </a>
+    </div>
+    <div class="dm-attachment__details">
+      <p class="dm-attachment__title govuk-!-font-size-16">
+        <a href="{{supplierDetails.modernSlaveryStatement}}" class="govuk-link dm-attachment__link" target="_self">Modern Slavery statement</a>
+      </p>
+      
+      
+        <p class="dm-attachment__metadata">
+          <span class="dm-attachment__attribute">{{supplierDetails.modernSlaveryStatementEXTENTION | upper}}</span></p>
+      
+      
+    </div>
+  </section>
+
+  </li>
+{%endif%}
+
+{%if supplierDetails.modernSlaveryStatementOption !=null and  supplierDetails.modernSlaveryStatementOption !=undefined %}
+  <li class="gouk-!-margin-bottom-2">
+  <section class="dm-attachment" data-module="dm-attachment">
+    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+      <a class="govuk-link" href="{{supplierDetails.modernSlaveryStatementOption}}" target="_self" tabindex="-1" aria-hidden="true">
+        
+          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+          </svg>
+        
+      </a>
+    </div>
+    <div class="dm-attachment__details">
+      <p class="dm-attachment__title govuk-!-font-size-16">
+        <a href="{{supplierDetails.modernSlaveryStatementOption}}" class="govuk-link dm-attachment__link" target="_self">Modern Slavery statement</a>
+      </p>
+      
+      
+        <p class="dm-attachment__metadata">
+          <span class="dm-attachment__attribute">{{supplierDetails.modernSlaveryStatementOptionEXTENTION | upper}}</span></p>
+      
+      
+    </div>
+  </section>
+
+  </li>
+{%endif%}
+
+
+
+  
+</ul>
+
+
+
+<details class="govuk-details govuk-!-font-size-16" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Request an accessible format
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    
+  If you use assistive technology (such as a screen reader) and need versions of these documents in a more accessible format,
+  email the supplier at <a href="mailto:tenders@qassociates.co.uk" target="_blank" class="govuk-link">tenders@qassociates.co.uk</a>.
+  Tell them what format you need. It will help if you say what assistive technology you use.
+
+  </div>
+</details>
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-padding-top-1">Framework</h2>
+  <p class="govuk-body-s">{{serviceDetails.frameworkName}}</p>
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-padding-top-1">Service ID</h2>
+  <p class="govuk-visually-hidden">{{serviceDetails.id}}</p>
+  <p aria-hidden="true" class="govuk-body-s">
+    {{serviceDetails.id}}
+  </p>
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-padding-top-1">Contact</h2>
+  <p class="govuk-body-s">
+    <span class="govuk-visually-hidden">{{serviceDetails.supplierName}}</span>
+        {{supplierDetails.contactName}}<br>
+        <span class="govuk-visually-hidden">Telephone: </span>{{supplierDetails.phoneNumber}}<br>
+        <a href="mailto:{{supplierDetails.email}}" data-event-category="Email a supplier" data-event-label="{{serviceDetails.supplierName}}"><span class="govuk-visually-hidden">Email: </span>{{supplierDetails.email}}</a><br>
+  </p>
+</div>
+  </div>
+    
+  </div>
+          {%endblock%}
+
+          {%block Data_Result_Section_3%}
+          <div class="govuk-grid-row" id="service-attributes">
+            <div class="govuk-grid-column-full">
+             
+             {%if serviceDetails.lot =='cloud-support' %}
+                <div class="scroll-tracking" id="01-planning">
+                <h2 id="planning" class="govuk-heading-m app-summary-list-heading">Planning</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Planning service
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.planningService  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.planningService %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How the planning service works
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.planningServiceDescription| striptags(true) | escape | nl2br}}
+                    </dd>
+                  </div>
+                  {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Planning service works with specific services
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.planningServiceCompatibility  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.planningServiceCompatibility %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Hosting or software services the planning service works with
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.planningServiceCompatibilityList !=null and serviceDetails.planningServiceCompatibilityList.length >0%}
+                        {%for planningServiceCompatibilityList in serviceDetails.planningServiceCompatibilityList%}
+                        <li>{{planningServiceCompatibilityList}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="02-training">
+                <h2 id="training" class="govuk-heading-m app-summary-list-heading">Training</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Training service provided
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.training  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.training %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How the training service works
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.trainingDescription| striptags(true) | escape | nl2br}}
+                    </dd>
+                  </div>
+                  {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Training is tied to specific services
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.trainingServiceSpecific  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.trainingServiceSpecific %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Services the training service works with
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.trainingServiceSpecificList !=null and serviceDetails.trainingServiceSpecificList.length >0%}
+                        {%for trainingServiceSpecificList in serviceDetails.trainingServiceSpecificList%}
+                        <li>{{trainingServiceSpecificList}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="03-setup-and-migration">
+                <h2 id="setup-and-migration" class="govuk-heading-m app-summary-list-heading">Setup and migration</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Setup or migration service available
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.setupAndMigrationService  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.setupAndMigrationService %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How the setup or migration service works
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.setupAndMigrationServiceDescription| striptags(true) | escape | nl2br}}
+                    </dd>
+                  </div>
+                  {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Setup or migration service is for specific cloud services
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.setupAndMigrationServiceSpecific  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.setupAndMigrationServiceSpecific %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      List of supported services
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.setupAndMigrationServiceSpecificList !=null and serviceDetails.setupAndMigrationServiceSpecificList.length >0%}
+                        {%for setupAndMigrationServiceSpecificList in serviceDetails.setupAndMigrationServiceSpecificList%}
+                        <li>{{setupAndMigrationServiceSpecificList}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="04-quality-assurance-and-performance-testing">
+                <h2 id="quality-assurance-and-performance-testing" class="govuk-heading-m app-summary-list-heading">Quality assurance and performance testing</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Quality assurance and performance testing service
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.QAAndTesting  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.QAAndTesting %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How the quality assurance and performance testing works
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.QAAndTestingDescription| striptags(true) | escape | nl2br}}
+                    </dd>
+                  </div>
+                  {% endif %}
+                                   
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="05-security-testing">
+                <h2 id="security-testing" class="govuk-heading-m app-summary-list-heading">Security testing</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Security services
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.securityTesting  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.securityTesting %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Security services type
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.securityTestingWhat !=null and serviceDetails.securityTestingWhat.length >0%}
+                        {%for securityTestingWhat in serviceDetails.securityTestingWhat%}
+                        <li>{{securityTestingWhat | replace("_", " ") | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Certified security testers
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.securityTestingAccredited  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.securityTestingAccredited %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Security testing certifications
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.securityTestingAccreditations !=null and serviceDetails.securityTestingAccreditations.length >0%}
+                        {%for securityTestingAccreditations in serviceDetails.securityTestingAccreditations%}
+                        <li>{{securityTestingAccreditations | replace("_", " ") | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="06-ongoing-support">
+                <h2 id="ongoing-support" class="govuk-heading-m app-summary-list-heading">Ongoing support</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Ongoing support service
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.ongoingSupport  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.ongoingSupport %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Types of service supported
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.ongoingSupportServices !=null and serviceDetails.ongoingSupportServices.length >0%}
+                        {%for ongoingSupportServices in serviceDetails.ongoingSupportServices%}
+                        <li>{{ongoingSupportServices | replace("_", " ") | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How the support service works
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.ongoingSupportDescription | striptags(true) | escape | nl2br}}
+                    </dd>
+                  </div>
+                  {% endif %}
+                 
+                </dl>
+              </div>
+
+             {% endif %}
+              <div class="scroll-tracking" id="01-service-scope">
+                <h2 id="service-scope" class="govuk-heading-m app-summary-list-heading">Service scope</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  {# Cloud software #}
+                  {%if serviceDetails.lot =='cloud-software' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Software add-on or extension
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.serviceAddOnType | replace("_", " ") | capitalize  }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.serviceAddOnType !='no' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      What software services is the service an extension to
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.serviceAddOnDetails}}
+                    </dd>
+                  </div>
+                    {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Cloud deployment model
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.cloudDeploymentModel !=null and serviceDetails.cloudDeploymentModel.length >0%}
+                        {%for cloudDeploymentModel in serviceDetails.cloudDeploymentModel%}
+                        <li>{{cloudDeploymentModel | replace("_", " ") | capitalize }}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Service constraints
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.serviceConstraints | striptags(true) | escape | nl2br}}
+                    </dd>
+
+                  </div>
+
+                  {# Cloud software #}
+                  {%if serviceDetails.lot !='cloud-support' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      System requirements
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.systemRequirements !=null and serviceDetails.systemRequirements.length >0%}
+                        {%for systemRequirements in serviceDetails.systemRequirements%}
+                        <li>{{systemRequirements}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {%endif%}
+
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="02-user-support">
+                <h2 id="user-support" class="govuk-heading-m app-summary-list-heading">User support</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Email or online ticketing support
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ (serviceDetails.emailOrTicketingSupport | replace("_", " ") | capitalize) if serviceDetails.emailOrTicketingSupport =='yes' or  serviceDetails.emailOrTicketingSupport == 'yes_extra_cost' else "No" }}
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Support response times
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.emailOrTicketingSupportResponseTimes}}
+                    </dd>
+                  </div>
+                  
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      User can manage status and priority of support tickets
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.emailOrTicketingSupportPriority else "No" }}
+                    </dd>
+                  </div>
+
+                  {%if serviceDetails.emailOrTicketingSupportPriority %}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Online ticketing support accessibility
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.emailOrTicketingSupportAccessibility | replace("_", " ") | capitalize }}
+                    </dd>
+                  </div>
+
+                  {% endif %}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Phone support
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.phoneSupport else "No" }}
+                    </dd>
+                  </div>
+
+                  {%if serviceDetails.phoneSupport %}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Phone support availability
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.phoneSupportAvailability | replace("_", " ") | capitalize  }}
+                    </dd>
+                  </div>
+
+                  {% endif %}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Web chat support
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.webChatSupport =='yes' or serviceDetails.webChatSupport == 'yes_extra_cost' else "No" }}
+                    </dd>
+                  </div>
+
+                  {%if serviceDetails.webChatSupport =='yes' or serviceDetails.webChatSupport == 'yes_extra_cost' %}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Web chat support availability
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.webChatSupportAvailability | replace("_", " ") | capitalize  }}
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Web chat support accessibility standard
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.webChatSupportAccessibility | replace("_", " ") | capitalize  }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.lot !='cloud-support' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How the web chat support is accessible
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.webChatSupportAccessibilityDescription}}
+                    </dd>
+                  </div>
+                  {%endif%}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Web chat accessibility testing
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.webChatSupportAccessibilityTesting | capitalize  }}
+                    </dd>
+                  </div>
+
+                  {% endif %}
+                  {%if serviceDetails.lot !='cloud-support' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Onsite support
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.onsiteSupport | replace("_", " ") | capitalize  }}
+                    </dd>
+                  </div>
+                  {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Support levels
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.supportLevels}}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.lot !='cloud-support' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Support available to third parties
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.supportAvailableToThirdParty else "No" }}
+                    </dd>
+                  </div>
+                  {% endif %}
+                </dl>
+              </div>
+
+              {%if serviceDetails.lot !='cloud-support' %}
+              <div class="scroll-tracking" id="03-onboarding-and-offboarding">
+                <h2 id="onboarding-and-offboarding" class="govuk-heading-m app-summary-list-heading">Onboarding and offboarding</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Getting started
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.gettingStarted | striptags(true) | escape | nl2br}}
+                    </dd>
+
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Service documentation
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.documentation  else "No" }}
+                    </dd>
+
+                  </div>
+
+                   {%if serviceDetails.documentation %}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Documentation formats
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.documentationFormats !=null and serviceDetails.documentationFormats.length >0%}
+                        {%for documentationFormats in serviceDetails.documentationFormats%}
+                        <li>{{documentationFormats | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {%endif%}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      End-of-contract data extraction
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.endOfContractDataExtraction | striptags(true) | escape | nl2br}}
+                    </dd>
+
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      End-of-contract process
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.endOfContractProcess | striptags(true) | escape | nl2br}}
+                    </dd>
+
+                  </div>
+
+
+                </dl>
+              </div>
+
+
+              <div class="scroll-tracking" id="04-using-the-service">
+                <h2 id="using-the-service" class="govuk-heading-m app-summary-list-heading">Using the servicee</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  {# Cloud software start #}
+                  {%if serviceDetails.lot =='cloud-software' %}
+
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Web browser interface
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.browsersAccess  else "No" }}
+                      </dd>
+                    </div>
+                    {%if serviceDetails.browsersAccess %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Supported browsers
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.browsersSupported !=null and serviceDetails.browsersSupported.length >0%}
+                        {%for browsersSupported in serviceDetails.browsersSupported%}
+                        <li>{{browsersSupported | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                      </dd>
+                    </div>
+                    {% endif %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Application to install
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.installation  else "No" }}
+                      </dd>
+                    </div>
+
+                    {%if serviceDetails.installation %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Compatible operating systems
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.installationCompatibleOperatingSystems !=null and serviceDetails.installationCompatibleOperatingSystems.length >0%}
+                        {%for installationCompatibleOperatingSystems in serviceDetails.installationCompatibleOperatingSystems%}
+                        <li>{{installationCompatibleOperatingSystems | replace("_", " ") | title}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                      </dd>
+                    </div>
+                    {% endif %}
+
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Designed for use on mobile devices
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.mobile  else "No" }}
+                      </dd>
+                    </div>
+                    {%if serviceDetails.installation %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Differences between the mobile and desktop service
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{serviceDetails.mobileDifferences}}
+                      </dd>
+                    </div>
+                    {% endif %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Service interface
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.serviceInterface  else "No" }}
+                      </dd>
+                    </div>
+                    {%if serviceDetails.serviceInterface %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Description of service interface
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{serviceDetails.serviceInterfaceDescription}}
+                      </dd>
+                    </div>
+
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Accessibility standards
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{serviceDetails.serviceInterfaceAccessibility | capitalize}}
+                      </dd>
+                    </div>
+
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Description of accessibility
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{serviceDetails.serviceInterfaceAccessibilityDescription}}
+                      </dd>
+                    </div>
+
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Accessibility testing
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{serviceDetails.serviceInterfaceTesting}}
+                      </dd>
+                    </div>
+                    {% endif %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      API
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.APISoftware  else "No" }}
+                      </dd>
+                    </div>
+                    {%if serviceDetails.APISoftware %}
+
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      What users can and can't do using the API
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{serviceDetails.APIUsage | striptags(true) | escape | nl2br}}
+                      </dd>
+                    </div>
+                     {% endif %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      API documentation
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.APIDocumentation  else "No" }}
+                      </dd>
+                    </div>
+                    {%if serviceDetails.APIDocumentation %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      API documentation formats
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.APIDocumentationFormats !=null and serviceDetails.APIDocumentationFormats.length >0%}
+                        {%for APIDocumentationFormats in serviceDetails.APIDocumentationFormats%}
+                        <li>{{APIDocumentationFormats | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                      </dd>
+                    </div>
+                    {% endif %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      API sandbox or test environment
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.APISandbox  else "No" }}
+                      </dd>
+                    </div>
+
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Customisation available
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.customisationAvailable  else "No" }}
+                      </dd>
+                    </div>
+                    {%if serviceDetails.customisationAvailable %}
+                    <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Description of customisation
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{serviceDetails.customisationDescription}}
+                      </dd>
+                    </div>
+                    {% endif %}
+                   {# Cloud software end #}
+                  {% else %}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Web browser interface
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.webInterface  else "No" }}
+                      </dd>
+                  </div>
+                   {%if serviceDetails.webInterface %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Using the web interface
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.webInterfaceUsage}}
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Web interface accessibility standard
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.webInterfaceAccessibility | replace("_", " ") | capitalize  }}
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How the web interface is accessible
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.webInterfaceAccessibilityDescription | capitalize}}
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Web interface accessibility testing
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.webInterfaceAccessibilityTesting | striptags(true) | escape | nl2br}}
+                    </dd>
+                  </div>
+
+                  {% endif %}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      API
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.APIHosting  else "No" }}
+                    </dd>
+                  </div>
+                    {%if serviceDetails.APIHosting %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      What users can and can't do using the API
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.APIUsage | striptags(true) | escape | nl2br}}
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      API automation tools
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.APIAutomationTools !=null and serviceDetails.APIAutomationTools.length >0%}
+                        {%for APIAutomationTools in serviceDetails.APIAutomationTools%}
+                        <li>{{APIAutomationTools | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other API automation tools
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.APIAutomationToolsOther !=null and serviceDetails.APIAutomationToolsOther.length >0%}
+                        {%for APIAutomationToolsOther in serviceDetails.APIAutomationToolsOther%}
+                        <li>{{APIAutomationToolsOther | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                    {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      API documentation
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.APIDocumentation  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.APIDocumentation %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      API documentation formats
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.APIDocumentationFormats !=null and serviceDetails.APIDocumentationFormats.length >0%}
+                        {%for APIDocumentationFormats in serviceDetails.APIDocumentationFormats%}
+                        <li>{{APIDocumentationFormats | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Command line interface
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.commandLineInterface  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.commandLineInterface %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Command line interface compatibility
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.commandLineOS !=null and serviceDetails.commandLineOS.length >0%}
+                        {%for commandLineOS in serviceDetails.commandLineOS%}
+                        <li>{{commandLineOS | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Using the command line interface
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.commandLineUsage}}
+                    </dd>
+                  </div>
+                    {% endif %}
+                  {% endif %}
+
+
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="05-scaling">
+                <h2 id="scaling" class="govuk-heading-m app-summary-list-heading">Scaling</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+                  {%if serviceDetails.lot !='cloud-software' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Scaling available
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.scaling  else "No" }}
+                    </dd>
+
+                  </div>
+                  {%if serviceDetails.scaling %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Scaling type
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.scalingType !=null and serviceDetails.scalingType.length >0%}
+                        {%for scalingType in serviceDetails.scalingType%}
+                        <li>{{scalingType| capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                    {% endif %}
+                    {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Independence of resources
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.independenceOfResources | striptags(true) | escape | nl2br}}
+                    </dd>
+
+                  </div>
+                  {%if serviceDetails.lot !='cloud-software' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Usage notifications
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.usageNotifications  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.usageNotifications %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Usage reporting
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.usageNotificationsHow !=null and serviceDetails.documentationFormats.length >0%}
+                        {%for usageNotificationsHow in serviceDetails.usageNotificationsHow%}
+                        <li>{{usageNotificationsHow | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+                  {% endif %}
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="06-analytics">
+                <h2 id="analytics" class="govuk-heading-m app-summary-list-heading">Analytics</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+
+                      {{ "Infrastructure or application metrics" if serviceDetails.lot !='cloud-software' else " Service usage metrics" }}
+                     
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                     {{ "Yes" if serviceDetails.metrics  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.metrics %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Metrics types
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {%if serviceDetails.lot =='cloud-software' %}
+                        {{serviceDetails.metricsDescription | striptags(true) | escape | nl2br}}
+                       {%else%}
+                        <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.metricsWhat !=null and serviceDetails.metricsWhat.length >0%}
+                        {%for metricsWhat in serviceDetails.metricsWhat%}
+                        <li>{{metricsWhat | replace("_", " ") | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                       </ul>
+                      {%endif%}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.lot !='cloud-software' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other metrics
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                     <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.metricsWhatOther !=null and serviceDetails.metricsWhatOther.length >0%}
+                        {%for metricsWhatOther in serviceDetails.metricsWhatOther%}
+                        <li>{{metricsWhatOther}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {%endif%}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Reporting types
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.metricsHow !=null and serviceDetails.metricsHow.length >0%}
+                        {%for metricsHow in serviceDetails.metricsHow%}
+                        <li>{{metricsHow | replace("_", "-") | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+                </dl>
+              </div>
+              {% endif %}
+              <div class="scroll-tracking" id="07-resellers">
+                <h2 id="resellers" class="govuk-heading-m app-summary-list-heading">Resellers</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Supplier type
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                     {{serviceDetails.resellingType | replace("_", " ") | capitalize  }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.resellingType !='not_reseller' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Organisation whose services are being resold
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.resellingOrganisations}}
+                    </dd>
+                  </div>
+                    {% endif %}
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="08-staff-security">
+                <h2 id="staff-security" class="govuk-heading-m app-summary-list-heading">Staff security</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Staff security clearance
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.staffSecurityClearanceChecks | replace("_", " ") | upper}}
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Government security clearance
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.governmentSecurityClearances | upper}}
+                    </dd>
+                  </div>
+
+                </dl>
+              </div>
+
+
+              {%if serviceDetails.lot !='cloud-support' %}
+
+              <div class="scroll-tracking" id="09-asset-protection">
+                <h2 id="asset-protection" class="govuk-heading-m app-summary-list-heading">Asset protection</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Knowledge of data storage and processing locations
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                     {{ "Yes" if serviceDetails.dataStorageAndProcessing  else "No" }}
+                    </dd>
+                  </div>
+                    {%if serviceDetails.dataStorageAndProcessing %}
+  
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Data storage and processing locations
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.dataStorageAndProcessingLocations !=null and serviceDetails.dataStorageAndProcessingLocations.length >0%}
+                        {%for dataStorageAndProcessingLocations in serviceDetails.dataStorageAndProcessingLocations%}
+                        <li>{{dataStorageAndProcessingLocations | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      User control over data storage and processing locations
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.dataStorageAndProcessingUserControl  else "No" }}
+                    </dd>
+                  </div>
+                    {%if serviceDetails.dataStorageAndProcessingUserControl %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Datacentre security standards
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.datacentreSecurityStandards | replace("_", " ") | capitalize}}
+                    </dd>
+                  </div>
+                  {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Penetration testing frequency
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.penetrationTesting | replace("_", " ") | capitalize}}
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Penetration testing approach
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.penetrationTestingApproach | replace("_", "-") | capitalize}}
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Protecting data at rest
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.protectionOfDataAtRest !=null and serviceDetails.protectionOfDataAtRest.length >0%}
+                        {%for protectionOfDataAtRest in serviceDetails.protectionOfDataAtRest%}
+                        <li>{{protectionOfDataAtRest | replace("_", " ") | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                   {%if serviceDetails.lot !='cloud-software' %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other data at rest protection approach
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.protectionOfDataAtRestOther | striptags(true) | escape | nl2br}}
+                    </dd>
+                  </div>
+                  {%endif%}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Data sanitisation process
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.dataSanitisation  else "No" }}
+                    </dd>
+                  </div>
+                  {%if serviceDetails.dataSanitisation %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Data sanitisation type
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                     <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.dataSanitisationType !=null and serviceDetails.dataSanitisationType.length >0%}
+                        {%for dataSanitisationType in serviceDetails.dataSanitisationType%}
+                        <li>{{dataSanitisationType | replace("_", " ") | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                  </div>
+                  {% endif %}
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Equipment disposal approach
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.equipmentDisposalApproach | replace("_", " ") | capitalize}}
+                    </dd>
+                  </div>
+
+                </dl>
+              </div>
+
+              {%if serviceDetails.lot =='cloud-software' %}
+
+              <div class="scroll-tracking" id="10-data-importing-and-exporting">
+                <h2 id="data-importing-and-exporting" class="govuk-heading-m app-summary-list-heading">Data importing and exporting</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Data export approach
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.dataExportHow}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Data export formats
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.dataExportFormats !=null and serviceDetails.dataExportFormats.length >0%}
+                        {%for dataExportFormats in serviceDetails.dataExportFormats%}
+                        <li>{{dataExportFormats | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other data export formats
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.dataExportFormatsOther !=null and serviceDetails.dataExportFormatsOther.length >0%}
+                        {%for dataExportFormatsOther in serviceDetails.dataExportFormatsOther%}
+                        <li>{{dataExportFormatsOther}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Data import formats
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.dataImportFormats !=null and serviceDetails.dataImportFormats.length >0%}
+                        {%for dataImportFormats in serviceDetails.dataImportFormats%}
+                        <li>{{dataImportFormats | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other data import formats
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.dataImportFormatsOther !=null and serviceDetails.dataImportFormatsOther.length >0%}
+                        {%for dataImportFormatsOther in serviceDetails.dataImportFormatsOther%}
+                        <li>{{dataImportFormatsOther}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                </dl>
+              </div>
+
+
+              {%else%}
+              <div class="scroll-tracking" id="10-backup-and-recovery">
+                <h2 id="backup-and-recovery" class="govuk-heading-m app-summary-list-heading">Backup and recovery</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Backup and recovery
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.backup  else "No" }}
+                    </dd>
+                </div>
+                  {%if serviceDetails.backup %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      What’s backed up
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                     <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.backupWhatData !=null and serviceDetails.backupWhatData.length >0%}
+                        {%for backupWhatData in serviceDetails.backupWhatData%}
+                        <li>{{backupWhatData}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Backup controls
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.backupControls}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Datacentre setup
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.backupDatacentre !=null and serviceDetails.backupDatacentre.length >0%}
+                        {%for backupDatacentre in serviceDetails.backupDatacentre%}
+                        <li>{{backupDatacentre | replace("_", " ") | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Scheduling backups
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.backupScheduling | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Backup recovery
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.backupRecovery !=null and serviceDetails.backupRecovery.length >0%}
+                        {%for backupRecovery in serviceDetails.backupRecovery%}
+                        <li>{{backupRecovery | replace("_", " ") | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+                {% endif %}
+                </dl>
+              </div>
+              {% endif %}
+
+              <div class="scroll-tracking" id="11-data-in-transit-protection">
+                <h2 id="data-in-transit-protection" class="govuk-heading-m app-summary-list-heading">Data-in-transit protection</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Data protection between buyer and supplier networks
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.dataProtectionBetweenNetworks !=null and serviceDetails.dataProtectionBetweenNetworks.length >0%}
+                        {%for dataProtectionBetweenNetworks in serviceDetails.dataProtectionBetweenNetworks%}
+                        <li>{{dataProtectionBetweenNetworks | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other protection between networks
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.dataProtectionBetweenNetworksOther | striptags(true) | escape | nl2br}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Data protection within supplier network
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.dataProtectionWithinNetwork !=null and serviceDetails.dataProtectionWithinNetwork.length >0%}
+                        {%for dataProtectionWithinNetwork in serviceDetails.dataProtectionWithinNetwork%}
+                        <li>{{dataProtectionWithinNetwork | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+              {%if serviceDetails.lot =='cloud-software' %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other protection within supplier network
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.dataProtectionWithinNetworkOther | striptags(true) | escape | nl2br}}
+                    </dd>
+                </div>
+                {%endif%}
+
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="12-availability-and-resilience">
+                <h2 id="availability-and-resilience" class="govuk-heading-m app-summary-list-heading">Availability and resilience</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Guaranteed availability
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.guaranteedAvailability | striptags(true) | escape | nl2br}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Approach to resilience
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.approachToResilience}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Outage reporting
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.outageReporting}}
+                    </dd>
+                </div>
+
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="13-identity-and-authentication">
+                <h2 id="identity-and-authentication" class="govuk-heading-m app-summary-list-heading">Identity and authentication</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  {%if serviceDetails.lot =='cloud-software' %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      User authentication needed
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.userAuthenticationNeeded  else "No" }}
+                    </dd>
+                </div>
+                {%endif%}
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      User authentication
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                     <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.userAuthentication !=null and serviceDetails.userAuthentication.length >0%}
+                        {%for userAuthentication in serviceDetails.userAuthentication%}
+                        <li>{{userAuthentication | replace("_", " ") | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Access restrictions in management interfaces and support channels
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.accessRestrictionManagementAndSupport | striptags(true) | escape | nl2br}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Access restriction testing frequency
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.accessRestrictionTesting | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Management access authentication
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.managementAccessAuthentication !=null and serviceDetails.managementAccessAuthentication.length >0%}
+                        {%for managementAccessAuthentication in serviceDetails.managementAccessAuthentication%}
+                        <li>{{managementAccessAuthentication | replace("_", " ") | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                {%if serviceDetails.lot !='cloud-software' %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Devices users manage the service through
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.devicesUsersManageTheServiceThrough !=null and serviceDetails.devicesUsersManageTheServiceThrough.length >0%}
+                        {%for devicesUsersManageTheServiceThrough in serviceDetails.devicesUsersManageTheServiceThrough%}
+                        <li>{{devicesUsersManageTheServiceThrough | replace("_", " ") | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+                {%endif%}
+                </dl>
+              </div>
+
+
+              <div class="scroll-tracking" id="14-audit-information-for-users">
+                <h2 id="audit-information-for-users" class="govuk-heading-m app-summary-list-heading">Audit information for users</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Access to user activity audit information
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.auditBuyersActions | replace("_", "-") | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How long user audit data is stored for
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.auditBuyersActionsStorage | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Access to supplier activity audit information
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.auditSuppliersActions | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How long supplier audit data is stored for
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.auditSuppliersActionsStorage | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How long system logs are stored for
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.howLongSystemLogsStored | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="15-standards-and-certifications">
+                <h2 id="standards-and-certifications" class="govuk-heading-m app-summary-list-heading">Standards and certifications</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      ISO/IEC 27001 certification
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.standardsISOIEC27001  else "No" }}
+                    </dd>
+                </div>
+                {%if serviceDetails.standardsISOIEC27001 %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Who accredited the ISO/IEC 27001
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsISOIEC27001Who}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      ISO/IEC 27001 accreditation date
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsISOIEC27001When}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      What the ISO/IEC 27001 doesn’t cover
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsISOIEC27001Exclusions}}
+                    </dd>
+                </div>
+                 {% endif %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      ISO 28000:2007 certification
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.standardsISO28000  else "No" }}
+                    </dd>
+                </div>
+                
+                {%if serviceDetails.standardsISO28000 %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Who accredited the ISO 28000:2007
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsISO28000Who}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      ISO 28000:2007 accreditation date
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsISO28000When}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      What the ISO 28000:2007 doesn’t cover
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsISO28000Exclusions}}
+                    </dd>
+                </div>
+                {% endif %}
+                
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      CSA STAR certification
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.standardsCSASTAR  else "No" }}
+                    </dd>
+                </div>
+                {%if serviceDetails.standardsCSASTAR %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      CSA STAR accreditation date
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsCSASTARWhen}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      CSA STAR certification level
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsCSASTARLevel | replace("_", " ") | title }}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      What the CSA STAR doesn’t cover
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsCSASTARExclusions}}
+                    </dd>
+                </div>
+                {% endif %}
+                
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      PCI certification
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.standardsPCI  else "No" }}
+                    </dd>
+                </div>
+                {%if serviceDetails.standardsPCI %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Who accredited the PCI DSS certification
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsPCIWho}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      PCI DSS accreditation date
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsPCIWhen}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      What the PCI DSS doesn’t cover
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.standardsPCIExclusions}}
+                    </dd>
+                </div>
+                {% endif %}
+                
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other security certifications
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.accreditationsOther  else "No" }}
+                    </dd>
+                </div>
+                {%if serviceDetails.accreditationsOther %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Any other security certifications
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.accreditationsOtherList !=null and serviceDetails.accreditationsOtherList.length >0%}
+                        {%for accreditationsOtherList in serviceDetails.accreditationsOtherList%}
+                        <li>{{accreditationsOtherList}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+                {% endif %}
+                
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="16-security-governance">
+                <h2 id="security-governance" class="govuk-heading-m app-summary-list-heading">Security governance</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Named board-level person responsible for service security
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.boardLevelServiceSecurity  else "No" }}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Security governance certified
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                       {{ "Yes" if serviceDetails.securityGovernanceAccreditation  else "No" }}
+                    </dd>
+                </div>
+                {%if serviceDetails.securityGovernanceAccreditation %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Security governance standards
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.securityGovernanceStandards !=null and serviceDetails.securityGovernanceStandards.length >0%}
+                        {%for securityGovernanceStandards in serviceDetails.securityGovernanceStandards%}
+                        <li>{{securityGovernanceStandards | replace("_", " ") | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other security governance standards
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.securityGovernanceStandardsOther | striptags(true) | escape | nl2br}}
+                    </dd>
+                </div>
+                {% endif %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Information security policies and processes
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.informationSecurityPoliciesAndProcesses | striptags(true) | escape | nl2br}}
+                    </dd>
+                </div>
+
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="17-operational-security">
+                <h2 id="operational-security" class="govuk-heading-m app-summary-list-heading">Operational security</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Configuration and change management standard
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.configurationAndChangeManagementType | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Configuration and change management approach
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.configurationAndChangeManagementProcesses | striptags(true) | escape | nl2br}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Vulnerability management type
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.vulnerabilityManagementType | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Vulnerability management approach
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.vulnerabilityManagementApproach | striptags(true) | escape | nl2br}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Protective monitoring type
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.protectiveMonitoringType | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Protective monitoring approach
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.protectiveMonitoringApproach | striptags(true) | escape | nl2br}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Incident management type
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.incidentManagementType | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Incident management approach
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.incidentManagementApproach | striptags(true) | escape | nl2br}}
+                    </dd>
+                </div>
+
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="18-secure-development">
+                <h2 id="secure-development" class="govuk-heading-m app-summary-list-heading">Secure development</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Approach to secure software development best practice
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.secureDevelopment | replace("_", " ") | capitalize}}
+                    </dd>
+                </div>
+
+                </dl>
+              </div>
+
+              {%if serviceDetails.lot =='cloud-software' %}
+                <div class="scroll-tracking" id="19-public-sector-networks">
+                <h2 id="public-sector-networks" class="govuk-heading-m app-summary-list-heading">Public sector networks</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Connection to public sector networks
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.publicSectorNetworks  else "No" }}
+                    </dd>
+                </div>
+                {%if serviceDetails.publicSectorNetworks %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Connected networks
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.publicSectorNetworksTypes !=null and serviceDetails.publicSectorNetworksTypes.length >0%}
+                        {%for publicSectorNetworksTypes in serviceDetails.publicSectorNetworksTypes%}
+                        <li>{{publicSectorNetworksTypes | upper}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other public sector networks
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <ul class="govuk-list govuk-list--bullet">
+                        {%if serviceDetails.publicSectorNetworksOther !=null and serviceDetails.publicSectorNetworksOther.length >0%}
+                        {%for publicSectorNetworksOther in serviceDetails.publicSectorNetworksOther%}
+                        <li>{{publicSectorNetworksOther | capitalize}}</li>
+                        {%endfor%}
+                        {%endif%}
+                      </ul>
+                    </dd>
+                </div>
+                {% endif %}
+                </dl>
+              </div>
+
+              {%else%}
+              <div class="scroll-tracking" id="19-separation-between-users">
+                <h2 id="separation-between-users" class="govuk-heading-m app-summary-list-heading">Separation between users</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Virtualisation technology used to keep applications and users sharing the same infrastructure apart
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.virtualisation  else "No" }}
+                    </dd>
+                </div>
+              {%if serviceDetails.virtualisation %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Who implements virtualisation
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.virtualisationImplementedBy | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Virtualisation technologies used	
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.virtualisationTechnologiesUsed | capitalize}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Other virtualisation technology used
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.virtualisationTechnologiesUsedOther}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      How shared infrastructure is kept separate
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.virtualisationSeparation}}
+                    </dd>
+                </div>
+                {% endif %}
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="20-energy-efficiency">
+                <h2 id="energy-efficiency" class="govuk-heading-m app-summary-list-heading">Energy efficiency</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Energy-efficient datacentres
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.energyEfficientDatacentres  else "No" }}
+                    </dd>
+                </div>
+              {%if serviceDetails.energyEfficientDatacentres %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Description of energy efficient datacentres
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.energyEfficientDatacentresDescription}}
+                    </dd>
+                </div>
+                {% endif %}
+                </dl>
+              </div>
+              {% endif %}
+              {% endif %}
+
+
+              <div class="scroll-tracking" id="22-energy-efficiency">
+                <h2 id="energy-efficiency" class="govuk-heading-m app-summary-list-heading">Social Value</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+                  {%if serviceDetails.fightingClimateChange %}
+                      <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                          Fighting climate change
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                        {{serviceDetails.fightingClimateChange}}
+                        </dd>
+                    </div>
+                {% endif %}
+                {%if serviceDetails.covid19Recovery %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Covid-19 recovery
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.covid19Recovery}}
+                    </dd>
+                </div>
+                {% endif %}
+                {%if serviceDetails.tacklingEconomicInequality %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Tackling economic inequality
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.tacklingEconomicInequality}}
+                    </dd>
+                </div>
+                {% endif %}
+                {%if serviceDetails.equalOpportunity %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Equal opportunity
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.equalOpportunity}}
+                    </dd>
+                </div>
+                {% endif %}
+                {%if serviceDetails.wellbeing %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Wellbeing
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.wellbeing}}
+                    </dd>
+                </div>
+                {% endif %}
+                
+
+                </dl>
+              </div>
+
+              <div class="scroll-tracking" id="21-pricing">
+                <h2 id="pricing" class="govuk-heading-m app-summary-list-heading">Pricing</h2>
+                <dl class="govuk-summary-list app-govuk-summary-list app-govuk-summary-list--top-border govuk-!-margin-bottom-8">
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Price
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                            {%if serviceDetails.priceMin !=null and serviceDetails.priceMin.length >0%}
+                      	      £{{serviceDetails.priceMin}}
+                            {%endif%}
+                            {%if serviceDetails.priceMax !=null and serviceDetails.priceMax.length >0%}
+                                  to £{{serviceDetails.priceMax}}
+                            {%endif%}
+                            {%if serviceDetails.priceUnit !=null and serviceDetails.priceUnit.length >0%}              
+                                  {{serviceDetails.priceUnit | lower}}
+                            {%endif%}
+                            {%if serviceDetails.priceInterval !=null and serviceDetails.priceInterval.length >0%}
+                                   {{serviceDetails.priceInterval | lower}}
+                            {%endif%}
+                     
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Discount for educational organisations
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.educationPricing  else "No" }}
+                    </dd>
+                </div>
+                {%if serviceDetails.lot !='cloud-support' %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Free trial available
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{ "Yes" if serviceDetails.freeVersionTrialOption  else "No" }}
+                    </dd>
+                </div>
+              {%if serviceDetails.freeVersionTrialOption %}
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Description of free trial
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.freeVersionDescription}}
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Link to free trial
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      {{serviceDetails.freeVersionLink}}
+                    </dd>
+                </div>
+              {% endif %}
+              {% endif %}
+                </dl>
+              </div>
+
+             
+
+
+             
+
+              <h2 class="govuk-heading-m app-summary-list-heading" id="service-documents">Service documents</h2>
+
+
+              <ul class="govuk-list">
+                
+  {%if serviceDetails.pricingDocumentURL !=null and  serviceDetails.pricingDocumentURL !=undefined %}
+                <li class="gouk-!-margin-bottom-2">
+                  <section class="dm-attachment" data-module="dm-attachment">
+                    <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+                      <a class="govuk-link" href="{{serviceDetails.pricingDocumentURL}}" target="_self" tabindex="-1" aria-hidden="true">
+
+                        <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+                          <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                          <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                        </svg>
+
+                      </a>
+                    </div>
+                    <div class="dm-attachment__details">
+                      <p class="dm-attachment__title govuk-!-font-size-16">
+                        <a href="{{serviceDetails.pricingDocumentURL}}" class="govuk-link dm-attachment__link" target="_self">Pricing document</a>
+                      </p>
+
+
+                      <p class="dm-attachment__metadata">
+                        <span class="dm-attachment__attribute">{{serviceDetails.pricingDocumentEXTENTION | upper}}</span></p>
+
+
+                      </div>
+                    </section>
+
+                  </li>
+                  {%endif%}
+                    {%if serviceDetails.sfiaRateDocumentURL !=null and  serviceDetails.sfiaRateDocumentURL !=undefined %}
+                  <li class="gouk-!-margin-bottom-2">
+
+                        <section class="dm-attachment" data-module="dm-attachment">
+                          <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+                            <a class="govuk-link" href="{{serviceDetails.sfiaRateDocumentURL}}" target="_self" tabindex="-1" aria-hidden="true">
+
+                              <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+                                <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                                <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                              </svg>
+                            </a>
+                          </div>
+                          <div class="dm-attachment__details">
+                            <p class="dm-attachment__title govuk-!-font-size-16">
+                              <a href="{{serviceDetails.sfiaRateDocumentURL}}" class="govuk-link dm-attachment__link" target="_self">Skills Framework for the Information Age rate card</a>
+                            </p>
+
+                            <p class="dm-attachment__metadata">
+                              <span class="dm-attachment__attribute">{{serviceDetails.sfiaRateDocumentEXTENTION | upper}}</span></p>
+                            </div>
+                          </section>
+                        </li>
+                    {%endif%}
+                      {%if serviceDetails.serviceDefinitionDocumentURL !=null and  serviceDetails.serviceDefinitionDocumentURL !=undefined %}
+                  <li class="gouk-!-margin-bottom-2">
+                    <section class="dm-attachment" data-module="dm-attachment">
+                      <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+                        <a class="govuk-link" href="{{serviceDetails.serviceDefinitionDocumentURL}}" target="_self" tabindex="-1" aria-hidden="true">
+
+                          <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+                            <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                            <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                          </svg>
+                        </a>
+                      </div>
+                      <div class="dm-attachment__details">
+                        <p class="dm-attachment__title govuk-!-font-size-16">
+                          <a href="{{serviceDetails.serviceDefinitionDocumentURL}}" class="govuk-link dm-attachment__link" target="_self">Service definition document</a>
+                        </p>
+                        <p class="dm-attachment__metadata">
+                          <span class="dm-attachment__attribute">{{serviceDetails.serviceDefinitionDocumentEXTENTION | upper}}</span></p>
+                        </div>
+                      </section>
+                    </li>
+                    {%endif%}
+                    {%if serviceDetails.termsAndConditionsDocumentURL !=null and  serviceDetails.termsAndConditionsDocumentURL !=undefined %}
+                    <li class="gouk-!-margin-bottom-2">
+
+                      <section class="dm-attachment" data-module="dm-attachment">
+                        <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+                          <a class="govuk-link" href="{{serviceDetails.termsAndConditionsDocumentURL}}" target="_self" tabindex="-1" aria-hidden="true">
+
+                            <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+                              <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                              <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                            </svg>
+
+                          </a>
+                        </div>
+                        <div class="dm-attachment__details">
+                          <p class="dm-attachment__title govuk-!-font-size-16">
+                            <a href="{{serviceDetails.termsAndConditionsDocumentURL}}" class="govuk-link dm-attachment__link" target="_self">Terms and conditions</a>
+                          </p>
+
+                          <p class="dm-attachment__metadata">
+                            <span class="dm-attachment__attribute">{{serviceDetails.termsAndConditionsDocumentEXTENTION | upper}}</span></p>
+                          </div>
+                        </section>
+                      </li>
+                      {%endif%}
+
+                      {%if supplierDetails.modernSlaveryStatement !=null and  supplierDetails.modernSlaveryStatement !=undefined %}
+                    <li class="gouk-!-margin-bottom-2">
+
+                      <section class="dm-attachment" data-module="dm-attachment">
+                        <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+                          <a class="govuk-link" href="{{supplierDetails.modernSlaveryStatement}}" target="_self" tabindex="-1" aria-hidden="true">
+
+                            <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+                              <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                              <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                            </svg>
+
+                          </a>
+                        </div>
+                        <div class="dm-attachment__details">
+                          <p class="dm-attachment__title govuk-!-font-size-16">
+                            <a href="{{supplierDetails.modernSlaveryStatement}}" class="govuk-link dm-attachment__link" target="_self">Modern Slavery statement</a>
+                          </p>
+
+                          <p class="dm-attachment__metadata">
+                            <span class="dm-attachment__attribute">{{supplierDetails.modernSlaveryStatementEXTENTION | upper}}</span></p>
+                          </div>
+                        </section>
+                      </li>
+                      {%endif%}
+
+
+                      {%if supplierDetails.modernSlaveryStatementOption !=null and  supplierDetails.modernSlaveryStatementOption !=undefined %}
+                    <li class="gouk-!-margin-bottom-2">
+
+                      <section class="dm-attachment" data-module="dm-attachment">
+                        <div class="dm-attachment__thumbnail dm-attachment__thumbnail--small">
+                          <a class="govuk-link" href="{{supplierDetails.modernSlaveryStatementOption}}" target="_self" tabindex="-1" aria-hidden="true">
+
+                            <svg class="dm-attachment__thumbnail-image dm-attachment__thumbnail--doc dm-attachment__thumbnail-image--small" version="1.1" viewBox="0 0 84 120" width="84" height="120" aria-hidden="true">
+                              <path d="M74.85 5v106H5" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                              <path d="M79.85 10v106H10" fill="none" stroke-miterlimit="10" stroke-width="2"></path>
+                            </svg>
+
+                          </a>
+                        </div>
+                        <div class="dm-attachment__details">
+                          <p class="dm-attachment__title govuk-!-font-size-16">
+                            <a href="{{supplierDetails.modernSlaveryStatementOption}}" class="govuk-link dm-attachment__link" target="_self">Modern Slavery statement</a>
+                          </p>
+
+                          <p class="dm-attachment__metadata">
+                            <span class="dm-attachment__attribute">{{supplierDetails.modernSlaveryStatementOptionEXTENTION | upper}}</span></p>
+                          </div>
+                        </section>
+                      </li>
+                      {%endif%}
+ 
+                      </ul>
+
+                      <details class="govuk-details govuk-!-font-size-16" data-module="govuk-details">
+                        <summary class="govuk-details__summary">
+                          <span class="govuk-details__summary-text">
+                            Request an accessible format
+                          </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                          If you use assistive technology (such as a screen reader) and need versions of these documents in a more accessible format,
+                          email the supplier at <a href="mailto:{{supplierDetails.email}}" target="_blank" class="govuk-link">{{supplierDetails.email}}</a>.
+                          Tell them what format you need. It will help if you say what assistive technology you use.
+                        </div>
+                      </details>
+
+                    </div>
+                  </div>
+                  {%endblock%}
+
+                </main>
+                {% endblock %}
+

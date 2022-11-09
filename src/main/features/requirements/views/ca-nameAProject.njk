@@ -10,11 +10,11 @@
 {{ CCSBreadcrumbs({
     items: [
         {
-            "text": "Your dashboard",
+            "text": "Dashboard",
             "href": "/dashboard"
         },
         {
-            "text": "Choose a commericial agreement",
+            "text": "Choose a commercial agreement",
             "href": "/projects/choose-agreement"
         },
         {
@@ -69,7 +69,6 @@
      {% set returnLink = "/ca/task-list?path="+choosenViewPath %}
             <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">return to write and publish your requirements.</a> </p>
       </div>
-      <label for="{{data.form.input.id}}" class="govuk-visually-hidden">{{data.caption1}}</label>
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/ca/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}
         {{ CCSInput({           
@@ -78,7 +77,7 @@
             value: projectLongName
             })
         }}
-         <p><label class="remaining_chrs_term" id="rfi_label_name_project">You have {{(500-(projectLongName | length))}} characters remaining</label></p>
+
           <div class="govuk-button-group">
             {{ CCSButton({
                 text: "Save and continue",

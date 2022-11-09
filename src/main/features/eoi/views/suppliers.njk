@@ -1,89 +1,172 @@
 {% extends "template.njk" %}
-{% from "macros/csrf.njk" import csrfProtection %}
 
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set fcaHelperLayer = true %}
+{% endif %}
+
+{% from "macros/csrf.njk" import csrfProtection %}
 {% set title = 'Suppliers you want to approach | Crown Commercial Service' %}
 
 {% block breadCrumb %}
-    {{ CCSBreadcrumbs({
+{% if(enablebtn) %}
+  {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+       {% endif %}
 {% endblock %}
 
 {% block content %}
-    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          <strong>{{data.title }}<strong>
+        </h1>
+      </div>
+    </div>
 
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-                <h1 class="govuk-heading-xl">
-                    {{data.title }}
-                </h1>
-            </div>
+          <div class="govuk-grid-column-full">
+        {% include "includes/project_header.njk" %}
+          </div>
         </div>
+        <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+          <div class="govuk-grid-column-full">
+          {% if agreementId_session != 'RM6187' %}
+            <p class="govuk-body">The suppliers listed below are contracted to provide goods and services under this commercial agreement and lot.</p>
+            {% endif %}
+            {% if agreementId_session == 'RM6187' %}
+            <p class="govuk-body">Your EoI will be sent to all suppliers on this list. If they do not respond to your EoI they wil not be allowed to bid for your project</p>
+             {% else %}
+            <p class="govuk-body">Your RfI will be sent to all suppliers on this list but some may not respond.</p>
+            {% endif %}
+             {% if agreementId_session == 'RM6187' %}
+                <p class="govuk-body">For details of each supplier, visit the
+                <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">Search suppliers
+                  <span class="govuk-visually-hidden">opens in a new window</span> page on the CCS website.</a><br>
+                  (The page will open in a new tab)</p>
+            {% else %}
+                        <p class="govuk-body">If you'd like to look at the details for each
+                  suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}" class="govuk-!-font-weight-bold">Search suppliers
+                <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website.</a>
+                  (The page will open in a new tab)</p>
+            {% endif %}
 
+
+          </div> 
+        </div>
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
-                {% include "includes/project_header.njk" %}
-
-                <div class="govuk-inset-text">
-                    <p class="govuk-body">If you'd like to look at the details for each
-              suppliers please visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers</a>
-                        <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website. 
-              The page will open in a new tab</p>
+          <div class="govuk-grid-column-full">
+            <form id="ccs-rfi-suppliers-form" class="ccs-rfi-suppliers-form" action="/eoi/suppliers" method="POST">
+            {{ csrfProtection(csrf) }}
+              <br>
+              <h2 class="govuk-heading-l govuk-!-font-size-48 govuk-!-margin-bottom-9 govuk-!-font-weight-regular">
+                <span id="added_suppliers_count">
+                  {{supplierLength}}
+                </span>  suppliers will receive your EOI </h2>
+              <br>
+              {% if(enablebtn) %}
+              <div class="govuk-button-group govuk-!-margin-bottom-7">
+                {{ CCSButton({
+                    text: "Save and continue",
+                    classes: "govuk-button-dark"
+                    }) }}
+                <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+              </div>
+               {% endif %}
+              <div class="govuk-form-group ccs-page-section govuk-!-margin-0"></div>
+              <div id="page1" >
+                <div id="supplier-list">
+                  <div class="govuk-form-group ccs-page-section">
+                    <h3 class="govuk-!-font-weight-regular govuk-!-font-size-24 govuk-!-margin-top-5 govuk-!-margin-bottom-5">
+                      <a href="/eoi/suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list</a>
+                    </h3>
+                  </div>
+                  {% for supplier in suppliers_list %}
+                    <div class="govuk-form-group ccs-page-section govuk-!-padding-bottom-6 govuk-!-margin-bottom-5">
+                      <h3 class="govuk-heading-m">Company name: {{supplier.organization.name}}</h3>
+                      <div id="rfi_required_suppliers-item-hint" class="govuk-hint">
+                        {% if supplier.organization.identifier.legalName | length > 0 %}
+                          <label>Trading name: {{supplier.organization.identifier.legalName}}</label>
+                          <br>
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% endfor %}
                 </div>
-
-                <form id="ccs-eoi-suppliers-form" class="ccs-eoi-suppliers-form" action="/eoi/suppliers" method="POST">
-                    {{ csrfProtection(csrf) }}
-                    <br>
-                    <h2 class="govuk-heading-m">
-                        <span id="added_suppliers_count">
-                            {{suppliers_list.length}}
-                        </span> suppliers on this lot </h2>
-                    <br>
-                    <div class="govuk-button-group govuk-!-margin-bottom-7">
-                        {{ CCSButton({
-                text: "Save and continue"
-                }) }}
-                        <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-                    </div>
-                    <div class="govuk-form-group ccs-page-section"></div>
-                    <div id="page1" >
-                        <div id="supplier-list">
-                            <div class="govuk-form-group ccs-page-section">
-                                <h3>
-                                    <a href="#" onclick="return false;" class="govuk-link govuk-link--no-visited-state">Download this list
-                </a>
-                                </h3>
-                            </div>
-                            {% for supplier in suppliers_list %}
-                                <div class="govuk-form-group ccs-page-section">
-                                    <h3 class="govuk-heading-m">{{supplier.organization.name}}</h3>
-                                    <div id="eoi_required_suppliers-item-hint" class="govuk-hint govuk-checkboxes__hint">
-                                        {% if supplier.organization.identifier.legalName | length > 0 %}
-                                            <label>{{supplier.organization.identifier.legalName}}
-                                            </label>
-                                            <br>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <br>
-                    <div class="govuk-button-group">
-                        {{ CCSButton({
-                text: "Save and continue"
-                }) }}
-                        <a href="{{data.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-                    </div>
-
-                </form>
-
-            </div>
-            <div class="govuk-grid-column-one-third">
-                {{ CCSReleatedContent(releatedContent) }}
-            </div>
+              </div>
+              <div class="govuk-grid-column-full ccs-page-section govuk-!-padding-bottom-5">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-one-half">
+                      <div>
+                        &nbsp;
+                      {% if(showPrevious) %}
+                      <p class="govuk-body govuk-!-margin-0">
+                        {% if(enablebtn) %}
+                        <a href="suppliers?previous=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
+                          <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                            <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                          </svg>
+                          Previous Page</a>
+                          {% else %}
+                          <a href="suppliers?fromMessage=1&previous=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
+                          <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                            <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                          </svg>
+                          Previous Page</a>
+                          {% endif %}
+                      </p>
+                      <p class="govuk-body govuk-!-margin-0">
+                        <label class="govuk-!-font-size-16">{{currentpagenumber}} of {{noOfPages}}</label>
+                      </p>
+                      {% endif %}
+                      </div>
+                  </div>
+                  <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                      <div>
+                        &nbsp;
+                      {% if(showNext) %}
+                      <p class="govuk-body govuk-!-margin-0">
+                        {% if(enablebtn) %}
+                        <a href="suppliers?next=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
+                          <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                            <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                          </svg>
+                          Next Page</a>
+                          {% else %}
+                           <a href="suppliers?fromMessage=1&next=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
+                          <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                            <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                          </svg>
+                          Next Page</a>
+                          {% endif %}
+                      </p>
+                      <p class="govuk-body govuk-!-margin-0">
+                        <label class="govuk-!-font-size-16">{{currentpagenumber}} of {{noOfPages}}</label>
+                      </p>
+                      {% endif %}
+                      </div>
+                  </div>
+                </div>
+              </div>
+              {% if agreementId_session != 'RM6187' %}
+                  <div class="govuk-button-group">
+                    {{ CCSButton({
+                        text: "Save and continue"
+                        }) }}
+                    <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+                </div> 
+            {% endif %}
+            </form>
+          </div>
         </div>
-
-    </main>
-
+      </div>
+      <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+      </div>
+    </div>
+  </main>
 {% endblock %}

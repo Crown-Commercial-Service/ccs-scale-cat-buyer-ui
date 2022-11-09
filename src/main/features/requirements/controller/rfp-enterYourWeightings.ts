@@ -156,7 +156,6 @@ export const RFP_POST_WEIGHTINGS = async (req: express.Request, res: express.Res
       res.redirect('/rfp/enter-your-weightings');
     }
   } catch (error) {
-    console.log(error)
     LoggTracer.errorLogger(
       res,
       error,

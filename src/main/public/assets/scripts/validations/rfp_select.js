@@ -1,171 +1,206 @@
-
 let rfp_security_confirmation = null;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {  
+  if (document.getElementById('rfp_singleselect_Dos')) {
+    document.getElementById('rfp_singleselect_Dos').onsubmit = function (event) {
+      event.preventDefault();
+      removeErrorFieldsRfpSelect();
+      let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+      if (document.getElementsByName('ccs_vetting_type')) {
+        fieldCheck = [];
+        var ccs_vetting_type = document.getElementsByName('ccs_vetting_type');
+        if (ccs_vetting_type.length > 0) {
+          if (ccs_vetting_type[0].checked == true) { 
+            let inputArray = $('input[name=rfp_prob_statement_m]');
+            console.log(inputArray);
+            let minBudget = Number(inputArray[1].value);
+            let maxBudget = Number(inputArray[0].value);
+            let msg = '';
+            if ((maxBudget == '') || (maxBudget == 0)) {
+              msg = 'You must enter a values';
+            } else if (maxBudget > 0 && (maxBudget < minBudget) || (maxBudget == minBudget)) {
+              msg = 'Maximum budget must be greater than minimum budget';
+            } 
+           errorStore = [];
+           if(msg != '') errorStore.push(['rfp_prob_statement_m', msg]);
+            if (errorStore.length === 0) {
+              document.forms['rfp_singleselect_Dos'].submit();
+            } else {
+              let element = document.getElementById('rfp_prob_statement_m');
+              ccsZaddErrorMessage(element, msg);
+              ccsZPresentErrorSummary(errorStore);
+            }
+          }else if (ccs_vetting_type[1].checked == true) {
+            let inputArray = $('input[name=rfp_prob_statement_m]');
+            inputArray[0].value = "";
+            inputArray[1].value = "";
+            if (errorStore.length === 0) {
+              document.forms['rfp_singleselect_Dos'].submit();
+            }
+          }
+           else if (!(ccs_vetting_type[0].checked || ccs_vetting_type[1].checked)) {
+            fieldCheck = ccsZisOptionChecked(
+              'ccs_vetting_type',
+              'You must choose one option from list before proceeding',
+            );
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+            if (errorStore.length === 0) document.forms['rfp_singleselect_Dos'].submit();
+            else ccsZPresentErrorSummary(errorStore);
+          } else if (errorStore.length === 0) {
+            document.forms['rfp_singleselect_Dos'].submit();
+          }
+        }
+      }
+    };
+  }
 
-    if (document.getElementById("rfp_singleselect") !== null) {
-        if (document.getElementById("rfp_security_confirmation") !== undefined && document.getElementById("rfp_security_confirmation") !== null && document.getElementById("rfp_security_confirmation").value != '') {
-            $('#conditional-rfp_radio_security_confirmation').fadeIn();
-        } else {
-            $('#conditional-rfp_radio_security_confirmation').hide();
-        }
+  if (document.getElementById('rfp_singleselect_Dos') !== null) {
+    if (document.querySelector('#ccs_vetting_type') !== null) {
+      if (document.querySelector('#ccs_vetting_type').checked) {
+        $('.main_rfp_prob_statement_m').fadeIn();
+        // $('.main_rfp_indicative_maximum').fadeIn();
+        // $('.main_rfp_indicative_minimum').fadeIn();
+      } else {
+        $('.main_rfp_prob_statement_m').hide();
+        // $('.main_rfp_indicative_maximum').hide();
+        // $('.main_rfp_indicative_minimum').hide();
+      }
     }
-});
-$('input[type="radio"]').on('change', function (e) {
-    if (e.currentTarget.value === 'Yes') {
-        if (rfp_security_confirmation != null && rfp_security_confirmation != '' && document.getElementById("rfp_security_confirmation") != undefined)
-            document.getElementById("rfp_security_confirmation").value = rfp_security_confirmation;
-        $('#conditional-rfp_radio_security_confirmation').fadeIn();
+  }
+
+  if (document.getElementById('rfp_singleselect') !== null) {
+    if (
+      document.getElementById('rfp_security_confirmation') !== undefined &&
+      document.getElementById('rfp_security_confirmation') !== null &&
+      document.getElementById('rfp_security_confirmation').value != ''
+    ) {
+      $('#conditional-rfp_radio_security_confirmation').fadeIn();
     } else {
-        if (document.getElementById("rfp_security_confirmation") != undefined) {
-            rfp_security_confirmation = document.getElementById("rfp_security_confirmation").value;
-            document.getElementById("rfp_security_confirmation").value = '';
-        }
-        $('#conditional-rfp_radio_security_confirmation').hide();
+      $('#conditional-rfp_radio_security_confirmation').hide();
     }
+  }
+
+  $('input[type="checkbox"]:checked').each(function () {
+    if (this.value == 'other') {
+      $('.otherTextArea').removeClass('ccs-dynaform-hidden');
+      $('.otherTextAreaMsg').removeClass('ccs-dynaform-hidden');
+    }
+  });
+  $('input[type="checkbox"]:not(:checked)').each(function () {
+    if (this.value == 'other') {
+      $('.otherTextAreaMsg').addClass('ccs-dynaform-hidden');
+      $('.otherTextArea').addClass('ccs-dynaform-hidden');
+      $('.otherTextArea').html('');
+    }
+  });
+  $('input[type="checkbox"]').on('click', function (e) {
+    $('input[type="checkbox"]:checked').each(function () {
+      if (this.value == 'other') {
+        $('.otherTextArea').removeClass('ccs-dynaform-hidden');
+        $('.otherTextAreaMsg').removeClass('ccs-dynaform-hidden');
+      }
+    });
+    $('input[type="checkbox"]:not(:checked)').each(function () {
+      if (this.value == 'other') {
+        $('.otherTextAreaMsg').addClass('ccs-dynaform-hidden');
+        $('.otherTextArea').addClass('ccs-dynaform-hidden');
+        $('.otherTextArea').html('');
+      }
+    });
+  });
+
+  $('.otherTextArea').on('keypress', function () {
+    var aInput = this.value;
+    if (aInput.length > 500) {
+      return false;
+    }
+    return true;
+  });
+});
+
+$('input[type="radio"]').on('change', function (e) {
+  if (e.currentTarget.value == 'Yes') {
+    $('.main_rfp_prob_statement_m').fadeIn();
+    $('.main_rfp_indicative_maximum').fadeIn();
+    $('.main_rfp_indicative_minimum').fadeIn();
+  } else {
+    $('.main_rfp_prob_statement_m').hide();
+    $('.main_rfp_indicative_maximum').hide();
+    $('.main_rfp_indicative_minimum').hide();
+  }
+});
+
+$('input[type="radio"]').on('change', function (e) {
+  if (e.currentTarget.value === 'Yes') {
+    if (
+      rfp_security_confirmation != null &&
+      rfp_security_confirmation != '' &&
+      document.getElementById('rfp_security_confirmation') != undefined
+    )
+      document.getElementById('rfp_security_confirmation').value = rfp_security_confirmation;
+    $('#conditional-rfp_radio_security_confirmation').fadeIn();
+  } else {
+    if (document.getElementById('rfp_security_confirmation') != undefined) {
+      rfp_security_confirmation = document.getElementById('rfp_security_confirmation').value;
+      document.getElementById('rfp_security_confirmation').value = '';
+    }
+    $('#conditional-rfp_radio_security_confirmation').hide();
+  }
 });
 const removeErrorFieldsRfpSelect = () => {
-    $('.govuk-error-message').remove();
-    $('.govuk-form-group--error').removeClass('govuk-form-group--error');
-    $('.govuk-error-summary').remove();
-    $('.govuk-input').removeClass('govuk-input--error');
-    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 };
-$('#rfp_singleselect').on('submit', (event) => {
-    event.preventDefault();
-    removeErrorFieldsRfpSelect();
-    const textPattern = /^[a-zA-Z ]+$/
-    var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
-    let ischecked = false;
-    var headerText = document.getElementById('page-heading').innerHTML;
-    listofRadionButton.forEach(element => {
-        if (element.type === 'radio' && element.checked) {
-            ischecked = true;
-        }
-    });
-    if (headerText.includes("existing supplier") && ischecked) {
-        let fieldCheck = '';
-  errorStore.length = 0;
-  const pageHeading = document.getElementById('page-heading').innerHTML;
-  if ($('#ccs_vetting_type') !== undefined) {
-    var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
-    let ischecked = false;
-    listofRadionButton.forEach(element => {
-      if (element.type === 'radio' && element.checked) {
-        ischecked = true;
-      }
-    });
-    if (!ischecked) {
-      fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Please select an option");
-      if (fieldCheck !== true && fieldCheck !== undefined) errorStore.push(fieldCheck);
+$('#rfp_singleselect').on('submit', event => {
+  event.preventDefault();
+  removeErrorFieldsRfpSelect();
+  const textPattern = /^[a-zA-Z ]+$/;
+  var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
+  let ischecked = false;
+  var headerText = document.getElementById('page-heading').innerHTML;
+  listofRadionButton.forEach(element => {
+    if (element.type === 'radio' && element.checked) {
+      ischecked = true;
     }
-  }
+  });
 
-  if ($('#rfp_prob_statement_t') !== undefined && $('#rfp_prob_statement_t').val() !== undefined) {
-    if (!pageHeading.includes("(Optional)")) {
-      if ($('#rfp_prob_statement_t').val().length === 0) {
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', 'You must enter information here');
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
-    }
-    if (condLength($('#rfp_prob_statement_t').val())) {
-      const msg = char ? 'Entry must be <= 5000 characters' : 'Entry must be <= 500 words';
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', msg, !condLength($('#rfp_prob_statement_t').val()));
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
+  if (headerText.includes('existing supplier') && ischecked) {
+    var ccs_vetting_type = document.getElementById('ccs_vetting_type').checked;
 
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
-
-    if (condLength($('#rfp_prob_statement_s').val())) {
-      const msg = char ? 'Entry must be <= 5000 characters' : 'Entry must be <= 500 words';
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', msg, !condLength($('#rfp_prob_statement_s').val()));
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
-    if ($('#rfp_prob_statement_s').val().length === 0) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must add background information about your procurement');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-
-  if ($('#rfp_prob_statement_d') !== undefined && $('#rfp_prob_statement_d').val() !== undefined) {
-    if ($('#rfp_prob_statement_d').val().length === 0) {
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must add background information about your procurement');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-    else if ($('#rfp_prob_statement_d').val().length > 500) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter less than 500 characters');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-
-  if ($('#rfp_prob_statement_r') !== undefined && $('#rfp_prob_statement_r').val() !== undefined) {
-    errorStore = [];
-    if (!pageHeading.includes("(Optional)")) {
-      if ($('#rfp_prob_statement_r').val().length === 0) {
-
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_r', 'You must enter information here');
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
-
-    }
-    if ($('#rfp_prob_statement_r').val().length > 500) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_r', 'You must enter less than 500 characters');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
-    // errorStore.length = 0;
-    if ($('#rfp_security_confirmation').val().length === 0) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-    else{
-    if ($('#rfp_security_confirmation').val().length === 0) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-
-    // else if (textPattern.test($('#rfp_security_confirmation').val())) {
-    //   if (wordLength($('#rfp_security_confirmation').val())) {
-    //     const msg = char ? 'Entry must be <= 250 characters' : 'Entry must be <= 25 words';
-    //     fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', msg, !wordLength($('#rfp_security_confirmation').val()));
-    //     if (fieldCheck !== true) errorStore.push(fieldCheck);
-    //   }
-    // }
-    // else if (!textPattern.test($('#rfp_security_confirmation').val())) {
-    //   fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'You must enter characters here', false);
-    //   if (fieldCheck !== true) errorStore.push(fieldCheck);
-    // }
-  }
-  if ($('#rfp_prob_statement_e') !== undefined && $('#rfp_prob_statement_e').val() !== undefined) {
-
-    if (!pageHeading.includes("(Optional)")) {
-      if ($('#rfp_prob_statement_e').val().length === 0) {
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
-    }
-    if ($('#rfp_prob_statement_e').val().length > 5000) {
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter less than 5000 characters');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-  if (errorStore.length === 0) document.forms['rfp_singleselect'].submit();
-  else ccsZPresentErrorSummary(errorStore);
+    var rfp_security_confirmation = document.getElementById('rfp_security_confirmation');
+    if (ccs_vetting_type && rfp_security_confirmation.value === '' && Number(rfp_security_confirmation.value)) {
+      ccsZaddErrorMessage(rfp_security_confirmation, 'You must add information in field.');
+      ccsZPresentErrorSummary([
+        ['rfp_security_confirmationrfp_security_confirmation', 'You must add information in field.'],
+      ]);
+    } else if (
+      ccs_vetting_type &&
+      rfp_security_confirmation.value !== undefined &&
+      rfp_security_confirmation.value !== null &&
+      rfp_security_confirmation.value !== '' &&
+      !textPattern.test(rfp_security_confirmation.value) &&
+      Number(rfp_security_confirmation.value)
+    ) {
+      ccsZaddErrorMessage(rfp_security_confirmation, 'Please enter only character.');
+      ccsZPresentErrorSummary([['rfp_security_confirmation', 'Please enter only character.']]);
+    } else if (ccs_vetting_type == true && $('#rfp_security_confirmation').val().length === 0) {
+      ccsZaddErrorMessage(rfp_security_confirmation, 'Provide the name of the incumbent supplier.');
     } else {
-        if (ischecked) {
-            document.forms['rfp_singleselect'].submit();
-        } else
-            ccsZPresentErrorSummary([["There is a problem", 'You must choose one option from list before proceeding']]);
+      document.forms['rfp_singleselect'].submit();
+    }
+  } else {
+    if (ischecked) {
+      document.forms['rfp_singleselect'].submit();
+    } else {
+      var ccs_vetting_type = document.getElementById('ccs_vetting_type');
+      ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
 
     }
-
+    if (ccs_vetting_type) {
+      ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
+    }
+  }
 });

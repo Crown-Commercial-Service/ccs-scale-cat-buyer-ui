@@ -1,0 +1,22 @@
+{
+    "breadCrumbs": [
+    ],
+    "titleRFP": "Stage 2 has been published",
+    "titleDA":"Your direct award has been published",
+    "line1":"Please quote this number, along with your project ID",
+    "line2":"if you need to contact CCS for support. You can contact CCS by phone on",
+    "btntext":"Export your 2-stage further competition",
+    "board": {
+        "headerRFP": "Your shortlisted suppliers have been sent the further assessment documents",
+        "headerDA":"Your direct award has been sent to suppliers",
+        "ref": "Your unique reference number is: ",
+        "phoneno": "0345 410 2222",
+        "email": "info@crowncommercial.gov.uk"
+    },
+        "dashboard": {
+            "title": "Go to your project dashboard",
+            "href": "/dashboard"
+        }
+
+
+}

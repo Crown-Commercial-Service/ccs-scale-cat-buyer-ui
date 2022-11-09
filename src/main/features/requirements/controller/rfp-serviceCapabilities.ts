@@ -54,7 +54,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     let CAPACITY_DATASET = CAPACITY_DATA.data;
 
-    CAPACITY_DATASET = CAPACITY_DATASET.filter(levels => levels['name'] === 'Service Capability');
+    CAPACITY_DATASET = CAPACITY_DATASET.filter(levels => levels['name'] === 'Service Offering');
 
     let CAPACITY_CONCAT_OPTIONS = CAPACITY_DATASET.map(item => {
       const { weightingRange, options } = item;
@@ -172,7 +172,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
      * @DIMENSION_REQUIREMENT
      */
    const { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
-    const DR = dimensionRequirements.filter(dimension => dimension.name === 'Service Capability');
+    const DR = dimensionRequirements.filter(dimension => dimension.name === 'Service Offering');
     const DRequirements = DR?.[0]?.requirements;
 
     var TABLEBODY = [];
@@ -267,7 +267,6 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     //res.json(dataset);
     res.render('rfp-servicecapabilities.njk', windowAppendData);
   } catch (error) {
-    console.log(error);
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
@@ -293,7 +292,7 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
   const { projectId, eventId,serviceCapabilityData,currentEvent } = req.session;
   const { requirementId } = req.body;
   if (!req.body.requirementId) {
-    req.session.errorText = [{ text: 'Select atleast one service capability.' }];
+    req.session.errorText = [{ text: 'Select atleast one Service Offering.' }];
     req.session.isError = true;
     res.redirect('/rfp/service-capabilities');
   } else {
@@ -351,7 +350,6 @@ export const RFP_GET_SERVICE_CAPABILITIES = async (req: express.Request, res: ex
     res.redirect('/rfp/where-work-done');
   }
    catch (error) {
-    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,

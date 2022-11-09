@@ -2,7 +2,8 @@
 import * as express from 'express'
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
-import * as data from '../../../resources/content/event-management/steps-to-continue.json'
+import * as dataDsp from '../../../resources/content/event-management/steps-to-continue.json'
+import * as dataMcf3 from '../../../resources/content/event-management/steps-to-continue-mcf3.json'
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 
 /**
@@ -20,8 +21,9 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
     req.session['isJaggaerError'] = false;  
     req.session.stepsError=false;
     const { SESSION_ID } = req.cookies
+    const data = (agreementId_session == 'RM6187') ? dataMcf3 : dataDsp;
     const appendData = {
-      data ,
+      data,
       projPersistID: req.session['project_name'],
       eventId : req.session.eventId,
       releatedContent,
@@ -56,8 +58,9 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies; 
   const projectID=req.session.projectId;
+  const agreementId_session = req.session.agreement_id;
   try {
-   
+   const baseURL = `tenders/projects/${projectID}/events/${req.session.eventId}`;
     const  rfi_next_steps  =  req.body.rfi_next_steps_to_continue;
     //IF 2FC OR 2DA IS CLOSED THEN ITS PRECEEDING FCA OR DAA MUST BE CLOSED FROM COMPLETE STATE
     //if(req.session.eventManagement_eventType=='FC' || req.session.eventManagement_eventType=='DA')
@@ -134,15 +137,27 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
       switch (rfi_next_steps) {
         case '[DA]':
           req.session.showWritePublish=true
+          if(agreementId_session == 'RM6187') { 
+            req.session['isRFIComplete'] = true;
+            await terminateEventClose(req, res);
+          }
           res.redirect('/projects/create-or-choose');
           break;
 
         case '[Rfi]':
           req.session.showPreMarket=true
+          if(agreementId_session == 'RM6187') { 
+            req.session['isRFIComplete'] = true;
+            await terminateEventClose(req, res);
+          }
          res.redirect('/projects/create-or-choose');
           break;
         case '[1-stage FC]': 
             req.session.showWritePublish=true     
+            if(agreementId_session == 'RM6187') { 
+              req.session['isRFIComplete'] = true;
+              await terminateEventClose(req, res);
+            }
             res.redirect('/projects/create-or-choose');
             break;  
         case '[2-stage FC]':  
@@ -151,6 +166,10 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
               break;
         case '[EoI]':
           req.session.showPreMarket=true
+          if(agreementId_session == 'RM6187') { 
+            req.session['isRFIComplete'] = true;
+            await terminateEventClose(req, res);
+          }
           res.redirect('/projects/create-or-choose');
            break;
          case '[FCA]':
@@ -181,4 +200,24 @@ export const POST_STEPS_TO_CONTINUE = async (req: express.Request, res: express.
     );
   }
 
+}
+const updateEventType = async (eventType: any, baseURL: any, SESSION_ID: any) => {
+  const body = {
+    eventType: eventType,
+  };
+  const { data } = await TenderApi.Instance(SESSION_ID).put(baseURL, body);
+  return data;
+}
+
+export async function terminateEventClose(req: express.Request, res: express.Response) {
+  try {
+    const { SESSION_ID } = req.cookies;
+    const { eventId, projectId, procurements } = req.session;
+    const baseURL = `tenders/projects/${projectId}/events/${eventId}/termination`;
+    const body = {
+      "terminationType": "cancelled"       
+    };
+    await TenderApi.Instance(SESSION_ID).put(baseURL, body);
+  } catch (error) {
+  }
 }

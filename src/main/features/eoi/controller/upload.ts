@@ -69,11 +69,32 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
           formData.append('audience', 'supplier');
           const formHeaders = formData.getHeaders();
           try {
+            // ------file duplicate check start
+            const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+            const FETCH_FILEDATA = FetchDocuments.data;
+
+            let duplicateFile = false;
+            for(const item of FETCH_FILEDATA){
+                if(item.fileName == file.name){
+                  duplicateFile = true;
+                }
+            }
+            // ------file duplicate check end
+            if(duplicateFile){
+              req.session['isTcUploaded'] = false
+              req.session["fileDuplicateError"]=true;
+              FileFilterArray.push({
+                href: '#documents_upload',
+                text: fileName,
+              });
+              FILEUPLOADHELPER(req, res, true, FileFilterArray);
+            }else{
             await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
               headers: {
                 ...formHeaders,
               },
             });
+          }
           } catch (error) {
             LoggTracer.errorLogger(
               res,
@@ -81,7 +102,7 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
               `${req.headers.host}${req.originalUrl}`,
               null,
               TokenDecoder.decoder(SESSION_ID),
-              'Multiple File Upload Error',
+              'EOI - Multiple File Upload Error',
               false,
             );
           }
@@ -114,12 +135,33 @@ export const POST_UPLOAD_DOC: express.Handler = async (req: express.Request, res
         formData.append('audience', 'supplier');
         const formHeaders = formData.getHeaders();
         try {
+           // ------file duplicate check start
+           const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
+           const FETCH_FILEDATA = FetchDocuments.data;
+
+           let duplicateFile = false;
+           for(const item of FETCH_FILEDATA){
+               if(item.fileName == eoi_offline_document.name){
+                 duplicateFile = true;
+               }
+           }
+           // ------file duplicate check end
+           if(duplicateFile){
+             req.session['isTcUploaded'] = false
+             req.session["fileDuplicateError"]=true;
+             FileFilterArray.push({
+               href: '#documents_upload',
+               text: fileName,
+             });
+             FILEUPLOADHELPER(req, res, true, FileFilterArray);
+           }else{
           await DynamicFrameworkInstance.file_Instance(SESSION_ID).put(FILE_PUBLISHER_BASEURL, formData, {
             headers: {
               ...formHeaders,
             },
           });
           res.redirect('/eoi/upload-doc');
+        }
         } catch (error) {
           delete error?.config?.['headers'];
           const Logmessage = {
@@ -166,7 +208,7 @@ export const GET_REMOVE_FILES = (express.Handler = async (req: express.Request, 
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Remove document failed',
+      'EOI - Remove document failed',
       true,
     );
   }

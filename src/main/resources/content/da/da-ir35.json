@@ -1,0 +1,37 @@
+{
+    "breadCrumbs": [{
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "Write and publish your requirements",
+            "href": "/da/task-list"
+        },
+        {
+            "text": "Confirm if you need a contracted out service or supply of resource.",
+            "href": "#"
+        }
+    ],
+
+    "title": "Confirm if you need a contracted out service or a supply of resource",
+    "subtitle": "As the buyer,  you are the supplier’s client when buying a supply of resource  (people to do the work).",
+    "SUBTITLE_1": "This means that you’re responsible for deciding if the off-payroll working rules  (IR35) apply to them.  You must meet your legal obligations where they do.",
+    "subtitle1": "Choose whether you need a contracted out service or a supply of resource.",
+    "subtitle2": "information about your organisation and the problem you want to solve",
+    "subtitle3": "anything else you think would be useful for them to know",
+    "filedesc": "you can upload multiple files, each no larger than 300mb, to a total of 1GB. Acceptable file formats: csv, doc, docx, jpg, jpeg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip",
+    "backJump": {
+        "title": "Write and publish your requirements",
+        "href": "/da/task-list"
+    },
+    "subtitle4": "Use the same link (above) to upload any other supporting documents (optional).",
+    "template": []
+}
