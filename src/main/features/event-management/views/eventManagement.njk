@@ -328,7 +328,7 @@
 
                     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
 
-                    {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                    {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
                     <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluate}} </p>
                     {% else %}
                     <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluated_text | safe}} </p>

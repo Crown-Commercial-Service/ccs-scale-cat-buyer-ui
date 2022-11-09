@@ -152,7 +152,7 @@
                         },
                             id: 'rfp_score_criteria_point_1',
                             name: 'score_criteria_points',
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-3",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-3 maxValueValidate",
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[0].value
@@ -224,7 +224,7 @@
                           },
                             id: 'rfp_score_criteria_point_'+i,
                             name: 'score_criteria_points',
-                            classes: "govuk-input govuk-date-input__input govuk-input--width-3",
+                            classes: "govuk-input govuk-date-input__input govuk-input--width-3 maxValueValidate",
                             type: "number",
                             inputmode:"numeric"
                           }) }}
@@ -739,7 +739,7 @@
       <p id="event-name-error-pyear" class="govuk-error-message p_durations_pyear_{{rfp_duration_years}}">
          <span class="govuk-visually-hidden">Error:</span>
       </p>
-      <div class="govuk-date-input" id="rfp_duration">
+      <div class="govuk-date-input" id="rfp_duration_{{requirement.OCDS.id.trim().replace(' ','')}}">
          <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               {% if (agreement_id != 'RM1043.8') %}
