@@ -407,12 +407,12 @@ function preventNumberInput(e){
   //     preventNumberInput(e);
   // });
 
-$(".maxValueValidate").keypress(function(e) {
+$(".maxValueValidate").keyup(function(e) {
   let maxLen = parseInt($(this).val());
-  
+  console.log("maxLen",maxLen);
 if(maxLen > 100){
+  $(this).val('')
   
-  preventNumberInput(e);
 }else{
   
 }
