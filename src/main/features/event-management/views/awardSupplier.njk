@@ -144,7 +144,11 @@
         <h1 class="govuk-heading-xl">
           <strong>Award supplier </strong>
         </h1>
+        {% if agreement_header['agreementId_session'] == 'RM6187' %}
+        <p>When you award your supplier, ensure you send documentation to both successful and unsuccessful bidders.</p>
+        {% else %}
         <p>When you award your supplier, ensure you send documentation to both successful and unsuccessful bidders. You will need to do this via your organisation’s email account.</p>
+        {% endif %}
         </br></br>
         {{ CCSWarningText({
     text: "You must agree that you acknowledge the responsibility to award this supplier.",
