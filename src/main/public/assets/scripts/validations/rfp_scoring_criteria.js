@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
                 document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
                 document.getElementById("rfp_score_criteria_desc_" + ii).focus();
+                document.getElementById("rfp_score_criteria_name_" + ii).focus();
               }
               if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
                 document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
@@ -158,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // $("#rfp_score_criteria_name_" + ii).prop('readonly', true);
                 // $("#rfp_score_criteria_point_" + ii).prop('readonly', true);
                 // $("#rfp_score_criteria_desc_" + ii).prop('readonly', true);
+                document.getElementById("rfp_score_criteria_name_" + i).focus();
                 document.getElementById("rfp_score_criteria_desc_" + i).focus();
   
               }
@@ -390,6 +392,41 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
+
+
+
+function preventNumberInput(e){
+  var keyCode = (e.keyCode ? e.keyCode : e.which);
+  if (keyCode > 47 && keyCode < 58 || keyCode > 95 && keyCode < 107 ){
+      e.preventDefault();
+  }
+}
+
+
+  // $('.maxValueValidate').keypress(function(e) {
+  //     preventNumberInput(e);
+  // });
+
+$(".maxValueValidate").keypress(function(e) {
+  let maxLen = parseInt($(this).val());
+  
+if(maxLen > 100){
+  
+  preventNumberInput(e);
+}else{
+  
+}
+ 
+
+});
+
+
+
+
+
+
+
+
 
 const checkFieldsRfpScore = () => {
   const start = 1;
