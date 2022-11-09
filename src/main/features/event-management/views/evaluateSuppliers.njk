@@ -50,7 +50,7 @@
                 {% if agreementId_session != 'RM1043.8' %}
                     <p>{{data.subtitle}}</p>
                     <p>{{data.subtitle1}}</p>
-                    <p>{{data.subtitle2}}</p>
+                    <p>{{data.subtitle4}}</p>
                     <p class="govuk-!-padding-bottom-9">
                          {{data.subtitle3}} <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">download the Award Recommendation Report.</a>
                     </p>
@@ -141,7 +141,14 @@
         </div>
         <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
-            <p class="govuk-body">Finish the evaluation for each supplier to complete the overall evaluation.</p>
+            
+            {% if agreementId_session == 'RM6187' %}
+           
+           {% else %}
+           <p class="govuk-body">Finish the evaluation for each supplier to complete the overall evaluation.</p>
+        {% endif %}
+            
+            
           </div>
         </div>
         {#{% endif %}#}
@@ -185,11 +192,24 @@
     </div>
     <div class="govuk-grid-column-full">
       {% if stage2_value == 'Stage 1'%}
-      <h1 id="dialog-title">You are about to complete your shortlisting evaluation<p></p>
+      
+       {% if agreementId_session == 'RM6187' %}
+           <h1 id="dialog-title">You are about to complete your evaluation<p></p>
+           {% else %}
+          <h1 id="dialog-title">You are about to complete your shortlisting evaluation<p></p>
+        {% endif %}
+
+      
       {%else%}
       <h1 id="dialog-title">You are about to complete your evaluation<p></p>
       {%endif%}
-      <p id="dialog-description">Click Continue, or click Return to further edit your scores.</p>
+
+      {% if agreementId_session == 'RM6187' %}
+     <p id="dialog-description">Click Continue, or click Return to further edit your scores. After this point, you will be unable to edit your evaluation.</p>
+      {%else%}
+       <p id="dialog-description">Click Continue, or click Return to further edit your scores.</p>
+      {%endif%}
+     
       <div class="govuk-button-group">
         <button id="redirect-button-evaluatesuppliers"  class="button dialog-button govuk-button" name="Evaluate Suppliers">Continue</button>
         <a href="/evaluate-suppliers" class="dialog-close-evaluatesuppliers govuk-link govuk-link--no-visited-state">Return</a>
