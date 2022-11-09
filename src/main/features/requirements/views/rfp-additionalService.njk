@@ -1,0 +1,114 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% set title = 'Name project | Contract Award Service' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+ items: [
+        { "text": "Dashboard", "href": "/dashboard" },
+        { "text": "Choose a commercial agreement", "href": "/projects/choose-agreement" },
+        { "text": "Procurement overview", "href": url },
+        { "text": "See the available suppliers", "href": "/fca/supplier/list" },
+        { "text": "Select the services you need", "href": "#" } ] 
+      }) }}
+{% endblock %}
+
+{% block content %}
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "Your must complete your project name."
+    }
+  ]
+}) }}
+{%endif %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl"><strong>
+     {{data.title }}</strong>
+    </h1>
+  </div>
+</div>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+  {% include "includes/project_header.njk" %}
+   
+      <p class="govuk-body">{{data.caption1}}</br>
+    
+    <form id="fca_select_services_form" class="govuk-check-form-custom" name="fca_select_services_form" action="/rfp/select-additional-services" method="POST">
+       
+          {{ csrfProtection(csrf) }}
+
+
+
+{% if(error) %}
+                  {{  
+                    CCSTextarea({
+                      name:  "prject_objective",
+                      required: true,
+                      id: "label-as-page-heading",
+                      value: "",
+                      label: {
+                      classes: "govuk-label govuk-label--m"
+                      },
+                      classes:"govuk-textarea govuk-js-character-count",
+                      rows:5,
+                      maxlength:"1000",
+                      error:error,
+                      errorMessage:{
+                         text: ''
+                      }
+                    }) 
+                }}
+                {% else %}
+                                  {{  
+                    CCSTextarea({
+                      name:  "prject_objective",
+                      required: true,
+                      id: "label-as-page-heading",
+                      value: "",
+                      label: {
+                      text:"",
+                      classes: "govuk-label govuk-label--m"
+                      },
+                      classes:"govuk-textarea govuk-js-character-count",
+                      rows:5,
+                      maxlength:"1000"
+                    }) 
+                }}
+                {% endif %}
+
+                <br>
+
+                <div id="label-as-page-heading-info" class="govuk-hint govuk-character-count__message">
+                You can enter up to 1000 characters
+              </div>
+
+                <br>
+
+
+          <div class="govuk-button-group">
+           <button class="govuk-button" data-module="govuk-button">
+                    Save and continue
+                </button>
+            <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>             
+          </div>
+      </form>
+ </div>
+      <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+      </div>
+   </div>
+  </main>
+{% endblock %}

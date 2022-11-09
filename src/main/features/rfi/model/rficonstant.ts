@@ -21,7 +21,14 @@ export enum RFI_PATHS {
   RFI_GET_NEXT_STEPS='/rfi/nextsteps',
   RFI_GET_CLOSE='/rfi/closerfi',
   POST_DELETE_COLLABORATOR_TO_JAGGER='/rfi/delete-collaborators',
+  RFI_CHOOSE_YOUR_ROUTE_MARKET='/rfi/choose_your_route_market',
 
+  /** 
+   * mcf3
+  */
+
+  GET_CONFIRMATION_REVIEW='/rfi/confirmation-review',
+  GET_BUILD_RFI='/rfi/choose-build-your-rfi',
   /**
    * @POSTROUTES
    */

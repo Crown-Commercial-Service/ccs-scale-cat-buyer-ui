@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 $('#ca_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#ca_summary_list").html('You must enter atleast one value');
+                $("#ca_summary_list").html('You must enter atleast on value');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
             }
 

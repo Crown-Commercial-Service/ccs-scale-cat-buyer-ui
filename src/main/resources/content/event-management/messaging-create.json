@@ -5,7 +5,7 @@
             "href": "/"
         },
         {
-            "text": "Your dashboard",
+            "text": "Dashboard",
             "href": "/dashboard"
         },
         {
@@ -17,33 +17,37 @@
             "href": "#"
         }
     ],
-    "title": "Inbox",
+    "title": "Messaging Inbox",
     "subtitle": "Write a new message",
     "signposting": {
-
-        "line1": "Your message will be sent to all suppliers in this list.",
-        "line2": "View supplier List",
+        "line1": "Description to explain what happens in a broadcast",
+        "line2": "See Supplier List",
         "link": "#"
     },
-    "MessageClassification": "Message classification",
+    "MessageClassification": "Message Classification",
     "Subject": "Subject",
-    "Message": "Your message",
-    "btnText": "Send to all",
+    "Message": "Message",
+    "btnText": "Broadcast to all suppliers",
+    "btnTextSupplier": "Send to supplier",
     "Cancel": {
         "text": "Cancel",
         "link": "/message/inbox"
     }, 
+    "MessageSupplier": "Supplier",
     "backlink" : "/message/inbox",
     "backJump": {
-        "title": "",
+        "title": "Return to [ Project Section ]",
         "href": "#"
     },
     "tabs": {
-        "text1": "Write message",
+        "text1": "Create Message to ALL Suppliers",
         "href1": "/message/create",
         "text2": "Received",
         "href2": "/message/inbox",
         "text3": "Sent",
-        "href3": "/message/sent"
+        "href3": "/message/sent",
+        "text4": "Create Message to Supplier",
+        "href4": "/message/create/supplier"
+        
     }
 }

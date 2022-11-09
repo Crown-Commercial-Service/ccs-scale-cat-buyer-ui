@@ -126,7 +126,7 @@ function resourceItemOnClick(article,itemSubText) {
 
         weightQuantity.on('blur', () => {
 
-            if(weightQuantity.val() != undefined && weightQuantity.val() !== null)
+            if(weightQuantity.val() != undefined && weightQuantity.val() !== null && weightQuantity.val() !== "")
                 updateWeightVetting(weightQuantityId,weightStaffId,weightVettingId,itemSubText);
         });
     }
@@ -136,7 +136,7 @@ function resourceItemOnClick(article,itemSubText) {
 
         weightStaff.on('blur', () => {
 
-            if(weightStaff.val() != undefined && weightStaff.val() !== null)
+            if(weightStaff.val() != undefined && weightStaff.val() !== null && weightStaff.val() !== "")
             updateWeightVetting(weightQuantityId,weightStaffId,weightVettingId,itemSubText);
         });
     }
@@ -146,7 +146,7 @@ function resourceItemOnClick(article,itemSubText) {
 
         weightVetting.on('blur', () => {
 
-            if(weightVetting.val() != undefined && weightVetting.val() !== null)
+            if(weightVetting.val() != undefined && weightVetting.val() !== null && weightVetting.val() !== "")
             updateWeightVetting(weightQuantityId,weightStaffId,weightVettingId,itemSubText);
         });
     }

@@ -17,10 +17,10 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
  * @param res 
  */
 export const CHOOSE_AGREEMENT = async (req: express.Request, res: express.Response) => {
+  req.session.fca_selected_services = [];
   const agreement_id = req.session.agreement_id
-  
   // If we need to get MCF agreement include the id in below line : getAgreements(['RM6263', 'RM6187'], req, res)
-  const agreements = await getAgreements(['RM6263'], req, res)
+  const agreements = await getAgreements(['RM6187', 'RM1043.8', 'RM1557.13'], req, res)
   const appendData = { data: agreementScreenContent, agreement_id, agreements }
   res.render('agreement', appendData)
 }
@@ -37,7 +37,6 @@ async function getAgreements(agreements: string[], req: express.Request, res: ex
       const retrieveAgreementPromise = await AgreementAPI.Instance.get(BaseURL);
       logger.info("Feached agreement details from Agreement service API")
       draftAgreementDetails[i] = retrieveAgreementPromise?.data
-
       const retrieveLotPromise = await AgreementAPI.Instance.get(LotBaseURL);
       logger.info("Feached Lot details from Agreement service API")
 

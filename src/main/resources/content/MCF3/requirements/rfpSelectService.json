@@ -1,0 +1,88 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Your Dashboard",
+            "href": "/dasboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/#"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/fca/projects/create-or-choose"
+        },
+        {
+            "text": "See the available suppliers",
+            "href": "/fca-tasklist"
+        },
+        {
+            "text": "Select a service you need",
+            "href": "/#"
+        }
+    ],
+    "title": "Find suppliers and run your procurement online.",
+    "subtitle": null,
+    "line1": "Select the services you need",
+    "line2": "Select all the services you need from the list below. ",
+    "line8":"Tell suppliers about the services you’re interested in buying.",
+    "line6":"If you have already selected services using the filtering tool they’ll be checked below. To make any changes, you’ll need to go back to your Procurement overview page and create a new shortlist of suppliers by selecting different services.",  
+    "line7":"If you have not selected your services yet, you can do so by checking the boxes below",
+    "selected_agreement_value":"Selected agreement:",
+    "agreement_id_value":"Agreement Id:",
+    "project_id_value":"[ Project not saved ]",
+    "buttonText": "Save and continue",
+    "returnTo": "Return to See the available suppliers",
+    "return_url": "/#",
+
+    "services":[
+        {
+            "checkbox_id":1,
+            "label":"Lot specific service 1"
+        },
+        {
+            "checkbox_id":2,
+            "label":"Lot specific service 2"
+        },
+        {
+            "checkbox_id":3,
+            "label":"Lot specific service 3"
+        },
+        {
+            "checkbox_id":4,
+            "label":"Lot specific service 4"
+        },
+        {
+            "checkbox_id":5,
+            "label":"Lot specific service 5"
+        },
+        {
+            "checkbox_id":6,
+            "label":"Lot specific service 6"
+        },
+        {
+            "checkbox_id":7,
+            "label":"Lot specific service 7"
+        },
+        {
+            "checkbox_id":8,
+            "label":"Lot specific service 8"
+        }
+    ],
+
+    "related_content_text":"Related Content",
+    "related_content": [
+        {
+            "text": "[ Lot detail page ]",
+            "href": "/#"
+        },
+        {
+            "text": "[ Link to external resource ]",
+            "href": "/#"
+        },
+        {
+            "text": "[ Link to external resource ]",
+            "href": "/#"
+        }
+    ]
+}

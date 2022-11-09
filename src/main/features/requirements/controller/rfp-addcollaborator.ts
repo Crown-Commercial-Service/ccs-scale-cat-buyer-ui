@@ -8,6 +8,8 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { RFP_PATHS } from '../model/requirementConstants';
 import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
 import * as cmsData from '../../../resources/content/requirements/addcollaborator.json';
+import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/addcollaborator.json';
+import * as doscmsData from '../../../resources/content/MCF3/requirements/dosaddcollaborator.json';
 
 // RFI ADD_Collaborator
 /**
@@ -22,34 +24,21 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
   const { isJaggaerError } = req.session;
   req.session['isJaggaerError'] = false;
   try {
-    let allUserStorge = [];
-    if(req.session['rfpcollaboratorsinfo']!=null ||req.session['rfpcollaboratorsinfo']!=undefined)
-    { 
-      allUserStorge= req.session['rfpcollaboratorsinfo']    
-    }
-    else{
-      const   { data: allUserdata}  = await TenderApi.Instance(SESSION_ID).get(
-        `/tenders/users`,
+    const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
+    let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
+      organisation_user_endpoint,
+    );
+    organisation_user_data = organisation_user_data?.data;
+    const { pageCount } = organisation_user_data;
+    const allUserStorge = [];
+    for (let a = 1; a <= pageCount; a++) {
+      const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
+      const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
+        organisation_user_endpoint_loop,
       );
-      allUserStorge=allUserdata
-      req.session['rfpcollaboratorsinfo']=allUserdata
-     }
-
-    // const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    // let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-    //   organisation_user_endpoint,
-    // );
-    // organisation_user_data = organisation_user_data?.data;
-    // const { pageCount } = organisation_user_data;
-    // const allUserStorge = [];
-    // for (let a = 1; a <= pageCount; a++) {
-    //   const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
-    //   const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-    //     organisation_user_endpoint_loop,
-    //   );
-    //   const { userList } = organisation_user_data_loop?.data;
-    //   allUserStorge.push(...userList);
-    // }
+      const { userList } = organisation_user_data_loop?.data;
+      allUserStorge.push(...userList);
+    }
     let collaborator;
     const { userName, firstName, lastName } = req.session['searched_user'];
     const fullName = firstName + ' ' + lastName;
@@ -75,8 +64,18 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
     const lotId = req.session?.lotId;
     const agreementLotName = req.session.agreementLotName;
     const releatedContent = req.session.releatedContent;
+    const agreementId_session = req.session.agreement_id;
+    let forceChangeDataJson;
+    if(agreementId_session == 'RM6187') { //MCF3
+      forceChangeDataJson = Mcf3cmsData;
+    } else if(agreementId_session == 'RM1043.8') { //DOS
+      forceChangeDataJson = doscmsData;
+    }else { //DSP
+      forceChangeDataJson = cmsData;
+    }
     const windowAppendData = {
-      data: cmsData,
+      agreementId_session,
+      data: forceChangeDataJson,
       userdata: filteredListofOrganisationUser,
       collaborator: collaborator,
       collaborators: collaboratorData,
@@ -110,16 +109,17 @@ export const RFP_GET_ADD_COLLABORATOR = async (req: express.Request, res: expres
 
 export const RFP_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
-  const { rfi_collaborators } = req['body'];
-  if (rfi_collaborators === '') {
+  const { rfp_collaborators } = req['body'];
+  if (rfp_collaborators === '') {
     req.session['isJaggaerError'] = true;
     res.redirect('/rfp/add-collaborators');
   } else {
     try {
-      const user_profile = rfi_collaborators;
+      const user_profile = rfp_collaborators;
       const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
       const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
       const userData = organisation_user_data?.data;
+      
       const { userName, firstName, lastName, telephone } = userData;
       let userdetailsData = { userName, firstName, lastName };
 
@@ -142,24 +142,32 @@ export const RFP_POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, 
 };
 
 export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: express.Response) => {
+  
   const { SESSION_ID } = req.cookies;
   const { rfi_collaborators } = req['body'];
   if (rfi_collaborators === '') {
     req.session['isJaggaerError'] = true;
-    res.redirect('/rfp/add-collaborators');
+    res.redirect('/rfi/add-collaborators');
   } else {
     try {
       const user_profile = rfi_collaborators;
-      const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-      const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-      const userData = organisation_user_data?.data;
+      // const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+      // const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+      // const userData = organisation_user_data?.data;
       const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfi_collaborators}`;
       const userType = {
         userType: 'TEAM_MEMBER',
       };
-    await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
-      req.session['searched_user'] = [];
-      res.redirect('/rfp/add-collaborators');
+
+      try{
+        await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+        req.session['searched_user'] = [];
+        res.redirect('/rfi/add-collaborators');
+      }catch(err){
+        req.session['isJaggaerError'] = true;
+        res.redirect('/rfi/add-collaborators');
+      }
+
     } catch (error) {
       LoggTracer.errorLogger(
         res,
@@ -175,22 +183,30 @@ export const RFP_POST_ADD_COLLABORATOR = async (req: express.Request, res: expre
 };
 
 export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
+  
   const { SESSION_ID } = req.cookies;
-  const { rfi_collaborator } = req['body'];
-
-  if (rfi_collaborator === '') {
+  const { rfp_collaborator } = req['body'];
+  
+  if (rfp_collaborator == '') {
     req.session['isJaggaerError'] = true;
     res.redirect('/rfp/add-collaborators');
-  }
+  }else{
 
   try {
-    const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfi_collaborator}`;
+    const baseURL = `/tenders/projects/${req.session.projectId}/users/${rfp_collaborator}`;
     const userType = {
       userType: 'TEAM_MEMBER',
     };
-    await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
-    req.session['searched_user'] = [];
-    res.redirect('/rfp/add-collaborators');
+    
+    try{
+      await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+      req.session['searched_user'] = [];
+      res.redirect('/rfp/add-collaborators');
+    }catch(err){
+      req.session['isJaggaerError'] = true;
+      res.redirect('/rfp/add-collaborators');
+    }
+
   } catch (err) {
     const isJaggaerError = err.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
@@ -207,6 +223,9 @@ export const RFP_POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, 
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/rfp/add-collaborators');
   }
+  
+  }
+
 };
 
 export const RFP_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {

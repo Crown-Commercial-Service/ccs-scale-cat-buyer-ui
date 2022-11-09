@@ -1,0 +1,32 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/ca/task-list"
+    },
+    {
+      "text": "Learn how to add your assessment bases and evaluation weightings (Optional)",
+      "href": "#"
+    }
+  ],
+  "title": "Learn how to add your assessment bases and evaluation weightings (Optional)",
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to Define your assessment bases",
+      "href": "/projects/create-or-choose"
+    }
+  }
+}

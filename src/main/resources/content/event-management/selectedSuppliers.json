@@ -1,0 +1,36 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Your Dashboard",
+            "href": "/"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": ""
+        },
+        {
+            "text": "Procurement overview",
+            "href": "#"
+        },
+        {
+            "text": "Write and publish your requirements ",
+            "href": "#"
+        },
+        {
+            "text": "Your assessment criteria ",
+            "href": "#"
+        }
+    ],
+    "title": "Enter your supplier evaluation",
+    "subtitle": "Enter your final evaluation score and feedback for this supplier.",
+    "subtitle1":"You should now have evaluated all supplier answers and reviewed this with other evaluators.",
+    "Downloadresponse": [
+        {
+            "text": "Download response",
+            "link": "#"
+        }
+    ],
+    "backJump": {
+        "title": "Download all responses"
+      }
+}

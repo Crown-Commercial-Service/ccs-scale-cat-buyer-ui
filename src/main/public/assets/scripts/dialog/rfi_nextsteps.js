@@ -56,9 +56,8 @@ const showPopup = (event) => {
   }
 
   $(function () {
-    var foundinsave = $('body:contains("Save and continue")');
-    var foundin = $('body:contains("Confirm Scores")');
-    if (foundin.length < 1 && foundinsave.length < 1) {
+    var foundin = $('body:contains("Save and continue")');
+    if (foundin.length < 1) {
       removeClass();
     }
   });

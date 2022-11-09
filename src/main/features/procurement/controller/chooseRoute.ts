@@ -16,12 +16,34 @@ const logger = Logger.getLogger('choseRoute');
  * 
  * 
  */
-export const GET_CHOOSE_ROUTE = (req: express.Request, res: express.Response) => {
+export const GET_CHOOSE_ROUTE = async (req: express.Request, res: express.Response) => {
+
+   const { SESSION_ID } = req.cookies;
+   var activeProjectID = req.session.projectId;
+   const {data: dataActiveRecord } = await TenderApi.Instance(SESSION_ID).get(`/tenders/projects/${activeProjectID}/events`);
+   let activeProjectEventType;
+   if(req.session.showPreMarket == true) {
+      activeProjectEventType = '';
+   } else {
+      activeProjectEventType = dataActiveRecord[0].eventType;
+   }
+
    const releatedContent = req.session.releatedContent
    const { isJaggaerError } = req.session;
    req.session['isJaggaerError'] = false;
-   const windowAppendData = { data: cmsData, releatedContent, error: isJaggaerError }
-   res.render('chooseRoute', windowAppendData);
+   const windowAppendData = { data: cmsData, releatedContent, error: isJaggaerError,activeProjectEventType }
+   if(req.session.showPreMarket == true || req.session['isRFIComplete']) {
+      res.render('chooseRoute', windowAppendData);
+   } else {
+      if(activeProjectEventType == 'RFI') {
+         res.redirect(RFI_PATHS.GET_TASKLIST);
+      } else if(activeProjectEventType === 'EOI') {
+         res.redirect(EOI_PATHS.GET_TASKLIST);
+      } else {
+         res.render('chooseRoute', windowAppendData);
+      }
+   }
+   
 }
 
 

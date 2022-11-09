@@ -1,0 +1,13 @@
+{
+  "title": "Your two-stage further competition is cancelled",
+  "form": [
+    {
+      "id": "ca_cancel",
+      "question": "Would you like to progress to the 2nd stage?"
+    }
+  ],
+  "backJump": {
+    "title": "Go to your project dashboard",
+    "href": "/dashboard"
+  }
+}

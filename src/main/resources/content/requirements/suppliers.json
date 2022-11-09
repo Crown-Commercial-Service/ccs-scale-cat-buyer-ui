@@ -1,7 +1,7 @@
 {
   "breadCrumbs": [
     {
-      "text": "Your dashboard",
+      "text": "Dashboard",
       "href": "/dashboard"
     },
     {
@@ -17,12 +17,13 @@
       "href": "/rfp/task-list"
     },
     {
-      "text": "See the available suppliers "
+      "text": "Look at the suppliers who will be contacted"
     }
   ],
 
-  "title": "See the available suppliers ",
-  "subtitle": "Your opportunity will be sent to all the suppliers on this agreement. If they do not respond they will not be allowed to bid for your project.",
+  "title": "Look at the available suppliers ",
+  "subtitle": "Take a look at the suppliers available on this agreement.Your oppurtunity will be sent ot all the suppliers.If they do not respond they will be not allowed to bid for your project.",
+  "subtitle1":"If you'd like to look at the details for each suppliers please visit the <a target='blank' rel='noopener noreferrer' href='https://www.crowncommercial.gov.uk/agreements/RM6263:1/lot-suppliers'>Search suppliers</a> <span class='govuk-visually-hidden'>opens in a new window</span> page on the main CCS website. The page will open in a new tab",
   "data": {
     "supplier": {
       "text": "suppliers can be contracted to supply products and services for this lot. Some suppliers are ",

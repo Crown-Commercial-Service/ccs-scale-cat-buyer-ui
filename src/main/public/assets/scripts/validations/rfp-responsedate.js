@@ -1,4 +1,4 @@
-const rfp_totalElementSelectors = Array.from(Array(11+1).keys()).slice(1);
+const rfp_totalElementSelectors = Array.from(Array(13+1).keys()).slice(1);
 
 
 for(const selector of rfp_totalElementSelectors){
@@ -20,30 +20,49 @@ for(const selector of rfp_totalElementSelectors){
     elementSelectorCancel.fadeIn(); 
     elementSelector.on('click', () => {
         localStorage.removeItem('dateItem');
-        localStorage.setItem('dateItem', elementSelector.selector);
+        localStorage.setItem('dateItem', elementID);
         let ClickedID = "#rfp_clarification_date_expanded_" + selector;
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0)
             elementSelectorClicked = $("#rfp_clarification_date_expanded_" + selector);
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
+        saveButtonHideDateRFP();
     });
     let errorSelector = $("#click-error");
-
+    let noChanges = $('#rfp_cancel_change_clarification_date_'+ selector);
     
+
+    noChanges.click(function() {
+        $( ".govuk-error-message" ).hide();
+        $( ".govuk-error-summary" ).hide();
+        elementClicked = $("#showDateDiv" + selector);
+        elementClicked.removeClass('govuk-form-group--error')
+        
+        
+
+    });
+
     errorSelector.on('click', () => {
+        
         let storedClickedID = localStorage.getItem('dateItem');
         let cleanedClickedID = storedClickedID.slice(1);
         let elementSelectorClicked = $(storedClickedID);
-        if (elementSelector.selector === elementSelectorClicked.selector) {
+        let hasError = $("#showDateDiv"+ selector).hasClass("govuk-form-group--error");
+        if (elementSelector.selector === elementSelectorClicked.selector && hasError ) {
             elementSelectorClicked = $("#rfp_clarification_date_expanded_" + selector);
             elementSelectorClicked.fadeIn();
             elementSelector.hide();
+           
         } else {
             elementSelectorClicked.hide();
             elementSelector.fadeIn();
         }
+        let agreementID;
+        if(document.getElementById("agreementID")) agreementID = document.getElementById("agreementID").value;
+        if(agreementID != 'RM1043.8') {
         ccsZaddErrorMessage(document.getElementById(cleanedClickedID), 'You can not set a date and time that is earlier than the previous milestone in the timeline');
+        }
     });
 }
 
@@ -61,20 +80,17 @@ for(const selector of rfp_totalElementSelectors){
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
-        $("div.govuk-error-summary").remove()
         ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
         const elementIDChange = $("#change_clarification_date_" + selector);
         elementIDChange.show();
+        saveButtonUnHideDateRFP();
     });
 }
 
-// $('#ccs_response_date_form').on('submit', (event) 
-const ccsZValidateResponseDate = (e) => {
-    e.preventDefault();
-    let errorHeading=document.getElementById("error-summary-title");
-    if(errorHeading==undefined)
-    {
-        document.forms["ccs_response_date_form"].submit();
-    }
-};
+const saveButtonHideDateRFP = () => {
+    document.getElementById("hideMeWhileDateChange").disabled = true;
+}
 
+const saveButtonUnHideDateRFP = () => {
+    document.getElementById("hideMeWhileDateChange").disabled = false;
+}

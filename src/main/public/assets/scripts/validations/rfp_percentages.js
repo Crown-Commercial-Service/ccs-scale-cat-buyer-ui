@@ -1,37 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
-
   const formPercentage = $('#rfp_percentage_form');
   if (formPercentage !== undefined && formPercentage.length > 0) {
-    const pageHeading = document.getElementById('page-heading').innerHTML;
+    let allTextBox = $("form input[type='number']");
     let elements = document.querySelectorAll("[name='percentage']");
-
     let totalPercentageEvent = () => {
+     
       let percentage = 0
       let errorList = [];
       removeErrorFieldsRfpPercentage();
       elements.forEach((el) => {
+        
+
         percentage += isNaN(el.value) ? 0 : Number(el.value);
       });
-      if (percentage > 100) {
-        errorList.push(["There is a problem", "The total weighting is exceeded more than 100%"]);
-        ccsZPresentErrorSummary(errorList)
-      }
+      // if (percentage > 100) {
+      //   errorList.push(["There is a problem", "Your total percentage must be 100%"]);
+      //   ccsZPresentErrorSummary(errorList)
+      // }
+      // if (percentage < 100) {
+      //   errorList.push(["There is a problem", "Your total percentage must be 100%."]);
+      //   ccsZPresentErrorSummary(errorList)
+      // }
+      
       $("#totalPercentage").text(percentage);
     };
-console.log(elements)
-elements?.forEach((ele, index) => {
-      if (pageHeading.includes('Set the weighting for the quality groups') || pageHeading.includes('Set the overall weighting for the question categories')) {
-        ele.id = "Question" + "_" + index;
-      } else {
-        ele.id = ele.id.replace(' ', '_') + "_" + index;
-      }
+    
+    // for (let k = 0; k < allTextBox.length; k++){
+     
+    // }
 
+    
+
+    elements.forEach((ele) => {
       ele.addEventListener('focusout', totalPercentageEvent)
       ele.addEventListener('keydown', (event) => {
         if (event.key === '.' || event.keyCode === 69) { event.preventDefault(); }
       });
     });
-    totalPercentageEvent();
+     totalPercentageEvent();
   }
 });
 
@@ -39,39 +45,74 @@ const checkPercentagesCond = () => {
   removeErrorFieldsRfpPercentage();
   let fieldCheck = "",
     errorStore = [];
+    const urlParams = new URLSearchParams(window.location.search);
+    const agrement_id = urlParams.get('agreement_id');
   let allTextBox = $("form input[type='number']");
   let totalValue = 0;
-  if (Number($("#totalPercentage").text()) > 100) {
-    errorStore.push(['There is a problem', 'The total weighting cannot exceed 100%'])
+  console.log(Number($("#totalPercentage").text()));
+  // if (Number($("#totalPercentage").text()) > 100) {
+    // errorStore.push(['There is a problem', 'The total weighting cannot exceed 100%'])
     //ccsZPresentErrorSummary([errorStore]);
     // for (let k = 0; k < allTextBox.length; k++) {
     //   fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "The total weighting cannot exceed 100%", /\w+/, false);
     //   if (fieldCheck !== true) errorStore.push(fieldCheck);
 
     // }
-  } else
     for (let k = 0; k < allTextBox.length; k++) {
       totalValue += Number(allTextBox[k].value);
-      var range = $("#range_p" + allTextBox[k].id).attr("range");
-      if (allTextBox[k].value == "") {
-        fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Please enter range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+      var range = $("#range_p" + allTextBox[k].id.replace(" ", "")).attr("range");
+    var subTitle = $('#getSubTitle'+allTextBox[k].id.replace(" ", "")).html();
+      if (!subTitle.includes("optional") && allTextBox[k].value == "" || allTextBox[k].value < 0) {
+        
+        if (subTitle!= 'Social value'){
+
+          if(agrement_id == 'RM6187'){
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "You must enter "+subTitle.toLowerCase()+" range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          }else{
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Please enter range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          }
+
+          
+        }
+        else {
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Please enter range between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+        }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
-      } else if (Number(allTextBox[k].value) > 0) {
-        var result = checkRange(range?.split("-")[0], range?.split("-")[1], allTextBox[k].value);
+      } else if (Number(allTextBox[k].value) >= 0 && subTitle!= 'Social value') {
+        var result = checkRange(range.split("-")[0], range.split("-")[1], allTextBox[k].value);
         if (result.start) {
           //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
           // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
           //errorStore.push("The value incorrect");
           fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
+
         }
         else if (result.end) {
+          
           fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
+      else if (Number(allTextBox[k].value) > 0 && subTitle == 'Social value' && agrement_id == 'RM1043.8') {
+        var result = checkRange(range.split("-")[0], range.split("-")[1], allTextBox[k].value);
+        if (result.start) {
+          //fieldCheck = ccsZvalidateWithRegex("Question " + k, "The total weighting cannot exceed 100%", /\w+/, false);
+          // $("#event-name-error-"+allTextBox[k].value.replace(" ","")).removeClass("govuk-visually-hidden").text("Range value incorrect");
+          //errorStore.push("The value incorrect");
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          if (fieldCheck !== true) errorStore.push(fieldCheck);
 
+        }
+        else if (result.end) {
+          console.log(range)
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Range value between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          if (fieldCheck !== true) errorStore.push(fieldCheck);
+        }
+
+      }
     }
+  // } 
   //} 
   // else if (Number($("#totalPercentage").text()) <= 0) {
   //   for (let k = 1; k < allTextBox.length; k++) {
@@ -99,141 +140,44 @@ const checkRange = (s, e, val) => {
 }
 const ccsZvalidateRfpPercentages = (event) => {
   event.preventDefault();
-  let errorStore = [];
+  const urlParams = new URLSearchParams(window.location.search);
+    const agrement_id = urlParams.get('agreement_id');
+  let errorStore =[];
   const pageHeading = document.getElementById('page-heading').innerHTML;
 
   let elements = document.querySelectorAll("[name='percentage']");
   let percentage = 0;
-  let fieldCheck = "";
+  
+  elements.forEach((el) => {
+    percentage += isNaN(el.value) ? 0 : Number(el.value);
+   
+});
 
-  for (let index = 0; index < elements.length; index++) {
-    if (Number(elements[index].value) < 0) {
-      fieldCheck = [elements[index].id, 'You must enter positive value.'];
-      errorStore.push(fieldCheck);
-      ccsZaddErrorMessage(elements[index], 'You must enter positive value.');
-    }
-    else {
-      if (pageHeading.includes('Set the overall weighting between quality and price')) {
-        if (elements[index].value == undefined || elements[index].value == null || elements[index].value == '') {
-          fieldCheck = [elements[index].id, 'You must add information in this fields.'];
-          errorStore.push(fieldCheck);
-          ccsZaddErrorMessage(elements[index], 'You must add information in this fields.');
-        } else if (elements[index].value != "" && (Number(elements[index].value) < 25 || Number(elements[index].value) > 75)) {
-          fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
-          errorStore.push(fieldCheck);
-          ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
-        } else {
-          percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
-        }
-
-        // switch (elements[index].id) {
-        //   case 'Question 1':
-        //     if (elements[index].value != "" && (Number(elements[index].value) < 25 || Number(elements[index].value) > 75)) {
-        //       fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
-        //       errorStore.push(fieldCheck);
-        //       ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
-        //     }
-        //     else
-        //       percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
-        //     break
-        //   case 'Question 2':
-        //     if (elements[index].value != "" && (Number(elements[index].value) < 10 || Number(elements[index].value) > 75)) {
-        //       fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
-        //       errorStore.push(fieldCheck);
-        //       ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
-        //     }
-        //     else
-        //       percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
-        //     break
-        //   default: percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
-        //     break
-        // }
-
-      }
-      else if (pageHeading.includes('Set the weighting for the quality groups') || pageHeading.includes('Set the overall weighting for the question categories')) {
-        if (elements[index].value == undefined || elements[index].value == null || elements[index].value == '') {
-          fieldCheck = [elements[index].id, 'You must add information in this fields.'];
-          errorStore.push(fieldCheck);
-          ccsZaddErrorMessage(elements[index], 'You must add information in this fields.');
-        } else if (elements[index].value != "" && elements[index].id =="Question_0" && (Number(elements[index].value) < 10 || Number(elements[index].value) > 75)) {
-          fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
-          errorStore.push(fieldCheck);
-          ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
-        }
-        else if (elements[index].value != "" && elements[index].id =="Question_1" && (Number(elements[index].value) < 5 || Number(elements[index].value) > 20)) {
-          fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
-          errorStore.push(fieldCheck);
-          ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
-        }
-        else if (elements[index].value != "" && elements[index].id =="Question_2" && (Number(elements[index].value) < 10 || Number(elements[index].value) > 20)) {
-          fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
-          errorStore.push(fieldCheck);
-          ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
-        }
-        else {
-          percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
-        }
-
-        // switch (elements[index].id) {
-        //   case 'Question_1':
-        //     if (elements[index].value == undefined || elements[index].value == null || elements[index].value == '') {
-        //       fieldCheck = [elements[index].id, 'You must add information in this fields.'];
-        //       errorStore.push(fieldCheck);
-        //       ccsZaddErrorMessage(elements[index], 'You must add information in this fields.');
-        //     }
-        //     else if (elements[index].value != "" && (Number(elements[index].value) < 10 || Number(elements[index].value) > 75)) {
-        //       fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
-        //       errorStore.push(fieldCheck);
-        //       ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
-        //     }
-        //     else
-        //       percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
-        //     break
-        //   case 'Question_2':
-        //     if (elements[index].value == undefined || elements[index].value == null || elements[index].value == '') {
-        //       fieldCheck = [elements[index].id, 'You must add information in this fields.'];
-        //       errorStore.push(fieldCheck);
-        //       ccsZaddErrorMessage(elements[index], 'You must add information in this fields.');
-        //     }
-        //     else if (elements[index].value != "" && (Number(elements[index].value) < 5 || Number(elements[index].value) > 20)) {
-        //       fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
-        //       errorStore.push(fieldCheck);
-        //       ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
-        //     }
-        //     else
-        //       percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
-        //     break
-        //   case 'Question_3':
-        //     if (elements[index].value == undefined || elements[index].value == null || elements[index].value == '') {
-        //       fieldCheck = [elements[index].id, 'You must add information in this fields.'];
-        //       errorStore.push(fieldCheck);
-        //       ccsZaddErrorMessage(elements[index], 'You must add information in this fields.');
-        //     }
-        //     else if (elements[index].value != "" && (Number(elements[index].value) < 10 || Number(elements[index].value) > 20)) {
-        //       fieldCheck = [elements[index].id, 'Enter whole numbers only within the specified range.'];
-        //       errorStore.push(fieldCheck);
-        //       ccsZaddErrorMessage(elements[index], 'Enter whole numbers only within the specified range.');
-        //     }
-        //     else
-        //       percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
-        //     break
-        //   default: percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
-        //     break
-        // }
-      }
-      else
-        percentage += isNaN(elements[index].value) ? 0 : Number(elements[index].value);
-    }
-  }
-
-  if (errorStore.length > 0) {
-    ccsZPresentErrorSummary(errorStore)
-  }
-  else if ((pageHeading.includes('Set the overall weighting between quality and price') || pageHeading.includes('Set the weighting for the quality groups')) && (percentage > 100 || percentage < 100)) {
-    errorStore.push(["#", "Your total percentage must be 100%."]);
-    ccsZPresentErrorSummary(errorStore)
-  }
+ 
   errorStore = errorStore == null || errorStore.length <= 0 ? checkPercentagesCond() : errorStore;
+  checkPercentagesCond()
+  if (pageHeading.includes('Set the overall weighting between quality and price') && (percentage > 100 || percentage < 100)) {
+    errorStore.push(["#", "Your total percentage must be 100%"]);
+    ccsZPresentErrorSummary(errorStore)
+  }
+  if (pageHeading.includes('Set the overall weighting') && (percentage > 100 || percentage < 100) && agrement_id == 'RM1043.8') {
+    errorStore.push(["#", "Your total percentage must be 100%"]);
+    ccsZPresentErrorSummary(errorStore)
+  }
+  if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && agrement_id == 'RM6187') {
+    errorStore.push(["#", "Your total percentage must be 100%"]);
+    ccsZPresentErrorSummary(errorStore)
+  }
+  if (pageHeading.includes('Set the overall weighting for quality') && (percentage > 100 || percentage < 100)) {
+    errorStore.push(["#", "Your total percentage must be 100%"]);
+    ccsZPresentErrorSummary(errorStore)
+  }
+  if ((pageHeading.includes('Technical Competence') || pageHeading.includes('Technical competence') ) && (percentage > 100 || percentage < 100)) {
+    errorStore.push(["#", "Your total percentage must be 100%"]);
+    ccsZPresentErrorSummary(errorStore)
+  }
+  
+  
   if (errorStore === undefined || errorStore === null || errorStore.length === 0) {
     document.forms["rfp_percentage_form"].submit();
   }

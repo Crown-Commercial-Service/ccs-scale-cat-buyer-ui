@@ -56,9 +56,21 @@ const ccsZvalidateRfiSecurity = (event) => {
 
 const ccsZvalidateEoiSecurity = (event) => {
   let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must provide a security clearance level before proceeding";
+  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must choose one option from list before proceeding";
   fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
   if (fieldCheck !== true) errorStore.push(fieldCheck);
+  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
+    // errorStore.length = 0;
+    
+    if ($('#rfp_security_confirmation').val().length === 0) {
+      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_security_confirmation').val().length > 500) {
+      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
 
   if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
   else ccsZPresentErrorSummary(errorStore);

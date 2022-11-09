@@ -1,0 +1,128 @@
+{% extends "template.njk" %}
+
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title = 'Supplier rate card' %}
+{% block content %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+ 
+    
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <h3 class="govuk-heading-m">
+          <h1 class="govuk-heading-l">
+          {{supplierName}} {{data.title}}</h1>
+        </h3>
+
+        {% include "includes/project_header.njk" %}
+        <div class="">
+          
+         <p></p>
+        
+        <h3>{{data.max_day_rates}}</h3>
+        <p>{{data.max_day_rates_p1}}</p>
+        <p>{{data.max_day_rates_p2}}</p>
+
+          <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+      <div class="govuk-grid-column-full">
+         <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} </caption>
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
+               
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              
+               {% for val in assessmentsData %}
+            <tr class="govuk-table__row">
+            <td class="govuk-table__cell">{{val.requirementName}}</td>
+            <td class="govuk-table__cell">£{{val.submissionValue}}</td>
+            {% else %}
+            <td>No more data.</td>
+            </tr>
+        {% endfor %}
+
+                  
+
+
+                
+              
+            </tbody>
+          </table>
+      </div>
+      </div>
+
+
+
+
+
+        {% if contactSupplierDetails %}
+          <h2>{{data.contact_details}}</h2>
+
+          <h3>{{data.contact_name}}</h3>
+          <p>{{ contactSupplierDetails.name if contactSupplierDetails.name else "-" }}</p>
+
+          
+          <h3>{{data.contact_email}}</h3>
+          <p>{{ contactSupplierDetails.email if contactSupplierDetails.email else "-" }}</p>
+
+          <h3>{{data.contact_phonenumber}}</h3>
+          <p>{{ contactSupplierDetails.telephone if contactSupplierDetails.telephone else "-" }}</p>
+
+          <h3>{{data.contact_website}}</h3>
+          <p>{{ contactSupplierDetails.url if contactSupplierDetails.url else "-" }}</p>
+          
+          <h3>{{data.contact_address}}</h3>
+          <p>{{ contactSupplierDetails.address if contactSupplierDetails.address else "-" }}</p>
+        {% endif %}
+          <p></p>
+          {% if currentEventType == 'FC' %}
+            <p><a class="govuk-link govuk-link--no-visited-state" href="/rfp/suppliers" rel="noopener noreferrer">{{data.return_to_supplier_list}}</a></p>
+          {% else %}
+            <p><a class="govuk-link govuk-link--no-visited-state" href="/fca/shortlisted/suppliers" rel="noopener noreferrer">{{data.return_to_supplier_list}}</a></p>
+          {% endif %}
+        </div>
+
+        
+      </div>
+
+
+      <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+
+
+    </div>
+
+
+<div class="ccs-callout-panel">
+<h2 class="govuk-heading-m">Help</h2>
+
+ <p class="govuk-body">You can contact us by email, phone or using the <a target="_blank" rel="noopener noreferrer" href="https://www.crowncommercial.gov.uk/contact">enquiry form <span class="govuk-visually-hidden">Opens in a new tab</span></a>.</p>
+
+<h3 class="govuk-heading-s govuk-!-margin-0">Telephone: </h3>
+ <p class="govuk-body">
+ <a href="tel:03454102222">0345 410 2222</a>
+ </p>
+
+<h3 class="govuk-heading-s govuk-!-margin-0">Email: </h3>
+        <p class="govuk-body">
+        <a href="mailto:info@crowncommercial.gov.uk">info@crowncommercial.gov.uk</a>
+        </p>
+
+        <p class="govuk-body">CCS customer services team is available Monday to Friday, 9am to 5pm.</p>
+    </div>
+
+
+
+
+
+    
+  </main>
+{% endblock %}

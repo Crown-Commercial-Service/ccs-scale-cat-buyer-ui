@@ -1,0 +1,116 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Complete and upload a document | Contract Award Service' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+          {
+            text: "Procurement overview",
+            href: url
+          },
+          {
+            text: "Run pre-market engagement",
+            href: "/eoi/eoi-tasklist"
+          },
+          {
+            text: "Build your EoI",
+            href: "/eoi/online-task-list"
+          },
+          {
+            text: "Set your project budget",
+            href: "#"
+          }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">{{data.title}}</h1>          
+      </div>  
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          {% include "includes/project_header.njk" %}
+        </div>
+      </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+          <div class="govuk-grid-column-full">
+            <p class="govuk-body">{{data.line1}}</p>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-width-container">
+              <main class="govuk-main-wrapper " id="main-content" role="main">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-full">
+                    <form action="/form-handler" method="post" novalidate>
+            
+                      <div class="govuk-form-group">
+                        <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--s" for="cost">
+                          Maximum budget
+                          </label>
+                        </h1>
+                        <p class="govuk-body govuk-!-margin-bottom-2">For example £ 10000</p>
+                        <div class="govuk-input__wrapper">
+                          <div class="govuk-input__prefix" aria-hidden="true">£</div>
+                          <input class="govuk-input govuk-input--width-5" id="cost" name="cost" type="text" spellcheck="false">
+                        </div>
+                      </div>
+
+                      <div class="govuk-form-group govuk-!-margin-top-9">
+                        <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--s" for="cost">
+                          Minimum budget (optional)
+                          </label>
+                        </h1>
+                        <p class="govuk-body govuk-!-margin-bottom-2">For example £ 30000</p>
+                        <div class="govuk-input__wrapper">
+                          <div class="govuk-input__prefix" aria-hidden="true">£</div>
+                          <input class="govuk-input govuk-input--width-5" id="cost" name="cost" type="text" spellcheck="false">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </main>
+            </div>
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-top-4">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-button-group">
+              <button class="govuk-button" data-module="govuk-button">Save and continue</button>
+            
+              <a class="govuk-link" href="#">Return to Build your EoI</a>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </div>
+  </main>
+{% endblock %}
+

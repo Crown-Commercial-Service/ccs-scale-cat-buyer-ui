@@ -1,0 +1,52 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Add your supplier evaluation' %}
+
+{% block content %}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 id="page-heading" class="govuk-heading-xl">
+          <strong>{{data.title}}</strong>
+        </h1>
+      </div>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/project_header.njk" %}
+      <div>        
+        <div class="govuk-summary-list__row">
+                          <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
+                          <dd class="govuk-summary-list__value govuk-!-padding-0"></dd>
+                          <dd class="govuk-summary-list__actions govuk-!-padding-0"></dd>
+                        </div>
+        <p class="govuk-body"><strong>{{data.subtitle}}</strong></p>
+        <div class="govuk-summary-list__row">
+                          <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
+                          <dd class="govuk-summary-list__value govuk-!-padding-0"></dd>
+                          <dd class="govuk-summary-list__actions govuk-!-padding-0"></dd>
+                        </div>
+        <p class="govuk-body"><strong>{{data.subtitle1}}</strong></p>  
+        <ol type="1">
+            <li>{{data.subsection1_title}}</li>
+            {% if data.subsection2_title !='' %}
+            <li>{{data.subsection2_title}}</li>
+            {% endif %}
+            </ol>
+        <br>
+      </div>
+<div class="govuk-button-group">
+      {{ CCSButton({
+        text: data.btntext,
+        href:"/dashboard"
+        }) }}
+                                        </div>
+      
+</div>    
+</div>
+  </main>
+        {% endblock %}

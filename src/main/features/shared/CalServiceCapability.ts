@@ -27,7 +27,7 @@ export const CalServiceCapability = async (req: express.Request) => {
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     let CAPACITY_DATASET = CAPACITY_DATA.data;
 
-    CAPACITY_DATASET = CAPACITY_DATASET?.filter(levels => levels['name'] === 'Service Capability');
+    CAPACITY_DATASET = CAPACITY_DATASET?.filter(levels => levels['name'] === 'Service Offering');
 
     let CAPACITY_CONCAT_OPTIONS = CAPACITY_DATASET?.map(item => {
       const { weightingRange, options } = item;
@@ -145,7 +145,7 @@ export const CalServiceCapability = async (req: express.Request) => {
      * @DIMENSION_REQUIREMENT
      */
    const { dimensionRequirements } = ALL_ASSESSTMENTS_DATA;
-    const DR = dimensionRequirements?.filter(dimension => dimension.name === 'Service Capability');
+    const DR = dimensionRequirements?.filter(dimension => dimension.name === 'Service Offering');
     const DRequirements = DR?.[0]?.requirements;
 
     var TABLEBODY = [];

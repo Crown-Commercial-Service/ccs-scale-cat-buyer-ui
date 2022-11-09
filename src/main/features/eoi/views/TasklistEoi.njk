@@ -55,7 +55,12 @@
                 <span class="app-task-list__section-number">{{item.eventno}}. </span>
                 {{item.eventTitle}}
               </h2>
-              <p class="govuk-body">{{item.eventDescription}}</p>
+              <p class="govuk-body">
+                {% if Tasks.status == "Done" %}
+                {{item.eventDescription2}}
+                {% else %}
+                {{item.eventDescription}}
+                {% endif %}</p>
               <ul class="app-task-list__items">
                 {% for Tasks in item.eventTask %}
                   <li class="app-task-list__item">
@@ -73,7 +78,7 @@
                     {% if (Tasks.status == "Cannot start yet") 
                       or(Tasks.status == "Not started") %}
                       <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
-                    {% elif Tasks.status == "Done" %}
+                    {% elseif Tasks.status == "Done" %}
                       <strong class="govuk-tag govuk-tag--green app-task-list__tag">{{Tasks.status}}</strong>
                     {% else %}
                       <strong class="govuk-tag app-task-list__tag" >

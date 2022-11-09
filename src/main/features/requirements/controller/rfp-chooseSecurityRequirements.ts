@@ -12,13 +12,13 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
   // const { projectId } = req.session;
   const { assessmentId } = currentEvent;
   //const assessmentId = 13;
- 
+  const extToolId=2;
 
  
   const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
   try {
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-    const extToolId=assessments['external-tool-id'];
+
     const { dimensionRequirements } = assessments;
 
     let selectedOption;
@@ -38,9 +38,9 @@ export const RFP_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
       selectedOption = dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0]
       .requirements[0].values[0].value;
       data.form.radioOptions.items.find(item => item.value === selectedOption).checked = true;
-      if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting>=0)
+      if(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting>0)
       {
-        data.form.selectedValue=(dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting).toString();
+        data.form.selectedValue=dimensionRequirements.filter(dimension => dimension.name === 'Security Clearance')[0].requirements[0].weighting;
       }
      }
     }
@@ -101,15 +101,16 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
 
   const resources= selectedresourceNumber>0?ccs_rfp_resources[selectedresourceNumber-1]:0;
   const totalQuantityrfp=req.session.totalQuantityrfp;
-  // const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityrfp);
-  // if (isError) {
-  //   req.session.errorText = errorText;
-  //   req.session.isError = isError;
-  //   res.redirect('/rfp/choose-security-requirements');
-  // } else {
+  const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityrfp);
+  if (isError) {
+    req.session.errorText = errorText;
+    req.session.isError = isError;
+    res.redirect('/rfp/choose-security-requirements');
+  } else {
     try {
       const requirementsData = [
-        {         
+        {
+          name: 'Performance analysis and data',
           'requirement-id': 101,
           weighting: resources,
           values: [
@@ -127,7 +128,6 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
         weighting: 40,
         includedCriteria: [{ 'criterion-id': '0' }],
         requirements: requirementsData,
-        overwriteRequirements: true,
       };
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
       let flag=await ShouldEventStatusBeUpdated(eventId,35,req);
@@ -148,5 +148,5 @@ export const RFP_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request
         true,
       );
     }
-//  }
+  }
 };

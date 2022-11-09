@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $(function () {
     $('.nav-popup').on('click', function () {
-
       if ($(this).hasClass('selected')) {
         deselect($(this));
         $(".backdrop-nav-menu").fadeOut(200);
@@ -69,84 +68,43 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     });
 
-/*     $('.dialog-close-vetting').on('click', function () {
+    $('.dialog-close-vetting').on('click', function () {
       $(".backdrop-vetting").fadeOut(200);
       deselect($('.dialog-close-vetting'));
       return false;
-    }); */
-    
-    // $('.dialog-close-nav-menu').on('click', function () {
-    //   $(".backdrop-nav-menu").fadeOut(200);
-    //   deselect($('.dialog-close-nav-menu'));
-    //   return false;
-    // });
+    });
+    $('.dialog-close-nav-menu').on('click', function () {
+      $(".backdrop-nav-menu").fadeOut(200);
+      deselect($('.dialog-close-nav-menu'));
+      return false;
+    });
 
-/*     $('#redirect-button-nav-menu').on('click', function () {
+    $('#redirect-button-nav-menu').on('click', function () {
       deselect($('.dialog-close-nav-menu'));
       $(".backdrop-nav-menu").fadeOut(200);
       var route = this.name;
       if (route == 'Home') {
-        window.open("/");
+        document.location.href = "/";
       } else if (route == 'My Projects') {
-        window.open('/dashboard');
+        document.location.href = "/dashboard";
       } else if (route == 'CCS website') {
-        window.open('https://www.crowncommercial.gov.uk/');
+        document.location.href = "https://www.crowncommercial.gov.uk/";
       } else if (route == 'Guidance') {
-        window.open("#");
+        document.location.href = "#";
       } else if (route == 'Get help') {
-        window.open('https://www.crowncommercial.gov.uk/contact');
+        document.location.href = "https://www.crowncommercial.gov.uk/contact";
       } else {
         return false;
       }
       $(".backdrop-nav-menu").fadeOut(200);
-    }); */
+    });
 
     $('#redirect-button-vetting').on('click', function () {
-      
       $('.rfp_cap').attr('checked', false);
       deselect($('.dialog-close-vetting'));
       $(".backdrop-vetting").fadeOut(200);
       var route = this.name;
       if (route == 'Clear form') {
-        $('#service_capability_error_summary').addClass('hide-block');
-
-      var servCapWhole=document.getElementsByClassName("weight_vetting_whole_t")
-      if (servCapWhole != null && servCapWhole.length > 0) {
-        for(index=0;index<servCapWhole.length;index++)
-        {
-        
-          servCapWhole[index].innerText =''
-        }
-      }
-
-      var servCapWholeInput=document.getElementsByClassName("weight_vetting_whole")
-      if (servCapWholeInput != null && servCapWholeInput.length > 0) {
-        for(index=0;index<servCapWholeInput.length;index++)
-        {
-          servCapWholeInput[index].classList.remove('govuk-input--error')
-          
-        }
-      }
-
-      var servCapPart=document.getElementsByClassName("weight_vetting_partial_t")
-      if (servCapPart != null && servCapPart.length > 0) {
-        for(index=0;index<servCapPart.length;index++)
-        {
-          
-          servCapPart[index].innerText =''
-        }
-      }
-
-
-      var servCapPartInput=document.getElementsByClassName("weight_vetting_partial")
-      if (servCapPartInput != null && servCapPartInput.length > 0) {
-        for(index=0;index<servCapPartInput.length;index++)
-        {
-          servCapPartInput[index].classList.remove('govuk-input--error')
-          
-        }
-      }
-
         clearServiceCapabilitiesSubText();
         for (index = 0; index < inputs.length; ++index) {
           inputs[index].value = '';
@@ -164,10 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var totalWeighting = '';
     var daServiceCapaTabLinks = document.querySelectorAll('.da-service-capabilities');
     var caServiceCapaTabLinks = document.querySelectorAll('.ca-service-capabilities');
-    const TotalWeightageBox = document.getElementsByClassName('weight');
-    for (var i = 0; i < TotalWeightageBox.length; i++) {
-      TotalWeightageBox[i].value=''
-    }
+
     if (daServiceCapaTabLinks !== null && daServiceCapaTabLinks.length > 0)
     {
       tabLinks = daServiceCapaTabLinks;

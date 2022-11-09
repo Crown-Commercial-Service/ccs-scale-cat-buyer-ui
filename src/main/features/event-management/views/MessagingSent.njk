@@ -8,15 +8,15 @@
   {{ CCSBreadcrumbs({
         items:[
     {
-      "text": "Your Dashboard",
+      "text": "Dashboard",
       "href": "/dashboard"
     },
     {
-      "text": "Your project",
+      "text": eventId+" / "+eventType,
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Inbox",
+      "text": "Messaging Inbox",
       "href": "#"
     }
   ]
@@ -28,34 +28,12 @@
     <div class="govuk-grid-row govuk-!-padding-bottom-7">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          <strong>{{data.title}}</strong>
+          {{data.title}}
         </h1>
-        <div class="project-overview">
         <p class="govuk-body">
           <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
         </p>
-        
-  <p class="govuk-body">Selected agreement: <strong>
-    {%if agreement_header !=undefined and agreement_header !=null %}
-    {{ agreement_header['agreementName'] }}
-    {%endif%}
-    {% if(agreement_header !=undefined and agreement_header !=null 
-    and agreement_header.agreementLotName != undefined)%}, 
-    
-    {{ agreement_header['lotid'] }}: 
-    {{ agreement_header['agreementLotName'] }}  
-    {% endif %} 
-    
-  </strong></p>
-  <p class="govuk-body">Agreement ID: 
-    {%if(agreement_header !=undefined and   agreement_header !=null) %}
-    <strong>
-    {{ agreement_header['agreementId_session'] }}
-    </strong>
-    {%endif%}
-    </p>
-    </div>
-        {# {% include "includes/project_header.njk" %} #}
+        {% include "includes/project_header.njk" %}
       </div>
     </div>
 
@@ -64,6 +42,10 @@
         <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
 
           <ul class="nav-list messaging-nav-list--primary">
+             <li class="nav-list__item ">
+              <a class="nav-list__link " href="{{data.tabs.href4}}?type=create">{{data.tabs.text4}}</a>
+            </li>
+
             <li class="nav-list__item ">
               <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{data.tabs.text1}}</a>
             </li>
@@ -102,12 +84,13 @@
                         <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}&type=sent">{{ message.OCDS.title }}</a>
                       </p>
                     </th>
-                    {% if message.nonOCDS.isBroadcast %}
+                      {% if message.nonOCDS.isBroadcast %}
                     <td class="govuk-table__cell">Broadcasted to all suppliers</td>
                     {% else %}
                      <td class="govuk-table__cell">{{message.nonOCDS.receiverList[0].name}}</td>
                     {% endif %}
-                    <td class="govuk-table__cell">{{ message.OCDS.date}}</td>
+                    
+                    <td class="govuk-table__cell">{{ message.OCDS.date }}</td>
                   </tr>
                 {% endfor %}
               {% else %}

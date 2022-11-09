@@ -50,33 +50,27 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       {
         "ID":1,
         "title":"Capacity (number of specialists per DDaT role)",
-        "desc":"This relates to how many staff are supplied in each role.",
-        "orderID":1
-
+        "desc":"This relates to how many staff are supplied in each role."
       },
       {
         "ID":2,
         "title":"Security clearance and vetting",
-        "desc":"This relates to the importance of having specific security clearance levels or how detailed the vetting process of any supplied staff is.",
-        "orderID":4
+        "desc":"This relates to the importance of having specific security clearance levels or how detailed the vetting process of any supplied staff is."
       },
       {
         "ID":3,
         "title":"Service capability",
-        "desc":"This relates to the services the supplier can offer, including the specifics of each serivce.",
-        "orderID":2
-       },
+        "desc":"This relates to the services the supplier can offer, including the specifics of each serivce."
+      },
       {
         "ID":4,
         "title":"Scalability(size of team)",
-        "desc":"This relates to how many people you need in the team to get the work done. It also relates to how quickly the team can be increased if there is a need in the project to do so.",
-        "orderID":3
+        "desc":"This relates to how many people you need in the team to get the work done. It also relates to how quickly the team can be increased if there is a need in the project to do so."
       },
       {
         "ID":5,
         "title":"Location",
-        "desc":"This relates to how important it is to you that any supplied staff are based in the specific regions of the country.",
-        "orderID":5
+        "desc":"This relates to how important it is to you that any supplied staff are based in the specific regions of the country."
       }
     ];
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
@@ -99,10 +93,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       let index=weightingsArray.findIndex(x=>x.id===element.ID)
       weightingsArray[index].title=element.title
       weightingsArray[index].description=element.desc
-      weightingsArray[index].orderID=element.orderID
     });
-    weightingsArray.sort((a, b) => a.orderID< b.orderID? -1 : a.orderID> b.orderID? 1 : 0)
-
     req.session['CapAss'] = req.session['CapAss'] == undefined ? {} : req.session['CapAss'];
     req.session['CapAss'].toolId = assessmentDetail['external-tool-id'];
     req.session['weightingRange'] = weightingsArray[0].weightingRange;
@@ -118,7 +109,7 @@ export const CA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       errorTextSumary: errorTextSumary,
     };
     res.render('ca-enterYourWeightings', windowAppendData);
-  }  catch (error) {
+  } catch (error) {
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
@@ -180,20 +171,16 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
             let dim=dimensions.filter(x=>x["dimension-id"] === i)
             Weightings.push(...dim)
         }
-        let body=[];
-        
       for (var dimension of Weightings) {
-          body.push({
-            "name": dimension.name,
-            "dimension-id":dimension['dimension-id'],
-            "weighting": req.body[dimension['dimension-id']],
-            "requirements": [],
-            "includedCriteria": [],
-            "overwriteRequirements": true
-          });
-        }
+          const body = {
+            name: dimension.name,
+            weighting: req.body[dimension['dimension-id']],
+            requirements: [],
+            includedCriteria: dimension.evaluationCriteria
+          };
+          
           await TenderApi.Instance(SESSION_ID).put(
-            `/assessments/${assessmentId}/dimensions`,
+            `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
             body,
           );
       
@@ -203,7 +190,7 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
         if (flag) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not started');
         }
-      
+      }
       if(req.session["CA_nextsteps_edit"])
     {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/54`, 'Not started');
@@ -215,7 +202,6 @@ export const CA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
       res.redirect('/ca/accept-subcontractors');
     }
   } catch (error) {
-    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,

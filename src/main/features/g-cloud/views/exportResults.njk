@@ -1,0 +1,115 @@
+{% set footerSupportLayer = true %}
+{% set gcloudHelperLayer = true %}
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+
+{% set title = 'Suppliers you want to approach | Crown Commercial Service' %}
+{# 
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/assets/styles/styles.min.css">
+  <link rel="stylesheet" href="/assets/styles/govuk_fac_style.css">
+{% endblock %} #}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% block content %}
+  {% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+  {%- endset %}
+  {{ CCSBreadcrumbs({
+        items: [
+        { "text": "Dashboard", "href": "/dashboard" },
+        { "text": "Choose a commercial agreement", "href": "/projects/choose-agreement" },
+        { "text": "Procurement overview", "href": url },
+        { "text": "Start a new Search", "href": "/g-cloud/choose-category" },
+        { "text": "Choose a category", "href": "/g-cloud/choose-category" },
+        { "text": "Search results", "href": returnto | trim },
+        { "text": "Save your search", "href": "/g-cloud/save-your-search" },
+        { "text": "Before you export your results", "href": "#" } ] 
+}) }}
+
+  <main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    {% if (error) %}
+      {{ CCSErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+                {
+                    text: "Confirm that you’ve finished editing your search"
+                }
+            ]
+        }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h3 class="govuk-heading-xl page-title">
+          {{data.title}}
+        </h3>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            {% include "includes/project_header.njk" %}
+          </div>
+        </div>
+
+        <p class="govuk-body">{{searchResults|safe}}</p>
+        <p class="govuk-body">{{data.line2}}</p>
+        <p class="govuk-body">
+          {{data.line3}}
+        </p>
+        <p class="govuk-body">
+          <b>{{data.line4}}</b>
+        </p>
+
+        <form id="ccs_g13_exports_results_form" name="ccs_g13_exports_results_form" action="/g-cloud/export-results?ass_id={{ass_id}}" method="POST">
+          {{ csrfProtection(csrf) }}
+
+          {{ 
+            CCSCheckboxes({
+                idPrefix: "export",
+                name: "exportassessment",
+                items: [
+                {
+                "value": 1,
+                html: "<label>I understand that I cannot edit my search after I export my results</label>",
+                Checked: ""
+                }
+                ]
+                })
+        }}
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+              <div class="govuk-button-group govuk-!-margin-top-9">
+                {{ CCSButton({
+                    text: "Export results and continue",
+                    action:"submit"
+                    
+                    })
+                }}
+                <a href="{{returnto}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+
+      <div class="govuk-grid-column-one-third">
+         <div class="ccs-callout-panel">
+          <h2 class="govuk-heading-m">Related content</h2>
+          <p class="govuk-body">
+            {% for item in data.related_content %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+{% endblock %}

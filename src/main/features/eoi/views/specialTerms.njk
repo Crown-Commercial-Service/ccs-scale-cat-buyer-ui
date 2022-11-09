@@ -1,0 +1,182 @@
+{% extends "template.njk" %}
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% set title = 'Complete and upload a document | Contract Award Service' %}
+  {% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+  {%- endset %}
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+             href: "/projects/choose-agreement"
+          },
+                    {
+            text: "Procurement overview",
+            href: url
+          },
+          {
+            text: "Run pre-market engagement",
+            href: "/eoi/eoi-tasklist"
+          },
+          {
+            text: "Build your EoI",
+            href: "/eoi/online-task-list"
+          },
+          {
+            text: "Special terms and conditions ",
+            href: "/#"
+          }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  {% if((error.emptyspecialtermError) or (error.emptyExpspecialtermError)) %}
+      {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: error.errorText}] }) }}
+  {% endif %}
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">{{data.title}}</h1>          
+      </div>  
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          {% include "includes/project_header.njk" %}
+        </div>
+      </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+          <div class="govuk-grid-column-full">
+            <p class="govuk-body">{{data.line1}}</p>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <form method="post" action="/eoi/special-terms">
+              {{ csrfProtection(csrf) }}
+            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="500">
+              
+                   {% if(error.emptyspecialtermError) %}
+                      {{  
+                        CCSTextarea({
+                          name:  "special_term",
+                          required: true,
+                          id: "header-label-as-page-heading",
+                          value: "",
+                          label: {
+                            classes: "govuk-label govuk-!-font-weight-bold"
+                          },
+                          classes:"govuk-input govuk-js-character-count govuk-!-width-two-thirds",
+                          rows:1,
+                          maxlength:"500",
+                          error:error.emptyspecialtermError,
+                          errorMessage:{
+                            text: 'Enter the special term or condition'
+                          }
+                        }) 
+                    }}
+                {% else %}
+                  {{  
+                    CCSTextarea({
+                      name:  "special_term",
+                      required: true,
+                      id: "header-label-as-page-heading",
+                      value: "",
+                      label: {
+                        text:"Enter the special term or condition",
+                        classes: "govuk-label govuk-!-font-weight-bold"
+                      },
+                      classes:"govuk-input govuk-js-character-count govuk-!-width-two-thirds",
+                      rows:1,
+                      maxlength:"500"
+                    }) 
+                  }}
+                {% endif %}
+            
+              <div id="header-label-as-page-heading-info" class="govuk-hint govuk-character-count__message">
+                You can enter up to 500 characters
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-margin-top-2">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="10000">
+
+                 {% if(error.emptyExpspecialtermError) %}
+                      {{  
+                        CCSTextarea({
+                          name:  "explain_special_term",
+                          required: true,
+                          id: "label-as-page-heading",
+                          value: "",
+                          label: {
+                            classes: "govuk-label govuk-!-font-weight-bold"
+                          },
+                          classes:"govuk-textarea govuk-js-character-count govuk-!-width-three-quarters",
+                          rows:5,
+                          maxlength:"1000",
+                          error:error.emptyExpspecialtermError,
+                          errorMessage:{
+                            text: 'Explain the special term or condition'
+                          }
+                        }) 
+                    }}
+                {% else %}
+                  {{  
+                    CCSTextarea({
+                      name:  "explain_special_term",
+                      required: true,
+                      id: "label-as-page-heading",
+                      value: "",
+                      label: {
+                        text:"Explain the special term or condition",
+                        classes: "govuk-label govuk-!-font-weight-bold"
+                      },
+                      classes:"govuk-textarea govuk-js-character-count govuk-!-width-three-quarters",
+                      rows:5,
+                      maxlength:"1000"
+                    }) 
+                  }}
+                {% endif %}
+            
+              <div id="label-as-page-heading-info" class="govuk-hint govuk-character-count__message">
+                You can enter up to 10000 characters
+              </div>
+              <div class="govuk-button-group govuk-!-margin-top-9">
+                <a class="govuk-link govuk-link--secondary" href="/#" id="eoi_special_terms_add">
+                  Add another special term or condition
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+         <strong><span class="select_service_err"></span></strong>
+        <div class="govuk-grid-row govuk-!-margin-top-4">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-button-group">
+              <button class="govuk-button" typw="sunmit" id="eoi_special_terms_submit" data-module="govuk-button">Save and continue</button>
+             <a class="govuk-link" href="{{data.backJump.href }}">{{data.backJump.title }}</a>
+            </div>
+          </div>
+        </div>
+        </form> 
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </div>
+  </main>
+{% endblock %}
+

@@ -5,13 +5,12 @@ import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 
 export const STAND_PERIOD_DECISION_GET = async (req: express.Request, res: express.Response) => {
    // const { SESSION_ID } = req.cookies
-   const { projectName,isError,agreement_header,eventId } =req.session
+   const { project_name,isError,eventId,agreement_id } =req.session
+   
    res.locals.agreement_header = req.session.agreement_header;
-   
-   const supplierId = req.session['supplierId'];
+   const projectName=project_name;
    const supplierName  =  req.session['supplierName'];
-   const appendData = { projectName,isError,supplierName ,supplierId,agreement_header,eventId};
-   
+   const appendData = { projectName,isError,supplierName, eventId,agreement_id};
  
     res.render('standstillPeriodDecision', appendData)
 }
@@ -19,15 +18,16 @@ export const STAND_PERIOD_DECISION_GET = async (req: express.Request, res: expre
 //stand-period
 export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
-    const {standstill_period_yes, standstill_period_no } =req.body;
+    const { standstill_period_yes } =req.body;
     const {  eventId,projectId } = req.session;
     let state = "";
+    
 
     try {
         if (standstill_period_yes != undefined && standstill_period_yes === 'yes') {
             state = "PRE_AWARD";
         }
-        else if (standstill_period_no != undefined && standstill_period_no === 'no') {
+        else if (standstill_period_yes != undefined && standstill_period_yes === 'no') {
             state = "AWARD"
         }
         else
@@ -45,7 +45,11 @@ export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: expr
                 }
               ]
           };
+
+          
+       //const awardURL = `tenders/projects/${projectId}/events/${eventId}/state/${state}/awards`
        const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${state}`
+
         await TenderApi.Instance(SESSION_ID).post(awardURL,body);
        res.redirect('/event/management?id='+eventId);
 
