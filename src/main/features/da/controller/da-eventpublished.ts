@@ -13,7 +13,7 @@ export const DA_GET_EVENT_PUBLISHED  = async (req: express.Request, res: express
     const { projectId } = req.session;
     const {eventId} =req.session;
     const { download } = req.query;
-    // const { agreement_id } = req.session;
+    const agreementId_session = req.session.agreement_id;
     
     // let jsondata ;
     // if(agreement_id == 'RM6187') {
@@ -26,6 +26,7 @@ export const DA_GET_EVENT_PUBLISHED  = async (req: express.Request, res: express
       data: daData,
       projPersistID: req.session['project_name'],
       rfi_ref_no : req.session.eventId,
+      agreementId_session,
       selectedeventtype:'DA'
    }
 
