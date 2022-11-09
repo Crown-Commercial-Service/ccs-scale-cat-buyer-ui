@@ -627,6 +627,32 @@ setInputFilter(
   value => /^\d*$/.test(value),
 );
 
+setInputFilter(
+  document.getElementById('rfp_duration_days_Question12'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('rfp_duration_months_Question12'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 11),
+);
+setInputFilter(
+  document.getElementById('rfp_duration-years_Question12'),
+  value => /^\d*$/.test(value),
+);
+
+
+setInputFilter(
+  document.getElementById('rfp_duration_days_Question13'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('rfp_duration_months_Question13'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 11),
+);
+setInputFilter(
+  document.getElementById('rfp_duration-years_Question13'),
+  value => /^\d*$/.test(value),
+);
 //g13Check Script
 
 function parseQueryG13(query) {

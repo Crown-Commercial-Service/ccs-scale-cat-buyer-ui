@@ -770,8 +770,17 @@ function isProjectExtensionValid() {
           errorStore = [];
 
    if (document.getElementById("rfp_duration-years_Question12") !=undefined && document.getElementById("rfp_duration-years_Question12") !=null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
+      if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
+      if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);  
+      }
+   }
+   else{
+
       fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
       if (fieldCheck !== true) errorStore.push(fieldCheck);
+   }
   }else{
 
    if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
@@ -781,7 +790,6 @@ function isProjectExtensionValid() {
    }
 
   }
-  console.log('document.getElementById("rfp_duration_months_Question12").value.trim()',document.getElementById("rfp_duration_months_Question12").value.trim())
   if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
      let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
      let month = document.getElementById("rfp_duration_months_Question12").value.trim();
@@ -848,8 +856,8 @@ function isProjectExtensionValid() {
       {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');   
-         $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Project extension duration should not be more than 2 years",/^\d{1,}$/);
+        // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project extension duration should not be more than 2 years",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
         
 
@@ -858,8 +866,8 @@ function isProjectExtensionValid() {
       {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');
-         $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Project extension duration should not be more than 2 years",/^\d{1,}$/);
+        // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project extension duration should not be more than 2 years",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
         // return false;
       }
@@ -931,8 +939,8 @@ function isProjectExtensionValid() {
          if (dayDiffPercentage > 50) {
             isValid = false;       
             $(`.${pExtDurationName}`).addClass('govuk-form-group--error');   
-            $(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
-            fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "This should not exceed 50% of the length of the original project",/^\d{1,}$/);
+            //$(`.${durationDayError[1].classList[2]}`).html('This should not exceed 50% of the length of the original project');
+            fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "This should not exceed 50% of the length of the original project",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
          }
          else {
@@ -943,8 +951,8 @@ function isProjectExtensionValid() {
       else {
          isValid = false;
          $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
-         $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years", "Contract extension should be less than project run date",/^\d{1,}$/);
+        // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension should be less than project run date",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
    }
