@@ -739,7 +739,7 @@
       <p id="event-name-error-pyear" class="govuk-error-message p_durations_pyear_{{rfp_duration_years}}">
          <span class="govuk-visually-hidden">Error:</span>
       </p>
-      <div class="govuk-date-input" id="rfp_duration">
+      <div class="govuk-date-input" id="rfp_duration_{{requirement.OCDS.id.trim().replace(' ','')}}">
          <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               {% if (agreement_id != 'RM1043.8') %}
