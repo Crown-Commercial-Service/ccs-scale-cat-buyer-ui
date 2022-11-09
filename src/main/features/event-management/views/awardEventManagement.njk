@@ -263,7 +263,25 @@
         {% if status.toLowerCase() ==="complete" %}
         <p>Your project is now complete.</p>
         {% else %}
-        <p> You have awarded your supplier. Once you have received the signed contract from your awarded supplier, you will need to confirm receipt below to complete the project.</p>
+
+        {% if agreementId_session == 'RM6187' %}
+          
+          
+         {% if status.toLowerCase() == "awarded" %}
+         <p id="dialog-description">You have awarded your supplier. Once you have received the signed contract from your awarded supplier, you will need to confirm receipt below to complete the project.</p>
+
+         
+         {% else %}
+          <p id="dialog-description">Your awarded supplier will now enter the agreed standstill period.</p>
+          <p id="dialog-description">Once the standstill period has ended, you will need to confirm the awarded supplier below.</p>
+         {%endif%}
+
+    
+      {%else%}
+       <p> You have awarded your supplier. Once you have received the signed contract from your awarded supplier, you will need to confirm receipt below to complete the project.</p>
+      {%endif%}
+
+        
 
         {% endif %}
         <h3 class="govuk-heading-m">
@@ -336,6 +354,9 @@
                     }) }}
 
                   {%else%}
+                   {%if (agreement_header['agreementId_session'] == 'RM6187') %}
+                    {% set s_name = 'I acknowledge the responsibility to award this supplier.' | safe %}
+                   {%endif%}
                   {{ CCSWarningText({
                   text: s_name,
                   iconFallbackText: "Warning"
