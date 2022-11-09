@@ -8558,9 +8558,7 @@ p,
 
 @media (min-width: 40.0625em) {
   .header-global .logo {
-    float: left;
     padding-top: 0;
-    margin-right: auto;
     max-width: 8.75rem;
   }
 }
