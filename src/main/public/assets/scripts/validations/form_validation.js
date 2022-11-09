@@ -294,7 +294,7 @@ const ccsZPresentErrorSummary = (errorStore) => {
   // remove the error summary if its there
   const existingSummary = document.querySelector(".govuk-error-summary");
   if (existingSummary !== null) existingSummary.parentNode.removeChild(existingSummary);
-
+  if(errorStore){
   // create the div
   let errSummaryBox = document.createElement("div"),
     errSummaryBody = document.createElement("div"),
@@ -312,6 +312,7 @@ const ccsZPresentErrorSummary = (errorStore) => {
   errSummaryBox.setAttribute("data-module", "govuk-error-summary");
 
   // Add the error messages
+ 
   errorStore.forEach((errDetail) => {
     if(errDetail != undefined && errDetail != ''){
       if(errDetail != true) {
@@ -329,6 +330,7 @@ const ccsZPresentErrorSummary = (errorStore) => {
     }
     
   });
+ 
 
   // add the errors to the box
   errSummaryBody.appendChild(errSummaryList);
@@ -337,7 +339,7 @@ const ccsZPresentErrorSummary = (errorStore) => {
   // and finally, insert the error summary box into the page
   document.querySelector(".govuk-heading-xl").parentNode.insertBefore(errSummaryBox, document.querySelector(".govuk-heading-xl"));
   window.scrollTo(0, 0);
-
+}
 };
 
 /**
