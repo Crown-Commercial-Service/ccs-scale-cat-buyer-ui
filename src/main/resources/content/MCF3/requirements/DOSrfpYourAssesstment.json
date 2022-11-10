@@ -101,6 +101,10 @@
   ],
   "form": {
     "question1": "Set your assessment criteria based on price and quality, which includes technical and social value questions.",
+    "text1":"You need to tell suppliers how you will assess and evaluate applications.",
+    "text2":"The agreement uses a two stage further competition process.",
+    "text3":"Assess suppliers against the criteria you set for essential and nice-to-have skills and experience, to create your shortlist.",
+    "text4":"Invite shortlisted suppliers to provide a full written proposal and a pricing proposal. You can use additional assessment methods, such as a presentation, to evaluate individual criteria.",
     "question2":"You will also be able to share an estimated budget with suppliers and ask them how they will meet the need of your project within your budget range",
     "backJump": {
       "title": "Return to Write and publish your requirements",
