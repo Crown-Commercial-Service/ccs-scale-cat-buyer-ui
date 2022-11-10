@@ -347,7 +347,12 @@
          
           {% set classnameForCount = "rfpterm" %}
           {% set countLength = 500 %}
-              
+             
+          {% if(agreement_id=="RM6187" and eventType=="DA" and requirement.OCDS.title=="Enter your social value question")  %}
+            {% set classnameForCount = "messagesendcountDaSocial" %}
+            {% set countLength = 2000 %}
+          {% endif %}
+
           {% if(requirement.OCDS.title=="Name of the group") %}
             {% set classnameForCount = "rfpterm" %}
           {% endif %}
