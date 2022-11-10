@@ -101,19 +101,19 @@
         },
         {
             "eventno": 5,
-            "eventTitle": "Review and publish",
+            "eventTitle": "Review and publish stage 1",
             "eventDescription": "Review and publish the first stage of your further competition.",
             "eventTask": [
                 {
                     "Task": 1,
-                    "title": "Your timeline ",
+                    "title": "Your timeline",
                     "required": "optional",
                     "status": "Cannot start yet",
                     "link": "/rfp/response-date"
                 },
                 {
                     "Task": 2,
-                    "title": "Review and publish your Request for Proposal  ",
+                    "title": "Review and publish stage 1",
                     "required": "mandatory",
                     "status": "Cannot start yet",
                     "link": "/rfp/review"
@@ -122,19 +122,19 @@
         },
         {
             "eventno": 6,
-            "eventTitle": "Choose suppliers and publish second stage",
+            "eventTitle": "Choose suppliers and publish stage 2",
             "eventDescription": "Select the suppliers you want to take forward to the second stage of your further competition.",
             "eventTask": [
                 {
                     "Task": 1,
-                    "title": "Number of suppliers who responded to first stage",
+                    "title": "Number of suppliers who responded to stage 1",
                     "required": "mandatory",
                     "link": "/rfp/upload",
                     "status": "Todo"
                 },
                 {
                     "Task": 2,
-                    "title": "Choose suppliers for second stage ",
+                    "title": "Choose suppliers for stage 2",
                     "required": "mandatory",
                     "link": "/rfp/upload",
                     "status": "Todo"
@@ -163,7 +163,7 @@
                 ,
                 {
                     "Task": 6,
-                    "title": "Review and publish your second stage further competition",
+                    "title": "Review and publish stage 2",
                     "required": "optional",
                     "link": "/rfp/IR35",
                     "status": "Todo"

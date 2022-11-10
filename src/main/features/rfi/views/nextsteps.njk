@@ -118,8 +118,10 @@
                 {{ csrfProtection(csrf) }} 
                     {% for form in data.form %}
                         <fieldset id="{{form.id}}">
-                            <h2 class="govuk-heading-m">{{ form.question }}</h2>
-                            <br><br><br><br><br><br><br><br><br>
+                            <h2 class="govuk-heading-xl">{{ form.question }}</h2>
+                            <p>{{form.text1}}</p>
+                            <p>{{form.text2}}</p>
+                            <br><br>
                             {% set formOptions = form.radioOptions.items %}
                             {% set form_Options_Altered = [] %}
 

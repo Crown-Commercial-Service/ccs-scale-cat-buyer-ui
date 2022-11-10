@@ -63,20 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // const totalAnswerd = () => {
-        //     $('#questionsCount').html(
-        //         $('.order_1').filter(function() {
-        //             return this.value !== '';
-        //         }).length,
-        //     );
-        // };
-
         const totalAnswerd = () => {
-            let initCount =  $('.order_1').filter(function() {return this.value !== '';}).length == 0 ? 1 : $('.order_1').filter(function() {return this.value !== '';}).length;
-             $('#questionsCount').html(initCount);
+            $('#questionsCount').html(
+                $('.order_1').filter(function() {
+                    return this.value !== '';
+                }).length,
+            );
+        };
 
-         };
-        
+             
         totalAnswerd();
         totalPercentage();
         deleteButtons.forEach((db) => {

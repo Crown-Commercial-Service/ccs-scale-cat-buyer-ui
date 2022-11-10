@@ -283,6 +283,14 @@
   }
 }
 
+@media (min-width: 40.0625em) {
+  .app-task-list .govuk-heading-xl {
+    font-size: 46px;
+    font-size: 2.875rem;
+    line-height: 1.04167;
+  }
+}
+
 @media print {
   .govuk-heading-xl {
     font-size: 32pt;
