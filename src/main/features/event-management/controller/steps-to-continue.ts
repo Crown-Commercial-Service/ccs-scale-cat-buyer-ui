@@ -4,6 +4,7 @@ import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import * as dataDsp from '../../../resources/content/event-management/steps-to-continue.json'
 import * as dataMcf3 from '../../../resources/content/event-management/steps-to-continue-mcf3.json'
+import * as dataDos6 from '../../../resources/content/event-management/steps-to-continue-dos6.json'
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
 
 /**
@@ -21,7 +22,15 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
     req.session['isJaggaerError'] = false;  
     req.session.stepsError=false;
     const { SESSION_ID } = req.cookies
-    const data = (agreementId_session == 'RM6187') ? dataMcf3 : dataDsp;
+    let data;
+  if(agreementId_session == 'RM6187') {  //MCF3
+    data = dataMcf3;
+  } 
+  else if(agreementId_session == 'RM1043.8') {  //DOS
+    data = dataDos6;
+  }else {  //DSP
+    data = dataDsp;
+  }
     const appendData = {
       data,
       projPersistID: req.session['project_name'],
