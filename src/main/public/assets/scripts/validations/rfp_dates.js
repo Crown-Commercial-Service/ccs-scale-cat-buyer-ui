@@ -767,9 +767,8 @@ function isProjectExtensionValid() {
 
    var projectRunInDays = 0;
    let fieldCheck = "",
-          errorStore = [];
-
-   if (document.getElementById("rfp_duration-years_Question12") !=undefined && document.getElementById("rfp_duration-years_Question12") !=null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
+       errorStore = [];
+       if (document.getElementById("rfp_duration-years_Question12") !=undefined && document.getElementById("rfp_duration-years_Question12") !=null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
       if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
       if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
          fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
@@ -952,7 +951,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
         // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension should be less than project run date",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension should be less than project expected contract date",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
    }
