@@ -31,10 +31,11 @@
                 <p class="govuk-body govuk-!-margin-bottom-5">{{file_data.form.text3}}</p>
                 <p class="govuk-body govuk-!-margin-bottom-0">Stage 2: further assessment</p>
                 <p class="govuk-body govuk-!-margin-bottom-5">{{file_data.form.text4}}</p>
-                {% elseif agreement_id == 'RM6263' %}
-                    <p class="govuk-body govuk-!-margin-bottom-7">{{file_data.form.question2}}</p>
                 {% else %}
-                    <p class="govuk-body govuk-!-margin-bottom-7">{{file_data.form.question1}}</p>
+                <p class="govuk-body govuk-!-margin-bottom-7">{{file_data.form.question1}}</p>
+                {% endif %}
+                {% if agreement_id == 'RM6263' %}
+                    <p class="govuk-body govuk-!-margin-bottom-7">{{file_data.form.question2}}</p>
                 {% endif %}
                 <ul class="app-task-list ccs-rfp-buildtask-list">
 
