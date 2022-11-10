@@ -21,6 +21,7 @@
     "subsection2_table_th_1": "Subject",
     "subsection2_table_th_2": "Recipient",
     "subsection2_table_th_3": "Date",
+    "backlink" : "/message/inbox",
     "backJump": {
         "title": "Return to Event Management",
         "href": "#"
