@@ -482,3 +482,26 @@ $(".messagesendcount").keypress(function(e) {
     }
 
 });
+
+
+var messagesendcount = 2000;
+
+$('.messagesendcountDaSocial').keyup(function(e) {
+    var tlength = $(this).val().length;
+
+    $(this).val($(this).val().substring(0, messagesendcount));
+    var tlength = $(this).val().length;
+    remain = messagesendcount - parseInt(tlength);
+    $(this).text(remain);
+
+});
+
+$(".messagesendcountDaSocial").keypress(function(e) {
+    var maxLen = $(this).val().length;
+    var keyCode = e.which;
+
+    if (maxLen >= 2000 && (keyCode != 8) && (keyCode < 48 || keyCode > 57)) {
+        return false;
+    }
+
+});
