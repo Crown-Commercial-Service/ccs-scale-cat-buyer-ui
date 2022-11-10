@@ -308,7 +308,12 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           let value=fetchQuestionsData[i].nonOCDS.options[0].value;
             
           if(i==0){
-            fetchQuestionsData[i].nonOCDS.options[0].value=moment(value,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+            if(stage2_value === "Stage 2"){
+              fetchQuestionsData[i].nonOCDS.options[0].value=moment(value,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY, HH:mm');
+            }else{
+              fetchQuestionsData[i].nonOCDS.options[0].value=moment(value,'YYYY-MM-DD HH:mm',).format('DD MMMM YYYY');
+            }
+            
           }
           else
           {
