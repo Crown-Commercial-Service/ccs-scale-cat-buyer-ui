@@ -23,14 +23,16 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
     const { SESSION_ID } = req.cookies;
     const { lot,serviceCategories,parentCategory,q} = req.query;
     const GCLOUD_TOKEN = process.env.GCLOUD_TOKEN;
+    const GCLOUD_SEARCH_API_TOKEN = process.env.GCLOUD_SEARCH_API_TOKEN;
+    const GCLOUD_INDEX = process.env.GCLOUD_INDEX;
     try {
 
-      var CountsUrl = `.g-cloud-13/services/aggregations?aggregations=serviceCategories&aggregations=lot`;
+      var CountsUrl = `${GCLOUD_INDEX}/services/aggregations?aggregations=serviceCategories&aggregations=lot`;
     let countUrl = req.url;
     let jointCountUrlRetrieve = await gCloudCountQueryFliter(countUrl, CountsUrl, null);
-    let JointCountURL: string = `.g-cloud-13/services/aggregations?aggregations=serviceCategories&aggregations=lot${jointCountUrlRetrieve}`;
+    let JointCountURL: string = `${GCLOUD_INDEX}/services/aggregations?aggregations=serviceCategories&aggregations=lot${jointCountUrlRetrieve}`;
    
-    const { data: CategoryData} = await gCloudApi.searchInstance(GCLOUD_TOKEN).get(JointCountURL);
+    const { data: CategoryData} = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointCountURL);
     var countsObject = Object.assign({}, CategoryData.aggregations.lot, CategoryData.aggregations.serviceCategories);
      
     var keywordsQuery= q!= undefined ?`&q=${q}`:'';
@@ -118,18 +120,15 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
 
       let reqUrl = req.url;
       
-      let URL: string = `.g-cloud-13/services/search`; 
+      let URL: string = `${GCLOUD_INDEX}/services/search`; 
       const jointUrlRetrieve = await gCloudServiceQueryFliter(reqUrl, URL, 1);
       const searchUrl = await gCloudServiceQueryFliter(reqUrl, URL, 2);
       const searchResultsUrl = await gCloudServiceQueryResults(reqUrl, URL, 2);
       req.session.searchUrl=searchUrl.replace("?", "");
       req.session.searchResultsUrl=searchResultsUrl.replace("?", "");
-      let JointURL: string = `.g-cloud-13/services/search${jointUrlRetrieve}`; 
-
-  
-      
+      let JointURL: string = `${GCLOUD_INDEX}/services/search${jointUrlRetrieve}`; 
       try{
-        var {data: servicesList} = await gCloudApi.searchInstance(GCLOUD_TOKEN).get(JointURL);
+        var {data: servicesList} = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointURL);
       }catch(error){
         servicesList = {};
 
@@ -164,6 +163,7 @@ export const GET_SEARCH = async (req: express.Request, res: express.Response) =>
       const appendData = { data: servicesList,njkDatas,filters:filterDatas,releatedContent: releatedContent, lotId:req.session.lotId,agreementLotName:req.session.agreementLotName,clearFilterURL:clearFilterURL,jsondata: saveYourSearchData,};
       res.render('search',appendData);
     } catch (error) {
+      console.log(error);
         LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
           TokenDecoder.decoder(SESSION_ID), 'G-Cloud 13 throws error - Tenders Api is causing problem', true,
         );
@@ -174,13 +174,15 @@ export const GET_SEARCH_API = async (req: express.Request, res: express.Response
   const { SESSION_ID } = req.cookies;
   const { lot,serviceCategories,parentCategory,q} = req.query;
   const GCLOUD_TOKEN = process.env.GCLOUD_TOKEN;
+  const GCLOUD_SEARCH_API_TOKEN = process.env.GCLOUD_SEARCH_API_TOKEN;
+  const GCLOUD_INDEX = process.env.GCLOUD_INDEX;
   try {
 
-    var CountsUrl = `.g-cloud-13/services/aggregations?aggregations=serviceCategories&aggregations=lot`;
+    var CountsUrl = `${GCLOUD_INDEX}/services/aggregations?aggregations=serviceCategories&aggregations=lot`;
     let countUrl = req.url;
     let jointCountUrlRetrieve = await gCloudCountQueryFliter(countUrl, CountsUrl, null);
-    let JointCountURL: string = `.g-cloud-13/services/aggregations?aggregations=serviceCategories&aggregations=lot${jointCountUrlRetrieve}`;
-    const { data: CategoryData} = await gCloudApi.searchInstance(GCLOUD_TOKEN).get(JointCountURL);
+    let JointCountURL: string = `${GCLOUD_INDEX}/services/aggregations?aggregations=serviceCategories&aggregations=lot${jointCountUrlRetrieve}`;
+    const { data: CategoryData} = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointCountURL);
     var countsObject = Object.assign({}, CategoryData.aggregations.lot, CategoryData.aggregations.serviceCategories);
        
     var keywordsQuery= q!= undefined ?`&q=${q}`:'';
@@ -264,16 +266,16 @@ export const GET_SEARCH_API = async (req: express.Request, res: express.Response
     }
 
     let reqUrl = req.url;
-    let URL: string = `.g-cloud-13/services/search`; 
+    let URL: string = `${GCLOUD_INDEX}/services/search`; 
     const jointUrlRetrieve = await gCloudServiceQueryFliter(reqUrl, URL, 1);
     const searchUrl = await gCloudServiceQueryFliter(reqUrl, URL, 2);
     const searchResultsUrl = await gCloudServiceQueryResults(reqUrl, URL, 2);
       req.session.searchUrl=searchUrl.replace("?", "");
       req.session.searchResultsUrl=searchResultsUrl.replace("?", "");
-    let JointURL: string = `.g-cloud-13/services/search${jointUrlRetrieve}`; 
+    let JointURL: string = `${GCLOUD_INDEX}/services/search${jointUrlRetrieve}`; 
    
     try{
-      var {data: servicesList} = await gCloudApi.searchInstance(GCLOUD_TOKEN).get(JointURL);
+      var {data: servicesList} = await gCloudApi.searchInstance(GCLOUD_SEARCH_API_TOKEN).get(JointURL);
     }catch(error){
       servicesList = {};
     }
