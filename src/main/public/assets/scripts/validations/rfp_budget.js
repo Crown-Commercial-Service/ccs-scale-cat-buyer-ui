@@ -178,8 +178,8 @@ evaluateSupplierForm.on('submit', event => {
   // }
 
   if (supplierCountInput.value < 3) {
-    ccsZaddErrorMessage(supplierCountInput, 'Supplier must be minimum 3');
-    errorStore.push(['suppliers_to_evaluate', 'Supplier must be minimum 3']);
+    ccsZaddErrorMessage(supplierCountInput, 'Quantity must be minimum 3');
+    errorStore.push(['suppliers_to_evaluate', 'Quantity must be minimum 3']);
     ccsZPresentErrorSummary(errorStore);
   } 
   
