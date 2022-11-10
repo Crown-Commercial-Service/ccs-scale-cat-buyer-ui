@@ -1,6 +1,7 @@
 ### NodeJS ###
 node_modules
 mochawesome-report
+package-lock.json
 
 # IDE
 .project
