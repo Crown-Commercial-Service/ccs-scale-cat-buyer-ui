@@ -465,7 +465,7 @@ var messagesendcount = 5000;
 
 $('.messagesendcount').keyup(function(e) {
     var tlength = $(this).val().length;
-
+    
     $(this).val($(this).val().substring(0, messagesendcount));
     var tlength = $(this).val().length;
     remain = messagesendcount - parseInt(tlength);
@@ -475,6 +475,7 @@ $('.messagesendcount').keyup(function(e) {
 
 $(".messagesendcount").keypress(function(e) {
     var maxLen = $(this).val().length;
+    
     var keyCode = e.which;
 
     if (maxLen >= 5000 && (keyCode != 8) && (keyCode < 48 || keyCode > 57)) {
@@ -484,14 +485,14 @@ $(".messagesendcount").keypress(function(e) {
 });
 
 
-var messagesendcount = 2000;
+var messagesendcountDaSocial = 2000;
 
 $('.messagesendcountDaSocial').keyup(function(e) {
     var tlength = $(this).val().length;
 
-    $(this).val($(this).val().substring(0, messagesendcount));
+    $(this).val($(this).val().substring(0, messagesendcountDaSocial));
     var tlength = $(this).val().length;
-    remain = messagesendcount - parseInt(tlength);
+    remain = messagesendcountDaSocial - parseInt(tlength);
     $(this).text(remain);
 
 });
