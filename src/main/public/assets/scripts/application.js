@@ -313,6 +313,9 @@ if (document.getElementById('ccs_rfi_acronyms_form') !== null)
 if (document.getElementById('ccs_eoi_date_form') !== null)
   document.getElementById('ccs_eoi_date_form').addEventListener('submit', ccsZvalidateEoiDate);
 
+  if (document.getElementById('fca_select_services_form') !== null)
+  document.getElementById('fca_select_services_form').addEventListener('submit', ccsFcaSelectedServices);
+
 
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
