@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 }
 
-                //  console.log("Target",precentageValueofLast);
+
                 //let precentageValueofLast = document.getElementById('fc_question_'+target).value;
                 if (document.getElementById("totalPercentage") != undefined) {
                     document.getElementById('totalPercentage').textContent = Number(document.getElementById('totalPercentage').textContent) > 0 ? Number(document.getElementById('totalPercentage').textContent) - Number(precentageValueofLast) : 0;
@@ -125,10 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // document.getElementById('fc_question_'+target+"_3").value = "";
                 // document.getElementById('fc_question_'+target).value = "";
                 if (prev_input > 1) {
-                    //console.log("PREVIOUSS")
+
                     document.querySelector('#fc_question_' + prev_input + ' a.del').classList.remove("ccs-dynaform-hidden");
                 } else {
-                    //console.log("Else statement")
+
                 }
 
                 //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this_box.querySelector('.order_1').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
                 if (box_num === total_countva) {
-                    // console.log('log10', box_num);
+
                     // $('.add-another-btn').addClass('ccs-dynaform-hidden');
                     var object = $('.add-another-btn').closest('.ccs-page-section');
                     if (object.length) {
@@ -201,8 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 with_value_count = box_num;
             }
             if (box_num === 2 && deleteButtonCount.length > 0) {
-                // console.log(deleteButtonCount.sort())
-                // console.log(deleteButtonCount[deleteButtonCount.sort().length - 1])
+
+
                 $("#del_fc_question_" + deleteButtonCount[0]).removeClass("ccs-dynaform-hidden");
            
             }
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
 
-        // console.log('log11', deleteButtonCount.length);
+
         if (with_value_count > 1) {
             $('#del_fc_question_' + with_value_count).removeClass('ccs-dynaform-hidden');
         }
@@ -227,8 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
             errorStore = [];
             let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
 
-            console.log("textboxCount",textboxCount);
-            console.log("withValue",withValue);
+            
             if(textboxCount == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
@@ -658,7 +657,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let l = 0
                 Array.prototype.forEach.call(textareaLoop, function(el) {
                     if(l == 0) {
-                        console.log();
+
                         var txtArea = document.getElementById(el.getAttribute('id'));
                         txtArea.value = 'None';
                     }
