@@ -7693,9 +7693,7 @@ only screen and (min-resolution: 2dppx) {
 
 @media (min-width: 48.0625em) {
     .header-global .logo {
-        float: left;
         padding-top: 0;
-        margin-right: auto
     }
 }
 
