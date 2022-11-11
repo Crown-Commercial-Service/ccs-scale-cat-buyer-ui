@@ -124,9 +124,18 @@
                 })
               }}
            
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-             <textarea class="govuk-textarea govuk-js-character-count" id="reply_message_input" name="reply_message_input" rows="5" ></textarea>
-                
+            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
+               
+               {{ CCSCharacterCount({           
+                id: "reply_message_input",
+                name: "reply_message_input",
+               rows:"5",
+               maxlength: 5000,
+                classes: "govuk-textarea govuk-js-character-count messagesendcount"
+                })
+              }}
+
+             
               </div>
 
             <div class="govuk-button-group">

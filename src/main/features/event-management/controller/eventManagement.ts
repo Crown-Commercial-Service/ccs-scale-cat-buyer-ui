@@ -760,15 +760,20 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         //   }
         // }
         //Awarded,pre_awarded and complete supplier info
+       
         if (status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
           let supplierState = "PRE_AWARD"
           if (status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
             supplierState = "AWARD"
           }
+        
+
+          if(eventType !="EOI" && eventType !="RFI"){
           const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
        
           const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
-      
+          
+          
           if (supplierDetailsDataList.length > 0) {
             supplierAwardDetail?.suppliers?.map((item: any) => {
               let supplierDataIndex = supplierDetailsDataList.findIndex(x => x.supplierId == item.id);
@@ -779,10 +784,10 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
             });
             supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
           }
-          
-
+        }
+         
           if (status.toLowerCase() == "pre-award") {
-
+            console.log("test3 PREAWARD")
             supplierDetails.standStillFlag = true;
             let currentDate = new Date(supplierAwardDetail?.date);
             //Standstill dates are current date +10 days.
@@ -807,13 +812,14 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           }
         }
         //to get signed awarded contrct end date
-        if (status.toLowerCase() == "complete") {
+        if (status.toLowerCase() == "complete" && eventType!="RFI" && eventType!="EOI") {
           const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
+          
           const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
           supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
         }
       }
-
+     
       //Get Q&A Count
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
       const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
@@ -852,6 +858,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         );
        }
       req.session.projectStatus = 1;
+      
       let appendData = { projectStatus:1,documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: qasCount, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
       let redirectUrl: string
