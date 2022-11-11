@@ -1984,11 +1984,26 @@
                           </div>
                         {% endfor %}
                       {% endif %}
+
+                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+            <dt class="govuk-summary-list__key">
+               <h3>
+                            <strong>Essential skills and experience</strong>
+                          </h3>
+            </dt>
+            <dd class="govuk-summary-list__value">&nbsp;</dd>
+            <dd class="govuk-summary-list__actions">
+              {% if eventStatus != "published" %}
+                            <a
+                        class="govuk-link"
+                        href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 5">
+                        Change<span class="govuk-visually-hidden">project name</span>
+                            </a>
+                          {% endif %}
+            </dd>
+          </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__value">
-                          <h3>
-                            <strong>Essential skills and experience</strong>
-                          </h3><br/>
                           {% if culGroup != undefined and culGroup != null and culGroup | length > 0 %}
                             {% for data in culGroup %}
                               <p>Describe the essential skill or experience</p><br/>
@@ -1998,24 +2013,19 @@
                           {% endif %}
                         </dt>
                         <dd class="govuk-summary-list__value">
-                          <br/>
-                          <br/><br/><br/>
+                          
                           {% if culGroup != undefined and culGroup != null and culGroup | length > 0 %}
                             {% for data in culGroup %}
-                              <p>{{ data.tech }}</p><br/>
-                              <p>{{ data.add }}%</p><br/><br/>
+                              <p>{{ data.tech }}</p>
+                              <p>{{ data.add }}%</p>
                             {% endfor %}
                           {% endif %}
                         </dd>
-                        <dd class="govuk-summary-list__actions">
-                          {% if eventStatus != "published" %}
-                            <a
-                        class="govuk-link"
-                        href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 5">
-                        Change<span class="govuk-visually-hidden">project name</span>
-                            </a>
-                          {% endif %}
+                          <dd class="govuk-summary-list__actions">
+                          
+                          </dd>
                         </div>
+
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
                             <h3>
