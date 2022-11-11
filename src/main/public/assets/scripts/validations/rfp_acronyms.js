@@ -113,53 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
 
-        $('#ccs_rfp_acronyms_form').on('submit', (event) => {
-            event.preventDefault();
-            let errorStore = [];
-    
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            let LOTID_VAR;
-            if(document.getElementById('lID') !== null) {
-                LOTID_VAR = document.getElementById('lID').value;
-            }
-            if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 3' && (LOTID_VAR == 1 && urlParams.get('group_id') == 'Group 19')) {
-                console.log('LOTID_VAR',LOTID_VAR);
-                let term_field = document.getElementById('rfp_term_' + 1);
-                let definition_field = document.getElementById("rfp_term_definition_" + 1);
-                if (term_field != null && term_field.value !== undefined && term_field.value.trim() !== '') {
-                    
-                    if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
-                        checkFieldsRfp1();
-                            if (definition_field.value.trim() === '') {
-                                fieldCheck = [definition_field.id, 'You must add information in all fields.'];
-                                //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
-                                ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
-                                errorStore.push(fieldCheck);                        
-                            } 
-                    }
-                    console.log('errorStore',errorStore.length);
-    
-                    if (errorStore.length === 0) {
-                        const classList = document.getElementsByClassName("govuk-hint-error-message");
-                        const classLength = classList.length;
-                    
-                    if (classLength != 0) {
-                        return false;
-                    } else {
-                        document.forms["ccs_rfp_acronyms_form"].submit();
-                    }
-                    
-                  }else {
-                    ccsZPresentErrorSummary(errorStore);
-                  }
-                }
-        
-            }
-    
-    
-        });
-
         if (document.getElementsByClassName("term_acronym_fieldset").length > 0) {
             let fieldSets = document.getElementsByClassName("term_acronym_fieldset");
             let length = fieldSets.length;
@@ -348,6 +301,43 @@ const emptyFieldCheckRfp1 = () => {
     return errorStore;
 }
 
+const emptyFieldCheckOptionalRfp1 = () => {
+    let fieldCheck = "",
+        errorStore = [];
+    removeErrorFieldsRfp1();
+    const pageHeading = document.getElementById('page-heading').innerHTML;
+    const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let LOTID_VAR;
+            if(document.getElementById('lID') !== null) {
+                LOTID_VAR = document.getElementById('lID').value;
+            }
+            if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 3' && ((LOTID_VAR == 1 && urlParams.get('group_id') == 'Group 19') || (LOTID_VAR == 3 && urlParams.get('group_id') == 'Group 17'))) {
+                let term_field = document.getElementById('rfp_term_' + 1);
+                let definition_field = document.getElementById("rfp_term_definition_" + 1);
+                if (term_field != null && term_field.value !== undefined && term_field.value.trim() !== '') {
+                    
+                    if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
+                        checkFieldsRfp1();
+                            if (definition_field.value.trim() === '') {
+                                fieldCheck = [definition_field.id, 'You must add information in all fields.'];
+                                //ccsZaddErrorMessage(term_field, 'You must add information in all fields.');
+                                ccsZaddErrorMessage(definition_field, 'You must add information in all fields.');
+                                errorStore.push(fieldCheck);  
+                                                      
+                            } 
+                    }
+    
+                   
+                }
+        
+            }
+
+    
+    return errorStore;
+}
+
+
 const ccsZvalidateRfpAcronymsRFP = (event) => {
 
     event.preventDefault();
@@ -362,8 +352,23 @@ const ccsZvalidateRfpAcronymsRFP = (event) => {
     // }
 
     // return false;
+    
     errorStore = emptyFieldCheckRfp1();
+
     errorStore = errorStore == null || errorStore.length <= 0 ? emptyFieldCheckRfp1() : errorStore;
+    console.log('Inside optional check errorStore after',errorStore)
+   
+    let term_field = document.getElementById('rfp_term_' + 1);
+    let definition_field = document.getElementById("rfp_term_definition_" + 1);
+    if (term_field != null && term_field.value !== undefined && term_field.value.trim() !== '') {
+        if (definition_field != null && definition_field.value != undefined && definition_field.value.trim() == '') {
+
+        errorStore =  emptyFieldCheckOptionalRfp1();
+        }
+
+    }
+
+
     if (errorStore.length === 0) {
         const classList = document.getElementsByClassName("govuk-hint-error-message");
         const classLength = classList.length;
