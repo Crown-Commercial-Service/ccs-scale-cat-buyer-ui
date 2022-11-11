@@ -520,7 +520,6 @@ function daysInYear(year) {
 
 $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
-
    $('.durations').removeClass('govuk-form-group--error');
    $('.resource_start_date').html('');
    if(document.getElementById('agreementID').value !== 'RM1043.8') {
@@ -752,6 +751,7 @@ function isProjectExtensionValid() {
    let isValid = false;
 
    $('.p_durations').removeClass('govuk-form-group--error');
+   removeErrorFieldsdates();
    let pDurationName = $('.p_durations')[0].classList[1];
    let pExtDurationName = $('.p_durations')[1].classList[1];
 
@@ -764,12 +764,10 @@ function isProjectExtensionValid() {
    const YearProjectRun = durationYear[0].value;
    const MonthProjectRun = durationMonth[0].value;
    const DaysProjectRun = durationDay[0].value;
-
    var projectRunInDays = 0;
    let fieldCheck = "",
-          errorStore = [];
-
-   if (document.getElementById("rfp_duration-years_Question12") !=undefined && document.getElementById("rfp_duration-years_Question12") !=null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
+       errorStore = [];
+       if (document.getElementById("rfp_duration-years_Question12") !=undefined && document.getElementById("rfp_duration-years_Question12") !=null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
       if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
       if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
          fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
@@ -857,7 +855,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');   
         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project extension duration should not be more than 2 years",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project expected Contract duration should not be more than 2 years",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
         
 
@@ -867,7 +865,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');
         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project extension duration should not be more than 2 years",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project expected Contract should not be more than 2 years",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
         // return false;
       }
@@ -945,14 +943,15 @@ function isProjectExtensionValid() {
          }
          else {
             isValid = true;
-            $(`.${durationDayError[1].classList[2]}`).html('');
+            if(durationDayError && durationDayError[1]) $(`.${durationDayError[1].classList[2]}`).html('');
+           
          }
       }
       else {
          isValid = false;
          $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
         // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension should be less than project run date",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension should be less than project expected contract date",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
    }
@@ -1188,6 +1187,15 @@ $(".startdateyearlimit").keypress(function(e) {
    }
 
 });
+
+const removeErrorFieldsdates = () => {
+   $('.govuk-error-message').remove();
+   $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+   $('.govuk-error-summary').remove();
+   $('.govuk-input').removeClass('govuk-input--error');
+   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+ };
+ 
 
 function validateExtPeriod() {
    let isValid = 0;
