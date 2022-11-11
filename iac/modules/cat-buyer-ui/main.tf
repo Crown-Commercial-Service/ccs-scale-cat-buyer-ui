@@ -60,6 +60,10 @@ data "aws_ssm_parameter" "env_auth_server_base_url" {
   name = "/cat/${var.environment}/auth-server-base-url"
 }
 
+data "aws_ssm_parameter" "env_auth_identity_base_url" {
+  name = "/cat/${var.environment}/auth-identity-base-url"
+}
+
 data "aws_ssm_parameter" "env_logit_api_key" {
   name = "/cat/${var.environment}/logit-api-key"
 }
@@ -127,6 +131,7 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     AUTH_SERVER_CLIENT_ID : data.aws_ssm_parameter.env_auth_server_client_id.value
     AUTH_SERVER_CLIENT_SECRET : data.aws_ssm_parameter.env_auth_server_client_secret.value
     AUTH_SERVER_BASE_URL : data.aws_ssm_parameter.env_auth_server_base_url.value
+    AUTH_IDENTITY_BASE_URL : data.aws_ssm_parameter.env_auth_identity_base_url.value
     CAT_URL : "https://${format("%s%s", var.buyer_ui_domain_prefix, data.aws_ssm_parameter.buyer_ui_domain.value)}"
     LOGIT_API_KEY : data.aws_ssm_parameter.env_logit_api_key.value
     SESSION_SECRET : data.aws_ssm_parameter.env_session_secret.value
