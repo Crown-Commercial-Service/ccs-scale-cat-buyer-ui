@@ -764,14 +764,6 @@ function isProjectExtensionValid() {
    const YearProjectRun = durationYear[0].value;
    const MonthProjectRun = durationMonth[0].value;
    const DaysProjectRun = durationDay[0].value;
-
-   //const element = document.getElementById(elementName);
-   
-   // $(`.${pDurationName}`).removeClass('govuk-form-group--error');   
-   // ccsZremoveErrorMessage($('#rfp_duration-years_Question12'));
-
-
-   //ccsZremoveErrorMessage("rfp_duration-years_Question12")
    var projectRunInDays = 0;
    let fieldCheck = "",
        errorStore = [];
