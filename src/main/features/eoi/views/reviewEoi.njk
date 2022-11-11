@@ -201,9 +201,11 @@
                       {% for answer in i.values %}
                         <p class="govuk-body-s">{{ answer.value }}
                           <p>
+                          {% if i.question != undefined %}
                             <p class="govuk-body-s">{{ answer.text | safe }}
                             </p>
                             <br/>
+                          {% endif %}  
                           {% endfor %}
                         {% else %}
 
