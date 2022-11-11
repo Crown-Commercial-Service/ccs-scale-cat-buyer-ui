@@ -84,7 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 let target = db.href.replace(/^(.+\/)(\d{1,2})$/, "$2"),
                     prev_input = Number(target) - 1,
                     target_fieldset = db.closest("div");
-
+                if(Number(target) == 20){
+                    $('.add-another-btn').removeClass("ccs-dynaform-hidden");
+                }
                 target_fieldset.classList.add("ccs-dynaform-hidden");
                 // document.querySelector('#fc_question_'+prev_input+' a.del').classList.remove("ccs-dynaform-hidden");
                 //let precentageValueofLast = document.getElementById('fc_question_precenate_'+target).value;
@@ -225,7 +227,11 @@ document.addEventListener('DOMContentLoaded', () => {
             errorStore = [];
             let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
 
-            
+            console.log("textboxCount",textboxCount);
+            console.log("withValue",withValue);
+            if(textboxCount == 19){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+            }
             
         if(textboxCount <= 20 && urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 2' && (urlParamsDefault.get('group_id') == 'Group 8' || urlParamsDefault.get('group_id') == 'Group 5' || urlParamsDefault.get('group_id') == 'Group 6' || urlParamsDefault.get('group_id') == 'Group 7') && urlParamsDefault.get('section') == 5 && (urlParamsDefault.get('step') == 48 || urlParamsDefault.get('step') == 44 || urlParamsDefault.get('step') == 45 || urlParamsDefault.get('step') == 46)) {
 
