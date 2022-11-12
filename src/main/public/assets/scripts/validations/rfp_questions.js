@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             if (weightageSum > 100) {
                 errorStore = emptyQuestionFieldCheckRfp();
-                if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('id') == 'Criterion 2' && urlParamsData.get('group_id') == 'Group 9'  && urlParamsData.get('section') == 5) {
+                if(urlParamsData.get('agreement_id') == 'RM1043.8' && urlParamsData.get('id') == 'Criterion 2' && (urlParamsData.get('group_id') == 'Group 9' || urlParamsData.get('group_id') == 'Group 5' || urlParamsData.get('group_id') == 'Group 6' ||  urlParamsData.get('group_id') == 'Group 7')  && urlParamsData.get('section') == 5) {
                     let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
                     var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is exceeded more than 100%",weightageSum, /\w+/);
                     errorStore.push(percentageCheck)
@@ -258,11 +259,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         else {
-            if(urlParamsDefault.get('group_id') == 'Group 6' && urlParamsDefault.get('section') == 5 && urlParamsDefault.get('step') == 45){
+          //  if(urlParamsDefault.get('group_id') == 'Group 6' && urlParamsDefault.get('section') == 5 && urlParamsDefault.get('step') == 45){
                 let textareaVal = $('#fc_question_'+textboxCount+ '_1').val();
                 let percentageval = $('#fc_question_precenate_'+textboxCount).val();
-                if(textareaVal.trim() != '' || textareaVal != null || textareaVal != undefined){
-                    if(textareaVal.length != 0 && (percentageval == '' || percentageval == null || percentageval == undefined)){
+                if(textareaVal != null || textareaVal != undefined || textareaVal != ''){
+                    if((textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined)){
 
                         var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "You must enter percentage", /\w+/);
                         errorStore.push(fieldCheck)
@@ -281,10 +282,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 }
                 }
-            }
-            else{
-                errorStore = emptyQuestionFieldCheckRfp(); 
-            }
+            // }
+            // else{
+            //     errorStore = emptyQuestionFieldCheckRfp(); 
+            // }
         }
 
         }
@@ -316,8 +317,8 @@ document.addEventListener('DOMContentLoaded', () => {
            else {
                     let textareaVal = $('#fc_question_'+textboxCount+ '_1').val();
                     let percentageval = $('#fc_question_precenate_'+textboxCount).val();
-                    if(textareaVal.trim() != '' || textareaVal != null || textareaVal != undefined){
-                        if(textareaVal.length != 0 && (percentageval == '' || percentageval == null || percentageval == undefined)){
+                    if(textareaVal != null || textareaVal != undefined || textareaVal != ''){
+                        if( (textareaVal != undefined && textareaVal.length != 0) && (percentageval == '' || percentageval == null || percentageval == undefined)){
     
                             var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + textboxCount, "You must enter percentage", /\w+/);
                             errorStore.push(fieldCheck)
@@ -669,7 +670,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     var percentageval = $('#fc_question_precenate_'+1).val();
                     if(textareaVal.trim() != '' || textareaVal != null || textareaVal != undefined){
                         if(textareaVal.length != 0 && (percentageval == '' || percentageval == null || percentageval == undefined)){
-    
                             var fieldCheck =  ccsZvalidateWithRegex('fc_question_precenate_' + 1, "You must enter percentage", /\w+/);
                             errorStore.push(fieldCheck)
                        }
@@ -714,7 +714,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         errorStore.push(percentageCheck)
                         }
                     }
+                    if((urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 5' ) && urlParamsDefault.get('section') == 5){
+                        var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + 1, "Your total weighting must be 100%",Number($('#totalPercentage').text()), /\w+/);
+                        errorStore.push(percentageCheck)
+        
+                    }
+                    else{
                     errorStore.push(["There is a problem", "Your total weighting must be 100% "]);
+                    }
 
                 }
                 errorStore = errorStore.length <= 0 ? emptyQuestionFieldCheckRfp() : errorStore;
@@ -734,7 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) < 100) {
                 var fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_1', "You must enter information here", /\w+/);
                 errorStore = emptyQuestionFieldCheckRfp(); 
-                if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && urlParams.get('group_id') == 'Group 9'  && urlParams.get('section') == 5) {
+                if(urlParams.get('agreement_id') == 'RM1043.8' && urlParams.get('id') == 'Criterion 2' && (urlParams.get('group_id') == 'Group 9' || urlParams.get('group_id') == 'Group 5' || urlParams.get('group_id') == 'Group 7' || urlParams.get('group_id') == 'Group 6')  && urlParams.get('section') == 5) {
 
                 let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
                 var percentageCheck = ccsZvalidateWeihtageValue('fc_question_precenate_' + textboxCount, "The total weighting is less than 100%",Number($('#totalPercentage').text()), /\w+/);
@@ -791,3 +798,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
 });
+
+$(".weightagelimit").keyup(function(e) {
+    let value = $(this).val();
+    if (parseInt(value) > 100 || parseInt(value) < 0 ) {
+        $(this).val('0')
+    }
+ 
+ });
+ 
+ 

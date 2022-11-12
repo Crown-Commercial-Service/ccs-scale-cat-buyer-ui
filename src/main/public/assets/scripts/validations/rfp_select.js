@@ -12,21 +12,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ccs_vetting_type.length > 0) {
           if (ccs_vetting_type[0].checked == true) { 
             let inputArray = $('input[name=rfp_prob_statement_m]');
-            console.log(inputArray);
             let minBudget = Number(inputArray[1].value);
             let maxBudget = Number(inputArray[0].value);
             let msg = '';
             if ((maxBudget == '') || (maxBudget == 0)) {
               msg = 'You must enter a values';
             } else if (maxBudget > 0 && (maxBudget < minBudget) || (maxBudget == minBudget)) {
-              msg = 'Maximum budget must be greater than minimum budget';
+              msg = 'Indicative minimum budget must be less than indicative maximum budget';
             } 
            errorStore = [];
-           if(msg != '') errorStore.push(['rfp_prob_statement_m', msg]);
+           if(msg != '') {
+            if(msg == 'Indicative minimum budget must be less than indicative maximum budget'){
+              errorStore.push(['rfp_prob_statement_min', msg]);
+            }else{
+              errorStore.push(['rfp_prob_statement_max', msg]);
+            }          
+          }
             if (errorStore.length === 0) {
               document.forms['rfp_singleselect_Dos'].submit();
             } else {
-              let element = document.getElementById('rfp_prob_statement_m');
+              let element = document.getElementById('rfp_prob_statement_max');
+              if(msg == 'Indicative minimum budget must be less than indicative maximum budget'){
+                element = document.getElementById('rfp_prob_statement_min');
+              }
               ccsZaddErrorMessage(element, msg);
               ccsZPresentErrorSummary(errorStore);
             }

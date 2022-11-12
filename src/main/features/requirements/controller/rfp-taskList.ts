@@ -8,6 +8,8 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 /**
  *
  * @Rediect
@@ -77,6 +79,27 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   const appendData = { data: cmsData, releatedContent, error: isJaggaerError,selectedeventtype,agreementId_session,projectId,eventId,stage2_value };
 
   try {
+
+    if(agreementId_session == 'RM1043.8') {
+        // name your project for dos
+        let flag = await ShouldEventStatusBeUpdated(eventId, 27, req);
+        if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Not started'); }
+        let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+
+        let nameJourneysts = journeySteps.filter((el: any) => {
+          if(el.step == 27 && el.state == 'Completed') return true;
+          return false;
+        });
+
+        if(nameJourneysts){
+          let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
+          if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Not started'); 
+        }else{
+          let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
+          if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Cannot start yet'); 
+        }
+    }
+
     if(agreementId_session != 'RM1043.8') {
       if(agreementId_session != 'RM6187') {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
@@ -194,6 +217,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     }
     
   } catch (error) {
+    console.log(error)
     LoggTracer.errorLogger(
       res,
       error,
