@@ -77,7 +77,7 @@
               {% if agreement_id == 'RM1043.8' %}
                 {% for table in requirement.nonOCDS.options %}
                   {%if table.optiontableDefination.rows.length>0 and table.text !=='Create your own scoring criteria' %}
-                    <a href="javascript:void(0)" id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}" class="tier-popup govuk-!-display-inline-block govuk-!-margin-bottom-4 govuk-link govuk-!-margin-top-5 govuk-link--no-visited-state" title="Tier4">Use the 4 level scoring criteria</a>
+                    <a href="javascript:void(0)" id="tiersTableData" datta="{{table.optiontableDefinationJsonString}}" class="tier-popup govuk-!-display-inline-block govuk-!-margin-bottom-4 govuk-link govuk-!-margin-top-5 govuk-link--no-visited-state govuk-!-font-size-24" title="Tier4">Use the 4 level scoring criteria</a>
                     <p class="range_none govuk-label--l"> <strong class="range_none" id="tiersAdded"> {{tierNo}} </strong> </h2>
                   {% endif %}
                 {% endfor %}
