@@ -45,7 +45,10 @@ $('input[type=radio]').on('change', function () {
     $(targetBox).show();
     let supplierID= $('input[type=radio]:checked').val()
      justification_text = document.getElementById("da_textarea_reviewrank_" + supplierID);
-    justification_text.addEventListener('input', ccsZCountDAReviewRank);
+     //Update condition - CCS
+     if(justification_text != null) {
+        justification_text.addEventListener('input', ccsZCountDAReviewRank);
+     }
 })
 const ccsZCountDAReviewRank = (event) => {
     event.preventDefault();

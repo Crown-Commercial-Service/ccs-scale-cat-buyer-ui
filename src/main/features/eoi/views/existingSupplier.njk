@@ -1,0 +1,132 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% block head %}
+   {{ super() }}
+   <link rel="stylesheet" href="/assets/styles/styles.min.css">
+   <link rel="stylesheet" href="/assets/styles/govuk_fac_style.css">
+{% endblock %}
+
+{% set title = 'Complete and upload a document | Contract Award Service' %}
+  {% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+  {%- endset %}
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+                    {
+            text: "Procurement overview",
+            href: url
+          },
+          {
+            text: "Run pre-market engagement",
+            href: "/eoi/eoi-tasklist"
+          },
+          {
+            text: "Build your EoI",
+            href: "/eoi/online-task-list"
+          },
+          {
+            text: "Tell us if there is an existing supplier",
+            href: "/#"
+          }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  {% if(error) %}
+        {{ CCSErrorSummary({
+        titleText: "There is a problem",
+        errorList: [
+                {
+                    text: "Option must be select."
+                }
+            ]
+        }) }}
+    {%endif %}
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">{{data.title}}</h1>          
+      </div>  
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          {% include "includes/project_header.njk" %}
+        </div>
+      </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+          <div class="govuk-grid-column-full">
+            <p class="govuk-body">{{data.line1}}</p> 
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <form id="eoi_existing_supplier" method="post" action="/eoi/existing-supplier">
+              {{ csrfProtection(csrf) }}
+              {% set form_Options = [] %}
+                    {% set form_Options = (form_Options.push({
+                        value: "government-gateway",
+                        html: '<label class="govuk-label govuk-!-font-weight-bold govuk-!-padding-top-0" for="existing-supplier">Yes</label><div id="existing-supplier-item-hint" class="govuk-hint">
+                      Another supplier is already providing the products or services
+                    </div>'}), form_Options) 
+                    %}
+                    {% set form_Options = (form_Options.push({
+                        value: "govuk-verify",
+                        html: '<label class="govuk-label govuk-!-font-weight-bold govuk-!-padding-top-0" for="existing-supplier-2">No</label>
+                    <div id="existing-supplier-2-item-hint" class="govuk-hint">
+                      This is a new project with no existing suppliers providing the products or services.
+                    </div>'}), form_Options) 
+                    %}
+                    {% if(error) %}
+                        {{ 
+                            CCSRadios({
+                                idPrefix: "existing-supplier",
+                                name: "existing_supplier",
+                                items:form_Options,
+                                error: error,
+                                errorMessage: {
+                                    text: 'Option must be select.'
+                                } 
+                            }) 
+                        }}
+                    {% else %}
+                        {{ 
+                            CCSRadios({
+                                idPrefix: "existing-supplier",
+                                name: "existing_supplier",
+                                items:form_Options
+                            }) 
+                        }}
+                    {% endif %}
+           
+          </div>
+        </div>
+            <div class="govuk-button-group">
+              {{ CCSButton({ text: "Save and continue" }) }}
+              <a class="govuk-link" href="{{data.backJump.href }}">{{data.backJump.title }}</a>
+            </div>
+        </form> 
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </div>
+  </main>
+{% endblock %}
+

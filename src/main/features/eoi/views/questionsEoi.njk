@@ -4,6 +4,10 @@
 
 {% set title =  eoiTitle + '- Create a Request for Information (EOI)' %}
 
+{% set url -%}
+/projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
     items: [
@@ -17,7 +21,7 @@
       },
       {
             text: "Procurement overview",
-            href: "/projects/create-or-choose"
+            href: url
         },
         {
           text: "Do pre-market engagement",
@@ -43,6 +47,7 @@
           errorList: errorText
       }) }}
     {%endif %}
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 id="page-heading" class="govuk-heading-xl">
@@ -55,23 +60,26 @@
       <p class="govuk-body">{{data.eoiTitle}}</p>
 
       <form id="{{form_name}}" name="{{form_name}}" class="form {{form_name}} eoi_form" action="/eoi/questionnaire?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{criterian_id}}&group_id={{group_id}}" method="post">
-      {{ csrfProtection(csrf) }}
+        {{ csrfProtection(csrf) }}
         <br>
         <p class="govuk-body">{{prompt[0] | safe}}</p>
         <p class="govuk-body">{{prompt[1] | safe}}</p>
 
         {% for requirement in data %}
+
           {% block value %}
             {% if requirement.nonOCDS.questionType === 'Value' and requirement.nonOCDS.multiAnswer === true %}
               <br>
               <br>
-              {{ CCSInput({
+              {{ CCSCharacterCount({
                       label: {
                         text: requirement.OCDS.title,
                         classes: "govuk-label govuk-label--m"
                       },
                       id: "eoi_question_1",
                       name: "eoi_question_1",
+                      maxlength:10000,
+                      classes: "rfp_term_definition",
                       value: requirement.nonOCDS.options[0].value
                     })
                 }}
@@ -90,14 +98,15 @@
               ] %}
               {% for i in range(2, 11) -%}
 
-                {{ CCSInput({
+                {{ CCSCharacterCount({
                       label: {
-                        html: requirement.OCDS.title | replace("first",numberWord[i]) +"<a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> X </a>",
+                        html: requirement.OCDS.title | replace("first",numberWord[i]) +"<a href='"+i+"' class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden' title='delete'> Remove </a>",
                         classes: "govuk-label govuk-label--m"
                       },
                       id: "eoi_question_"+i,
                       name: "eoi_question_"+i,
-                      classes: "add",
+                      maxlength:10000,
+                      classes: "add rfp_term_definition",
                       value: requirement.nonOCDS.options[i-1].value
                     })
                 }}
@@ -125,6 +134,8 @@
             {% endif %}
           {% endblock %}
 
+          
+
           {% block valuewitNoMultiSelect %}
             {% if (requirement.nonOCDS.questionType === 'Value') and (requirement.nonOCDS.multiAnswer === false) %}
               {% if requirement.OCDS.id == "Question 1"%}
@@ -135,7 +146,7 @@
                   </p>
                 </div>
               {% else %}
-                {{  CCSInput({
+                {{  CCSCharacterCount({
                         label: {
                           text: requirement.OCDS.title,
                           classes: "govuk-label govuk-label--m"
@@ -145,7 +156,10 @@
                         },
                         id: "eoi_contracting_auth",
                         name:requirement.OCDS.title | replace(" ", "_"),
-                        value: requirement.nonOCDS.options[0].value
+                        value: requirement.nonOCDS.options[0].value,
+                        maxlength: 500,
+                        rows:"2",
+                        classes:"rfpterm"
                       })
                   }}
 
@@ -168,22 +182,26 @@
                     </legend>
                     <div id="eoi_resource_start_date-hint" class="govuk-hint">
                       <div id="{{agreement}}" class="agreement_no">
-                      <p class="govuk-body" id="p_expirydate">{{requirement.OCDS.description | nl2br | safe}}</p>
-                    </div>
-                    <p id="event-name-error-date" class="govuk-error-message">
-                      <span class="govuk-visually-hidden">Error:</span>
-                    </p>
-                    <p id="event-name-error-month" class="govuk-error-message">
-                      <span class="govuk-visually-hidden">Error:</span>
-                    </p>
-                    <p id="event-name-error-year" class="govuk-error-message">
-                      <span class="govuk-visually-hidden">Error:</span>
-                    </p>
-                    <div class="govuk-date-input" id="eoi_resource_start_date">
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
+                        <p class="govuk-body" id="p_expirydate">{{requirement.OCDS.description | nl2br | safe}}</p>
+                      </div>
+                      <p id="event-name-error-date" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                      </p>
+                      <p id="event-name-error-month" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                      </p>
+                      <p id="event-name-error-year" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                      </p>
+                      <div class="govuk-date-input" id="eoi_resource_start_date">
+                        <div class="govuk-date-input__item">
+                          <div class="govuk-form-group">
 
-                          {{ CCSInput({
+                            {% if (requirement.nonOCDS.options[0].value | length) %}
+                               {% set startdate = requirement.nonOCDS.options[0].value.split('-') %}
+                            {% endif %}
+
+                            {{ CCSInput({
                             label: {
                               text: "Day",
                               classes: "govuk-label govuk-date-input__label",
@@ -194,15 +212,15 @@
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[0].value,
+                            value: startdate[2],
                             max: 31,
                             min: 1
                           }) }}
+                          </div>
                         </div>
-                      </div>
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                          {{ CCSInput({
+                        <div class="govuk-date-input__item">
+                          <div class="govuk-form-group">
+                            {{ CCSInput({
                             label: {
                               text: "Month",
                               classes: "govuk-label govuk-date-input__label",
@@ -213,16 +231,16 @@
                             classes: "govuk-input govuk-date-input__input govuk-input--width-2",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[1].value,
+                            value: startdate[1],
                             max: "12",
                             min: "0",
                             maxlength: "2"
                           }) }}
+                          </div>
                         </div>
-                      </div>
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                          {{ CCSInput({
+                        <div class="govuk-date-input__item">
+                          <div class="govuk-form-group">
+                            {{ CCSInput({
                             label: {
                               text: "Year",
                               classes: "govuk-label govuk-date-input__label",
@@ -233,46 +251,46 @@
                             classes: "govuk-input govuk-date-input__input govuk-input--width-4",
                             type: "number", 
                             inputmode:"numeric",
-                            value: requirement.nonOCDS.options[2].value,
-                            max: "2023",
+                            value: startdate[0],
+                            max: "2025",
                             min: "2021",
                             maxlength: "4"
                           }) }}
-                          {{ CCSInput({
+                            {{ CCSInput({
                               id: "question_id",
                               name: "question_id",
                               type: "hidden",
                               value: requirement.OCDS.id
                             })
                           }}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              {% else %}
-                <div class="govuk-form-group p_durations">
-                  <div class="govuk-fieldset" role="group" aria-describedby="eoi_duration-hint">
-                    <legend class="govuk-fieldset__legend govuk-label--m">
-                      {{requirement.OCDS.title}} (Optional)
+                {% else %}
+                  <div class="govuk-form-group p_durations">
+                    <div class="govuk-fieldset" role="group" aria-describedby="eoi_duration-hint">
+                      <legend class="govuk-fieldset__legend govuk-label--m">
+                        {{requirement.OCDS.title}} (Optional)
                   </legend>
-                    <div id="eoi_duration-hint" class="govuk-hint">
-                      <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
-                    </div>
-                    <p id="eoi-event-name-error-pdate" class="govuk-error-message">
-                      <span class="govuk-visually-hidden">Error:</span>
-                    </p>
-                    <p id="event-name-error-pmonth" class="govuk-error-message">
-                      <span class="govuk-visually-hidden">Error:</span>
-                    </p>
-                    <p id="event-name-error-pyear" class="govuk-error-message">
-                      <span class="govuk-visually-hidden">Error:</span>
-                    </p>
+                      <div id="eoi_duration-hint" class="govuk-hint">
+                        <p class="govuk-body">{{requirement.OCDS.description | nl2br | safe}}</p>
+                      </div>
+                      <p id="eoi-event-name-error-pdate" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                      </p>
+                      <p id="event-name-error-pmonth" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                      </p>
+                      <p id="event-name-error-pyear" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                      </p>
 
-                    <div class="govuk-date-input" id="eoi_duration">
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                          {{ CCSInput({
+                      <div class="govuk-date-input" id="eoi_duration">
+                        <div class="govuk-date-input__item">
+                          <div class="govuk-form-group">
+                            {{ CCSInput({
                             label: {
                               text: "Years",
                               classes: "govuk-label govuk-date-input__label",
@@ -288,11 +306,11 @@
                             min: "0",
                             maxlength: "1"
                           }) }}
+                          </div>
                         </div>
-                      </div>
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                          {{ CCSInput({
+                        <div class="govuk-date-input__item">
+                          <div class="govuk-form-group">
+                            {{ CCSInput({
                             label: {
                               text: "Month",
                               classes: "govuk-label govuk-date-input__label",
@@ -308,11 +326,11 @@
                             min: "0",
                             maxlength: "2"
                           }) }}
+                          </div>
                         </div>
-                      </div>
-                      <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                          {{ CCSInput({
+                        <div class="govuk-date-input__item">
+                          <div class="govuk-form-group">
+                            {{ CCSInput({
                             label: {
                               text: "Days",
                               classes: "govuk-label govuk-date-input__label",
@@ -328,18 +346,18 @@
                             min: "0",
                             maxlength: "2"
                           }) }}
-                          {{ CCSInput({
+                            {{ CCSInput({
                               id: "question_id",
                               name: "question_id",
                               type: "hidden",
                               value: requirement.OCDS.id
                             })
                           }}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 </div>
               {% endif %}
             {% endif %}
@@ -348,10 +366,12 @@
           {% block TextSelect%}
             {% if (requirement.nonOCDS.questionType == 'Text') and (requirement.nonOCDS.multiAnswer == false) %}
 
-              {{  CCSTextarea({
+              {{  CCSCharacterCount({
                       name: "eoi_prob_statement",
                       id: "eoi_prob_statement",
                       value: requirement.nonOCDS.options[0].value,
+                      maxlength: 10000,
+                       classes: "rfp_term_definition",
                       label: {
                       text: "Write your key background information here",
                       classes: "govuk-label govuk-label--m"
@@ -372,7 +392,7 @@
 
                 {% call CCSFieldset({
                     legend: {
-                              html: "First special term or condition <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                              html: "First special term or condition ",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -383,8 +403,9 @@
                 {{CCSCharacterCount({
                     name: "term",
                     id: "eoi_splterm_1",
-                    maxlength: 100,
+                    maxlength: 500,
                     rows: "2",
+                    classes:"rfpterm",
                     label: {
                       text: "Enter the first special term or condition",
                       classes: "govuk-label--m govuk-!-font-weight-regular",
@@ -396,8 +417,8 @@
                 {{ CCSCharacterCount({
                     name: "value",
                     id: "eoi_splterm_definition_1",
-                    maxlength: 1000,
-                    classes:"eoi_splterm_definition_1",
+                    maxlength: 10000,
+                    classes:"eoi_splterm_definition_1 rfp_term_definition",
                     rows: "13",
                     label: {
                       text: "Explain the first special term or condition",
@@ -436,8 +457,8 @@
                   {{CCSCharacterCount({
                             name: "term",
                             id: "eoi_splterm_"+i,
-                            maxlength: 100,
-                            classes: "eoi_splterm_"+i,
+                            maxlength: 500,
+                            classes: "rfpterm eoi_splterm_"+i,
                             rows: "2",
                             label: {
                               text: "Enter the "+NumberWord[i]+" special term or condition",
@@ -450,9 +471,9 @@
                   {{ CCSCharacterCount({
                             name: "value",
                             id: "eoi_splterm_definition_"+i,
-                            maxlength: 1000,
+                            maxlength: 10000,
                             rows: "13",
-                            classes: "eoi_splterm_definition_"+i,
+                            classes: "rfp_term_definition eoi_splterm_definition_"+i,
                             label: {
                               text: "Explain the "+NumberWord[i]+" special term or condition",
                               classes: "govuk-label--m govuk-!-font-weight-regular",
@@ -485,9 +506,12 @@
 
             {% endblock %}
 
+          
+
             {% block singleSelect%}
               {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
-                <div class="govuk-form-group">
+
+                 <div class="govuk-form-group">
                   <div class="govuk-radios">
                     <br>
                     {% set radioArray = [] %}
@@ -506,6 +530,33 @@
                               {{requirement.nonOCDS.options[i].text | safe}}
                             </div>
                           </div>
+                          {% if requirement.nonOCDS.options[i].value === 'Yes'%}
+                          {% if requirement.nonOCDS.options[i].selected === true %}
+                            {% set displyText = "block;" %}
+                            {% else %}
+                            {% set displyText = "none !important;" %}
+                          {% endif %}
+                            <div class="govuk-radios__conditional" id="conditional-rfp_radio_security_confirmation" style="display:{{displyText}}">
+                              <div class="govuk-form-group yeswho">
+                              
+                             
+                                {{ CCSInput({
+                                      label: {
+                                        text: "Enter the name of the existing supplier. For multiple suppliers, separate with a comma after each",
+                                        classes: "govuk-label govuk-date-input__label",
+                                        for: "rfp_security_confirmation"
+                                      },
+                                      id: "rfp_security_confirmation",
+                                      name: "rfp_security_confirmation",
+                                      classes: "govuk-input govuk-!-width-one-third",
+                                      type: "text", 
+                                      value:requirement.nonOCDS.childern[0].nonOCDS.options[0].value,
+                                      min: "100",
+                                      maxlength: 500
+                                  }) }}
+                              </div>
+                            </div>
+                            {%endif%}
                         {% else %}
 
                           <div class="govuk-radios__item">
@@ -514,7 +565,7 @@
                               {%else%}
                               <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="ccs_vetting_type" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
                             {% endif %}
-                            <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
+                            <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i+1}}">
                               <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
                             </label>
                             <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
@@ -533,7 +584,16 @@
                             value: requirement.OCDS.id
                           })
                       }}
-
+                      {%if group_id === "Group 7" %}
+                        {{ CCSInput({
+                                id: "question_id",
+                                name: "question_id",
+                                type: "hidden",
+                                value: "Question 2"
+                              })
+                          }}
+                      {% endif %}
+                  
                   {% endif %}
                 {% endblock %}
 
@@ -542,7 +602,7 @@
 
                     {% call CCSFieldset({
                             legend: {
-                               html: "First term or acronym <a href="+1+"  class='clear-fields govuk-link govuk-link--no-visited-state ccs-dynaform hide remove_icon' title='clear'> X </a>",
+                               html: "First term or acronym",
                               classes: "govuk-fieldset__legend--m",
                               isPageHeading: false
                             },
@@ -551,24 +611,27 @@
                           })
                       %}
 
-                    {{ CCSInput({
+                    {{ CCSCharacterCount({
                             label: {
                               text: "Write the term or acronym"
                             },
                             id: "eoi_term_1",
                             name: "term",
                             classes: "eoi_term_1",
+                            maxlength: 500,
+                             rows:2,
                             value: requirement.nonOCDS.options[0].value
                           })
                       }}
 
-                    {{ CCSTextarea({
+                    {{ CCSCharacterCount({
                             name: "value",
                             id: "eoi_term_definition_1",
                             label: {
                               text: "Write a definition for the term or acronym explaining what it means"
                             },
                             classes: "eoi_term_definition_1",
+                            maxlength: 10000,
                             value: requirement.nonOCDS.options[0].text
                           })
                       }}
@@ -599,17 +662,19 @@
                       id:"term_acronym_fieldset"
                     }) %}
 
-                      {{ CCSInput({
+                      {{ CCSCharacterCount({
                         label: {
                           text: "Write the term or acronym"
                         },
                         id: "eoi_term_"+i,
                         name: "term",
                         classes: "eoi_term_"+i,
+                        maxlength: 500,
+                        rows:2,
                         value: requirement.nonOCDS.options[i-1].value
                       }) }}
 
-                      {{ CCSTextarea({
+                      {{ CCSCharacterCount({
                         label: {
                           text: "Write a definition for the term or acronym explaining what it means"
                         },
@@ -617,6 +682,7 @@
                         name: "value",
                         spellcheck: false,
                         classes: "eoi_term_definition_"+i,
+                        maxlength: 10000,
                         value: requirement.nonOCDS.options[i-1].text
                       }) }}
 
@@ -640,6 +706,17 @@
                             type: "hidden",
                             value: requirement.OCDS.id
                           }) }}
+
+                        {# {% if agreement_id=='RM6187'%}
+                          {% if requirement.OCDS | length > 1 %}
+                          {{ CCSInput({
+                            id: "question_id",
+                            name: "question_id",
+                            type: "hidden",
+                            value: "Question 2"
+                          }) }}
+                          {% endif %}
+                          {% endif %} #}
                     <div id="eoi_keyterm"></div>
                   {% endif %}
                 {% endblock %}
@@ -654,13 +731,7 @@
                         {% set countryArray = (countryArray.push({value: countries.value, text: countries.value, checked: countries.selected}), countryArray) %}
                         {%else%}
                         {% set countryList = (countryList.push(countries.value),countryList)%}
-                        {% set countryArray = (countryArray.push({
-                          divider: "OR"
-                        }, {
-                          value: countries.value,
-                          text: countries.value,
-                          checked: countries.selected
-                        }), countryArray) %}
+                        {% set countryArray = (countryArray.push({value: countries.value, text: countries.value, checked: countries.selected}), countryArray) %}
 
                         {%endif%}
                       {% endfor %}
@@ -668,7 +739,8 @@
                       {{ CCSCheckboxes({
                             idPrefix: "required_locations",
                             name: "required_locations",
-                            items: countryArray
+                            items: countryArray,
+                            classes: "govuk-checkbox-bold"
                           })
                       }}
                       {{ CCSInput({
@@ -686,8 +758,10 @@
                     {% if ((requirement.nonOCDS.questionType === 'Monetary') and (requirement.nonOCDS.multiAnswer === false)) %}
                       {% if (requirement.nonOCDS.mandatory === false) %}
                         {% set titleText = requirement.OCDS.title + " (optional)" %}
+
                       {% else %}
                         {% set titleText = requirement.OCDS.title %}
+
                       {% endif %}
 
                       {{ CCSInput({
@@ -699,6 +773,7 @@
                               text: requirement.OCDS.description,
                               classes: "govuk-hint"
                             },
+                            
                             prefix: {
                               text: "£"
                             },

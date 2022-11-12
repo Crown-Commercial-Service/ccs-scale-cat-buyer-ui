@@ -1,0 +1,129 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{% block content %}
+
+
+{{ CCSBreadcrumbs({
+        items: [
+        { "text": "Dashboard", "href": "/dashboard" },
+        { "text": "Choose a commercial agreement", "href": "/projects/choose-agreement" },
+        { "text": "Procurement overview", "href": url },
+        { "text": "See the available suppliers", "href": "/fca/create-supplier-shortlist" },
+        { "text": "View or download your supplier list", "href": "#" } ] 
+}) }}
+
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if(error) %}
+        {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: "Please Enter The Valid Service" }] }) }}
+    {% endif %}
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="govuk-heading-xl">
+          {{data.line1}}
+        </h1>
+        {% include "includes/project_header.njk" %}
+        <p>{{data.line8}}</p><br>
+    {# <p>{{data.line9}}</p><br> #}
+    <p>Further details of each supplier can be found on the CCS webiste on the <a href="https://www.crowncommercial.gov.uk/agreements/{{agreement_id}}:{{lot_id}}/lot-suppliers" target="_blank">Search suppliers page</a>. The page will open on a new tab.</p><br>
+    <div class="govuk-inset-text">
+      <p>{{data.line5}}</p>
+    </div>
+    <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+    <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">{{data.line10}}</p>
+    </div>
+    <div class="govuk-grid-column-one-third govuk-!-text-align-right">
+      <a class="govuk-link" href="/fca/select-services">{{data.line10_1}}</a>
+    </div>  
+  </div>
+    
+    <form id="fca_shortlist_supplier_form" name="fca_shortlist_supplier_form" action="/fca/shortlisted/suppliers" method="POST">
+      {{ csrfProtection(csrf) }}
+      <ul class="govuk-list govuk-list--bullet">
+        {% for val in selected_service_text_value %}
+          <li>{{val}}</li>
+        {% endfor %}
+      </ul>
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+      <div class="govuk-button-group">
+        <button class="govuk-button" {{submitBtnDisable}} data-module="govuk-button">
+          {{data.buttonText}}
+        </button>
+      
+        <a class="govuk-link" href="/fca/create-supplier-shortlist">{{data.returnTo}}</a>
+      </div>
+    </form>
+
+    {% if suppliers_list | length %}
+        <p>
+          <a href="/fca/shortlisted/suppliers?download=1">{{data.line14}}</a>
+        </p>
+      {% for value in suppliers_list -%}
+        <p>
+          <b>{{value.organization.name}}</b>
+        </p>
+        <span>{{value.organization.name}}</span><br>
+        <p>
+          <a href="/fca/supplier/ratecard?supplierId={{value.organization.id}}&supplierName={{value.organization.name}}">{{data.line17}}</a>
+        </p>
+     
+      {%- endfor %}
+    {% endif %}
+
+        
+
+
+      </div>
+      <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+      </div>
+
+      <div class="govuk-grid-column-full govuk-!-padding-bottom-5">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-one-half">
+                      <div>
+                        &nbsp;
+                      {% if(showPrevious) %}
+                      <p class="govuk-body govuk-!-margin-0">
+                        <a href="suppliers?previous=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
+                          <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                            <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                          </svg>
+                          Previous Page</a>
+                      </p>
+                      <p class="govuk-body govuk-!-margin-0">
+                        <label class="govuk-!-font-size-16">{{currentpagenumber}} of {{noOfPages}}</label>
+                      </p>
+                      {% endif %}
+                      </div>
+                  </div>
+                  <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+                      <div>
+                        &nbsp;
+                      {% if(showNext) %}
+                      <p class="govuk-body govuk-!-margin-0">
+                        <a href="suppliers?next=1" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24">
+                          <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                            <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                          </svg>
+                          Next Page</a>
+                      </p>
+                      <p class="govuk-body govuk-!-margin-0">
+                        <label class="govuk-!-font-size-16">{{currentpagenumber}} of {{noOfPages}}</label>
+                      </p>
+                      {% endif %}
+                      </div>
+                  </div>
+                </div>
+              </div>
+    </div>
+    
+
+  </main>
+{% endblock %}

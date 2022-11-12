@@ -1,0 +1,77 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Your Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/#"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/fca/projects/create-or-choose"
+        }
+        ,
+        {
+            "text": "See the available suppliers",
+            "href": "/fca-tasklist"
+        },
+        {
+          "text": "Choose Your Next steps",
+          "href": "/#"
+        }
+    ],
+    "related_content_text":"Related Content",
+    "related_content": [
+        {
+            "text": "Lot detail page",
+            "href": "/#"
+        },
+        {
+            "text": "Link to external source",
+            "href": "/#"
+        },
+        {
+            "text": "Link to external source",
+            "href": "/#"
+        }
+    ],
+    "title": "Available Supplier",
+    "subtitle": null,
+    "line1": "Choose your next steps",
+    "selected_agreement_value": "Agreement name, lot name",
+    "agreement_id_value": "XXXXXX",
+    "project_id_value": "XXXXXXXXXXXXXXXXXXXXX",
+    "buttonText":"Save and continue",
+    "returnTo":"Return to See the available suppliers",
+    "line2": "Download the list from the supplier filtering tool",
+    "line3": "You can continue to do pre-market engagement, or write and publish your requirements, or return to your dashboard.",
+    "events":[
+        {
+            "checkbox_id":"1",
+            "checked":"",
+            "value":"10",
+            "label":"I’d like to continue to pre-market engagement or write and publish my requirements",
+            "contents":[
+                {
+                    "text":"You’ll be taken back to the procurement overview for this project and progress with your procurement activities."
+                },
+                {
+                    "text":"If you start any pre-market engagement or begin writing your requirements and then decide you don’t want to use the list of suppliers you created with this tool, you’ll have to <strong>close the project and restart from the beginning</strong>."
+                }
+            ]
+        },
+        {
+            "checkbox_id":"2",
+            "checked":"checked",
+            "value":"",
+            "label":"Return to my dashboard",
+            "contents":[
+                {
+                    "text":"You’ll be able to resume your journey from there."
+                }
+            ]
+        }
+]
+}

@@ -69,50 +69,77 @@ export class QuestionHelper {
         let base_url = `/eoi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`;
         res.redirect(base_url);
       } else {
-        let mandatoryNum = 0;
-        const maxNum = 4;
+        let mandatoryqstnNum = 0;
+        let answeredMandatory = 0;
         let status = '';
         for (let i = 0; i < criterian_array.length; i++) {
           const groupId = criterian_array[i].OCDS['id'];
           const mandatory = criterian_array[i].nonOCDS['mandatory'];
           if (mandatory) {
+            mandatoryqstnNum += 1;
             const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
             const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
             const fetch_dynamic_api_data = fetch_dynamic_api?.data;
             let answered;
             const questionType = fetch_dynamic_api_data[0].nonOCDS['questionType'];
             let selectedLocation;
-            if (fetch_dynamic_api_data[0].nonOCDS.options[0]) {
-              if (
+             
+            if (
                 questionType === 'Value' ||
                 questionType === 'Text' ||
                 questionType === 'Monetary' ||
                 questionType === 'Duration' ||
                 questionType === 'Date'
               ) {
-                answered = fetch_dynamic_api_data[0].nonOCDS.options[0]['value'];
-                if (answered !== '') mandatoryNum += 1;
+                  if(fetch_dynamic_api_data.length>0){
+                    for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
+                      if(fetch_dynamic_api_data[j].nonOCDS.mandatory){
+                        answered = fetch_dynamic_api_data[j].nonOCDS.options?.[0]?.['value'];
+                        if (answered !== '') answeredMandatory += 1;
+                      }
+                    }
+                  }
               }
+
               if (questionType === 'SingleSelect' || questionType === 'MultiSelect') {
                 for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
                   selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
-                  if (selectedLocation) mandatoryNum += 1;
+                  if (selectedLocation) answeredMandatory += 1;
                 }
               }
               
-            }
+            
             if(questionType === 'KeyValuePair')
               {
                 if(fetch_dynamic_api_data[1].nonOCDS?.options?.length>0){
                 for (let j = 0; j < fetch_dynamic_api_data[1].nonOCDS.options.length; j++) {
                   selectedLocation = fetch_dynamic_api_data[1].nonOCDS.options[j]['selected'];
-                  if (selectedLocation) mandatoryNum += 1;
+                  if (selectedLocation) answeredMandatory += 1;
                 }
               }
               }
-            mandatoryNum === maxNum ? (status = 'Completed') : (status = 'In progress');
+
+              // === changed to >=
+              //answeredMandatory >= maxNum ? (status = 'Completed') : (status = 'In progress');
+
+
           }
         }
+
+        mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');
+
+        
+        
+        //let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
+        // const PreUpdate = journeySteps.filter((el: any) => {
+        //   if(el.step == '19') {
+        //     if(el.state == 'Completed') {
+        //       return true;
+        //     }
+        //   }
+        //   return false;
+        // });
+        if(status == 'Completed') await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/19`, 'Completed');
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, status);
         if (response.status == HttpStatusCode.OK) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/21`, 'Optional');
@@ -128,7 +155,7 @@ export class QuestionHelper {
         'questions healper class',
         null,
         TokenDecoder.decoder(SESSION_ID),
-        'Tender agreement failed to be added',
+        'EOI - Tender agreement failed to be added',
         true,
       );
     }

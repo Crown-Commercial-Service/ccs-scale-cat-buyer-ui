@@ -1,4 +1,10 @@
 {% extends "template.njk" %}
+
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set fcaHelperLayer = true %}
+{% endif %}
+
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
@@ -32,8 +38,14 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
         <p class="govuk-body">{{ data.form.question }}</p>
-         <p class="govuk-body">If you select an option that includes capability assessment,you can download your list of suppliers at the end of the assessment to use your own procurement system.</p>
-        <p class="govuk-body">Before you select direct award,you will need to get a legal advice to confirm it is a compliant route to market(way to buy) for your circumstances</p>
+        {% if agreementId_session == 'RM6187' %}
+        <p class="govuk-body">
+          If you select an option that includes capability assessment, you can download your list of suppliers at the end of the assessment to use on your own procurement system.</p>
+        {% endif %}
+        <p class="govuk-body">Before you select direct award, you'll need to get legal advice to confirm it is a compliant route to market(way to buy) for your circumstances</p>
+        {#<p class="govuk-body">If you select an option that includes capability assessment,you can download your list of suppliers at the end of the assessment to use your own procurement system.</p>#}
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full govuk-!-margin-top-9">
         <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form ccs_rfp_type_form" action="/requirements/choose-route" method="POST">
         {{ csrfProtection(csrf) }}
           {% set formOptions = data.form.radioOptions.items %}
@@ -47,7 +59,8 @@
                   value: item.value,
                     html: "<h3 class='govuk-heading-m'>" +item.text + "</h3>",
                     hint : {
-                      html: item.hint.text
+                      text: item.hint.text,
+                      classes: "govuk-!-margin-bottom-9"
                     }
                   }
                 ), form_Options_Altered) 
@@ -101,6 +114,8 @@
             <a href="{{data.form.backJump.href}}" class="govuk-link govuk-link--no-visited-state">{{data.form.backJump.title}}</a>
           </div>
         </form>
+          </div>
+        </div>
       </div>
       <div class="govuk-grid-column-one-third">
         {{ CCSReleatedContent(releatedContent) }}

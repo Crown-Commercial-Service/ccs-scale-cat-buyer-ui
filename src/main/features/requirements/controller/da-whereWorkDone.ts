@@ -48,7 +48,6 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/70`, 'In pro
   }
     res.render('da-whereWorkDone', appendData);
   } catch (error) {
-    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,
@@ -108,7 +107,8 @@ export const DA_POST_WHERE_WORK_DONE = async (req: express.Request, res: express
       var indexList = [];
       var initialDataRequirements = [];
       let reqr = {};
-      for (let i = 0; i < weights.length; i++) {
+      let objweightsCount = Object.keys(weights).length;
+      for (let i = 0; i < objweightsCount; i++) {
         if (weights[i] != '') {
           indexList.push({ i });
         }

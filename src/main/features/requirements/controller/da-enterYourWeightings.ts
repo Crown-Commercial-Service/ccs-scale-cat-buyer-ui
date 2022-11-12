@@ -43,44 +43,37 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
   try {
     const assessmentDetail = await GET_ASSESSMENT_DETAIL(SESSION_ID, assessmentId);
     let dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, assessmentDetail['external-tool-id']);
-    dimensions= dimensions.filter(x=>x['dimension-id']!=7)  
+    dimensions= dimensions.filter(x=>x['dimension-id']!=7)
     let da_weightings_description=[
       {
         "ID":1,
         "title":"Capacity (number of specialists per DDaT role)",
-        "desc":"This relates to how many staff are supplied in each role.",
-        "orderID":1
-
+        "desc":"This relates to how many staff are supplied in each role."
       },
       {
         "ID":2,
         "title":"Security clearance and vetting",
-        "desc":"This relates to the importance of having specific security clearance levels or how detailed the vetting process of any supplied staff is.",
-        "orderID":4
+        "desc":"This relates to the importance of having specific security clearance levels or how detailed the vetting process of any supplied staff is."
       },
       {
         "ID":3,
         "title":"Service capability",
-        "desc":"This relates to the services the supplier can offer, including the specifics of each serivce.",
-        "orderID":2
-       },
+        "desc":"This relates to the services the supplier can offer, including the specifics of each serivce."
+      },
       {
         "ID":4,
         "title":"Scalability(size of team)",
-        "desc":"This relates to how many people you need in the team to get the work done. It also relates to how quickly the team can be increased if there is a need in the project to do so.",
-        "orderID":3
+        "desc":"This relates to how many people you need in the team to get the work done. It also relates to how quickly the team can be increased if there is a need in the project to do so."
       },
       {
         "ID":5,
         "title":"Location",
-        "desc":"This relates to how important it is to you that any supplied staff are based in the specific regions of the country.",
-        "orderID":5
+        "desc":"This relates to how important it is to you that any supplied staff are based in the specific regions of the country."
       },
       {
         "ID":6,
         "title":"Price",
-        "desc":"[Dimension description]",
-        "orderID":6
+        "desc":"[Dimension description]"
       }
     ];
     let weightingsArray = [];
@@ -100,10 +93,7 @@ export const DA_GET_WEIGHTINGS = async (req: express.Request, res: express.Respo
       let index=weightingsArray.findIndex(x=>x.id===element.ID)
       weightingsArray[index].title=element.title
       weightingsArray[index].description=element.desc
-      weightingsArray[index].orderID=element.orderID
     });
-    weightingsArray.sort((a, b) => a.orderID< b.orderID? -1 : a.orderID> b.orderID? 1 : 0)
-
     req.session['DA'] = req.session['DA'] == undefined ? {} : req.session['DA'];
     req.session['DA'].toolId = assessmentDetail['external-tool-id'];
     req.session['weightingRange'] = weightingsArray[0].weightingRange;
@@ -157,7 +147,7 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
   req.session.errorText = [];
   try {
     const toolId = req.session['DA'].toolId;
-    let dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
+    const dimensions = await GET_DIMENSIONS_BY_ID(SESSION_ID, toolId);
 
     const range = req.session['weightingRange'];
     const { 1: field1, 2: field2, 3: field3, 4: field4, 5: field5, 6: field6 } = req.body;
@@ -186,22 +176,16 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
             let dim=dimensions.filter(x=>x["dimension-id"] === i)
             Weightings.push(...dim)
         }
-        let body=[];
-        dimensions= dimensions.filter(x=>x['dimension-id']!=7)
       for (var dimension of dimensions) {
-         body.push({
-            "name": dimension.name,
-            "dimension-id":dimension['dimension-id'],
-            "weighting": req.body[dimension['dimension-id']],
-            "requirements": [],
-            "includedCriteria": [],
-            "overwriteRequirements": true
-          });
-        
-      }
+        const body = {
+          name: dimension.name,
+          weighting: req.body[dimension['dimension-id']],
+          requirements: [],
+          includedCriteria: dimension.evaluationCriteria
+        };
 
         await TenderApi.Instance(SESSION_ID).put(
-          `/assessments/${assessmentId}/dimensions`,
+          `/assessments/${assessmentId}/dimensions/${dimension['dimension-id']}`,
           body,
         );
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/64`, 'Completed');
@@ -209,7 +193,7 @@ export const DA_POST_WEIGHTINGS = async (req: express.Request, res: express.Resp
           if (flag) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/65`, 'Not started');
           }
-       
+       }
       if(req.session["DA_nextsteps_edit"])
       {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/71`, 'Not started');

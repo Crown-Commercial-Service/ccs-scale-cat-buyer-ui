@@ -1,5 +1,5 @@
 
-export const FileMimeType = {
+export const FileMimeType = { 
     "csv": "text/csv",
     "doc": "application/msword",
     "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",

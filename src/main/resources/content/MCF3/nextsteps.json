@@ -1,0 +1,33 @@
+{
+  "title": "Choose your next steps",
+  "subtitle": "Download the list from the supplier filtering tool",
+  "subtitle2": "You can continue to do pre-market engagement, or write and publish your requirements, or return to your dashboard.",
+  "form": [
+    {
+      "id": "fca_next_steps",
+      "radioOptions": {
+        "name": "fca_next_steps",
+        "items": [
+          {
+            "value": "goto_next",
+            "text": "I’d like to continue to pre-market engagement or write and publish my requirements",
+            "hint": {
+              "text": "You’ll be taken back to the procurement overview for this project and progress with your procurement activities. If you start any pre-market engagement or begin writing your requirements and then decide you don’t want to use the list of suppliers you created with this tool, you’ll have to close the project and restart from the beginning."
+            }
+          },
+          {
+            "value": "goto_dashboard",
+            "text": "Return to my dashboard",
+            "hint": {
+              "text": "You’ll be able to resume your journey from there. "
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "backJump": {
+    "title": "Return to See the available suppliers ",
+    "href": "/fca/create-supplier-shortlist"
+  }
+}

@@ -1,6 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/RFI/offline-doc.json';
+import * as Mcf3cmsData from '../../../resources/content/MCF3/RFI/offline-doc.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -22,6 +23,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   const { file_id } = req.query;
+  const {fileDuplicateError}=req.session;
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -66,17 +68,35 @@ export const FILEUPLOADHELPER: express.Handler = async (
       const FETCH_FILEDATA = FetchDocuments.data;
       const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
+
+      const agreementId_session = req.session.agreement_id;
+      let forceChangeDataJson;
+      if(agreementId_session == 'RM6187') { //MCF3
+        forceChangeDataJson = Mcf3cmsData;
+      } else { 
+        forceChangeDataJson = cmsData;
+      }
+
       let windowAppendData = {
         lotId,
         agreementLotName,
-        data: cmsData,
+        data: forceChangeDataJson,
         files: FETCH_FILEDATA,
         releatedContent: releatedContent,
         storage: TOTALSUM,
+        agreementId_session:req.session.agreement_id
       };
+
+      if (fileDuplicateError) {
+        fileError=true;
+        errorList.push({ text: "The chosen file already exist ", href: "#" })
+        delete req.session["fileDuplicateError"];
+      }
+      
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
+
       res.render(type === 'rfi' ? 'uploadDocument' : 'uploadDocumentEoi', windowAppendData);
     } catch (error) {
       delete error?.config?.['headers'];

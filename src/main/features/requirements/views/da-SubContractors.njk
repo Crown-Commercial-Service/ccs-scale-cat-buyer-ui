@@ -14,7 +14,7 @@
     {{ CCSBreadcrumbs({
         items: [
             {
-                "text": "Your dashboard",
+                "text": "Dashboard",
                 "href": "/dashboard"
                 },
                 {
@@ -30,7 +30,7 @@
                 "href": "/da/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "Use of subcontractors",
+                "text": "Will you accept sub-contractors?",
                 "href": "#"
             }
         ]
@@ -46,7 +46,7 @@
   </h2>
   <div class="govuk-error-summary__body">
     <ul class="govuk-list govuk-error-summary__list">
-    <li><a href="#">You must choose if suppliers can use subcontractors.</a></li>
+    <li><a href="#">Please select the option</a></li>
     </ul>
   </div>
 </div>
@@ -54,7 +54,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
                 <h1 class="govuk-heading-xl">
-                    <strong>{{ data.title }}</strong>
+                    {{ data.title }}
                 </h1>
             </div>
         </div>
@@ -62,8 +62,7 @@
         <div class="govuk-grid-row govuk-!-padding-bottom-3">
             <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
                 {% include "includes/project_header.njk" %}
-                <p class="govuk-body">{{ data.subtitle1 }}</p>
-                <p class="govuk-body">{{ data.subtitle2 }}</p>
+                <p class="govuk-body">{{ data.subtitle }}</p>
 
                 <form id="ccs_da_subContractors" name="ccs_da_subContractors" class="form ccs_da_subContractors" action="/da/accept-subcontractors" method="POST">
                     {{ csrfProtection(csrf) }}
@@ -71,7 +70,6 @@
                         {% set formOptions = form.radioOptions.items %}
                         {% set form_Options_Altered = [] %}
                         {% for item in formOptions %}
-                        {% if item.checked%}
                             {% set form_Options_Altered = (form_Options_Altered.push(
                                 {
                                     value: item.value,
@@ -82,17 +80,6 @@
                                     checked: item.checked
                                 }), form_Options_Altered) 
                                 %}
-                                {% else %}
-                                 {% set form_Options_Altered = (form_Options_Altered.push(
-                                {
-                                    value: item.value,
-                                    html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
-                                    hint : {
-                                        text: item.hint.text
-                                    }
-                                }), form_Options_Altered) 
-                                %}
-                                {% endif %}
                         {% endfor %}
                         {% if (error == true) %}
 

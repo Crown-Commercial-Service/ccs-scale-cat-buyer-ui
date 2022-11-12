@@ -28,6 +28,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     haveFCA,
   } = req.session;
   const { assessmentId, eventType } = currentEvent;
+  
   const lotid = req.session?.lotId;
   const agreementId_session = agreement_id;
   const { isJaggaerError } = req.session;
@@ -47,7 +48,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     'Product Delivery',
     'QAT',
     'User Centred Design',
-    'No DDaT Cluster Mapping',
+    'Security and Privacy (Non-DDAT)',
   ];
   let ViewLoadedTemplateData;
   req.session.errorTextSumary = [];
@@ -80,7 +81,7 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
       default:
         res.redirect('error/404');
     }
-    console.log(journeySteps)
+    
     statusStepsDataFilter(ViewLoadedTemplateData, journeySteps, 'FCA', agreement_id, projectId, eventId);
     const windowAppendData = { data: ViewLoadedTemplateData, lotId, agreementLotName, releatedContent };
 
@@ -88,11 +89,11 @@ export const CA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
     const EXTERNAL_ID = ALL_ASSESSTMENTS_DATA['external-tool-id'];
-
+    
     const CAPACITY_BASEURL = `assessments/tools/${EXTERNAL_ID}/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
-
+    
     const AddedWeigtagedtoCapacity = CAPACITY_DATASET.map(acapacity => {
       const { name, weightingRange, options } = acapacity;
       const AddedPropsToOptions = options.map(anOpt => {

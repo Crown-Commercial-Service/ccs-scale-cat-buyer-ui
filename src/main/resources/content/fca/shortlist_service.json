@@ -1,0 +1,82 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/dasboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "#"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/fca/projects/create-or-choose"
+        },
+        {
+            "text": "See the available suppliers",
+            "href": "/fca/supplier/list"
+        },
+        {
+            "text": "View or download your supplier list",
+            "href": "#"
+        }
+    ],
+    "title": "Find suppliers and run your procurement online.",
+    "subtitle": null,
+    "line1": "View or download your shortlisted suppliers",
+    "line2":"Selected agreement:",
+    "line3":"Agreement Id:",
+    "line4":"Project ID/Name:",
+    "line5":"To contact other suppliers not listed below, you’ll need to delete this list.",
+    "line6":"[ You can view supplier's rate cards from this page. ]",
+    "line7":"[ If you'd like to look at additional details for each suppliers please visit the Search suppliers page on the main CCS website. The page will open on a new tab. ]",
+    "line8":"The suppliers below offer all the services you need. Contact these suppliers for any pre-market engagement or call-off events. You can view suppliers’ rate cards from this page.",
+    "line9":"Further details of each supplier can be found on the CCS webiste on the Search suppliers page. The page will open on a new tab.",
+    "line10":"Services you have selected:",
+    "line10_1":"Change",
+    "line11":" Selected service 1",
+    "line12":" Selected service 2",
+    "line13":" Selected service 3",
+    "line14":"Download this list",
+    "line15":"Supplier Company Name",
+    "line16":"Supplier Trading Name",
+    "line17":"View rate card and contact details",
+    "line18_1":"Previous Page",
+    "line18_2":"Next Page",
+    "line19":"1 of x",
+    "line6_1":"[ Select all that appply. ]",
+    "line6_2":"[ Select/Unselect all ]",
+    "related_content_text":"Related content",
+    "subsection2_title":"Current projects",
+    "subsection2_table_th_1": "Project id / Name",
+    "subsection2_table_th_2": "Event Type",
+    "subsection2_table_th_3": "Agreement and Lot",
+    "subsection2_table_th_4": "Supplier Response Close Date",
+    "subsection2_table_th_5": "Status",
+    "subsection4_title":"Past project",
+    "subsection4_table_th_1": "Event id / Name",
+    "subsection4_table_th_2": "Type",
+    "subsection4_table_th_3": "Agreement and Lot",
+    "subsection4_table_th_4": "Close Date",
+    "buttonText": "Continue",
+    "returnTo": "Return to See the available suppliers",
+    "view_Historical": "ll Historical Closed Projects",
+    "checkbox_1":"Lot specific service 1",
+    "checkbox_2":"Lot specific service 2",
+    "checkbox_3":"Lot specific service 3",
+    "checkbox_4":"Lot specific service 4",
+    "checkbox_5":"Lot specific service 5",
+    "checkbox_6":"Lot specific service 6",
+    "checkbox_7":"Lot specific service 7",
+    "checkbox_8":"Lot specific service 8",
+    "related_content": [
+        {
+            "text": "[ Lot detail page ]",
+            "href": "#"
+        },
+        {
+            "text": "[ Link to external resource ]",
+            "href": "#"
+        }
+    ]
+}

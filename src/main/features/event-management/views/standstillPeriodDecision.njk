@@ -3,7 +3,7 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 {% from "components/dialog/macro.njk" import CCSDialog %}
 
-{% set title = 'Your project ' %}
+{% set title = 'Event management ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -19,14 +19,21 @@
     }) }}
 {% endblock %}
 {% block content %}
- <div class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content">
- 
- {{ CCSDialog({
-  title:'Please confirm your wish to award this supplier.',
-  description:supplierName,
-  redirect:'#',
-  type:'vetting'
-}) }}
+ <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  
+  {% if (agreement_id=='RM1043.8')%}
+    {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you have followed the evaluation criteria you set out and communicated to suppliers.' | safe %}
+   {% elseif agreement_id == 'RM6187' %}
+   {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you have followed the evaluation criteria you set out and communicated to suppliers.' | safe %}
+  {%else%}
+    {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you are satisfied with your choice.' | safe %}
+  {%endif%}
+  {{ CCSDialog({
+    title:'Confirm your wish to award this supplier',
+    description:s_name | safe,
+    redirect:'#',
+    type:'vetting'
+  }) }}
 
  {% if (isError) %}
       {{ CCSErrorSummary({
@@ -42,42 +49,48 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
-          <strong> {{title}}</strong> 
+         <strong> {{data.title}}</strong>
         </h1>
         <div class="project-overview">
         <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
   </strong></p>
   {%endif %}
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+  
+
         </div>
       </div>
     </div>
-   <div class="govuk-grid-row ccs-page-section">
+    <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <div>
           <h2 class="govuk-heading-m">
-          {{ agreement_header['project_name'] }}
+          {{projectName}}
             {# <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{status}}</strong> #}
           </h2>
           <p class="govuk-body">
-          <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
+            {% if(showCloseProject) %}
+            <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
+            {% else %}
+            <a class="govuk-link" href="/event/management?id={{ eventId }}">Close Event</a>
+            {% endif %}
           </p>
         </div>
       </div>
     </div>
-</div>
+</main>
     
 
      <form id="ccs_standstill_period_form" name="ccs_standstill_period_form" class="form ccs_standstill_period_form"
       action="/stand-period" method="post">
                      {{ csrfProtection(csrf) }}
 
-                     <div class="govuk-grid-row"  id = "standstill_period_radios">
+                     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
        <h1 class="govuk-heading-xl">
-           <strong> Do you want a standstill period?</strong></h1>
-           <div class="standstill-error-field"></div>
-            <div class="govuk-radios standstill-radios-position" data-module="govuk-radios">
+           <strong> Choose if you want a standstill period</strong></h1>
+           <p>If you previously indicated on the procurement timeline that you required a standstill period, select 'Yes', otherwise, select 'No' . </p>
+            <div class="govuk-radios" data-module="govuk-radios">
                                   <div class="govuk-radios__item govuk-!-margin-top-9">
           
                                     <input class="govuk-radios__input" id="standstill_period_yes" name="standstill_period_yes" type="radio" value="yes">
@@ -90,7 +103,7 @@
                                   
                                   <div class="govuk-radios__item govuk-!-margin-top-4">
           
-                                    <input class="govuk-radios__input" id="standstill_period_no" name="standstill_period_no" type="radio" value="no">
+                                    <input class="govuk-radios__input" id="standstill_period_no" name="standstill_period_yes" type="radio" value="no">
                       
                                     <label class="govuk-label govuk-radios__label govuk-heading-s" for="standstill_period_no">
                                       
@@ -108,11 +121,11 @@
         attributes: {
         id: "btn_standstill_period"
         },
-        classes: "del govuk-link govuk-link--no-visited-state event_managment_award",
+        classes: "del event_managment_award",
         text: "Save and continue"
          
         }) }}
-                                  <a class="govuk-link" href="/award-supplier?supplierId={{supplierId}}">Return to Your project</a> 
+                                  <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
                                 </div>
                                 
                               </form> 

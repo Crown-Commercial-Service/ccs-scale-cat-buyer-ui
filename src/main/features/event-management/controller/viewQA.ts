@@ -3,8 +3,7 @@ import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiIns
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import * as inboxData from '../../../resources/content/event-management/qa.json'
-// import { EventEngagementMiddleware } from '@common/middlewares/event-management/activeevents'
-// import { ParsedQs } from 'qs'
+
 /**
  * 
  * @Rediect 
@@ -12,26 +11,72 @@ import * as inboxData from '../../../resources/content/event-management/qa.json'
  * @param req 
  * @param res 
  */
-export const EVENT_MANAGEMENT_QA = async (req: express.Request, res: express.Response) => {
+export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     let appendData: any;
-    try {
-        res.locals.agreement_header = req.session.agreement_header
-        const baseURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
+    let eventIds:any;
+    let projectIds:any;
+   
+   
+
+
+    try {  
+        
+
+       // https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects
+        
+            //    console.log("FETCHHEADER",fetchHeaderData[0]);
+         
+        //res.locals.agreement_header = headerbaseURL;
+      //  res.locals.agreement_header = req.session.agreement_header
+       // console.log("res.locals.agreement_header",res.locals.agreement_header)
+      // res.locals.agreement_header = fetchHeaderData[0];
+       
+       // https://dev-ccs-scale-cat-service.london.cloudapps.digital/tenders/projects/15422/events
+        //const baseURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
+         
+        let isSupplierQA= false;
+       
+            
+   if(req.query.id != undefined){
+  
+    eventIds=req.query.id;
+     projectIds = req.query.prId;
+     isSupplierQA = true;
+
+     const headerbaseURL = `/tenders/projects`;  
+         const fetchHeader:any = await TenderApi.Instance(SESSION_ID).get(headerbaseURL);
+         let  fetchHeaderData:any = fetchHeader?.data;
+          fetchHeaderData = fetchHeaderData?.filter(((AField: any) => AField?.activeEvent?.id === eventIds));
+          
+          res.locals.agreement_header = fetchHeaderData[0];
+
+   }else{
+    
+    eventIds=req.session.eventId;
+     projectIds = req.session.projectId;
+     isSupplierQA= false;
+     res.locals.agreement_header = req.session.agreement_header;
+   }
+    
+
+        const baseURL = `/tenders/projects/${projectIds}/events/${eventIds}/q-and-a`;
+        
         const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
-        appendData = { data: inboxData, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, eventName: req.session.project_name, isSupplierQA: false }
-        res.render('viewQA', appendData)
-    } catch (err) {
-        LoggTracer.errorLogger(
-            res,
-            err,
-            `${req.headers.host}${req.originalUrl}`,
-            null,
-            TokenDecoder.decoder(SESSION_ID),
-            'Q&A page Tenders Service Api cannot be connected',
-            true,
-        );
-    }
+       
+        appendData = { data: inboxData, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, eventName: req.session.project_name, isSupplierQA }	
+        res.render('viewQA', appendData)	
+    } catch (err) {	
+        LoggTracer.errorLogger(	
+            res,	
+            err,	
+            `${req.headers.host}${req.originalUrl}`,	
+            null,	
+            TokenDecoder.decoder(SESSION_ID),	
+            'Q&A page Tenders Service Api cannot be connected',	
+            true,	
+        );	
+    }	
 }
 
 

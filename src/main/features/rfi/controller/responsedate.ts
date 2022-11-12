@@ -7,7 +7,7 @@ import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatt
 import { RESPONSEDATEHELPER } from '../helpers/responsedate';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import moment from 'moment';
-import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
+import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
 ///rfi/response-date
 export const GET_RESPONSE_DATE = async (req: express.Request, res: express.Response) => {
@@ -58,19 +58,11 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       const group_id = 'Key Dates';
       const question_id = answers;
       const findFilterQuestion = filterWithQuestions.filter(question => question.Question === question_id);
-      let findFilterValues = findFilterQuestion[0].value;
-      let filtervalues;
-      if(question_id=='Question 1')
-      {
-        filtervalues=moment(
-          findFilterValues,
-          'DD MMMM YYYY',
-        ).format('YYYY-MM-DDTHH:mm:ss') + 'Z';
-      }
-      else{filtervalues= moment(
+      const findFilterValues = findFilterQuestion[0].value;
+      const filtervalues = moment(
         findFilterValues,
-        'DD MMMM YYYY, hh:mm a',
-      ).format('YYYY-MM-DDTHH:mm:ss') + 'Z';}
+        'DD MMMM YYYY, HH:mm:ss',
+      ).format('YYYY-MM-DDTHH:mm:ss') + 'Z';
       const answerformater = {
         value: filtervalues,
         selected: true,
@@ -87,10 +79,11 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
     }
     const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/13`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      let flag = await ShouldEventStatusBeUpdated(eventId, 14, req);
-      if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/14`, 'Not started');
-      }
+      let flag=await ShouldEventStatusBeUpdated(eventId,14,req);
+    if(flag)
+    {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/14`, 'Not started');
+    }
     }
 
     res.redirect('/rfi/review');
@@ -101,13 +94,13 @@ export const POST_RESPONSE_DATE = async (req: express.Request, res: express.Resp
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tenders Service Api cannot be connected',
+      'RFI Timeline - Tenders Service Api cannot be connected',
       true,
     );
   }
 };
 
-const isValidQuestion = async (questionId: number, questionNewDate: string, timeline: any, SESSION_ID: any) => {
+function isValidQuestion(questionId: number, questionNewDate: string, timeline: any) {
   const dayOfWeek = new Date(questionNewDate).getDay();
 
   let isValid = true,
@@ -117,23 +110,8 @@ const isValidQuestion = async (questionId: number, questionNewDate: string, time
     isValid = false;
     error = 'You can not set a date in weekend';
   }
-
-  if (isValid) {
-    const bankHolidayUrl = 'https://www.gov.uk/bank-holidays.json';
-    const fetchHoliDayData = await TenderApi.Instance(SESSION_ID).get(bankHolidayUrl);
-
-    const bankHoliDayData = fetchHoliDayData?.data;
-    const listOfHolidayDate = bankHoliDayData['england-and-wales']?.events.concat(bankHoliDayData['scotland']?.events, bankHoliDayData['northern-ireland']?.events);
-
-    const newDate = moment(questionNewDate).format('YYYY-MM-DD');
-    const filterDate = listOfHolidayDate.filter((x: any) => x.date == newDate)[0]?.date;
-
-    if (filterDate != undefined && filterDate != null) {
-      isValid = false;
-      error = 'You can not set a date in bank holiday';
-    }
-  }
-
+  
+  
   switch (questionId) {
     case 'Question 1':
       errorSelector = 'rfi_clarification_date_expanded_1';
@@ -146,6 +124,10 @@ const isValidQuestion = async (questionId: number, questionNewDate: string, time
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
+      if (questionNewDate > timeline.publishResponsesClarificationQuestions) {
+        isValid = false;
+        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+      }
       errorSelector = 'rfi_clarification_date_expanded_2';
       break;
     case 'Question 3':
@@ -153,12 +135,20 @@ const isValidQuestion = async (questionId: number, questionNewDate: string, time
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
       }
+      if (questionNewDate > timeline.supplierSubmitResponse) {
+        isValid = false;
+        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
+      }
       errorSelector = 'rfi_clarification_date_expanded_3';
       break;
     case 'Question 4':
       if (questionNewDate <= timeline.publishResponsesClarificationQuestions) {
         isValid = false;
         error = 'You can not set a date and time that is earlier than the previous milestone in the timeline';
+      }
+      if (questionNewDate > timeline.confirmNextStepsSuppliers) {
+        isValid = false;
+        error = 'You can not set a date and time that is greater than the next milestone in the timeline';
       }
       errorSelector = 'rfi_clarification_date_expanded_4';
       break;
@@ -186,7 +176,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     clarification_date_hourFormat,
     selected_question_id,
   } = req.body;
-  const { SESSION_ID } = req.cookies
+
   const { timeline } = req.session;
 
   clarification_date_day = Number(clarification_date_day);
@@ -206,18 +196,29 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
     clarification_date_month = Number(clarification_date_month) - 1;
 
     let timeinHoursBased = 0;
-    if (clarification_date_hourFormat == 'AM' && clarification_date_hour != 12) {
+    
+    if (clarification_date_hourFormat == 'AM') {
       timeinHoursBased = Number(clarification_date_hour);
-    }
-    else if (clarification_date_hourFormat == 'AM' && clarification_date_hour == 12) {
-      timeinHoursBased = Number(clarification_date_hour) - 12;
-    } else if (clarification_date_hourFormat == 'PM' && clarification_date_hour == 12) {
+    } else {
       timeinHoursBased = Number(clarification_date_hour);
-    }
-    else {
-      timeinHoursBased = Number(clarification_date_hour) + 12;
     }
 
+    // if (clarification_date_hourFormat == 'AM' && clarification_date_hour != 12) {
+    //   timeinHoursBased = Number(clarification_date_hour);
+    // }
+    // else if (clarification_date_hourFormat == 'AM' && clarification_date_hour == 12) {
+    //   timeinHoursBased = Number(clarification_date_hour) - 12;
+    // } else if (clarification_date_hourFormat == 'PM' && clarification_date_hour == 12) {
+    //   timeinHoursBased = Number(clarification_date_hour);
+    // }
+    // else {
+      
+    //   timeinHoursBased = Number(clarification_date_hour) + 12;
+    // }
+
+      
+     
+    
     let date = new Date(
       clarification_date_year,
       clarification_date_month,
@@ -225,13 +226,13 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
       timeinHoursBased,
       clarification_date_minute,
     );
-
+    
     let nowDate = new Date();
 
-    const { isValid, error, errorSelector } = await isValidQuestion(selected_question_id, date.toISOString(), timeline, SESSION_ID);
+    const { isValid, error, errorSelector } = isValidQuestion(selected_question_id, date.toISOString(), timeline);
 
     if (date.getTime() >= nowDate.getTime() && isValid) {
-      date = moment(date).format('DD MMMM YYYY, hh:mm a');
+      date = moment(date).format('DD MMMM YYYY, HH:mm');
       req.session.questionID = selected_question_id;
 
       if (selected_question_id == 'Question 2') {
@@ -269,7 +270,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
 
       const filtervalues = moment(
         date,
-        'DD MMMM YYYY, hh:mm a',
+        'DD MMMM YYYY, HH:mm:ss',
       ).format('YYYY-MM-DDTHH:mm:ss') + 'Z';
 
       req.session.UIDate = filtervalues;
@@ -324,7 +325,7 @@ export const POST_ADD_RESPONSE_DATE = async (req: express.Request, res: express.
           Person_id: TokenDecoder.decoder(SESSION_ID),
           error_location: `${req.headers.host}${req.originalUrl}`,
           sessionId: 'null',
-          error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
+          error_reason: 'RFI Timeline - Dyanamic framework throws error - Tender Api is causing problem',
           exception: error,
         };
         const Log = new LogMessageFormatter(

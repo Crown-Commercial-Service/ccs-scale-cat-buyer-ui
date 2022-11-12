@@ -8,6 +8,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { EOI_PATHS } from '../model/eoiconstant';
 import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
 import * as cmsData from '../../../resources/content/eoi/addcollaborator.json';
+import * as Mcf3cmsData from '../../../resources/content/MCF3/eoi/addcollaborator.json';
 
 // EOI ADD_Collaborator
 /**
@@ -61,8 +62,17 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
 
     const lotId = req.session?.lotId;
     const agreementLotName = req.session.agreementLotName;
+
+    const agreementId_session = req.session.agreement_id;
+    let forceChangeDataJson;
+    if(agreementId_session == 'RM6187') { //MCF3
+      forceChangeDataJson = Mcf3cmsData;
+    } else { 
+      forceChangeDataJson = cmsData;
+    }
+
     const windowAppendData = {
-      data: cmsData,
+      data: forceChangeDataJson,
       userdata: filteredListofOrganisationUser,
       collaborator: collaborator,
       collaborators: collaboratorData,
@@ -73,16 +83,18 @@ export const GET_ADD_COLLABORATOR = async (req: express.Request, res: express.Re
       agreementLotName,
       error: isJaggaerError,
       releatedContent: req.session.releatedContent,
+      agreementId_session: req.session.agreement_id,
     };
     res.render('add-collaborator-eoi', windowAppendData);
   } catch (error) {
+
     LoggTracer.errorLogger(
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tender agreement failed to be added',
+      'EOI Add Collaborator - Tender agreement failed to be added',
       true,
     );
   }
@@ -118,7 +130,7 @@ export const POST_ADD_COLLABORATOR_JSENABLED = async (req: express.Request, res:
         `${req.headers.host}${req.originalUrl}`,
         null,
         TokenDecoder.decoder(SESSION_ID),
-        'Tender agreement failed to be added',
+        'EOI Add Collaborator - Tender agreement failed to be added',
         true,
       );
     }
@@ -130,28 +142,37 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
   const { SESSION_ID } = req.cookies;
   const { eoi_collaborators } = req['body'];
 
-  if(eoi_collaborators == ""){
+  if(eoi_collaborators === ""){
     req.session['isJaggaerError'] = true;
     res.redirect('/eoi/add-collaborators');
-  }
-  else{
+  }else{
 
-
-  try {
-    const user_profile = eoi_collaborators;
-    const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
-    const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
-    const userData = organisation_user_data?.data;
-    req.session['searched_user'] = userData;
-    res.redirect(EOI_PATHS.GET_ADD_COLLABORATOR);
+    try {
+      const user_profile = eoi_collaborators;
+      //const userdata_endpoint = `user-profiles?user-Id=${user_profile}`;
+      // const organisation_user_data = await OrganizationInstance.OrganizationUserInstance().get(userdata_endpoint);
+      // const userData = organisation_user_data?.data;
+      const baseURL = `/tenders/projects/${req.session.projectId}/users/${eoi_collaborators}`;
+      const userType = {
+        userType: 'TEAM_MEMBER',
+      };
+      try{
+        await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+        req.session['searched_user'] = [];
+        res.redirect(EOI_PATHS.GET_ADD_COLLABORATOR);
+      }catch(err){
+        req.session['isJaggaerError'] = true;
+        res.redirect('/eoi/add-collaborators');
+      }
   } catch (error) {
+
     LoggTracer.errorLogger(
       res,
       error,
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tender agreement failed to be added',
+      'EOI Add Collaborator - Tender agreement failed to be added',
       true,
     );
   }
@@ -162,12 +183,49 @@ export const POST_ADD_COLLABORATOR = async (req: express.Request, res: express.R
 export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { eoi_collaborator } = req['body'];
+ 
   try {
     const baseURL = `/tenders/projects/${req.session.projectId}/users/${eoi_collaborator}`;
     const userType = {
       userType: 'TEAM_MEMBER',
     };
-    await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+
+      try{
+        await DynamicFrameworkInstance.Instance(SESSION_ID).put(baseURL, userType);
+        req.session['searched_user'] = [];
+        res.redirect(EOI_PATHS.GET_ADD_COLLABORATOR);
+      }catch(err){
+        req.session['isJaggaerError'] = true;
+        res.redirect('/eoi/add-collaborators');
+      }
+
+
+  } catch (err) {
+    const isJaggaerError = err.response.data.errors.some(
+      (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
+    );
+    LoggTracer.errorLogger(
+      res,
+      err,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'EOI Add Collaborator - Tender agreement failed to be added',
+      !isJaggaerError,
+    );
+    req.session['isJaggaerError'] = isJaggaerError;
+    res.redirect('/eoi/add-collaborators');
+  }
+};
+
+export const GET_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request, res: express.Response) => {
+  const { SESSION_ID } = req.cookies;
+  const { userid } =  req.query;
+ 
+  try {
+    const baseURL = `/tenders/projects/${req.session.projectId}/users/${userid}`;
+    
+    await DynamicFrameworkInstance.Instance(SESSION_ID).delete(baseURL);
     req.session['searched_user'] = [];
     res.redirect(EOI_PATHS.GET_ADD_COLLABORATOR);
   } catch (err) {
@@ -180,7 +238,7 @@ export const POST_ADD_COLLABORATOR_TO_JAGGER = async (req: express.Request, res:
       `${req.headers.host}${req.originalUrl}`,
       null,
       TokenDecoder.decoder(SESSION_ID),
-      'Tender agreement failed to be added',
+      'EOI Add Collaborator - Tender agreement failed to be added',
       !isJaggaerError,
     );
     req.session['isJaggaerError'] = isJaggaerError;

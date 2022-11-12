@@ -31,43 +31,77 @@ export class QuestionHelper {
      * Sorting and following to the next path
      */
     let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
+    console.log('log11',baseURL);
     try {
       //update section 3 status start
       const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
+      console.log('log12',headingBaseURL);
       const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
+      console.log('log122',headingBaseURL);
       let heading_fetch_dynamic_api_data = heading_fetch_dynamic_api?.data;
-      heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 2'));//exclude group 18 and 2
+      if(agreement_id == 'RM1043.8') {
+        heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 2'));//exclude group 18 and 2
+      } else {
+        heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 2'));//exclude group 18 and 2
+      }
       heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.sort((n1: { nonOCDS: { order: number; }; }, n2: { nonOCDS: { order: number; }; }) => n1.nonOCDS.order - n2.nonOCDS.order);
       const mandatoryGroupList = heading_fetch_dynamic_api_data.filter((n1: { nonOCDS: { mandatory: any; }; }) => n1.nonOCDS?.mandatory);
+      // console.log('log13',mandatoryGroupList);
+
       let mandatoryNum = 0;
       for (let i = 0; i < mandatoryGroupList.length; i++) {
         let isMandatory = mandatoryGroupList[i]?.nonOCDS?.mandatory;
         if (isMandatory) {
           let gid = mandatoryGroupList[i]?.OCDS?.id;
           let baseQuestionURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${gid}/questions`;
+          
+          console.log('log14',baseQuestionURL);
+
+
           let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
           let question_api_data = question_api?.data;
           //let mandatoryMarked=false;//increase mandatory count
           let innerMandatoryNum = 0;
-          //let mandatoryNumberinGroup = question_api_data.filter((a: any) => a?.nonOCDS?.mandatory == true)?.length;//no of questions mandatory in group
-          let mandatoryNumberinGroup = question_api_data.length;
+          let mandatoryNumberinGroup = question_api_data.filter((a: any) => a?.nonOCDS?.mandatory == true)?.length;//no of questions mandatory in group
+          // let mandatoryNumberinGroup = question_api_data.length;
           //if (mandatoryNumberinGroup != null && mandatoryNumberinGroup.length > 0) {
           for (let k = 0; k < question_api_data.length; k++) {//multiple questions on page
             //let isInnerMandatory = question_api_data?.[k]?.nonOCDS?.mandatory;
             let questionType = question_api_data[k]?.nonOCDS.questionType;
+            
+            console.log('log15',questionType);
             //if (isInnerMandatory) {
+
             let answer = ''
             let selectedLocation;
             if (questionType == 'Text' || questionType == 'Percentage') {
               let textMandatoryNum = question_api_data[k]?.nonOCDS.options?.length;
               let textNum = 0;
-              if (textMandatoryNum != null && textMandatoryNum > 0) {
-                for (let j = 0; j < textMandatoryNum; j++) {
-                  answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
-                  if (answer != '' && answer != undefined) { textNum += 1; }
+              if((gid == 'Group 20' || gid == 'Group 18') && agreement_id == 'RM1043.8' && (req.session.lotId == 1 || req.session.lotId == 3)) {
+                //Patch SCAT-7162
+                if(question_api_data[k]?.nonOCDS.mandatory) {
+                  if (textMandatoryNum != null && textMandatoryNum > 0) {
+                    for (let j = 0; j < textMandatoryNum; j++) {
+                      answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
+                      if (answer != '' && answer != undefined) { textNum += 1; }
+                    }
+                    if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
+                  }
                 }
-                if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
+              } else {
+                if (textMandatoryNum != null && textMandatoryNum > 0) {
+                  if(question_api_data?.[k]?.nonOCDS?.mandatory) {  //Patch SCAT-7162
+                    for (let j = 0; j < textMandatoryNum; j++) {
+                      answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
+                      if (answer != '' && answer != undefined) { textNum += 1; }
+                    }
+                    if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
+                  }
+                }
               }
+              
+              
+              
             }
             else if (questionType === 'MultiSelect') {
               let isMultiselect = false;
@@ -85,6 +119,10 @@ export class QuestionHelper {
                 if (gid === 'Group 16' && value !== undefined && value === 'No' && selectedLocation) {
                   innerMandatoryNum += 1;
                 }
+                //Patch SCAT-7162
+                if (agreement_id == 'RM1043.8' && (req.session.lotId == 1 || req.session.lotId == 3) && (gid === 'Group 20' || gid === 'Group 18') && value !== undefined && value === 'No' && selectedLocation) {
+                  innerMandatoryNum += 1;
+                }
               }
             }
             else if (questionType === 'Date') {
@@ -93,13 +131,34 @@ export class QuestionHelper {
                 let dateValue = question_api_data?.[k]?.nonOCDS.options?.[j]?.value;
                 if (dateValue != undefined && dateValue != null && dateValue != '') { dateValidation += 1; }
               }
-              if (dateValidation >= 3)//3 for day,month,year
-              {
-                innerMandatoryNum += 1;
+              
+              if(agreement_id == 'RM6187'){
+                if (dateValidation >= 1) innerMandatoryNum += 1;
+              }else if(agreement_id == 'RM1043.8'){
+                if (dateValidation >= 1) innerMandatoryNum += 1; 
+              }else{
+                if (dateValidation >= 3) innerMandatoryNum += 1; //3 for day,month,year
               }
             }
             else if (questionType === 'Duration') {
-              innerMandatoryNum += 1;
+              if(agreement_id == 'RM1043.8'){
+                if(question_api_data?.[k]?.nonOCDS?.mandatory) {
+                  // let durationValue = question_api_data?.[k]?.nonOCDS.options;
+                  let durationValidation = 0;
+                  for (let j = 0; j < question_api_data?.[k]?.nonOCDS.options?.length; j++) {
+                    let durationValue = question_api_data?.[k]?.nonOCDS.options?.[j]?.value;
+                    if (durationValue != undefined && durationValue != null && durationValue != '') { durationValidation += 1; }
+                  }
+                  if(agreement_id == 'RM1043.8'){
+                    if (durationValidation >= 1) innerMandatoryNum += 1; 
+                  }
+                  // if(durationValue.length > 1) {
+                  //   innerMandatoryNum += 1;
+                  // }
+                }
+              } else {
+                innerMandatoryNum += 1; 
+              }
             }
             else if (questionType === 'KeyValuePair') {
               let kvMandatoryNum = question_api_data?.[k]?.nonOCDS.options?.length;
@@ -117,27 +176,70 @@ export class QuestionHelper {
             else if (questionType === 'ReadMe') {
               innerMandatoryNum += 1;
               //mandatoryNumberinGroup += 1;
+            }else if(questionType === 'Value'){
+
+              let textMandatoryNum = question_api_data[k]?.nonOCDS.options?.length;
+              let textNum = 0;
+              if (textMandatoryNum != null && textMandatoryNum > 0) {
+                for (let j = 0; j < textMandatoryNum; j++) {
+                  answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
+                  if (answer != '' && answer != undefined) { textNum += 1; }
+                }
+                if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
+              }
+
             }
           }
-          if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
+          
+          if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) {  mandatoryNum += 1; }
         }
       }
+      console.log('log11');
+      if(agreement_id == 'RM1043.8'){      
+        // dos
+        // let lotmandatoryQues = 10;
+        // if(req.session.lotId == 3) lotmandatoryQues = 9;
+       // if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (mandatoryGroupList.length == mandatoryNum)) {//all questions answered
+      
+       if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (req.session.lotId == 1 && (mandatoryGroupList.length == mandatoryNum)) || (req.session.lotId == 3 &&  (mandatoryGroupList.length == mandatoryNum) )) {
+          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/30`, 'Completed');
+          if (response.status == HttpStatusCode.OK) {
+            let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
+            if (flag) {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'Optional');
+            }
 
-      if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'Completed');
-        if (response.status == HttpStatusCode.OK) {
-          let flag = await ShouldEventStatusBeUpdated(event_id, 33, req);
+            let flags = await ShouldEventStatusBeUpdated(event_id, 32, req);
+            if (flags) {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'Not started');
+            }
+          }
+        }
+        else {
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/30`, 'In progress');
+        }
+      }else{
+       
+        if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (mandatoryGroupList.length == mandatoryNum || mandatoryNum >= 6)) {//all questions answered
+          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'Completed');
+          if (response.status == HttpStatusCode.OK) {
+            let flag = await ShouldEventStatusBeUpdated(event_id, 32, req);
+            if (flag) {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'Not started');
+            }
+          }
+        }
+        else {
+          let flag = await ShouldEventStatusBeUpdated(event_id, 31, req);
           if (flag) {
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'In progress');
           }
         }
       }
-      else {
-        let flag = await ShouldEventStatusBeUpdated(event_id, 32, req);
-        if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'In progress');
-        }
-      }
+      console.log('log11');
+
+
+
       //update section 3 status end
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
       let fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -167,12 +269,16 @@ export class QuestionHelper {
         })
         .sort((a: any, b: any) => (a.OCDS.sortId < b.OCDS.sortId ? -1 : 1))
         .filter((obj: any) => obj != undefined)
-        .filter((obj: any) => obj.OCDS.description !== 'IR35 acknowledgement' && obj?.OCDS?.description?.toLowerCase() !== 'Confirm if you need a contracted out service or a supply of resource'.toLowerCase());
+        .filter((obj: any) => obj.OCDS.description !== 'IR35 acknowledgement')
+        .filter((obj: any) => obj.OCDS.description !== 'Confirm if you need a contracted out service or a supply of resource');
+        
+        
       let current_cursor = sorted_ascendingly?.findIndex(
         (pointer: any) => pointer.OCDS['id'] === group_id && pointer.criterianId === id,
       );
       let check_for_overflowing: Boolean = current_cursor < sorted_ascendingly.length - 1;
       if (check_for_overflowing) {
+        
         let next_cursor = current_cursor + 1;
         let next_cursor_object = sorted_ascendingly[next_cursor];
         let next_group_id = next_cursor_object.OCDS['id'];
@@ -183,6 +289,7 @@ export class QuestionHelper {
         res.redirect('/rfp/task-list');
       }
     } catch (error) {
+      console.log('catcherr1',error);
       logger.log('Something went wrong in the RFP Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
         res,
@@ -216,9 +323,17 @@ export class QuestionHelper {
     try {
       //#region Check Mandatory group and question
       const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
+      const lotid = req.session?.lotId;
       const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
       let heading_fetch_dynamic_api_data = heading_fetch_dynamic_api?.data;
-      heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 8' && a?.OCDS?.id != 'Group 7'));//exclude group 18 and 2
+      if(agreement_id == 'RM1043.8' && lotid=='3'){
+        heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 11'));//exclude group 18 and 2
+      }else if(agreement_id == 'RM1043.8' && lotid=='1'){
+        heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 13'));//exclude group 18 and 2
+      }
+      else{
+        heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 18' && a?.OCDS?.id != 'Group 8' && a?.OCDS?.id != 'Group 7'));//exclude group 18 and 2
+      }
       heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.sort((n1: { nonOCDS: { order: number; }; }, n2: { nonOCDS: { order: number; }; }) => n1.nonOCDS.order - n2.nonOCDS.order);
       const mandatoryGroupList = heading_fetch_dynamic_api_data.filter((n1: { nonOCDS: { mandatory: any; }; }) => n1.nonOCDS?.mandatory);
       let mandatoryNum = 0;
@@ -240,6 +355,7 @@ export class QuestionHelper {
           for (let k = 0; k < question_api_data.length; k++) {//multiple questions on page
             //let isInnerMandatory = question_api_data?.[k]?.nonOCDS?.mandatory;
             let questionType = question_api_data[k]?.nonOCDS.questionType;
+
             //if (isInnerMandatory) {
             let answer = ''
             let selectedLocation;
@@ -302,31 +418,64 @@ export class QuestionHelper {
             else if (questionType === 'ReadMe') {
               innerMandatoryNum += 1;
               //mandatoryNumberinGroup += 1;
+            }else if(questionType === 'Value'){
+
+              let textMandatoryNum = question_api_data[k]?.nonOCDS.options?.length;
+              let textNum = 0;
+              if (textMandatoryNum != null && textMandatoryNum > 0) {
+                for (let j = 0; j < textMandatoryNum; j++) {
+                  answer = question_api_data?.[k]?.nonOCDS?.options?.[j]?.value;
+                  if (answer != '' && answer != undefined) { textNum += 1; }
+                }
+                if (textMandatoryNum == textNum) { innerMandatoryNum += 1; }
+              }
+
             }
           }
           if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) { mandatoryNum += 1; }
         }
       }
 
-      if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/37`, 'Completed');
-        if (response.status == HttpStatusCode.OK) {
-          let flag = await ShouldEventStatusBeUpdated(event_id, 38, req);
+      if(agreement_id == 'RM1043.8'){ // dos
+	//if (mandatoryGroupList != null && (req.session.lotId == 1 && (mandatoryGroupList.length == mandatoryNum)) || (req.session.lotId == 3 && (mandatoryGroupList.length == mandatoryNum))) {
+        if (mandatoryGroupList != null && (req.session.lotId == 1 && mandatoryNum >= 4) || (req.session.lotId == 3 && mandatoryNum >= 4)) {
+          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'Completed');
+          if (response.status == HttpStatusCode.OK) {
+            let flag = await ShouldEventStatusBeUpdated(event_id, 33, req);
+            if (flag) {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'Not started');
+            }
+          }
+        }
+        else {
+          let flag = await ShouldEventStatusBeUpdated(event_id, 32, req);
           if (flag) {
-            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/38`, 'Not started');
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/32`, 'In progress');
+          }
+        }
+
+      }else{
+        if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
+          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Completed');
+          if (response.status == HttpStatusCode.OK) {
+            let flag = await ShouldEventStatusBeUpdated(event_id, 35, req);
+            if (flag) {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Not started');
+            }
+          }
+        }
+        else {
+          let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
+          if (flag) {
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'In progress');
           }
         }
       }
-      else {
-        let flag = await ShouldEventStatusBeUpdated(event_id, 37, req);
-        if (flag) {
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/37`, 'In progress');
-        }
-      }
+      
 
       heading_fetch_dynamic_api_data?.map((obj: any) => {
-        obj.criterianId = id;
-      })
+        obj.criterianId = id;      
+      });
       let current_cursor = heading_fetch_dynamic_api_data?.findIndex(
         (pointer: any) => pointer.OCDS['id'] === group_id && pointer.criterianId === id,
       );
@@ -337,13 +486,14 @@ export class QuestionHelper {
         let next_cursor_object = heading_fetch_dynamic_api_data[next_cursor];
         let next_group_id = next_cursor_object.OCDS['id'];
         let next_criterian_id = id; //next_cursor_object['criterianId'];
-        let base_url = `/rfp/assesstment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}=&step${res.req?.query?.step}`;
+        let base_url = `/rfp/assessment-question?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=${res.req?.query?.section}=&step${res.req?.query?.step}`;
         res.redirect(base_url);
       } else {
         res.redirect('/rfp/task-list');
         //}
       }
     } catch (error) {
+      
       logger.log('Something went wrong in the RFP Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
         res,
