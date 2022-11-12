@@ -290,6 +290,11 @@
                       <div class="govuk-date-input" id="eoi_duration">
                         <div class="govuk-date-input__item">
                           <div class="govuk-form-group">
+                            {% if (agreement_id != 'RM1043.8') %}
+                              {% set maxLength = 3 %}
+                            {% else %}
+                              {% set maxLength = 1 %}
+                            {% endif %}
                             {{ CCSInput({
                             label: {
                               text: "Years",
@@ -302,9 +307,9 @@
                             type: "number", 
                             inputmode:"numeric",
                             value: requirement.nonOCDS.options[0].value,
-                            max: "4",
+                            max: "100",
                             min: "0",
-                            maxlength: "1"
+                            maxlength: maxLength
                           }) }}
                           </div>
                         </div>

@@ -191,21 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             }
             if(currentEID=='rfp_duration_days_Question13'){
-               // const YearProjectRun2 = Number(durationYear[1].value);
-               // const MonthProjectRun2 = Number(durationMonth[1].value);
-               // const DaysProjectRun2 = Number(durationDay[1].value);
-   
-               // if(YearProjectRun2==4){
-               //    if(MonthProjectRun2>0 || DaysProjectRun2>0){
-               //       yrValidation2 = true;
-               //    }
-               // }else if(YearProjectRun2==3){
-               //    if(MonthProjectRun2==12 && DaysProjectRun2>0){
-               //       yrValidation2 = true;
-               //    }
-               // }else if(YearProjectRun2>4){
-               //    yrValidation2 = true;
-               // }
                yrValidation2 = validateExtPeriod();
             }
          }
