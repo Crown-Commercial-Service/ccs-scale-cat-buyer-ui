@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let maxBudget = Number(inputArray[0].value);
             let msg = '';
             if ((maxBudget == '') || (maxBudget == 0)) {
-              msg = 'You must enter a values';
+              msg = 'You must enter a value';
             } else if (maxBudget > 0 && (maxBudget < minBudget) || (maxBudget == minBudget)) {
               msg = 'Indicative minimum budget must be less than indicative maximum budget';
             } 
