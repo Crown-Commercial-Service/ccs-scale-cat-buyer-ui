@@ -169,16 +169,17 @@ var { Parser } = require("json2csv");
         return false;
       });
 
+      
+      const rowCount=10;let showPrevious=false,showNext=false;
+      supplierList = supplierList.sort((a: any, b: any) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
+      const supplierLength = supplierList.length;
       let supplierPostIds = supplierList.map((value: any) => value.organization.id);
       if(supplierPostIds.length > 0){
         req.session['PAShortlistedSuppliers'] = supplierPostIds;
       }else{
         req.session['PAShortlistedSuppliers'] = [];
       }
-      const rowCount=10;let showPrevious=false,showNext=false;
-      supplierList = supplierList.sort((a: any, b: any) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
-      const supplierLength = supplierList.length;
-
+      
       //Step 80 Is that completed
       const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
       let actualStatus = journeySteps.find((d: any) => d.step == 80)?.state;
@@ -320,10 +321,11 @@ var { Parser } = require("json2csv");
         const {data: retrieveSupplierContactDetails} = await AgreementAPI.Instance.get(BaseURLSupplierContact);
         const JsonData:any = [];
         let contactSupplierDetails;
+        
         for(let i=0;i<supplierPostIds.length;i++){
           
           const contact = retrieveSupplierContactDetails.find((el: any) => {
-            if(el.organization.id === supplierPostIds[i]) { return true; }
+            if(el.organization.id == supplierPostIds[i]) { return true; }
               return false;
           });          
           if(contact.lotContacts != undefined) {
@@ -334,8 +336,8 @@ var { Parser } = require("json2csv");
             contact.lotContacts[0].contact['Contact number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
             contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
             contactSupplierDetails = contact.lotContacts[0].contact;
+            JsonData.push(contactSupplierDetails)
           }
-          JsonData.push(contactSupplierDetails)
         }
         let fields = ["name","email","telephone","address","url","Contact name","Contact number"];
         const json2csv = new Parser({fields});
