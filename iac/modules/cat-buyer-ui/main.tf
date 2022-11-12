@@ -61,7 +61,7 @@ data "aws_ssm_parameter" "env_auth_server_base_url" {
 }
 
 data "aws_ssm_parameter" "env_auth_identity_base_url" {
-  name = "/cat/${var.environment}/auth-identity-base-url"
+  name = "/cat/${var.environment}/auth_identity_base_url"
 }
 
 data "aws_ssm_parameter" "env_logit_api_key" {
