@@ -504,12 +504,12 @@ const emptyFieldCheckRfpScore = () => {
           field: point_field,
           isError: false,
         };
-        fieldCheck = [point_field.id, 'Enter Valid score.'];
-        ccsZaddErrorMessage(point_field, 'Enter Valid score.');
+        fieldCheck = [point_field.id, 'Enter valid score.'];
+        ccsZaddErrorMessage(point_field, 'Enter valid score.');
         errorObj.isError = true;
         errorObj.field = point_field;
         if (errorObj.isError) {
-          fieldCheck = [errorObj.field.id, 'Enter Valid score.'];
+          fieldCheck = [errorObj.field.id, 'Enter valid score.'];
           errorStore.push(fieldCheck);
         }
       }else {
@@ -550,7 +550,7 @@ const emptyFieldCheckRfpScore = () => {
         }
         
         if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
-            ccsZaddErrorMessage(point_field,'Enter Valid score.');
+            ccsZaddErrorMessage(point_field,'Enter valid score.');
             errorObj.isError = true;
             errorObj.field = point_field;
         }
@@ -576,7 +576,7 @@ const emptyFieldCheckRfpScore = () => {
           errMsg = 'you must add score for this level';
         }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
           errorObj.field = point_field;
-          errMsg = 'Enter Valid score.';
+          errMsg = 'Enter valid score.';
         }else if (desc_field.value.trim() === '') {
           errorObj.field = desc_field;
           errMsg = 'you must add description for this level';
