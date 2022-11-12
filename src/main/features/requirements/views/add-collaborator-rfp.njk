@@ -125,6 +125,8 @@
       </div>
       {% if agreementId_session == 'RM1043.8' %}
       {% set addcolleaguedetails = "addcolleaguedetailsdos" %}
+      {% else %}
+      {% set addcolleaguedetails = "" %}
     {% endif %}
       <form method="POST" action="/rfp/add-collaborator-detail" >
       {{ csrfProtection(csrf) }}
