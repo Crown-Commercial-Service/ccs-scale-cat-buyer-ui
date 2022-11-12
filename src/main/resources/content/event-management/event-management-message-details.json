@@ -20,12 +20,14 @@
   "backlink" : "/message/inbox",
   "backlinkDetailPageHref" : "/message/sent",
   "tabs": {
-    "text1": "Write message",
+    "text1": "Create Message to ALL Suppliers",
     "href1": "/message/create",
     "text2": "Received",
     "href2": "/message/inbox",
     "text3": "Sent",
-    "href3": "/message/sent"
+    "href3": "/message/sent",
+    "text4": "Create Message to Supplier",
+    "href4": "/message/create/supplier?type=received"
   },
   "title": "Inbox",
   "subtitle": "When responding to your message, you can select from three options:",

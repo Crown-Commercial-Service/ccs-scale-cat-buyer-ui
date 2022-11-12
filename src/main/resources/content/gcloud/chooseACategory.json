@@ -1,0 +1,41 @@
+{
+    "title": "Choose a category",
+    "subtitle": null,
+    "buttonText":"Save and Continue",
+    "returnTo":"Return to Procurement overview",
+    "checkCheckbox": [
+      {
+         
+        "name": "Cloud Hosting",
+        "value": "cloud-hosting",
+        "description": "Platform or infrastructure services for running software, networking, or processing and storing data."
+      },
+      {
+         
+        "name": "Cloud Software",
+        "value": "cloud-software",
+        "description": "Applications that are accessed over the internet and hosted in the cloud. e.g. accounting tools or customer service management software"
+      },
+      {
+         
+        "name": "Cloud Support",
+        "value": "cloud-support",
+        "description": "Services to help you set up and maintain your cloud software or hosting services. e.g. migration services or ongoing support"
+      }
+    ],
+    "related_content": [
+      {
+          "text": "G-Cloud 13 customer guidance",
+          "href": "https://assets.crowncommercial.gov.uk/wp-content/uploads/RM1557.13-G-Cloud-13-customer-guidance-v1.0-1.odt"
+      },
+      {
+          "text": "G-Cloud buyer’s guide",
+          "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
+      },
+      {
+          "text": "G-Cloud 13 agreement page",
+          "href": "https://www.crowncommercial.gov.uk/agreements/RM1557.13"
+      }
+  ]
+
+}

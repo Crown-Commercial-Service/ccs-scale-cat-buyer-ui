@@ -80,6 +80,22 @@ data "aws_ssm_parameter" "google_tag_manager_id" {
   name = "/cat/${var.environment}/google-tag-manager-id"
 }
 
+data "aws_ssm_parameter" "gcloud_token" {
+  name = "/cat/${var.environment}/gcloud_token"
+}
+
+data "aws_ssm_parameter" "gcloud_search_api_url" {
+  name = "/cat/${var.environment}/gcloud_search_api_url"
+}
+
+data "aws_ssm_parameter" "gcloud_services_api_url" {
+  name = "/cat/${var.environment}/gcloud_services_api_url"
+}
+
+data "aws_ssm_parameter" "gcloud_supplier_api_url" {
+  name = "/cat/${var.environment}/gcloud_supplier_api_url"
+}
+
 data "aws_ssm_parameter" "google_site_tag_id" {
   name = "/cat/${var.environment}/google-site-tag-id"
 }
@@ -112,6 +128,10 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
     GOOGLE_SITE_TAG_ID : data.aws_ssm_parameter.google_site_tag_id.value
     ROLLBAR_HOST : var.environment
     ROLLBAR_ACCESS_TOKEN : data.aws_ssm_parameter.rollbar_access_token.value
+    GCLOUD_TOKEN : data.aws_ssm_parameter.gcloud_token.value
+    GCLOUD_SEARCH_API_URL : data.aws_ssm_parameter.gcloud_search_api_url.value
+    GCLOUD_SERVICES_API_URL : data.aws_ssm_parameter.gcloud_services_api_url.value
+    GCLOUD_SUPPLIER_API_URL : data.aws_ssm_parameter.gcloud_supplier_api_url.value
   }
   health_check_timeout = var.healthcheck_timeout
   health_check_type    = "port"
@@ -136,7 +156,6 @@ resource "cloudfoundry_app" "cat_buyer_ui" {
 }
 
 resource "cloudfoundry_network_policy" "cat_service" {
-
   policy {
     source_app      = cloudfoundry_app.cat_buyer_ui.id
     destination_app = data.cloudfoundry_app.cat_service.id

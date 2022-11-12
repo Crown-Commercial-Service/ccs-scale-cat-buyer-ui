@@ -11,18 +11,18 @@
     <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
 </p>
 {% endset %}
-{% set Replyhtml %}
-<h3 class="govuk-notification-banner__heading">
-   Your message has been sent to {{suppliernameforreplymessage}}
-</h3>
+	{% set Replyhtml %}	
+<h3 class="govuk-notification-banner__heading">	
+   Your message has been sent to {{suppliernameforreplymessage}}	
+</h3>	
 {% endset %}
 {% set errHtml %}
 <h3 class="govuk-notification-banner__heading">
     {{data.notification2.text}}
 </h3>
-<!--<p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="{{data.notification2.link}}">{{data.notification2.linkText}}</a>
-</p>-->
+	<!-- <p class="govuk-body">	
+    <a class="govuk-notification-banner__link" href="{{data.notification2.link}}">{{data.notification2.linkText}}</a>	
+</p> -->
 {% endset %}
 
 {% set htmlQA %}
@@ -35,7 +35,7 @@
 {% endset %}
 {% set errHtmlQA %}
 <h3 class="govuk-notification-banner__heading">
-    Your clarifications are not updated
+     Your clarifications are not updated
 </h3>
 <p class="govuk-body">
     <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
@@ -62,17 +62,15 @@
     {{ CCSBreadcrumbs({
         items:[
     {
-      "text": "Your Dashboard",
+      "text": "Dashboard",
       "href": "/dashboard"
     },
     {
-
-      "text": "Your Project",
-
+      "text": eventId+" / "+eventType,
       "href": "/event/management?id="+eventId
     },
     {
-      "text": "Your Inbox",
+      "text": "Messaging Inbox",
       "href": "#"
     }
   ]
@@ -100,24 +98,22 @@
                 }) }}
             </div>
         {% endif %}
-         {% if createdreply == 'true' %}
-            <div class="govuk-grid-column-one-half">
-
-                {{ govukNotificationBanner({
-                html: Replyhtml,
-                type: "success",
-                titleText: "Message sent"
-                }) }}
-
-            </div>
-        {% elseif createdreply == 'false' %}
-            <div class="govuk-grid-column-one-half">
-                {{ govukNotificationBanner({
-                html: errHtml,
-                type: "Important",
-                titleText: data.notification2.title
-                }) }}
-            </div>
+            {% if createdreply == 'true' %}	
+            <div class="govuk-grid-column-one-half">	
+                {{ govukNotificationBanner({	
+                html: Replyhtml,	
+                type: "success",	
+                titleText: "Message sent"	
+                }) }}	
+            </div>	
+        {% elseif createdreply == 'false' %}	
+            <div class="govuk-grid-column-one-half">	
+                {{ govukNotificationBanner({	
+                html: errHtml,	
+                type: "Important",	
+                titleText: data.notification2.title	
+                }) }}	
+            </div>	
         {% endif %}
         {% if createdQA == true %}
             <div class="govuk-grid-column-one-half">
@@ -157,26 +153,28 @@
                 }) }}
             </div>
         {% endif %}
-         <div class="govuk-grid-row govuk-!-padding-bottom-7">
-            <div class="govuk-grid-column-full">
-                <h1 class="govuk-heading-xl">
-                   <strong> {{data.title}} </strong>
-                </h1>
-                <div class="project-overview">
-                <p class="govuk-body">
-                    <strong>{{eventId | upper}} / {{eventName}}</strong> <br/>
-                    <strong>Selected agreement : </strong>{{agreementName}} , {{lotName}} <br/>
-                    <strong>Agreement ID: </strong>{{ agreement_header['agreementId_session'] }}
-                </p>
-               {# {% include "includes/project_header.njk" %}  #}
-            </div>
-        </div>
+       
+    <div class="govuk-grid-row govuk-!-padding-bottom-7">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
+          {{data.title}}
+        </h1>
+        <p class="govuk-body">
+          <strong>Event Id / Name : {{eventId | upper}} / {{eventType}}</strong>
+        </p>
+        {% include "includes/project_header.njk" %}
+      </div>
     </div>
+
         <div class="govuk-grid-row messaging-navigation">
             <div class="govuk-grid-column-full">
                 <nav class="global-navigation" data-toggle="nav" data-app-uri="http://www.crowncommercial.gov.uk/" data-app-pathinfo="/">
 
                     <ul class="nav-list messaging-nav-list--primary">
+                        
+                         <li class="nav-list__item">
+             <a class="nav-list__link " href="{{data.tabs.href4}}?type=received">{{data.tabs.text4}}</a>
+            </li>
                         <li class="nav-list__item">
                             <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{data.tabs.text1}}</a>
                         </li>
@@ -204,7 +202,7 @@
                                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
                                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
                                 <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_3}}</th>
-                                <!--<th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th>-->
+                                {# <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_4}}</th> #}
                             </tr>
                         </thead>
                         <tbody class="govuk-table__body">
@@ -216,15 +214,15 @@
                                                 <a class="govuk-link" href="/message/details?id={{ message.OCDS.id }}&type=received">{{ message.OCDS.author.name }}</a>
                                             </p>
                                         </th>
-                                        <td class="govuk-table__cell">{{ message.OCDS.date}}</td>
+                                        <td class="govuk-table__cell">{{ message.OCDS.date }}</td>
                                         <td class="govuk-table__cell">{{ message.OCDS.title }}</td>
-                                        <!--<td class="govuk-table__cell">
+                                        {# <td class="govuk-table__cell">
                                             {% if message.nonOCDS.read == true %}
                                                 <strong class="govuk-tag govuk-tag--green">Read</strong>
                                             {% else %}
                                                 <strong class="govuk-tag govuk-tag--blue">Unread</strong>
                                             {% endif %}
-                                        </td>-->
+                                        </td> #}
                                     </tr>
                                 {% endfor %}
                             {% else %}
@@ -243,8 +241,8 @@
                     </table>
                 </div>
             </div>
-             <p class="govuk-body">
+            <p class="govuk-body">
                 <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
-            </p> 
+            </p>
         </main>
     {% endblock %}

@@ -10,11 +10,11 @@
 {{ CCSBreadcrumbs({
     items: [
         {
-            "text": "Your dashboard",
+            "text": "Dashboard",
             "href": "/dashboard"
         },
         {
-            "text": "Choose a commericial agreement",
+            "text": "Choose a commercial agreement",
             "href": "/projects/choose-agreement"
         },
         {
@@ -59,26 +59,25 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
   {% include "includes/project_header.njk" %}
-  <br><br>
-   <div>
+  <div class="govuk-inset-text">
         <p class="govuk-body">Your unique project ID is <strong>{{projectLongName}}</strong><br>Make sure you include this ID every time you contact CCS. </p>
-      </div>
+    </div>
       <div>
       <p class="govuk-body">{{data.caption1}}
       <br>{{data.caption2}}
       {% set returnLink = "/da/task-list?path="+choosenViewPath %}
             <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">return to write and publish your requirements.</a> </p>
       </div>
-      <label for="{{data.form.input.id}}" class="govuk-visually-hidden">{{data.caption1}}</label>
       <form id="ccs_rfi_project_name_form" name="ccs_rfi_project_name_form" action="/da/name?procid={{procId}}" method="POST">       
           {{ csrfProtection(csrf) }}
         {{ CCSInput({           
             id: data.form.input.id,
             name: data.form.input.name,
-            value: projectLongName
+            value: projectLongName,
+            classes: 'govuk-!-width-two-thirds'
             })
         }}
-         <p><label class="remaining_chrs_term" id="rfi_label_name_project">You have {{(500-(projectLongName | length))}} characters remaining</label></p>
+
           <div class="govuk-button-group">
             {{ CCSButton({
                 text: "Save and continue",

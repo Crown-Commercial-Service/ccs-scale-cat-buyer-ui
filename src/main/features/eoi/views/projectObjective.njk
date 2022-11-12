@@ -1,0 +1,146 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title = 'Complete and upload a document | Contract Award Service' %}
+
+  {% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+  {%- endset %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+        items: [
+          {
+            text: "Home",
+            href: "/dashboard"
+          },
+          {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+          },
+          {
+            text: "Procurement overview",
+            href: url
+          },
+          {
+            text: "Run pre-market engagement",
+            href: "/eoi/eoi-tasklist"
+          },
+          {
+            text: "Build your EoI",
+            href: "/eoi/online-task-list"
+          },
+          {
+            text: "Project objectives",
+            href: "#"
+          }
+        ]
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  {% if(error) %}
+      {{ CCSErrorSummary({ titleText: "There is a problem", errorList: [{ text: "Enter your first objective" }] }) }}
+  {% endif %}
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">{{data.title }}</h1>         
+      </div>  
+  </div>
+  
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          {% include "includes/project_header.njk" %}
+        </div>
+      </div>
+        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+          <div class="govuk-grid-column-full">
+            <p class="govuk-body">{{data.line1 }}</p> 
+            <p class="govuk-body">{{data.line2 }}</p>
+          </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="1000">
+              <form id="eoi_project_objective" method="post" action="/eoi/project-objective">
+               {{ csrfProtection(csrf) }}
+               {% if(error) %}
+                  {{  
+                    CCSTextarea({
+                      name:  "prject_objective",
+                      required: true,
+                      id: "label-as-page-heading",
+                      value: "",
+                      label: {
+                      classes: "govuk-label govuk-label--m"
+                      },
+                      classes:"govuk-textarea govuk-js-character-count",
+                      rows:5,
+                      maxlength:"1000",
+                      error:error,
+                      errorMessage:{
+                         text: 'Enter your first objective'
+                      }
+                    }) 
+                }}
+                {% else %}
+                                  {{  
+                    CCSTextarea({
+                      name:  "prject_objective",
+                      required: true,
+                      id: "label-as-page-heading",
+                      value: "",
+                      label: {
+                      text:" Enter your first objective",
+                      classes: "govuk-label govuk-label--m"
+                      },
+                      classes:"govuk-textarea govuk-js-character-count",
+                      rows:5,
+                      maxlength:"1000"
+                    }) 
+                }}
+                {% endif %}
+            
+              <div id="label-as-page-heading-info" class="govuk-hint govuk-character-count__message">
+                You can enter up to 1000 characters
+              </div>
+              <div class="govuk-button-group govuk-!-margin-top-6">
+                <a class="govuk-link govuk-link--secondary" href="/#" id="eoi_project_objective_add">
+                  Add another objective
+                </a>
+              </div>
+                  
+            </div>
+          </div>
+        </div>
+         <strong><span class="select_service_err"></span></strong>
+        <div class="govuk-grid-row govuk-!-margin-top-4">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-button-group">
+                  {{ CCSButton({
+                    class:"govuk-button",
+                    text: "Save and continues",
+                    action:"submit"
+                  })
+                }}
+              <a class="govuk-link" href="{{data.backJump.href }}">{{data.backJump.title }}</a>
+            </div>
+          </div>
+        </div>
+        </form> 
+       
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ CCSReleatedContent(releatedContent) }}
+    </div>
+  </div>
+  </main>
+{% endblock %}
+

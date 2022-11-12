@@ -23,7 +23,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         <h1 class="govuk-heading-xl">
-          <strong>{{data.title }}</strong>
+          {{data.title }}
         </h1>
       </div>
     </div>
@@ -31,14 +31,12 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
-        <p class="govuk-body">{{data.subtitle1}}</p>
-        {#<p class="govuk-body">{{data.subtitle2}}</p>#}
-        <p class="govuk-body">{{data.subtitle3}}</p>
+        <p class="govuk-body govuk-inset-text">{{data.subtitle}}</p>
         <form id="ccs_rfp_type_form" name="ccs_rfp_type_form" class="form ccs_rfp_type_form" action="/da/type" method="POST">
           {{ csrfProtection(csrf) }}
           {% for form in data.form %}
             <fieldset id={{form.id}}>
-              <p class="govuk-body"><strong>{{ form.question }}</strong></p>
+              <p class="govuk-body">{{ form.question }}</p>
               {% set formOptions = form.radioOptions.items %}
 
               {% set form_Options_Altered = [] %}

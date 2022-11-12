@@ -1,152 +1,196 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('rfp_budget_for') !== null) {
-    let allInputfield = document.querySelectorAll(".govuk-input");
+    let allInputfield = document.querySelectorAll('.govuk-input');
     var validNumber = new RegExp(/^\d+$/);
     allInputfield.forEach(element => {
       element.addEventListener('keydown', event => {
-        if (event.key === '.') { event.preventDefault(); return;}
-        if (event.keyCode === 69) { event.preventDefault(); return;}
-        if (event.keyCode === 187) { event.preventDefault(); return;}
-        if (event.keyCode === 189 && event.srcElement.value.length!=0) { event.preventDefault(); return;}
-        if((event.ctrlKey || event.metaKey) && event.keyCode==86){ event.preventDefault(); return;}
-      })
-    })  
+        if (event.key === '.') {
+          event.preventDefault();
+          return;
+        }
+        if (event.keyCode === 69) {
+          event.preventDefault();
+          return;
+        }
+        if (event.keyCode === 187) {
+          event.preventDefault();
+          return;
+        }
+        if (event.keyCode === 189) {
+          event.preventDefault();
+          return;
+        }
+      });
+    });
   }
-})
+});
 const emptyQuestionFieldCheckBudget = () => {
   let fieldCheck = '',
     errorStore = [];
-  const pageHeading = document.getElementById('page-heading').innerHTML;
+  const pageHeadingVal = document.getElementById('page-heading').innerHTML;
+  const pageHeading = pageHeadingVal.toLowerCase();
+
   var reg = new RegExp('^[0-9]$');
-  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined && $('#rfp_maximum_estimated_contract_value') !='') {
+  if ($('#rfp_maximum_estimated_contract_value') != null && $('#rfp_maximum_estimated_contract_value') != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
-    // if (maxBudget.includes("-")) {
-    //   ccsZaddErrorMessage(document.getElementById("rfp_maximum_estimated_contract_value"), "Positive value is required");
-    //   errorStore.push(["rfp_maximum_estimated_contract_value", "Positive value is required"]);
-    //   ccsZPresentErrorSummary(errorStore)
-      
-    // }
-    // if (minBudget.includes("-")) {
-    //   ccsZaddErrorMessage(document.getElementById("rfp_minimum_estimated_contract_value"), "Positive value is required");
-    //   errorStore.push(["rfp_minimum_estimated_contract_value", "Positive value is required"]);
-    //   ccsZPresentErrorSummary(errorStore)
-      
-    // }
+    console.log("maxBudget",maxBudget);
+    console.log("minBudget",minBudget);
+    
+    if(maxBudget=='0'){
+      errorStore.push(['rfp_maximum_estimated_contract_value', 'Value must be greater then or equal to 1']);
+      ccsZPresentErrorSummary(errorStore);
+      return;
+    }
 
-    if (pageHeading.includes("(Optional)")) {
+    if(minBudget!='' && maxBudget==''){
+      errorStore.push(['rfp_maximum_estimated_contract_value', 'Please enter the Maximum']);
+      ccsZPresentErrorSummary(errorStore);
+      return;
+    }
+
+    if (maxBudget.includes('-')) {
+      errorStore.push(['rfp_maximum_estimated_contract_value', 'You must enter a positive value']);
+      ccsZPresentErrorSummary(errorStore);
+      return;
+    }
+    if (minBudget.includes('-')) {
+      errorStore.push(['rfp_maximum_estimated_contract_value', 'You must enter a positive value']);
+      ccsZPresentErrorSummary(errorStore);
+      return;
+    }
+
+    if (pageHeading.includes('(optional)')) {
       let msg = '';
-      if (!maxBudget) msg = 'You must enter a value';
-      if (Number(maxBudget) <= 0 && maxBudget!='') 
-      {
-        msg = 'Positive value is required';
-        let element = document.getElementById("rfp_maximum_estimated_contract_value");
-        
-        fieldCheck = ccsZvalidateWithRegex('rfp_maximum_estimated_contract_value', msg, /\d+/);
-        ccsZaddErrorMessage(element, msg);
-        errorStore.push([element.id, msg])
-      }
-      if (Number(maxBudget) > 0 && Number(minBudget) > 0 && Number(maxBudget) < Number(minBudget) && maxBudget!='' && minBudget!='') {
+      //if (!maxBudget) msg = 'You must enter a value';
+      if (Number(maxBudget) < 0) msg = 'You must enter a positive value';
+      if (Number(maxBudget) > 0 && Number(minBudget) > 0 && Number(maxBudget) < Number(minBudget)) {
         msg = 'Entry should be greater than minimum estimated contract value';
-        let element = document.getElementById("rfp_maximum_estimated_contract_value");
-        
-        fieldCheck = ccsZvalidateWithRegex('rfp_maximum_estimated_contract_value', msg, /\d+/);
+        let element = document.getElementById('rfp_maximum_estimated_contract_value');
         ccsZaddErrorMessage(element, msg);
-        errorStore.push([element.id, msg])
+        fieldCheck = ccsZvalidateWithRegex('rfp_maximum_estimated_contract_value', msg, /\d+/);
+
+        errorStore.push([element.id, msg]);
       }
     }
   }
-  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined && $('#rfp_minimum_estimated_contract_value')!='') {
+
+  if ($('#rfp_minimum_estimated_contract_value') != null && $('#rfp_minimum_estimated_contract_value') != undefined) {
     const maxBudget = $('#rfp_maximum_estimated_contract_value').val();
     const minBudget = $('#rfp_minimum_estimated_contract_value').val();
-    // if (maxBudget.includes("-")) {
-    //   ccsZaddErrorMessage(document.getElementById("rfp_maximum_estimated_contract_value"), "Positive value is required");
-    //   errorStore.push(["rfp_maximum_estimated_contract_value", "Positive value is required"]);
-    //   ccsZPresentErrorSummary(errorStore)
-    //   return;
-    // }
-    // if (minBudget.includes("-")) {
-    //   ccsZaddErrorMessage(document.getElementById("rfp_minimum_estimated_contract_value"), "Positive value is required");
-    //   errorStore.push(["rfp_minimum_estimated_contract_value", "Positive value is required"]);
-    //   ccsZPresentErrorSummary(errorStore)
-    //   //return;
-    // }
+
+    if (maxBudget.includes('-')) {
+      errorStore.push(['rfp_maximum_estimated_contract_value', 'You must enter a positive value']);
+      ccsZPresentErrorSummary(errorStore);
+      return;
+    }
+    if (minBudget.includes('-')) {
+      errorStore.push(['rfp_maximum_estimated_contract_value', 'You must enter a positive value']);
+      ccsZPresentErrorSummary(errorStore);
+      return;
+    }
     let msg = '';
-    if (pageHeading.includes("(Optional)")) {
+
+    if (pageHeading.includes('(optional)')) {
       //if (!minBudget) msg = 'You must enter a value';
-      if (Number(minBudget) <= 0 && minBudget!='') 
-      {
-        msg = 'Positive value is required';
-        let element = document.getElementById("rfp_minimum_estimated_contract_value");
-        
-        fieldCheck = ccsZvalidateWithRegex('rfp_minimum_estimated_contract_value', msg, /\d+/);
-        ccsZaddErrorMessage(element, msg);
-        errorStore.push([element.id, msg])}
-      if (Number(minBudget) > 0 && Number(maxBudget) > 0 && Number(minBudget) > Number(maxBudget)&& minBudget!='' && maxBudget!='') {
+      if (Number(minBudget) < 0) msg = 'You must enter a positive value';
+      if (Number(minBudget) > 0 && Number(maxBudget) > 0 && Number(minBudget) > Number(maxBudget)) {
         msg = 'Entry should be lesser than maximum estimated contract value';
-        let element = document.getElementById("rfp_minimum_estimated_contract_value");
-        
+        let element = document.getElementById('rfp_minimum_estimated_contract_value');
+        ccsZaddErrorMessage(element, msg, false);
         fieldCheck = ccsZvalidateWithRegex('rfp_minimum_estimated_contract_value', msg, /\d+/);
-        ccsZaddErrorMessage(element, msg);
-        errorStore.push([element.id, msg])
+        errorStore.push([element.id, msg, false]);
       }
     }
-
   }
 
   if ($('#rfp_contracting_auth')) {
-    if (!pageHeading.includes("(Optional)")) {
+    if (!pageHeading.includes('(optional)')) {
       let msg = '';
       if (!$('#rfp_contracting_auth').val()) msg = 'You must enter information here';
       fieldCheck = ccsZvalidateTextArea('rfp_contracting_auth', msg);
+
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
 
   if ($('#rfp_prob_statement_n')) {
-    if (!pageHeading.includes("(Optional)")) {
+    if (!pageHeading.includes('(optional)')) {
       let msg = '';
       if (!$('#rfp_prob_statement_n').val()) msg = 'You must enter information here';
       if (condLength($('#rfp_prob_statement_n').val()))
         msg = char ? 'Entry must be <= 5000 characters' : 'Entry must be <= 500 words';
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', msg, !condLength($('#rfp_prob_statement_n').val()));
+
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
 
   if ($('#rfp_prob_statement_e')) {
-    if (!pageHeading.includes("(Optional)")) {
+    if (!pageHeading.includes('(optional)')) {
       let msg = '';
       if (!$('#rfp_prob_statement_e').val()) msg = 'You must enter information here';
       if (condLength($('#rfp_prob_statement_e').val()))
         msg = char ? 'Entry must be <= 5000 characters' : 'Entry must be <= 500 words';
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', msg, !condLength($('#rfp_prob_statement_e').val()));
+
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
   return errorStore;
 };
 
-const ccsZvalidateBudgetQuestions = event => {
+const ccsZvalidateBudgetQuestions =  event  => {
   event.preventDefault();
   const errorStore = emptyQuestionFieldCheckBudget();
+
   if (errorStore.filter(Boolean).length === 0) document.forms['rfp_budget_for'].submit();
   else ccsZPresentErrorSummary(errorStore);
 };
 const removeErrorFieldsRfpBudget = () => {
   $('.govuk-error-message').remove();
-  $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
   $('.govuk-error-summary').remove();
-  $(".govuk-input").removeClass("govuk-input--error");
+  $('.govuk-input').removeClass('govuk-input--error');
   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-
-}
-$('#rfp_budget_for').on('submit', (event) => {
+};
+$('#rfp_budget_for').on('submit', event => {
   removeErrorFieldsRfpBudget();
   event.preventDefault();
   const errorStore = emptyQuestionFieldCheckBudget();
+
   if (errorStore.filter(Boolean).length === 0) document.forms['rfp_budget_for'].submit();
   else ccsZPresentErrorSummary(errorStore);
+  //document.forms['rfp_budget_for'].submit();
+});
 
-})
+let evaluateSupplierForm = $('#suppliers_to_evaluate');
+let initmax = document.getElementById("CurrentLotSupplierCount");
+evaluateSupplierForm.on('submit', event => {
+  event.preventDefault();
+  errorStore = [];
+  let supplierCountInput = document.getElementById('rfp_contracting_auth');
+  ccsZremoveErrorMessage(supplierCountInput)
+  // if(supplierCountInput.value.length > 8){
+  //   ccsZaddErrorMessage(supplierCountInput, 'Supplier cannot be more than 8 digits');
+  //   errorStore.push(['suppliers_to_evaluate', 'Supplier cannot be more than 8 digits']);
+  //   ccsZPresentErrorSummary(errorStore);
+  // }
 
+  if (supplierCountInput.value < 3) {
+    ccsZaddErrorMessage(supplierCountInput, 'Supplier must be minimum 3');
+    errorStore.push(['suppliers_to_evaluate', 'Supplier must be minimum 3']);
+    ccsZPresentErrorSummary(errorStore);
+  } 
+  
+  if(parseInt(supplierCountInput.value) > parseInt(initmax.value)) {
+    ccsZaddErrorMessage(supplierCountInput, `Value should not exceed current lot's suppliers (${initmax.value})`);
+    errorStore.push(['suppliers_to_evaluate', `Value should not exceed current lot's suppliers (${initmax.value})`]);
+    ccsZPresentErrorSummary(errorStore);
+  }
+  
+  if(errorStore.length == 0){
+    document.forms['suppliers_to_evaluate'].submit();
+  }
+
+});

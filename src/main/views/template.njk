@@ -4,6 +4,7 @@
 {% from "components/input/macro.njk" import CCSInput %}
 {% from "components/radios/macro.njk" import CCSRadios %}
 {% from "components/helper/macro.njk" import helpSection %}
+{% from "components/mcf3helper/macro.njk" import mcf3helpSection %}
 {% from "components/button/macro.njk" import CCSButton %}
 {% from "components/fieldset/macro.njk" import CCSFieldset %}
 {% from "components/select/macro.njk" import CCSSelect %}
@@ -25,6 +26,17 @@
 
 <html lang="{{ htmlLang | default('en') }}" class="govuk-template {{ htmlClasses }}">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{GLOBAL_SITE_TAG_ID}}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', '{{GLOBAL_SITE_TAG_ID}}');
+    </script>
     <meta charset="utf-8">
     <title>{{ title }}| Crown Commercial Service</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -51,21 +63,30 @@
     <meta property="og:image" content="{{ assetUrl | default('/assets') }}/images/govuk-opengraph-image.png">
     <!-- Google Tag Manager -->
     <script>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-NZFDQHB');
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer'
+            ? '&l=' + l
+            : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f
+          .parentNode
+          .insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', '{{GOOGLE_TAG_MANAGER_ID}}');
     </script>
-<!-- End Google Tag Manager -->
-
+    <!-- End Google Tag Manager -->
   </head>
   <body class="govuk-template__body {{ bodyClasses }} show-flourishes  pillar--none" {%- for attribute, value in bodyAttributes %} {{attribute}}="{{value}}"{% endfor %}>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZFDQHB"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id={{GOOGLE_TAG_MANAGER_ID}}"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
     <!-- End Google Tag Manager (noscript) -->
-
     <script>
       document.body.className = (
         (document.body.className)
@@ -85,12 +106,12 @@
 
     {% block dialog %}
       {% include "components/dialog.njk" %}
+      {% include "components/dialog_supplier.njk" %}
     {% endblock %}
 
     {% block dialog2 %}
       {% include "components/dialog_next_step.njk" %}
     {% endblock %}
-
     {# This is main content section#}
     <div class="ccs-width-container">
       {% block breadCrumb %}{% endblock %}
@@ -99,9 +120,15 @@
     </div>
 
     {% if Session['session'] %}
-      {% block helpSection%}
-        {{helpSection()}}
-      {% endblock %}
+      {% if fcaHelperLayer %}
+          {% block mcf3helpSection%}
+            {{mcf3helpSection()}}
+          {% endblock %}
+      {% else %}
+        {% block helpSection%}
+          {{helpSection()}}
+        {% endblock %}
+      {% endif %}
     {% endif %}
 
     {% block footer %}
@@ -115,4 +142,5 @@
     {% endblock %}
 
   </body>
+  
 </html>

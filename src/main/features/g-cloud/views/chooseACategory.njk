@@ -1,0 +1,128 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% set title = 'Choose a category | Contract Award Service' %}
+
+{% block content %}
+    {% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}} 
+  
+    {%- endset %}
+
+    {{ CCSBreadcrumbs({
+        items: [
+        { "text": "Your Dashboard", "href": "/dashboard" },
+        { "text": "Choose a commercial agreement", "href": "/projects/choose-agreement" },
+        { "text": "Procurement overview", "href": url },
+
+        { "text": "Choose a category", "href": "#" } ] 
+}) }}
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    {% if (error) %}
+
+            {{ CCSErrorSummary({
+                titleText: "There is a problem",
+                errorList: [
+                    {
+                    text: "Select a category to start your search"
+                    }
+                ]
+                }) }}
+        {%endif %}
+    <div class="govuk-grid-row ccs-page-section">
+        <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+            <h3 class="govuk-heading-xl">{{data.title}}</h3>
+            {% include "includes/project_header.njk" %}
+            <p class="govuk-body">{{data.line5}}</p>
+            <form id="gcloud_choose_category_form" class="govuk-check-form-custom" name="gcloud_choose_category_form" action="/g-cloud/choose-category" method="POST">
+                {{ csrfProtection(csrf) }}
+                {% set form_Options = [] %}
+                {% set activeChecked = "" %}
+                {% set form_Options_others = [{ value: "all",html:"<label class='govuk-label' for='gcloud_next_steps-2'><h3 class='govuk-heading-m'>All categories</h3></label>"}]%}
+                {% for val in data.checkCheckbox %}
+
+                    {% set form_Options = (form_Options.push({
+                       value: val['name']|replace(" ", "-")|lower,
+                        html: "<label class='govuk-label' for='gcloud_next_steps-2'><h3 class='govuk-heading-m'>"+ val['name'] +"</h3></label><div id='gcloud_next_steps-2-item-hint' class='govuk-hint govuk-radios__hint'> "+ val['description'] +" </div>"}), form_Options) 
+                    %}
+                    
+                   
+                {% endfor %}
+
+                    {% if (error) %}
+
+                            {{ 
+                                    CCSRadios({
+                                        idPrefix: "input-lot",
+                                        name: "lot",
+                                        items:form_Options,
+                                        error: error,
+                                        errorMessage: {
+                                            text: 'Option must be select.'
+                                        }
+                                    }) 
+                                }}
+                                <br>
+                                Or
+                                <br>
+                                <br>
+                                <br>
+                                {{ 
+                                    CCSRadios({
+                                        idPrefix: "input-lot",
+                                        name: "lot",
+                                        items:form_Options_others,
+                                        error: error,
+                                        errorMessage: {
+                                            text: ''
+                                        }
+                                    }) 
+                                }}
+
+                    {% else %}
+                            {{ 
+                                    CCSRadios({
+                                        idPrefix: "input-lot",
+                                        name: "lot",
+                                        items:form_Options
+                                    }) 
+                                }}
+                                <br>
+                                Or
+                                <br>
+                                <br>
+                                <br>
+                                {{ 
+                                    CCSRadios({
+                                        idPrefix: "input-lot",
+                                        name: "lot",
+                                        items:form_Options_others
+                                    }) 
+                                }}
+
+                    {% endif %}
+                   
+                <br>
+                <span class="select_service_err"></span>
+                <br>
+                <div class="govuk-button-group">
+                    <button class="govuk-button" data-module="govuk-button">
+                        {{data.buttonText}}
+                    </button>
+                    <a class="govuk-link" href="/projects/create-or-choose">{{data.returnTo}}</a>
+                </div>
+            </form>
+        </div>
+        <div class="govuk-grid-column-one-third">
+            <div class="ccs-callout-panel">
+          <h2 class="govuk-heading-m">Related content</h2>
+          <p class="govuk-body">
+            {% for item in data.related_content %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
+            {% endfor %}
+          </p>
+        </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

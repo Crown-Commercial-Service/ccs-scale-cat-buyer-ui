@@ -56,7 +56,8 @@ export const RFP_POST_QUALITY_GROUP = async (req: express.Request, res: express.
 
     const {quality_name_questionID, quality_name} = Request;
     try {
-    for(var start =0; start < quality_name_questionID.length; start++){
+        let objQualityCount = Object.keys(quality_name_questionID).length;
+    for(var start =0; start < objQualityCount; start++){
         const QuestionID =quality_name_questionID[start];
         const value = quality_name[start];
         const answerBaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/Criterion 2/groups/Group 3/questions/${QuestionID}`;

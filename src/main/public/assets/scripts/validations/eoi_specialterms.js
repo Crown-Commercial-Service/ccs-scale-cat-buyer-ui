@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let with_value_count = 10,
       prev_input = 0,
+      filled_input = 0,
       deleteButtons = document.querySelectorAll("a.del");
     let clearFieldsButtons = document.querySelectorAll("a.clear-fields");
 
@@ -30,10 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         this_fieldset.classList.add('ccs-dynaform-hidden');
         with_value_count = acronym_fieldset;
+        filled_input++;
       }
 
     }
     document.getElementById("ccs_eoisplTerm_add").classList.remove("ccs-dynaform-hidden");
+
+    if(filled_input===0){
+    
+      document.getElementById("ccs_eoisplTerm_add").classList.add('ccs-dynaform-hidden');
+    }
 
 
     document.getElementById("ccs_eoisplTerm_add").addEventListener('click', (e) => {
@@ -200,20 +207,20 @@ const emptyFieldCheckEoiTerms = () => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       //
       if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-        ccsZaddErrorMessage(definition_field, 'Please provide description for the term and condition.');
-        fieldCheck = [definition_field.id, 'Please provide description for the term and condition.'];
+        ccsZaddErrorMessage(definition_field, 'You must explain the special term or condition.');
+        fieldCheck = [definition_field.id, 'You must explain the special term or condition.'];
         errorStore.push(fieldCheck);
       }
       if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        ccsZaddErrorMessage(term_field, 'Please provide description for the term and condition.');
-        fieldCheck = [term_field.id, 'Please provide description for the term and condition.'];
+        ccsZaddErrorMessage(term_field, 'You must add special term or condition.');
+        fieldCheck = [term_field.id, 'You must add special term or condition.'];
         errorStore.push(fieldCheck);
       }
-      if (term_field.value?.length > 100) {
+      if (term_field.value?.length > 500) {
         ccsZaddErrorMessage(term_field, 'Term and condition title must be 100 characters or fewer');
         termFieldError = true;
       }
-      if (definition_field.value?.length > 1000) {
+      if (definition_field.value?.length > 10000) {
         ccsZaddErrorMessage(definition_field, 'Term and condition description must be 1000 characters or fewer');
         defFieldError = true;
 
@@ -221,11 +228,11 @@ const emptyFieldCheckEoiTerms = () => {
     }
   }
   if (termFieldError) {
-    fieldCheck = ["#", 'Term and condition title must be 100 characters or fewer'];
+    fieldCheck = ["#", 'Term and condition title must be 500 characters or fewer'];
     errorStore.push(fieldCheck);
   }
   if (defFieldError) {
-    fieldCheck = ["#", 'Term and condition description must be 1000 characters or fewer'];
+    fieldCheck = ["#", 'Term and condition description must be 10000 characters or fewer'];
     errorStore.push(fieldCheck);
   }
   return errorStore;

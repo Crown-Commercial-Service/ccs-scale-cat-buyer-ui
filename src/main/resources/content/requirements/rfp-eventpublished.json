@@ -1,18 +1,20 @@
 {
     "breadCrumbs": [
     ],
-
-    "titleRFP": "Your further competition has been published  ",
+    "titleRFP": "Your RFP is published  ",
     "titleDA":"Your direct award has been published",
+    "line1":"Please quote this number, along with your project ID",
+    "line2":"if you need to contact CCS for support. You can contact CCS by phone on",
+    "btntext":"Export your 1-stage further competition",
     "board": {
-        "headerRFP": "Your further competition has been sent to suppliers ",
+        "headerRFP": "Your Request for Information was sent to the suppliers you selected ",
         "headerDA":"Your direct award has been sent to suppliers",
         "ref": "Your unique reference number is: ",
         "phoneno": "0345 410 2222",
         "email": "info@crowncommercial.gov.uk",
         "next": [
-            {"li": "Suppliers can read your scope of requirements and other details you entered and ask questions. "},
-            {"li": "You will need to answer any questions supplier submit by the clarification deadline."}
+            {"li": "the suppliers you selected can read your RFP and ask questions if they need more information"},
+            {"li": "when the clarification period ends you will need to answer the supplier questions by the deadline you set"}
         ]
     },
         "dashboard": {

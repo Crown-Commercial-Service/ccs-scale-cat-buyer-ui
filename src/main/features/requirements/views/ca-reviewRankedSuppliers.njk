@@ -6,7 +6,7 @@
   {{ CCSBreadcrumbs({
    items: [
             {
-                "text": "Your dashboard",
+                "text": "Dashboard",
                 "href": "/dashboard"
                 },
                 {
@@ -22,7 +22,7 @@
                 "href": "/ca/task-list?path="+ choosenViewPath
                 },
                 {
-                "text": "Review suitable suppliers",
+                "text": "Review ranked suppliers",
                 "href": "#"
             }
         ]
@@ -56,13 +56,12 @@
     </div>
     <div class="govuk-grid-column-two-thirds">
       {% include "includes/project_header.njk" %}
-        <br><br><br>
-        <p class="govuk-body">{{instruction1}}</p><br>
-        {#<p class="govuk-body">{{instruction2}}</p>#}
-        {#<p class="govuk-body">{{instruction3}}</p>#}
-        {#<p class="govuk-body">{{instruction4}}</p>#}
-        <p class="govuk-body">{{instruction5}}<a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers (Opens in new tab).</a><span class="govuk-visually-hidden">opens in a new window</span></p><br>
-        <p class="govuk-body">{{instruction6}}</p><br><br>
+        <p class="govuk-body">{{instruction1}}</p>
+        <p class="govuk-body">{{instruction2}}</p>
+        <p class="govuk-body">{{instruction3}}</p>
+        <p class="govuk-body">{{instruction4}}</p>
+        <p class="govuk-body">{{instruction5}}<a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers (Opens in new window).</a><span class="govuk-visually-hidden">opens in a new window</span></p>
+        <p class="govuk-body">{{instruction6}}</p>
       <div class="ccs-page-section">
         <p class="govuk-body"><h3>{{p1}}</h3></p>
         <p class="govuk-body"><h3>{{p5}}</h3></p>

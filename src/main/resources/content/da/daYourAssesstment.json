@@ -1,0 +1,79 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/da/task-list"
+    },
+    {
+      "text": "Your assessment criteria",
+      "href": "#"
+    }
+  ],
+
+  "main_title": "Your assessment criteria",
+  "title": " Set your assessment criteria and evaluation weightings",
+  "subtitle": "null ",
+  "taskList": [
+    {
+      "title": "Learn how to add your assessment bases and evaluation weightings (Optional)",
+      "hreftitle": "Understand add context and requirements",
+      "href": "learn_about_adding_context_and_requirements"
+    },
+    {
+      "title": "Set the overall ratio between quality and price",
+      "hreftitle": "Acknowledge IR35 requirements",
+      "href": "da_ir35_acknowledgement"
+    },
+    {
+      "title": "Set the specific ratio of quality groups",
+      "hreftitle": "Add terms and acronyms",
+      "href": "da_add_terms_acronyms"
+    },
+    {
+      "title": "Add your quality evaluation weightings",
+      "hreftitle": "Add background and context to your requirement",
+      "href": "da_add_background_and_context"
+    },
+    {
+      "title": "Write your technical questions",
+      "hreftitle": "Add information about the project",
+      "href": "da_problem_to_solve"
+    },
+    {
+      "title": "Write your cultural questions",
+      "hreftitle": "Add key users",
+      "href": "da_key_users"
+    },
+    {
+      "title": "Write your social value questions",
+      "hreftitle": "Add work complete so far",
+      "href": "da_work_complete"
+    },
+    {
+      "title": "[ Add your price question ]",
+      "hreftitle": "Add current phase of the project",
+      "href": "da_current_phase"
+    }
+  ],
+  "form": {
+    "question1": "Set your assessment criteria based on technical and social value questions.",
+    "question2":"You will also be able to share an estimated budget with suppliers and ask them how they will meet the need of your project within your budget range",
+    "backJump": {
+      "title": "Return to Write and publish your requirements",
+      "href": "/da/task-list"
+    }
+  },
+  "template": []
+}

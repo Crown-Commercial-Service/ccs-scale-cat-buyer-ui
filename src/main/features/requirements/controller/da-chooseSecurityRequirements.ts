@@ -44,7 +44,7 @@ export const DA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
     } 
     securityQuantity=dimensionRequirements.filter(dimension => dimension["dimension-id"] ===2)[0]
     .requirements[0].values?.find(y=>y["criterion-id"]==6)?.value
-    data.form.selectedValue=(totalQuantityda-securityQuantity).toString();;
+    data.form.selectedValue=totalQuantityda-securityQuantity;
    }
   }
   }
@@ -104,12 +104,14 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
 
   const resources= selectedresourceNumber>0?ccs_da_resources[selectedresourceNumber-1]:0;
   const totalQuantityda=req.session.totalQuantityda;
-  //const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityda);
-  // if (isError) {
-  //   req.session.errorText = errorText;
-  //   req.session.isError = isError;
-  //   res.redirect('/da/choose-security-requirements');
-  // } else {
+  //const resources = ccs_da_resources.filter(elem => elem != '')[0];
+  const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityda);
+ // const { isError, errorText } = checkErrors(selectedValue, resources);
+  if (isError) {
+    req.session.errorText = errorText;
+    req.session.isError = isError;
+    res.redirect('/da/choose-security-requirements');
+  } else {
     try {
       let dimension2weighitng;
       let SecQuantityrequirements;
@@ -163,7 +165,6 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
         weighting:dimension2weighitng,
         includedCriteria: includedSubContractor,
         requirements: requirementsData,
-        overwriteRequirements: true,
       };
       const response= await TenderApi.Instance(SESSION_ID).put(`/assessments/${assessmentId}/dimensions/2`, body);
       if(response.status == 200)
@@ -195,5 +196,5 @@ export const DA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
         true,
       );
     }
-  //}
+  }
 };

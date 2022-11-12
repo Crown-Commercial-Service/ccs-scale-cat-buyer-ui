@@ -120,12 +120,31 @@ export default function (app: Application): void {
   //@GET Offline page
   app.get(RFI_PATHS.GET_OFFLINE, AUTH, associatedViews.OFFLINE_JOURNEY_PAGE);
 
+  //@GET /rfi/choose-how-to/build-your-rfi
+  app.get(RFI_PATHS.GET_BUILD_RFI,
+    [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+    associatedViews.BUILD_RFI
+  );
+    
+  app.get(RFI_PATHS.RFI_CHOOSE_YOUR_ROUTE_MARKET, AUTH, associatedViews.CHOOSE_YOUR_ROUTE_MARKET);
+
+  //@GET /rfi/confirmation-review
+  app.get(RFI_PATHS.GET_CONFIRMATION_REVIEW,
+      [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
+      associatedViews.CONFIRMATION_REVIEW
+  );
+  
+  //@GET /rfi/choose-how-to/build-your-rfi
+  app.get(RFI_PATHS.GET_BUILD_RFI, [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.BUILD_RFI);
+
   /**
    *
    * @POST : POST Routes of RFI
    * @summary: provide all the respective associated view to the certain routes
    */
 
+  //@POST '/rfi/choose-how-to/build-your-rfi
+  app.post(RFI_PATHS.GET_BUILD_RFI, [ AUTH, AgreementDetailsFetchMiddleware.FetchAgreements], associatedViews.POST_BUILD_RFI);
   //@POST '/rfi/type
   app.post(RFI_PATHS.POST_TYPE_TYPE, AUTH, associatedViews.POST_TYPE);
 
@@ -179,3 +198,4 @@ export default function (app: Application): void {
   //@POST /rfi/upload-doc/procceed
   app.post(RFI_PATHS.POST_UPLOAD_PROCEED, AUTH, associatedViews.POST_UPLOAD_PROCEED);
 }
+

@@ -22,7 +22,7 @@ if (document.getElementById("eoi_collaborators") !== null) {
 
         $("#eoi_collaborator_append").val(id);
 
-
+        $('#ccs_collab_add').prop("disabled", false)
       })
         .fail(function () {
           console.log("failed")
@@ -35,6 +35,7 @@ if (document.getElementById("eoi_collaborators") !== null) {
       $('#eoi_show_collab_name').html("")
       $('#eoi_show_collab_email').html("")
       $('#eoi_show_collab-phone').html("")
+      $('#ccs_collab_add').prop("disabled", true)
     }
   })
 }

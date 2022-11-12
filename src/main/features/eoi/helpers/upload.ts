@@ -1,6 +1,7 @@
 //@ts-nocheck
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/eoi/offline-doc.json';
+import * as mcf3cmsData from '../../../resources/content/MCF3/eoi/offline-doc.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -22,6 +23,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
   const ProjectId = req.session['projectId'];
   const EventId = req.session['eventId'];
   const { file_id } = req.query;
+  const {fileDuplicateError}=req.session;
   if (file_id !== undefined) {
     try {
       const FileDownloadURL = `/tenders/projects/${ProjectId}/events/${EventId}/documents/${file_id}`;
@@ -47,7 +49,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         Person_id: TokenDecoder.decoder(SESSION_ID),
         error_location: `${req.headers.host}${req.originalUrl}`,
         sessionId: 'null',
-        error_reason: 'File uploading Causes Problem in EOI  - Tenders Api throws error',
+        error_reason: 'EOI - File uploading Causes Problem in EOI  - Tenders Api throws error',
         exception: error,
       };
       const Log = new LogMessageFormatter(
@@ -66,14 +68,29 @@ export const FILEUPLOADHELPER: express.Handler = async (
       const FETCH_FILEDATA = FetchDocuments.data;
       const TOTALSUM = FETCH_FILEDATA.reduce((a, b) => a + (b['fileSize'] || 0), 0);
       const releatedContent = req.session.releatedContent;
+
+      const agreementId_session = req.session.agreement_id;
+      let forceChangeDataJson;
+      if(agreementId_session == 'RM6187') { //MCF3
+        forceChangeDataJson = mcf3cmsData;
+      } else { 
+        forceChangeDataJson = cmsData;
+      }
+
       let windowAppendData = {
         lotId,
         agreementLotName,
-        data: cmsData,
+        data: forceChangeDataJson,
         files: FETCH_FILEDATA,
         releatedContent: releatedContent,
         storage: TOTALSUM,
+        agreementId_session:req.session.agreement_id
       };
+      if (fileDuplicateError) {
+        fileError=true;
+        errorList.push({ text: "The chosen file already exist ", href: "#" })
+        delete req.session["fileDuplicateError"];
+      }
       if (fileError && errorList !== null) {
         windowAppendData = Object.assign({}, { ...windowAppendData, fileError: 'true', errorlist: errorList });
       }
@@ -84,7 +101,7 @@ export const FILEUPLOADHELPER: express.Handler = async (
         Person_id: TokenDecoder.decoder(SESSION_ID),
         error_location: `${req.headers.host}${req.originalUrl}`,
         sessionId: 'null',
-        error_reason: 'File uploading Causes Problem in EOI  - Tenders Api throws error',
+        error_reason: 'EOI - File uploading Causes Problem in EOI  - Tenders Api throws error',
         exception: error,
       };
       const Log = new LogMessageFormatter(

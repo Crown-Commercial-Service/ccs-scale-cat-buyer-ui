@@ -1,0 +1,183 @@
+{
+    "breadCrumbs": [{
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": "/projects/create-or-choose"
+        },
+        {
+            "text": "Write and publish your requirements",
+            "href": "#"
+        }
+    ],
+
+    "title": "Write and publish your requirements",
+    "subtitle": null,
+    "events": [{
+            "eventno": 1,
+            "eventTitle": "Project and colleagues",
+            "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+            "eventTask": [{
+                    "Task": 1,
+                    "link": "/rfp/name-your-project",
+                    "title": "Name your project",
+                    "required": "mandatory",
+                    "status": "Optional"
+                },
+                {
+                    "Task": 2,
+                    "link": "/rfp/procurement-lead",
+                    "title": "Change who will lead the procurement",
+                    "required": "optional",
+                    "status": "Optional"
+                },
+                {
+                    "Task": 3,
+                    "link": "/rfp/add-collaborators",
+                    "title": "Add colleagues to your project",
+                    "required": "optional",
+                    "status": "Optional"
+                }
+            ]
+        },
+        {
+            "eventno": 2,
+            "eventTitle": "Add context and requirements",
+            "eventDescription": "You can include the following:",
+            "eventdescriptionlist": [{
+                "description1": "product road-maps and the expected life cycle of the product",
+                "description2": "total cost of ownership, including running costs",
+                "description3": "compatibility with other in-house systems",
+                "description4": "your budget",
+                "description5": "current and possible future scale of the requirement"
+            }],
+            "eventTask": [{
+                "Task": 1,
+                "title": " Add context and requirements",
+                "required": "optional",
+                "status": "Todo",
+                "link": "/rfp/add-context"
+            }]
+        },
+        {
+            "eventno": 3,
+            "eventTitle": "Upload documents",
+            "eventDescription": "You can upload additional documents that will help a supplier to better understand your procurement.",
+            "eventTask": [{
+                    "Task": 1,
+                    "title": "Upload other documents (optional)",
+                    "required": "optional",
+                    "link": "/rfp/upload-additional",
+                    "status": "Todo"
+                }]
+            },
+        {
+            "eventno": 4,
+            "eventTitle": "Set assessment criteria ",
+            "eventDescription1": "You will need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.",
+            "eventDescription2": "When you enter all your assessment criteria online you’ll be able to define your requirements and evaluation weightings as well.",
+            "eventDescription3": "When you enter all your assessment criteria online you'll be able to define your requirements and evaluation weightings as well.",
+            "eventTask": [{
+                    "Task": 1,
+                    "title": "Your assessment criteria",
+                    "required": "optional",
+                    "status": "Cannot start yet",
+                    "link": "/rfp/your-assessment"
+                },
+                {
+                    "Task": 2,
+                    "title": "How you will score suppliers",
+                    "required": "mandatory",
+                    "status": "Cannot start yet",
+                    "link": "/rfp/set-scoring-criteria"
+                }
+            ]
+        },
+        {
+            "eventno": 5,
+            "eventTitle": "Review and publish",
+            "eventDescription": "Review and publish the first stage of your further competition.",
+            "eventTask": [
+                {
+                    "Task": 1,
+                    "title": "Your timeline ",
+                    "required": "optional",
+                    "status": "Cannot start yet",
+                    "link": "/rfp/response-date"
+                },
+                {
+                    "Task": 2,
+                    "title": "Review and publish your Request for Proposal  ",
+                    "required": "mandatory",
+                    "status": "Cannot start yet",
+                    "link": "/rfp/review"
+                }
+            ]
+        },
+        {
+            "eventno": 6,
+            "eventTitle": "Choose suppliers and publish second stage",
+            "eventDescription": "Select the suppliers you want to take forward to the second stage of your further competition.",
+            "eventTask": [
+                {
+                    "Task": 1,
+                    "title": "Number of suppliers who responded to first stage",
+                    "required": "mandatory",
+                    "link": "/rfp/upload",
+                    "status": "Todo"
+                },
+                {
+                    "Task": 2,
+                    "title": "Choose suppliers for second stage ",
+                    "required": "mandatory",
+                    "link": "/rfp/upload",
+                    "status": "Todo"
+                },
+                {
+                    "Task": 3,
+                    "title": "Upload pricing schedules",
+                    "required": "mandatory",
+                    "link": "/rfp/upload",
+                    "status": "Todo"
+                },
+                {
+                    "Task": 4,
+                    "title": "Upload terms and conditions",
+                    "required": "mandatory",
+                    "link": "/rfp/upload",
+                    "status": "Todo"
+                },
+                {
+                    "Task": 5,
+                    "title": "Your timeline",
+                    "required": "optional",
+                    "link": "/rfp/IR35",
+                    "status": "Todo"
+                }
+                ,
+                {
+                    "Task": 6,
+                    "title": "Review and publish your second stage further competition",
+                    "required": "optional",
+                    "link": "/rfp/IR35",
+                    "status": "Todo"
+                }
+            ]
+        }
+     
+    ],
+    "form": {
+        "question1": "Write and publish your requirements for suppliers, who can then submit their responses and complete any other evaluation tasks.",
+        "question2": "You will need to provide a clear set of criteria and explain how you will score responsess.",
+        "backJump": {
+            "title": "Return to procurement overview",
+            "href": "/projects/create-or-choose"
+        }
+    }
+}

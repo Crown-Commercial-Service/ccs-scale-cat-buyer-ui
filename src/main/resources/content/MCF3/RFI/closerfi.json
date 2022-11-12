@@ -1,0 +1,25 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+          },
+          {
+            "text": "Event Management",
+            "href": "/event/management?id="
+          },
+          {
+            "text": "Close/archive"
+          }
+    ],
+
+    "title": "Confirmation of project closure",
+    "subtitle": "[You can still access this project, through the historical projects in our dashbaord]",
+
+      "backJump": {
+        "title": "Return to [Dashboard]",
+        "href": "/dashboard"
+      }
+
+
+}

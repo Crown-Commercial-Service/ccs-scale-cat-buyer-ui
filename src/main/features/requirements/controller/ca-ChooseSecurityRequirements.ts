@@ -10,13 +10,13 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
   const { SESSION_ID } = req.cookies; //jwt
   const { releatedContent, isError, eventId,errorText, dimensions,currentEvent,projectId, choosenViewPath, } = req.session;
   const { assessmentId } = currentEvent;
-  
+  const extToolId=1;
 
  
   const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
   try {
     const { data: assessments } = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
-    const extToolId=assessments['external-tool-id'];
+
     const { dimensionRequirements } = assessments;
     let totalQuantityca=0;
     let selectedOption;
@@ -45,11 +45,12 @@ export const CA_GET_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request, 
       } 
       securityQuantity=dimensionRequirements.filter(dimension => dimension["dimension-id"] ===2)[0]
       .requirements[0].values?.find(y=>y["criterion-id"]==6)?.value
-      data.form.selectedValue=(totalQuantityca-securityQuantity).toString();;
+      data.form.selectedValue=totalQuantityca-securityQuantity;
      }
     }
     }
-
+   
+  
     const DIMENSION_BASEURL = `assessments/tools/${extToolId}/dimensions`;
     const { data: dimensions } = await TenderApi.Instance(SESSION_ID).get(DIMENSION_BASEURL);
 
@@ -104,12 +105,12 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
 
   const resources= selectedresourceNumber>0?ccs_ca_resources[selectedresourceNumber-1]:0;
   const totalQuantityca=req.session.totalQuantityca;
-  // const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityca);
-  // if (isError) {
-  //   req.session.errorText = errorText;
-  //   req.session.isError = isError;
-  //   res.redirect('/ca/choose-security-requirements');
-  // } else {
+  const { isError, errorText } = checkErrors(selectedresourceNumber,resources,totalQuantityca);
+  if (isError) {
+    req.session.errorText = errorText;
+    req.session.isError = isError;
+    res.redirect('/ca/choose-security-requirements');
+  } else {
     try {
       let dimension2weighitng;
       let SecQuantityrequirements;
@@ -193,5 +194,5 @@ export const CA_POST_CHOOSE_SECURITY_REQUIREMENTS = async (req: express.Request,
         true,
       );
     }
-  //}
+  }
 };

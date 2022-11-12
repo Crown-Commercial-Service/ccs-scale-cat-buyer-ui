@@ -8,6 +8,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { RFP_PATHS } from '../model/requirementConstants';
 import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
 import * as cmsData from '../../../resources/content/requirements/addcollaborator.json';
+import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/da-add-collaborator.json';
 
 // RFI ADD_Collaborator
 /**
@@ -22,33 +23,21 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
   const { isJaggaerError,choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   try {
-    let allUserStorge = [];
-    if(req.session['dacollaboratorsinfo']!=null ||req.session['dacollaboratorsinfo']!=undefined)
-    { 
-      allUserStorge= req.session['dacollaboratorsinfo']    
-    }
-    else{
-      const   { data: allUserdata}  = await TenderApi.Instance(SESSION_ID).get(
-        `/tenders/users`,
+    const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
+    let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
+      organisation_user_endpoint,
+    );
+    organisation_user_data = organisation_user_data?.data;
+    const { pageCount } = organisation_user_data;
+    const allUserStorge = [];
+    for (let a = 1; a <= pageCount; a++) {
+      const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
+      const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
+        organisation_user_endpoint_loop,
       );
-      allUserStorge=allUserdata
-      req.session['dacollaboratorsinfo']=allUserdata
-     }
-    // const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    // let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-    //   organisation_user_endpoint,
-    // );
-    // organisation_user_data = organisation_user_data?.data;
-    // const { pageCount } = organisation_user_data;
-    // const allUserStorge = [];
-    // for (let a = 1; a <= pageCount; a++) {
-    //   const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
-    //   const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-    //     organisation_user_endpoint_loop,
-    //   );
-    //   const { userList } = organisation_user_data_loop?.data;
-    //   allUserStorge.push(...userList);
-    // }
+      const { userList } = organisation_user_data_loop?.data;
+      allUserStorge.push(...userList);
+    }
     let collaborator;
     const { userName, firstName, lastName } = req.session['searched_user'];
     const fullName = firstName + ' ' + lastName;
@@ -74,8 +63,15 @@ export const DA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     const lotId = req.session?.lotId;
     const agreementLotName = req.session.agreementLotName;
     const releatedContent = req.session.releatedContent;
+    const agreementId_session = req.session.agreement_id;
+    let forceChangeDataJson;
+    if(agreementId_session == 'RM6187') { //MCF3
+      forceChangeDataJson = Mcf3cmsData;
+    } else { 
+      forceChangeDataJson = cmsData;
+    }
     const windowAppendData = {
-      data: cmsData,
+      data: forceChangeDataJson,
       userdata: filteredListofOrganisationUser,
       collaborator: collaborator,
       collaborators: collaboratorData,
@@ -224,7 +220,13 @@ export const DA_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request
 // /rfp/proceed-collaborators
 export const DA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
+  try {
   const { projectId,eventId } = req.session;
   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/62`, 'Completed');
   res.redirect(`/da/task-list?path=${req.session['choosenViewPath']}`);
+} catch (error) {
+  LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
+    TokenDecoder.decoder(SESSION_ID), 'Tender agreement failed to be added', true,
+  );
+}
 };

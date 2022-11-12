@@ -1,6 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-  let rowsAndHead1 ="";
+  $(".check-popup").on('click', function(){
+    console.log("Workied******");
+    // openpop.classList.remove('showpopup');
+    const openpopsupplier = document.querySelector('.backdrop-supplier-popup')
+        openpopsupplier.classList.add('showpopup');
+        $(".dialog-close-supplier").on('click', function(){
+          openpopsupplier.classList.remove('showpopup');
+        });
+        stnewsupplier = document.getElementById('redirect-button-supplier');
+        stnewsupplier.addEventListener('click', ev => {
+          openpopsupplier.classList.remove('showpopup');
+          console.log("Workied confirm******");
+        })
+  });
 
   if (document.getElementById('ccs_rfp_scoring_criteria') !== null) {
     let noOfCountfieldNotNull = [], with_value_count = 10,
@@ -77,140 +89,97 @@ document.addEventListener('DOMContentLoaded', () => {
     //document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
     selectTierButtons.forEach(st => {
       st.addEventListener('click', e => {
-        e.preventDefault();
-        let isValueEntered = false;
-        rowsAndHead1 = JSON.parse(e.currentTarget.attributes[2].value);
-        //let isTierToBeAdd = false;
-        for (var a = 1; a <= 10; a++) {
-         if($(`#rfp_score_criteria_name_${a}`).val() != '' && !isValueEntered)
-         isValueEntered = true;
-         else if($(`#rfp_score_criteria_point_${a}`).val() != '' && !isValueEntered)
-         isValueEntered = true;
-         else if($(`#rfp_score_criteria_desc_${a}`).val() != '' && !isValueEntered)
-           isValueEntered = true;
+        const rowsAndHead = JSON.parse(e.currentTarget.attributes[2].value);
+        let count = 0;
+
+        const openpop = document.querySelector('.backdrop-tier') 
+        openpop.classList.add('showpopup');
+        
+        $(".dialog-close-tier").on('click', function(){
+          openpop.classList.remove('showpopup');
+        });
+        stnew = document.getElementById('redirect-button-tier');
+        stnew.addEventListener('click', ev => {
+          openpop.classList.remove('showpopup');
+          removeErrorFieldsRfpScore();
+        for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
+          document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = '';
+          document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = '';
+          document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = '';
+          var elements = document.getElementsByClassName("score_criteria_" + score_criteria_fieldset);
+          // elements.classList.removeClass("ccs-dynaform-hidden");
+          //while (elements.length)
+          elements[0].classList.add("ccs-dynaform-hidden");
         }
-        if(isValueEntered)
-        {
-      if ($(this).hasClass('selected')) {
-        deselect($(this));
-        $(".backdrop-rfp-scoring").fadeOut(200);
-        document.getElementById("rfpscoringpopup").style.paddingTop="1000";
-      } else {
-        $(".backdrop-rfp-scoring").fadeTo(200, 1);
-        document.getElementById("rfpscoringpopup").style.paddingTop="1000";
-        if (this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
-          document.body.scrollTop = document.documentElement.scrollTop = 0;
-        } 
-        $(this).addClass('selected');
-        $('.pop').slideFadeToggle();
-      }
+
+        if (rowsAndHead != undefined && rowsAndHead != null) {
+          document.getElementById('tiersAdded').textContent = rowsAndHead.rows.length;
+          with_value_count = rowsAndHead.rows.length + 1;
+          rowsAndHead.rows.unshift({ text: "Ignore" })
+
+          if(document.getElementById('agreement_id') && document.getElementById('agreement_id').value == 'RM1043.8'){ 
+            rowsAndHead.rows.reverse();
+              for (let i = 0; i < rowsAndHead.rows.length; i++) {
+              if (i !== 4) {
+               const ii = i + 1;
+               var elements = document.getElementsByClassName("score_criteria_" + ii);
+                elements[0].classList.remove("ccs-dynaform-hidden");
+                document.getElementById("rfp_score_criteria_name_" + ii).value = rowsAndHead.rows[i].at(0).text;
+                document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
+                document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
+                document.getElementById("rfp_score_criteria_desc_" + ii).focus();
+              }
+              if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
+                document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
+              } else {
+                document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+              }
+            }
+          }else{
+            for (let i = 0; i < rowsAndHead.rows.length; i++) {
+              if (i !== 0) {
+                //const ii = i + 1;
+                var elements = document.getElementsByClassName("score_criteria_" + i);
+                // elements.classList.removeClass("ccs-dynaform-hidden");
+                //while (elements.length)
+                elements[0].classList.remove("ccs-dynaform-hidden");
+                // if (rowsAndHead.rows.length == i) {
+                //   //$("#deleteButton_" + ii).removeClass("ccs-dynaform-hidden");
+                //   //$("#ccs_rfp_score_criteria_add").addClass("ccs-dynaform-hidden");
+                // }
+                // else {
+                //   //$("#deleteButton_" + ii).addClass("ccs-dynaform-hidden");
+                // }
+  
+                document.getElementById("rfp_score_criteria_name_" + i).value = rowsAndHead.rows[i].at(0).text;
+                document.getElementById("rfp_score_criteria_point_" + i).value = rowsAndHead.rows[i].at(1).text;
+                document.getElementById("rfp_score_criteria_desc_" + i).value = rowsAndHead.rows[i].at(2).text;
+  
+                // $("#rfp_score_criteria_name_" + ii).prop('readonly', true);
+                // $("#rfp_score_criteria_point_" + ii).prop('readonly', true);
+                // $("#rfp_score_criteria_desc_" + ii).prop('readonly', true);
+                document.getElementById("rfp_score_criteria_desc_" + i).focus();
+  
+              }
+              if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
+                document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
+              } else {
+                document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
+              }
+            }
+          }
+
+        
         }
-        else 
-        {
-          addTierData(rowsAndHead1);
-        }
-      })
+        })
+        })
+                       
+       
+        
+
+        
+      // })
     })
-    
-    let term_box = document.getElementById("rfp_score_criteria_name_1")
-    if (term_box != undefined && term_box != null && term_box.value !== "") {
-      var contentlength=500-term_box.value.length
-      $(".rfp_scoring_criteria_title_count_1").text('You have '+contentlength+' characters remaining');
-    }
-    let term_box_1 = document.getElementById("rfp_score_criteria_desc_1")
-    if (term_box_1 != undefined && term_box_1 != null && term_box_1.value !== "") {
-      var contentlength=5000-term_box_1.value.length
-      $(".rfp_scoring_criteria_description_count_1 ").text('You have '+contentlength+' characters remaining');
-    }
-    for (var scoring_level = 10; scoring_level > 1; scoring_level--) {
-
-      let this_fieldset = document.querySelector(".score_criteria_" + scoring_level),
-        term_box = document.getElementById("rfp_score_criteria_name_" + scoring_level),
-        term_box_1 = document.getElementById("rfp_score_criteria_desc_" + scoring_level);
-        //term_box2 = document.getElementById("rfp_term_percentage_KPI_" + scoring_level);
-      //deleteButtonKPI = document.getElementById("remove_icon_" + kpi_fieldset);
-
-      if (term_box != undefined && term_box != null && term_box.value !== "") {
-        this_fieldset.classList.remove('ccs-dynaform-hidden');
-        var titlelength=500-term_box.value.length
-        $(".rfp_scoring_criteria_title_count_" + scoring_level).text('You have '+titlelength+' characters remaining');
-        this_fieldset.classList.remove('ccs-dynaform-hidden');
-        //document.getElementById("kpiKeyLevel").textContent = scoring_level;
-        // deleteButtonCount.push(scoring_level);
-        // if (scoring_level === 10) {
-        //   document.getElementById("ccs_rfpTerm_add").classList.add('ccs-dynaform-hidden');
-        // }
-        if (term_box_1 != undefined && term_box_1 != null && term_box_1.value !== "") {
-          var contentlength=5000-term_box_1.value.length
-          $(".rfp_scoring_criteria_description_count_" + scoring_level).text('You have '+contentlength+' characters remaining');
-        }
-      } else {
-
-        this_fieldset.classList.add('ccs-dynaform-hidden');
-        with_value_count = scoring_level;
-      }
-
-      // if (scoring_level === 2 && deleteButtonCount.length > 0) {
-      //   $("#remove_icon_" + deleteButtonCount[deleteButtonCount.sort().length - 1]).removeClass("ccs-dynaform-hidden");
-      // }
-    }
-    const removeErrorFieldsRfpScoreQuestion = () => {
-      $('.govuk-error-message').remove();
-      $('.govuk-form-group--error').removeClass('govuk-form-group--error');
-      $('.govuk-error-summary').remove();
-      $('.govuk-input').removeClass('govuk-input--error');
-      $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-    };
-    $(".rfp_scoring_criteria_title").keyup(function () {
-      let errorStore = [];
-      removeErrorFieldsRfpScoreQuestion();
-      $(this).removeAttr('maxlength');
-      let currentLength = this.value.length;
-      let tmpid = $(this).attr('id');
-      let id = tmpid.substring(24);
-      $(".rfp_scoring_criteria_title_count_" + id).text(`You have ${(500 - currentLength)} characters remaining`);
-  
-      if((currentLength)>500)
-      {
-      errorStore.push([$(this).attr('id'), "No more than 500 characters are allowed."]);
-      ccsZPresentErrorSummary(errorStore);
-      ccsZvalidateTextArea($(this).attr('id'), "No more than 500 characters are allowed.", !condLength($(this).val()));
-      }
-  
-    });
-  
-    $(".rfp_scoring_criteria_description").keyup(function () {
-      let errorStore = [];
-      removeErrorFieldsRfpScoreQuestion();
-      $(this).removeAttr('maxlength');
-      let currentLength = this.value.length;
-      let tmpid = $(this).attr('id');
-      let id = tmpid.substring(24);
-      $(".rfp_scoring_criteria_description_count_" + id).text(`You have ${(5000 - currentLength)} characters remaining`);
-  
-      if((currentLength)>5000)
-      {
-      errorStore.push([$(this).attr('id'), "No more than 5000 characters are allowed."]);
-      ccsZPresentErrorSummary(errorStore);
-      ccsZvalidateTextArea($(this).attr('id'), "No more than 5000 characters are allowed.", !condLength($(this).val()));
-      }
-  
-    });
-  
-
-
-    $('.dialog-close-rfp-scoring').on('click', function () {
-      $(".backdrop-rfp-scoring").fadeOut(200);
-      deselect($('.dialog-close-rfp-scoring'));
-      return false;
-    });
-
-    $('#redirect-button-rfp-scoring').on('click', function () {
-      deselect($('.dialog-close-rfp-scoring'));
-      $(".backdrop-rfp-scoring").fadeOut(200);
-      addTierData(rowsAndHead1);
-        return false;
-    });
 
     document.getElementById('ccs_rfp_score_criteria_add').addEventListener('click', e => {
       $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
@@ -396,74 +365,32 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-
-  function deselect(e) {
-    $('.pop').slideFadeToggle(function () {
-      removeClass('selected');
-    });
-  }
-
-  function removeClass() {
-    var allElements = document.querySelectorAll(".nav-popup");
-    for (i = 0; i < allElements.length; i++) {
-      allElements[i].classList.remove('nav-popup');
-    }
-  }
   
-  $.fn.slideFadeToggle = function (easing, callback) {
-    return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
-  };
+  DelGCButtons = document.querySelectorAll('.DelGCButtons-popup');
+  DelGCButtons.forEach(st => {
+    st.addEventListener('click', e => {
+      e.preventDefault();
+      // deletePost(e.target.getAttribute('data-link'));
+      urldel = e.target.getAttribute('data-link');
+      //Gcloude
+      const openpopGC = document.querySelector('.backdrop-gcloud_delete')
+      openpopGC.classList.add('showpopup');
+      $(".dialog-close-gcloud_delete").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      $(".close-dialog-close").on('click', function(){
+        openpopGC.classList.remove('showpopup');
+      });
+      deconf = document.getElementById('redirect-button-gcloud_delete');
+      deconf.addEventListener('click', ev => {
+        openpopGC.classList.remove('showpopup');
+        window.location.href = window.location.origin+urldel;
+      });
+    });
+  });
+
 });
 
-const addTierData = (rowsAndHead) =>{
-        let count = 0;
-        removeErrorFieldsRfpScore();
-        for (var score_criteria_fieldset = 1; score_criteria_fieldset < 11; score_criteria_fieldset++) {
-          document.getElementById('rfp_score_criteria_name_' + score_criteria_fieldset).value = '';
-          document.getElementById('rfp_score_criteria_point_' + score_criteria_fieldset).value = '';
-          document.getElementById('rfp_score_criteria_desc_' + score_criteria_fieldset).value = '';
-          var elements = document.getElementsByClassName("score_criteria_" + score_criteria_fieldset);
-          // elements.classList.removeClass("ccs-dynaform-hidden");
-          //while (elements.length)
-          elements[0].classList.add("ccs-dynaform-hidden");
-        }
-
-        if (rowsAndHead != undefined && rowsAndHead != null) {
-          document.getElementById('tiersAdded').textContent = rowsAndHead.rows.length;
-          with_value_count = rowsAndHead.rows.length + 1;
-          rowsAndHead.rows.unshift({ text: "Ignore" })
-          for (let i = 0; i < rowsAndHead.rows.length; i++) {
-            if (i !== 0) {
-              //const ii = i + 1;
-              var elements = document.getElementsByClassName("score_criteria_" + i);
-              // elements.classList.removeClass("ccs-dynaform-hidden");
-              //while (elements.length)
-              elements[0].classList.remove("ccs-dynaform-hidden");
-              // if (rowsAndHead.rows.length == i) {
-              //   //$("#deleteButton_" + ii).removeClass("ccs-dynaform-hidden");
-              //   //$("#ccs_rfp_score_criteria_add").addClass("ccs-dynaform-hidden");
-              // }
-              // else {
-              //   //$("#deleteButton_" + ii).addClass("ccs-dynaform-hidden");
-              // }
-
-              document.getElementById("rfp_score_criteria_name_" + i).value = rowsAndHead.rows[i].at(0).text;
-              document.getElementById("rfp_score_criteria_point_" + i).value = rowsAndHead.rows[i].at(1).text;
-              document.getElementById("rfp_score_criteria_desc_" + i).value = rowsAndHead.rows[i].at(2).text;
-
-              // $("#rfp_score_criteria_name_" + ii).prop('readonly', true);
-              // $("#rfp_score_criteria_point_" + ii).prop('readonly', true);
-              // $("#rfp_score_criteria_desc_" + ii).prop('readonly', true);
-
-            }
-            if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
-              document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
-            } else {
-              document.getElementById('ccs_rfp_score_criteria_add').classList.remove('ccs-dynaform-hidden');
-            }
-          }
-        }
-}
 const checkFieldsRfpScore = () => {
   const start = 1;
   const end = 10;
@@ -501,6 +428,8 @@ const removeErrorFieldsRfpScore = () => {
 const emptyFieldCheckRfpScore = () => {
   let fieldCheck = '',
     errorStore = [];
+    let agreement_id = document.getElementById('agreement_id');
+        
   removeErrorFieldsRfpScore();
   for (var x = 1; x < 11; x++) {
     let name_field = document.getElementById('rfp_score_criteria_name_' + x);
@@ -508,53 +437,120 @@ const emptyFieldCheckRfpScore = () => {
     let desc_field = document.getElementById('rfp_score_criteria_desc_' + x);
 
     if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
-      const field1 = countCharacters(name_field.value) > 500;
-      const field2 = countCharacters(desc_field.value) > 5000;
       checkFieldsRfpScore();
-      if (field1) {
+      if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
 
-        errorStore.push([name_field, 'No more than 500 characters are allowed.']);
-        ccsZaddErrorMessage(name_field, 'No more than 500 characters are allowed.');
-        isError = true;
-      } 
+        let focusField; 
+        if (name_field.value.trim() === '') {
+          focusField = name_field;
+        }else if(point_field.value.trim() === '') {
+          focusField = point_field;
+        }else if (desc_field.value.trim() === '') {
+          focusField = desc_field;
+        }
 
-      if (field2) {
-
-        errorStore.push([desc_field, 'No more than 5000 characters are allowed.']);
-        ccsZaddErrorMessage(desc_field, 'No more than 5000 characters are allowed.');
-        isError = true;
-      } 
-    
-      if (name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
-        fieldCheck = [point_field.id, 'You must add information in all fields.'];
+        fieldCheck = [focusField.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
-        ccsZaddErrorMessage(point_field, 'You must add information in all fields.');
+        ccsZaddErrorMessage(point_field, 'Enter a valid number.');
         ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
         errorStore.push(fieldCheck);
-      } else {
+      } 
+      else if(agreement_id.value.trim() == 'RM6187' && name_field.value.trim() === '' && point_field.value.trim() === '' && desc_field.value.trim() === '') {
+        fieldCheck = [point_field.id, 'You must add information in all fields.'];
+        ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
+        ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
+        ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
+        errorStore.push(fieldCheck);
+      }
+      else if (agreement_id.value.trim() == 'RM1043.8' && point_field.value.trim() >= 100){
         let errorObj = {
-          field: name_field,
+          field: point_field,
           isError: false,
         };
-        if (name_field.value.trim() === '') {
-          ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
+        fieldCheck = [point_field.id, 'Enter Valid score.'];
+        ccsZaddErrorMessage(point_field, 'Enter Valid score.');
+        errorObj.isError = true;
+        errorObj.field = point_field;
+        if (errorObj.isError) {
+          fieldCheck = [errorObj.field.id, 'Enter Valid score.'];
+          errorStore.push(fieldCheck);
+        }
+      }else {
+        let errorObj = {
+          field: name_field,
+          isError: false
+        };
+        if (name_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+          ccsZaddErrorMessage(name_field, 'You must enter the name for this level.');
           errorObj.isError = true;
           errorObj.field = name_field;
         }
-        if (point_field.value.trim() === '') {
-          ccsZaddErrorMessage(point_field, 'You must add information in all fields.');
+        if (point_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+          ccsZaddErrorMessage(point_field, 'You must enter the score for this level.');
           errorObj.isError = true;
           errorObj.field = point_field;
         }
-        if (desc_field.value.trim() === '') {
-          ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+        if (point_field.value.trim() < 0 && agreement_id.value.trim() == 'RM6187') {
+          ccsZaddErrorMessage(point_field, 'Enter a valid score');
+          errorObj.isError = true;
+          errorObj.field = point_field;
+        }
+        if (desc_field.value.trim() === '' && agreement_id.value.trim() == 'RM6187') {
+          ccsZaddErrorMessage(desc_field, 'You must enter the description for this level.');
           errorObj.isError = true;
           errorObj.field = desc_field;
         }
+
+        if (name_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187' ) {
+          ccsZaddErrorMessage(name_field,'you must add name for this level.');
+          errorObj.isError = true;
+          errorObj.field = name_field;
+        }
+        if (point_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
+          ccsZaddErrorMessage(point_field, 'Enter a valid number');
+          errorObj.isError = true;
+          errorObj.field = point_field;
+        }
+        
+        if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+            ccsZaddErrorMessage(point_field,'Enter Valid score.');
+            errorObj.isError = true;
+            errorObj.field = point_field;
+        }
+        
+        if (desc_field.value.trim() === '' && agreement_id.value.trim() != 'RM6187') {
+          ccsZaddErrorMessage(desc_field,'you must add description for this level');
+          errorObj.isError = true;
+          errorObj.field = desc_field;
+        }
+        if(agreement_id.value.trim() == 'RM6187'){
+          if (errorObj.isError) {
+            fieldCheck = [errorObj.field.id, 'You must add information in all fields.'];
+            errorStore.push(fieldCheck);
+          }
+        }
+       if(agreement_id.value.trim() != 'RM6187'){
+        let errMsg = '';
+        if (name_field.value.trim() === '') {
+          errorObj.field = name_field;
+          errMsg = 'you must add name for this level.';
+        }else if(point_field.value.trim() === '') {
+          errorObj.field = point_field;
+          errMsg = 'you must add score for this level';
+        }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
+          errorObj.field = point_field;
+          errMsg = 'Enter Valid score.';
+        }else if (desc_field.value.trim() === '') {
+          errorObj.field = desc_field;
+          errMsg = 'you must add description for this level';
+        }
+
         if (errorObj.isError) {
-          fieldCheck = [errorObj.field.id, 'You must add information in all fields.'];
+          fieldCheck = [errorObj.field.id, errMsg == ''?'You must add information in all fields.':errMsg];
           errorStore.push(fieldCheck);
         }
+       }
+        
       }
     }
   }
@@ -582,6 +578,100 @@ const ccsZvalidateScoringCriteria = event => {
   }
 };
 
+
+// user 
+
+
+const checkFieldsRfpScore2 = () => {
+  const start = 1;
+  const end = 10;
+
+  for (var a = start; a <= end; a++) {
+    let inputName = $(`#rfp_term_service_group_${a}`);
+    let textbox = $(`#rfp_term_more_details_${a}`);
+
+    if (inputName.val() !== '') {
+      $(`#rfp_term_service_group_${a}-error`).remove();
+      $(`acronym_service_${a} div`).removeClass('govuk-form-group--error');
+      $(`acronym_service_${a} input`).removeClass('govuk-input--error');
+    }
+    if (textbox.val() !== '') {
+      $(`#rfp_term_more_details_${a}-error`).remove();
+      $(`acronym_service_${a} div`).removeClass('govuk-form-group--error');
+      $(`acronym_service_${a} textarea`).removeClass('govuk-textarea--error');
+    }
+  }
+};
+
+const removeErrorFieldsRfpScore2 = () => {
+  $('.govuk-error-message').remove();
+  $('.govuk-form-group--error').removeClass('govuk-form-group--error');
+  $('.govuk-error-summary').remove();
+  $('.govuk-input').removeClass('govuk-input--error');
+  $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+};
+
+const emptyFieldCheckRfpScore2 = () => {
+  let fieldCheck = '',
+    errorStore = [];
+  removeErrorFieldsRfpScore2();
+  for (var x = 1; x < 11; x++) {
+    let name_field = document.getElementById('rfp_term_service_group_' + x);
+    let desc_field = document.getElementById('rfp_term_more_details_' + x);
+
+    if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
+      checkFieldsRfpScore2();
+      if (name_field.value.trim() === '' && desc_field.value.trim() === '') {
+        fieldCheck = [name_field.id, 'You must add information in all fields.'];
+        ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
+        ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+        errorStore.push(fieldCheck);
+      } else {
+        let errorObj = {
+          field: name_field,
+          isError: false,
+        };
+        if (name_field.value.trim() === '') {
+          ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
+          errorObj.isError = true;
+          errorObj.field = name_field;
+        }
+        if (desc_field.value.trim() === '') {
+          ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+          errorObj.isError = true;
+          errorObj.field = desc_field;
+        }
+        if (errorObj.isError) {
+          fieldCheck = [errorObj.field.id, 'You must add information in all fields.'];
+          errorStore.push(fieldCheck);
+        }
+      }
+    }
+  }
+  return errorStore;
+};
+
+const ccsZvalidateScoringCriteria2 = event => {
+  event.preventDefault();
+  errorStore = [];
+  errorStore = emptyFieldCheckRfpScore2();
+
+  if (errorStore.length === 0) {
+    document.forms['service_user_type_form'].submit();
+  }
+  else {
+    console.log('errorStore',errorStore)
+    ccsZPresentErrorSummary(errorStore);
+  }
+};
+
 const selectedTiers = (tiers) => {
 
+}
+
+const  deletePost = (url) => {
+  var ask = window.confirm("Are you sure you want to delete this record?");
+  if (ask) {
+      window.location.href = window.location.origin+url;
+  }
 }

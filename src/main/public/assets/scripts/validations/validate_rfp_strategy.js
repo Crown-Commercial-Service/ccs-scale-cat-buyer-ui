@@ -1,11 +1,13 @@
-let errorStore = [];
+//const console = require("console");
+
+var errorStore = [];
 let words = '';
 let char = '';
 const textPattern = /^[a-zA-Z ]+$/;
 const condLength = (text) => {
-  words = text?.trim().split(/\s+/)?.length > 500;
-  char = text?.trim()?.length > 5000;
-  if (words) return words;
+  //words = text?.trim().split(/\s+/)?.length > 500;
+  char = text?.trim()?.length > 10000;
+  //if (words) return words;
   return char;
 }
 
@@ -30,8 +32,7 @@ const removeErrorFieldsRfpStar = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-
-  if (document.getElementById("ccs_rfp_exit_strategy_form") !== null) {
+  if (document.getElementById("ccs_rfp_exit_strategy_form") !== null || document.getElementById("ccs_eoi_vetting_form") !== null) {
     if (document.getElementById("rfp_security_confirmation") !== undefined && document.getElementById("rfp_security_confirmation") !== null && document.getElementById("rfp_security_confirmation").value != '') {
       $('#conditional-rfp_radio_security_confirmation').fadeIn();
     } else {
@@ -39,11 +40,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 })
+
 const ccsZvalidateRfPStrategy = event => {
   event.preventDefault();
   let fieldCheck = '';
   errorStore.length = 0;
   const pageHeading = document.getElementById('page-heading').innerHTML;
+  var urlParams = new URLSearchParams(window.location.search);
+  var agreement_id = urlParams.get("agreement_id");
+  var group_id = urlParams.get("group_id");
+
+
   if ($('#ccs_vetting_type') !== undefined) {
     var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
     let ischecked = false;
@@ -66,38 +73,97 @@ const ccsZvalidateRfPStrategy = event => {
       }
     }
     if (condLength($('#rfp_prob_statement_t').val())) {
-      const msg = char ? 'No more than 5000 characters are allowed.' : 'Entry must be <= 500 words';
+      const msg = char ? 'Entry must be <= 10000 characters' : 'Entry must be <= 500 words';
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_t', msg, !condLength($('#rfp_prob_statement_t').val()));
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
 
+  if ($('#rfp_prob_statement_m') !== undefined && $('#rfp_prob_statement_m').val() !== undefined) {
+    if (!pageHeading.includes("(Optional)")) {
+      if ($('#rfp_prob_statement_m').val().length === 0) {
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'You must enter information here');
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+    }
+    if (condLength($('#rfp_prob_statement_m').val())) {
+      const msg = char ? 'Entry must be <= 5000 characters' : 'Entry must be <= 500 words';
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', msg, !condLength($('#rfp_prob_statement_m').val()));
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
+
+  if ($('#rfp_prob_statement_n') !== undefined && $('#rfp_prob_statement_n').val() !== undefined) {
+      if (!pageHeading.includes("(Optional)")) {
+        if ($('#rfp_prob_statement_n').val().length === 0) {
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', 'You must enter information here');
+          if (fieldCheck !== true) errorStore.push(fieldCheck);
+        }
+      }
+      if (condLength($('#rfp_prob_statement_n').val())) {
+        const msg = char ? 'Entry must be <= 5000 characters' : 'Entry must be <= 500 words';
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_n', msg, !condLength($('#rfp_prob_statement_n').val()));
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+    } 
+  
+  if ($('#rfp_prob_statement_g') !== undefined && $('#rfp_prob_statement_g').val() !== undefined) {
+      if (!pageHeading.includes("(Optional)")) {
+        if ($('#rfp_prob_statement_g').val().length === 0) {
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'You must enter information here');
+          if (fieldCheck !== true) errorStore.push(fieldCheck);
+        }
+      }
+      if (condLength($('#rfp_prob_statement_g').val())) {
+        const msg = char ? 'Entry must be <= 5000 characters' : 'Entry must be <= 500 words';
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', msg, !condLength($('#rfp_prob_statement_g').val()));
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+    } 
+    
   if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
 
     if (condLength($('#rfp_prob_statement_s').val())) {
-      const msg = char ? 'No more than 5000 characters are allowed.' : 'Entry must be <= 500 words';
+      const msg = char ? 'Entry must be <= 10000 characters' : 'Entry must be <= 500 words';
       fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', msg, !condLength($('#rfp_prob_statement_s').val()));
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
-  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
+  
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
     if ($('#rfp_prob_statement_s').val().length === 0) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must add background information about your procurement');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter information here');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") &&!pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
+    if ($('#rfp_prob_statement_s').val().length === 0) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter the social value, economic and environmental benefits');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
+  if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined && !pageHeading.includes("(Optional)") && pageHeading.includes('Management information and reporting requirements')&& agreement_id === "RM6187") {
+    if ($('#rfp_prob_statement_s').val().length === 0) {
+
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter your information and requirements');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
+  
 
   if ($('#rfp_prob_statement_d') !== undefined && $('#rfp_prob_statement_d').val() !== undefined) {
-    if ($('#rfp_prob_statement_d').val().length === 0) {
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must add background information about your procurement');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-    else if ($('#rfp_prob_statement_d').val().length > 500) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter less than 500 characters');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
+      if (!pageHeading.includes("(Optional)")) {
+        if ($('#rfp_prob_statement_d').val().length === 0) {
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must add background information about your procurement');
+          if (fieldCheck !== true) errorStore.push(fieldCheck);
+        }
+      }
+      if ($('#rfp_prob_statement_d').val().length > 500) {
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_d', 'You must enter less than 500 characters');
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
   }
 
   if ($('#rfp_prob_statement_r') !== undefined && $('#rfp_prob_statement_r').val() !== undefined) {
@@ -110,26 +176,24 @@ const ccsZvalidateRfPStrategy = event => {
       }
 
     }
-    if ($('#rfp_prob_statement_r').val().length > 500) {
+    if ($('#rfp_prob_statement_r').val().length > 10000 ) {
 
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_r', 'You must enter less than 500 characters');
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_r', 'You must enter less than 10000 characters',false);
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
+  
   if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
     // errorStore.length = 0;
+    
     if ($('#rfp_security_confirmation').val().length === 0) {
       fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
-    else{
-    if ($('#rfp_security_confirmation').val().length === 0) {
-
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
+    else if ($('#rfp_security_confirmation').val().length > 500) {
+      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
-  }
-
     // else if (textPattern.test($('#rfp_security_confirmation').val())) {
     //   if (wordLength($('#rfp_security_confirmation').val())) {
     //     const msg = char ? 'Entry must be <= 250 characters' : 'Entry must be <= 25 words';
@@ -143,70 +207,68 @@ const ccsZvalidateRfPStrategy = event => {
     // }
   }
   if ($('#rfp_prob_statement_e') !== undefined && $('#rfp_prob_statement_e').val() !== undefined) {
+    
+    if (!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)") && agreement_id !== "RM6187") {
+      if ($('#rfp_prob_statement_e').val().length === 0) {
+        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter information here');
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      }
+    }
 
-    if (!pageHeading.includes("(Optional)")) {
-      var hiddenQuestionId=$('input[name=question_id]')
-      var errorMsgToShow="You must enter information here"
-      for(var iterator=0;iterator<hiddenQuestionId.length;iterator++)
-      {
-        if(hiddenQuestionId[iterator].value=="Question 8")
-        {
-          errorMsgToShow="You must include your performance incentives or poor performance actions."
-          break;
+    if (!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")  && agreement_id === "RM6187") {
+      if (!pageHeading.includes('Management information and reporting requirements') && !pageHeading.includes('The business need')){
+        if ($('#rfp_prob_statement_e').val().length === 0) {
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must add background information about your procurement');
+          if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
-      if ($('#rfp_prob_statement_e').val().length === 0) {
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', errorMsgToShow);
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
+      else if(!pageHeading.includes('The business need') && !pageHeading.includes('Add background to your procurement')){
+        if ($('#rfp_prob_statement_e').val().length === 0) {
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter your information and requirements');
+          if (fieldCheck !== true) errorStore.push(fieldCheck);
+        }
       }
+      else if(!pageHeading.includes('Management information and reporting requirements') && !pageHeading.includes('Add background to your procurement')){
+        if ($('#rfp_prob_statement_e').val().length === 0) {
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', 'You must enter the business need');
+          if (fieldCheck !== true) errorStore.push(fieldCheck);
+        }
+      }
+      
     }
-      if (condLength($('#rfp_prob_statement_e').val())) {
-        const msg = char ? 'No more than 5000 characters are allowed.' : 'Entry must be <= 500 words';
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e', msg, !condLength($('#rfp_prob_statement_e').val()));
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
+    
 
-
-  }
-  if ($('#rfp_prob_statement_y') !== undefined && $('#rfp_prob_statement_y').val() !== undefined) {
-
-    if (!pageHeading.includes("(Optional)")) {
-      if ($('#rfp_prob_statement_y').val().length === 0) {
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_y', 'You must include details of your exit strategy.');
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
-    }
-    if (condLength($('#rfp_prob_statement_y').val())) {
-      const msg = char ? 'No more than 5000 characters are allowed.' : 'Entry must be <= 500 words';
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_y', msg, !condLength($('#rfp_prob_statement_y').val()));
+    if ($('#rfp_prob_statement_e').val().length > 10000) {
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_e','You must enter less than 10000 characters',false);
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
   }
 
-  if ($('#rfp_prob_statement_1') !== undefined && $('#rfp_prob_statement_1').val() !== undefined) {
-
-    if (!pageHeading.includes("(Optional)")) {
-      if ($('#rfp_prob_statement_1').val().length === 0) {
-        fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_1', 'You must include the business problem you need to solve.');
-        if (fieldCheck !== true) errorStore.push(fieldCheck);
-      }
-    }
-    if (condLength($('#rfp_prob_statement_1').val())) {
-      const msg = char ? 'No more than 5000 characters are allowed.' : 'Entry must be <= 500 words';
-      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_1', msg, !condLength($('#rfp_prob_statement_1').val()));
+  if (!pageHeading.includes("(Optional)") && agreement_id != "RM1043.8" && group_id != "Group 207" && agreement_id != "RM6187") {
+    if ($('#rfp_prob_statement_s') !== undefined && $('#rfp_prob_statement_s').val() !== undefined) {
+      if ($('#rfp_prob_statement_s').val().length === 0) {
+      fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_s', 'You must enter information here');
       if (fieldCheck !== true) errorStore.push(fieldCheck);
     }
+    }
   }
+  
+  
 
 
-  if (errorStore.length === 0) document.forms['ccs_rfp_exit_strategy_form'].submit();
-  else ccsZPresentErrorSummary(errorStore);
+  if (errorStore.length === 0){
+  document.forms['ccs_rfp_exit_strategy_form'].submit();
+  
+  }else{
+    ccsZPresentErrorSummary(errorStore);
+    
+  } 
 };
 
 const ccsZOnChange = event => {
-  // removeErrorFieldsRfpStar();
-  // event.preventDefault();
-  // let id = event.path[0].id;
-  // let fieldCheck = ccsZvalidateTextArea(id, 'You must enter information here');
-  // if (fieldCheck !== true) errorStore.push(fieldCheck);
+  removeErrorFieldsRfpStar();
+  event.preventDefault();
+  let id = event.path[0].id;
+  //let fieldCheck = ccsZvalidateTextArea(id, 'You must enter information here');
+  //if (fieldCheck !== true) errorStore.push(fieldCheck);
 };

@@ -56,6 +56,7 @@ export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: expres
     req.session['selectedUser'] = selectedUser;
     req.session['users'] = users;
 
+    const agreementId_session = req.session.agreement_id;
     const windowAppendData = {
       userdata: users,
       selectedUser,
@@ -63,6 +64,7 @@ export const RFP_GET_LEAD_PROCUREMENT = async (req: express.Request, res: expres
       agreementLotName,
       error: isJaggaerError,
       releatedContent,
+      agreementId_session,
     };
     res.render('procurementLead-rfp', windowAppendData);
   } catch (error) {
@@ -92,6 +94,9 @@ export const RFP_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: expres
 
     res.redirect('/rfp/add-collaborators');
   } catch (error) {
+    
+    
+
     const isJaggaerError = error.response.data.errors.some(
       (error: any) => error.status.includes('500') && error.detail.includes('Jaggaer'),
     );
@@ -104,7 +109,7 @@ export const RFP_PUT_LEAD_PROCUREMENT = async (req: express.Request, res: expres
       'Tender Api - getting users from organization or from tenders failed',
       !isJaggaerError,
     );
-
+      
     req.session['isJaggaerError'] = isJaggaerError;
     res.redirect('/rfp/procurement-lead');
   }

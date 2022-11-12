@@ -18,7 +18,7 @@
 const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => {
   const element = document.getElementById(elementName);
 
-  if (element?.value != undefined && element.value != null && element.value.trim().match(typeRegex) && valid) {
+  if (element?.value != undefined && element.value != null &&  element.value.trim().match(typeRegex) && valid) {
     ccsZremoveErrorMessage(element);
     return true;
   } else {
@@ -32,25 +32,31 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => 
  * Validate that a textarea cointains a value
  */
 const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
-  const element = document.getElementById(elementName);
-  if (element != undefined && element != null && element.value && element.value.trim().length > 0 && valid) {
-    ccsZremoveErrorMessage(element);
-  }
-  else if (element != undefined && element != null) {
-    ccsZaddErrorMessage(element, errMsg);
-    return [element?.id, errMsg];
+  
+  const pageHeading = document.getElementById('page-heading').innerHTML;
+  
+  if (!(pageHeading.includes("(Optional)") && !pageHeading.includes("(optional)"))) {
+    const element = document.getElementById(elementName);
+   
+    if (element != undefined && element != null && element.value && element.value.trim().length > 0 && valid) {
+      
+      ccsZremoveErrorMessage(element);
+    }
+    else if (element != undefined && element != null) {
+      
+      ccsZaddErrorMessage(element, errMsg);
+      return [element?.id, errMsg];
+    }else{
+      console.log("FINAL ERROR");
+    }
+  }else{
+    console.log("VADA FINAL ERROR");
   }
 };
-const ccsZvalidateTextAreaMultipleSameElement = (elementName, errMsg, valid = true) => {
-  const element = document.getElementById(elementName);
-  if (element != undefined && element != null && element.value && element.value.trim().length > 0 && valid) {
-    ccsZremoveErrorMessage(element);
-  }
-  if (element != undefined && element != null) {
-    ccsZaddErrorMessage(element, errMsg);
-    return [element?.id, errMsg];
-  }
-};
+
+
+
+
 /**
  * Validate that one checkbox or radio button in a set has been selected
  */
@@ -173,15 +179,18 @@ const ccsZvalidateThisDate = (elementName, errMsg, direction, offset) => {
     } else {
       testTime = relativeTestDate.getTime();
     }
-
+    
     if ((direction < 0 && submittedDate.getTime() < testTime) || (direction > 0 && submittedDate.getTime() > testTime)) {
+     
       ccsZremoveErrorMessage(element);
     } else {
+      
       ccsZaddErrorMessage(element, errMsg);
       return [element.id, errMsg];
     }
 
   } else {
+    
     ccsZaddErrorMessage(element, errMsg);
   }
 
@@ -224,6 +233,7 @@ const ccsZremoveErrorMessage = (element) => {
  * @param {string} message - the error message
  */
 const ccsZaddErrorMessage = (element, message) => {
+  console.log("element",element);
 
   if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
@@ -258,41 +268,7 @@ const ccsZaddErrorMessage = (element, message) => {
     }
   }
 };
-const ccsZaddErrorMessageClass = (element, message) => {
 
-  if (element != undefined && element != null && !element.className.includes("-error")) {
-    element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
-
-    if (element.tagName === "INPUT" && (element.type !== "radio" || element.type !== "checkbox")) {
-      element.classList.add("govuk-input--error");
-    } else {
-      let childInputs = element.querySelectorAll('input');
-      childInputs.forEach((child_i) => {
-        child_i.classList.add("govuk-input--error");
-      });
-    }
-    if (element.tagName === "TEXTAREA" && (element.type !== "radio" || element.type !== "checkbox")) {
-      element.classList.add("govuk-textarea--error");
-    } else {
-      let childInputs = element.querySelectorAll('textarea');
-      childInputs.forEach((child_i) => {
-        child_i.classList.add("govuk-textarea--error");
-      });
-    }
-
-    errorEl = ccsZcreateCcsErrorMsg(element.id, message);
-
-    if (element.type === "radio") {
-      element.closest(".govuk-radios").insertBefore(errorEl, element.parentNode);
-    } else if (element.type === "checkbox") {
-      element.closest(".govuk-checkboxes").insertBefore(errorEl, element.parentNode);
-    } else if (element.parentNode.classList.contains("govuk-input__wrapper")) {
-      element.closest(".govuk-form-group").insertBefore(errorEl, element.parentNode);
-    } else {
-      element.parentNode.insertBefore(errorEl, element);
-    }
-  }
-};
 /*
  * Helper to create an error message span that can be inserted
  * above the erroring input
@@ -337,16 +313,21 @@ const ccsZPresentErrorSummary = (errorStore) => {
 
   // Add the error messages
   errorStore.forEach((errDetail) => {
-    let errListItem = document.createElement("li"),
-      errAnchorItem = document.createElement("a")
-    let errItemText = document.createTextNode(errDetail[1]);
+    if(errDetail != undefined && errDetail != ''){
+      if(errDetail != true) {
+        let errListItem = document.createElement("li"),
+        errAnchorItem = document.createElement("a")
+        let errItemText = document.createTextNode(errDetail[1]);
 
-    errAnchorItem.setAttribute("href", "#" + errDetail[0]);
-    errAnchorItem.appendChild(errItemText);
+        errAnchorItem.setAttribute("href", "#" + errDetail[0]);
+        errAnchorItem.appendChild(errItemText);
 
-    errListItem.appendChild(errAnchorItem);
+        errListItem.appendChild(errAnchorItem);
 
-    errSummaryList.appendChild(errListItem);
+        errSummaryList.appendChild(errListItem);
+      }
+    }
+    
   });
 
   // add the errors to the box
@@ -357,4 +338,22 @@ const ccsZPresentErrorSummary = (errorStore) => {
   document.querySelector(".govuk-heading-xl").parentNode.insertBefore(errSummaryBox, document.querySelector(".govuk-heading-xl"));
   window.scrollTo(0, 0);
 
+};
+
+/**
+ * Validate that a weightage input limit
+ */
+
+
+const ccsZvalidateWeihtageValue = (elementName, errMsg, totalvalue, typeRegex, valid = true) => {
+  const element = document.getElementById(elementName);
+
+  if (element?.value != undefined && element.value != null &&  totalvalue == 100 && valid) {
+    ccsZremoveErrorMessage(element);
+    return true;
+  } else {
+    ccsZremoveErrorMessage(element);
+    ccsZaddErrorMessage(element, errMsg);
+    return [element?.id, errMsg];
+  }
 };

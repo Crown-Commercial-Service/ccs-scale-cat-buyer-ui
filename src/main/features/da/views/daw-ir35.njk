@@ -1,0 +1,112 @@
+{% extends "template.njk" %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Complete and upload the whole bid pack | Contract Award Service' %}
+
+
+{% block breadCrumb %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+
+{% endblock %}
+
+{% block content %} 
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+ <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+          <h1 class="govuk-heading-xl">
+            <strong>{{data.title}}</strong>
+
+          </h1>
+          
+      </div>  
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+      {% include "includes/project_header.njk" %}
+    <form name="rfp_IR35_form" id="rfp_IR35_form" action="/da/IR35" method="POST" >
+    {{ csrfProtection(csrf) }}
+    
+    <p class="govuk-body">{{data.subtitle}}</p>
+    <p class="govuk-body">{{data.SUBTITLE_1}}</p>
+    <p class="govuk-body">{{data.subtitle1}}</p>
+    <div class="govuk-!-margin-top-9">
+          {% for requirement in apiData%}
+         {% block singleSelect%}
+              {% if (requirement.nonOCDS.questionType == 'SingleSelect') and (requirement.nonOCDS.multiAnswer == false) %}
+                <div class="govuk-form-group">
+                  <div class="govuk-radios">
+                    <br>
+                    {% set radioArray = [] %}
+                    {% for i in range(0, requirement.nonOCDS.options | length) -%}
+                      {% if i == 0%}
+                        <div class="govuk-radios__item">
+                          {%if requirement.nonOCDS.options[i].selected === true %}
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" checked>
+                            {%else%}
+                            <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-item-hint" >
+                            {%endif%}
+                            <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type">
+                              <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                            </label>
+                            <div id="ccs_vetting_type-item-hint" class="govuk-hint govuk-radios__hint">
+                              {{requirement.nonOCDS.options[i].text | safe}}
+                            </div>
+                          </div>
+                        {% else %}
+
+                          <div class="govuk-radios__item">
+                            {%if requirement.nonOCDS.options[i].selected === true %}
+                              <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" checked>
+                              {%else%}
+                              <input class="govuk-radios__input ccs_vetting" id="ccs_vetting_type-{{i+1}}" name="rfp_acknowledgement" type="radio" value="{{requirement.nonOCDS.options[i].value}}" aria-describedby="ccs_vetting_type-{{i}}-item-hint" >
+                            {% endif %}
+                            <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_vetting_type-{{i}}">
+                              <h3 class="govuk-heading-m">{{requirement.nonOCDS.options[i].value}}</h3>
+                            </label>
+                            <div id="ccs_vetting_type-{{i}}-item-hint" class="govuk-hint govuk-radios__hint">
+                              {{requirement.nonOCDS.options[i].text |safe}}
+                            </div>
+                          </div>
+                          {%endif%}
+                        {%- endfor %}
+                      </div>
+                    </div>
+                    
+                  {% endif %}
+                {% endblock %}
+                {%- endfor %}
+</div>
+ <div class="govuk-button-group govuk-!-margin-top-9">
+                  {{ CCSButton({
+                        text: "Save and continue",
+                        classes:"save-button"
+                      })
+                  }}
+                  <a href="/da/task-list" class="govuk-link govuk-link--no-visited-state">Return to Write and publish your requirements</a>
+</div>
+
+ </form>
+               
+
+  </div>
+
+
+    
+  <div class="govuk-grid-column-one-third">
+    {{ CCSReleatedContent(releatedContent) }}
+  </div>
+            
+    
+  </div>
+
+
+ 
+  
+  </main>
+{% endblock %}
+

@@ -1,0 +1,32 @@
+{
+    "title": "Before you export your results",
+    "line1": "9999 results found containing [keyword] in [Category] where [Filter] is [filter value] and where [Filter] is [filter value]]",
+    "line2": "Export your search results to keep a record of the services you’ve found.",
+    "line3": "You can download exported results as a spreadsheet or comma-separated values (CSV). This file include suppliers’ service descriptions and contact details.",
+    "line4": "Do not export your results if you still need to edit your search.",
+    "form": {
+        "input": {
+            "id": "eoi_projLongName",
+            "name": "eoi_projLongName",
+            "value": ""
+        },
+        "backJump": {
+            "title": " Return to Search results",
+            "href": "/g-cloud/search"
+        }
+    },
+    "related_content": [
+      {
+          "text": "G-Cloud 13 customer guidance",
+          "href": "https://assets.crowncommercial.gov.uk/wp-content/uploads/RM1557.13-G-Cloud-13-customer-guidance-v1.0-1.odt"
+      },
+      {
+          "text": "G-Cloud buyer’s guide",
+          "href": "https://www.gov.uk/guidance/g-cloud-buyers-guide"
+      },
+      {
+          "text": "G-Cloud 13 agreement page",
+          "href": "https://www.crowncommercial.gov.uk/agreements/RM1557.13"
+      }
+  ]
+}

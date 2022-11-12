@@ -44,8 +44,8 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
     const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);
     const ALL_ASSESSTMENTS_DATA = ALL_ASSESSTMENTS.data;
-    const extToolId=ALL_ASSESSTMENTS_DATA['external-tool-id'];
-    const CAPACITY_BASEURL = `assessments/tools/${extToolId}/dimensions`;
+
+    const CAPACITY_BASEURL = `assessments/tools/1/dimensions`;
     const CAPACITY_DATA = await TenderApi.Instance(SESSION_ID).get(CAPACITY_BASEURL);
     const CAPACITY_DATASET = CAPACITY_DATA.data;
 
@@ -136,9 +136,7 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
       let FINDER = options.filter(nestedItem => nestedItem.name == Item)[0];
       let findername = FINDER.name;
       const temp = findername.replace(/^\D+/g, '');
-      var name=findername.replace(/[^a-zA-Z]+/g, ' ');
-      name=name.replace(/\s+$/, '');
-      const tempname = name+", SFIA level " + temp;
+      const tempname = FINDER.name.replace(/\d+/g, ", SFIA level " + temp + "");
       FINDER.name = tempname;
       UNIQUE_DESIG_STORAGE.push(FINDER);
     }
@@ -214,7 +212,6 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
         let findBaseOnRoles = category.filter(i => i.name == role);
         let contructedObject = {
           ParentName: role,
-          description:category.find(({ name }) => name === role).description,
           designations: findBaseOnRoles,
         };
         UNIQUESTORAGE.push(contructedObject);
@@ -312,7 +309,6 @@ export const RFP_GET_VETTING_AND_WEIGHTING = async (req: express.Request, res: e
     //res.json(StorageForSortedItems)
     res.render('rfp-vetting-weighting', windowAppendData);
   } catch (error) {
-    console.log(error);
     req.session['isJaggaerError'] = true;
     LoggTracer.errorLogger(
       res,
