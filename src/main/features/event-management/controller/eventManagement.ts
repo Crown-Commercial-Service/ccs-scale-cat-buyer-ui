@@ -1021,7 +1021,7 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
 
   const baseurl = `/tenders/projects/${projectId}/events`
   const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
-  status = apidata.data.filter((d: any) => d.id == eventId)[0].dashboardStatus;
+  //status = apidata.data.filter((d: any) => d.id == eventId)[0].dashboardStatus;
 
   let title: string, lotid: string, agreementId_session: string, agreementName: string, agreementLotName: string, projectName: string, status: string, eventType: string
   let supplierDetails = {} as SupplierDetails;
