@@ -1939,6 +1939,11 @@
                           <p>{{ pricegroupquestion1 }}</p>
                         </dd>
                       </div>
+                      <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key"></dt>
+                        <dd class="govuk-summary-list__value"></dd>
+                        <dd class="govuk-summary-list__actions"></dd>
+                      </div>
                       <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                         <dt class="govuk-summary-list__key">
                           <h3 class="govuk-!-margin-bottom-0">
@@ -1984,162 +1989,136 @@
                           </div>
                         {% endfor %}
                       {% endif %}
-                      <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                        <dt class="govuk-summary-list__value">
-                          <h3>
-                            <strong>Essential skills and experience</strong>
-                          </h3><br/>
-                          {% if culGroup != undefined and culGroup != null and culGroup | length > 0 %}
-                            {% for data in culGroup %}
-                              <p>Describe the essential skill or experience</p><br/>
-                              <p>weighting </p><br/><br/>
 
-                            {% endfor %}
-                          {% endif %}
-                        </dt>
-                        <dd class="govuk-summary-list__value">
-                          <br/>
-                          <br/><br/><br/>
-                          {% if culGroup != undefined and culGroup != null and culGroup | length > 0 %}
-                            {% for data in culGroup %}
-                              <p>{{ data.tech }}</p><br/>
-                              <p>{{ data.add }}%</p><br/><br/>
-                            {% endfor %}
-                          {% endif %}
-                        </dd>
-                        <dd class="govuk-summary-list__actions">
-                          {% if eventStatus != "published" %}
+                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+            <dt class="govuk-summary-list__key">
+               <h3 class="govuk-!-margin-bottom-0">
+                            <strong>Essential skills and experience</strong>
+                          </h3>
+            </dt>
+            <dd class="govuk-summary-list__value">&nbsp;</dd>
+            <dd class="govuk-summary-list__actions">
+              {% if eventStatus != "published" %}
                             <a
                         class="govuk-link"
                         href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 5">
                         Change<span class="govuk-visually-hidden">project name</span>
                             </a>
                           {% endif %}
-                        </div>
-                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
-                          <dt class="govuk-summary-list__value">
-                            <h3>
-                              <strong>Nice-to-have skills</strong>
-                            </h3><br/>
-                            {% if socialGroup != undefined and socialGroup != null and socialGroup | length > 0 %}
-                              {% for data in socialGroup %}
-                                <p>Describe the essential skill or experience</p><br/>
-                                <p>weighting </p><br/><br/>
+            </dd>
+          </div>
+          {% if culGroup != undefined and culGroup != null and culGroup | length > 0 %}
+            {% for data in culGroup %}
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>Describe the essential skill or experience</p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.tech }}</p></dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>weighting </p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.add }}%</p></dd>
+            </div>
 
-                              {% endfor %}
-                            {% endif %}
-                          </dt>
-                          <dd class="govuk-summary-list__value">
-                            <br/>
-                            <br/><br/><br/>
-                            {% if socialGroup != undefined and socialGroup != null and socialGroup | length > 0 %}
-                              {% for data in socialGroup %}
-                                <p>{{ data.weight }}</p><br/>
-                                <p>{{ data.add }}%</p><br/><br/>
-                              {% endfor %}
-                            {% endif %}
-                          </dd>
-                          <dd class="govuk-summary-list__actions">
-                            {% if eventStatus != "published" %}
+            {% endfor %}
+          {% endif %}
+          <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+            <dt class="govuk-summary-list__key">
+              <h3 class="govuk-!-margin-bottom-0">
+                <strong>Nice-to-have skills</strong>
+              </h3>
+            </dt>
+            <dd class="govuk-summary-list__value">&nbsp;</dd>
+            <dd class="govuk-summary-list__actions">
+              {% if eventStatus != "published" %}
                               <a
                         class="govuk-link"
                         href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 6">
                         Change<span class="govuk-visually-hidden">project name</span>
                               </a>
                             {% endif %}
-                          </dd>
-                        </div>
-                        <div class="govuk-summary-list__row">
-                          <dt class="govuk-summary-list__value">
-                            <h3>
-                              <strong>Technical questions</strong>
-                            </h3><br/>
-                            {% if pricingModel != undefined and pricingModel != null and pricingModel | length > 0 %}
-                              {% for data in pricingModel %}
-                                <p>Explain the technical question</p><br/>
-                                <p>weighting </p><br/><br/>
+            </dd>
+          </div>
+          {% if socialGroup != undefined and socialGroup != null and socialGroup | length > 0 %}
+            {% for data in socialGroup %}
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>Describe the essential skill or experience</p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.weight }}</p></dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>weighting </p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.add }}%</p></dd>
+            </div>
+            {% endfor %}
+          {% endif %}
 
-                              {% endfor %}
-                            {% endif %}
+          <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+            <dt class="govuk-summary-list__key">
+              <h3 class="govuk-!-margin-bottom-0">
+                <strong>Technical questions</strong>
+              </h3>
+            </dt>
+            <dd class="govuk-summary-list__value">&nbsp;</dd>
+            <dd class="govuk-summary-list__actions">
+              {% if eventStatus != "published" %}
+                  <a
+            class="govuk-link"
+            href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 7">
+            Change<span class="govuk-visually-hidden">project name</span>
+                  </a>
+                {% endif %}
+            </dd>
+          </div>
+          {% if pricingModel != undefined and pricingModel != null and pricingModel | length > 0 %}
+            {% for data in pricingModel %}
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>Explain the technical question</p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.weight }}</p></dd>
+            </div>
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+              <dt class="govuk-summary-list__value"><p>weighting </p></dt>
+              <dd class="govuk-summary-list__value"><p>{{ data.add }}%</p></dd>
+            </div>
+
+            {% endfor %}
+          {% endif %}
+                        {% if (lotId == "1") %}
+                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                          <dt class="govuk-summary-list__key">
+                            <h3 class="govuk-!-margin-bottom-0">
+                              <strong>Write your cultural fit questions</strong>
+                            </h3>
                           </dt>
-                          <dd class="govuk-summary-list__value">
-                            <br/>
-                            <br/><br/><br/>
-                            {% if pricingModel != undefined and pricingModel != null and pricingModel | length > 0 %}
-                              {% for data in pricingModel %}
-                                <p>{{ data.weight }}</p><br/>
-                                <p>{{ data.add }}%</p><br/><br/>
-                              {% endfor %}
-                            {% endif %}
-                          </dd>
+                          <dd class="govuk-summary-list__value">&nbsp;</dd>
                           <dd class="govuk-summary-list__actions">
                             {% if eventStatus != "published" %}
-                              <a
-                        class="govuk-link"
-                        href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 7">
-                        Change<span class="govuk-visually-hidden">project name</span>
-                              </a>
-                            {% endif %}
-                          </dd>
-                        </div>
-                        {% if (lotId == "1") %}
-                          <div class="govuk-summary-list__row">
-                            <dt class="govuk-summary-list__value">
-                              <h3>
-                                <strong>Write your cultural fit questions</strong>
-                              </h3><br/>
-                              {% if culModel != undefined and culModel != null and culModel | length > 0 %}
-                                {% for data in culModel %}
-                                  <p>Your question</p><br/>
-                                  <p>weighting </p><br/><br/>
-
-                                {% endfor %}
-                              {% endif %}
-                            </dt>
-                            <dd class="govuk-summary-list__value">
-                              <br/>
-                              <br/><br/><br/>
-                              {% if culModel != undefined and culModel != null and culModel | length > 0 %}
-                                {% for data in culModel %}
-                                  <p>{{ data.weight }}</p><br/>
-                                  <p>{{ data.add }}%</p><br/><br/>
-                                {% endfor %}
-                              {% endif %}
-                            </dd>
-                            <dd class="govuk-summary-list__actions">
-                              {% if eventStatus != "published" %}
                                 <a
                         class="govuk-link"
                         href="/rfp/assessment-question?agreement_id={{ agreementId_session }}&proc_id={{ proc_id }}&event_id={{ event_id }}&id=Criterion 2&group_id=Group 8">
                         Change<span class="govuk-visually-hidden">project name</span>
                                 </a>
                               {% endif %}
-                            </dd>
-                          </div>
-                        {% endif %}
-                        <div class="govuk-summary-list__row">
-                          <dt class="govuk-summary-list__value">
-                            <h3>
-                              <strong>Write your social value questions</strong>
-                            </h3><br/>
-                            {% if socialModel != undefined and socialModel != null and socialModel | length > 0 %}
-                              {% for data in socialModel %}
-                                <p>Your question</p><br/>
-                                <p>weighting </p><br/><br/>
-
-                              {% endfor %}
-                            {% endif %}
-                          </dt>
-                          <dd class="govuk-summary-list__value">
-                            <br/>
-                            <br/><br/><br/>
-                            {% if socialModel != undefined and socialModel != null and socialModel | length > 0 %}
-                              {% for data in socialModel %}
-                                <p>{{ data.weight }}</p><br/>
-                                <p>{{ data.add }}%</p><br/><br/>
-                              {% endfor %}
-                            {% endif %}
                           </dd>
+                        </div>
+                        {% if culModel != undefined and culModel != null and culModel | length > 0 %}
+                                {% for data in culModel %}
+                                <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                                  <dt class="govuk-summary-list__value"><p>Your question</p></dt>
+                                  <dd class="govuk-summary-list__value"><p>{{ data.weight }}</p></dd>
+                                </div>
+                                <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                                  <dt class="govuk-summary-list__value"><p>weighting </p></dt>
+                                  <dd class="govuk-summary-list__value"><p>{{ data.add }}%</p></dd>
+                                </div>
+
+                                {% endfor %}
+                              {% endif %}
+                        {% endif %}
+                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                          <dt class="govuk-summary-list__key">
+                            <h3 class="govuk-!-margin-bottom-0">
+                              <strong>Write your social value questions</strong>
+                            </h3>
+                          </dt>
+                          <dd class="govuk-summary-list__value">&nbsp;</dd>
                           <dd class="govuk-summary-list__actions">
                             {% if eventStatus != "published" and(lotId == 1) %}
                               <a
@@ -2157,6 +2136,18 @@
                             {% endif %}
                           </dd>
                         </div>
+                        {% if socialModel != undefined and socialModel != null and socialModel | length > 0 %}
+                              {% for data in socialModel %}
+                              <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                                <dt class="govuk-summary-list__value"><p>Your question</p></dt>
+                                <dd class="govuk-summary-list__value"><p>{{ data.weight }}</p></dd>
+                              </div>
+                              <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                                <dt class="govuk-summary-list__value"><p>weighting </p></dt>
+                                <dd class="govuk-summary-list__value"><p>{{ data.add }}%</p></dd>
+                              </div>
+                              {% endfor %}
+                            {% endif %}
                         {% if (lotId == "1") %}
                           <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                             <dt class="govuk-summary-list__key">
