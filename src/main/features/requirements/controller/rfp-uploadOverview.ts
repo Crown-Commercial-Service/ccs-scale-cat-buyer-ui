@@ -33,17 +33,24 @@ export const RFP_UPLOAD = async (req: express.Request, res: express.Response) =>
     const FetchDocuments = await DynamicFrameworkInstance.Instance(SESSION_ID).get(FILE_PUBLISHER_BASEURL);
     const FETCH_FILEDATA = FetchDocuments?.data;
     
-   Mcf3uploadData.taskList[0].taskStatus="TO DO";
-   Mcf3uploadData.taskList[1].taskStatus="TO DO";
+   Mcf3uploadData.taskList[0].taskStatus="To do";
+   Mcf3uploadData.taskList[1].taskStatus="Cannot start yet";
    Mcf3uploadData.taskList[2].taskStatus="Optional";
     FETCH_FILEDATA?.map(file => {
       
       if (file.description === "mandatoryfirst") {
         Mcf3uploadData.taskList[0].taskStatus="Done";
       }
+      
+      if (Mcf3uploadData.taskList[1].taskStatus !='Done' && Mcf3uploadData.taskList[0].taskStatus === "Done") {
+        Mcf3uploadData.taskList[1].taskStatus="To do";
+       }
+
       if (file.description === "mandatorysecond") {
         Mcf3uploadData.taskList[1].taskStatus="Done";
       }
+      
+
       if (file.description === "optional") {
         Mcf3uploadData.taskList[2].taskStatus="Done";
       }

@@ -31,14 +31,14 @@
             "hreftitle": "Add or change upload",
             "href": "/rfp/upload-attachment",
             "mandatory":true,
-            "taskStatus":"TO DO"
+            "taskStatus":"To do"
         },
         {
             "title": "Upload your terms and conditions",
             "hreftitle": "Add or change upload",
             "href": "/rfp/upload-doc",
             "mandatory":true,
-            "taskStatus":"TO DO"
+            "taskStatus":"Cannot start yet"
         },
         {
             "title": "Upload any additional documents (optional)",
