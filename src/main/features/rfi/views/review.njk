@@ -472,9 +472,7 @@ Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                               </p>
  
                               <p class="govuk-body">
-                                {% if agreementId_session == 'RM6187' %}
-                                The document sent to suppliers will also include a number of best practice statements from your organisation.
-                                {% else %}
+                                {% if agreementId_session != 'RM6187' %}
                                 The document sent to suppliers will also include a number of best practice statements from your organisation.  These are in the link below for you to review.
                                 {% endif %}
 
