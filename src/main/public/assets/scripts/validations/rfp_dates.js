@@ -92,6 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
          }
          else{
+            removeErrorFieldsdates();
+
             return true;
           }
          }
@@ -124,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
          }
          else{
+            removeErrorFieldsdates();
             return true;
          }
          }
@@ -168,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
           else{
+            removeErrorFieldsdates();
             return true;
           }
          }
@@ -650,12 +654,13 @@ function checkResourceStartDate()
          rfpResourceStartYear.removeClass('govuk-form-group--error');
         // rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
-        // $('#event-name-error-date').html('Enter a valid date');
-         fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid date", /^\d{1,}$/);
+         $('#event-name-error-date').html('Enter a valid date');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-           fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid date", /^\d{1,}$/);
          }
+         // else{
+         //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_day_Question11", "Enter a valid date", /^\d{1,}$/);
+         // }
         
       }
       else if(rfpResourceStartDay.val() < 1)
@@ -681,12 +686,13 @@ function checkResourceStartDate()
          rfpResourceStartDay.removeClass('govuk-form-group--error');
          rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-          //  $('#event-name-error-date').html('Enter a valid month');
-         fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid month", /^\d{1,}$/);
+            $('#event-name-error-date').html('Enter a valid month');
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_month_Question 11", "Enter a valid month", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-              fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid month", /^\d{1,}$/);
          }
+         // else{
+         //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_month_Question 11", "Enter a valid month", /^\d{1,}$/);
+         // }
       
       }
       else if(rfpResourceStartMonth.val() < 1)
@@ -710,12 +716,13 @@ function checkResourceStartDate()
          rfpResourceStartDay.removeClass('govuk-form-group--error');
          rfpResourceStartMonth.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
-         //$('#event-name-error-date').html('Enter a valid year');  
-         fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid year", /^\d{1,}$/);
+         $('#event-name-error-date').html('Enter a valid year');  
+         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_year_Question 11", "Enter a valid year", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-              fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid year", /^\d{1,}$/);
-         }  
+         }
+         // else{
+         //      fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date_year_Question 11", "Enter a valid year", /^\d{1,}$/);
+         // }  
       }
       else if(rfpResourceStartYear.val() < 1)
       {
@@ -1029,10 +1036,10 @@ function isProjectStartDateValid()
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }else{
-           fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
          }
          if(errorStore.length>0){
             ccsZPresentErrorSummary(errorStore);
@@ -1049,14 +1056,15 @@ function isProjectStartDateValid()
          if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) { 
 
            // $('#event-name-error-date').html('Start date must be a valid future date');
+           removeErrorFieldsdates();
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Start date must be a valid future date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date must be a valid future date", /^\d{1,}$/);
             if (fieldCheck !== true){ errorStore.push(fieldCheck)
             }else{
-              fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Start date must be a valid future date", /^\d{1,}$/);
+              fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date must be a valid future date", /^\d{1,}$/);
             }
             if(errorStore.length>0){
                ccsZPresentErrorSummary(errorStore);
@@ -1100,8 +1108,8 @@ function isProjectStartDateValid()
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            //    $('#event-name-error-date').html('Project start date should not be empty'); 
-            fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Project start date should not be empty", /^\d{1,}$/);
+            $('#event-name-error-date').html('Project start date should not be empty'); 
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Project start date should not be empty", /^\d{1,}$/);
             if (fieldCheck !== true){ errorStore.push(fieldCheck)
             }
             if(errorStore.length>0){
