@@ -3,8 +3,8 @@ import express from 'express';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-//const { Logger } = require('@hmcts/nodejs-logging');
-//const logger = Logger.getLogger('questions healper');
+const { Logger } = require('@hmcts/nodejs-logging');
+const logger = Logger.getLogger('questions healper');
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  * @Helper
@@ -174,7 +174,7 @@ export class QuestionHelper {
         res.redirect('/eoi/eoi-tasklist');
       }
     } catch (error) {
-      //logger.log('Something went wrong in the EOI Journey, please review the logit error log for more information');
+      logger.log('Something went wrong in the EOI Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
         res,
         error,
