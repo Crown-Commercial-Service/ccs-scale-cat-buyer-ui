@@ -94,6 +94,7 @@ export enum REQUIREMENT_PATHS {
   //supplier
   GET_RFP_SUPPLIERS = '/rfp/suppliers',
   POST_RFP_SUPPLIER = '/rfp/suppliers',
+  RFP_SUPPLIER_RATECARD = '/rfp/supplier/ratecard',
 
   //RFP Quality Group
   RFP_GET_QUALITY_GROUP = '/rfp/ratio-quality-group',
