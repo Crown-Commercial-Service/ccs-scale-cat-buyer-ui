@@ -320,12 +320,8 @@ export default function (app: Application): void {
     [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
     REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
   );
-  // @GET "/rfp/suppliers"
-  app.get(
-    REQUIREMENT_PATHS.GET_RFP_SUPPLIERS,
-    [AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],
-    REQUIREMENT_CONTROLLER.GET_RFP_SUPPLIERS,
-  );
+  // @GET "/fc/suppliers/ratecard"
+  app.get(REQUIREMENT_PATHS.RFP_SUPPLIER_RATECARD,[AUTH, AgreementDetailsFetchMiddleware.FetchAgreements],REQUIREMENT_CONTROLLER.RFP_SUPPLIER_RATECARD,);
   // /ca/resources-vetting-weightings
   app.get(
     REQUIREMENT_PATHS.CA_GET_RESOURCES_VETTING_WEIGHTINGS,
