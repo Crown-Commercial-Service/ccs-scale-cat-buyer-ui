@@ -336,7 +336,9 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                   After publishing this EoI, if changes are required, you will need to cancel and re-publish your event. You may do so at any time.
                 </p>
                 <p class="govuk-body">
+                {% if agreement_id != "RM6187" %}
                   The document sent to suppliers will also include a number of best practice statements from your organisation.
+                {% endif %}
                 </p>
                 <br>
                   <br>
