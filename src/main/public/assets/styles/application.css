@@ -4913,9 +4913,21 @@ p + .govuk-heading-s,
 .govuk-capitalise {
   text-transform: lowercase;
 }
+
+@media (min-width: 40.0625em) {
+  .govuk-table__header_custom_w-1 {
+    width: 250px;
+  }
+  .govuk-table__header_custom_w-2 {
+    width: 150px;
+  }
+  .govuk-table__header_custom_w-3 {
+    width: 400px;
+  }
+}
 .addcolleaguedetailsdos {
   display: none;
-}
+ }
 /* custom css end @fca */
 
 /* Custom css start @Gcloud */
