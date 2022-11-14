@@ -5,6 +5,7 @@ import { TenderApi } from './../../../common/util/fetch/procurementService/Tende
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { statusStepsDataFilter } from '../../../utils/statusStepsDataFilter';
+import * as DaData from '../../../resources/content/requirements/daTaskList.json';
 import * as B1_Template from '../../../resources/content/requirements/daTaskList-B1.json';
 import * as B2_Template from '../../../resources/content/requirements/daTaskList-B2.json';
 import * as B3_Template from '../../../resources/content/requirements/daTaskList-B3.json';
@@ -38,7 +39,7 @@ export const DA_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expres
     'Product Delivery',
     'QAT',
     'User Centred Design',
-    'No DDaT Cluster Mapping',
+    'Security and Privacy (Non-DDAT)',
   ];
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   req.session.errorTextSumary = [];

@@ -1,0 +1,182 @@
+{% extends "template.njk" %}
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set fcaHelperLayer = true %}
+{% endif %}
+{% from "macros/csrf.njk" import csrfProtection %}
+{% set title = 'See the available suppliers | Contract Award Service' %}
+
+{% block content %}
+    {% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+    {%- endset %}
+
+    {{ CCSBreadcrumbs({
+        items: [
+        { "text": "Dashboard", "href": "/dashboard" },
+        { "text": "Choose a commercial agreement", "href": "/projects/choose-agreement" },
+        { "text": "Procurement overview", "href": url },
+        
+        { "text": "Select the services you need", "href": "#" } ] 
+}) }}
+
+    <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+        {% if(error) %}
+            {{ CCSErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+                    {
+                        text: "Select at least one Service to continue"
+                    }
+                ]
+            }) }}
+        {%endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <h3 class="govuk-heading-xl">
+                    {{data.line1}}
+                </h3>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+
+            <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+                
+                {% include "includes/project_header.njk" %}
+                    
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full">
+                        <p class="govuk-body">{{data.line8}}</p>
+                        <p class="govuk-body">{{data.line6}}</p>
+                        <p class="govuk-body">{{data.line7}}</p>
+                    </div>
+                    <div class="govuk-grid-column-full">
+                        <p class="govuk-body">{{data.line5}}</p>
+
+                        {% if agreementId_session == 'RM6187' %}
+                        <div class="govuk-button-group">
+                            <a class="govuk-link govuk-!-margin-right-9" href="#1212" id="getId">Select all that apply.</a>
+                            <a class="govuk-link" id="getUnselectId" href="#212">Select / unselect all</a>
+                        </div>
+                        {% endif %}
+
+                        <p>
+                            {# <a href="#">{{data.line6_1}}</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">{{data.line6_2}}</a> #}
+                        </p>
+
+        <div class="govuk-button-group">
+        {% if isDisable %}
+            <a class="govuk-link govuk-!-margin-right-9" style="cursor: poiter;">Select / unselect all</a>
+        {% else %}
+            <a class="govuk-link govuk-!-margin-right-9 uncheck" href="#1212" id="getId">Select / unselect all</a>
+        {% endif %}
+        </div>
+
+
+                        <form id="fca_select_services_form" class="govuk-check-form-custom" name="fca_select_services_form" action="/da/select-services" method="POST">
+                        {{ csrfProtection(csrf) }}
+                        {{  CCSInput({ name: "isDisable", type: "hidden", value: isDisable if isDisable else false  }) }}
+                            {% set servicesArray = [] %}
+                            {% for val in services %}
+
+                                {% set selectedServices = '' %}
+                                {% set selectedServicesDisabled = '' %}
+                                {% for check in checkCheckbox %}
+                                    {% if val['requirement-id'] == check %}
+                                        {% set selectedServices = 'checked' %}
+                                    {% endif %}
+                                    {% if isDisable %}
+                                        {% if val['requirement-id'] != check %}
+                                            {% set selectedServicesDisabled = 'disabled' %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            
+                                {# {% set servicesArray = (servicesArray.push({value: val['requirement-id'] , html: "<label class='govuk-!-font-weight-bold'>"+ val['name'] +"</label>" }), servicesArray) %} #}
+                                {% set servicesArray = (servicesArray.push({value: val['requirement-id'], text: val['name'],isChecked: selectedServices, isDisabled: selectedServicesDisabled}), servicesArray) %}
+                                    {{  
+                                        CCSInput({
+                                            name: "selected_services_name[]",
+                                            type: "hidden",
+                                            value: val['requirement-id']+"-"+val['name']
+                                        }) 
+                                    }}
+                            {% endfor %}
+                                {% set isOtherChecked = '' %}
+                                {% set selectedServices = '' %}
+                                {% set selectedServicesDisabledOther = '' %}
+                                {% for check in checkCheckbox %}
+                                    {% if check == 'other' %}
+                                        {% set selectedServices = 'checked' %}
+                                        {% set isOtherChecked = 'checked' %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if checkCheckbox.length > 0 %}
+                                    {% if isDisable %}
+                                        {% if isOtherChecked == '' %}
+                                            {% set selectedServicesDisabledOther = 'disabled' %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                                {% set servicesArray = (servicesArray.push({value: 'other', text: 'Other service', isChecked: selectedServices, isDisabled: selectedServicesDisabledOther}), servicesArray) %}
+
+                            {% if(error) %}
+                                {{ 
+                                    CCSCheckboxes({
+                                        classes: "govuk-checkboxes--small",
+                                        name: "selected_services[]",
+                                        items:  servicesArray,
+                                        error:error,
+                                        errorMessage: {
+                                            text: 'Select at least one Service to continue'
+                                        }   
+                                    })
+                                }}
+                            {% else %}
+                                {{ 
+                                    CCSCheckboxes({
+                                        classes: "govuk-checkboxes--small",
+                                        name: "selected_services[]",
+                                        items:  servicesArray
+                                    }) 
+                                }}
+                            {% endif %}
+
+                    <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="500">
+                    <div class="govuk-form-group">
+                        <textarea class="govuk-textarea govuk-js-character-count otherTextArea rfpterm" id="label-as-page-heading" name="other_text" rows="5" aria-describedby="label-as-page-heading-info" placeholder="Enter the service">{{other_text}}</textarea>
+                    </div>
+
+                    <div id="label-as-page-heading-info" class="govuk-hint govuk-character-count__message otherTextAreaMsg">
+                        You can enter up to 500 characters
+                    </div>
+
+                </div>
+                        
+                
+                            <br>
+
+
+                            <span class="select_service_err"></span>
+                            <br>
+                            <div class="govuk-button-group">
+                                <button class="govuk-button" data-module="govuk-button">
+                                    {{data.buttonText}}
+                                </button>
+                                <a class="govuk-link" href="/da/task-list">Return to Write and publish your requirements</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>   
+            <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+
+        </div>
+        
+
+    </main>
+    
+
+{% endblock %}

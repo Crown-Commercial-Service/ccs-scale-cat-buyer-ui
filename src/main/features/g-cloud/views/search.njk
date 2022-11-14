@@ -1,0 +1,412 @@
+{% extends "template.njk" %}
+
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set gcloudHelperLayer = true %}
+{% endif %}
+
+{% from "components/releatedContent.njk" import CCSReleatedContent %}
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title = 'Name project | Contract Award Service' %}
+{% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+{%- endset %}
+
+{% block breadCrumb %}
+{{ CCSBreadcrumbs({
+    items: [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": url
+        },
+        {
+          "text": "Start a new search",
+          "href": "/g-cloud/choose-category"
+        },
+        {
+          "text": "Choose a category",
+          "href": "/g-cloud/choose-category"
+        },
+        {
+          "text": "Search results",
+          "href": "#"
+        }
+    ]
+      }) }}
+{% endblock %}
+
+{% block content %}
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
+
+{{ CCSErrorSummary({
+  titleText: "There is a problem",
+  errorList: [
+    {
+      text: "Your project must have a name."
+    }
+  ]
+}) }}
+{%endif %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">
+     <strong>Search results</strong>
+    </h1>
+  </div>
+</div>
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+      {% include "includes/project_header.njk" %}
+
+      <div class="govuk-grid-row govuk-!-margin-top-9 govuk-!-margin-bottom-6">
+        <div class="govuk-grid-column-two-thirds">
+          <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="250">
+            <div class="govuk-form-group">
+              <div class="govuk-input__wrapper govuk-input__wrapper_custom">
+                <input type="text" class="govuk-input govuk-js-character-count g13_search" id="with-hint" maxlength="250" name="with-hint" aria-describedby="with-hint-info with-hint-hint" spellcheck="false">
+                <div class="govuk-input__suffix">
+                  <button class="govuk-button g13_search_click" data-module="govuk-button">
+                    Search
+                  </button>
+                </div>
+              </div>
+              <div id="with-hint-info" class="govuk-hint govuk-character-count__message">
+                You can enter up to 250 characters
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <a href="/g-cloud/choose-category" class="govuk-link govuk-!-font-size-19">Return to Choose a category</a>
+        </div>
+      </div>
+      
+    </div>
+    <div class="govuk-grid-column-one-third">
+           <div class="ccs-callout-panel">
+          <h2 class="govuk-heading-m">Related content</h2>
+          <p class="govuk-body">
+            {% for item in jsondata.related_content %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ item.href }}" target="_blank" rel="noopener noreferrer" onclick="return false;">{{ item.text }}</a><br>
+            {% endfor %}
+          </p>
+        </div>
+    </div>
+</div>
+<hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-bottom-0">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third govuk-grid-sresult-left">
+    <div class="govuk-tag--grey govuk-!-padding-4 govuk-!-font-weight-bold govuk-!-font-size-24">
+      Choose a category
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-top-4">
+      <div class="govuk-grid-column-full govuk-list-filter-category" id="mainLotandcategoryContainer">
+        {% if(njkDatas.haveLot) %}
+          <a class="govuk-link govuk-link-filter-main" href="/g-cloud/search">All Categories</a>
+         {% else %}
+          <strong>All Categories</strong>
+          <ul class="govuk-list">
+            {% for lotwithcount in njkDatas.lotInfos.lots %}
+              <li>
+                <a data-name="lot" data-value={{lotwithcount.slug}} class="govuk-link clickCategory" style="cursor: pointer !important;">{{lotwithcount.key | title }}  ({{lotwithcount.count}})</a>
+              </li>
+          {% endfor %} 
+        </ul>
+        {% endif %}
+
+        {% if(njkDatas.haveLot) %}
+          <ul class="govuk-list govuk-!-margin-0">
+             {% if(njkDatas.haveserviceCategory) %} 
+               <a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot={{njkDatas.lotInfos.slug}}">{{njkDatas.lotInfos.label}}</a>
+             {% else %}
+              <li><strong>{{njkDatas.lotInfos.label | title }}</strong></li>
+             {% endif %}
+            {% if(njkDatas.lotInfos.currentparentCategory) %}
+              <p><a class="govuk-link govuk-link-filter-main" href="/g-cloud/search?lot={{njkDatas.lotInfos.slug}}&serviceCategories={{njkDatas.lotInfos.currentparentCategory}}">{{njkDatas.lotInfos.currentparentCategory | title }}</a></p>
+            {% endif %}
+
+            <li>
+              <ul class="govuk-list govuk-!-margin-top-0 govuk-!-padding-top-0">
+                <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">
+                    {% for subservice in njkDatas.lotInfos.subservices %}
+                            {% if(subservice.childrenssts) %}
+
+                                      {% if(njkDatas.lotInfos.currentparentCategory) %}
+                                          <li>
+                                          <ul class="govuk-list govuk-!-margin-top-0">
+                                            <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">
+                                              {% for child in subservice.childrens %}
+                                               {% if(child.value == njkDatas.lotInfos.currentserviceCategory ) %}
+                                                  <li><strong>{{child.label}} ({{child.count}})</strong></li>
+                                                  {% else %}
+                                                  <li>
+                                                    <a class="govuk-link parentCategory" data-name={{child.name}} data-value={{child.value | replace(" ", "+") }}>{{child.label}}({{child.count}})</a>
+                                                  </li>
+                                                  {% endif %}
+                                              {% endfor %} 
+                                            </ul>
+                                          </ul>
+                                      {% else %}
+                                        <li>
+                                          <strong>{{ njkDatas.lotInfos.currentserviceCategory | title }}</strong>
+                                          <ul class="govuk-list govuk-!-margin-top-0">
+                                            <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">
+                                              {% for child in subservice.childrens %}
+                                                  <li>
+                                                    <a class="govuk-link parentCategory" data-name={{child.name}} data-value={{child.value | replace(" ", "+") }}>{{child.label}}({{child.count}})</a>
+                                                  </li>
+                                              {% endfor %} 
+                                            </ul>
+                                          </ul>
+                                      {% endif %}
+                                  </li>
+                                  
+                            {% else %}
+
+                                  {% if(subservice.value == njkDatas.lotInfos.currentserviceCategory ) %}
+                                    <li><strong>{{subservice.label}}</strong></li>
+                                  {% else %}
+                                    {% if(subservice.name !== 'supportMultiCloud' ) %}
+                                      <li>
+                                        <a class="govuk-link serviceCategory" data-name={{subservice.name}} data-value={{subservice.value | replace(" ", "+") }}>{{subservice.label}}({{subservice.count}})</a>
+                                      </li>
+                                    {% endif %}
+                                  {% endif %}
+
+                            {% endif %}
+                    {% endfor %} 
+                </ul>
+              </ul>
+            </li>
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-top-9 govuk-!-padding-right-3">
+      <div class="govuk-grid-column-full">
+        <div class="govuk-filter-search">
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+              <h3 class="govuk-heading-m">Apply filters</h3>
+            </div>
+            <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+              <a class="govuk-link govuk-!-font-weight-bold govuk-!-font-size-19 govuk-link--no-underline" id="clearfilter" href="{{clearFilterURL}}">Clear filters</a>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+              {% for keyFilter, subfilters in filters %}
+               {% if (keyFilter != "categories")  %}
+                <div class="govuk-accordion__section ">
+                  <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                      <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                        {{subfilters.label}}
+                      </span>
+                    </h2>
+                  </div>
+                  <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+                    <div class="govuk-form-group">
+                      <fieldset class="govuk-fieldset">
+                        <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                          {% for subfilter in subfilters.filters %}
+                          <div class="govuk-checkboxes__item govuk-!-padding-bottom-0">
+                            <input class="govuk-checkboxes__input g13Check" id={{subfilter.id}} name={{subfilter.name}} type="checkbox" data-name="{{subfilter.label}}" data-title=" {{subfilters.label}}" value={{subfilter.value}}>
+                            <label class="govuk-label govuk-checkboxes__label" for="search-filter">
+                              {{subfilter.label}}
+                            </label>
+                          </div>
+                          {% endfor %} 
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                {% endif %} 
+              {% endfor %} 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+<div class="govuk-grid-column-two-thirds govuk-grid-sresult-right" >
+
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-5"> <span id="totalResult" data-value="{{ data.meta.total if data.meta.total else "0" }}" ></span><span id="criteriandetails"></span></p>
+        </div>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
+          <form id="ccs_gcloud_search_form" name="ccs_gcloud_search_form" action="/g-cloud/save-your-search-results" method="POST">
+            {{ csrfProtection(csrf) }}
+            {{ CCSInput({id: "criteriadetailsform",name: "criteria",type: "hidden"})}}
+            {{ CCSInput({id: "searchQuery",name: "searchQuery",type: "hidden"})}}
+            <div class="govuk-button-group govuk-!-margin-top-9">
+              {% if data.meta.total > 0 %}
+                {{ CCSButton({
+                    id: "criteriasavebtn",
+                    text: "Save your search",
+                    action:"submit"
+                   })
+                }}
+              {% else %}
+                  {{ CCSButton({
+                      id: "criteriasavebtn",
+                      text: "Save your search",
+                      action:"submit",
+                      disabled:"true"
+                      })
+                  }}
+              {% endif %}
+            </div>
+          </form>
+        </div>
+      </div>
+   <div id="searchResultsContainer">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <ul class="govuk-list govuk-supplier-list" id="searchResultsContainer">
+          {% for link in data.documents %}
+            <li class="app-search-result">
+              <h2 class="govuk-heading-s govuk-!-margin-bottom-1">
+                  <a class="govuk-link" href="/g-cloud/services?id={{link.id}}">{{link.serviceName}}</a>
+              </h2>
+              <p class="govuk-body govuk-!-font-size-16 govuk-!-font-weight-bold">
+                  {{link.supplierName}}
+              </p>
+              <p class="govuk-body govuk-!-font-size-16">
+                  {{link.serviceDescription}}
+              </p>
+              <ul aria-label="tags" class="govuk-list app-search-result__metadata">
+                  <li class="govuk-!-display-inline govuk-!-padding-right-4">
+                      {{link.lotName}}
+                  </li>
+                  <li class="govuk-!-display-inline">
+                      {{link.frameworkName}}
+                  </li>
+              </ul>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="paginationContainer">
+  {% if(data.meta.total > 0) %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <!--Place For Pagination-->
+        <div class="govuk-grid-column-one-half">
+            <div>
+              &nbsp;
+              {% if(njkDatas.PrvePageUrl != '')  %}
+                {% if(njkDatas.CurrentPageNumber != 1)  %}
+                  <p class="govuk-body govuk-!-margin-0">
+                      <a href="/g-cloud/search?{{njkDatas.PrvePageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">
+                        <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                          <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                        </svg>
+                        Previous Page</a>
+                  </p>
+                  <p class="govuk-body govuk-!-margin-0"><label class="govuk-!-font-size-16">{{ njkDatas.CurrentPageNumber - 1}} of {{njkDatas.noOfPages}}</label></p>  
+                  {% endif %}
+               {% endif %}
+            </div>
+        </div>
+
+        <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+          <div>
+            &nbsp;
+            {% if(njkDatas.NextPageUrl != '')  %}
+              <p class="govuk-body govuk-!-margin-0">
+                <a href="/g-cloud/search?{{njkDatas.NextPageUrl}}" class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold govuk-!-font-size-24 paginationUrlClass">
+                  <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13" fill="#1d70b8">
+                    <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                  </svg>
+                  Next Page</a>
+                </p>
+                 {% endif %}
+              <p class="govuk-body govuk-!-margin-0">
+                <label class="govuk-!-font-size-16">
+                  {% if (njkDatas.noOfPages == "0") or (njkDatas.noOfPages == "1")%}
+                    {{njkDatas.CurrentPageNumber}} of 1
+                   {% else %}
+                   {{ njkDatas.CurrentPageNumber }} of {{njkDatas.noOfPages}}
+                  {% endif %}
+              </label>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {% endif %}
+    </div>
+
+    <div id="rightSidefooterCotainer">
+      {% if(data.meta.total < 1) %}
+      <h3 class="govuk-heading-m">Improve your search results by:</h3>
+        <ul class="govuk-list govuk-!-margin-top-0">
+          <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-left-2">
+            </li>removing filters</li><br>
+            </li>choosing a different category</li><br>
+            </li>double-checking your spelling</li><br>
+            </li>using fewer keywords</li><br>
+            </li>searching for something less specific, you can refine your results later</li><br>
+          </ul>
+        </ul>
+        {% endif %}
+    </div>
+</div>
+</div>
+</div>
+</main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

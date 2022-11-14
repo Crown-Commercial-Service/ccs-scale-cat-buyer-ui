@@ -1,4 +1,8 @@
 {% extends "template.njk" %}
+{% if agreementId_session == 'RM6187' %}
+  {% set footerSupportLayer = true %}
+  {% set fcaHelperLayer = true %}
+{% endif %}
 {% from "components/releatedContent.njk" import CCSReleatedContent %}
 {% from "macros/csrf.njk" import csrfProtection %}
 {% set title = 'Lead Procurement | Contract Award Service' %}
@@ -7,14 +11,40 @@
 {%- endset %}
 
 {% block breadCrumb %}
+{% if agreementId_session == 'RM6187' %}
 {{ CCSBreadcrumbs({
     items: [
       {
-         text: "Your dashboard",
+         text: "Dashboard",
          href: "/dashboard"
       },
       {
-         text: "Choose a commericial agreement",
+         text: "Choose a commercial agreement",
+         href: "/projects/choose-agreement"
+      },
+      {
+         text: "Procurement overview",
+         href: url
+      },
+      {
+        text: "Write and publish your requirements",
+        href: "/rfp/task-list"
+      },
+      {
+         text: "Change who will lead the procurement",
+         href: "#"
+      }
+    ]
+      }) }}
+      {% else %}
+{{ CCSBreadcrumbs({
+    items: [
+      {
+         text: "Dashboard",
+         href: "/dashboard"
+      },
+      {
+         text: "Choose a commercial agreement",
          href: "/projects/choose-agreement"
       },
       {
@@ -31,9 +61,16 @@
       }
     ]
       }) }}
+      {% endif %}
 {% endblock %}
 
+
+{% if agreementId_session == 'RM6187' %}
+{% set sortedMembers = [{value: "", text: "Current user name and surname", disabled: true}] %}
+{% else %}
 {% set sortedMembers = [{value: "", text: "Please select procurement lead", disabled: true}] %}
+{% endif %}
+
 {% for user in userdata %}
     {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name, selected: user.selected}), sortedMembers) %}
 {% endfor %}
@@ -45,16 +82,22 @@
       titleText: "There is a problem",
       errorList: [
          {
-            text: "You cannot made this user lead. Please try with another user" 
+            text: "You cannot make this user lead. Please try with another user" 
          }
       ]
       }) }}
    {%endif %}
    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-         <h1 class="govuk-heading-xl"><strong>
-            Change who is going to lead the procurement(optional)
+      {% if agreementId_session !== 'RM6187' %}
+      <h1 class="govuk-heading-xl"><strong>
+            Change who will lead the procurement (optional)
         </strong> </h1>
+        {% else %}
+         <h1 class="govuk-heading-xl"><strong>
+            Change who will lead the procurement (optional)
+        </strong> </h1>
+        {% endif %}
       </div>
    </div>
    <div class="govuk-grid-row">
@@ -68,9 +111,8 @@
                <!--If they’re not registered, send them this link to our <a target="_blank" href="https://www.crowncommercial.gov.uk/" class="govuk-link govuk-link--no-visited-state"> self-registration service</a>.-->
            
             <p class="govuk-body">If you need to wait for them to register, you can complete this step later and either return to <a href="/rfp/task-list" class="govuk-link govuk-link--no-visited-state"> Write and publish your requirements</a>, or continue to the next step</p>
-            <br>
          </div>
-
+         <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
          <div class="form ccs_procurement_lead">
             <p class="govuk-body">Select the procurement lead for this project:</p>
             <form method="GET" id="ccs_rfp_procurement_lead" name="ccs_rfp_procurement_lead"  action="/rfp/procurement-lead">
@@ -85,7 +127,7 @@
                   {{ CCSButton({
                   text: "Add",
                   type: "submit",
-                  classes: "add"
+                  classes: "add test ccs-dynaform-hidden"
                   }) }}
                </div>
             </form>

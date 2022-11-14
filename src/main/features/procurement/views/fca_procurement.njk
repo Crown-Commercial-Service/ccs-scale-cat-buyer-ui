@@ -1,0 +1,163 @@
+{% set footerSupportLayer = true %}
+{% set fcaHelperLayer = true %}
+{% extends "template.njk" %}
+
+{% block head %}
+   {{ super() }}
+   <link rel="stylesheet" href="/assets/styles/govuk_fac_style.css">
+{% endblock %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Available Supplier' %}
+{% block content %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+  
+       <main id="main-content" role="main" class="govuk-main-wrapper">
+
+
+
+         <div class="govuk-grid-row">
+			<div class="govuk-grid-column-full">
+				<h3 class="govuk-heading-xl page-title">
+					[ Procurement overview ]
+				</h3>
+			</div>
+            <div class="govuk-grid-column-two-thirds">
+			
+				<div class="govuk-fc-overview">
+					
+					<div class="project-overview">
+						<p class="govuk-body">Selected agreement: {{data.selected_agreement_value}}</p>
+						<p class="govuk-body">Agreement ID: {{data.agreement_id_value}}</p>
+						<p class="govuk-body">Project ID / Name: {{data.project_id_value}}</p>
+					</div>
+					<div class="govuk-fac-follow">
+						<p class="govuk-body">{{data.agreement_description1}} </p> 
+
+						<p class="govuk-body">{{data.agreement_description2}} </p>
+						<p class="govuk-body">{{data.agreement_description3}} </p>
+
+					</div>
+				</div>
+					
+
+				 
+
+
+
+
+
+
+
+				<ol class="app-task-list capability-assessment fac-task-list">
+			  {% for event in data.events %}
+					<li>
+						<h2 class="govuk-heading-xl page-title">
+							{{event.eventno}}. {{event.eventTitle}}
+							<span class="govuk-tag fac-task-tag">{{event.status}}</span>
+						</h2>
+									  
+
+
+						
+{% for section in event.sections %}
+                        <p class="govuk-body">{{section | safe }}</p>
+                       {% if event.eventno == 1 %}
+                        
+                        {% endif %}
+                     {% endfor %}
+ {% for subSections in event.subsections %}
+  {% for subSection in subSections %}
+   <p class="govuk-body">{{subSection | safe }}</p>
+ {% endfor %} 
+ {% endfor %}
+
+                     {%if event.note != undefined%}
+                        <p class="govuk-body">{{ event.note | safe }}</p>
+                     {% endif %}
+                     {% if event.list.length %}
+                        <ul class="govuk-list govuk-list--bullet">
+                           {% for elem in event.list %}
+                              <li>{{elem}}</li>
+                           {% endfor %}
+                        </ul>
+                     {% endif %}
+                     {% if event.buttonText %}
+                        {% if event.buttonDisable === true %}
+                           <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-fac-button govuk-!-margin-bottom-9 govuk-button--disabled" data-module="govuk-button">
+                              {{event.buttonText}}
+                           </button>
+                        {% else %}
+                           {% if event.eventno === 1 %}
+                              <a hidden={{event.buttonText}} rel="noopener noreferrer" href={{event.href}} aria-disabled="false" class="govuk-button" data-module="govuk-button">
+                                 {{event.buttonText}}
+                              </a>
+                              <a href={{event.buttonText2href}} style="margin-left: 15% !important; display: inline-block !important; margin-top: 8px !important;">{{event.buttonText2}}</a>
+                           {% else %}
+                              <a hidden={{event.buttonText}} href={{event.href}} aria-disabled="false" class="govuk-button govuk-fac-button govuk-!-margin-bottom-9" data-module="govuk-button">
+                                 {{event.buttonText}}
+                              </a>
+                           {% endif %}
+                        {% endif %}
+                     {% endif %}
+                  </li>
+               {% else %}
+                  <li>There are no events to display</li>
+               {% endfor %}
+				  
+				  
+				</ol>
+            </div>
+			
+            <div class="govuk-grid-column-one-third">
+               <aside class="aside">
+                  <div class="apollo-enclosure govuk-fac-enclosure">
+                      <h2 class="aside__heading">Related content</h2>
+                      <p class="govuk-body govuk-!-font-size-16">
+                          <a href="#">[ Lot detail page ]</a>
+                      </p>
+					  <p class="govuk-body govuk-!-font-size-16">
+                          <a href="#">[Link to external resource]</a>
+                      </p>
+					  <p class="govuk-body govuk-!-font-size-16">
+                          <a href="#">[Link to external resource]</a>
+                      </p>
+                  </div>
+               </aside>
+            </div>
+			
+			<div class="ccs-width-container">
+				<div class="govuk-grid-row">
+					<div class="govuk-grid-column-full fac-p0">
+						<div class="govuk-inset-text ccs_pre_footer_help govuk-fac-help">
+							<h2 class="govuk-heading-m">Help</h2>
+							<p class="govuk-body">You can contact us by email, phone or using the <a href="#">enquiry form.</a></p>
+							<p class="govuk-body govuk-!-margin-bottom-0">
+								<strong>Email:</strong>
+							</p>
+							<p class="govuk-body govuk-!-margin-bottom-2">
+								<a href="mailto:info@crowncommercial.gov.uk">info@crowncommercial.gov.uk</a>
+							</p>
+							<p class="govuk-body govuk-!-margin-bottom-0">
+								<strong>Telephone:</strong>
+							</p>
+							<p class="govuk-body govuk-!-margin-bottom-2">
+								<a href="tel:03454102222">0345 410 2222</a>
+							</p>
+							<p class="govuk-body govuk-!-margin-bottom-0">CCS customer services team is available Monday to Friday, 9am to 5pm.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+
+         </div>
+
+
+      </main>
+
+{% endblock %}

@@ -44,6 +44,7 @@ export const DA_GET_NAME_PROJECT = async (req: express.Request, res: express.Res
  */
 
 export const DA_POST_NAME_PROJECT = async (req: express.Request, res: express.Response) => {
+  
   const { SESSION_ID } = req.cookies; //jwt
   const { procid } = req.query;
   const { projectId,eventId } = req.session;

@@ -2,7 +2,7 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% from "components/support/macro.njk" import howToGetSupport %}
 
-{% set title = 'Your project ' %}
+{% set title = 'Award documents ' %}
 {% block breadCrumb %}
   {{ CCSBreadcrumbs({
         items:[
@@ -21,14 +21,6 @@
 {% block content %}
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
         
-        <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">
-         <strong> {{title}}</strong> 
-         </h1>
-      </div>
-    </div>
-
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
               <div class="project-overview">
@@ -36,6 +28,7 @@
   </strong></p>
   {%endif %}
   <p class="govuk-body">Agreement ID: <strong>{{ agreement_header['agreementId_session'] }}</strong></p>
+   <p class="govuk-body">Project ID / Name: <strong>{{agreement_header['project_name']}}</strong></p>
         </div>
       </div>  
 </div>
@@ -56,14 +49,16 @@
 
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl">
-          <strong>Download and complete award documents </strong>
+        <h1 class="govuk-heading-l">
+          <b><strong>Download and complete award documents </strong></b>
         </h1>
-        </br> </br> </br>
-        
-        <h3> <strong>Awarded supplier contract templates </strong></h3>
-
+      
+       <h2> <strong>Awarded supplier contract templates </strong></h2>
        <p> If you have not already completed the order form and call off schedules template, you must download and complete it before continuing.</p>
+       <p> You can use the templates provided on this page to inform your supplier that you intend to award them. This should be done via your organisation’s email account.
+       </p>
+  
+
 <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
@@ -71,8 +66,8 @@
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">Supplier's name</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Document templates</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Order form and call off schedules template</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align ">Documents Template</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align ">Order form and call off schedules template</th>
                 </tr>
               </thead>
               {% for supplier in eventManagementData.documentTemplateDataList %}
@@ -86,11 +81,11 @@
                         {{supplier.supplierName}}
                       </p>                      
                     </th>
-                     <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
-                      <a class="govuk-link" href="/award-supplier-document?supplierId={{supplier.supplierId}}&doctempateId={{supplier.documentTemplates}}" >Download templates</a>
+                     <td class="govuk-table__cell govuk-text-align ">
+                      <a class="govuk-link" href="/award-supplier-document?supplierId={{supplier.supplierId}}&doctempateId={{supplier.documentTemplates}}">Download templates</a>
                     </td>
 
-                    <td class="govuk-table__cell govuk-text-align govuk-!-text-align-centre">
+                    <td class="govuk-table__cell govuk-text-align ">
                       <a class="govuk-link" href="/award-supplier-document?supplierId={{supplier.supplierId}}&doctempateId={{supplier.templatesOrder}}">Download template</a>
                     </td>
                     
@@ -102,16 +97,16 @@
             </div>
         </div>
 <br>
-</br> </br> </br>
-       <h3> <strong>Unsuccessful supplier templates </strong></h3>
+
+       <h2> <strong>Unsuccessful supplier templates </strong></h2>
         </br>
-       <p> You'll need to notify by email all suppliers who have not been successful.</p>
-</br> </br> </br>
+       <p>You can notify unsuccessful bidders of the outcome using the templates provided on this page. You will need to notify all unsuccessful suppliers via your organisation’s email account. </p>
+</br> 
 {%set urlNew=eventManagementData.documentTemplateDataList[0].supplierId+"&doctempateId="+eventManagementData.documentTemplateDataList[0].documentTemplatesUnSuccess %}
- <a class="govuk-link" href="/award-supplier-document?supplierId={{urlNew}}"><span class="govuk-visually-hidden"> Unsuccessful supplier </span>Download templates</a>
+ <a class="govuk-link" href="/award-supplier-document?supplierId={{urlNew}}">Download templates</a>
        </div>
         </div>
-
+  <br><br>
   <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
             <table class="govuk-table">
@@ -157,7 +152,7 @@
         text: "Documents completed",
         href:"/award-supplier?supplierId="+eventManagementData.documentTemplateDataList[0].supplierId
         }) }}
-                                  <a class="govuk-link" href="/confirm-supplier?supplierid={{supplierId}}">Return to Your project</a> 
+                                  <a class="govuk-link" href="/event/management?id={{eventManagementData.eventId}}">Return to Your Project</a> 
                                 </div>
                                 
                               </form>          

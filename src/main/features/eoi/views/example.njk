@@ -3,26 +3,28 @@
 {% from "components/support/macro.njk" import howToGetSupport %}
 
 {% set title = 'Complete and upload a document | Contract Award Service' %}
-
+  {% set url -%}
+  /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
+  {%- endset %}
 {% block breadCrumb %}
 {{ CCSBreadcrumbs({
         items: [
           {
             text: "Home",
-            href: "/"
+            href: "/dashboard"
           },
           {
             text: "Choose a commercial agreement",
-            href: "#"
+            href: "/projects/choose-agreement"
           },
                     {
             text: "Procurement overview",
-            href: "#"
+            href: url
           },
           {
             text: "Run pre-market engagement",
-            href: "#"
-          },
+            href: "/eoi/eoi-tasklist"
+          }
           {
             text: "Complete and upload a document",
             href: "#"

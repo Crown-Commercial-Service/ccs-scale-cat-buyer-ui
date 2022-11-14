@@ -114,7 +114,7 @@
     },
     {
       "step": 29,
-      "state": "Optional"
+      "state": "Not started"
     },
     {
       "step": 30,
@@ -310,7 +310,39 @@
     },
     {
       "step": 78,
+      "state": "Not started"
+    },
+    {
+      "step": 79,
+      "state": "Cannot start yet" 
+    },
+    {
+      "step": 80,
       "state": "Cannot start yet"
+    },
+    {
+      "step": 81,
+      "state": "Not started"
+    },
+    {
+      "step": 81,
+      "state": "Not started"
+    },
+    {
+      "step": 82,
+      "state": "Optional"
+    },
+    {
+      "step": 83,
+      "state": "Optional"
+    },
+    {
+      "step": 84,
+      "state": "Optional"
+    },
+    {
+      "step": 85,
+      "state": "Optional"
     }
   ]
 }

@@ -34,15 +34,17 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
         if (receivedMessages != undefined) {
             receivedMessages.sort((a, b) => (a.OCDS.date < b.OCDS.date) ? 1 : -1)
             for (let i = 0; i < receivedMessages.length; i++) {
-                receivedMessages[i].OCDS.date = (moment(receivedMessages[i].OCDS.date,'YYYY-MM-DD, hh:mm a')).format('DD/MM/YYYY hh:mm a')
+                receivedMessages[i].OCDS.date = (moment(receivedMessages[i].OCDS.date)).format('DD-MMM-YYYY - HH:mm')
             }
         }
+        
         var suppliernameforreplymessage='';
+       
         if(createdreply)
         {
             suppliernameforreplymessage=req.session['SupplierNameforMessagereply']
         }
-        const appendData = { data: inboxData,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, eventName: req.session.project_name, agreementName: req.session.agreementName, lotName: req.session.agreementLotName }
+        const appendData = { data: inboxData,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
         res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingInbox', appendData)
     } catch (err) {

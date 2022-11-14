@@ -8,6 +8,7 @@ export enum REQUIREMENT_PATHS {
   RFP_REQUIREMENT_TASK_LIST = '/rfp/task-list',
   RFP_OFFLINE_JOURNEY_PAGE = '/rfp/offline',
 
+
   // Add collaborator rfp
   RFP_GET_ADD_COLLABORATOR = '/rfp/add-collaborators',
   RFP_POST_ADD_COLLABORATOR_JSENABLED = '/rfp/get-collaborator-detail/js-enabled',
@@ -20,6 +21,7 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_SCORING_CRITERIA = '/rfp/set-scoring-criteria',
   RFP_POST_SCORING_CRITERIA = '/rfp/set-scoring-criteria',
 
+  
   //RFP Resource type and Quantity
   RFP_GET_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
   RFP_POST_VETTING_AND_WEIGHTING = '/rfp/vetting-weighting',
@@ -30,13 +32,25 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_LEAD_PROCUREMENT = '/rfp/procurement-lead',
   RFP_PUT_LEAD_PROCUREMENT = '/rfp/procurement-lead',
   RFP_GET_USER_PROCUREMENT = '/rfp/users-procurement-lead',
+  
+  RFP_GET_ADDITIONAL_SERVICES = '/rfp/additional_services',
+
+  //CONFIRMATION REVIEW
+  RFP_GET_CONFIRMATION_REVIEW = '/rfp/confirmation_review',
+
+  //Selected service
+  RFP_GET_SELECTED_SERVICE = '/rfp/selected_service',
+  RFP_POST_SELECT_SERVICES='/rfp/select-services',
+
+  RFP_POST_ADDITIONAL_SELECT_SERVICES='/rfp/select-additional-services',
 
   // Add Context
   RFP_ADD_CONTEXT = '/rfp/add-context',
-  // Your Assesstment bases and evaluation weightings
-  RFP_YOUR_ASSESSMENT = '/rfp/your-assesstment',
-  RFP_GET_YOUR_ASSESSMENT_QUESTION = '/rfp/assesstment-question',
-  RFP_POST_YOUR_ASSESSMENT_QUESTION = '/rfp/assesstment-question',
+  
+  // Your Assessment bases and evaluation weightings
+  RFP_YOUR_ASSESSMENT = '/rfp/your-assessment',
+  RFP_GET_YOUR_ASSESSMENT_QUESTION = '/rfp/assessment-question',
+  RFP_POST_YOUR_ASSESSMENT_QUESTION = '/rfp/assessment-question',
 
   //RFP ir35
   RFP_GET_IR35 = '/rfp/IR35',
@@ -54,6 +68,10 @@ export enum REQUIREMENT_PATHS {
   RFP_GET_REMOVE_FILES_ATTACHMENT = '/rfp/files-att/remove',
   RFP_GET_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
   RFP_POST_CHOOSE_REQUIREMENTS = '/rfp/choose-security-requirements',
+  
+  RFP_GET_UPLOAD_ADDITIONAL = '/rfp/upload-additional',
+  RFP_POST_UPLOAD_ADDITIONAL = '/rfp/upload-additional',
+  RFP_POST_UPLOAD_ADDITIONAL_PROCEED = '/rfp/upload-additional/proceed',
 
  //Add cllaborator DA
  DA_GET_ADD_COLLABORATOR = '/da/add-collaborators',
@@ -229,5 +247,8 @@ export enum REQUIREMENT_PATHS {
 
   GET_DA_REVIEW_SUPPLIER='/da/reviewsupplier',
   POST_DA_REVIEW_SUPPLIER='/da/reviewsupplier',
+
+  //DOS6 STAGE2
+  DOS6_STAGE2_TASK_LIST = '/dos/task-list',
 
 }

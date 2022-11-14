@@ -21,24 +21,33 @@ import * as localData from '../../../resources/content/event-management/local-SO
 export const ENTER_EVALUATION = async (req: express.Request, res: express.Response) => {
     const { agreementLotName, agreementName, agreement_id, releatedContent, project_name } =
     req.session;
-    let { agreement_header } = req.session;
     const lotid = req.session?.lotId;
+    const agreementId_session=agreement_id;
     const { SESSION_ID } = req.cookies
-    const { eventId , projectId } = req.session;//projectId,
+    const { projectId,eventId } = req.session;//projectId,
     const { supplierid , suppliername } = req.query;
     let { Evaluation } = req.query;
     const { isEmptyProjectError } = req.session;
-    const agreementId_session = req.session.agreement_id;
     req.session.isEmptyProjectError = false;
     var feedBack='';
     var marks='';
+    
 
     // Event header
-    res.locals.agreement_header = { project_name: project_name,Evaluation, agreementName, agreement_id, agreementLotName, lotid }
-    req.session.agreement_header = res.locals.agreement_header
-  
+    res.locals.agreement_header = { project_name: project_name,Evaluation, agreementName, agreementId_session, agreementLotName, lotid }
+   
   try{
     //Supplier of interest
+
+    const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
+    const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+    const stage2_dynamic_api_data = stage2_dynamic_api.data;
+    const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
+    
+    let stage2_value = 'Stage 1';
+    if(stage2_data.length > 0){
+      stage2_value = 'Stage 2';
+    }
     
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
@@ -50,10 +59,10 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
 
     }
     }
-
+    
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
-          const appendData = { releatedContent,agreement_header,agreementId_session,feedBack,marks,data: eventManagementData,error: isEmptyProjectError,  eventId, suppliername, supplierid, suppliers: localData , }
-
+          const appendData = {stage2_value,releatedContent,data: eventManagementData,error: isEmptyProjectError, feedBack,marks,eventId, suppliername, supplierid, suppliers: localData ,agreementId_session }
+    
     res.render('enterEvaluation',appendData);     
     
   } catch (err) {
@@ -78,6 +87,7 @@ export const ENTER_EVALUATION_POST = async (req: express.Request, res: express.R
   
 
 try{
+  
   if (enter_evaluation_feedback && enter_evaluation_score ) {
     let evaluation_score=(enter_evaluation_score.includes('.'))?enter_evaluation_score:enter_evaluation_score+".00";
     const body = [
@@ -87,10 +97,12 @@ try{
                   score: evaluation_score,
                 }
               ];
-  
+              
+              
               await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
               );
+            
               req.session.isEmptyProjectError = false;
               res.redirect('/evaluate-suppliers'); 
             } else {
@@ -99,13 +111,14 @@ try{
             }
    
 }catch (error) {
+  
   LoggTracer.errorLogger(
     res,
     error,
     `${req.headers.host}${req.originalUrl}`,
     null,
     TokenDecoder.decoder(SESSION_ID),
-    'Tenders Service Api cannot be connected',
+    'Event Management - Tenders Service Api cannot be connected',
     true,
   );
 }

@@ -1,24 +1,17 @@
-const countCharacterRfp = (str) => { return str.length };
-
 const ccsZvalidateRfiProjectName = (event) => {
   event.preventDefault();
 
   let fieldCheck = "",
     errorStore = [];
 
-  const textbox = document.getElementById("rfi_projLongName");
+      var rfi_projLongName=$('#rfi_projLongName').val();
+      if(rfi_projLongName==''){
+        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Your project must have a name.", /^.+$/);
+        errorStore.push(fieldCheck);
+      }
 
-  fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Your project must have a name.", /^.+$/);
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  const field = countCharacterRfp(textbox.value) > 500;
-
-  if(field)
-  {
-    errorStore.push(["rfi_projLongName", 'No more than 500 characters are allowed']);
-  }
-
-
+  
+  // if (fieldCheck !== true) errorStore.push(fieldCheck);
   if (errorStore.length === 0) document.forms["ccs_rfi_project_name_form"].submit();
   else ccsZPresentErrorSummary(errorStore);
 };
@@ -27,19 +20,11 @@ const ccsZvalidateRfiProjectName = (event) => {
 const ccsZCountRfiProjectName = (event) => {
   event.preventDefault();
 
-  const element = document.getElementById("rfi_projLongName");
-  // if(element.value.length<500)
-  // {
+  // const element = document.getElementById("rfi_projLongName");
+  // // if(element.value.length<500)
+  // // {
     
-    let labelElement=document.getElementById("rfi_label_name_project");
-    let count=500-element.value.length;
-    if(count>0)
-    {
-      labelElement.innerText= "You have "+count + " characters remaining";
-    }
-    else if(count<0)
-    {
-      labelElement.innerText= "You have "+String(count).replace("-","") + " characters too many";
-    }
+  //   let labelElement=document.getElementById("rfi_label_name_project");
+  //   let count=250-element.value.length;
+  //   labelElement.innerText=count + " remaining of 250";
 };
-

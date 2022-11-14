@@ -11,11 +11,11 @@
 {{ CCSBreadcrumbs({
     items: [
       {
-         text: "Your ashboard",
+         text: "Dashboard",
          href: "/dashboard"
       },
       {
-         text: "Choose a commericial agreement",
+         text: "Choose a commercial agreement",
          href: "/projects/choose-agreement"
       },
       {
@@ -34,7 +34,7 @@
       }) }}
 {% endblock %}
 
-{% set sortedMembers = [{value: "", text: "Please select procurement lead", disabled: true}] %}
+{% set sortedMembers = [{value: "", text: "Current user name and surname", disabled: true}] %}
 {% for user in userdata %}
     {% set sortedMembers = (sortedMembers.push({value: user.userName, text: user.name, selected: user.selected}), sortedMembers) %}
 {% endfor %}
@@ -46,7 +46,7 @@
       titleText: "There is a problem",
       errorList: [
          {
-            text: "You cannot made this user lead. Please try with another user" 
+            text: "You cannot make this user lead. Please try with another user" 
          }
       ]
       }) }}
@@ -54,7 +54,7 @@
    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
          <h1 class="govuk-heading-xl">
-           <strong> Change who is going to lead the procurement </strong>
+           <strong> Change who will lead the procurement (optional) </strong>
          </h1>
       </div>
    </div>
@@ -68,7 +68,7 @@
                 </p>
                <!--If they’re not registered, send them this link to our <a target="_blank" href="https://www.crowncommercial.gov.uk/" class="govuk-link govuk-link--no-visited-state"> self-registration service</a>.--> 
            
-            <p class="govuk-body">If you need to wait for them to register, you can complete this step later and either return to Do pre-market engagement, or continue to the next step.</p>
+            <p class="govuk-body">If you need to wait for them to register, you can complete this step later and either return to pre-market engagement, or continue to the next step.</p>
             <br>
          </div>
 
@@ -86,7 +86,7 @@
                   {{ CCSButton({
                   text: "Add",
                   type: "submit",
-                  classes: "add"
+                  classes: "add ccs-dynaform-hidden"
                   }) }}
                </div>
             </form>

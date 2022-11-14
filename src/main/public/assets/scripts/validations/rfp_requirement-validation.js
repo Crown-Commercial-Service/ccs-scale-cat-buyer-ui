@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         Array.from(tabLinks).forEach(link => {
 
-            link.addEventListener('click', function (e) {
+            link.addEventListener('click', function(e) {
                 setTimeout(x => {
                     document.querySelectorAll("#rfp_weight_vetting_IT_Ops_16")[0].style.width = "100px";
                 }, 5000)
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     }
+
     function resourceItemOnClick(category) {
 
         const weightVettingId = 'rfp_weight_vetting_' + category + "_"
@@ -57,8 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (weightVetting.val() != undefined && weightVetting.val() !== null && weightVetting.val() !== "") {
                     updateWeightVetting(weightVettingId);
                     updateTotalResource();
-                }
-                else {
+                } else {
                     updateWeightVetting(weightVettingId);
                     updateTotalResource();
                 }
@@ -72,14 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
         for (var a = 1; a < inputFieldsLength; a++) {
 
             let weightVetting = $(`#${weightVettingId}${a}`);
-            if (weightVetting.val() != undefined && weightVetting.val() != '' && weightVetting.val()>0)
-            if(weightVetting.val()<0 || isNaN(weightVetting.val()))
-            {
-                value = value
-            }
-            else{
+            if (weightVetting.val() != undefined && weightVetting.val() != '')
                 value = value + Number(weightVetting.val());
-            }
+
         }
         itemSubText.innerHTML = value + ' resources added';
     }
@@ -87,14 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateTotalResource() {
         let resourceCount = 0
         for (index = 0; index < totalInputFields.length; ++index) {
-            if (totalInputFields[index].value != "" && totalInputFields[index].value>0)
-            if(totalInputFields[index].value<0 || isNaN(totalInputFields[index].value) || totalInputFields[index].value.includes('.'))
-            {
-                resourceCount = resourceCount
-            }
-            else{
+            if (totalInputFields[index].value != "")
                 resourceCount = resourceCount + Number(totalInputFields[index].value);
-            }
         }
         totalResourceAdded.text(resourceCount);
         totalResourceAdded2.text(resourceCount);
@@ -143,24 +132,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("weight_vetting_class_error")[a - 1].innerHTML = 'Decimal value is entered. Please enter number <100 and >0 ';
 
-                decimalnumber.push({id:document.getElementsByClassName("weight_vetting_class")[a - 1].id,isError:true})
-            }
-            else if (isNaN(classTarget.value) && classTarget.value !== '') {
+                decimalnumber.push(true)
+            } else if (isNaN(classTarget.value) && classTarget.value !== '') {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("weight_vetting_class_error")[a - 1].innerHTML = 'Alphabetical value is entered. Please enter number <100 and >0';
-                nonnumerical.push({id:document.getElementsByClassName("weight_vetting_class")[a - 1].id,isError:true});
-            }
-            else if (classTarget.value > 99 && classTarget.value != '') {
+                nonnumerical.push(true);
+            } else if (classTarget.value > 99 && classTarget.value != '') {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("weight_vetting_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                preventDefaultState.push({id:document.getElementsByClassName("weight_vetting_class")[a - 1].id,isError:true});
-            }
-            else if (classTarget.value <= 0 && classTarget.value !== '') {
+                preventDefaultState.push(true);
+            } else if (classTarget.value <= 0 && classTarget.value !== '') {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.add('govuk-input--error')
                 document.getElementsByClassName("weight_vetting_class_error")[a - 1].innerHTML = 'Please enter number <100 and >0';
-                preventDefaultState.push({id:document.getElementsByClassName("weight_vetting_class")[a - 1].id,isError:true});
-            }
-            else {
+                preventDefaultState.push(true);
+            } else {
                 document.getElementsByClassName("weight_vetting_class")[a - 1].classList.remove('govuk-input--error')
                 document.getElementsByClassName("weight_vetting_class_error")[a - 1].innerHTML = '';
                 // $(`#rfp_weight_vetting_${a}`).removeClass('govuk-input--error');
@@ -176,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 $('#rfp_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#summary_list").html('<li><a href="#'+preventDefaultState[0].id+'">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#'+decimalnumber[0].id+'">The input field should not contain decimal values</a></li><br><li><a href="#'+nonnumerical[0].id+'">The input field must be a number</a></li>');
+                $("#summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             case (preventDefaultState.length > 0 && decimalnumber.length > 0):
@@ -184,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 $('#rfp_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#summary_list").html('<li><a href="#'+preventDefaultState[0].id+'">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#'+decimalnumber[0].id+'">The input field should not contain decimal values</a></li>');
+                $("#summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field should not contain decimal values</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             case (preventDefaultState.length > 0 && nonnumerical.length > 0):
@@ -192,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 $('#rfp_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#summary_list").html('<li><a href="#'+preventDefaultState[0].id+'">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#'+nonnumerical[0].id+'">The input field must be a number</a></li>');
+                $("#summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li><br><li><a href="#">The input field must be a number</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             case (decimalnumber.length > 0 && nonnumerical.length > 0):
@@ -200,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 $('#rfp_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#summary_list").html('<li><a href="#'+decimalnumber[0].id+'">The input field should not contain decimal values</a></li><br><li><a href="#'+nonnumerical[0].id+'">The input field must be a number</a></li>');
+                $("#summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li><br><li><a href="#">The input field must be a number</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             case (preventDefaultState.length > 0):
@@ -208,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 $('#rfp_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#summary_list").html('<li><a href="#'+preventDefaultState[0].id+'">The input field must be a number less than 100 and greater than 0</a></li>');
+                $("#summary_list").html('<li><a href="#">The input field must be a number less than 100 and greater than 0</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             case (nonnumerical.length > 0):
@@ -216,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 $('#rfp_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#summary_list").html('<li><a href="#'+nonnumerical[0].id+'">The input field must be a number</a></li>');
+                $("#summary_list").html('<li><a href="#">The input field must be a number</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             case (decimalnumber.length > 0):
@@ -224,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 $('#rfp_vetting_error_summary').removeClass('hide-block');
                 $('.govuk-error-summary__title').text('There is a problem');
-                $("#summary_list").html('<li><a href="#'+decimalnumber[0].id+'">The input field should not contain decimal values</a></li>');
+                $("#summary_list").html('<li><a href="#">The input field should not contain decimal values</a></li>');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
                 break;
             default:
@@ -237,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             $('#rfp_vetting_error_summary').removeClass('hide-block');
             $('.govuk-error-summary__title').text('There is a problem');
-            $("#summary_list").html('You must enter at least 1 role');
+            $("#summary_list").html('You must enter atleast on value');
             $('html, body').animate({ scrollTop: 0 }, 'fast');
         }
 

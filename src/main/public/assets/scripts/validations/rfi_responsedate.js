@@ -27,9 +27,10 @@ for (const selector of totalElementSelectors) {
             elementSelectorClicked = $("#rfi_clarification_date_expanded_" + selector);
         elementSelectorClicked.fadeIn();
         elementSelector.hide();
+        saveButtonHideDateRfi();
     })
 }
-var errorSelectorId ='';
+var errorSelectorId = '';
 let errorSelector = $("#click-error");
 errorSelector.on('click', () => {
     let ClickedID = $("#click-error").attr("href");
@@ -46,29 +47,32 @@ for (const selector of totalElementSelectors) {
     elementSelector.on('click', () => {
 
         let ClickedID = "#rfi_clarification_date_expanded_" + selector;
-       
+
         let elementSelectorClicked = $(ClickedID);
         if (elementSelectorClicked.length === 0) {
             ClickedID = "#rfi_clarification_date_expanded_" + selector;
             elementSelectorClicked = $(ClickedID);
         }
         elementSelectorClicked.fadeOut();
-        $("div.govuk-error-summary").remove()
         ccsZremoveErrorMessage(document.getElementById(ClickedID.slice(1)))
 
-        if(errorSelectorId === ClickedID)
-        {
+        if (errorSelectorId === ClickedID) {
             for (let selector of totalElementSelectors) {
                 let changeID = "#change_clarification_date_" + selector;
                 $(changeID).show();
             }
+        } else {
+            const elementIDChange = $("#change_clarification_date_" + selector);
+            elementIDChange.show();
         }
-        else
-        {
-       const elementIDChange = $("#change_clarification_date_" + selector);
-        elementIDChange.show();
-        }
-       
+        saveButtonUnHideDateRfi();
     });
 }
 
+const saveButtonHideDateRfi = () => {
+    document.getElementById("hideMeWhileDateChange").disabled = true;
+}
+
+const saveButtonUnHideDateRfi = () => {
+    document.getElementById("hideMeWhileDateChange").disabled = false;
+}

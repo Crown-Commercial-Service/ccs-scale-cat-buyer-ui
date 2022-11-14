@@ -6,14 +6,19 @@ import * as localTableData from '../../../resources/content/event-management/loc
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { MessageDetails } from '../model/messgeDetails';
 import { QuestionAndAnswer } from '../model/qaModel';
+import { config } from 'dotenv';
 
 export class ValidationErrors {
-    static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'
-    static readonly Question_REQUIRED: string = 'Question has not been defined'
-    static readonly Clarification_REQUIRED_count: string = 'Please enter <=5000 characters'
+    static readonly CLASSIFICATION_REQUIRED: string = 'Message cannot be broadcast unless a Classification has been defined'
+    static readonly MESSAGE_REQUIRED: string = 'Message cannot be broadcast unless a Subject Line has been defined'
+    static readonly SUBJECT_REQUIRED: string = 'message cannot be broadcast unless a Message Body has been defined'
+
+    static readonly Clarification_REQUIRED: string = 'Clarification has not been defined'	
+    static readonly Question_REQUIRED: string = 'Question has not been defined'	
+    static readonly Clarification_REQUIRED_count: string = 'Please enter <=5000 characters'	
     static readonly Question_REQUIRED_count: string = 'Please enter <=5000 characters'
-   
-    }
+
+}
 /**
  * 
  * @Rediect 
@@ -28,6 +33,9 @@ export const EVENT_MANAGEMENT_GET_QA_ADD = async (req: express.Request, res: exp
     const projectId = req.session['projectId'];
     const eventId = req.session['eventId'];
     req.session['messageID'] = req.query;
+   
+    
+
     try {
         res.locals.agreement_header = req.session.agreement_header;
         //const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/` + id
@@ -37,7 +45,7 @@ export const EVENT_MANAGEMENT_GET_QA_ADD = async (req: express.Request, res: exp
         const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
         const clerificationDataList = await getClerificationData(id.toString(), projectId, eventId, SESSION_ID);
         const appendData = { data: localTableData,QAs:clerificationDataList, message: messageDetails, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
-
+        
         res.render('QAAdd1stStep', appendData);
     } catch (err) {
         LoggTracer.errorLogger(
@@ -58,19 +66,22 @@ export const EVENT_MANAGEMENT_GET_QA_ADD_TWO_STEP = async (req: express.Request,
     const projectId = req.session['projectId'];
     const eventId = req.session['eventId'];
     req.session['messageID'] = req.query;
+   
     try {
         res.locals.agreement_header = req.session.agreement_header;
-        const QaContent: QuestionAndAnswer = {
-            create_question_input:null,
-            create_clarification_input: null,
-            IsquestionNotDefined: false,
-            IsclarificationNotDefined: false,
-            questionErrorMessage: ValidationErrors.Question_REQUIRED,
+
+        const QaContent: QuestionAndAnswer = {	
+            create_question_input:null,	
+            create_clarification_input: null,	
+            IsquestionNotDefined: false,	
+            IsclarificationNotDefined: false,	
+            questionErrorMessage: ValidationErrors.Question_REQUIRED,	
             clarificationErrorMessage: ValidationErrors.Clarification_REQUIRED,
             }
-    
+
         const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
-        const appendData = { data: localTableData, message: messageDetails,QaContent:QaContent, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        const appendData = { data: localTableData, message: messageDetails,QaContents:QaContent,validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+       
         res.render('QAAdd2ndStep', appendData);
     } catch (err) {
         LoggTracer.errorLogger(
@@ -117,7 +128,7 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
         } else {
             IsClerificationNotDefined = false;
         }
-        if (_body.QA_Question_input.length > 5000) {
+        if (_body.QA_Question_input.length > 50000) {
             Question_count = true
             validationError = true
             errorText.push({
@@ -128,7 +139,7 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
             Question_count = false;
         }
 
-        if (_body.message_Add_Clerification_input.length > 5000) {
+        if (_body.message_Add_Clerification_input.length >= 50000) {
             clarification_count = true
             validationError = true
             errorText.push({
@@ -166,8 +177,33 @@ else{
             "answer": _body.message_Add_Clerification_input
         }
 
+            
+            
         const baseURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`
         const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
+
+        var host = req.get('host');
+        var urlMain = 'https://'+req.get('host')+"/event/qa?id="+eventId+'&prId='+projectId;
+    
+        var textContent = 'The questions and answers for this project have been updated. You can access this, and any future updates, using the following link:\n\n'+urlMain+'\n\nIf you are already authenticated, you will be able to see this page. If not, you will need to authenticate through the Public Procurement Gateway before being able to access the page.';
+        const _requestBodys = {
+            "OCDS": {
+                "title": 'Question clarification for event '+eventId,
+                "description": textContent
+            },
+            "nonOCDS": {
+                "isBroadcast": true,
+                "classification": 'Qualification Clarification'
+            }
+        };
+
+
+        
+
+        const baseURLs = `/tenders/projects/${projectId}/events/${eventId}/messages`
+        
+       const responses = await TenderApi.Instance(SESSION_ID).post(baseURLs, _requestBodys);
+
         if (response.status == 200) {
             req.session["createdqa"]=true;
             res.redirect('/message/inbox')
@@ -199,6 +235,7 @@ async function getMessageDetails(messageId: string, projectId: string, eventId: 
 async function getClerificationData(messageId: string, projectId: string, eventId: string, SESSION_ID: string) {
     const baseQAURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`;
     const qaDataList = await TenderApi.Instance(SESSION_ID).get(baseQAURL)
+    //const list: QuestionAndAnswer[] = qaDataList.data
     const list: QuestionAndAnswer[] = (qaDataList.data.QandA.length>0?qaDataList.data.QandA:[])
     return list;
 }

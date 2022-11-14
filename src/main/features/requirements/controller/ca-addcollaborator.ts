@@ -9,6 +9,7 @@ import { RFP_PATHS } from '../model/requirementConstants';
 import { RemoveDuplicatedList } from '../util/operations/arrayremoveobj';
 import * as cmsData from '../../../resources/content/requirements/addcollaborator.json';
 
+
 // RFI ADD_Collaborator
 /**
  *
@@ -22,34 +23,21 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
   const { isJaggaerError,choosenViewPath } = req.session;
   req.session['isJaggaerError'] = false;
   try {
-    let allUserStorge = [];
-    if(req.session['cacollaboratorsinfo']!=null ||req.session['cacollaboratorsinfo']!=undefined)
-    { 
-      allUserStorge= req.session['cacollaboratorsinfo']    
-    }
-    else{
-      const   { data: allUserdata}  = await TenderApi.Instance(SESSION_ID).get(
-        `/tenders/users`,
+    const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
+    let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
+      organisation_user_endpoint,
+    );
+    organisation_user_data = organisation_user_data?.data;
+    const { pageCount } = organisation_user_data;
+    const allUserStorge = [];
+    for (let a = 1; a <= pageCount; a++) {
+      const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
+      const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
+        organisation_user_endpoint_loop,
       );
-      allUserStorge=allUserdata
-      req.session['cacollaboratorsinfo']=allUserdata
+      const { userList } = organisation_user_data_loop?.data;
+      allUserStorge.push(...userList);
     }
-  
-    // const organisation_user_endpoint = `organisation-profiles/${req.session?.['organizationId']}/users`;
-    // let organisation_user_data: any = await OrganizationInstance.OrganizationUserInstance().get(
-    //   organisation_user_endpoint,
-    // );
-    // organisation_user_data = organisation_user_data?.data;
-    // const { pageCount } = organisation_user_data;
-    // const allUserStorge = [];
-    // for (let a = 1; a <= pageCount; a++) {
-    //   const organisation_user_endpoint_loop = `organisation-profiles/${req.session?.['organizationId']}/users?currentPage=${a}`;
-    //   const organisation_user_data_loop: any = await OrganizationInstance.OrganizationUserInstance().get(
-    //     organisation_user_endpoint_loop,
-    //   );
-    //   const { userList } = organisation_user_data_loop?.data;
-    //   allUserStorge.push(...userList);
-    // }
     let collaborator;
     const { userName, firstName, lastName } = req.session['searched_user'];
     const fullName = firstName + ' ' + lastName;
@@ -76,7 +64,7 @@ export const CA_GET_ADD_COLLABORATOR = async (req: express.Request, res: express
     const agreementLotName = req.session.agreementLotName;
     const releatedContent = req.session.releatedContent;
     const windowAppendData = {
-      data: cmsData,
+      data: forceChangeDataJson,
       userdata: filteredListofOrganisationUser,
       collaborator: collaborator,
       collaborators: collaboratorData,
@@ -227,6 +215,12 @@ export const CA_POST_DELETE_COLLABORATOR_TO_JAGGER = async (req: express.Request
 export const CA_POST_PROCEED_COLLABORATORS = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId } = req.session;
-  await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/44`, 'Completed');
-  res.redirect(`/ca/task-list?path=${req.session['choosenViewPath']}`);
+  try {
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${req.session.eventId}/steps/44`, 'Completed');
+    res.redirect(`/ca/task-list?path=${req.session['choosenViewPath']}`);
+} catch (error) {
+  LoggTracer.errorLogger( res, error, `${req.headers.host}${req.originalUrl}`, null,
+    TokenDecoder.decoder(SESSION_ID), 'Tender agreement failed to be added', true,
+  );
+}
 };

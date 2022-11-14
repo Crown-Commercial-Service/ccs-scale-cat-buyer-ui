@@ -13,7 +13,7 @@
             href: "/"
         },
         {
-            text: "Choose a commericial agreement",
+            text: "Choose a commercial agreement",
             href: "/projects/choose-agreement"
         },
         {
@@ -50,13 +50,31 @@
             <ul class="app-task-list ccs-eoi-buildtask-list">
                 {% for items in data %}
 
-                    <li class="app-task-list__item">
+                    <li class="app-task-list__item govuk-!-padding-top-4 govuk-!-padding-bottom-4">
                         <span class="app-task-list__task-name">
-                            <strong>{{items.OCDS.description}}</strong>
+                            <strong class="govuk-!-font-size-24">
+                            {% set hreflink = items.OCDS.description | replace(" ", "_") %}
+                            {% set criterion_id = items.id | replace(" ", "_") %}
+                            <a class="app-task-list__tag" href="/eoi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}" aria-describedby="eoi-questions">{{items.OCDS.description}}</a>
+                            {# <strong>{{items.OCDS.description}}</strong> #}
+                            </strong>
                         </span>
-                        {% set hreflink = items.OCDS.description | replace(" ", "_") %}
-                        {% set criterion_id = items.id | replace(" ", "_") %}
-                        <a class="app-task-list__tag" href="/eoi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{items.criterianId}}&group_id={{items.OCDS.id}}" aria-describedby="eoi-questions">{{items.nonOCDS.task}}</a>
+
+                        {% if(items.questionStatus == 'todo') %}
+                            {% if (items.nonOCDS.mandatory) %}
+                                <strong class="govuk-tag govuk-tag--grey app-task-list__tag">TO DO</strong>
+                            {% elseif items.nonOCDS.mandatory == false %}
+                                <strong class="govuk-tag govuk-tag--grey app-task-list__tag">Optional</strong>
+                            {% else %}
+                                <strong class="govuk-tag govuk-tag--green app-task-list__tag" >
+                                    Done</strong>
+                            {% endif %}
+                        {% else %}
+                            <strong class="govuk-tag govuk-tag--green app-task-list__tag" >
+                                    Done</strong>
+                        {% endif %}
+                        
+                        
                     </li>
 
                 {% endfor %}

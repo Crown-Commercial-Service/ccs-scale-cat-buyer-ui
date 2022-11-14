@@ -14,7 +14,7 @@
     {{ CCSBreadcrumbs({
         items: [
             {
-                "text": "Your dashboard",
+                "text": "Dashboard",
                 "href": "/dashboard"
                 },
                 {
@@ -43,8 +43,7 @@
             {{ CCSErrorSummary({
                 titleText: "There is a problem",
                 errorList: [{
-                    text: "Select an option",
-                     href: "#ca_teamscale_radio"
+                    text: "Select an option"
                 }]
             }) }}
         {%endif %}
@@ -63,15 +62,6 @@
                     <div class="govuk-form-group">
                         <div class="govuk-radios">
                             <br>
-                              <div id= "ca_teamscale_radio">
-                             {% if(error) %}
-                             <p id="ca_teamscale_radio-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span>
-                   Select an option
-                  </p>
-                           
-                              {%endif %}
-                              </div>
                             {% set radioArray = [] %}
                           
                             {% for item in RadioData %}
@@ -79,12 +69,12 @@
                              <div class="govuk-radios__item">
                               {% if(item.selected==true)%}
                              <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale_{{loop.index}}" name="team_option" type="radio" value="{{item.value}}" checked >
-                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_ca_team_scale_{{loop.index}}">
+                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" >
                                         <h3 class="govuk-heading-m">{{item.name}}</h3>
                                     </label>
                               {%else%}
                       <input class="govuk-radios__input ccs_vetting" id="ccs_ca_team_scale_{{loop.index}}" name="team_option" type="radio" value="{{item.value}}" >
-                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" for="ccs_ca_team_scale_{{loop.index}}">
+                                              <label class="govuk-label govuk-radios__label ccs_eoi_vetting" >
                                         <h3 class="govuk-heading-m">{{item.name}}</h3>
                                     </label> {%endif %}
  

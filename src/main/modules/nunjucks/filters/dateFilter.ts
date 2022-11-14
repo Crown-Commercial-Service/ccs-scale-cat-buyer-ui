@@ -39,49 +39,6 @@ export function dateFilter (value: moment.Moment | string): string {
       throw err
     }
   }
-  export function formatTimeHHMM (value: moment.Moment | string): string {
-    try {
-      if (!value || !(typeof value === 'string' || value instanceof moment)) {
-        throw new Error('Input should be moment or string, cannot be empty')
-      }
-  
-      const date: moment.Moment = typeof value === 'string' ? moment(value) : value
-      if (!date.isValid()) {
-        throw new Error('Invalid date')
-      }
-      return DateFormater.formatTimeHHMM(date)
-    } catch (err) {
-      logger.console.error(err);      
-      throw err
-    }
-  }
-
-  export function formatMMMdyhmsa (value: string): string {
-    
-    try {
-      
-      /*if (!value || !(typeof value === 'string' || value instanceof moment)) {
-        throw new Error('Input should be moment or string, cannot be empty')
-      }*/
-      console.log(typeof(value));
-      const date: any = typeof value === 'string' ? moment(value) : value
-      if (!date.isValid()) {
-        throw new Error('Invalid date')
-      }
-      let day=value.toString().substr(0,10);
-     let time=value.toString().substr(11,5);
-     let new_date=moment(day+" "+time,'YYYY-MM-DD HH:mm a',).format('DD MMMM YYYY, h:mm a');
-     if(new_date=='Invalid date') {new_date=value}
-     console.log("-----------------datestart---------------");
-      console.log( new_date);
-      console.log("-----------------dateend---------------");
-      return new_date
-    } catch (err) {
-      logger.console.error(err);      
-      throw err
-    }
-  }
-
 
   export function dateFilterDD_MM_YYYY (value: moment.Moment | string): string {
     try {

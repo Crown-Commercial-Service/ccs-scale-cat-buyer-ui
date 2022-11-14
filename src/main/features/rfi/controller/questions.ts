@@ -48,7 +48,7 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
 
     matched_selector = matched_selector?.[0];
     const { OCDS, nonOCDS } = matched_selector;
-    let bcTitleText = OCDS.description;
+    const bcTitleText = OCDS.description;
     let titleText = nonOCDS.mandatory === false ? OCDS.description + ' (optional)' : OCDS.description;
     const promptData = nonOCDS.prompt;
     const nonOCDSList = [];
@@ -74,23 +74,35 @@ export const GET_QUESTIONS = async (req: express.Request, res: express.Response)
         return '';
       }
     });
+    
     req.session?.nonOCDSList = nonOCDSList;
     fetch_dynamic_api_data = fetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     const errorText = findErrorText(fetch_dynamic_api_data, req);
     const { isFieldError } = req.session;
-    if(fetch_dynamic_api_data[0].OCDS.id=='Question 5')
+    if(fetch_dynamic_api_data[0].OCDS.id=='Question 5' && agreement_id == 'RM6263')
     {
       fetch_dynamic_api_data[0].OCDS.title="Terms and acronyms (optional)";
     }
-    if(fetch_dynamic_api_data[0].OCDS.id=='Question 4')
+    if(fetch_dynamic_api_data[0].OCDS.id=='Question 4' && agreement_id == 'RM6263')
     {
       fetch_dynamic_api_data[0].nonOCDS.options[0].text='For individuals who do not need to have a specific level of security clearance because your organisation has its own pre-employment checks.';
     }
     if(fetch_dynamic_api_data[0].OCDS.id=='Question 6')
     {
-      titleText="Where the supplied staff will work";
-      bcTitleText="Where the supplied staff will work"
+      
+
+      if(agreement_id == 'RM6187') {
+        //MCF3
+        titleText="Where the supplied staff will work";
+      } else if(agreement_id == 'RM6263') {
+        //DSP
+        //cmsData = cmsDSPData;
+        titleText="Where staff will work";
+      }
+
+
     }
+    
     const data = {
       data: fetch_dynamic_api_data,
       agreement_id: agreement_id,
@@ -155,7 +167,19 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
     req.session['isLocationError'] = false;
     const started_progress_check: boolean = operations.isUndefined(req.body, 'rfi_build_started');
     if (operations.equals(started_progress_check, false)) {
-      const { rfi_build_started, question_id, questionType } = req.body;
+      // const { rfi_build_started, question_id, questionType } = req.body;
+      const { rfi_build_started, questionType } = req.body;
+      let Mcf3Qid = req.body.question_id;
+      let question_id;
+      let question_id_append = req.body.question_id;
+      if(typeof(question_id_append) == 'object') {
+        
+        question_id = question_id_append[question_id_append.length - 1];//question_id_append[0];
+      } else {
+        question_id = question_id_append;
+      }
+
+
       const nonOCDS = req.session?.nonOCDSList.find(x => x.question_id === question_id);
       if (rfi_build_started === 'true') {
         let validationError = false;
@@ -175,6 +199,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
         const object_values = Object.values(filtered_object_with_empty_keys).map(an_answer => {
           return { value: an_answer };
         });
+        
         if (checkFormInputValidationError(nonOCDS, object_values, questionType)) {
           req.session.isValidationError = true;
           if (object_values.length > 0) {
@@ -202,12 +227,18 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
         } else {
           req.session['isLocationMandatoryError'] = false;
           if (questionType === 'Valuetrue') {
+
+            const QAStorage = [];
+            for (let item = 0; item < object_values.length; item++) {
+              QAStorage.push({ value: object_values[item].value, selected: true });
+            }
             const answerValueBody = {
               nonOCDS: {
                 answered: true,
-                options: [...object_values],
+                options: [...QAStorage],
               },
             };
+            
             try {
               const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
               await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
@@ -234,7 +265,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                 Person_id: TokenDecoder.decoder(SESSION_ID),
                 error_location: `${req.headers.host}${req.originalUrl}`,
                 sessionId: 'null',
-                error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
+                error_reason: 'RFI Question - Dyanamic framework throws error - Tender Api is causing problem',
                 exception: error,
               };
               const Log = new LogMessageFormatter(
@@ -247,6 +278,8 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               LoggTracer.errorTracer(Log, res);
             }
           } else if (questionType === 'KeyValuePairtrue') {
+
+          
             let { term, value } = req.body;
             const TAStorage = [];
             term = term.filter((akeyTerm: any) => akeyTerm !== '');
@@ -285,12 +318,14 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               }
             } catch (error) {
 
+             
+
               delete error?.config?.['headers'];
               const Logmessage = {
                 Person_id: TokenDecoder.decoder(SESSION_ID),
                 error_location: `${req.headers.host}${req.originalUrl}`,
                 sessionId: 'null',
-                error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
+                error_reason: 'RFI Question - Dyanamic framework throws error - Tender Api is causing problem',
                 exception: error,
               };
               const Log = new LogMessageFormatter(
@@ -303,6 +338,10 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
               LoggTracer.errorTracer(Log, res);
             }
           } else {
+
+
+          
+            
             const question_array_check: boolean = Array.isArray(question_id);
             if (question_array_check) {
               const sortedStorage = [];
@@ -397,35 +436,49 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   req.session['isLocationError'] = true;
                   res.redirect(url.replace(regex, 'questions'));
                 } else if (selectedOptionToggle.length > 0) {
-                  if(group_id=='Group 4'){
-                    //selectedOptionToggle[0].push({'value':'abc','selected':true})
-                    //save org data
-                    const organizationID = req.session.user.payload.ciiOrgId;
-                    const organisationBaseURL = `/organisation-profiles/${organizationID}`;
-                    const getOrganizationDetails = await OrganizationInstance.OrganizationUserInstance().get(organisationBaseURL);
-                    const name = getOrganizationDetails.data.identifier.legalName;
-                    const organizationName = name;
-                    let orgData=[]
-                    let arrData=[]
-                    arrData.push({'value':organizationName,'selected':true})
-                    orgData.push(arrData)
-                    const answerBodyOrg = {
+                  if(agreement_id == 'RM6187') {  //MCF3
+
+                    if(typeof(Mcf3Qid) == 'object') {
+                      const sortedStorageMcf3 = [];
+                      for (let h = 0; h < Mcf3Qid.length; h++) {
+                        const comparisonObject = {
+                          questionNo: Mcf3Qid[h],
+                          answer: object_values[h],
+                        };
+                        sortedStorageMcf3.push(comparisonObject);
+                      }
+                      
+                      for (const iterationMcf3 of sortedStorageMcf3) {
+                        const answerBody = {
+                          nonOCDS: {
+                            answered: true,
+                            options: [iterationMcf3.answer],
+                          },
+                        };
+                        answerBody.nonOCDS.options[0]['selected'] = true;
+                        const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${iterationMcf3.questionNo}`;
+                        await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                      }
+                    } else {
+                      const answerBody = {
+                        nonOCDS: {
+                          answered: true,
+                          options: [...selectedOptionToggle[0]],
+                        },
+                      };
+                      const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+                      await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
+                    }
+                  } else {
+                    const answerBody = {
                       nonOCDS: {
                         answered: true,
-                        options: [...orgData[0]],
+                        options: [...selectedOptionToggle[0]],
                       },
                     };
-                    const answerBaseURLOrg = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/Question 2`;
-                    await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURLOrg, answerBodyOrg);
+                    const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
+                    await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
                   }
-                  const answerBody = {
-                    nonOCDS: {
-                      answered: true,
-                      options: [...selectedOptionToggle[0]],
-                    },
-                  };
-                  const answerBaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions/${question_id}`;
-                  await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerBody);
                 }
                 if (req.session['isLocationError'] === false) {
                   QuestionHelper.AFTER_UPDATINGDATA(
@@ -447,7 +500,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
                   Person_id: TokenDecoder.decoder(SESSION_ID),
                   error_location: `${req.headers.host}${req.originalUrl}`,
                   sessionId: 'null',
-                  error_reason: 'Dyanamic framework throws error - Tender Api is causing problem',
+                  error_reason: 'RFI Question - Dyanamic framework throws error - Tender Api is causing problem',
                   exception: error,
                 };
                 const Log = new LogMessageFormatter(
@@ -469,7 +522,15 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
       res.redirect('/error');
     }
   } catch (err) {
-    LoggTracer.errorTracer(err, res);
+    LoggTracer.errorLogger(
+      res,
+      err,
+      `${req.headers.host}${req.originalUrl}`,
+      null,
+      TokenDecoder.decoder(SESSION_ID),
+      'RFI Question - Tenders Service Api cannot be connected',
+      true,
+    );
   }
 };
 
@@ -505,7 +566,7 @@ const checkFormInputValidationError = (nonOCDS: any, object_values: any, questio
   }
   if (questionType === 'KeyValuePairtrue' && object_values.length == 2) {
     let key = object_values[0];
-    let keyValue = object_values[1];
+    let keyValue = object_values[1];  
     if (Array.isArray(key.value) && Array.isArray(keyValue.value)) {
       let eitherElementEmptys = [];
       for (var i = 0; i < key.value.length; i++) {

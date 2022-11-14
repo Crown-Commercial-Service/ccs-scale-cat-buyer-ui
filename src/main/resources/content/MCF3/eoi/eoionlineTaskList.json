@@ -1,0 +1,81 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Do pre-market engagement",
+      "href": "/eoi/eoi-tasklist"
+    },
+    {
+      "text": "Build your EoI",
+      "href": "#"
+    }
+  ],
+
+  "title": "Build your EoI",
+  "subtitle": null,
+  "line1": "Write your own questions covering context about your organisation, scope of the service and your procurement, and got more detailed information about what suppliers can offer.",
+  "line2": "You can add more detail in the optional sections if you think it will help the suppliers to answer your questions.",
+  "taskList": [
+    {
+      "title": "Information you are looking for",
+      "hreftitle": "Add Information you are looking for",
+      "href": "eoi_questions"
+    },
+    {
+      "title": "Who is the buyer?",
+      "hreftitle": "Add buyer details",
+      "href": "eoi_who"
+    },
+    {
+      "title": "Security and vetting requirements",
+      "hreftitle": "Add security and vetting requirements",
+      "href": "eoi_vetting"
+    },
+    {
+      "title": "Key terms and acronyms",
+      "hreftitle": "Add terms and acronyms",
+      "href": "eoi_acronyms"
+    },
+    {
+      "title": "Where the work will be completed",
+      "hreftitle": "Add address",
+      "href": "eoi_address"
+    },
+    {
+      "title": "Specify your budget",
+      "hreftitle": "Add budget",
+      "href": "eoi_budget"
+    },
+    {
+      "title": "Specify your daily rate",
+      "hreftitle": "Add daily rate",
+      "href": "eoi_budget_step_two"
+    },
+    {
+      "title": "About the project",
+      "hreftitle": "Add information about the project",
+      "href": "eoi_project"
+    },
+    {
+      "title": "Status of the project",
+      "hreftitle": "Add status of the project",
+      "href": "eoi_project_status"
+    }
+  ],
+  "backJump": {
+    "title": "Return to Do pre-market engagement",
+    "href": "/eoi/eoi-tasklist"
+  },
+  "template": []
+}

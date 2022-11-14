@@ -1,0 +1,197 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "#"
+    }
+  ],
+
+  "title": "Write and publish your requirements",
+  "subtitle": null,
+  "events": [
+    {
+      "eventno": 1,
+      "eventTitle": "Project and collaborators",
+      "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+      "eventTask": [
+        {
+          "Task": 1,
+          "link": "/ca/name-your-project",
+          "title": "Name your project",
+          "required": "mandatory",
+          "status": "Optional"
+        },
+        {
+          "Task": 2,
+          "link": "/ca/procurement-lead",
+          "title": "Change who is going to lead the procurement",
+          "required": "optional",
+          "status": "Optional"
+        },
+        {
+          "Task": 3,
+          "link": "/ca/add-collaborators",
+          "title": "Add members to your project",
+          "required": "optional",
+          "status": "Optional"
+        }
+      ]
+    },
+    {
+      "eventno": 2,
+      "eventTitle": "[ Stage 1: Complete a capability assessment ]",
+      "eventDescription": "[description of this section]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "[ Learn about capability assessment ]",
+          "required": "optional",
+          "link": "/ca/learn-about-capability-assessment",
+          "status": "Optional"
+        },
+        {
+          "Task": 2,
+          "link": "/ca/enter-your-weightings",
+          "title": "[ Enter your weightings ]",
+          "required": "mandatory",
+          "status": "To do"
+        },
+        {
+          "Task": 3,
+          "link": "#",
+          "title": "[ Will you accept sub-contractors? ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 4,
+          "link": "#",
+          "title": "[ Set your resources and vetting weightings ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 5,
+          "link": "/ca/service-capabilities",
+          "title": "[ Select your service capabilities ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 6,
+          "link": "/ca/team-scale",
+          "title": "[ How well your team will scale ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 7,
+          "link": "#",
+          "title": "[ Where the work will be done ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+
+        {
+          "Task": 8,
+          "link": "#",
+          "title": "[ How many suppliers you'd like to take forward? ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 9,
+          "link": "/ca/review-ranked-suppliers",
+          "title": "[ Review ranked suppliers ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        },
+
+        {
+          "Task": 10,
+          "link": "/ca/next-steps",
+          "title": "[ Next steps ]",
+          "required": "mandatory",
+          "status": "Cannot start yet"
+        }
+      ]
+    },
+    {
+      "eventno": null,
+      "eventTitle": "[Stage 2: Progress to further competition ]",
+      "eventDescription": "[ In order to progress with the second stage of your further competition, you need to complete the previous “Next steps” screen at the end of stage 1. ]",
+      "eventTask": []
+    },
+    {
+      "eventno": 1,
+      "eventTitle": "[Upload all required and optional documentation ]",
+      "eventDescription": "[ Description for this section ]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "[ Upload all required and optional documentation ]",
+          "required": "optional",
+          "link": "/ca/learn-about-capability-assessment",
+          "status": "Cannot start yet"
+        },
+
+        {
+          "Task": 2,
+          "title": "[ IR35 acknowledgement ]",
+          "required": "optional",
+          "link": "/ca/learn-about-capability-assessment",
+          "status": "Cannot start yet"
+        }
+      ]
+    },
+
+    {
+      "eventno": 2,
+      "eventTitle": "[Review and publish your 2-stage RFP ]",
+      "eventDescription": "[ Description for this section ]",
+      "eventTask": [
+        {
+          "Task": 1,
+          "title": "[ Look at the suppliers for this further competition ]",
+          "required": "optional",
+          "link": "#",
+          "status": "Cannot start yet"
+        },
+
+        {
+          "Task": 2,
+          "title": "[ Set response date and time ]",
+          "required": "optional",
+          "link": "#",
+          "status": "Cannot start yet"
+        },
+        {
+          "Task": 3,
+          "title": "[ Review and publish your 2-stage RFP]",
+          "required": "optional",
+          "link": "#",
+          "status": "Cannot start yet"
+        }
+      ]
+    }
+  ],
+  "form": {
+    "question": "[instructions for this page]",
+    "backJump": {
+      "title": "Return to procurement overview",
+      "href": "/projects/create-or-choose"
+    }
+  }
+}

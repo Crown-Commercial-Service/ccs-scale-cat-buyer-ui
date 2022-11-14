@@ -5,6 +5,8 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import {ShouldEventStatusBeUpdated} from '../../shared/ShouldEventStatusBeUpdated';
 
+import * as cmsDataMCF from '../../../resources/content/MCF3/requirements/rfp-ir35.json';
+
 export const RFP_GET_I35: express.Handler = async (req: express.Request, res: express.Response) => {
   const { SESSION_ID } = req.cookies;
   const { projectId, eventId, releatedContent } = req.session;
@@ -17,7 +19,6 @@ export const RFP_GET_I35: express.Handler = async (req: express.Request, res: ex
     };
 
     const BaseURL = `/tenders/projects/${projectId}/events/${eventId}/criteria/${IR35Dataset.id}/groups/${IR35Dataset.group_id}/questions`;
-
     const Response = await TenderApi.Instance(SESSION_ID).get(BaseURL);
     const ResponseData = Response.data;
    let text=ResponseData[0].nonOCDS;
@@ -35,12 +36,13 @@ export const RFP_GET_I35: express.Handler = async (req: express.Request, res: ex
     }
     const windowAppendData = {
       apiData: ResponseData,
+      data:cmsDataMCF,
       releatedContent,
     };
-    let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
+    let flag=await ShouldEventStatusBeUpdated(eventId,33,req);
     if(flag)
     {
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'In progress');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'In progress');
     }
     res.render('rfp-ir35.njk', windowAppendData);
   } catch (error) {
@@ -83,10 +85,10 @@ export const RFP_POST_I35: express.Handler = async (req: express.Request, res: e
     };
     if (REQUESTBODY?.nonOCDS?.options?.length >0 && REQUESTBODY.nonOCDS.options[0].value !==undefined) {
       await TenderApi.Instance(SESSION_ID).put(BaseURL, REQUESTBODY);
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Completed');
-    let flag=await ShouldEventStatusBeUpdated(eventId,32,req);
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
+    let flag=await ShouldEventStatusBeUpdated(eventId,34,req);
     if(flag){
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
+    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
     }
     res.redirect('/rfp/task-list');
     }else{

@@ -1,0 +1,130 @@
+{% extends "template.njk" %}
+
+{% from "components/support/macro.njk" import howToGetSupport %}
+
+{% set title = 'Route to market' %}
+
+{% block content %}
+{{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+{% if(error) %}
+
+    {{ CCSErrorSummary({
+    titleText: "There is a problem",
+    errorList: [
+        {
+        text: "Select an option"
+        }
+    ]
+    }) }}
+    {%endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="govuk-heading-xl">
+          {{data.title }}
+        </h1>
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        {% include "includes/project_header.njk" %}
+
+        <p class="govuk-body">{{ data.form.question1 }}</p>
+        <br>
+         <p class="govuk-body">{{ data.form.question2 }}</p>
+
+         <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+               <ol class="app-task-list">
+    {% for item in data.events %}
+         <li>
+            <h2 class="govuk-heading-xl">
+            <span>{{item.eventno}}. </span> {{item.eventTitle}}
+             </h2>
+             <p class="govuk-body">{{item.eventDescription}}</p>
+               {#{% if (item.eventno==3) %}
+                 {% for description in item.eventdescriptionlist %}
+                   <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-5">
+                      <li>{{description.description1}}</li>
+                      <li>{{description.description2}}</li>
+                      <li>{{description.description3}}</li>
+                      <li>{{description.description4}}</li>
+                      <li>{{description.description5}}</li>
+                   </ul>
+                 {% endfor %}
+               {% endif %}
+               {% if (agreementId_session == 'RM1043.8') %}
+                 {% for description in item.eventdescriptionlist %}
+                   <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-5">
+                      <li>{{description.description1}}</li>
+                      <li>{{description.description2}}</li>
+                      <li>{{description.description3}}</li>
+                      <li>{{description.description4}}</li>
+                      <li>{{description.description5}}</li>
+                   </ul>
+                 {% endfor %}
+               {% endif %}#}
+               {% if (agreementId_session == 'RM1043.8') %}
+               {%  if(item.eventno==4) %}
+               <p class="govuk-body">{{item.eventDescription1}}</p>
+               {%endif%}
+               {%endif%}
+               {%  if(item.eventno==5) %}
+               <p class="govuk-body">{{item.eventDescription1}}</p>
+               {% if (selectedeventtype=='DA') %}
+               <p class="govuk-body govuk-!-margin-bottom-5">{{item.eventDescription3}}</p>
+               {%else%}
+                <p class="govuk-body govuk-!-margin-bottom-5">{{item.eventDescription2}}</p>
+                {%endif%}
+               {% endif %}
+
+              <ul class="app-task-list__items govuk-!-padding-left-0">
+               {% for Tasks in item.eventTask %}
+               
+                <li class="app-task-list__item govuk-!-padding-top-3 govuk-!-padding-bottom-3">
+                  <span class="app-task-list__task-name govuk-!-font-size-24">
+                    <strong>
+                      {% if (Tasks.link !== undefined) and (Tasks.status != "Cannot start yet") %}
+                          <a href="{{Tasks.link}}" aria-describedby="name-your-project" class="govuk-!-font-weight-bold">
+                              {% if (item.eventno==6) and (Tasks.Task==3) and (selectedeventtype=='DA') %}
+                              {{Tasks.title}} your requirements
+                              {%else%}
+                              {{Tasks.title}}
+                              {%endif%}
+                          </a>
+                      {% else %}
+                      {% if (item.eventno==6) and (Tasks.Task==3) and (selectedeventtype=='DA') %}
+                              {{Tasks.title}} your requirements
+                              {%else%}
+                              {{Tasks.title}}
+                              {%endif%}
+                      {% endif %} 
+                    </strong>
+                  </span>
+                  {% if  (Tasks.status == "Optional") or (Tasks.status == "To do")%}
+                    <strong class="govuk-tag app-task-list__tag">{{Tasks.status}}</strong>
+                  {% elif(Tasks.status == "Cannot start yet") or (Tasks.status == "Not started") %}
+                  <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{Tasks.status}}</strong>
+                  {% else %}
+                  <strong class="govuk-tag govuk-tag--green app-task-list__tag">{{Tasks.status}}</strong>
+                  {% endif %} 
+              </li>
+               {% endfor %}
+                </ul>
+             </li>
+    {% endfor %}
+    </ol>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        {{ CCSReleatedContent(releatedContent) }}
+      </div>
+      </div>
+
+    </div>
+
+  </main>
+
+{% endblock %}

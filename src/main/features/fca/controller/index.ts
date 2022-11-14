@@ -1,0 +1,50 @@
+import { SUPPLIERS } from './suppliers';
+import { SELECTED_SERVICES } from './services';
+import { SHORTLIST_SERVICE,POST_SHORTLIST_SERVICE } from './shortlist_service';
+import { SUPPLIER_LIST } from './supplier_list';
+import { SUPPLIER_RATECARD } from './supplier_ratecard';
+import { FCA_PROCUREMENT } from './fca_procurement';
+import { SHORTLIST_SUPPLIER_NEXTSTEP } from './supplier_nextstep';
+
+import { CREATE_SUPPLIER_SHORTLIST } from './create_supplier_shortlist';
+import { SELECT_SERVICES,POST_SELECT_SERVICES } from './select_services';
+import { ROUTE_TO_CREATE_SUPPLIER } from './routeToCreateSupplier';
+import { FCA_GET_NEXTSTEPS, FCA_POST_NEXTSTEPS } from './nextsteps';
+import { EXPORT_SUPPLIER_FILTERING } from './export_supplier_filtering';
+import { GET_NAME_PROJECT, POST_NAME_PROJECT } from './nameAProject'
+import { GET_LEAD_PROCUREMENT, PUT_LEAD_PROCUREMENT, GET_USER_PROCUREMENT } from './leadProcurement'
+import { GET_ADD_COLLABORATOR, POST_ADD_COLLABORATOR, POST_ADD_COLLABORATOR_TO_JAGGER, POST_PROCEED_COLLABORATORS, POST_ADD_COLLABORATOR_JSENABLED,POST_DELETE_COLLABORATOR_TO_JAGGER } from './addcollaborator'
+/**
+ * @BaseController
+ * @Provider
+ * 
+ * @description Provides as Base for all Controller
+ */
+ export const fcaController = {
+    SUPPLIERS,
+    SELECTED_SERVICES,
+    SHORTLIST_SERVICE,
+    SUPPLIER_LIST,
+    SUPPLIER_RATECARD,
+    FCA_PROCUREMENT,
+    SHORTLIST_SUPPLIER_NEXTSTEP,
+    POST_SHORTLIST_SERVICE,
+    CREATE_SUPPLIER_SHORTLIST,
+    SELECT_SERVICES,
+    POST_SELECT_SERVICES,
+    ROUTE_TO_CREATE_SUPPLIER,
+    FCA_GET_NEXTSTEPS,
+    EXPORT_SUPPLIER_FILTERING,
+    FCA_POST_NEXTSTEPS,
+    GET_NAME_PROJECT,
+    GET_LEAD_PROCUREMENT,
+    GET_USER_PROCUREMENT,
+    GET_ADD_COLLABORATOR,
+    POST_NAME_PROJECT,
+    POST_ADD_COLLABORATOR,
+    POST_ADD_COLLABORATOR_TO_JAGGER,
+    PUT_LEAD_PROCUREMENT,
+    POST_PROCEED_COLLABORATORS,
+    POST_ADD_COLLABORATOR_JSENABLED,
+    POST_DELETE_COLLABORATOR_TO_JAGGER
+}

@@ -56,7 +56,6 @@ export const RFP_GET_WHERE_WORK_DONE = async (req: express.Request, res: express
   }
     res.render('rfp-whereWorkDone', appendData);
   } catch (error) {
-    console.log(error);
     LoggTracer.errorLogger(
       res,
       error,
