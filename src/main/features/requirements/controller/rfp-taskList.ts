@@ -81,23 +81,31 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
   try {
 
     if(agreementId_session == 'RM1043.8') {
-        // name your project for dos
-        let flag = await ShouldEventStatusBeUpdated(eventId, 27, req);
-        if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Not started'); }
-        let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
+      // name your project for dos
+      let flag = await ShouldEventStatusBeUpdated(eventId, 27, req);
+      if(flag) { await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/27`, 'Not started'); }
+      let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${eventId}/steps`);
 
-        let nameJourneysts = journeySteps.filter((el: any) => {
-          if(el.step == 27 && el.state == 'Completed') return true;
+      let nameJourneysts = journeySteps.filter((el: any) => {
+        if(el.step == 27 && el.state == 'Completed') return true;
+        return false;
+      });
+
+      if(nameJourneysts.length > 0){
+
+        let addcontsts = journeySteps.filter((el: any) => { 
+          if(el.step == 30) return true;
           return false;
         });
 
-        if(nameJourneysts){
-          let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
-          if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Not started'); 
-        }else{
-          let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
-          if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Cannot start yet'); 
+        if(addcontsts[0].state == 'Cannot start yet'){
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Not started'); 
         }
+
+      }else{
+        let flagaddCont = await ShouldEventStatusBeUpdated(eventId, 30, req);
+        if(flagaddCont) await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Cannot start yet'); 
+      }
     }
 
     if(agreementId_session != 'RM1043.8') {
