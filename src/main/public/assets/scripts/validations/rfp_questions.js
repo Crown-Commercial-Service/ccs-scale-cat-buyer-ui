@@ -799,12 +799,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-$(".weightagelimit").keyup(function(e) {
-    let value = $(this).val();
-    if (parseInt(value) > 100 || parseInt(value) < 0 ) {
-        $(this).val('0')
+$('.weightagelimit').on('keypress', function (evt) {
+let value = $(this).val();
+evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57) || value.length >=3) {
+        return false;
     }
+    return true;
  
  });
  
  
+ $(document.body).on("keyup", ".weightagelimit", function (event) {
+
+    var numero=$(this).val();
+     if(parseInt($(this).val())>100){    
+        let value = $(this).val().slice(0, $(this).val(). length - 1);
+        $(this).val(value)
+     }
+});
+
