@@ -29,9 +29,21 @@
 
                         <li class="app-task-list__item govuk-!-font-size-24 govuk-!-padding-top-3 govuk-!-padding-bottom-3">
                             <span class="app-task-list__task-name">
+                               {% if (items.taskStatus =="Cannot start yet") %} 
                                 <strong>{{items.title}}</strong>
+                            {% else %}
+                            <a class="app-task-list__tag" href="{{items.href}}" aria-describedby="rfp-upload"><strong>{{items.title}}</strong></a>
+                             {% endif %}
                             </span>
-                            <a class="app-task-list__tag" href="{{items.href}}" aria-describedby="rfp-upload"><strong>{{items.hreftitle}}</strong></a>
+
+                            {% if (items.taskStatus !="Done") %}  
+                            
+                            
+                <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{items.taskStatus}}</strong>
+                    {% else %}
+                             <strong class="govuk-tag govuk-tag--green app-task-list__tag">Done</strong>
+                    {% endif %}
+                            
                         </li>
 
                     {% endfor %}

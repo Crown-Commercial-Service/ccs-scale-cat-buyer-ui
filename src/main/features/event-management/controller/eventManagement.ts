@@ -56,7 +56,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       res.redirect('/projects/create-or-choose');
     }
     else {
-      // console.log('log1111');
       let agreementName: string, agreementLotName: string, projectId: string, lotid: string, title: string, agreementId_session: string, projectName: string, status: string, eventId: string, eventType: string, end_date: string;
       events.forEach((element: { activeEvent: { id: string | ParsedQs | string[] | ParsedQs[]; status: string; eventType: string; title: string; tenderPeriod: { startDate: string; endDate: string; } }; agreementName: string; lotName: string; agreementId: string; projectName: string; projectId: string; lotId: string; end_date: string; }) => {
         if (element.activeEvent.id == id) {
@@ -187,7 +186,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             supplierDetailsObj.supplierContactEmail = supplierFiltedData.contactPoint != undefined ? supplierFiltedData.contactPoint?.email : null;
             supplierDetailsObj.supplierWebsite = supplierFiltedData.identifier != undefined && supplierFiltedData.identifier != null ? supplierFiltedData.identifier?.uri : null;
             supplierDetailsObj.supplierName = supplierFiltedData.name != undefined && supplierFiltedData.name != null ? supplierFiltedData.name : null;
-// console.log('log11',supplierFiltedData.identifier);
             supplierDetailsObj.supplierId = id;
             supplierDetailsObj.supplierIdMain = id;
             supplierDetailsObj.supplierState = "Unsuccessful";
@@ -341,7 +339,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
       if(stage2_data.length > 0){
         stage2_value = 'Stage 2';
       }
-      console.log("stage2_value",status.toLowerCase());
       //if(stage2_value == 'Stage 2'){
         if(status.toLowerCase() == "pre-award"){
         
@@ -468,12 +465,10 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             redirectUrl = '/event/management'
             break
         }
-        console.log('log12',eventType);
         res.redirect(redirectUrl)
       }
       else {
         let redirectUrl_: string
-        console.log('log13',eventType);
         switch (eventType) {
           
           case "RFI":
@@ -509,8 +504,6 @@ export const EVENT_MANAGEMENT = async (req: express.Request, res: express.Respon
             else {
               if(agreementId_session==='RM1043.8'){    
                 appendData.stage2_value = stage2_value;
-                console.log('**********************************');
-                console.log(stage2_value);
                 res.render('eventManagementDOS', appendData)
               }else{
                 res.render('eventManagement', appendData)
@@ -767,15 +760,20 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         //   }
         // }
         //Awarded,pre_awarded and complete supplier info
+       
         if (status.toLowerCase() == "pre-award" || status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
           let supplierState = "PRE_AWARD"
           if (status.toLowerCase() == "awarded" || status.toLowerCase() == "complete") {
             supplierState = "AWARD"
           }
+        
+
+          if(eventType !="EOI" && eventType !="RFI"){
           const supplierAwardDetailURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${supplierState}`
        
           const supplierAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(supplierAwardDetailURL)).data;
-      
+          
+          
           if (supplierDetailsDataList.length > 0) {
             supplierAwardDetail?.suppliers?.map((item: any) => {
               let supplierDataIndex = supplierDetailsDataList.findIndex(x => x.supplierId == item.id);
@@ -786,10 +784,10 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
             });
             supplierDetails.supplierAwardedDate = moment(supplierAwardDetail?.date, 'YYYY-MM-DD, hh:mm a',).format('DD/MM/YYYY');
           }
-          
-
+        }
+         
           if (status.toLowerCase() == "pre-award") {
-
+            console.log("test3 PREAWARD")
             supplierDetails.standStillFlag = true;
             let currentDate = new Date(supplierAwardDetail?.date);
             //Standstill dates are current date +10 days.
@@ -814,13 +812,14 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
           }
         }
         //to get signed awarded contrct end date
-        if (status.toLowerCase() == "complete") {
+        if (status.toLowerCase() == "complete" && eventType!="RFI" && eventType!="EOI") {
           const contractURL = `tenders/projects/${projectId}/events/${eventId}/contracts`
+          
           const scontractAwardDetail = await (await TenderApi.Instance(SESSION_ID).get(contractURL)).data;
           supplierDetails.supplierSignedContractDate = moment(scontractAwardDetail?.dateSigned).format('DD/MM/YYYY');
         }
       }
-
+     
       //Get Q&A Count
       const baseQandAURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/q-and-a`;
       const fetchData = await TenderApi.Instance(SESSION_ID).get(baseQandAURL);
@@ -859,6 +858,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
         );
        }
       req.session.projectStatus = 1;
+      
       let appendData = { projectStatus:1,documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: qasCount, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
       let redirectUrl: string
@@ -1019,12 +1019,15 @@ export const EVENT_MANAGEMENT_DOWNLOAD = async (req: express.Request, res: expre
   const { supplierid, reviewsupplierid, Type } = req.query;
   const events = req.session.openProjectActiveEvents
 
+  const baseurl = `/tenders/projects/${projectId}/events`
+  const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
+  //status = apidata.data.filter((d: any) => d.id == eventId)[0].dashboardStatus;
+
   let title: string, lotid: string, agreementId_session: string, agreementName: string, agreementLotName: string, projectName: string, status: string, eventType: string
   let supplierDetails = {} as SupplierDetails;
   try {
 
     if (supplierid != undefined) {
-
       const FileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/responses/${supplierid}/export`;
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(FileDownloadURL, {
         responseType: 'arraybuffer',
@@ -1300,23 +1303,19 @@ export const UNSUCCESSFUL_SUPPLIER_DOWNLOAD = async (req: express.Request, res: 
   try {
     if (download != undefined) {
       const awardsTemplatesURL = `tenders/projects/${projectId}/events/${eventId}/awards/templates`
-      // console.log('log123',awardsTemplatesURL);
       let awardsTemplatesData = await (await TenderApi.Instance(SESSION_ID).get(awardsTemplatesURL))?.data;
-      // console.log('log111',awardsTemplatesData.length);
       let documentTemplatesUnSuccess='';
       for (let i = 0; i < awardsTemplatesData.length; i++) {
         if (awardsTemplatesData[i].description.includes("UnSuccessful")) {
           documentTemplatesUnSuccess = awardsTemplatesData[i].id;
         }
       }
-      // console.log('log113',documentTemplatesUnSuccess);
       let fileDownloadURL = '';
       if(download==2 && documentTemplatesUnSuccess!=''){
         fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/`+ documentTemplatesUnSuccess;
       }else{
         fileDownloadURL = `/tenders/projects/${projectId}/events/${eventId}/awards/templates/export`;
       }
-      // console.log('log112',fileDownloadURL);
       const FetchDocuments = await DynamicFrameworkInstance.file_dowload_Instance(SESSION_ID).get(fileDownloadURL, {
         responseType: 'arraybuffer',
       });

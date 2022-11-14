@@ -46,6 +46,10 @@
         "text3": "Sent",
         "href3": "/message/sent",
         "text4": "Create Message to Supplier",
-        "href4": "/message/create/supplier?type=received"
+        "href4": "/message/create/supplier?type=received",
+        "textdos1": "Write message to all suppliers",
+        "textdos4": "Write message to a supplier"
+
+        
     }
 }

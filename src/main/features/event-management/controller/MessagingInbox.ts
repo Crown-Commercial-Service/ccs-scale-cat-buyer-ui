@@ -21,6 +21,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
     const { createdqaedit } = req.session
     const projectId = req.session['projectId'] 
     const eventId = req.session['eventId']
+    const agreementId = req.session.agreement_id;
     try {
         if (createdqa !=undefined || createdqaedit !=undefined) {
             delete req.session["createdqa"];
@@ -44,7 +45,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
         {
             suppliernameforreplymessage=req.session['SupplierNameforMessagereply']
         }
-        const appendData = { data: inboxData,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        const appendData = { data: inboxData,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType,agreementId }
         res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingInbox', appendData)
     } catch (err) {

@@ -123,11 +123,15 @@
           </div>
         </form>
       </div>
-
+      {% if agreementId_session == 'RM1043.8' %}
+      {% set addcolleaguedetails = "addcolleaguedetailsdos" %}
+      {% else %}
+      {% set addcolleaguedetails = "" %}
+    {% endif %}
       <form method="POST" action="/rfp/add-collaborator-detail" >
       {{ csrfProtection(csrf) }}
         <div class="ccs-page-section" id="potential-collaborator">
-          <div id="potential-collaborator-detail">
+          <div id="potential-collaborator-detail" class={{addcolleaguedetails}}>
             <p class="govuk-body" ><strong>{{data.content.collegue.name}} </strong> <span id="show_collab_name" > {{collaborator['fullName']}}</span>
             </p>
             <p class="govuk-body"><strong>{{data.content.collegue.email}} </strong><span id="show_collab_email" > {{collaborator['email']}}<span></p>

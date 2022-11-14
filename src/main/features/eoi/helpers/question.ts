@@ -5,6 +5,7 @@ import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 const { Logger } = require('@hmcts/nodejs-logging');
 const logger = Logger.getLogger('questions healper');
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  * @Helper
  * helps with question controller to redirect
@@ -21,6 +22,7 @@ export class QuestionHelper {
     agreement_id: any,
     id: any,
     res: express.Response,
+    req: express.Request,
   ) => {
     /**
      * @Path
@@ -141,9 +143,16 @@ export class QuestionHelper {
         // });
         if(status == 'Completed') await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/19`, 'Completed');
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/20`, status);
+        
         if (response.status == HttpStatusCode.OK) {
+          let flag = await ShouldEventStatusBeUpdated(event_id, 21, req);
+            if (flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/21`, 'Optional');
+            }
+          let flag2 = await ShouldEventStatusBeUpdated(event_id, 22, req);
+            if (flag2) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/22`, 'Not started');
+            }
         }
         res.redirect('/eoi/eoi-tasklist');
       }

@@ -23,7 +23,7 @@ $('#rfp_collaborators').on('change', function () {
 
       $("#rfp_collaborator_append").val(id);
       $('#ccs_collab_add').prop("disabled", false)
-
+      $('.addcolleaguedetailsdos').show();
     })
       .fail(function () {
         console.log("failed")
@@ -37,6 +37,7 @@ $('#rfp_collaborators').on('change', function () {
     $('#show_collab_email').html("")
     $('#show_collab-phone').html("")
     $('#ccs_collab_add').prop("disabled", true)
+    $('.addcolleaguedetailsdos').hide();
   }
 
 

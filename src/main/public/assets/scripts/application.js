@@ -360,7 +360,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('eoi_duration-years'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 4),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 100),
 );
 setInputFilter(
   document.getElementById('clarification_date-minute_2'),

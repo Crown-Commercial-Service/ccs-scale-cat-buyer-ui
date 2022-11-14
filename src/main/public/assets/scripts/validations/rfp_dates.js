@@ -83,12 +83,17 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartDay.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
+            if(document.getElementById('agreementID').value !== 'RM1043.8') {
             let isValid = isProjectStartDateValid();
             if(isValid){
                return true;
             }else{
                return false;
             }
+         }
+         else{
+            return true;
+          }
          }
          
       }
@@ -110,13 +115,17 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
+            if(document.getElementById('agreementID').value !== 'RM1043.8') {
             let isValid = isProjectStartDateValid();
             if(isValid){
                return true;
             }else{
                return false;
             }
-          
+         }
+         else{
+            return true;
+         }
          }
       }
       }
@@ -150,12 +159,17 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
+            if(document.getElementById('agreementID').value !== 'RM1043.8') {
             let isValid = isProjectStartDateValid();
             if(isValid){
                return true;
             }else{
                return false;
             }
+          }
+          else{
+            return true;
+          }
          }
       }
       }
@@ -168,6 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
          let startmonthCheck = Number(value.val()) < 0;
          let yrValidation = false;
          let yrValidation2 = false;
+         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+            removeErrorFieldsdates();
+            }
          if(value.val() != ''){
             const durationYear = document.getElementsByClassName('rfp_duration_year_25');
             const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
@@ -191,21 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             }
             if(currentEID=='rfp_duration_days_Question13'){
-               // const YearProjectRun2 = Number(durationYear[1].value);
-               // const MonthProjectRun2 = Number(durationMonth[1].value);
-               // const DaysProjectRun2 = Number(durationDay[1].value);
-   
-               // if(YearProjectRun2==4){
-               //    if(MonthProjectRun2>0 || DaysProjectRun2>0){
-               //       yrValidation2 = true;
-               //    }
-               // }else if(YearProjectRun2==3){
-               //    if(MonthProjectRun2==12 && DaysProjectRun2>0){
-               //       yrValidation2 = true;
-               //    }
-               // }else if(YearProjectRun2>4){
-               //    yrValidation2 = true;
-               // }
                yrValidation2 = validateExtPeriod();
             }
          }
@@ -268,6 +270,9 @@ document.addEventListener('DOMContentLoaded', () => {
          let startmonthCheck = Number(value.val()) < 0;
          let yrValidation = false;
          let yrValidation2 = false;
+         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+            removeErrorFieldsdates();
+            }
          if(value.val() != ''){
             const durationYear = document.getElementsByClassName('rfp_duration_year_25');
             const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
@@ -398,6 +403,9 @@ document.addEventListener('DOMContentLoaded', () => {
          let startyearCheck = Number(value.val()) < 0;
          let yrValidation = false;
          let yrValidation2 = false;
+         if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
+         removeErrorFieldsdates();
+         }
          if(document.getElementById('agreementID').value === 'RM6187'){
             if(value.val() != ''){
             const durationYear = document.getElementsByClassName('rfp_duration_year_25');
@@ -583,7 +591,12 @@ $('.rfp_date').on('submit', (e) => {
                document.forms['rfp_date'].submit();
             
          } else if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 17' && document.getElementById('lID').value === '1') {
-            isValid = isProjectStartDateValid(); //XBN00121
+            let isValid;
+            if(checkResourceStartDate())
+            {
+
+            isValid = isProjectStartDateValid();
+            } //XBN00121
             if(isValid)
                document.forms['rfp_date'].submit();
             
@@ -614,7 +627,12 @@ function checkResourceStartDate()
       let rfpResourceStartYear = $('.rfp_resource_start_year');
       if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '')
       {
+         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+
          flag =false;
+         rfpResourceStartDay.addClass('govuk-form-group--error');
+         rfpResourceStartMonth.removeClass('govuk-form-group--error');
+         rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
          $('#event-name-error-date').html('Project start date should not be empty'); 
          fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
@@ -622,7 +640,7 @@ function checkResourceStartDate()
          }else{
            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
          }
-
+      }
       }
        else if(rfpResourceStartDay.val() =='')
       {
@@ -630,12 +648,13 @@ function checkResourceStartDate()
          rfpResourceStartDay.addClass('govuk-form-group--error');
          rfpResourceStartMonth.removeClass('govuk-form-group--error');
          rfpResourceStartYear.removeClass('govuk-form-group--error');
+        // rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
+        // $('#event-name-error-date').html('Enter a valid date');
+         fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid date", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Enter a valid date", /^\d{1,}$/);
+           fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid date", /^\d{1,}$/);
          }
         
       }
@@ -662,11 +681,11 @@ function checkResourceStartDate()
          rfpResourceStartDay.removeClass('govuk-form-group--error');
          rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            $('#event-name-error-date').html('Enter a valid month');
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", "Enter a valid month", /^\d{1,}$/);
+          //  $('#event-name-error-date').html('Enter a valid month');
+         fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid month", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }else{
-              fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_month", "Enter a valid month", /^\d{1,}$/);
+              fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid month", /^\d{1,}$/);
          }
       
       }
@@ -691,11 +710,11 @@ function checkResourceStartDate()
          rfpResourceStartDay.removeClass('govuk-form-group--error');
          rfpResourceStartMonth.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
-         $('#event-name-error-date').html('Enter a valid year');  
-         fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", "Enter a valid year", /^\d{1,}$/);
+         //$('#event-name-error-date').html('Enter a valid year');  
+         fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid year", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }else{
-              fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_year", "Enter a valid year", /^\d{1,}$/);
+              fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Enter a valid year", /^\d{1,}$/);
          }  
       }
       else if(rfpResourceStartYear.val() < 1)
@@ -767,16 +786,19 @@ function isProjectExtensionValid() {
    var projectRunInDays = 0;
    let fieldCheck = "",
        errorStore = [];
+       
        if (document.getElementById("rfp_duration-years_Question12") !=undefined && document.getElementById("rfp_duration-years_Question12") !=null && document.getElementById("rfp_duration-years_Question12").value.trim().length === 0) {
       if((document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
       if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+         if (document.getElementById("rfp_duration_days_Question12") !=undefined &&document.getElementById("rfp_duration_days_Question12") !=null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);  
+         }
       }
    }
    else{
 
-      fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+      fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Enter the expected contract length", /^\d{1,}$/);
       if (fieldCheck !== true) errorStore.push(fieldCheck);
    }
   }else{
@@ -855,7 +877,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');   
         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project expected Contract duration should not be more than 2 years",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project expected contract duration should not be more than 2 years",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
         
 
@@ -865,7 +887,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pDurationName}`).addClass('govuk-form-group--error');
         // $(`.${durationDayError[0].classList[2]}`).html('Project extension duration should not be more than 2 years');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project expected Contract should not be more than 2 years",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question12", "Project expected contract duration should not be more than 2 years",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck); 
         // return false;
       }
@@ -951,7 +973,7 @@ function isProjectExtensionValid() {
          isValid = false;
          $(`.${pExtDurationName}`).addClass('govuk-form-group--error');  
         // $(`.${durationDayError[1].classList[2]}`).html('Contract extension should be less than project run date');
-         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension should be less than project expected contract date",/^\d{1,}$/);
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_Question13", "Contract extension period should be less than project expected contract duration",/^\d{1,}$/);
          if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
    }
@@ -969,6 +991,7 @@ function isProjectExtensionValid() {
 function isProjectStartDateValid()
 {
    let fieldCheck = "", errorStore = [];
+   //removeErrorFieldsdates();
    const Day = $('.rfp_resource_start_day');
    const Month = $('.rfp_resource_start_month');
    const Year = $('.rfp_resource_start_year');
@@ -1006,10 +1029,10 @@ function isProjectStartDateValid()
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+           fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
          }
          if(errorStore.length>0){
             ccsZPresentErrorSummary(errorStore);
@@ -1030,10 +1053,10 @@ function isProjectStartDateValid()
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Start date must be a valid future date", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Start date must be a valid future date", /^\d{1,}$/);
             if (fieldCheck !== true){ errorStore.push(fieldCheck)
             }else{
-              fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Start date must be a valid future date", /^\d{1,}$/);
+              fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Start date must be a valid future date", /^\d{1,}$/);
             }
             if(errorStore.length>0){
                ccsZPresentErrorSummary(errorStore);
@@ -1073,13 +1096,17 @@ function isProjectStartDateValid()
       if(document.getElementById('agreementID') !== null) {
          if(document.getElementById('agreementID').value === 'RM1043.8') {
             let errorStore = [];
-            $('#event-name-error-date').html('Start date must be a valid future date');
             Day.addClass('govuk-form-group--error');
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            errorStore.push(["There is a problem", "Enter the valid Date"]);
-            ccsZPresentErrorSummary(errorStore);
+            //    $('#event-name-error-date').html('Project start date should not be empty'); 
+            fieldCheck = ccsZvalidateWithRegex("event-name-error-date", "Project start date should not be empty", /^\d{1,}$/);
+            if (fieldCheck !== true){ errorStore.push(fieldCheck)
+            }
+            if(errorStore.length>0){
+               ccsZPresentErrorSummary(errorStore);
+            }
          }
       }
       return false;

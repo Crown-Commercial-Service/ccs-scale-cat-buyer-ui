@@ -88,7 +88,7 @@
                         {% if agreement.number != 'RM1557.13' %}
                         {% for lot in agreement.lotDetails %}
                           <dt>
-                            <a href="/projects/selected-agreement?agreementName={{agreement.name}}&agreementId={{agreement.number}}&lotId={{lot.number}}&agreementLotName={{lot.name}}" class=" govuk-link govuk-link--no-visited-state">{{lot.number}}: {{lot.name}}</a>
+                            <a href="/projects/selected-agreement?agreementName={{agreement.name}}&agreementId={{agreement.number}}&lotId={{lot.number}}&agreementLotName={{lot.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{lot.number | replace("Lot ", "")}}: {{lot.name}}</a>
                             <span>Expires: <time>{{lot.endDate | dateddmmyyyy}}</time>
                             </span>
                           </dt>
