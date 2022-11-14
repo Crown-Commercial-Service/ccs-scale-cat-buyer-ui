@@ -184,10 +184,17 @@
                             action:"submit"
                         }) }}
                       {%else%}
-                        {{ CCSButton({
-                            text: "Save supplier feedback",
-                            action:"submit"
-                        }) }}
+                        {% if agreementId_session != 'RM1043.8' %}
+                          {{ CCSButton({
+                              text: "Save supplier feedback",
+                              action:"submit"
+                          }) }}
+                        {%else%}  
+                          {{ CCSButton({
+                              text: "Save supplier Score",
+                              action:"submit"
+                          }) }}
+                        {% endif %}
                       {% endif %}
                         {% set returnLink = "/evaluate-suppliers" %}
                         <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Evaluate suppliers</a>

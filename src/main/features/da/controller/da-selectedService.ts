@@ -12,6 +12,7 @@ import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { GetLotSuppliersScore } from '../../shared/supplierServiceScore';
 import * as supplierIDSData from '../../../resources/content/fca/shortListed.json';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -296,8 +297,19 @@ export const DA_GET_SELECTED_SERVICE = async (req: express.Request, res: express
         }
       }
 
+
+      let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
+    if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
+    }
+
+    let flag2 = await ShouldEventStatusBeUpdated(eventId, 31, req);
+    if (flag) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+    }
+
+    //  await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
+     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
       res.redirect('/da/task-list');
     }
      
