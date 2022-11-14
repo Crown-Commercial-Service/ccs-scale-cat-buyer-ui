@@ -922,11 +922,14 @@
                   {% if ((group_id == "Group 20" and lotId == '1') or (lotId == '3' and group_id == "Group 18")) %}
                   <div class="main_rfp_prob_statement_m">
                                 {% set evalsupClass = 'm' %}
+                                {% set forExample = '' %}
                                 {% if (requirement.OCDS.title == 'Indicative maximum') %}
                                   {% set evalsupClass = 'max' %}
+                                  {% set forExample = 'For example &#163; 40,000' %}
                                 {% endif %}
                                 {% if (requirement.OCDS.title == 'Indicative minimum') %}
-                                  {% set evalsupClass = 'min' %}                                  
+                                  {% set evalsupClass = 'min' %}  
+                                  {% set forExample = 'For example &#163; 20,000' %}                                
                                 {% endif %}
                             {% if (requirement.nonOCDS.mandatory === false) %}
                             {% set titleText = requirement.OCDS.title + " (optional)" %}
@@ -940,9 +943,10 @@
                                   id: "rfp_prob_statement_"+evalsupClass,
                                   value: requirement.nonOCDS.options[0].value,
                                   type:"number",
-                                  classes:"rfp_term_definition govuk-input--width-5 "+evalsupClass,
+                                  classes:"rfp_term_definition_new govuk-input--width-5 "+evalsupClass,
                                   label: {
                                   html: titleText,
+                                  text:forExample,
                                   classes: "govuk-label govuk-label--m govuk-custom-bold"
                                     
                                   },
