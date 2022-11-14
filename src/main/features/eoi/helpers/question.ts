@@ -3,8 +3,8 @@ import express from 'express';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
-const { Logger } = require('@hmcts/nodejs-logging');
-const logger = Logger.getLogger('questions healper');
+//const { Logger } = require('@hmcts/nodejs-logging');
+//const logger = Logger.getLogger('questions healper');
 import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 /**
  * @Helper
@@ -29,6 +29,7 @@ export class QuestionHelper {
      * @Next
      * Sorting and following to the next path
      */
+   
     let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
     try {
       let fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
@@ -63,15 +64,25 @@ export class QuestionHelper {
         (pointer: any) => pointer.OCDS['id'] === group_id && pointer.criterianId === id,
       );
       let check_for_overflowing: Boolean = current_cursor < sorted_ascendingly.length - 1;
-      if (check_for_overflowing) {
-        let next_cursor = current_cursor + 1;
-        let next_cursor_object = sorted_ascendingly[next_cursor];
-        let next_group_id = next_cursor_object.OCDS['id'];
+      
+      //
+     
+      let next_cursor = current_cursor + 1;
+     
+      let next_cursor_object = sorted_ascendingly[next_cursor];
+     
+      let base_url ='';
+      if(next_cursor_object !=undefined){
+        let next_group_id = next_cursor_object?.OCDS['id'];
+        
         let next_criterian_id = next_cursor_object['criterianId'];
-        let base_url = `/eoi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`;
-        res.redirect(base_url);
-      } else {
-        let mandatoryqstnNum = 0;
+        
+         base_url = `/eoi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`;
+       
+      }
+     
+      
+      let mandatoryqstnNum = 0;
         let answeredMandatory = 0;
         let status = '';
         for (let i = 0; i < criterian_array.length; i++) {
@@ -129,7 +140,7 @@ export class QuestionHelper {
         }
 
         mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');
-
+        
         
         
         //let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
@@ -154,10 +165,16 @@ export class QuestionHelper {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/22`, 'Not started');
             }
         }
+
+
+      
+      if (check_for_overflowing) {
+        res.redirect(base_url);
+      } else {
         res.redirect('/eoi/eoi-tasklist');
       }
     } catch (error) {
-      logger.log('Something went wrong in the EOI Journey, please review the logit error log for more information');
+      //logger.log('Something went wrong in the EOI Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
         res,
         error,
