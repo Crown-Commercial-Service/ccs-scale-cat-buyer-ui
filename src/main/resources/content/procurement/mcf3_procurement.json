@@ -53,7 +53,8 @@
 
             "href": "/projects/events/choose-route",
             "sections": [
-                "You can ask suppliers questions, before formally publishing your requirements, to refine your needs. For the selected lot, you can do pre-market engagement in one of the following ways:"
+                "You can refine your needs by asking supplier(s) questions before formally publishing your requirements. You cannot run a pre-market engagement and write and publish your requirements at the same time.",
+                "Do pre-market engagement in one of the following ways:"
             ],
             "subsections": [
                 [
@@ -64,8 +65,7 @@
                     "<b>Request for Information (RfI)</b>",
                     "Gather information for your project from suppliers about the products and services they offer.",
                     "You cannot run an EoI and RfI at the same time, in the same project.",
-                    "This section is optional; if you are ready to write and publish your requirements you can go straight to the next step.",
-                    "You cannot run stages 2 and 3 at the same time."
+                    "This section is optional; if you are ready to write and publish your requirements you can go straight to the next step."
                 ]
             ],
             "list": [
