@@ -31,7 +31,17 @@
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
         {% include "includes/project_header.njk" %}
 
-        <p class="govuk-body">{{ data.form.question }}</p>
+        <p class="govuk-body">
+        {% if agreement_id=="RM6187" %}
+        {{ data.form.question_eoi1 }}
+        <br>
+        {{ data.form.question_eoi2}}
+        <br>
+        {{ data.form.question_eoi3}}
+        {% else %}
+        {{ data.form.question }}
+        {% endif %}
+        </p>
       </div>
       <div class="govuk-grid-column-one-third">
         {{ CCSReleatedContent(releatedContent) }}
