@@ -12,6 +12,25 @@
   {% set url -%}
     /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
   {%- endset %}
+{% if agreementId_session == "RM6187" %}  
+{% if eventStatus != "published"%}
+  {{ CCSBreadcrumbs({
+          items: [
+                {"text": "Dashboard","href": "/dashboard"},
+                {"text": "Choose a commercial agreement","href": "/projects/choose-agreement"},
+                {"text": "Procurement overview","href": url},
+                {"text": "Request for Information","href": "/rfi/rfi-tasklist"},
+                {"text": "Review and publish"}    ] 
+  }) }}
+  {% else %}
+  {{ CCSBreadcrumbs({
+          items: [
+                {"text": "Dashboard","href": "/dashboard"},
+                {"text": "Review and publish"}    ] 
+  }) }}
+
+  {% endif %}
+{% else %}
 {% if eventStatus != "published"%}
   {{ CCSBreadcrumbs({
           items: [
@@ -29,6 +48,7 @@
   }) }}
 
   {% endif %}
+{% endif %}
 
 
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
