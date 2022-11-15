@@ -82,7 +82,8 @@ console.log('log12',suppliersList.length);
             agreementLotName:req.session.agreementLotName,
             showPrevious,
             showNext,
-            supplierLength
+            supplierLength,
+            agreementid:req.session.agreement_id
           };
 
 
@@ -104,7 +105,8 @@ console.log('log12',suppliersList.length);
             showNext,
             supplierLength,
             currentpagenumber:1,
-            noOfPages
+            noOfPages,
+            agreementid:req.session.agreement_id
           };
         }
 
@@ -145,7 +147,8 @@ console.log('log12',suppliersList.length);
               showNext,
               supplierLength,
               currentpagenumber:previouspagenumber,
-              noOfPages
+              noOfPages,
+              agreementid:req.session.agreement_id
             };
         } else {  //next is undefined
           
@@ -193,7 +196,8 @@ console.log('log12',suppliersList.length);
             showNext,
             supplierLength,
             currentpagenumber:nextpagenumber,
-            noOfPages
+            noOfPages,
+            agreementid:req.session.agreement_id
           };
         }
       }
