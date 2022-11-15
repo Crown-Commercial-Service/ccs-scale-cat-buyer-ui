@@ -1,3 +1,5 @@
+let tagManagerCookiePrefrences = document.currentScript.getAttribute('tag-manager');
+
 window.readCookie = function (name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
@@ -30,7 +32,7 @@ if (cookiePreferences !== null  && 'prod' == "prod" ) {
             j.src =
                 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-TQ2JBR5');
+        })(window, document, 'script', 'dataLayer', tagManagerCookiePrefrences);
 
     }
 }
