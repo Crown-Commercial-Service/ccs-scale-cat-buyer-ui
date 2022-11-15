@@ -27,7 +27,8 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
   const { SESSION_ID } = req.cookies;
   const { agreement_id, proc_id, event_id, id, group_id, section, step } = req.query;
   const { eventManagement_eventType } = req.session;
-  
+  const model_eventType = req.session.selectedRoute;
+
   try {
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
@@ -177,7 +178,7 @@ export const DA_Assesstment_GET_QUESTIONS = async (req: express.Request, res: ex
       releatedContent: releatedContent,
       section: section,
       step: step,
-      eventManagement_eventType:eventManagement_eventType
+      eventManagement_eventType:model_eventType
     };
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;
