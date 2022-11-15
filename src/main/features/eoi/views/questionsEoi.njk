@@ -9,7 +9,36 @@
 {%- endset %}
 
 {% block breadCrumb %}
+{% if agreement_id == "RM6187" %}
   {{ CCSBreadcrumbs({
+    items: [
+     {
+        text: "Dashboard",
+        href: "/dashboard"
+      },
+      {
+        text: "Choose a commercial agreement",
+        href: "/projects/choose-agreement"
+      },
+      {
+            text: "Procurement overview",
+            href: url
+        },
+        {
+          text: "Expression of Interest",
+          href: "/eoi/eoi-tasklist"
+        },
+        {
+          text: "Build your EoI",
+          href: "/eoi/online-task-list?agreement_id="+agreement_id+"&proc_id="+proc_id+"&event_id="+event_id
+      },
+      {
+        text: bcTitleText
+      }
+    ]
+  }) }}
+{% else %}
+{{ CCSBreadcrumbs({
     items: [
      {
         text: "Dashboard",
@@ -36,6 +65,7 @@
       }
     ]
   }) }}
+{% endif %}  
 {% endblock %}
 
 {% block content %}

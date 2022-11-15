@@ -8,7 +8,40 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% set title = 'EOI review | Crown Commercial Service' %}
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
   {% if eventStatus != "published"%}
+  {{ CCSBreadcrumbs({
+        items: [
+        {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Expression of Interest",
+      "href": "/eoi/eoi-tasklist"
+    },
+    {
+      "text": "Review and publish your EoI"
+    }
+    ]
+      }) }}
+{% else %}
+{{ CCSBreadcrumbs({
+          items: [
+                {"text": "Dashboard","href": "/dashboard"},
+                {"text": "Review and publish"}    ] 
+  }) }}
+    {% endif %}
+    {% else %}
+      {% if eventStatus != "published"%}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
@@ -18,6 +51,7 @@
                 {"text": "Dashboard","href": "/dashboard"},
                 {"text": "Review and publish"}    ] 
   }) }}
+    {% endif %}
     {% endif %}
 {% endblock %}
 {% block content %}

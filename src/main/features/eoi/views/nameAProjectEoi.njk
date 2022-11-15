@@ -14,6 +14,32 @@
 {%- endset %}
 
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
+{{ CCSBreadcrumbs({
+    items: [
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": url
+        },
+        {
+          "text": "Expression of Interest",
+          "href": "/eoi/eoi-tasklist"
+        },
+        {
+          "text": "Name your project",
+          "href": "#"
+        }
+    ]
+      }) }}
+{% else %}
 {{ CCSBreadcrumbs({
     items: [
         {
@@ -38,6 +64,7 @@
         }
     ]
       }) }}
+{% endif %}  
 {% endblock %}
 
 {% block content %}

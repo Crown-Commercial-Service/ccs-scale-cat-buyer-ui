@@ -6,6 +6,33 @@
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
 {% block breadCrumb %}
+{% if agreement_id == "RM6187" %}
+    {{ CCSBreadcrumbs({
+          items:[
+        {
+            text: "Dashboard",
+            href: "/"
+        },
+        {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+        },
+        {
+            text: "Procurement overview",
+            href: url
+        },
+        {
+          text: "Expression of Interest",
+          href: "/eoi/eoi-tasklist"
+        },
+        {
+          text: "Build your EoI",
+          href: "#"
+      }
+
+    ]
+        }) }}
+{% else %}
     {{ CCSBreadcrumbs({
           items:[
         {
@@ -31,6 +58,7 @@
 
     ]
         }) }}
+{% endif %}        
 {% endblock %}
 
 {% block content %}
