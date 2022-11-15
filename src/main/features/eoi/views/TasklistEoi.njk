@@ -6,6 +6,29 @@
   {% set url -%}
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
   {%- endset %}
+  {% if agreementId_session == "RM6187" %}
+    {{ CCSBreadcrumbs({
+        items: [
+        {
+            "text": "Dashboard",
+            "href": "/"
+        },
+        {
+            "text": "Choose a commercial agreement",
+            "href": "/projects/choose-agreement"
+        },
+        {
+            "text": "Procurement overview",
+            "href": url
+        },
+        {
+            "text": "Expression of Interest",
+            "href": "#"
+        }
+
+        ]
+      }) }}
+  {% else %}
   {{ CCSBreadcrumbs({
         items: [
         {
@@ -27,6 +50,7 @@
 
         ]
       }) }}
+      {% endif %}
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
@@ -39,6 +63,10 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
       {% include "includes/project_header.njk" %}
+      {% if agreementId_session == "RM6187" %}
+      <p class="govuk-body">{{data.line6}}</p>
+        <br>
+      {% else %}
       <p class="govuk-body">{{data.line1}}</p>
         <ul class="govuk-list govuk-list--bullet">
           <li>{{data.line2}}
@@ -47,7 +75,8 @@
           <li>{{data.line4}}</li>
           <li>{{data.line5}}</li>
         </ul>
-        <br>
+        <br>  
+      {% endif %}  
         <ol class="app-task-list">
           {% for item in data.events %}
             <li>
