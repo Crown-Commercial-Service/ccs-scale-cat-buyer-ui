@@ -131,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
 
                 }
-
                 //document.getElementsByClassName("add-another-btn").classList.remove('ccs-dynaform-hidden');
                 if(urlParams.get('agreement_id') == 'RM1043.8' && with_value_count > 20){
                     with_value_count = 21
@@ -184,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
       
 
         for (var box_num = total_countva; box_num > 1; box_num--) {
-               
             let this_box = document.getElementById('fc_question_' + box_num);
            
             if (this_box.querySelector('.order_1').value !== '') {
@@ -228,8 +226,10 @@ document.addEventListener('DOMContentLoaded', () => {
             errorStore = [];
             let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
 
-            
             if(textboxCount == 19){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+            }
+            if(with_value_count == 50){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
             
@@ -251,7 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
              errorStore.push(percentageCheck)
 
              }
-
              errorStore.push(["There is a problem", "Cannot add another question already "+ textboxCount +" questions created"]);
             var object = $('.add-another-btn').closest('.ccs-page-section');
             if (object.length) {
@@ -307,7 +306,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorStore.push(percentageCheck)
    
                 }
-   
                 errorStore.push(["There is a problem", "Cannot add another question already "+ textboxCount +" questions created"]);
                var object = $('.add-another-btn').closest('.ccs-page-section');
                if (object.length) {
@@ -492,10 +490,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('#del_dos_question_' + lastElement).removeClass("ccs-dynaform-hidden");
                 $('#del_dos_question_' + prevvaalue).addClass("ccs-dynaform-hidden");
             }
-            if(showinputarray.length == 19){
+            if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && showinputarray.length == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 $('#del_dos_question_19').addClass("ccs-dynaform-hidden");
                 $('#del_dos_question_20').removeClass("ccs-dynaform-hidden");
+                }
+                if(urlParamsDefault.get('agreement_id') != 'RM1043.8' && showinputarray.length == 49){
+                    $('.add-another-btn').addClass("ccs-dynaform-hidden");
                 }
         }
         } 
