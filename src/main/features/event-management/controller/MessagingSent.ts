@@ -24,7 +24,7 @@ export const EVENT_MANAGEMENT_MESSAGING_SENT = async (req: express.Request, res:
         const draftSentMessage = await TenderApi.Instance(SESSION_ID).get(baseSentMessageURL)
 
         const sentMessage: Message[] = draftSentMessage.data.messages
-
+        
         if (sentMessage != undefined) {
             sentMessage.sort((a, b) => (a.OCDS.date < b.OCDS.date) ? 1 : -1)
             for (let i = 0; i < sentMessage.length; i++) {
