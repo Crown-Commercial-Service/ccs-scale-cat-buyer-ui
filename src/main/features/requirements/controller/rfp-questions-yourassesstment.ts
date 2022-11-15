@@ -28,7 +28,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
   const { SESSION_ID } = req.cookies;
   const { agreement_id, proc_id, event_id, id, group_id, section, step } = req.query;
   const { eventManagement_eventType } = req.session;
-
+  const model_eventType = req.session.selectedRoute;
   try {
     if(agreement_id == 'RM1043.8'){
       let flag = await ShouldEventStatusBeUpdated(event_id, 32, req);
@@ -239,7 +239,7 @@ export const RFP_Assesstment_GET_QUESTIONS = async (req: express.Request, res: e
       releatedContent: releatedContent,
       section: section,
       step: step,
-      eventManagement_eventType:eventManagement_eventType,
+      eventManagement_eventType:model_eventType,
       CurrentLotSupplierCount: (CurrentLotSupplierCount !== null) ? CurrentLotSupplierCount : '',
       socialRelated: socialRelated
     };
