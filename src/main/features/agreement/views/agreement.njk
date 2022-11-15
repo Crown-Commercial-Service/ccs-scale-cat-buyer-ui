@@ -34,7 +34,7 @@
                {% if agreement_id != 'RM1557.13' %}
               {% for item in sortedItems %}
                 <dt>
-                  <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state"> {{item.number}}: {{item.name}}</a>
+                  <a href="/projects/selected-agreement?agreementName={{selectedAgreement.name}}&agreementId={{agreement_id}}&lotId={{item.number}}&agreementLotName={{item.name}}" class=" govuk-link govuk-link--no-visited-state">Lot {{item.number | replace("Lot ", "")}}: {{item.name}}</a>
                   <span>Expires: <time>{{item.endDate | dateddmmyyyy}}</time>
                   </span>
                 </dt>
