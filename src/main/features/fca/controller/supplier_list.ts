@@ -206,14 +206,20 @@ console.log('log12',suppliersList.length);
         
         for(let i=0;i<supplierListDwn.length;i++){
           const contact = supplierListDwn[i];
-          if(contact.lotContacts != undefined) {
-            contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
-            contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-            contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-            contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-            contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-            contactSupplierDetails = contact.lotContacts[0].contact;
-          }
+          let contactData:any = [];
+          // if(contact.lotContacts != undefined) {
+            // contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            // contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+            // contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+            // contact.lotContacts[0].contact['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+            // contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+            contactData['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+            contactData['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+            contactData['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+            contactData['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+            contactData['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+            contactSupplierDetails = contactData;
+          // }
           JsonData.push(contactSupplierDetails)
         }
     
