@@ -1,7 +1,6 @@
 /**
  * Validate for Selected Services.
  * */
-
  const ccsFcaSelectedServices = (event) => {
   event.preventDefault();
   let fieldCheck ='';

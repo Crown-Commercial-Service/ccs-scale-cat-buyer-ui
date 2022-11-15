@@ -316,7 +316,6 @@ if (document.getElementById('ccs_eoi_date_form') !== null)
   if (document.getElementById('fca_select_services_form') !== null)
   document.getElementById('fca_select_services_form').addEventListener('submit', ccsFcaSelectedServices);
 
-
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
   document.getElementById('rfp_percentage_form').addEventListener('submit', ccsZvalidateRfpPercentages);
