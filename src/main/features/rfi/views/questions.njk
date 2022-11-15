@@ -4,6 +4,35 @@
 {% set title =  rfiTitle + '- Create a Request for Information (RFI)' %}
 
 {% block breadCrumb %}
+{% if agreement_id == "RM6187" %}
+{{ CCSBreadcrumbs({
+    items: [
+     {
+        text: "Dashboard",
+        href: "/dashboard"
+      },
+      {
+        text: "Choose a commercial agreement",
+        href: "/projects/choose-agreement"
+      },
+      {
+            text: "Procurement overview",
+            href: "/projects/create-or-choose"
+        },
+        {
+          text: "Request for Information",
+          href: "/rfi/rfi-tasklist"
+        },
+        {
+          text: " Build your request for information",
+          href: "/rfi/online-task-list"
+      },
+      {
+        text: bcTitleText
+      }
+    ]
+  }) }}
+{% else %}
   {{ CCSBreadcrumbs({
     items: [
      {
@@ -31,6 +60,7 @@
       }
     ]
   }) }}
+  {% endif %}
 {% endblock %}
 
 {% block content %}

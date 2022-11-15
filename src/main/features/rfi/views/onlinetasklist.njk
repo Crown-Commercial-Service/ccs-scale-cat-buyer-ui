@@ -6,6 +6,33 @@
   /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
 {%- endset %}
 {% block breadCrumb %}
+{% if agreement_id == "RM6187" %}
+{{ CCSBreadcrumbs({
+          items:[
+        {
+            text: "Dashboard",
+            href: "/"
+        },
+        {
+            text: "Choose a commercial agreement",
+            href: "/projects/choose-agreement"
+        },
+        {
+            text: "Procurement overview",
+            href: url
+        },
+        {
+          text: "Request for Information",
+          href: "/rfi/rfi-tasklist"
+        },
+        {
+          text: "Build your RFI",
+          href: "#"
+      }
+
+    ]
+        }) }}
+{% else %}
     {{ CCSBreadcrumbs({
           items:[
         {
@@ -31,6 +58,7 @@
 
     ]
         }) }}
+        {% endif %}
 {% endblock %}
 
 {% block content %}

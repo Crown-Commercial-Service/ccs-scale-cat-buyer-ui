@@ -8,6 +8,32 @@
 {%- endset %}
 
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
+{{ CCSBreadcrumbs({
+    items: [
+      {
+         text: "Dashboard",
+         href: "/dashboard"
+      },
+      {
+         text: "Choose a commercial agreement",
+         href: "/projects/choose-agreement"
+      },
+      {
+         text: "Procurement overview",
+         href: url
+      },
+      {
+         text: "Request for Information",
+         href: "/rfi/rfi-tasklist"
+      },
+      {
+         text: "Change who is going to lead the procurement",
+         href: "#"
+      }
+    ]
+      }) }}
+{% else %}
 {{ CCSBreadcrumbs({
     items: [
       {
@@ -32,6 +58,7 @@
       }
     ]
       }) }}
+      {% endif %}
 {% endblock %}
 
 {% set sortedMembers = [{value: "", text: "Current user name and surname", disabled: true}] %}
