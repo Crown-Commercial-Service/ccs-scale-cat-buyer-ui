@@ -31,7 +31,7 @@
         </h1>
       </div>
     </div>
-
+    <div class="govuk-grid-row">
       <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
             <div class="project-overview">
                    <p class="govuk-body">Selected agreement: <strong>{{ agreement_header['agreementName'] }}{% if(agreement_header.agreementLotName !== undefined)%}, {% if agreement_header['lotid'] !== undefined %}  {% endif %} {{ agreement_header['lotid'] }}: {{ agreement_header['agreementLotName'] }}  
@@ -74,10 +74,11 @@
       <div class="govuk-grid-column-one-third-from-desktop">
           {{ CCSReleatedContent(releatedContent) }}
       </div> 
+    </div>
      <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
 
-    <div class="govuk-grid-row">
+    
         <h3 class="govuk-heading-m">
           {{data.subsection4_title4}}</h3>
           {% if agreementId_session == 'RM6187' %}
@@ -152,7 +153,7 @@
           </div>
         </div>
         {#{% endif %}#}
-      </div>
+      
  
       </div>
       </div>
