@@ -336,11 +336,13 @@ let scoringData = [];
     let restrictLoc = [];
     let descPart = [];
     let digiaccess = []
+    let securityRequirements;
     let researchPlan = [];
     let spltermAndAcr = [];
     let budget = [];
     let budgetMaximum;
     let budgetMinimum;
+    let furtherInfo;
     let startdate = [];
     let indicativedurationYear = ''
     let indicativedurationMonth = ''
@@ -453,11 +455,13 @@ let scoringData = [];
       restrictLoc: restrictLoc != undefined && restrictLoc != null ? restrictLoc : null,
       descPart: descPart != undefined && descPart != null ? descPart : null,
       digiaccess: digiaccess != undefined && digiaccess != null ? digiaccess : null,
+      securityRequirements: securityRequirements != undefined && securityRequirements != null ? securityRequirements : null,
       researchPlan: researchPlan != undefined && researchPlan != null ? researchPlan : null,
       spltermAndAcr: spltermAndAcr != undefined && spltermAndAcr != null ? spltermAndAcr : null,
       budget: budget != undefined && budget != null ? budget : null,
       budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ? budgetMaximum : null,
       budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ? budgetMinimum : null,
+      furtherInfo: furtherInfo != undefined && furtherInfo != null ? furtherInfo : null,
       contracted: contracted != undefined && contracted != null ? contracted : null,
       workcompletedsofar: workcompletedsofar != undefined && workcompletedsofar != null ? workcompletedsofar : null,
       currentphaseofproject: currentphaseofproject != undefined && currentphaseofproject != null ? currentphaseofproject : null,
@@ -1091,7 +1095,7 @@ const RFP_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Respons
  
   sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
   sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
-  assessModel = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true)?.[0]?.value;
+  assessModel = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true);
 
 }else if(agreementId_session == 'RM1043.8' && req.session.lotId == 3){
   //question 9
@@ -1100,7 +1104,7 @@ sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Crite
 
 sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
 sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
-assessModel = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true)?.[0]?.value;
+assessModel = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true);
 
 }
 let questionModel = [];
@@ -1455,12 +1459,14 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
 
     descPart = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true)?.map(a => a.value)
     }
-    let digiaccess = []
+    let digiaccess = [];
+    let securityRequirements;
     let researchPlan = [];
     let spltermAndAcr = [];
     let budget = [];
     let budgetMaximum;
     let budgetMinimum;
+    let furtherInfo;
     let startdate = [];
     if(agreementId_session == 'RM1043.8' && req.session.lotId == 3){
       sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 15/questions`;
@@ -1468,7 +1474,6 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
       
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
-      
       let data = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 1)?.[0]?.nonOCDS?.options;
       if (data != undefined) {
         data?.forEach(element => {
@@ -1503,6 +1508,8 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       budget = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true)?.map(a => a.value)
       budgetMaximum = sectionbaseURLfetch_dynamic_api_data?.[1].nonOCDS?.options?.filter(o => o.selected == true)?.map(a => a.value)
       budgetMinimum = sectionbaseURLfetch_dynamic_api_data?.[2].nonOCDS?.options?.filter(o => o.selected == true)?.map(a => a.value)      
+      furtherInfo = sectionbaseURLfetch_dynamic_api_data?.[3]?.nonOCDS?.options?.filter(o => o?.selected == true)?.map(a => a?.value) 
+
     }
     let indicativedurationYear = ''
     let indicativedurationMonth = ''
@@ -1526,6 +1533,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
       let data = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true)?.map(a => a.value);
       digiaccess= data; 
+      securityRequirements = sectionbaseURLfetch_dynamic_api_data?.[1]?.nonOCDS?.options?.filter(o => o?.selected == true)?.map(a => a?.value)
       sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 17/questions`;
       sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
@@ -1585,9 +1593,11 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
+
       budget = sectionbaseURLfetch_dynamic_api_data?.[0].nonOCDS?.options?.filter(o => o.selected == true)?.map(a => a.value)
       budgetMaximum = sectionbaseURLfetch_dynamic_api_data?.[1].nonOCDS?.options?.filter(o => o.selected == true)?.map(a => a.value)
       budgetMinimum = sectionbaseURLfetch_dynamic_api_data?.[2].nonOCDS?.options?.filter(o => o.selected == true)?.map(a => a.value) 
+      furtherInfo = sectionbaseURLfetch_dynamic_api_data?.[3]?.nonOCDS?.options?.filter(o => o.selected == true)?.map(a => a.value) 
 
       sectionbaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/Criterion 3/groups/Group 21/questions`;
         sectionbaseURLfetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(sectionbaseURL);
@@ -1863,11 +1873,13 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       restrictLoc: restrictLoc != undefined && restrictLoc != null ? restrictLoc : null,
       descPart: descPart != undefined && descPart != null ? descPart : null,
       digiaccess: digiaccess != undefined && digiaccess != null ? digiaccess : null,
+      securityRequirements: securityRequirements != undefined && securityRequirements != null ? securityRequirements : null,
       researchPlan: researchPlan != undefined && researchPlan != null ? researchPlan : null,
       spltermAndAcr: spltermAndAcr != undefined && spltermAndAcr != null ? spltermAndAcr : null,
       budget: budget != undefined && budget != null ? budget : null,
       budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ? budgetMaximum : null,
       budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ? budgetMinimum : null,
+      furtherInfo: furtherInfo != undefined && furtherInfo != null ? furtherInfo : null,
       contracted: contracted != undefined && contracted != null ? contracted : null,
       workcompletedsofar: workcompletedsofar != undefined && workcompletedsofar != null ? workcompletedsofar : null,
       currentphaseofproject: currentphaseofproject != undefined && currentphaseofproject != null ? currentphaseofproject : null,
@@ -1920,7 +1932,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
     }
     
   } catch (error) {
-  
+    
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -1996,7 +2008,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
       
       res.redirect('/rfp/rfp-eventpublished');
     } catch (error) {
-
+      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
         TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
       RFP_REVIEW_RENDER_TEST(req, res, true, true);
@@ -2168,6 +2180,7 @@ const RFP_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
 
     res.render('rfp-review', appendData);
   } catch (error) {
+    
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -3011,7 +3024,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (req: express.Request, res: express.Res
     }
     res.render('rfp-review', appendData);
   } catch (error) {
-
+    
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
