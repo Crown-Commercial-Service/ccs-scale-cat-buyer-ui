@@ -329,12 +329,12 @@
                 {% endif %}
               </dd>
             </div>
-            <div class="govuk-summary-list__row">
+            {# <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-            <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
-          </dt>
+                <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
+              </dt>
               {% if(ir35 !=undefined and  ir35 !=null and ir35 | length > 0) %}
-                <dd class="govuk-summary-list__value">
+              <dd class="govuk-summary-list__value">
                   <p class="govuk-body-s">
                     {{ ir35 | safe }}
                   </p>
@@ -342,7 +342,7 @@
               {% else %}
                 <dd class="govuk-summary-list__value">
             
-          </dd>
+                </dd>
               {% endif %}
               <dd class="govuk-summary-list__actions">
               {% if eventStatus != "published"%}
@@ -351,7 +351,7 @@
                 </a>
                 {% endif %}
               </dd>
-            </div>
+            </div> #}
           </dl>
   {% endblock %}
   {# END----------------------Upload pricing schedules and any other supporting documents #}
@@ -1037,10 +1037,10 @@
                 {% endif %}
               </dd>
             </div>
-            <div class="govuk-summary-list__row">
+            {# <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-            <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
-          </dt>
+                <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
+              </dt>
               {% if(ir35 !=undefined and  ir35 !=null and ir35 | length > 0) %}
                 <dd class="govuk-summary-list__value">
                   <p class="govuk-body-s">
@@ -1050,7 +1050,7 @@
               {% else %}
                 <dd class="govuk-summary-list__value">
             
-          </dd>
+                </dd>
               {% endif %}
               <dd class="govuk-summary-list__actions">
               {% if eventStatus != "published"%}
@@ -1059,7 +1059,7 @@
                 </a>
                 {% endif %}
               </dd>
-            </div>
+            </div> #}
           </dl>
   {% endblock %}
   {# END----------------------4.Upload pricing schedules and any other supporting documents #}

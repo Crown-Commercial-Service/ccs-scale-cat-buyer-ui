@@ -193,17 +193,17 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
     
     const FileNameStorage = FETCH_FILEDATA?.map(file => file.fileName);
 
-    const IR35Dataset = {
-      id: 'Criterion 3',
-      group_id: 'Group 2',
-      question: 'Question 1',
-    };
+    // const IR35Dataset = {
+    //   id: 'Criterion 3',
+    //   group_id: 'Group 2',
+    //   question: 'Question 1',
+    // };
 
-    const IR35BaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${IR35Dataset.id}/groups/${IR35Dataset.group_id}/questions`;
+    // const IR35BaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${IR35Dataset.id}/groups/${IR35Dataset.group_id}/questions`;
 
-    const IR35 = await TenderApi.Instance(SESSION_ID).get(IR35BaseURL);
-    const IR35Data = IR35?.data;
-    const IR35selected = IR35Data?.[0].nonOCDS?.options?.filter(data => data.selected == true)?.map(data => data.value)?.[0]
+    // const IR35 = await TenderApi.Instance(SESSION_ID).get(IR35BaseURL);
+    // const IR35Data = IR35?.data;
+    // const IR35selected = IR35Data?.[0].nonOCDS?.options?.filter(data => data.selected == true)?.map(data => data.value)?.[0]
     const agreement_id = req.session['agreement_id'];
 
     
@@ -753,7 +753,7 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       procurementColleagues: procurementColleagues != undefined && procurementColleagues != null ? procurementColleagues : null,
       document: FileNameStorage[FileNameStorage.length - 1],
       documents: (FileNameStorage.length > 1) ? FileNameStorage.slice(0, FileNameStorage.length - 1) : [],
-      ir35: IR35selected,
+      // ir35: IR35selected,
       agreement_id,
       proc_id,
       event_id,
