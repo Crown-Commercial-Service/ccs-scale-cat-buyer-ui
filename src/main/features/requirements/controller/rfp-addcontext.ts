@@ -30,6 +30,10 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
     //DOS
     cmsData = fileDataDOS;
   }
+  if(req.session.agreement_id == 'RM1557.13' && req.session.lotid=='4') {
+    //MCF3
+    cmsData = fileDataMCF;
+  }
 
   if (
     operations.isUndefined(req.query, 'agreement_id') ||
@@ -196,6 +200,7 @@ export const RFP_GET_ADD_CONTEXT = async (req: express.Request, res: express.Res
       }
       res.render('rfp-context', display_fetch_data);
     } catch (error) {
+      console.log(error);
       LoggTracer.errorLogger(
         res,
         error,

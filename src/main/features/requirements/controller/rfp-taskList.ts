@@ -65,12 +65,15 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     if(stage2_value !== undefined && stage2_value === "Stage 2"){
     cmsData = stage2DataDOS
     }
+  }else if(agreementId_session == 'RM1557.13' && lotid=='4') {
+    //MCF3
+    cmsData = chooseRouteDataMCF;
   }
 
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
   //req.session.dummyEventType='FC';
   let selectedeventtype;
-  if(agreementId_session == 'RM1043.8'){
+  if(agreementId_session == 'RM1043.8' || (agreementId_session == 'RM1557.13' && lotid=='4')){
     selectedeventtype = 'FC'; 
     
   }else{
