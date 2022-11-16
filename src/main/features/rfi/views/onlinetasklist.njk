@@ -110,7 +110,11 @@
             <br>
             <br>
             <p class="govuk-body">
+            {% if agreement_id == "RM6187" %}
+                <a href="{{file_data.backJump.href }}" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+            {% else %}
                 <a href="{{file_data.backJump.href }}" class="govuk-link govuk-link--no-visited-state">{{file_data.backJump.title }}</a>
+            {% endif %}
             </p>
         </div>
         <div class="govuk-grid-column-one-third">

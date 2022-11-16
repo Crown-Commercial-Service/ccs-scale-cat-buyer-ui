@@ -134,7 +134,11 @@
                             type: "submit"
                           })
                       }}
+              {% if agreementId_session == 'RM6187' %}
+                <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+              {% else %}
                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do Pre-market engagement</a>
+              {% endif %}  
               </div>
             </form>
 
