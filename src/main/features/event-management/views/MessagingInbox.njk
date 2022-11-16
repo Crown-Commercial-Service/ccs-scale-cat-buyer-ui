@@ -59,6 +59,24 @@
 </p>
 {% endset %}
 {% block breadCrumb %}
+{% if agreementId == 'RM1043.8' %}
+    {{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Your inbox",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% else %}
     {{ CCSBreadcrumbs({
         items:[
     {
@@ -75,6 +93,7 @@
     }
   ]
     }) }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -173,10 +192,10 @@
                     <ul class="nav-list messaging-nav-list--primary">
                         
                          <li class="nav-list__item">
-             <a class="nav-list__link " href="{{data.tabs.href4}}?type=received">{{ data.tabs.textdos4 if agreementId=='RM1043.8'  else data.tabs.text4 }}</a>
+             <a class="nav-list__link " href="{{data.tabs.href4}}?type=received">{{ data.tabs.text4 }}</a>
             </li>
                         <li class="nav-list__item">
-                            <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{ data.tabs.textdos1 if agreementId=='RM1043.8'  else data.tabs.text1 }}</a>
+                            <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{ data.tabs.text1 }}</a>
                         </li>
                         <li class="nav-list__item selected">
                             {{data.tabs.text2}}

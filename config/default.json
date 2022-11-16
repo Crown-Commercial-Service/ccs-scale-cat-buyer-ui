@@ -21,6 +21,9 @@
     "BASEURL": "https://webprod-cms.crowncommercial.gov.uk",
     "menuDirectory": "src/main/resources/content/menu-content/content.json"
   },
+  "bankholidayservice":{
+    "BASEURL": "https://www.gov.uk"
+  },
   "authenticationService": {
     "token-endpoint": "/security/token",
     "access_granttype": "authorization_code",

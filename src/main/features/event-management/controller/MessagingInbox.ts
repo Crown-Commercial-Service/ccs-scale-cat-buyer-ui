@@ -5,6 +5,7 @@ import { TenderApi } from '../../../common/util/fetch/procurementService/TenderA
 import moment from 'moment';
 import { Message } from '../model/messages'
 import * as inboxData from '../../../resources/content/event-management/messaging-inbox.json'
+import * as dos6InboxData from '../../../resources/content/event-management/messaging-inbox dos6.json'
 
 /**
  * 
@@ -45,7 +46,15 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
         {
             suppliernameforreplymessage=req.session['SupplierNameforMessagereply']
         }
-        const appendData = { data: inboxData,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType,agreementId }
+
+        let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6InboxData;
+          } else { 
+            data = inboxData;
+          }
+
+        const appendData = { data,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType,agreementId }
         res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingInbox', appendData)
     } catch (err) {

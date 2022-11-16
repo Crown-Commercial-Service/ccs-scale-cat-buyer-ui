@@ -1,0 +1,45 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Event Management",
+            "href": "#"
+        },
+        {
+            "text": "Messaging Inbox",
+            "href": "#"
+        }
+    ],
+    "title": "Your inbox",
+    "line1":"Reply to",
+    "MessageClassification": "Classification",
+    "Subject": "Subject",
+    "Message": "Message",
+    "btnText": "Send",
+    "Cancel": {
+        "text": "Cancel",
+        "link": "/message/inbox"
+    }, 
+    "backlink" : "/message/inbox",
+    "backJump": {
+        "title": "Return to [ Project Section ]",
+        "href": "#"
+    },
+    "tabs": {
+        "text1": "Write message to all suppliers",
+        "href1": "/message/create",
+        "text2": "Received",
+        "href2": "/message/inbox",
+        "text3": "Sent",
+        "href3": "/message/sent",
+        "text4": "Write message to supplier",
+        "href4": "/message/create/supplier?type=received"
+    }
+}
