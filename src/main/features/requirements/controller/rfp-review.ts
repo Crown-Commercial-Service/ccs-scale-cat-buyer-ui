@@ -510,7 +510,7 @@ let scoringData = [];
     res.render('rfp-review-stage', appendData);
   } catch (error) {
 
-    console.log('error5',error)
+    
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -1932,7 +1932,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
     }
     
   } catch (error) {
-    console.log('error4',error)
+    
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -2008,7 +2008,7 @@ export const POST_RFP_REVIEW = async (req: express.Request, res: express.Respons
       
       res.redirect('/rfp/rfp-eventpublished');
     } catch (error) {
-      console.log('error3',error)
+      
       LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null,
         TokenDecoder.decoder(SESSION_ID), "Dyanamic framework throws error - Tender Api is causing problem", false)
       RFP_REVIEW_RENDER_TEST(req, res, true, true);
@@ -2180,7 +2180,7 @@ const RFP_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
 
     res.render('rfp-review', appendData);
   } catch (error) {
-    console.log('error2',error)
+    
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
@@ -3024,7 +3024,7 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (req: express.Request, res: express.Res
     }
     res.render('rfp-review', appendData);
   } catch (error) {
-    console.log('error1',error)
+    
     delete error?.config?.['headers'];
     const Logmessage = {
       Person_id: TokenDecoder.decoder(SESSION_ID),
