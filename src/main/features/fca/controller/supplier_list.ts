@@ -17,6 +17,7 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
  export const SUPPLIER_LIST = async (req: express.Request, res: express.Response) => {
    //const { SESSION_ID } = req.cookies;
    //const { projectId ,eventId} = req.session;
+   const { agreement_id } = req.session;
   let lotid=req.session.lotId;
   lotid=lotid.replace('Lot ','')
   const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+lotid+"/lot-suppliers";
@@ -37,7 +38,10 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
 
     let suppliersList = [];
     suppliersList = await GetLotSuppliers(req);
-     
+    let supplierList = [];
+    if(agreement_id == 'RM6187') {
+
+    
       suppliersList = suppliersList.filter((el: any) => {
 
             if(supplierIDSData['supplierIDS'].includes(el.organization.id)) {
@@ -58,7 +62,7 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
     });
     
     /*patch */
-    let supplierList = [];
+    
       supplierList = await GetLotSuppliers(req);
   
       supplierList = supplierList.filter((el: any) => {
@@ -67,7 +71,10 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
         }
         return false;
       });
-      
+    }else{
+     
+      supplierList = await GetLotSuppliers(req);
+    }
       
   const rowCount=10;let showPrevious=false,showNext=false;
   supplierList = supplierList.sort((a: any, b: any) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
