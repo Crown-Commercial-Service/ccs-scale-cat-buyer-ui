@@ -160,6 +160,7 @@
                 <strong>Before you start you should <a target="_blank" href="https://www.gov.uk/guidance/g-cloud-buyers-guide?&_ga=2.106626880.2111983670.1659520755-1443536416.1659520755#requirements">write a list of requirements</a> and <a target="_blank" href="https://www.gov.uk/service-manual/agile-delivery/spend-controls-check-if-you-need-approval-to-spend-money-on-a-service?_ga=2.106626880.2111983670.1659520755-1443536416.1659520755">check if you need approval</a> to spend money on a service.</strong>
               </p>
             {% else %}
+            {% if (agreement_id != 'RM1043.8') %}
               <p class="govuk-body">
                 <strong>{{data.line11}}</strong>
               </p>
@@ -183,6 +184,22 @@
                     {{data.line54}}</li>
                 </ul>
               {% endif %}
+              {% else %}
+              
+              <p class="govuk-body">
+                <strong>Refer to the requirements template</strong>
+              </p>
+              <p>The requirements template shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
+                {% if (lot == 'Lot 1') %}
+              <p><strong>Get budget approval</strong></p>
+
+              <p>You must get budget approval before you start the buying process.<br>
+              If you’re buying for central government, you have to go through the digital and IT spend control process before you publish your requirements on the Digital Marketplace.<br>
+              If you’re buying for a public sector organisation outside of central government, you must get any internal approval you need.</p>
+
+              </p>
+              {% endif %}
+            {% endif %}
             {% endif %}
             
             <h3 class="govuk-heading-m">{{data.line18}}</h3>
