@@ -8,8 +8,8 @@ const replace = require('gulp-replace')
 const rename = require('gulp-rename')
 const fs = require('fs')
 const del = require('del');
-
-
+const concat = require('gulp-concat');
+const minify = require('gulp-minify');
 
 const repoRoot = path.join(__dirname, '/')
 const ccsFrontendToolkitRoot = path.join(repoRoot, 'node_modules/govuk_frontend_toolkit/stylesheets')
@@ -102,5 +102,9 @@ gulp.task('clean', () => {
 
 gulp.task('default', gulp.series(['clean', 'styles']));
 
-
-
+gulp.task('pack-scripts', () => {
+  return gulp.src(['src/main/public/assets/scripts/cookies/*.js', 'src/main/public/assets/scripts/dialog/*.js', 'asrc/main/public/assets/scripts/pagination/*.js', 'src/main/public/assets/scripts/session/*.js', 'src/main/public/assets/scripts/validations/*.js'])
+        .pipe(concat('bundle.js'))
+        .pipe(minify())
+        .pipe(gulp.dest('src/main/public/assets/scripts'));
+});
