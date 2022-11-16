@@ -25,7 +25,14 @@ const RedisInstanceSetup = (app: express.Express): void => {
         password: redisPassword
     }
 
-    const runner_environment = process.env['NODE_ENV']?.replace(/\s+/g, "");
+    let runner_env_string = process.env['SESSIONS_MODE'];
+
+    if (runner_env_string == '' || runner_env_string == undefined) {
+        runner_env_string = process.env['NODE_ENV']?.replace(/\s+/g, "");
+    } 
+
+    const runner_environment = runner_env_string;
+
     if (operations.notEquals(runner_environment, 'development')) {
         redisProperties = Object.assign(
             {},
