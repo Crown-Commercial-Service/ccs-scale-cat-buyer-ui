@@ -13,11 +13,11 @@
             "href": "#"
         },
         {
-            "text": "Messaging Inbox",
+            "text": "Your inbox",
             "href": "#"
         }
     ],
-    "title": "Messaging Inbox",
+    "title": "Your inbox",
     "subsection2_table_th_1": "From",
     "subsection2_table_th_2": "Date",
     "subsection2_table_th_3": "Subject",
@@ -39,13 +39,13 @@
         "title": "Message Not Delivered"
     },
     "tabs": {
-        "text1": "Create Message to ALL Suppliers",
+        "text1": "Write message to all suppliers",
         "href1": "/message/create",
         "text2": "Received",
         "href2": "/message/inbox",
         "text3": "Sent",
         "href3": "/message/sent",
-        "text4": "Create Message to Supplier",
-        "href4": "/message/create/supplier?type=received"
+        "text4": "Write message to a supplier",
+        "href4": "/message/create/supplier?type=received"   
     }
 }
