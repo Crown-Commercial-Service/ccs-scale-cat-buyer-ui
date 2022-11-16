@@ -313,6 +313,8 @@ if (document.getElementById('ccs_rfi_acronyms_form') !== null)
 if (document.getElementById('ccs_eoi_date_form') !== null)
   document.getElementById('ccs_eoi_date_form').addEventListener('submit', ccsZvalidateEoiDate);
 
+  if (document.getElementById('fca_select_services_form') !== null)
+  document.getElementById('fca_select_services_form').addEventListener('submit', ccsFcaSelectedServices);
 
 //Balwider
 if (document.getElementById('rfp_percentage_form') !== null)
@@ -360,7 +362,7 @@ setInputFilter(
 );
 setInputFilter(
   document.getElementById('eoi_duration-years'),
-  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 4),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 100),
 );
 setInputFilter(
   document.getElementById('clarification_date-minute_2'),
@@ -627,6 +629,32 @@ setInputFilter(
   value => /^\d*$/.test(value),
 );
 
+setInputFilter(
+  document.getElementById('rfp_duration_days_Question12'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('rfp_duration_months_Question12'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 11),
+);
+setInputFilter(
+  document.getElementById('rfp_duration-years_Question12'),
+  value => /^\d*$/.test(value),
+);
+
+
+setInputFilter(
+  document.getElementById('rfp_duration_days_Question13'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 31),
+);
+setInputFilter(
+  document.getElementById('rfp_duration_months_Question13'),
+  value => /^\d*$/.test(value) && (value === '' || parseInt(value) <= 11),
+);
+setInputFilter(
+  document.getElementById('rfp_duration-years_Question13'),
+  value => /^\d*$/.test(value),
+);
 //g13Check Script
 
 function parseQueryG13(query) {

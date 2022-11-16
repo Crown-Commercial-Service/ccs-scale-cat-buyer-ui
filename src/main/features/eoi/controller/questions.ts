@@ -500,6 +500,7 @@ export const POST_QUESTION = async (req: express.Request, res: express.Response)
             agreement_id,
             id,
             res,
+            req,
           );
         } else {
           res.send();

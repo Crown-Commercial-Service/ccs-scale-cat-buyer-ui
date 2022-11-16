@@ -240,7 +240,7 @@
 		 {% endif %}
       </div>
   </div>
-    
+     {% if eventType != 'RFI' and eventType!='EOI'  %}
   <div class="govuk-grid-row ccs-page-section">
       <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">
@@ -256,14 +256,32 @@
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-m">
          <span class="proc-task-list__section-number">6.</span>
-           Awarded supplier details
+           Awarded supplier details 
         </h1>
         </br>
       
         {% if status.toLowerCase() ==="complete" %}
         <p>Your project is now complete.</p>
         {% else %}
-        <p> You have awarded your supplier. Once you have received the signed contract from your awarded supplier, you will need to confirm receipt below to complete the project.</p>
+
+        {% if agreementId_session == 'RM6187' %}
+          
+          
+         {% if status.toLowerCase() == "awarded" %}
+         <p id="dialog-description">You have awarded your supplier. Once you have received the signed contract from your awarded supplier, you will need to confirm receipt below to complete the project.</p>
+
+         
+         {% else %}
+          <p id="dialog-description">Your awarded supplier will now enter the agreed standstill period.</p>
+          <p id="dialog-description">Once the standstill period has ended, you will need to confirm the awarded supplier below.</p>
+         {%endif%}
+
+    
+      {%else%}
+       <p> You have awarded your supplier. Once you have received the signed contract from your awarded supplier, you will need to confirm receipt below to complete the project.</p>
+      {%endif%}
+
+        
 
         {% endif %}
         <h3 class="govuk-heading-m">
@@ -287,7 +305,7 @@
        <div class="govuk-button-group">
        <a class="govuk-link" href="{{supplierDetails.supplierWebsite}}" target="_blank">{{supplierDetails.supplierWebsite}}</a> 
           </div>
-</br></br>
+</br></br>  {% endif %}
 
   {% if status.toUpperCase() =="AWARDED"%} 
   <p> If you have not done so already, you can  <a class="govuk-link" href="/unsuccessful?download=1">download the awarded supplier and unsuccessful supplier templates here.</a> </p>
@@ -295,6 +313,7 @@
 
                {%  elif status.toLowerCase() =="complete" %}
  {# <p> If you have not done so already, you can  <a class="govuk-link" href="/unsuccessful?download=2">download the unsuccessful supplier templates here.</a> </p> #}
+              {% if eventType != 'RFI' and eventType!='EOI'  %}
               <p>You need to publish the contract on <a href='https://www.gov.uk/contracts-finder' target='_blank'>Contracts Finder.</a> This is a legal requirement.</p>
 
                 <div class="govuk-grid-column-one-quarter">
@@ -306,6 +325,8 @@
                 <p> {{supplierDetails.supplierAwardedDate}} </p>
                  <p> {{supplierDetails.supplierSignedContractDate}} </p>
                </div>
+                {% endif %} 
+                
                 {% else %}
                 <p> If you have not done so already, you can  <a class="govuk-link" href="/unsuccessful?download=1">download the awarded supplier and unsuccessful supplier templates here.</a> </p>
                 <p> Standstill End Date &nbsp; &nbsp;&nbsp; &nbsp;{{supplierDetails.supplierStandStillDate}} </p>
@@ -336,6 +357,9 @@
                     }) }}
 
                   {%else%}
+                   {%if (agreement_header['agreementId_session'] == 'RM6187') %}
+                    {% set s_name = 'I acknowledge the responsibility to award this supplier.' | safe %}
+                   {%endif%}
                   {{ CCSWarningText({
                   text: s_name,
                   iconFallbackText: "Warning"

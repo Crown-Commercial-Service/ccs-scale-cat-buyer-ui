@@ -42,7 +42,7 @@
     {% for item in data.events %}
          <li>
             <h2 class="govuk-heading-xl">
-            <span>{{item.eventno}}. </span> {{item.eventTitle}}
+            <span>{{item.eventno}}. </span>{{item.eventTitle}}
              </h2>
              <p class="govuk-body">{{item.eventDescription}}</p>
                {% if (item.eventno==3) %}

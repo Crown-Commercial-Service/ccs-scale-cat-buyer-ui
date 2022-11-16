@@ -30,7 +30,7 @@
          href: url
       },
       {
-         text: "Do pre-market engagement",
+         text: "Expression of Interest",
          href: "/eoi/eoi-tasklist"
       },
       {
@@ -153,7 +153,11 @@
                   {{ CCSButton({
                text: "Save and continue"
               }) }}
+               {% if agreementId_session == 'RM6187' %}
+                  <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest</a>
+               {% else %}
                   <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+               {% endif %}
                </div>
 
             </form>

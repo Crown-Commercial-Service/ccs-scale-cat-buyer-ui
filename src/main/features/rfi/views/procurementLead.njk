@@ -8,6 +8,32 @@
 {%- endset %}
 
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
+{{ CCSBreadcrumbs({
+    items: [
+      {
+         text: "Dashboard",
+         href: "/dashboard"
+      },
+      {
+         text: "Choose a commercial agreement",
+         href: "/projects/choose-agreement"
+      },
+      {
+         text: "Procurement overview",
+         href: url
+      },
+      {
+         text: "Request for Information",
+         href: "/rfi/rfi-tasklist"
+      },
+      {
+         text: "Change who is going to lead the procurement",
+         href: "#"
+      }
+    ]
+      }) }}
+{% else %}
 {{ CCSBreadcrumbs({
     items: [
       {
@@ -32,6 +58,7 @@
       }
     ]
       }) }}
+      {% endif %}
 {% endblock %}
 
 {% set sortedMembers = [{value: "", text: "Current user name and surname", disabled: true}] %}
@@ -111,7 +138,11 @@
               {{ CCSButton({
                text: "Save and continue"
               }) }}
-              <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+              {% if agreementId_session == "RM6187" %}
+                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+              {% else %}
+                 <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+              {% endif %}
             </div>
 
          </form>

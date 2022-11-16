@@ -1,0 +1,102 @@
+{% extends "template.njk" %}
+
+{% from "macros/csrf.njk" import csrfProtection %}
+
+{% set title = 'Supplier rate card' %}
+{% block content %}
+  {{ CCSBreadcrumbs({
+        items: data.breadCrumbs
+      }) }}
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+ 
+    
+    <div class="govuk-grid-row ccs-page-section">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+          <h1 class="govuk-heading-xl">{{supplierName}} {{data.title}}</h1>
+       
+
+        {% include "includes/project_header.njk" %}
+        <div class="">
+          
+         <p></p>
+        
+        <h3>{{data.max_day_rates}}</h3>
+        <p>{{data.max_day_rates_p1}}</p>
+        <p>{{data.max_day_rates_p2}}</p>
+
+          <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+      <div class="govuk-grid-column-full">
+         <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-heading-m">{{data.subsection2_title}} </caption>
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_1}}</th>
+                <th scope="col" class="govuk-table__header">{{data.subsection2_table_th_2}}</th>
+               
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              
+               {% for val in assessmentsData %}
+            <tr class="govuk-table__row">
+            <td class="govuk-table__cell">{{val.requirementName}}</td>
+            <td class="govuk-table__cell">£{{val.submissionValue}}</td>
+            {% else %}
+            <td>No more data.</td>
+            </tr>
+        {% endfor %}
+
+                  
+
+
+                
+              
+            </tbody>
+          </table>
+      </div>
+      </div>
+
+
+
+
+
+
+        {% if contactSupplierDetails %}
+          <h2>{{data.contact_details}}</h2>
+
+          <h3>{{data.contact_name}}</h3>
+          <p>{{ contactSupplierDetails.name if contactSupplierDetails.name else "-" }}</p>
+
+          
+          <h3>{{data.contact_email}}</h3>
+          <p>{{ contactSupplierDetails.email if contactSupplierDetails.email else "-" }}</p>
+
+          <h3>{{data.contact_phonenumber}}</h3>
+          <p>{{ contactSupplierDetails.telephone if contactSupplierDetails.telephone else "-" }}</p>
+
+          <h3>{{data.contact_website}}</h3>
+          <p>{{ contactSupplierDetails.url if contactSupplierDetails.url else "-" }}</p>
+          
+          <h3>{{data.contact_address}}</h3>
+          <p>{{ contactSupplierDetails.address if contactSupplierDetails.address else "-" }}</p>
+        {% endif %}
+          <p></p>
+           <p><a class="govuk-link govuk-link--no-visited-state" href="/rfp/suppliers" rel="noopener noreferrer">{{data.return_to_supplier_list}}</a></p>
+       
+
+        </div>
+
+        
+      </div>
+
+
+      <div class="govuk-grid-column-one-third">
+                {{ CCSReleatedContent(releatedContent) }}
+            </div>
+
+
+    </div>
+
+    
+  </main>
+{% endblock %}

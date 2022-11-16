@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
            
 
-            if (with_value_count === 11) {
+            if (with_value_count === 10) {
                 document.getElementById("ccs_rfpService_use_type_add").classList.add('ccs-dynaform-hidden');
             }
             if(errorStore.length == 0){

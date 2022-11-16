@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById("rfp_score_criteria_point_" + ii).value = rowsAndHead.rows[i].at(1).text;
                 document.getElementById("rfp_score_criteria_desc_" + ii).value = rowsAndHead.rows[i].at(2).text;
                 document.getElementById("rfp_score_criteria_desc_" + ii).focus();
+                document.getElementById("rfp_score_criteria_name_" + ii).focus();
               }
               if (rowsAndHead.rows.length == 11 && $('#ccs_rfp_score_criteria_add').hasClass('ccs-dynaform-hidden')) {
                 document.getElementById('ccs_rfp_score_criteria_add').classList.add('ccs-dynaform-hidden');
@@ -158,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // $("#rfp_score_criteria_name_" + ii).prop('readonly', true);
                 // $("#rfp_score_criteria_point_" + ii).prop('readonly', true);
                 // $("#rfp_score_criteria_desc_" + ii).prop('readonly', true);
+                document.getElementById("rfp_score_criteria_name_" + i).focus();
                 document.getElementById("rfp_score_criteria_desc_" + i).focus();
   
               }
@@ -391,6 +393,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+
+
+function preventNumberInput(e){
+  var keyCode = (e.keyCode ? e.keyCode : e.which);
+  if (keyCode > 47 && keyCode < 58 || keyCode > 95 && keyCode < 107 ){
+      e.preventDefault();
+  }
+}
+
+
+  // $('.maxValueValidate').keypress(function(e) {
+  //     preventNumberInput(e);
+  // });
+
+$(".maxValueValidate").keyup(function(e) {
+  let maxLen = parseInt($(this).val());
+  console.log("maxLen",maxLen);
+if(maxLen > 100){
+  $(this).val('')
+  
+}else{
+  
+}
+ 
+
+});
+
+
+
+
+
+
+
+
+
 const checkFieldsRfpScore = () => {
   const start = 1;
   const end = 10;
@@ -467,12 +504,12 @@ const emptyFieldCheckRfpScore = () => {
           field: point_field,
           isError: false,
         };
-        fieldCheck = [point_field.id, 'Enter Valid score.'];
-        ccsZaddErrorMessage(point_field, 'Enter Valid score.');
+        fieldCheck = [point_field.id, 'Enter valid score.'];
+        ccsZaddErrorMessage(point_field, 'Enter valid score.');
         errorObj.isError = true;
         errorObj.field = point_field;
         if (errorObj.isError) {
-          fieldCheck = [errorObj.field.id, 'Enter Valid score.'];
+          fieldCheck = [errorObj.field.id, 'Enter valid score.'];
           errorStore.push(fieldCheck);
         }
       }else {
@@ -513,7 +550,7 @@ const emptyFieldCheckRfpScore = () => {
         }
         
         if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
-            ccsZaddErrorMessage(point_field,'Enter Valid score.');
+            ccsZaddErrorMessage(point_field,'Enter valid score.');
             errorObj.isError = true;
             errorObj.field = point_field;
         }
@@ -539,7 +576,7 @@ const emptyFieldCheckRfpScore = () => {
           errMsg = 'you must add score for this level';
         }else if(agreement_id.value.trim() == 'RM1043.8' && (point_field.value.trim().length > 2 || point_field.value.trim() < 0 || point_field.value.trim() > 10 )){
           errorObj.field = point_field;
-          errMsg = 'Enter Valid score.';
+          errMsg = 'Enter valid score.';
         }else if (desc_field.value.trim() === '') {
           errorObj.field = desc_field;
           errMsg = 'you must add description for this level';

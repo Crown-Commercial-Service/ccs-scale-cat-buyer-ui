@@ -128,8 +128,8 @@ projectYears.on('blur', () => {
                 $('.p_durations').removeClass('govuk-form-group--error');
                 $('#eoi-event-name-error-pdate').html('')
             }
-            $('.eoi_duration-days').blur();
-            $('.eoi_duration-months').blur();
+            $('#eoi_duration-months').blur();
+            $('#eoi_duration-days').blur();
     }
 })
 
@@ -166,8 +166,8 @@ projectMonths.on('blur', () => {
                 $('.p_durations').removeClass('govuk-form-group--error');
                 $('#eoi-event-name-error-pdate').html('')
             }
-            $('.eoi_duration-days').blur();
-            $('.eoi_duration-years').blur();
+            $('#eoi_duration-days').blur();
+            // $('#eoi_duration-years').blur();
     }
     
 })
@@ -206,8 +206,8 @@ projectDays.on('blur', () => {
                 $('.p_durations').removeClass('govuk-form-group--error');
                 $('#eoi-event-name-error-pdate').html('')
             }
-            $('.eoi_duration-years').blur();
-            $('.eoi_duration-months').blur();
+            // $('#eoi_duration-years').blur();
+            // $('#eoi_duration-months').blur();
     }
 })
 
@@ -290,6 +290,7 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
             const durationMonth = document.getElementById('eoi_duration-months');
             const durationDay = document.getElementById('eoi_duration-days');
 
+            if(durationYear.value!='' || durationMonth.value!='' || durationDay.value!=''){
             const YearProjectRun = Number(durationYear.value);
             const MonthProjectRun = Number(durationMonth.value);
             const DaysProjectRun = Number(durationDay.value);
@@ -308,9 +309,10 @@ if(document.getElementById("eoi_resource_start_date-day") != null){
             if(yrValidation){
                 e.preventDefault()
                return;
-            }else{
-                document.forms['ccs_eoi_date_form'].submit();
             }
+            }
+               
+            document.forms['ccs_eoi_date_form'].submit();
     }
 
 }

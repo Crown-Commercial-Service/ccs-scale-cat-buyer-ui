@@ -23,7 +23,10 @@
 |*|  * docCookies.hasItem(name)
 |*|  * docCookies.keys()
 |*|
-\*/ var docCookies = {
+\*/ 
+let tagManager = document.currentScript.getAttribute('tag-manager');
+
+var docCookies = {
     getItem: function getItem(sKey) {
         if (!sKey) {
             return null;
@@ -147,7 +150,7 @@
             j.async = true;
             j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, "script", "dataLayer", "GTM-5NQGRQN");
+        })(window, document, "script", "dataLayer", tagManager);
     }
     function updateSeenCookie() {
         // 1 year = 3.154e+7

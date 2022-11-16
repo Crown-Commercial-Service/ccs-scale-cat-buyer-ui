@@ -65,7 +65,7 @@
 
             <ul class="nav-list messaging-nav-list--primary">
                         <li class="nav-list__item">
-                            <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{data.tabs.text1}}</a>
+                            <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{data.tabs.text4}}</a>
                         </li>
                         <li class="nav-list__item selected">
                             {{data.tabs.text2}}
@@ -83,7 +83,7 @@
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
-          <a href="/event/qa-add?id={{message.OCDS.id}}">back</a></br></br></br>
+          <a href="/event/qa-add?id={{message.OCDS.id}}">Back</a></br></br></br>
           <h2 class="govuk-heading-m">Message from {{message.OCDS.author.name}}</h2>
           <p class="govuk-body ">Classification: {{message.nonOCDS.classification}}</p>
           <p class="govuk-body ">Date: {{message.OCDS.date | datedd_mm_yyyy}}</p>
@@ -97,11 +97,15 @@
               
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
              Question
+             <br>
+             <br>
              <textarea value="{{QA.question}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Question_input" name="message_QA_Edit_Question_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{QA.question}}</textarea>
               </div>
             
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
              Clarification
+             <br>
+             <br>
              <textarea value="{{QA.answer}}" class="govuk-textarea govuk-js-character-count" id="message_QA_Edit_Answer_input" name="message_QA_Edit_Answer_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint create_message_input-error">{{QA.answer}}</textarea>
               </div>
             <div class="govuk-button-group">

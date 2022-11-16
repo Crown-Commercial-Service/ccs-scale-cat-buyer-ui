@@ -61,7 +61,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl"><strong>
-     {{data.title }}</strong>
+     {% if(agreementId_session == 'RM1043.8') %}
+      {{data.title | replace("(Optional)", "") }}
+      {% else %}
+      {{data.title }}
+      {% endif %}
+     </strong>
     </h1>
   </div>
 </div>
@@ -92,8 +97,8 @@
                       id: data.form.input.id,
                       name: data.form.input.name,
                       value: projectLongName,
-                      classes: "nameproject",
-                      maxlength:250,
+                      classes: "rfpterm",
+                      maxlength:500,
                       rows:1,
                       label: {
                             html: "Enter the name of your project",

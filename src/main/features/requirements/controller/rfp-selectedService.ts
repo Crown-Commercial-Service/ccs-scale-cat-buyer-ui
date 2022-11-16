@@ -12,6 +12,7 @@ import { HttpStatusCode } from '../../../errors/httpStatusCodes';
 import { GetLotSuppliers } from '../../shared/supplierService';
 import { GetLotSuppliersScore } from '../../shared/supplierServiceScore';
 import * as supplierIDSData from '../../../resources/content/fca/shortListed.json';
+import { ShouldEventStatusBeUpdated } from '../../shared/ShouldEventStatusBeUpdated';
 
 /**
  *
@@ -140,6 +141,7 @@ export const RFP_POST_SELECTED_SERVICE = async (req: express.Request, res: expre
   const rfp_selected_services = req.body;
   const { eventId } = req.session;
   const { SESSION_ID } = req.cookies;
+ 
   // const { SESSION_ID } = req.cookies;
   // const { eventId } = req.session;
   //req.session.fca_selected_services = rfp_selected_services;
@@ -172,6 +174,8 @@ if (flag) {
 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not started');
 }
 }*/
+      
+
 
   if (rfp_selected_services.selected_services == undefined) {
     if (req.body.isDisable) {
@@ -288,8 +292,17 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not st
         LoggTracer.errorLogger(res, error, `${req.headers.host}${req.originalUrl}`, null, TokenDecoder.decoder(SESSION_ID), 'Post failed - CA team scale page', true,);
       }
     }
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
-    await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+
+    let flag = await ShouldEventStatusBeUpdated(eventId, 30, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
+    }
+
+    let flag2 = await ShouldEventStatusBeUpdated(eventId, 31, req);
+    if (flag) {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
+    }
+
     res.redirect('/rfp/task-list');
   }
 

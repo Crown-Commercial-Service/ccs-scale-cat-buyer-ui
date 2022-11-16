@@ -19,6 +19,9 @@
         {
           "id": "rfi_next_steps",
           "question": "Choose your next steps",
+          "text1":"An event refers to a stage within a procurement project, such as a request for information, further competition, or direct award. A project can consist of multiple events.",
+          "text2":"If you select ‘Close this event and start a new event’, you will be presented with a list of routes to market. The new event will inherit the agreement and project ID of your current event.",
+          "text3":"Suppliers will be notified by email confirming that the event has closed.",
           "radioOptions": {
             "name": "rfi_next_steps",
             "items": [

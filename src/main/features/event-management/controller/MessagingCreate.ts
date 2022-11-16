@@ -4,6 +4,7 @@ import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import { CreateMessage } from '../model/createMessage'
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance'
 import * as inboxData from '../../../resources/content/event-management/messaging-create.json'
+import * as dos6InboxData from '../../../resources/content/event-management/messaging-create dos6.json'
 //import { GetLotSuppliers } from '../../shared/supplierService';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 
@@ -29,6 +30,7 @@ export class ValidationErrors {
  */
 export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
+    const agreementId = req.session.agreement_id;
     try {
         res.locals.agreement_header = req.session.agreement_header
 
@@ -73,8 +75,15 @@ export const EVENT_MANAGEMENT_MESSAGING_CREATE = (req: express.Request, res: exp
             messageErrorMessage: ValidationErrors.MESSAGE_REQUIRED,
             selected_message: ''
         }
-
-        const appendData = { data: inboxData, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6InboxData;
+          } else { 
+            data = inboxData;
+          }
+          
+          
+        const appendData = { data, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
         res.render('MessagingCreate', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -94,6 +103,7 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
     const { SESSION_ID } = req.cookies
     const projectId = req.session['projectId']
     const eventId = req.session['eventId']
+    const agreementId = req.session.agreement_id;
     
     try {
         const _body = req.body
@@ -176,7 +186,13 @@ export const POST_MESSAGING_CREATE = async (req: express.Request, res: express.R
 
                 // default: res.locals.supplier_link = "#"
             }
-            const appendData = { data: inboxData, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+            let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6InboxData;
+          } else { 
+            data = inboxData;
+          }
+            const appendData = { data, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
             res.render('MessagingCreate', appendData)
         } else {
            
@@ -225,6 +241,7 @@ export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = async (req: express.Re
 //export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     const { projectId } = req.session;
+    const agreementId = req.session.agreement_id;
     try {
         res.locals.agreement_header = req.session.agreement_header
 
@@ -278,8 +295,14 @@ export const EVENT_MANAGEMENT_MESSAGING_SUBBLIER_CREATE = async (req: express.Re
             messageErrorMessage: ValidationErrors.MESSAGE_REQUIRED,
             selected_message: ''
         }
-
-        const appendData = { supplierList:SUPPLIER_DATA.suppliers,data: inboxData, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6InboxData;
+          } else { 
+            data = inboxData;
+          }
+          
+        const appendData = { supplierList:SUPPLIER_DATA.suppliers,data, message: message, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
         res.render('MessaginSupplierCreate', appendData)
     } catch (err) {
         LoggTracer.errorLogger(
@@ -300,6 +323,7 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
     const { SESSION_ID } = req.cookies
     const projectId = req.session['projectId']
     const eventId = req.session['eventId']
+    const agreementId = req.session.agreement_id;
     
     try {
         const _body = req.body
@@ -402,9 +426,14 @@ export const POST_MESSAGING_SUBBLIER_CREATE = async (req: express.Request, res: 
 
                 // default: res.locals.supplier_link = "#"
             }
-           
+            let data;
+            if(agreementId == 'RM1043.8') { //DOS6
+                data = dos6InboxData;
+              } else { 
+                data = inboxData;
+              }
 
-            const appendData = { supplierList:SUPPLIER_DATA.suppliers,data: inboxData, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+            const appendData = { supplierList:SUPPLIER_DATA.suppliers,data, message: message, validationError: validationError, errorText: errorText,eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId }
             res.render('MessaginSupplierCreate', appendData)
         } else {
            

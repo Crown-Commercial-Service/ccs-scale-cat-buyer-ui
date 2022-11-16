@@ -8,7 +8,40 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 {% set title = 'EOI review | Crown Commercial Service' %}
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
   {% if eventStatus != "published"%}
+  {{ CCSBreadcrumbs({
+        items: [
+        {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Expression of Interest",
+      "href": "/eoi/eoi-tasklist"
+    },
+    {
+      "text": "Review and publish your EoI"
+    }
+    ]
+      }) }}
+{% else %}
+{{ CCSBreadcrumbs({
+          items: [
+                {"text": "Dashboard","href": "/dashboard"},
+                {"text": "Review and publish"}    ] 
+  }) }}
+    {% endif %}
+    {% else %}
+      {% if eventStatus != "published"%}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
@@ -18,6 +51,7 @@
                 {"text": "Dashboard","href": "/dashboard"},
                 {"text": "Review and publish"}    ] 
   }) }}
+    {% endif %}
     {% endif %}
 {% endblock %}
 {% block content %}
@@ -201,9 +235,11 @@
                       {% for answer in i.values %}
                         <p class="govuk-body-s">{{ answer.value }}
                           <p>
+                          {% if i.question != undefined %}
                             <p class="govuk-body-s">{{ answer.text | safe }}
                             </p>
                             <br/>
+                          {% endif %}  
                           {% endfor %}
                         {% else %}
 
@@ -334,7 +370,9 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
                   After publishing this EoI, if changes are required, you will need to cancel and re-publish your event. You may do so at any time.
                 </p>
                 <p class="govuk-body">
+                {% if agreement_id != "RM6187" %}
                   The document sent to suppliers will also include a number of best practice statements from your organisation.
+                {% endif %}
                 </p>
                 <br>
                   <br>
@@ -390,8 +428,13 @@ View<span class="govuk-visually-hidden">eoi supplier list</span>
         },
         text: "Publish and continue"
         }) }}
+                    {% if agreementId_session == "RM6187" %} 
+                            <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest
+                            </a>
+                    {% else %}
                             <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to do premarket engagement
                             </a>
+                    {% endif %}        
                           </div>
                         {% else %}
                           <div class="govuk-button-group">

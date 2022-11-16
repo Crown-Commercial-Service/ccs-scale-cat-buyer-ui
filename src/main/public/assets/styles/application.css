@@ -283,6 +283,14 @@
   }
 }
 
+@media (min-width: 40.0625em) {
+  .app-task-list .govuk-heading-xl {
+    font-size: 46px;
+    font-size: 2.875rem;
+    line-height: 1.04167;
+  }
+}
+
 @media print {
   .govuk-heading-xl {
     font-size: 32pt;
@@ -4906,6 +4914,20 @@ p + .govuk-heading-s,
   text-transform: lowercase;
 }
 
+@media (min-width: 40.0625em) {
+  .govuk-table__header_custom_w-1 {
+    width: 250px;
+  }
+  .govuk-table__header_custom_w-2 {
+    width: 150px;
+  }
+  .govuk-table__header_custom_w-3 {
+    width: 400px;
+  }
+}
+.addcolleaguedetailsdos {
+  display: none;
+ }
 /* custom css end @fca */
 
 /* Custom css start @Gcloud */
@@ -9024,9 +9046,7 @@ p,
 
 @media (min-width: 40.0625em) {
   .header-global .logo {
-    float: left;
     padding-top: 0;
-    margin-right: auto;
     max-width: 8.75rem;
   }
 }
@@ -9065,7 +9085,7 @@ p,
 @media (min-width: 40.0625em) {
   .nav-wrapper-secondary {
     display: -ms-flexbox;
-    display: block;
+    display: flex;
     padding: 1.375rem 0 1.625rem 0;
     text-align: left;
   }

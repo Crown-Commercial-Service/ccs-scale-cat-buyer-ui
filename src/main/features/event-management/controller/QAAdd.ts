@@ -3,6 +3,7 @@ import * as express from 'express';
 import { LoggTracer } from '@common/logtracer/tracer';
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder';
 import * as localTableData from '../../../resources/content/event-management/local-QAAddClerificationQuestion.json'; // Replace this with API endpoint
+import * as dos6LocalTableData from '../../../resources/content/event-management/local-QAAddClerificationQuestionDos6.json';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { MessageDetails } from '../model/messgeDetails';
 import { QuestionAndAnswer } from '../model/qaModel';
@@ -32,6 +33,7 @@ export const EVENT_MANAGEMENT_GET_QA_ADD = async (req: express.Request, res: exp
     const { id } = req.query;
     const projectId = req.session['projectId'];
     const eventId = req.session['eventId'];
+    const agreementId = req.session.agreement_id;
     req.session['messageID'] = req.query;
    
     
@@ -44,7 +46,15 @@ export const EVENT_MANAGEMENT_GET_QA_ADD = async (req: express.Request, res: exp
         //const messageReply: MessageReply = draftMessage.data
         const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
         const clerificationDataList = await getClerificationData(id.toString(), projectId, eventId, SESSION_ID);
-        const appendData = { data: localTableData,QAs:clerificationDataList, message: messageDetails, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+
+        let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6LocalTableData;
+          } else { 
+            data = localTableData;
+          }
+
+        const appendData = { data,QAs:clerificationDataList, message: messageDetails, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
         
         res.render('QAAdd1stStep', appendData);
     } catch (err) {
@@ -65,6 +75,7 @@ export const EVENT_MANAGEMENT_GET_QA_ADD_TWO_STEP = async (req: express.Request,
     const { id } = req.query;
     const projectId = req.session['projectId'];
     const eventId = req.session['eventId'];
+    const agreementId = req.session.agreement_id;
     req.session['messageID'] = req.query;
    
     try {
@@ -79,8 +90,15 @@ export const EVENT_MANAGEMENT_GET_QA_ADD_TWO_STEP = async (req: express.Request,
             clarificationErrorMessage: ValidationErrors.Clarification_REQUIRED,
             }
 
+        let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6LocalTableData;
+          } else { 
+            data = localTableData;
+          }
+
         const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
-        const appendData = { data: localTableData, message: messageDetails,QaContents:QaContent,validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+        const appendData = { data, message: messageDetails,QaContents:QaContent,validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
        
         res.render('QAAdd2ndStep', appendData);
     } catch (err) {
@@ -103,6 +121,7 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
     const { id } = req.session['messageID'];
     const projectId = req.session['projectId']
     const eventId = req.session['eventId']
+    const agreementId = req.session.agreement_id;
     try {
         const _body = req.body
         let IsQuestionNotDefined,Question_count,clarification_count, IsClerificationNotDefined, validationError = false;
@@ -164,9 +183,16 @@ export const EVENT_MANAGEMENT_POST_QA_ADD = async (req: express.Request, res: ex
             questionErrorMessage_count: ValidationErrors.Question_REQUIRED_count,
             clarificationErrorMessage_count: ValidationErrors.Clarification_REQUIRED_count,
             }
+
+        let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6LocalTableData;
+          } else { 
+            data = localTableData;
+          }
     
             const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
-            const appendData = { data: localTableData, message: messageDetails,QaContent:QaContent,errorText: errorText, validationError: validationError, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+            const appendData = { data, message: messageDetails,QaContent:QaContent,errorText: errorText, validationError: validationError, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
             res.render('QAAdd2ndStep', appendData);
         }
 else{

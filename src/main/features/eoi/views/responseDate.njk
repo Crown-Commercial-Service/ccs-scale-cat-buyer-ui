@@ -4,9 +4,35 @@
 {% from "macros/csrf.njk" import csrfProtection %}
 
 {% block breadCrumb %}
+{% if agreement_id == "RM6187" %}
+{{ CCSBreadcrumbs({
+        items: [
+            {
+        "text": "Dashboard",
+        "href": "/dashboard"
+        },
+        {
+        "text": "Choose a commercial agreement",
+        "href": "/projects/choose-agreement"
+        },
+        {
+        "text": "Procurement overview",
+        "href": "/projects/create-or-choose"
+        },
+        {
+        "text": "Expression of Interest",
+        "href": "/eoi/eoi-tasklist"
+        },
+        {
+        "text": "Your EoI timeline"
+        }
+        ]
+      }) }}
+{% else %}
     {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+{% endif %}      
 {% endblock %}
 
 {% block content %}
@@ -256,7 +282,12 @@
                     }) }}
 
                     <button class="govuk-button save-button" id="hideMeWhileDateChange" data-module="govuk-button">Save and continue</button>
-                    <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+                    
+                    {% if agreement_id == "RM6187" %}
+                       <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest</a>
+                    {% else %}
+                       <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+                    {% endif %}
                 </form>
                 </div>
                                 </div>

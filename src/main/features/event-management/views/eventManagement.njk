@@ -77,7 +77,7 @@
     <div class="govuk-grid-column-one-half">
       <h2 class="govuk-heading-m">
         {{data.subsection3_title2}}<br>
-      ({{ QAs }}  messages )</h2>
+      ({{ QAs }}  messages)</h2>
       <p class="govuk-body">
         <a class="govuk-link" href="{{ data.subsection3_linkURL2 }}">{{ data.subsection3_linkText2 }}</a>
       </p>
@@ -328,7 +328,7 @@
 
                     {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() ==='EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
 
-                    {% if status.toUpperCase() == 'TO-BE-EVALUATED' %}
+                    {% if status.toUpperCase() == 'TO-BE-EVALUATED' or status.toUpperCase() == 'EVALUATING' %}
                     <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluate}} </p>
                     {% else %}
                     <p class="govuk-body">{{data.subsection4_title4_descriiption_evaluated_text | safe}} </p>

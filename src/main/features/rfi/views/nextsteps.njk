@@ -118,8 +118,11 @@
                 {{ csrfProtection(csrf) }} 
                     {% for form in data.form %}
                         <fieldset id="{{form.id}}">
-                            <h2 class="govuk-heading-m">{{ form.question }}</h2>
-                            <br><br><br><br><br><br><br><br><br>
+                            <h2 class="govuk-heading-xl">{{ form.question }}</h2>
+                            <p>{{form.text1}}</p>
+                            <p>{{form.text2}}</p>
+                            <p>{{form.text3}}</p>
+                            <br><br>
                             {% set formOptions = form.radioOptions.items %}
                             {% set form_Options_Altered = [] %}
 
@@ -129,7 +132,8 @@
                                     value: item.value,
                                     html: "<h3 class='govuk-heading-m'>" + item.text + "</h3>",
                                     hint : {
-                                        text: item.hint.text
+                                        text: item.hint.text,
+                                        classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-6"
                                     }
                                 }), form_Options_Altered) 
                                 %}

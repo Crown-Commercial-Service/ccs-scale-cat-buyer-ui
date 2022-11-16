@@ -49,6 +49,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
     }
     const lotId = req.session?.lotId;
     const agreementLotName = req.session.agreementLotName;
+    const agreementId_session = req.session.agreement_id;
     const users = usersRaw.map((user: any) => {
       return { ...user, selected: leader === user.userName };
     });
@@ -61,6 +62,7 @@ export const GET_LEAD_PROCUREMENT = async (req: express.Request, res: express.Re
       selectedUser,
       lotId,
       agreementLotName,
+      agreementId_session,
       error: isJaggaerError,
       releatedContent,
     };

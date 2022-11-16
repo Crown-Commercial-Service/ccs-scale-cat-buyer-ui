@@ -11,6 +11,28 @@
   }
 ] %}
 {% block breadCrumb %}
+{% if agreementId == 'RM1043.8' %}
+{{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Your inbox",
+      "href": "/message/inbox"
+    },
+    {
+      "text": "Message",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% else %}
   {{ CCSBreadcrumbs({
         items:[
     {
@@ -27,6 +49,7 @@
     }
   ]
     }) }}
+{% endif %}
 {% endblock %}
 
 {% for msg in message.create_message %}
@@ -88,7 +111,7 @@
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <div class="govuk-grid-column-two-thirds">
-          <a href="{{data.backlink}}">back</a></br></br></br>
+          <a href="{{data.backlink}}">Back</a></br></br></br>
           {%if msgThreadList.length >0%}
           {%for msgItem in msgThreadList%}
           <details class="govuk-details" data-module="govuk-details">
@@ -119,14 +142,27 @@
                 value: "RE: "+message.OCDS.title,
                 label: {
                   text: data.Subject,
-                  classes: "govuk-label govuk-label--m"
+                  classes: "govuk-label"
                 }
                 })
               }}
            
-            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-             <textarea class="govuk-textarea govuk-js-character-count" id="reply_message_input" name="reply_message_input" rows="5" ></textarea>
-                
+            <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
+               
+               {{ CCSCharacterCount({           
+                id: "reply_message_input",
+                name: "reply_message_input",
+               rows:"5",
+               maxlength: 5000,
+                classes: "govuk-textarea govuk-js-character-count messagesendcount",
+                label: {
+                  text: data.Message,
+                  classes: "govuk-label"
+                }
+                })
+              }}
+
+             
               </div>
 
             <div class="govuk-button-group">
@@ -142,9 +178,11 @@
         </div>
       </div>
     </form>
+    {% if agreementId != 'RM1043.8' %}
     <p class="govuk-body">
       <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
     </p>
+    {% endif %}
 
 
     <div class="backdrop-evaluatesuppliers" id="suplierevaluatesupplierspopup">

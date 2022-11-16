@@ -22,6 +22,7 @@ const predefinedDays = {
 export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Response, errorTriggered, errorItem) => {
   const proc_id = req.session.projectId;
   const event_id = req.session.eventId;
+  const agreementId_session = req.session.agreement_id;
   const { SESSION_ID } = req.cookies;
   let baseURL = `/tenders/projects/${proc_id}/events/${event_id}`;
   baseURL = baseURL + '/criteria';
@@ -127,6 +128,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         prompt: prompt,
         framework: fetchQuestionsData,
         rfi_clarification_date,
+        agreementId_session,
         rfi_clarification_period_end: moment(rfi_clarification_period_end, 'DD/MM/YYYY, HH:mm').format(
           'DD MMMM YYYY, HH:mm',
         ),
@@ -199,6 +201,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           supplier_period_for_clarification_period,
           supplier_dealine_for_clarification_period,
           releatedContent: req.session.releatedContent,
+          agreementId_session,
         };
         if (errorTriggered) {
           appendData = { ...appendData, error: true, errorMessage: errorItem };
@@ -249,6 +252,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           supplier_period_for_clarification_period,
           supplier_dealine_for_clarification_period,
           releatedContent: req.session.releatedContent,
+          agreementId_session,
         };
         if (errorTriggered) {
           appendData = { ...appendData, error: true, errorMessage: errorItem };
@@ -299,6 +303,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           supplier_period_for_clarification_period,
           supplier_dealine_for_clarification_period,
           releatedContent: req.session.releatedContent,
+          agreementId_session,
         };
         if (errorTriggered) {
           appendData = { ...appendData, error: true, errorMessage: errorItem };
@@ -347,6 +352,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           supplier_period_for_clarification_period,
           supplier_dealine_for_clarification_period,
           releatedContent: req.session.releatedContent,
+          agreementId_session,
         };
         if (errorTriggered) {
           appendData = { ...appendData, error: true, errorMessage: errorItem };

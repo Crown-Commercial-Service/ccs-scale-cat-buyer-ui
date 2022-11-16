@@ -13,7 +13,7 @@
       "href": "/projects/create-or-choose"
     },
     {
-      "text": "Do pre-market engagement",
+      "text": "Expression of Interest",
       "href": "/eoi/eoi-tasklist"
     },
     {
@@ -25,6 +25,9 @@
   "subtitle": null,
   "form": {
     "question": "You can choose to either enter the information online to build your EOI or upload your own document.",
+    "question_eoi1": "You can build your EoI by entering the necessary information online.",
+    "question_eoi2": "You will also have the option to upload documents as part of this journey.",
+    "question_eoi3": "Alternatively, you can prepare your EoI offline and then upload it. ",
     "radioOptions": {
       "idPrefix": "ccs_eoi_type",
       "name": "ccs_eoi_type",
@@ -48,7 +51,7 @@
       ]
     },
     "backJump": {
-      "title": "Return to Do pre-market engagement",
+      "title": "Return to Expression of Interest",
       "href": "/eoi/eoi-tasklist"
     }
   }
