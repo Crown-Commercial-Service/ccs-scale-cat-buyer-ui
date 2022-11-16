@@ -130,7 +130,11 @@
           type: "submit"
         })
       }}
-      <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+      {% if agreementId_session == "RM6187" %}
+        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Expression of Interest</a>
+      {% else %}
+        <a href="/eoi/eoi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+      {% endif %}
     </div>
   </form>
 </div>
