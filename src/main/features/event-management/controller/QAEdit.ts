@@ -2,7 +2,8 @@
 import * as express from 'express';
 import { LoggTracer } from '@common/logtracer/tracer';
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder';
-import * as localTableData from '../../../resources/content/event-management/local-QAAddClerificationQuestion.json'; // Replace this with API endpoint
+import * as localTableData from '../../../resources/content/event-management/local-QAEditClerificationQuestion.json'; // Replace this with API endpoint
+import * as dos6LocalTableData from '../../../resources/content/event-management/local-QAEditClerificationQuestionDos6.json';
 import { TenderApi } from '../../../common/util/fetch/procurementService/TenderApiInstance';
 import { QuestionAndAnswer } from '../model/qaModel';
 import { MessageDetails } from '../model/messgeDetails';
@@ -26,6 +27,7 @@ export const EVENT_MANAGEMENT_GET_QA_Edit = async (req: express.Request, res: ex
     const {id, qaid } = req.query;
     const projectId = req.session['projectId'];
     const eventId = req.session['eventId'];
+    const agreementId = req.session.agreement_id;
     req.session['qaid']=qaid;
     req.session['messageID'] = req.query;
     try {
@@ -38,7 +40,15 @@ export const EVENT_MANAGEMENT_GET_QA_Edit = async (req: express.Request, res: ex
             }
         const messageDetails = await getMessageDetails(id.toString(), projectId, eventId, SESSION_ID);
         const qsDetails = await getQADetails(qaid.toString(), projectId, eventId, SESSION_ID);
-        const appendData = {data:localTableData, QA: qsDetails,message:messageDetails ,QaContent:QaContent,validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType }
+
+        let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6LocalTableData;
+          } else { 
+            data = localTableData;
+          }
+
+        const appendData = {data, QA: qsDetails,message:messageDetails ,QaContent:QaContent,validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
         res.render('QAEdit', appendData);
     } catch (err) {
         LoggTracer.errorLogger(

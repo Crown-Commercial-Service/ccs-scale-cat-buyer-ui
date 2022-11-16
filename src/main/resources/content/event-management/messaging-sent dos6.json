@@ -1,0 +1,39 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Event Management",
+            "href": "#"
+        },
+        {
+            "text": "Inbox",
+            "href": "#"
+        }
+    ],
+    "title": "Inbox",
+    "subsection2_table_th_1": "Subject",
+    "subsection2_table_th_2": "Recipient",
+    "subsection2_table_th_3": "Date",
+    "backlink" : "/message/inbox",
+    "backJump": {
+        "title": "Return to Event Management",
+        "href": "#"
+    },
+    "tabs": {
+        "text1": "Write message to all suppliers",
+        "href1": "/message/create",
+        "text2": "Received",
+        "href2": "/message/inbox",
+        "text3": "Sent",
+        "href3": "/message/sent",
+        "text4": "Write message to supplier",
+        "href4": "/message/create/supplier?type=received"
+    }
+}

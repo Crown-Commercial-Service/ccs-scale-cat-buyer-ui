@@ -11,6 +11,24 @@
   }
 ] %}
 {% block breadCrumb %}
+{% if agreementId == 'RM1043.8' %}
+{{ CCSBreadcrumbs({
+        items:[
+    {
+      "text": "Your Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": eventId+" / "+eventType,
+      "href": "/event/management?id="+eventId
+    },
+    {
+      "text": "Message",
+      "href": "#"
+    }
+  ]
+    }) }}
+{% else %}
   {{ CCSBreadcrumbs({
         items:[
     {
@@ -27,6 +45,7 @@
     }
   ]
     }) }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -85,10 +104,11 @@
                          <li class="nav-list__item">
                             <a class="nav-list__link " href="{{data.tabs.href4}}?type=create">{{data.tabs.text4}}</a>
                         </li>
-
+                        {% if agreementId != 'RM1043.8' %}
                         <li class="nav-list__item">
                             <a class="nav-list__link " href="{{data.tabs.href1}}?type=create">{{data.tabs.text1}}</a>
                         </li>
+                        {% endif %}
                         <li class="nav-list__item selected">
                             {{data.tabs.text2}}
                         </li>
