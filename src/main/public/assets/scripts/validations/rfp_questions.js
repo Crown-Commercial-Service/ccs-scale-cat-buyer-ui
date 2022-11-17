@@ -557,13 +557,17 @@ document.addEventListener('DOMContentLoaded', () => {
                             let percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, "You must enter percentage", /\w+/);
                             if (fieldCheck !== true){
                                 errorStore.push(fieldCheck);
-                            if(percentageCheck)errorStore.push(percentageCheck);
+                            }
+
+                            if(percentageCheck){
+                                errorStore.push(percentageCheck);
+                            }
     
                                 // if(!pageHeading.includes("Assisted digital and accessibility requirements (Optional)") && !pageHeading.includes("Essential skills and experience")){
                                 //     errorStore.push(percentageCheck);
                                 // }
 
-                            }
+                           // }
                         }
                     }
                     if (rootEl.querySelector('.order_2')) {
