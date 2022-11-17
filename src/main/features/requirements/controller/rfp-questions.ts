@@ -188,7 +188,6 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
       releatedContent: releatedContent,
       section: section
     };
-    console.log("data",JSON.stringify(data.data));
     
     if (isFieldError) {
       delete data.data[0].nonOCDS.options;form_name
