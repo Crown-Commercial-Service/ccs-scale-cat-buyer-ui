@@ -222,7 +222,7 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         }
        
       
-        if (!pageHeading.includes("(Optional)") || type_base=='add_more') {
+        if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
             ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');

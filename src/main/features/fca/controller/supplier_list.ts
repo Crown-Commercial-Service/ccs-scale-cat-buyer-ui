@@ -3,7 +3,7 @@ import * as cmsData from '../../../resources/content/procurement/mcf3_supplierli
 import { GetLotSuppliers } from '../../shared/supplierService';
 import config from 'config';
 var { Parser } = require("json2csv");
-import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
+//import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import * as supplierIDSData from '../../../resources/content/fca/shortListed.json';
 
 /**
@@ -15,8 +15,9 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
  *
  */
  export const SUPPLIER_LIST = async (req: express.Request, res: express.Response) => {
-   const { SESSION_ID } = req.cookies;
-   const { projectId ,eventId} = req.session;
+   //const { SESSION_ID } = req.cookies;
+   //const { projectId ,eventId} = req.session;
+   const { agreement_id } = req.session;
   let lotid=req.session.lotId;
   lotid=lotid.replace('Lot ','')
   const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+lotid+"/lot-suppliers";
@@ -25,35 +26,55 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
 
   const { download,previous, next } = req.query
 
+  // const supplierURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
+  //   const { data: suppliers } = await TenderApi.Instance(SESSION_ID).get(supplierURL);
 
-  const supplierURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
-    const { data: suppliers } = await TenderApi.Instance(SESSION_ID).get(supplierURL);
-console.log('log11',supplierURL);
-    const suppliersList=suppliers.suppliers;
-console.log('log12',suppliersList.length);
-    /*patch */
+  //   const suppliersList=suppliers.suppliers;
+  //const suppliersList = await GetLotSuppliers(req);
+
+
+    /*patch */ // LATEST
     const MatchedSupplierIDS : any = [];
-    for(let i=0;i<suppliersList.length;i++){
-      console.log('logyes');
-      if(supplierIDSData['supplierIDS'].includes(suppliersList[i].id)) 
-      MatchedSupplierIDS.push(suppliersList[i].id);
-    }
+
+    let suppliersList = [];
+    suppliersList = await GetLotSuppliers(req);
+    let supplierList = [];
+    if(agreement_id == 'RM6187') {
+
     
+      suppliersList = suppliersList.filter((el: any) => {
+
+            if(supplierIDSData['supplierIDS'].includes(el.organization.id)) {
+            MatchedSupplierIDS.push(el.organization.id);
+    }
+
+      });   
+      //END
+
+    // for(let i=0;i<suppliersList.length;i++){
+     
+    //  // if(supplierIDSData['supplierIDS'].includes(suppliersList[i].id)) 
+    //   MatchedSupplierIDS.push(suppliersList[i].id);
+    // }
+
     const UnqMatchedSupplierIDS = MatchedSupplierIDS.filter((value:any, index:any, self:any) => {
       return self.indexOf(value) === index;
     });
-    console.log('log13',UnqMatchedSupplierIDS.length);
+    
     /*patch */
-    let supplierList = [];
+    
       supplierList = await GetLotSuppliers(req);
-      console.log('log14',supplierList.length);
+  
       supplierList = supplierList.filter((el: any) => {
         if(UnqMatchedSupplierIDS.includes(el.organization.id)) {
           return true;
         }
         return false;
       });
-      console.log('log15',supplierList.length);
+    }else{
+     
+      supplierList = await GetLotSuppliers(req);
+    }
       
   const rowCount=10;let showPrevious=false,showNext=false;
   supplierList = supplierList.sort((a: any, b: any) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
@@ -202,7 +223,7 @@ console.log('log12',suppliersList.length);
         }
       }
 
-      console.log('log12',supplierList.length);
+     
       if(download!=undefined)
       {
         const JsonData:any = [];

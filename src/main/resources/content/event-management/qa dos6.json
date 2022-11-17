@@ -1,0 +1,39 @@
+{
+    "breadCrumbs": [
+        {
+            "text": "Home",
+            "href": "/"
+        },
+        {
+            "text": "Dashboard",
+            "href": "/dashboard"
+        },
+        {
+            "text": "Event Management",
+            "href": "#"
+        },
+        {
+            "text": "Q&A",
+            "href": "#"
+        }
+    ],
+    "title": "Clarifications",
+    "subtitle": "Questions and Clarifications",
+    "info": "Below you can find a list of all the supplier questions relating to this agreement, with the clarifications you have provided. ",
+    "subsection2_table_th_1": "[Subject]",
+    "subsection2_table_th_2": "[Recipient]",
+    "subsection2_table_th_3": "[Date]",
+    "updateDate":"[ Last Updated ]",
+    "backJump": {
+        "title": "Return to Event Management",
+        "href": "#"
+    },
+    "tabs": {
+        "text1": "Write message",
+        "href1": "/message/create",
+        "text2": "Received",
+        "href2": "/message/inbox",
+        "text3": "Sent",
+        "href3": "/message/sent"
+    }
+}

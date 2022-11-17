@@ -185,7 +185,18 @@ document.addEventListener('DOMContentLoaded', () => {
         for (var box_num = total_countva; box_num > 1; box_num--) {
             let this_box = document.getElementById('fc_question_' + box_num);
            
-            if (this_box.querySelector('.order_1').value !== '') {
+            if (this_box.querySelector('.order_1') != undefined && this_box.querySelector('.order_1').value !== '') {
+                this_box.classList.remove('ccs-dynaform-hidden');
+                if (box_num === total_countva) {
+
+                    // $('.add-another-btn').addClass('ccs-dynaform-hidden');
+                    var object = $('.add-another-btn').closest('.ccs-page-section');
+                    if (object.length) {
+                        $('.add-another-btn').closest('.ccs-page-section').css("border-bottom", "0px");
+                    }
+                }
+                deleteButtonCount.push(box_num);
+            } else if (this_box.querySelector('.order_2') != undefined && this_box.querySelector('.order_2').value !== '') {
                 this_box.classList.remove('ccs-dynaform-hidden');
                 if (box_num === total_countva) {
 
@@ -224,8 +235,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         $('.add-another-btn').on('click', function() {
             errorStore = [];
-            let textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
-
+            let textboxCount =  0;
+            if($('.order_1').length > 0){
+                textboxCount =  $('.order_1').filter(function() {return this.value !== '';}).length;
+            }else{
+                textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
+            }
+            
             if(textboxCount == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
@@ -556,7 +572,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             let percentageCheck = ccsZvalidateWithRegex('fc_question_precenate_' + i, "You must enter percentage", /\w+/);
                             if (fieldCheck !== true){
                                 errorStore.push(fieldCheck);
-                                if(percentageCheck)errorStore.push(percentageCheck);
+                            }
+
+                            if(percentageCheck){
+                                errorStore.push(percentageCheck);
                             }
                         }
                     }

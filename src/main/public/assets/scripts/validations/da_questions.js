@@ -131,20 +131,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         $('.add-another-btn').on('click', function() {
          console.log("question selected in DA")
-            $('.govuk-error-summary').remove();
-            $('.govuk-form-group--error').remove();
+           // $('.govuk-error-summary').remove();
+           // $('.govuk-form-group--error').remove();
             removeErrorFieldsDAScoreQuestion();
             
             if (Number($('#totalPercentage').text()) >= 100) {
                 errorStore.push(["There is a problem", "The total weighting is 100% so you can not add more questions"]);
             } else {
-                errorStore = emptyQuestionFieldCheckDa();
+                errorStore = emptyQuestionFieldCheckDa("add_more");
             }
             
             if (with_value_count === 11 && document.getElementById("fc_question_10_1").value != "") {
                 errorStore.push(["There is a problem", "Cannot add another question already 10 questions created"]);
             } else {
-                errorStore = emptyQuestionFieldCheckDa();
+                errorStore = emptyQuestionFieldCheckDa("add_more");
             }
 
             const pageHeading = document.getElementById('page-heading').innerHTML;
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const emptyQuestionFieldCheckDa = () => {
+    const emptyQuestionFieldCheckDa = (add_more='') => {
         removeErrorFieldsDAScoreQuestion();
         const countWords = str => str.trim().split(/\s+/).length;
         let fieldCheck = '',
@@ -297,7 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         let element = rootEl.querySelector('.order_1');
                         //const condOrd1 = countWords(rootEl.querySelector('.order_1') ?.value) > 50;
                         //if (rootEl.querySelector('.order_1').value == '' || condOrd1) {
-                        if (rootEl.querySelector('.order_1').value == '') {
+                            
+                        if ((rootEl.querySelector('.order_1').value == '' && !pageHeading.includes('Optional')) || add_more=='add_more') {
                             if (pageHeading.includes('Write your social value questions')){
                                 const msg = rootEl.querySelector('.order_1').value ?
                                 'Entry is limited to 50 words' :

@@ -3,6 +3,7 @@ import { TenderApi } from '../../../common/util/fetch/tenderService/tenderApiIns
 import { LoggTracer } from '@common/logtracer/tracer'
 import { TokenDecoder } from '@common/tokendecoder/tokendecoder'
 import * as inboxData from '../../../resources/content/event-management/qa.json'
+import * as dos6InboxData from '../../../resources/content/event-management/qa dos6.json'
 
 /**
  * 
@@ -13,6 +14,7 @@ import * as inboxData from '../../../resources/content/event-management/qa.json'
  */
 export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
+    const agreementId = req.session.agreement_id;
     let appendData: any;
     let eventIds:any;
     let projectIds:any;
@@ -61,10 +63,15 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
     
 
         const baseURL = `/tenders/projects/${projectIds}/events/${eventIds}/q-and-a`;
-        
         const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
+        let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6InboxData;
+          } else { 
+            data = inboxData;
+          }
        
-        appendData = { data: inboxData, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, eventName: req.session.project_name, isSupplierQA }	
+        appendData = { data, QAs: (fetchData.data.QandA.length > 0 ? fetchData.data.QandA : []), eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, eventName: req.session.project_name, isSupplierQA, agreementId}	
         res.render('viewQA', appendData)	
     } catch (err) {	
         LoggTracer.errorLogger(	
@@ -83,7 +90,8 @@ export const EVENT_MANAGEMENT_QA =  async (req: express.Request, res: express.Re
 
 export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: express.Response) => {
     const { supplier_qa_url } = req.session;
-    const { SESSION_ID } = req.cookies
+    const { SESSION_ID } = req.cookies;
+    const agreementId = req.session.agreement_id;
     let eventId = supplier_qa_url != undefined ? atob(supplier_qa_url.split('Id=')[1]).split("_")[1] : undefined
     var projectId = supplier_qa_url != undefined ? atob(supplier_qa_url.split('Id=')[1]).split("_")[0] : undefined
     let appendData: any;
@@ -91,10 +99,17 @@ export const EVENT_MANAGEMENT_SUPPLIER_QA = async (req: express.Request, res: ex
         if (eventId != undefined && projectId != undefined) {
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/q-and-a`;
             const fetchData = await TenderApi.Instance(SESSION_ID).get(baseURL);
+            let data;
+        if(agreementId == 'RM1043.8') { //DOS6
+            data = dos6InboxData;
+          } else { 
+            data = inboxData;
+          }
+
             if (fetchData != undefined && fetchData != null && fetchData.data.QandA?.length > 0) {
                 res.locals.agreement_header = { projectId: projectId, eventId: eventId, project_name: fetchData.data.projectName, agreementName: fetchData.data.agreementName, agreementId_session: fetchData.data.agreementId, agreementLotName: fetchData.data.lotName, lotid: fetchData.data.lotId }
                 req.session.agreement_header = res.locals.agreement_header
-                appendData = { data: inboxData, QAs: fetchData.data.QandA, eventId: eventId,eventName:req.session.eventManagement_eventType, eventType: req.session.eventManagement_eventType, isSupplierQA: true }
+                appendData = { data, QAs: fetchData.data.QandA, eventId: eventId,eventName:req.session.eventManagement_eventType, eventType: req.session.eventManagement_eventType, isSupplierQA: true, agreementId}
             }
         }
         res.render('viewQA', appendData)

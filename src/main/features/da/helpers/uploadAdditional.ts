@@ -5,7 +5,7 @@ import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LogMessageFormatter } from '../../../common/logtracer/logmessageformatter';
-import * as Mcf3cmsData from '../../../resources/content/MCF3/eoi/upload-additional.json';
+import * as Mcf3cmsData from '../../../resources/content/da/upload-additional.json';
 
 export const ADDITIONALUPLOADHELPER: express.Handler = async (
   req: express.Request,

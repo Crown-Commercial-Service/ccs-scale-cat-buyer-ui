@@ -43,8 +43,8 @@
 					</div>
 	                <div class="govuk-inset-text">
                     <p class="govuk-body">For more details on each supplier, visit the <a target="_blank" rel="noopener noreferrer" href="{{lotSuppliers}}">Search suppliers</a>
-                        <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website. 
-						The page will open in a new tab</p>
+                        <span class="govuk-visually-hidden">opens in a new window</span> page on the main CCS website.<br> 
+						The page will open in a new tab.</p>
 						{% if agreementid != 'RM1043.8' %}
 						<p class="govuk-body">
 							Suppliers rate cards are only available through the supplier filtering tool.
@@ -56,6 +56,9 @@
 					<p class="govuk-body">{{data.line3}}</p>
 
 					<p class="govuk-body">{{data.line4}}</p>
+				</div>
+				<div>
+					<p class="govuk-body govuk-!-font-size-48">{{supplierLength}} suppliers on this lot </p>
 				</div>
 				<div class="govuk-fac-supplytitle">
 					<h3 class="govuk-heading-xl page-title">
