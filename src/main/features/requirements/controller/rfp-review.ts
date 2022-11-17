@@ -1493,7 +1493,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
     
     sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
     
-    let termdata = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 1)?.[0]?.nonOCDS?.options;
+    let termdata = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 2)?.[0]?.nonOCDS?.options;
     if (termdata != undefined) {
       termdata?.forEach(element => {
         var info = { text: element.text, value: element.value };
@@ -1581,8 +1581,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api?.data;
       
       sectionbaseURLfetch_dynamic_api_data = sectionbaseURLfetch_dynamic_api_data.sort((a, b) => (a.OCDS.id < b.OCDS.id ? -1 : 1));
-      
-      let termdata = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 1)?.[0]?.nonOCDS?.options;
+      let termdata = sectionbaseURLfetch_dynamic_api_data?.filter(o => o.nonOCDS.order == 2)?.[0]?.nonOCDS?.options;
       if (termdata != undefined) {
         termdata?.forEach(element => {
           var info = { text: element.text, value: element.value };
