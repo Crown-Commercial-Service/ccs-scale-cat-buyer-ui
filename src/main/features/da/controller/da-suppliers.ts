@@ -305,12 +305,12 @@ export const POST_DA_SUPPLIER = async (req: express.Request, res: express.Respon
     //     }
     // }
     
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
+    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed');
 
     
-    let flag=await ShouldEventStatusBeUpdated(eventId,36,req);
+    let flag=await ShouldEventStatusBeUpdated(eventId,35,req);
     if(flag) {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
     }
     
      res.redirect('/da/response-date');
