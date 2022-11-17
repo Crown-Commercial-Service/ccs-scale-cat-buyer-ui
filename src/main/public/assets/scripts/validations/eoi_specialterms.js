@@ -216,11 +216,11 @@ const emptyFieldCheckEoiTerms = () => {
         fieldCheck = [term_field.id, 'You must add special term or condition.'];
         errorStore.push(fieldCheck);
       }
-      if (term_field.value?.length > 500) {
+      if (term_field.value != null && term_field.value != undefined && term_field.value.length > 500) {
         ccsZaddErrorMessage(term_field, 'Term and condition title must be 100 characters or fewer');
         termFieldError = true;
       }
-      if (definition_field.value?.length > 10000) {
+      if (definition_field.value != null && definition_field.value != undefined && definition_field.value.length > 10000) {
         ccsZaddErrorMessage(definition_field, 'Term and condition description must be 1000 characters or fewer');
         defFieldError = true;
 

@@ -1,4 +1,4 @@
-const countWordskpi = (str) => { return str?.trim().split(/\s+/).length };
+const countWordskpi = (str) => { return str.trim().split(/\s+/).length };
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -187,8 +187,8 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
     let target_field = document.getElementById("rfp_term_percentage_KPI_" + x);
 
     if (term_field !== undefined && term_field !== null && definition_field !== undefined && definition_field !== null && target_field !== undefined && target_field !== null) {
-      const field1 = countWordskpi(term_field?.value) > 500;
-      const field2 = countWordskpi(definition_field?.value) > 10000;
+      const field1 = countWordskpi(term_field.value) > 500;
+      const field2 = countWordskpi(definition_field.value) > 10000;
 
       if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
         //checkFieldsRfpKPI()
