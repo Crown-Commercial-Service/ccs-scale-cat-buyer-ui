@@ -265,14 +265,14 @@ try{
    
     if(fileNameStorageTermsnCond.length>0 && fileNameStoragePricing.length>0)
      {
-      console.log('log900');
+      console.log('log900',step);
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
-      console.log('log901');
-      let flag=await ShouldEventStatusBeUpdated(eventId,34,req);
+      console.log('log901',eventId);
+      let flag=await ShouldEventStatusBeUpdated(eventId,33,req);
       if(flag)
       {
         console.log('log902',flag);
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
       } 
       // res.redirect(`/da/IR35`);
       res.redirect(`/da/task-list`);
