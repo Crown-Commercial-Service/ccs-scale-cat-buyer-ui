@@ -423,7 +423,7 @@
                 }}
 
               {%endif%}
-              {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (requirement.nonOCDS.order === 1) %}
+              {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (requirement.nonOCDS.order === 2) %}
 
                 {% call CCSFieldset({
                     legend: {
@@ -449,7 +449,7 @@
                     value:requirement.nonOCDS.options[0].value
                 }) }}
 
-                {{ CCSCharacterCount({
+                {# {{ CCSCharacterCount({
                     name: "value",
                     id: "eoi_splterm_definition_1",
                     maxlength: 10000,
@@ -461,7 +461,7 @@
                       isPageHeading: false
                     },
                     value:requirement.nonOCDS.options[0].text
-                })}}
+                })}} #}
 
                 {%endcall %}
 
@@ -503,7 +503,7 @@
                             value:requirement.nonOCDS.options[i-1].value
                         }) }}
 
-                  {{ CCSCharacterCount({
+                  {# {{ CCSCharacterCount({
                             name: "value",
                             id: "eoi_splterm_definition_"+i,
                             maxlength: 10000,
@@ -515,7 +515,7 @@
                               isPageHeading: false
                             },
                             value:requirement.nonOCDS.options[i-1].text
-                  })}}
+                  })}} #}
                   {% endcall %}
 
                 {%- endfor %}

@@ -3,7 +3,7 @@ import * as cmsData from '../../../resources/content/procurement/mcf3_supplierli
 import { GetLotSuppliers } from '../../shared/supplierService';
 import config from 'config';
 var { Parser } = require("json2csv");
-//import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
+import { TenderApi } from '@common/util/fetch/procurementService/TenderApiInstance';
 import * as supplierIDSData from '../../../resources/content/fca/shortListed.json';
 
 /**
@@ -15,8 +15,8 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
  *
  */
  export const SUPPLIER_LIST = async (req: express.Request, res: express.Response) => {
-   //const { SESSION_ID } = req.cookies;
-   //const { projectId ,eventId} = req.session;
+   const { SESSION_ID } = req.cookies;
+   const { projectId ,eventId} = req.session;
    const { agreement_id } = req.session;
   let lotid=req.session.lotId;
   lotid=lotid.replace('Lot ','')
@@ -36,19 +36,22 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
     /*patch */ // LATEST
     const MatchedSupplierIDS : any = [];
 
-    let suppliersList = [];
-    suppliersList = await GetLotSuppliers(req);
+    //let suppliersList = [];
+    //suppliersList = await GetLotSuppliers(req);
+     
     let supplierList = [];
     if(agreement_id == 'RM6187') {
 
-    
-      suppliersList = suppliersList.filter((el: any) => {
+      const supplierURL=`/tenders/projects/${projectId}/events/${eventId}/suppliers`;
+      const { data: suppliers } = await TenderApi.Instance(SESSION_ID).get(supplierURL);
+  
+      const suppliersList=suppliers.suppliers;
+       for(let i=0;i<suppliersList.length;i++){
+     
+      if(supplierIDSData['supplierIDS'].includes(suppliersList[i].id)) 
+      MatchedSupplierIDS.push(suppliersList[i].id);
+     }
 
-            if(supplierIDSData['supplierIDS'].includes(el.organization.id)) {
-            MatchedSupplierIDS.push(el.organization.id);
-    }
-
-      });   
       //END
 
     // for(let i=0;i<suppliersList.length;i++){
