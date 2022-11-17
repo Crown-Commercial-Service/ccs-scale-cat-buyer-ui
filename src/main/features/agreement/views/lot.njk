@@ -189,12 +189,12 @@
               <p class="govuk-body">
                 <strong>Refer to the requirements template</strong>
               </p>
-              <p>The requirements template shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
+              <p>The <a href="#" target="_blank">requirements template</a> shows the information you’ll be asked to provide when you specify work for digital outcomes.</p>
                 {% if (lot == 'Lot 1') %}
               <p><strong>Get budget approval</strong></p>
 
               <p>You must get budget approval before you start the buying process.<br>
-              If you’re buying for central government, you have to go through the digital and IT spend control process before you publish your requirements on the Digital Marketplace.<br>
+              If you’re buying for central government, you have to go through the <a href="#" target="_blank">digital and IT spend control</a> process before you publish your requirements on the Digital Marketplace.<br>
               If you’re buying for a public sector organisation outside of central government, you must get any internal approval you need.</p>
 
               </p>
@@ -229,6 +229,64 @@
                 </li>
               </ol>
             </h3>
+            {% else %}
+            {% if (agreement_id == 'RM1043.8') %}
+                <h3>
+                  <ol class="govuk-list govuk-list--number">
+                    <li>
+                      <h3 class="proc-task-list__section">
+
+                        See available suppliers
+                      </h3>
+                      <p class="govuk-body">You can view a list of suppliers who are currently live on the agreement for the lot you have selected.
+                      </p>
+                    </li>
+
+                    <li>
+                      <h3 class="proc-task-list__section">
+
+                        Do pre-market engagement
+                      </h3>
+
+                      <p class="govuk-body">
+                        You can talk to suppliers before you start, to help you refine your requirements. This is sometimes called early market engagement or pre-tender market engagement (PTME). Most buyers who need a digital outcome do this.<br>
+<br>Contact <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a> to request the current list of supplier contact details.
+                      </p>
+                      </li>
+                      <li>
+                      <h3 class="govuk-heading-s">
+                        Write and publish your requirements
+                      </h3>
+                      <p class="govuk-body">Write and publish your requirements for suppliers, who can then decide whether or not to apply and to provide relevant evidence.<br><br>
+You will need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.</p>
+                    </li>
+
+                    <li>
+                      <h3 class="proc-task-list__section">
+                        Do evaluation
+                      </h3>
+                      <p class="govuk-body">You must evaluate suppliers, using the methods and criteria you published with your requirements, to find the one that best meets your needs.<br><br>
+
+                        The agreement uses a two-stage further competition process.<br>
+                        <ol>
+                          <li>
+                        Stage 1: shortlisting. You will need to assess and score suppliers against their responses to your essential and nice-to-have questions to create a shortlist. You must give feedback to all suppliers who were not shortlisted.
+                        </li>
+                        <li>
+                        Stage 2: further assessment. You will invite all shortlisted suppliers to further assessment. You will assess and score each supplier’s full proposal to identify your preferred supplier.</p>
+                        </li></ol>
+                      
+                    </li>
+                    <li>
+                      <h3 class="proc-task-list__section">
+                        {{data.line39}}
+                      </h3>
+                      <p class="govuk-body">When you have completed your evaluation and found a suitable supplier, you can award your contract.</p>
+                      <p class="govuk-body">You will need to give feedback to any unsuccessful suppliers.</p>
+                    </li>
+                  </ol>
+                  <br>
+                </h3>
             {% else %}
               <h3>
                 <ol class="govuk-list govuk-list--number">
@@ -309,6 +367,7 @@
                 </ol>
                 <br>
               </h3>
+            {% endif %}
             {% endif %}
 
             
