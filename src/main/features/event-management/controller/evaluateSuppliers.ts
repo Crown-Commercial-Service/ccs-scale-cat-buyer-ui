@@ -120,7 +120,7 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       //let commentData=supplierdata.data.responders[i].supplier.filter((a:any)=>{a.organisationId==supplierdata.data.responders[i].supplier.id});
         if(supData!=undefined){
           var completion = "No"
-          if(ScoresAndFeedbackURLdata.data[i].comment == 'No comment found')
+          if(ScoresAndFeedbackURLdata.data[i].score === undefined)
     {
       completion = "No"
     }
