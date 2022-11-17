@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       checkFieldsEoiTerms();
 
       e.preventDefault();
-      errorStore = emptyFieldCheckEoiTerms();
+      errorStore = emptyFieldCheckEoiTerms("add_more");
       if (errorStore.length == 0) {
 
         removeErrorFieldsEoiTerms();
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (with_value_count > 2) {
           prev_input = with_value_count - 1;
-          document.querySelector(".splterm_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
+          // document.querySelector(".splterm_" + prev_input + " a.del").classList.add("ccs-dynaform-hidden");
         }
 
         with_value_count++;
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         target_fieldset.classList.add("ccs-dynaform-hidden");
 
         document.getElementById('eoi_splterm_' + target).value = "";
-        document.getElementById('eoi_splterm_definition_' + target).value = "";
+        // document.getElementById('eoi_splterm_definition_' + target).value = "";
 
 
         if (prev_coll > 1) {
@@ -223,7 +223,7 @@ const removeErrorFieldsEoiTerms = () => {
 
 }
 
-const emptyFieldCheckEoiTerms = () => {
+const emptyFieldCheckEoiTerms = (add_more='') => {
   let fieldCheck = "",
     errorStore = [];
   checkFieldsEoiTerms();
@@ -234,21 +234,24 @@ const emptyFieldCheckEoiTerms = () => {
     if (term_field.closest("fieldset").classList.value.indexOf("ccs-dynaform-hidden") === -1) {
       //
      // if (term_field.value.trim() !== '' && definition_field.value.trim() === '') {
-      if (term_field.value.trim() !== '') {
+      const pageHeading = document.getElementById('page-heading').innerHTML;
+      if (term_field.value.trim() !== '' && (!pageHeading.includes('Optional') || add_more=='add_more')) {
         //ccsZaddErrorMessage(definition_field, 'You must explain the special term or condition.');
         //fieldCheck = [definition_field.id, 'You must explain the special term or condition.'];
         //errorStore.push(fieldCheck);
       }
       //if (term_field.value.trim() === '' && definition_field.value.trim() !== '') {
-        if (term_field.value.trim() === '') {
+        if(!pageHeading.includes('Optional') || add_more=='add_more'){  
+        if (term_field.value.trim() === '' ) {
         ccsZaddErrorMessage(term_field, 'You must add special term or condition.');
         fieldCheck = [term_field.id, 'You must add special term or condition.'];
         errorStore.push(fieldCheck);
       }
-      if (term_field.value?.length > 500) {
+      if (term_field.value?.length > 10000) {
         ccsZaddErrorMessage(term_field, 'Term and condition title must be 100 characters or fewer');
         termFieldError = true;
       }
+    }
       // if (definition_field.value?.length > 10000) {
       //   ccsZaddErrorMessage(definition_field, 'Term and condition description must be 1000 characters or fewer');
       //   defFieldError = true;
