@@ -264,7 +264,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
             <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
               <dt class="govuk-summary-list__value">
                  {% if i.question != 'Name of the organisation doing the procurement' %}
-                {{i.question.| truncate(200, true, "...")(0,200)+'...'}}
+                {{i.question.| truncate(200, true, "...")}}
                  {%endif%}
                 </dt>
               <dd class="govuk-summary-list__value">
@@ -277,7 +277,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                     {% for answer in i.values%}
                     
                    
-                      <p class="govuk-body-s">{{(answer.value).| truncate(200, true, "...")(0,200)+'...'}}</p>
+                      <p class="govuk-body-s">{{(answer.value).| truncate(200, true, "...")}}</p>
                      
 
                     {%endfor%}
