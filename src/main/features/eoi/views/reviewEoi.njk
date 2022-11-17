@@ -190,7 +190,7 @@
               </dt>
               {% if data['eoi_offline_document'] | length > 0 %}
                 <dd class="govuk-summary-list__value">
-                  data['eoi_offline_document']
+                  data['eoi_offline_document'] | truncate(200, true, "...")
                 </dd>
               {% else %}
                 <dd class="govuk-summary-list__value">
@@ -199,10 +199,10 @@
                   {% if i.question != 'Explain the special term or condition' and i.question != 'Write a definition for the term acronym explaining what it means' %}
                     {% if i.values | length > 0 %}
                       {% for answer in i.values %}
-                        <p class="govuk-body-s">{{ answer.value }}
+                        <p class="govuk-body-s">{{ answer.value | truncate(200, true, "...") }}
                           <p>
                           {% if i.question != undefined %}
-                            <p class="govuk-body-s">{{ answer.text | safe }}
+                            <p class="govuk-body-s">{{ answer.text | safe | truncate(200, true, "...") }}
                             </p>
                             <br/>
                           {% endif %}  
