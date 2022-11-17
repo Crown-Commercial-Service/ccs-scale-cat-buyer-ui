@@ -22,7 +22,7 @@ import * as supplierIDSData from '../../../resources/content/fca/shortListed.jso
   lotid=lotid.replace('Lot ','')
   const lotSuppliers = config.get('CCS_agreements_url')+req.session.agreement_id+":"+lotid+"/lot-suppliers";
   const downloadSuppliers=process.env['AGREEMENTS_SERVICE_API_URL']+'/agreements/'+req.session.agreement_id+'/lots/'+lotid+'/suppliers/export';
-  console.log("downloadSuppliers",downloadSuppliers);
+  
   const releatedContent = req.session.releatedContent;
 
   const { download,previous, next } = req.query
@@ -238,7 +238,7 @@ for(let i=0;i<suppliersList.length;i++){
       {
         const JsonData:any = [];
         let contactSupplierDetails;
-      //  console.log("supplierListDwn",JSON.stringify(supplierListDwn));
+     
         for(let i=0;i<supplierListDwn.length;i++){
           const contact = supplierListDwn[i];
           let contactData:any = [];
