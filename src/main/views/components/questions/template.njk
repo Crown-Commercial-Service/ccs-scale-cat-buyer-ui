@@ -334,6 +334,11 @@
             {% endif %}
 
       {%set class_question_remove="fc_question_"+index %}
+      {% if(requirement.nonOCDS.type == "Special terms and conditions (Optional)") %}
+          {% set countLength = 5000 %}
+          {% set classnameForCount = "rpf_5000" %}
+      {% endif %}
+      
       {{  CCSCharacterCount({
         name:  requirement.OCDS.id,
         required: requirement.nonOCDS.mandatory,
@@ -1384,6 +1389,7 @@
                         %}
                         {% if (agreement_id == 'RM1043.8') %}
                         {% if (lotId == '1') and (group_id == 'Group 19') or (lotId == '3') and (group_id == 'Group 17') %}
+                        {{requirement.OCDS.title}}
                         {{ CCSCharacterCount({
                               label: {
                                 text: requirement.OCDS.title,

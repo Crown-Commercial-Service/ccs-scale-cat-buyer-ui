@@ -673,24 +673,49 @@
                         {% endif %}
                       </dd>
                     </div>
+                    {% set numberWord = [
+                'Zero',
+                'first',
+                'second',
+                ' third',
+                ' fourth',
+                ' fifth',
+                ' sixth',
+                ' seventh',
+                ' eighth',
+                ' ninth',
+                ' tenth',
+                'eleventh',
+                'twelfth',
+                'thirteenth',
+                'fourteenth',
+                'fifeteenth',
+                'sixteenth',
+                'seventeenth',
+                'eighteenth',
+                'nineteenth',
+                'twentieth'
+                ] %}
                     {% if (spltermAndAcr != undefined and spltermAndAcr != null and spltermAndAcr | length > 0) %}
+                    {% set rows = 1 %}
                       {% for data in spltermAndAcr %}
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
-                            <p>Special term or condition</p>
+                            <p>Your {{numberWord[rows]}} special term or condition</p>
                           </dt>
                           <dd class="govuk-summary-list__value">
                             <p>{{ data.value }}</p>
                           </dd>
                         </div>
-                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                        {# <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
                             <p>Explanation of the special term or condition</p>
                           </dt>
                           <dd class="govuk-summary-list__value">
                             <p>{{ data.text }}</p>
                           </dd>
-                        </div>
+                        </div> #}
+                        {% set rows = rows+1 %}
                       {% endfor %}
                     {% endif %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
@@ -967,24 +992,49 @@
                         {% endif %}
                       </dd>
                     </div>
+                    {% set numberWord = [
+                'Zero',
+                'first',
+                'second',
+                ' third',
+                ' fourth',
+                ' fifth',
+                ' sixth',
+                ' seventh',
+                ' eighth',
+                ' ninth',
+                ' tenth',
+                'eleventh',
+                'twelfth',
+                'thirteenth',
+                'fourteenth',
+                'fifeteenth',
+                'sixteenth',
+                'seventeenth',
+                'eighteenth',
+                'nineteenth',
+                'twentieth'
+                ] %}
                     {% if (spltermAndAcr != undefined and spltermAndAcr != null and spltermAndAcr | length > 0) %}
+                    {% set rows = 1 %}
                       {% for data in spltermAndAcr %}
                         <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
-                            <p>Term or acronym</p>
+                            <p>Your {{numberWord[rows]}} special term or condition</p>
                           </dt>
                           <dd class="govuk-summary-list__value">
                             <p>{{ data.value }}</p>
                           </dd>
                         </div>
-                        <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                        {# <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                           <dt class="govuk-summary-list__value">
                             <p>Definition</p>
                           </dt>
                           <dd class="govuk-summary-list__value">
                             <p>{{ data.text }}</p>
                           </dd>
-                        </div>
+                        </div> #}
+                        {% set rows = rows+1 %}
                       {% endfor %}
                     {% endif %}
                     <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
