@@ -52,12 +52,14 @@ export const ENTER_EVALUATION = async (req: express.Request, res: express.Respon
     const supplierInterestURL = `tenders/projects/${projectId}/events/${eventId}/scores`
     const supplierdata = await TenderApi.Instance(SESSION_ID).get(supplierInterestURL);
     for(var m=0;m<supplierdata.data.length;m++)
-    {    if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].comment != 'No comment found' && supplierdata.data[m].score != null )
     {
-      feedBack= supplierdata.data[m].comment;
+      // if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].comment != 'No comment found' && supplierdata.data[m].score != null )
+      // { Old Logic
+      if(supplierdata.data[m].organisationId == supplierid && supplierdata.data[m].score != null )
+      {
+        feedBack= ''; //supplierdata.data[m].comment Old Logic
         marks = supplierdata.data[m].score;
-
-    }
+      }
     }
     
     //if (status == "Published" || status == "Response period closed" || status == "Response period open" || status=="To be evaluated" ) {
@@ -83,21 +85,20 @@ export const ENTER_EVALUATION_POST = async (req: express.Request, res: express.R
   const { projectId } = req.session;
   const { eventId } = req.session;
   const { supplierid , suppliername} = req.query;
-  const {enter_evaluation_feedback,enter_evaluation_score} =req.body;
-  
+  // const {enter_evaluation_feedback,enter_evaluation_score} =req.body;  Old Logics
+  const {enter_evaluation_score} =req.body;  
 
 try{
-  
-  if (enter_evaluation_feedback && enter_evaluation_score ) {
+  // if (enter_evaluation_feedback && enter_evaluation_score ) {  Old Logics
+  if (enter_evaluation_score) {
     let evaluation_score=(enter_evaluation_score.includes('.'))?enter_evaluation_score:enter_evaluation_score+".00";
+    //comment: enter_evaluation_feedback,
     const body = [
                 {
-                  organisationId: supplierid ,
-                  comment: enter_evaluation_feedback,
+                  organisationId: supplierid,
                   score: evaluation_score,
                 }
               ];
-              
               
               await TenderApi.Instance(SESSION_ID).put(`tenders/projects/${projectId}/events/${eventId}/scores`,
                 body,
