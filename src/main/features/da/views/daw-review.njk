@@ -618,7 +618,11 @@
                   </div>
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__key"><h3>
+                    {% if agreementId_session == "RM6187" %}
+                    <strong>The organisation you are buying on behalf of (optional)</strong></h3>
+                    {% else %}
                       <strong>Which phase the project is in (optional)</strong></h3>
+                    {% endif %}
                     </dt>
                     <dd class="govuk-summary-list__value">&nbsp;</dd>
                     <dd class="govuk-summary-list__actions">
@@ -629,6 +633,24 @@
                       {% endif %}
                   </dd>
                   </div>
+                  {% if agreementId_session == "RM6187" %}
+                  <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                    <dt class="govuk-summary-list__value">                      
+                        <p>Name of the organisation doing the procurement</p>
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        <p>{{buyingorg1}}</p>
+                    </dd>
+                  </div>
+                  <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                    <dt class="govuk-summary-list__value">                      
+                        <p>Name of the organisation using the products or services</p>
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        <p>{{buyingorg2}}</p>
+                    </dd>
+                  </div>
+                  {% else %}
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">                      
                         <p>Current phase of the project</p>
@@ -638,6 +660,7 @@
                         <p>{{buyingorg2}}</p>
                     </dd>
                   </div>
+                  {% endif %}
                   <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
                     <dd class="govuk-summary-list__value govuk-!-padding-0"></dd>
