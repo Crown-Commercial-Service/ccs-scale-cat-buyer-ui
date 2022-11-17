@@ -855,16 +855,16 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
       }else{
        
         const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
-        let actualStatus = journeySteps.find(d=>d.step == 36)?.state;
+        let actualStatus = journeySteps.find(d=>d.step == 35)?.state;
         
         console.log("actualStatus",actualStatus);
         console.log("ReviewData.OCDS.status",ReviewData.OCDS.status);
 
         if(actualStatus !== 'Completed' && ReviewData.OCDS.status != "published" && customStatus!="complete"){
           
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Not started');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Cannot start yet');
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/36`, 'Cannot start yet');
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/37`, 'Cannot start yet');
           res.redirect('/da/task-list');
         }
         
@@ -918,7 +918,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
     
     const Supplier_BASEURL = `/tenders/projects/${req.session.projectId}/events/${req.session.eventId}/suppliers`;
     await TenderApi.Instance(req.cookies.SESSION_ID).post(Supplier_BASEURL, supplierBody); 
-    const response = await TenderApi.Instance(req.cookies.SESSION_ID).put(`journeys/${req.session.eventId}/steps/35`, 'Completed');
+    const response = await TenderApi.Instance(req.cookies.SESSION_ID).put(`journeys/${req.session.eventId}/steps/34`, 'Completed');
     req.session.selectedSuppliersDA = undefined;
   } else {
     let flag = await ShouldEventStatusBeUpdated(req.session.eventId, 35, req);
@@ -963,7 +963,7 @@ export const POST_DA_REVIEW = async (req: express.Request, res: express.Response
         if(agreementId_session == 'RM6263') { // DSP
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/24`, 'Completed');
         }else{
-          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Completed');
+          await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
         }
        
      // }
