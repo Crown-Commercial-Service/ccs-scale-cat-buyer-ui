@@ -10,6 +10,7 @@ const fs = require('fs')
 const del = require('del');
 const concat = require('gulp-concat');
 const minify = require('gulp-minify');
+const minifyCSS = require('gulp-clean-css');
 
 const repoRoot = path.join(__dirname, '/')
 const ccsFrontendToolkitRoot = path.join(repoRoot, 'node_modules/govuk_frontend_toolkit/stylesheets')
@@ -105,6 +106,13 @@ gulp.task('pack-scripts', () => {
         .pipe(concat('bundle.js'))
         .pipe(minify())
         .pipe(gulp.dest('src/main/public/assets/scripts'));
+});
+
+gulp.task('pack-styles', () => {
+  return gulp.src(['src/main/public/assets/styles/application.css', 'src/main/public/assets/styles/custom.css', 'src/main/public/assets/styles/additional.css', 'src/main/public/assets/styles/govuk_fac_style.css'])
+        .pipe(concat('bundle.min.css'))
+        .pipe(minifyCSS())
+        .pipe(gulp.dest('src/main/public/assets/styles'));
 });
 
 gulp.task('default', gulp.series(['clean', 'styles']));
