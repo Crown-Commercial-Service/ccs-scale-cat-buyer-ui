@@ -347,7 +347,11 @@
                                 </div>
                                 <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                                   <dt class="govuk-summary-list__key">
+                                    {% if(agreement_id == "RM6187") %}
+                                    <h3 class="govuk-!-margin-bottom-0"><strong>Terms and acronyms (Optional)</strong></h3>
+                                    {% else %}
                                     <h3 class="govuk-!-margin-bottom-0"><strong>key Terms and acronyms (Optional)</strong></h3>
+                                    {% endif %}
                                   </dt>
                                   <dd class="govuk-summary-list__value">&nbsp;</dd>
                                   <dd class="govuk-summary-list__actions">
