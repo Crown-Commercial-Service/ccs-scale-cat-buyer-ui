@@ -560,7 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                     noOfRequirement_Group += 1;
-                } else {
+                } else if( pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase()) {
                     if (rootEl.querySelector('.order_1')) {
                         let element = rootEl.querySelector('.order_1');
                         //const condOrd1 = countWords(rootEl.querySelector('.order_1') ?.value) > 50;
