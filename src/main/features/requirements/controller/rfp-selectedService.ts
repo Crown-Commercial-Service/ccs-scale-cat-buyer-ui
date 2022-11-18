@@ -178,7 +178,7 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not st
 
 
   if (rfp_selected_services.selected_services == undefined) {
-    if (req.body.isDisable) {
+    if (req.body.isDisable!=true) {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
       res.redirect('/rfp/task-list');
@@ -187,7 +187,8 @@ await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/47`, 'Not st
       res.redirect('/rfp/selected_service');
     }
   } else {
-    if (req.body.isDisable == '') {
+    if (req.body.isDisable!=true) {
+      
       const assessmentId = req.session.currentEvent.assessmentId;
       const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
       const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);

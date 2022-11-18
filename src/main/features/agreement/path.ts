@@ -5,6 +5,7 @@ import { CHOOSE_AGREEMENT_PATHS } from './model/agreementConstants';
 import { ChooseAgreementMiddleware } from '../../common/middlewares/agreementservice/chooseagreement'
 import { Application } from 'express';
 import { ContentFetchMiddleware } from '../../common/middlewares/menu-contentservice/contentservice';
+import { dos6LotReload } from '../../common/middlewares/dos6-lot2/dos6_lot2_reload';
 import { AgreementLotMiddleware } from '../../common/middlewares/agreementservice/agreementlot'
 import { AgreementDetailsFetchMiddleware } from '../../common/middlewares/agreementservice/agreementdetailsfetch'
 
@@ -19,6 +20,6 @@ export default function (app: Application): void {
       CHOOSE_AGREEMENT_CONTROLLER.LOT_BEFORE_START_PAGE);
    // query parameter handling route
    app.get(CHOOSE_AGREEMENT_PATHS.SELECTED_AGREEMENT,
-      [ContentFetchMiddleware.FetchContents, AUTH, ChooseAgreementMiddleware.FetchAgreements],
+      [dos6LotReload.checkReload,ContentFetchMiddleware.FetchContents, AUTH, ChooseAgreementMiddleware.FetchAgreements],
       CHOOSE_AGREEMENT_CONTROLLER.SELECTED_AGREEMENT);
 }

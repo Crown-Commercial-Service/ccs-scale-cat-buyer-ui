@@ -17,6 +17,8 @@
 //debugger;
 const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => {
   const element = document.getElementById(elementName);
+  // let tempval =  element.closest('div').find("div[id='rfp_resource_start_date']");
+  // console.log(tempval.classList)
 
   if (element != null && element != undefined) {
     if (element.value != undefined && element.value != null &&  element.value.trim().match(typeRegex) && valid) {
@@ -363,3 +365,59 @@ const ccsZvalidateWeihtageValue = (elementName, errMsg, totalvalue, typeRegex, v
     }
   }
 };
+
+const ccsZvalidateDateWithRegex = (elementName,addElementName, errMsg, typeRegex, valid = true) => {
+  const element = document.getElementById(elementName);
+  const addelement = document.getElementById(addElementName);
+  // let tempval =  element.closest('div').find("div[id='rfp_resource_start_date']");
+  // console.log(tempval.classList)
+
+  if (element != undefined && element != null) {
+    if (element.value != undefined && element.value != null &&  element.value.trim().match(typeRegex) && valid) {
+      ccsZremoveErrorMessage(element);
+      return true;
+    } else {
+      ccsZremoveErrorMessage(element);
+      ccsZaddDateErrorMessage(element,addelement, errMsg);
+      return [element.id, errMsg];
+    }
+  }
+};
+
+const ccsZaddDateErrorMessage = (element,addelement, message) => {
+  console.log("element",element);
+
+  if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
+    element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
+
+    if (element.tagName === "INPUT" && (element.type !== "radio" || element.type !== "checkbox")) {
+      element.classList.add("govuk-input--error");
+    } else {
+      let childInputs = element.querySelectorAll('input');
+      childInputs.forEach((child_i) => {
+        child_i.classList.add("govuk-input--error");
+      });
+    }
+    if (element.tagName === "TEXTAREA" && (element.type !== "radio" || element.type !== "checkbox")) {
+      element.classList.add("govuk-textarea--error");
+    } else {
+      let childInputs = element.querySelectorAll('textarea');
+      childInputs.forEach((child_i) => {
+        child_i.classList.add("govuk-textarea--error");
+      });
+    }
+
+    errorEl = ccsZcreateCcsErrorMsg(addelement.id, message);
+
+    if (element.type === "radio") {
+      element.closest(".govuk-radios").insertBefore(errorEl, element.parentNode);
+    } else if (element.type === "checkbox") {
+      element.closest(".govuk-checkboxes").insertBefore(errorEl, element.parentNode);
+    } else if (element.parentNode.classList.contains("govuk-input__wrapper")) {
+      element.closest(".govuk-form-group").insertBefore(errorEl, element.parentNode);
+    } else {
+      addelement.parentNode.insertBefore(errorEl, addelement);
+    }
+  }
+};
+
