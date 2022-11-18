@@ -423,7 +423,98 @@
                 }}
 
               {%endif%}
-              {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (requirement.nonOCDS.order === 2) %}
+               {% if (eoiTitle=="Special terms and conditions (Optional)") and (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (requirement.nonOCDS.order === 2) %}
+            
+               {% call CCSFieldset({
+                    legend: {
+                              html: "First special term or condition ",
+                              classes: "govuk-fieldset__legend--m",
+                              isPageHeading: false
+                            },
+                            classes: "term_fieldset splterm_1",
+                            id:"term_fieldset_splterm_1"
+                  }) %}
+
+              {{CCSCharacterCount({
+                    name: "term",
+                    id: "eoi_splterm_1",
+                    maxlength: 10000,
+                    rows: "6",
+                    classes:"rfp_term_definition",
+                    label: {
+                      text: "Enter the first special term or condition",
+                      classes: "govuk-label--m govuk-!-font-weight-regular",
+                      isPageHeading: false
+                    },
+                    value:requirement.nonOCDS.options[0].value
+                }) }}
+{%endcall %}
+                {% set NumberWord = [
+                  'Zero',
+                  'First',
+                  'Second',
+                  ' Third',
+                  ' Fourth',
+                  ' Fifth',
+                  ' Sixth',
+                  ' Seventh',
+                  ' Eight',
+                  ' Ninth',
+                  ' Tenth'
+                ] %}
+                {% for i in range(2, 11) -%}
+
+                  {% call CCSFieldset({
+                      legend: {
+                        html: NumberWord[i]+" special term and condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        classes: "govuk-fieldset__legend--m",
+                        isPageHeading: false
+                      },
+                      classes: "term_fieldset splterm_"+i,
+                      id:"term_fieldset"
+                    }) %}
+                 
+                  {{CCSCharacterCount({
+                            name: "term",
+                            id: "eoi_splterm_"+i,
+                            maxlength: 10000,
+                            classes: "rfp_term_definition eoi_splterm_"+i,
+                            rows: "6",
+                            label: {
+                              text: "Enter the "+NumberWord[i]+" special term or condition",
+                              classes: "govuk-label--m govuk-!-font-weight-regular",
+                              isPageHeading: false
+                            },
+                            value:requirement.nonOCDS.options[i-1].value
+                        }) }}
+
+
+     
+                  {% endcall %}
+
+                {%- endfor %}
+
+          <p class="govuk-body">
+                  {{ CCSButton({
+                          text: "Add another special term or condition",
+                          attributes: {
+                            id: "ccs_eoisplTerm_add"
+                          },
+                          classes: "govuk-button--secondary ccs-dynaform-hidden"
+                        }) }}
+                </p>
+
+                {{ CCSInput({
+                            id: "question_id",
+                            name: "question_id",
+                            type: "hidden",
+                            value: requirement.OCDS.id
+                          }) }}
+                <div id="eoi_splterm"></div>
+
+                {%endif%}
+
+              {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (requirement.nonOCDS.order === 1) %}
 
                 {% call CCSFieldset({
                     legend: {
