@@ -21,7 +21,7 @@ export const LOT_BEFORE_START_PAGE = (req: express.Request, res: express.Respons
   const lotSuppliers = config.get('CCS_agreements_url')+agreement_id+":"+lotId+"/lot-suppliers";
   const { agreementName, agreementEndDate, agreementDescription, suppliersCount } = req.session;
   regExp.test(lotNum) ? lot = lotNum : lot = "Lot " + lotNum;
-  const agreement = { name: agreementName, endDate: agreementEndDate, agreementDescription, suppliersCount, lotSuppliers };
+  const agreement = { name: agreementName, endDate: agreementEndDate, agreementDescription, suppliersCount, lotSuppliers, lot };
   let appendData = { data: lotData, agreement_id, lot, agreement }
 
   if (isAuthenticated) {

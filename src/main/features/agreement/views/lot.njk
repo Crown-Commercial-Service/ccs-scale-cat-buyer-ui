@@ -21,9 +21,8 @@
     <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
-          <h1 class="govuk-heading-xl ccs-agrement-pagetitle">
-            {{lot}}
-            {{agreement_lot.name}}
+          <h1 class="govuk-heading-xl ccs-agrement-pagetitle govuk-!-margin-bottom-6">
+            {{lot}}: {{agreement_lot.name}}
           </h1>
         </div>
       </div>
@@ -40,7 +39,7 @@
             {% else %}
               {% set ExpiryBefore = '' %}
             {% endif %}
-            <p class="govuk-body">{{ExpiryBefore}}Expiry date: <strong>{{agreementDate}}</strong>
+            <p class="govuk-body">{{ExpiryBefore}}{{lot}} Expiry date: <strong>{{agreementDate}}</strong>
             </p>
           </div>
 
@@ -226,7 +225,7 @@
             {% endif %}
             {% endif %}
             
-            <h3 class="govuk-heading-m">{{data.line18}}</h3>
+            <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-8">{{data.line18}}</h3>
             {% if (agreement_id == 'RM1557.13') %}
             <h3>
               <ol class="govuk-list govuk-list--number">
@@ -258,7 +257,7 @@
                 <h3>
                   <ol class="govuk-list govuk-list--number-custome">
                     <li data-label="1" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section">
+                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
 
                         See available suppliers
                       </h3>
@@ -267,7 +266,7 @@
                     </li>
 
                     <li data-label="2" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section">
+                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
 
                         Do pre-market engagement
                       </h3>
@@ -278,7 +277,7 @@
                       </p>
                       </li>
                       <li data-label="3" class="govuk-list--number-custome-list">
-                      <h3 class="govuk-heading-s">
+                      <h3 class="govuk-heading-s govuk-!-margin-bottom-3">
                         Write and publish your requirements
                       </h3>
                       <p class="govuk-body">Write and publish your requirements for suppliers, who can then decide whether or not to apply and to provide relevant evidence.<br><br>
@@ -286,7 +285,7 @@ You will need a clear set of criteria that suppliers will need to meet and be ev
                     </li>
 
                     <li data-label="4" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section">
+                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
                         Do evaluation
                       </h3>
                       <p class="govuk-body">You must evaluate suppliers, using the methods and criteria you published with your requirements, to find the one that best meets your needs.<br><br>
@@ -302,7 +301,7 @@ You will need a clear set of criteria that suppliers will need to meet and be ev
                       
                     </li>
                     <li data-label="5" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section">
+                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
                         {{data.line39}}
                       </h3>
                       <p class="govuk-body">When you have completed your evaluation and found a suitable supplier, you can award your contract.</p>
@@ -315,16 +314,16 @@ You will need a clear set of criteria that suppliers will need to meet and be ev
                                 <h3>
                   <ol class="govuk-list govuk-list--number-custome">
                     <li data-label="1" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section">
+                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
 
                         Create a shortlist
                       </h3>
-                      <p class="govuk-body">Download the <a href = "https://assets.digitalmarketplace.service.gov.uk/digital-outcomes-and-specialists-5/communications/catalogues/user-research-studios.csv">list of user research studios. </a>Filter the list of studios on location and your requirements to create a shortlist. Get help filtering the list at cloud_digital@crowncommercial.gov.uk
+                      <p class="govuk-body">Download the <a href = "https://assets.digitalmarketplace.service.gov.uk/digital-outcomes-and-specialists-5/communications/catalogues/user-research-studios.csv">list of user research studios. </a>Filter the list of studios on location and your requirements to create a shortlist. Get help filtering the list at <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@crowncommercial.gov.uk</a>
                       </p>
                     </li>
 
                     <li data-label="2" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section">
+                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
 
                         Contact your shortlist
                       </h3>
@@ -334,20 +333,18 @@ Contact <a href = "mailto: cloud_digital@crowncommercial.gov.uk">cloud_digital@c
                       </li>
 
                     <li data-label="3" class="govuk-list--number-custome-list">
-                      <h3 class="proc-task-list__section">
+                      <h3 class="proc-task-list__section govuk-!-margin-bottom-3">
                         Do evaluation
                       </h3>
-                      <p class="govuk-body">Evaluate supplier responses on:</p>
-
-                        The agreement uses a two-stage further competition process.<br>
-                        <ul class="govuk-list govuk-list--bullet">
+                      <p class="govuk-body govuk-!-margin-bottom-0">Evaluate supplier responses on:</p>
+                        <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0 govuk-!-margin-top-0 govuk-!-padding-left-9">
   <li>availability</li>
   <li>location, facilities and accessibility</li>
   <li>price</li>
 </ul>
 <p class="govuk-body">Award a contract to the supplier that best meets your needs.</p>
                     </li>
-                    <li data-label="4" class="govuk-list--number-custome-list">
+                    <li data-label="4" class="govuk-list--number-custome-list govuk-!-margin-bottom-3">
                       <h3 class="proc-task-list__section">
                         {{data.line39}}
                       </h3>
