@@ -12,9 +12,7 @@
 </p>
 {% endset %}
 	{% set Replyhtml %}	
-<h3 class="govuk-notification-banner__heading">	
-   Your message has been sent to {{suppliernameforreplymessage}}	
-</h3>	
+<h3 class="govuk-notification-banner__heading">Your message has been sent to {{suppliernameforreplymessage}}</h3>	
 {% endset %}
 {% set errHtml %}
 <h3 class="govuk-notification-banner__heading">
@@ -28,6 +26,14 @@
 {% set htmlQA %}
 <h3 class="govuk-notification-banner__heading">
     You successfully updated your clarifications
+</h3>
+<p class="govuk-body">
+    <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
+</p>
+{% endset %}
+{% set htmlQAEdit %}
+<h3 class="govuk-notification-banner__heading">
+    The question and clarification has been edited
 </h3>
 <p class="govuk-body">
     <a class="govuk-notification-banner__link" href="/event/qa">View your clarifications</a>
@@ -118,9 +124,15 @@
             </div>
         {% endif %}
             {% if createdreply == 'true' %}	
+            {% set CreatedReplyCustomhtml %}	
+<h3 class="govuk-notification-banner__heading">Your message was sent to the supplier</h3>
+<p class="govuk-body">
+    <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
+</p>	
+{% endset %}
             <div class="govuk-grid-column-one-half">	
                 {{ govukNotificationBanner({	
-                html: Replyhtml,	
+                html: CreatedReplyCustomhtml,	
                 type: "success",	
                 titleText: "Message sent"	
                 }) }}	
@@ -157,7 +169,7 @@
             <div class="govuk-grid-column-one-half">
 
                 {{ govukNotificationBanner({
-                html: htmlQA,
+                html: htmlQAEdit,
                 type: "success",
                 titleText: "Question and clarification updated"
                 }) }}
@@ -260,8 +272,14 @@
                     </table>
                 </div>
             </div>
+            {% if type == 'received' %}
+            <p class="govuk-body">
+                <a href="{{data.backJumpDashboard.href}}" class="govuk-link govuk-link--no-visited-state">{{data.backJumpDashboard.title}}</a>
+            </p>
+            {% else %}
             <p class="govuk-body">
                 <a href="/event/management?id={{eventId}}" class="govuk-link govuk-link--no-visited-state">{{data.backJump.title}}</a>
             </p>
+            {% endif %}
         </main>
     {% endblock %}

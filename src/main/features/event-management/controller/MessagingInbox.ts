@@ -40,7 +40,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
             }
         }
         
-        var suppliernameforreplymessage='';
+        let suppliernameforreplymessage='';
        
         if(createdreply)
         {
