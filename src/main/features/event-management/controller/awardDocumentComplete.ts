@@ -84,18 +84,16 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       console.log('log200',supplierList.length);
       supplierList = supplierList.sort((a: any, b: any) => a.supplier.name.replace("-"," ").toLowerCase() < b.supplier.name.replace("-"," ").toLowerCase() ? -1 : a.supplier.name.replace("-"," ").toLowerCase() > b.supplier.name.replace("-"," ").toLowerCase() ? 1 : 0);
 
-      let sId = 0;
+      // let sId = 0;
       for (let i = 0; i < supplierList.length; i++) {
         let id = supplierList[i].supplier.id;
         let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
         if (supplierList[i].responseState == 'Submitted') {
           showallDownload = true;
-          sId = id;
+          // sId = id;
         }
-        console.log('name',supplierList[i].supplier.name);
-        console.log('state',supplierList[i].responseState);
 
-       if (supplierList[i].supplier.id != supplierId && supplierList[i].supplier.id != sId) {
+       if (supplierList[i].supplier.id != supplierId && supplierList[i].responseState == 'Submitted') {
           let supplierDetailsObj = {} as SupplierDetails;
 
           

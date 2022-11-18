@@ -62,6 +62,7 @@
         </h1>
       </div>
     </div>
+    <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       {% include "includes/project_header.njk" %}
       <div>  
@@ -137,7 +138,7 @@
 
 <br/>
         {% if stage2_value == 'Stage 2' %}
-                        {{ CCSCharacterCount({
+                        {# {{ CCSCharacterCount({
                             label: {
                               text: "Final Feedback ",
                               classes: "govuk-label--m",
@@ -154,9 +155,9 @@
                             maxlength: "5000",
                              value: feedBack
                         })
-                      }}
+                      }} #}
         {% else %}
-                        {{ CCSCharacterCount({
+                        {# {{ CCSCharacterCount({
                             label: {
                               text: "Final Feedback ",
                               classes: "govuk-label--m",
@@ -173,7 +174,7 @@
                             maxlength: "5000",
                              value: feedBack
                         })
-                      }}
+                      }} #}
                       {% endif %}
 {# <p><label id="supplierFeedback"></label></p> #}
 
@@ -184,29 +185,23 @@
                             action:"submit"
                         }) }}
                       {%else%}
-                        {% if agreementId_session != 'RM1043.8' %}
-                          {{ CCSButton({
-                              text: "Save supplier feedback",
-                              action:"submit"
-                          }) }}
-                        {%else%}  
-                          {{ CCSButton({
-                              text: "Save supplier Score",
-                              action:"submit"
-                          }) }}
-                        {% endif %}
+                        {{ CCSButton({
+                            text: "Save supplier Score",
+                            action:"submit"
+                        }) }}
                       {% endif %}
                         {% set returnLink = "/evaluate-suppliers" %}
                         <a href="{{returnLink}}" class="govuk-link govuk-link--no-visited-state">Return to Evaluate suppliers</a>
                     </div>       
 
-
+        </div>
 
       </form>
-</div>    
-</div>
+    </div>    
+
     <div class="govuk-grid-column-one-third">
       {{ CCSReleatedContent(releatedContent) }}
+    </div>
     </div>
   </main>
         {% endblock %}

@@ -328,16 +328,17 @@ var { Parser } = require("json2csv");
             if(el.organization.id == supplierPostIds[i]) { return true; }
               return false;
           });          
-          if(contact.lotContacts != undefined) {
-            contact.lotContacts[0].contact['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
-            // contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
-            contact.lotContacts[0].contact['address'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
-            contact.lotContacts[0].contact['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
-            contact.lotContacts[0].contact['Contact number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
-            contact.lotContacts[0].contact['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
-            contactSupplierDetails = contact.lotContacts[0].contact;
-            JsonData.push(contactSupplierDetails)
-          }
+          let contactData:any = [];
+
+          // if(contact.lotContacts != undefined) {
+             contactData['name'] = contact.organization?.name == undefined?'-': contact.organization.name;
+             // contact.lotContacts[0].contact['status'] = contact?.supplierStatus == undefined?'-':contact?.supplierStatus;
+             contactData['status'] = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
+             contactData['address'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
+             contactData['Contact Point name'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
+             contactData['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
+              contactSupplierDetails = contactData;
+             JsonData.push(contactSupplierDetails)
         }
         let fields = ["name","email","telephone","address","url","Contact name","Contact number"];
         const json2csv = new Parser({fields});

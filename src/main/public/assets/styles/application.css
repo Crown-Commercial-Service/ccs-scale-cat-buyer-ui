@@ -4829,7 +4829,7 @@ p + .govuk-heading-s,
   padding-left: 35px;
   padding-bottom: 2rem;
 }
-.rfi-timeline-list::after {
+.rfi-timeline-list::after,.govuk-list--number-custome li::after {
   position: absolute;
   content: attr(data-label);
   background: #000000;
@@ -4842,6 +4842,10 @@ p + .govuk-heading-s,
   align-items: center;
   top: 3px;
   left: 0;
+}
+.govuk-list--number-custome-list {
+  position: relative;
+  padding: 0 0 0 30px;
 }
 .govuk-text-box p.govuk-body:last-child {
     border-left: 5px solid #BBBDBF;

@@ -200,7 +200,7 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         if (term_field.value.trim() == '' && definition_field.value.trim() == '' && target_field.value.trim() == '') {
          
         }else{
-          if (type_base != 'add_more' && pageHeading.includes("(Optional)") && (term_field.value.trim() == '' || definition_field.value.trim() == '' || target_field.value.trim() == '')) {
+          if (type_base != 'add_more' && (pageHeading.includes("(Optional)") || pageHeading.includes("(optional)")) && (term_field.value.trim() == '' || definition_field.value.trim() == '' || target_field.value.trim() == '')) {
             let isErrorSingle = false;
             if (term_field.value.trim() == ''){
                isErrorSingle = true;
@@ -222,7 +222,7 @@ const emptyFieldCheckRfpKPI = (type_base='') => {
         }
        
       
-        if (!pageHeading.includes("(Optional)") || type_base=='add_more') {
+        if ((!pageHeading.includes("(optional)") && !pageHeading.includes("(Optional)")) || type_base=='add_more') {
           if (term_field.value.trim() === '' && definition_field.value.trim() === '' && target_field.value.trim() === '') {
             fieldCheck = [definition_field.id, 'You must add information in all fields.'];
             ccsZaddErrorMessage(term_field, 'You must enter the name of requirement.');

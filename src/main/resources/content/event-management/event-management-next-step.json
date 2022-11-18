@@ -20,7 +20,7 @@
     "title": "Event Management",
     "subtitle": "[ Instructions for this page ]",
     "subsection2_title": "Open Project ID/ Name",
-    "subsection2_content": "Close event",
+    "subsection2_content": "Close your event",
     "form": {
         "question": "[ Description for this section, including that a pause can be taken now ]",
         "radioOptions": {

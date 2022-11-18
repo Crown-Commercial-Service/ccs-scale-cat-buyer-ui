@@ -41,7 +41,7 @@
             <strong class="govuk-tag app-task-list__tag govuk-tag--grey" id="suppliers-status">{{eventManagementData.status}}</strong>
           </h2>
           <p class="govuk-body">
-            <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
+            <a class="govuk-link" href="/rfi/nextsteps">Close your event</a>
           </p>
         </div>
       </div>
@@ -103,7 +103,7 @@
        <p>You can notify unsuccessful bidders of the outcome using the templates provided on this page. You will need to notify all unsuccessful suppliers via your organisation’s email account. </p>
 </br> 
 {%set urlNew=eventManagementData.documentTemplateDataList[0].supplierId+"&doctempateId="+eventManagementData.documentTemplateDataList[0].documentTemplatesUnSuccess %}
- <a class="govuk-link" href="/award-supplier-document?supplierId={{urlNew}}">Download templates</a>
+ <a class="govuk-link govuk-body" href="/award-supplier-document?supplierId={{urlNew}}">Download templates</a>
        </div>
         </div>
   <br><br>

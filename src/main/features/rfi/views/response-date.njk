@@ -4,9 +4,36 @@
 {% set title = 'RfI - response date | Crown Commercial Service' %}
 
 {% block breadCrumb %}
+{% if agreementId_session == "RM6187" %}
+{{ CCSBreadcrumbs({
+        items: [
+            {
+        "text": "Dashboard",
+        "href": "/dashboard"
+        },
+        {
+        "text": "Choose a commercial agreement",
+        "href": "/projects/choose-agreement"
+        },
+        {
+        "text": "Procurement overview",
+        "href": "/projects/create-or-choose"
+        },
+        {
+        "text": "Request for Information",
+        "href": "/rfi/rfi-tasklist"
+        },
+        {
+        "text": "Your RfI timeline"
+        }
+           
+        ]
+      }) }}
+{% else %}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
+{% endif %}      
 {% endblock %}
 
 {% block content %}
@@ -255,7 +282,11 @@
   <button class="govuk-button govuk-button-dark" id="hideMeWhileDateChange" data-module="govuk-button">
     Save and continue
   </button>
+  {% if agreementId_session == "RM6187" %}
+  <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Request for Information</a>
+  {% else %}
   <a href="/rfi/rfi-tasklist" class="govuk-link govuk-link--no-visited-state">Return to Do pre-market engagement</a>
+  {% endif %}
   </form>
                   
               </div>
