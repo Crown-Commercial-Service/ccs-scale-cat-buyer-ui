@@ -41,6 +41,7 @@ export class QuestionHelper {
         const criterian_bas_url = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${aURI}/groups`;
         const fetch_criterian_group_data = await DynamicFrameworkInstance.Instance(SESSION_ID).get(criterian_bas_url);
         criterian_array = fetch_criterian_group_data?.data;
+        
         const rebased_object_with_requirements = criterian_array?.map((anItem: any) => {
           const object = anItem;
           object['criterianId'] = aURI;
@@ -68,19 +69,26 @@ export class QuestionHelper {
         });
       const current_cursor = sorted_ascendingly?.findIndex((pointer: any) => pointer.OCDS['id'] === group_id);
       const check_for_overflowing: boolean = current_cursor < sorted_ascendingly.length - 1;
-      if (check_for_overflowing) {
-        const next_cursor = current_cursor + 1;
+      const next_cursor = current_cursor + 1;
         const next_cursor_object = sorted_ascendingly[next_cursor];
+        let base_url ='';
+        if(next_cursor_object !=undefined){
+
         const next_group_id = next_cursor_object.OCDS['id'];
         const next_criterian_id = next_cursor_object['criterianId'];
-        const base_url = `/rfi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`;
-        res.redirect(base_url);
-      } else {
+         base_url = `/rfi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`;
+        }
+        
         let mandatoryNum = 0;
+        let mandatoryqstnNum = 0;
+        
+        let status = '';
         for (let i = 0; i < criterian_array.length; i++) {
           const groupId = criterian_array[i].OCDS['id'];
           const mandatory = criterian_array[i].nonOCDS['mandatory'];
           if (mandatory) {
+            mandatoryqstnNum += 1;
+           
             const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
             const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
             const fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -90,19 +98,36 @@ export class QuestionHelper {
             if (fetch_dynamic_api_data[0].nonOCDS.options[0]) {
               if (questionType === 'Value' || questionType === 'Text') {
                 answered = fetch_dynamic_api_data[0].nonOCDS.options[0]['value'];
-                if (answered !== '') mandatoryNum += 1;
+                if (answered !== '' && answered !== undefined) mandatoryNum += 1;
               }
-              if (questionType === 'SingleSelect' || questionType === 'MultiSelect') {
+              if (questionType === 'SingleSelect') {
                 for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
                   selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
                   if (selectedLocation) mandatoryNum += 1;
                 }
               }
+
+              if (questionType === 'MultiSelect') {
+                for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
+                  selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
+                  if(j==0){
+                    if (selectedLocation) mandatoryNum += 1;
+                  }
+                 
+                }
+              }
+
             }        
           }
         }
-        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, 'Completed');
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/81`, 'Completed');
+        
+        mandatoryqstnNum=3;
+       // status = 'In progress';
+        mandatoryqstnNum <= mandatoryNum ? (status = 'Completed') : (status = 'In progress');
+       
+        if(status == 'Completed') await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/81`, 'Completed');
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
+        
         if (response.status == HttpStatusCode.OK) {
           let flag=await ShouldEventStatusBeUpdated(event_id,11,req);
         if(flag)
@@ -115,6 +140,12 @@ export class QuestionHelper {
                 await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/12`, 'Not started');
           }
         }
+
+      if (check_for_overflowing) {
+        
+        res.redirect(base_url);
+      } else {
+       
         res.redirect('/rfi/rfi-tasklist');
       }
     } catch (error) {
