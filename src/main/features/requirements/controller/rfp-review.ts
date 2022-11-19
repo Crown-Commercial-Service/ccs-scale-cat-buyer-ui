@@ -2379,12 +2379,13 @@ const RFP_REVIEW_RENDER_TEST_MCF = async (req: express.Request, res: express.Res
       question: 'Question 1',
     };
 
-    const IR35BaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${IR35Dataset.id}/groups/${IR35Dataset.group_id}/questions`;
-    const IR35 = await TenderApi.Instance(SESSION_ID).get(IR35BaseURL);
-    const IR35Data = IR35?.data;
-    const IR35selected = IR35Data?.[0].nonOCDS?.options?.filter(data => data.selected == true)?.map(data => data.value)?.[0]
+const IR35selected='';
+    // const IR35BaseURL = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${IR35Dataset.id}/groups/${IR35Dataset.group_id}/questions`;
+    // const IR35 = await TenderApi.Instance(SESSION_ID).get(IR35BaseURL);
+    // const IR35Data = IR35?.data;
+    // const IR35selected = IR35Data?.[0].nonOCDS?.options?.filter(data => data.selected == true)?.map(data => data.value)?.[0]
     const agreement_id = req.session['agreement_id'];
-
+    
 // supplier filtered list
     // let supplierList = [];
     // supplierList = await GetLotSuppliers(req);

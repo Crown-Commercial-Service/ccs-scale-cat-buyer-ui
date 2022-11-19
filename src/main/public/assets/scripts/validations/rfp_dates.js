@@ -5,15 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpResourceStartYear = $('.rfp_resource_start_year');
 
       rfpResourceStartDay.on('keydown', (event) => {
-         if (event.key === '.' || event.keyCode ===69)
+         if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189)
            event.preventDefault(); });
 
            rfpResourceStartMonth.on('keydown', (event) => {
-            if (event.key === '.' || event.keyCode ===69)
+            if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189)
               event.preventDefault(); });
 
               rfpResourceStartYear.on('keydown', (event) => {
-               if (event.key === '.' || event.keyCode ===69)
+               if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189)
                  event.preventDefault(); });
 
       rfpResourceStartDay.on('keydown', () => {
@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpDurationField = $('.rfp_duration');
       
       rfpDurationField.on('keydown', (event) => {
-         if (event.key === '.'  || event.keyCode ===69)
+         console.log("event.keyCode",event.keyCode);
+         if (event.key === '.'  || event.keyCode ===69 || event.keyCode ===189)
            event.preventDefault(); });
 
       rfpDurationField.on('blur', (event) => {
