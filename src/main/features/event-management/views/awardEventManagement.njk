@@ -313,9 +313,18 @@
 
                {%  elif status.toLowerCase() =="complete" %}
  {# <p> If you have not done so already, you can  <a class="govuk-link" href="/unsuccessful?download=2">download the unsuccessful supplier templates here.</a> </p> #}
-              {% if eventType != 'RFI' and eventType!='EOI'  %}
-              <p>You need to publish the contract on <a href='https://www.gov.uk/contracts-finder' target='_blank'>Contracts Finder.</a> This is a legal requirement.</p>
-
+            {% if eventType != 'RFI' and eventType!='EOI'  %}
+                {% if agreementId_session == 'RM6187' %}
+                        <p class="govuk-body">{{data.mcf_sections | safe }}</p>
+                           <ul class="govuk-list govuk-list--bullet">
+                           {% for uli in data.ul %}
+                              <li>{{uli.li | safe }}</li>
+                           {% endfor %}
+                           </ul>
+                        
+                {% else %}
+                <p>You need to publish the contract on <a href='https://www.gov.uk/contracts-finder' target='_blank'>Contracts Finder.</a> This is a legal requirement.</p>
+                {% endif %}
                 <div class="govuk-grid-column-one-quarter">
                 <p> Awarded Date </p>
                  <p> Received Signed Contract </p>
