@@ -204,13 +204,13 @@ function isValidQuestion(
 // const timeliii=moment(questionNewDate12,'DD MMMM YYYY, HH:mm:ss ',
 // ).format('YYYY-MM-DDTHH:mm:ss')+'Z';
 let bankHolidayEnglandWales;
-if (agreement_id=='RM1043.8') {
+//if (agreement_id=='RM1043.8') {
  if(bankholidaydata){
 let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
      bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
      bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
   }
-}
+//}
 const questionInputDate = new Date(year, month, day);
  
 let bankHolidayResult = checkBankHoliday(questionInputDate,bankHolidayEnglandWales);

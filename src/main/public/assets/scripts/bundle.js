@@ -9222,15 +9222,16 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => 
  * Validate that a textarea cointains a value
  */
 const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
-  
+ 
   const pageHeading = document.getElementById('page-heading').innerHTML;
   
   if (!(pageHeading.includes("(Optional)") && !pageHeading.includes("(optional)"))) {
     const element = document.getElementById(elementName);
-   
+    
     if (element != undefined && element != null && element.value && element.value.trim().length > 0 && valid) {
       
       ccsZremoveErrorMessage(element);
+      return true;
     }
     else if (element != undefined && element != null) {
       
@@ -9397,6 +9398,7 @@ const ccsZvalidateThisDate = (elementName, errMsg, direction, offset) => {
 const ccsZremoveErrorMessage = (element) => {
 
   if (element !=null && document.getElementById(element.id + "-error") !== null) {
+    
     element.closest('.govuk-form-group').classList.remove('govuk-form-group--error');
     if (element.tagName === "TEXTAREA") {
       element.closest('.govuk-textarea').classList.remove('govuk-textarea--error');
@@ -9423,7 +9425,7 @@ const ccsZremoveErrorMessage = (element) => {
  * @param {string} message - the error message
  */
 const ccsZaddErrorMessage = (element, message) => {
-  console.log("element",element);
+  
 
   if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
@@ -9571,7 +9573,7 @@ const ccsZvalidateDateWithRegex = (elementName,addElementName, errMsg, typeRegex
 };
 
 const ccsZaddDateErrorMessage = (element,addelement, message) => {
-  console.log("element",element);
+  
 
   if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
@@ -16946,9 +16948,9 @@ const ccsZvalidateEoiNeeds = (event) => {
 const ccsZvalidateEoiProject = (event) => {
   event.preventDefault();
 
-  let fieldCheck = "",
-    errorStore = [];
-
+  let fieldCheck = "";
+  let errorStore = [];
+  
   // fieldCheck = ccsZvalidateWithRegex( "rfi_prog_name", "Enter the Project / Programme Name", /^.+$/ );
   // if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -16956,8 +16958,12 @@ const ccsZvalidateEoiProject = (event) => {
   // if (fieldCheck !== true) errorStore.push(fieldCheck);
 
   fieldCheck = ccsZvalidateTextArea("eoi_prob_statement", "You must enter information here");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
+  
+  if (fieldCheck !== true) {
+    
+    errorStore.push(fieldCheck);
+  }
+  
   // fieldCheck = ccsZvalidateTextArea( "rfi_will_work_on", "Describe the areas or techologies the resource will work on" );
   // if (fieldCheck !== true) errorStore.push(fieldCheck);
 
@@ -16966,9 +16972,13 @@ const ccsZvalidateEoiProject = (event) => {
 
   // fieldCheck = ccsZvalidateTextArea( "rfi_key_users_outcomes", "Describe your key outcomes" );
   // if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_about_proj"].submit();
-  else ccsZPresentErrorSummary(errorStore);
+  
+  if (errorStore.length === 0) {
+    document.forms["ccs_eoi_about_proj"].submit();
+    }else {
+      
+      ccsZPresentErrorSummary(errorStore);
+    }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18132,8 +18142,8 @@ if (document.getElementById('rfi_contracting_auth') !== null)
   if (document.getElementById('ca_justification') !== null)
   document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
 
-if (document.getElementById('ccs_eoi_about_proj') !== null)
-  document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
+// if (document.getElementById('ccs_eoi_about_proj') !== null)
+//   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
 //if(document.getElementById("ccs_rfi_proj_status") !== null) document.getElementById("ccs_rfi_proj_status").addEventListener('submit', ccsZvalidateRfiProjectStatus);
 
@@ -18171,8 +18181,12 @@ if (document.getElementById('ccs_eoi_purpose_form') !== null)
 
 //if (document.getElementById("ccs_eoi_scope_form") !== null) document.getElementById("ccs_eoi_scope_form").addEventListener('submit', ccsZvalidateEoiScope);
 
-if (document.getElementById('ccs_eoi_about_proj') !== null)
-  document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiContext);
+// if (document.getElementById('ccs_eoi_about_proj') !== null)
+//   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiContext);
+
+  if (document.getElementById('ccs_eoi_about_proj') !== null)
+  document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
+
 
 if (document.getElementById('ccs_eoi_new_form') !== null)
   document.getElementById('ccs_eoi_new_form').addEventListener('submit', ccsZvalidateEoiServiceType);

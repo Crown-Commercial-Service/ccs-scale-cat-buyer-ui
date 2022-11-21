@@ -228,8 +228,8 @@ if (document.getElementById('rfi_contracting_auth') !== null)
   if (document.getElementById('ca_justification') !== null)
   document.getElementById('ca_justification').addEventListener('input', ccsZCountCAReviewRank);
 
-if (document.getElementById('ccs_eoi_about_proj') !== null)
-  document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
+// if (document.getElementById('ccs_eoi_about_proj') !== null)
+//   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
 
 //if(document.getElementById("ccs_rfi_proj_status") !== null) document.getElementById("ccs_rfi_proj_status").addEventListener('submit', ccsZvalidateRfiProjectStatus);
 
@@ -267,8 +267,12 @@ if (document.getElementById('ccs_eoi_purpose_form') !== null)
 
 //if (document.getElementById("ccs_eoi_scope_form") !== null) document.getElementById("ccs_eoi_scope_form").addEventListener('submit', ccsZvalidateEoiScope);
 
-if (document.getElementById('ccs_eoi_about_proj') !== null)
-  document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiContext);
+// if (document.getElementById('ccs_eoi_about_proj') !== null)
+//   document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiContext);
+
+  if (document.getElementById('ccs_eoi_about_proj') !== null)
+  document.getElementById('ccs_eoi_about_proj').addEventListener('submit', ccsZvalidateEoiProject);
+
 
 if (document.getElementById('ccs_eoi_new_form') !== null)
   document.getElementById('ccs_eoi_new_form').addEventListener('submit', ccsZvalidateEoiServiceType);

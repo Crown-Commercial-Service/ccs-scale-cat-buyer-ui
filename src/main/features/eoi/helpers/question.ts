@@ -82,20 +82,21 @@ export class QuestionHelper {
       }
      
       
-      let mandatoryqstnNum = 0;
+      //let mandatoryqstnNum = 0;
         let answeredMandatory = 0;
         let status = '';
         for (let i = 0; i < criterian_array.length; i++) {
           const groupId = criterian_array[i].OCDS['id'];
           const mandatory = criterian_array[i].nonOCDS['mandatory'];
           if (mandatory) {
-            mandatoryqstnNum += 1;
+           // mandatoryqstnNum += 1;
             const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
             const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
             const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+          //console.log("JSON",JSON.stringify(fetch_dynamic_api_data));
             let answered;
             const questionType = fetch_dynamic_api_data[0].nonOCDS['questionType'];
-            
+           
             let selectedLocation;
              
             if (
@@ -105,12 +106,16 @@ export class QuestionHelper {
                 questionType === 'Duration' ||
                 questionType === 'Date'
               ) {
+
+               // console.log("JSON",JSON.stringifyfetch_dynamic_api_data);
                   if(fetch_dynamic_api_data.length>0){
                     for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
                       
                       if(fetch_dynamic_api_data[j].nonOCDS.mandatory){
                         answered = fetch_dynamic_api_data[j].nonOCDS.options?.[0]?.['value'];
+                        
                         if (answered !== '' && answered!=undefined) {
+                          
                           answeredMandatory += 1;
                         }
                       }
@@ -133,6 +138,7 @@ export class QuestionHelper {
               if (questionType === 'SingleSelect') {
                 for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
                  selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
+                
                  if (selectedLocation) {
                       answeredMandatory += 1;
                     }
@@ -164,9 +170,9 @@ export class QuestionHelper {
           }
         }
 
-        mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');
+        6 <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');
         
-        
+
         //let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
         // const PreUpdate = journeySteps.filter((el: any) => {
         //   if(el.step == '19') {
