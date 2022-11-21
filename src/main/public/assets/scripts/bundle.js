@@ -11788,6 +11788,32 @@ $('.percentage_limit').keyup(function(e) {
 
 });
 
+    $('.percentage_limit_dos6').keypress(function (e) {
+        var character = String.fromCharCode(e.keyCode)
+          var strlen = this.value.length;
+        if(strlen == 4) {
+            if(character !== '.') {
+              if(this.value[2] !== '.') {
+                if(character !== undefined) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+          }
+        }
+          
+          var newValue = this.value + character;
+          if (isNaN(newValue) || hasDecimalPlace(newValue, 3)) {
+              e.preventDefault();
+              return false;
+          }
+      });
+      
+      function hasDecimalPlace(value, x) {
+          var pointIndex = value.indexOf('.');
+          return  pointIndex >= 0 && pointIndex < value.length - x;
+      }
+
 
 var maxless = 500;
 
