@@ -36,15 +36,16 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => 
  * Validate that a textarea cointains a value
  */
 const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
-  
+ 
   const pageHeading = document.getElementById('page-heading').innerHTML;
   
   if (!(pageHeading.includes("(Optional)") && !pageHeading.includes("(optional)"))) {
     const element = document.getElementById(elementName);
-   
+    
     if (element != undefined && element != null && element.value && element.value.trim().length > 0 && valid) {
       
       ccsZremoveErrorMessage(element);
+      return true;
     }
     else if (element != undefined && element != null) {
       
@@ -211,6 +212,7 @@ const ccsZvalidateThisDate = (elementName, errMsg, direction, offset) => {
 const ccsZremoveErrorMessage = (element) => {
 
   if (element !=null && document.getElementById(element.id + "-error") !== null) {
+    
     element.closest('.govuk-form-group').classList.remove('govuk-form-group--error');
     if (element.tagName === "TEXTAREA") {
       element.closest('.govuk-textarea').classList.remove('govuk-textarea--error');
@@ -237,7 +239,7 @@ const ccsZremoveErrorMessage = (element) => {
  * @param {string} message - the error message
  */
 const ccsZaddErrorMessage = (element, message) => {
-  console.log("element",element);
+  
 
   if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
@@ -385,7 +387,7 @@ const ccsZvalidateDateWithRegex = (elementName,addElementName, errMsg, typeRegex
 };
 
 const ccsZaddDateErrorMessage = (element,addelement, message) => {
-  console.log("element",element);
+  
 
   if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
