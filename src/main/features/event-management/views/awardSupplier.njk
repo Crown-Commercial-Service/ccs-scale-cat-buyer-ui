@@ -102,9 +102,9 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                  <th scope="col" class="govuk-table__header">Supplier's name</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's answer</th>
-                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier's evaluation</th>
+                  <th scope="col" class="govuk-table__header">Supplier name</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier answer</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Supplier evaluation</th>
                   <th scope="col" class="govuk-table__header govuk-text-align govuk-!-text-align-centre">Score</th>
                 </tr>
               </thead>
@@ -142,24 +142,48 @@
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl">
+          {% if agreement_header['agreementId_session'] == 'RM6187' %}
           <strong>Award supplier </strong>
+          {% else %}
+          <strong>Contract award</strong>
+          {% endif %}
         </h1>
         {% if agreement_header['agreementId_session'] == 'RM6187' %}
         <p>When you award your supplier, ensure you send documentation to both successful and unsuccessful bidders.</p>
         {% else %}
-        <p>When you award your supplier, ensure you send documentation to both successful and unsuccessful bidders. You will need to do this via your organisation’s email account.</p>
+        <p>When you award your contract, ensure you send documentation to both successful and unsuccessful bidders. You will need to do this using your organisation’s email account.</p>
         {% endif %}
         </br></br>
+        {% if agreement_header['agreementId_session'] == 'RM1043.8' %}
+        {{ CCSWarningText({
+    text: "Please confirm that you are ready to award this contract.",
+    iconFallbackText: "Warning"
+    }) }}
+        {% else %}
         {{ CCSWarningText({
     text: "You must agree that you acknowledge the responsibility to award this supplier.",
     iconFallbackText: "Warning"
     }) }}
+    {% endif %}
        </div>
        </div>
 
 <form id="ccs_award_supplier_form" name="ccs_award_supplier_form" class="form ccs_award_supplier_form"
       action="/award-supplier" method="post">
-                     {{ csrfProtection(csrf) }}         	 
+                     {{ csrfProtection(csrf) }}  
+                     {% if agreement_header['agreementId_session'] == 'RM1043.8' %}
+                     {{ CCSCheckboxes({
+      idPrefix: "award_supplier_confirmation",
+      name: "award_supplier_confirmation",
+      items: [
+      {
+      "value": 1,
+      html: "<label><strong>I confirm that I am ready to award this contract.</strong></label>",
+      Checked: ""
+      }
+      ]
+      }) }}
+                     {% else %}       	 
         {{ CCSCheckboxes({
       idPrefix: "award_supplier_confirmation",
       name: "award_supplier_confirmation",
@@ -171,6 +195,7 @@
       }
       ]
       }) }}
+      {% endif %}
       <input type="hidden" name="supplier_id" id="supplier_id" value="{{supplierDetails.supplierId}}">
                                 <div class="govuk-button-group">
                                   {{ CCSButton({
