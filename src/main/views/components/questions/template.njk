@@ -957,7 +957,8 @@
                                   },
                                   prefix: {
                                     text: "£"
-                                  }
+                                  },
+                                  maxlength:32
                                 })
                             }}
                             {% else %}
@@ -2184,7 +2185,8 @@
                             classes: "govuk-input--width-5",
                             value: requirement.nonOCDS.options[0].value,
                             type:"number",
-                            min:"0"
+                            min:"0",
+                            maxlength:32
                         })
                       }}
 
