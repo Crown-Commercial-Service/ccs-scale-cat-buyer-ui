@@ -186,7 +186,7 @@ export const DA_GET_SELECTED_SERVICE = async (req: express.Request, res: express
     }*/
     
     if(rfp_selected_services.selected_services == undefined) {
-      if(req.body.isDisable) {
+      if(req.body.isDisable!=true) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/30`, 'Completed');
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/31`, 'Not started');
         res.redirect('/da/task-list');
@@ -195,7 +195,8 @@ export const DA_GET_SELECTED_SERVICE = async (req: express.Request, res: express
         res.redirect('/da/selected_service');
       }
     } else {
-      if(req.body.isDisable == '') {
+      // console.log('ll',req.body.isDisable);
+      if(req.body.isDisable!=true) {
         const assessmentId = req.session.currentEvent.assessmentId;
         const ASSESSTMENT_BASEURL = `/assessments/${assessmentId}`;
         const ALL_ASSESSTMENTS = await TenderApi.Instance(SESSION_ID).get(ASSESSTMENT_BASEURL);

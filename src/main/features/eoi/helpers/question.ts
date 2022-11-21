@@ -95,6 +95,7 @@ export class QuestionHelper {
             const fetch_dynamic_api_data = fetch_dynamic_api?.data;
             let answered;
             const questionType = fetch_dynamic_api_data[0].nonOCDS['questionType'];
+            
             let selectedLocation;
              
             if (
@@ -106,18 +107,35 @@ export class QuestionHelper {
               ) {
                   if(fetch_dynamic_api_data.length>0){
                     for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
+                      
                       if(fetch_dynamic_api_data[j].nonOCDS.mandatory){
                         answered = fetch_dynamic_api_data[j].nonOCDS.options?.[0]?.['value'];
-                        if (answered !== '') answeredMandatory += 1;
+                        if (answered !== '' && answered!=undefined) {
+                          answeredMandatory += 1;
+                        }
                       }
                     }
                   }
               }
+              
 
-              if (questionType === 'SingleSelect' || questionType === 'MultiSelect') {
+              if (questionType === 'MultiSelect') {
                 for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
                   selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
-                  if (selectedLocation) answeredMandatory += 1;
+                 if(j==0){
+                      if (selectedLocation) {
+                        answeredMandatory += 1;
+                      }
+                    }
+                }
+              }
+
+              if (questionType === 'SingleSelect') {
+                for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
+                 selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
+                 if (selectedLocation) {
+                      answeredMandatory += 1;
+                    }
                 }
               }
               
@@ -126,8 +144,15 @@ export class QuestionHelper {
               {
                 if(fetch_dynamic_api_data[1].nonOCDS?.options?.length>0){
                 for (let j = 0; j < fetch_dynamic_api_data[1].nonOCDS.options.length; j++) {
+                  
                   selectedLocation = fetch_dynamic_api_data[1].nonOCDS.options[j]['selected'];
-                  if (selectedLocation) answeredMandatory += 1;
+                 
+                    
+                  if (selectedLocation){
+                    
+                    answeredMandatory += 1;
+                  } 
+                  
                 }
               }
               }
@@ -140,7 +165,6 @@ export class QuestionHelper {
         }
 
         mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');
-        
         
         
         //let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);

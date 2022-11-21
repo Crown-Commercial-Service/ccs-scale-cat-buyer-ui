@@ -34,3 +34,5 @@ coverage/
 # automatic testing
 src/test/routes/features/__Mock__/env.ts
 
+# Local setup files
+envs.ts

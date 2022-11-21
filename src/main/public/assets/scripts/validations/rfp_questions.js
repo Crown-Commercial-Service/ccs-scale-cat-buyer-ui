@@ -520,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const emptyQuestionFieldCheckRfp = () => {
         removeErrorFieldsRfpScoreQuestion();
-        const countWords = str => str ?.trim().split(/\s+/) ?.length;
+        const countWords = str => str.trim().split(/\s+/).length;
         let fieldCheck = '',
             errorStore = [],
             noOfRequirement_Group = 0;
@@ -563,9 +563,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if( pageHeading.trim().toLowerCase() != 'Special terms and conditions (Optional)'.toLowerCase()) {
                     if (rootEl.querySelector('.order_1')) {
                         let element = rootEl.querySelector('.order_1');
-                        //const condOrd1 = countWords(rootEl.querySelector('.order_1') ?.value) > 50;
-                        //if (rootEl.querySelector('.order_1').value == '' || condOrd1) {
-                        if ((rootEl.querySelector('.order_1').value == '' || rootEl.querySelector('.weightage')?.value == '') && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
+
+                        if ((rootEl.querySelector('.order_1').value == '' || ((rootEl.querySelector('.weightage') != null && rootEl.querySelector('.weightage') != undefined) && rootEl.querySelector('.weightage').value == '')) && !pageHeading.includes("Assisted digital and accessibility requirements (Optional)")) {
                             const msg = rootEl.querySelector('.order_1').value ?
                                 'Entry is limited to 50 words' :
                                 'You must enter valid question';
@@ -578,41 +577,31 @@ document.addEventListener('DOMContentLoaded', () => {
                             if(percentageCheck){
                                 errorStore.push(percentageCheck);
                             }
-    
-                                // if(!pageHeading.includes("Assisted digital and accessibility requirements (Optional)") && !pageHeading.includes("Essential skills and experience")){
-                                //     errorStore.push(percentageCheck);
-                                // }
-
-                           // }
                         }
                     }
                     if (rootEl.querySelector('.order_2')) {
-                        //const condOrd2 = countWords(rootEl.querySelector('.order_2') ?.value) > 150;
-                        // if (rootEl.querySelector('.order_2').value == '' || !condOrd2) {
                         if (rootEl.querySelector('.order_2').value == '') {
 
                             const msg = rootEl.querySelector('.order_2').value ?
                                 'Entry is limited to 50 words' :
                                 'You must enter valid additional information';
-                            //fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_2', msg, /\w+/, !condOrd2);
+
                             fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_2', msg, /\w+/);
                             if (fieldCheck !== true) errorStore.push(fieldCheck);
                         }
                     }
                     if (rootEl.querySelector('.order_3')) {
-                        //const condOrd3 = countWords(rootEl.querySelector('.order_3') ?.value) > 500;
-                        //if (rootEl.querySelector('.order_3').value == '' || condOrd3) {
                         if (rootEl.querySelector('.order_3').value == '') {
                             const msg = rootEl.querySelector('.order_3').value ?
                                 'Entry is limited to 50 words' :
                                 'You must enter valid information';
-                            //fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_3', msg, /\w+/, !condOrd3);
+
                             fieldCheck = ccsZvalidateWithRegex('fc_question_' + i + '_3', msg, /\w+/);
                             if (fieldCheck !== true) errorStore.push(fieldCheck);
                         }
                     }
                     if (rootEl.querySelector('.weightage')) {
-                        const condWeight = rootEl.querySelector('.weightage') ?.value > 100;
+                        const condWeight = rootEl.querySelector('.weightage').value > 100;
                         if (rootEl.querySelector('.weightage').value != '' && condWeight || rootEl.querySelector('.weightage').value < 0) {
                             const msg = rootEl.querySelector('.weightage').value ?
                                 'Enter a weighting for this question <= 100%' :

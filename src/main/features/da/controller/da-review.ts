@@ -857,10 +857,14 @@ const DA_REVIEW_RENDER_TEST = async (req: express.Request, res: express.Response
         const { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
         let actualStatus = journeySteps.find(d=>d.step == 35)?.state;
         
-        console.log("actualStatus",actualStatus);
-        console.log("ReviewData.OCDS.status",ReviewData.OCDS.status);
-
-        if(actualStatus !== 'Completed' && ReviewData.OCDS.status != "published" && customStatus!="complete"){
+       
+        const baseurl = `/tenders/projects/${req.session.projectId}/events`
+      const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
+      //status=apidata.data[0].dashboardStatus;
+      const selectedEventData = apidata.data.filter((d: any) => d.id == event_id);
+      const pubStatus = selectedEventData[0].dashboardStatus;
+    
+        if(pubStatus !== 'PUBLISHED' && actualStatus !== 'Completed' && ReviewData.OCDS.status != "published" && customStatus!="complete"){
           
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Not started');
           await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/35`, 'Cannot start yet');
