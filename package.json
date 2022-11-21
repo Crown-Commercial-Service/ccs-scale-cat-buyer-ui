@@ -25,7 +25,7 @@
         "test:functional": "echo 'TODO add functional tests' && exit 1",
         "cichecks": "yarn && yarn build && yarn lint  && yarn test && yarn test:routes &&  yarn test:a11y",
         "compile": "assets/styles",
-        "build-assets": "gulp pack-scripts pack-styles"    
+        "build-assets": "gulp pack-scripts pack-styles"
     },
     "dependencies": {
         "@hmcts/info-provider": "^1.0.0",
