@@ -198,16 +198,45 @@
       {% endif %}
       <input type="hidden" name="supplier_id" id="supplier_id" value="{{supplierDetails.supplierId}}">
                                 <div class="govuk-button-group">
-                                  {{ CCSButton({
+        
+          {% if agreement_header['agreementId_session'] == 'RM6187' %}
+{% set s_classes = "del btn_event_managment_award" %}
+        {% else %}
+        {% set s_classes = "" %}
+        {% endif %}
+
+        {{ CCSButton({
         attributes: {
         id: "btn_award_supplier"
         },
+         classes: s_classes,
         text: "Award supplier"
         }) }}
                                   <a class="govuk-link" href="/event/management?id={{eventId}}">Return to Your Project</a> 
                                 </div>
                                 
-                              </form>          
+                              </form>
+
+                          <form id="ccs_standstill_period_form" name="ccs_standstill_period_form" class="form ccs_standstill_period_form"
+      action="/stand-period" method="post">
+                          {{ csrfProtection(csrf) }}
+                          <input class="govuk-radios__input" id="standstill_period_no" name="standstill_period_yes" type="hidden" value="no" >
+                         </form>
+
+ {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you have followed the evaluation criteria you set out and communicated to suppliers.' | safe %}
+
+
+{{ CCSDialog({
+    title:'Confirm your wish to award this supplier',
+    description:s_name | safe,
+    redirect:'#',
+    type:'vetting'
+  }) }}
+
+
+
+
  </main>
 {% endblock %}
+
  
