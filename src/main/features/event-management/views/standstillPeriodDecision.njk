@@ -25,15 +25,23 @@
     {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you have followed the evaluation criteria you set out and communicated to suppliers.' | safe %}
    {% elseif agreement_id == 'RM6187' %}
    {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you have followed the evaluation criteria you set out and communicated to suppliers.' | safe %}
+    {{ CCSDialog({
+    title:'Confirm you wish to award to this supplier',
+    description:s_name | safe,
+    redirect:'#',
+    type:'vetting'
+  }) }}
   {%else%}
     {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you are satisfied with your choice.' | safe %}
   {%endif%}
+  {% if agreement_id != 'RM6187' %}
   {{ CCSDialog({
     title:'Confirm your wish to award this supplier',
     description:s_name | safe,
     redirect:'#',
     type:'vetting'
   }) }}
+  {% endif %}
 
  {% if (isError) %}
       {{ CCSErrorSummary({

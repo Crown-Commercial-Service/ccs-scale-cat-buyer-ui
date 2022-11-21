@@ -65,7 +65,7 @@ export const GET_AWARD_SUPPLIER = async (req: express.Request, res: express.Resp
         const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
         let status = selectedEventData[0].dashboardStatus;
 
-        const appendData = { status, supplierDetails, supplierDetailsList, projectName, agreement_header, viewError, eventId }
+        const appendData = { status, supplierDetails, supplierDetailsList, projectName, agreement_header, viewError, eventId, agreement_id }
         res.render('awardSupplier', appendData);
     } catch (error) {
         LoggTracer.errorLogger(

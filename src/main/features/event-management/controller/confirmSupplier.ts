@@ -84,7 +84,7 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
       supplierDetails,
       showallDownload,
     };
-    const appendData = { eventManagementData, contentData: localContent, supplierDetailsList, projectName };
+    const appendData = { eventManagementData, contentData: localContent, supplierDetailsList, projectName , agreement_id };
     res.render('confirmSupplier', appendData);
   } catch (error) {
     LoggTracer.errorLogger(

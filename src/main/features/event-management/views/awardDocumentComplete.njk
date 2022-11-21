@@ -49,7 +49,18 @@
 
 <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-l">
+        
+      {% if agreement_id == "RM6187" %}
+          <h1 class="govuk-heading-l">
+          <b><strong>Download and complete award documents </strong></b>
+          </h1>
+          <p>You will need to complete your award documents. You may wish to use the templates provided below. </p>
+          <h2> <strong>Successful supplier templates </strong></h2>
+          <p>If you have not already completed the order form and call off schedules template, please do so before continuing. </p>
+          <p>You can use the templates provided on this page to inform the successful supplier that you intend to award them the contract.
+          </p>
+      {% else %}
+          <h1 class="govuk-heading-l">
           <b><strong>Download and complete award documents </strong></b>
         </h1>
       
@@ -57,7 +68,7 @@
        <p> If you have not already completed the order form and call off schedules template, you must download and complete it before continuing.</p>
        <p> You can use the templates provided on this page to inform your supplier that you intend to award them. This should be done via your organisation’s email account.
        </p>
-  
+      {% endif %}
 
 <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6">
           <div class="govuk-grid-column-full">
@@ -65,9 +76,15 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
+                {% if agreement_id == "RM6187" %}
+                  <th scope="col" class="govuk-table__header">Supplier name</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align ">Award templates</th>
+                  <th scope="col" class="govuk-table__header govuk-text-align ">Order form and call off schedules template</th>
+                {% else %}  
                   <th scope="col" class="govuk-table__header">Supplier's name</th>
                   <th scope="col" class="govuk-table__header govuk-text-align ">Documents Template</th>
                   <th scope="col" class="govuk-table__header govuk-text-align ">Order form and call off schedules template</th>
+                {% endif %}  
                 </tr>
               </thead>
               {% for supplier in eventManagementData.documentTemplateDataList %}
@@ -98,9 +115,16 @@
         </div>
 <br>
 
+      {% if agreement_id == "RM6187" %}
+       <h2> <strong>Unsuccessful supplier templates </strong></h2>
+        </br>
+       <p>You will need to notify unsuccessful suppliers of the outcome. You can use the templates provided below.
+       <br>Please make a copy of the supplier names and contact emails below, because you will need to notify all unsuccessful suppliers using your organisation’s email account. You will do this on the next page.</p>
+      {% else %}
        <h2> <strong>Unsuccessful supplier templates </strong></h2>
         </br>
        <p>You can notify unsuccessful bidders of the outcome using the templates provided on this page. You will need to notify all unsuccessful suppliers via your organisation’s email account. </p>
+      {% endif %}
 </br> 
 {%set urlNew=eventManagementData.documentTemplateDataList[0].supplierId+"&doctempateId="+eventManagementData.documentTemplateDataList[0].documentTemplatesUnSuccess %}
  <a class="govuk-link govuk-body" href="/award-supplier-document?supplierId={{urlNew}}">Download templates</a>
@@ -113,8 +137,13 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Supplier Evaluation</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
+                {% if agreement_id == "RM6187" %}
+                  <th scope="col" class="govuk-table__header">Supplier name</th>
+                  <th scope="col" class="govuk-table__header">Contact email</th>
+                {% else %}
                   <th scope="col" class="govuk-table__header">Supplier's name</th>
                   <th scope="col" class="govuk-table__header">Contact email</th>
+                {% endif %}
                 </tr>
               </thead>
               {% for supplier in eventManagementData.supplierDetailsList %}
