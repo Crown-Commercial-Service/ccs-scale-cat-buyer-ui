@@ -1,19 +1,16 @@
-//const console = require("console");
-
 var errorStore = [];
 let words = '';
 let char = '';
 const textPattern = /^[a-zA-Z ]+$/;
 const condLength = (text) => {
-  //words = text?.trim().split(/\s+/)?.length > 500;
-  char = text?.trim()?.length > 10000;
-  //if (words) return words;
+  char = text.trim().length > 10000;
+
   return char;
 }
 
 const wordLength = (text) => {
-  words = text?.trim().split(/\s+/)?.length > 25;
-  char = text?.trim()?.length > 250;
+  words = text.trim().split(/\s+/).length > 25;
+  char = text.trim().length > 250;
   if (words) return words;
   return char;
 }
