@@ -11786,6 +11786,32 @@ $('.percentage_limit').keyup(function(e) {
 
 });
 
+    $('.percentage_limit_dos6').keypress(function (e) {
+        var character = String.fromCharCode(e.keyCode)
+          var strlen = this.value.length;
+        if(strlen == 4) {
+            if(character !== '.') {
+              if(this.value[2] !== '.') {
+                if(character !== undefined) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+          }
+        }
+          
+          var newValue = this.value + character;
+          if (isNaN(newValue) || hasDecimalPlace(newValue, 3)) {
+              e.preventDefault();
+              return false;
+          }
+      });
+      
+      function hasDecimalPlace(value, x) {
+          var pointIndex = value.indexOf('.');
+          return  pointIndex >= 0 && pointIndex < value.length - x;
+      }
+
 
 var maxless = 500;
 
@@ -12126,14 +12152,13 @@ evaluateSupplierForm.on('submit', event => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
- 
    if (document.getElementById('rfp_date') !== null) {
       let rfpResourceStartDay = $('.rfp_resource_start_day');
       let rfpResourceStartMonth = $('.rfp_resource_start_month');
       let rfpResourceStartYear = $('.rfp_resource_start_year');
 
       rfpResourceStartDay.on('keydown', (event) => {
-         
+         console.log("event.keyCode",event.keyCode);
 
          if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
            event.preventDefault(); });
@@ -12174,6 +12199,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpDurationField = $('.rfp_duration');
       
       rfpDurationField.on('keydown', (event) => {
+        
          if (event.key === '.'  || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
            event.preventDefault(); });
 
@@ -12665,7 +12691,6 @@ function daysInYear(year) {
 }
 
 $('.rfp_date').on('submit', (e) => {
-
    e.preventDefault();
    $('.durations').removeClass('govuk-form-group--error');
    $('.resource_start_date').html('');
@@ -12775,10 +12800,7 @@ function checkResourceStartDate()
          rfpResourceStartMonth.removeClass('govuk-form-group--error');
          rfpResourceStartYear.removeClass('govuk-form-group--error');
          $('.durations').addClass('govuk-form-group--error');
-         console.log("ERROR");
-        // fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Start date cannot be after agreement expiry date 11", /^\d{1,}$/);
-
-        // $('#event-name-error-date').html('Project start date should not be empty 212'); 
+         $('#event-name-error-date').html('Project start date should not be empty'); 
          fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_day", "Project start date should not be empty", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }else{
@@ -13186,10 +13208,10 @@ function isProjectStartDateValid()
             Month.addClass('govuk-form-group--error');
             Year.addClass('govuk-form-group--error');
             $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date 11", /^\d{1,}$/);
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
          if (fieldCheck !== true){ errorStore.push(fieldCheck)
          }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date 22", /^\d{1,}$/);
+           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
          }
          if(errorStore.length>0){
             ccsZPresentErrorSummary(errorStore);
