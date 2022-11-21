@@ -118,24 +118,19 @@ export const EVALUATE_SUPPLIERS = async (req: express.Request, res: express.Resp
       }
       //supplierdata.data.responders.filter((a:any)=>{a.supplier.id==ScoresAndFeedbackURLdata.data[i].organisationId});
       //let commentData=supplierdata.data.responders[i].supplier.filter((a:any)=>{a.organisationId==supplierdata.data.responders[i].supplier.id});
-        if(supData!=undefined){
-          var completion = "No"
-          if(ScoresAndFeedbackURLdata.data[i].score === undefined)
-    {
-      completion = "No"
-    }
-    else
-     {
-     completion = "Yes"
-     }
-    
-     
+      if(supData!=undefined) {
+        var completion = "No"
+        if(ScoresAndFeedbackURLdata.data[i].score === undefined) {
+          completion = "No"
+        } else if(ScoresAndFeedbackURLdata.data[i].score > 0) {
+          completion = "Yes"
+        } else {
+          completion = "No"
+        }
+          
        let dataPrepared = {
-
         "id": supData[i].supplier.id,
-
         "name": supData[i].supplier.name,
-
         "responseState": supData[i].responseState,
         "responseDate": (moment(supData[i].responseDate)).format('DD/MM/YYYY HH:mm'),
          "completionStatus":completion,
