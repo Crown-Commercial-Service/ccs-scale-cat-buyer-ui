@@ -29,12 +29,16 @@ export const STAND_PERIOD_DECISION_GET = async (req: express.Request, res: expre
 export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies;
     const { standstill_period_yes } =req.body;
-    const {  eventId,projectId } = req.session;
+    const {  eventId,projectId,agreement_id } = req.session;
     let state = "";
     
 
     try {
-        if (standstill_period_yes != undefined && standstill_period_yes === 'yes') {
+       
+        if(agreement_id=='RM6187'){
+           
+            state = "AWARD";
+        }else if (standstill_period_yes != undefined && standstill_period_yes === 'yes') {
             state = "PRE_AWARD";
         }
         else if (standstill_period_yes != undefined && standstill_period_yes === 'no') {
@@ -59,6 +63,7 @@ export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: expr
           
        //const awardURL = `tenders/projects/${projectId}/events/${eventId}/state/${state}/awards`
        const awardURL = `tenders/projects/${projectId}/events/${eventId}/awards?award-state=${state}`
+       
 
         await TenderApi.Instance(SESSION_ID).post(awardURL,body);
        res.redirect('/event/management?id='+eventId);

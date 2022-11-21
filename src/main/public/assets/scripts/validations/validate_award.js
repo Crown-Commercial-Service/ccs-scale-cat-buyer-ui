@@ -28,7 +28,37 @@ const ccsZvalidateStandStillPeriod = (event) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    $('.event_managment_award').on('click', function (event) {
+  $('.btn_event_managment_award').on('click', function (event) {
+    console.log("!!!")
+    event.preventDefault();
+    const radioButtonYes = "";
+    const radioButtonNo = "no";
+    if (radioButtonYes || radioButtonNo) {
+        if ($(this).hasClass('selected')) {
+            deselect($(this));
+            $(".backdrop-vetting").fadeOut(200);
+          } else {
+            $(".backdrop-vetting").fadeTo(200, 1);
+            let btnSend = document.querySelector('#redirect-button-vetting');
+            if (btnSend && this.className != "logo rfp_vetting-popup" && this.className != "govuk-footer__link logo rfp_vetting-popup") {
+              btnSend.setAttribute('name', 'Continue');
+              $('#redirect-button-vetting').text('Continue')
+            } else {
+              //btnSend.setAttribute('name', 'CCS website');
+              document.body.scrollTop = document.documentElement.scrollTop = 0;
+            }
+            // $(this).addClass('selected');
+            $('.pop').slideFadeToggle();
+          }
+    }
+    else {
+        errorStore = ['There is a problem', 'Please select an option']
+        ccsZPresentErrorSummary([errorStore]);
+    }
+    return false;
+  });  
+  
+  $('.event_managment_award').on('click', function (event) {
         event.preventDefault();
         const radioButtonYes = document.getElementById("standstill_period_yes").checked;
         const radioButtonNo = document.getElementById("standstill_period_no").checked;
