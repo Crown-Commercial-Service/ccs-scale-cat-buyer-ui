@@ -2,6 +2,7 @@
 import * as express from 'express';
 import * as chooseRouteData from '../../../resources/content/requirements/rfpTaskList.json';
 import * as chooseRouteDataMCF from '../../../resources/content/MCF3/requirements/rfpTaskList.json';
+import * as chooseRouteDataGCLOUD from '../../../resources/content/requirements/rfpGCLOUDTaskList.json';
 import * as chooseRouteDataDOSMCF from '../../../resources/content/MCF3/requirements/DOSrfpTaskList.json';
 import * as stage2DataDOS from '../../../resources/content/MCF3/requirements/DOSsatge2TaskList.json';
 import { TenderApi } from './../../../common/util/fetch/procurementService/TenderApiInstance';
@@ -67,7 +68,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     }
   }else if(agreementId_session == 'RM1557.13' && lotid=='4') {
     //MCF3
-    cmsData = chooseRouteDataMCF;
+    cmsData = chooseRouteDataGCLOUD;
   }
 
   res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid };
@@ -111,7 +112,7 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
       }
     }
 
-    if(agreementId_session != 'RM1043.8') {
+    if(agreementId_session != 'RM1043.8' && agreementId_session != 'RM1557.13') {
       if(agreementId_session != 'RM6187') {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/32`, 'Not started');
       }
@@ -228,7 +229,6 @@ export const RFP_REQUIREMENT_TASK_LIST = async (req: express.Request, res: expre
     }
     
   } catch (error) {
-    console.log(error)
     LoggTracer.errorLogger(
       res,
       error,

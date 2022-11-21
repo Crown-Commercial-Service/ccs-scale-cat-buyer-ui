@@ -5,6 +5,7 @@ import { GetLotSuppliers } from '../../shared/supplierService';
 import { HttpStatusCode } from 'main/errors/httpStatusCodes';
 import * as cmsDataDCP from '../../../resources/content/requirements/suppliers.json';
 import * as cmsDataMCF from '../../../resources/content/MCF3/requirements/suppliers.json';
+import * as cmsDataGCLOUD from '../../../resources/content/requirements/suppliersGcloud.json';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import config from 'config';
@@ -25,6 +26,9 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
   } else if(req.session.agreement_id == 'RM6263') {
     //DSP
     cmsData = cmsDataDCP;
+  }else if(req.session.agreement_id == 'RM1557.13') {
+    //DSP
+    cmsData = cmsDataGCLOUD;
   }
 
   const { projectId ,eventId} = req.session;
@@ -232,14 +236,28 @@ export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Resp
   const { SESSION_ID } = req.cookies; //jwt
   const { eventId } = req.session;
   try {
-    const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
+    if(req.session.agreement_id == 'RM1557.13') {
+
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      let flag=await ShouldEventStatusBeUpdated(eventId,40,req);
+      let flag=await ShouldEventStatusBeUpdated(eventId,36,req);
+      if(flag)
+      {
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
+    }
+  }
+
+    }else{
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
+    if (response.status == HttpStatusCode.OK) {
+      let flag=await ShouldEventStatusBeUpdated(eventId,37,req);
       if(flag)
       {
       await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
     }
   }
+    }
+    
      res.redirect('/rfp/response-date');
   } catch (error) {
     LoggTracer.errorLogger(

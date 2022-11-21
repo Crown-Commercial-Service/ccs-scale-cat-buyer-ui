@@ -285,10 +285,15 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
         if (fileNameStorageTermsnCond.length > 0 && fileNameStoragePricing.length > 0) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
           let flag = await ShouldEventStatusBeUpdated(eventId, 33, req);
-          //if(flag) {
+          if(flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
-          //} 
-          res.redirect(`/rfp/IR35`);
+          } 
+          if(agreementId_session == 'RM1557.13') {
+            res.redirect(`/rfp/task-list`);
+          }else{
+            res.redirect(`/rfp/IR35`);
+          }
+          
         } else {
           res.redirect(`/rfp/upload`);
         }
