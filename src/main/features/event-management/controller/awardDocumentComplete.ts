@@ -121,6 +121,7 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
       //status=apidata.data[0].dashboardStatus;
       const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
+      const agreementId = req.session.agreement_id;
       let status = selectedEventData[0].dashboardStatus
 
       //Final Object
@@ -134,7 +135,7 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
         documentTemplateDataList,
         supplierDetailsList
       };
-      const appendData = { eventManagementData, projectName };
+      const appendData = { eventManagementData, projectName, agreementId };
       res.render('awardDocumentComplete', appendData)
     }
 
