@@ -26,9 +26,13 @@
         "title": "Return to Event Management",
         "href": "#"
     },
+    "backJumpDashboard": {
+        "title": "Return to Dashboard",
+        "href": "/dashboard"
+    },
     "notification": {
-        "text": "Your message was successufly broadcasted to all suppliers.",
-        "linkText": "View sent message",
+        "text": "Your message was sent to all suppliers",
+        "linkText": "View message",
         "link": "/message/sent",
         "title": "Message Sent"
     },

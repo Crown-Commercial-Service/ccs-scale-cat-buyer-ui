@@ -940,8 +940,9 @@
                             id: "eoi_"+requirement.OCDS.title | replace(" ", "_") | lower,
                             name: "eoi_budget",
                             spellcheck: false,
-                            classes: "govuk-input--width-5",
-                            value: requirement.nonOCDS.options[0].value
+                            classes: "govuk-input--width-5 rfp_term_definition_new",
+                            value: requirement.nonOCDS.options[0].value,
+                            maxlength:32
                         })
                       }}
 

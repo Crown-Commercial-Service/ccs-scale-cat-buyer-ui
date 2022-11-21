@@ -66,8 +66,8 @@ app.use((req, res, next) => {
   );
   res.locals.GOOGLE_TAG_MANAGER_ID = process.env.GOOGLE_TAG_MANAGER_ID;
   res.locals.GLOBAL_SITE_TAG_ID = process.env.GOOGLE_SITE_TAG_ID;
-
-
+  res.locals.assetBundlerMode = env.trim();
+    console.log(`res.locals.assetBundlerMode: ${res.locals.assetBundlerMode}`);
   switch (process.env.ROLLBAR_HOST) {
     case 'local': {
       process.env.ROLLBAR_ENVIRONMENT = 'local'

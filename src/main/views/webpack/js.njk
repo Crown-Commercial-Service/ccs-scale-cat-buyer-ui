@@ -1,3 +1,7 @@
 <script src="/assets/scripts/libraries/jquery-3.6.0.min.js"></script>
 <script src="/assets/scripts/libraries/objectFitPolyfill.min.js"></script>
-<script defer src="/assets/scripts/bundle-min.js" tag-manager="{{GOOGLE_TAG_MANAGER_ID}}"></script>
+{% if assetBundlerMode !== 'development' %}
+    <script defer src="/assets/scripts/bundle-min.js" tag-manager="{{GOOGLE_TAG_MANAGER_ID}}"></script>
+{% else %}
+    <script defer src="/assets/scripts/bundle.js" tag-manager="{{GOOGLE_TAG_MANAGER_ID}}"></script>
+{% endif %}
