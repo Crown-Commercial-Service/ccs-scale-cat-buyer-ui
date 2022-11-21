@@ -258,9 +258,9 @@ export const RFP_GET_SCORING_CRITERIA = async (req: express.Request, res: expres
 
 
     if(agreement_id !== 'RM1043.8'){
-      let flag = await ShouldEventStatusBeUpdated(eventId, 35, req);
+      let flag = await ShouldEventStatusBeUpdated(eventId, 34, req);
       if (flag) {
-        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'In progress');
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'In progress');
       }
     }
     //res.render('rfp-question-assessment', data);
@@ -478,10 +478,11 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
                 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
               }
             }else{
-              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed'); 
+             
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed'); 
               let flag = await ShouldEventStatusBeUpdated(eventId, 36, req);
               if (flag) {
-                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
+                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
             }
             
           }
@@ -519,11 +520,13 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
 
 export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: express.Response) => {
   try {
+    
     const { proc_id, event_id, id, group_id, stop_page_navigate, section, step } = req.query;
     const agreement_id = req.session.agreement_id;
     const { SESSION_ID } = req.cookies;
     const { projectId, eventId } = req.session;
     if (section != undefined && section === '5') {
+      
       let flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
       if (flag) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'In progress');
@@ -905,6 +908,7 @@ export const RFP_Assesstment_POST_QUESTION = async (req: express.Request, res: e
                   await DynamicFrameworkInstance.Instance(SESSION_ID).put(answerBaseURL, answerValueBody);
                   await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/38`, 'Completed');
                   let flag = await ShouldEventStatusBeUpdated(eventId, 39, req);
+                  
                   if (flag) {
                     await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/39`, 'Not started');
                   }

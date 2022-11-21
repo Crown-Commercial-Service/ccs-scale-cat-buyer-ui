@@ -288,7 +288,17 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
           //if(flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
           //} 
-          res.redirect(`/rfp/IR35`);
+          //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
+          if(agreementId_session=='RM6187'){
+            
+            let flags=await ShouldEventStatusBeUpdated(eventId,34,req);
+            if(flags){
+            //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
+            }
+          }
+
+          res.redirect(`/rfp/task-list`);
+         // res.redirect(`/rfp/IR35`);
         } else {
           res.redirect(`/rfp/upload`);
         }

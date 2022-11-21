@@ -280,6 +280,15 @@ export const RFP_POST_UPLOAD_ATTACHMENT_PROCEED = (express.Handler = async (
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
         } 
 
+        if(req.session.agreement_id=='RM6187'){
+          
+          let flags=await ShouldEventStatusBeUpdated(eventId,34,req);
+          if(flags){
+          //await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
+          }
+        }
+        
+
     // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/${step}`, 'Completed');
     // let flag=await ShouldEventStatusBeUpdated(eventId,31,req);
     // if(flag)
