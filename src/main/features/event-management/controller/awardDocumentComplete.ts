@@ -123,6 +123,12 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
       const agreementId = req.session.agreement_id;
       let status = selectedEventData[0].dashboardStatus
+      let orderTemplateUrl = '';
+      if(agreement_id == 'RM1043.8'){
+        orderTemplateUrl = 'https://www.crowncommercial.gov.uk/agreements/RM1043.8';
+      }else{
+        orderTemplateUrl = 'https://www.crowncommercial.gov.uk/agreements/RM6187';
+      }
 
       //Final Object
       let eventManagementData = {
@@ -135,12 +141,11 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
         documentTemplateDataList,
         supplierDetailsList
       };
-      const appendData = { eventManagementData, projectName, agreementId };
+      const appendData = { eventManagementData, projectName, agreementId,orderTemplateUrl };
       res.render('awardDocumentComplete', appendData)
     }
 
   } catch (error) {
-console.log('catcherr',error);
     LoggTracer.errorLogger(
       res,
       error,
