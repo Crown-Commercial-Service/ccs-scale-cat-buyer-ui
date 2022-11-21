@@ -107,12 +107,11 @@
         {% if created == 'true' %}
             <div class="govuk-grid-column-one-half">
 
-                {{ govukNotificationBanner({
-                html: html,
-                type: "success",
-                titleText: data.notification.title
-                }) }}
-
+                 {{ govukNotificationBanner({
+                    html: html,
+                    type: "success",
+                    titleText: data.notification.title
+                    }) }}
             </div>
         {% elseif created == 'false' %}
             <div class="govuk-grid-column-one-half">
@@ -124,28 +123,45 @@
             </div>
         {% endif %}
             {% if createdreply == 'true' %}	
-            {% set CreatedReplyCustomhtml %}	
-<h3 class="govuk-notification-banner__heading">Your message was sent to the supplier</h3>
-<p class="govuk-body">
-    <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
-</p>	
-{% endset %}
-            <div class="govuk-grid-column-one-half">	
-                {{ govukNotificationBanner({	
-                html: CreatedReplyCustomhtml,	
-                type: "success",	
-                titleText: "Message sent"	
-                }) }}	
-            </div>	
-        {% elseif createdreply == 'false' %}	
-            <div class="govuk-grid-column-one-half">	
-                {{ govukNotificationBanner({	
-                html: errHtml,	
-                type: "Important",	
-                titleText: data.notification2.title	
-                }) }}	
-            </div>	
-        {% endif %}
+                {% set CreatedReplyCustomhtml %}	
+                    <h3 class="govuk-notification-banner__heading">
+                        {% if msgfor == 'all' and agreementId == 'RM1043.8' %} 
+                            Your message was sent  to all suppliers
+                        {% else %}
+                            Your message was sent to the supplier
+                        {% endif %}
+                    </h3>
+                    <p class="govuk-body">
+                        <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
+                    </p>	
+                {% endset %}
+
+                {% if msgfor == 'all' and agreementId == 'RM1043.8' %}
+                    <div class="govuk-grid-column-one-half">	
+                        {{ govukNotificationBanner({	
+                        html: CreatedReplyCustomhtml,	
+                        type: "success",	
+                        titleText: "Message successfully sent"	
+                        }) }}	
+                    </div>	
+                {% else %}
+                    <div class="govuk-grid-column-one-half">	
+                        {{ govukNotificationBanner({	
+                        html: CreatedReplyCustomhtml,	
+                        type: "success",	
+                        titleText: "Message sent"	
+                        }) }}	
+                    </div>	
+                {% endif %}
+            {% elif createdreply == 'false' %}	
+                <div class="govuk-grid-column-one-half">	
+                    {{ govukNotificationBanner({	
+                    html: errHtml,	
+                    type: "Important",	
+                    titleText: data.notification2.title	
+                    }) }}	
+                </div>	
+            {% endif %}
         {% if createdQA == true %}
             <div class="govuk-grid-column-one-half">
 
