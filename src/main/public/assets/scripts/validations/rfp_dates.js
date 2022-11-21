@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpResourceStartYear = $('.rfp_resource_start_year');
 
       rfpResourceStartDay.on('keydown', (event) => {
-         
+         console.log("event.keyCode",event.keyCode);
 
          if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
            event.preventDefault(); });
@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let rfpDurationField = $('.rfp_duration');
       
       rfpDurationField.on('keydown', (event) => {
+        
          if (event.key === '.'  || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
            event.preventDefault(); });
 
