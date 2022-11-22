@@ -265,6 +265,9 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
   supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
   const supplierLength=supplierList.length;
 // to get suppliers count end
+   
+
+
     const customStatus = ReviewData.OCDS.status;
     let appendData = {
       eoi_data,
@@ -280,11 +283,11 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       customStatus,
+      closeStatus:ReviewData.nonOCDS.dashboardStatus,
       supplierLength:supplierLength,
       agreementId_session
     };
     
-   
     
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });

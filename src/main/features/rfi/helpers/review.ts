@@ -279,6 +279,7 @@ export const RFI_REVIEW_HELPER = async (req: express.Request, res: express.Respo
         ccs_rfi_type: RFI_ANSWER_STORAGE.length > 0 ? 'all_online' : '',
         eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
         suppliers_list:supplierList,
+        closeStatus:ReviewData.nonOCDS.dashboardStatus,
         agreementId_session:req.session.agreement_id,
         customStatus
       };
