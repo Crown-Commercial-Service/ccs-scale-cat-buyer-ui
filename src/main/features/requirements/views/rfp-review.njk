@@ -126,7 +126,7 @@
                               </dt>
                               {% if project_name | length > 0 %}
                                 <dd class="govuk-summary-list__value">
-                                  <p class="govuk-body-s">
+                                  <p class="govuk-body">
                                     {{ project_name | safe }}
                                   </p>
                                 </dd>
@@ -154,13 +154,13 @@
                               <dd class="govuk-summary-list__value">
                                 <ul class="govuk-list govuk-list--none">
                                   <li>
-                                    <span class="govuk-body-s">{{ procurementLead.name }}</span>
+                                    <p class="govuk-body">{{ procurementLead.name }}</p>
                                   </li>
                                   <li>
-                                    <span class="govuk-body-s">{{ procurementLead.email }}</span>
+                                    <p class="govuk-body">{{ procurementLead.email }}</p>
                                   </li>
                                   <li>
-                                    <span class="govuk-body-s">{{ procurementLead.telephone }}</span>
+                                    <p class="govuk-body">{{ procurementLead.telephone }}</p>
                                   </li>
                                 </ul>
                               </dd>
@@ -190,13 +190,13 @@
                                       <li>
                                         <ul class="govuk-list govuk-list--none">
                                           <li>
-                                            <span class="govuk-body-s">{{ collaborator.name }}</span>
+                                            <p class="govuk-body">{{ collaborator.name }}</p>
                                           </li>
                                           <li>
-                                            <span class="govuk-body-s">{{ collaborator.email }}</span>
+                                            <p class="govuk-body">{{ collaborator.email }}</p>
                                           </li>
                                           <li>
-                                            <span class="govuk-body-s">{{ collaborator.telephone }}</span>
+                                            <p class="govuk-body">{{ collaborator.telephone }}</p>
                                           </li>
                                         </ul>
                                       </li>
@@ -237,7 +237,7 @@
                                 </dt>
                                 {% if  document != undefined and document !=null and document | length > 0 %}
                                   <dd class="govuk-summary-list__value">
-                                    <p class="govuk-body-s">
+                                    <p class="govuk-body">
                                       {{ document | safe }}
                                     </p>
                                   </dd>
@@ -262,7 +262,7 @@
                                     <ul class="govuk-list govuk-list--none">
                                       {% for doc in documents %}
                                         <li>
-                                          <span class="govuk-body-s">{{ doc }}</span>
+                                          <p class="govuk-body">{{ doc }}</p>
                                         </li>
                                       {%- endfor %}
                                     </ul>
@@ -286,7 +286,7 @@
                                 </dt>
                                 {% if(ir35 !=undefined and  ir35 !=null and ir35 | length > 0) %}
                                   <dd class="govuk-summary-list__value">
-                                    <p class="govuk-body-s">
+                                    <p class="govuk-body">
                                       {{ ir35 | safe }}
                                     </p>
                                   </dd>
@@ -946,7 +946,7 @@
                 <ul class="govuk-list govuk-list--none">
                   {% for doc in document %}
                     <li>
-                       <span class="govuk-body-s">{{doc}}</span>
+                       <p class="govuk-body">{{doc}}</p>
                        </li>
                   {%- endfor %}
                 </ul>
@@ -974,7 +974,7 @@
                               <ul class="govuk-list govuk-list--none">
                                 {% for doc in documents %}
                                   <li>
-                                    <span class="govuk-body-s">{{ doc }}</span>
+                                    <p class="govuk-body">{{ doc }}</p>
                                   </li>
                                 {%- endfor %}
                               </ul>
@@ -998,7 +998,7 @@
                           </dt>
                           {% if(ir35 !=undefined and  ir35 !=null and ir35 | length > 0) %}
                             <dd class="govuk-summary-list__value">
-                              <p class="govuk-body-s">
+                              <p class="govuk-body">
                                 {{ ir35 | safe }}
                               </p>
                             </dd>
