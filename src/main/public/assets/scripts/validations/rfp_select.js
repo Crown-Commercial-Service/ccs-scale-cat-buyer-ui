@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let maxBudget = Number(inputArray[0].value);
             let msg = '';
             if ((maxBudget == '') || (maxBudget == 0)) {
-              msg = 'You must enter a value';
+              msg = 'Enter an indicative maximum';
             } else if (maxBudget > 0 && (maxBudget < minBudget) || (maxBudget == minBudget)) {
               msg = 'Indicative minimum budget must be less than indicative maximum budget';
             } 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
            else if (!(ccs_vetting_type[0].checked || ccs_vetting_type[1].checked)) {
             fieldCheck = ccsZisOptionChecked(
               'ccs_vetting_type',
-              'You must choose one option from list before proceeding',
+              'Select “Yes” if you are prepared to share budget details, or select “No”.',
             );
             if (fieldCheck !== true) errorStore.push(fieldCheck);
             if (errorStore.length === 0) document.forms['rfp_singleselect_Dos'].submit();
@@ -204,7 +204,7 @@ $('#rfp_singleselect').on('submit', event => {
       document.forms['rfp_singleselect'].submit();
     } else {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
-      ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
+      ccsZPresentErrorSummary([['There is a problem', 'Select “Yes” if you are prepared to share budget details, or select “No”.']]);
 
     }
     if (ccs_vetting_type) {
