@@ -190,7 +190,7 @@ console.log("group_id",group_id);
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 9' && lotid=='3') {
           errMsg = "You must select at least one way you will assess suppliers, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 16') {
-          errMsg = "You must select at least one level of security clearance, or  “No security clearance needed”";
+          errMsg = "Select the needed security levels or “No security clearance needed”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 11' && lotid=='1') {
           errMsg = "You must select at least one way you will assess suppliers, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 4' && lotid=='3') {
