@@ -47,9 +47,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
            else if (!(ccs_vetting_type[0].checked || ccs_vetting_type[1].checked)) {
+            var headerText = document.getElementById('page-heading').innerHTML;
+            var msg = 'You must choose one option from list before proceeding';
+            if(headerText.includes('Set your budget')){
+              msg = 'Select “Yes” if you are prepared to share budget details, or select “No”.'
+            } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
+              msg = 'Select whether you need a contracted out service or a supply of resource'
+            }
             fieldCheck = ccsZisOptionChecked(
               'ccs_vetting_type',
-              'Select “Yes” if you are prepared to share budget details, or select “No”.',
+              msg,
             );
             if (fieldCheck !== true) errorStore.push(fieldCheck);
             if (errorStore.length === 0) document.forms['rfp_singleselect_Dos'].submit();
@@ -204,11 +211,23 @@ $('#rfp_singleselect').on('submit', event => {
       document.forms['rfp_singleselect'].submit();
     } else {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
-      ccsZPresentErrorSummary([['There is a problem', 'Select “Yes” if you are prepared to share budget details, or select “No”.']]);
+      var headerText = document.getElementById('page-heading').innerHTML;
+      var msg = 'You must choose one option from list before proceeding';
+      if(headerText.includes('Set your budget')){
+        msg = 'Select “Yes” if you are prepared to share budget details, or select “No”.'
+      } else if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
+        msg = 'Select whether you need a contracted out service or a supply of resource'
+      }
+      ccsZPresentErrorSummary([['There is a problem', msg]]);
 
     }
     if (ccs_vetting_type) {
-      ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
+      var headerText = document.getElementById('page-heading').innerHTML;
+      var msg = 'Choose one option before proceeding';
+      if(headerText.includes('Confirm if you require a contracted out service or supply of resource')) {
+        msg = 'Select whether you need a contracted out service or a supply of resource'
+      }
+      ccsZaddErrorMessage(ccs_vetting_type, msg);
     }
   }
 });
