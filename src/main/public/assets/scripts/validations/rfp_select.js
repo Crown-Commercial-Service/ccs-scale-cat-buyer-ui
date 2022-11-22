@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (ccs_vetting_type[0].checked == true) { 
             let inputArray = $('input[name=rfp_prob_statement_m]');
             let minBudget = Number(inputArray[1].value);
-            let maxBudget = Number(inputArray[0].value);
+            let maxBudget = Number(inputArray[0].value); 
             let msg = '';
             if ((maxBudget == '') || (maxBudget == 0)) {
               msg = 'Enter an indicative maximum';
