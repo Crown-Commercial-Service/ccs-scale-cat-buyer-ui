@@ -283,7 +283,7 @@ const EOI_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
       ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
       customStatus,
-      closeStatus:ReviewData.nonOCDS.dashboardStatus,
+      closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       supplierLength:supplierLength,
       agreementId_session
     };
