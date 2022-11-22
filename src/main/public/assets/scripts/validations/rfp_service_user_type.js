@@ -42,16 +42,39 @@ document.addEventListener('DOMContentLoaded', () => {
             //checkFieldsRfp();
             errorStore = [];
             e.preventDefault();
+            var urlParams = new URLSearchParams(window.location.search);
+            var agreement_id = urlParams.get("agreement_id");
+            var group_id = urlParams.get("group_id");
+            var criterion = urlParams.get("id");
             let last_value = with_value_count - 1;
+            let groupName='',groupDetails='';
             const group_name = document.querySelector('#rfp_term_service_group_' + last_value).value;
             const group_details =  document.querySelector('#rfp_term_more_details_' + last_value).value;
             const hidden = document.querySelector(".acronym_service_" + last_value).classList.contains("ccs-dynaform-hidden")
         if( (group_name == '' || group_details == '') ){
+            if(group_name == '') {
+                if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+                  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "Enter a user type.", /\w+/);
+                }
+                else{
+                    groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "You must enter information here", /\w+/);
+                }
+            }
+            if(group_details == ''){
+                if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "Enter details about your users.", /\w+/);
+                }
+                else{
+                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "You must enter information here", /\w+/);
+                }
+            }  
            
-            if(group_name == '')  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "You must enter information here", /\w+/);
-            if(group_details == '')  groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "You must enter information here", /\w+/);
+            // else{
+            //  if(group_name == '')  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "You must enter information here11", /\w+/);
+            //  if(group_details == '')  groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "You must enter information here12", /\w+/);
+            // }
             if(groupName !== true) errorStore.push(groupName);
-            if(groupName !== true) errorStore.push(groupDetails);
+            if(groupDetails !== true) errorStore.push(groupDetails);
 
             if(errorStore.length != 0){
             ccsZPresentErrorSummary(errorStore);

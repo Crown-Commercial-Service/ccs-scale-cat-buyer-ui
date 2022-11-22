@@ -663,8 +663,13 @@ const removeErrorFieldsRfpScore2 = () => {
 
 const emptyFieldCheckRfpScore2 = () => {
   let fieldCheck = '',
+  fieldCheck1 = '',
     errorStore = [];
   removeErrorFieldsRfpScore2();
+  var urlParams = new URLSearchParams(window.location.search);
+  var agreement_id = urlParams.get("agreement_id");
+  var group_id = urlParams.get("group_id");
+  var criterion = urlParams.get("id"); 
   for (var x = 1; x < 11; x++) {
     let name_field = document.getElementById('rfp_term_service_group_' + x);
     let desc_field = document.getElementById('rfp_term_more_details_' + x);
@@ -672,24 +677,50 @@ const emptyFieldCheckRfpScore2 = () => {
     if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
       checkFieldsRfpScore2();
       if (name_field.value.trim() === '' && desc_field.value.trim() === '') {
+        if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+        fieldCheck = [name_field.id, 'Enter a user type.'];
+        ccsZaddErrorMessage(name_field, 'Enter a user type.');
+        fieldCheck1 = [desc_field.id, 'Enter details about your users.'];
+        ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+        errorStore.push(fieldCheck);
+        errorStore.push(fieldCheck1);
+        }
+        else{
         fieldCheck = [name_field.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
         ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
         errorStore.push(fieldCheck);
+
+        }
       } else {
         let errorObj = {
           field: name_field,
           isError: false,
         };
         if (name_field.value.trim() === '') {
+          if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+            fieldCheck = [name_field.id, 'Enter a user type.'];
+            ccsZaddErrorMessage(name_field, 'Enter a user type.');
+           errorStore.push(fieldCheck);
+          }
+          else{
           ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
           errorObj.isError = true;
           errorObj.field = name_field;
-        }
+          }
+                  }
         if (desc_field.value.trim() === '') {
-          ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
-          errorObj.isError = true;
-          errorObj.field = desc_field;
+          if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+             fieldCheck = [desc_field.id, 'Enter details about your users.'];
+             ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+            errorStore.push(fieldCheck);
+           }
+           else{
+            ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+            errorObj.isError = true;
+            errorObj.field = desc_field;
+           }
+          
         }
         if (errorObj.isError) {
           fieldCheck = [errorObj.field.id, 'You must add information in all fields.'];

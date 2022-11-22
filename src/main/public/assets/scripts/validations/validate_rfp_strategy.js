@@ -79,7 +79,12 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_m') !== undefined && $('#rfp_prob_statement_m').val() !== undefined) {
     if (!pageHeading.includes("(Optional)")) {
       if ($('#rfp_prob_statement_m').val().length === 0) {
+        if(agreement_id == "RM1043.8" && group_id == "Group 13"){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'Enter the details of your existing team');
+        }
+        else{
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'You must enter information here');
+        }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }

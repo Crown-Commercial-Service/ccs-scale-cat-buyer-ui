@@ -9051,6 +9051,139 @@ $(document).ready(function () {
         }
     }
 });
+function initializeErrorStoreForFieldCheck(event) {
+  event.preventDefault();
+  let fieldCheck = "", errorStore = [];
+  return { fieldCheck, errorStore };
+}
+
+function getGroup (event) {
+  return decodeURI(event.currentTarget.action.match(/(\?|&)group_id\=([^&]*)/)[2]);
+}
+
+const ccsZvalidateIR35acknowledgement = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "IR35_acknowledgement", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_ir35_acknowledgement_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateCompetitionRoute = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_route_to_market", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_route_to_market_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateBuildType= (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_fc_type", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfp_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateProjectPhase = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_rfp_project_phase", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfp_project_phase_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateRfiSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", "You must provide a security clearance level before proceeding");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfi_vetting_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateEoiSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must choose one option from list before proceeding";
+  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
+    // errorStore.length = 0;
+    
+    if ($('#rfp_security_confirmation').val().length === 0) {
+      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_security_confirmation').val().length > 500) {
+      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
+
+  if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateRfpSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", "You must provide a security clearance level before proceeding");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfp_vetting_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateCaaAssFCSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Enter your team scale");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_ca_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateRfiType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateEoiType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "ccs_eoi_type", "Select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_eoi_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateEoiServiceType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "eoi_service_type", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_eoi_new_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidatePreMarketRoute = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "choose_pre_engage", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_choose_pre_engage"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
 
 
 /*************************************************************************
@@ -9477,139 +9610,6 @@ const ccsZaddDateErrorMessage = (element,addelement, message) => {
 };
 
 
-function initializeErrorStoreForFieldCheck(event) {
-  event.preventDefault();
-  let fieldCheck = "", errorStore = [];
-  return { fieldCheck, errorStore };
-}
-
-function getGroup (event) {
-  return decodeURI(event.currentTarget.action.match(/(\?|&)group_id\=([^&]*)/)[2]);
-}
-
-const ccsZvalidateIR35acknowledgement = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-
-  fieldCheck = ccsZisOptionChecked( "IR35_acknowledgement", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_ir35_acknowledgement_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateCompetitionRoute = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_route_to_market", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_route_to_market_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateBuildType= (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_fc_type", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfp_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateProjectPhase = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_rfp_project_phase", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfp_project_phase_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateRfiSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", "You must provide a security clearance level before proceeding");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfi_vetting_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateEoiSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must choose one option from list before proceeding";
-  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
-    // errorStore.length = 0;
-    
-    if ($('#rfp_security_confirmation').val().length === 0) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-    else if ($('#rfp_security_confirmation').val().length > 500) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateRfpSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", "You must provide a security clearance level before proceeding");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfp_vetting_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateCaaAssFCSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Enter your team scale");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_ca_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateRfiType = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-
-  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateEoiType = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-
-  fieldCheck = ccsZisOptionChecked( "ccs_eoi_type", "Select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateEoiServiceType = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "eoi_service_type", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_new_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidatePreMarketRoute = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "choose_pre_engage", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_choose_pre_engage"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
 $('input[type=radio]').click(function () {
   // to uncheck new and other names dynamically
   let clicked = this;
@@ -11346,39 +11346,6 @@ function deselect(e) {
 }
 
 });
-
-$('input[type="radio"]').on('click change', function(e) {
-    if (e.currentTarget.value === 'Yes') {
-       $('#conditional-rfp_radio_security_confirmation').fadeIn();
-    } else {
-        $('#conditional-rfp_radio_security_confirmation').hide();
-    }
-});
-const removeErrorFieldsRfpIR35 = () => {
-    $('.govuk-error-message').remove();
-    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
-    $('.govuk-error-summary').remove();
-    $(".govuk-input").removeClass("govuk-input--error");
-    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-  
-  }
-
-$('#rfp_IR35_form').on('submit', (event) => {
-    event.preventDefault();
-    const radioButtonOne=  document.getElementById("ccs_vetting_type").checked;
-    const radioButtonTwo=  document.getElementById("ccs_vetting_type-2").checked;
-    //errorStore = emptyFieldCheckRfpKPI();
-  
-    if (radioButtonOne || radioButtonTwo) {
-      document.forms["rfp_IR35_form"].submit();
-    }
-    else {
-        removeErrorFieldsRfpIR35();
-        errorStore=['There is a problem','You must confirm if you need a contracted out service or a supply of resource']
-      ccsZPresentErrorSummary([errorStore]);
-    }
-  
-  });
 const countWords1 = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -13539,6 +13506,39 @@ $('#rfp_work_completed').on('submit', (e)=>{
 } )
 
 
+
+$('input[type="radio"]').on('click change', function(e) {
+    if (e.currentTarget.value === 'Yes') {
+       $('#conditional-rfp_radio_security_confirmation').fadeIn();
+    } else {
+        $('#conditional-rfp_radio_security_confirmation').hide();
+    }
+});
+const removeErrorFieldsRfpIR35 = () => {
+    $('.govuk-error-message').remove();
+    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+    $('.govuk-error-summary').remove();
+    $(".govuk-input").removeClass("govuk-input--error");
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+  
+  }
+
+$('#rfp_IR35_form').on('submit', (event) => {
+    event.preventDefault();
+    const radioButtonOne=  document.getElementById("ccs_vetting_type").checked;
+    const radioButtonTwo=  document.getElementById("ccs_vetting_type-2").checked;
+    //errorStore = emptyFieldCheckRfpKPI();
+  
+    if (radioButtonOne || radioButtonTwo) {
+      document.forms["rfp_IR35_form"].submit();
+    }
+    else {
+        removeErrorFieldsRfpIR35();
+        errorStore=['There is a problem','You must confirm if you need a contracted out service or a supply of resource']
+      ccsZPresentErrorSummary([errorStore]);
+    }
+  
+  });
 document.addEventListener('DOMContentLoaded', () => {
   const formPercentage = $('#rfp_percentage_form');
   if (formPercentage !== undefined && formPercentage.length > 0) {
@@ -13604,19 +13604,18 @@ const checkPercentagesCond = () => {
       var range = $("#range_p" + allTextBox[k].id.replace(" ", "")).attr("range");
     var subTitle = $('#getSubTitle'+allTextBox[k].id.replace(" ", "")).html();
       if (!subTitle.includes("optional") && allTextBox[k].value == "" || allTextBox[k].value < 0) {
-        
         if (subTitle!= 'Social value'){
 
           if(agrement_id == 'RM6187'){
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "You must enter "+subTitle.toLowerCase()+" range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           }else{
-            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Please enter range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+               fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for "+subTitle.toLowerCase()+" between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
           }
 
           
         }
         else {
-          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Please enter range between [0%, or " + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "Enter a weighting for"+subTitle.toLowerCase()+" that is 0% or between " + range.split("-")[0] + " and " + range.split("-")[1] + "%", /\w+/, false);
         }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       } else if (Number(allTextBox[k].value) >= 0 && subTitle!= 'Social value') {
@@ -13702,7 +13701,7 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the overall weighting') && (percentage > 100 || percentage < 100) && agrement_id == 'RM1043.8') {
-    errorStore.push(["#", "Your total percentage must be 100%"]);
+    errorStore.push(["#", "The weightings must add up to 100% in total"]);
     ccsZPresentErrorSummary(errorStore)
   }
   if (pageHeading.includes('Set the specific weighting of quality groups') && (percentage > 100 || percentage < 100) && agrement_id == 'RM6187') {
@@ -15562,8 +15561,13 @@ const removeErrorFieldsRfpScore2 = () => {
 
 const emptyFieldCheckRfpScore2 = () => {
   let fieldCheck = '',
+  fieldCheck1 = '',
     errorStore = [];
   removeErrorFieldsRfpScore2();
+  var urlParams = new URLSearchParams(window.location.search);
+  var agreement_id = urlParams.get("agreement_id");
+  var group_id = urlParams.get("group_id");
+  var criterion = urlParams.get("id"); 
   for (var x = 1; x < 11; x++) {
     let name_field = document.getElementById('rfp_term_service_group_' + x);
     let desc_field = document.getElementById('rfp_term_more_details_' + x);
@@ -15571,24 +15575,50 @@ const emptyFieldCheckRfpScore2 = () => {
     if (name_field != undefined && name_field != null && name_field.closest('fieldset').classList.value.indexOf('ccs-dynaform-hidden') === -1) {
       checkFieldsRfpScore2();
       if (name_field.value.trim() === '' && desc_field.value.trim() === '') {
+        if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+        fieldCheck = [name_field.id, 'Enter a user type.'];
+        ccsZaddErrorMessage(name_field, 'Enter a user type.');
+        fieldCheck1 = [desc_field.id, 'Enter details about your users.'];
+        ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+        errorStore.push(fieldCheck);
+        errorStore.push(fieldCheck1);
+        }
+        else{
         fieldCheck = [name_field.id, 'You must add information in all fields.'];
         ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
         ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
         errorStore.push(fieldCheck);
+
+        }
       } else {
         let errorObj = {
           field: name_field,
           isError: false,
         };
         if (name_field.value.trim() === '') {
+          if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+            fieldCheck = [name_field.id, 'Enter a user type.'];
+            ccsZaddErrorMessage(name_field, 'Enter a user type.');
+           errorStore.push(fieldCheck);
+          }
+          else{
           ccsZaddErrorMessage(name_field, 'You must add information in all fields.');
           errorObj.isError = true;
           errorObj.field = name_field;
-        }
+          }
+                  }
         if (desc_field.value.trim() === '') {
-          ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
-          errorObj.isError = true;
-          errorObj.field = desc_field;
+          if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+             fieldCheck = [desc_field.id, 'Enter details about your users.'];
+             ccsZaddErrorMessage(desc_field, 'Enter details about your users.');
+            errorStore.push(fieldCheck);
+           }
+           else{
+            ccsZaddErrorMessage(desc_field, 'You must add information in all fields.');
+            errorObj.isError = true;
+            errorObj.field = desc_field;
+           }
+          
         }
         if (errorObj.isError) {
           fieldCheck = [errorObj.field.id, 'You must add information in all fields.'];
@@ -15791,6 +15821,10 @@ const removeErrorFieldsRfpSelect = () => {
 $('#rfp_singleselect').on('submit', event => {
   event.preventDefault();
   removeErrorFieldsRfpSelect();
+  var urlParams = new URLSearchParams(window.location.search);
+  var agreement_id = urlParams.get("agreement_id");
+  var group_id = urlParams.get("group_id");
+  var criterion = urlParams.get("id");
   const textPattern = /^[a-zA-Z ]+$/;
   var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
   let ischecked = false;
@@ -15830,11 +15864,22 @@ $('#rfp_singleselect').on('submit', event => {
       document.forms['rfp_singleselect'].submit();
     } else {
       var ccs_vetting_type = document.getElementById('ccs_vetting_type');
-      ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
+      if(agreement_id == "RM1043.8" && group_id == "Group 10" && criterion == 'Criterion 2'){
+        ccsZPresentErrorSummary([['There is a problem', 'Select a pricing model']]);
+      }
+      else{
+        ccsZPresentErrorSummary([['There is a problem', 'You must choose one option from list before proceeding']]);
+      } 
 
     }
     if (ccs_vetting_type) {
-      ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
+      if(agreement_id == "RM1043.8" && group_id == "Group 10" && criterion == 'Criterion 2'){
+        ccsZaddErrorMessage(ccs_vetting_type, 'Select a pricing model');
+      }
+      else{
+        ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
+
+      }
     }
   }
 });
@@ -16227,16 +16272,39 @@ document.addEventListener('DOMContentLoaded', () => {
             //checkFieldsRfp();
             errorStore = [];
             e.preventDefault();
+            var urlParams = new URLSearchParams(window.location.search);
+            var agreement_id = urlParams.get("agreement_id");
+            var group_id = urlParams.get("group_id");
+            var criterion = urlParams.get("id");
             let last_value = with_value_count - 1;
+            let groupName='',groupDetails='';
             const group_name = document.querySelector('#rfp_term_service_group_' + last_value).value;
             const group_details =  document.querySelector('#rfp_term_more_details_' + last_value).value;
             const hidden = document.querySelector(".acronym_service_" + last_value).classList.contains("ccs-dynaform-hidden")
         if( (group_name == '' || group_details == '') ){
+            if(group_name == '') {
+                if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+                  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "Enter a user type.", /\w+/);
+                }
+                else{
+                    groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "You must enter information here", /\w+/);
+                }
+            }
+            if(group_details == ''){
+                if(agreement_id == "RM1043.8" && group_id == "Group 9" && criterion == 'Criterion 3'){
+                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "Enter details about your users.", /\w+/);
+                }
+                else{
+                    groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "You must enter information here", /\w+/);
+                }
+            }  
            
-            if(group_name == '')  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "You must enter information here", /\w+/);
-            if(group_details == '')  groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "You must enter information here", /\w+/);
+            // else{
+            //  if(group_name == '')  groupName = ccsZvalidateWithRegex('rfp_term_service_group_' + last_value , "You must enter information here11", /\w+/);
+            //  if(group_details == '')  groupDetails = ccsZvalidateWithRegex('rfp_term_more_details_' + last_value , "You must enter information here12", /\w+/);
+            // }
             if(groupName !== true) errorStore.push(groupName);
-            if(groupName !== true) errorStore.push(groupDetails);
+            if(groupDetails !== true) errorStore.push(groupDetails);
 
             if(errorStore.length != 0){
             ccsZPresentErrorSummary(errorStore);
@@ -17147,7 +17215,7 @@ const ccsZvalidateRfiProjectName = (event) => {
 
       var rfi_projLongName=$('#rfi_projLongName').val();
       if(rfi_projLongName==''){
-        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Your project must have a name.", /^.+$/);
+        fieldCheck = ccsZvalidateWithRegex("rfi_projLongName", "Enter the name of your project.", /^.+$/);
         errorStore.push(fieldCheck);
       }
 
@@ -17532,7 +17600,7 @@ const ccsZvalidateRfpLocation = (event) => {
 console.log("group_id",group_id);
 
         if (agreement_id=='RM1043.8' && group_id=='Group 5' && lotid=='1') {
-          errMsg = "You must select at least one region where your staff will be working, or  the “No specific location”";
+          errMsg = "Select the locations where staff will work";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 9' && lotid=='3') {
           errMsg = "You must select at least one way you will assess suppliers, or “None”";
         }else if (agreement_id == 'RM1043.8' && group_id == 'Group 16') {
@@ -17708,7 +17776,12 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_m') !== undefined && $('#rfp_prob_statement_m').val() !== undefined) {
     if (!pageHeading.includes("(Optional)")) {
       if ($('#rfp_prob_statement_m').val().length === 0) {
+        if(agreement_id == "RM1043.8" && group_id == "Group 13"){
+          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'Enter the details of your existing team');
+        }
+        else{
         fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_m', 'You must enter information here');
+        }
         if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
     }
