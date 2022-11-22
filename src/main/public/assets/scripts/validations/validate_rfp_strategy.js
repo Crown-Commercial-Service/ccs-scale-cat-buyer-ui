@@ -107,7 +107,11 @@ const ccsZvalidateRfPStrategy = event => {
   if ($('#rfp_prob_statement_g') !== undefined && $('#rfp_prob_statement_g').val() !== undefined) {
       if (!pageHeading.includes("(Optional)")) {
         if ($('#rfp_prob_statement_g').val().length === 0) {
-          fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'You must enter information here');
+          if(pageHeading.trim().toLowerCase() == 'The business problem you need to solve'.toLowerCase()){
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'Enter the business problem you need to solve');
+          }else{
+            fieldCheck = ccsZvalidateTextArea('rfp_prob_statement_g', 'You must enter information here');
+          }
           if (fieldCheck !== true) errorStore.push(fieldCheck);
         }
       }
