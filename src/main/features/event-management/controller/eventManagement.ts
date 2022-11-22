@@ -859,7 +859,7 @@ export const EVENT_MANAGEMENT_CLOSE = async (req: express.Request, res: express.
        }
       req.session.projectStatus = 1;
       
-      let appendData = { projectStatus:1,documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: qasCount, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
+      let appendData = { agreementId_session:agreementId_session,projectStatus:1,documentTemplatesUnSuccess: "", supplierDetails, data: eventManagementData, filtervalues, Colleagues: collaboratorData, status, projectName, eventId, eventType, apidata, end_date, supplierDetailsDataList, supplierSummary, showallDownload, QAs: qasCount, suppliers: localData, unreadMessage: unreadMessage, showCloseProject }
 
       let redirectUrl: string
       if (status.toLowerCase() == "in-progress") {

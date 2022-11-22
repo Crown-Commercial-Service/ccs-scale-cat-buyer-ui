@@ -13,7 +13,7 @@
     /projects/create-or-choose?lotId={{lotId}}&agreementLotName={{agreementLotName}}
   {%- endset %}
 {% if agreementId_session == "RM6187" %}  
-{% if eventStatus != "published"%}
+{% if eventStatus != "published" and closeStatus!="CLOSED"%}
   {{ CCSBreadcrumbs({
           items: [
                 {"text": "Dashboard","href": "/dashboard"},
@@ -31,7 +31,7 @@
 
   {% endif %}
 {% else %}
-{% if eventStatus != "published"%}
+{% if eventStatus != "published" and closeStatus!="CLOSED" %}
   {{ CCSBreadcrumbs({
           items: [
                 {"text": "Dashboard","href": "/dashboard"},
@@ -150,7 +150,7 @@ You have not given a custom name to your project
             {% endif %}
 
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                 <a class="govuk-link" href="/rfi/name-your-project">
 Change<span class="govuk-visually-hidden">project name</span>
                 </a>
@@ -177,7 +177,7 @@ Change who is going to lead the procurement
               </ul>
             </dd>
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                 <a class="govuk-link" href="/rfi/procurement-lead">
 Change<span class="govuk-visually-hidden"> procurement lead</span>
                 </a>
@@ -216,7 +216,7 @@ You have not added anyone so far in your team
 </dd>
             {% endif %}
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                 <a class="govuk-link" href="/rfi/add-collaborators">
 Change<span class="govuk-visually-hidden"> rfi team members</span>
                 </a>
@@ -311,7 +311,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
               {%endif%}
               </dd>
               <dd class="govuk-summary-list__actions">
-                {% if eventStatus != "published"%}
+                {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                   {% if i.question != 'Name of the organisation doing the procurement' %}
                   <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
                     Change<span class="govuk-visually-hidden">RFI type</span>
@@ -354,7 +354,7 @@ Change<span class="govuk-visually-hidden">RFI type</span>
                                 </dd>
                               {% endif %}
                               <dd class="govuk-summary-list__actions">
-                                {% if eventStatus != "published"%}
+                                {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                                   <a class="govuk-link" href="/rfi/questions?agreement_id={{agreement_id}}&proc_id={{proc_id}}&event_id={{event_id}}&id={{item.criterian}}&group_id={{item.id}}">
 Change<span class="govuk-visually-hidden">RFI type</span>
                                   </a>
@@ -418,7 +418,7 @@ Upload documents
                               {% endif %}
 
                               <dd class="govuk-summary-list__actions">
-                                {% if eventStatus != "published"%}
+                                {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                                   <a class="govuk-link" href="/rfi/upload-doc">
 Change<span class="govuk-visually-hidden">rfi additional link and documents</span>
                                   </a>
@@ -436,7 +436,7 @@ See the suppliers who will receive your RfI
                               </dd>
 
                               <dd class="govuk-summary-list__actions">
-                                {% if eventStatus != "published"%}
+                                {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                                   <a class="govuk-link" href="/rfi/suppliers">
 View<span class="govuk-visually-hidden">rfi supplier list</span>
                                   </a>
@@ -451,7 +451,7 @@ View<span class="govuk-visually-hidden">rfi supplier list</span>
                             </dt>
                             <dd class="govuk-summary-list__value no-borders"></dd>
                             <dd class="govuk-summary-list__actions no-borders">
-                              {% if eventStatus != "published"%}
+                              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                                 <a class="govuk-link" href="/rfi/response-date">
 Change <span class="govuk-visually-hidden"> Your RFI timeline</span>
                                 </a>
@@ -511,7 +511,7 @@ iconFallbackText: "Warning"
                             <form id="ccs_rfi_publish_form" name="ccs_rfi_publish_form" class="form ccs_rfi_publish_form"
 action="/rfi/review" method="post">
                               {{ csrfProtection(csrf) }}
-          {% if eventStatus != "published" and customStatus!="complete" %}                              
+          {% if eventStatus != "published" and customStatus!="complete" and closeStatus!="CLOSED" %}                              
                               {{ CCSCheckboxes({
                                       idPrefix: "rfi_publish_confirmation",
                                       name: "rfi_publish_confirmation",

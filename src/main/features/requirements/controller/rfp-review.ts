@@ -490,6 +490,7 @@ let scoringData = [];
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
+      closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       selectedeventtype,
       agreementId_session,
       stage2_value
@@ -1907,6 +1908,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : ReviewData.OCDS.status == 'complete' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
+      closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       selectedeventtype,
       agreementId_session
     };
@@ -3008,6 +3010,7 @@ const IR35selected='';
       reqGroup: reqGroup != undefined && reqGroup != null ? reqGroup : null,
       //ccs_eoi_type: EOI_DATA_WITHOUT_KEYDATES.length > 0 ? 'all_online' : '',
       eventStatus: ReviewData.OCDS.status == 'active' ? "published" : null, // this needs to be revisited to check the mapping of the planned 
+      closeStatus:ReviewData?.nonOCDS?.dashboardStatus,
       selectedeventtype,
       agreementId_session
     };
