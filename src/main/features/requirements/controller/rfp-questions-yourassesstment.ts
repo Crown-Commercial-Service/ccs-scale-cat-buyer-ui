@@ -909,7 +909,7 @@ const findErrorText = (data: any, req: express.Request) => {
       req.session['isLocationMandatoryError'] == true
     ) {
       errorText.push({
-        text: 'You must select at least one way you will assess suppliers, or “None”',
+        text: 'select at least one way you will assess suppliers, or “None”',
       //  text: 'You must select at least one region where your staff will be working, or select "No specific location...."',
       });
     } else if (requirement.nonOCDS.questionType == 'Duration' && req.session['IsInputDateLessError'] == true)
