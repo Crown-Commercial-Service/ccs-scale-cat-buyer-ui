@@ -68,6 +68,12 @@ const checkPercentagesCond = () => {
 
           if(agrement_id == 'RM6187'){
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id, "You must enter "+subTitle.toLowerCase()+" range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
+          }
+          else if(agrement_id == 'RM1043.8' && subTitle.includes("Essential skills and experience")){
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for essential skills and experience", false);
+          }
+          else if(agrement_id == 'RM1043.8' && subTitle.includes("Technical questions")){
+            fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Enter a weighting for technical questions", false);
           }else{
             fieldCheck = ccsZvalidateWithRegex(allTextBox[k].id+"-hint", "Please enter range between [" + range.split("-")[0] + "-" + range.split("-")[1] + "%]", /\w+/, false);
           }
@@ -173,7 +179,7 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if ((pageHeading.includes('Technical Competence') || pageHeading.includes('Technical competence') ) && (percentage > 100 || percentage < 100)) {
-    errorStore.push(["#", "Your total percentage must be 100%"]);
+    errorStore.push(["#", "The weightings must add up to 100% in total"]);
     ccsZPresentErrorSummary(errorStore)
   }
   
