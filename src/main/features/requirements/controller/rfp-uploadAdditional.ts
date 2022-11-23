@@ -288,7 +288,7 @@ export const RFP_POST_UPLOAD_ADDITIONAL_PROCEED: express.Handler = async (req: e
           if(flag) {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
           } 
-          if(agreementId_session == 'RM1557.13') {
+          if(agreementId_session == 'RM1557.13' || agreementId_session == 'RM6187') {
             res.redirect(`/rfp/task-list`);
           }else{
             res.redirect(`/rfp/IR35`);
