@@ -49,15 +49,20 @@
               <div class="ccs-page-section">
                 {% if agreementId_session != 'RM1043.8' %}
                   {% if agreementId_session == "RM6187" %}
-                    <p>Download all the supplier responses to evaluate their answers. Any colleagues who are also evaluating should have access to this project. If they do not have access, you can download and share the answers with them.</p>
+                    <p>{{data.subtitle_mcf1}}</p>
+                    <p>{{data.subtitle_mcf2}}</p>
+                    <p>{{data.subtitle_mcf3}}</p>
+                    <p class="govuk-!-padding-bottom-9">
+                    You may wish to download <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">the Award Recommendation Report,</a> {{data.subtitle_mcf4}}
+                    </p>
                   {% else %}
-                    <p>{{data.subtitle}}</p>
-                  {% endif %}  
+                    <p>{{data.subtitle}}</p>                   
                     <p>{{data.subtitle1}}</p>
                     <p>{{data.subtitle4}}</p>
                     <p class="govuk-!-padding-bottom-9">
                          {{data.subtitle3}} <a href="/evaluate-suppliers?download=1" onclick="return false;" class="govuk-link govuk-link--no-visited-state">download the Award Recommendation Report.</a>
                     </p>
+                  {% endif %}
                     {%else%}
                       {% if stage2_value == 'Stage 2'%}
                           <p>{{data.subtitle}}</p>
@@ -217,11 +222,12 @@
       <h1 id="dialog-title">You are about to complete your evaluation<p></p>
       {%endif%}
 
-      {% if agreementId_session == 'RM6187' %}
-     <p id="dialog-description">Click Continue, or click Return to further edit your scores. After this point, you will be unable to edit your evaluation.</p>
-      {%else%}
-       <p id="dialog-description">Click Continue, or click Return to further edit your scores.</p>
-      {%endif%}
+        {% if agreementId_session == 'RM6187' %}
+            <p id="dialog-description">
+            Click 'Continue', or click 'Return' to edit your scores. After this point, you will be unable to edit your evaluation.</p>
+        {%else%}
+            <p id="dialog-description">Click Continue, or click Return to further edit your scores.</p>
+        {%endif%}
      
       <div class="govuk-button-group">
         <button id="redirect-button-evaluatesuppliers"  class="button dialog-button govuk-button" name="Evaluate Suppliers">Continue</button>
