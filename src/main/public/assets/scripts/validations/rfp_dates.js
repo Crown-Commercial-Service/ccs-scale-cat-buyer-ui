@@ -611,6 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
          
       }
    }
+}
 });
 
 function daysInYear(year) {

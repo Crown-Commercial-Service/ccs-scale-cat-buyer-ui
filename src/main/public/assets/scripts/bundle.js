@@ -9051,6 +9051,139 @@ $(document).ready(function () {
         }
     }
 });
+function initializeErrorStoreForFieldCheck(event) {
+  event.preventDefault();
+  let fieldCheck = "", errorStore = [];
+  return { fieldCheck, errorStore };
+}
+
+function getGroup (event) {
+  return decodeURI(event.currentTarget.action.match(/(\?|&)group_id\=([^&]*)/)[2]);
+}
+
+const ccsZvalidateIR35acknowledgement = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "IR35_acknowledgement", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_ir35_acknowledgement_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateCompetitionRoute = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_route_to_market", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_route_to_market_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateBuildType= (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_fc_type", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfp_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateProjectPhase = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_rfp_project_phase", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfp_project_phase_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidateRfiSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", "You must provide a security clearance level before proceeding");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfi_vetting_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateEoiSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must choose one option from list before proceeding";
+  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
+    // errorStore.length = 0;
+    
+    if ($('#rfp_security_confirmation').val().length === 0) {
+      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+    else if ($('#rfp_security_confirmation').val().length > 500) {
+      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
+      if (fieldCheck !== true) errorStore.push(fieldCheck);
+    }
+  }
+
+  if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateRfpSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", "You must provide a security clearance level before proceeding");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfp_vetting_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateCaaAssFCSecurity = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Enter your team scale");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_ca_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateRfiType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateEoiType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+
+  fieldCheck = ccsZisOptionChecked( "ccs_eoi_type", "Select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_eoi_type_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+};
+
+const ccsZvalidateEoiServiceType = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "eoi_service_type", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_eoi_new_form"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
+
+const ccsZvalidatePreMarketRoute = (event) => {
+  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
+  fieldCheck = ccsZisOptionChecked( "choose_pre_engage", "Please select an option");
+  if (fieldCheck !== true) errorStore.push(fieldCheck);
+
+  if (errorStore.length === 0) document.forms["ccs_choose_pre_engage"].submit();
+  else ccsZPresentErrorSummary(errorStore);
+}
 
 
 /*************************************************************************
@@ -9477,139 +9610,6 @@ const ccsZaddDateErrorMessage = (element,addelement, message) => {
 };
 
 
-function initializeErrorStoreForFieldCheck(event) {
-  event.preventDefault();
-  let fieldCheck = "", errorStore = [];
-  return { fieldCheck, errorStore };
-}
-
-function getGroup (event) {
-  return decodeURI(event.currentTarget.action.match(/(\?|&)group_id\=([^&]*)/)[2]);
-}
-
-const ccsZvalidateIR35acknowledgement = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-
-  fieldCheck = ccsZisOptionChecked( "IR35_acknowledgement", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_ir35_acknowledgement_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateCompetitionRoute = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_route_to_market", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_route_to_market_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateBuildType= (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_fc_type", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfp_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateProjectPhase = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_rfp_project_phase", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfp_project_phase_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidateRfiSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionCheckedForVetting( "ccs_vetting_type", "You must provide a security clearance level before proceeding");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfi_vetting_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateEoiSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  const msg = (getGroup(event) === 'Group 6') ? "Please select an option" : "You must choose one option from list before proceeding";
-  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", msg);
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-  if ($('#rfp_security_confirmation') !== undefined && $('#rfp_security_confirmation').val() !== undefined && $("input[name='ccs_vetting_type']").prop('checked')) {
-    // errorStore.length = 0;
-    
-    if ($('#rfp_security_confirmation').val().length === 0) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'Provide the name of the incumbent supplier');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-    else if ($('#rfp_security_confirmation').val().length > 500) {
-      fieldCheck = ccsZvalidateTextArea('rfp_security_confirmation', 'supplier name must be less than 500 characters');
-      if (fieldCheck !== true) errorStore.push(fieldCheck);
-    }
-  }
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_vetting_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateRfpSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "ccs_rfp_vetting_type", "You must provide a security clearance level before proceeding");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfp_vetting_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateCaaAssFCSecurity = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked("ccs_vetting_type", "Enter your team scale");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_ca_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateRfiType = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-
-  fieldCheck = ccsZisOptionChecked( "ccs_rfi_type", "Select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_rfi_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateEoiType = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-
-  fieldCheck = ccsZisOptionChecked( "ccs_eoi_type", "Select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_type_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-};
-
-const ccsZvalidateEoiServiceType = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "eoi_service_type", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_eoi_new_form"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
-
-const ccsZvalidatePreMarketRoute = (event) => {
-  let { fieldCheck, errorStore } = initializeErrorStoreForFieldCheck(event);
-  fieldCheck = ccsZisOptionChecked( "choose_pre_engage", "Please select an option");
-  if (fieldCheck !== true) errorStore.push(fieldCheck);
-
-  if (errorStore.length === 0) document.forms["ccs_choose_pre_engage"].submit();
-  else ccsZPresentErrorSummary(errorStore);
-}
 $('input[type=radio]').click(function () {
   // to uncheck new and other names dynamically
   let clicked = this;
@@ -11346,39 +11346,6 @@ function deselect(e) {
 }
 
 });
-
-$('input[type="radio"]').on('click change', function(e) {
-    if (e.currentTarget.value === 'Yes') {
-       $('#conditional-rfp_radio_security_confirmation').fadeIn();
-    } else {
-        $('#conditional-rfp_radio_security_confirmation').hide();
-    }
-});
-const removeErrorFieldsRfpIR35 = () => {
-    $('.govuk-error-message').remove();
-    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
-    $('.govuk-error-summary').remove();
-    $(".govuk-input").removeClass("govuk-input--error");
-    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
-  
-  }
-
-$('#rfp_IR35_form').on('submit', (event) => {
-    event.preventDefault();
-    const radioButtonOne=  document.getElementById("ccs_vetting_type").checked;
-    const radioButtonTwo=  document.getElementById("ccs_vetting_type-2").checked;
-    //errorStore = emptyFieldCheckRfpKPI();
-  
-    if (radioButtonOne || radioButtonTwo) {
-      document.forms["rfp_IR35_form"].submit();
-    }
-    else {
-        removeErrorFieldsRfpIR35();
-        errorStore=['There is a problem','You must confirm if you need a contracted out service or a supply of resource']
-      ccsZPresentErrorSummary([errorStore]);
-    }
-  
-  });
 const countWords1 = (str) => { return str.trim().split(/\s+/).length };
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -12274,7 +12241,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartDay.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8') {
+            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
             let isValid = isProjectStartDateValid();
             if(isValid){
                return true;
@@ -12308,7 +12275,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8') {
+            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
             let isValid = isProjectStartDateValid();
             if(isValid){
                return true;
@@ -12357,6 +12324,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
+            if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
             let isValid = isProjectStartDateValid();
             if(isValid){
                return true;
@@ -12384,6 +12352,9 @@ document.addEventListener('DOMContentLoaded', () => {
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             removeErrorFieldsdates();
             }
+            if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+               removeErrorFieldsdates();
+               }   
          if(value.val() != ''){
             const durationYear = document.getElementsByClassName('rfp_duration_year_25');
             const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
@@ -12433,6 +12404,29 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
+         else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            let fieldCheck = "",
+             errorStore = [];
+             if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
+                // $(`#${currentEventId}`).addClass('govuk-form-group--error');
+                // $(`.${currentEventId}`).addClass('govuk-form-group--error');
+                //     $(`.p_durations_${currentEventId}`).html('Enter a valid day');
+                //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_days", "Enter a valid day", /^\d{1,}$/);
+                //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+                //    if(errorStore.length>0){
+                //        ccsZPresentErrorSummary(errorStore);
+                //        return false;
+                //    }
+ 
+               
+               
+             }
+             else {
+                $(`#${currentEventId}`).removeClass('govuk-form-group--error');
+                $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+                $(`.p_durations_${currentEventId}`).html('');
+             }
+          }
         else if ((matchValue || endmonthCheck || startmonthCheck || yrValidation || yrValidation2) && value.val() != '') {
             $(`#${currentEventId}`).addClass('govuk-form-group--error');
             $(`.${currentEventId}`).addClass('govuk-form-group--error');
@@ -12472,6 +12466,9 @@ document.addEventListener('DOMContentLoaded', () => {
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
             removeErrorFieldsdates();
             }
+            if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+               removeErrorFieldsdates();
+               }
          if(value.val() != ''){
             const durationYear = document.getElementsByClassName('rfp_duration_year_25');
             const durationMonth = document.getElementsByClassName('rfp_duration_month_25');
@@ -12565,6 +12562,41 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
+         else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            endmonthCheck = Number(value.val()) > 11;
+            let fieldCheck = "",
+            errorStore = [];
+            if ((matchValue || endmonthCheck || startmonthCheck) && value.val() != '') {
+               // $(`#${currentEventId}`).addClass('govuk-form-group--error');
+               // $(`.${currentEventId}`).addClass('govuk-form-group--error');
+               // if((matchValue || startmonthCheck)){
+               //     $(`.p_durations_${currentEventId}`).html('Enter a valid month');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a valid month", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
+               //    }
+
+               // }
+               // if(endmonthCheck){
+                  
+               //    $(`.p_durations_${currentEventId}`).addClass('govuk-form-group--error');   
+               //    $(`.p_durations_${currentEventId}`).html('Enter a month between 1 to 11');
+               //    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months", "Enter a month between 1 to 11", /^\d{1,}$/);
+               //    if (fieldCheck !== true) errorStore.push(fieldCheck);
+               //    if(errorStore.length>0){
+               //        ccsZPresentErrorSummary(errorStore);
+               //        return false;
+               //    }
+               // }
+            }
+            else {
+               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+               $(`.p_durations_${currentEventId}`).html('');
+            }
+         }
          else if ((matchValue || endmonthCheck || startmonthCheck || yrValidation || yrValidation2) && value.val() != '') {
             $(`#${currentEventId}`).addClass('govuk-form-group--error');
             $(`.${currentEventId}`).addClass('govuk-form-group--error');
@@ -12605,6 +12637,9 @@ document.addEventListener('DOMContentLoaded', () => {
          if(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1') {
          removeErrorFieldsdates();
          }
+         if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            removeErrorFieldsdates();
+            }
          if(document.getElementById('agreementID').value === 'RM6187'){
             if(value.val() != ''){
             const durationYear = document.getElementsByClassName('rfp_duration_year_25');
@@ -12704,6 +12739,18 @@ document.addEventListener('DOMContentLoaded', () => {
                $(`.p_durations_${currentEventId}`).html('');
             }
          }
+         else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            endyearCheck = Number(value.val()) > 2;
+            let fieldCheck = "",
+            errorStore = [];
+            if ((matchValue || endyearCheck || startyearCheck) && value.val() != '') {
+            }
+            else {
+               $(`#${currentEventId}`).removeClass('govuk-form-group--error');
+               $(`.${currentEventId}`).removeClass('govuk-form-group--error');
+               $(`.p_durations_${currentEventId}`).html('');
+            }
+         }
          else{
             if ((matchValue || endyearCheck || startyearCheck) && value.val() != '') {
                $(`#${currentEventId}`).addClass('govuk-form-group--error');
@@ -12719,6 +12766,7 @@ document.addEventListener('DOMContentLoaded', () => {
          
       }
    }
+}
 });
 
 function daysInYear(year) {
@@ -12729,9 +12777,8 @@ $('.rfp_date').on('submit', (e) => {
    e.preventDefault();
    $('.durations').removeClass('govuk-form-group--error');
    $('.resource_start_date').html('');
-   if(document.getElementById('agreementID').value !== 'RM1043.8') {
-      console.log('testssub==================');
-      if(checkResourceStartDate())
+   if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
+       if(checkResourceStartDate())
       {
          let isValid = isProjectStartDateValid();
          if (isValid) {
@@ -12801,7 +12848,23 @@ $('.rfp_date').on('submit', (e) => {
             if(isValid)
                document.forms['rfp_date'].submit();
             
-         } else {
+         } else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4') {
+            isValid = isProjectExtensionValid(); //XBN00121
+            if(isValid)
+               document.forms['rfp_date'].submit();
+            
+         } else if(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 9' && document.getElementById('lID').value === '4') {
+            let isValid;
+            if(checkResourceStartDate())
+            {
+
+            isValid = isProjectStartDateValid();
+            } //XBN00121
+            if(isValid)
+               document.forms['rfp_date'].submit();
+            
+         } 
+         else {
             isValid = isProjectStartDateValid(); //XBN00121
             if(isValid)
                document.forms['rfp_date'].submit();
@@ -12828,7 +12891,7 @@ function checkResourceStartDate()
       let rfpResourceStartYear = $('.rfp_resource_start_year');
       if(rfpResourceStartDay.val() == '' && rfpResourceStartMonth.val() == '' && rfpResourceStartYear.val() == '')
       {
-         if(document.getElementById('agreementID').value !== 'RM1043.8') {
+         if(document.getElementById('agreementID').value !== 'RM1043.8' && document.getElementById('agreementID').value !== 'RM1557.13') {
 
          flag =false;
          rfpResourceStartDay.addClass('govuk-form-group--error');
@@ -13023,6 +13086,12 @@ function isProjectExtensionValid() {
             if (fieldCheck !== true) errorStore.push(fieldCheck);
    }
 
+   if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+
+      fieldCheck = ccsZvalidateWithRegex("rfp_duration-years_Question12", "Enter a year", /^\d{1,}$/);
+            if (fieldCheck !== true) errorStore.push(fieldCheck);
+   }
+
   }
   if(document.getElementById("rfp_duration_months_Question12") !=undefined && document.getElementById("rfp_duration_months_Question12") !=null && document.getElementById("rfp_duration_months_Question12").value.trim().length === 0) {
      let year = document.getElementById("rfp_duration-years_Question12").value.trim(); 
@@ -13035,11 +13104,22 @@ function isProjectExtensionValid() {
         console.log('errorStore',errorStore)
       }
      }
+     else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+      if(Number(year) < 2 && Number(month) > 0){
+        fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+        console.log('errorStore',errorStore)
+      }
+     }
      else{
       if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
       fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
       if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
+      if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+         }
 
      }
   }else{
@@ -13047,6 +13127,10 @@ function isProjectExtensionValid() {
 
    fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
    }
+   if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+
+      fieldCheck = ccsZvalidateWithRegex("rfp_duration_months_Question12", "Enter a month", /^\d{1,}$/);
+      }
    
   }
   if (document.getElementById("rfp_duration_days_Question12") !=undefined &&document.getElementById("rfp_duration_days_Question12") !=null && document.getElementById("rfp_duration_days_Question12").value.trim().length === 0) {
@@ -13061,11 +13145,22 @@ function isProjectExtensionValid() {
 
     }
    }
+   else if((document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+      if(Number(year) < 2 && Number(day)>0){
+        fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+        if (fieldCheck !== true) errorStore.push(fieldCheck);
+  
+      }
+     }
    else{
       if(!(document.getElementById('agreementID').value === 'RM1043.8' && document.getElementById('gID').value === 'Group 18' && document.getElementById('lID').value === '1')){
       fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
       if (fieldCheck !== true) errorStore.push(fieldCheck);
       }
+      if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+         fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+         if (fieldCheck !== true) errorStore.push(fieldCheck);
+         }
 
    }
   }else{
@@ -13073,6 +13168,10 @@ function isProjectExtensionValid() {
 
    fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
    }
+   if(!(document.getElementById('agreementID').value === 'RM1557.13' && document.getElementById('gID').value === 'Group 10' && document.getElementById('lID').value === '4')){
+
+      fieldCheck = ccsZvalidateWithRegex("rfp_duration_days_Question12", "Enter a day", /^\d{1,}$/);
+      }
   }
    
   
@@ -13323,6 +13422,20 @@ function isProjectStartDateValid()
                ccsZPresentErrorSummary(errorStore);
             }
          }
+         if(document.getElementById('agreementID').value === 'RM1557.13') {
+            let errorStore = [];
+            Day.addClass('govuk-form-group--error');
+            Month.addClass('govuk-form-group--error');
+            Year.addClass('govuk-form-group--error');
+            $('.durations').addClass('govuk-form-group--error');
+            $('#event-name-error-date').html('Project start date should not be empty'); 
+            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date-hint", "Project start date should not be empty", /^\d{1,}$/);
+            if (fieldCheck !== true){ errorStore.push(fieldCheck)
+            }
+            if(errorStore.length>0){
+               ccsZPresentErrorSummary(errorStore);
+            }
+         }
       }
       return false;
    }
@@ -13539,6 +13652,39 @@ $('#rfp_work_completed').on('submit', (e)=>{
 } )
 
 
+
+$('input[type="radio"]').on('click change', function(e) {
+    if (e.currentTarget.value === 'Yes') {
+       $('#conditional-rfp_radio_security_confirmation').fadeIn();
+    } else {
+        $('#conditional-rfp_radio_security_confirmation').hide();
+    }
+});
+const removeErrorFieldsRfpIR35 = () => {
+    $('.govuk-error-message').remove();
+    $('.govuk-form-group--error').removeClass('govuk-form-group--error')
+    $('.govuk-error-summary').remove();
+    $(".govuk-input").removeClass("govuk-input--error");
+    $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
+  
+  }
+
+$('#rfp_IR35_form').on('submit', (event) => {
+    event.preventDefault();
+    const radioButtonOne=  document.getElementById("ccs_vetting_type").checked;
+    const radioButtonTwo=  document.getElementById("ccs_vetting_type-2").checked;
+    //errorStore = emptyFieldCheckRfpKPI();
+  
+    if (radioButtonOne || radioButtonTwo) {
+      document.forms["rfp_IR35_form"].submit();
+    }
+    else {
+        removeErrorFieldsRfpIR35();
+        errorStore=['There is a problem','You must confirm if you need a contracted out service or a supply of resource']
+      ccsZPresentErrorSummary([errorStore]);
+    }
+  
+  });
 document.addEventListener('DOMContentLoaded', () => {
   const formPercentage = $('#rfp_percentage_form');
   if (formPercentage !== undefined && formPercentage.length > 0) {
@@ -15678,7 +15824,7 @@ document.addEventListener('DOMContentLoaded', () => {
               'You must choose one option from list before proceeding',
             );
             if (fieldCheck !== true) errorStore.push(fieldCheck);
-            if (errorStore.length === 0) document.forms['rfp_singleselect_Dos'].submit();
+            if (errorStore.length === 0) document.forms[''].submit();
             else ccsZPresentErrorSummary(errorStore);
           } else if (errorStore.length === 0) {
             document.forms['rfp_singleselect_Dos'].submit();
