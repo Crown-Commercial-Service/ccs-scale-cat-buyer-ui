@@ -17,7 +17,7 @@ import * as dos6InboxData from '../../../resources/content/event-management/mess
 export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: express.Response) => {
     const { SESSION_ID } = req.cookies
     const { created } = req.query
-    const { createdreply } = req.query
+    const { createdreply,msgfor } = req.query
     const { createdqa } = req.session
     const { createdqaedit } = req.session
     const projectId = req.session['projectId'] 
@@ -40,7 +40,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
             }
         }
         
-        var suppliernameforreplymessage='';
+        let suppliernameforreplymessage='';
        
         if(createdreply)
         {
@@ -54,7 +54,7 @@ export const EVENT_MANAGEMENT_MESSAGING = async (req: express.Request, res: expr
             data = inboxData;
           }
 
-        const appendData = { data,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType,agreementId }
+        const appendData = { data,createdQA:createdqa,createdQAEdit:createdqaedit, created,createdreply,msgfor,suppliernameforreplymessage, messages: receivedMessages, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType,agreementId }
         res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingInbox', appendData)
     } catch (err) {
