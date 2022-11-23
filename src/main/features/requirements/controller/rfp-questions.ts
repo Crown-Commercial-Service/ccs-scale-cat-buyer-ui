@@ -1004,7 +1004,29 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
                   };
                 }
 
-            }else{
+            }else if(agreement_id=='RM1557.13' && id=='Criterion 3' && questionNonOCDS.groupId=='Group 4' && (questionNonOCDS.questionId=='Question 3' || questionNonOCDS.questionId=='Question 4')){
+
+              if(questionNonOCDS.questionId=='Question 3'){
+                  answerValueBody = {
+                    nonOCDS: {
+                      answered: true,
+                      multiAnswer: questionNonOCDS.multiAnswer,
+                      options: [{ value: object_values[0], selected: true }],
+                    },
+                  };
+              }
+              if(questionNonOCDS.questionId=='Question 4'){
+                answerValueBody = {
+                  nonOCDS: {
+                    answered: true,
+                    multiAnswer: questionNonOCDS.multiAnswer,
+                    options: [{ value: object_values[1], selected: true }],
+                  },
+                };
+              }
+
+              }
+            else{
 
                   let optionsData = [];
                   for (let index = 0; index < object_values.length; index++) {
