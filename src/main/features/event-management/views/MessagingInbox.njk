@@ -131,9 +131,15 @@
                             Your message was sent to the supplier
                         {% endif %}
                     </h3>
+                    {% if msgfor == 'all' and agreementId == 'RM1043.8' %} 
                     <p class="govuk-body">
                         <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification.linkText}}</a>
-                    </p>	
+                    </p>
+                     {% else %}
+                    <p class="govuk-body">
+                        <a class="govuk-notification-banner__link" href="{{data.notification.link}}">{{data.notification2.linkText}}</a>
+                    </p>
+                     {% endif %}
                 {% endset %}
 
                 {% if msgfor == 'all' and agreementId == 'RM1043.8' %}
