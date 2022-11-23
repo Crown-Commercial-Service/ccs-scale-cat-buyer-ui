@@ -48,7 +48,11 @@
 
               <div class="ccs-page-section">
                 {% if agreementId_session != 'RM1043.8' %}
+                  {% if agreementId_session == "RM6187" %}
+                    <p>Download all the supplier responses to evaluate their answers. Any colleagues who are also evaluating should have access to this project. If they do not have access, you can download and share the answers with them.</p>
+                  {% else %}
                     <p>{{data.subtitle}}</p>
+                  {% endif %}  
                     <p>{{data.subtitle1}}</p>
                     <p>{{data.subtitle4}}</p>
                     <p class="govuk-!-padding-bottom-9">
@@ -93,11 +97,19 @@
               <caption class="govuk-table__caption govuk-visually-hidden">Messaging Inbox</caption>
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
+                {% if agreementId_session == 'RM6187' %}
+                  <th scope="col" class="govuk-table__header">Supplier name</th>
+                  <th scope="col" class="govuk-table__header">Response date</th>
+                  <th scope="col" class="govuk-table__header">Supplier answer</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
+                  <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
+                {% else %}  
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_1}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_2}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_3}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_4}}</th>
                   <th scope="col" class="govuk-table__header">{{data.subsection4_table_th_5}}</th>
+                {% endif %}
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
