@@ -29,7 +29,7 @@
     {% set s_name = supplierName + '<br><br>You are now awarding the selected supplier. Before proceeding, ensure that you are satisfied with your choice.' | safe %}
   {%endif%}
   {{ CCSDialog({
-    title:'Confirm your wish to award this supplier',
+    title:'Confirm your wish to award to this supplier',
     description:s_name | safe,
     redirect:'#',
     type:'vetting'
@@ -70,7 +70,7 @@
           </h2>
           <p class="govuk-body">
             {% if(showCloseProject) %}
-            <a class="govuk-link" href="/rfi/nextsteps">Close Event</a>
+            <a class="govuk-link" href="/rfi/nextsteps">Close your event</a>
             {% else %}
             <a class="govuk-link" href="/event/management?id={{ eventId }}">Close Event</a>
             {% endif %}

@@ -317,6 +317,15 @@ export const RFP_POST_UPLOAD_PROCEED = (express.Handler = async (req: express.Re
           {
           await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Not started');
           }
+          if(agreement_id=='RM6187'){
+            
+            let flags=await ShouldEventStatusBeUpdated(eventId,34,req);
+            if(flags){
+           // await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
+            }
+          }
+         
+          //}
         }
       }
     

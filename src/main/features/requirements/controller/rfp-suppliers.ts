@@ -248,12 +248,12 @@ export const POST_RFP_SUPPLIERS = async (req: express.Request, res: express.Resp
   }
 
     }else{
-      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Completed');
     if (response.status == HttpStatusCode.OK) {
-      let flag=await ShouldEventStatusBeUpdated(eventId,37,req);
+      let flag=await ShouldEventStatusBeUpdated(eventId,36,req);
       if(flag)
       {
-      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
+      await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Not started');
     }
   }
     }

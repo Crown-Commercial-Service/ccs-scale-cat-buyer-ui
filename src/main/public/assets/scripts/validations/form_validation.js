@@ -17,14 +17,18 @@
 //debugger;
 const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => {
   const element = document.getElementById(elementName);
+  // let tempval =  element.closest('div').find("div[id='rfp_resource_start_date']");
+  // console.log(tempval.classList)
 
-  if (element?.value != undefined && element.value != null &&  element.value.trim().match(typeRegex) && valid) {
-    ccsZremoveErrorMessage(element);
-    return true;
-  } else {
-    ccsZremoveErrorMessage(element);
-    ccsZaddErrorMessage(element, errMsg);
-    return [element?.id, errMsg];
+  if (element != null && element != undefined) {
+    if (element.value != undefined && element.value != null &&  element.value.trim().match(typeRegex) && valid) {
+      ccsZremoveErrorMessage(element);
+      return true;
+    } else {
+      ccsZremoveErrorMessage(element);
+      ccsZaddErrorMessage(element, errMsg);
+      return [element.id, errMsg];
+    }
   }
 };
 
@@ -32,20 +36,21 @@ const ccsZvalidateWithRegex = (elementName, errMsg, typeRegex, valid = true) => 
  * Validate that a textarea cointains a value
  */
 const ccsZvalidateTextArea = (elementName, errMsg, valid = true) => {
-  
+ 
   const pageHeading = document.getElementById('page-heading').innerHTML;
   
   if (!(pageHeading.includes("(Optional)") && !pageHeading.includes("(optional)"))) {
     const element = document.getElementById(elementName);
-   
+    
     if (element != undefined && element != null && element.value && element.value.trim().length > 0 && valid) {
       
       ccsZremoveErrorMessage(element);
+      return true;
     }
     else if (element != undefined && element != null) {
       
       ccsZaddErrorMessage(element, errMsg);
-      return [element?.id, errMsg];
+      return [element.id, errMsg];
     }else{
       console.log("FINAL ERROR");
     }
@@ -207,6 +212,7 @@ const ccsZvalidateThisDate = (elementName, errMsg, direction, offset) => {
 const ccsZremoveErrorMessage = (element) => {
 
   if (element !=null && document.getElementById(element.id + "-error") !== null) {
+    
     element.closest('.govuk-form-group').classList.remove('govuk-form-group--error');
     if (element.tagName === "TEXTAREA") {
       element.closest('.govuk-textarea').classList.remove('govuk-textarea--error');
@@ -220,7 +226,7 @@ const ccsZremoveErrorMessage = (element) => {
       });
     }
 
-    document.getElementById(element?.id + "-error").remove();
+    document.getElementById(element.id + "-error").remove();
   }
 
 };
@@ -233,7 +239,7 @@ const ccsZremoveErrorMessage = (element) => {
  * @param {string} message - the error message
  */
 const ccsZaddErrorMessage = (element, message) => {
-  console.log("element",element);
+  
 
   if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
     element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
@@ -350,12 +356,70 @@ const ccsZPresentErrorSummary = (errorStore) => {
 const ccsZvalidateWeihtageValue = (elementName, errMsg, totalvalue, typeRegex, valid = true) => {
   const element = document.getElementById(elementName);
 
-  if (element?.value != undefined && element.value != null &&  totalvalue == 100 && valid) {
-    ccsZremoveErrorMessage(element);
-    return true;
-  } else {
-    ccsZremoveErrorMessage(element);
-    ccsZaddErrorMessage(element, errMsg);
-    return [element?.id, errMsg];
+  if (element != null && element != undefined) {
+    if (element.value != undefined && element.value != null &&  totalvalue == 100 && valid) {
+      ccsZremoveErrorMessage(element);
+      return true;
+    } else {
+      ccsZremoveErrorMessage(element);
+      ccsZaddErrorMessage(element, errMsg);
+      return [element.id, errMsg];
+    }
   }
 };
+
+const ccsZvalidateDateWithRegex = (elementName,addElementName, errMsg, typeRegex, valid = true) => {
+  const element = document.getElementById(elementName);
+  const addelement = document.getElementById(addElementName);
+  // let tempval =  element.closest('div').find("div[id='rfp_resource_start_date']");
+  // console.log(tempval.classList)
+
+  if (element != undefined && element != null) {
+    if (element.value != undefined && element.value != null &&  element.value.trim().match(typeRegex) && valid) {
+      ccsZremoveErrorMessage(element);
+      return true;
+    } else {
+      ccsZremoveErrorMessage(element);
+      ccsZaddDateErrorMessage(element,addelement, errMsg);
+      return [element.id, errMsg];
+    }
+  }
+};
+
+const ccsZaddDateErrorMessage = (element,addelement, message) => {
+  
+
+  if (element != undefined && element != null && document.getElementById(element.id + "-error") === null) {
+    element.closest('.govuk-form-group').classList.add('govuk-form-group--error');
+
+    if (element.tagName === "INPUT" && (element.type !== "radio" || element.type !== "checkbox")) {
+      element.classList.add("govuk-input--error");
+    } else {
+      let childInputs = element.querySelectorAll('input');
+      childInputs.forEach((child_i) => {
+        child_i.classList.add("govuk-input--error");
+      });
+    }
+    if (element.tagName === "TEXTAREA" && (element.type !== "radio" || element.type !== "checkbox")) {
+      element.classList.add("govuk-textarea--error");
+    } else {
+      let childInputs = element.querySelectorAll('textarea');
+      childInputs.forEach((child_i) => {
+        child_i.classList.add("govuk-textarea--error");
+      });
+    }
+
+    errorEl = ccsZcreateCcsErrorMsg(addelement.id, message);
+
+    if (element.type === "radio") {
+      element.closest(".govuk-radios").insertBefore(errorEl, element.parentNode);
+    } else if (element.type === "checkbox") {
+      element.closest(".govuk-checkboxes").insertBefore(errorEl, element.parentNode);
+    } else if (element.parentNode.classList.contains("govuk-input__wrapper")) {
+      element.closest(".govuk-form-group").insertBefore(errorEl, element.parentNode);
+    } else {
+      addelement.parentNode.insertBefore(errorEl, addelement);
+    }
+  }
+};
+

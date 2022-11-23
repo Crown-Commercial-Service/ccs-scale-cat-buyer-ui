@@ -107,12 +107,15 @@
     </div>
     <form id="ccs_message_create_form" name="ccs_message_create_form" action="/message/createSupplier" method="POST">
       {{ csrfProtection(csrf) }}
+          <a href="{{data.backlink}}" class="govuk-back-link">Back</a>
+          <br>
       <div class="govuk-grid-row govuk-!-margin-bottom-6 govuk-!-margin-top-6 ccs-page-section">
         <div class="govuk-grid-column-full">
           <h1 class="govuk-heading-m">
-            {{data.subtitle}}
+            {{data.subtitle2}}
           </h1>
-          <a href="{{data.backlink}}" class="govuk-back-link">Back</a>
+          <br>
+          {% if agreementId != 'RM1043.8' %}
           <div class="govuk-inset-text">
             <p class="govuk-body">{{data.signposting.line1}}</p>
             <p class="govuk-body">
@@ -121,6 +124,7 @@
               </a>
             </p>
           </div>
+          {% endif %}
           <div class="govuk-grid-column-two-thirds">
 
 
@@ -148,7 +152,7 @@
                 items: supplierData,
                 label: {
                   text: data.MessageSupplier,
-                  classes: "govuk-label govuk-label--m"
+                  classes: "govuk-label"
                 }
                 })
               }}
@@ -156,7 +160,7 @@
 
             {% if message.IsClassificationNotDefined %}
               <div class="govuk-form-group govuk-form-group--error">
-                <label class="govuk-label govuk-label govuk-label--m" for="create_message">
+                <label class="govuk-label" for="create_message">
                   Message Classification
                 </label>
                 <span id="create_message-error" class="govuk-error-message">
@@ -177,7 +181,7 @@
                 items: sortedMembers,
                 label: {
                   text: data.MessageClassification,
-                  classes: "govuk-label govuk-label--m"
+                  classes: "govuk-label"
                 }
                 })
               }}
@@ -203,7 +207,7 @@
                 value: message.create_subject_input,
                 label: {
                   text: data.Subject,
-                  classes: "govuk-label govuk-label--m"
+                  classes: "govuk-label"
                 },
                 classes: "govuk-input govuk-input-textcount rfpterm"
                 })
@@ -213,7 +217,7 @@
             <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
               {% if message.IsMessageNotDefined %}
                 <div class="govuk-form-group govuk-form-group--error">
-                  <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
+                  <label class="govuk-label" for="create_message_input">{{data.Message}}</label>
                   <p id="more-detail-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
                     {{message.messageErrorMessage}}
@@ -222,7 +226,7 @@
                 </div>
               {% else %}
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-label govuk-label--m" for="create_message_input">{{data.Message}}</label>
+                  <label class="govuk-label" for="create_message_input">{{data.Message}}</label>
                   <textarea class="govuk-textarea govuk-js-character-count messagesendcount" id="create_message_input" name="create_message_input" rows="5" aria-describedby="create_message_input-info create_message_input-hint">{{message.create_message_input}}</textarea>
                 </div>
               {% endif %}

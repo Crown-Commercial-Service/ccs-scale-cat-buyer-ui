@@ -84,18 +84,16 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       console.log('log200',supplierList.length);
       supplierList = supplierList.sort((a: any, b: any) => a.supplier.name.replace("-"," ").toLowerCase() < b.supplier.name.replace("-"," ").toLowerCase() ? -1 : a.supplier.name.replace("-"," ").toLowerCase() > b.supplier.name.replace("-"," ").toLowerCase() ? 1 : 0);
 
-      let sId = 0;
+      // let sId = 0;
       for (let i = 0; i < supplierList.length; i++) {
         let id = supplierList[i].supplier.id;
         let score = supplierScore?.data?.filter((x: any) => x.organisationId == id)[0]?.score
         if (supplierList[i].responseState == 'Submitted') {
           showallDownload = true;
-          sId = id;
+          // sId = id;
         }
-        console.log('name',supplierList[i].supplier.name);
-        console.log('state',supplierList[i].responseState);
 
-       if (supplierList[i].supplier.id != supplierId && supplierList[i].supplier.id != sId) {
+       if (supplierList[i].supplier.id != supplierId && supplierList[i].responseState == 'Submitted') {
           let supplierDetailsObj = {} as SupplierDetails;
 
           
@@ -123,7 +121,14 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       const apidata = await TenderApi.Instance(SESSION_ID).get(baseurl)
       //status=apidata.data[0].dashboardStatus;
       const selectedEventData = apidata.data.filter((d: any) => d.id == eventId);
+      const agreementId = req.session.agreement_id;
       let status = selectedEventData[0].dashboardStatus
+      let orderTemplateUrl = '';
+      if(agreement_id == 'RM1043.8'){
+        orderTemplateUrl = 'https://www.crowncommercial.gov.uk/agreements/RM1043.8';
+      }else{
+        orderTemplateUrl = 'https://www.crowncommercial.gov.uk/agreements/RM6187';
+      }
 
       //Final Object
       let eventManagementData = {
@@ -136,12 +141,11 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
         documentTemplateDataList,
         supplierDetailsList
       };
-      const appendData = { eventManagementData, projectName };
+      const appendData = { eventManagementData, projectName, agreementId,orderTemplateUrl };
       res.render('awardDocumentComplete', appendData)
     }
 
   } catch (error) {
-console.log('catcherr',error);
     LoggTracer.errorLogger(
       res,
       error,

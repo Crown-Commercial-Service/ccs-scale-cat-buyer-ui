@@ -75,7 +75,7 @@
               ] %}
 
 {% block breadCrumb %}
-  {% if eventStatus != "published"%}
+  {% if eventStatus != "published" and closeStatus!="CLOSED"%}
   {{ CCSBreadcrumbs({
         items: data.breadCrumbs
       }) }}
@@ -188,7 +188,7 @@
             {% endif %}
 
             <dd class="govuk-summary-list__actions">
-            {% if eventStatus != "published"%}
+            {% if eventStatus != "published" and closeStatus!="CLOSED"%}
               <a class="govuk-link" href="/da/name-your-project">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
@@ -210,7 +210,7 @@
               </ul> 
             </dd>
             <dd class="govuk-summary-list__actions">
-            {% if eventStatus != "published"%}
+            {% if eventStatus != "published" and closeStatus!="CLOSED"%}
               <a class="govuk-link" href="/da/procurement-lead">
             Change<span class="govuk-visually-hidden"> procurement lead</span>
               </a>
@@ -251,7 +251,7 @@
         </dd>
             {% endif %}
             <dd class="govuk-summary-list__actions">
-            {% if eventStatus != "published"%}
+            {% if eventStatus != "published" and closeStatus!="CLOSED"%}
               <a class="govuk-link" href="/da/add-collaborators">
             Change<span class="govuk-visually-hidden"> eoi team members</span>
               </a>
@@ -293,7 +293,7 @@
               {% endif %}
 
               <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                 <a class="govuk-link" href="/da/upload-attachment">
               Change<span class="govuk-visually-hidden">project name</span>
                 </a>
@@ -322,19 +322,19 @@
               {% endif %}
               {# </dd> #}
               <dd class="govuk-summary-list__actions">
-              {% if(eventStatus !='' and eventStatus != "published")%}
+              {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED")%}
                 <a class="govuk-link" href="/da/upload-doc">
               Change<span class="govuk-visually-hidden"> procurement lead</span>
                 </a>
                 {% endif %}
               </dd>
             </div>
-            <div class="govuk-summary-list__row">
+            {# <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-            <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
-          </dt>
+                <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
+              </dt>
               {% if(ir35 !=undefined and  ir35 !=null and ir35 | length > 0) %}
-                <dd class="govuk-summary-list__value">
+              <dd class="govuk-summary-list__value">
                   <p class="govuk-body-s">
                     {{ ir35 | safe }}
                   </p>
@@ -342,7 +342,7 @@
               {% else %}
                 <dd class="govuk-summary-list__value">
             
-          </dd>
+                </dd>
               {% endif %}
               <dd class="govuk-summary-list__actions">
               {% if eventStatus != "published"%}
@@ -351,7 +351,7 @@
                 </a>
                 {% endif %}
               </dd>
-            </div>
+            </div> #}
           </dl>
   {% endblock %}
   {# END----------------------Upload pricing schedules and any other supporting documents #}
@@ -412,7 +412,7 @@
               &nbsp;
             </dd>
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
               <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 3">
                   Change<span class="govuk-visually-hidden">project name</span>
               </a>
@@ -447,7 +447,7 @@
                       &nbsp;
                     </dd>
                     <dd class="govuk-summary-list__actions">
-                      {% if eventStatus != "published"%}
+                      {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 4">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -481,7 +481,7 @@
                       <p> {{businessProbAns}} </p>
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                      {% if eventStatus != "published"%}
+                      {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 5">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -510,7 +510,7 @@
                       {#<p> Key user answer</p><p>definition answer</p><br />#}
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus != "published")%}
+                      {% if(eventStatus != "published" and closeStatus!="CLOSED")%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 6">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -526,7 +526,7 @@
                       <p>{{workcompletedsofar}}</p>
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus != "published")%}
+                      {% if(eventStatus != "published" and closeStatus!="CLOSED")%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 7">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -561,7 +561,7 @@
                       {%endif%}
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus != "published")%}
+                      {% if(eventStatus != "published" and closeStatus!="CLOSED")%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 9">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -575,7 +575,7 @@
                     </dt>
                     <dd class="govuk-summary-list__value govuk-!-padding-0">&nbsp;</dd>
                     <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus != "published")%}
+                      {% if(eventStatus != "published" and closeStatus!="CLOSED")%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 10">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -618,17 +618,39 @@
                   </div>
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__key"><h3>
+                    {% if agreementId_session == "RM6187" %}
+                    <strong>The organisation you are buying on behalf of (optional)</strong></h3>
+                    {% else %}
                       <strong>Which phase the project is in (optional)</strong></h3>
+                    {% endif %}
                     </dt>
                     <dd class="govuk-summary-list__value">&nbsp;</dd>
                     <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus != "published")%}
+                      {% if(eventStatus != "published" and closeStatus!="CLOSED")%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 11">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
                       {% endif %}
                   </dd>
                   </div>
+                  {% if agreementId_session == "RM6187" %}
+                  <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                    <dt class="govuk-summary-list__value">                      
+                        <p>Name of the organisation doing the procurement</p>
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        <p>{{buyingorg1}}</p>
+                    </dd>
+                  </div>
+                  <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
+                    <dt class="govuk-summary-list__value">                      
+                        <p>Name of the organisation using the products or services</p>
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                        <p>{{buyingorg2}}</p>
+                    </dd>
+                  </div>
+                  {% else %}
                   <div class="govuk-summary-list__row govuk-summary-list__row--no-border">
                     <dt class="govuk-summary-list__value">                      
                         <p>Current phase of the project</p>
@@ -638,6 +660,7 @@
                         <p>{{buyingorg2}}</p>
                     </dd>
                   </div>
+                  {% endif %}
                   <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key govuk-!-padding-0"></dt>
                     <dd class="govuk-summary-list__value govuk-!-padding-0"></dd>
@@ -651,7 +674,7 @@
                       <p>{{summarize}}</p>
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                      {% if eventStatus != "published"%}
+                      {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 14">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -666,7 +689,7 @@
                       <p> {{newreplace}}</p>
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus != "published")%}
+                      {% if(eventStatus != "published" and closeStatus!="CLOSED")%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 15">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -681,7 +704,7 @@
                       <p> {{incumbentoption}}</p><p>{{suppliername}}</p>
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus != "published")%}
+                      {% if(eventStatus != "published" and closeStatus!="CLOSED")%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 16">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -696,7 +719,7 @@
                       <p> {{managementinfo}}</p>
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus != "published")%}
+                      {% if(eventStatus != "published" and closeStatus!="CLOSED")%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 17">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -709,7 +732,7 @@
                     </dt>
                     <dd class="govuk-summary-list__value">&nbsp;</dd>
                     <dd class="govuk-summary-list__actions">
-                      {% if(eventStatus != "published")%}
+                      {% if(eventStatus != "published" and closeStatus!="CLOSED")%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 19">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -756,7 +779,7 @@
                     </dt>
                     <dd class="govuk-summary-list__value">&nbsp;</dd>
                     <dd class="govuk-summary-list__actions">
-                      {% if eventStatus != "published"%}
+                      {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 20">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -785,7 +808,7 @@
                     </dt>
                     <dd class="govuk-summary-list__value">&nbsp;</dd>
                     <dd class="govuk-summary-list__actions">
-                      {% if eventStatus != "published"%}
+                      {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 21">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -821,7 +844,7 @@
                       &nbsp;
                     </dd>
                     <dd class="govuk-summary-list__actions">
-                      {% if eventStatus != "published"%}
+                      {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                       <a class="govuk-link" href="/da/questions?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 3&group_id=Group 24">
                           Change<span class="govuk-visually-hidden">project name</span>
                       </a>
@@ -889,7 +912,7 @@
           {%endif%}
         </dd>
         <dd class="govuk-summary-list__actions">
-            {% if eventStatus != "published"%}
+            {% if eventStatus != "published" and closeStatus!="CLOSED"%}
               <a class="govuk-link" href="/da/vetting-weighting">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
@@ -909,7 +932,7 @@
           <p>{{highestSecurityCount}}</p>
         </dd>
         <dd class="govuk-summary-list__actions">
-            {% if eventStatus != "published"%}
+            {% if eventStatus != "published" and closeStatus!="CLOSED"%}
               <a class="govuk-link" href="/da/choose-security-requirements">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
@@ -936,7 +959,7 @@
           {%endif%}
         </dd>
         <dd class="govuk-summary-list__actions">
-            {% if eventStatus != "published"%}
+            {% if eventStatus != "published" and closeStatus!="CLOSED"%}
               <a class="govuk-link" href="/da/service-capabilities">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
@@ -960,7 +983,7 @@
           No specific location, for example they can work remotely #}
         </dd>
         <dd class="govuk-summary-list__actions">
-            {% if eventStatus != "published"%}
+            {% if eventStatus != "published" and closeStatus!="CLOSED"%}
               <a class="govuk-link" href="/da/where-work-done">
             Change<span class="govuk-visually-hidden">project name</span>
               </a>
@@ -1001,7 +1024,7 @@
               {% endif %}
 
               <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                 <a class="govuk-link" href="/da/upload-attachment">
               Change<span class="govuk-visually-hidden">project name</span>
                 </a>
@@ -1030,17 +1053,17 @@
               {% endif %}
               {# </dd> #}
               <dd class="govuk-summary-list__actions">
-              {% if(eventStatus !='' and eventStatus != "published")%}
+              {% if(eventStatus !='' and eventStatus != "published" and closeStatus!="CLOSED")%}
                 <a class="govuk-link" href="/da/upload-doc">
               Change<span class="govuk-visually-hidden"> procurement lead</span>
                 </a>
                 {% endif %}
               </dd>
             </div>
-            <div class="govuk-summary-list__row">
+            {# <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">
-            <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
-          </dt>
+                <p class="govuk-!-margin-bottom-0">Confirm if the IR35 off-payroll working rules apply</p>
+              </dt>
               {% if(ir35 !=undefined and  ir35 !=null and ir35 | length > 0) %}
                 <dd class="govuk-summary-list__value">
                   <p class="govuk-body-s">
@@ -1050,7 +1073,7 @@
               {% else %}
                 <dd class="govuk-summary-list__value">
             
-          </dd>
+                </dd>
               {% endif %}
               <dd class="govuk-summary-list__actions">
               {% if eventStatus != "published"%}
@@ -1059,7 +1082,7 @@
                 </a>
                 {% endif %}
               </dd>
-            </div>
+            </div> #}
           </dl>
   {% endblock %}
   {# END----------------------4.Upload pricing schedules and any other supporting documents #}
@@ -1122,7 +1145,7 @@
             </dt>
             <dd class="govuk-summary-list__value">&nbsp;</dd>
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                 <a class="govuk-link" href="/da/assesstment-question?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 4">
               Change<span class="govuk-visually-hidden">project name</span>
                 </a>
@@ -1198,7 +1221,7 @@
             </dt>
             <dd class="govuk-summary-list__value">&nbsp;</dd>
             <dd class="govuk-summary-list__actions">
-              {% if eventStatus != "published"%}
+              {% if eventStatus != "published" and closeStatus!="CLOSED"%}
                 <a class="govuk-link" href="/da/assesstment-question?agreement_id={{agreementId_session}}&proc_id={{proc_id}}&event_id={{event_id}}&id=Criterion 2&group_id=Group 6">
               Change<span class="govuk-visually-hidden">project name</span>
                 </a>
@@ -1311,7 +1334,7 @@
         {%endif%}
     </dd>
     <dd class="govuk-summary-list__actions">
-        {% if(eventStatus != "published")%}
+        {% if(eventStatus != "published" and closeStatus!="CLOSED")%}
         <a class="govuk-link" href="/da/suppliers">
             View<span class="govuk-visually-hidden">project name</span>
         </a>
@@ -1324,7 +1347,7 @@
       </dt>
       <dd class="govuk-summary-list__value">&nbsp;</dd>
       <dd class="govuk-summary-list__actions">
-        {% if eventStatus != "published"%}
+        {% if eventStatus != "published" and closeStatus!="CLOSED"%}
         <a class="govuk-link" href="/da/response-date">
             Change<span class="govuk-visually-hidden">project name</span>
         </a>
@@ -1506,7 +1529,7 @@
       action="/da/review" method="post">
       {{ csrfProtection(csrf) }}
 
-  {% if eventStatus != "published" and customStatus!="complete" %}
+  {% if eventStatus != "published" and customStatus!="complete" and closeStatus!="CLOSED" %}
        
       {{ CCSCheckboxes({
       idPrefix: "rfp_publish_confirmation",

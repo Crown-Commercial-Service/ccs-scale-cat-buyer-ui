@@ -423,6 +423,97 @@
                 }}
 
               {%endif%}
+               {% if (eoiTitle=="Special terms and conditions (Optional)") and (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (requirement.nonOCDS.order === 2) %}
+            
+               {% call CCSFieldset({
+                    legend: {
+                              html: "First special term or condition ",
+                              classes: "govuk-fieldset__legend--m",
+                              isPageHeading: false
+                            },
+                            classes: "term_fieldset splterm_1",
+                            id:"term_fieldset_splterm_1"
+                  }) %}
+
+              {{CCSCharacterCount({
+                    name: "term",
+                    id: "eoi_splterm_1",
+                    maxlength: 10000,
+                    rows: "6",
+                    classes:"rfp_term_definition",
+                    label: {
+                      text: "Enter the first special term or condition",
+                      classes: "govuk-label--m govuk-!-font-weight-regular",
+                      isPageHeading: false
+                    },
+                    value:requirement.nonOCDS.options[0].value
+                }) }}
+{%endcall %}
+                {% set NumberWord = [
+                  'Zero',
+                  'First',
+                  'Second',
+                  ' Third',
+                  ' Fourth',
+                  ' Fifth',
+                  ' Sixth',
+                  ' Seventh',
+                  ' Eight',
+                  ' Ninth',
+                  ' Tenth'
+                ] %}
+                {% for i in range(2, 11) -%}
+
+                  {% call CCSFieldset({
+                      legend: {
+                        html: NumberWord[i]+" special term and condition<a href="+i+" class='del govuk-link govuk-link--no-visited-state ccs-dynaform-hidden hide remove_icon' title='delete'> X </a>",
+                        classes: "govuk-fieldset__legend--m",
+                        isPageHeading: false
+                      },
+                      classes: "term_fieldset splterm_"+i,
+                      id:"term_fieldset"
+                    }) %}
+                 
+                  {{CCSCharacterCount({
+                            name: "term",
+                            id: "eoi_splterm_"+i,
+                            maxlength: 10000,
+                            classes: "rfp_term_definition eoi_splterm_"+i,
+                            rows: "6",
+                            label: {
+                              text: "Enter the "+NumberWord[i]+" special term or condition",
+                              classes: "govuk-label--m govuk-!-font-weight-regular",
+                              isPageHeading: false
+                            },
+                            value:requirement.nonOCDS.options[i-1].value
+                        }) }}
+
+
+     
+                  {% endcall %}
+
+                {%- endfor %}
+
+          <p class="govuk-body">
+                  {{ CCSButton({
+                          text: "Add another special term or condition",
+                          attributes: {
+                            id: "ccs_eoisplTerm_add"
+                          },
+                          classes: "govuk-button--secondary ccs-dynaform-hidden"
+                        }) }}
+                </p>
+
+                {{ CCSInput({
+                            id: "question_id",
+                            name: "question_id",
+                            type: "hidden",
+                            value: requirement.OCDS.id
+                          }) }}
+                <div id="eoi_splterm"></div>
+
+                {%endif%}
+
               {% if (requirement.nonOCDS.questionType === 'Text') and (requirement.nonOCDS.multiAnswer === true) and (requirement.nonOCDS.order === 1) %}
 
                 {% call CCSFieldset({
@@ -435,6 +526,21 @@
                             id:"term_fieldset_splterm_1"
                   }) %}
 
+             {% if agreement_id == 'RM6187' %}
+                {{CCSCharacterCount({
+                    name: "term",
+                    id: "eoi_splterm_1",
+                    maxlength: 10000,
+                    rows: "6",
+                    classes:"rfp_term_definition",
+                    label: {
+                      text: "Enter the first special term or condition",
+                      classes: "govuk-label--m govuk-!-font-weight-regular",
+                      isPageHeading: false
+                    },
+                    value:requirement.nonOCDS.options[0].value
+                }) }}
+                {% else %}
                 {{CCSCharacterCount({
                     name: "term",
                     id: "eoi_splterm_1",
@@ -447,9 +553,10 @@
                       isPageHeading: false
                     },
                     value:requirement.nonOCDS.options[0].value
-                }) }}
-
-                {{ CCSCharacterCount({
+                }) }}                
+                {% endif %}
+                {% if agreement_id != 'RM6187' %}
+                  {{ CCSCharacterCount({
                     name: "value",
                     id: "eoi_splterm_definition_1",
                     maxlength: 10000,
@@ -461,7 +568,8 @@
                       isPageHeading: false
                     },
                     value:requirement.nonOCDS.options[0].text
-                })}}
+                })}} 
+                {% endif %}
 
                 {%endcall %}
 
@@ -489,7 +597,22 @@
                       classes: "term_fieldset splterm_"+i,
                       id:"term_fieldset"
                     }) %}
+                  {% if agreement_id == 'RM6187' %}
                   {{CCSCharacterCount({
+                            name: "term",
+                            id: "eoi_splterm_"+i,
+                            maxlength: 10000,
+                            classes: "rfp_term_definition eoi_splterm_"+i,
+                            rows: "6",
+                            label: {
+                              text: "Enter the "+NumberWord[i]+" special term or condition",
+                              classes: "govuk-label--m govuk-!-font-weight-regular",
+                              isPageHeading: false
+                            },
+                            value:requirement.nonOCDS.options[i-1].value
+                        }) }}
+                        {% else %}
+                        {{CCSCharacterCount({
                             name: "term",
                             id: "eoi_splterm_"+i,
                             maxlength: 500,
@@ -502,8 +625,9 @@
                             },
                             value:requirement.nonOCDS.options[i-1].value
                         }) }}
-
-                  {{ CCSCharacterCount({
+                        {% endif %}
+                   {% if agreement_id != 'RM6187' %}
+                   {{ CCSCharacterCount({
                             name: "value",
                             id: "eoi_splterm_definition_"+i,
                             maxlength: 10000,
@@ -515,7 +639,8 @@
                               isPageHeading: false
                             },
                             value:requirement.nonOCDS.options[i-1].text
-                  })}}
+                  })}} 
+                  {% endif %}
                   {% endcall %}
 
                 {%- endfor %}
@@ -815,8 +940,9 @@
                             id: "eoi_"+requirement.OCDS.title | replace(" ", "_") | lower,
                             name: "eoi_budget",
                             spellcheck: false,
-                            classes: "govuk-input--width-5",
-                            value: requirement.nonOCDS.options[0].value
+                            classes: "govuk-input--width-5 rfp_term_definition_new",
+                            value: requirement.nonOCDS.options[0].value,
+                            maxlength:32
                         })
                       }}
 

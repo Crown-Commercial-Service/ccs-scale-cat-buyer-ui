@@ -143,6 +143,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
         prompt: prompt,
         framework: fetchQuestionsData,
         eoi_clarification_date,
+        agreement_id,
         eoi_clarification_period_end: moment(eoi_clarification_period_end, 'DD/MM/YYYY, HH:mm').format(
           'DD MMMM YYYY, HH:mm',
         ),
@@ -223,6 +224,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           supplier_period_for_clarification_period,
           supplier_dealine_for_clarification_period,
           releatedContent: req.session.releatedContent,
+          agreement_id,
         };
         if (errorTriggered) {
           appendData = { ...appendData, error: true, errorMessage: errorItem };
@@ -273,6 +275,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           supplier_period_for_clarification_period,
           supplier_dealine_for_clarification_period,
           releatedContent: req.session.releatedContent,
+          agreement_id,
         };
         if (errorTriggered) {
           appendData = { ...appendData, error: true, errorMessage: errorItem };
@@ -323,6 +326,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           supplier_period_for_clarification_period,
           supplier_dealine_for_clarification_period,
           releatedContent: req.session.releatedContent,
+          agreement_id,
         };
         if (errorTriggered) {
           appendData = { ...appendData, error: true, errorMessage: errorItem };
@@ -378,6 +382,7 @@ export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Resp
           supplier_period_for_clarification_period,
           supplier_dealine_for_clarification_period,
           releatedContent: req.session.releatedContent,
+          agreement_id,
         };
         if (errorTriggered) {
           appendData = { ...appendData, error: true, errorMessage: errorItem };

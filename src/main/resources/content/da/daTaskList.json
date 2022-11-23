@@ -90,13 +90,6 @@
                     "required": "mandatory",
                     "link": "/da/upload",
                     "status": "Todo"
-                },
-                {
-                    "Task": 2,
-                    "title": "Confirm if you need a contracted out service or a supply of resource",
-                    "required": "optional",
-                    "link": "/da/IR35",
-                    "status": "Todo"
                 }
             ]
         },

@@ -128,9 +128,9 @@
       <span class="proc-task-list__section-number">2.</span>
       {{data.subsection4_title2_1}}
       <p class="app-task-list__tag">
-        {% if (projectStatus==2) %}
+       
         <a class="govuk-link" href="/rfi/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
-        {% endif %}
+       
       </p>
     </h2>
     <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -143,16 +143,16 @@
     {% if eventType == 'EOI' %}
     <h2 class="govuk-heading-m">
       <span class="proc-task-list__section-number">2.</span>
-      {{data.subsection4_title2_2}}
+      {{data.subsection4_title2_2}} 
       <p class="app-task-list__tag">
         {% if agreementId_session == 'RM6263' %}
         {% if (projectStatus==2) %}
         <a class="govuk-link" href="{{data.subsection4_title2_2_task[0].line_1_link}}">{{data.subsection4_title2_2_task[0].line_1_text}}</a>
         {% endif %}
         {% else %}
-        {% if (projectStatus==2) %}
+        
         <a class="govuk-link" href="/eoi/review">{{data.subsection4_title2_2_task[0].line_1_text}}</a>
-        {% endif %}
+        
         {% endif %}
       </p>
     </h2>
@@ -167,9 +167,9 @@
       <span class="proc-task-list__section-number">2.</span>
       {{data.subsection4_title2_1}}
       <p class="app-task-list__tag">
-        {% if (projectStatus==2) %}
+        
         <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
-        {% endif %}
+       
       </p>
     </h2>
     <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -188,9 +188,9 @@
     <span class="proc-task-list__section-number">2.</span>
     {{data.subsection4_title2_1}}
     <p class="app-task-list__tag">
-      {% if (projectStatus==2) %}
+    
       <a class="govuk-link" href="/rfp/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
-      {% endif %}
+     
     </p>
   </h2>
   <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}
@@ -204,9 +204,9 @@
     <span class="proc-task-list__section-number">2.</span>
     {{data.subsection4_title2_1}}
     <p class="app-task-list__tag">
-      {% if (projectStatus==2) %}
+     
       <a class="govuk-link" href="/da/review">{{data.subsection4_title2_1_task[0].line_1_text}}</a>
-      {% endif %}
+     
     </p>
   </h2>
   <p class="govuk-body">{{ data.subsection4_title2_1_descriiption }}

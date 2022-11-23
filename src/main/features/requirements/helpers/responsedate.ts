@@ -3,6 +3,7 @@ import * as express from 'express';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
+import { bankholidayContentAPI } from '../../../common/util/fetch/bankholidayservice/bankholidayApiInstance';
 import moment from 'moment-business-days';
 import * as cmsData from '../../../resources/content/requirements/rfp-response-date.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/rfp-response-date.json';
@@ -11,6 +12,25 @@ import * as DOS2cmsData from '../../../resources/content/MCF3/requirements/DOSst
 import * as GCloudData from '../../../resources/content/requirements/Gcloudrfp-response-date.json';
 
 import config from 'config';
+
+const momentCssHolidays = async () => {
+  let basebankURL = `/bank-holidays.json`;
+  const bankholidaydata = await bankholidayContentAPI.Instance.get(basebankURL);
+  let bankholidaydataengland =   JSON.stringify(bankholidaydata.data).replace(/england-and-wales/g, 'englandwales'); //convert to JSON string
+  bankholidaydataengland = JSON.parse(bankholidaydataengland); //convert back to array
+  let bankHolidayEnglandWales = bankholidaydataengland.englandwales.events;
+  let holiDaysArr = []
+  for (let h = 0; h < bankHolidayEnglandWales.length; h++) {
+    var AsDate = new Date(bankHolidayEnglandWales[h].date);
+    holiDaysArr.push(moment(AsDate).format('DD-MM-YYYY'));
+  }
+  
+  moment.updateLocale('en', {
+    holidays: holiDaysArr,
+    holidayFormat: 'DD-MM-YYYY'
+  });
+}
+
 const DSP_Days = {
   defaultEndingHour: Number(config.get('predefinedDays.defaultEndingHour')),
   defaultEndingMinutes: Number(config.get('predefinedDays.defaultEndingMinutes')),
@@ -48,6 +68,9 @@ const DOS_Days = {
   
 };
 export const RESPONSEDATEHELPER = async (req: express.Request, res: express.Response, errorTriggered, errorItem) => {
+  
+  await momentCssHolidays();
+  
   let predefinedDays;
   if(req.session.agreement_id == 'RM6187') {  //MCF3
     predefinedDays = MCF3_Days;
