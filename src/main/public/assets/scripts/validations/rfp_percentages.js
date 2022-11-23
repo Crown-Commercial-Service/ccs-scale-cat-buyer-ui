@@ -173,7 +173,8 @@ const ccsZvalidateRfpPercentages = (event) => {
     ccsZPresentErrorSummary(errorStore)
   }
   if ((pageHeading.includes('Technical Competence') || pageHeading.includes('Technical competence') ) && (percentage > 100 || percentage < 100)) {
-    errorStore.push(["#", "Your total percentage must be 100%"]);
+    var fieldCheck = ccsZvalidateWithRegex('Question 3-hint', "Your total percentage must be 100%", /\w+/);
+    errorStore.push(fieldCheck);
     ccsZPresentErrorSummary(errorStore)
   }
   
