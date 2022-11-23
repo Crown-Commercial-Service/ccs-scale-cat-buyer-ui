@@ -48,6 +48,6 @@
   },
   "backJump3": {
     "title": "Send to all",
-    "href": "/message/create"
+    "href": "/message/Reply?replyto=all"
   }
 }

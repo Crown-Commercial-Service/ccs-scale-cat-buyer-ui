@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const emptyQuestionFieldCheckDa = (add_more='') => {
         removeErrorFieldsDAScoreQuestion();
-        const countWords = str => str ?.trim().split(/\s+/) ?.length;
+        const countWords = str => str.trim().split(/\s+/).length;
         let fieldCheck = '',
             errorStore = [],
             noOfRequirement_Group = 0;
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                     if (rootEl.querySelector('.weightage')) {
-                        const condWeight = rootEl.querySelector('.weightage') ?.value > 100;
+                        const condWeight = rootEl.querySelector('.weightage').value > 100;
                         if (rootEl.querySelector('.weightage').value === '' || condWeight || rootEl.querySelector('.weightage').value < 0) {
                             const msg = rootEl.querySelector('.weightage').value ?
                                 'Enter a weighting for this question <= 100%' :

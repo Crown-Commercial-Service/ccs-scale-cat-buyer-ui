@@ -1047,12 +1047,6 @@ p+.govuk-heading-s,
     margin-bottom: 20px
 }
 
-.govuk-form-group:after {
-    content: "";
-    display: block;
-    clear: both
-}
-
 @media (min-width: 40.0625em) {
     .govuk-form-group {
         margin-bottom: 30px
@@ -1113,7 +1107,6 @@ p+.govuk-heading-s,
 .govuk-grid-column-one-half {
     box-sizing: border-box;
     width: 100%;
-    padding: 0 15px
 }
 
 @media (min-width: 40.0625em) {
@@ -1350,30 +1343,9 @@ p+.govuk-heading-s,
     }
 }
 
-.govuk-accordion__section-button {
-    font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-weight: 600;
-    font-size: 18px;
-    font-size: 1.125rem;
-    line-height: 1.11111;
-    display: inline-block;
-    margin-bottom: 0;
-    padding-top: 15px
-}
-
 @media print {
     .govuk-accordion__section-button {
         font-family: sans-serif
-    }
-}
-
-@media (min-width: 40.0625em) {
-    .govuk-accordion__section-button {
-        font-size: 24px;
-        font-size: 1.5rem;
-        line-height: 1.25
     }
 }
 
@@ -1513,21 +1485,6 @@ p+.govuk-heading-s,
     cursor: pointer
 }
 
-.js-enabled .govuk-accordion__section-button {
-    font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding: 0;
-    border-width: 0;
-    color: #1d70b8;
-    background: none;
-    text-align: left;
-    cursor: pointer;
-    -webkit-appearance: none
-}
 
 @media print {
     .js-enabled .govuk-accordion__section-button {
@@ -5701,7 +5658,6 @@ only screen and (min-resolution: 2dppx) {
     box-shadow: none
 }
 
-.govuk-table,
 .wysiwyg-content table {
     font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -5725,7 +5681,6 @@ only screen and (min-resolution: 2dppx) {
 }
 
 @media (min-width: 40.0625em) {
-    .govuk-table,
     .wysiwyg-content table {
         font-size: 19px;
         font-size: 1.1875rem;
@@ -5749,7 +5704,6 @@ only screen and (min-resolution: 2dppx) {
 }
 
 @media (min-width: 40.0625em) {
-    .govuk-table,
     .wysiwyg-content table {
         margin-bottom: 30px
     }
@@ -7895,7 +7849,6 @@ only screen and (min-resolution: 2dppx) {
     padding: 10px 0 10px 34px
 }
 
-.govuk-radios__item--small+.govuk-radios__item--small,
 .govuk-radios__conditional--small+.govuk-radios__item--small {
     border-top: 1px solid #D9D9D9
 }
@@ -8119,27 +8072,10 @@ only screen and (min-resolution: 2dppx) {
     }
 }
 
-.govuk-accordion__section-button {
-    font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-weight: 400;
-    font-size: 20px;
-    font-size: 1.25rem;
-    line-height: 1.1
-}
 
 @media print {
     .govuk-accordion__section-button {
         font-family: sans-serif
-    }
-}
-
-@media (min-width: 40.0625em) {
-    .govuk-accordion__section-button {
-        font-size: 22px;
-        font-size: 1.375rem;
-        line-height: 1.09091
     }
 }
 
@@ -9397,7 +9333,6 @@ picture a {
 }
 
 img {
-    width: 100%;
     height: auto;
     vertical-align: middle
 }
@@ -10358,7 +10293,6 @@ img {
 }
 
 .freetext-component .intro-freetext-heading p,
-h2,
 h3,
 h4 {
     margin-top: 0px

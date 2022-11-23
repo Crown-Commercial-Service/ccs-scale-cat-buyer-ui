@@ -19,10 +19,14 @@
     ],
     "title": "Your inbox",
     "line1":"Reply to",
+    "line2": "Message thread ",
+    "line3": "Send to all suppliers ",
+    "line4": "View supplier list",
     "MessageClassification": "Classification",
     "Subject": "Subject",
     "Message": "Message",
     "btnText": "Send",
+    "btnTextall": "Send to all",
     "Cancel": {
         "text": "Cancel",
         "link": "/message/inbox"

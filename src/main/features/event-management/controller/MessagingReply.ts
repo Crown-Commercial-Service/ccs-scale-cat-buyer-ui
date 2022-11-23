@@ -27,6 +27,7 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
     const projectId = req.session['projectId']
     const eventId = req.session['eventId']
     const agreementId = req.session.agreement_id;
+    const {replyto}=req.query;
    
     try {
         const baseMessageURL = `/tenders/projects/${projectId}/events/${eventId}/messages/`+id
@@ -38,13 +39,35 @@ export const EVENT_MANAGEMENT_MESSAGE_REPLY =async (req: express.Request, res: e
             
           await  getChildMethod(messageReply.nonOCDS.parentId,projectId,eventId,SESSION_ID);
         }
+
+        if(agreementId == 'RM1043.8'){
+            res.locals.agreement_header = req.session.agreement_header
+            switch (req.session.eventManagement_eventType) {
+                case 'EOI':
+                    res.locals.supplier_link = "/eoi/suppliers?fromMessage=1"
+                    break;
+
+                case 'RFI':
+                    res.locals.supplier_link = "/rfi/suppliers?fromMessage=1"
+                    break;
+                    case 'FC':
+                        res.locals.supplier_link = "/rfp/suppliers?fromMessage=1"
+                        break;
+                        case 'DA':
+                        res.locals.supplier_link = "/da/suppliers?fromMessage=1"
+                        break;
+                default: res.locals.supplier_link = "#"
+            }
+        }
+
         let data;
         if(agreementId == 'RM1043.8') { //DOS6
             data = dos6ReplyData;
           } else { 
             data = replyData;
           }
-        const appendData = {msgThreadList:messageThreadingList, data, message: messageReply, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
+
+        const appendData = {replyto,msgThreadList:messageThreadingList, data, message: messageReply, validationError: false, eventId: req.session['eventId'], eventType: req.session.eventManagement_eventType, agreementId}
         res.locals.agreement_header = req.session.agreement_header
         res.render('MessagingReply', appendData)
     } catch (err) {
@@ -67,6 +90,7 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
     const eventId = req.session['eventId']
     const { id } = req.session['messageID']
     const agreementId = req.session.agreement_id;
+   const {replyto} = req.query;
     try {
         const _body = req.body
         let validationError = false
@@ -92,6 +116,27 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
 
         const messageReply: MessageReply = draftMessage.data
         if (validationError) {
+
+            if(agreementId == 'RM1043.8') {
+                res.locals.agreement_header = req.session.agreement_header
+                switch (req.session.eventManagement_eventType) {
+                    case 'EOI':
+                        res.locals.supplier_link = "/eoi/suppliers?fromMessage=1"
+                        break;
+
+                        case 'RFI':
+                            res.locals.supplier_link = "/rfi/suppliers?fromMessage=1"
+                            break;
+                            case 'FC':
+                                res.locals.supplier_link = "/rfp/suppliers?fromMessage=1"
+                                break;
+                                case 'DA':
+                                res.locals.supplier_link = "/rfp/suppliers?fromMessage=1"
+                                break;
+                    default: res.locals.supplier_link = "#"
+                }
+            }
+
             let data;
             if(agreementId == 'RM1043.8') { //DOS6
                 data = dos6ReplyData;
@@ -103,28 +148,46 @@ export const POST_EVENT_MANAGEMENT_MESSAGE_REPLY = async (req: express.Request, 
         }
         else {
 
-        const _requestBody = {
-            "OCDS": {
-                "title": _body.reply_subject_input,
-                "description": _body.reply_message_input
-            },
-            "nonOCDS": {
-                "isBroadcast": false,
-                "classification":  draftMessage.data.nonOCDS.classification,
-                "parentId": id,
-                "receiverList":[           
-                {
-                    "id":draftMessage.data.OCDS.author.id,
-                    "name":draftMessage.data.OCDS.author.name
-                }            
-              ]
-            
-            }};
+            let _requestBody;
+            if(replyto && replyto == 'all' && agreementId == 'RM1043.8'){
+                  _requestBody = {
+                    "OCDS": {
+                        "title": _body.reply_subject_input,
+                        "description": _body.reply_message_input
+                    },
+                    "nonOCDS": {
+                        "isBroadcast": true,
+                        "classification":  draftMessage.data.nonOCDS.classification,
+                }};
+
+            }else{
+                _requestBody = {
+                    "OCDS": {
+                        "title": _body.reply_subject_input,
+                        "description": _body.reply_message_input
+                    },
+                    "nonOCDS": {
+                        "isBroadcast": false,
+                        "classification":  draftMessage.data.nonOCDS.classification,
+                        "parentId": id,
+                        "receiverList":[           
+                        {
+                            "id":draftMessage.data.OCDS.author.id,
+                            "name":draftMessage.data.OCDS.author.name
+                        }            
+                      ]
+                }};
+             }
+
             req.session['SupplierNameforMessagereply'] = draftMessage.data.OCDS.author.name;
             const baseURL = `/tenders/projects/${projectId}/events/${eventId}/messages`
             const response = await TenderApi.Instance(SESSION_ID).post(baseURL, _requestBody);
             if (response.status == 200) {
-                res.redirect('/message/inbox?createdreply=true')
+                if(replyto && replyto == 'all' && agreementId == 'RM1043.8'){
+                    res.redirect('/message/inbox?createdreply=true&msgfor=all')
+                }else{
+                    res.redirect('/message/inbox?createdreply=true')
+                }
             } else {
                 res.redirect('/message/inbox?createdreply=false')
             }
