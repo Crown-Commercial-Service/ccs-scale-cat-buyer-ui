@@ -420,17 +420,21 @@ function preventNumberInput(e){
   //     preventNumberInput(e);
   // });
 
-$(".maxValueValidate").keyup(function(e) {
-  let maxLen = parseInt($(this).val());
-  console.log("maxLen",maxLen);
-if(maxLen > 100){
-  $(this).val('')
-  
-}else{
-  
-}
- 
+// $(".maxValueValidate").keyup(function(e) {
+//   let maxLen = parseInt($(this).val());
+//   console.log("maxLen",maxLen);
+// if(maxLen > 100){
+//   $(this).val('')
+// }else{
+// }
+// });
 
+$(".maxValueValidate").keyup(function(e) {
+  let maxLen = $(this).val();
+  if(maxLen.length > 2 || parseInt($(this).val()) > 100 ){
+    let inputVal = $(this).val();
+    $(this).val(inputVal.slice(0,2));
+  }
 });
 
 
