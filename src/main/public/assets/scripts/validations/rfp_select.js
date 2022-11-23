@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
               'You must choose one option from list before proceeding',
             );
             if (fieldCheck !== true) errorStore.push(fieldCheck);
-            if (errorStore.length === 0) document.forms['rfp_singleselect_Dos'].submit();
+            if (errorStore.length === 0) document.forms[''].submit();
             else ccsZPresentErrorSummary(errorStore);
           } else if (errorStore.length === 0) {
             document.forms['rfp_singleselect_Dos'].submit();
