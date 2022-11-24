@@ -258,6 +258,7 @@ for(let i=0;i<suppliersList.length;i++){
             contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
             contactData['Contact email'] = contact?.organization?.contactPoint?.email == undefined?'-': contact?.organization?.contactPoint?.email;
             contactData['Contact phone number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
+            contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
             contactData['Registered company name'] = contact.organization?.name == undefined?'-': contact.organization.name;
             const streetAddress = contact?.organization?.address?.streetAddress == undefined?'-': contact?.organization?.address?.streetAddress;
             const locality = contact?.organization?.address?.locality == undefined?'-': contact?.organization?.address?.locality;
@@ -281,7 +282,7 @@ for(let i=0;i<suppliersList.length;i++){
         }
     
        // let fields = ["Supplier name","email","telephone","address","url","Contact Point name"];
-        let fields = ["Contact name","Contact email","Contact phone number","Registered company name","Registered company address","Url","Status"];
+        let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name","Registered company address","Url","Status"];
        
        const json2csv = new Parser({fields});
         const csv = json2csv.parse(JsonData);
