@@ -194,3 +194,15 @@ const removeErrorFieldsRfpPercentage = () => {
   $('.govuk-input').removeClass('govuk-input--error');
   $('.govuk-form-group textarea').removeClass('govuk-textarea--error');
 };
+
+$('.questionweightagelimit').on('keypress', function (evt) {
+  let value = $(this).val();
+  evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57) || value.length >=3) {
+          return false;
+      }
+      return true;
+   
+   });
+  
