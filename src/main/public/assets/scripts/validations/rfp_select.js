@@ -164,6 +164,9 @@ const removeErrorFieldsRfpSelect = () => {
 };
 $('#rfp_singleselect').on('submit', event => {
   event.preventDefault();
+  if(document.getElementById('agreementID').value == 'RM1557.13' && document.getElementById('gID').value === 'Group 8' && document.getElementById('lID').value === '4') {
+    document.forms['rfp_singleselect'].submit();
+  }else{
   removeErrorFieldsRfpSelect();
   const textPattern = /^[a-zA-Z ]+$/;
   var listofRadionButton = document.querySelectorAll('.govuk-radios__input');
@@ -211,4 +214,5 @@ $('#rfp_singleselect').on('submit', event => {
       ccsZaddErrorMessage(ccs_vetting_type, 'Choose one option before proceeding');
     }
   }
+}
 });
