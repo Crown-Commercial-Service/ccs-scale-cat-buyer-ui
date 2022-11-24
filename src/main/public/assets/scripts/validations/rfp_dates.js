@@ -1036,42 +1036,40 @@ function isProjectStartDateValid()
          rfpagreementData = $('#rpf_section_3_aggrimentEndDate').attr('agreementEndDate').split("-");
       }
       if (rfpagreementData !== null && rfpagreementData !== undefined && rfpagreementData.length > 0) {
-         const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
-         const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
-         const expiryMonth=expiryMonthTot-1;
-         const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
+         // const expiryYears = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[0]) : null;
+         // const expiryMonthTot = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[1]) : null;
+         // const expiryMonth=expiryMonthTot-1;
+         // const expiryDate = rfpagreementData != undefined && rfpagreementData != null ? Number(rfpagreementData[2]) : null;
 
-         const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
-         const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
+         // const ExpiryDates = expiryYears != null && expiryMonth != null && expiryDate != null ? new Date(expiryYears, expiryMonth, expiryDate) : null;
+         // const getMSOfExpiryDate = ExpiryDates != null ? ExpiryDates.getTime() : null;
          const FormDate = new Date(Year.val(), (Month.val()-1), Day.val());
-         
-        
 
          const getTimeOfFormDate = FormDate.getTime();
          const todayDate = new Date();
-         if (getTimeOfFormDate > getMSOfExpiryDate) {
-          // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
-            Day.addClass('govuk-form-group--error');
-            Month.addClass('govuk-form-group--error');
-            Year.addClass('govuk-form-group--error');
-            $('.durations').addClass('govuk-form-group--error');
-            fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
-         if (fieldCheck !== true){ errorStore.push(fieldCheck)
-         }else{
-           fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
-         }
-         if(errorStore.length>0){
-            ccsZPresentErrorSummary(errorStore);
-            return false;
-           }
-                        return false;
-         }else{
-            $('#rfp_resource_start_date-hint-error').removeClass('govuk-error-message');
-            $('.rfp_resource_start_day').removeClass('govuk-input--error');
-            $('.rfp_resource_start_month').removeClass('govuk-input--error');
-            $('.rfp_resource_start_year').removeClass('govuk-input--error');
-            ccsZPresentErrorSummary();
-         }
+         // if (getTimeOfFormDate > getMSOfExpiryDate) {
+         //  // $('#event-name-error-date').html('Start date cannot be after agreement expiry date');
+         //    Day.addClass('govuk-form-group--error');
+         //    Month.addClass('govuk-form-group--error');
+         //    Year.addClass('govuk-form-group--error');
+         //    $('.durations').addClass('govuk-form-group--error');
+         //    fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+         // if (fieldCheck !== true){ errorStore.push(fieldCheck)
+         // }else{
+         //   fieldCheck = ccsZvalidateWithRegex("rfp_resource_start_date", "Start date cannot be after agreement expiry date", /^\d{1,}$/);
+         // }
+         // if(errorStore.length>0){
+         //    ccsZPresentErrorSummary(errorStore);
+         //    return false;
+         //   }
+         //                return false;
+         // }else{
+         //    $('#rfp_resource_start_date-hint-error').removeClass('govuk-error-message');
+         //    $('.rfp_resource_start_day').removeClass('govuk-input--error');
+         //    $('.rfp_resource_start_month').removeClass('govuk-input--error');
+         //    $('.rfp_resource_start_year').removeClass('govuk-input--error');
+         //    ccsZPresentErrorSummary();
+         // }
          if ((FormDate.setHours(0,0,0,0) != todayDate.setHours(0,0,0,0)) && getTimeOfFormDate < todayDate.getTime()) { 
 
            // $('#event-name-error-date').html('Start date must be a valid future date');
@@ -1108,11 +1106,11 @@ function isProjectStartDateValid()
          $('.resource_start_date').html('Enter a valid project start date');
          return false;
       } 
-      else if (startDate>new Date(2025,07,23)) {
-         $('.durations').addClass('govuk-form-group--error');
-         $('.resource_start_date').html('Project cannot start after: 23 August 2025');
-          return false;
-      }
+      // else if (startDate>new Date(2025,07,23)) {
+      //    $('.durations').addClass('govuk-form-group--error');
+      //    $('.resource_start_date').html('Project cannot start after: 23 August 2025');
+      //     return false;
+      // }
       else {
          $('.durations').removeClass('govuk-form-group--error');
          $('.resource_start_date').html('');
