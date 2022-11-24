@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
                if (event.key === '.' || event.keyCode ===69 || event.keyCode ===189 || event.keyCode ===109)
                  event.preventDefault(); });
 
-      rfpResourceStartDay.on('keydown', () => {
+      rfpResourceStartDay.on('keyup', () => {
          if(DateCheckResourceStart())
          {
             if(MonthCheckResourceStart())
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
       });
 
-      rfpResourceStartMonth.on('keydown', () => {
+      rfpResourceStartMonth.on('keyup', () => {
          if(MonthCheckResourceStart())
          {
             if( DateCheckResourceStart())
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
       });
 
-      rfpResourceStartYear.on('keydown', () => {
+      rfpResourceStartYear.on('keyup', () => {
          if(YearCheckResourceStart())
          {
             if(MonthCheckResourceStart())
@@ -85,19 +85,19 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartDay.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
-         }
-         else{
-            removeErrorFieldsdates();
-
             return true;
-          }
+            // if(document.getElementById('agreementID').value !== 'RM1043.8') {
+            // let isValid = isProjectStartDateValid();
+            // if(isValid){
+            //    return true;
+            // }else{
+            //    return false;
+            // }
+            // }else{
+            //    removeErrorFieldsdates();
+
+            //    return true;
+            // }
          }
          
       }
@@ -119,18 +119,19 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartMonth.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            if(document.getElementById('agreementID').value !== 'RM1043.8') {
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
-         }
-         else{
-            removeErrorFieldsdates();
             return true;
-         }
+         //    if(document.getElementById('agreementID').value !== 'RM1043.8') {
+         //    let isValid = isProjectStartDateValid();
+         //    if(isValid){
+         //       return true;
+         //    }else{
+         //       return false;
+         //    }
+         // }
+         // else{
+         //    removeErrorFieldsdates();
+         //    return true;
+         // }
          }
       }
       }
@@ -168,12 +169,13 @@ document.addEventListener('DOMContentLoaded', () => {
             rfpResourceStartYear.removeClass('govuk-form-group--error');
             $('.durations').removeClass('govuk-form-group--error');
             $('#event-name-error-date').html('');
-            let isValid = isProjectStartDateValid();
-            if(isValid){
-               return true;
-            }else{
-               return false;
-            }
+            return true;
+            // let isValid = isProjectStartDateValid();
+            // if(isValid){
+            //    return true;
+            // }else{
+            //    return false;
+            // }
           
          }
         }
