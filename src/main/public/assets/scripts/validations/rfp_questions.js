@@ -518,6 +518,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     }
 
+    $('.weightagelimit , .dos_question_count').on('keyup', function (evt) {
+        emptyQuestionFieldCheckRfp();
+    });
+
     const emptyQuestionFieldCheckRfp = () => {
         removeErrorFieldsRfpScoreQuestion();
         const countWords = str => str.trim().split(/\s+/).length;
