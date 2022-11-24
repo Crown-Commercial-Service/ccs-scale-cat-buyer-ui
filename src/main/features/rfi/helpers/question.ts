@@ -154,8 +154,7 @@ export class QuestionHelper {
         }
         
         mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');
-      console.log("mandatoryqstnNum",mandatoryqstnNum);
-      console.log("answeredMandatory",answeredMandatory);
+     
 
         if(status == 'Completed') await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/81`, 'Completed');
         
