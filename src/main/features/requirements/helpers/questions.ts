@@ -31,13 +31,10 @@ export class QuestionHelper {
      * Sorting and following to the next path
      */
     let baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria`;
-    console.log('log11',baseURL);
     try {
       //update section 3 status start
       const headingBaseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups`;
-      console.log('log12',headingBaseURL);
       const heading_fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(headingBaseURL);
-      console.log('log122',headingBaseURL);
       let heading_fetch_dynamic_api_data = heading_fetch_dynamic_api?.data;
       if(agreement_id == 'RM1043.8') {
         heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.filter((a: any) => (a?.OCDS?.id != 'Group 2'));//exclude group 18 and 2
@@ -46,7 +43,6 @@ export class QuestionHelper {
       }
       heading_fetch_dynamic_api_data = heading_fetch_dynamic_api_data.sort((n1: { nonOCDS: { order: number; }; }, n2: { nonOCDS: { order: number; }; }) => n1.nonOCDS.order - n2.nonOCDS.order);
       const mandatoryGroupList = heading_fetch_dynamic_api_data.filter((n1: { nonOCDS: { mandatory: any; }; }) => n1.nonOCDS?.mandatory);
-      // console.log('log13',mandatoryGroupList);
 
       let mandatoryNum = 0;
       for (let i = 0; i < mandatoryGroupList.length; i++) {
@@ -55,7 +51,6 @@ export class QuestionHelper {
           let gid = mandatoryGroupList[i]?.OCDS?.id;
           let baseQuestionURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${gid}/questions`;
           
-          console.log('log14',baseQuestionURL);
 
 
           let question_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseQuestionURL);
@@ -69,7 +64,6 @@ export class QuestionHelper {
             //let isInnerMandatory = question_api_data?.[k]?.nonOCDS?.mandatory;
             let questionType = question_api_data[k]?.nonOCDS.questionType;
             
-            console.log('log15',questionType);
             //if (isInnerMandatory) {
 
             let answer = ''
@@ -194,7 +188,6 @@ export class QuestionHelper {
           if (mandatoryNumberinGroup != null && mandatoryNumberinGroup > 0 && mandatoryNumberinGroup == innerMandatoryNum) {  mandatoryNum += 1; }
         }
       }
-      console.log('log11');
       if(agreement_id == 'RM1043.8'){      
         // dos
         // let lotmandatoryQues = 10;
@@ -219,7 +212,8 @@ export class QuestionHelper {
             await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/30`, 'In progress');
         }
       }else{
-       
+        console.log("mandatoryGroupList.length",mandatoryGroupList.length);
+        console.log("mandatoryNum",mandatoryNum);
         if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && (mandatoryGroupList.length == mandatoryNum || mandatoryNum >= 6)) {//all questions answered
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/31`, 'Completed');
           if (response.status == HttpStatusCode.OK) {
@@ -236,7 +230,6 @@ export class QuestionHelper {
           }
         }
       }
-      console.log('log11');
 
 
 
@@ -289,7 +282,6 @@ export class QuestionHelper {
         res.redirect('/rfp/task-list');
       }
     } catch (error) {
-      console.log('catcherr1',error);
       logger.log('Something went wrong in the RFP Journey, please review the logit error log for more information');
       LoggTracer.errorLogger(
         res,
