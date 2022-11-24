@@ -1893,8 +1893,12 @@
   
                   
                       {% elif (index ===1 ) and (requirement.nonOCDS.questionType === 'KeyValuePair') and (requirement.nonOCDS.multiAnswer === true)and (form_name === 'service_levels_kpi_form') %}
-                        <p>The Authority will measure the quality of the Supplier’s delivery by:<br>
-                          Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be assessed. Ensure that service levels are measurable, relevant, and drive contractual performance. </p><br>
+
+                          {% if (agreement_id != 'RM6187') %}
+                              <p>The Authority will measure the quality of the Supplier’s delivery by:<br>
+                              Please provide information of the required service levels and/or KPIs that the Potential Bidder will be expected to achieve and against which the Supplier’s performance will be assessed. Ensure that service levels are measurable, relevant, and drive contractual performance. </p>
+                          {% endif %}
+                          <br>
                         
                         {# kpiKeyLevel this id is used in .js file to display number of KPI added so far  #}
                         
