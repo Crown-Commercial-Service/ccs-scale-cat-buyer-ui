@@ -3,6 +3,7 @@ import * as express from 'express';
 import * as cmsDataDcp from '../../../resources/content/requirements/offline-doc.json';
 import * as cmsDataMCF from '../../../resources/content/MCF3/requirements/offline-doc.json';
 import * as cmsDataDOS from '../../../resources/content/MCF3/requirements/DOSoffline-doc.json';
+import * as cmsDataGCloud from '../../../resources/content/requirements/GCLOUDoffline-doc.json';
 
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
@@ -111,6 +112,10 @@ export const FILEUPLOADHELPER: express.Handler = async (
         //DSP
         cmsData = cmsDataDOS;
       }
+      else if(req.session.agreement_id == 'RM1557.13') {
+        //DSP
+        cmsData = cmsDataGCloud;
+      }
       
       const agreement_id =req.session.agreement_id;
       let windowAppendData = {
@@ -186,7 +191,6 @@ export const FILEUPLOADHELPER: express.Handler = async (
       
       res.render(`${selectedRoute.toLowerCase()}-uploadDocument`, windowAppendData);
     } catch (error) {
-      
       delete error?.config?.['headers'];
       const Logmessage = {
         Person_id: TokenDecoder.decoder(SESSION_ID),
