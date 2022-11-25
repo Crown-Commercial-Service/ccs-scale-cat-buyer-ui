@@ -241,7 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }else{
                 textboxCount =  $('.order_2').filter(function() {return this.value !== '';}).length;
             }
-            
+             
+             if((urlParamsDefault.get('agreement_id') == 'RM1043.8' && urlParamsDefault.get('id') == 'Criterion 3' && urlParamsDefault.get('group_id') == 'Group 19') && with_value_count == 20){
+                $('.add-another-btn').addClass("ccs-dynaform-hidden");
+             }
             if(urlParamsDefault.get('agreement_id') == 'RM1043.8' && textboxCount == 19){
                 $('.add-another-btn').addClass("ccs-dynaform-hidden");
             }
