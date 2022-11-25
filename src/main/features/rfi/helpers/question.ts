@@ -154,24 +154,11 @@ export class QuestionHelper {
         }
         
         mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');
-     
-
+       
         if(status == 'Completed') await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/81`, 'Completed');
+        const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
         
-        
-        let response;
-        if(status=='In progress'){
-          let flagNew = await ShouldEventStatusBeUpdated(event_id, 10, req);
-          if (flagNew) {
-            const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
-           }
-        }else{
-          
-          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
-           
-        }
-
-        if (response?.status == HttpStatusCode.OK) {
+        if (response.status == HttpStatusCode.OK) {
           let flag=await ShouldEventStatusBeUpdated(event_id,11,req);
         if(flag)
         {

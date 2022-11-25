@@ -153,8 +153,7 @@ export class QuestionHelper {
         }
 
         mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');        
-        console.log("mandatoryqstnNum",mandatoryqstnNum);
-        console.log("answeredMandatory",answeredMandatory);
+        
         //let { data: journeySteps } = await TenderApi.Instance(SESSION_ID).get(`journeys/${event_id}/steps`);
         // const PreUpdate = journeySteps.filter((el: any) => {
         //   if(el.step == '19') {
