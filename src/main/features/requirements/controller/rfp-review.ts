@@ -510,7 +510,6 @@ let scoringData = [];
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
-    console.log('rfp-review-stage',JSON.stringify(appendData));
     res.render('rfp-review-stage', appendData);
   } catch (error) {
 
@@ -1805,9 +1804,14 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
     } else { 
       forceChangeDataJson = cmsData;
     }
+   
    let appendData;
-   console.log('appendData berfore agreementId_session',agreementId_session);
    if(agreementId_session == 'RM1043.8') { //DOS
+
+    let pounds = Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+  });
     appendData = {
       lotId:req.session.lotId,
       selectedServices:selectedServices,
@@ -1840,8 +1844,8 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       supplier_dealine_for_expect_to_award: supplier_dealine_for_expect_to_award != undefined && supplier_dealine_for_expect_to_award != null ?moment(supplier_dealine_for_expect_to_award,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
       supplier_dealine_sign_contract: supplier_dealine_sign_contract != undefined && supplier_dealine_sign_contract != null ?moment(supplier_dealine_sign_contract,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
       supplier_dealine_for_work_to_commence: supplier_dealine_for_work_to_commence != undefined && supplier_dealine_for_work_to_commence != null ?moment(supplier_dealine_for_work_to_commence,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm'): null,
-      supplier_sign_contract: supplier_sign_contract != undefined && supplier_sign_contract != null ? supplier_sign_contract : null,
-      supplier_start: supplier_start != undefined && supplier_start != null ? supplier_start : null,
+      supplier_sign_contract: supplier_sign_contract != undefined && supplier_sign_contract != null ? moment(supplier_sign_contract,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
+      supplier_start: supplier_start != undefined && supplier_start != null ? moment(supplier_start,'YYYY-MM-DD HH:mm',).format('DD/MM/YYYY, HH:mm') : null,
       resourceQuntityCount: resourceQuntityCount != undefined && resourceQuntityCount != null ? resourceQuntityCount : null,
       resourceQuantity: resourceQuantity != undefined && resourceQuantity != null ? resourceQuantity : null,
       StorageForSortedItems: StorageForSortedItems != undefined && StorageForSortedItems != null ? StorageForSortedItems : null,
@@ -1883,8 +1887,8 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       researchPlan: researchPlan != undefined && researchPlan != null ? researchPlan : null,
       spltermAndAcr: spltermAndAcr != undefined && spltermAndAcr != null ? spltermAndAcr : null,
       budget: budget != undefined && budget != null ? budget : null,
-      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ?format('de-DE', 'EUR', budgetMaximum): null,
-      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ?format('de-DE', 'EUR', budgetMinimum): null,
+      budgetMaximum: budgetMaximum != undefined && budgetMaximum != null ?pounds.format(budgetMaximum): null,
+      budgetMinimum: budgetMinimum != undefined && budgetMinimum != null ?pounds.format(budgetMinimum): null,
       furtherInfo: furtherInfo != undefined && furtherInfo != null ? furtherInfo : null,
       contracted: contracted != undefined && contracted != null ? contracted : null,
       workcompletedsofar: workcompletedsofar != undefined && workcompletedsofar != null ? workcompletedsofar : null,
@@ -1920,7 +1924,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
     };
    }
    else{
-   appendData = {
+    appendData = {
       lotId:req.session.lotId,
       selectedServices:selectedServices,
       //eoi_data: EOI_DATA_WITHOUT_KEYDATES,
@@ -1939,7 +1943,6 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       proc_id,
       event_id,
       supplierList: supplierList != undefined && supplierList != null ? supplierList : null,
-      //rfp_clarification_date,
       rfp_clarification_date: rfp_clarification_date != undefined && rfp_clarification_date != null ? rfp_clarification_date : null,
       rfp_clarification_period_end: rfp_clarification_period_end != undefined && rfp_clarification_period_end != null ? rfp_clarification_period_end : null,
       deadline_period_for_clarification_period: deadline_period_for_clarification_period != undefined && deadline_period_for_clarification_period != null ? deadline_period_for_clarification_period : null,
@@ -2031,8 +2034,7 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
     };
   }
     
-  console.log('appendData after agreementId_session',appendData);
-
+    
     req.session['checkboxerror'] = 0;
     //Fix for SCAT-3440 
     const agreementName = req.session.agreementName;
@@ -2045,10 +2047,8 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
     if(agreementId_session == 'RM1043.8') { //DOS
-      console.log('rfp-dos-review',JSON.stringify(appendData));
       res.render('rfp-dos-review', appendData);
     } else { 
-      console.log('rfp-review',JSON.stringify(appendData));
 
       res.render('rfp-review', appendData);
     }
@@ -2304,7 +2304,6 @@ const RFP_REVIEW_RENDER = async (req: express.Request, res: express.Response, vi
     if (viewError) {
       appendData = Object.assign({}, { ...appendData, viewError: true, apiError: apiError });
     }
-    console.log('rfp-review 11',JSON.stringify(appendData));
 
     res.render('rfp-review', appendData);
   } catch (error) {
@@ -3152,7 +3151,6 @@ const IR35selected='';
     if (checkboxerror) {
       appendData = Object.assign({}, { ...appendData, checkboxerror: 1 });
     }
-    console.log('rfp-review22',JSON.stringify(appendData));
 
     res.render('rfp-review', appendData);
   } catch (error) {
