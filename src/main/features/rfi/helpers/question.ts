@@ -79,7 +79,7 @@ export class QuestionHelper {
          base_url = `/rfi/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}`;
         }
         
-        let mandatoryNum = 0;
+        let answeredMandatory = 0;
         let mandatoryqstnNum = 0;
         
         let status = '';
@@ -87,48 +87,79 @@ export class QuestionHelper {
           const groupId = criterian_array[i].OCDS['id'];
           const mandatory = criterian_array[i].nonOCDS['mandatory'];
           if (mandatory) {
-            mandatoryqstnNum += 1;
-           
-            const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
-            const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
-            const fetch_dynamic_api_data = fetch_dynamic_api?.data;
             let answered;
-            const questionType = fetch_dynamic_api_data[0].nonOCDS['questionType'];
-            let selectedLocation;
-            if (fetch_dynamic_api_data[0].nonOCDS.options[0]) {
-              if (questionType === 'Value' || questionType === 'Text') {
-                answered = fetch_dynamic_api_data[0].nonOCDS.options[0]['value'];
-                if (answered !== '' && answered !== undefined) mandatoryNum += 1;
+            const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${groupId}/questions`;
+               const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
+               const fetch_dynamic_api_data = fetch_dynamic_api?.data;
+              
+               if(fetch_dynamic_api_data.length>0){
+                for (let j = 0; j < fetch_dynamic_api_data.length; j++) {
+                const questionType = fetch_dynamic_api_data[j].nonOCDS['questionType'];
+                const manda = fetch_dynamic_api_data[j].nonOCDS['mandatory'];
+                  if(manda){ 
+                    if(questionType!="DateTime"){
+                      mandatoryqstnNum += 1;
+                    }
+                    
+                  if (
+                questionType === 'Value' ||
+                questionType === 'Text' ||
+                questionType === 'Monetary' ||
+                questionType === 'Duration' ||
+                questionType === 'Date'
+              ) {
+               
+               answered = fetch_dynamic_api_data[j].nonOCDS.options?.[0]?.['value'];
+                if (answered !== '' && answered!=undefined) {
+                 answeredMandatory += 1;
+                 }
               }
-              if (questionType === 'SingleSelect') {
-                for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
-                  selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
-                  if (selectedLocation) mandatoryNum += 1;
-                }
+                   if (questionType === 'SingleSelect') {
+                    fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => {
+                      if (anItem?.text.replace(/<(.|\n)*?>/g, '')=='Another supplier is already providing the products or services.') {
+                        mandatoryqstnNum -= 1;
+                      }
+                    });
+                const SingleSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => 
+                      anItem?.text.replace(/<(.|\n)*?>/g, '')!='Another supplier is already providing the products or services.' && anItem.selected === true 
+                      );
+                     if (SingleSelectedData.length>0) {
+                           answeredMandatory += 1;
+                      }
               }
 
               if (questionType === 'MultiSelect') {
-                for (let j = 0; j < fetch_dynamic_api_data[0].nonOCDS.options.length; j++) {
-                  selectedLocation = fetch_dynamic_api_data[0].nonOCDS.options[j]['selected'];
-                  if(j==0){
-                    if (selectedLocation) mandatoryNum += 1;
-                  }
-                 
-                }
+                      const MultiSelectedData = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => anItem.selected === true);
+                      if (MultiSelectedData.length>0) {
+                                 answeredMandatory += 1;
+                               }
               }
 
-            }        
+                if(questionType === 'KeyValuePair')
+              {
+                const KeyValuePair = fetch_dynamic_api_data[j].nonOCDS.options?.filter((anItem:any) => anItem.selected === true);
+                if (KeyValuePair.length>0) {
+                          answeredMandatory += 1;
+                         } 
+            }
+            
+            }
+
+              }
+            }
+
+
           }
+
         }
         
-        mandatoryqstnNum=3;
-       // status = 'In progress';
-        mandatoryqstnNum <= mandatoryNum ? (status = 'Completed') : (status = 'In progress');
+        mandatoryqstnNum <= answeredMandatory ? (status = 'Completed') : (status = 'In progress');
        
         if(status == 'Completed') await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/81`, 'Completed');
         const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/10`, status);
         
-        if (response.status == HttpStatusCode.OK) {
+        if (response.status == HttpStatusCode.OK && status=="Completed") {
+         
           let flag=await ShouldEventStatusBeUpdated(event_id,11,req);
         if(flag)
         {
