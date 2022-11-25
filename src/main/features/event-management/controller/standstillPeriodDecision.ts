@@ -31,7 +31,6 @@ export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: expr
     const { standstill_period_yes } =req.body;
     const {  eventId,projectId,agreement_id } = req.session;
     let state = "";
-    console.log("eventtype",req.session);
 
     try {
        
