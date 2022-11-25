@@ -477,10 +477,17 @@ export const RFP_POST_SCORING_CRITERIA = async (req: express.Request, res: expre
               if (flag) {
                 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Not started');
               }
-            }else{
-             
+            }
+            else if(agreement_id == 'RM1557.13'){
               await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed'); 
-              let flag = await ShouldEventStatusBeUpdated(eventId, 36, req);
+              let flag = await ShouldEventStatusBeUpdated(eventId, 35, req);
+              if (flag) {
+                await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
+              }
+            }
+            else{
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/34`, 'Completed'); 
+              let flag = await ShouldEventStatusBeUpdated(eventId, 35, req);
               if (flag) {
                 await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/35`, 'Not started');
             }
@@ -1096,7 +1103,7 @@ const getRowDataList = (rows, data1 , Agreementid ?: any) => {
     let innerArrObj = [{ text: element.name, "classes": "govuk-!-width-one-quarter" }, { "classes": "govuk-!-width-one-quarter", text: data[0].cols[0] }, { "classes": "govuk-!-width-one-half", text: data[0].cols[1] }]
     dataRowsList.push(innerArrObj);
   });
-console.log('Agreementid',Agreementid)
+
   if(Agreementid == 'RM1043.8'){
     return dataRowsList;
   }else{

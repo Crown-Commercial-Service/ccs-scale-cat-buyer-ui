@@ -113,7 +113,14 @@ export const RFP_POST_RESPONSE_DATE = async (req: express.Request, res: express.
       if (response.status == HttpStatusCode.OK) {
         await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
       }
-    } if (agreement_id=='RM1043.8') {
+    }
+    else if (agreement_id=='RM1557.13') {
+      const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/36`, 'Completed');
+      if (response.status == HttpStatusCode.OK) {
+        await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/37`, 'Not started');
+      }
+    }  
+    else if (agreement_id=='RM1043.8') {
       if(stage2_value !== undefined && stage2_value === "Stage 2"){//Stage 2
         let responseData = await TenderApi.Instance(SESSION_ID).put(`journeys/${eventId}/steps/33`, 'Completed');
         let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
