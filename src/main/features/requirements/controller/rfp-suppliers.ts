@@ -111,7 +111,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
         // contactData['Contact Point name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
         // contactData['url'] = contact.organization?.identifier?.uri == undefined?'-': contact.organization?.identifier?.uri;
        // contactSupplierDetails = contactData;
-
+        contactData['Supplier id'] = contact.organization?.name == undefined?'-': contact.organization.id;
         contactData['Contact name'] = contact?.organization?.contactPoint?.name == undefined?'-': contact?.organization?.contactPoint?.name;
         contactData['Contact email'] = contact?.organization?.contactPoint?.email == undefined?'-': contact?.organization?.contactPoint?.email;
         contactData['Contact phone number'] = contact?.organization?.contactPoint?.telephone == undefined?'-': contact?.organization?.contactPoint?.telephone;
@@ -138,7 +138,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     }
     // let fields = ["name","email","telephone","address","url","Contact Point name","status"];
     // let fields = ["name","email","telephone","address","url","Contact Point name"];
-    let fields = ["Contact name","Contact email","Contact phone number","Registered company name","Registered company address","Url","Status"];
+    let fields = ["Contact name","Contact email","Contact phone number","Supplier id","Registered company name","Registered company address","Url","Status"];
     const json2csv = new Parser({fields});
     const csv = json2csv.parse(JsonData);
     res.header('Content-Type', 'text/csv');
