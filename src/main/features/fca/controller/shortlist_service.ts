@@ -136,8 +136,8 @@ var { Parser } = require("json2csv");
       
       //Pagination concept
       let lotid=req.session.lotId;
-      lotid = lotid.replace('Lot ','');
-      let lot_id = lotid;
+      let lot_id = lotid.replace('Lot ','');
+      // let lot_id = lotid;
       res.locals.agreement_header = { agreementName, project_name, agreementId_session, agreementLotName, lotid, eventId, projectId };
 
       const { previous, next } = req.query
