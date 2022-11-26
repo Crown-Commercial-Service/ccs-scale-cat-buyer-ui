@@ -31,11 +31,10 @@ export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: expr
     const { standstill_period_yes } =req.body;
     const {  eventId,projectId,agreement_id } = req.session;
     let state = "";
-    
 
     try {
        
-        if(agreement_id=='RM6187'){
+        if(agreement_id=='RM6187' || agreement_id=='RM1043.8'){
            
             state = "PRE_AWARD";
         }else if (standstill_period_yes != undefined && standstill_period_yes === 'yes') {

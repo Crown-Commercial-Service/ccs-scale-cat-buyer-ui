@@ -16613,8 +16613,20 @@ const ccsZvalidateAward = (event) => {
         ccsZPresentErrorSummary(errorStore);
     }
     else {
-        if (errorStore.length === 0) document.forms["ccs_pre_award_supplier_form"].submit();
-        else ccsZPresentErrorSummary(errorStore);
+      const openpopsupplier = document.querySelector('.backdrop-award')
+        openpopsupplier.classList.add('showpopup');
+        $(".dialog-close-award").on('click', function(){
+          openpopsupplier.classList.remove('showpopup');
+          ccsZremoveErrorMessage(preAwardSupplierConfm);
+        });
+        stnewsupplier = document.getElementById('btn_pre_award_supplier');
+        stnewsupplier.addEventListener('click', ev => {
+          if (errorStore.length === 0) document.forms["ccs_pre_award_supplier_form"].submit();
+          else ccsZPresentErrorSummary(errorStore);
+          openpopsupplier.classList.remove('showpopup');
+        })
+    
+
     }
 };
 const ccsZvalidateStandStillPeriod = (event) => {
@@ -16660,7 +16672,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ccsZPresentErrorSummary([errorStore]);
     }
     return false;
-  });  
+  });
+  
+  $(".popupbutton").on('click', function(){ 
+    ccsZvalidateAward();  
+  });
   
   $('.event_managment_award').on('click', function (event) {
         event.preventDefault();
@@ -16713,7 +16729,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           return false;
         }
-      });  
+      });
+
 })
 const ccsZvalidateCreateOrChoose = (event) => {
   event.preventDefault();
