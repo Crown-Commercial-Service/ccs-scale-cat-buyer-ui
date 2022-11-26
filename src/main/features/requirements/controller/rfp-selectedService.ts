@@ -77,6 +77,7 @@ export const  RFP_GET_SELECTED_SERVICE = async (req: express.Request, res: expre
   const assessmentURL = `assessments/${assessmentId}`;
   const assessmentData = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
   const externalID = assessmentData.data['external-tool-id'];
+  const agreementId_session = req.session.agreement_id;
 
   //Checkbox Direct FC
   let selectedServiceCheck;
@@ -125,7 +126,8 @@ export const  RFP_GET_SELECTED_SERVICE = async (req: express.Request, res: expre
     // services:ScaleData.data,
     checkCheckbox,
     other_text,
-    isDisable
+    isDisable,
+    agreementId_session
   };
   res.render('rfp-selectedService', viewData);
 };

@@ -62,6 +62,7 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
     supplierList = await GetLotSuppliers(req);
     }
     const rowCount=10;let showPrevious=false,showNext=false;
+    const agreementId_session = req.session.agreement_id;
     supplierList=supplierList.sort((a, b) => a.organization.name.replace("-"," ").toLowerCase() < b.organization.name.replace("-"," ").toLowerCase() ? -1 : a.organization.name.replace("-"," ").toLowerCase() > b.organization.name.replace("-"," ").toLowerCase() ? 1 : 0);
     const supplierListDwn = supplierList;
     const supplierLength=supplierList.length;
@@ -77,7 +78,8 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
       suppliers_list: supplierList,
       releatedContent: releatedContent,
       lotSuppliers: lotSuppliers,
-      supplierLength,enablebtn
+      supplierLength,enablebtn,
+      agreementId_session
     };
     
     if(download!=undefined)
@@ -162,7 +164,8 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
           releatedContent: releatedContent,
           showPrevious,
           showNext,
-          supplierLength,enablebtn
+          supplierLength,enablebtn,
+          agreementId_session
         };
       }
       else
@@ -180,7 +183,8 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
           showNext,
           supplierLength,
           currentpagenumber:1,
-          noOfPages,enablebtn
+          noOfPages,enablebtn,
+          agreementId_session
         };
       }
     }
@@ -211,7 +215,8 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
             showNext,
             supplierLength,
             currentpagenumber:previouspagenumber,
-            noOfPages,enablebtn
+            noOfPages,enablebtn,
+            agreementId_session
           };
       }
       else{//next is undefined
@@ -249,7 +254,8 @@ export const GET_RFP_SUPPLIERS = async (req: express.Request, res: express.Respo
           showNext,
           supplierLength,
           currentpagenumber:nextpagenumber,
-          noOfPages,enablebtn
+          noOfPages,enablebtn,
+          agreementId_session
         };
       }
     }

@@ -3,6 +3,7 @@ import * as express from 'express';
 import * as cmsData from '../../../resources/content/requirements/rfp-upload-attachment.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/rfp-upload-attachment.json';
 import * as doscmsData from '../../../resources/content/MCF3/requirements/dos6-upload-attachment.json';
+import * as gcloudcmsData from '../../../resources/content/requirements/gcloud-upload-attachment.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -108,6 +109,8 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
       forceChangeDataJson = Mcf3cmsData;
     }else if(agreementId_session == 'RM1043.8') { //DOS6
       forceChangeDataJson = doscmsData;
+    }else if(agreementId_session == 'RM1557.13') { //G-cloud
+      forceChangeDataJson = gcloudcmsData;
     }
     else { 
       forceChangeDataJson = cmsData;
