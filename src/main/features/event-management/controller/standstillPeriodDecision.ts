@@ -57,7 +57,7 @@ export const STAND_PERIOD_DECISION_POST = async (req: express.Request, res: expr
         }
        
         const supplierId = req.session['supplierId'];
-        console.log("state",state);
+        
         const body = {
             "suppliers": [
                 {
