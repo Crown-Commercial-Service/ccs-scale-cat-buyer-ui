@@ -175,6 +175,9 @@ export const ATTACHMENTUPLOADHELPER: express.Handler = async (
             await TenderApi.Instance(SESSION_ID).put(`journeys/${EventId}/steps/32`, 'In progress');
             }
           }
+          if(agreementId_session == 'RM1557.13') {
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${EventId}/steps/32`, 'In progress');
+          }
         req.session['isTcUploaded'] = false;
       }
 
