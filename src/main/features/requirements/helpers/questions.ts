@@ -454,6 +454,26 @@ export class QuestionHelper {
           }
         }
 
+      }
+      else if(agreement_id == 'RM1557.13'){
+
+        if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
+          const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'Completed');
+          if (response.status == HttpStatusCode.OK) {
+            let flag = await ShouldEventStatusBeUpdated(event_id, 34, req);
+            if (flag) {
+              await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/34`, 'Not started');
+            }
+          }
+        }
+        else {
+          let flag = await ShouldEventStatusBeUpdated(event_id, 33, req);
+          if (flag) {
+            await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'In progress');
+          }
+        }
+
+
       }else{
         if (mandatoryGroupList != null && mandatoryGroupList.length > 0 && mandatoryGroupList.length == mandatoryNum) {//all questions answered
           const response = await TenderApi.Instance(SESSION_ID).put(`journeys/${event_id}/steps/33`, 'Completed');
