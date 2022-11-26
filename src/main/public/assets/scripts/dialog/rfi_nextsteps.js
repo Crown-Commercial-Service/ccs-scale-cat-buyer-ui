@@ -2,8 +2,9 @@ const showPopup = (event) => {
     debugger;
     event.preventDefault();
     //const inputId=event.srcElement.id;
-    const element = document.getElementById("rfi_next_steps-2");
-    if(element.checked){
+    //const element = document.getElementById("rfi_next_steps-2");
+    const radioValue = document.querySelector('input[type="radio"]:checked').value;
+    if(radioValue == 'Close this event and the whole project'){
         if ($(this).hasClass('selected')) {
             deselect($(this));
             $(".backdrop-nextsteps").fadeOut(200);
