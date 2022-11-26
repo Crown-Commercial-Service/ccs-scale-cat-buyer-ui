@@ -84,7 +84,17 @@ export const GET_CONFIRM_SUPPLIER = async (req: express.Request, res: express.Re
       supplierDetails,
       showallDownload,
     };
-    const appendData = { eventManagementData, contentData: localContent, supplierDetailsList, projectName };
+    const stage2BaseUrl = `/tenders/projects/${projectId}/events`;
+    const stage2_dynamic_api = await TenderApi.Instance(SESSION_ID).get(stage2BaseUrl);
+    const stage2_dynamic_api_data = stage2_dynamic_api.data;
+    const stage2_data = stage2_dynamic_api_data?.filter((anItem: any) => anItem.id == eventId && (anItem.templateGroupId == '13' || anItem.templateGroupId == '14'));
+    
+    let stage2_value = 'Stage 1';
+    if(stage2_data.length > 0){
+      stage2_value = 'Stage 2';
+    }
+
+    const appendData = { eventManagementData, contentData: localContent, supplierDetailsList, projectName, stage2_value };
     res.render('confirmSupplier', appendData);
   } catch (error) {
     LoggTracer.errorLogger(
