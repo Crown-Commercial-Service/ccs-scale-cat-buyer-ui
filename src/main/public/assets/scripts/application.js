@@ -64,16 +64,18 @@ $container.animate({scrollTop: $scrollTo.offset().top - $container.offset().top 
 
 $("#getId").click(function(){
   var myclass = $(this).hasClass("uncheck");
+
    
     if(myclass){
       $("input[type='checkbox']").prop("checked", true);
       $(this).removeClass("uncheck");
       $(this).addClass("check");
-
+      $('.otherTextArea').removeClass('ccs-dynaform-hidden');
     }else{
+      $('.otherTextArea').addClass('ccs-dynaform-hidden');
       $("input[type='checkbox']").prop("checked", false);
       $(this).addClass("uncheck");
-      $(this).removeClass("check");
+      $(this).removeClass("check");      
     } 
 
   
