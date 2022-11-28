@@ -126,6 +126,9 @@ export const GET_AWARD_SUPPLIER_DOCUMENT = async (req: express.Request, res: exp
       let orderTemplateUrl = '';
       if(agreement_id == 'RM1043.8'){
         orderTemplateUrl = 'https://www.crowncommercial.gov.uk/agreements/RM1043.8';
+      }
+      else if(agreement_id == 'RM1557.13'){
+        orderTemplateUrl = 'https://www.crowncommercial.gov.uk/agreements/RM1557.13';
       }else{
         orderTemplateUrl = 'https://www.crowncommercial.gov.uk/agreements/RM6187';
       }
