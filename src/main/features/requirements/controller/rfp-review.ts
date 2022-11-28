@@ -2,6 +2,7 @@
 import * as express from 'express';
 import * as cmsData from '../../../resources/content/requirements/rfp-review.json';
 import * as Mcf3cmsData from '../../../resources/content/MCF3/requirements/rfp-review.json';
+import * as gcloudcmsData from '../../../resources/content/requirements/gcloud-rfp-review.json';
 import { DynamicFrameworkInstance } from '../util/fetch/dyanmicframeworkInstance';
 import { LoggTracer } from '../../../common/logtracer/tracer';
 import { TokenDecoder } from '../../../common/tokendecoder/tokendecoder';
@@ -382,6 +383,8 @@ let scoringData = [];
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    } else if(agreementId_session == 'RM1557.13') { //G-cloud
+      forceChangeDataJson = gcloudcmsData;
     } else { 
       forceChangeDataJson = cmsData;
     }
@@ -1801,6 +1804,8 @@ TemporaryObjStorage?.filter(o => o?.OCDS?.id == 'Question 1')?.[0]?.nonOCDS?.opt
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    } else if(agreementId_session == 'RM1557.13') { //G-cloud
+      forceChangeDataJson = gcloudcmsData;
     } else { 
       forceChangeDataJson = cmsData;
     }
@@ -2933,6 +2938,8 @@ const IR35selected='';
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    } else if(agreementId_session == 'RM1557.13') { //G-cloud
+      forceChangeDataJson = gcloudcmsData;
     } else { 
       forceChangeDataJson = cmsData;
     }
@@ -3583,6 +3590,8 @@ const RFP_REVIEW_RENDER_GCLOUD = async (req: express.Request, res: express.Respo
     let forceChangeDataJson;
     if(agreementId_session == 'RM6187') { //MCF3
       forceChangeDataJson = Mcf3cmsData;
+    } else if(agreementId_session == 'RM1557.13') { //G-cloud
+      forceChangeDataJson = gcloudcmsData;
     } else { 
       forceChangeDataJson = cmsData;
     }

@@ -1086,7 +1086,6 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             req.session['isValidationError'] = true;
             res.redirect(url.replace(regex, 'questions'));
           } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
-            console.log('log8');
             QuestionHelper.AFTER_UPDATINGDATA(
               ErrorView,
               DynamicFrameworkInstance,

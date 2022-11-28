@@ -22,7 +22,7 @@
     "events": [{
             "eventno": 1,
             "eventTitle": "Project and colleagues",
-            "eventDescription": "You can name your project in this section. You can also change who leads the procurement or add more colleagues to your project to help you evaluate suppliers.",
+            "eventDescription": "Name your project, change who leads the procurement, or add more colleagues.",
             "eventTask": [{
                     "Task": 1,
                     "link": "/rfp/name-your-project",
@@ -64,11 +64,11 @@
             "eventTitle": "Add context and requirements",
             "eventDescription": "You can include the following:",
             "eventdescriptionlist": [{
-                "description1": "any pre-market engagement you’ve done",
+                "description1": "any pre-tender market engagement you’ve done",
                 "description2": "the terms and acronyms you use",
                 "description3": "your service levels and KPIs",
-                "description4": "how long you expect the project to run",
-                "description5": "your budget (optional)"
+                "description4": "how long you expect the contract to run",
+                "description5": "your budget"
             }],
             "eventTask": [{
                 "Task": 1,
@@ -83,7 +83,7 @@
         {
             "eventno": 4,
             "eventTitle": "Upload pricing schedules and other documents",
-            "eventDescription": "You will need to confirm if you require a contracted out service or a supply of resource.",
+            "eventDescription": "In this section you’ll also need to confirm if you require a contracted out service or a supply of resource. Note that resources that fall within scope of IR35 are not permitted through this agreement.",
             "eventTask": [{
                     "Task": 1,
                     "title": "Upload your pricing schedule and other documents",
@@ -131,14 +131,14 @@
                 },
                 {
                     "Task": 2,
-                    "title": "Your timeline ",
+                    "title": "Set your timeline",
                     "required": "optional",
                     "status": "Cannot start yet",
                     "link": "/rfp/response-date"
                 },
                 {
                     "Task": 3,
-                    "title": "Review and publish your Request for Proposal  ",
+                    "title": "Review and publish",
                     "required": "mandatory",
                     "status": "Cannot start yet",
                     "link": "/rfp/review"
@@ -147,8 +147,8 @@
         }
     ],
     "form": {
-        "question1": "Write and publish your bid pack for suppliers, who can then submit their responses and complete any other evaluation tasks.",
-        "question2": "You will need to provide a clear set of criteria and explain how you will score responses.",
+        "question1": "Write and publish your bid pack for suppliers, who can then submit their responses to your requirements.",
+        "question2": "You will need a clear set of criteria that suppliers will need to meet and be evaluated against. You will also need to include how you will score their responses.",
         "backJump": {
             "title": "Return to procurement overview",
             "href": "/projects/create-or-choose"
