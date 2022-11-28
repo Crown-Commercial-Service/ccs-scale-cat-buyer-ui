@@ -97,7 +97,7 @@ if(agreement_id ==='RM1557.13'){
   const assessmentURL = `assessments/${assessmentId}`;
   const assessmentData = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
   const externalID = assessmentData.data['external-tool-id'];
-  const agreementId_session = req.session.agreement_id;
+
 
   //Checkbox Direct FC
   let selectedServiceCheck;
@@ -139,6 +139,7 @@ if(agreement_id ==='RM1557.13'){
   for (let j = 0; j < loop.length; j++) { eptObj.push({ 'requirement-id': loop[j]['requirement-id'], name: loop[j].name }); }
 
 }
+  const agreementId_session = req.session.agreement_id;
   const viewData: any = {
     data: cmsData,
     procId: procurement.procurementID,

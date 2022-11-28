@@ -21,7 +21,7 @@
     "subtitle": null,
     "events": [{
             "eventno": 1,
-            "eventTitle": "Project and colleagues",
+            "eventTitle": "Project details",
             "eventDescription": "Name your project, change who leads the procurement, or add more colleagues.",
             "eventTask": [{
                     "Task": 1,
