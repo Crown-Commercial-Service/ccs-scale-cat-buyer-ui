@@ -73,14 +73,14 @@
 				<div>
 					<p class="govuk-body govuk-!-font-size-48">{{supplierLength}} suppliers on this lot </p>
 				</div>
-				<div class="govuk-fac-supplytitle">
+				<div class="govuk-!-margin-bottom-9">
 					<h3 class="govuk-heading-xl page-title">
 						{{data.line5}}
 					</h3>
 					<div>
                         <div class="govuk-button-group">
-						   <a href="/fca/supplier/list?download=1"><button class="govuk-button" type="button">
-							{{data.buttonText}}</button></a>
+						   <a href="/fca/supplier/list?download=1" class="govuk-link govuk-button">
+							{{data.buttonText}}</a>
 							{% if conditionForHeaderAgreement === false %}
 						   		<a href="{{url}}" class="govuk-link">{{data.returnTo}}
 							{% endif %}
