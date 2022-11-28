@@ -276,8 +276,13 @@ export class QuestionHelper {
         let next_cursor_object = sorted_ascendingly[next_cursor];
         let next_group_id = next_cursor_object.OCDS['id'];
         let next_criterian_id = next_cursor_object['criterianId'];
-        let base_url = `/rfp/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=''`;
-        res.redirect(base_url);
+        if(agreement_id=='RM1557.13' && next_criterian_id=='Criterion 4' && req.session.lotId == 4){
+          res.redirect('/rfp/task-list');
+        }else{
+          let base_url = `/rfp/questions?agreement_id=${agreement_id}&proc_id=${proc_id}&event_id=${event_id}&id=${next_criterian_id}&group_id=${next_group_id}&section=''`;
+          res.redirect(base_url);
+        }
+        
       } else {
         res.redirect('/rfp/task-list');
       }

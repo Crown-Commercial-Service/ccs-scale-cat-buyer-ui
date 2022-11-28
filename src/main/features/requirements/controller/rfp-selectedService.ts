@@ -28,6 +28,7 @@ export const RFP_GET_SELECTED_SERVICE = async (req: express.Request, res: expres
   const procurements = req.session.procurements;
   const lotId = req.session.lotId;
   const agreement_id = req.session.agreement_id;
+  const agreementId_session = req.session.agreement_id;
   const procurement: procurementDetail = procurements.find((proc: any) => proc.defaultName.components.lotId === lotId);
   const project_name = req.session.project_name;
   const agreementLotName = req.session.agreementLotName;
