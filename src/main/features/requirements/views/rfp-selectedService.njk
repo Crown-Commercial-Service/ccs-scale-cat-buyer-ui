@@ -102,6 +102,7 @@
                                     }}
                                     
                             {% endfor %}
+                               {% if agreementId_session !== 'RM1557.13' %}
                                 {% set isOtherChecked = '' %}
                                 {% set selectedServices = '' %}
                                 {% set selectedServicesDisabledOther = '' %}
@@ -119,6 +120,8 @@
                                     {% endif %}
                                 {% endif %}
                                 {% set servicesArray = (servicesArray.push({value: 'other', text: 'Other service', isChecked: selectedServices, isDisabled: selectedServicesDisabledOther}), servicesArray) %}
+                               {% endif %}
+
 
                             {% if(error) %}
                                 {{ 
