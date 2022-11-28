@@ -150,7 +150,7 @@
                                     }) 
                                 }}
                             {% endif %}
-
+                {% if agreementId_session !== 'RM1557.13' %}
                 <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="500">
                     <div class="govuk-form-group">
                         <textarea class="govuk-textarea govuk-js-character-count otherTextArea rfpterm" id="label-as-page-heading" name="other_text" rows="5" aria-describedby="label-as-page-heading-info" placeholder="Enter the service">{{other_text}}</textarea>
@@ -161,7 +161,7 @@
                     </div>
 
                 </div>
-                        
+                  {% endif %}      
                 
                             <br>
 
