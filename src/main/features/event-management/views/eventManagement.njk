@@ -42,9 +42,14 @@
 <div class="govuk-grid-row ccs-page-section">
   <div class="govuk-grid-column-full">
     <p>
-      {{data.subtitle}}<br><br>
+      {{data.subtitle}}<br>
+      
+      {% if (status!="CLOSED") %}
+      <br>
       {{data.subtitle1}}
+       {% endif %}
     </p>
+
     <div>
       <h2 class="govuk-heading-m">
         {{projectName}}
