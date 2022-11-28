@@ -37,6 +37,8 @@ export const RFP_GET_QUESTIONS = async (req: express.Request, res: express.Respo
     }
     //Call group API-END-POINT
     const baseURL: any = `/tenders/projects/${proc_id}/events/${event_id}/criteria/${id}/groups/${group_id}/questions`;
+    console.log('*********************************baseURL');
+    console.log(baseURL);
     const fetch_dynamic_api = await DynamicFrameworkInstance.Instance(SESSION_ID).get(baseURL);
 
     let fetch_dynamic_api_data = fetch_dynamic_api?.data;
@@ -1084,7 +1086,6 @@ export const RFP_POST_QUESTION = async (req: express.Request, res: express.Respo
             req.session['isValidationError'] = true;
             res.redirect(url.replace(regex, 'questions'));
           } else if (stop_page_navigate == null || stop_page_navigate == undefined) {
-            console.log('log8');
             QuestionHelper.AFTER_UPDATINGDATA(
               ErrorView,
               DynamicFrameworkInstance,

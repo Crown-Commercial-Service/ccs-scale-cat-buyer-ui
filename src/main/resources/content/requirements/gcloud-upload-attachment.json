@@ -1,0 +1,39 @@
+{
+  "breadCrumbs": [
+    {
+      "text": "Dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "text": "Choose a commercial agreement",
+      "href": "/projects/choose-agreement"
+    },
+    {
+      "text": "Procurement overview",
+      "href": "/projects/create-or-choose"
+    },
+    {
+      "text": "Write and publish your requirements",
+      "href": "/rfp/task-list"
+    },
+    {
+      "text": "Upload documentation ",
+      "href": "/rfp/upload"
+    },
+    {
+      "text": "Upload your pricing schedule (attachment 4)",
+      "href": "#"
+    }
+  ],
+
+  "title": "Upload your pricing schedule",
+  "subtitle1":"Upload your pricing schedule at the bottom of the screen.",
+  "subtitle2": "Include what pricing model you expect suppliers to provide.",
+  "subtitle3":"You can upload any other supporting documents in the pages that follow.",
+  "filedesc": "You can upload 1 file no larger than 300MB. Acceptable file formats: csv, doc, docx, jpg, kml, ods, odt, pdf, png, ppt, pptx, rdf, rtf, txt, xls, xlsx, xml, zip",
+  "backJump": {
+    "title": "Write and publish your requirements",
+    "href": "/rfp/task-list"
+  },
+  "template": []
+}
