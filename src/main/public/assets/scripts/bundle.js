@@ -14712,7 +14712,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) > 100) {
                     errorStore.push(["There is a problem", "The total weighting is more than 100% "]);
                 }
-                console.log('totalPercentage',$('#totalPercentage'))
                
 
                 if ($('#totalPercentage') != null && $('#totalPercentage') != undefined && $('#totalPercentage').length > 0 && Number($('#totalPercentage').text()) < 100) {
@@ -14734,8 +14733,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                         
                        if(urlParams.get('agreement_id') == 'RM1557.13'){
-
-                       
+                      
                         if($('#fc_question_precenate_'+i).val() == '' && (error_classes == false && additional_classes == false ) && !pageHeading.includes('Write your social value questions (Optional)')){
                             errorStore.push(["There is a problem", "Your total weighting must be 100%"]);
                         }
