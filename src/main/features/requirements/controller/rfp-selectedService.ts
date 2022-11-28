@@ -98,7 +98,7 @@ if(agreement_id ==='RM1557.13'){
   const assessmentURL = `assessments/${assessmentId}`;
   const assessmentData = await TenderApi.Instance(SESSION_ID).get(assessmentURL);
   const externalID = assessmentData.data['external-tool-id'];
-  const agreementId_session = req.session.agreement_id;
+
 
   //Checkbox Direct FC
   let selectedServiceCheck;
